@@ -5,7 +5,7 @@
 use crate::data::datetime::DateTimeL;
 use crate::data::evtx::Evtx;
 use crate::data::sysline::SyslineP;
-use crate::data::utmpx::Utmpx;
+use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
 
 /// The type of log message sent from file processing thread to the main
@@ -13,7 +13,7 @@ use crate::data::journal::JournalEntry;
 #[derive(Debug)]
 pub enum LogMessage {
     Sysline(SyslineP),
-    Utmpx(Utmpx),
+    FixedStruct(FixedStruct),
     Evtx(Evtx),
     Journal(JournalEntry),
 }
@@ -24,7 +24,7 @@ impl LogMessage {
     pub fn dt(&self) -> &DateTimeL {
         match self {
             LogMessage::Sysline(sysline) => sysline.dt(),
-            LogMessage::Utmpx(utmpx) => utmpx.dt(),
+            LogMessage::FixedStruct(fixedstruct) => fixedstruct.dt(),
             LogMessage::Evtx(evtx) => evtx.dt(),
             LogMessage::Journal(journal) => journal.dt(),
         }
@@ -33,6 +33,7 @@ impl LogMessage {
 
 /// Type alias for bytes offsets of the beginning and end of the
 /// datetime substring within a `String`.
+// TODO: change to a typed `struct DtBegEndPair(usize, usize)`
 pub type DtBegEndPair = (usize, usize);
 /// Type alias for [`Option`] of [`DtBegEndPair`].
 pub type DtBegEndPairOpt = Option<DtBegEndPair>;

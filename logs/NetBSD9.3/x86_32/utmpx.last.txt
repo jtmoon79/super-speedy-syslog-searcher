@@ -1,0 +1,8 @@
+root      pts/2    192.168.100.254  Sun Feb 25 2024 03:16:01   still logged in
+root      pts/1                     Sun Feb 25 2024 03:15:34   still logged in
+/usr/lib  ttyE3                     Sun Feb 25 2024 03:15:25   still logged in
+/usr/lib  ttyE2                     Sun Feb 25 2024 03:15:25   still logged in
+/usr/lib  ttyE1                     Sun Feb 25 2024 03:15:25   still logged in
+/usr/lib  constty                   Sun Feb 25 2024 03:15:25   still logged in
+
+utmpx begins Wed Dec 31 1969 19:00:00

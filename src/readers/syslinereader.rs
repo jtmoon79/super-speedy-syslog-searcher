@@ -15,6 +15,7 @@ use crate::common::{
     Bytes,
     CharSz,
     Count,
+    debug_panic,
     FPath,
     FileOffset,
     FileSz,
@@ -108,6 +109,7 @@ pub type DateTimeParseDatasIndexes = Vec<DateTimeParseInstrsIndex>;
 /// - the datetime found
 /// - index into global `DATETIME_PARSE_DATAS_REGEX_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC` for the
 ///   "pattern rules" used to find the datetime.
+// TODO: change to a typed `struct FindDateTimeData(...)`
 pub type FindDateTimeData = (LineIndex, LineIndex, DateTimeL, DateTimeParseInstrsIndex);
 
 /// Return type for `SyslineReader::find_datetime_in_line`.
@@ -352,7 +354,7 @@ impl fmt::Debug for SyslineReader {
 /// Debug helper function to print LRU cache.
 #[doc(hidden)]
 #[allow(non_snake_case, dead_code)]
-#[cfg(debug_assertions)]
+#[cfg(any(debug_assertions, test))]
 fn debug_eprint_LRU_cache<K, V>(cache: &LruCache<K, V>)
 where
     K: std::fmt::Debug,
@@ -360,7 +362,7 @@ where
     K: Eq,
     V: std::fmt::Debug,
 {
-    #[cfg(debug_assertions)]
+    #[cfg(any(debug_assertions, test))]
     {
         eprintln!("[");
         for (key, val) in cache.iter() {
@@ -463,7 +465,9 @@ impl SyslineReader {
     const CACHE_ENABLE_DEFAULT: bool = true;
 
     /// Create a new `SyslineReader`.
-    // NOTE: should not attempt any block reads here, similar to other `*Readers`
+    ///
+    /// **NOTE:** should not attempt any block reads here,
+    /// similar to other `*Readers::new()`
     pub fn new(
         path: FPath,
         filetype: FileType,
@@ -689,10 +693,10 @@ impl SyslineReader {
 
     /// Does the `dt_pattern` have a year? e.g. specificer `%Y` or `%y`.
     pub fn dt_pattern_has_year(&self) -> bool {
-        #[cfg(debug_assertions)]
+        #[cfg(any(debug_assertions, test))]
         {
             if !self.syslines.is_empty() {
-                de_wrn!("called dt_pattern_has_year() without having processed some syslines");
+                e_wrn!("called dt_pattern_has_year() without having processed some syslines");
             }
         }
         let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
@@ -930,10 +934,11 @@ impl SyslineReader {
         syslinep
     }
 
-    /// Forcefully `drop` data associated with the [`Block`] at [`BlockOffset`]
+    /// Proactively `drop` data associated with the [`Block`] at [`BlockOffset`]
     /// *AND ALL PRIOR BLOCKS* (or at least, drop as much as possible).
+    /// This calls [`SyslineReader::drop_sysline`].
     ///
-    /// Caller must know what they are doing!
+    /// _The caller must know what they are doing!_
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
@@ -975,8 +980,9 @@ impl SyslineReader {
         ret
     }
 
-    /// Forcefully `drop` data associated with the [`Sysline`] at
+    /// Proactively `drop` data associated with the [`Sysline`] at
     /// [`FileOffset`] (or at least, drop as much as possible).
+    /// This calls [`LineReader::drop_lines`].
     ///
     /// Caller must know what they are doing!
     ///
@@ -1264,12 +1270,10 @@ impl SyslineReader {
             let slice_: &[u8];
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
-                    if cfg!(debug_assertions) || cfg!(test) {
-                        panic!(
-                            "LinePartPtrs::NoPtr for slice [{}, {}); file {:?}",
-                            dtpd.range_regex.start, slice_end, path,
-                        );
-                    }
+                    debug_panic!(
+                        "LinePartPtrs::NoPtr for slice [{}, {}); file {:?}",
+                        dtpd.range_regex.start, slice_end, path,
+                    );
                     continue;
                 }
                 LinePartPtrs::SinglePtr(box_slice) => {
@@ -1530,7 +1534,7 @@ impl SyslineReader {
         #[cfg(any(debug_assertions, test))]
         {
             if self.dt_patterns_counts.len() != SyslineReader::DT_PATTERN_MAX {
-                de_wrn!(
+                e_wrn!(
                     "dt_patterns_analysis: self.dt_patterns_counts.len() {}, expected {}",
                     self.dt_patterns_counts.len(),
                     SyslineReader::DT_PATTERN_MAX,
@@ -1571,7 +1575,7 @@ impl SyslineReader {
 
     /// Return most-used `DateTimeParseInstrsIndex`.
     pub(crate) fn dt_pattern_index_max_count(&self) -> DateTimeParseInstrsIndex {
-        #[cfg(debug_assertions)]
+        #[cfg(any(debug_assertions, test))]
         {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
@@ -1787,7 +1791,7 @@ impl SyslineReader {
                             return Some(ResultS3SyslineFind::Done);
                         }
                         ResultS3SyslineFind::Err(err) => {
-                            defo!("Error {}", err);
+                            defo!("Error {:?}", err);
                             e_err!(
                                 "unexpected value store in self._find_line_lru_cache.get({}) error {}",
                                 fileoffset, err

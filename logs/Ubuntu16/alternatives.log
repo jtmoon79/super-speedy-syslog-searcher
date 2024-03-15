@@ -1,0 +1,113 @@
+update-alternatives 2019-02-26 23:58:18: run with --quiet --install /usr/bin/awk awk /usr/bin/mawk 5 --slave /usr/share/man/man1/awk.1.gz awk.1.gz /usr/share/man/man1/mawk.1.gz --slave /usr/bin/nawk nawk /usr/bin/mawk --slave /usr/share/man/man1/nawk.1.gz nawk.1.gz /usr/share/man/man1/mawk.1.gz
+update-alternatives 2019-02-26 23:58:18: link group awk updated to point to /usr/bin/mawk
+update-alternatives 2019-02-26 23:58:25: run with --quiet --install /usr/bin/awk awk /usr/bin/mawk 5 --slave /usr/share/man/man1/awk.1.gz awk.1.gz /usr/share/man/man1/mawk.1.gz --slave /usr/bin/nawk nawk /usr/bin/mawk --slave /usr/share/man/man1/nawk.1.gz nawk.1.gz /usr/share/man/man1/mawk.1.gz
+update-alternatives 2019-02-26 23:58:28: run with --install /usr/sbin/rmt rmt /usr/sbin/rmt-tar 50 --slave /usr/share/man/man8/rmt.8.gz rmt.8.gz /usr/share/man/man8/rmt-tar.8.gz
+update-alternatives 2019-02-26 23:58:28: link group rmt updated to point to /usr/sbin/rmt-tar
+update-alternatives 2019-02-26 23:58:30: run with --install /usr/share/man/man7/builtins.7.gz builtins.7.gz /usr/share/man/man7/bash-builtins.7.gz 10
+update-alternatives 2019-02-26 23:58:30: link group builtins.7.gz updated to point to /usr/share/man/man7/bash-builtins.7.gz
+update-alternatives 2019-02-26 23:58:31: run with --install /usr/bin/pager pager /bin/more 50 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/more.1.gz
+update-alternatives 2019-02-26 23:58:31: link group pager updated to point to /bin/more
+update-alternatives 2019-02-26 23:58:31: run with --install /usr/bin/pager pager /usr/bin/pg 10 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/pg.1.gz
+update-alternatives 2019-02-26 23:58:31: run with --install /usr/bin/w w /usr/bin/w.procps 50 --slave /usr/share/man/man1/w.1.gz w.1.gz /usr/share/man/man1/w.procps.1.gz
+update-alternatives 2019-02-26 23:58:31: link group w updated to point to /usr/bin/w.procps
+update-alternatives 2019-02-26 23:58:44: run with --install /bin/mt mt /bin/mt-gnu 10 --slave /usr/share/man/man1/mt.1.gz mt.1.gz /usr/share/man/man1/mt-gnu.1.gz
+update-alternatives 2019-02-26 23:58:44: link group mt updated to point to /bin/mt-gnu
+update-alternatives 2019-02-26 23:58:44: run with --quiet --install /usr/bin/pager pager /bin/less 77 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/less.1.gz
+update-alternatives 2019-02-26 23:58:44: link group pager updated to point to /bin/less
+update-alternatives 2019-02-26 23:58:44: run with --quiet --remove pager /usr/bin/less
+update-alternatives 2019-02-26 23:58:44: run with --quiet --install /usr/bin/pager pager /bin/less 77 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/less.1.gz
+update-alternatives 2019-02-26 23:58:44: run with --quiet --remove pager /usr/bin/less
+update-alternatives 2019-02-26 23:58:44: run with --install /bin/nc nc /bin/nc.openbsd 50 --slave /bin/netcat netcat /bin/nc.openbsd --slave /usr/share/man/man1/nc.1.gz nc.1.gz /usr/share/man/man1/nc_openbsd.1.gz --slave /usr/share/man/man1/netcat.1.gz netcat.1.gz /usr/share/man/man1/nc_openbsd.1.gz
+update-alternatives 2019-02-26 23:58:44: link group nc updated to point to /bin/nc.openbsd
+update-alternatives 2019-02-26 23:58:45: run with --install /usr/bin/rview rview /usr/bin/vim.tiny 10
+update-alternatives 2019-02-26 23:58:45: link group rview updated to point to /usr/bin/vim.tiny
+update-alternatives 2019-02-26 23:58:45: run with --install /usr/bin/vi vi /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/vi.1.gz vi.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/vi.1.gz vi.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/vi.1.gz vi.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/vi.1.gz vi.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/vi.1.gz vi.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/vi.1.gz vi.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2019-02-26 23:58:45: link group vi updated to point to /usr/bin/vim.tiny
+update-alternatives 2019-02-26 23:58:45: run with --install /usr/bin/view view /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/view.1.gz view.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/view.1.gz view.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/view.1.gz view.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/view.1.gz view.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/view.1.gz view.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/view.1.gz view.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2019-02-26 23:58:45: link group view updated to point to /usr/bin/vim.tiny
+update-alternatives 2019-02-26 23:58:45: run with --install /usr/bin/ex ex /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/ex.1.gz ex.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/ex.1.gz ex.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/ex.1.gz ex.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/ex.1.gz ex.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/ex.1.gz ex.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/ex.1.gz ex.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2019-02-26 23:58:45: link group ex updated to point to /usr/bin/vim.tiny
+update-alternatives 2019-02-26 23:58:45: run with --install /usr/bin/editor editor /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/editor.1.gz editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/editor.1.gz editor.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/editor.1.gz editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/editor.1.gz editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/editor.1.gz editor.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/editor.1.gz editor.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2019-02-26 23:58:45: link group editor updated to point to /usr/bin/vim.tiny
+update-alternatives 2019-02-26 23:58:47: run with --install /etc/newt/palette newt-palette /etc/newt/palette.ubuntu 50
+update-alternatives 2019-02-26 23:58:47: link group newt-palette updated to point to /etc/newt/palette.ubuntu
+update-alternatives 2019-02-26 23:58:47: run with --install /etc/newt/palette newt-palette /etc/newt/palette.original 20
+update-alternatives 2019-02-26 23:58:51: run with --install /etc/vtrgb vtrgb /etc/console-setup/vtrgb 50
+update-alternatives 2019-02-26 23:58:51: link group vtrgb updated to point to /etc/console-setup/vtrgb
+update-alternatives 2019-02-26 23:58:51: run with --install /etc/vtrgb vtrgb /etc/console-setup/vtrgb.vga 20
+update-alternatives 2019-02-26 23:59:03: run with --remove builtins.7.gz /usr/share/man/man7/bash-builtins.7.gz
+update-alternatives 2019-02-26 23:59:03: link group builtins.7.gz fully removed
+update-alternatives 2019-02-26 23:59:03: run with --install /usr/share/man/man7/builtins.7.gz builtins.7.gz /usr/share/man/man7/bash-builtins.7.gz 10
+update-alternatives 2019-02-26 23:59:03: link group builtins.7.gz updated to point to /usr/share/man/man7/bash-builtins.7.gz
+update-alternatives 2019-02-26 23:59:11: run with --install /usr/bin/pager pager /bin/more 50 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/more.1.gz
+update-alternatives 2019-02-26 23:59:11: run with --install /usr/bin/pager pager /usr/bin/pg 10 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/pg.1.gz
+update-alternatives 2019-02-26 23:59:11: run with --install /usr/sbin/rmt rmt /usr/sbin/rmt-tar 50 --slave /usr/share/man/man8/rmt.8.gz rmt.8.gz /usr/share/man/man8/rmt-tar.8.gz
+update-alternatives 2019-02-26 23:59:18: run with --install /usr/bin/w w /usr/bin/w.procps 50 --slave /usr/share/man/man1/w.1.gz w.1.gz /usr/share/man/man1/w.procps.1.gz
+update-alternatives 2019-02-26 23:59:26: run with --quiet --install /usr/bin/pager pager /bin/less 77 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/less.1.gz
+update-alternatives 2019-02-26 23:59:26: run with --quiet --remove pager /usr/bin/less
+update-alternatives 2019-02-26 23:59:26: run with --quiet --install /usr/bin/pager pager /bin/less 77 --slave /usr/share/man/man1/pager.1.gz pager.1.gz /usr/share/man/man1/less.1.gz
+update-alternatives 2019-02-26 23:59:26: run with --quiet --remove pager /usr/bin/less
+update-alternatives 2019-02-26 23:59:26: run with --install /usr/bin/rview rview /usr/bin/vim.tiny 10
+update-alternatives 2019-02-26 23:59:26: run with --install /usr/bin/vi vi /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/vi.1.gz vi.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/vi.1.gz vi.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/vi.1.gz vi.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/vi.1.gz vi.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/vi.1.gz vi.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/vi.1.gz vi.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2019-02-26 23:59:26: run with --install /usr/bin/view view /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/view.1.gz view.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/view.1.gz view.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/view.1.gz view.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/view.1.gz view.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/view.1.gz view.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/view.1.gz view.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2019-02-26 23:59:26: run with --install /usr/bin/ex ex /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/ex.1.gz ex.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/ex.1.gz ex.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/ex.1.gz ex.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/ex.1.gz ex.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/ex.1.gz ex.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/ex.1.gz ex.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2019-02-26 23:59:26: run with --install /usr/bin/editor editor /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/editor.1.gz editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/editor.1.gz editor.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/editor.1.gz editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/editor.1.gz editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/editor.1.gz editor.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/editor.1.gz editor.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2019-02-26 23:59:26: run with --install /etc/vtrgb vtrgb /etc/console-setup/vtrgb 50
+update-alternatives 2019-02-26 23:59:26: run with --install /etc/vtrgb vtrgb /etc/console-setup/vtrgb.vga 20
+update-alternatives 2023-12-15 00:35:15: run with --install /usr/bin/write write /usr/bin/bsd-write 100 --slave /usr/share/man/man1/write.1.gz write.1.gz /usr/share/man/man1/bsd-write.1.gz
+update-alternatives 2023-12-15 00:35:15: link group write updated to point to /usr/bin/bsd-write
+update-alternatives 2023-12-15 00:35:15: run with --install /usr/bin/from from /usr/bin/bsd-from 10 --slave /usr/share/man/man1/from.1.gz from.1.gz /usr/share/man/man1/bsd-from.1.gz
+update-alternatives 2023-12-15 00:35:15: link group from updated to point to /usr/bin/bsd-from
+update-alternatives 2023-12-15 00:36:10: run with --quiet --install /usr/bin/editor editor /bin/ed -100 --slave /usr/share/man/man1/editor.1.gz editor.1.gz /usr/share/man/man1/ed.1.gz
+update-alternatives 2023-12-15 00:36:10: run with --install /usr/bin/ftp ftp /usr/bin/netkit-ftp 100 --slave /usr/bin/pftp pftp /usr/bin/netkit-ftp --slave /usr/share/man/man1/ftp.1.gz ftp.1.gz /usr/share/man/man1/netkit-ftp.1.gz --slave /usr/share/man/man1/pftp.1.gz pftp.1.gz /usr/share/man/man1/netkit-ftp.1.gz --slave /usr/share/man/man5/netrc.5.gz netrc.5.gz /usr/share/man/man5/netkit-netrc.5.gz
+update-alternatives 2023-12-15 00:36:10: link group ftp updated to point to /usr/bin/netkit-ftp
+update-alternatives 2023-12-15 00:36:10: run with --install /usr/bin/infobrowser infobrowser /usr/bin/info 60 --slave /usr/share/man/man1/infobrowser.1.gz infobrowser.1.gz /usr/share/man/man1/info.1.gz
+update-alternatives 2023-12-15 00:36:10: link group infobrowser updated to point to /usr/bin/info
+update-alternatives 2023-12-15 00:36:10: run with --install /usr/bin/traceroute6 traceroute6 /usr/bin/traceroute6.iputils 100 --slave /usr/share/man/man8/traceroute6.8.gz traceroute6.8.gz /usr/share/man/man8/traceroute6.iputils.8.gz
+update-alternatives 2023-12-15 00:36:10: link group traceroute6 updated to point to /usr/bin/traceroute6.iputils
+update-alternatives 2023-12-15 00:36:11: run with --install /usr/bin/locate locate /usr/bin/mlocate 80 --slave /usr/share/man/man1/locate.1.gz locate.1.gz /usr/share/man/man1/mlocate.1.gz --slave /usr/bin/updatedb updatedb /usr/bin/updatedb.mlocate
+update-alternatives 2023-12-15 00:36:11: link group locate updated to point to /usr/bin/mlocate
+update-alternatives 2023-12-15 00:36:11: run with --install /usr/bin/editor editor /bin/nano 40 --slave /usr/share/man/man1/editor.1.gz editor.1.gz /usr/share/man/man1/nano.1.gz
+update-alternatives 2023-12-15 00:36:11: link group editor updated to point to /bin/nano
+update-alternatives 2023-12-15 00:36:11: run with --install /usr/bin/pico pico /bin/nano 10 --slave /usr/share/man/man1/pico.1.gz pico.1.gz /usr/share/man/man1/nano.1.gz
+update-alternatives 2023-12-15 00:36:11: link group pico updated to point to /bin/nano
+update-alternatives 2023-12-15 00:36:11: run with --quiet --install /usr/bin/rsh rsh /usr/bin/ssh 20 --slave /usr/share/man/man1/rsh.1.gz rsh.1.gz /usr/share/man/man1/ssh.1.gz
+update-alternatives 2023-12-15 00:36:11: link group rsh updated to point to /usr/bin/ssh
+update-alternatives 2023-12-15 00:36:11: run with --quiet --install /usr/bin/rlogin rlogin /usr/bin/slogin 20 --slave /usr/share/man/man1/rlogin.1.gz rlogin.1.gz /usr/share/man/man1/slogin.1.gz
+update-alternatives 2023-12-15 00:36:11: link group rlogin updated to point to /usr/bin/slogin
+update-alternatives 2023-12-15 00:36:11: run with --quiet --install /usr/bin/rcp rcp /usr/bin/scp 20 --slave /usr/share/man/man1/rcp.1.gz rcp.1.gz /usr/share/man/man1/scp.1.gz
+update-alternatives 2023-12-15 00:36:11: link group rcp updated to point to /usr/bin/scp
+update-alternatives 2023-12-15 00:36:11: run with --install /usr/share/plymouth/themes/text.plymouth text.plymouth /usr/share/plymouth/themes/ubuntu-text/ubuntu-text.plymouth 50
+update-alternatives 2023-12-15 00:36:11: link group text.plymouth updated to point to /usr/share/plymouth/themes/ubuntu-text/ubuntu-text.plymouth
+update-alternatives 2023-12-15 00:36:11: run with --install /usr/bin/telnet telnet /usr/bin/telnet.netkit 100 --slave /usr/share/man/man1/telnet.1.gz telnet.1.gz /usr/share/man/man1/telnet.netkit.1.gz
+update-alternatives 2023-12-15 00:36:11: link group telnet updated to point to /usr/bin/telnet.netkit
+update-alternatives 2023-12-15 00:49:29: run with --quiet --remove rlogin /usr/bin/ssh
+update-alternatives 2023-12-15 00:49:29: run with --quiet --remove rcp /usr/bin/ssh
+update-alternatives 2023-12-15 01:01:56: run with --quiet --install /lib/cpp cpp /usr/bin/cpp 10
+update-alternatives 2023-12-15 01:01:56: link group cpp updated to point to /usr/bin/cpp
+update-alternatives 2023-12-15 01:01:56: run with --quiet --install /usr/bin/cc cc /usr/bin/gcc 20 --slave /usr/share/man/man1/cc.1.gz cc.1.gz /usr/share/man/man1/gcc.1.gz
+update-alternatives 2023-12-15 01:01:56: link group cc updated to point to /usr/bin/gcc
+update-alternatives 2023-12-15 01:01:56: run with --quiet --install /usr/bin/c89 c89 /usr/bin/c89-gcc 20 --slave /usr/share/man/man1/c89.1.gz c89.1.gz /usr/share/man/man1/c89-gcc.1.gz
+update-alternatives 2023-12-15 01:01:56: link group c89 updated to point to /usr/bin/c89-gcc
+update-alternatives 2023-12-15 01:01:56: run with --quiet --install /usr/bin/c99 c99 /usr/bin/c99-gcc 20 --slave /usr/share/man/man1/c99.1.gz c99.1.gz /usr/share/man/man1/c99-gcc.1.gz
+update-alternatives 2023-12-15 01:01:56: link group c99 updated to point to /usr/bin/c99-gcc
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/rview rview /usr/bin/vim.tiny 10
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/vi vi /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/vi.1.gz vi.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/vi.1.gz vi.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/vi.1.gz vi.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/vi.1.gz vi.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/vi.1.gz vi.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/vi.1.gz vi.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/view view /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/view.1.gz view.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/view.1.gz view.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/view.1.gz view.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/view.1.gz view.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/view.1.gz view.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/view.1.gz view.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/ex ex /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/ex.1.gz ex.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/ex.1.gz ex.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/ex.1.gz ex.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/ex.1.gz ex.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/ex.1.gz ex.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/ex.1.gz ex.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/editor editor /usr/bin/vim.tiny 10 --slave /usr/share/man/fr/man1/editor.1.gz editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/editor.1.gz editor.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/editor.1.gz editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/editor.1.gz editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/editor.1.gz editor.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/editor.1.gz editor.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/vim vim /usr/bin/vim.basic 30
+update-alternatives 2024-02-16 15:57:30: link group vim updated to point to /usr/bin/vim.basic
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/vimdiff vimdiff /usr/bin/vim.basic 30
+update-alternatives 2024-02-16 15:57:30: link group vimdiff updated to point to /usr/bin/vim.basic
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/rvim rvim /usr/bin/vim.basic 30
+update-alternatives 2024-02-16 15:57:30: link group rvim updated to point to /usr/bin/vim.basic
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/rview rview /usr/bin/vim.basic 30
+update-alternatives 2024-02-16 15:57:30: link group rview updated to point to /usr/bin/vim.basic
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/vi vi /usr/bin/vim.basic 30 --slave /usr/share/man/fr/man1/vi.1.gz vi.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/vi.1.gz vi.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/vi.1.gz vi.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/vi.1.gz vi.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/vi.1.gz vi.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/vi.1.gz vi.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2024-02-16 15:57:30: link group vi updated to point to /usr/bin/vim.basic
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/view view /usr/bin/vim.basic 30 --slave /usr/share/man/fr/man1/view.1.gz view.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/view.1.gz view.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/view.1.gz view.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/view.1.gz view.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/view.1.gz view.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/view.1.gz view.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2024-02-16 15:57:30: link group view updated to point to /usr/bin/vim.basic
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/ex ex /usr/bin/vim.basic 30 --slave /usr/share/man/fr/man1/ex.1.gz ex.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/ex.1.gz ex.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/ex.1.gz ex.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/ex.1.gz ex.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/ex.1.gz ex.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/ex.1.gz ex.1.gz /usr/share/man/man1/vim.1.gz
+update-alternatives 2024-02-16 15:57:30: link group ex updated to point to /usr/bin/vim.basic
+update-alternatives 2024-02-16 15:57:30: run with --install /usr/bin/editor editor /usr/bin/vim.basic 30 --slave /usr/share/man/fr/man1/editor.1.gz editor.fr.1.gz /usr/share/man/fr/man1/vim.1.gz --slave /usr/share/man/it/man1/editor.1.gz editor.it.1.gz /usr/share/man/it/man1/vim.1.gz --slave /usr/share/man/pl/man1/editor.1.gz editor.pl.1.gz /usr/share/man/pl/man1/vim.1.gz --slave /usr/share/man/ru/man1/editor.1.gz editor.ru.1.gz /usr/share/man/ru/man1/vim.1.gz --slave /usr/share/man/ja/man1/editor.1.gz editor.ja.1.gz /usr/share/man/ja/man1/vim.1.gz --slave /usr/share/man/man1/editor.1.gz editor.1.gz /usr/share/man/man1/vim.1.gz

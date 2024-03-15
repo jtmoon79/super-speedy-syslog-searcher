@@ -1,0 +1,51 @@
+2023-04-22T15:08:46-0700 INFO --- logging initialized ---
+2023-04-22T15:11:06-0700 INFO --- logging initialized ---
+2023-04-22T15:11:08-0700 INFO --- logging initialized ---
+2023-04-22T15:11:35-0700 SUBDEBUG Installed: git-core-2.39.1-1.el9.x86_64
+2023-04-22T15:11:36-0700 SUBDEBUG Installed: git-core-doc-2.39.1-1.el9.noarch
+2023-04-22T15:11:36-0700 SUBDEBUG Installed: perl-lib-0.65-480.el9.x86_64
+2023-04-22T15:11:36-0700 SUBDEBUG Installed: perl-TermReadKey-2.38-11.el9.x86_64
+2023-04-22T15:11:36-0700 SUBDEBUG Installed: perl-Error-1:0.17029-7.el9.noarch
+2023-04-22T15:11:36-0700 SUBDEBUG Installed: perl-Git-2.39.1-1.el9.noarch
+2023-04-22T15:11:36-0700 SUBDEBUG Installed: git-2.39.1-1.el9.x86_64
+2023-04-22T15:16:33-0700 INFO --- logging initialized ---
+2023-04-22T15:17:36-0700 INFO --- logging initialized ---
+2023-04-22T15:21:18-0700 SUBDEBUG Installed: kernel-headers-5.14.0-299.el9.x86_64
+2023-04-22T15:21:18-0700 SUBDEBUG Installed: glibc-headers-2.34-65.el9.x86_64
+2023-04-22T15:21:18-0700 SUBDEBUG Installed: libxcrypt-devel-4.4.18-3.el9.x86_64
+2023-04-22T15:21:18-0700 SUBDEBUG Installed: glibc-devel-2.34-65.el9.x86_64
+2023-04-22T15:21:18-0700 SUBDEBUG Installed: make-1:4.3-7.el9.x86_64
+2023-04-22T15:21:18-0700 SUBDEBUG Installed: gcc-11.3.1-4.4.el9.x86_64
+2023-04-22T16:02:05-0700 INFO --- logging initialized ---
+2023-04-22T17:16:46-0700 INFO --- logging initialized ---
+2023-04-22T19:04:46-0700 INFO --- logging initialized ---
+2023-04-22T20:35:36-0700 INFO --- logging initialized ---
+2023-04-22T21:49:46-0700 INFO --- logging initialized ---
+2023-04-22T23:36:46-0700 INFO --- logging initialized ---
+2023-05-06T18:58:02-0700 INFO --- logging initialized ---
+2023-05-06T18:58:26-0700 SUBDEBUG Upgrade: iproute-6.2.0-1.el9.x86_64
+2023-05-06T18:58:26-0700 SUBDEBUG Upgrade: iproute-tc-6.2.0-1.el9.x86_64
+2023-05-06T18:58:26-0700 SUBDEBUG Upgraded: iproute-tc-6.1.0-1.el9.x86_64
+2023-05-06T18:58:26-0700 SUBDEBUG Upgraded: iproute-6.1.0-1.el9.x86_64
+2023-05-06T19:19:11-0700 INFO --- logging initialized ---
+2023-05-06T21:07:10-0700 INFO --- logging initialized ---
+2023-05-06T22:48:11-0700 INFO --- logging initialized ---
+2023-05-07T00:30:49-0700 INFO --- logging initialized ---
+2023-05-07T02:31:10-0700 INFO --- logging initialized ---
+2023-05-07T03:47:01-0700 INFO --- logging initialized ---
+2023-05-07T05:29:49-0700 INFO --- logging initialized ---
+2023-05-07T06:33:53-0700 INFO --- logging initialized ---
+2023-05-07T08:27:12-0700 INFO --- logging initialized ---
+2023-05-07T10:14:09-0700 INFO --- logging initialized ---
+2023-05-07T11:16:51-0700 INFO --- logging initialized ---
+2023-05-07T12:45:09-0700 INFO --- logging initialized ---
+2023-05-07T14:45:12-0700 INFO --- logging initialized ---
+2023-05-07T16:32:09-0700 INFO --- logging initialized ---
+2023-05-07T18:02:09-0700 INFO --- logging initialized ---
+2023-05-07T19:03:49-0700 INFO --- logging initialized ---
+2023-05-07T20:20:11-0700 INFO --- logging initialized ---
+2023-05-07T21:36:09-0700 INFO --- logging initialized ---
+2023-05-07T23:25:16-0700 INFO --- logging initialized ---
+2023-05-09T21:17:37-0700 INFO --- logging initialized ---
+2023-05-09T22:20:16-0700 INFO --- logging initialized ---
+2023-05-10T23:12:26-0700 INFO --- logging initialized ---

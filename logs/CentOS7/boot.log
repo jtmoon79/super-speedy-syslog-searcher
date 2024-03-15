@@ -1,0 +1,617 @@
+[[32m  OK  [0m] Started Show Plymouth Boot Screen.
+[[32m  OK  [0m] Reached target Paths.
+[[32m  OK  [0m] Started Forward Password Requests to Plymouth Directory Watch.
+[[32m  OK  [0m] Reached target Basic System.
+%G[[32m  OK  [0m] Found device /dev/mapper/centos-root.
+         Starting File System Check on /dev/mapper/centos-root...
+[[32m  OK  [0m] Started File System Check on /dev/mapper/centos-root.
+[[32m  OK  [0m] Started dracut initqueue hook.
+         Mounting /sysroot...
+[[32m  OK  [0m] Reached target Remote File Systems (Pre).
+[[32m  OK  [0m] Reached target Remote File Systems.
+[ [31m*[1;31m*[0m[31m*  [0m] A start job is running for /sysroot (40s / 2min 1s)[K[[32m  OK  [0m] Mounted /sysroot.
+[[32m  OK  [0m] Reached target Initrd Root File System.
+         Starting Reload Configuration from the Real Root...
+[[32m  OK  [0m] Started Reload Configuration from the Real Root.
+[[32m  OK  [0m] Reached target Initrd File Systems.
+[[32m  OK  [0m] Reached target Initrd Default Target.
+         Starting dracut pre-pivot and cleanup hook...
+[[32m  OK  [0m] Started dracut pre-pivot and cleanup hook.
+         Starting Cleaning Up and Shutting Down Daemons...
+         Starting Plymouth switch root service...
+[[32m  OK  [0m] Stopped target Timers.
+[[32m  OK  [0m] Stopped dracut pre-pivot and cleanup hook.
+[[32m  OK  [0m] Stopped target Remote File Systems.
+[[32m  OK  [0m] Stopped target Remote File Systems (Pre).
+[[32m  OK  [0m] Stopped dracut initqueue hook.
+[[32m  OK  [0m] Stopped target Initrd Default Target.
+[[32m  OK  [0m] Stopped target Basic System.
+[[32m  OK  [0m] Stopped target Sockets.
+[[32m  OK  [0m] Stopped target Paths.
+[[32m  OK  [0m] Stopped target System Initialization.
+[[32m  OK  [0m] Stopped Apply Kernel Variables.
+[[32m  OK  [0m] Stopped udev Coldplug all Devices.
+[[32m  OK  [0m] Stopped target Local File Systems.
+[[32m  OK  [0m] Stopped target Swap.
+[[32m  OK  [0m] Stopped target Slices.
+         Stopping udev Kernel Device Manager...
+[[32m  OK  [0m] Started Cleaning Up and Shutting Down Daemons.
+[[32m  OK  [0m] Stopped udev Kernel Device Manager.
+[[32m  OK  [0m] Stopped Create Static Device Nodes in /dev.
+[[32m  OK  [0m] Stopped Create list of required static device nodes for the current kernel.
+[[32m  OK  [0m] Stopped dracut pre-udev hook.
+[[32m  OK  [0m] Stopped dracut cmdline hook.
+[[32m  OK  [0m] Closed udev Kernel Socket.
+[[32m  OK  [0m] Closed udev Control Socket.
+         Starting Cleanup udevd DB...
+[[32m  OK  [0m] Started Cleanup udevd DB.
+[[32m  OK  [0m] Reached target Switch Root.
+[  [31m*[1;31m*[0m[31m* [0m] A start job is running for Plymouth switch root service (9s / no limit)[K[[32m  OK  [0m] Started Plymouth switch root service.
+         Starting Switch Root...
+
+Welcome to [0;31mCentOS Linux 7 (Core)[0m!
+
+[[32m  OK  [0m] Stopped Switch Root.
+[[32m  OK  [0m] Stopped Journal Service.
+         Starting Journal Service...
+         Mounting POSIX Message Queue File System...
+[[32m  OK  [0m] Set up automount Arbitrary Executable File Formats File System Automount Point.
+         Mounting Debug File System...
+[[32m  OK  [0m] Created slice User and Session Slice.
+[[32m  OK  [0m] Created slice system-selinux\x2dpolicy\x2dmigrate\x2dlocal\x2dchanges.slice.
+[[32m  OK  [0m] Listening on LVM2 metadata daemon socket.
+[[32m  OK  [0m] Stopped target Switch Root.
+[[32m  OK  [0m] Stopped target Initrd Root File System.
+[[32m  OK  [0m] Listening on udev Kernel Socket.
+[[32m  OK  [0m] Stopped File System Check on Root Device.
+[[32m  OK  [0m] Reached target Remote File Systems.
+[[32m  OK  [0m] Listening on Delayed Shutdown Socket.
+[[32m  OK  [0m] Listening on Device-mapper event daemon FIFOs.
+[[32m  OK  [0m] Reached target Slices.
+[[32m  OK  [0m] Started Forward Password Requests to Wall Directory Watch.
+         Starting Create list of required static device nodes for the current kernel...
+[[32m  OK  [0m] Reached target Local Encrypted Volumes.
+         Starting Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
+         Starting Read and set NIS domainname from /etc/sysconfig/network...
+[[32m  OK  [0m] Listening on LVM2 poll daemon socket.
+         Starting Apply Kernel Variables...
+         Starting Remount Root and Kernel File Systems...
+[[32m  OK  [0m] Stopped target Initrd File Systems.
+         Mounting Huge Pages File System...
+[[32m  OK  [0m] Listening on udev Control Socket.
+[[32m  OK  [0m] Created slice system-getty.slice.
+[[32m  OK  [0m] Listening on /dev/initctl Compatibility Named Pipe.
+[[32m  OK  [0m] Reached target Paths.
+[[32m  OK  [0m] Mounted Debug File System.
+[[32m  OK  [0m] Mounted POSIX Message Queue File System.
+[[32m  OK  [0m] Started Journal Service.
+[[32m  OK  [0m] Started Create list of required static device nodes for the current kernel.
+[[32m  OK  [0m] Started Read and set NIS domainname from /etc/sysconfig/network.
+[[32m  OK  [0m] Started Remount Root and Kernel File Systems.
+[[32m  OK  [0m] Mounted Huge Pages File System.
+         Starting udev Coldplug all Devices...
+         Starting Configure read-only root support...
+         Starting Create Static Device Nodes in /dev...
+         Starting Flush Journal to Persistent Storage...
+[[32m  OK  [0m] Started Apply Kernel Variables.
+[[32m  OK  [0m] Started LVM2 metadata daemon.
+[[32m  OK  [0m] Started udev Coldplug all Devices.
+[[32m  OK  [0m] Started Create Static Device Nodes in /dev.
+[[32m  OK  [0m] Started Flush Journal to Persistent Storage.
+         Starting udev Kernel Device Manager...
+[[32m  OK  [0m] Started Configure read-only root support.
+         Starting Load/Save Random Seed...
+[[32m  OK  [0m] Started Load/Save Random Seed.
+[[32m  OK  [0m] Started udev Kernel Device Manager.
+[[32m  OK  [0m] Found device VBOX_HARDDISK 1.
+[[32m  OK  [0m] Created slice system-lvm2\x2dpvscan.slice.
+         Starting LVM2 PV scan on device 8:2...
+%G%G[[32m  OK  [0m] Found device /dev/mapper/centos-swap.
+         Activating swap /dev/mapper/centos-swap...
+[[32m  OK  [0m] Activated swap /dev/mapper/centos-swap.
+[[32m  OK  [0m] Reached target Swap.
+[[0m[31m*     [0m] (1 of 2) A start job is running for Monitorin...eventd or progress polling (9s / no limit)[K[[32m  OK  [0m] Reached target Sound Card.
+[[32m  OK  [0m] Started Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling.
+[[32m  OK  [0m] Reached target Local File Systems (Pre).
+         Mounting /boot...
+[[32m  OK  [0m] Started LVM2 PV scan on device 8:2.
+[[1;31m*[0m[31m*    [0m] A start job is running for /boot (18s / 1min 39s)[K[[32m  OK  [0m] Mounted /boot.
+[[32m  OK  [0m] Reached target Local File Systems.
+         Starting Import network configuration from initramfs...
+         Starting Tell Plymouth To Write Out Runtime Data...
+[[32m  OK  [0m] Started Import network configuration from initramfs.
+         Starting Create Volatile Files and Directories...
+[[32m  OK  [0m] Started Create Volatile Files and Directories.
+         Starting Security Auditing Service...
+[[32m  OK  [0m] Started Tell Plymouth To Write Out Runtime Data.
+[[32m  OK  [0m] Started Security Auditing Service.
+         Starting Update UTMP about System Boot/Shutdown...
+[[32m  OK  [0m] Started Update UTMP about System Boot/Shutdown.
+[[32m  OK  [0m] Reached target System Initialization.
+[[32m  OK  [0m] Listening on D-Bus System Message Bus Socket.
+[[32m  OK  [0m] Reached target Sockets.
+[[32m  OK  [0m] Started Daily Cleanup of Temporary Directories.
+[[32m  OK  [0m] Reached target Timers.
+[[32m  OK  [0m] Reached target Basic System.
+[[32m  OK  [0m] Started D-Bus System Message Bus.
+         Starting NTP client/server...
+         Starting Permit User Sessions...
+         Starting Login Service...
+[[32m  OK  [0m] Started irqbalance daemon.
+         Starting Authorization Manager...
+         Starting Dump dmesg to /var/log/dmesg...
+[[32m  OK  [0m] Started Permit User Sessions.
+         Starting Wait for Plymouth Boot Screen to Quit...
+[[32m  OK  [0m] Started Command Scheduler.
+         Starting Terminate Plymouth Boot Screen...
+[[32m  OK  [0m] Started Login Service.
+[[32m  OK  [0m] Started Dump dmesg to /var/log/dmesg.
+[[32m  OK  [0m] Started Authorization Manager.
+         Starting firewalld - dynamic firewall daemon...
+[[32m  OK  [0m] Started firewalld - dynamic firewall daemon.
+[[32m  OK  [0m] Reached target Network (Pre).
+         Starting Network Manager...
+[[32m  OK  [0m] Started Network Manager.
+         Starting Network Manager Wait Online...
+[[32m  OK  [0m] Started Show Plymouth Boot Screen.
+[[32m  OK  [0m] Reached target Paths.
+[[32m  OK  [0m] Started Forward Password Requests to Plymouth Directory Watch.
+[[32m  OK  [0m] Reached target Basic System.
+%G%G[[32m  OK  [0m] Found device /dev/mapper/centos-root.
+         Starting File System Check on /dev/mapper/centos-root...
+[[32m  OK  [0m] Started File System Check on /dev/mapper/centos-root.
+[[32m  OK  [0m] Started dracut initqueue hook.
+         Mounting /sysroot...
+[[32m  OK  [0m] Reached target Remote File Systems (Pre).
+[[32m  OK  [0m] Reached target Remote File Systems.
+[[32m  OK  [0m] Mounted /sysroot.
+[[32m  OK  [0m] Reached target Initrd Root File System.
+         Starting Reload Configuration from the Real Root...
+[[32m  OK  [0m] Started Reload Configuration from the Real Root.
+[[32m  OK  [0m] Reached target Initrd File Systems.
+[[32m  OK  [0m] Reached target Initrd Default Target.
+         Starting dracut pre-pivot and cleanup hook...
+[[32m  OK  [0m] Started dracut pre-pivot and cleanup hook.
+         Starting Cleaning Up and Shutting Down Daemons...
+[[32m  OK  [0m] Stopped dracut pre-pivot and cleanup hook.
+[[32m  OK  [0m] Stopped target Remote File Systems.
+[[32m  OK  [0m] Stopped target Remote File Systems (Pre).
+[[32m  OK  [0m] Stopped dracut initqueue hook.
+[[32m  OK  [0m] Stopped target Timers.
+         Starting Plymouth switch root service...
+[[32m  OK  [0m] Stopped target Initrd Default Target.
+[[32m  OK  [0m] Stopped target Basic System.
+[[32m  OK  [0m] Stopped target System Initialization.
+[[32m  OK  [0m] Stopped udev Coldplug all Devices.
+[[32m  OK  [0m] Stopped target Local File Systems.
+[[32m  OK  [0m] Stopped target Swap.
+         Stopping udev Kernel Device Manager...
+[[32m  OK  [0m] Stopped Apply Kernel Variables.
+[[32m  OK  [0m] Stopped target Slices.
+[[32m  OK  [0m] Stopped target Sockets.
+[[32m  OK  [0m] Stopped target Paths.
+[[32m  OK  [0m] Stopped udev Kernel Device Manager.
+[[32m  OK  [0m] Stopped Create Static Device Nodes in /dev.
+[[32m  OK  [0m] Stopped Create list of required static device nodes for the current kernel.
+[[32m  OK  [0m] Stopped dracut pre-udev hook.
+[[32m  OK  [0m] Stopped dracut cmdline hook.
+[[32m  OK  [0m] Closed udev Control Socket.
+[[32m  OK  [0m] Closed udev Kernel Socket.
+         Starting Cleanup udevd DB...
+[[32m  OK  [0m] Started Cleaning Up and Shutting Down Daemons.
+[[32m  OK  [0m] Started Cleanup udevd DB.
+[[32m  OK  [0m] Reached target Switch Root.
+[[31m*[1;31m*[0m[31m*   [0m] A start job is running for Plymouth switch root service (9s / no limit)[K[[32m  OK  [0m] Started Plymouth switch root service.
+         Starting Switch Root...
+
+Welcome to [0;31mCentOS Linux 7 (Core)[0m!
+
+[[32m  OK  [0m] Stopped Switch Root.
+[[32m  OK  [0m] Stopped Journal Service.
+         Starting Journal Service...
+[[32m  OK  [0m] Listening on udev Control Socket.
+[[32m  OK  [0m] Started Forward Password Requests to Wall Directory Watch.
+[[32m  OK  [0m] Listening on LVM2 metadata daemon socket.
+[[32m  OK  [0m] Created slice User and Session Slice.
+         Starting Create list of required static device nodes for the current kernel...
+[[32m  OK  [0m] Listening on udev Kernel Socket.
+[[32m  OK  [0m] Stopped target Switch Root.
+[[32m  OK  [0m] Stopped target Initrd File Systems.
+[[32m  OK  [0m] Stopped target Initrd Root File System.
+[[32m  OK  [0m] Listening on Device-mapper event daemon FIFOs.
+         Starting Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
+[[32m  OK  [0m] Reached target Remote File Systems.
+[[32m  OK  [0m] Listening on LVM2 poll daemon socket.
+         Mounting Debug File System...
+[[32m  OK  [0m] Listening on /dev/initctl Compatibility Named Pipe.
+[[32m  OK  [0m] Reached target Local Encrypted Volumes.
+[[32m  OK  [0m] Created slice system-selinux\x2dpolicy\x2dmigrate\x2dlocal\x2dchanges.slice.
+[[32m  OK  [0m] Reached target Paths.
+[[32m  OK  [0m] Listening on Delayed Shutdown Socket.
+         Mounting POSIX Message Queue File System...
+         Mounting Huge Pages File System...
+[[32m  OK  [0m] Created slice system-getty.slice.
+         Starting Read and set NIS domainname from /etc/sysconfig/network...
+[[32m  OK  [0m] Stopped File System Check on Root Device.
+         Starting Remount Root and Kernel File Systems...
+         Starting Apply Kernel Variables...
+[[32m  OK  [0m] Set up automount Arbitrary Executable File Formats File System Automount Point.
+[[32m  OK  [0m] Reached target Slices.
+[[32m  OK  [0m] Started Journal Service.
+[[32m  OK  [0m] Mounted Debug File System.
+[[32m  OK  [0m] Started Create list of required static device nodes for the current kernel.
+         Starting Create Static Device Nodes in /dev...
+[[32m  OK  [0m] Mounted POSIX Message Queue File System.
+[[32m  OK  [0m] Mounted Huge Pages File System.
+[[32m  OK  [0m] Started Read and set NIS domainname from /etc/sysconfig/network.
+[[32m  OK  [0m] Started Remount Root and Kernel File Systems.
+         Starting Configure read-only root support...
+         Starting Flush Journal to Persistent Storage...
+         Starting udev Coldplug all Devices...
+[[32m  OK  [0m] Started Apply Kernel Variables.
+[[32m  OK  [0m] Started LVM2 metadata daemon.
+[[32m  OK  [0m] Started Flush Journal to Persistent Storage.
+[[32m  OK  [0m] Started Create Static Device Nodes in /dev.
+         Starting udev Kernel Device Manager...
+[[32m  OK  [0m] Started Configure read-only root support.
+         Starting Load/Save Random Seed...
+[[32m  OK  [0m] Started udev Coldplug all Devices.
+[[32m  OK  [0m] Started Load/Save Random Seed.
+[[32m  OK  [0m] Started udev Kernel Device Manager.
+[[32m  OK  [0m] Found device VBOX_HARDDISK 1.
+[[32m  OK  [0m] Created slice system-lvm2\x2dpvscan.slice.
+         Starting LVM2 PV scan on device 8:2...
+%G%G[[32m  OK  [0m] Found device /dev/mapper/centos-swap.
+         Activating swap /dev/mapper/centos-swap...
+[[32m  OK  [0m] Activated swap /dev/mapper/centos-swap.
+[[32m  OK  [0m] Reached target Swap.
+[[0m[31m*     [0m] (1 of 2) A start job is running for Monitorin...eventd or progress polling (9s / no limit)[K[[32m  OK  [0m] Reached target Sound Card.
+[[32m  OK  [0m] Started Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling.
+[[32m  OK  [0m] Reached target Local File Systems (Pre).
+         Mounting /boot...
+[[32m  OK  [0m] Mounted /boot.
+[[32m  OK  [0m] Reached target Local File Systems.
+         Starting Import network configuration from initramfs...
+         Starting Tell Plymouth To Write Out Runtime Data...
+[[32m  OK  [0m] Started Import network configuration from initramfs.
+         Starting Create Volatile Files and Directories...
+[[32m  OK  [0m] Started Create Volatile Files and Directories.
+         Starting Security Auditing Service...
+[[32m  OK  [0m] Started LVM2 PV scan on device 8:2.
+[[32m  OK  [0m] Started Tell Plymouth To Write Out Runtime Data.
+[[32m  OK  [0m] Started Security Auditing Service.
+         Starting Update UTMP about System Boot/Shutdown...
+[[32m  OK  [0m] Started Update UTMP about System Boot/Shutdown.
+[[32m  OK  [0m] Reached target System Initialization.
+[[32m  OK  [0m] Started Daily Cleanup of Temporary Directories.
+[[32m  OK  [0m] Reached target Timers.
+[[32m  OK  [0m] Listening on D-Bus System Message Bus Socket.
+[[32m  OK  [0m] Reached target Sockets.
+[[32m  OK  [0m] Reached target Basic System.
+[[32m  OK  [0m] Started D-Bus System Message Bus.
+         Starting Login Service...
+         Starting Permit User Sessions...
+         Starting Authorization Manager...
+         Starting Dump dmesg to /var/log/dmesg...
+         Starting NTP client/server...
+[[32m  OK  [0m] Started irqbalance daemon.
+[[32m  OK  [0m] Started Login Service.
+[[32m  OK  [0m] Started Permit User Sessions.
+         Starting Wait for Plymouth Boot Screen to Quit...
+         Starting Terminate Plymouth Boot Screen...
+[[32m  OK  [0m] Started Command Scheduler.
+[[32m  OK  [0m] Started Dump dmesg to /var/log/dmesg.
+[[32m  OK  [0m] Started Show Plymouth Boot Screen.
+[[32m  OK  [0m] Reached target Paths.
+[[32m  OK  [0m] Started Forward Password Requests to Plymouth Directory Watch.
+[[32m  OK  [0m] Reached target Basic System.
+%G[[32m  OK  [0m] Found device /dev/mapper/centos-root.
+         Starting File System Check on /dev/mapper/centos-root...
+[[32m  OK  [0m] Started File System Check on /dev/mapper/centos-root.
+[[32m  OK  [0m] Started dracut initqueue hook.
+[[32m  OK  [0m] Reached target Remote File Systems (Pre).
+[[32m  OK  [0m] Reached target Remote File Systems.
+         Mounting /sysroot...
+[[32m  OK  [0m] Mounted /sysroot.
+[[32m  OK  [0m] Reached target Initrd Root File System.
+         Starting Reload Configuration from the Real Root...
+[[32m  OK  [0m] Started Reload Configuration from the Real Root.
+[[32m  OK  [0m] Reached target Initrd File Systems.
+[[32m  OK  [0m] Reached target Initrd Default Target.
+         Starting dracut pre-pivot and cleanup hook...
+[[32m  OK  [0m] Started dracut pre-pivot and cleanup hook.
+         Starting Cleaning Up and Shutting Down Daemons...
+         Starting Plymouth switch root service...
+[[32m  OK  [0m] Stopped target Timers.
+[[32m  OK  [0m] Stopped dracut pre-pivot and cleanup hook.
+[[32m  OK  [0m] Stopped target Remote File Systems.
+[[32m  OK  [0m] Stopped target Remote File Systems (Pre).
+[[32m  OK  [0m] Stopped dracut initqueue hook.
+[[32m  OK  [0m] Stopped target Initrd Default Target.
+[[32m  OK  [0m] Stopped target Basic System.
+[[32m  OK  [0m] Stopped target System Initialization.
+[[32m  OK  [0m] Stopped Apply Kernel Variables.
+         Stopping udev Kernel Device Manager...
+[[32m  OK  [0m] Stopped target Local File Systems.
+[[32m  OK  [0m] Stopped udev Coldplug all Devices.
+[[32m  OK  [0m] Stopped target Swap.
+[[32m  OK  [0m] Stopped target Sockets.
+[[32m  OK  [0m] Stopped target Slices.
+[[32m  OK  [0m] Stopped target Paths.
+[[32m  OK  [0m] Stopped udev Kernel Device Manager.
+[[32m  OK  [0m] Stopped Create Static Device Nodes in /dev.
+[[32m  OK  [0m] Stopped Create list of required static device nodes for the current kernel.
+[[32m  OK  [0m] Stopped dracut pre-udev hook.
+[[32m  OK  [0m] Stopped dracut cmdline hook.
+[[32m  OK  [0m] Closed udev Control Socket.
+[[32m  OK  [0m] Closed udev Kernel Socket.
+         Starting Cleanup udevd DB...
+[[32m  OK  [0m] Started Cleaning Up and Shutting Down Daemons.
+[[32m  OK  [0m] Started Cleanup udevd DB.
+[[32m  OK  [0m] Reached target Switch Root.
+[    [31m*[1;31m*[0m] A start job is running for Plymouth switch root service (8s / no limit)[K[[32m  OK  [0m] Started Plymouth switch root service.
+         Starting Switch Root...
+
+Welcome to [0;31mCentOS Linux 7 (Core)[0m!
+
+[[32m  OK  [0m] Stopped Switch Root.
+[[32m  OK  [0m] Stopped Journal Service.
+         Starting Journal Service...
+[[32m  OK  [0m] Set up automount Arbitrary Executable File Formats File System Automount Point.
+         Starting Read and set NIS domainname from /etc/sysconfig/network...
+[[32m  OK  [0m] Listening on udev Kernel Socket.
+[[32m  OK  [0m] Created slice User and Session Slice.
+[[32m  OK  [0m] Reached target Remote File Systems.
+         Mounting Debug File System...
+[[32m  OK  [0m] Created slice system-getty.slice.
+[[32m  OK  [0m] Created slice system-selinux\x2dpolicy\x2dmigrate\x2dlocal\x2dchanges.slice.
+[[32m  OK  [0m] Listening on LVM2 metadata daemon socket.
+[[32m  OK  [0m] Listening on udev Control Socket.
+[[32m  OK  [0m] Listening on LVM2 poll daemon socket.
+[[32m  OK  [0m] Stopped target Switch Root.
+[[32m  OK  [0m] Stopped target Initrd File Systems.
+[[32m  OK  [0m] Stopped File System Check on Root Device.
+[[32m  OK  [0m] Started Forward Password Requests to Wall Directory Watch.
+[[32m  OK  [0m] Reached target Paths.
+[[32m  OK  [0m] Reached target Slices.
+[[32m  OK  [0m] Listening on /dev/initctl Compatibility Named Pipe.
+         Mounting POSIX Message Queue File System...
+[[32m  OK  [0m] Listening on Device-mapper event daemon FIFOs.
+         Starting Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
+[[32m  OK  [0m] Reached target Local Encrypted Volumes.
+[[32m  OK  [0m] Stopped target Initrd Root File System.
+         Starting Remount Root and Kernel File Systems...
+         Starting Apply Kernel Variables...
+         Mounting Huge Pages File System...
+         Starting Create list of required static device nodes for the current kernel...
+[[32m  OK  [0m] Listening on Delayed Shutdown Socket.
+[[32m  OK  [0m] Mounted Debug File System.
+[[32m  OK  [0m] Mounted POSIX Message Queue File System.
+[[32m  OK  [0m] Mounted Huge Pages File System.
+[[32m  OK  [0m] Started Journal Service.
+[[32m  OK  [0m] Started Read and set NIS domainname from /etc/sysconfig/network.
+[[32m  OK  [0m] Started Remount Root and Kernel File Systems.
+[[32m  OK  [0m] Started Apply Kernel Variables.
+         Starting udev Coldplug all Devices...
+         Starting Configure read-only root support...
+         Starting Flush Journal to Persistent Storage...
+[[32m  OK  [0m] Started Create list of required static device nodes for the current kernel.
+         Starting Create Static Device Nodes in /dev...
+[[32m  OK  [0m] Started LVM2 metadata daemon.
+[[32m  OK  [0m] Started Flush Journal to Persistent Storage.
+[[32m  OK  [0m] Started Configure read-only root support.
+         Starting Load/Save Random Seed...
+[[32m  OK  [0m] Started Load/Save Random Seed.
+[[32m  OK  [0m] Started udev Coldplug all Devices.
+[[32m  OK  [0m] Started Create Static Device Nodes in /dev.
+         Starting udev Kernel Device Manager...
+[[32m  OK  [0m] Started udev Kernel Device Manager.
+[[32m  OK  [0m] Found device VBOX_HARDDISK 1.
+[[32m  OK  [0m] Created slice system-lvm2\x2dpvscan.slice.
+         Starting LVM2 PV scan on device 8:2...
+%G%G[[32m  OK  [0m] Found device /dev/mapper/centos-swap.
+         Activating swap /dev/mapper/centos-swap...
+[[32m  OK  [0m] Activated swap /dev/mapper/centos-swap.
+[[32m  OK  [0m] Reached target Swap.
+[[0m[31m*     [0m] (1 of 2) A start job is running for Monitorin...eventd or progress polling (8s / no limit)[K[[32m  OK  [0m] Reached target Sound Card.
+[[32m  OK  [0m] Started Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling.
+[[32m  OK  [0m] Started LVM2 PV scan on device 8:2.
+[[32m  OK  [0m] Reached target Local File Systems (Pre).
+         Mounting /boot...
+[[1;31m*[0m[31m*    [0m] A start job is running for /boot (17s / 1min 38s)[K[[32m  OK  [0m] Mounted /boot.
+[[32m  OK  [0m] Reached target Local File Systems.
+         Starting Tell Plymouth To Write Out Runtime Data...
+         Starting Import network configuration from initramfs...
+[[32m  OK  [0m] Started Import network configuration from initramfs.
+         Starting Create Volatile Files and Directories...
+[[32m  OK  [0m] Started Create Volatile Files and Directories.
+         Starting Security Auditing Service...
+[[31m*[1;31m*[0m[31m*   [0m] (1 of 2) A start job is running for Tell Plym...To Write Out Runtime Data (26s / no limit)[K[[32m  OK  [0m] Started Tell Plymouth To Write Out Runtime Data.
+[[32m  OK  [0m] Started Security Auditing Service.
+         Starting Update UTMP about System Boot/Shutdown...
+[[32m  OK  [0m] Started Update UTMP about System Boot/Shutdown.
+[[32m  OK  [0m] Reached target System Initialization.
+[[32m  OK  [0m] Started Daily Cleanup of Temporary Directories.
+[[32m  OK  [0m] Reached target Timers.
+[[32m  OK  [0m] Listening on D-Bus System Message Bus Socket.
+[[32m  OK  [0m] Reached target Sockets.
+[[32m  OK  [0m] Reached target Basic System.
+         Starting Dump dmesg to /var/log/dmesg...
+[[32m  OK  [0m] Started irqbalance daemon.
+         Starting Authorization Manager...
+         Starting Permit User Sessions...
+         Starting NTP client/server...
+[[32m  OK  [0m] Started D-Bus System Message Bus.
+         Starting Login Service...
+[[32m  OK  [0m] Started Dump dmesg to /var/log/dmesg.
+[[32m  OK  [0m] Started Permit User Sessions.
+         Starting Wait for Plymouth Boot Screen to Quit...
+[[32m  OK  [0m] Started Command Scheduler.
+         Starting Terminate Plymouth Boot Screen...
+[[32m  OK  [0m] Started Login Service.
+[[32m  OK  [0m] Started Authorization Manager.
+         Starting firewalld - dynamic firewall daemon...
+[[32m  OK  [0m] Started firewalld - dynamic firewall daemon.
+[[32m  OK  [0m] Reached target Network (Pre).
+         Starting Network Manager...
+[[32m  OK  [0m] Started Network Manager.
+         Starting Network Manager Wait Online...
+[[32m  OK  [0m] Started Show Plymouth Boot Screen.
+[[32m  OK  [0m] Started Forward Password Requests to Plymouth Directory Watch.
+[[32m  OK  [0m] Reached target Paths.
+[[32m  OK  [0m] Reached target Basic System.
+%G%G[[32m  OK  [0m] Found device /dev/mapper/centos-root.
+         Starting File System Check on /dev/mapper/centos-root...
+[[32m  OK  [0m] Started File System Check on /dev/mapper/centos-root.
+[[32m  OK  [0m] Started dracut initqueue hook.
+[[32m  OK  [0m] Reached target Remote File Systems (Pre).
+[[32m  OK  [0m] Reached target Remote File Systems.
+         Mounting /sysroot...
+[[32m  OK  [0m] Mounted /sysroot.
+[[32m  OK  [0m] Reached target Initrd Root File System.
+         Starting Reload Configuration from the Real Root...
+[[32m  OK  [0m] Started Reload Configuration from the Real Root.
+[[32m  OK  [0m] Reached target Initrd File Systems.
+[[32m  OK  [0m] Reached target Initrd Default Target.
+         Starting dracut pre-pivot and cleanup hook...
+[[32m  OK  [0m] Started dracut pre-pivot and cleanup hook.
+         Starting Cleaning Up and Shutting Down Daemons...
+         Starting Plymouth switch root service...
+[[32m  OK  [0m] Stopped target Timers.
+[[32m  OK  [0m] Stopped dracut pre-pivot and cleanup hook.
+[[32m  OK  [0m] Stopped target Initrd Default Target.
+[[32m  OK  [0m] Stopped target Remote File Systems.
+[[32m  OK  [0m] Stopped target Remote File Systems (Pre).
+[[32m  OK  [0m] Stopped target Basic System.
+[[32m  OK  [0m] Stopped target Paths.
+[[32m  OK  [0m] Stopped target Slices.
+[[32m  OK  [0m] Stopped target System Initialization.
+[[32m  OK  [0m] Stopped target Swap.
+[[32m  OK  [0m] Stopped target Local File Systems.
+[[32m  OK  [0m] Stopped Apply Kernel Variables.
+         Stopping udev Kernel Device Manager...
+[[32m  OK  [0m] Stopped dracut initqueue hook.
+[[32m  OK  [0m] Stopped udev Coldplug all Devices.
+[[32m  OK  [0m] Stopped target Sockets.
+[[32m  OK  [0m] Stopped udev Kernel Device Manager.
+[[32m  OK  [0m] Stopped dracut pre-udev hook.
+[[32m  OK  [0m] Stopped dracut cmdline hook.
+[[32m  OK  [0m] Stopped Create Static Device Nodes in /dev.
+[[32m  OK  [0m] Stopped Create list of required static device nodes for the current kernel.
+[[32m  OK  [0m] Closed udev Kernel Socket.
+[[32m  OK  [0m] Closed udev Control Socket.
+         Starting Cleanup udevd DB...
+[[32m  OK  [0m] Started Cleaning Up and Shutting Down Daemons.
+[[32m  OK  [0m] Started Cleanup udevd DB.
+[[32m  OK  [0m] Reached target Switch Root.
+[[32m  OK  [0m] Started Plymouth switch root service.
+         Starting Switch Root...
+
+Welcome to [0;31mCentOS Linux 7 (Core)[0m!
+
+[[32m  OK  [0m] Stopped Switch Root.
+[[32m  OK  [0m] Stopped Journal Service.
+         Starting Journal Service...
+[[32m  OK  [0m] Created slice system-getty.slice.
+[[32m  OK  [0m] Listening on udev Kernel Socket.
+         Mounting Debug File System...
+[[32m  OK  [0m] Listening on LVM2 poll daemon socket.
+[[32m  OK  [0m] Started Forward Password Requests to Wall Directory Watch.
+[[32m  OK  [0m] Reached target Paths.
+         Starting Read and set NIS domainname from /etc/sysconfig/network...
+[[32m  OK  [0m] Created slice system-selinux\x2dpolicy\x2dmigrate\x2dlocal\x2dchanges.slice.
+         Mounting POSIX Message Queue File System...
+[[32m  OK  [0m] Reached target Remote File Systems.
+[[32m  OK  [0m] Listening on /dev/initctl Compatibility Named Pipe.
+[[32m  OK  [0m] Stopped File System Check on Root Device.
+         Mounting Huge Pages File System...
+[[32m  OK  [0m] Set up automount Arbitrary Executable File Formats File System Automount Point.
+[[32m  OK  [0m] Reached target Local Encrypted Volumes.
+[[32m  OK  [0m] Stopped target Switch Root.
+[[32m  OK  [0m] Listening on udev Control Socket.
+[[32m  OK  [0m] Stopped target Initrd File Systems.
+[[32m  OK  [0m] Stopped target Initrd Root File System.
+[[32m  OK  [0m] Listening on LVM2 metadata daemon socket.
+[[32m  OK  [0m] Listening on Delayed Shutdown Socket.
+[[32m  OK  [0m] Created slice User and Session Slice.
+[[32m  OK  [0m] Reached target Slices.
+         Starting Create list of required static device nodes for the current kernel...
+[[32m  OK  [0m] Listening on Device-mapper event daemon FIFOs.
+         Starting Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling...
+         Starting Remount Root and Kernel File Systems...
+         Starting Apply Kernel Variables...
+[[32m  OK  [0m] Mounted Debug File System.
+[[32m  OK  [0m] Started Journal Service.
+[[32m  OK  [0m] Mounted Huge Pages File System.
+[[32m  OK  [0m] Mounted POSIX Message Queue File System.
+[[32m  OK  [0m] Started Create list of required static device nodes for the current kernel.
+         Starting Create Static Device Nodes in /dev...
+[[32m  OK  [0m] Started Apply Kernel Variables.
+[[32m  OK  [0m] Started Read and set NIS domainname from /etc/sysconfig/network.
+[[32m  OK  [0m] Started Remount Root and Kernel File Systems.
+         Starting Configure read-only root support...
+         Starting udev Coldplug all Devices...
+         Starting Flush Journal to Persistent Storage...
+[[32m  OK  [0m] Started LVM2 metadata daemon.
+[[32m  OK  [0m] Started Flush Journal to Persistent Storage.
+[[32m  OK  [0m] Started Create Static Device Nodes in /dev.
+         Starting udev Kernel Device Manager...
+[[32m  OK  [0m] Started udev Coldplug all Devices.
+[[32m  OK  [0m] Started Configure read-only root support.
+         Starting Load/Save Random Seed...
+[[32m  OK  [0m] Started Load/Save Random Seed.
+[[32m  OK  [0m] Started udev Kernel Device Manager.
+[[32m  OK  [0m] Found device VBOX_HARDDISK 1.
+[[32m  OK  [0m] Created slice system-lvm2\x2dpvscan.slice.
+         Starting LVM2 PV scan on device 8:2...
+%G%G[[32m  OK  [0m] Found device /dev/mapper/centos-swap.
+         Activating swap /dev/mapper/centos-swap...
+[[32m  OK  [0m] Activated swap /dev/mapper/centos-swap.
+[[32m  OK  [0m] Reached target Swap.
+[[0m[31m*     [0m] (1 of 2) A start job is running for Monitorin...eventd or progress polling (9s / no limit)[K[[32m  OK  [0m] Reached target Sound Card.
+[[32m  OK  [0m] Started Monitoring of LVM2 mirrors, snapshots etc. using dmeventd or progress polling.
+[[32m  OK  [0m] Started LVM2 PV scan on device 8:2.
+[[32m  OK  [0m] Reached target Local File Systems (Pre).
+         Mounting /boot...
+[[32m  OK  [0m] Mounted /boot.
+[[32m  OK  [0m] Reached target Local File Systems.
+         Starting Tell Plymouth To Write Out Runtime Data...
+         Starting Import network configuration from initramfs...
+[[32m  OK  [0m] Started Tell Plymouth To Write Out Runtime Data.
+[[32m  OK  [0m] Started Import network configuration from initramfs.
+         Starting Create Volatile Files and Directories...
+[[32m  OK  [0m] Started Create Volatile Files and Directories.
+         Starting Security Auditing Service...
+[[32m  OK  [0m] Started Security Auditing Service.
+         Starting Update UTMP about System Boot/Shutdown...
+[[32m  OK  [0m] Started Update UTMP about System Boot/Shutdown.
+[[32m  OK  [0m] Reached target System Initialization.
+[[32m  OK  [0m] Started Daily Cleanup of Temporary Directories.
+[[32m  OK  [0m] Reached target Timers.
+[[32m  OK  [0m] Listening on D-Bus System Message Bus Socket.
+[[32m  OK  [0m] Reached target Sockets.
+[[32m  OK  [0m] Reached target Basic System.
+         Starting Authorization Manager...
+         Starting Permit User Sessions...
+         Starting NTP client/server...
+[[32m  OK  [0m] Started irqbalance daemon.
+[[32m  OK  [0m] Started D-Bus System Message Bus.
+         Starting Login Service...
+         Starting Dump dmesg to /var/log/dmesg...
+[[32m  OK  [0m] Started Permit User Sessions.
+[[32m  OK  [0m] Started Command Scheduler.
+         Starting Terminate Plymouth Boot Screen...
+         Starting Wait for Plymouth Boot Screen to Quit...
+[[32m  OK  [0m] Started Login Service.
+[[32m  OK  [0m] Started Dump dmesg to /var/log/dmesg.
+[[32m  OK  [0m] Started Authorization Manager.
+         Starting firewalld - dynamic firewall daemon...
+[[32m  OK  [0m] Started firewalld - dynamic firewall daemon.
+[[32m  OK  [0m] Reached target Network (Pre).
+         Starting Network Manager...
+[[32m  OK  [0m] Started Network Manager.
+         Starting Network Manager Wait Online...
+         Starting Hostname Service...
+[[32m  OK  [0m] Started Hostname Service.
+         Starting Network Manager Script Dispatcher Service...
+[[32m  OK  [0m] Started Network Manager Script Dispatcher Service.

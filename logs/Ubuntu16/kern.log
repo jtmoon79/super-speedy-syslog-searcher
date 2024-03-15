@@ -1,0 +1,1087 @@
+Dec 15 00:41:04 flint kernel: [    0.000000] Initializing cgroup subsys cpuset
+Dec 15 00:41:04 flint kernel: [    0.000000] Initializing cgroup subsys cpu
+Dec 15 00:41:04 flint kernel: [    0.000000] Initializing cgroup subsys cpuacct
+Dec 15 00:41:04 flint kernel: [    0.000000] Linux version 4.4.0-142-generic (buildd@lcy01-amd64-022) (gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) ) #168-Ubuntu SMP Wed Jan 16 21:01:15 UTC 2019 (Ubuntu 4.4.0-142.168-generic 4.4.167)
+Dec 15 00:41:04 flint kernel: [    0.000000] KERNEL supported cpus:
+Dec 15 00:41:04 flint kernel: [    0.000000]   Intel GenuineIntel
+Dec 15 00:41:04 flint kernel: [    0.000000]   AMD AuthenticAMD
+Dec 15 00:41:04 flint kernel: [    0.000000]   NSC Geode by NSC
+Dec 15 00:41:04 flint kernel: [    0.000000]   Cyrix CyrixInstead
+Dec 15 00:41:04 flint kernel: [    0.000000]   Centaur CentaurHauls
+Dec 15 00:41:04 flint kernel: [    0.000000]   Transmeta GenuineTMx86
+Dec 15 00:41:04 flint kernel: [    0.000000]   Transmeta TransmetaCPU
+Dec 15 00:41:04 flint kernel: [    0.000000]   UMC UMC UMC UMC
+Dec 15 00:41:04 flint kernel: [    0.000000] [Firmware Bug]: TSC doesn't count with P0 frequency!
+Dec 15 00:41:04 flint kernel: [    0.000000] x86/fpu: Legacy x87 FPU detected.
+Dec 15 00:41:04 flint kernel: [    0.000000] e820: BIOS-provided physical RAM map:
+Dec 15 00:41:04 flint kernel: [    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+Dec 15 00:41:04 flint kernel: [    0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+Dec 15 00:41:04 flint kernel: [    0.000000] BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+Dec 15 00:41:04 flint kernel: [    0.000000] BIOS-e820: [mem 0x0000000000100000-0x000000007ffeffff] usable
+Dec 15 00:41:04 flint kernel: [    0.000000] BIOS-e820: [mem 0x000000007fff0000-0x000000007fffffff] ACPI data
+Dec 15 00:41:04 flint kernel: [    0.000000] BIOS-e820: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+Dec 15 00:41:04 flint kernel: [    0.000000] BIOS-e820: [mem 0x00000000fee00000-0x00000000fee00fff] reserved
+Dec 15 00:41:04 flint kernel: [    0.000000] BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+Dec 15 00:41:04 flint kernel: [    0.000000] NX (Execute Disable) protection: active
+Dec 15 00:41:04 flint kernel: [    0.000000] SMBIOS 2.5 present.
+Dec 15 00:41:04 flint kernel: [    0.000000] DMI: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+Dec 15 00:41:04 flint kernel: [    0.000000] Hypervisor detected: KVM
+Dec 15 00:41:04 flint kernel: [    0.000000] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+Dec 15 00:41:04 flint kernel: [    0.000000] e820: remove [mem 0x000a0000-0x000fffff] usable
+Dec 15 00:41:04 flint kernel: [    0.000000] e820: last_pfn = 0x7fff0 max_arch_pfn = 0x1000000
+Dec 15 00:41:04 flint kernel: [    0.000000] MTRR default type: uncachable
+Dec 15 00:41:04 flint kernel: [    0.000000] MTRR fixed ranges disabled:
+Dec 15 00:41:04 flint kernel: [    0.000000]   00000-FFFFF uncachable
+Dec 15 00:41:04 flint kernel: [    0.000000] MTRR variable ranges disabled:
+Dec 15 00:41:04 flint kernel: [    0.000000]   0 disabled
+Dec 15 00:41:04 flint kernel: [    0.000000]   1 disabled
+Dec 15 00:41:04 flint kernel: [    0.000000]   2 disabled
+Dec 15 00:41:04 flint kernel: [    0.000000]   3 disabled
+Dec 15 00:41:04 flint kernel: [    0.000000]   4 disabled
+Dec 15 00:41:04 flint kernel: [    0.000000]   5 disabled
+Dec 15 00:41:04 flint kernel: [    0.000000]   6 disabled
+Dec 15 00:41:04 flint kernel: [    0.000000]   7 disabled
+Dec 15 00:41:04 flint kernel: [    0.000000] MTRR: Disabled
+Dec 15 00:41:04 flint kernel: [    0.000000] x86/PAT: MTRRs disabled, skipping PAT initialization too.
+Dec 15 00:41:04 flint kernel: [    0.000000] CPU MTRRs all blank - virtualized system.
+Dec 15 00:41:04 flint kernel: [    0.000000] x86/PAT: Configuration [0-7]: WB  WT  UC- UC  WB  WT  UC- UC  
+Dec 15 00:41:04 flint kernel: [    0.000000] found SMP MP-table at [mem 0x0009fff0-0x0009ffff] mapped at [c009fff0]
+Dec 15 00:41:04 flint kernel: [    0.000000] Scanning 1 areas for low memory corruption
+Dec 15 00:41:04 flint kernel: [    0.000000] initial memory mapped: [mem 0x00000000-0x021fffff]
+Dec 15 00:41:04 flint kernel: [    0.000000] Base memory trampoline at [c009b000] 9b000 size 16384
+Dec 15 00:41:04 flint kernel: [    0.000000] BRK [0x01d98000, 0x01d98fff] PGTABLE
+Dec 15 00:41:04 flint kernel: [    0.000000] BRK [0x01d99000, 0x01d99fff] PGTABLE
+Dec 15 00:41:04 flint kernel: [    0.000000] RAMDISK: [mem 0x33c60000-0x35e27fff]
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: Early table checksum verification disabled
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: RSDP 0x00000000000E0000 000024 (v02 VBOX  )
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: XSDT 0x000000007FFF0030 00003C (v01 VBOX   VBOXXSDT 00000001 ASL  00000061)
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: FACP 0x000000007FFF00F0 0000F4 (v04 VBOX   VBOXFACP 00000001 ASL  00000061)
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: DSDT 0x000000007FFF0610 002353 (v02 VBOX   VBOXBIOS 00000002 INTL 20100528)
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: FACS 0x000000007FFF0200 000040
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: FACS 0x000000007FFF0200 000040
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: APIC 0x000000007FFF0240 00005C (v02 VBOX   VBOXAPIC 00000001 ASL  00000061)
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: SSDT 0x000000007FFF02A0 00036C (v01 VBOX   VBOXCPUT 00000002 INTL 20100528)
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: Local APIC address 0xfee00000
+Dec 15 00:41:04 flint kernel: [    0.000000] 1155MB HIGHMEM available.
+Dec 15 00:41:04 flint kernel: [    0.000000] 891MB LOWMEM available.
+Dec 15 00:41:04 flint kernel: [    0.000000]   mapped low ram: 0 - 37bfe000
+Dec 15 00:41:04 flint kernel: [    0.000000]   low ram: 0 - 37bfe000
+Dec 15 00:41:04 flint kernel: [    0.000000] kvm-clock: Using msrs 4b564d01 and 4b564d00
+Dec 15 00:41:04 flint kernel: [    0.000000] kvm-clock: cpu 0, msr 0:37bfd001, primary cpu clock
+Dec 15 00:41:04 flint kernel: [    0.000000] kvm-clock: using sched offset of 23784017667398 cycles
+Dec 15 00:41:04 flint kernel: [    0.000000] clocksource: kvm-clock: mask: 0xffffffffffffffff max_cycles: 0x1cd42e4dffb, max_idle_ns: 881590591483 ns
+Dec 15 00:41:04 flint kernel: [    0.000000] Zone ranges:
+Dec 15 00:41:04 flint kernel: [    0.000000]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+Dec 15 00:41:04 flint kernel: [    0.000000]   Normal   [mem 0x0000000001000000-0x0000000037bfdfff]
+Dec 15 00:41:04 flint kernel: [    0.000000]   HighMem  [mem 0x0000000037bfe000-0x000000007ffeffff]
+Dec 15 00:41:04 flint kernel: [    0.000000] Movable zone start for each node
+Dec 15 00:41:04 flint kernel: [    0.000000] Early memory node ranges
+Dec 15 00:41:04 flint kernel: [    0.000000]   node   0: [mem 0x0000000000001000-0x000000000009efff]
+Dec 15 00:41:04 flint kernel: [    0.000000]   node   0: [mem 0x0000000000100000-0x000000007ffeffff]
+Dec 15 00:41:04 flint kernel: [    0.000000] Initmem setup node 0 [mem 0x0000000000001000-0x000000007ffeffff]
+Dec 15 00:41:04 flint kernel: [    0.000000] On node 0 totalpages: 524174
+Dec 15 00:41:04 flint kernel: [    0.000000]   DMA zone: 40 pages used for memmap
+Dec 15 00:41:04 flint kernel: [    0.000000]   DMA zone: 0 pages reserved
+Dec 15 00:41:04 flint kernel: [    0.000000]   DMA zone: 3998 pages, LIFO batch:0
+Dec 15 00:41:04 flint kernel: [    0.000000]   Normal zone: 2190 pages used for memmap
+Dec 15 00:41:04 flint kernel: [    0.000000]   Normal zone: 224254 pages, LIFO batch:31
+Dec 15 00:41:04 flint kernel: [    0.000000]   HighMem zone: 295922 pages, LIFO batch:31
+Dec 15 00:41:04 flint kernel: [    0.000000] Using APIC driver default
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: PM-Timer IO Port: 0x4008
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: Local APIC address 0xfee00000
+Dec 15 00:41:04 flint kernel: [    0.000000] IOAPIC[0]: apic_id 2, version 32, address 0xfec00000, GSI 0-23
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 low level)
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: IRQ0 used by override.
+Dec 15 00:41:04 flint kernel: [    0.000000] ACPI: IRQ9 used by override.
+Dec 15 00:41:04 flint kernel: [    0.000000] Using ACPI (MADT) for SMP configuration information
+Dec 15 00:41:04 flint kernel: [    0.000000] smpboot: Allowing 2 CPUs, 0 hotplug CPUs
+Dec 15 00:41:04 flint kernel: [    0.000000] PM: Registered nosave memory: [mem 0x00000000-0x00000fff]
+Dec 15 00:41:04 flint kernel: [    0.000000] PM: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+Dec 15 00:41:04 flint kernel: [    0.000000] PM: Registered nosave memory: [mem 0x000a0000-0x000effff]
+Dec 15 00:41:04 flint kernel: [    0.000000] PM: Registered nosave memory: [mem 0x000f0000-0x000fffff]
+Dec 15 00:41:04 flint kernel: [    0.000000] e820: [mem 0x80000000-0xfebfffff] available for PCI devices
+Dec 15 00:41:04 flint kernel: [    0.000000] Booting paravirtualized kernel on KVM
+Dec 15 00:41:04 flint kernel: [    0.000000] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645519600211568 ns
+Dec 15 00:41:04 flint kernel: [    0.000000] setup_percpu: NR_CPUS:8 nr_cpumask_bits:8 nr_cpu_ids:2 nr_node_ids:1
+Dec 15 00:41:04 flint kernel: [    0.000000] PERCPU: Embedded 19 pages/cpu @f67b0000 s47308 r0 d30516 u77824
+Dec 15 00:41:04 flint kernel: [    0.000000] pcpu-alloc: s47308 r0 d30516 u77824 alloc=19*4096
+Dec 15 00:41:04 flint kernel: [    0.000000] pcpu-alloc: [0] 0 [0] 1 
+Dec 15 00:41:04 flint kernel: [    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 521944
+Dec 15 00:41:04 flint kernel: [    0.000000] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-4.4.0-142-generic root=UUID=a7221f26-13f3-4261-88f1-9cac5669d0db ro quiet splash
+Dec 15 00:41:04 flint kernel: [    0.000000] PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dec 15 00:41:04 flint kernel: [    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+Dec 15 00:41:04 flint kernel: [    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Dec 15 00:41:04 flint kernel: [    0.000000] Initializing CPU#0
+Dec 15 00:41:04 flint kernel: [    0.000000] Initializing HighMem for node 0 (00037bfe:0007fff0)
+Dec 15 00:41:04 flint kernel: [    0.000000] Initializing Movable for node 0 (00000000:00000000)
+Dec 15 00:41:04 flint kernel: [    0.000000] Memory: 2026512K/2096696K available (8094K kernel code, 791K rwdata, 3180K rodata, 932K init, 800K bss, 70184K reserved, 0K cma-reserved, 1183688K highmem)
+Dec 15 00:41:04 flint kernel: [    0.000000] virtual kernel memory layout:
+Dec 15 00:41:04 flint kernel: [    0.000000]     fixmap  : 0xfff15000 - 0xfffff000   ( 936 kB)
+Dec 15 00:41:04 flint kernel: [    0.000000]     pkmap   : 0xffc00000 - 0xffe00000   (2048 kB)
+Dec 15 00:41:04 flint kernel: [    0.000000]     vmalloc : 0xf83fe000 - 0xffbfe000   ( 120 MB)
+Dec 15 00:41:04 flint kernel: [    0.000000]     lowmem  : 0xc0000000 - 0xf7bfe000   ( 891 MB)
+Dec 15 00:41:04 flint kernel: [    0.000000]       .init : 0xc1bcc000 - 0xc1cb5000   ( 932 kB)
+Dec 15 00:41:04 flint kernel: [    0.000000]       .data : 0xc17e7e54 - 0xc1bcad40   (3979 kB)
+Dec 15 00:41:04 flint kernel: [    0.000000]       .text : 0xc1000000 - 0xc17e7e54   (8095 kB)
+Dec 15 00:41:04 flint kernel: [    0.000000] Checking if this processor honours the WP bit even in supervisor mode...Ok.
+Dec 15 00:41:04 flint kernel: [    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Dec 15 00:41:04 flint kernel: [    0.000000] Hierarchical RCU implementation.
+Dec 15 00:41:04 flint kernel: [    0.000000] 	Build-time adjustment of leaf fanout to 32.
+Dec 15 00:41:04 flint kernel: [    0.000000] 	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=2.
+Dec 15 00:41:04 flint kernel: [    0.000000] RCU: Adjusting geometry for rcu_fanout_leaf=32, nr_cpu_ids=2
+Dec 15 00:41:04 flint kernel: [    0.000000] NR_IRQS:2304 nr_irqs:440 16
+Dec 15 00:41:04 flint kernel: [    0.000000] CPU 0 irqstacks, hard=f6038000 soft=f603a000
+Dec 15 00:41:04 flint kernel: [    0.000000] Console: colour VGA+ 80x25
+Dec 15 00:41:04 flint kernel: [    0.000000] console [tty0] enabled
+Dec 15 00:41:04 flint kernel: [    0.000000] allocated 2097152 bytes of page_ext
+Dec 15 00:41:04 flint kernel: [    0.000000] tsc: Detected 4491.472 MHz processor
+Dec 15 00:41:04 flint kernel: [    0.041577] Calibrating delay loop (skipped) preset value.. 8982.94 BogoMIPS (lpj=17965888)
+Dec 15 00:41:04 flint kernel: [    0.041578] pid_max: default: 32768 minimum: 301
+Dec 15 00:41:04 flint kernel: [    0.041582] ACPI: Core revision 20150930
+Dec 15 00:41:04 flint kernel: [    0.041989] ACPI: 2 ACPI AML tables successfully acquired and loaded
+Dec 15 00:41:04 flint kernel: [    0.041995] Security Framework initialized
+Dec 15 00:41:04 flint kernel: [    0.041996] Yama: becoming mindful.
+Dec 15 00:41:04 flint kernel: [    0.042004] AppArmor: AppArmor initialized
+Dec 15 00:41:04 flint kernel: [    0.042019] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+Dec 15 00:41:04 flint kernel: [    0.042020] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+Dec 15 00:41:04 flint kernel: [    0.042094] Initializing cgroup subsys io
+Dec 15 00:41:04 flint kernel: [    0.042096] Initializing cgroup subsys memory
+Dec 15 00:41:04 flint kernel: [    0.042098] Initializing cgroup subsys devices
+Dec 15 00:41:04 flint kernel: [    0.042099] Initializing cgroup subsys freezer
+Dec 15 00:41:04 flint kernel: [    0.042100] Initializing cgroup subsys net_cls
+Dec 15 00:41:04 flint kernel: [    0.042101] Initializing cgroup subsys perf_event
+Dec 15 00:41:04 flint kernel: [    0.042102] Initializing cgroup subsys net_prio
+Dec 15 00:41:04 flint kernel: [    0.042103] Initializing cgroup subsys hugetlb
+Dec 15 00:41:04 flint kernel: [    0.042104] Initializing cgroup subsys pids
+Dec 15 00:41:04 flint kernel: [    0.042561] mce: CPU supports 0 MCE banks
+Dec 15 00:41:04 flint kernel: [    0.042613] Last level iTLB entries: 4KB 512, 2MB 512, 4MB 256
+Dec 15 00:41:04 flint kernel: [    0.042613] Last level dTLB entries: 4KB 3072, 2MB 3072, 4MB 1536, 1GB 0
+Dec 15 00:41:04 flint kernel: [    0.042615] Spectre V2 : Spectre mitigation: LFENCE not serializing. Switching to generic retpoline
+Dec 15 00:41:04 flint kernel: [    0.043942] Spectre V2 : Mitigation: Full generic retpoline
+Dec 15 00:41:04 flint kernel: [    0.043942] Spectre V2 : Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch
+Dec 15 00:41:04 flint kernel: [    0.043942] Speculative Store Bypass: Vulnerable
+Dec 15 00:41:04 flint kernel: [    0.058759] Freeing SMP alternatives memory: 36K
+Dec 15 00:41:04 flint kernel: [    0.082349] ftrace: allocating 31552 entries in 62 pages
+Dec 15 00:41:04 flint kernel: [    0.266931] smpboot: APIC(0) Converting physical 0 to logical package 0
+Dec 15 00:41:04 flint kernel: [    0.266933] smpboot: Max logical packages: 1
+Dec 15 00:41:04 flint kernel: [    0.266969] Enabling APIC mode:  Flat.  Using 1 I/O APICs
+Dec 15 00:41:04 flint kernel: [    0.271836] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+Dec 15 00:41:04 flint kernel: [    0.383812] smpboot: CPU0: AMD Ryzen 7 7700X 8-Core Processor (family: 0x19, model: 0x61, stepping: 0x2)
+Dec 15 00:41:04 flint kernel: [    0.383824] Performance Events: Broken PMU hardware detected, using software events only.
+Dec 15 00:41:04 flint kernel: [    0.383940] Failed to access perfctr msr (MSR c0010007 is 0)
+Dec 15 00:41:04 flint kernel: [    0.410448] KVM setup paravirtual spinlock
+Dec 15 00:41:04 flint kernel: [    0.412444] CPU 1 irqstacks, hard=f634a000 soft=f634c000
+Dec 15 00:41:04 flint kernel: [    0.412446] x86: Booting SMP configuration:
+Dec 15 00:41:04 flint kernel: [    0.412447] .... node  #0, CPUs:      #1
+Dec 15 00:41:04 flint kernel: [1266851105.691884] Initializing CPU#1
+Dec 15 00:41:04 flint kernel: [    9.436753] kvm-clock: cpu 1, msr 0:37bfd041, secondary cpu clock
+Dec 15 00:41:04 flint kernel: [    9.437710] mce: CPU supports 0 MCE banks
+Dec 15 00:41:04 flint kernel: [    0.415846] TSC synchronization [CPU#0 -> CPU#1]:
+Dec 15 00:41:04 flint kernel: [    0.415848] Measured 67135 cycles TSC warp between CPUs, turning off TSC clock.
+Dec 15 00:41:04 flint kernel: [    0.415851] tsc: Marking TSC unstable due to check_tsc_sync_source failed
+Dec 15 00:41:04 flint kernel: [    0.415982] x86: Booted up 1 node, 2 CPUs
+Dec 15 00:41:04 flint kernel: [    0.415984] smpboot: Total of 2 processors activated (17965.88 BogoMIPS)
+Dec 15 00:41:04 flint kernel: [    0.084035] devtmpfs: initialized
+Dec 15 00:41:04 flint kernel: [    0.084096] evm: security.selinux
+Dec 15 00:41:04 flint kernel: [    0.084097] evm: security.SMACK64
+Dec 15 00:41:04 flint kernel: [    0.084097] evm: security.SMACK64EXEC
+Dec 15 00:41:04 flint kernel: [    0.084098] evm: security.SMACK64TRANSMUTE
+Dec 15 00:41:04 flint kernel: [    0.084098] evm: security.SMACK64MMAP
+Dec 15 00:41:04 flint kernel: [    0.084099] evm: security.ima
+Dec 15 00:41:04 flint kernel: [    0.084099] evm: security.capability
+Dec 15 00:41:04 flint kernel: [    0.084133] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+Dec 15 00:41:04 flint kernel: [    0.084133] futex hash table entries: 512 (order: 3, 32768 bytes)
+Dec 15 00:41:04 flint kernel: [    0.084202] pinctrl core: initialized pinctrl subsystem
+Dec 15 00:41:04 flint kernel: [    0.084336] RTC time:  8:40:44, date: 12/15/23
+Dec 15 00:41:04 flint kernel: [    0.084438] NET: Registered protocol family 16
+Dec 15 00:41:04 flint kernel: [    0.084500] EISA bus registered
+Dec 15 00:41:04 flint kernel: [    0.096004] cpuidle: using governor ladder
+Dec 15 00:41:04 flint kernel: [    0.108003] cpuidle: using governor menu
+Dec 15 00:41:04 flint kernel: [    0.108011] PCCT header not found.
+Dec 15 00:41:04 flint kernel: [    0.108957] ACPI: bus type PCI registered
+Dec 15 00:41:04 flint kernel: [    0.108959] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+Dec 15 00:41:04 flint kernel: [    0.109241] PCI : PCI BIOS area is rw and x. Use pci=nobios if you want it NX.
+Dec 15 00:41:04 flint kernel: [    0.109243] PCI: PCI BIOS revision 2.10 entry at 0xfda26, last bus=0
+Dec 15 00:41:04 flint kernel: [    0.109243] PCI: Using configuration type 1 for base access
+Dec 15 00:41:04 flint kernel: [    0.109244] PCI: Using configuration type 1 for extended access
+Dec 15 00:41:04 flint kernel: [    0.120079] ACPI: Added _OSI(Module Device)
+Dec 15 00:41:04 flint kernel: [    0.120080] ACPI: Added _OSI(Processor Device)
+Dec 15 00:41:04 flint kernel: [    0.120081] ACPI: Added _OSI(3.0 _SCP Extensions)
+Dec 15 00:41:04 flint kernel: [    0.120081] ACPI: Added _OSI(Processor Aggregator Device)
+Dec 15 00:41:04 flint kernel: [    0.120512] ACPI: Executed 1 blocks of module-level executable AML code
+Dec 15 00:41:04 flint kernel: [    0.121446] ACPI: Interpreter enabled
+Dec 15 00:41:04 flint kernel: [    0.121453] ACPI: (supports S0 S5)
+Dec 15 00:41:04 flint kernel: [    0.121454] ACPI: Using IOAPIC for interrupt routing
+Dec 15 00:41:04 flint kernel: [    0.121559] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+Dec 15 00:41:04 flint kernel: [    0.125059] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+Dec 15 00:41:04 flint kernel: [    0.125062] acpi PNP0A03:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI]
+Dec 15 00:41:04 flint kernel: [    0.125460] acpi PNP0A03:00: _OSC: platform does not support [PCIeCapability]
+Dec 15 00:41:04 flint kernel: [    0.125675] acpi PNP0A03:00: _OSC: not requesting control; platform does not support [PCIeCapability]
+Dec 15 00:41:04 flint kernel: [    0.125677] acpi PNP0A03:00: _OSC: OS requested [PCIeHotplug PME AER PCIeCapability]
+Dec 15 00:41:04 flint kernel: [    0.125678] acpi PNP0A03:00: _OSC: platform willing to grant [PCIeHotplug PME AER]
+Dec 15 00:41:04 flint kernel: [    0.125679] acpi PNP0A03:00: _OSC failed (AE_SUPPORT); disabling ASPM
+Dec 15 00:41:04 flint kernel: [    0.125894] PCI host bridge to bus 0000:00
+Dec 15 00:41:04 flint kernel: [    0.125895] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+Dec 15 00:41:04 flint kernel: [    0.125896] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+Dec 15 00:41:04 flint kernel: [    0.125897] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+Dec 15 00:41:04 flint kernel: [    0.125897] pci_bus 0000:00: root bus resource [mem 0x80000000-0xfdffffff window]
+Dec 15 00:41:04 flint kernel: [    0.125898] pci_bus 0000:00: root bus resource [bus 00-ff]
+Dec 15 00:41:04 flint kernel: [    0.125946] pci 0000:00:00.0: [8086:1237] type 00 class 0x060000
+Dec 15 00:41:04 flint kernel: [    0.126697] pci 0000:00:01.0: [8086:7000] type 00 class 0x060100
+Dec 15 00:41:04 flint kernel: [    0.128294] pci 0000:00:01.1: [8086:7111] type 00 class 0x01018a
+Dec 15 00:41:04 flint kernel: [    0.128716] pci 0000:00:01.1: reg 0x20: [io  0xd000-0xd00f]
+Dec 15 00:41:04 flint kernel: [    0.128899] pci 0000:00:01.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+Dec 15 00:41:04 flint kernel: [    0.128900] pci 0000:00:01.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+Dec 15 00:41:04 flint kernel: [    0.128901] pci 0000:00:01.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+Dec 15 00:41:04 flint kernel: [    0.128901] pci 0000:00:01.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+Dec 15 00:41:04 flint kernel: [    0.129129] pci 0000:00:02.0: [15ad:0405] type 00 class 0x030000
+Dec 15 00:41:04 flint kernel: [    0.129641] pci 0000:00:02.0: reg 0x10: [io  0xd010-0xd01f]
+Dec 15 00:41:04 flint kernel: [    0.130052] pci 0000:00:02.0: reg 0x14: [mem 0xe0000000-0xe0ffffff pref]
+Dec 15 00:41:04 flint kernel: [    0.130459] pci 0000:00:02.0: reg 0x18: [mem 0xf0000000-0xf01fffff]
+Dec 15 00:41:04 flint kernel: [    0.133045] pci 0000:00:03.0: [8086:100e] type 00 class 0x020000
+Dec 15 00:41:04 flint kernel: [    0.133321] pci 0000:00:03.0: reg 0x10: [mem 0xf0200000-0xf021ffff]
+Dec 15 00:41:04 flint kernel: [    0.133503] pci 0000:00:03.0: reg 0x18: [io  0xd020-0xd027]
+Dec 15 00:41:04 flint kernel: [    0.134222] pci 0000:00:04.0: [80ee:cafe] type 00 class 0x088000
+Dec 15 00:41:04 flint kernel: [    0.134465] pci 0000:00:04.0: reg 0x10: [io  0xd040-0xd05f]
+Dec 15 00:41:04 flint kernel: [    0.134638] pci 0000:00:04.0: reg 0x14: [mem 0xf0400000-0xf07fffff]
+Dec 15 00:41:04 flint kernel: [    0.134810] pci 0000:00:04.0: reg 0x18: [mem 0xf0800000-0xf0803fff pref]
+Dec 15 00:41:04 flint kernel: [    0.136535] pci 0000:00:05.0: [8086:2415] type 00 class 0x040100
+Dec 15 00:41:04 flint kernel: [    0.136671] pci 0000:00:05.0: reg 0x10: [io  0xd100-0xd1ff]
+Dec 15 00:41:04 flint kernel: [    0.136748] pci 0000:00:05.0: reg 0x14: [io  0xd200-0xd23f]
+Dec 15 00:41:04 flint kernel: [    0.137317] pci 0000:00:06.0: [106b:003f] type 00 class 0x0c0310
+Dec 15 00:41:04 flint kernel: [    0.137503] pci 0000:00:06.0: reg 0x10: [mem 0xf0804000-0xf0804fff]
+Dec 15 00:41:04 flint kernel: [    0.138271] pci 0000:00:07.0: [8086:7113] type 00 class 0x068000
+Dec 15 00:41:04 flint kernel: [    0.138739] pci 0000:00:07.0: quirk: [io  0x4000-0x403f] claimed by PIIX4 ACPI
+Dec 15 00:41:04 flint kernel: [    0.138751] pci 0000:00:07.0: quirk: [io  0x4100-0x410f] claimed by PIIX4 SMB
+Dec 15 00:41:04 flint kernel: [    0.139098] pci 0000:00:0b.0: [8086:265c] type 00 class 0x0c0320
+Dec 15 00:41:04 flint kernel: [    0.140086] pci 0000:00:0b.0: reg 0x10: [mem 0xf0805000-0xf0805fff]
+Dec 15 00:41:04 flint kernel: [    0.140905] pci 0000:00:0d.0: [8086:2829] type 00 class 0x010601
+Dec 15 00:41:04 flint kernel: [    0.141149] pci 0000:00:0d.0: reg 0x10: [io  0xd240-0xd247]
+Dec 15 00:41:04 flint kernel: [    0.141238] pci 0000:00:0d.0: reg 0x14: [io  0xd248-0xd24b]
+Dec 15 00:41:04 flint kernel: [    0.141326] pci 0000:00:0d.0: reg 0x18: [io  0xd250-0xd257]
+Dec 15 00:41:04 flint kernel: [    0.141415] pci 0000:00:0d.0: reg 0x1c: [io  0xd258-0xd25b]
+Dec 15 00:41:04 flint kernel: [    0.141504] pci 0000:00:0d.0: reg 0x20: [io  0xd260-0xd26f]
+Dec 15 00:41:04 flint kernel: [    0.141592] pci 0000:00:0d.0: reg 0x24: [mem 0xf0806000-0xf0807fff]
+Dec 15 00:41:04 flint kernel: [    0.142178] pci_bus 0000:00: on NUMA node 0
+Dec 15 00:41:04 flint kernel: [    0.142730] ACPI: PCI Interrupt Link [LNKA] (IRQs 5 9 10 *11)
+Dec 15 00:41:04 flint kernel: [    0.142876] ACPI: PCI Interrupt Link [LNKB] (IRQs 5 9 *10 11)
+Dec 15 00:41:04 flint kernel: [    0.142933] ACPI: PCI Interrupt Link [LNKC] (IRQs 5 *9 10 11)
+Dec 15 00:41:04 flint kernel: [    0.142991] ACPI: PCI Interrupt Link [LNKD] (IRQs 5 9 10 *11)
+Dec 15 00:41:04 flint kernel: [    0.143064] ACPI: Enabled 2 GPEs in block 00 to 07
+Dec 15 00:41:04 flint kernel: [    0.144074] vgaarb: setting as boot device: PCI:0000:00:02.0
+Dec 15 00:41:04 flint kernel: [    0.144076] vgaarb: device added: PCI:0000:00:02.0,decodes=io+mem,owns=io+mem,locks=none
+Dec 15 00:41:04 flint kernel: [    0.144077] vgaarb: loaded
+Dec 15 00:41:04 flint kernel: [    0.144077] vgaarb: bridge control possible 0000:00:02.0
+Dec 15 00:41:04 flint kernel: [    0.144186] SCSI subsystem initialized
+Dec 15 00:41:04 flint kernel: [    0.144223] libata version 3.00 loaded.
+Dec 15 00:41:04 flint kernel: [    0.144232] ACPI: bus type USB registered
+Dec 15 00:41:04 flint kernel: [    0.144239] usbcore: registered new interface driver usbfs
+Dec 15 00:41:04 flint kernel: [    0.144242] usbcore: registered new interface driver hub
+Dec 15 00:41:04 flint kernel: [    0.144265] usbcore: registered new device driver usb
+Dec 15 00:41:04 flint kernel: [    0.144282] PCI: Using ACPI for IRQ routing
+Dec 15 00:41:04 flint kernel: [    0.144282] PCI: pci_cache_line_size set to 64 bytes
+Dec 15 00:41:04 flint kernel: [    0.144284] e820: reserve RAM buffer [mem 0x0009fc00-0x0009ffff]
+Dec 15 00:41:04 flint kernel: [    0.144285] e820: reserve RAM buffer [mem 0x7fff0000-0x7fffffff]
+Dec 15 00:41:04 flint kernel: [    0.144335] NetLabel: Initializing
+Dec 15 00:41:04 flint kernel: [    0.144336] NetLabel:  domain hash size = 128
+Dec 15 00:41:04 flint kernel: [    0.144337] NetLabel:  protocols = UNLABELED CIPSOv4
+Dec 15 00:41:04 flint kernel: [    0.144341] NetLabel:  unlabeled traffic allowed by default
+Dec 15 00:41:04 flint kernel: [    0.144369] amd_nb: Cannot enumerate AMD northbridges
+Dec 15 00:41:04 flint kernel: [    0.144369] clocksource: Switched to clocksource kvm-clock
+Dec 15 00:41:04 flint kernel: [    9.170872] AppArmor: AppArmor Filesystem Enabled
+Dec 15 00:41:04 flint kernel: [    9.170872] pnp: PnP ACPI init
+Dec 15 00:41:04 flint kernel: [    9.170872] pnp 00:00: Plug and Play ACPI device, IDs PNP0303 (active)
+Dec 15 00:41:04 flint kernel: [    9.170872] pnp 00:01: Plug and Play ACPI device, IDs PNP0f03 (active)
+Dec 15 00:41:04 flint kernel: [    9.170872] pnp: PnP ACPI: found 2 devices
+Dec 15 00:41:04 flint kernel: [    9.170872] PnPBIOS: Disabled by ACPI PNP
+Dec 15 00:41:04 flint kernel: [    9.184000] clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+Dec 15 00:41:04 flint kernel: [    9.184000] pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7 window]
+Dec 15 00:41:04 flint kernel: [    9.184000] pci_bus 0000:00: resource 5 [io  0x0d00-0xffff window]
+Dec 15 00:41:04 flint kernel: [    9.184000] pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff window]
+Dec 15 00:41:04 flint kernel: [    9.184000] pci_bus 0000:00: resource 7 [mem 0x80000000-0xfdffffff window]
+Dec 15 00:41:04 flint kernel: [    9.184000] NET: Registered protocol family 2
+Dec 15 00:41:04 flint kernel: [    9.184000] TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+Dec 15 00:41:04 flint kernel: [    9.184000] TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+Dec 15 00:41:04 flint kernel: [    9.184000] TCP: Hash tables configured (established 8192 bind 8192)
+Dec 15 00:41:04 flint kernel: [    9.184000] UDP hash table entries: 512 (order: 2, 16384 bytes)
+Dec 15 00:41:04 flint kernel: [    9.184000] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+Dec 15 00:41:04 flint kernel: [    9.184000] NET: Registered protocol family 1
+Dec 15 00:41:04 flint kernel: [    9.184000] pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+Dec 15 00:41:04 flint kernel: [    9.184000] pci 0000:00:01.0: Activating ISA DMA hang workarounds
+Dec 15 00:41:04 flint kernel: [    9.184000] pci 0000:00:02.0: Video device with shadowed ROM
+Dec 15 00:41:04 flint kernel: [    9.184000] PCI: CLS 0 bytes, default 64
+Dec 15 00:41:04 flint kernel: [    9.184000] Unpacking initramfs...
+Dec 15 00:41:04 flint kernel: [    9.220000] Freeing initrd memory: 34592K
+Dec 15 00:41:04 flint kernel: [    9.220000] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x40bdf03ca93, max_idle_ns: 440795295298 ns
+Dec 15 00:41:04 flint kernel: [    9.220000] platform rtc_cmos: registered platform RTC device (no PNP device found)
+Dec 15 00:41:04 flint kernel: [    9.220000] Scanning for low memory corruption every 60 seconds
+Dec 15 00:41:04 flint kernel: [    9.426792] audit: initializing netlink subsys (disabled)
+Dec 15 00:41:04 flint kernel: [    9.426800] audit: type=2000 audit(1702653453.748:1): initialized
+Dec 15 00:41:04 flint kernel: [    9.426901] Initialise system trusted keyring
+Dec 15 00:41:04 flint kernel: [    9.427056] HugeTLB registered 2 MB page size, pre-allocated 0 pages
+Dec 15 00:41:04 flint kernel: [    9.427056] zbud: loaded
+Dec 15 00:41:04 flint kernel: [    9.427636] VFS: Disk quotas dquot_6.6.0
+Dec 15 00:41:04 flint kernel: [    9.427636] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+Dec 15 00:41:04 flint kernel: [    9.427636] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+Dec 15 00:41:04 flint kernel: [    9.428003] fuse init (API version 7.23)
+Dec 15 00:41:04 flint kernel: [    9.428110] Key type big_key registered
+Dec 15 00:41:04 flint kernel: [    9.428110] Allocating IMA MOK and blacklist keyrings.
+Dec 15 00:41:04 flint kernel: [    9.431272] Key type asymmetric registered
+Dec 15 00:41:04 flint kernel: [    9.431272] Asymmetric key parser 'x509' registered
+Dec 15 00:41:04 flint kernel: [    9.431272] bounce: pool size: 64 pages
+Dec 15 00:41:04 flint kernel: [    9.431272] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 249)
+Dec 15 00:41:04 flint kernel: [    9.431296] io scheduler noop registered
+Dec 15 00:41:04 flint kernel: [    9.431296] io scheduler deadline registered (default)
+Dec 15 00:41:04 flint kernel: [    9.431296] io scheduler cfq registered
+Dec 15 00:41:04 flint kernel: [    9.431296] pci_hotplug: PCI Hot Plug PCI Core version: 0.5
+Dec 15 00:41:04 flint kernel: [    9.431296] pciehp: PCI Express Hot Plug Controller Driver version: 0.4
+Dec 15 00:41:04 flint kernel: [    9.431296] ACPI: AC Adapter [AC] (on-line)
+Dec 15 00:41:04 flint kernel: [    9.431296] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+Dec 15 00:41:04 flint kernel: [    9.431296] ACPI: Power Button [PWRF]
+Dec 15 00:41:04 flint kernel: [    9.431296] input: Sleep Button as /devices/LNXSYSTM:00/LNXSLPBN:00/input/input1
+Dec 15 00:41:04 flint kernel: [    9.431296] ACPI: Sleep Button [SLPF]
+Dec 15 00:41:04 flint kernel: [    9.431706] GHES: HEST is not enabled!
+Dec 15 00:41:04 flint kernel: [    9.431819] isapnp: Scanning for PnP cards...
+Dec 15 00:41:04 flint kernel: [    9.431706] Serial: 8250/16550 driver, 32 ports, IRQ sharing enabled
+Dec 15 00:41:04 flint kernel: [    9.431706] Linux agpgart interface v0.103
+Dec 15 00:41:04 flint kernel: [    9.483052] loop: module loaded
+Dec 15 00:41:04 flint kernel: [    9.483052] ata_piix 0000:00:01.1: version 2.13
+Dec 15 00:41:04 flint kernel: [    9.483052] scsi host0: ata_piix
+Dec 15 00:41:04 flint kernel: [    9.483052] scsi host1: ata_piix
+Dec 15 00:41:04 flint kernel: [    9.483052] ata1: PATA max UDMA/33 cmd 0x1f0 ctl 0x3f6 bmdma 0xd000 irq 14
+Dec 15 00:41:04 flint kernel: [    9.483052] ata2: PATA max UDMA/33 cmd 0x170 ctl 0x376 bmdma 0xd008 irq 15
+Dec 15 00:41:04 flint kernel: [    9.483052] libphy: Fixed MDIO Bus: probed
+Dec 15 00:41:04 flint kernel: [    9.483052] tun: Universal TUN/TAP device driver, 1.6
+Dec 15 00:41:04 flint kernel: [    9.483052] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+Dec 15 00:41:04 flint kernel: [    9.483052] PPP generic driver version 2.4.2
+Dec 15 00:41:04 flint kernel: [    9.483052] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+Dec 15 00:41:04 flint kernel: [    9.483052] ehci-pci: EHCI PCI platform driver
+Dec 15 00:41:04 flint kernel: [    9.483052] ehci-pci 0000:00:0b.0: EHCI Host Controller
+Dec 15 00:41:04 flint kernel: [    9.483052] ehci-pci 0000:00:0b.0: new USB bus registered, assigned bus number 1
+Dec 15 00:41:04 flint kernel: [    9.483052] ehci-pci 0000:00:0b.0: irq 19, io mem 0xf0805000
+Dec 15 00:41:04 flint kernel: [    9.800228] isapnp: No Plug & Play device found
+Dec 15 00:41:04 flint kernel: [   18.252498] ehci-pci 0000:00:0b.0: USB 2.0 started, EHCI 1.00
+Dec 15 00:41:04 flint kernel: [   18.252498] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+Dec 15 00:41:04 flint kernel: [   18.252498] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+Dec 15 00:41:04 flint kernel: [   18.252498] usb usb1: Product: EHCI Host Controller
+Dec 15 00:41:04 flint kernel: [   18.252498] usb usb1: Manufacturer: Linux 4.4.0-142-generic ehci_hcd
+Dec 15 00:41:04 flint kernel: [   18.252498] usb usb1: SerialNumber: 0000:00:0b.0
+Dec 15 00:41:04 flint kernel: [   18.252722] hub 1-0:1.0: USB hub found
+Dec 15 00:41:04 flint kernel: [   18.252727] hub 1-0:1.0: 12 ports detected
+Dec 15 00:41:04 flint kernel: [   18.253586] ehci-platform: EHCI generic platform driver
+Dec 15 00:41:04 flint kernel: [   18.253586] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+Dec 15 00:41:04 flint kernel: [   18.253586] ohci-pci: OHCI PCI platform driver
+Dec 15 00:41:04 flint kernel: [   18.253586] ohci-pci 0000:00:06.0: OHCI PCI host controller
+Dec 15 00:41:04 flint kernel: [   18.253586] ohci-pci 0000:00:06.0: new USB bus registered, assigned bus number 2
+Dec 15 00:41:04 flint kernel: [   18.253586] ohci-pci 0000:00:06.0: irq 22, io mem 0xf0804000
+Dec 15 00:41:04 flint kernel: [   22.481750] usb usb2: New USB device found, idVendor=1d6b, idProduct=0001
+Dec 15 00:41:04 flint kernel: [   22.481752] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+Dec 15 00:41:04 flint kernel: [   22.481754] usb usb2: Product: OHCI PCI host controller
+Dec 15 00:41:04 flint kernel: [   22.481754] usb usb2: Manufacturer: Linux 4.4.0-142-generic ohci_hcd
+Dec 15 00:41:04 flint kernel: [   22.481755] usb usb2: SerialNumber: 0000:00:06.0
+Dec 15 00:41:04 flint kernel: [   22.481851] hub 2-0:1.0: USB hub found
+Dec 15 00:41:04 flint kernel: [   22.481881] hub 2-0:1.0: 12 ports detected
+Dec 15 00:41:04 flint kernel: [   22.482336] ohci-platform: OHCI generic platform driver
+Dec 15 00:41:04 flint kernel: [   22.482345] uhci_hcd: USB Universal Host Controller Interface driver
+Dec 15 00:41:04 flint kernel: [   22.482376] i8042: PNP: PS/2 Controller [PNP0303:PS2K,PNP0f03:PS2M] at 0x60,0x64 irq 1,12
+Dec 15 00:41:04 flint kernel: [   22.483689] serio: i8042 KBD port at 0x60,0x64 irq 1
+Dec 15 00:41:04 flint kernel: [   22.483692] serio: i8042 AUX port at 0x60,0x64 irq 12
+Dec 15 00:41:04 flint kernel: [   22.483745] mousedev: PS/2 mouse device common for all mice
+Dec 15 00:41:04 flint kernel: [   22.484357] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input2
+Dec 15 00:41:04 flint kernel: [   22.485038] rtc_cmos rtc_cmos: rtc core: registered rtc_cmos as rtc0
+Dec 15 00:41:04 flint kernel: [   22.485241] rtc_cmos rtc_cmos: alarms up to one day, 114 bytes nvram
+Dec 15 00:41:04 flint kernel: [   22.485245] i2c /dev entries driver
+Dec 15 00:41:04 flint kernel: [   22.485270] device-mapper: uevent: version 1.0.3
+Dec 15 00:41:04 flint kernel: [   22.485297] device-mapper: ioctl: 4.34.0-ioctl (2015-10-28) initialised: dm-devel@redhat.com
+Dec 15 00:41:04 flint kernel: [   22.485308] platform eisa.0: Probing EISA bus 0
+Dec 15 00:41:04 flint kernel: [   22.485309] platform eisa.0: EISA: Cannot allocate resource for mainboard
+Dec 15 00:41:04 flint kernel: [   22.485310] platform eisa.0: Cannot allocate resource for EISA slot 1
+Dec 15 00:41:04 flint kernel: [   22.485311] platform eisa.0: Cannot allocate resource for EISA slot 2
+Dec 15 00:41:04 flint kernel: [   22.485312] platform eisa.0: Cannot allocate resource for EISA slot 3
+Dec 15 00:41:04 flint kernel: [   22.485313] platform eisa.0: Cannot allocate resource for EISA slot 4
+Dec 15 00:41:04 flint kernel: [   22.485313] platform eisa.0: Cannot allocate resource for EISA slot 5
+Dec 15 00:41:04 flint kernel: [   22.485314] platform eisa.0: Cannot allocate resource for EISA slot 6
+Dec 15 00:41:04 flint kernel: [   22.485315] platform eisa.0: Cannot allocate resource for EISA slot 7
+Dec 15 00:41:04 flint kernel: [   22.485315] platform eisa.0: Cannot allocate resource for EISA slot 8
+Dec 15 00:41:04 flint kernel: [   22.485316] platform eisa.0: EISA: Detected 0 cards
+Dec 15 00:41:04 flint kernel: [   22.485323] cpufreq-nforce2: No nForce2 chipset.
+Dec 15 00:41:04 flint kernel: [   22.485330] ledtrig-cpu: registered to indicate activity on CPUs
+Dec 15 00:41:04 flint kernel: [   22.485431] NET: Registered protocol family 10
+Dec 15 00:41:04 flint kernel: [   22.485518] NET: Registered protocol family 17
+Dec 15 00:41:04 flint kernel: [   22.485525] Key type dns_resolver registered
+Dec 15 00:41:04 flint kernel: [   22.485590] Using IPI No-Shortcut mode
+Dec 15 00:41:04 flint kernel: [   22.485636] registered taskstats version 1
+Dec 15 00:41:04 flint kernel: [   22.485642] Loading compiled-in X.509 certificates
+Dec 15 00:41:04 flint kernel: [   22.486721] Loaded X.509 cert 'Build time autogenerated kernel key: 24992bd15110f060e21faeb1eb50ca0e07d956c4'
+Dec 15 00:41:04 flint kernel: [   22.486729] zswap: loaded using pool lzo/zbud
+Dec 15 00:41:04 flint kernel: [   22.487657] Key type trusted registered
+Dec 15 00:41:04 flint kernel: [   22.489193] Key type encrypted registered
+Dec 15 00:41:04 flint kernel: [   22.489196] AppArmor: AppArmor sha1 policy hashing enabled
+Dec 15 00:41:04 flint kernel: [   22.489199] ima: No TPM chip found, activating TPM-bypass!
+Dec 15 00:41:04 flint kernel: [   22.489201] ima: Allocated hash algorithm: sha1
+Dec 15 00:41:04 flint kernel: [   22.489211] evm: HMAC attrs: 0x1
+Dec 15 00:41:04 flint kernel: [   22.489555]   Magic number: 3:145:675
+Dec 15 00:41:04 flint kernel: [   22.489573] vtconsole vtcon0: hash matches
+Dec 15 00:41:04 flint kernel: [   22.496999] rtc_cmos rtc_cmos: setting system clock to 2023-12-15 08:40:53 UTC (1702629653)
+Dec 15 00:41:04 flint kernel: [   22.497103] BIOS EDD facility v0.16 2004-Jun-25, 0 devices found
+Dec 15 00:41:04 flint kernel: [   22.497104] EDD information not available.
+Dec 15 00:41:04 flint kernel: [   22.497122] PM: Hibernation image not present or could not be loaded.
+Dec 15 00:41:04 flint kernel: [   22.497257] ata2.00: ATAPI: VBOX CD-ROM, 1.0, max UDMA/133
+Dec 15 00:41:04 flint kernel: [   22.498098] ata2.00: configured for UDMA/33
+Dec 15 00:41:04 flint kernel: [   22.498881] scsi 1:0:0:0: CD-ROM            VBOX     CD-ROM           1.0  PQ: 0 ANSI: 5
+Dec 15 00:41:04 flint kernel: [   22.501751] sr 1:0:0:0: [sr0] scsi3-mmc drive: 32x/32x xa/form2 tray
+Dec 15 00:41:04 flint kernel: [   22.501752] cdrom: Uniform CD-ROM driver Revision: 3.20
+Dec 15 00:41:04 flint kernel: [   22.501921] sr 1:0:0:0: Attached scsi CD-ROM sr0
+Dec 15 00:41:04 flint kernel: [   22.502006] sr 1:0:0:0: Attached scsi generic sg0 type 5
+Dec 15 00:41:04 flint kernel: [   22.502550] Freeing unused kernel memory: 932K
+Dec 15 00:41:04 flint kernel: [   22.514280] Write protecting the kernel text: 8096k
+Dec 15 00:41:04 flint kernel: [   22.514332] Write protecting the kernel read-only data: 3188k
+Dec 15 00:41:04 flint kernel: [   22.514333] NX-protecting the kernel data: 6240k
+Dec 15 00:41:04 flint kernel: [   22.522482] random: systemd-udevd: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.522482] random: systemd-udevd: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.523126] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.527371] random: systemd-udevd: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.527936] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.527957] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.528028] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.528054] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.528077] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.528103] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:41:04 flint kernel: [   22.546335] ACPI: Video Device [GFX0] (multi-head: yes  rom: no  post: no)
+Dec 15 00:41:04 flint kernel: [   22.546335] input: Video Bus as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/LNXVIDEO:00/input/input4
+Dec 15 00:41:04 flint kernel: [   22.556402] [drm] Initialized drm 1.1.0 20060810
+Dec 15 00:41:04 flint kernel: [   22.561909] e1000: Intel(R) PRO/1000 Network Driver - version 7.3.21-k8-NAPI
+Dec 15 00:41:04 flint kernel: [   22.561910] e1000: Copyright (c) 1999-2006 Intel Corporation.
+Dec 15 00:41:04 flint kernel: [   22.961261] input: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/serio1/input/input5
+Dec 15 00:41:04 flint kernel: [   22.982921] e1000 0000:00:03.0 eth0: (PCI:33MHz:32-bit) 08:00:27:a3:a2:73
+Dec 15 00:41:04 flint kernel: [   22.982925] e1000 0000:00:03.0 eth0: Intel(R) PRO/1000 Network Connection
+Dec 15 00:41:04 flint kernel: [   22.982960] ahci 0000:00:0d.0: version 3.0
+Dec 15 00:41:04 flint kernel: [   22.983381] ahci 0000:00:0d.0: SSS flag set, parallel bus scan disabled
+Dec 15 00:41:04 flint kernel: [   22.983722] ahci 0000:00:0d.0: AHCI 0001.0100 32 slots 1 ports 3 Gbps 0x1 impl SATA mode
+Dec 15 00:41:04 flint kernel: [   22.983723] ahci 0000:00:0d.0: flags: 64bit ncq stag only ccc 
+Dec 15 00:41:04 flint kernel: [   22.984507] scsi host2: ahci
+Dec 15 00:41:04 flint kernel: [   22.984547] ata3: SATA max UDMA/133 abar m8192@0xf0806000 port 0xf0806100 irq 21
+Dec 15 00:41:04 flint kernel: [   22.985223] e1000 0000:00:03.0 enp0s3: renamed from eth0
+Dec 15 00:41:04 flint kernel: [   22.985400] [drm] DMA map mode: Using physical TTM page addresses.
+Dec 15 00:41:04 flint kernel: [   22.985504] [drm] Capabilities:
+Dec 15 00:41:04 flint kernel: [   22.985505] [drm]   Rect copy.
+Dec 15 00:41:04 flint kernel: [   22.985505] [drm]   Cursor.
+Dec 15 00:41:04 flint kernel: [   22.985506] [drm]   Cursor bypass.
+Dec 15 00:41:04 flint kernel: [   22.985506] [drm]   Cursor bypass 2.
+Dec 15 00:41:04 flint kernel: [   22.985506] [drm]   Alpha cursor.
+Dec 15 00:41:04 flint kernel: [   22.985507] [drm]   Extended Fifo.
+Dec 15 00:41:04 flint kernel: [   22.985507] [drm]   Pitchlock.
+Dec 15 00:41:04 flint kernel: [   22.985507] [drm]   Irq mask.
+Dec 15 00:41:04 flint kernel: [   22.985508] [drm]   GMR.
+Dec 15 00:41:04 flint kernel: [   22.985508] [drm]   Traces.
+Dec 15 00:41:04 flint kernel: [   22.985509] [drm]   GMR2.
+Dec 15 00:41:04 flint kernel: [   22.985509] [drm]   Screen Object 2.
+Dec 15 00:41:04 flint kernel: [   22.985509] [drm]   Command Buffers.
+Dec 15 00:41:04 flint kernel: [   22.985510] [drm] Max GMR ids is 8192
+Dec 15 00:41:04 flint kernel: [   22.985510] [drm] Max number of GMR pages is 1048576
+Dec 15 00:41:04 flint kernel: [   22.985511] [drm] Max dedicated hypervisor surface memory is 507904 kiB
+Dec 15 00:41:04 flint kernel: [   22.985511] [drm] Maximum display memory size is 16384 kiB
+Dec 15 00:41:04 flint kernel: [   22.985512] [drm] VRAM at 0xe0000000 size is 16384 kiB
+Dec 15 00:41:04 flint kernel: [   22.985513] [drm] MMIO at 0xf0000000 size is 2048 kiB
+Dec 15 00:41:04 flint kernel: [   22.985514] [drm] global init.
+Dec 15 00:41:04 flint kernel: [   22.985551] [TTM] Zone  kernel: Available graphics memory: 439192 kiB
+Dec 15 00:41:04 flint kernel: [   22.985551] [TTM] Zone highmem: Available graphics memory: 1031036 kiB
+Dec 15 00:41:04 flint kernel: [   22.985552] [TTM] Initializing pool allocator
+Dec 15 00:41:04 flint kernel: [   22.985554] [TTM] Initializing DMA pool allocator
+Dec 15 00:41:04 flint kernel: [   22.985727] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+Dec 15 00:41:04 flint kernel: [   22.985728] [drm] No driver support for vblank timestamp query.
+Dec 15 00:41:04 flint kernel: [   22.985965] [drm] Screen Objects Display Unit initialized
+Dec 15 00:41:04 flint kernel: [   22.985997] [drm] width 720
+Dec 15 00:41:04 flint kernel: [   22.986010] [drm] height 400
+Dec 15 00:41:04 flint kernel: [   22.986026] [drm] bpp 32
+Dec 15 00:41:04 flint kernel: [   22.986191] [drm] Fifo max 0x00200000 min 0x00001000 cap 0x00000355
+Dec 15 00:41:04 flint kernel: [   22.986271] [drm] Using command buffers with DMA pool.
+Dec 15 00:41:04 flint kernel: [   22.986276] [drm] DX: no.
+Dec 15 00:41:04 flint kernel: [   22.988069] fbcon: svgadrmfb (fb0) is primary device
+Dec 15 00:41:04 flint kernel: [   23.178619] usb 2-1: new full-speed USB device number 2 using ohci-pci
+Dec 15 00:41:04 flint kernel: [   23.304535] ata3: SATA link up 3.0 Gbps (SStatus 123 SControl 300)
+Dec 15 00:41:04 flint kernel: [   23.304823] ata3.00: ATA-6: VBOX HARDDISK, 1.0, max UDMA/133
+Dec 15 00:41:04 flint kernel: [   23.304824] ata3.00: 52428800 sectors, multi 128: LBA48 NCQ (depth 31/32)
+Dec 15 00:41:04 flint kernel: [   23.305089] ata3.00: configured for UDMA/133
+Dec 15 00:41:04 flint kernel: [   23.305161] scsi 2:0:0:0: Direct-Access     ATA      VBOX HARDDISK    1.0  PQ: 0 ANSI: 5
+Dec 15 00:41:04 flint kernel: [   23.305248] sd 2:0:0:0: [sda] 52428800 512-byte logical blocks: (26.8 GB/25.0 GiB)
+Dec 15 00:41:04 flint kernel: [   23.305259] sd 2:0:0:0: [sda] Write Protect is off
+Dec 15 00:41:04 flint kernel: [   23.305260] sd 2:0:0:0: [sda] Mode Sense: 00 3a 00 00
+Dec 15 00:41:04 flint kernel: [   23.305264] sd 2:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+Dec 15 00:41:04 flint kernel: [   23.305390] sd 2:0:0:0: Attached scsi generic sg1 type 0
+Dec 15 00:41:04 flint kernel: [   23.310123]  sda: sda1 sda2 < sda5 >
+Dec 15 00:41:04 flint kernel: [   23.310210] sd 2:0:0:0: [sda] Attached SCSI disk
+Dec 15 00:41:04 flint kernel: [   23.364136] Console: switching to colour frame buffer device 100x37
+Dec 15 00:41:04 flint kernel: [   23.364557] [drm] Initialized vmwgfx 2.9.0 20150810 for 0000:00:02.0 on minor 0
+Dec 15 00:41:04 flint kernel: [   23.421658] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: (null)
+Dec 15 00:41:04 flint kernel: [   23.479183] usb 2-1: New USB device found, idVendor=80ee, idProduct=0021
+Dec 15 00:41:04 flint kernel: [   23.479185] usb 2-1: New USB device strings: Mfr=1, Product=3, SerialNumber=0
+Dec 15 00:41:04 flint kernel: [   23.479187] usb 2-1: Product: USB Tablet
+Dec 15 00:41:04 flint kernel: [   23.479187] usb 2-1: Manufacturer: VirtualBox
+Dec 15 00:41:04 flint kernel: [   32.652086] EXT4-fs (sda1): re-mounted. Opts: errors=remount-ro
+Dec 15 00:41:04 flint kernel: [   32.910093] audit: type=1400 audit(1702629663.916:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/sbin/tcpdump" pid=362 comm="apparmor_parser"
+Dec 15 00:41:04 flint kernel: [   32.944073] vgdrvHeartbeatInit: Setting up heartbeat to trigger every 2000 milliseconds
+Dec 15 00:41:04 flint kernel: [   32.944073] input: Unspecified device as /devices/pci0000:00/0000:00:04.0/input/input6
+Dec 15 00:41:04 flint kernel: [   32.944073] vboxguest: misc device minor 55, IRQ 20, I/O port d040, MMIO at 00000000f0400000 (size 0x400000)
+Dec 15 00:41:04 flint kernel: [   32.944073] vboxguest: Successfully loaded version 5.0.18_Ubuntu (interface 0x00010004)
+Dec 15 00:41:04 flint kernel: [   32.996763] hidraw: raw HID events driver (C) Jiri Kosina
+Dec 15 00:41:04 flint kernel: [   33.010618] piix4_smbus 0000:00:07.0: SMBus Host Controller at 0x4100, revision 0
+Dec 15 00:41:04 flint kernel: [   33.057112] audit: type=1400 audit(1702629664.064:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/sbin/dhclient" pid=354 comm="apparmor_parser"
+Dec 15 00:41:04 flint kernel: [   33.057304] audit: type=1400 audit(1702629664.064:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-client.action" pid=354 comm="apparmor_parser"
+Dec 15 00:41:04 flint kernel: [   33.057431] audit: type=1400 audit(1702629664.064:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-helper" pid=354 comm="apparmor_parser"
+Dec 15 00:41:04 flint kernel: [   33.057738] audit: type=1400 audit(1702629664.064:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/connman/scripts/dhclient-script" pid=354 comm="apparmor_parser"
+Dec 15 00:41:04 flint kernel: [   33.061208] random: nonblocking pool is initialized
+Dec 15 00:41:04 flint kernel: [   33.095107] usbcore: registered new interface driver usbhid
+Dec 15 00:41:04 flint kernel: [   33.095108] usbhid: USB HID core driver
+Dec 15 00:41:04 flint kernel: [   33.102203] Adding 998396k swap on /dev/sda5.  Priority:-1 extents:1 across:998396k FS
+Dec 15 00:41:04 flint kernel: [   33.125297] input: VirtualBox USB Tablet as /devices/pci0000:00/0000:00:06.0/usb2/2-1/2-1:1.0/0003:80EE:0021.0001/input/input7
+Dec 15 00:41:04 flint kernel: [   33.127158] hid-generic 0003:80EE:0021.0001: input,hidraw0: USB HID v1.10 Mouse [VirtualBox USB Tablet] on usb-0000:00:06.0-1/input0
+Dec 15 00:41:04 flint kernel: [   33.144622] snd_intel8x0 0000:00:05.0: disable (unknown or VT-d) VM optimization
+Dec 15 00:41:04 flint kernel: [   33.153552] IPv6: ADDRCONF(NETDEV_UP): enp0s3: link is not ready
+Dec 15 00:41:04 flint kernel: [   33.154198] e1000: enp0s3 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
+Dec 15 00:41:04 flint kernel: [   33.155225] IPv6: ADDRCONF(NETDEV_CHANGE): enp0s3: link becomes ready
+Dec 15 00:41:04 flint kernel: [   33.579050] snd_intel8x0 0000:00:05.0: white list rate for 1028:0177 is 48000
+Dec 15 00:46:40 flint kernel: [    0.000000] Initializing cgroup subsys cpuset
+Dec 15 00:46:40 flint kernel: [    0.000000] Initializing cgroup subsys cpu
+Dec 15 00:46:40 flint kernel: [    0.000000] Initializing cgroup subsys cpuacct
+Dec 15 00:46:40 flint kernel: [    0.000000] Linux version 4.4.0-142-generic (buildd@lcy01-amd64-022) (gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) ) #168-Ubuntu SMP Wed Jan 16 21:01:15 UTC 2019 (Ubuntu 4.4.0-142.168-generic 4.4.167)
+Dec 15 00:46:40 flint kernel: [    0.000000] KERNEL supported cpus:
+Dec 15 00:46:40 flint kernel: [    0.000000]   Intel GenuineIntel
+Dec 15 00:46:40 flint kernel: [    0.000000]   AMD AuthenticAMD
+Dec 15 00:46:40 flint kernel: [    0.000000]   NSC Geode by NSC
+Dec 15 00:46:40 flint kernel: [    0.000000]   Cyrix CyrixInstead
+Dec 15 00:46:40 flint kernel: [    0.000000]   Centaur CentaurHauls
+Dec 15 00:46:40 flint kernel: [    0.000000]   Transmeta GenuineTMx86
+Dec 15 00:46:40 flint kernel: [    0.000000]   Transmeta TransmetaCPU
+Dec 15 00:46:40 flint kernel: [    0.000000]   UMC UMC UMC UMC
+Dec 15 00:46:40 flint kernel: [    0.000000] [Firmware Bug]: TSC doesn't count with P0 frequency!
+Dec 15 00:46:40 flint kernel: [    0.000000] x86/fpu: Legacy x87 FPU detected.
+Dec 15 00:46:40 flint kernel: [    0.000000] e820: BIOS-provided physical RAM map:
+Dec 15 00:46:40 flint kernel: [    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+Dec 15 00:46:40 flint kernel: [    0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+Dec 15 00:46:40 flint kernel: [    0.000000] BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+Dec 15 00:46:40 flint kernel: [    0.000000] BIOS-e820: [mem 0x0000000000100000-0x000000007ffeffff] usable
+Dec 15 00:46:40 flint kernel: [    0.000000] BIOS-e820: [mem 0x000000007fff0000-0x000000007fffffff] ACPI data
+Dec 15 00:46:40 flint kernel: [    0.000000] BIOS-e820: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+Dec 15 00:46:40 flint kernel: [    0.000000] BIOS-e820: [mem 0x00000000fee00000-0x00000000fee00fff] reserved
+Dec 15 00:46:40 flint kernel: [    0.000000] BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+Dec 15 00:46:40 flint kernel: [    0.000000] NX (Execute Disable) protection: active
+Dec 15 00:46:40 flint kernel: [    0.000000] SMBIOS 2.5 present.
+Dec 15 00:46:40 flint kernel: [    0.000000] DMI: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+Dec 15 00:46:40 flint kernel: [    0.000000] Hypervisor detected: KVM
+Dec 15 00:46:40 flint kernel: [    0.000000] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+Dec 15 00:46:40 flint kernel: [    0.000000] e820: remove [mem 0x000a0000-0x000fffff] usable
+Dec 15 00:46:40 flint kernel: [    0.000000] e820: last_pfn = 0x7fff0 max_arch_pfn = 0x1000000
+Dec 15 00:46:40 flint kernel: [    0.000000] MTRR default type: uncachable
+Dec 15 00:46:40 flint kernel: [    0.000000] MTRR fixed ranges disabled:
+Dec 15 00:46:40 flint kernel: [    0.000000]   00000-FFFFF uncachable
+Dec 15 00:46:40 flint kernel: [    0.000000] MTRR variable ranges disabled:
+Dec 15 00:46:40 flint kernel: [    0.000000]   0 disabled
+Dec 15 00:46:40 flint kernel: [    0.000000]   1 disabled
+Dec 15 00:46:40 flint kernel: [    0.000000]   2 disabled
+Dec 15 00:46:40 flint kernel: [    0.000000]   3 disabled
+Dec 15 00:46:40 flint kernel: [    0.000000]   4 disabled
+Dec 15 00:46:40 flint kernel: [    0.000000]   5 disabled
+Dec 15 00:46:40 flint kernel: [    0.000000]   6 disabled
+Dec 15 00:46:40 flint kernel: [    0.000000]   7 disabled
+Dec 15 00:46:40 flint kernel: [    0.000000] MTRR: Disabled
+Dec 15 00:46:40 flint kernel: [    0.000000] x86/PAT: MTRRs disabled, skipping PAT initialization too.
+Dec 15 00:46:40 flint kernel: [    0.000000] CPU MTRRs all blank - virtualized system.
+Dec 15 00:46:40 flint kernel: [    0.000000] x86/PAT: Configuration [0-7]: WB  WT  UC- UC  WB  WT  UC- UC  
+Dec 15 00:46:40 flint kernel: [    0.000000] found SMP MP-table at [mem 0x0009fff0-0x0009ffff] mapped at [c009fff0]
+Dec 15 00:46:40 flint kernel: [    0.000000] Scanning 1 areas for low memory corruption
+Dec 15 00:46:40 flint kernel: [    0.000000] initial memory mapped: [mem 0x00000000-0x021fffff]
+Dec 15 00:46:40 flint kernel: [    0.000000] Base memory trampoline at [c009b000] 9b000 size 16384
+Dec 15 00:46:40 flint kernel: [    0.000000] BRK [0x01d98000, 0x01d98fff] PGTABLE
+Dec 15 00:46:40 flint kernel: [    0.000000] BRK [0x01d99000, 0x01d99fff] PGTABLE
+Dec 15 00:46:40 flint kernel: [    0.000000] RAMDISK: [mem 0x33c60000-0x35e27fff]
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: Early table checksum verification disabled
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: RSDP 0x00000000000E0000 000024 (v02 VBOX  )
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: XSDT 0x000000007FFF0030 00003C (v01 VBOX   VBOXXSDT 00000001 ASL  00000061)
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: FACP 0x000000007FFF00F0 0000F4 (v04 VBOX   VBOXFACP 00000001 ASL  00000061)
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: DSDT 0x000000007FFF0610 002353 (v02 VBOX   VBOXBIOS 00000002 INTL 20100528)
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: FACS 0x000000007FFF0200 000040
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: FACS 0x000000007FFF0200 000040
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: APIC 0x000000007FFF0240 00005C (v02 VBOX   VBOXAPIC 00000001 ASL  00000061)
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: SSDT 0x000000007FFF02A0 00036C (v01 VBOX   VBOXCPUT 00000002 INTL 20100528)
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: Local APIC address 0xfee00000
+Dec 15 00:46:40 flint kernel: [    0.000000] 1155MB HIGHMEM available.
+Dec 15 00:46:40 flint kernel: [    0.000000] 891MB LOWMEM available.
+Dec 15 00:46:40 flint kernel: [    0.000000]   mapped low ram: 0 - 37bfe000
+Dec 15 00:46:40 flint kernel: [    0.000000]   low ram: 0 - 37bfe000
+Dec 15 00:46:40 flint kernel: [    0.000000] kvm-clock: Using msrs 4b564d01 and 4b564d00
+Dec 15 00:46:40 flint kernel: [    0.000000] kvm-clock: cpu 0, msr 0:37bfd001, primary cpu clock
+Dec 15 00:46:40 flint kernel: [    0.000000] kvm-clock: using sched offset of 87368375543 cycles
+Dec 15 00:46:40 flint kernel: [    0.000000] clocksource: kvm-clock: mask: 0xffffffffffffffff max_cycles: 0x1cd42e4dffb, max_idle_ns: 881590591483 ns
+Dec 15 00:46:40 flint kernel: [    0.000000] Zone ranges:
+Dec 15 00:46:40 flint kernel: [    0.000000]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+Dec 15 00:46:40 flint kernel: [    0.000000]   Normal   [mem 0x0000000001000000-0x0000000037bfdfff]
+Dec 15 00:46:40 flint kernel: [    0.000000]   HighMem  [mem 0x0000000037bfe000-0x000000007ffeffff]
+Dec 15 00:46:40 flint kernel: [    0.000000] Movable zone start for each node
+Dec 15 00:46:40 flint kernel: [    0.000000] Early memory node ranges
+Dec 15 00:46:40 flint kernel: [    0.000000]   node   0: [mem 0x0000000000001000-0x000000000009efff]
+Dec 15 00:46:40 flint kernel: [    0.000000]   node   0: [mem 0x0000000000100000-0x000000007ffeffff]
+Dec 15 00:46:40 flint kernel: [    0.000000] Initmem setup node 0 [mem 0x0000000000001000-0x000000007ffeffff]
+Dec 15 00:46:40 flint kernel: [    0.000000] On node 0 totalpages: 524174
+Dec 15 00:46:40 flint kernel: [    0.000000]   DMA zone: 40 pages used for memmap
+Dec 15 00:46:40 flint kernel: [    0.000000]   DMA zone: 0 pages reserved
+Dec 15 00:46:40 flint kernel: [    0.000000]   DMA zone: 3998 pages, LIFO batch:0
+Dec 15 00:46:40 flint kernel: [    0.000000]   Normal zone: 2190 pages used for memmap
+Dec 15 00:46:40 flint kernel: [    0.000000]   Normal zone: 224254 pages, LIFO batch:31
+Dec 15 00:46:40 flint kernel: [    0.000000]   HighMem zone: 295922 pages, LIFO batch:31
+Dec 15 00:46:40 flint kernel: [    0.000000] Using APIC driver default
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: PM-Timer IO Port: 0x4008
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: Local APIC address 0xfee00000
+Dec 15 00:46:40 flint kernel: [    0.000000] IOAPIC[0]: apic_id 2, version 32, address 0xfec00000, GSI 0-23
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 low level)
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: IRQ0 used by override.
+Dec 15 00:46:40 flint kernel: [    0.000000] ACPI: IRQ9 used by override.
+Dec 15 00:46:40 flint kernel: [    0.000000] Using ACPI (MADT) for SMP configuration information
+Dec 15 00:46:40 flint kernel: [    0.000000] smpboot: Allowing 2 CPUs, 0 hotplug CPUs
+Dec 15 00:46:40 flint kernel: [    0.000000] PM: Registered nosave memory: [mem 0x00000000-0x00000fff]
+Dec 15 00:46:40 flint kernel: [    0.000000] PM: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+Dec 15 00:46:40 flint kernel: [    0.000000] PM: Registered nosave memory: [mem 0x000a0000-0x000effff]
+Dec 15 00:46:40 flint kernel: [    0.000000] PM: Registered nosave memory: [mem 0x000f0000-0x000fffff]
+Dec 15 00:46:40 flint kernel: [    0.000000] e820: [mem 0x80000000-0xfebfffff] available for PCI devices
+Dec 15 00:46:40 flint kernel: [    0.000000] Booting paravirtualized kernel on KVM
+Dec 15 00:46:40 flint kernel: [    0.000000] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645519600211568 ns
+Dec 15 00:46:40 flint kernel: [    0.000000] setup_percpu: NR_CPUS:8 nr_cpumask_bits:8 nr_cpu_ids:2 nr_node_ids:1
+Dec 15 00:46:40 flint kernel: [    0.000000] PERCPU: Embedded 19 pages/cpu @f67b0000 s47308 r0 d30516 u77824
+Dec 15 00:46:40 flint kernel: [    0.000000] pcpu-alloc: s47308 r0 d30516 u77824 alloc=19*4096
+Dec 15 00:46:40 flint kernel: [    0.000000] pcpu-alloc: [0] 0 [0] 1 
+Dec 15 00:46:40 flint kernel: [    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 521944
+Dec 15 00:46:40 flint kernel: [    0.000000] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-4.4.0-142-generic root=UUID=a7221f26-13f3-4261-88f1-9cac5669d0db ro quiet splash
+Dec 15 00:46:40 flint kernel: [    0.000000] PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dec 15 00:46:40 flint kernel: [    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+Dec 15 00:46:40 flint kernel: [    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Dec 15 00:46:40 flint kernel: [    0.000000] Initializing CPU#0
+Dec 15 00:46:40 flint kernel: [    0.000000] Initializing HighMem for node 0 (00037bfe:0007fff0)
+Dec 15 00:46:40 flint kernel: [    0.000000] Initializing Movable for node 0 (00000000:00000000)
+Dec 15 00:46:40 flint kernel: [    0.000000] Memory: 2026512K/2096696K available (8094K kernel code, 791K rwdata, 3180K rodata, 932K init, 800K bss, 70184K reserved, 0K cma-reserved, 1183688K highmem)
+Dec 15 00:46:40 flint kernel: [    0.000000] virtual kernel memory layout:
+Dec 15 00:46:40 flint kernel: [    0.000000]     fixmap  : 0xfff15000 - 0xfffff000   ( 936 kB)
+Dec 15 00:46:40 flint kernel: [    0.000000]     pkmap   : 0xffc00000 - 0xffe00000   (2048 kB)
+Dec 15 00:46:40 flint kernel: [    0.000000]     vmalloc : 0xf83fe000 - 0xffbfe000   ( 120 MB)
+Dec 15 00:46:40 flint kernel: [    0.000000]     lowmem  : 0xc0000000 - 0xf7bfe000   ( 891 MB)
+Dec 15 00:46:40 flint kernel: [    0.000000]       .init : 0xc1bcc000 - 0xc1cb5000   ( 932 kB)
+Dec 15 00:46:40 flint kernel: [    0.000000]       .data : 0xc17e7e54 - 0xc1bcad40   (3979 kB)
+Dec 15 00:46:40 flint kernel: [    0.000000]       .text : 0xc1000000 - 0xc17e7e54   (8095 kB)
+Dec 15 00:46:40 flint kernel: [    0.000000] Checking if this processor honours the WP bit even in supervisor mode...Ok.
+Dec 15 00:46:40 flint kernel: [    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Dec 15 00:46:40 flint kernel: [    0.000000] Hierarchical RCU implementation.
+Dec 15 00:46:40 flint kernel: [    0.000000] 	Build-time adjustment of leaf fanout to 32.
+Dec 15 00:46:40 flint kernel: [    0.000000] 	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=2.
+Dec 15 00:46:40 flint kernel: [    0.000000] RCU: Adjusting geometry for rcu_fanout_leaf=32, nr_cpu_ids=2
+Dec 15 00:46:40 flint kernel: [    0.000000] NR_IRQS:2304 nr_irqs:440 16
+Dec 15 00:46:40 flint kernel: [    0.000000] CPU 0 irqstacks, hard=f6038000 soft=f603a000
+Dec 15 00:46:40 flint kernel: [    0.000000] Console: colour VGA+ 80x25
+Dec 15 00:46:40 flint kernel: [    0.000000] console [tty0] enabled
+Dec 15 00:46:40 flint kernel: [    0.000000] allocated 2097152 bytes of page_ext
+Dec 15 00:46:40 flint kernel: [    0.000000] tsc: Detected 4491.472 MHz processor
+Dec 15 00:46:40 flint kernel: [    0.074265] Calibrating delay loop (skipped) preset value.. 8982.94 BogoMIPS (lpj=17965888)
+Dec 15 00:46:40 flint kernel: [    0.074267] pid_max: default: 32768 minimum: 301
+Dec 15 00:46:40 flint kernel: [    0.074270] ACPI: Core revision 20150930
+Dec 15 00:46:40 flint kernel: [    0.074812] ACPI: 2 ACPI AML tables successfully acquired and loaded
+Dec 15 00:46:40 flint kernel: [    0.074819] Security Framework initialized
+Dec 15 00:46:40 flint kernel: [    0.074820] Yama: becoming mindful.
+Dec 15 00:46:40 flint kernel: [    0.074862] AppArmor: AppArmor initialized
+Dec 15 00:46:40 flint kernel: [    0.074877] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+Dec 15 00:46:40 flint kernel: [    0.074877] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+Dec 15 00:46:40 flint kernel: [    0.075107] Initializing cgroup subsys io
+Dec 15 00:46:40 flint kernel: [    0.075109] Initializing cgroup subsys memory
+Dec 15 00:46:40 flint kernel: [    0.075111] Initializing cgroup subsys devices
+Dec 15 00:46:40 flint kernel: [    0.075113] Initializing cgroup subsys freezer
+Dec 15 00:46:40 flint kernel: [    0.075113] Initializing cgroup subsys net_cls
+Dec 15 00:46:40 flint kernel: [    0.075115] Initializing cgroup subsys perf_event
+Dec 15 00:46:40 flint kernel: [    0.075115] Initializing cgroup subsys net_prio
+Dec 15 00:46:40 flint kernel: [    0.075140] Initializing cgroup subsys hugetlb
+Dec 15 00:46:40 flint kernel: [    0.075140] Initializing cgroup subsys pids
+Dec 15 00:46:40 flint kernel: [    0.075608] mce: CPU supports 0 MCE banks
+Dec 15 00:46:40 flint kernel: [    0.075649] Last level iTLB entries: 4KB 512, 2MB 512, 4MB 256
+Dec 15 00:46:40 flint kernel: [    0.075649] Last level dTLB entries: 4KB 3072, 2MB 3072, 4MB 1536, 1GB 0
+Dec 15 00:46:40 flint kernel: [    0.075650] Spectre V2 : Spectre mitigation: LFENCE not serializing. Switching to generic retpoline
+Dec 15 00:46:40 flint kernel: [    0.076988] Spectre V2 : Mitigation: Full generic retpoline
+Dec 15 00:46:40 flint kernel: [    0.076989] Spectre V2 : Spectre v2 / SpectreRSB mitigation: Filling RSB on context switch
+Dec 15 00:46:40 flint kernel: [    0.076989] Speculative Store Bypass: Vulnerable
+Dec 15 00:46:40 flint kernel: [    0.091357] Freeing SMP alternatives memory: 36K
+Dec 15 00:46:40 flint kernel: [    0.114290] ftrace: allocating 31552 entries in 62 pages
+Dec 15 00:46:40 flint kernel: [    0.298654] smpboot: APIC(0) Converting physical 0 to logical package 0
+Dec 15 00:46:40 flint kernel: [    0.298657] smpboot: Max logical packages: 1
+Dec 15 00:46:40 flint kernel: [    0.298694] Enabling APIC mode:  Flat.  Using 1 I/O APICs
+Dec 15 00:46:40 flint kernel: [    0.303929] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+Dec 15 00:46:40 flint kernel: [    0.411418] smpboot: CPU0: AMD Ryzen 7 7700X 8-Core Processor (family: 0x19, model: 0x61, stepping: 0x2)
+Dec 15 00:46:40 flint kernel: [    0.411429] Performance Events: Broken PMU hardware detected, using software events only.
+Dec 15 00:46:40 flint kernel: [    0.411525] Failed to access perfctr msr (MSR c0010007 is 0)
+Dec 15 00:46:40 flint kernel: [    0.437865] KVM setup paravirtual spinlock
+Dec 15 00:46:40 flint kernel: [    0.440272] CPU 1 irqstacks, hard=f634a000 soft=f634c000
+Dec 15 00:46:40 flint kernel: [    0.440273] x86: Booting SMP configuration:
+Dec 15 00:46:40 flint kernel: [    0.440274] .... node  #0, CPUs:      #1
+Dec 15 00:46:40 flint kernel: [1266874802.341176] Initializing CPU#1
+Dec 15 00:46:40 flint kernel: [   10.072929] kvm-clock: cpu 1, msr 0:37bfd041, secondary cpu clock
+Dec 15 00:46:40 flint kernel: [   10.073875] mce: CPU supports 0 MCE banks
+Dec 15 00:46:40 flint kernel: [    0.443660] TSC synchronization [CPU#0 -> CPU#1]:
+Dec 15 00:46:40 flint kernel: [    0.443662] Measured 73261 cycles TSC warp between CPUs, turning off TSC clock.
+Dec 15 00:46:40 flint kernel: [    0.443664] tsc: Marking TSC unstable due to check_tsc_sync_source failed
+Dec 15 00:46:40 flint kernel: [    0.443820] x86: Booted up 1 node, 2 CPUs
+Dec 15 00:46:40 flint kernel: [    0.443821] smpboot: Total of 2 processors activated (17965.88 BogoMIPS)
+Dec 15 00:46:40 flint kernel: [    0.048188] devtmpfs: initialized
+Dec 15 00:46:40 flint kernel: [    0.048235] evm: security.selinux
+Dec 15 00:46:40 flint kernel: [    0.048235] evm: security.SMACK64
+Dec 15 00:46:40 flint kernel: [    0.048236] evm: security.SMACK64EXEC
+Dec 15 00:46:40 flint kernel: [    0.048236] evm: security.SMACK64TRANSMUTE
+Dec 15 00:46:40 flint kernel: [    0.048237] evm: security.SMACK64MMAP
+Dec 15 00:46:40 flint kernel: [    0.048237] evm: security.ima
+Dec 15 00:46:40 flint kernel: [    0.048238] evm: security.capability
+Dec 15 00:46:40 flint kernel: [    0.048421] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+Dec 15 00:46:40 flint kernel: [    0.048423] futex hash table entries: 512 (order: 3, 32768 bytes)
+Dec 15 00:46:40 flint kernel: [    0.052166] pinctrl core: initialized pinctrl subsystem
+Dec 15 00:46:40 flint kernel: [    0.052317] RTC time:  8:46:09, date: 12/15/23
+Dec 15 00:46:40 flint kernel: [    0.052517] NET: Registered protocol family 16
+Dec 15 00:46:40 flint kernel: [    0.052592] EISA bus registered
+Dec 15 00:46:40 flint kernel: [    0.064005] cpuidle: using governor ladder
+Dec 15 00:46:40 flint kernel: [    0.076007] cpuidle: using governor menu
+Dec 15 00:46:40 flint kernel: [    0.076014] PCCT header not found.
+Dec 15 00:46:40 flint kernel: [    0.077029] ACPI: bus type PCI registered
+Dec 15 00:46:40 flint kernel: [    0.077031] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+Dec 15 00:46:40 flint kernel: [    0.077386] PCI : PCI BIOS area is rw and x. Use pci=nobios if you want it NX.
+Dec 15 00:46:40 flint kernel: [    0.077388] PCI: PCI BIOS revision 2.10 entry at 0xfda26, last bus=0
+Dec 15 00:46:40 flint kernel: [    0.077388] PCI: Using configuration type 1 for base access
+Dec 15 00:46:40 flint kernel: [    0.077389] PCI: Using configuration type 1 for extended access
+Dec 15 00:46:40 flint kernel: [    0.088246] ACPI: Added _OSI(Module Device)
+Dec 15 00:46:40 flint kernel: [    0.088247] ACPI: Added _OSI(Processor Device)
+Dec 15 00:46:40 flint kernel: [    0.088248] ACPI: Added _OSI(3.0 _SCP Extensions)
+Dec 15 00:46:40 flint kernel: [    0.088248] ACPI: Added _OSI(Processor Aggregator Device)
+Dec 15 00:46:40 flint kernel: [    0.088683] ACPI: Executed 1 blocks of module-level executable AML code
+Dec 15 00:46:40 flint kernel: [    0.092031] ACPI: Interpreter enabled
+Dec 15 00:46:40 flint kernel: [    0.092037] ACPI: (supports S0 S5)
+Dec 15 00:46:40 flint kernel: [    0.092038] ACPI: Using IOAPIC for interrupt routing
+Dec 15 00:46:40 flint kernel: [    0.092149] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+Dec 15 00:46:40 flint kernel: [    0.094391] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+Dec 15 00:46:40 flint kernel: [    0.094394] acpi PNP0A03:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI]
+Dec 15 00:46:40 flint kernel: [    0.094783] acpi PNP0A03:00: _OSC: platform does not support [PCIeCapability]
+Dec 15 00:46:40 flint kernel: [    0.094974] acpi PNP0A03:00: _OSC: not requesting control; platform does not support [PCIeCapability]
+Dec 15 00:46:40 flint kernel: [    0.094975] acpi PNP0A03:00: _OSC: OS requested [PCIeHotplug PME AER PCIeCapability]
+Dec 15 00:46:40 flint kernel: [    0.094976] acpi PNP0A03:00: _OSC: platform willing to grant [PCIeHotplug PME AER]
+Dec 15 00:46:40 flint kernel: [    0.094977] acpi PNP0A03:00: _OSC failed (AE_SUPPORT); disabling ASPM
+Dec 15 00:46:40 flint kernel: [    0.095216] PCI host bridge to bus 0000:00
+Dec 15 00:46:40 flint kernel: [    0.095218] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+Dec 15 00:46:40 flint kernel: [    0.095219] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+Dec 15 00:46:40 flint kernel: [    0.095220] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+Dec 15 00:46:40 flint kernel: [    0.095221] pci_bus 0000:00: root bus resource [mem 0x80000000-0xfdffffff window]
+Dec 15 00:46:40 flint kernel: [    0.095222] pci_bus 0000:00: root bus resource [bus 00-ff]
+Dec 15 00:46:40 flint kernel: [    0.095270] pci 0000:00:00.0: [8086:1237] type 00 class 0x060000
+Dec 15 00:46:40 flint kernel: [    0.096185] pci 0000:00:01.0: [8086:7000] type 00 class 0x060100
+Dec 15 00:46:40 flint kernel: [    0.096944] pci 0000:00:01.1: [8086:7111] type 00 class 0x01018a
+Dec 15 00:46:40 flint kernel: [    0.097371] pci 0000:00:01.1: reg 0x20: [io  0xd000-0xd00f]
+Dec 15 00:46:40 flint kernel: [    0.097561] pci 0000:00:01.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+Dec 15 00:46:40 flint kernel: [    0.097561] pci 0000:00:01.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+Dec 15 00:46:40 flint kernel: [    0.097562] pci 0000:00:01.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+Dec 15 00:46:40 flint kernel: [    0.097563] pci 0000:00:01.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+Dec 15 00:46:40 flint kernel: [    0.097801] pci 0000:00:02.0: [15ad:0405] type 00 class 0x030000
+Dec 15 00:46:40 flint kernel: [    0.098307] pci 0000:00:02.0: reg 0x10: [io  0xd010-0xd01f]
+Dec 15 00:46:40 flint kernel: [    0.098723] pci 0000:00:02.0: reg 0x14: [mem 0xe0000000-0xe0ffffff pref]
+Dec 15 00:46:40 flint kernel: [    0.099161] pci 0000:00:02.0: reg 0x18: [mem 0xf0000000-0xf01fffff]
+Dec 15 00:46:40 flint kernel: [    0.101082] pci 0000:00:03.0: [8086:100e] type 00 class 0x020000
+Dec 15 00:46:40 flint kernel: [    0.101368] pci 0000:00:03.0: reg 0x10: [mem 0xf0200000-0xf021ffff]
+Dec 15 00:46:40 flint kernel: [    0.101552] pci 0000:00:03.0: reg 0x18: [io  0xd020-0xd027]
+Dec 15 00:46:40 flint kernel: [    0.102277] pci 0000:00:04.0: [80ee:cafe] type 00 class 0x088000
+Dec 15 00:46:40 flint kernel: [    0.102518] pci 0000:00:04.0: reg 0x10: [io  0xd040-0xd05f]
+Dec 15 00:46:40 flint kernel: [    0.102691] pci 0000:00:04.0: reg 0x14: [mem 0xf0400000-0xf07fffff]
+Dec 15 00:46:40 flint kernel: [    0.102879] pci 0000:00:04.0: reg 0x18: [mem 0xf0800000-0xf0803fff pref]
+Dec 15 00:46:40 flint kernel: [    0.104139] pci 0000:00:05.0: [8086:2415] type 00 class 0x040100
+Dec 15 00:46:40 flint kernel: [    0.104271] pci 0000:00:05.0: reg 0x10: [io  0xd100-0xd1ff]
+Dec 15 00:46:40 flint kernel: [    0.104348] pci 0000:00:05.0: reg 0x14: [io  0xd200-0xd23f]
+Dec 15 00:46:40 flint kernel: [    0.104922] pci 0000:00:06.0: [106b:003f] type 00 class 0x0c0310
+Dec 15 00:46:40 flint kernel: [    0.105112] pci 0000:00:06.0: reg 0x10: [mem 0xf0804000-0xf0804fff]
+Dec 15 00:46:40 flint kernel: [    0.105946] pci 0000:00:07.0: [8086:7113] type 00 class 0x068000
+Dec 15 00:46:40 flint kernel: [    0.106567] pci 0000:00:07.0: quirk: [io  0x4000-0x403f] claimed by PIIX4 ACPI
+Dec 15 00:46:40 flint kernel: [    0.106579] pci 0000:00:07.0: quirk: [io  0x4100-0x410f] claimed by PIIX4 SMB
+Dec 15 00:46:40 flint kernel: [    0.106915] pci 0000:00:0b.0: [8086:265c] type 00 class 0x0c0320
+Dec 15 00:46:40 flint kernel: [    0.107099] pci 0000:00:0b.0: reg 0x10: [mem 0xf0805000-0xf0805fff]
+Dec 15 00:46:40 flint kernel: [    0.108477] pci 0000:00:0d.0: [8086:2829] type 00 class 0x010601
+Dec 15 00:46:40 flint kernel: [    0.108716] pci 0000:00:0d.0: reg 0x10: [io  0xd240-0xd247]
+Dec 15 00:46:40 flint kernel: [    0.108803] pci 0000:00:0d.0: reg 0x14: [io  0xd248-0xd24b]
+Dec 15 00:46:40 flint kernel: [    0.108889] pci 0000:00:0d.0: reg 0x18: [io  0xd250-0xd257]
+Dec 15 00:46:40 flint kernel: [    0.108977] pci 0000:00:0d.0: reg 0x1c: [io  0xd258-0xd25b]
+Dec 15 00:46:40 flint kernel: [    0.109066] pci 0000:00:0d.0: reg 0x20: [io  0xd260-0xd26f]
+Dec 15 00:46:40 flint kernel: [    0.109155] pci 0000:00:0d.0: reg 0x24: [mem 0xf0806000-0xf0807fff]
+Dec 15 00:46:40 flint kernel: [    0.109743] pci_bus 0000:00: on NUMA node 0
+Dec 15 00:46:40 flint kernel: [    0.110352] ACPI: PCI Interrupt Link [LNKA] (IRQs 5 9 10 *11)
+Dec 15 00:46:40 flint kernel: [    0.110499] ACPI: PCI Interrupt Link [LNKB] (IRQs 5 9 *10 11)
+Dec 15 00:46:40 flint kernel: [    0.110557] ACPI: PCI Interrupt Link [LNKC] (IRQs 5 *9 10 11)
+Dec 15 00:46:40 flint kernel: [    0.110615] ACPI: PCI Interrupt Link [LNKD] (IRQs 5 9 10 *11)
+Dec 15 00:46:40 flint kernel: [    0.110719] ACPI: Enabled 2 GPEs in block 00 to 07
+Dec 15 00:46:40 flint kernel: [    0.110860] vgaarb: setting as boot device: PCI:0000:00:02.0
+Dec 15 00:46:40 flint kernel: [    0.110860] vgaarb: device added: PCI:0000:00:02.0,decodes=io+mem,owns=io+mem,locks=none
+Dec 15 00:46:40 flint kernel: [    0.110860] vgaarb: loaded
+Dec 15 00:46:40 flint kernel: [    0.110860] vgaarb: bridge control possible 0000:00:02.0
+Dec 15 00:46:40 flint kernel: [    0.110860] SCSI subsystem initialized
+Dec 15 00:46:40 flint kernel: [    0.110860] libata version 3.00 loaded.
+Dec 15 00:46:40 flint kernel: [    0.110860] ACPI: bus type USB registered
+Dec 15 00:46:40 flint kernel: [    0.110860] usbcore: registered new interface driver usbfs
+Dec 15 00:46:40 flint kernel: [    0.110860] usbcore: registered new interface driver hub
+Dec 15 00:46:40 flint kernel: [    0.110860] usbcore: registered new device driver usb
+Dec 15 00:46:40 flint kernel: [    0.110860] PCI: Using ACPI for IRQ routing
+Dec 15 00:46:40 flint kernel: [    0.110860] PCI: pci_cache_line_size set to 64 bytes
+Dec 15 00:46:40 flint kernel: [    0.110860] e820: reserve RAM buffer [mem 0x0009fc00-0x0009ffff]
+Dec 15 00:46:40 flint kernel: [    0.110860] e820: reserve RAM buffer [mem 0x7fff0000-0x7fffffff]
+Dec 15 00:46:40 flint kernel: [    0.110860] NetLabel: Initializing
+Dec 15 00:46:40 flint kernel: [    0.110860] NetLabel:  domain hash size = 128
+Dec 15 00:46:40 flint kernel: [    0.110860] NetLabel:  protocols = UNLABELED CIPSOv4
+Dec 15 00:46:40 flint kernel: [    0.110860] NetLabel:  unlabeled traffic allowed by default
+Dec 15 00:46:40 flint kernel: [    0.112054] amd_nb: Cannot enumerate AMD northbridges
+Dec 15 00:46:40 flint kernel: [    0.112147] clocksource: Switched to clocksource kvm-clock
+Dec 15 00:46:40 flint kernel: [    9.752635] AppArmor: AppArmor Filesystem Enabled
+Dec 15 00:46:40 flint kernel: [    9.752662] pnp: PnP ACPI init
+Dec 15 00:46:40 flint kernel: [    9.752725] pnp 00:00: Plug and Play ACPI device, IDs PNP0303 (active)
+Dec 15 00:46:40 flint kernel: [    9.752761] pnp 00:01: Plug and Play ACPI device, IDs PNP0f03 (active)
+Dec 15 00:46:40 flint kernel: [    9.753142] pnp: PnP ACPI: found 2 devices
+Dec 15 00:46:40 flint kernel: [    9.753145] PnPBIOS: Disabled by ACPI PNP
+Dec 15 00:46:40 flint kernel: [    9.799654] clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+Dec 15 00:46:40 flint kernel: [    9.799657] pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7 window]
+Dec 15 00:46:40 flint kernel: [    9.799657] pci_bus 0000:00: resource 5 [io  0x0d00-0xffff window]
+Dec 15 00:46:40 flint kernel: [    9.799657] pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff window]
+Dec 15 00:46:40 flint kernel: [    9.799657] pci_bus 0000:00: resource 7 [mem 0x80000000-0xfdffffff window]
+Dec 15 00:46:40 flint kernel: [    9.799657] NET: Registered protocol family 2
+Dec 15 00:46:40 flint kernel: [    9.799698] TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+Dec 15 00:46:40 flint kernel: [    9.799698] TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+Dec 15 00:46:40 flint kernel: [    9.799698] TCP: Hash tables configured (established 8192 bind 8192)
+Dec 15 00:46:40 flint kernel: [    9.799698] UDP hash table entries: 512 (order: 2, 16384 bytes)
+Dec 15 00:46:40 flint kernel: [    9.799698] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+Dec 15 00:46:40 flint kernel: [    9.799698] NET: Registered protocol family 1
+Dec 15 00:46:40 flint kernel: [    9.799698] pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+Dec 15 00:46:40 flint kernel: [    9.799698] pci 0000:00:01.0: Activating ISA DMA hang workarounds
+Dec 15 00:46:40 flint kernel: [    9.799698] pci 0000:00:02.0: Video device with shadowed ROM
+Dec 15 00:46:40 flint kernel: [    9.799698] PCI: CLS 0 bytes, default 64
+Dec 15 00:46:40 flint kernel: [    9.799698] Unpacking initramfs...
+Dec 15 00:46:40 flint kernel: [    9.800000] Freeing initrd memory: 34592K
+Dec 15 00:46:40 flint kernel: [    9.800000] platform rtc_cmos: registered platform RTC device (no PNP device found)
+Dec 15 00:46:40 flint kernel: [    9.800000] Scanning for low memory corruption every 60 seconds
+Dec 15 00:46:40 flint kernel: [   10.079641] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x40bdf03ca93, max_idle_ns: 440795295298 ns
+Dec 15 00:46:40 flint kernel: [   10.082231] audit: initializing netlink subsys (disabled)
+Dec 15 00:46:40 flint kernel: [   10.082240] audit: type=2000 audit(1702630068.076:1): initialized
+Dec 15 00:46:40 flint kernel: [   10.082365] Initialise system trusted keyring
+Dec 15 00:46:40 flint kernel: [   10.082602] HugeTLB registered 2 MB page size, pre-allocated 0 pages
+Dec 15 00:46:40 flint kernel: [   10.082602] zbud: loaded
+Dec 15 00:46:40 flint kernel: [   10.083626] VFS: Disk quotas dquot_6.6.0
+Dec 15 00:46:40 flint kernel: [   10.083651] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+Dec 15 00:46:40 flint kernel: [   10.083742] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+Dec 15 00:46:40 flint kernel: [   10.084005] fuse init (API version 7.23)
+Dec 15 00:46:40 flint kernel: [   10.084241] Key type big_key registered
+Dec 15 00:46:40 flint kernel: [   10.084241] Allocating IMA MOK and blacklist keyrings.
+Dec 15 00:46:40 flint kernel: [   10.089500] Key type asymmetric registered
+Dec 15 00:46:40 flint kernel: [   10.089500] Asymmetric key parser 'x509' registered
+Dec 15 00:46:40 flint kernel: [   10.089500] bounce: pool size: 64 pages
+Dec 15 00:46:40 flint kernel: [   10.089500] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 249)
+Dec 15 00:46:40 flint kernel: [   10.089701] io scheduler noop registered
+Dec 15 00:46:40 flint kernel: [   10.089701] io scheduler deadline registered (default)
+Dec 15 00:46:40 flint kernel: [   10.089701] io scheduler cfq registered
+Dec 15 00:46:40 flint kernel: [   10.089701] pci_hotplug: PCI Hot Plug PCI Core version: 0.5
+Dec 15 00:46:40 flint kernel: [   10.089701] pciehp: PCI Express Hot Plug Controller Driver version: 0.4
+Dec 15 00:46:40 flint kernel: [   10.089701] ACPI: AC Adapter [AC] (on-line)
+Dec 15 00:46:40 flint kernel: [   10.089701] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+Dec 15 00:46:40 flint kernel: [   10.089701] ACPI: Power Button [PWRF]
+Dec 15 00:46:40 flint kernel: [   10.089701] input: Sleep Button as /devices/LNXSYSTM:00/LNXSLPBN:00/input/input1
+Dec 15 00:46:40 flint kernel: [   10.089701] ACPI: Sleep Button [SLPF]
+Dec 15 00:46:40 flint kernel: [   10.090170] GHES: HEST is not enabled!
+Dec 15 00:46:40 flint kernel: [   10.090271] isapnp: Scanning for PnP cards...
+Dec 15 00:46:40 flint kernel: [   10.090170] Serial: 8250/16550 driver, 32 ports, IRQ sharing enabled
+Dec 15 00:46:40 flint kernel: [   10.090170] Linux agpgart interface v0.103
+Dec 15 00:46:40 flint kernel: [   10.096686] loop: module loaded
+Dec 15 00:46:40 flint kernel: [   10.096756] ata_piix 0000:00:01.1: version 2.13
+Dec 15 00:46:40 flint kernel: [   10.097360] scsi host0: ata_piix
+Dec 15 00:46:40 flint kernel: [   10.097412] scsi host1: ata_piix
+Dec 15 00:46:40 flint kernel: [   10.097430] ata1: PATA max UDMA/33 cmd 0x1f0 ctl 0x3f6 bmdma 0xd000 irq 14
+Dec 15 00:46:40 flint kernel: [   10.097431] ata2: PATA max UDMA/33 cmd 0x170 ctl 0x376 bmdma 0xd008 irq 15
+Dec 15 00:46:40 flint kernel: [   10.097464] libphy: Fixed MDIO Bus: probed
+Dec 15 00:46:40 flint kernel: [   10.097465] tun: Universal TUN/TAP device driver, 1.6
+Dec 15 00:46:40 flint kernel: [   10.097465] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+Dec 15 00:46:40 flint kernel: [   10.097514] PPP generic driver version 2.4.2
+Dec 15 00:46:40 flint kernel: [   10.097538] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+Dec 15 00:46:40 flint kernel: [   10.097540] ehci-pci: EHCI PCI platform driver
+Dec 15 00:46:40 flint kernel: [   10.097862] ehci-pci 0000:00:0b.0: EHCI Host Controller
+Dec 15 00:46:40 flint kernel: [   10.097866] ehci-pci 0000:00:0b.0: new USB bus registered, assigned bus number 1
+Dec 15 00:46:40 flint kernel: [   10.098279] ehci-pci 0000:00:0b.0: irq 19, io mem 0xf0805000
+Dec 15 00:46:40 flint kernel: [   10.144000] isapnp: No Plug & Play device found
+Dec 15 00:46:40 flint kernel: [   10.631700] ehci-pci 0000:00:0b.0: USB 2.0 started, EHCI 1.00
+Dec 15 00:46:40 flint kernel: [   10.647587] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+Dec 15 00:46:40 flint kernel: [   10.647589] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+Dec 15 00:46:40 flint kernel: [   10.647590] usb usb1: Product: EHCI Host Controller
+Dec 15 00:46:40 flint kernel: [   10.647591] usb usb1: Manufacturer: Linux 4.4.0-142-generic ehci_hcd
+Dec 15 00:46:40 flint kernel: [   10.647592] usb usb1: SerialNumber: 0000:00:0b.0
+Dec 15 00:46:40 flint kernel: [   10.647709] hub 1-0:1.0: USB hub found
+Dec 15 00:46:40 flint kernel: [   10.647713] hub 1-0:1.0: 12 ports detected
+Dec 15 00:46:40 flint kernel: [   10.647960] ehci-platform: EHCI generic platform driver
+Dec 15 00:46:40 flint kernel: [   10.647969] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+Dec 15 00:46:40 flint kernel: [   10.647972] ohci-pci: OHCI PCI platform driver
+Dec 15 00:46:40 flint kernel: [   10.647925] ata2.00: ATAPI: VBOX CD-ROM, 1.0, max UDMA/133
+Dec 15 00:46:40 flint kernel: [   10.648390] ohci-pci 0000:00:06.0: OHCI PCI host controller
+Dec 15 00:46:40 flint kernel: [   10.648393] ohci-pci 0000:00:06.0: new USB bus registered, assigned bus number 2
+Dec 15 00:46:40 flint kernel: [   10.648579] ohci-pci 0000:00:06.0: irq 22, io mem 0xf0804000
+Dec 15 00:46:40 flint kernel: [   10.647925] ata2.00: configured for UDMA/33
+Dec 15 00:46:40 flint kernel: [   10.649595] scsi 1:0:0:0: CD-ROM            VBOX     CD-ROM           1.0  PQ: 0 ANSI: 5
+Dec 15 00:46:40 flint kernel: [   10.657227] sr 1:0:0:0: [sr0] scsi3-mmc drive: 32x/32x xa/form2 tray
+Dec 15 00:46:40 flint kernel: [   10.657227] cdrom: Uniform CD-ROM driver Revision: 3.20
+Dec 15 00:46:40 flint kernel: [   10.657468] sr 1:0:0:0: Attached scsi CD-ROM sr0
+Dec 15 00:46:40 flint kernel: [   10.657712] sr 1:0:0:0: Attached scsi generic sg0 type 5
+Dec 15 00:46:40 flint kernel: [   10.706172] usb usb2: New USB device found, idVendor=1d6b, idProduct=0001
+Dec 15 00:46:40 flint kernel: [   10.706172] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+Dec 15 00:46:40 flint kernel: [   10.706172] usb usb2: Product: OHCI PCI host controller
+Dec 15 00:46:40 flint kernel: [   10.706172] usb usb2: Manufacturer: Linux 4.4.0-142-generic ohci_hcd
+Dec 15 00:46:40 flint kernel: [   10.706172] usb usb2: SerialNumber: 0000:00:06.0
+Dec 15 00:46:40 flint kernel: [   10.706596] hub 2-0:1.0: USB hub found
+Dec 15 00:46:40 flint kernel: [   10.706625] hub 2-0:1.0: 12 ports detected
+Dec 15 00:46:40 flint kernel: [   10.707828] ohci-platform: OHCI generic platform driver
+Dec 15 00:46:40 flint kernel: [   10.707828] uhci_hcd: USB Universal Host Controller Interface driver
+Dec 15 00:46:40 flint kernel: [   10.707828] i8042: PNP: PS/2 Controller [PNP0303:PS2K,PNP0f03:PS2M] at 0x60,0x64 irq 1,12
+Dec 15 00:46:40 flint kernel: [   10.708826] serio: i8042 KBD port at 0x60,0x64 irq 1
+Dec 15 00:46:40 flint kernel: [   10.708826] serio: i8042 AUX port at 0x60,0x64 irq 12
+Dec 15 00:46:40 flint kernel: [   10.709754] mousedev: PS/2 mouse device common for all mice
+Dec 15 00:46:40 flint kernel: [   10.711049] rtc_cmos rtc_cmos: rtc core: registered rtc_cmos as rtc0
+Dec 15 00:46:40 flint kernel: [   10.711049] rtc_cmos rtc_cmos: alarms up to one day, 114 bytes nvram
+Dec 15 00:46:40 flint kernel: [   10.711049] i2c /dev entries driver
+Dec 15 00:46:40 flint kernel: [   10.711049] device-mapper: uevent: version 1.0.3
+Dec 15 00:46:40 flint kernel: [   10.711518] device-mapper: ioctl: 4.34.0-ioctl (2015-10-28) initialised: dm-devel@redhat.com
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Probing EISA bus 0
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: EISA: Cannot allocate resource for mainboard
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Cannot allocate resource for EISA slot 1
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Cannot allocate resource for EISA slot 2
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Cannot allocate resource for EISA slot 3
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Cannot allocate resource for EISA slot 4
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Cannot allocate resource for EISA slot 5
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Cannot allocate resource for EISA slot 6
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Cannot allocate resource for EISA slot 7
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: Cannot allocate resource for EISA slot 8
+Dec 15 00:46:40 flint kernel: [   10.711518] platform eisa.0: EISA: Detected 0 cards
+Dec 15 00:46:40 flint kernel: [   10.711518] cpufreq-nforce2: No nForce2 chipset.
+Dec 15 00:46:40 flint kernel: [   10.711518] ledtrig-cpu: registered to indicate activity on CPUs
+Dec 15 00:46:40 flint kernel: [   10.711519] NET: Registered protocol family 10
+Dec 15 00:46:40 flint kernel: [   10.712156] NET: Registered protocol family 17
+Dec 15 00:46:40 flint kernel: [   10.712156] Key type dns_resolver registered
+Dec 15 00:46:40 flint kernel: [   10.712487] Using IPI No-Shortcut mode
+Dec 15 00:46:40 flint kernel: [   10.712781] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input2
+Dec 15 00:46:40 flint kernel: [   10.713222] registered taskstats version 1
+Dec 15 00:46:40 flint kernel: [   10.713222] Loading compiled-in X.509 certificates
+Dec 15 00:46:40 flint kernel: [   10.713222] Loaded X.509 cert 'Build time autogenerated kernel key: 24992bd15110f060e21faeb1eb50ca0e07d956c4'
+Dec 15 00:46:40 flint kernel: [   10.713222] zswap: loaded using pool lzo/zbud
+Dec 15 00:46:40 flint kernel: [   10.716682] Key type trusted registered
+Dec 15 00:46:40 flint kernel: [   10.721432] Key type encrypted registered
+Dec 15 00:46:40 flint kernel: [   10.721436] AppArmor: AppArmor sha1 policy hashing enabled
+Dec 15 00:46:40 flint kernel: [   10.721439] ima: No TPM chip found, activating TPM-bypass!
+Dec 15 00:46:40 flint kernel: [   10.721441] ima: Allocated hash algorithm: sha1
+Dec 15 00:46:40 flint kernel: [   10.721472] evm: HMAC attrs: 0x1
+Dec 15 00:46:40 flint kernel: [   10.721922]   Magic number: 3:248:776
+Dec 15 00:46:40 flint kernel: [   10.722147] rtc_cmos rtc_cmos: setting system clock to 2023-12-15 08:46:10 UTC (1702629970)
+Dec 15 00:46:40 flint kernel: [   10.722246] BIOS EDD facility v0.16 2004-Jun-25, 0 devices found
+Dec 15 00:46:40 flint kernel: [   10.722246] EDD information not available.
+Dec 15 00:46:40 flint kernel: [   10.722266] PM: Hibernation image not present or could not be loaded.
+Dec 15 00:46:40 flint kernel: [   10.722593] Freeing unused kernel memory: 932K
+Dec 15 00:46:40 flint kernel: [   10.739093] Write protecting the kernel text: 8096k
+Dec 15 00:46:40 flint kernel: [   10.739170] Write protecting the kernel read-only data: 3188k
+Dec 15 00:46:40 flint kernel: [   10.739171] NX-protecting the kernel data: 6240k
+Dec 15 00:46:40 flint kernel: [   10.748564] random: systemd-udevd: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.748602] random: systemd-udevd: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.748869] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.755661] random: systemd-udevd: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.752623] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.752623] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.752623] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.752623] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.752623] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.752623] random: udevadm: uninitialized urandom read (16 bytes read, 0 bits of entropy available)
+Dec 15 00:46:40 flint kernel: [   10.771495] ACPI: Video Device [GFX0] (multi-head: yes  rom: no  post: no)
+Dec 15 00:46:40 flint kernel: [   10.771495] input: Video Bus as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/LNXVIDEO:00/input/input4
+Dec 15 00:46:40 flint kernel: [   10.785375] e1000: Intel(R) PRO/1000 Network Driver - version 7.3.21-k8-NAPI
+Dec 15 00:46:40 flint kernel: [   10.785376] e1000: Copyright (c) 1999-2006 Intel Corporation.
+Dec 15 00:46:40 flint kernel: [   10.791601] [drm] Initialized drm 1.1.0 20060810
+Dec 15 00:46:40 flint kernel: [   11.045692] input: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/serio1/input/input5
+Dec 15 00:46:40 flint kernel: [   11.114090] usb 2-1: new full-speed USB device number 2 using ohci-pci
+Dec 15 00:46:40 flint kernel: [   11.230258] e1000 0000:00:03.0 eth0: (PCI:33MHz:32-bit) 08:00:27:a3:a2:73
+Dec 15 00:46:40 flint kernel: [   11.230262] e1000 0000:00:03.0 eth0: Intel(R) PRO/1000 Network Connection
+Dec 15 00:46:40 flint kernel: [   11.233530] ahci 0000:00:0d.0: version 3.0
+Dec 15 00:46:40 flint kernel: [   11.233998] ahci 0000:00:0d.0: SSS flag set, parallel bus scan disabled
+Dec 15 00:46:40 flint kernel: [   11.234371] ahci 0000:00:0d.0: AHCI 0001.0100 32 slots 1 ports 3 Gbps 0x1 impl SATA mode
+Dec 15 00:46:40 flint kernel: [   11.234373] ahci 0000:00:0d.0: flags: 64bit ncq stag only ccc 
+Dec 15 00:46:40 flint kernel: [   11.235371] e1000 0000:00:03.0 enp0s3: renamed from eth0
+Dec 15 00:46:40 flint kernel: [   11.235454] scsi host2: ahci
+Dec 15 00:46:40 flint kernel: [   11.235492] ata3: SATA max UDMA/133 abar m8192@0xf0806000 port 0xf0806100 irq 21
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] DMA map mode: Using physical TTM page addresses.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] Capabilities:
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Rect copy.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Cursor.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Cursor bypass.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Cursor bypass 2.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Alpha cursor.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Extended Fifo.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Pitchlock.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Irq mask.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   GMR.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Traces.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   GMR2.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Screen Object 2.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm]   Command Buffers.
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] Max GMR ids is 8192
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] Max number of GMR pages is 1048576
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] Max dedicated hypervisor surface memory is 507904 kiB
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] Maximum display memory size is 16384 kiB
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] VRAM at 0xe0000000 size is 16384 kiB
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] MMIO at 0xf0000000 size is 2048 kiB
+Dec 15 00:46:40 flint kernel: [   11.235919] [drm] global init.
+Dec 15 00:46:40 flint kernel: [   11.236194] [TTM] Zone  kernel: Available graphics memory: 439192 kiB
+Dec 15 00:46:40 flint kernel: [   11.236194] [TTM] Zone highmem: Available graphics memory: 1031036 kiB
+Dec 15 00:46:40 flint kernel: [   11.236194] [TTM] Initializing pool allocator
+Dec 15 00:46:40 flint kernel: [   11.236194] [TTM] Initializing DMA pool allocator
+Dec 15 00:46:40 flint kernel: [   11.236194] [drm] Supports vblank timestamp caching Rev 2 (21.10.2013).
+Dec 15 00:46:40 flint kernel: [   11.236194] [drm] No driver support for vblank timestamp query.
+Dec 15 00:46:40 flint kernel: [   11.236322] [drm] Screen Objects Display Unit initialized
+Dec 15 00:46:40 flint kernel: [   11.236322] [drm] width 720
+Dec 15 00:46:40 flint kernel: [   11.236322] [drm] height 400
+Dec 15 00:46:40 flint kernel: [   11.236322] [drm] bpp 32
+Dec 15 00:46:40 flint kernel: [   11.236322] [drm] Fifo max 0x00200000 min 0x00001000 cap 0x00000355
+Dec 15 00:46:40 flint kernel: [   11.236322] [drm] Using command buffers with DMA pool.
+Dec 15 00:46:40 flint kernel: [   11.236322] [drm] DX: no.
+Dec 15 00:46:40 flint kernel: [   11.249287] fbcon: svgadrmfb (fb0) is primary device
+Dec 15 00:46:40 flint kernel: [   11.249287] Console: switching to colour frame buffer device 100x37
+Dec 15 00:46:40 flint kernel: [   11.249287] [drm] Initialized vmwgfx 2.9.0 20150810 for 0000:00:02.0 on minor 0
+Dec 15 00:46:40 flint kernel: [   30.572669] ata3: SATA link up 3.0 Gbps (SStatus 123 SControl 300)
+Dec 15 00:46:40 flint kernel: [   30.572905] ata3.00: ATA-6: VBOX HARDDISK, 1.0, max UDMA/133
+Dec 15 00:46:40 flint kernel: [   30.572906] ata3.00: 52428800 sectors, multi 128: LBA48 NCQ (depth 31/32)
+Dec 15 00:46:40 flint kernel: [   30.573238] ata3.00: configured for UDMA/133
+Dec 15 00:46:40 flint kernel: [   30.573263] scsi 2:0:0:0: Direct-Access     ATA      VBOX HARDDISK    1.0  PQ: 0 ANSI: 5
+Dec 15 00:46:40 flint kernel: [   30.573665] sd 2:0:0:0: Attached scsi generic sg1 type 0
+Dec 15 00:46:40 flint kernel: [   30.573692] sd 2:0:0:0: [sda] 52428800 512-byte logical blocks: (26.8 GB/25.0 GiB)
+Dec 15 00:46:40 flint kernel: [   30.573703] sd 2:0:0:0: [sda] Write Protect is off
+Dec 15 00:46:40 flint kernel: [   30.573704] sd 2:0:0:0: [sda] Mode Sense: 00 3a 00 00
+Dec 15 00:46:40 flint kernel: [   30.573709] sd 2:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+Dec 15 00:46:40 flint kernel: [   30.574809]  sda: sda1 sda2 < sda5 >
+Dec 15 00:46:40 flint kernel: [   30.575296] sd 2:0:0:0: [sda] Attached SCSI disk
+Dec 15 00:46:40 flint kernel: [   30.619512] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: (null)
+Dec 15 00:46:40 flint kernel: [   40.270008] usb 2-1: New USB device found, idVendor=80ee, idProduct=0021
+Dec 15 00:46:40 flint kernel: [   40.270010] usb 2-1: New USB device strings: Mfr=1, Product=3, SerialNumber=0
+Dec 15 00:46:40 flint kernel: [   40.270011] usb 2-1: Product: USB Tablet
+Dec 15 00:46:40 flint kernel: [   40.270012] usb 2-1: Manufacturer: VirtualBox
+Dec 15 00:46:40 flint kernel: [   40.320514] EXT4-fs (sda1): re-mounted. Opts: errors=remount-ro
+Dec 15 00:46:40 flint kernel: [   40.594797] piix4_smbus 0000:00:07.0: SMBus Host Controller at 0x4100, revision 0
+Dec 15 00:46:40 flint kernel: [   40.602368] hidraw: raw HID events driver (C) Jiri Kosina
+Dec 15 00:46:40 flint kernel: [   40.621822] audit: type=1400 audit(1702629990.764:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/sbin/tcpdump" pid=414 comm="apparmor_parser"
+Dec 15 00:46:40 flint kernel: [   40.623990] audit: type=1400 audit(1702629990.764:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/sbin/dhclient" pid=412 comm="apparmor_parser"
+Dec 15 00:46:40 flint kernel: [   40.623992] audit: type=1400 audit(1702629990.764:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-client.action" pid=412 comm="apparmor_parser"
+Dec 15 00:46:40 flint kernel: [   40.623994] audit: type=1400 audit(1702629990.764:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-helper" pid=412 comm="apparmor_parser"
+Dec 15 00:46:40 flint kernel: [   40.623996] audit: type=1400 audit(1702629990.764:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/connman/scripts/dhclient-script" pid=412 comm="apparmor_parser"
+Dec 15 00:46:40 flint kernel: [   40.681510] vgdrvHeartbeatInit: Setting up heartbeat to trigger every 2000 milliseconds
+Dec 15 00:46:40 flint kernel: [   40.681510] input: Unspecified device as /devices/pci0000:00/0000:00:04.0/input/input6
+Dec 15 00:46:40 flint kernel: [   40.683160] vboxguest: misc device minor 55, IRQ 20, I/O port d040, MMIO at 00000000f0400000 (size 0x400000)
+Dec 15 00:46:40 flint kernel: [   40.683160] vboxguest: Successfully loaded version 5.0.18_Ubuntu (interface 0x00010004)
+Dec 15 00:46:40 flint kernel: [   40.698570] usbcore: registered new interface driver usbhid
+Dec 15 00:46:40 flint kernel: [   40.698571] usbhid: USB HID core driver
+Dec 15 00:46:40 flint kernel: [   40.736385] snd_intel8x0 0000:00:05.0: disable (unknown or VT-d) VM optimization
+Dec 15 00:46:40 flint kernel: [   40.812603] Adding 998396k swap on /dev/sda5.  Priority:-1 extents:1 across:998396k FS
+Dec 15 00:46:40 flint kernel: [   40.846539] input: VirtualBox USB Tablet as /devices/pci0000:00/0000:00:06.0/usb2/2-1/2-1:1.0/0003:80EE:0021.0001/input/input7
+Dec 15 00:46:40 flint kernel: [   40.847155] hid-generic 0003:80EE:0021.0001: input,hidraw0: USB HID v1.10 Mouse [VirtualBox USB Tablet] on usb-0000:00:06.0-1/input0
+Dec 15 00:46:40 flint kernel: [   40.860537] IPv6: ADDRCONF(NETDEV_UP): enp0s3: link is not ready
+Dec 15 00:46:40 flint kernel: [   40.860537] e1000: enp0s3 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
+Dec 15 00:46:40 flint kernel: [   40.864494] IPv6: ADDRCONF(NETDEV_CHANGE): enp0s3: link becomes ready
+Dec 15 00:46:40 flint kernel: [   40.952489] random: nonblocking pool is initialized
+Dec 15 00:46:40 flint kernel: [   40.956670] snd_intel8x0 0000:00:05.0: white list rate for 1028:0177 is 48000

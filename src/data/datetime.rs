@@ -4677,6 +4677,7 @@ lazy_static! {
     //       to `./tools/valgrind-massif.sh`. This is a lot of memory.
     //       An easy way to reduce baseline heap-use is drop the unused ones.
     //       That would need to occur after all file threads have passed the stage 1 blockzero analysis.
+    //       Another thing to try is "on demand" compilation of the regexes.
     pub(crate) static ref DATETIME_PARSE_DATAS_REGEX_VEC: DateTimeParseInstrsRegexVec = {
         defn!("init DATETIME_PARSE_DATAS_REGEX_VEC");
         let mut datas: DateTimeParseInstrsRegexVec = DateTimeParseInstrsRegexVec::with_capacity(
@@ -4973,6 +4974,7 @@ pub fn datetime_parse_from_str_w_tz(
 ///
 /// [`Line`]: crate::data::line::Line
 /// [`regex::Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
+// TODO: change to a typed `struct CapturedDtData(...)`
 pub type CapturedDtData = (LineIndex, LineIndex, DateTimeL);
 
 /// Macro helper to `captures_to_buffer_bytes`.
@@ -5769,7 +5771,8 @@ pub fn dt_pass_filters(
     match (dt_filter_after, dt_filter_before) {
         (None, None) => {
             defx!("return InRange; (no dt filters)");
-            return Result_Filter_DateTime2::InRange;
+
+            Result_Filter_DateTime2::InRange
         }
         (Some(da), Some(db)) => {
             debug_assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);

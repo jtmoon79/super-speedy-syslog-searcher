@@ -1,0 +1,2695 @@
+DEBUG:anaconda.modules.common:The configuration is loaded from: ['/run/anaconda/anaconda.conf']
+DEBUG:blivet:registered device format class DeviceFormat as None
+DEBUG:blivet:registered device format class BIOSBoot as biosboot
+DEBUG:blivet:registered device format class DiskLabel as disklabel
+DEBUG:blivet:registered device format class DMRaidMember as dmraidmember
+INFO:program:Running [1] mkdosfs --help ...
+INFO:program:stdout[1]: mkfs.fat 4.2 (2021-01-31)
+
+INFO:program:stderr[1]: Usage: mkdosfs [OPTIONS] TARGET [BLOCKS]
+Create FAT filesystem in TARGET, which can be a block device or file. Use only
+up to BLOCKS 1024 byte blocks if specified. With the -C option, file TARGET will be
+created with a size of 1024 bytes times BLOCKS, which must be specified.
+
+Options:
+  -a              Disable alignment of data structures
+  -A              Toggle Atari variant of the filesystem
+  -b SECTOR       Select SECTOR as location of the FAT32 backup boot sector
+  -c              Check device for bad blocks before creating the filesystem
+  -C              Create file TARGET then create filesystem in it
+  -D NUMBER       Write BIOS drive number NUMBER to boot sector
+  -f COUNT        Create COUNT file allocation tables
+  -F SIZE         Select FAT size SIZE (12, 16 or 32)
+  -g GEOM         Select disk geometry: heads/sectors_per_track
+  -h NUMBER       Write hidden sectors NUMBER to boot sector
+  -i VOLID        Set volume ID to VOLID (a 32 bit hexadecimal number)
+  -I              Ignore and disable safety checks
+  -l FILENAME     Read bad blocks list from FILENAME
+  -m FILENAME     Replace default error message in boot block with contents of FILENAME
+  -M TYPE         Set media type in boot sector to TYPE
+  --mbr[=y|n|a]   Fill (fake) MBR table with one partition which spans whole disk
+  -n LABEL        Set volume name to LABEL (up to 11 characters long)
+  --codepage=N    use DOS codepage N to encode label (default: 850)
+  -r COUNT        Make room for at least COUNT entries in the root directory
+  -R COUNT        Set minimal number of reserved sectors to COUNT
+  -s COUNT        Set number of sectors per cluster to COUNT
+  -S SIZE         Select a sector size of SIZE (a power of two, at least 512)
+  -v              Verbose execution
+  --variant=TYPE  Select variant TYPE of filesystem (standard or Atari)
+
+  --invariant     Use constants for randomly generated or time based values
+  --offset=SECTOR Write the filesystem at a specific sector into the device file.
+  --help          Show this help message and exit
+
+INFO:program:...done [1] (exit code: 0)
+DEBUG:blivet:registered device format class Ext2FS as ext2
+DEBUG:blivet:registered device format class Ext3FS as ext3
+DEBUG:blivet:registered device format class Ext4FS as ext4
+DEBUG:blivet:registered device format class FATFS as vfat
+DEBUG:blivet:registered device format class EFIFS as efi
+DEBUG:blivet:registered device format class BTRFS as btrfs
+DEBUG:blivet:registered device format class GFS2 as gfs2
+DEBUG:blivet:registered device format class JFS as jfs
+DEBUG:blivet:registered device format class ReiserFS as reiserfs
+DEBUG:blivet:registered device format class XFS as xfs
+DEBUG:blivet:registered device format class StratisXFS as stratis xfs
+DEBUG:blivet:registered device format class HFS as hfs
+DEBUG:blivet:registered device format class AppleBootstrapFS as appleboot
+DEBUG:blivet:registered device format class HFSPlus as hfs+
+DEBUG:blivet:registered device format class MacEFIFS as macefi
+DEBUG:blivet:registered device format class NTFS as ntfs
+DEBUG:blivet:registered device format class ExFATFS as exfat
+DEBUG:blivet:registered device format class F2FS as f2fs
+DEBUG:blivet:registered device format class NFS as nfs
+DEBUG:blivet:registered device format class NFSv4 as nfs4
+DEBUG:blivet:registered device format class Iso9660FS as iso9660
+DEBUG:blivet:registered device format class NoDevFS as nodev
+DEBUG:blivet:registered device format class DevPtsFS as devpts
+DEBUG:blivet:registered device format class ProcFS as proc
+DEBUG:blivet:registered device format class SysFS as sysfs
+DEBUG:blivet:registered device format class TmpFS as tmpfs
+DEBUG:blivet:registered device format class BindFS as bind
+DEBUG:blivet:registered device format class SELinuxFS as selinuxfs
+DEBUG:blivet:registered device format class USBFS as usbfs
+DEBUG:blivet:registered device format class EFIVarFS as efivarfs
+INFO:program:Running [2] lvm version ...
+INFO:program:stdout[2]:   LVM version:     2.03.17(2) (2022-11-10)
+  Library version: 1.02.187 (2022-11-10)
+  Driver version:  4.47.0
+  Configuration:   ./configure --build=x86_64-redhat-linux-gnu --host=x86_64-redhat-linux-gnu --program-prefix= --disable-dependency-tracking --prefix=/usr --exec-prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib64 --libexecdir=/usr/libexec --localstatedir=/var --sharedstatedir=/var/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-default-dm-run-dir=/run --with-default-run-dir=/run/lvm --with-default-pid-dir=/run --with-default-locking-dir=/run/lock/lvm --with-usrlibdir=/usr/lib64 --enable-fsadm --enable-write_install --with-user= --with-group= --with-device-uid=0 --with-device-gid=6 --with-device-mode=0660 --enable-pkgconfig --enable-cmdlib --enable-dmeventd --enable-blkid_wiping --with-cluster=internal --with-udevdir=/usr/lib/udev/rules.d --enable-udev_sync --with-thin=internal --with-cache=internal --enable-lvmpolld --enable-lvmlockd-dlm --enable-lvmlockd-dlmcontrol --enable-lvmlockd-sanlock --enable-dbus-service --enable-notify-dbus --enable-dmfilemapd --with-writecache=internal --with-vdo=internal --with-vdo-format=/usr/bin/vdoformat --with-integrity=internal --with-default-use-devices-file=1 --disable-silent-rules --enable-app-machineid --enable-editline --disable-readline
+
+INFO:program:stderr[2]: 
+INFO:program:...done [2] (exit code: 0)
+DEBUG:blivet:registered device format class LUKS as luks
+DEBUG:blivet:registered device format class Integrity as integrity
+DEBUG:blivet:registered device format class LVMPhysicalVolume as lvmpv
+DEBUG:blivet:registered device format class MDRaidMember as mdmember
+DEBUG:blivet:registered device format class MultipathMember as multipath_member
+DEBUG:blivet:registered device format class PPCPRePBoot as prepboot
+DEBUG:blivet:registered device format class SwapSpace as swap
+DEBUG:blivet:registered device format class StratisBlockdev as stratis
+INFO:program:Running... udevadm trigger --action=change --subsystem-match=block
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+INFO:blivet:failed to get initiator name from iscsi firmware: Failed to call GetFirmwareInitiatorName method on /org/freedesktop/UDisks2/Manager with None arguments: GDBus.Error:org.freedesktop.UDisks2.Error.ISCSI.NoFirmware: No firmware found
+DEBUG:anaconda.modules.storage.bootloader.bootloader:The default type is set to 'BootloaderType.DEFAULT'.
+DEBUG:anaconda.modules.storage.fcoe.fcoe:Start up the FCoE module.
+INFO:program:Running... modprobe libfc
+DEBUG:program:Return code: 0
+INFO:program:Running... /usr/libexec/fcoe/fcoe_edd.sh -i
+INFO:program:stdout:
+INFO:program:No FCoE boot disk information is found in EDD!
+DEBUG:program:Return code: 1
+INFO:blivet:No FCoE EDD info found: No FCoE boot disk information is found in EDD!
+DEBUG:anaconda.modules.storage.iscsi.iscsi:Start up the iSCSI module.
+INFO:blivet:ISCSID is /sbin/iscsid
+INFO:program:Running... systemctl start iscsi-init.service
+DEBUG:program:Return code: 0
+INFO:blivet:no initiator set
+DEBUG:anaconda.modules.storage.zfcp.zfcp:Start up the zFCP module.
+INFO:program:Running [3] e2fsck -V ...
+INFO:program:stdout[3]: 
+INFO:program:stderr[3]: e2fsck 1.46.5 (30-Dec-2021)
+	Using EXT2FS Library version 1.46.5, 30-Dec-2021
+
+INFO:program:...done [3] (exit code: 0)
+DEBUG:blivet:               Ext4FS.supported: supported: True ;
+DEBUG:blivet:get_format('ext4') returning Ext4FS instance with object id 0
+DEBUG:blivet:            Ext4FS.supported: supported: True ;
+DEBUG:blivet:trying to set new default fstype to 'ext4'
+DEBUG:blivet:                  Ext4FS.supported: supported: True ;
+DEBUG:blivet:get_format('ext4') returning Ext4FS instance with object id 1
+DEBUG:blivet:               Ext4FS.supported: supported: True ;
+INFO:program:Running... lsblk --bytes -a -o NAME,SIZE,OWNER,GROUP,MODE,FSTYPE,LABEL,UUID,PARTUUID,MOUNTPOINT
+INFO:program:stdout:
+INFO:program:NAME               SIZE OWNER GROUP MODE       FSTYPE   LABEL                         UUID                                 PARTUUID MOUNTPOINT
+INFO:program:loop0         781824000 root  disk  brw-rw---- squashfs                                                                             
+INFO:program:loop1        3221225472 root  disk  brw-rw---- ext4     Anaconda                      db02eccd-dedb-4fdb-acaf-ca49e38ca6e7          
+INFO:program:|-live-rw    3221225472 root  disk  brw-rw---- ext4     Anaconda                      db02eccd-dedb-4fdb-acaf-ca49e38ca6e7          /
+INFO:program:`-live-base  3221225472 root  disk  brw-rw---- ext4     Anaconda                      db02eccd-dedb-4fdb-acaf-ca49e38ca6e7          
+INFO:program:loop2       34359738368 root  disk  brw-rw----                                                                                      
+INFO:program:`-live-rw    3221225472 root  disk  brw-rw---- ext4     Anaconda                      db02eccd-dedb-4fdb-acaf-ca49e38ca6e7          /
+INFO:program:sda         21474836480 root  disk  brw-rw----                                                                                      
+INFO:program:sr0          9506390016 root  cdrom brw-rw---- iso9660  CentOS-Stream-9-BaseOS-x86_64 2023-04-17-08-47-48-00                        /run/install/repo
+INFO:program:zram0        2064646144 root  disk  brw-rw----                                                                                      [SWAP]
+DEBUG:program:Return code: 0
+DEBUG:blivet:lsblk output:
+NAME               SIZE OWNER GROUP MODE       FSTYPE   LABEL                         UUID                                 PARTUUID MOUNTPOINT
+loop0         781824000 root  disk  brw-rw---- squashfs                                                                             
+loop1        3221225472 root  disk  brw-rw---- ext4     Anaconda                      db02eccd-dedb-4fdb-acaf-ca49e38ca6e7          
+|-live-rw    3221225472 root  disk  brw-rw---- ext4     Anaconda                      db02eccd-dedb-4fdb-acaf-ca49e38ca6e7          /
+`-live-base  3221225472 root  disk  brw-rw---- ext4     Anaconda                      db02eccd-dedb-4fdb-acaf-ca49e38ca6e7          
+loop2       34359738368 root  disk  brw-rw----                                                                                      
+`-live-rw    3221225472 root  disk  brw-rw---- ext4     Anaconda                      db02eccd-dedb-4fdb-acaf-ca49e38ca6e7          /
+sda         21474836480 root  disk  brw-rw----                                                                                      
+sr0          9506390016 root  cdrom brw-rw---- iso9660  CentOS-Stream-9-BaseOS-x86_64 2023-04-17-08-47-48-00                        /run/install/repo
+zram0        2064646144 root  disk  brw-rw----                                                                                      [SWAP]
+
+DEBUG:blivet:lvm filter: clearing the lvm devices list
+DEBUG:blivet:lvm filter: clearing the lvm devices list
+DEBUG:blivet:trying to set new default fstype to 'xfs'
+DEBUG:blivet:                XFS.supported: supported: True ;
+INFO:program:Running... modprobe --dry-run xfs
+DEBUG:program:Return code: 0
+DEBUG:blivet:get_format('xfs') returning XFS instance with object id 2
+DEBUG:blivet:             XFS.supported: supported: True ;
+DEBUG:anaconda.storage:trying to set new default luks version to 'luks2'
+DEBUG:blivet:              LUKS.__init__: luks_version: luks2 ;
+DEBUG:blivet:get_format('luks') returning LUKS instance with object id 3
+DEBUG:anaconda.modules.storage.storage:The storage model has changed.
+DEBUG:anaconda.modules.common.base.base:Publish the service.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Checker.
+INFO:anaconda.core.dbus:Connecting to the Anaconda bus at unix:abstract=/tmp/dbus-ofyWnHY9Ph,guid=e8a5b7aec72b35d541bbbec0644455c2.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/DeviceTree.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/DiskInitialization.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/DiskSelection.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Snapshot.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Bootloader.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/FCoE.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/iSCSI.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/NVDIMM.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/DASD.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/zFCP.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage.
+DEBUG:dasbus.connection:Registering a service name org.fedoraproject.Anaconda.Modules.Storage.
+DEBUG:anaconda.modules.common.base.base:Start the loop.
+DEBUG:anaconda.modules.common.base.base:Locale is set to en_US.UTF-8.
+DEBUG:anaconda.modules.storage.checker.checker:Constraint 'min_ram' is set to '429916160'.
+DEBUG:anaconda.modules.storage.disk_selection.selection:Disk images are set to '{}'.
+DEBUG:blivet:                   DeviceTree.get_device_by_path: path: /dev/zram0 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                   DeviceTree.get_device_by_path returned None
+DEBUG:blivet:failed to resolve '/dev/zram0'
+DEBUG:blivet:failed to resolve 'LABEL=CentOS-Stream-9-BaseOS-x86_64'
+DEBUG:anaconda.modules.storage.disk_selection.selection:Protected devices are set to '['LABEL=CentOS-Stream-9-BaseOS-x86_64', '/dev/zram0']'.
+DEBUG:anaconda.storage:Creating a copy of the storage model.
+DEBUG:anaconda.storage:starting Blivet copy
+DEBUG:anaconda.storage:finished Blivet copy
+DEBUG:anaconda.storage:Finished a copy of the storage model.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/1.
+INFO:anaconda.threading:Running Thread: AnaTaskThread-ScanDevicesTask-1 (140579065665088)
+INFO:program:Running... systemctl start iscsi-init.service
+DEBUG:program:Return code: 0
+INFO:blivet:no initiator set
+INFO:blivet:resetting Blivet (version 3.6.0) instance <pyanaconda.modules.storage.devicetree.model.InstallerStorage object at 0x7fdb1d5bf730>
+DEBUG:blivet:lvm filter: clearing the lvm devices list
+INFO:blivet:DeviceTree.populate: ignored_disks is [] ; exclusive_disks is []
+WARNING:blivet:Failed to call the update_volume_info method: libstoragemgmt functionality not available
+INFO:program:Running [4] multipath --version ...
+INFO:program:stdout[4]: 
+INFO:program:stderr[4]: Unknown switch: (null)
+multipath-tools v0.8.7 (09/08, 2021)
+Usage:
+  multipath [-v level] [-B|-d|-i|-q|-r] [-b file] [-p policy] [device]
+  multipath [-v level] [-R retries] -f device
+  multipath [-v level] [-R retries] -F
+  multipath [-v level] [-l|-ll] [device]
+  multipath [-v level] [-a|-w] device
+  multipath [-v level] [-A|-W]
+  multipath [-v level] [-i] [-c|-C] device
+  multipath [-v level] [-i] [-u|-U]
+  multipath [-h|-t|-T]
+
+Where:
+  -h      print this usage text
+  -l      show multipath topology (sysfs and DM info)
+  -ll     show multipath topology (maximum info)
+  -e      enable foreign libraries with -l/-ll
+  -f      flush a multipath device map
+  -F      flush all multipath device maps
+  -a      add a device wwid to the wwids file
+  -A      add devices from kernel command line mpath.wwids
+          parameters to wwids file
+  -c      check if a device should be a path in a multipath device
+  -C      check if a multipath device has usable paths
+  -q      allow queue_if_no_path when multipathd is not running
+  -d      dry run, do not create or update devmaps
+  -t      display the currently used multipathd configuration
+  -T      display the multipathd configuration without builtin defaults
+  -r      force devmap reload
+  -i      ignore wwids file
+  -B      treat the bindings file as read only
+  -b fil  bindings file location
+  -w      remove a device from the wwids file
+  -W      reset the wwids file include only the current devices
+  -R num  number of times to retry removes of in-use devices
+  -u      check if the device specified in the program environment should be a
+          path in a multipath device
+  -U      check if the device specified in the program environment is a
+          multipath device with usable paths, see -C flag
+  -p pol  force all maps to specified path grouping policy:
+          . failover            one path per priority group
+          . multibus            all paths in one priority group
+          . group_by_serial     one priority group per serial
+          . group_by_prio       one priority group per priority lvl
+          . group_by_node_name  one priority group per target node
+  -v lvl  verbosity level:
+          . 0 no output
+          . 1 print created devmap names only
+          . 2 default verbosity
+          . 3 print debug information
+  device  action limited to:
+          . multipath named 'device' (ex: mpath0)
+          . multipath whose wwid is 'device' (ex: 60051...)
+          . multipath including the path named 'device' (ex: /dev/sda or
+            /dev/dm-0)
+          . multipath including the path with maj:min 'device' (ex: 8:0)
+
+INFO:program:...done [4] (exit code: 1)
+INFO:program:Running [5] mpathconf --find_multipaths y --user_friendly_names y --with_multipathd y ...
+INFO:program:stdout[5]: 
+INFO:program:stderr[5]: 
+INFO:program:...done [5] (exit code: 0)
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:blivet:devices to scan: ['sr0', 'sda', 'loop0', 'loop1', 'loop2', 'live-rw', 'live-base']
+DEBUG:blivet:                  DeviceTree.handle_device: name: sr0 ; info: {'CURRENT_TAGS': ':uaccess:systemd:seat:',
+ 'DEVLINKS': '/dev/disk/by-id/ata-VBOX_CD-ROM_VB2-01700376 '
+             '/dev/disk/by-diskseq/3 /dev/disk/by-path/pci-0000:00:01.1-ata-2 '
+             '/dev/disk/by-path/pci-0000:00:01.1-ata-2.0 '
+             '/dev/disk/by-uuid/2023-04-17-08-47-48-00 '
+             '/dev/disk/by-label/CentOS-Stream-9-BaseOS-x86_64 /dev/cdrom',
+ 'DEVNAME': '/dev/sr0',
+ 'DEVPATH': '/devices/pci0000:00/0000:00:01.1/ata2/host2/target2:0:0/2:0:0:0/block/sr0',
+ 'DEVTYPE': 'disk',
+ 'DISKSEQ': '3',
+ 'ID_ATA': '1',
+ 'ID_BUS': 'ata',
+ 'ID_CDROM': '1',
+ 'ID_CDROM_DVD': '1',
+ 'ID_CDROM_MEDIA': '1',
+ 'ID_CDROM_MEDIA_CD': '1',
+ 'ID_CDROM_MEDIA_SESSION_COUNT': '1',
+ 'ID_CDROM_MEDIA_TRACK_COUNT': '1',
+ 'ID_CDROM_MEDIA_TRACK_COUNT_DATA': '1',
+ 'ID_CDROM_MRW': '1',
+ 'ID_CDROM_MRW_W': '1',
+ 'ID_FOR_SEAT': 'block-pci-0000_00_01_1-ata-2_0',
+ 'ID_FS_BLOCKSIZE': '2048',
+ 'ID_FS_BOOT_SYSTEM_ID': 'EL\\x20TORITO\\x20SPECIFICATION',
+ 'ID_FS_DATA_PREPARER_ID': 'XORRISO-1.4.8\\x202017.09.12.143001\\x2c\\x20LIBISOBURN-1.4.8\\x2c\\x20LIBISOFS-1.4.8\\x2c\\x20LIBBURN-1.4.8',
+ 'ID_FS_LABEL': 'CentOS-Stream-9-BaseOS-x86_64',
+ 'ID_FS_LABEL_ENC': 'CentOS-Stream-9-BaseOS-x86_64',
+ 'ID_FS_TYPE': 'iso9660',
+ 'ID_FS_USAGE': 'filesystem',
+ 'ID_FS_UUID': '2023-04-17-08-47-48-00',
+ 'ID_FS_UUID_ENC': '2023-04-17-08-47-48-00',
+ 'ID_FS_VERSION': 'Joliet Extension',
+ 'ID_MODEL': 'VBOX_CD-ROM',
+ 'ID_MODEL_ENC': 'VBOX\\x20CD-ROM\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20',
+ 'ID_PART_TABLE_TYPE': 'dos',
+ 'ID_PART_TABLE_UUID': '5f3dbba3',
+ 'ID_PATH': 'pci-0000:00:01.1-ata-2.0',
+ 'ID_PATH_ATA_COMPAT': 'pci-0000:00:01.1-ata-2',
+ 'ID_PATH_TAG': 'pci-0000_00_01_1-ata-2_0',
+ 'ID_REVISION': '1.0',
+ 'ID_SCSI': '1',
+ 'ID_SCSI_INQUIRY': '1',
+ 'ID_SERIAL': 'VBOX_CD-ROM_VB2-01700376',
+ 'ID_SERIAL_SHORT': 'VB2-01700376',
+ 'ID_TYPE': 'cd',
+ 'ID_VENDOR': 'VBOX',
+ 'ID_VENDOR_ENC': 'VBOX\\x20\\x20\\x20\\x20',
+ 'MAJOR': '11',
+ 'MINOR': '0',
+ 'NVME_HOST_IFACE': 'none',
+ 'SCSI_MODEL': 'CD-ROM',
+ 'SCSI_MODEL_ENC': 'CD-ROM\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20',
+ 'SCSI_REVISION': '1.0',
+ 'SCSI_TPGS': '0',
+ 'SCSI_TYPE': 'cd/dvd',
+ 'SCSI_VENDOR': 'VBOX',
+ 'SCSI_VENDOR_ENC': 'VBOX\\x20\\x20\\x20\\x20',
+ 'SUBSYSTEM': 'block',
+ 'SYSTEMD_MOUNT_DEVICE_BOUND': '1',
+ 'SYS_NAME': 'sr0',
+ 'SYS_PATH': '/sys/devices/pci0000:00/0000:00:01.1/ata2/host2/target2:0:0/2:0:0:0/block/sr0',
+ 'TAGS': ':uaccess:systemd:seat:',
+ 'USEC_INITIALIZED': '44832344'} ;
+INFO:blivet:scanning sr0 (/sys/devices/pci0000:00/0000:00:01.1/ata2/host2/target2:0:0/2:0:0:0/block/sr0)...
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:01.1/ata2/host2/target2:0:0/2:0:0:0/block/sr0/hidden: 300a
+INFO:program:Running [6] lvm lvs --noheadings --nosuffix --nameprefixes --unquoted --units=b -a -o vg_name,lv_name,lv_uuid,lv_size,lv_attr,segtype,origin,pool_lv,data_lv,metadata_lv,role,move_pv,data_percent,metadata_percent,copy_percent --config= log {level=7 file=/tmp/lvm.log syslog=0} ...
+INFO:program:stdout[6]: 
+INFO:program:stderr[6]: 
+INFO:program:...done [6] (exit code: 0)
+DEBUG:blivet:                    DeviceTree.get_device_by_name: name: sr0 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                    DeviceTree.get_device_by_name returned None
+DEBUG:blivet:                   OpticalDevicePopulator.run:
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 5
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 6
+DEBUG:blivet:                           OpticalDevice._set_format: sr0 ; type: None ; current: None ;
+DEBUG:blivet:                         OpticalDevice.update_sysfs_path: sr0 ; status: True ;
+DEBUG:blivet:sr0 sysfs_path set to /sys/devices/pci0000:00/0000:00:01.1/ata2/host2/target2:0:0/2:0:0:0/block/sr0
+DEBUG:blivet:                             OpticalDevice.read_current_size: exists: True ; path: /dev/sr0 ; sysfs_path: /sys/devices/pci0000:00/0000:00:01.1/ata2/host2/target2:0:0/2:0:0:0/block/sr0 ;
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:01.1/ata2/host2/target2:0:0/2:0:0:0/block/sr0/size: 31383536373136380a
+DEBUG:blivet:updated sr0 size to 8.85 GiB (8.85 GiB)
+INFO:blivet:added cdrom sr0 (id 4) to device tree
+INFO:blivet:got device: OpticalDevice instance (0x7fdb1d59d4f0) --
+  name = sr0  status = True  id = 4
+  children = []
+  parents = []
+  uuid = None  size = 8.85 GiB
+  format = existing None
+  major = 11  minor = 0  exists = True  protected = False
+  sysfs path = /sys/devices/pci0000:00/0000:00:01.1/ata2/host2/target2:0:0/2:0:0:0/block/sr0
+  target size = 8.85 GiB  path = /dev/sr0
+  format args = []  original_format = None
+DEBUG:blivet:                    DeviceTree.handle_format: name: sr0 ;
+DEBUG:blivet:                      OpticalDevice.media_present: sr0 ; status: True ;
+DEBUG:blivet:                                AppleBootstrapFS.supported: supported: True ;
+DEBUG:blivet:get_format('appleboot') returning AppleBootstrapFS instance with object id 8
+DEBUG:blivet:                                EFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('efi') returning EFIFS instance with object id 9
+DEBUG:blivet:                                  MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 10
+DEBUG:blivet:                                   MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 11
+WARNING:blivet:Stratis DBus service is not running
+INFO:blivet:type detected on 'sr0' is 'iso9660'
+DEBUG:blivet:                          Iso9660FS.supported: supported: True ;
+DEBUG:blivet:get_format('iso9660') returning Iso9660FS instance with object id 12
+DEBUG:blivet:                         OpticalDevice._set_format: sr0 ; type: iso9660 ; current: None ;
+INFO:blivet:got format: existing iso9660 filesystem
+DEBUG:blivet:                  DeviceTree.handle_device: name: sda ; info: {'CURRENT_TAGS': ':systemd:',
+ 'DEVLINKS': '/dev/disk/by-path/pci-0000:00:0d.0-ata-1 '
+             '/dev/disk/by-id/ata-VBOX_HARDDISK_VB669ad1b0-a3b049a3 '
+             '/dev/disk/by-id/scsi-1ATA_VBOX_HARDDISK_VB669ad1b0-a3b049a3 '
+             '/dev/disk/by-diskseq/1 '
+             '/dev/disk/by-path/pci-0000:00:0d.0-ata-1.0 '
+             '/dev/disk/by-id/scsi-0ATA_VBOX_HARDDISK_VB669ad1b0-a3b049a3 '
+             '/dev/disk/by-id/scsi-SATA_VBOX_HARDDISK_VB669ad1b0-a3b049a3',
+ 'DEVNAME': '/dev/sda',
+ 'DEVPATH': '/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda',
+ 'DEVTYPE': 'disk',
+ 'DISKSEQ': '1',
+ 'DM_MULTIPATH_DEVICE_PATH': '0',
+ 'FIND_MULTIPATHS_WAIT_UNTIL': '0',
+ 'ID_ATA': '1',
+ 'ID_ATA_FEATURE_SET_PM': '1',
+ 'ID_ATA_FEATURE_SET_PM_ENABLED': '1',
+ 'ID_ATA_SATA': '1',
+ 'ID_ATA_SATA_SIGNAL_RATE_GEN2': '1',
+ 'ID_ATA_WRITE_CACHE': '1',
+ 'ID_ATA_WRITE_CACHE_ENABLED': '1',
+ 'ID_BUS': 'ata',
+ 'ID_MODEL': 'VBOX_HARDDISK',
+ 'ID_MODEL_ENC': 'VBOX\\x20HARDDISK\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20\\x20',
+ 'ID_PATH': 'pci-0000:00:0d.0-ata-1.0',
+ 'ID_PATH_ATA_COMPAT': 'pci-0000:00:0d.0-ata-1',
+ 'ID_PATH_TAG': 'pci-0000_00_0d_0-ata-1_0',
+ 'ID_REVISION': '1.0',
+ 'ID_SCSI': '1',
+ 'ID_SCSI_INQUIRY': '1',
+ 'ID_SCSI_SERIAL': 'VB669ad1b0-a3b049a3',
+ 'ID_SERIAL': 'VBOX_HARDDISK_VB669ad1b0-a3b049a3',
+ 'ID_SERIAL_SHORT': 'VB669ad1b0-a3b049a3',
+ 'ID_TYPE': 'disk',
+ 'ID_VENDOR': 'ATA',
+ 'ID_VENDOR_ENC': 'ATA\\x20\\x20\\x20\\x20\\x20',
+ 'MAJOR': '8',
+ 'MINOR': '0',
+ 'MPATH_SBIN_PATH': '/sbin',
+ 'SCSI_IDENT_LUN_ATA': 'VBOX_HARDDISK_VB669ad1b0-a3b049a3',
+ 'SCSI_IDENT_LUN_T10': 'ATA_VBOX_HARDDISK_VB669ad1b0-a3b049a3',
+ 'SCSI_IDENT_LUN_VENDOR': 'VB669ad1b0-a3b049a3',
+ 'SCSI_IDENT_SERIAL': 'VB669ad1b0-a3b049a3',
+ 'SCSI_MODEL': 'VBOX_HARDDISK',
+ 'SCSI_MODEL_ENC': 'VBOX\\x20HARDDISK\\x20\\x20\\x20',
+ 'SCSI_REVISION': '1.0',
+ 'SCSI_TPGS': '0',
+ 'SCSI_TYPE': 'disk',
+ 'SCSI_VENDOR': 'ATA',
+ 'SCSI_VENDOR_ENC': 'ATA\\x20\\x20\\x20\\x20\\x20',
+ 'SUBSYSTEM': 'block',
+ 'SYS_NAME': 'sda',
+ 'SYS_PATH': '/sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda',
+ 'TAGS': ':systemd:',
+ 'USEC_INITIALIZED': '44935344'} ;
+INFO:blivet:scanning sda (/sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda)...
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/hidden: 300a
+DEBUG:blivet:                    DeviceTree.get_device_by_name: name: sda ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                    DeviceTree.get_device_by_name returned None
+WARNING:py.warnings:/usr/lib/python3.9/site-packages/blivet/udev.py:1034: DeprecationWarning: Will be removed in 1.0. Access properties with Device.properties.
+  while device:
+
+DEBUG:blivet:                   DiskDevicePopulator.run: name: sda ;
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/device/vendor: 41544120202020200a
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:blivet:sda is a disk
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 15
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 16
+DEBUG:blivet:                           DiskDevice._set_format: sda ; type: None ; current: None ;
+DEBUG:blivet:                         DiskDevice.update_sysfs_path: sda ; status: True ;
+DEBUG:blivet:sda sysfs_path set to /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda
+DEBUG:blivet:                             DiskDevice.read_current_size: exists: True ; path: /dev/sda ; sysfs_path: /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda ;
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/size: 34313934333034300a
+DEBUG:blivet:updated sda size to 20 GiB (20 GiB)
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/queue/rotational: 310a
+INFO:blivet:added disk sda (id 14) to device tree
+INFO:blivet:got device: DiskDevice instance (0x7fdb1cbe3850) --
+  name = sda  status = True  id = 14
+  children = []
+  parents = []
+  uuid = None  size = 20 GiB
+  format = existing None
+  major = 8  minor = 0  exists = True  protected = False
+  sysfs path = /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda
+  target size = 20 GiB  path = /dev/sda
+  format args = []  original_format = None  removable = False  wwn = None
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/ro: 300a
+DEBUG:blivet:                    DeviceTree.handle_format: name: sda ;
+DEBUG:blivet:no type or existing type for sda, bailing
+DEBUG:blivet:                  DeviceTree.handle_device: name: loop0 ; info: {'CURRENT_TAGS': ':systemd:',
+ 'DEVLINKS': '/dev/disk/by-diskseq/4',
+ 'DEVNAME': '/dev/loop0',
+ 'DEVPATH': '/devices/virtual/block/loop0',
+ 'DEVTYPE': 'disk',
+ 'DISKSEQ': '4',
+ 'ID_FS_TYPE': 'squashfs',
+ 'ID_FS_USAGE': 'filesystem',
+ 'ID_FS_VERSION': '4.0',
+ 'MAJOR': '7',
+ 'MINOR': '0',
+ 'NVME_HOST_IFACE': 'none',
+ 'SUBSYSTEM': 'block',
+ 'SYS_NAME': 'loop0',
+ 'SYS_PATH': '/sys/devices/virtual/block/loop0',
+ 'TAGS': ':systemd:',
+ 'USEC_INITIALIZED': '44564344'} ;
+INFO:blivet:scanning loop0 (/sys/devices/virtual/block/loop0)...
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/loop0/hidden: 300a
+DEBUG:blivet:                    DeviceTree.get_device_by_name: name: loop0 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                    DeviceTree.get_device_by_name returned None
+DEBUG:blivet:                   LoopDevicePopulator.run: name: loop0 ;
+DEBUG:blivet:                     DeviceTree.get_device_by_name: name: /run/install/repo/images/install.img ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                     DeviceTree.get_device_by_name returned None
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 20
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 21
+DEBUG:blivet:                           FileDevice._set_format: /run/install/repo/images/install.img ; type: None ; current: None ;
+INFO:blivet:added file /run/install/repo/images/install.img (id 19) to device tree
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 24
+DEBUG:blivet:                                FileDevice.add_child: name: /run/install/repo/images/install.img ; child: loop0 ; kids: 0 ;
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 25
+DEBUG:blivet:                           LoopDevice._set_format: loop0 ; type: None ; current: None ;
+INFO:blivet:added loop loop0 (id 23) to device tree
+INFO:blivet:got device: LoopDevice instance (0x7fdb1d5d0040) --
+  name = loop0  status = False  id = 23
+  children = []
+  parents = ['existing 0 B file /run/install/repo/images/install.img (19)']
+  uuid = None  size = 0 B
+  format = existing None
+  major = 0  minor = 0  exists = True  protected = False
+  sysfs path = 
+  target size = 0 B  path = /dev/loop0
+  format args = []  original_format = None
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/loop0/ro: 310a
+DEBUG:blivet:                    DeviceTree.handle_format: name: loop0 ;
+DEBUG:blivet:                                AppleBootstrapFS.supported: supported: True ;
+DEBUG:blivet:get_format('appleboot') returning AppleBootstrapFS instance with object id 27
+DEBUG:blivet:                                EFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('efi') returning EFIFS instance with object id 28
+DEBUG:blivet:                                  MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 29
+DEBUG:blivet:                                   MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 30
+INFO:blivet:type detected on 'loop0' is 'squashfs'
+DEBUG:blivet:get_format('squashfs') returning DeviceFormat instance with object id 31
+DEBUG:blivet:                         LoopDevice._set_format: loop0 ; type: None ; current: None ;
+INFO:blivet:got format: existing None
+DEBUG:blivet:                  DeviceTree.handle_device: name: loop1 ; info: {'CURRENT_TAGS': ':systemd:',
+ 'DEVLINKS': '/dev/disk/by-label/Anaconda '
+             '/dev/disk/by-uuid/db02eccd-dedb-4fdb-acaf-ca49e38ca6e7 '
+             '/dev/disk/by-diskseq/5',
+ 'DEVNAME': '/dev/loop1',
+ 'DEVPATH': '/devices/virtual/block/loop1',
+ 'DEVTYPE': 'disk',
+ 'DISKSEQ': '5',
+ 'ID_FS_BLOCKSIZE': '4096',
+ 'ID_FS_LABEL': 'Anaconda',
+ 'ID_FS_LABEL_ENC': 'Anaconda',
+ 'ID_FS_LASTBLOCK': '786432',
+ 'ID_FS_TYPE': 'ext4',
+ 'ID_FS_USAGE': 'filesystem',
+ 'ID_FS_UUID': 'db02eccd-dedb-4fdb-acaf-ca49e38ca6e7',
+ 'ID_FS_UUID_ENC': 'db02eccd-dedb-4fdb-acaf-ca49e38ca6e7',
+ 'ID_FS_VERSION': '1.0',
+ 'MAJOR': '7',
+ 'MINOR': '1',
+ 'NVME_HOST_IFACE': 'none',
+ 'SUBSYSTEM': 'block',
+ 'SYS_NAME': 'loop1',
+ 'SYS_PATH': '/sys/devices/virtual/block/loop1',
+ 'TAGS': ':systemd:',
+ 'USEC_INITIALIZED': '44581344'} ;
+INFO:blivet:scanning loop1 (/sys/devices/virtual/block/loop1)...
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/loop1/hidden: 300a
+DEBUG:blivet:                    DeviceTree.get_device_by_name: name: loop1 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                    DeviceTree.get_device_by_name returned None
+DEBUG:blivet:                   LoopDevicePopulator.run: name: loop1 ;
+DEBUG:blivet:                     DeviceTree.get_device_by_name: name: /LiveOS/rootfs.img ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                     DeviceTree.get_device_by_name returned None
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 34
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 35
+DEBUG:blivet:                           FileDevice._set_format: /LiveOS/rootfs.img ; type: None ; current: None ;
+INFO:blivet:added file /LiveOS/rootfs.img (id 33) to device tree
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 38
+DEBUG:blivet:                                FileDevice.add_child: name: /LiveOS/rootfs.img ; child: loop1 ; kids: 0 ;
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 39
+DEBUG:blivet:                           LoopDevice._set_format: loop1 ; type: None ; current: None ;
+INFO:blivet:added loop loop1 (id 37) to device tree
+INFO:blivet:got device: LoopDevice instance (0x7fdb1cbd85b0) --
+  name = loop1  status = False  id = 37
+  children = []
+  parents = ['existing 0 B file /LiveOS/rootfs.img (33)']
+  uuid = None  size = 0 B
+  format = existing None
+  major = 0  minor = 0  exists = True  protected = False
+  sysfs path = 
+  target size = 0 B  path = /dev/loop1
+  format args = []  original_format = None
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/loop1/ro: 310a
+DEBUG:blivet:                    DeviceTree.handle_format: name: loop1 ;
+DEBUG:blivet:                                AppleBootstrapFS.supported: supported: True ;
+DEBUG:blivet:get_format('appleboot') returning AppleBootstrapFS instance with object id 41
+DEBUG:blivet:                                EFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('efi') returning EFIFS instance with object id 42
+DEBUG:blivet:                                  MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 43
+DEBUG:blivet:                                   MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 44
+INFO:blivet:type detected on 'loop1' is 'ext4'
+INFO:program:Running... dumpe2fs -h /dev/loop1
+INFO:program:stdout:
+INFO:program:Filesystem volume name:   Anaconda
+INFO:program:Last mounted on:          /var/tmp/lorax/lorax.imgutils.07jq_m_q
+INFO:program:Filesystem UUID:          db02eccd-dedb-4fdb-acaf-ca49e38ca6e7
+INFO:program:Filesystem magic number:  0xEF53
+INFO:program:Filesystem revision #:    1 (dynamic)
+INFO:program:Filesystem features:      has_journal ext_attr resize_inode dir_index filetype extent 64bit flex_bg sparse_super large_file huge_file dir_nlink extra_isize metadata_csum
+INFO:program:Filesystem flags:         signed_directory_hash 
+INFO:program:Default mount options:    user_xattr acl
+INFO:program:Filesystem state:         clean
+INFO:program:Errors behavior:          Continue
+INFO:program:Filesystem OS type:       Linux
+INFO:program:Inode count:              196608
+INFO:program:Block count:              786432
+INFO:program:Reserved block count:     0
+INFO:program:Overhead clusters:        31030
+INFO:program:Free blocks:              283945
+INFO:program:Free inodes:              157960
+INFO:program:First block:              0
+INFO:program:Block size:               4096
+INFO:program:Fragment size:            4096
+INFO:program:Group descriptor size:    64
+INFO:program:Reserved GDT blocks:      383
+INFO:program:Blocks per group:         32768
+INFO:program:Fragments per group:      32768
+INFO:program:Inodes per group:         8192
+INFO:program:Inode blocks per group:   512
+INFO:program:Flex block group size:    16
+INFO:program:Filesystem created:       Mon Apr 17 08:17:46 2023
+INFO:program:Last mount time:          Mon Apr 17 08:17:46 2023
+INFO:program:Last write time:          Mon Apr 17 08:17:51 2023
+INFO:program:Mount count:              1
+INFO:program:Maximum mount count:      -1
+INFO:program:Last checked:             Mon Apr 17 08:17:46 2023
+INFO:program:Check interval:           0 (<none>)
+INFO:program:Lifetime writes:          1894 MB
+INFO:program:Reserved blocks uid:      0 (user root)
+INFO:program:Reserved blocks gid:      0 (group root)
+INFO:program:First inode:              11
+INFO:program:Inode size:	          256
+INFO:program:Required extra isize:     32
+INFO:program:Desired extra isize:      32
+INFO:program:Journal inode:            8
+INFO:program:Default directory hash:   half_md4
+INFO:program:Directory Hash Seed:      6752d399-24da-4fa6-89c6-2304e0b06702
+INFO:program:Journal backup:           inode blocks
+INFO:program:Checksum type:            crc32c
+INFO:program:Checksum:                 0xc442973f
+INFO:program:Journal features:         journal_64bit journal_checksum_v3
+INFO:program:Total journal size:       64M
+INFO:program:Total journal blocks:     16384
+INFO:program:Max transaction length:   16384
+INFO:program:Fast commit length:       0
+INFO:program:Journal sequence:         0x00000006
+INFO:program:Journal start:            0
+INFO:program:Journal checksum type:    crc32c
+INFO:program:Journal checksum:         0xf855be44
+INFO:program:
+INFO:program:stderr:
+INFO:program:b'dumpe2fs 1.46.5 (30-Dec-2021)'
+DEBUG:program:Return code: 0
+INFO:program:Running... resize2fs -P /dev/loop1
+INFO:program:stdout:
+INFO:program:Couldn't find valid filesystem superblock.
+INFO:program:stderr:
+INFO:program:b'resize2fs 1.46.5 (30-Dec-2021)'
+INFO:program:b'resize2fs: Device or resource busy while trying to open /dev/loop1'
+DEBUG:program:Return code: 1
+WARNING:blivet:Failed to obtain minimum size for device /dev/loop1: failed to gather info from resize program: 1
+DEBUG:blivet:                          Ext4FS.supported: supported: True ;
+DEBUG:blivet:get_format('ext4') returning Ext4FS instance with object id 45
+DEBUG:blivet:                         LoopDevice._set_format: loop1 ; type: ext4 ; current: None ;
+INFO:blivet:got format: existing ext4 filesystem
+DEBUG:blivet:                  DeviceTree.handle_device: name: loop2 ; info: {'CURRENT_TAGS': ':systemd:',
+ 'DEVLINKS': '/dev/disk/by-diskseq/6',
+ 'DEVNAME': '/dev/loop2',
+ 'DEVPATH': '/devices/virtual/block/loop2',
+ 'DEVTYPE': 'disk',
+ 'DISKSEQ': '6',
+ 'MAJOR': '7',
+ 'MINOR': '2',
+ 'NVME_HOST_IFACE': 'none',
+ 'SUBSYSTEM': 'block',
+ 'SYS_NAME': 'loop2',
+ 'SYS_PATH': '/sys/devices/virtual/block/loop2',
+ 'TAGS': ':systemd:',
+ 'USEC_INITIALIZED': '44564344'} ;
+INFO:blivet:scanning loop2 (/sys/devices/virtual/block/loop2)...
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/loop2/hidden: 300a
+DEBUG:blivet:                    DeviceTree.get_device_by_name: name: loop2 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                    DeviceTree.get_device_by_name returned None
+DEBUG:blivet:                   LoopDevicePopulator.run: name: loop2 ;
+DEBUG:blivet:                     DeviceTree.get_device_by_name: name: /overlay (deleted) ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                     DeviceTree.get_device_by_name returned None
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 48
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 49
+DEBUG:blivet:                           FileDevice._set_format: /overlay (deleted) ; type: None ; current: None ;
+INFO:blivet:added file /overlay (deleted) (id 47) to device tree
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 52
+DEBUG:blivet:                                FileDevice.add_child: name: /overlay (deleted) ; child: loop2 ; kids: 0 ;
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 53
+DEBUG:blivet:                           LoopDevice._set_format: loop2 ; type: None ; current: None ;
+INFO:blivet:added loop loop2 (id 51) to device tree
+INFO:blivet:got device: LoopDevice instance (0x7fdb1cb61130) --
+  name = loop2  status = False  id = 51
+  children = []
+  parents = ['existing 0 B file /overlay (deleted) (47)']
+  uuid = None  size = 0 B
+  format = existing None
+  major = 0  minor = 0  exists = True  protected = False
+  sysfs path = 
+  target size = 0 B  path = /dev/loop2
+  format args = []  original_format = None
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/loop2/ro: 300a
+DEBUG:blivet:                    DeviceTree.handle_format: name: loop2 ;
+DEBUG:blivet:no type or existing type for loop2, bailing
+DEBUG:blivet:                  DeviceTree.handle_device: name: live-rw ; info: {'CURRENT_TAGS': ':systemd:',
+ 'DEVLINKS': '/dev/mapper/live-rw '
+             '/dev/disk/by-uuid/db02eccd-dedb-4fdb-acaf-ca49e38ca6e7 '
+             '/dev/disk/by-label/Anaconda /dev/disk/by-id/dm-name-live-rw',
+ 'DEVNAME': '/dev/dm-0',
+ 'DEVPATH': '/devices/virtual/block/dm-0',
+ 'DEVTYPE': 'disk',
+ 'DISKSEQ': '7',
+ 'DM_NAME': 'live-rw',
+ 'DM_SUSPENDED': '0',
+ 'DM_UDEV_DISABLE_LIBRARY_FALLBACK_FLAG': '1',
+ 'DM_UDEV_PRIMARY_SOURCE_FLAG': '1',
+ 'DM_UDEV_RULES_VSN': '2',
+ 'ID_FS_BLOCKSIZE': '4096',
+ 'ID_FS_LABEL': 'Anaconda',
+ 'ID_FS_LABEL_ENC': 'Anaconda',
+ 'ID_FS_LASTBLOCK': '786432',
+ 'ID_FS_TYPE': 'ext4',
+ 'ID_FS_USAGE': 'filesystem',
+ 'ID_FS_UUID': 'db02eccd-dedb-4fdb-acaf-ca49e38ca6e7',
+ 'ID_FS_UUID_ENC': 'db02eccd-dedb-4fdb-acaf-ca49e38ca6e7',
+ 'ID_FS_VERSION': '1.0',
+ 'MAJOR': '253',
+ 'MINOR': '0',
+ 'NVME_HOST_IFACE': 'none',
+ 'SUBSYSTEM': 'block',
+ 'SYS_NAME': 'dm-0',
+ 'SYS_PATH': '/sys/devices/virtual/block/dm-0',
+ 'TAGS': ':systemd:',
+ 'USEC_INITIALIZED': '42604344'} ;
+INFO:blivet:scanning live-rw (/sys/devices/virtual/block/dm-0)...
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/dm-0/hidden: 300a
+INFO:program:Running [7] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[7]: 
+
+INFO:program:stderr[7]: 
+INFO:program:...done [7] (exit code: 0)
+INFO:program:Running [8] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[8]: 
+
+INFO:program:stderr[8]: 
+INFO:program:...done [8] (exit code: 0)
+INFO:program:Running [9] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[9]: 
+
+INFO:program:stderr[9]: 
+INFO:program:...done [9] (exit code: 0)
+DEBUG:blivet:                    DeviceTree.get_device_by_name: name: live-rw ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                    DeviceTree.get_device_by_name returned None
+INFO:program:Running [10] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[10]: 
+
+INFO:program:stderr[10]: 
+INFO:program:...done [10] (exit code: 0)
+INFO:program:Running [11] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[11]: 
+
+INFO:program:stderr[11]: 
+INFO:program:...done [11] (exit code: 0)
+INFO:program:Running [12] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[12]: 
+
+INFO:program:stderr[12]: 
+INFO:program:...done [12] (exit code: 0)
+INFO:program:Running [13] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[13]: 
+
+INFO:program:stderr[13]: 
+INFO:program:...done [13] (exit code: 0)
+INFO:program:Running [14] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[14]: 
+
+INFO:program:stderr[14]: 
+INFO:program:...done [14] (exit code: 0)
+INFO:program:Running [15] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[15]: 
+
+INFO:program:stderr[15]: 
+INFO:program:...done [15] (exit code: 0)
+INFO:program:Running [16] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[16]: 
+
+INFO:program:stderr[16]: 
+INFO:program:...done [16] (exit code: 0)
+INFO:program:Running [17] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[17]: 
+
+INFO:program:stderr[17]: 
+INFO:program:...done [17] (exit code: 0)
+INFO:program:Running [18] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[18]: 
+
+INFO:program:stderr[18]: 
+INFO:program:...done [18] (exit code: 0)
+INFO:program:Running [19] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[19]: 
+
+INFO:program:stderr[19]: 
+INFO:program:...done [19] (exit code: 0)
+DEBUG:blivet:                   DMDevicePopulator.run: name: live-rw ;
+DEBUG:blivet:                       DeviceTree.get_device_by_name: name: loop1 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                       DeviceTree.get_device_by_name returned existing 0 B loop loop1 (37) with existing ext4 filesystem
+DEBUG:blivet:                       DeviceTree.get_device_by_name: name: loop2 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                       DeviceTree.get_device_by_name returned existing 0 B loop loop2 (51)
+DEBUG:blivet:                     DeviceTree.get_device_by_name: name: live-rw ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                     DeviceTree.get_device_by_name returned None
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 57
+DEBUG:blivet:                                LoopDevice.add_child: name: loop1 ; child: live-rw ; kids: 0 ;
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 58
+DEBUG:blivet:                           DMDevice._set_format: live-rw ; type: None ; current: None ;
+DEBUG:blivet:                         DMDevice.update_sysfs_path: live-rw ; status: True ;
+DEBUG:blivet:live-rw sysfs_path set to /sys/devices/virtual/block/dm-0
+DEBUG:blivet:                             DMDevice.read_current_size: exists: True ; path: /dev/mapper/live-rw ; sysfs_path: /sys/devices/virtual/block/dm-0 ;
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/dm-0/size: 363239313435360a
+DEBUG:blivet:updated live-rw size to 3 GiB (3 GiB)
+INFO:blivet:added dm live-rw (id 56) to device tree
+INFO:blivet:got device: DMDevice instance (0x7fdb1cb5c8e0) --
+  name = live-rw  status = True  id = 56
+  children = []
+  parents = ['existing 0 B loop loop1 (37) with existing ext4 filesystem']
+  uuid = None  size = 3 GiB
+  format = existing None
+  major = 0  minor = 0  exists = True  protected = True
+  sysfs path = /sys/devices/virtual/block/dm-0
+  target size = 3 GiB  path = /dev/mapper/live-rw
+  format args = []  original_format = None  target = None  dm_uuid = None
+INFO:program:Running [20] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[20]: 
+
+INFO:program:stderr[20]: 
+INFO:program:...done [20] (exit code: 0)
+INFO:program:Running [21] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[21]: 
+
+INFO:program:stderr[21]: 
+INFO:program:...done [21] (exit code: 0)
+INFO:program:Running [22] dmsetup info -co subsystem --noheadings live-rw ...
+INFO:program:stdout[22]: 
+
+INFO:program:stderr[22]: 
+INFO:program:...done [22] (exit code: 0)
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/dm-0/ro: 300a
+DEBUG:blivet:                    DeviceTree.handle_format: name: live-rw ;
+DEBUG:blivet:                                AppleBootstrapFS.supported: supported: True ;
+DEBUG:blivet:get_format('appleboot') returning AppleBootstrapFS instance with object id 60
+DEBUG:blivet:                                EFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('efi') returning EFIFS instance with object id 61
+DEBUG:blivet:                                  MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 62
+DEBUG:blivet:                                   MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 63
+INFO:blivet:type detected on 'live-rw' is 'ext4'
+INFO:program:Running... dumpe2fs -h /dev/mapper/live-rw
+INFO:program:stdout:
+INFO:program:Filesystem volume name:   Anaconda
+INFO:program:Last mounted on:          /
+INFO:program:Filesystem UUID:          db02eccd-dedb-4fdb-acaf-ca49e38ca6e7
+INFO:program:Filesystem magic number:  0xEF53
+INFO:program:Filesystem revision #:    1 (dynamic)
+INFO:program:Filesystem features:      has_journal ext_attr resize_inode dir_index filetype needs_recovery extent 64bit flex_bg sparse_super large_file huge_file dir_nlink extra_isize metadata_csum
+INFO:program:Filesystem flags:         signed_directory_hash 
+INFO:program:Default mount options:    user_xattr acl
+INFO:program:Filesystem state:         clean
+INFO:program:Errors behavior:          Continue
+INFO:program:Filesystem OS type:       Linux
+INFO:program:Inode count:              196608
+INFO:program:Block count:              786432
+INFO:program:Reserved block count:     0
+INFO:program:Overhead clusters:        31030
+INFO:program:Free blocks:              283945
+INFO:program:Free inodes:              157960
+INFO:program:First block:              0
+INFO:program:Block size:               4096
+INFO:program:Fragment size:            4096
+INFO:program:Group descriptor size:    64
+INFO:program:Reserved GDT blocks:      383
+INFO:program:Blocks per group:         32768
+INFO:program:Fragments per group:      32768
+INFO:program:Inodes per group:         8192
+INFO:program:Inode blocks per group:   512
+INFO:program:Flex block group size:    16
+INFO:program:Filesystem created:       Mon Apr 17 08:17:46 2023
+INFO:program:Last mount time:          Sat Apr 22 21:46:35 2023
+INFO:program:Last write time:          Sat Apr 22 21:46:35 2023
+INFO:program:Mount count:              2
+INFO:program:Maximum mount count:      -1
+INFO:program:Last checked:             Mon Apr 17 08:17:46 2023
+INFO:program:Check interval:           0 (<none>)
+INFO:program:Lifetime writes:          1894 MB
+INFO:program:Reserved blocks uid:      0 (user root)
+INFO:program:Reserved blocks gid:      0 (group root)
+INFO:program:First inode:              11
+INFO:program:Inode size:	          256
+INFO:program:Required extra isize:     32
+INFO:program:Desired extra isize:      32
+INFO:program:Journal inode:            8
+INFO:program:Default directory hash:   half_md4
+INFO:program:Directory Hash Seed:      6752d399-24da-4fa6-89c6-2304e0b06702
+INFO:program:Journal backup:           inode blocks
+INFO:program:Checksum type:            crc32c
+INFO:program:Checksum:                 0xd460f0c3
+INFO:program:Journal features:         journal_incompat_revoke journal_64bit journal_checksum_v3
+INFO:program:Total journal size:       64M
+INFO:program:Total journal blocks:     16384
+INFO:program:Max transaction length:   16384
+INFO:program:Fast commit length:       0
+INFO:program:Journal sequence:         0x00000007
+INFO:program:Journal start:            1
+INFO:program:Journal checksum type:    crc32c
+INFO:program:Journal checksum:         0x5d506d23
+INFO:program:
+INFO:program:stderr:
+INFO:program:b'dumpe2fs 1.46.5 (30-Dec-2021)'
+DEBUG:program:Return code: 0
+INFO:program:Running... resize2fs -P /dev/mapper/live-rw
+INFO:program:stdout:
+INFO:program:Estimated minimum size of the filesystem: 786432
+INFO:program:stderr:
+INFO:program:b'resize2fs 1.46.5 (30-Dec-2021)'
+DEBUG:program:Return code: 0
+DEBUG:blivet:using current size 3 GiB as min size
+DEBUG:blivet:                          Ext4FS.supported: supported: True ;
+DEBUG:blivet:get_format('ext4') returning Ext4FS instance with object id 64
+DEBUG:blivet:                         DMDevice._set_format: live-rw ; type: ext4 ; current: None ;
+INFO:blivet:got format: existing ext4 filesystem
+DEBUG:blivet:                  DeviceTree.handle_device: name: live-base ; info: {'CURRENT_TAGS': ':systemd:',
+ 'DEVLINKS': '/dev/disk/by-label/Anaconda '
+             '/dev/disk/by-uuid/db02eccd-dedb-4fdb-acaf-ca49e38ca6e7 '
+             '/dev/mapper/live-base /dev/disk/by-id/dm-name-live-base',
+ 'DEVNAME': '/dev/dm-1',
+ 'DEVPATH': '/devices/virtual/block/dm-1',
+ 'DEVTYPE': 'disk',
+ 'DISKSEQ': '8',
+ 'DM_NAME': 'live-base',
+ 'DM_SUSPENDED': '0',
+ 'DM_UDEV_DISABLE_LIBRARY_FALLBACK_FLAG': '1',
+ 'DM_UDEV_PRIMARY_SOURCE_FLAG': '1',
+ 'DM_UDEV_RULES_VSN': '2',
+ 'ID_FS_BLOCKSIZE': '4096',
+ 'ID_FS_LABEL': 'Anaconda',
+ 'ID_FS_LABEL_ENC': 'Anaconda',
+ 'ID_FS_LASTBLOCK': '786432',
+ 'ID_FS_TYPE': 'ext4',
+ 'ID_FS_USAGE': 'filesystem',
+ 'ID_FS_UUID': 'db02eccd-dedb-4fdb-acaf-ca49e38ca6e7',
+ 'ID_FS_UUID_ENC': 'db02eccd-dedb-4fdb-acaf-ca49e38ca6e7',
+ 'ID_FS_VERSION': '1.0',
+ 'MAJOR': '253',
+ 'MINOR': '1',
+ 'NVME_HOST_IFACE': 'none',
+ 'SUBSYSTEM': 'block',
+ 'SYS_NAME': 'dm-1',
+ 'SYS_PATH': '/sys/devices/virtual/block/dm-1',
+ 'TAGS': ':systemd:',
+ 'USEC_INITIALIZED': '42611344'} ;
+INFO:blivet:scanning live-base (/sys/devices/virtual/block/dm-1)...
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/dm-1/hidden: 300a
+INFO:program:Running [23] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[23]: 
+
+INFO:program:stderr[23]: 
+INFO:program:...done [23] (exit code: 0)
+INFO:program:Running [24] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[24]: 
+
+INFO:program:stderr[24]: 
+INFO:program:...done [24] (exit code: 0)
+INFO:program:Running [25] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[25]: 
+
+INFO:program:stderr[25]: 
+INFO:program:...done [25] (exit code: 0)
+DEBUG:blivet:                    DeviceTree.get_device_by_name: name: live-base ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                    DeviceTree.get_device_by_name returned None
+INFO:program:Running [26] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[26]: 
+
+INFO:program:stderr[26]: 
+INFO:program:...done [26] (exit code: 0)
+INFO:program:Running [27] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[27]: 
+
+INFO:program:stderr[27]: 
+INFO:program:...done [27] (exit code: 0)
+INFO:program:Running [28] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[28]: 
+
+INFO:program:stderr[28]: 
+INFO:program:...done [28] (exit code: 0)
+INFO:program:Running [29] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[29]: 
+
+INFO:program:stderr[29]: 
+INFO:program:...done [29] (exit code: 0)
+INFO:program:Running [30] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[30]: 
+
+INFO:program:stderr[30]: 
+INFO:program:...done [30] (exit code: 0)
+INFO:program:Running [31] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[31]: 
+
+INFO:program:stderr[31]: 
+INFO:program:...done [31] (exit code: 0)
+INFO:program:Running [32] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[32]: 
+
+INFO:program:stderr[32]: 
+INFO:program:...done [32] (exit code: 0)
+INFO:program:Running [33] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[33]: 
+
+INFO:program:stderr[33]: 
+INFO:program:...done [33] (exit code: 0)
+INFO:program:Running [34] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[34]: 
+
+INFO:program:stderr[34]: 
+INFO:program:...done [34] (exit code: 0)
+INFO:program:Running [35] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[35]: 
+
+INFO:program:stderr[35]: 
+INFO:program:...done [35] (exit code: 0)
+DEBUG:blivet:                   DMDevicePopulator.run: name: live-base ;
+DEBUG:blivet:                       DeviceTree.get_device_by_name: name: loop1 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                       DeviceTree.get_device_by_name returned existing 0 B loop loop1 (37) with existing ext4 filesystem
+DEBUG:blivet:                     DeviceTree.get_device_by_name: name: live-base ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                     DeviceTree.get_device_by_name returned None
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 67
+DEBUG:blivet:                                LoopDevice.add_child: name: loop1 ; child: live-base ; kids: 1 ;
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 68
+DEBUG:blivet:                           DMDevice._set_format: live-base ; type: None ; current: None ;
+DEBUG:blivet:                         DMDevice.update_sysfs_path: live-base ; status: True ;
+DEBUG:blivet:live-base sysfs_path set to /sys/devices/virtual/block/dm-1
+DEBUG:blivet:                             DMDevice.read_current_size: exists: True ; path: /dev/mapper/live-base ; sysfs_path: /sys/devices/virtual/block/dm-1 ;
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/dm-1/size: 363239313435360a
+DEBUG:blivet:updated live-base size to 3 GiB (3 GiB)
+INFO:blivet:added dm live-base (id 66) to device tree
+INFO:blivet:got device: DMDevice instance (0x7fdb1cb662e0) --
+  name = live-base  status = True  id = 66
+  children = []
+  parents = ['existing 0 B loop loop1 (37) with existing ext4 filesystem']
+  uuid = None  size = 3 GiB
+  format = existing None
+  major = 0  minor = 0  exists = True  protected = True
+  sysfs path = /sys/devices/virtual/block/dm-1
+  target size = 3 GiB  path = /dev/mapper/live-base
+  format args = []  original_format = None  target = None  dm_uuid = None
+INFO:program:Running [36] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[36]: 
+
+INFO:program:stderr[36]: 
+INFO:program:...done [36] (exit code: 0)
+INFO:program:Running [37] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[37]: 
+
+INFO:program:stderr[37]: 
+INFO:program:...done [37] (exit code: 0)
+INFO:program:Running [38] dmsetup info -co subsystem --noheadings live-base ...
+INFO:program:stdout[38]: 
+
+INFO:program:stderr[38]: 
+INFO:program:...done [38] (exit code: 0)
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/dm-1/ro: 310a
+DEBUG:blivet:                    DeviceTree.handle_format: name: live-base ;
+DEBUG:blivet:                                AppleBootstrapFS.supported: supported: True ;
+DEBUG:blivet:get_format('appleboot') returning AppleBootstrapFS instance with object id 70
+DEBUG:blivet:                                EFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('efi') returning EFIFS instance with object id 71
+DEBUG:blivet:                                  MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 72
+DEBUG:blivet:                                   MacEFIFS.supported: supported: True ;
+DEBUG:blivet:get_format('macefi') returning MacEFIFS instance with object id 73
+INFO:blivet:type detected on 'live-base' is 'ext4'
+INFO:program:Running... dumpe2fs -h /dev/mapper/live-base
+INFO:program:stdout:
+INFO:program:Filesystem volume name:   Anaconda
+INFO:program:Last mounted on:          /var/tmp/lorax/lorax.imgutils.07jq_m_q
+INFO:program:Filesystem UUID:          db02eccd-dedb-4fdb-acaf-ca49e38ca6e7
+INFO:program:Filesystem magic number:  0xEF53
+INFO:program:Filesystem revision #:    1 (dynamic)
+INFO:program:Filesystem features:      has_journal ext_attr resize_inode dir_index filetype extent 64bit flex_bg sparse_super large_file huge_file dir_nlink extra_isize metadata_csum
+INFO:program:Filesystem flags:         signed_directory_hash 
+INFO:program:Default mount options:    user_xattr acl
+INFO:program:Filesystem state:         clean
+INFO:program:Errors behavior:          Continue
+INFO:program:Filesystem OS type:       Linux
+INFO:program:Inode count:              196608
+INFO:program:Block count:              786432
+INFO:program:Reserved block count:     0
+INFO:program:Overhead clusters:        31030
+INFO:program:Free blocks:              283945
+INFO:program:Free inodes:              157960
+INFO:program:First block:              0
+INFO:program:Block size:               4096
+INFO:program:Fragment size:            4096
+INFO:program:Group descriptor size:    64
+INFO:program:Reserved GDT blocks:      383
+INFO:program:Blocks per group:         32768
+INFO:program:Fragments per group:      32768
+INFO:program:Inodes per group:         8192
+INFO:program:Inode blocks per group:   512
+INFO:program:Flex block group size:    16
+INFO:program:Filesystem created:       Mon Apr 17 08:17:46 2023
+INFO:program:Last mount time:          Mon Apr 17 08:17:46 2023
+INFO:program:Last write time:          Mon Apr 17 08:17:51 2023
+INFO:program:Mount count:              1
+INFO:program:Maximum mount count:      -1
+INFO:program:Last checked:             Mon Apr 17 08:17:46 2023
+INFO:program:Check interval:           0 (<none>)
+INFO:program:Lifetime writes:          1894 MB
+INFO:program:Reserved blocks uid:      0 (user root)
+INFO:program:Reserved blocks gid:      0 (group root)
+INFO:program:First inode:              11
+INFO:program:Inode size:	          256
+INFO:program:Required extra isize:     32
+INFO:program:Desired extra isize:      32
+INFO:program:Journal inode:            8
+INFO:program:Default directory hash:   half_md4
+INFO:program:Directory Hash Seed:      6752d399-24da-4fa6-89c6-2304e0b06702
+INFO:program:Journal backup:           inode blocks
+INFO:program:Checksum type:            crc32c
+INFO:program:Checksum:                 0xc442973f
+INFO:program:Journal features:         journal_64bit journal_checksum_v3
+INFO:program:Total journal size:       64M
+INFO:program:Total journal blocks:     16384
+INFO:program:Max transaction length:   16384
+INFO:program:Fast commit length:       0
+INFO:program:Journal sequence:         0x00000006
+INFO:program:Journal start:            0
+INFO:program:Journal checksum type:    crc32c
+INFO:program:Journal checksum:         0xf855be44
+INFO:program:
+INFO:program:stderr:
+INFO:program:b'dumpe2fs 1.46.5 (30-Dec-2021)'
+DEBUG:program:Return code: 0
+INFO:program:Running... resize2fs -P /dev/mapper/live-base
+INFO:program:stdout:
+INFO:program:Couldn't find valid filesystem superblock.
+INFO:program:stderr:
+INFO:program:b'resize2fs 1.46.5 (30-Dec-2021)'
+INFO:program:b'resize2fs: Operation not permitted while trying to open /dev/mapper/live-base'
+DEBUG:program:Return code: 1
+WARNING:blivet:Failed to obtain minimum size for device /dev/mapper/live-base: failed to gather info from resize program: 1
+DEBUG:blivet:                          Ext4FS.supported: supported: True ;
+DEBUG:blivet:get_format('ext4') returning Ext4FS instance with object id 74
+DEBUG:blivet:                         DMDevice._set_format: live-base ; type: ext4 ; current: None ;
+INFO:blivet:got format: existing ext4 filesystem
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:blivet:edd: collected mbr signatures: {}
+DEBUG:testdata:glob: /sys/firmware/edd/int13_dev*/
+DEBUG:testdata:glob match: /sys/firmware/edd/int13_dev80/
+DEBUG:blivet:edd: found device 0x80 at /sys/firmware/edd/int13_dev80/
+DEBUG:testdata:sysfs attr /sys/firmware/edd/int13_dev80/version: 307833300a
+WARNING:blivet:interface is not a valid attribute
+WARNING:blivet:mbr_signature is not a valid attribute
+DEBUG:testdata:sysfs attr /sys/firmware/edd/int13_dev80/sectors: 34313934333034300a
+WARNING:blivet:host_bus is not a valid attribute
+DEBUG:blivet:edd: data extracted from 0x80:<EddEntry path: /sys/firmware/edd/int13_dev80/ version: 0x30  mbr_signature: None sectors: 41943040>
+ERROR:blivet:edd: unable to match edd entry 0x80
+DEBUG:blivet:resolved 'LABEL=CentOS-Stream-9-BaseOS-x86_64' to 'sr0' (cdrom)
+DEBUG:anaconda.storage:Protected device spec LABEL=CentOS-Stream-9-BaseOS-x86_64 resolved to sr0.
+DEBUG:blivet:                DeviceTree.get_device_by_path: path: /dev/zram0 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                DeviceTree.get_device_by_path returned None
+DEBUG:blivet:failed to resolve '/dev/zram0'
+DEBUG:anaconda.storage:Marking device sr0 as protected.
+DEBUG:anaconda.storage:Marking device sr0 as protected.
+DEBUG:anaconda.storage:Marking device sr0 as protected.
+DEBUG:blivet:              DiskDevice.teardown: sda ; status: True ; controllable: True ;
+DEBUG:blivet:                  DeviceFormat.teardown: device: /dev/sda ; type: None ; status: False ;
+DEBUG:blivet:                  DeviceFormat.teardown: device: /dev/sda ; type: None ; status: False ;
+DEBUG:blivet:              LoopDevice.teardown: loop2 ; status: False ; controllable: False ;
+DEBUG:blivet:                  FileDevice.teardown: /overlay (deleted) ; status: False ; controllable: False ;
+INFO:anaconda.modules.storage.bootloader.factory:Created the boot loader GRUB2.
+DEBUG:blivet:               DiskDevice.teardown: sda ; status: True ; controllable: True ;
+DEBUG:blivet:                   DeviceFormat.teardown: device: /dev/sda ; type: None ; status: False ;
+DEBUG:blivet:                   DeviceFormat.teardown: device: /dev/sda ; type: None ; status: False ;
+DEBUG:blivet:               LoopDevice.teardown: loop2 ; status: False ; controllable: False ;
+DEBUG:blivet:                   FileDevice.teardown: /overlay (deleted) ; status: False ; controllable: False ;
+DEBUG:blivet:                       Ext4FS.supported: supported: True ;
+DEBUG:blivet:                       Ext4FS.supported: supported: True ;
+DEBUG:blivet:                     Ext4FS.supported: supported: True ;
+DEBUG:blivet:                     Iso9660FS.supported: supported: True ;
+DEBUG:anaconda.modules.storage.storage:The storage model has changed.
+INFO:anaconda.threading:Thread Done: AnaTaskThread-ScanDevicesTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.storage:The storage model has changed.
+DEBUG:anaconda.modules.storage.storage:The partitioning NONE is applied.
+DEBUG:blivet:             DeviceTree.handle_format: name: sr0 ;
+DEBUG:blivet:               OpticalDevice.media_present: sr0 ; status: True ;
+DEBUG:blivet:no type or existing type for sr0, bailing
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sr0 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 8.85 GiB cdrom sr0 (4) with existing iso9660 filesystem
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:              Iso9660FS.setup: device: /dev/sr0 ; type: iso9660 ; status: True ;
+INFO:program:Running... mount -t iso9660 -o ro /dev/sr0 /tmp/tmpw56qqa53
+DEBUG:program:Return code: 0
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sr0 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 8.85 GiB cdrom sr0 (4) with existing iso9660 filesystem
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:              Iso9660FS.teardown: device: /dev/sr0 ; type: iso9660 ; status: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+INFO:program:Running... umount /tmp/tmpw56qqa53
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:resolved 'LABEL=CentOS-Stream-9-BaseOS-x86_64' to 'sr0' (cdrom)
+DEBUG:blivet:             DeviceTree.handle_format: name: sr0 ;
+DEBUG:blivet:               OpticalDevice.media_present: sr0 ; status: True ;
+DEBUG:blivet:no type or existing type for sr0, bailing
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sr0 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 8.85 GiB cdrom sr0 (4) with existing iso9660 filesystem
+DEBUG:anaconda.modules.common.base.base:Locale is set to en_US.UTF-8.
+DEBUG:anaconda.modules.common.base.base:Locale is set to en_US.UTF-8.
+DEBUG:anaconda.modules.common.base.base:Locale is set to en_US.UTF-8.
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sr0 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 8.85 GiB cdrom sr0 (4) with existing iso9660 filesystem
+DEBUG:anaconda.modules.storage.storage:Created the partitioning AUTOMATIC.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Partitioning/1.
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:anaconda.modules.storage.disk_selection.selection:Selected disks are set to '['sda']'.
+DEBUG:anaconda.modules.storage.disk_initialization.initialization:Drives to clear are set to '['sda']'.
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sda ; incomplete: False ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:               DeviceTree.get_dependent_devices: dep: existing 20 GiB disk sda (14) ; hidden: True ;
+DEBUG:blivet:checking if sr0 depends on sda
+DEBUG:blivet:checking if sda depends on sda
+DEBUG:blivet:checking if /run/install/repo/images/install.img depends on sda
+DEBUG:blivet:checking if loop0 depends on sda
+DEBUG:blivet:checking if /LiveOS/rootfs.img depends on sda
+DEBUG:blivet:checking if loop1 depends on sda
+DEBUG:blivet:checking if /overlay (deleted) depends on sda
+DEBUG:blivet:checking if loop2 depends on sda
+DEBUG:blivet:checking if live-rw depends on sda
+DEBUG:blivet:checking if live-base depends on sda
+DEBUG:anaconda.modules.storage.disk_initialization.initialization:The initialization mode is set to 'InitializationMode.CLEAR_NONE'.
+DEBUG:anaconda.modules.storage.disk_initialization.initialization:Can initialize labels is set to 'True'.
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:anaconda.modules.storage.disk_selection.selection:Selected disks are set to '['sda']'.
+DEBUG:anaconda.modules.storage.disk_initialization.initialization:Drives to clear are set to '['sda']'.
+DEBUG:anaconda.modules.storage.storage:Created the partitioning AUTOMATIC.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Partitioning/2.
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_module:Request is set to 'PartitioningRequest(backup_passphrase_enabled=False, cipher='', encrypted=False, escrow_certificate='', excluded_mount_points=[], file_system_type='', luks_version='', partitioning_scheme=2, passphrase_set=False, pbkdf='', pbkdf_iterations=0, pbkdf_memory=0, pbkdf_time=0)'.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/DeviceTree/1.
+DEBUG:anaconda.modules.storage.partitioning.base:Creating a new storage playground for AUTOMATIC with selected disks ['sda'].
+DEBUG:anaconda.storage:Creating a copy of the storage model.
+DEBUG:anaconda.storage:starting Blivet copy
+DEBUG:anaconda.storage:finished Blivet copy
+DEBUG:anaconda.storage:Finished a copy of the storage model.
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:anaconda.modules.storage.disk_initialization.initialization:The initialization mode is set to 'InitializationMode.CLEAR_NONE'.
+DEBUG:anaconda.modules.storage.disk_initialization.initialization:Can initialize labels is set to 'True'.
+DEBUG:blivet:              DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:              DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14)
+DEBUG:anaconda.modules.storage.disk_selection.selection:Selected disks are set to '['sda']'.
+DEBUG:anaconda.modules.storage.disk_initialization.initialization:Drives to clear are set to '['sda']'.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/2.
+INFO:anaconda.threading:Running Thread: AnaTaskThread-AutomaticPartitioningTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.partitioning.automatic.noninteractive_partitioning:Looking at disk: sda
+DEBUG:blivet:            DeviceTree.get_dependent_devices: dep: existing 20 GiB disk sda (14) ; hidden: False ;
+DEBUG:blivet:dep is a leaf
+DEBUG:anaconda.modules.storage.partitioning.automatic.noninteractive_partitioning:Removing sda.
+DEBUG:blivet:removing sda
+DEBUG:blivet:               DeviceTree.get_dependent_devices: dep: existing 20 GiB disk sda (14) ; hidden: False ;
+DEBUG:blivet:dep is a leaf
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 107
+DEBUG:blivet:                     DiskDevice._set_format: sda ; type: None ; current: None ;
+INFO:blivet:registered action: [106] destroy format None on disk sda (id 14)
+DEBUG:anaconda.modules.storage.disk_initialization.configuration:Can sda be initialized?
+DEBUG:blivet:             DeviceTree.get_dependent_devices: dep: existing 20 GiB disk sda (14) ; hidden: False ;
+DEBUG:blivet:dep is a leaf
+DEBUG:anaconda.modules.storage.disk_initialization.configuration:The clearable disk can be initialized.
+DEBUG:anaconda.modules.storage.partitioning.automatic.noninteractive_partitioning:Initializing sda.
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 109
+DEBUG:blivet:                   DiskDevice._set_format: sda ; type: None ; current: None ;
+INFO:blivet:registered action: [108] destroy format None on disk sda (id 14)
+DEBUG:blivet:              DiskLabel.__init__: device: /dev/sda ;
+DEBUG:blivet:selecting None disklabel for sda based on size
+DEBUG:blivet:                    DiskLabel.fresh_parted_disk: device: /dev/sda ; label_type: msdos ;
+DEBUG:blivet:selecting None disklabel for sda based on size
+DEBUG:blivet:Did not change pmbr_boot on parted.Disk instance --
+  type: msdos  primaryPartitionCount: 0
+  lastPartitionNumber: -1  maxPrimaryPartitionCount: 4
+  partitions: []
+  device: <parted.device.Device object at 0x7fdb1cbcaa60>
+  PedDisk: <_ped.Disk object at 0x7fdb1cab7080>
+DEBUG:blivet:get_format('disklabel') returning DiskLabel instance with object id 110
+DEBUG:blivet:                   DiskDevice._set_format: sda ; type: disklabel ; current: None ;
+INFO:blivet:registered action: [111] create format msdos disklabel on disk sda (id 14)
+DEBUG:anaconda.modules.storage.bootloader.execution:Execute the bootloader with dry run True.
+DEBUG:anaconda.modules.storage.bootloader.base:new disk list: [DiskDevice instance (0x7fdb1cb704c0) --
+  name = sda  status = True  id = 14
+  children = []
+  parents = []
+  uuid = None  size = 20 GiB
+  format = non-existent msdos disklabel
+  major = 8  minor = 0  exists = True  protected = False
+  sysfs path = /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda
+  target size = 20 GiB  path = /dev/sda
+  format args = []  original_format = None  removable = False  wwn = None]
+DEBUG:anaconda.modules.storage.bootloader.execution:Applying bootloader location: DEFAULT
+DEBUG:anaconda.modules.storage.bootloader.execution:Applying drive order: []
+DEBUG:anaconda.modules.storage.bootloader.base:new disk order: []
+DEBUG:anaconda.modules.storage.bootloader.base:Is /LiveOS/rootfs.img a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type file
+DEBUG:anaconda.modules.storage.bootloader.base:Is /overlay (deleted) a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type file
+DEBUG:anaconda.modules.storage.bootloader.base:Is /run/install/repo/images/install.img a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type file
+DEBUG:anaconda.modules.storage.bootloader.base:Is live-base a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type dm
+DEBUG:anaconda.modules.storage.bootloader.base:Is live-rw a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type dm
+DEBUG:anaconda.modules.storage.bootloader.base:Is loop0 a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type loop
+DEBUG:anaconda.modules.storage.bootloader.base:Is loop1 a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type loop
+DEBUG:anaconda.modules.storage.bootloader.base:Is loop2 a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type loop
+DEBUG:anaconda.modules.storage.bootloader.base:Is sda a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_disklabel(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_size(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_location(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_format(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:is_valid_stage1_device(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.execution:Found a drive with a valid stage1: sda
+DEBUG:anaconda.modules.storage.bootloader.execution:Use a usable drive with a valid stage1 device.
+DEBUG:anaconda.modules.storage.bootloader.execution:Using a boot drive: sda
+DEBUG:blivet:                DeviceTree.get_device_by_name: name: sda ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14) with non-existent msdos disklabel
+DEBUG:blivet:resolved 'sda' to 'sda' (disk)
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:Executing the automatic partitioning.
+INFO:anaconda.core.storage:Detected 2.05 GiB of memory
+INFO:anaconda.core.storage:Suggested swap size (2.05 GiB) exceeds 10 % of disk space, using 10 % of disk space (2 GiB) instead.
+INFO:anaconda.core.storage:Swap attempt of 2 GiB
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:scheme: 2
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:requests:
+PartSpec instance (0x7fdb1cbd80d0) -- 
+  mountpoint = None  lv = False  thin = False  btrfs = False
+  weight = 0  fstype = biosboot  encrypted = False
+  size = 1024 KiB  max_size = None  grow = False
+PartSpec instance (0x7fdb1cbcac40) -- 
+  mountpoint = /boot  lv = False  thin = False  btrfs = False
+  weight = 0  fstype = xfs  encrypted = False
+  size = 1024 MiB  max_size = None  grow = False
+PartSpec instance (0x7fdb1cbcabe0) -- 
+  mountpoint = /  lv = True  thin = True  btrfs = True
+  weight = 0  fstype = xfs  encrypted = True
+  size = 1024 MiB  max_size = 70 GiB  grow = True
+PartSpec instance (0x7fdb1cbca0d0) -- 
+  mountpoint = /home  lv = True  thin = True  btrfs = True
+  weight = 0  fstype = xfs  encrypted = True
+  size = 500 MiB  max_size = None  grow = True
+PartSpec instance (0x7fdb1cbcac10) -- 
+  mountpoint = None  lv = True  thin = False  btrfs = False
+  weight = 0  fstype = swap  encrypted = True
+  size = 2 GiB  max_size = None  grow = False
+
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:encrypted: False
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:storage.disks: ['sda']
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:storage.partitioned: ['sda']
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:all names: ['/LiveOS/rootfs.img', '/overlay (deleted)', '/run/install/repo/images/install.img', 'live-base', 'live-rw', 'loop0', 'loop1', 'loop2', 'sda', 'sr0']
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:boot disk: sda
+DEBUG:anaconda.modules.storage.partitioning.automatic.automatic_partitioning:candidate disks: ['sda']
+DEBUG:anaconda.modules.storage.partitioning.automatic.utils:Found disks for implicit partitions: ['sda']
+DEBUG:blivet:                LVMPhysicalVolume.__init__: mountpoint: None ;
+DEBUG:blivet:get_format('lvmpv') returning LVMPhysicalVolume instance with object id 112
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 114
+DEBUG:blivet:                          DiskDevice.add_child: name: sda ; child: req0 ; kids: 0 ;
+DEBUG:blivet:                     PartitionDevice._set_format: req0 ; type: lvmpv ; current: None ;
+DEBUG:blivet:                        DiskDevice.remove_child: name: sda ; child: req0 ; kids: 1 ;
+INFO:blivet:added partition req0 (id 113) to device tree
+INFO:blivet:registered action: [116] create device partition req0 (id 113)
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 118
+DEBUG:blivet:                     PartitionDevice._set_format: req0 ; type: lvmpv ; current: lvmpv ;
+INFO:blivet:registered action: [117] create format lvmpv on partition req0 (id 113)
+DEBUG:anaconda.modules.storage.partitioning.automatic.utils:Created the implicit partition req0 for sda.
+DEBUG:anaconda.modules.storage.bootloader.base:Is sda a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_disklabel(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_size(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_location(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_format(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:is_valid_stage1_device(sda) returning True
+INFO:anaconda.modules.storage.partitioning.automatic.utils:skipping unneeded stage1 biosboot request
+DEBUG:anaconda.modules.storage.partitioning.automatic.utils:PartSpec instance (0x7fdb1cbd80d0) -- 
+  mountpoint = None  lv = False  thin = False  btrfs = False
+  weight = 0  fstype = biosboot  encrypted = False
+  size = 1024 KiB  max_size = None  grow = False
+
+DEBUG:anaconda.modules.storage.partitioning.automatic.utils:existing 20 GiB disk sda (14) with non-existent msdos disklabel
+DEBUG:blivet:                  XFS.supported: supported: True ;
+DEBUG:blivet:get_format('xfs') returning XFS instance with object id 119
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 121
+DEBUG:blivet:                          DiskDevice.add_child: name: sda ; child: req1 ; kids: 0 ;
+DEBUG:blivet:                     PartitionDevice._set_format: req1 ; type: xfs ; current: None ;
+DEBUG:blivet:                        DiskDevice.remove_child: name: sda ; child: req1 ; kids: 1 ;
+INFO:blivet:added partition req1 (id 120) to device tree
+INFO:blivet:registered action: [123] create device partition req1 (id 120)
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 125
+DEBUG:blivet:                     PartitionDevice._set_format: req1 ; type: xfs ; current: xfs ;
+INFO:blivet:registered action: [124] create format xfs filesystem mounted at /boot on partition req1 (id 120)
+DEBUG:blivet:             DiskDevice.setup: sda ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:removing all non-preexisting partitions ['req0(id 113)', 'req1(id 120)'] from disk(s) ['sda']
+DEBUG:blivet:allocate_partitions: disks=['sda'] ; partitions=['req0(id 113)', 'req1(id 120)']
+DEBUG:blivet:removing all non-preexisting partitions ['req1(id 120)', 'req0(id 113)'] from disk(s) ['sda']
+DEBUG:blivet:allocating partition: req1 ; id: 120 ; disks: ['sda'] ;
+boot: True ; primary: False ; size: 1024 MiB ; grow: False ; max_size: 0 B ; start: None ; end: None
+DEBUG:blivet:checking freespace on sda
+DEBUG:blivet:get_best_free_space_region: disk=/dev/sda part_type=0 req_size=1024 MiB boot=True best=None grow=False start=None
+DEBUG:blivet:checking 2-41943039 (20 GiB)
+DEBUG:blivet:current free range is 2-41943039 (20 GiB)
+DEBUG:blivet:updating use_disk to sda, type: 0
+DEBUG:blivet:new free: 2-41943039 / 20 GiB
+DEBUG:blivet:new free allows for 0 sectors of growth
+DEBUG:blivet:found free space for bootable request
+DEBUG:blivet:using alignment: parted.Alignment instance --
+  offset: 0  grainSize: 2048
+  PedAlignment: <_ped.Alignment object at 0x7fdb1d59d9d0>
+DEBUG:blivet:adjusted start sector from 2 to 2048
+DEBUG:blivet:created partition sda1 of 1024 MiB and added it to /dev/sda
+DEBUG:blivet:                PartitionDevice._set_parted_partition: req1 ;
+DEBUG:blivet:device req1 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 1  path: /dev/sda1  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1ca02c10>  PedPartition: <_ped.Partition object at 0x7fdb1cabe0e0>
+DEBUG:blivet:                PartitionDevice._set_disk: sda1 ; old: None ; new: sda ;
+DEBUG:blivet:                     DiskDevice.add_child: name: sda ; child: sda1 ; kids: 0 ;
+DEBUG:blivet:                PartitionDevice._set_parted_partition: sda1 ;
+DEBUG:blivet:device sda1 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 1  path: /dev/sda1  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1cbd8040>  PedPartition: <_ped.Partition object at 0x7fdb1cb76a90>
+DEBUG:blivet:allocating partition: req0 ; id: 113 ; disks: ['sda'] ;
+boot: False ; primary: False ; size: 500 MiB ; grow: True ; max_size: 0 B ; start: None ; end: None
+DEBUG:blivet:checking freespace on sda
+DEBUG:blivet:get_best_free_space_region: disk=/dev/sda part_type=0 req_size=500 MiB boot=False best=None grow=True start=None
+DEBUG:blivet:checking 2-2047 (1023 KiB)
+DEBUG:blivet:current free range is 2-2047 (1023 KiB)
+DEBUG:blivet:checking 2099200-41943039 (19 GiB)
+DEBUG:blivet:current free range is 2099200-41943039 (19 GiB)
+DEBUG:blivet:evaluating growth potential for new layout
+DEBUG:blivet:calculating growth for disk /dev/sda
+DEBUG:blivet:using alignment: parted.Alignment instance --
+  offset: 0  grainSize: 2048
+  PedAlignment: <_ped.Alignment object at 0x7fdb1d59d9d0>
+DEBUG:blivet:                PartitionDevice._set_parted_partition: req0 ;
+DEBUG:blivet:device req0 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 2  path: /dev/sda2  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1ca02910>  PedPartition: <_ped.Partition object at 0x7fdb1cb765e0>
+DEBUG:blivet:                PartitionDevice._set_disk: sda2 ; old: None ; new: sda ;
+DEBUG:blivet:                     DiskDevice.add_child: name: sda ; child: sda2 ; kids: 1 ;
+DEBUG:blivet:adding request 120 to chunk 41940992 (2048-41943039) on /dev/sda
+DEBUG:blivet:adding request 113 to chunk 41940992 (2048-41943039) on /dev/sda
+DEBUG:blivet:Chunk.grow_requests: 41940992 (2048-41943039) on /dev/sda start = 2048  end = 41943039
+sector_size = 512 B
+
+DEBUG:blivet:req: PartitionRequest instance --
+id = 120  name = sda1  growable = False
+base = 2097152  growth = 0  max_grow = 0
+done = True
+DEBUG:blivet:req: PartitionRequest instance --
+id = 113  name = sda2  growable = True
+base = 1024000  growth = 0  max_grow = 4293943295
+done = False
+DEBUG:blivet:1 requests and 38819840 (18.51 GiB) left in chunk
+DEBUG:blivet:adding 38819840 (18.51 GiB) to 113 (sda2)
+DEBUG:blivet:new grow amount for request 113 (sda2) is 38819840 units, or 18.51 GiB
+DEBUG:blivet:request 120 (sda1) growth: 0 (0 B) size: 1024 MiB
+DEBUG:blivet:request 113 (sda2) growth: 38819840 (18.51 GiB) size: 19 GiB
+DEBUG:blivet:disk /dev/sda growth: 38819840 (18.51 GiB)
+DEBUG:blivet:                PartitionDevice._set_parted_partition: sda2 ;
+DEBUG:blivet:device sda2 new parted_partition None
+DEBUG:blivet:                PartitionDevice._set_disk: req0 ; old: sda ; new: None ;
+DEBUG:blivet:                         DiskDevice.remove_child: name: sda ; child: req0 ; kids: 2 ;
+DEBUG:blivet:total growth: 38819840 sectors
+DEBUG:blivet:updating use_disk to sda, type: 0
+DEBUG:blivet:new free: 2099200-41943039 / 19 GiB
+DEBUG:blivet:new free allows for 38819840 sectors of growth
+DEBUG:blivet:using alignment: parted.Alignment instance --
+  offset: 0  grainSize: 2048
+  PedAlignment: <_ped.Alignment object at 0x7fdb1d59d9d0>
+DEBUG:blivet:created partition sda2 of 500 MiB and added it to /dev/sda
+DEBUG:blivet:                PartitionDevice._set_parted_partition: req0 ;
+DEBUG:blivet:device req0 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 2  path: /dev/sda2  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1ca02f10>  PedPartition: <_ped.Partition object at 0x7fdb1ca34c20>
+DEBUG:blivet:                PartitionDevice._set_disk: sda2 ; old: None ; new: sda ;
+DEBUG:blivet:                     DiskDevice.add_child: name: sda ; child: sda2 ; kids: 1 ;
+DEBUG:blivet:                PartitionDevice._set_parted_partition: sda2 ;
+DEBUG:blivet:device sda2 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 2  path: /dev/sda2  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1ca02c40>  PedPartition: <_ped.Partition object at 0x7fdb1ca34bd0>
+DEBUG:blivet:grow_partitions: disks=['sda'], partitions=['sda2(id 113)', 'sda1(id 120)']
+DEBUG:blivet:growable partitions are ['sda2']
+DEBUG:blivet:adding request 113 to chunk 41940992 (2048-41943039) on /dev/sda
+DEBUG:blivet:adding request 120 to chunk 41940992 (2048-41943039) on /dev/sda
+DEBUG:blivet:disk sda has 1 chunks
+DEBUG:blivet:Chunk.grow_requests: 41940992 (2048-41943039) on /dev/sda start = 2048  end = 41943039
+sector_size = 512 B
+
+DEBUG:blivet:req: PartitionRequest instance --
+id = 120  name = sda1  growable = False
+base = 2097152  growth = 0  max_grow = 0
+done = True
+DEBUG:blivet:req: PartitionRequest instance --
+id = 113  name = sda2  growable = True
+base = 1024000  growth = 0  max_grow = 4293943295
+done = False
+DEBUG:blivet:1 requests and 38819840 (18.51 GiB) left in chunk
+DEBUG:blivet:adding 38819840 (18.51 GiB) to 113 (sda2)
+DEBUG:blivet:new grow amount for request 113 (sda2) is 38819840 units, or 18.51 GiB
+DEBUG:blivet:growing partitions on sda
+DEBUG:blivet:partition sda1 (120): 0
+DEBUG:blivet:new geometry for sda1: parted.Geometry instance --
+  start: 2048  end: 2099199  length: 2097152
+  device: <parted.device.Device object at 0x7fdb1cbd8cd0>  PedGeometry: <_ped.Geometry object at 0x7fdb1c9bc190>
+DEBUG:blivet:partition sda2 (113): 0
+DEBUG:blivet:new geometry for sda2: parted.Geometry instance --
+  start: 2099200  end: 41943039  length: 39843840
+  device: <parted.device.Device object at 0x7fdb1cbd8cd0>  PedGeometry: <_ped.Geometry object at 0x7fdb1c9bc310>
+DEBUG:blivet:removing all non-preexisting partitions ['sda1(id 120)', 'sda2(id 113)'] from disk(s) ['sda']
+DEBUG:blivet:                 PartitionDevice._set_parted_partition: sda1 ;
+DEBUG:blivet:device sda1 new parted_partition None
+DEBUG:blivet:                 PartitionDevice._set_disk: req1 ; old: sda ; new: None ;
+DEBUG:blivet:                          DiskDevice.remove_child: name: sda ; child: req1 ; kids: 2 ;
+DEBUG:blivet:                 PartitionDevice._set_parted_partition: sda2 ;
+DEBUG:blivet:device sda2 new parted_partition None
+DEBUG:blivet:                 PartitionDevice._set_disk: req0 ; old: sda ; new: None ;
+DEBUG:blivet:                          DiskDevice.remove_child: name: sda ; child: req0 ; kids: 1 ;
+DEBUG:blivet:back from remove_new_partitions
+DEBUG:blivet:extended: None
+DEBUG:blivet:setting req1 new geometry: parted.Geometry instance --
+  start: 2048  end: 2099199  length: 2097152
+  device: <parted.device.Device object at 0x7fdb1cbd8cd0>  PedGeometry: <_ped.Geometry object at 0x7fdb1c9bc190>
+DEBUG:blivet:                PartitionDevice._set_parted_partition: req1 ;
+DEBUG:blivet:device req1 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 1  path: /dev/sda1  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1c9bc2b0>  PedPartition: <_ped.Partition object at 0x7fdb1ca34e00>
+DEBUG:blivet:                PartitionDevice._set_disk: sda1 ; old: None ; new: sda ;
+DEBUG:blivet:                     DiskDevice.add_child: name: sda ; child: sda1 ; kids: 0 ;
+DEBUG:blivet:                PartitionDevice._set_parted_partition: sda1 ;
+DEBUG:blivet:device sda1 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 1  path: /dev/sda1  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1c9bc520>  PedPartition: <_ped.Partition object at 0x7fdb1c9bd180>
+DEBUG:blivet:setting req0 new geometry: parted.Geometry instance --
+  start: 2099200  end: 41943039  length: 39843840
+  device: <parted.device.Device object at 0x7fdb1cbd8cd0>  PedGeometry: <_ped.Geometry object at 0x7fdb1c9bc310>
+DEBUG:blivet:                PartitionDevice._set_parted_partition: req0 ;
+DEBUG:blivet:device req0 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 2  path: /dev/sda2  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1cbd8f40>  PedPartition: <_ped.Partition object at 0x7fdb1ca2f680>
+DEBUG:blivet:                PartitionDevice._set_disk: sda2 ; old: None ; new: sda ;
+DEBUG:blivet:                     DiskDevice.add_child: name: sda ; child: sda2 ; kids: 1 ;
+DEBUG:blivet:                PartitionDevice._set_parted_partition: sda2 ;
+DEBUG:blivet:device sda2 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1cbcaac0>  fileSystem: None
+  number: 2  path: /dev/sda2  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1c9bc400>  PedPartition: <_ped.Partition object at 0x7fdb1c9bd220>
+DEBUG:blivet:fixing size of non-existent 1024 MiB partition sda1 (120) with non-existent xfs filesystem mounted at /boot
+DEBUG:blivet:fixing size of non-existent 19 GiB partition sda2 (113) with non-existent lvmpv
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 127
+DEBUG:blivet:                              LVMVolumeGroupDevice._add_parent: cs ; parent: sda2 ;
+DEBUG:blivet:                                  PartitionDevice.add_child: name: sda2 ; child: cs ; kids: 0 ;
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/queue/logical_block_size: 3531320a
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 128
+DEBUG:blivet:                        LVMVolumeGroupDevice._set_format: cs ; type: None ; current: None ;
+INFO:blivet:added lvmvg cs (id 126) to device tree
+INFO:blivet:registered action: [130] create device lvmvg cs (id 126)
+DEBUG:blivet:                  XFS.supported: supported: True ;
+DEBUG:blivet:get_format('xfs') returning XFS instance with object id 131
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 133
+DEBUG:blivet:                              LVMVolumeGroupDevice.add_child: name: cs ; child: root ; kids: 0 ;
+DEBUG:blivet:                            LVMLogicalVolumeDevice._set_format: cs-root ; type: xfs ; current: None ;
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 135
+DEBUG:blivet:                              LVMVolumeGroupDevice.remove_child: name: cs ; child: root ; kids: 1 ;
+DEBUG:blivet:                            LVMVolumeGroupDevice.add_child: name: cs ; child: root ; kids: 0 ;
+DEBUG:blivet:                          LVMLogicalVolumeDevice._set_format: cs-root ; type: xfs ; current: None ;
+DEBUG:blivet:                            LVMLogicalVolumeDevice.read_current_size: exists: False ; path: /dev/mapper/cs-root ; sysfs_path:  ;
+DEBUG:blivet:cs size is 19 GiB
+DEBUG:blivet:vg cs has 19 GiB free
+DEBUG:blivet:Adding cs-root/1024 MiB to cs
+INFO:program:Running [39] dmsetup --version ...
+INFO:program:stdout[39]: Library version:   1.02.187 (2022-11-10)
+Driver version:    4.47.0
+
+INFO:program:stderr[39]: 
+INFO:program:...done [39] (exit code: 0)
+INFO:blivet:added lvmlv cs-root (id 132) to device tree
+INFO:blivet:registered action: [137] create device lvmlv cs-root (id 132)
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 139
+DEBUG:blivet:                        LVMLogicalVolumeDevice._set_format: cs-root ; type: xfs ; current: xfs ;
+INFO:blivet:registered action: [138] create format xfs filesystem mounted at / on lvmlv cs-root (id 132)
+DEBUG:blivet:                SwapSpace.__init__: mountpoint: None ;
+DEBUG:blivet:get_format('swap') returning SwapSpace instance with object id 140
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 142
+DEBUG:blivet:                              LVMVolumeGroupDevice.add_child: name: cs ; child: swap ; kids: 1 ;
+DEBUG:blivet:                            LVMLogicalVolumeDevice._set_format: cs-swap ; type: swap ; current: None ;
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 144
+DEBUG:blivet:                              LVMVolumeGroupDevice.remove_child: name: cs ; child: swap ; kids: 2 ;
+DEBUG:blivet:                            LVMVolumeGroupDevice.add_child: name: cs ; child: swap ; kids: 1 ;
+DEBUG:blivet:                          LVMLogicalVolumeDevice._set_format: cs-swap ; type: swap ; current: None ;
+DEBUG:blivet:                            LVMLogicalVolumeDevice.read_current_size: exists: False ; path: /dev/mapper/cs-swap ; sysfs_path:  ;
+DEBUG:blivet:cs size is 19 GiB
+DEBUG:blivet:vg cs has 18 GiB free
+DEBUG:blivet:Adding cs-swap/2 GiB to cs
+INFO:blivet:added lvmlv cs-swap (id 141) to device tree
+INFO:blivet:registered action: [146] create device lvmlv cs-swap (id 141)
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 148
+INFO:program:Running [40] mkswap --version ...
+INFO:program:stdout[40]: mkswap from util-linux 2.37.4
+
+INFO:program:stderr[40]: 
+INFO:program:...done [40] (exit code: 0)
+DEBUG:blivet:                        LVMLogicalVolumeDevice._set_format: cs-swap ; type: swap ; current: swap ;
+INFO:blivet:registered action: [147] create format swap on lvmlv cs-swap (id 141)
+DEBUG:blivet:cs size is 19 GiB
+DEBUG:blivet:vg cs has 16 GiB free
+DEBUG:blivet:vg cs: 16 GiB free ; lvs: ['root', 'swap']
+DEBUG:blivet:cs size is 19 GiB
+DEBUG:blivet:vg cs has 16 GiB free
+DEBUG:blivet:adding request 132 to chunk 4863 on /dev/cs
+DEBUG:blivet:adding request 141 to chunk 4863 on /dev/cs
+DEBUG:blivet:Chunk.grow_requests: VGChunk instance --
+device = /dev/cs  length = 4863  size = 19 GiB
+remaining = 1  pool = 4095
+DEBUG:blivet:req: LVRequest instance --
+id = 141  name = cs-swap  growable = False
+base = 512  growth = 0  max_grow = 0
+done = True
+DEBUG:blivet:req: LVRequest instance --
+id = 132  name = cs-root  growable = True
+base = 256  growth = 0  max_grow = 17664
+done = False
+DEBUG:blivet:1 requests and 4095 (16 GiB) left in chunk
+DEBUG:blivet:adding 4095 (16 GiB) to 132 (cs-root)
+DEBUG:blivet:new grow amount for request 132 (cs-root) is 4095 units, or 16 GiB
+DEBUG:blivet:trying to set lv cs-root size to 17 GiB
+DEBUG:blivet:cs size is 19 GiB
+DEBUG:blivet:vg cs has 16 GiB free
+DEBUG:anaconda.modules.storage.bootloader.execution:Execute the bootloader with dry run False.
+DEBUG:anaconda.modules.storage.bootloader.base:new disk list: [DiskDevice instance (0x7fdb1cb704c0) --
+  name = sda  status = True  id = 14
+  children = ['non-existent 1024 MiB partition sda1 (120) with non-existent xfs filesystem '
+ 'mounted at /boot',
+ 'non-existent 19 GiB partition sda2 (113) with non-existent lvmpv']
+  parents = []
+  uuid = None  size = 20 GiB
+  format = non-existent msdos disklabel
+  major = 8  minor = 0  exists = True  protected = False
+  sysfs path = /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda
+  target size = 20 GiB  path = /dev/sda
+  format args = []  original_format = None  removable = False  wwn = None]
+DEBUG:anaconda.modules.storage.bootloader.execution:Applying bootloader location: DEFAULT
+DEBUG:anaconda.modules.storage.bootloader.execution:Applying drive order: []
+DEBUG:anaconda.modules.storage.bootloader.base:new disk order: []
+DEBUG:anaconda.modules.storage.bootloader.base:Is /LiveOS/rootfs.img a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type file
+DEBUG:anaconda.modules.storage.bootloader.base:Is /overlay (deleted) a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type file
+DEBUG:anaconda.modules.storage.bootloader.base:Is /run/install/repo/images/install.img a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type file
+DEBUG:anaconda.modules.storage.bootloader.base:Is cs a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type lvmvg
+DEBUG:anaconda.modules.storage.bootloader.base:Is cs-root a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type lvmlv
+DEBUG:anaconda.modules.storage.bootloader.base:Is cs-swap a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type lvmlv
+DEBUG:anaconda.modules.storage.bootloader.base:Is live-base a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type dm
+DEBUG:anaconda.modules.storage.bootloader.base:Is live-rw a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type dm
+DEBUG:anaconda.modules.storage.bootloader.base:Is loop0 a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type loop
+DEBUG:anaconda.modules.storage.bootloader.base:Is loop1 a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type loop
+DEBUG:anaconda.modules.storage.bootloader.base:Is loop2 a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type loop
+DEBUG:anaconda.modules.storage.bootloader.base:Is sda a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_disklabel(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_size(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_location(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_format(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:is_valid_stage1_device(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.execution:Found a drive with a valid stage1: sda
+DEBUG:anaconda.modules.storage.bootloader.execution:Use a usable drive with a valid stage1 device.
+DEBUG:anaconda.modules.storage.bootloader.execution:Using a boot drive: sda
+DEBUG:blivet:                DeviceTree.get_device_by_name: name: sda ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14) with non-existent msdos disklabel
+DEBUG:blivet:resolved 'sda' to 'sda' (disk)
+DEBUG:anaconda.modules.storage.bootloader.bootloader:Drive is set to 'sda'.
+DEBUG:anaconda.modules.storage.bootloader.base:Is cs a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type lvmvg
+DEBUG:anaconda.modules.storage.bootloader.base:Is cs-root a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type lvmlv
+DEBUG:anaconda.modules.storage.bootloader.base:Is cs-swap a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:stage1 device cannot be of type lvmlv
+DEBUG:anaconda.modules.storage.bootloader.base:Is sda a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_disklabel(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_size(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_location(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_format(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:is_valid_stage1_device(sda) returning True
+INFO:anaconda.threading:Thread Done: AnaTaskThread-AutomaticPartitioningTask-1 (140579065665088)
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/3.
+INFO:anaconda.threading:Running Thread: AnaTaskThread-StorageValidateTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.base:Is sda a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_disklabel(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_size(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_location(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_format(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:is_valid_stage1_device(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:Is sda1 a valid stage2 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_disklabel(sda1) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_size(sda1) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_partition(sda1) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_format(sda1) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:is_valid_stage2_device(sda1) returning True
+DEBUG:anaconda.modules.storage.checker.utils:Available memory: 792.89 MiB
+DEBUG:blivet:            DeviceTree.get_device_by_path: path: /dev/sda1 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:            DeviceTree.get_device_by_path returned non-existent 1024 MiB partition sda1 (120) with non-existent xfs filesystem mounted at /boot
+DEBUG:blivet:            DeviceTree.get_device_by_path: path: /dev/sda2 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:            DeviceTree.get_device_by_path returned non-existent 19 GiB partition sda2 (113) with non-existent lvmpv
+DEBUG:anaconda.modules.storage.partitioning.validate:Storage check started with constraints {'min_ram': Size (410 MiB), 'root_device_types': set(), 'min_partition_sizes': {'/': Size (250 MiB), '/usr': Size (250 MiB), '/tmp': Size (50 MiB), '/var': Size (384 MiB), '/home': Size (100 MiB), '/boot': Size (512 MiB)}, 'req_partition_sizes': {}, 'must_be_on_linuxfs': {'/tmp', '/home', '/usr/lib', '/', '/usr/share', '/usr', '/var'}, 'must_be_on_root': {'/proc', '/sbin', '/bin', 'lost+found', '/lib', '/etc', '/mnt', '/dev', '/root'}, 'must_not_be_on_root': set(), 'reformat_allowlist': {'/usr', '/boot', '/var', '/tmp'}, 'reformat_blocklist': {'/home', '/var/www', '/usr/local', '/opt'}, 'swap_is_recommended': True, 'luks2_min_ram': Size (128 MiB)}.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_root.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_s390_constraints.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_partition_formatting.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_partition_sizes.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_partition_format_sizes.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_bootloader.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_gpt_biosboot.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_opal_compatibility.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_swap.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_swap_uuid.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_mountpoints_on_linuxfs.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_mountpoints_on_root.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_mountpoints_not_on_root.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_unlocked_devices_have_key.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_luks_devices_have_key.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_luks2_memory_requirements.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_mounted_partitions.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_lvm_destruction.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_requests.
+DEBUG:anaconda.modules.storage.partitioning.validate:Storage check finished with success.
+INFO:anaconda.threading:Thread Done: AnaTaskThread-StorageValidateTask-1 (140579065665088)
+DEBUG:anaconda.storage:Creating a copy of the storage model.
+DEBUG:anaconda.storage:starting Blivet copy
+DEBUG:blivet:                 DeviceTree.get_device_by_id: id_num: 14 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                 DeviceTree.get_device_by_id returned existing 20 GiB disk sda (14) with non-existent msdos disklabel
+DEBUG:blivet:                 PartitionDevice._set_parted_partition: sda1 ;
+DEBUG:blivet:device sda1 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1c941820>  fileSystem: None
+  number: 1  path: /dev/sda1  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1c964a00>  PedPartition: <_ped.Partition object at 0x7fdb1c99f3b0>
+DEBUG:blivet:                 DeviceTree.get_device_by_id: id_num: 14 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                 DeviceTree.get_device_by_id returned existing 20 GiB disk sda (14) with non-existent msdos disklabel
+DEBUG:blivet:                 PartitionDevice._set_parted_partition: sda2 ;
+DEBUG:blivet:device sda2 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1c941820>  fileSystem: None
+  number: 2  path: /dev/sda2  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1c964af0>  PedPartition: <_ped.Partition object at 0x7fdb1c967540>
+DEBUG:anaconda.storage:finished Blivet copy
+DEBUG:anaconda.storage:Finished a copy of the storage model.
+DEBUG:anaconda.modules.storage.bootloader.base:Is sda a valid stage1 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_disklabel(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_size(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_location(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_format(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:is_valid_stage1_device(sda) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:Is sda1 a valid stage2 target device?
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_disklabel(sda1) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_size(sda1) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_partition(sda1) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:_is_valid_format(sda1) returning True
+DEBUG:anaconda.modules.storage.bootloader.base:is_valid_stage2_device(sda1) returning True
+DEBUG:anaconda.modules.storage.checker.utils:Available memory: 792.85 MiB
+DEBUG:blivet:                 DeviceTree.get_device_by_path: path: /dev/sda1 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                 DeviceTree.get_device_by_path returned non-existent 1024 MiB partition sda1 (120) with non-existent xfs filesystem mounted at /boot
+DEBUG:blivet:                 DeviceTree.get_device_by_path: path: /dev/sda2 ; incomplete: False ; hidden: False ;
+DEBUG:blivet:                 DeviceTree.get_device_by_path returned non-existent 19 GiB partition sda2 (113) with non-existent lvmpv
+DEBUG:anaconda.modules.storage.partitioning.validate:Storage check started with constraints {'min_ram': Size (410 MiB), 'root_device_types': set(), 'min_partition_sizes': {'/': Size (250 MiB), '/usr': Size (250 MiB), '/tmp': Size (50 MiB), '/var': Size (384 MiB), '/home': Size (100 MiB), '/boot': Size (512 MiB)}, 'req_partition_sizes': {}, 'must_be_on_linuxfs': {'/tmp', '/home', '/usr/lib', '/', '/usr/share', '/usr', '/var'}, 'must_be_on_root': {'/proc', '/sbin', '/bin', 'lost+found', '/lib', '/etc', '/mnt', '/dev', '/root'}, 'must_not_be_on_root': set(), 'reformat_allowlist': {'/usr', '/boot', '/var', '/tmp'}, 'reformat_blocklist': {'/home', '/var/www', '/usr/local', '/opt'}, 'swap_is_recommended': True, 'luks2_min_ram': Size (128 MiB)}.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_root.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_s390_constraints.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_partition_formatting.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_partition_sizes.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_partition_format_sizes.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_bootloader.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_gpt_biosboot.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_opal_compatibility.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_swap.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_swap_uuid.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_mountpoints_on_linuxfs.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_mountpoints_on_root.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_mountpoints_not_on_root.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_unlocked_devices_have_key.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_luks_devices_have_key.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_luks2_memory_requirements.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_mounted_partitions.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_lvm_destruction.
+DEBUG:anaconda.modules.storage.partitioning.validate:Run sanity check verify_requests.
+DEBUG:anaconda.modules.storage.partitioning.validate:Storage check finished with success.
+DEBUG:anaconda.modules.storage.storage:The storage model has changed.
+DEBUG:anaconda.modules.storage.storage:The partitioning AUTOMATIC is applied.
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: /LiveOS/rootfs.img ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 0 B file /LiveOS/rootfs.img (33)
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: /overlay (deleted) ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 0 B file /overlay (deleted) (47)
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: /run/install/repo/images/install.img ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 0 B file /run/install/repo/images/install.img (19)
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: cs ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned non-existent 19 GiB lvmvg cs (126)
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: cs-root ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned non-existent 17 GiB lvmlv cs-root (132) with non-existent xfs filesystem mounted at /
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: cs-swap ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned non-existent 2 GiB lvmlv cs-swap (141) with non-existent swap
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: live-base ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 3 GiB dm live-base (66) with existing ext4 filesystem
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: live-rw ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 3 GiB dm live-rw (56) with existing ext4 filesystem
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: loop0 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 0 B loop loop0 (23)
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: loop1 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 0 B loop loop1 (37) with existing ext4 filesystem
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: loop2 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 0 B loop loop2 (51)
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sda ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 20 GiB disk sda (14) with non-existent msdos disklabel
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sda1 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned non-existent 1024 MiB partition sda1 (120) with non-existent xfs filesystem mounted at /boot
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sda2 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned non-existent 19 GiB partition sda2 (113) with non-existent lvmpv
+DEBUG:blivet:             DeviceTree.get_device_by_name: name: sr0 ; incomplete: True ; hidden: True ;
+DEBUG:blivet:             DeviceTree.get_device_by_name returned existing 8.85 GiB cdrom sr0 (4) with existing iso9660 filesystem
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/4.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/5.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/6.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/7.
+INFO:anaconda.threading:Running Thread: AnaTaskThread-CreateStorageLayoutTask-1 (140579065665088)
+DEBUG:blivet:            LoopDevice.teardown: loop2 ; status: False ; controllable: False ;
+DEBUG:blivet:                FileDevice.teardown: /overlay (deleted) ; status: False ; controllable: False ;
+DEBUG:blivet:            PartitionDevice.teardown: sda1 ; status: False ; controllable: True ;
+DEBUG:blivet:                DiskDevice.teardown: sda ; status: True ; controllable: True ;
+DEBUG:blivet:                    DeviceFormat.teardown: device: /dev/sda ; type: None ; status: False ;
+DEBUG:blivet:               LVMLogicalVolumeDevice.teardown: cs-root ; status: False ; controllable: True ;
+DEBUG:blivet:                   LVMVolumeGroupDevice.teardown: cs ; status: False ; controllable: True ;
+DEBUG:blivet:                       PartitionDevice.teardown: sda2 ; status: False ; controllable: True ;
+DEBUG:blivet:                           DiskDevice.teardown: sda ; status: True ; controllable: True ;
+DEBUG:blivet:                               DeviceFormat.teardown: device: /dev/sda ; type: None ; status: False ;
+DEBUG:blivet:               LVMLogicalVolumeDevice.teardown: cs-swap ; status: False ; controllable: True ;
+DEBUG:blivet:                   LVMVolumeGroupDevice.teardown: cs ; status: False ; controllable: True ;
+DEBUG:blivet:                       PartitionDevice.teardown: sda2 ; status: False ; controllable: True ;
+DEBUG:blivet:                           DiskDevice.teardown: sda ; status: True ; controllable: True ;
+DEBUG:blivet:                               DeviceFormat.teardown: device: /dev/sda ; type: None ; status: False ;
+DEBUG:blivet:action: [106] destroy format None on disk sda (id 14)
+DEBUG:blivet:action: [108] destroy format None on disk sda (id 14)
+DEBUG:blivet:action: [111] create format msdos disklabel on disk sda (id 14)
+DEBUG:blivet:action: [116] create device partition sda2 (id 113)
+DEBUG:blivet:action: [117] create format lvmpv on partition sda2 (id 113)
+DEBUG:blivet:action: [123] create device partition sda1 (id 120)
+DEBUG:blivet:action: [124] create format xfs filesystem mounted at /boot on partition sda1 (id 120)
+DEBUG:blivet:action: [130] create device lvmvg cs (id 126)
+DEBUG:blivet:action: [137] create device lvmlv cs-root (id 132)
+DEBUG:blivet:action: [138] create format xfs filesystem mounted at / on lvmlv cs-root (id 132)
+DEBUG:blivet:action: [146] create device lvmlv cs-swap (id 141)
+DEBUG:blivet:action: [147] create format swap on lvmlv cs-swap (id 141)
+INFO:blivet:pruning action queue...
+INFO:blivet:removing obsolete action 108 (106)
+INFO:blivet:resetting parted disks...
+DEBUG:blivet:                DiskLabel.reset_parted_disk: device: /dev/sda ;
+DEBUG:blivet:                PartitionDevice.pre_commit_fixup: sda1 ;
+DEBUG:blivet:                PartitionDevice.pre_commit_fixup: sda2 ;
+INFO:blivet:sorting actions...
+DEBUG:blivet:action: [106] destroy format None on disk sda (id 14)
+DEBUG:blivet:lvm filter: device /dev/sda2 added to the list of allowed devices
+DEBUG:blivet:action: [111] create format msdos disklabel on disk sda (id 14)
+DEBUG:blivet:lvm filter: device /dev/sda2 added to the list of allowed devices
+DEBUG:blivet:action: [123] create device partition sda1 (id 120)
+DEBUG:blivet:action: [124] create format xfs filesystem mounted at /boot on partition sda1 (id 120)
+DEBUG:blivet:action: [116] create device partition sda2 (id 113)
+DEBUG:blivet:action: [117] create format lvmpv on partition sda2 (id 113)
+DEBUG:blivet:action: [130] create device lvmvg cs (id 126)
+DEBUG:blivet:action: [146] create device lvmlv cs-swap (id 141)
+DEBUG:blivet:action: [147] create format swap on lvmlv cs-swap (id 141)
+DEBUG:blivet:action: [137] create device lvmlv cs-root (id 132)
+DEBUG:blivet:action: [138] create format xfs filesystem mounted at / on lvmlv cs-root (id 132)
+INFO:blivet:executing action: [106] destroy format None on disk sda (id 14)
+DEBUG:blivet:                DiskDevice.setup: sda ; orig: True ; status: True ; controllable: True ;
+DEBUG:blivet:                DeviceFormat.destroy: device: /dev/sda ; type: None ; status: False ;
+INFO:program:Running... wipefs -f -a /dev/sda
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+INFO:blivet:executing action: [111] create format msdos disklabel on disk sda (id 14)
+DEBUG:blivet:                DiskDevice.setup: sda ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                DiskLabel.create: device: /dev/sda ; type: disklabel ; status: False ;
+DEBUG:blivet:                  DiskLabel._create: device: /dev/sda ; type: disklabel ; status: False ;
+DEBUG:blivet:                    DiskLabel.commit: device: /dev/sda ; numparts: 0 ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                DiskDevice.update_sysfs_path: sda ; status: True ;
+DEBUG:blivet:sda sysfs_path set to /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda
+INFO:blivet:executing action: [123] create device partition sda1 (id 120)
+DEBUG:blivet:                PartitionDevice.create: sda1 ; status: False ;
+DEBUG:blivet:                    PartitionDevice.setup_parents: name: sda1 ; orig: False ;
+DEBUG:blivet:                      DiskDevice.setup: sda ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                      DiskLabel.setup: device: /dev/sda ; type: disklabel ; status: False ;
+DEBUG:blivet:                  PartitionDevice._create: sda1 ; status: False ;
+DEBUG:blivet:                    PartitionDevice._wipe: sda1 ; status: False ;
+INFO:program:Running... dd if=/dev/zero of=/dev/sda bs=512 seek=2048 count=2048
+INFO:program:stderr:
+INFO:program:b'2048+0 records in'
+INFO:program:b'2048+0 records out'
+INFO:program:b'1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.05775 s, 18.2 MB/s'
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                    DiskLabel.commit: device: /dev/sda ; numparts: 1 ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:post-commit partition path is /dev/sda1
+DEBUG:blivet:                      PartitionDevice._set_parted_partition: sda1 ;
+DEBUG:blivet:device sda1 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1c941a00>  fileSystem: None
+  number: 1  path: /dev/sda1  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1ca02be0>  PedPartition: <_ped.Partition object at 0x7fdb1c978c70>
+DEBUG:blivet:                    DeviceFormat.destroy: device: /dev/sda1 ; type: None ; status: False ;
+INFO:program:Running... wipefs -f -a /dev/sda1
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                      PartitionDevice.setup: sda1 ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                      PartitionDevice.update_sysfs_path: sda1 ; status: True ;
+DEBUG:blivet:sda1 sysfs_path set to /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/sda1
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                            PartitionDevice.read_current_size: exists: True ; path: /dev/sda1 ; sysfs_path: /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/sda1 ;
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/sda1/size: 323039373135320a
+DEBUG:blivet:updated sda1 size to 1024 MiB (1024 MiB)
+INFO:blivet:executing action: [124] create format xfs filesystem mounted at /boot on partition sda1 (id 120)
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 1 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 2 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 3 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 4 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 5 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 6 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 8 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 9 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 10 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 11 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 12 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 13 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 14 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 15 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 16 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 17 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 18 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 19 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 20 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda1 ; flag: 21 ;
+DEBUG:blivet:                DiskLabel.commit_to_disk: device: /dev/sda ; numparts: 1 ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                PartitionDevice.setup: sda1 ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                XFS.create: device: /dev/sda1 ; type: xfs ; status: False ;
+DEBUG:blivet:                  XFS._create: type: xfs ; device: /dev/sda1 ; mountpoint: /boot ;
+INFO:program:Running... mkfs.xfs -f /dev/sda1
+INFO:program:stdout:
+INFO:program:meta-data=/dev/sda1              isize=512    agcount=4, agsize=65536 blks
+INFO:program:         =                       sectsz=512   attr=2, projid32bit=1
+INFO:program:         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+INFO:program:         =                       reflink=1    bigtime=1 inobtcount=1
+INFO:program:data     =                       bsize=4096   blocks=262144, imaxpct=25
+INFO:program:         =                       sunit=0      swidth=0 blks
+INFO:program:naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+INFO:program:log      =internal log           bsize=4096   blocks=2560, version=2
+INFO:program:         =                       sectsz=512   sunit=0 blks, lazy-count=1
+INFO:program:realtime =none                   extsz=4096   blocks=0, rtextents=0
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                PartitionDevice.update_sysfs_path: sda1 ; status: True ;
+DEBUG:blivet:sda1 sysfs_path set to /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/sda1
+INFO:blivet:executing action: [116] create device partition sda2 (id 113)
+DEBUG:blivet:                PartitionDevice.create: sda2 ; status: False ;
+DEBUG:blivet:                    PartitionDevice.setup_parents: name: sda2 ; orig: False ;
+DEBUG:blivet:                      DiskDevice.setup: sda ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                      DiskLabel.setup: device: /dev/sda ; type: disklabel ; status: False ;
+DEBUG:blivet:                  PartitionDevice._create: sda2 ; status: False ;
+DEBUG:blivet:                    PartitionDevice._wipe: sda2 ; status: False ;
+INFO:program:Running... dd if=/dev/zero of=/dev/sda bs=512 seek=2099200 count=2048
+INFO:program:stderr:
+INFO:program:b'2048+0 records in'
+INFO:program:b'2048+0 records out'
+INFO:program:b'1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.57475 s, 1.8 MB/s'
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                    DiskLabel.commit: device: /dev/sda ; numparts: 2 ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:post-commit partition path is /dev/sda2
+DEBUG:blivet:                      PartitionDevice._set_parted_partition: sda2 ;
+DEBUG:blivet:device sda2 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1c941a00>  fileSystem: None
+  number: 2  path: /dev/sda2  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1c8fe610>  PedPartition: <_ped.Partition object at 0x7fdb1c978090>
+DEBUG:blivet:                    DeviceFormat.destroy: device: /dev/sda2 ; type: None ; status: False ;
+INFO:program:Running... wipefs -f -a /dev/sda2
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                      PartitionDevice.setup: sda2 ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                      PartitionDevice.update_sysfs_path: sda2 ; status: True ;
+DEBUG:blivet:sda2 sysfs_path set to /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/sda2
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                            PartitionDevice.read_current_size: exists: True ; path: /dev/sda2 ; sysfs_path: /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/sda2 ;
+DEBUG:testdata:sysfs attr /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/sda2/size: 33393834333834300a
+DEBUG:blivet:updated sda2 size to 19 GiB (19 GiB)
+INFO:blivet:executing action: [117] create format lvmpv on partition sda2 (id 113)
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 1 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 2 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 3 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 4 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 5 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 8 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 9 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 10 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 11 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 12 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 13 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 14 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 15 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 16 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 17 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 18 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 19 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 20 ;
+DEBUG:blivet:                PartitionDevice.unset_flag: path: /dev/sda2 ; flag: 21 ;
+DEBUG:blivet:                PartitionDevice.set_flag: path: /dev/sda2 ; flag: 6 ;
+DEBUG:blivet:                DiskLabel.commit_to_disk: device: /dev/sda ; numparts: 2 ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                PartitionDevice.setup: sda2 ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                LVMPhysicalVolume.create: device: /dev/sda2 ; type: lvmpv ; status: False ;
+DEBUG:blivet:                  LVMPhysicalVolume._create: device: /dev/sda2 ; type: lvmpv ; status: False ;
+DEBUG:blivet:lvm filter: device /dev/sda2 added to the list of allowed devices
+DEBUG:blivet:lvm filter: clearing the lvm devices list
+INFO:program:Running [41] lvm pvcreate /dev/sda2 --config= log {level=7 file=/tmp/lvm.log syslog=0} -y ...
+INFO:program:stdout[41]:   Physical volume "/dev/sda2" successfully created.
+
+INFO:program:stderr[41]:   Creating devices file /etc/lvm/devices/system.devices
+
+INFO:program:...done [41] (exit code: 0)
+INFO:program:Running [42] lvm config --typeconfig full devices/use_devicesfile --config= log {level=7 file=/tmp/lvm.log syslog=0} ...
+INFO:program:stdout[42]: use_devicesfile=1
+
+INFO:program:stderr[42]: 
+INFO:program:...done [42] (exit code: 0)
+INFO:program:Running [43] lvmdevices --adddev /dev/sda2 ...
+INFO:program:stdout[43]: 
+INFO:program:stderr[43]: 
+INFO:program:...done [43] (exit code: 0)
+DEBUG:blivet:lvm filter: restoring the lvm devices list to /dev/sda2
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                PartitionDevice.update_sysfs_path: sda2 ; status: True ;
+DEBUG:blivet:sda2 sysfs_path set to /sys/devices/pci0000:00/0000:00:0d.0/ata3/host1/target1:0:0/1:0:0:0/block/sda/sda2
+INFO:blivet:executing action: [130] create device lvmvg cs (id 126)
+DEBUG:blivet:                LVMVolumeGroupDevice.create: cs ; status: False ;
+DEBUG:blivet:                    LVMVolumeGroupDevice.setup_parents: name: cs ; orig: False ;
+DEBUG:blivet:                      PartitionDevice.setup: sda2 ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                      LVMPhysicalVolume.setup: device: /dev/sda2 ; type: lvmpv ; status: False ;
+DEBUG:blivet:                  LVMVolumeGroupDevice._create: cs ; status: False ;
+INFO:program:Running [44] lvm vgcreate -s 4096K cs /dev/sda2 --config= log {level=7 file=/tmp/lvm.log syslog=0} ...
+INFO:program:stdout[44]:   Volume group "cs" successfully created
+
+INFO:program:stderr[44]: 
+INFO:program:...done [44] (exit code: 0)
+DEBUG:blivet:                      LVMVolumeGroupDevice.setup: cs ; orig: False ; status: False ; controllable: True ;
+DEBUG:blivet:                            LVMVolumeGroupDevice.setup_parents: name: cs ; orig: False ;
+DEBUG:blivet:                              PartitionDevice.setup: sda2 ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                              LVMPhysicalVolume.setup: device: /dev/sda2 ; type: lvmpv ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                          LVMVolumeGroupDevice.update_sysfs_path: cs ; status: False ;
+DEBUG:blivet:                      LVMVolumeGroupDevice.update_sysfs_path: cs ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+INFO:blivet:executing action: [146] create device lvmlv cs-swap (id 141)
+DEBUG:blivet:                LVMLogicalVolumeDevice.create: cs-swap ; status: False ;
+DEBUG:blivet:                         LVMLogicalVolumeDevice.setup_parents: name: cs-swap ; orig: False ;
+DEBUG:blivet:                           LVMVolumeGroupDevice.setup: cs ; orig: False ; status: False ; controllable: True ;
+DEBUG:blivet:                                 LVMVolumeGroupDevice.setup_parents: name: cs ; orig: False ;
+DEBUG:blivet:                                   PartitionDevice.setup: sda2 ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                                   LVMPhysicalVolume.setup: device: /dev/sda2 ; type: lvmpv ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                               LVMVolumeGroupDevice.update_sysfs_path: cs ; status: False ;
+INFO:program:Running [45] lvm vgs --noheadings --nosuffix --nameprefixes --unquoted --units=b -o name,uuid,size,free,extent_size,extent_count,free_count,pv_count cs --config= log {level=7 file=/tmp/lvm.log syslog=0} ...
+INFO:program:stdout[45]:   LVM2_VG_NAME=cs LVM2_VG_UUID=epZV2c-Eile-ZRHF-FAp8-rY4y-fKxV-3ajYPQ LVM2_VG_SIZE=20396900352 LVM2_VG_FREE=20396900352 LVM2_VG_EXTENT_SIZE=4194304 LVM2_VG_EXTENT_COUNT=4863 LVM2_VG_FREE_COUNT=4863 LVM2_PV_COUNT=1
+
+INFO:program:stderr[45]: 
+INFO:program:...done [45] (exit code: 0)
+DEBUG:blivet:                   LVMLogicalVolumeDevice._create: cs-swap ; status: False ;
+INFO:program:Running [46] lvm lvcreate -n swap -L 2097151K -y --type linear cs --config= log {level=7 file=/tmp/lvm.log syslog=0} ...
+INFO:program:stdout[46]:   Rounding up size to full physical extent 2.00 GiB
+  Logical volume "swap" created.
+
+INFO:program:stderr[46]: 
+INFO:program:...done [46] (exit code: 0)
+DEBUG:blivet:                          LVMLogicalVolumeDevice.setup: cs-swap ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                       LVMLogicalVolumeDevice.update_sysfs_path: cs-swap ; status: True ;
+DEBUG:blivet:cs-swap sysfs_path set to /sys/devices/virtual/block/dm-2
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                              LVMLogicalVolumeDevice.read_current_size: exists: True ; path: /dev/mapper/cs-swap ; sysfs_path: /sys/devices/virtual/block/dm-2 ;
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/dm-2/size: 343139343330340a
+DEBUG:blivet:updated cs-swap size to 2 GiB (2 GiB)
+INFO:blivet:executing action: [147] create format swap on lvmlv cs-swap (id 141)
+DEBUG:blivet:                   LVMLogicalVolumeDevice.setup: cs-swap ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                SwapSpace.create: device: /dev/mapper/cs-swap ; type: swap ; status: False ;
+DEBUG:blivet:                  SwapSpace._create: device: /dev/mapper/cs-swap ; type: swap ; status: False ;
+INFO:program:Running [47] mkswap -f /dev/mapper/cs-swap ...
+INFO:program:stdout[47]: Setting up swapspace version 1, size = 2 GiB (2147479552 bytes)
+no label, UUID=17f3aa96-0e83-4d55-bea2-eaddb22406f5
+
+INFO:program:stderr[47]: 
+INFO:program:...done [47] (exit code: 0)
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                LVMLogicalVolumeDevice.update_sysfs_path: cs-swap ; status: True ;
+DEBUG:blivet:cs-swap sysfs_path set to /sys/devices/virtual/block/dm-2
+INFO:blivet:executing action: [137] create device lvmlv cs-root (id 132)
+DEBUG:blivet:                LVMLogicalVolumeDevice.create: cs-root ; status: False ;
+DEBUG:blivet:                         LVMLogicalVolumeDevice.setup_parents: name: cs-root ; orig: False ;
+DEBUG:blivet:                           LVMVolumeGroupDevice.setup: cs ; orig: False ; status: True ; controllable: True ;
+INFO:program:Running [48] lvm vgs --noheadings --nosuffix --nameprefixes --unquoted --units=b -o name,uuid,size,free,extent_size,extent_count,free_count,pv_count cs --config= log {level=7 file=/tmp/lvm.log syslog=0} ...
+INFO:program:stdout[48]:   LVM2_VG_NAME=cs LVM2_VG_UUID=epZV2c-Eile-ZRHF-FAp8-rY4y-fKxV-3ajYPQ LVM2_VG_SIZE=20396900352 LVM2_VG_FREE=18249416704 LVM2_VG_EXTENT_SIZE=4194304 LVM2_VG_EXTENT_COUNT=4863 LVM2_VG_FREE_COUNT=4351 LVM2_PV_COUNT=1
+
+INFO:program:stderr[48]: 
+INFO:program:...done [48] (exit code: 0)
+DEBUG:blivet:                   LVMLogicalVolumeDevice._create: cs-root ; status: False ;
+INFO:program:Running [49] lvm lvcreate -n root -L 17821696K -y --type linear cs --config= log {level=7 file=/tmp/lvm.log syslog=0} ...
+INFO:program:stdout[49]:   Logical volume "root" created.
+
+INFO:program:stderr[49]: 
+INFO:program:...done [49] (exit code: 0)
+DEBUG:blivet:                          LVMLogicalVolumeDevice.setup: cs-root ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                       LVMLogicalVolumeDevice.update_sysfs_path: cs-root ; status: True ;
+DEBUG:blivet:cs-root sysfs_path set to /sys/devices/virtual/block/dm-3
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                              LVMLogicalVolumeDevice.read_current_size: exists: True ; path: /dev/mapper/cs-root ; sysfs_path: /sys/devices/virtual/block/dm-3 ;
+DEBUG:testdata:sysfs attr /sys/devices/virtual/block/dm-3/size: 33353634333339320a
+DEBUG:blivet:updated cs-root size to 17 GiB (17 GiB)
+INFO:blivet:executing action: [138] create format xfs filesystem mounted at / on lvmlv cs-root (id 132)
+DEBUG:blivet:                   LVMLogicalVolumeDevice.setup: cs-root ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:                XFS.create: device: /dev/mapper/cs-root ; type: xfs ; status: False ;
+DEBUG:blivet:                  XFS._create: type: xfs ; device: /dev/mapper/cs-root ; mountpoint: / ;
+INFO:program:Running... mkfs.xfs -f /dev/mapper/cs-root
+INFO:program:stdout:
+INFO:program:meta-data=/dev/mapper/cs-root    isize=512    agcount=4, agsize=1113856 blks
+INFO:program:         =                       sectsz=512   attr=2, projid32bit=1
+INFO:program:         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+INFO:program:         =                       reflink=1    bigtime=1 inobtcount=1
+INFO:program:data     =                       bsize=4096   blocks=4455424, imaxpct=25
+INFO:program:         =                       sunit=0      swidth=0 blks
+INFO:program:naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+INFO:program:log      =internal log           bsize=4096   blocks=2560, version=2
+INFO:program:         =                       sectsz=512   sunit=0 blks, lazy-count=1
+INFO:program:realtime =none                   extsz=4096   blocks=0, rtextents=0
+DEBUG:program:Return code: 0
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:blivet:                LVMLogicalVolumeDevice.update_sysfs_path: cs-root ; status: True ;
+DEBUG:blivet:cs-root sysfs_path set to /sys/devices/virtual/block/dm-3
+DEBUG:blivet:                  PartitionDevice._set_parted_partition: sda1 ;
+DEBUG:blivet:device sda1 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1c941a00>  fileSystem: <parted.filesystem.FileSystem object at 0x7fdb1c91f7c0>
+  number: 1  path: /dev/sda1  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1c91f3d0>  PedPartition: <_ped.Partition object at 0x7fdb1c974c20>
+DEBUG:blivet:                  PartitionDevice._set_parted_partition: sda2 ;
+DEBUG:blivet:device sda2 new parted_partition parted.Partition instance --
+  disk: <parted.disk.Disk object at 0x7fdb1c941a00>  fileSystem: None
+  number: 2  path: /dev/sda2  type: 0
+  name: None  active: True  busy: False
+  geometry: <parted.geometry.Geometry object at 0x7fdb1c91f6a0>  PedPartition: <_ped.Partition object at 0x7fdb1c9743b0>
+INFO:anaconda.modules.storage.installation:setting boot flag on sda1
+DEBUG:blivet:             PartitionDevice.set_flag: path: /dev/sda1 ; flag: 1 ;
+DEBUG:blivet:           DiskDevice.setup: sda ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:           DiskLabel.commit_to_disk: device: /dev/sda ; numparts: 2 ;
+DEBUG:blivet:cs size is 19 GiB
+DEBUG:blivet:vg cs has 0 B free
+DEBUG:blivet:cs size is 19 GiB
+DEBUG:blivet:vg cs has 0 B free
+DEBUG:blivet:                       XFS.supported: supported: True ;
+DEBUG:blivet:                     Ext4FS.supported: supported: True ;
+DEBUG:blivet:                     Ext4FS.supported: supported: True ;
+DEBUG:blivet:                   Ext4FS.supported: supported: True ;
+DEBUG:blivet:                     XFS.supported: supported: True ;
+DEBUG:blivet:                   Iso9660FS.supported: supported: True ;
+DEBUG:blivet:                LVMLogicalVolumeDevice.setup: cs-swap ; orig: False ; status: True ; controllable: True ;
+DEBUG:blivet:             SwapSpace.setup: device: /dev/mapper/cs-swap ; type: swap ; status: False ;
+DEBUG:blivet:               SwapSpace._setup: device: /dev/mapper/cs-swap ; type: swap ; status: False ;
+INFO:anaconda.threading:Thread Done: AnaTaskThread-CreateStorageLayoutTask-1 (140579065665088)
+INFO:anaconda.threading:Running Thread: AnaTaskThread-MountFilesystemsTask-1 (140579065665088)
+DEBUG:blivet:                  BindFS.supported: supported: False ;
+DEBUG:blivet:get_format('bind') returning BindFS instance with object id 221
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 223
+DEBUG:blivet:                     DirectoryDevice._set_format: /dev ; type: bind ; current: None ;
+DEBUG:blivet:updated /dev size to 3.3 KiB (3.3 KiB)
+DEBUG:blivet:                      TmpFS.supported: supported: True ;
+DEBUG:blivet:get_format('tmpfs') returning TmpFS instance with object id 225
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 227
+DEBUG:blivet:                     NoDevice._set_format: tmpfs ; type: tmpfs ; current: None ;
+DEBUG:blivet:                    DevPtsFS.supported: supported: False ;
+DEBUG:blivet:get_format('devpts') returning DevPtsFS instance with object id 229
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 231
+DEBUG:blivet:                     NoDevice._set_format: devpts ; type: devpts ; current: None ;
+DEBUG:blivet:                    SysFS.supported: supported: False ;
+DEBUG:blivet:get_format('sysfs') returning SysFS instance with object id 233
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 235
+DEBUG:blivet:                     NoDevice._set_format: sysfs ; type: sysfs ; current: None ;
+DEBUG:blivet:                    ProcFS.supported: supported: False ;
+DEBUG:blivet:get_format('proc') returning ProcFS instance with object id 237
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 239
+DEBUG:blivet:                     NoDevice._set_format: proc ; type: proc ; current: None ;
+DEBUG:blivet:                    SELinuxFS.supported: supported: False ;
+DEBUG:blivet:get_format('selinuxfs') returning SELinuxFS instance with object id 241
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 243
+DEBUG:blivet:                     NoDevice._set_format: selinuxfs ; type: selinuxfs ; current: None ;
+DEBUG:blivet:                    USBFS.supported: supported: False ;
+DEBUG:blivet:get_format('usbfs') returning USBFS instance with object id 245
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 247
+DEBUG:blivet:                     NoDevice._set_format: usbfs ; type: usbfs ; current: None ;
+DEBUG:blivet:                  BindFS.supported: supported: False ;
+DEBUG:blivet:get_format('bind') returning BindFS instance with object id 249
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 251
+DEBUG:blivet:                     DirectoryDevice._set_format: /run ; type: bind ; current: None ;
+DEBUG:blivet:updated /run size to 860 B (860 B)
+DEBUG:blivet:                      TmpFS.supported: supported: True ;
+DEBUG:blivet:get_format('tmpfs') returning TmpFS instance with object id 253
+DEBUG:blivet:get_format('None') returning DeviceFormat instance with object id 255
+DEBUG:blivet:                     NoDevice._set_format: tmpfs ; type: tmpfs ; current: None ;
+DEBUG:blivet:               LVMLogicalVolumeDevice.setup: cs-root ; orig: False ; status: True ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            XFS.setup: device: /dev/mapper/cs-root ; type: xfs ; status: False ;
+INFO:program:Running... mount -t xfs -o defaults /dev/mapper/cs-root /mnt/sysimage
+DEBUG:program:Return code: 0
+DEBUG:blivet:            PartitionDevice.setup: sda1 ; orig: False ; status: True ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            XFS.setup: device: /dev/sda1 ; type: xfs ; status: False ;
+INFO:program:Running... mount -t xfs -o defaults /dev/sda1 /mnt/sysimage/boot
+DEBUG:program:Return code: 0
+DEBUG:blivet:            DirectoryDevice.setup: /dev ; orig: False ; status: True ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            BindFS.setup: device: /dev ; type: bind ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... mount -t bind -o bind,defaults /dev /mnt/sysimage/dev
+DEBUG:program:Return code: 0
+DEBUG:blivet:            NoDevice.setup: devpts ; orig: False ; status: False ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            DevPtsFS.setup: device: devpts ; type: devpts ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... mount -t devpts -o gid=5,mode=620 devpts /mnt/sysimage/dev/pts
+DEBUG:program:Return code: 0
+DEBUG:blivet:            NoDevice.setup: tmpfs ; orig: False ; status: False ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            TmpFS.setup: device: tmpfs ; type: tmpfs ; status: True ;
+INFO:program:Running... mount -t tmpfs -o defaults tmpfs /mnt/sysimage/dev/shm
+DEBUG:program:Return code: 0
+DEBUG:blivet:            NoDevice.setup: proc ; orig: False ; status: True ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            ProcFS.setup: device: proc ; type: proc ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... mount -t proc -o defaults proc /mnt/sysimage/proc
+DEBUG:program:Return code: 0
+DEBUG:blivet:            DirectoryDevice.setup: /run ; orig: False ; status: True ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            BindFS.setup: device: /run ; type: bind ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... mount -t bind -o bind,defaults /run /mnt/sysimage/run
+DEBUG:program:Return code: 0
+DEBUG:blivet:            NoDevice.setup: sysfs ; orig: False ; status: False ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            SysFS.setup: device: sysfs ; type: sysfs ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... mount -t sysfs -o defaults sysfs /mnt/sysimage/sys
+DEBUG:program:Return code: 0
+DEBUG:blivet:            NoDevice.setup: selinuxfs ; orig: False ; status: False ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            SELinuxFS.setup: device: selinuxfs ; type: selinuxfs ; status: False ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... mount -t selinuxfs -o defaults selinuxfs /mnt/sysimage/sys/fs/selinux
+DEBUG:program:Return code: 0
+DEBUG:blivet:            NoDevice.setup: tmpfs ; orig: False ; status: False ; controllable: True ;
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+INFO:program:Running... udevadm settle --timeout=300
+DEBUG:program:Return code: 0
+DEBUG:testdata:sysfs attr /sys/class/block/sr0/device/model: 43442d524f4d202020202020202020200a
+DEBUG:testdata:sysfs attr /sys/class/block/sda/device/model: 56424f5820484152444449534b2020200a
+DEBUG:blivet:            TmpFS.setup: device: tmpfs ; type: tmpfs ; status: True ;
+INFO:program:Running... mount -t tmpfs -o defaults tmpfs /mnt/sysimage/tmp
+DEBUG:program:Return code: 0
+INFO:program:Running... findmnt -rn /mnt/sysroot
+DEBUG:program:Return code: 1
+INFO:program:Running... mount --rbind /mnt/sysimage /mnt/sysroot
+DEBUG:program:Return code: 0
+INFO:anaconda.threading:Thread Done: AnaTaskThread-MountFilesystemsTask-1 (140579065665088)
+INFO:anaconda.threading:Running Thread: AnaTaskThread-WriteConfigurationTask-1 (140579065665088)
+INFO:anaconda.modules.storage.devicetree.fsset:not writing out mpath configuration
+INFO:program:Running [50] lvm config --typeconfig full devices/use_devicesfile --config= log {level=7 file=/tmp/lvm.log syslog=0} ...
+INFO:program:stdout[50]: use_devicesfile=1
+
+INFO:program:stderr[50]: 
+INFO:program:...done [50] (exit code: 0)
+INFO:program:Running [51] lvmdevices --adddev /dev/sda2 ...
+INFO:program:stdout[51]: 
+INFO:program:stderr[51]: 
+INFO:program:...done [51] (exit code: 0)
+DEBUG:anaconda.modules.storage.iscsi.iscsi:Write iSCSI configuration.
+DEBUG:anaconda.modules.storage.fcoe.fcoe:Write FCoE configuration.
+DEBUG:anaconda.modules.storage.zfcp.zfcp:Write zFCP configuration.
+INFO:anaconda.threading:Thread Done: AnaTaskThread-WriteConfigurationTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.bootloader:Extra arguments are set to '['crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M']'.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/8.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/9.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/10.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/11.
+INFO:anaconda.threading:Running Thread: AnaTaskThread-CreateRescueImagesTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.installation:Only live payloads require this fix.
+INFO:anaconda.threading:Thread Done: AnaTaskThread-CreateRescueImagesTask-1 (140579065665088)
+INFO:anaconda.threading:Running Thread: AnaTaskThread-ConfigureBootloaderTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.utils:Configuring the boot loader.
+DEBUG:anaconda.modules.storage.bootloader.utils:Collecting the OS images for: 5.14.0-299.el9.x86_64, 0-rescue-a39099418eb2439493eda4c02a68b915
+DEBUG:anaconda.modules.storage.bootloader.base:new default image: <pyanaconda.modules.storage.bootloader.image.LinuxBootLoaderImage object at 0x7fdb1c8bc8b0>
+DEBUG:anaconda.modules.storage.bootloader.utils:Writing to /etc/sysconfig/kernel.
+INFO:anaconda.threading:Thread Done: AnaTaskThread-ConfigureBootloaderTask-1 (140579065665088)
+INFO:anaconda.threading:Running Thread: AnaTaskThread-InstallBootloaderTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.utils:Installing the boot loader.
+INFO:anaconda.modules.storage.bootloader.utils:boot loader stage1 target device is sda
+INFO:anaconda.modules.storage.bootloader.utils:boot loader stage2 target device is sda1
+INFO:program:Running... xfs_freeze -f /boot
+DEBUG:program:Return code: 0
+INFO:program:Running... xfs_freeze -u /boot
+DEBUG:program:Return code: 0
+INFO:anaconda.modules.storage.bootloader.grub2:bootloader.py: mbr will be updated for grub2
+INFO:program:Running in chroot '/mnt/sysroot'... grub2-install --no-floppy /dev/sda
+INFO:program:Installing for i386-pc platform.
+INFO:program:Installation finished. No error reported.
+DEBUG:program:Return code: 0
+INFO:program:Running... xfs_freeze -f /boot
+DEBUG:program:Return code: 0
+INFO:program:Running... xfs_freeze -u /boot
+DEBUG:program:Return code: 0
+INFO:anaconda.modules.storage.bootloader.grub2:bootloader.py: used boot args: crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M resume=/dev/mapper/cs-swap rd.lvm.lv=cs/root rd.lvm.lv=cs/swap rhgb quiet 
+INFO:program:Running in chroot '/mnt/sysroot'... grub2-set-default a39099418eb2439493eda4c02a68b915-5.14.0-299.el9.x86_64
+DEBUG:program:Return code: 0
+INFO:program:Running in chroot '/mnt/sysroot'... grub2-editenv - set menu_auto_hide=1 boot_success=1
+DEBUG:program:Return code: 0
+INFO:program:Running in chroot '/mnt/sysroot'... grub2-mkconfig -o /boot/grub2/grub.cfg
+INFO:program:Generating grub configuration file ...
+INFO:program:Adding boot menu entry for UEFI Firmware Settings ...
+INFO:program:done
+DEBUG:program:Return code: 0
+INFO:program:Running... xfs_freeze -f /boot
+DEBUG:program:Return code: 0
+INFO:program:Running... xfs_freeze -u /boot
+DEBUG:program:Return code: 0
+INFO:anaconda.threading:Thread Done: AnaTaskThread-InstallBootloaderTask-1 (140579065665088)
+INFO:anaconda.threading:Running Thread: AnaTaskThread-CreateBLSEntriesTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.installation:Only live payloads require this fix.
+INFO:anaconda.threading:Thread Done: AnaTaskThread-CreateBLSEntriesTask-1 (140579065665088)
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/12.
+DEBUG:dasbus.connection:Publishing an object at /org/fedoraproject/Anaconda/Modules/Storage/Task/13.
+INFO:anaconda.threading:Running Thread: AnaTaskThread-RecreateInitrdsTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.utils:new-kernel-pkg does not exist, using dracut instead
+INFO:anaconda.modules.storage.bootloader.utils:Recreating initrd for 5.14.0-299.el9.x86_64
+INFO:program:Running in chroot '/mnt/sysroot'... depmod -a 5.14.0-299.el9.x86_64
+DEBUG:program:Return code: 0
+INFO:program:Running in chroot '/mnt/sysroot'... dracut -f /boot/initramfs-5.14.0-299.el9.x86_64.img 5.14.0-299.el9.x86_64
+DEBUG:program:Return code: 0
+INFO:anaconda.threading:Thread Done: AnaTaskThread-RecreateInitrdsTask-1 (140579065665088)
+INFO:anaconda.threading:Running Thread: AnaTaskThread-FixBTRFSBootloaderTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.installation:Only live payloads require this fix.
+INFO:anaconda.threading:Thread Done: AnaTaskThread-FixBTRFSBootloaderTask-1 (140579065665088)
+INFO:anaconda.threading:Running Thread: AnaTaskThread-FixZIPLBootloaderTask-1 (140579065665088)
+DEBUG:anaconda.modules.storage.bootloader.installation:ZIPL can be run only on s390x.
+INFO:anaconda.threading:Thread Done: AnaTaskThread-FixZIPLBootloaderTask-1 (140579065665088)
+DEBUG:anaconda.modules.common.base.base:Generating kickstart...
+DEBUG:anaconda.modules.storage.nvdimm.nvdimm:Setting namespaces to use to: []

@@ -109,6 +109,7 @@ while read -r file_actual; do
             echo -e "Files found on filesystem but not found in listing '${times_listing}'\n" >&2
             banner=true
         fi
-        echo -e "\e[1m\e[93m${file_actual}\e[0m" >&2
+        file_time=$(stat --format='%y' -- "${file_actual}")
+        echo -e "\e[1m\e[93m${file_actual}|${file_time}\e[0m" >&2
     fi
 done <<< $(find ./logs/ -type f | sort)

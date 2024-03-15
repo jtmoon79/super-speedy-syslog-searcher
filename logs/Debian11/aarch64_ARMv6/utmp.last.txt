@@ -1,0 +1,5 @@
+root     pts/0        Sat Feb 17 13:16:51 2024   gone - no logout                      192.168.100.254
+runlevel (to lvl 5)   Sun Nov 26 21:07:47 2023   still running                         6.1.21-v8+
+reboot   system boot  Wed Dec 31 16:00:01 1969   still running                         6.1.21-v8+
+
+utmp begins Wed Dec 31 16:00:01 1969

@@ -1,0 +1,4 @@
+root     pts/1        Sat Feb 17 20:29 - 20:32  (00:02)     192.168.100.254
+root     pts/0        Sat Feb 17 20:25   still logged in    192.168.100.254
+
+wtmp begins Sat Feb 17 20:25:58 2024

@@ -1,0 +1,289 @@
+2023-05-07 00:22:03,465 [INFO] rhsmcertd-worker:9543:MainThread @entcertlib.py:131 - certs updated:
+Total updates: 0
+Found (local) serial# [8754664872150035604]
+Expected (UEP) serial# [8754664872150035604]
+Added (new)
+  <NONE>
+Deleted (rogue):
+  <NONE>
+2023-05-07 00:22:07,080 [INFO] rhsmcertd-worker:9543:MainThread @factlib.py:99 - Facts have been updated.
+2023-05-07 00:22:08,560 [WARNING] rhsm-service:2395:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 00:22:08,614 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 00:22:08,615 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 00:22:08,622 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 00:22:08,622 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 00:22:09,045 [WARNING] rhsm-service:2395:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 00:22:09,532 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 00:22:09,532 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 00:22:09,532 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 00:22:09,532 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 00:22:09,913 [WARNING] rhsm-service:2395:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 04:22:09,161 [INFO] rhsmcertd-worker:10894:MainThread @entcertlib.py:131 - certs updated:
+Total updates: 0
+Found (local) serial# [8754664872150035604]
+Expected (UEP) serial# [8754664872150035604]
+Added (new)
+  <NONE>
+Deleted (rogue):
+  <NONE>
+2023-05-07 04:22:12,714 [WARNING] rhsm-service:2395:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 04:22:12,714 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:12,714 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:12,714 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:12,714 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:13,103 [WARNING] rhsm-service:2395:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 04:22:13,113 [WARNING] rhsm-service:2395:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 04:22:13,542 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:13,542 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:13,542 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:13,542 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:13,927 [WARNING] rhsm-service:2395:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 04:22:13,927 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:13,927 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:13,927 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:13,927 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:14,312 [WARNING] rhsm-service:2395:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 04:22:14,744 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:14,744 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:14,744 [INFO] rhsm-service:2395:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:14,745 [INFO] rhsm-service:2395:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-07 04:22:15,122 [WARNING] rhsm-service:2395:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-07 08:22:08,170 [ERROR] rhsmcertd-worker:12166:MainThread @rhsmcertd_worker.py:292 - Error while updating certificates using daemon
+2023-05-07 08:22:08,170 [ERROR] rhsmcertd-worker:12166:MainThread @rhsmcertd_worker.py:294 - [Errno -2] Name or service not known
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 283, in main
+    _main(options, log)
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 202, in _main
+    cp.supports_resource(None)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1332, in supports_resource
+    self._load_supported_resources()
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1310, in _load_supported_resources
+    resources_list = self.conn.request_get("/", description=_("Fetching supported resources"))
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1213, in request_get
+    return self._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1255, in _request
+    result = super(Restlib, self)._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1047, in _request
+    result, response = self._make_request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 993, in _make_request
+    raise NoValidEntitlement(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 942, in _make_request
+    conn = self._create_connection(cert_file=cert_file, key_file=key_file)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 756, in _create_connection
+    conn.connect()
+  File "/usr/lib64/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/usr/lib64/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/usr/lib64/python3.9/socket.py", line 823, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib64/python3.9/socket.py", line 954, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+2023-05-07 08:33:28,156 [ERROR] dnf:12216:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 09:38:06,605 [ERROR] dnf:12522:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 11:36:43,943 [ERROR] rhsmcertd-worker:12877:MainThread @rhsmcertd_worker.py:292 - Error while updating certificates using daemon
+2023-05-07 11:36:43,943 [ERROR] rhsmcertd-worker:12877:MainThread @rhsmcertd_worker.py:294 - [Errno -2] Name or service not known
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 283, in main
+    _main(options, log)
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 202, in _main
+    cp.supports_resource(None)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1332, in supports_resource
+    self._load_supported_resources()
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1310, in _load_supported_resources
+    resources_list = self.conn.request_get("/", description=_("Fetching supported resources"))
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1213, in request_get
+    return self._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1255, in _request
+    result = super(Restlib, self)._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1047, in _request
+    result, response = self._make_request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 993, in _make_request
+    raise NoValidEntitlement(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 942, in _make_request
+    conn = self._create_connection(cert_file=cert_file, key_file=key_file)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 756, in _create_connection
+    conn.connect()
+  File "/usr/lib64/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/usr/lib64/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/usr/lib64/python3.9/socket.py", line 823, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib64/python3.9/socket.py", line 954, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+2023-05-07 11:38:28,816 [ERROR] dnf:12879:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 12:22:09,823 [ERROR] rhsmcertd-worker:12920:MainThread @rhsmcertd_worker.py:292 - Error while updating certificates using daemon
+2023-05-07 12:22:09,823 [ERROR] rhsmcertd-worker:12920:MainThread @rhsmcertd_worker.py:294 - [Errno -2] Name or service not known
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 283, in main
+    _main(options, log)
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 202, in _main
+    cp.supports_resource(None)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1332, in supports_resource
+    self._load_supported_resources()
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1310, in _load_supported_resources
+    resources_list = self.conn.request_get("/", description=_("Fetching supported resources"))
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1213, in request_get
+    return self._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1255, in _request
+    result = super(Restlib, self)._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1047, in _request
+    result, response = self._make_request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 993, in _make_request
+    raise NoValidEntitlement(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 942, in _make_request
+    conn = self._create_connection(cert_file=cert_file, key_file=key_file)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 756, in _create_connection
+    conn.connect()
+  File "/usr/lib64/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/usr/lib64/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/usr/lib64/python3.9/socket.py", line 823, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib64/python3.9/socket.py", line 954, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+2023-05-07 12:50:29,635 [ERROR] dnf:12945:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 14:31:28,110 [ERROR] dnf:13048:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 15:36:31,591 [ERROR] dnf:13110:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 16:22:10,404 [ERROR] rhsmcertd-worker:13150:MainThread @rhsmcertd_worker.py:292 - Error while updating certificates using daemon
+2023-05-07 16:22:10,404 [ERROR] rhsmcertd-worker:13150:MainThread @rhsmcertd_worker.py:294 - [Errno -2] Name or service not known
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 283, in main
+    _main(options, log)
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 202, in _main
+    cp.supports_resource(None)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1332, in supports_resource
+    self._load_supported_resources()
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1310, in _load_supported_resources
+    resources_list = self.conn.request_get("/", description=_("Fetching supported resources"))
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1213, in request_get
+    return self._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1255, in _request
+    result = super(Restlib, self)._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1047, in _request
+    result, response = self._make_request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 993, in _make_request
+    raise NoValidEntitlement(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 942, in _make_request
+    conn = self._create_connection(cert_file=cert_file, key_file=key_file)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 756, in _create_connection
+    conn.connect()
+  File "/usr/lib64/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/usr/lib64/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/usr/lib64/python3.9/socket.py", line 823, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib64/python3.9/socket.py", line 954, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+2023-05-07 17:11:28,108 [ERROR] dnf:13203:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 19:05:28,173 [ERROR] dnf:13304:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 20:22:10,922 [ERROR] rhsmcertd-worker:13363:MainThread @rhsmcertd_worker.py:292 - Error while updating certificates using daemon
+2023-05-07 20:22:10,922 [ERROR] rhsmcertd-worker:13363:MainThread @rhsmcertd_worker.py:294 - [Errno -2] Name or service not known
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 283, in main
+    _main(options, log)
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 202, in _main
+    cp.supports_resource(None)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1332, in supports_resource
+    self._load_supported_resources()
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1310, in _load_supported_resources
+    resources_list = self.conn.request_get("/", description=_("Fetching supported resources"))
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1213, in request_get
+    return self._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1255, in _request
+    result = super(Restlib, self)._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1047, in _request
+    result, response = self._make_request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 993, in _make_request
+    raise NoValidEntitlement(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 942, in _make_request
+    conn = self._create_connection(cert_file=cert_file, key_file=key_file)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 756, in _create_connection
+    conn.connect()
+  File "/usr/lib64/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/usr/lib64/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/usr/lib64/python3.9/socket.py", line 823, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib64/python3.9/socket.py", line 954, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+2023-05-07 20:52:28,500 [ERROR] dnf:13380:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 22:48:28,367 [ERROR] dnf:13496:MainThread @repolib.py:371 - gaierror: [Errno -2] Name or service not known
+2023-05-07 22:48:28,367 [ERROR] dnf:13496:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-07 23:51:28,358 [ERROR] dnf:13546:MainThread @repolib.py:371 - gaierror: [Errno -2] Name or service not known
+2023-05-07 23:51:28,358 [ERROR] dnf:13546:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-08 00:22:11,829 [ERROR] rhsmcertd-worker:13602:MainThread @rhsmcertd_worker.py:292 - Error while updating certificates using daemon
+2023-05-08 00:22:11,829 [ERROR] rhsmcertd-worker:13602:MainThread @rhsmcertd_worker.py:294 - [Errno -2] Name or service not known
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 283, in main
+    _main(options, log)
+  File "/usr/lib64/python3.9/site-packages/subscription_manager/scripts/rhsmcertd_worker.py", line 202, in _main
+    cp.supports_resource(None)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1332, in supports_resource
+    self._load_supported_resources()
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1310, in _load_supported_resources
+    resources_list = self.conn.request_get("/", description=_("Fetching supported resources"))
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1213, in request_get
+    return self._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1255, in _request
+    result = super(Restlib, self)._request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 1047, in _request
+    result, response = self._make_request(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 993, in _make_request
+    raise NoValidEntitlement(
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 942, in _make_request
+    conn = self._create_connection(cert_file=cert_file, key_file=key_file)
+  File "/usr/lib64/python3.9/site-packages/rhsm/connection.py", line 756, in _create_connection
+    conn.connect()
+  File "/usr/lib64/python3.9/http/client.py", line 1447, in connect
+    super().connect()
+  File "/usr/lib64/python3.9/http/client.py", line 946, in connect
+    self.sock = self._create_connection(
+  File "/usr/lib64/python3.9/socket.py", line 823, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib64/python3.9/socket.py", line 954, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -2] Name or service not known
+2023-05-08 01:17:28,252 [ERROR] dnf:13653:MainThread @repolib.py:371 - gaierror: [Errno -2] Name or service not known
+2023-05-08 01:17:28,252 [ERROR] dnf:13653:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-05-10 00:15:06,834 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:06,835 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:06,838 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:06,838 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:07,370 [WARNING] rhsm-service:2608:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-10 00:15:07,858 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:07,860 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:07,860 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:07,861 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:08,246 [WARNING] rhsm-service:2608:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-10 00:15:08,248 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 00:15:08,248 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:17,538 [INFO] rhsmcertd-worker:47919:MainThread @entcertlib.py:131 - certs updated:
+Total updates: 0
+Found (local) serial# [8754664872150035604]
+Expected (UEP) serial# [8754664872150035604]
+Added (new)
+  <NONE>
+Deleted (rogue):
+  <NONE>
+2023-05-10 02:30:20,416 [INFO] rhsmcertd-worker:47919:MainThread @factlib.py:99 - Facts have been updated.
+2023-05-10 02:30:23,228 [WARNING] rhsm-service:2608:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-10 02:30:23,400 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:23,400 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:23,427 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:23,427 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:23,880 [WARNING] rhsm-service:2608:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-05-10 02:30:24,565 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:24,565 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:24,565 [INFO] rhsm-service:2608:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:24,565 [INFO] rhsm-service:2608:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-05-10 02:30:24,954 [WARNING] rhsm-service:2608:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.

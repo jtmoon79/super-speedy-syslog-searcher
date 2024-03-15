@@ -1,0 +1,4 @@
+Feb  2 13:05:04 brunch newsyslog[698]: logfile first created
+Feb  2 21:10:00 brunch /usr/sbin/cron[1358]: (root) CMD (/usr/libexec/atrun)
+Feb  2 21:11:00 brunch /usr/sbin/cron[1554]: (operator) CMD (/usr/libexec/save-entropy)
+Feb  2 21:15:00 brunch /usr/sbin/cron[2175]: (root) CMD (/usr/libexec/atrun)

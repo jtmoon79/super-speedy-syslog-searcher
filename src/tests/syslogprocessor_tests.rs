@@ -577,7 +577,7 @@ lazy_static! {
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/// helper to wrap the match and panic checks
+/// Helper to wrap the match and panic checks
 fn new_SyslogProcessor(
     path: &FPath,
     blocksz: BlockSz,
@@ -631,7 +631,7 @@ fn test_find_sysline() {
                 break;
             }
             ResultS3SyslineFind::Err(err) => {
-                panic!("Error {:?}", err);
+                panic!("Error {}", err);
             }
         }
     }
@@ -648,7 +648,7 @@ fn test_find_sysline_between_datetime_filters_Found() {
             panic!("Unexpected Done");
         }
         ResultS3SyslineFind::Err(err) => {
-            panic!("Error {:?}", err);
+            panic!("Error {}", err);
         }
     }
 }
@@ -665,7 +665,7 @@ fn test_find_sysline_between_datetime_filters_Done() {
         }
         ResultS3SyslineFind::Done => {}
         ResultS3SyslineFind::Err(err) => {
-            panic!("Error {:?}", err);
+            panic!("Error {}", err);
         }
     }
 }
@@ -883,7 +883,7 @@ fn test_process_stages_0to5(
                 break;
             }
             ResultS3SyslineFind::Err(err) => {
-                panic!("Error {:?}", err);
+                panic!("Error {}", err);
             }
         }
         check_counter += 1;
@@ -1041,3 +1041,5 @@ fn test_SyslogProcessor_summary_empty(
 }
 
 // TODO: [2023/03/23]  test `SyslogProcessor::summary` and `SyslogProcessor::summary_complete`
+// TODO: [2024/03/10] copy design of similar function
+//       `fixedstructreader_tests.rs:test_FixedStructReader_summary`

@@ -1,0 +1,3 @@
+root      pts/2                     Sun Feb 25 2024 03:16:01   still logged in
+
+utmp begins Wed Dec 31 1969 19:00:00

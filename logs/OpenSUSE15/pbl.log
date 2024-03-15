@@ -1,0 +1,63 @@
+2023-04-19 01:31:19 <1> update-bootloader-3813 new.151: update-bootloader-3813 = /sbin/update-bootloader, version = 0.941, root = 0:26 (chroot)
+2023-04-19 01:31:19 <1> update-bootloader-3813 main.309: /sbin/update-bootloader --reinit
+2023-04-19 01:31:19 <1> update-bootloader-3813 main.311: bootloader = grub2
+2023-04-19 01:31:19 <1> update-bootloader-3813 main.317: locale = 
+2023-04-19 01:31:19 <1> update-bootloader-3813 run_command.335: '/usr/lib/bootloader/grub2/install' = 0, output:
+<<<<<<<<<<<<<<<<
+target = i386-pc
+Skipping grub2 during installation. Will be done at the end
+>>>>>>>>>>>>>>>>
+2023-04-19 01:31:19 <1> update-bootloader-3813 run_command.335: '/usr/lib/bootloader/grub2/config' = 0, output:
+<<<<<<<<<<<<<<<<
++ /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+Generating grub configuration file ...
+Found theme: /boot/grub2/themes/openSUSE/theme.txt
+Found linux image: /boot/vmlinuz-6.2.9-1-default
+Found initrd image: /boot/initrd-6.2.9-1-default
+Warning: os-prober will not be executed to detect other bootable partitions.
+Systems on them will not be added to the GRUB boot configuration.
+Check GRUB_DISABLE_OS_PROBER documentation entry.
+done
+>>>>>>>>>>>>>>>>
+2023-04-18 19:16:59 <1> bootloader_entry-9103 new.151: bootloader_entry-9103 = /usr/lib/bootloader/bootloader_entry, version = 0.941, root = 0:34
+2023-04-18 19:16:59 <1> bootloader_entry-9103 main.309: /usr/lib/bootloader/bootloader_entry add default 6.2.10-1-default vmlinuz-6.2.10-1-default initrd-6.2.10-1-default
+2023-04-18 19:16:59 <1> bootloader_entry-9103 main.311: bootloader = grub2
+2023-04-18 19:16:59 <1> bootloader_entry-9103 main.317: locale = 
+2023-04-18 19:16:59 <1> bootloader_entry-9103 main.338: /usr/lib/bootloader/grub2/add-kernel skipped
+2023-04-18 19:17:00 <1> bootloader_entry-9103 run_command.335: '/usr/lib/bootloader/grub2/config' = 0, output:
+<<<<<<<<<<<<<<<<
++ /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+Generating grub configuration file ...
+Found theme: /boot/grub2/themes/openSUSE/theme.txt
+Found linux image: /boot/vmlinuz-6.2.10-1-default
+Found initrd image: /boot/initrd-6.2.10-1-default
+Found linux image: /boot/vmlinuz-6.2.9-1-default
+Found initrd image: /boot/initrd-6.2.9-1-default
+Warning: os-prober will be executed to detect other bootable partitions.
+Its output will be used to detect bootable binaries on them and create new boot entries.
+done
+>>>>>>>>>>>>>>>>
+2023-04-18 19:17:15 <1> update-bootloader-0704 new.151: update-bootloader-0704 = /sbin/update-bootloader, version = 0.941, root = 0:34
+2023-04-18 19:17:15 <1> update-bootloader-0704 main.309: /sbin/update-bootloader --reinit
+2023-04-18 19:17:15 <1> update-bootloader-0704 main.311: bootloader = grub2
+2023-04-18 19:17:15 <1> update-bootloader-0704 main.317: locale = 
+2023-04-18 19:17:16 <1> update-bootloader-0704 run_command.335: '/usr/lib/bootloader/grub2/install' = 0, output:
+<<<<<<<<<<<<<<<<
+target = i386-pc
++ /usr/sbin/grub2-install --target=i386-pc --force --skip-fs-probe /dev/disk/by-id/ata-VBOX_HARDDISK_VB61d966f2-a07afeeb
+Installing for i386-pc platform.
+Installation finished. No error reported.
+>>>>>>>>>>>>>>>>
+2023-04-18 19:17:17 <1> update-bootloader-0704 run_command.335: '/usr/lib/bootloader/grub2/config' = 0, output:
+<<<<<<<<<<<<<<<<
++ /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+Generating grub configuration file ...
+Found theme: /boot/grub2/themes/openSUSE/theme.txt
+Found linux image: /boot/vmlinuz-6.2.10-1-default
+Found initrd image: /boot/initrd-6.2.10-1-default
+Found linux image: /boot/vmlinuz-6.2.9-1-default
+Found initrd image: /boot/initrd-6.2.9-1-default
+Warning: os-prober will be executed to detect other bootable partitions.
+Its output will be used to detect bootable binaries on them and create new boot entries.
+done
+>>>>>>>>>>>>>>>>

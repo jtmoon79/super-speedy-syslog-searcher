@@ -1,0 +1,1174 @@
+2023-04-22T15:08:46-0700 INFO --- logging initialized ---
+2023-04-22T15:08:46-0700 DDEBUG timer: config: 1 ms
+2023-04-22T15:08:46-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T15:08:46-0700 DEBUG YUM version: 4.14.0
+2023-04-22T15:08:46-0700 DDEBUG Command: yum install iproute 
+2023-04-22T15:08:46-0700 DDEBUG Installroot: /
+2023-04-22T15:08:46-0700 DDEBUG Releasever: 9
+2023-04-22T15:08:46-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T15:08:46-0700 DDEBUG Base command: install
+2023-04-22T15:08:46-0700 DDEBUG Extra commands: ['install', 'iproute']
+2023-04-22T15:08:46-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-04-22T15:08:46-0700 DEBUG repo: downloading from remote: baseos
+2023-04-22T15:08:46-0700 DEBUG countme: event triggered for baseos: bucket 1
+2023-04-22T15:08:50-0700 DEBUG baseos: using metadata from Mon 17 Apr 2023 02:22:04 AM PDT.
+2023-04-22T15:08:50-0700 DEBUG repo: downloading from remote: appstream
+2023-04-22T15:08:50-0700 DEBUG countme: no event for appstream: budget to spend: 1
+2023-04-22T15:09:11-0700 DEBUG appstream: using metadata from Mon 17 Apr 2023 02:25:23 AM PDT.
+2023-04-22T15:09:11-0700 DEBUG repo: downloading from remote: extras-common
+2023-04-22T15:09:11-0700 DEBUG countme: no event for extras-common: budget to spend: 2
+2023-04-22T15:09:13-0700 DEBUG extras-common: using metadata from Wed 12 Apr 2023 11:12:11 PM PDT.
+2023-04-22T15:09:13-0700 DDEBUG timer: sack setup: 26960 ms
+2023-04-22T15:09:13-0700 DEBUG Completion plugin: Generating completion cache...
+2023-04-22T15:09:13-0700 INFO Package iproute-6.1.0-1.el9.x86_64 is already installed.
+2023-04-22T15:09:13-0700 DEBUG --> Starting dependency resolution
+2023-04-22T15:09:13-0700 DEBUG --> Finished dependency resolution
+2023-04-22T15:09:13-0700 DDEBUG timer: depsolve: 8 ms
+2023-04-22T15:09:13-0700 INFO Dependencies resolved.
+2023-04-22T15:09:13-0700 INFO Nothing to do.
+2023-04-22T15:09:13-0700 INFO Complete!
+2023-04-22T15:09:13-0700 DDEBUG Cleaning up.
+2023-04-22T15:09:13-0700 DDEBUG Plugins were unloaded.
+2023-04-22T15:11:06-0700 INFO --- logging initialized ---
+2023-04-22T15:11:06-0700 DDEBUG timer: config: 20 ms
+2023-04-22T15:11:06-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T15:11:06-0700 DEBUG YUM version: 4.14.0
+2023-04-22T15:11:06-0700 DDEBUG Command: yum install iproute 
+2023-04-22T15:11:06-0700 DDEBUG Installroot: /
+2023-04-22T15:11:06-0700 DDEBUG Releasever: 9
+2023-04-22T15:11:06-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T15:11:06-0700 DDEBUG Base command: install
+2023-04-22T15:11:06-0700 DDEBUG Extra commands: ['install', 'iproute']
+2023-04-22T15:11:06-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-04-22T15:11:06-0700 DEBUG repo: using cache for: baseos
+2023-04-22T15:11:06-0700 DEBUG baseos: using metadata from Mon 17 Apr 2023 02:22:04 AM PDT.
+2023-04-22T15:11:06-0700 DEBUG repo: using cache for: appstream
+2023-04-22T15:11:06-0700 DEBUG appstream: using metadata from Mon 17 Apr 2023 02:25:23 AM PDT.
+2023-04-22T15:11:06-0700 DEBUG repo: using cache for: extras-common
+2023-04-22T15:11:06-0700 DEBUG extras-common: using metadata from Wed 12 Apr 2023 11:12:11 PM PDT.
+2023-04-22T15:11:06-0700 INFO Last metadata expiration check: 0:01:53 ago on Sat 22 Apr 2023 03:09:13 PM PDT.
+2023-04-22T15:11:06-0700 DDEBUG timer: sack setup: 142 ms
+2023-04-22T15:11:06-0700 INFO Package iproute-6.1.0-1.el9.x86_64 is already installed.
+2023-04-22T15:11:06-0700 DEBUG --> Starting dependency resolution
+2023-04-22T15:11:06-0700 DEBUG --> Finished dependency resolution
+2023-04-22T15:11:06-0700 DDEBUG timer: depsolve: 19 ms
+2023-04-22T15:11:06-0700 INFO Dependencies resolved.
+2023-04-22T15:11:06-0700 INFO Nothing to do.
+2023-04-22T15:11:06-0700 INFO Complete!
+2023-04-22T15:11:06-0700 DDEBUG Cleaning up.
+2023-04-22T15:11:06-0700 DDEBUG Plugins were unloaded.
+2023-04-22T15:11:08-0700 INFO --- logging initialized ---
+2023-04-22T15:11:08-0700 DDEBUG timer: config: 4 ms
+2023-04-22T15:11:08-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T15:11:08-0700 DEBUG YUM version: 4.14.0
+2023-04-22T15:11:08-0700 DDEBUG Command: yum install git 
+2023-04-22T15:11:08-0700 DDEBUG Installroot: /
+2023-04-22T15:11:08-0700 DDEBUG Releasever: 9
+2023-04-22T15:11:08-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T15:11:08-0700 DDEBUG Base command: install
+2023-04-22T15:11:08-0700 DDEBUG Extra commands: ['install', 'git']
+2023-04-22T15:11:08-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-04-22T15:11:08-0700 DEBUG repo: using cache for: baseos
+2023-04-22T15:11:08-0700 DEBUG baseos: using metadata from Mon 17 Apr 2023 02:22:04 AM PDT.
+2023-04-22T15:11:08-0700 DEBUG repo: using cache for: appstream
+2023-04-22T15:11:08-0700 DEBUG appstream: using metadata from Mon 17 Apr 2023 02:25:23 AM PDT.
+2023-04-22T15:11:08-0700 DEBUG repo: using cache for: extras-common
+2023-04-22T15:11:08-0700 DEBUG extras-common: using metadata from Wed 12 Apr 2023 11:12:11 PM PDT.
+2023-04-22T15:11:08-0700 INFO Last metadata expiration check: 0:01:55 ago on Sat 22 Apr 2023 03:09:13 PM PDT.
+2023-04-22T15:11:08-0700 DDEBUG timer: sack setup: 141 ms
+2023-04-22T15:11:08-0700 DEBUG --> Starting dependency resolution
+2023-04-22T15:11:08-0700 DEBUG ---> Package git.x86_64 2.39.1-1.el9 will be installed
+2023-04-22T15:11:08-0700 DEBUG ---> Package git-core.x86_64 2.39.1-1.el9 will be installed
+2023-04-22T15:11:08-0700 DEBUG ---> Package git-core-doc.noarch 2.39.1-1.el9 will be installed
+2023-04-22T15:11:08-0700 DEBUG ---> Package perl-Error.noarch 1:0.17029-7.el9 will be installed
+2023-04-22T15:11:08-0700 DEBUG ---> Package perl-Git.noarch 2.39.1-1.el9 will be installed
+2023-04-22T15:11:08-0700 DEBUG ---> Package perl-TermReadKey.x86_64 2.38-11.el9 will be installed
+2023-04-22T15:11:08-0700 DEBUG ---> Package perl-lib.x86_64 0.65-480.el9 will be installed
+2023-04-22T15:11:08-0700 DEBUG --> Finished dependency resolution
+2023-04-22T15:11:08-0700 DDEBUG timer: depsolve: 6 ms
+2023-04-22T15:11:08-0700 INFO Dependencies resolved.
+2023-04-22T15:11:08-0700 INFO ====================================================================
+ Package            Arch     Version              Repository   Size
+====================================================================
+Installing:
+ [1m[32mgit               (B[m x86_64   2.39.1-1.el9         appstream    63 k
+Installing dependencies:
+ [1m[32mgit-core          (B[m x86_64   2.39.1-1.el9         appstream   4.2 M
+ [1m[32mgit-core-doc      (B[m noarch   2.39.1-1.el9         appstream   2.9 M
+ [1m[32mperl-Error        (B[m noarch   1:0.17029-7.el9      appstream    42 k
+ [1m[32mperl-Git          (B[m noarch   2.39.1-1.el9         appstream    39 k
+ [1m[32mperl-TermReadKey  (B[m x86_64   2.38-11.el9          appstream    37 k
+ [1m[32mperl-lib          (B[m x86_64   0.65-480.el9         appstream    16 k
+
+Transaction Summary
+====================================================================
+Install  7 Packages
+
+2023-04-22T15:11:08-0700 INFO Total download size: 7.3 M
+2023-04-22T15:11:08-0700 INFO Installed size: 36 M
+2023-04-22T15:11:09-0700 INFO Downloading Packages:
+2023-04-22T15:11:11-0700 INFO --------------------------------------------------------------------
+2023-04-22T15:11:11-0700 INFO Total                               3.5 MB/s | 7.3 MB     00:02     
+2023-04-22T15:11:11-0700 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2023-04-22T15:11:11-0700 CRITICAL Importing GPG key 0x8483C65D:
+ Userid     : "CentOS (CentOS Official Signing Key) <security@centos.org>"
+ Fingerprint: 99DB 70FA E1D7 CE22 7FB6 4882 05B5 55B3 8483 C65D
+ From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
+2023-04-22T15:11:35-0700 INFO Key imported successfully
+2023-04-22T15:11:35-0700 INFO Running transaction check
+2023-04-22T15:11:35-0700 INFO Transaction check succeeded.
+2023-04-22T15:11:35-0700 INFO Running transaction test
+2023-04-22T15:11:35-0700 INFO Transaction test succeeded.
+2023-04-22T15:11:35-0700 DDEBUG timer: transaction test: 338 ms
+2023-04-22T15:11:35-0700 INFO Running transaction
+2023-04-22T15:11:35-0700 DEBUG RPMDB altered outside of YUM.
+2023-04-22T15:11:35-0700 DDEBUG RPM transaction start.
+2023-04-22T15:11:36-0700 DDEBUG RPM transaction over.
+2023-04-22T15:11:36-0700 DDEBUG timer: verify transaction: 109 ms
+2023-04-22T15:11:36-0700 DDEBUG timer: transaction: 955 ms
+2023-04-22T15:11:36-0700 DEBUG Completion plugin: Generating completion cache...
+2023-04-22T15:11:36-0700 DEBUG Installed: git-2.39.1-1.el9.x86_64
+2023-04-22T15:11:36-0700 DEBUG Installed: git-core-2.39.1-1.el9.x86_64
+2023-04-22T15:11:36-0700 DEBUG Installed: git-core-doc-2.39.1-1.el9.noarch
+2023-04-22T15:11:36-0700 DEBUG Installed: perl-Error-1:0.17029-7.el9.noarch
+2023-04-22T15:11:36-0700 DEBUG Installed: perl-Git-2.39.1-1.el9.noarch
+2023-04-22T15:11:36-0700 DEBUG Installed: perl-TermReadKey-2.38-11.el9.x86_64
+2023-04-22T15:11:36-0700 DEBUG Installed: perl-lib-0.65-480.el9.x86_64
+2023-04-22T15:11:36-0700 INFO Complete!
+2023-04-22T15:11:36-0700 DDEBUG Cleaning up.
+2023-04-22T15:11:36-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/git-2.39.1-1.el9.x86_64.rpm removed
+2023-04-22T15:11:36-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/perl-TermReadKey-2.38-11.el9.x86_64.rpm removed
+2023-04-22T15:11:36-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/git-core-2.39.1-1.el9.x86_64.rpm removed
+2023-04-22T15:11:36-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/perl-Git-2.39.1-1.el9.noarch.rpm removed
+2023-04-22T15:11:36-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/git-core-doc-2.39.1-1.el9.noarch.rpm removed
+2023-04-22T15:11:36-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/perl-Error-0.17029-7.el9.noarch.rpm removed
+2023-04-22T15:11:36-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/perl-lib-0.65-480.el9.x86_64.rpm removed
+2023-04-22T15:11:36-0700 DDEBUG Plugins were unloaded.
+2023-04-22T15:16:33-0700 INFO --- logging initialized ---
+2023-04-22T15:16:33-0700 DDEBUG timer: config: 5 ms
+2023-04-22T15:16:33-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T15:16:33-0700 DEBUG YUM version: 4.14.0
+2023-04-22T15:16:33-0700 DDEBUG Command: yum install iproute 
+2023-04-22T15:16:33-0700 DDEBUG Installroot: /
+2023-04-22T15:16:33-0700 DDEBUG Releasever: 9
+2023-04-22T15:16:33-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T15:16:33-0700 DDEBUG Base command: install
+2023-04-22T15:16:33-0700 DDEBUG Extra commands: ['install', 'iproute']
+2023-04-22T15:16:33-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-04-22T15:16:33-0700 DEBUG repo: using cache for: baseos
+2023-04-22T15:16:33-0700 DEBUG baseos: using metadata from Mon 17 Apr 2023 02:22:04 AM PDT.
+2023-04-22T15:16:33-0700 DEBUG repo: using cache for: appstream
+2023-04-22T15:16:33-0700 DEBUG appstream: using metadata from Mon 17 Apr 2023 02:25:23 AM PDT.
+2023-04-22T15:16:33-0700 DEBUG repo: using cache for: extras-common
+2023-04-22T15:16:33-0700 DEBUG extras-common: using metadata from Wed 12 Apr 2023 11:12:11 PM PDT.
+2023-04-22T15:16:33-0700 INFO Last metadata expiration check: 0:07:20 ago on Sat 22 Apr 2023 03:09:13 PM PDT.
+2023-04-22T15:16:33-0700 DDEBUG timer: sack setup: 554 ms
+2023-04-22T15:16:33-0700 INFO Package iproute-6.1.0-1.el9.x86_64 is already installed.
+2023-04-22T15:16:33-0700 DEBUG --> Starting dependency resolution
+2023-04-22T15:16:33-0700 DEBUG --> Finished dependency resolution
+2023-04-22T15:16:33-0700 DDEBUG timer: depsolve: 7 ms
+2023-04-22T15:16:33-0700 INFO Dependencies resolved.
+2023-04-22T15:16:33-0700 INFO Nothing to do.
+2023-04-22T15:16:33-0700 INFO Complete!
+2023-04-22T15:16:33-0700 DDEBUG Cleaning up.
+2023-04-22T15:16:33-0700 DDEBUG Plugins were unloaded.
+2023-04-22T15:17:36-0700 INFO --- logging initialized ---
+2023-04-22T15:17:36-0700 DDEBUG timer: config: 7 ms
+2023-04-22T15:17:36-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T15:17:36-0700 DEBUG YUM version: 4.14.0
+2023-04-22T15:17:36-0700 DDEBUG Command: yum install gcc 
+2023-04-22T15:17:36-0700 DDEBUG Installroot: /
+2023-04-22T15:17:36-0700 DDEBUG Releasever: 9
+2023-04-22T15:17:36-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T15:17:36-0700 DDEBUG Base command: install
+2023-04-22T15:17:36-0700 DDEBUG Extra commands: ['install', 'gcc']
+2023-04-22T15:17:36-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-04-22T15:17:36-0700 DEBUG repo: using cache for: baseos
+2023-04-22T15:17:36-0700 DEBUG baseos: using metadata from Mon 17 Apr 2023 02:22:04 AM PDT.
+2023-04-22T15:17:36-0700 DEBUG repo: using cache for: appstream
+2023-04-22T15:17:36-0700 DEBUG appstream: using metadata from Mon 17 Apr 2023 02:25:23 AM PDT.
+2023-04-22T15:17:36-0700 DEBUG repo: using cache for: extras-common
+2023-04-22T15:17:36-0700 DEBUG extras-common: using metadata from Wed 12 Apr 2023 11:12:11 PM PDT.
+2023-04-22T15:17:36-0700 INFO Last metadata expiration check: 0:08:23 ago on Sat 22 Apr 2023 03:09:13 PM PDT.
+2023-04-22T15:17:36-0700 DDEBUG timer: sack setup: 190 ms
+2023-04-22T15:17:36-0700 DEBUG --> Starting dependency resolution
+2023-04-22T15:17:36-0700 DEBUG ---> Package make.x86_64 1:4.3-7.el9 will be installed
+2023-04-22T15:17:36-0700 DEBUG ---> Package gcc.x86_64 11.3.1-4.4.el9 will be installed
+2023-04-22T15:17:36-0700 DEBUG ---> Package glibc-devel.x86_64 2.34-65.el9 will be installed
+2023-04-22T15:17:36-0700 DEBUG ---> Package glibc-headers.x86_64 2.34-65.el9 will be installed
+2023-04-22T15:17:36-0700 DEBUG ---> Package kernel-headers.x86_64 5.14.0-299.el9 will be installed
+2023-04-22T15:17:36-0700 DEBUG ---> Package libxcrypt-devel.x86_64 4.4.18-3.el9 will be installed
+2023-04-22T15:17:36-0700 DEBUG --> Finished dependency resolution
+2023-04-22T15:17:36-0700 DDEBUG timer: depsolve: 0 ms
+2023-04-22T15:17:36-0700 INFO Dependencies resolved.
+2023-04-22T15:17:36-0700 INFO ====================================================================
+ Package            Arch      Version            Repository    Size
+====================================================================
+Installing:
+ [1m[32mgcc               (B[m x86_64    11.3.1-4.4.el9     appstream     32 M
+Installing dependencies:
+ [1m[32mglibc-devel       (B[m x86_64    2.34-65.el9        appstream     51 k
+ [1m[32mglibc-headers     (B[m x86_64    2.34-65.el9        appstream    552 k
+ [1m[32mkernel-headers    (B[m x86_64    5.14.0-299.el9     appstream    5.3 M
+ [1m[32mlibxcrypt-devel   (B[m x86_64    4.4.18-3.el9       appstream     29 k
+ [1m[32mmake              (B[m x86_64    1:4.3-7.el9        baseos       538 k
+
+Transaction Summary
+====================================================================
+Install  6 Packages
+
+2023-04-22T15:17:36-0700 INFO Total download size: 39 M
+2023-04-22T15:17:36-0700 INFO Installed size: 94 M
+2023-04-22T15:17:37-0700 INFO Downloading Packages:
+2023-04-22T15:21:16-0700 INFO --------------------------------------------------------------------
+2023-04-22T15:21:16-0700 INFO Total                               181 kB/s |  39 MB     03:38     
+2023-04-22T15:21:16-0700 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2023-04-22T15:21:16-0700 INFO Running transaction check
+2023-04-22T15:21:17-0700 INFO Transaction check succeeded.
+2023-04-22T15:21:17-0700 INFO Running transaction test
+2023-04-22T15:21:17-0700 INFO Transaction test succeeded.
+2023-04-22T15:21:17-0700 DDEBUG timer: transaction test: 655 ms
+2023-04-22T15:21:17-0700 INFO Running transaction
+2023-04-22T15:21:17-0700 DDEBUG RPM transaction start.
+2023-04-22T15:21:19-0700 DDEBUG RPM transaction over.
+2023-04-22T15:21:19-0700 DDEBUG timer: verify transaction: 82 ms
+2023-04-22T15:21:19-0700 DDEBUG timer: transaction: 1629 ms
+2023-04-22T15:21:19-0700 DEBUG Completion plugin: Generating completion cache...
+2023-04-22T15:21:19-0700 DEBUG Installed: gcc-11.3.1-4.4.el9.x86_64
+2023-04-22T15:21:19-0700 DEBUG Installed: glibc-devel-2.34-65.el9.x86_64
+2023-04-22T15:21:19-0700 DEBUG Installed: glibc-headers-2.34-65.el9.x86_64
+2023-04-22T15:21:19-0700 DEBUG Installed: kernel-headers-5.14.0-299.el9.x86_64
+2023-04-22T15:21:19-0700 DEBUG Installed: libxcrypt-devel-4.4.18-3.el9.x86_64
+2023-04-22T15:21:19-0700 DEBUG Installed: make-1:4.3-7.el9.x86_64
+2023-04-22T15:21:19-0700 INFO Complete!
+2023-04-22T15:21:19-0700 DDEBUG Cleaning up.
+2023-04-22T15:21:19-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/gcc-11.3.1-4.4.el9.x86_64.rpm removed
+2023-04-22T15:21:19-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/glibc-headers-2.34-65.el9.x86_64.rpm removed
+2023-04-22T15:21:19-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/kernel-headers-5.14.0-299.el9.x86_64.rpm removed
+2023-04-22T15:21:19-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/glibc-devel-2.34-65.el9.x86_64.rpm removed
+2023-04-22T15:21:19-0700 DDEBUG /var/cache/dnf/appstream-831abc7e9d6a1a72/packages/libxcrypt-devel-4.4.18-3.el9.x86_64.rpm removed
+2023-04-22T15:21:19-0700 DDEBUG /var/cache/dnf/baseos-044cae74d71fe9ea/packages/make-4.3-7.el9.x86_64.rpm removed
+2023-04-22T15:21:19-0700 DDEBUG Plugins were unloaded.
+2023-04-22T16:02:05-0700 INFO --- logging initialized ---
+2023-04-22T16:02:05-0700 DDEBUG timer: config: 16 ms
+2023-04-22T16:02:05-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T16:02:05-0700 DEBUG DNF version: 4.14.0
+2023-04-22T16:02:05-0700 DDEBUG Command: dnf makecache --timer 
+2023-04-22T16:02:05-0700 DDEBUG Installroot: /
+2023-04-22T16:02:05-0700 DDEBUG Releasever: 9
+2023-04-22T16:02:05-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T16:02:05-0700 DDEBUG Base command: makecache
+2023-04-22T16:02:05-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T16:02:05-0700 DEBUG Making cache files for all metadata files.
+2023-04-22T16:02:05-0700 WARNING Failed determining last makecache time.
+2023-04-22T16:02:05-0700 DEBUG baseos: has expired and will be refreshed.
+2023-04-22T16:02:05-0700 DEBUG appstream: has expired and will be refreshed.
+2023-04-22T16:02:05-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-04-22T16:02:05-0700 DEBUG countme: no event for baseos: window already counted
+2023-04-22T16:02:07-0700 DEBUG reviving: 'baseos' can be revived - metalink checksums match.
+2023-04-22T16:02:07-0700 DEBUG baseos: using metadata from Mon 17 Apr 2023 02:22:04 AM PDT.
+2023-04-22T16:02:07-0700 DEBUG countme: event triggered for appstream: bucket 1
+2023-04-22T16:02:07-0700 DEBUG reviving: 'appstream' can be revived - metalink checksums match.
+2023-04-22T16:02:07-0700 DEBUG appstream: using metadata from Mon 17 Apr 2023 02:25:23 AM PDT.
+2023-04-22T16:02:07-0700 DEBUG countme: no event for extras-common: budget to spend: 1
+2023-04-22T16:02:07-0700 DEBUG reviving: 'extras-common' can be revived - metalink checksums match.
+2023-04-22T16:02:07-0700 DEBUG extras-common: using metadata from Wed 12 Apr 2023 11:12:11 PM PDT.
+2023-04-22T16:02:07-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-04-22T16:02:07-0700 DDEBUG timer: sack setup: 2195 ms
+2023-04-22T16:02:07-0700 INFO Metadata cache created.
+2023-04-22T16:02:07-0700 DDEBUG Cleaning up.
+2023-04-22T16:02:07-0700 DDEBUG Plugins were unloaded.
+2023-04-22T17:16:46-0700 INFO --- logging initialized ---
+2023-04-22T17:16:46-0700 DDEBUG timer: config: 6 ms
+2023-04-22T17:16:46-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T17:16:46-0700 DEBUG DNF version: 4.14.0
+2023-04-22T17:16:46-0700 DDEBUG Command: dnf makecache --timer 
+2023-04-22T17:16:46-0700 DDEBUG Installroot: /
+2023-04-22T17:16:46-0700 DDEBUG Releasever: 9
+2023-04-22T17:16:46-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T17:16:46-0700 DDEBUG Base command: makecache
+2023-04-22T17:16:46-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T17:16:46-0700 DEBUG Making cache files for all metadata files.
+2023-04-22T17:16:46-0700 INFO Metadata cache refreshed recently.
+2023-04-22T17:16:46-0700 DDEBUG Cleaning up.
+2023-04-22T17:16:46-0700 DDEBUG Plugins were unloaded.
+2023-04-22T19:04:46-0700 INFO --- logging initialized ---
+2023-04-22T19:04:46-0700 DDEBUG timer: config: 37 ms
+2023-04-22T19:04:46-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T19:04:46-0700 DEBUG DNF version: 4.14.0
+2023-04-22T19:04:46-0700 DDEBUG Command: dnf makecache --timer 
+2023-04-22T19:04:46-0700 DDEBUG Installroot: /
+2023-04-22T19:04:46-0700 DDEBUG Releasever: 9
+2023-04-22T19:04:46-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T19:04:46-0700 DDEBUG Base command: makecache
+2023-04-22T19:04:46-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T19:04:46-0700 DEBUG Making cache files for all metadata files.
+2023-04-22T19:04:46-0700 DEBUG baseos: has expired and will be refreshed.
+2023-04-22T19:04:46-0700 DEBUG appstream: has expired and will be refreshed.
+2023-04-22T19:04:46-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-04-22T19:04:46-0700 DEBUG countme: no event for baseos: window already counted
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-04-22T19:04:46-0700 WARNING Errors during downloading metadata for repository 'baseos':
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-04-22T19:04:46-0700 DDEBUG Cleaning up.
+2023-04-22T19:04:46-0700 DDEBUG Plugins were unloaded.
+2023-04-22T19:04:46-0700 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 574, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 377, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 406, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 581, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-04-22T19:04:46-0700 CRITICAL Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-04-22T20:35:36-0700 INFO --- logging initialized ---
+2023-04-22T20:35:36-0700 DDEBUG timer: config: 0 ms
+2023-04-22T20:35:36-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T20:35:36-0700 DEBUG DNF version: 4.14.0
+2023-04-22T20:35:36-0700 DDEBUG Command: dnf makecache --timer 
+2023-04-22T20:35:36-0700 DDEBUG Installroot: /
+2023-04-22T20:35:36-0700 DDEBUG Releasever: 9
+2023-04-22T20:35:36-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T20:35:36-0700 DDEBUG Base command: makecache
+2023-04-22T20:35:36-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T20:35:36-0700 DEBUG Making cache files for all metadata files.
+2023-04-22T20:35:36-0700 INFO Metadata cache refreshed recently.
+2023-04-22T20:35:36-0700 DDEBUG Cleaning up.
+2023-04-22T20:35:36-0700 DDEBUG Plugins were unloaded.
+2023-04-22T21:49:46-0700 INFO --- logging initialized ---
+2023-04-22T21:49:46-0700 DDEBUG timer: config: 20 ms
+2023-04-22T21:49:46-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T21:49:46-0700 DEBUG DNF version: 4.14.0
+2023-04-22T21:49:46-0700 DDEBUG Command: dnf makecache --timer 
+2023-04-22T21:49:46-0700 DDEBUG Installroot: /
+2023-04-22T21:49:46-0700 DDEBUG Releasever: 9
+2023-04-22T21:49:46-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T21:49:46-0700 DDEBUG Base command: makecache
+2023-04-22T21:49:46-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T21:49:46-0700 DEBUG Making cache files for all metadata files.
+2023-04-22T21:49:46-0700 INFO Metadata cache refreshed recently.
+2023-04-22T21:49:46-0700 DDEBUG Cleaning up.
+2023-04-22T21:49:46-0700 DDEBUG Plugins were unloaded.
+2023-04-22T23:36:46-0700 INFO --- logging initialized ---
+2023-04-22T23:36:46-0700 DDEBUG timer: config: 12 ms
+2023-04-22T23:36:46-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-04-22T23:36:46-0700 DEBUG DNF version: 4.14.0
+2023-04-22T23:36:46-0700 DDEBUG Command: dnf makecache --timer 
+2023-04-22T23:36:46-0700 DDEBUG Installroot: /
+2023-04-22T23:36:46-0700 DDEBUG Releasever: 9
+2023-04-22T23:36:46-0700 DEBUG cachedir: /var/cache/dnf
+2023-04-22T23:36:46-0700 DDEBUG Base command: makecache
+2023-04-22T23:36:46-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T23:36:46-0700 DEBUG Making cache files for all metadata files.
+2023-04-22T23:36:46-0700 DEBUG baseos: has expired and will be refreshed.
+2023-04-22T23:36:46-0700 DEBUG appstream: has expired and will be refreshed.
+2023-04-22T23:36:46-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-04-22T23:36:46-0700 DEBUG countme: no event for baseos: window already counted
+2023-04-22T23:36:47-0700 DEBUG reviving: 'baseos' can be revived - metalink checksums match.
+2023-04-22T23:36:47-0700 DEBUG baseos: using metadata from Mon 17 Apr 2023 02:22:04 AM PDT.
+2023-04-22T23:36:47-0700 DEBUG countme: no event for appstream: window already counted
+2023-04-22T23:36:47-0700 DEBUG reviving: 'appstream' can be revived - metalink checksums match.
+2023-04-22T23:36:47-0700 DEBUG appstream: using metadata from Mon 17 Apr 2023 02:25:23 AM PDT.
+2023-04-22T23:36:47-0700 DEBUG countme: event triggered for extras-common: bucket 1
+2023-04-22T23:36:48-0700 DEBUG reviving: 'extras-common' can be revived - metalink checksums match.
+2023-04-22T23:36:48-0700 DEBUG extras-common: using metadata from Wed 12 Apr 2023 11:12:11 PM PDT.
+2023-04-22T23:36:48-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-04-22T23:36:48-0700 DDEBUG timer: sack setup: 1826 ms
+2023-04-22T23:36:48-0700 INFO Metadata cache created.
+2023-04-22T23:36:48-0700 DDEBUG Cleaning up.
+2023-04-22T23:36:48-0700 DDEBUG Plugins were unloaded.
+2023-05-06T18:58:02-0700 INFO --- logging initialized ---
+2023-05-06T18:58:02-0700 DDEBUG timer: config: 11 ms
+2023-05-06T18:58:02-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-06T18:58:02-0700 DEBUG YUM version: 4.14.0
+2023-05-06T18:58:02-0700 DDEBUG Command: yum install iproute 
+2023-05-06T18:58:02-0700 DDEBUG Installroot: /
+2023-05-06T18:58:02-0700 DDEBUG Releasever: 9
+2023-05-06T18:58:02-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-06T18:58:02-0700 DDEBUG Base command: install
+2023-05-06T18:58:02-0700 DDEBUG Extra commands: ['install', 'iproute']
+2023-05-06T18:58:02-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-05-06T18:58:03-0700 DEBUG countme: no event for baseos: budget to spend: 1
+2023-05-06T18:58:04-0700 DEBUG reviving: failed for 'baseos', mismatched sha256 sum.
+2023-05-06T18:58:04-0700 DEBUG repo: downloading from remote: baseos
+2023-05-06T18:58:04-0700 DEBUG countme: event triggered for baseos: bucket 2
+2023-05-06T18:58:06-0700 DEBUG baseos: using metadata from Mon 01 May 2023 12:46:01 AM PDT.
+2023-05-06T18:58:07-0700 DEBUG countme: no event for appstream: budget to spend: 1
+2023-05-06T18:58:07-0700 DEBUG reviving: failed for 'appstream', mismatched sha256 sum.
+2023-05-06T18:58:07-0700 DEBUG repo: downloading from remote: appstream
+2023-05-06T18:58:07-0700 DEBUG countme: event triggered for appstream: bucket 2
+2023-05-06T18:58:17-0700 DEBUG appstream: using metadata from Mon 01 May 2023 12:48:11 AM PDT.
+2023-05-06T18:58:17-0700 DEBUG countme: event triggered for extras-common: bucket 2
+2023-05-06T18:58:18-0700 DEBUG reviving: failed for 'extras-common', mismatched sha256 sum.
+2023-05-06T18:58:18-0700 DEBUG repo: downloading from remote: extras-common
+2023-05-06T18:58:18-0700 DEBUG countme: no event for extras-common: window already counted
+2023-05-06T18:58:19-0700 DEBUG extras-common: using metadata from Tue 02 May 2023 06:23:01 AM PDT.
+2023-05-06T18:58:19-0700 DDEBUG timer: sack setup: 16662 ms
+2023-05-06T18:58:19-0700 DEBUG Completion plugin: Generating completion cache...
+2023-05-06T18:58:19-0700 INFO Package iproute-6.1.0-1.el9.x86_64 is already installed.
+2023-05-06T18:58:19-0700 DEBUG --> Starting dependency resolution
+2023-05-06T18:58:19-0700 DEBUG ---> Package iproute.x86_64 6.1.0-1.el9 will be upgraded
+2023-05-06T18:58:19-0700 DEBUG ---> Package iproute.x86_64 6.2.0-1.el9 will be an upgrade
+2023-05-06T18:58:19-0700 DEBUG ---> Package iproute-tc.x86_64 6.1.0-1.el9 will be upgraded
+2023-05-06T18:58:19-0700 DEBUG ---> Package iproute-tc.x86_64 6.2.0-1.el9 will be an upgrade
+2023-05-06T18:58:19-0700 DEBUG --> Finished dependency resolution
+2023-05-06T18:58:19-0700 DDEBUG timer: depsolve: 50 ms
+2023-05-06T18:58:19-0700 INFO Dependencies resolved.
+2023-05-06T18:58:19-0700 INFO ==================================================================================================
+ Package                 Architecture        Version                    Repository           Size
+==================================================================================================
+Upgrading:
+ [1m[32miproute                (B[m x86_64              6.2.0-1.el9                baseos              813 k
+ [1m[32miproute-tc             (B[m x86_64              6.2.0-1.el9                baseos              462 k
+
+Transaction Summary
+==================================================================================================
+Upgrade  2 Packages
+
+2023-05-06T18:58:19-0700 INFO Total download size: 1.2 M
+2023-05-06T18:58:24-0700 INFO Downloading Packages:
+2023-05-06T18:58:25-0700 INFO --------------------------------------------------------------------------------------------------
+2023-05-06T18:58:25-0700 INFO Total                                                             1.2 MB/s | 1.2 MB     00:01     
+2023-05-06T18:58:25-0700 DEBUG Using rpmkeys executable at /bin/rpmkeys to verify signatures
+2023-05-06T18:58:25-0700 INFO Running transaction check
+2023-05-06T18:58:25-0700 INFO Transaction check succeeded.
+2023-05-06T18:58:25-0700 INFO Running transaction test
+2023-05-06T18:58:25-0700 INFO Transaction test succeeded.
+2023-05-06T18:58:25-0700 DDEBUG timer: transaction test: 174 ms
+2023-05-06T18:58:25-0700 INFO Running transaction
+2023-05-06T18:58:25-0700 DDEBUG RPM transaction start.
+2023-05-06T18:58:26-0700 DDEBUG RPM transaction over.
+2023-05-06T18:58:26-0700 DDEBUG timer: verify transaction: 97 ms
+2023-05-06T18:58:26-0700 DDEBUG timer: transaction: 695 ms
+2023-05-06T18:58:26-0700 DEBUG Completion plugin: Generating completion cache...
+2023-05-06T18:58:26-0700 DEBUG Upgraded: iproute-6.2.0-1.el9.x86_64
+2023-05-06T18:58:26-0700 DEBUG Upgraded: iproute-tc-6.2.0-1.el9.x86_64
+2023-05-06T18:58:26-0700 INFO Complete!
+2023-05-06T18:58:26-0700 DDEBUG Cleaning up.
+2023-05-06T18:58:26-0700 DDEBUG /var/cache/dnf/baseos-044cae74d71fe9ea/packages/iproute-tc-6.2.0-1.el9.x86_64.rpm removed
+2023-05-06T18:58:26-0700 DDEBUG /var/cache/dnf/baseos-044cae74d71fe9ea/packages/iproute-6.2.0-1.el9.x86_64.rpm removed
+2023-05-06T18:58:26-0700 DDEBUG Plugins were unloaded.
+2023-05-06T19:19:11-0700 INFO --- logging initialized ---
+2023-05-06T19:19:11-0700 DDEBUG timer: config: 0 ms
+2023-05-06T19:19:11-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-06T19:19:11-0700 DEBUG DNF version: 4.14.0
+2023-05-06T19:19:11-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-06T19:19:11-0700 DDEBUG Installroot: /
+2023-05-06T19:19:11-0700 DDEBUG Releasever: 9
+2023-05-06T19:19:11-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-06T19:19:11-0700 DDEBUG Base command: makecache
+2023-05-06T19:19:11-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-06T19:19:11-0700 DEBUG Making cache files for all metadata files.
+2023-05-06T19:19:11-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-06T19:19:11-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-06T19:19:11-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-06T19:19:11-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-06T19:19:12-0700 DEBUG reviving: 'baseos' can be revived - metalink checksums match.
+2023-05-06T19:19:12-0700 DEBUG baseos: using metadata from Mon 01 May 2023 12:46:01 AM PDT.
+2023-05-06T19:19:12-0700 DEBUG countme: no event for appstream: window already counted
+2023-05-06T19:19:12-0700 DEBUG reviving: 'appstream' can be revived - metalink checksums match.
+2023-05-06T19:19:12-0700 DEBUG appstream: using metadata from Mon 01 May 2023 12:48:11 AM PDT.
+2023-05-06T19:19:12-0700 DEBUG countme: no event for extras-common: window already counted
+2023-05-06T19:19:13-0700 DEBUG reviving: 'extras-common' can be revived - metalink checksums match.
+2023-05-06T19:19:13-0700 DEBUG extras-common: using metadata from Tue 02 May 2023 06:23:01 AM PDT.
+2023-05-06T19:19:13-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-05-06T19:19:13-0700 DDEBUG timer: sack setup: 2173 ms
+2023-05-06T19:19:13-0700 INFO Metadata cache created.
+2023-05-06T19:19:13-0700 DDEBUG Cleaning up.
+2023-05-06T19:19:13-0700 DDEBUG Plugins were unloaded.
+2023-05-06T21:07:10-0700 INFO --- logging initialized ---
+2023-05-06T21:07:10-0700 DDEBUG timer: config: 21 ms
+2023-05-06T21:07:10-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-06T21:07:10-0700 DEBUG DNF version: 4.14.0
+2023-05-06T21:07:10-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-06T21:07:10-0700 DDEBUG Installroot: /
+2023-05-06T21:07:10-0700 DDEBUG Releasever: 9
+2023-05-06T21:07:10-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-06T21:07:10-0700 DDEBUG Base command: makecache
+2023-05-06T21:07:10-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-06T21:07:10-0700 DEBUG Making cache files for all metadata files.
+2023-05-06T21:07:10-0700 INFO Metadata cache refreshed recently.
+2023-05-06T21:07:10-0700 DDEBUG Cleaning up.
+2023-05-06T21:07:10-0700 DDEBUG Plugins were unloaded.
+2023-05-06T22:48:11-0700 INFO --- logging initialized ---
+2023-05-06T22:48:11-0700 DDEBUG timer: config: 1 ms
+2023-05-06T22:48:11-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-06T22:48:11-0700 DEBUG DNF version: 4.14.0
+2023-05-06T22:48:11-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-06T22:48:11-0700 DDEBUG Installroot: /
+2023-05-06T22:48:11-0700 DDEBUG Releasever: 9
+2023-05-06T22:48:11-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-06T22:48:11-0700 DDEBUG Base command: makecache
+2023-05-06T22:48:11-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-06T22:48:11-0700 DEBUG Making cache files for all metadata files.
+2023-05-06T22:48:11-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-06T22:48:11-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-06T22:48:11-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-06T22:48:11-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-06T22:48:11-0700 WARNING Errors during downloading metadata for repository 'baseos':
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-06T22:48:11-0700 DDEBUG Cleaning up.
+2023-05-06T22:48:11-0700 DDEBUG Plugins were unloaded.
+2023-05-06T22:48:11-0700 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 574, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 377, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 406, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 581, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-06T22:48:11-0700 CRITICAL Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T00:30:49-0700 INFO --- logging initialized ---
+2023-05-07T00:30:49-0700 DDEBUG timer: config: 2 ms
+2023-05-07T00:30:49-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T00:30:49-0700 DEBUG DNF version: 4.14.0
+2023-05-07T00:30:49-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T00:30:49-0700 DDEBUG Installroot: /
+2023-05-07T00:30:49-0700 DDEBUG Releasever: 9
+2023-05-07T00:30:49-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T00:30:49-0700 DDEBUG Base command: makecache
+2023-05-07T00:30:49-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T00:30:49-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T00:30:49-0700 INFO Metadata cache refreshed recently.
+2023-05-07T00:30:49-0700 DDEBUG Cleaning up.
+2023-05-07T00:30:49-0700 DDEBUG Plugins were unloaded.
+2023-05-07T02:31:10-0700 INFO --- logging initialized ---
+2023-05-07T02:31:10-0700 DDEBUG timer: config: 7 ms
+2023-05-07T02:31:10-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T02:31:10-0700 DEBUG DNF version: 4.14.0
+2023-05-07T02:31:10-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T02:31:10-0700 DDEBUG Installroot: /
+2023-05-07T02:31:10-0700 DDEBUG Releasever: 9
+2023-05-07T02:31:10-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T02:31:10-0700 DDEBUG Base command: makecache
+2023-05-07T02:31:10-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T02:31:10-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T02:31:10-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-07T02:31:10-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-07T02:31:10-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-07T02:31:10-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T02:31:10-0700 WARNING Errors during downloading metadata for repository 'baseos':
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T02:31:10-0700 DDEBUG Cleaning up.
+2023-05-07T02:31:10-0700 DDEBUG Plugins were unloaded.
+2023-05-07T02:31:10-0700 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 574, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 377, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 406, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 581, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T02:31:10-0700 CRITICAL Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T03:47:01-0700 INFO --- logging initialized ---
+2023-05-07T03:47:01-0700 DDEBUG timer: config: 7 ms
+2023-05-07T03:47:01-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T03:47:01-0700 DEBUG DNF version: 4.14.0
+2023-05-07T03:47:01-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T03:47:01-0700 DDEBUG Installroot: /
+2023-05-07T03:47:01-0700 DDEBUG Releasever: 9
+2023-05-07T03:47:01-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T03:47:01-0700 DDEBUG Base command: makecache
+2023-05-07T03:47:01-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T03:47:01-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T03:47:01-0700 INFO Metadata cache refreshed recently.
+2023-05-07T03:47:01-0700 DDEBUG Cleaning up.
+2023-05-07T03:47:01-0700 DDEBUG Plugins were unloaded.
+2023-05-07T05:29:49-0700 INFO --- logging initialized ---
+2023-05-07T05:29:49-0700 DDEBUG timer: config: 39 ms
+2023-05-07T05:29:49-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T05:29:49-0700 DEBUG DNF version: 4.14.0
+2023-05-07T05:29:49-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T05:29:49-0700 DDEBUG Installroot: /
+2023-05-07T05:29:49-0700 DDEBUG Releasever: 9
+2023-05-07T05:29:49-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T05:29:49-0700 DDEBUG Base command: makecache
+2023-05-07T05:29:49-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T05:29:49-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T05:29:49-0700 INFO Metadata cache refreshed recently.
+2023-05-07T05:29:49-0700 DDEBUG Cleaning up.
+2023-05-07T05:29:49-0700 DDEBUG Plugins were unloaded.
+2023-05-07T06:33:53-0700 INFO --- logging initialized ---
+2023-05-07T06:33:53-0700 DDEBUG timer: config: 48 ms
+2023-05-07T06:33:53-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T06:33:53-0700 DEBUG DNF version: 4.14.0
+2023-05-07T06:33:53-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T06:33:53-0700 DDEBUG Installroot: /
+2023-05-07T06:33:53-0700 DDEBUG Releasever: 9
+2023-05-07T06:33:53-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T06:33:53-0700 DDEBUG Base command: makecache
+2023-05-07T06:33:53-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T06:33:53-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T06:33:53-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-07T06:33:53-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-07T06:33:53-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-07T06:33:53-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T06:33:53-0700 WARNING Errors during downloading metadata for repository 'baseos':
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T06:33:53-0700 DDEBUG Cleaning up.
+2023-05-07T06:33:53-0700 DDEBUG Plugins were unloaded.
+2023-05-07T06:33:53-0700 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 574, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 377, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 406, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 581, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T06:33:53-0700 CRITICAL Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T08:27:12-0700 INFO --- logging initialized ---
+2023-05-07T08:27:12-0700 DDEBUG timer: config: 4 ms
+2023-05-07T08:27:12-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T08:27:12-0700 DEBUG DNF version: 4.14.0
+2023-05-07T08:27:12-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T08:27:12-0700 DDEBUG Installroot: /
+2023-05-07T08:27:12-0700 DDEBUG Releasever: 9
+2023-05-07T08:27:12-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T08:27:12-0700 DDEBUG Base command: makecache
+2023-05-07T08:27:12-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T08:27:12-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T08:27:12-0700 INFO Metadata cache refreshed recently.
+2023-05-07T08:27:12-0700 DDEBUG Cleaning up.
+2023-05-07T08:27:12-0700 DDEBUG Plugins were unloaded.
+2023-05-07T10:14:09-0700 INFO --- logging initialized ---
+2023-05-07T10:14:09-0700 DDEBUG timer: config: 37 ms
+2023-05-07T10:14:09-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T10:14:09-0700 DEBUG DNF version: 4.14.0
+2023-05-07T10:14:09-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T10:14:09-0700 DDEBUG Installroot: /
+2023-05-07T10:14:09-0700 DDEBUG Releasever: 9
+2023-05-07T10:14:09-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T10:14:09-0700 DDEBUG Base command: makecache
+2023-05-07T10:14:09-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T10:14:09-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T10:14:09-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-07T10:14:09-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-07T10:14:09-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-07T10:14:09-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T10:14:09-0700 WARNING Errors during downloading metadata for repository 'baseos':
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T10:14:09-0700 DDEBUG Cleaning up.
+2023-05-07T10:14:09-0700 DDEBUG Plugins were unloaded.
+2023-05-07T10:14:09-0700 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 574, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 377, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 406, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 581, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T10:14:09-0700 CRITICAL Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T11:16:51-0700 INFO --- logging initialized ---
+2023-05-07T11:16:51-0700 DDEBUG timer: config: 0 ms
+2023-05-07T11:16:51-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T11:16:51-0700 DEBUG DNF version: 4.14.0
+2023-05-07T11:16:51-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T11:16:51-0700 DDEBUG Installroot: /
+2023-05-07T11:16:51-0700 DDEBUG Releasever: 9
+2023-05-07T11:16:51-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T11:16:51-0700 DDEBUG Base command: makecache
+2023-05-07T11:16:51-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T11:16:51-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T11:16:51-0700 INFO Metadata cache refreshed recently.
+2023-05-07T11:16:51-0700 DDEBUG Cleaning up.
+2023-05-07T11:16:51-0700 DDEBUG Plugins were unloaded.
+2023-05-07T12:45:09-0700 INFO --- logging initialized ---
+2023-05-07T12:45:09-0700 DDEBUG timer: config: 78 ms
+2023-05-07T12:45:10-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T12:45:10-0700 DEBUG DNF version: 4.14.0
+2023-05-07T12:45:10-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T12:45:10-0700 DDEBUG Installroot: /
+2023-05-07T12:45:10-0700 DDEBUG Releasever: 9
+2023-05-07T12:45:10-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T12:45:10-0700 DDEBUG Base command: makecache
+2023-05-07T12:45:10-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T12:45:10-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T12:45:10-0700 INFO Metadata cache refreshed recently.
+2023-05-07T12:45:10-0700 DDEBUG Cleaning up.
+2023-05-07T12:45:10-0700 DDEBUG Plugins were unloaded.
+2023-05-07T14:45:12-0700 INFO --- logging initialized ---
+2023-05-07T14:45:12-0700 DDEBUG timer: config: 6 ms
+2023-05-07T14:45:12-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T14:45:12-0700 DEBUG DNF version: 4.14.0
+2023-05-07T14:45:12-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T14:45:12-0700 DDEBUG Installroot: /
+2023-05-07T14:45:12-0700 DDEBUG Releasever: 9
+2023-05-07T14:45:12-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T14:45:12-0700 DDEBUG Base command: makecache
+2023-05-07T14:45:12-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T14:45:12-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T14:45:12-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-07T14:45:12-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-07T14:45:12-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-07T14:45:12-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T14:45:12-0700 WARNING Errors during downloading metadata for repository 'baseos':
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T14:45:12-0700 DDEBUG Cleaning up.
+2023-05-07T14:45:12-0700 DDEBUG Plugins were unloaded.
+2023-05-07T14:45:12-0700 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 574, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 377, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 406, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 581, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T14:45:12-0700 CRITICAL Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T16:32:09-0700 INFO --- logging initialized ---
+2023-05-07T16:32:09-0700 DDEBUG timer: config: 2 ms
+2023-05-07T16:32:09-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T16:32:09-0700 DEBUG DNF version: 4.14.0
+2023-05-07T16:32:09-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T16:32:09-0700 DDEBUG Installroot: /
+2023-05-07T16:32:09-0700 DDEBUG Releasever: 9
+2023-05-07T16:32:09-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T16:32:09-0700 DDEBUG Base command: makecache
+2023-05-07T16:32:09-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T16:32:09-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T16:32:09-0700 INFO Metadata cache refreshed recently.
+2023-05-07T16:32:09-0700 DDEBUG Cleaning up.
+2023-05-07T16:32:09-0700 DDEBUG Plugins were unloaded.
+2023-05-07T18:02:09-0700 INFO --- logging initialized ---
+2023-05-07T18:02:09-0700 DDEBUG timer: config: 29 ms
+2023-05-07T18:02:09-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T18:02:09-0700 DEBUG DNF version: 4.14.0
+2023-05-07T18:02:09-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T18:02:09-0700 DDEBUG Installroot: /
+2023-05-07T18:02:09-0700 DDEBUG Releasever: 9
+2023-05-07T18:02:09-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T18:02:09-0700 DDEBUG Base command: makecache
+2023-05-07T18:02:09-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T18:02:09-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T18:02:09-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-07T18:02:09-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-07T18:02:09-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-07T18:02:09-0700 DEBUG countme: no event for baseos: budget to spend: 1
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T18:02:09-0700 WARNING Errors during downloading metadata for repository 'baseos':
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T18:02:09-0700 DDEBUG Cleaning up.
+2023-05-07T18:02:09-0700 DDEBUG Plugins were unloaded.
+2023-05-07T18:02:09-0700 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 574, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 377, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 406, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 581, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T18:02:09-0700 CRITICAL Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T19:03:49-0700 INFO --- logging initialized ---
+2023-05-07T19:03:49-0700 DDEBUG timer: config: 10 ms
+2023-05-07T19:03:49-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T19:03:49-0700 DEBUG DNF version: 4.14.0
+2023-05-07T19:03:49-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T19:03:49-0700 DDEBUG Installroot: /
+2023-05-07T19:03:49-0700 DDEBUG Releasever: 9
+2023-05-07T19:03:49-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T19:03:49-0700 DDEBUG Base command: makecache
+2023-05-07T19:03:49-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T19:03:49-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T19:03:49-0700 INFO Metadata cache refreshed recently.
+2023-05-07T19:03:49-0700 DDEBUG Cleaning up.
+2023-05-07T19:03:49-0700 DDEBUG Plugins were unloaded.
+2023-05-07T20:20:11-0700 INFO --- logging initialized ---
+2023-05-07T20:20:11-0700 DDEBUG timer: config: 1 ms
+2023-05-07T20:20:12-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T20:20:12-0700 DEBUG DNF version: 4.14.0
+2023-05-07T20:20:12-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T20:20:12-0700 DDEBUG Installroot: /
+2023-05-07T20:20:12-0700 DDEBUG Releasever: 9
+2023-05-07T20:20:12-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T20:20:12-0700 DDEBUG Base command: makecache
+2023-05-07T20:20:12-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T20:20:12-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T20:20:12-0700 INFO Metadata cache refreshed recently.
+2023-05-07T20:20:12-0700 DDEBUG Cleaning up.
+2023-05-07T20:20:12-0700 DDEBUG Plugins were unloaded.
+2023-05-07T21:36:09-0700 INFO --- logging initialized ---
+2023-05-07T21:36:09-0700 DDEBUG timer: config: 55 ms
+2023-05-07T21:36:09-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T21:36:09-0700 DEBUG DNF version: 4.14.0
+2023-05-07T21:36:09-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T21:36:09-0700 DDEBUG Installroot: /
+2023-05-07T21:36:09-0700 DDEBUG Releasever: 9
+2023-05-07T21:36:09-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T21:36:09-0700 DDEBUG Base command: makecache
+2023-05-07T21:36:09-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T21:36:09-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T21:36:09-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-07T21:36:09-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-07T21:36:09-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-07T21:36:09-0700 DEBUG countme: event triggered for baseos: bucket 2
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http&countme=2 [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http&countme=2).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 DEBUG error: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org] (https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http).
+2023-05-07T21:36:09-0700 WARNING Errors during downloading metadata for repository 'baseos':
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http&countme=2 [Could not resolve host: mirrors.centos.org]
+  - Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T21:36:09-0700 DDEBUG Cleaning up.
+2023-05-07T21:36:09-0700 DDEBUG Plugins were unloaded.
+2023-05-07T21:36:09-0700 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 574, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 377, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 406, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 581, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T21:36:09-0700 CRITICAL Error: Failed to download metadata for repo 'baseos': Cannot prepare internal mirrorlist: Curl error (6): Couldn't resolve host name for https://mirrors.centos.org/metalink?repo=centos-baseos-9-stream&arch=x86_64&protocol=https,http [Could not resolve host: mirrors.centos.org]
+2023-05-07T23:25:16-0700 INFO --- logging initialized ---
+2023-05-07T23:25:16-0700 DDEBUG timer: config: 55 ms
+2023-05-07T23:25:16-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-07T23:25:16-0700 DEBUG DNF version: 4.14.0
+2023-05-07T23:25:16-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-07T23:25:16-0700 DDEBUG Installroot: /
+2023-05-07T23:25:16-0700 DDEBUG Releasever: 9
+2023-05-07T23:25:16-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-07T23:25:16-0700 DDEBUG Base command: makecache
+2023-05-07T23:25:16-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T23:25:16-0700 DEBUG Making cache files for all metadata files.
+2023-05-07T23:25:16-0700 INFO Metadata cache refreshed recently.
+2023-05-07T23:25:16-0700 DDEBUG Cleaning up.
+2023-05-07T23:25:16-0700 DDEBUG Plugins were unloaded.
+2023-05-09T21:17:37-0700 INFO --- logging initialized ---
+2023-05-09T21:17:37-0700 DDEBUG timer: config: 4 ms
+2023-05-09T21:17:37-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-09T21:17:37-0700 DEBUG DNF version: 4.14.0
+2023-05-09T21:17:37-0700 DDEBUG Command: dnf system-upgrade upgrade 
+2023-05-09T21:17:37-0700 DDEBUG Installroot: /
+2023-05-09T21:17:37-0700 DDEBUG Releasever: 9
+2023-05-09T21:17:37-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-09T21:17:37-0700 DDEBUG Base command: system-upgrade
+2023-05-09T21:17:37-0700 DDEBUG Extra commands: ['system-upgrade', 'upgrade']
+2023-05-09T21:17:37-0700 INFO trigger file does not exist. exiting quietly.
+2023-05-09T21:17:37-0700 DDEBUG Cleaning up.
+2023-05-09T21:17:37-0700 DDEBUG Plugins were unloaded.
+2023-05-09T22:20:16-0700 INFO --- logging initialized ---
+2023-05-09T22:20:16-0700 DDEBUG timer: config: 19 ms
+2023-05-09T22:20:16-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-09T22:20:16-0700 DEBUG DNF version: 4.14.0
+2023-05-09T22:20:16-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-09T22:20:16-0700 DDEBUG Installroot: /
+2023-05-09T22:20:16-0700 DDEBUG Releasever: 9
+2023-05-09T22:20:16-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-09T22:20:16-0700 DDEBUG Base command: makecache
+2023-05-09T22:20:16-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-09T22:20:16-0700 DEBUG Making cache files for all metadata files.
+2023-05-09T22:20:16-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-09T22:20:16-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-09T22:20:16-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-09T22:20:16-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-09T22:20:18-0700 DEBUG reviving: failed for 'baseos', mismatched sha256 sum.
+2023-05-09T22:20:18-0700 DEBUG repo: downloading from remote: baseos
+2023-05-09T22:20:18-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-09T22:20:24-0700 DEBUG baseos: using metadata from Sun 07 May 2023 11:36:44 PM PDT.
+2023-05-09T22:20:24-0700 DEBUG countme: event triggered for appstream: bucket 2
+2023-05-09T22:20:24-0700 DEBUG reviving: failed for 'appstream', mismatched sha256 sum.
+2023-05-09T22:20:24-0700 DEBUG repo: downloading from remote: appstream
+2023-05-09T22:20:24-0700 DEBUG countme: no event for appstream: window already counted
+2023-05-09T22:20:26-0700 DEBUG appstream: using metadata from Sun 07 May 2023 11:40:45 PM PDT.
+2023-05-09T22:20:28-0700 DEBUG countme: no event for extras-common: budget to spend: 2
+2023-05-09T22:20:28-0700 DEBUG reviving: 'extras-common' can be revived - metalink checksums match.
+2023-05-09T22:20:28-0700 DEBUG extras-common: using metadata from Tue 02 May 2023 06:23:01 AM PDT.
+2023-05-09T22:20:28-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-05-09T22:20:28-0700 DDEBUG timer: sack setup: 11686 ms
+2023-05-09T22:20:28-0700 DEBUG Completion plugin: Generating completion cache...
+2023-05-09T22:20:28-0700 INFO Metadata cache created.
+2023-05-09T22:20:28-0700 DDEBUG Cleaning up.
+2023-05-09T22:20:28-0700 DDEBUG Plugins were unloaded.
+2023-05-10T23:12:26-0700 INFO --- logging initialized ---
+2023-05-10T23:12:26-0700 DDEBUG timer: config: 17 ms
+2023-05-10T23:12:26-0700 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, repoclosure, repodiff, repograph, repomanage, reposync, system-upgrade
+2023-05-10T23:12:26-0700 DEBUG DNF version: 4.14.0
+2023-05-10T23:12:26-0700 DDEBUG Command: dnf makecache --timer 
+2023-05-10T23:12:26-0700 DDEBUG Installroot: /
+2023-05-10T23:12:26-0700 DDEBUG Releasever: 9
+2023-05-10T23:12:26-0700 DEBUG cachedir: /var/cache/dnf
+2023-05-10T23:12:26-0700 DDEBUG Base command: makecache
+2023-05-10T23:12:26-0700 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-10T23:12:26-0700 DEBUG Making cache files for all metadata files.
+2023-05-10T23:12:26-0700 DEBUG baseos: has expired and will be refreshed.
+2023-05-10T23:12:26-0700 DEBUG appstream: has expired and will be refreshed.
+2023-05-10T23:12:26-0700 DEBUG extras-common: has expired and will be refreshed.
+2023-05-10T23:12:26-0700 DEBUG countme: no event for baseos: window already counted
+2023-05-10T23:12:28-0700 DEBUG reviving: 'baseos' can be revived - metalink checksums match.
+2023-05-10T23:12:28-0700 DEBUG baseos: using metadata from Sun 07 May 2023 11:36:44 PM PDT.
+2023-05-10T23:12:28-0700 DEBUG countme: no event for appstream: window already counted
+2023-05-10T23:12:28-0700 DEBUG reviving: 'appstream' can be revived - metalink checksums match.
+2023-05-10T23:12:29-0700 DEBUG appstream: using metadata from Sun 07 May 2023 11:40:45 PM PDT.
+2023-05-10T23:12:29-0700 DEBUG countme: no event for extras-common: window already counted
+2023-05-10T23:12:29-0700 DEBUG reviving: 'extras-common' can be revived - metalink checksums match.
+2023-05-10T23:12:29-0700 DEBUG extras-common: using metadata from Tue 02 May 2023 06:23:01 AM PDT.
+2023-05-10T23:12:29-0700 DEBUG User-Agent: constructed: 'libdnf (CentOS Stream 9; generic; Linux.x86_64)'
+2023-05-10T23:12:29-0700 DDEBUG timer: sack setup: 2911 ms
+2023-05-10T23:12:29-0700 INFO Metadata cache created.
+2023-05-10T23:12:29-0700 DDEBUG Cleaning up.
+2023-05-10T23:12:29-0700 DDEBUG Plugins were unloaded.

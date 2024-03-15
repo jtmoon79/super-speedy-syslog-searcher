@@ -1,0 +1,23 @@
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Boss' requested by ':1.0' (uid=0 pid=1657 comm="/usr/bin/python3 /sbin/anaconda " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Boss'
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Modules.Services' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Modules.Security' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Modules.Users' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Modules.Payloads' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Modules.Storage' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Modules.Localization' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Modules.Timezone' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Modules.Network' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Addons.OSCAP' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Activating service name='org.fedoraproject.Anaconda.Addons.Kdump' requested by ':1.1' (uid=0 pid=1739 comm="python3 -m pyanaconda.modules.boss " label="system_u:system_r:kernel_t:s0")
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Modules.Security'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Modules.Services'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Modules.Users'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Modules.Payloads'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Addons.OSCAP'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Modules.Network'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Addons.Kdump'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Modules.Timezone'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Modules.Localization'
+dbus-daemon[1734]: Successfully activated service 'org.fedoraproject.Anaconda.Modules.Storage'
+dbus-daemon[1734]: Reloaded configuration

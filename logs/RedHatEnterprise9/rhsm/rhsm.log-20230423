@@ -1,0 +1,133 @@
+2023-04-22 15:26:19,560 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 15:26:19,560 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 15:26:19,560 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 15:26:19,569 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 15:26:19,569 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 15:26:19,569 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 15:26:19,573 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 15:26:19,573 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:31,578 [INFO] subscription-manager:5652:MainThread @managerlib.py:90 - Consumer created: drano (a45652ba-39db-44ee-9ceb-415fdcf5fcef)
+2023-04-22 18:48:31,992 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:31,994 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:31,994 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:31,995 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:31,995 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:32,392 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:32,408 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:32,799 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:32,831 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:32,831 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:32,831 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:32,831 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:33,195 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:33,264 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:33,286 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:33,289 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:33,289 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:33,289 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:33,678 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:34,117 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:34,117 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:34,117 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:34,117 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:34,299 [INFO] subscription-manager:5652:MainThread @entcertlib.py:131 - certs updated:
+Total updates: 1
+Found (local) serial# []
+Expected (UEP) serial# [8754664872150035604]
+Added (new)
+  [sn:8754664872150035604 ( Content Access,) @ /etc/pki/entitlement/8754664872150035604.pem]
+Deleted (rogue):
+  <NONE>
+2023-04-22 18:48:34,532 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:34,534 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:34,534 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:34,536 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:34,536 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:34,696 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:34,935 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:35,092 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:35,387 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:35,387 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:35,387 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:35,387 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:35,504 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:35,808 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:35,810 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:35,810 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:35,812 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:35,812 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:35,915 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:36,217 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:36,690 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:36,690 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:36,690 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:36,690 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:37,098 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:37,100 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:37,100 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:37,101 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:37,102 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:37,513 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:37,978 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:37,978 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:37,979 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:37,979 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:38,424 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:38,440 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:38,440 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:38,443 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:38,443 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:38,876 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:39,328 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:39,331 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:39,331 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:39,331 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 18:48:39,778 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:43,636 [WARNING] subscription-manager:5652:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:44,096 [WARNING] subscription-manager:5652:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:44,581 [WARNING] subscription-manager:5652:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:48:45,105 [WARNING] subscription-manager:5652:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 18:49:14,888 [WARNING] dnf:5914:MainThread @logutil.py:171 - logging already initialized
+2023-04-22 18:49:14,962 [INFO] dnf:5914:MainThread @productid.py:550 - Updating product db with 479 -> rhel-9-for-x86_64-appstream-rpms
+2023-04-22 18:51:55,076 [WARNING] dnf:36334:MainThread @logutil.py:171 - logging already initialized
+2023-04-22 18:51:55,230 [INFO] dnf:36334:MainThread @productid.py:550 - Updating product db with 479 -> rhel-9-for-x86_64-baseos-rpms
+2023-04-22 19:18:23,055 [INFO] rhsmcertd-worker:38830:MainThread @entcertlib.py:131 - certs updated:
+Total updates: 0
+Found (local) serial# [8754664872150035604]
+Expected (UEP) serial# [8754664872150035604]
+Added (new)
+  <NONE>
+Deleted (rogue):
+  <NONE>
+2023-04-22 19:18:27,382 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 19:18:27,394 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 19:18:27,394 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 19:18:27,404 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 19:18:27,404 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 19:18:27,824 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 19:18:28,340 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 19:18:28,340 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 19:18:28,340 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 19:18:28,340 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 19:18:28,746 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 20:54:30,235 [ERROR] dnf:39031:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-04-22 22:51:10,274 [ERROR] dnf:39161:MainThread @repolib.py:525 - gaierror: [Errno -2] Name or service not known
+2023-04-22 23:18:28,266 [INFO] rhsmcertd-worker:40005:MainThread @entcertlib.py:131 - certs updated:
+Total updates: 0
+Found (local) serial# [8754664872150035604]
+Expected (UEP) serial# [8754664872150035604]
+Added (new)
+  <NONE>
+Deleted (rogue):
+  <NONE>
+2023-04-22 23:18:32,231 [WARNING] rhsm-service:2588:Thread-FileSystemWatcher @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 23:18:32,234 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 23:18:32,234 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 23:18:32,235 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 23:18:32,235 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 23:18:32,630 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.
+2023-04-22 23:18:33,089 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 23:18:33,089 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 23:18:33,090 [INFO] rhsm-service:2588:MainThread @i18n.py:169 - Could not import locale for C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 23:18:33,091 [INFO] rhsm-service:2588:MainThread @i18n.py:139 - Could not import locale either for C.UTF-8_C.UTF-8: [Errno 2] No translation file found for domain: 'rhsm'
+2023-04-22 23:18:33,500 [WARNING] rhsm-service:2588:MainThread @cert_sorter.py:194 - Installed product 479 not present in response from server.

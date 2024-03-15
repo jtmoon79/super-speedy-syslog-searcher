@@ -1,0 +1,303 @@
+diff --git a/src/readers/blockreader.rs b/src/readers/blockreader.rs
+index 8ac907c..a20c7a5 100644
+--- a/src/readers/blockreader.rs
++++ b/src/readers/blockreader.rs
+@@ -376,6 +376,8 @@ pub struct BlockReader {
+     ///
+     /// [streaming]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
+     // XXX: memory usage: O(n) = one entry per Block read
++    // TODO: [2023/09/04] only track this when `--summary` is needed
++    //       e.g. a `SummaryBlockReader` will be created.
+     blocks_read: BlocksTracked,
+     /// Internal [LRU cache] for `fn read_block()`. Lookups _O(1)_.
+     ///
+@@ -1054,10 +1056,11 @@ impl BlockReader {
+                 }
+ 
+                 let mut bufreader: BufReaderXz = BufReaderXz::new(file_xz);
++                let mut buffer = Block::new();
+ 
+                 // TODO: Issue #12
+                 //       This is a hack!
+-                //       Read the entire xz file into blocks in one loop!
++                //       Read the entire xz file within one loop!
+                 //       Extracting the size from the header is really tedious
+                 //       (I haven't implemented it). So the file size is only known from
+                 //       decompressing the entire file here (and counting the bytes returned).
+@@ -1069,7 +1072,7 @@ impl BlockReader {
+                 //       header/blocks of the underlying .xz file
+                 #[allow(clippy::never_loop)]
+                 loop {
+-                    let mut buffer = Block::new();
++                    buffer.clear();
+                     def1o!(
+                         "FileXz: xz_decompress({:?}, buffer (len {}, capacity {}))",
+                         bufreader,
+@@ -1090,12 +1093,12 @@ impl BlockReader {
+                                 lzma_rs::error::Error::IoError(ref ioerr) => {
+                                     def1o!("FileXz: ioerr.kind() {:?}", ioerr.kind());
+                                     if ioerr.kind() == ErrorKind::UnexpectedEof {
+-                                        def1o!("FileXz: xz_decompress Error UnexpectedEof, break!");
++                                        def1o!("FileXz: xz_decompress IoError UnexpectedEof, break!");
+                                         break;
+                                     }
+                                 }
+                                 _err => {
+-                                    def1o!("FileXz: err {:?}", _err);
++                                    def1o!("FileXz: xz_decompress IoError {:?}", _err);
+                                 }
+                             }
+                             def1x!("FileXz: xz_decompress Error, return Err({:?})", err);
+@@ -1106,36 +1109,33 @@ impl BlockReader {
+                         def1o!("buffer.is_empty()");
+                         break;
+                     }
+-                    let blocksz_u: usize = blocksz as usize;
+-                    let mut blockoffset: BlockOffset = 0;
+-                    // the `block`
+-                    while blockoffset <= ((buffer.len() / blocksz_u) as BlockOffset) {
+-                        let mut block: Block = Block::with_capacity(blocksz_u);
+-                        let a: usize = (blockoffset * blocksz) as usize;
+-                        let b: usize = a + (std::cmp::min(blocksz_u, buffer.len() - a));
+-                        def1o!("FileXz: block.extend_from_slice(&buffer[{}‥{}])", a, b);
+-                        block.extend_from_slice(&buffer[a..b]);
+-                        let blockp: BlockP = BlockP::new(block);
+-                        if let Some(bp_) = blocks.insert(blockoffset, blockp.clone()) {
+-                            e_wrn!("blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}, path {:?}", blockoffset, blockp, bp_, path_std);
+-                        }
+-                        read_blocks_put += 1;
+-                        count_bytes_ += (*blockp).len() as Count;
+-                        blocks_read.insert(blockoffset);
+-                        blockoffset += 1;
+-                    }
++                    count_bytes_ += buffer.len() as Count;
+                     break;
+                 }
+-
+                 let filesz_uncompressed: FileSz = count_bytes_ as FileSz;
+ 
++                // create an entirely new `BufReaderXz` to store for later calls to
++                // `read_block_Xz`. The current partially
++                // used `bufreader` will return Error `IOEof` for calls to
++                // `xzdecompress`.
++                def1o!("open_options.read(true).open({:?})", path_std);
++                let file_xz: File = match open_options.read(true).open(path_std)
++                {
++                    Ok(val) => val,
++                    Err(err) => {
++                        def1x!("FileXz: open_options.read({:?}) Error, return {:?}", path_std, err);
++                        return Err(err);
++                    }
++                };    
++                let bufreader: BufReaderXz = BufReaderXz::new(file_xz);
++
+                 filesz_actual = filesz_uncompressed;
+                 xz_opt = Some(XzData {
+                     filesz: filesz_uncompressed,
+                     bufreader,
+                 });
+                 def1o!("FileXz: created {:?}", xz_opt.as_ref().unwrap());
+-            }
++            } // FileType::Xz
+             FileType::Tar => {
+                 blocksz = blocksz_;
+                 def1o!("FileTar: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
+@@ -1211,7 +1211,7 @@ impl BlockReader {
+                     checksum,
+                     mtime,
+                 });
+-            }
++            }  // FileType::Tar
+             FileType::Journal
+             | FileType::Evtx
+             | FileType::TarGz
+@@ -2188,30 +2188,44 @@ impl BlockReader {
+             }
+ 
+             let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
+-            let mut block = Block::with_capacity(blocksz_u);
++            let mut buffer: Block = Block::with_capacity(blocksz_u);
+             let mut bufreader: &mut BufReaderXz = &mut self
+                 .xz
+                 .as_mut()
+                 .unwrap()
+                 .bufreader;
+-            deo!(
+-                "xz_decompress({:?}, block (len {}, capacity {}))",
++            /*
++            let path_std: &Path = Path::new(self.path());
++            let mut open_options = FileOpenOptions::new();
++            def1o!("open_options.read(true).open({:?})", path_std);
++            let file_xz: File = match open_options.read(true).open(path_std)
++            {
++                Ok(val) => val,
++                Err(err) => {
++                    def1x!("FileXz: open_options.read({:?}) Error, return {:?}", path_std, err);
++                    return ResultS3::Err(err);
++                }
++            };
++            let mut bufreader: BufReaderXz = BufReaderXz::new(file_xz);
++            */
++            defo!(
++                "xz_decompress({:?}, buffer (len {}, capacity {}))",
+                 bufreader,
+-                block.len(),
+-                block.capacity()
++                buffer.len(),
++                buffer.capacity()
+             );
+-            // XXX: xz_decompress may resize the passed `buffer`
+-            match lzma_rs::xz_decompress(&mut bufreader, &mut block) {
++            match lzma_rs::xz_decompress(&mut bufreader, &mut buffer) {
+                 Ok(_) => {
+-                    deo!("xz_decompress returned block len {}, capacity {}", block.len(), block.capacity());
++                    defo!("xz_decompress returned Ok buffer len {}, capacity {}", buffer.len(), buffer.capacity());
+                 }
+                 Err(err) => {
+                     // XXX: would typically `return Err(err)` but the `err` is of type
+                     //      `lzma_rs::error::Error`
+                     //      https://docs.rs/lzma-rs/0.2.0/lzma_rs/error/enum.Error.html
++                    defo!("xz_decompress returned Err buffer len {}, capacity {}, Error {:?}", buffer.len(), buffer.capacity(), err);
+                     match &err {
+                         lzma_rs::error::Error::IoError(ref ioerr) => {
+-                            defo!("ioerr.kind() {:?}", ioerr.kind());
++                            defo!("ioerr.kind() {:?}, ioerr {:?}", ioerr.kind(), ioerr);
+                             if ioerr.kind() == ErrorKind::UnexpectedEof {
+                                 defo!("xz_decompress Error UnexpectedEof, break!");
+                                 break;
+@@ -2225,10 +2239,9 @@ impl BlockReader {
+                     return ResultS3::Err(Error::new(ErrorKind::Other, format!("{:?}", err)));
+                 }
+             }
+-            deo!("xz_decompress returned block len {}, capacity {}", block.len(), block.capacity());
+-            // check returned Block is expected number of bytes
+-            let blocklen_sz: BlockSz = block.len() as BlockSz;
+-            if block.is_empty() {
++            // checks for empty files occurred earlier. xz_decompress should not
++            // return an empty buffer here.
++            if buffer.is_empty() {
+                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                 defx!("({}): return Err", blockoffset);
+                 return ResultS3ReadBlock::Err(
+@@ -2240,44 +2253,63 @@ impl BlockReader {
+                         )
+                     )
+                 );
+-            } else if bo_at == blockoffset_last {
+-                // last block, is blocksz correct?
+-                if blocklen_sz > self.blocksz {
+-                    let byte_at = self.file_offset_at_block_offset_self(bo_at);
+-                    defx!("({}): return Err", blockoffset);
+-                    return ResultS3ReadBlock::Err(
+-                        Error::new(
+-                            ErrorKind::InvalidData,
+-                            format!(
+-                                "xz_decompress read {} bytes for last block {} (at byte {}) which is larger than block size {} bytes; {:?}",
+-                                blocklen_sz, bo_at, byte_at, self.blocksz, self.path,
+-                            )
+-                        )
+-                    );
++            }
++            let mut buffer_at: usize = 0;
++            let mut blocks_n: usize = 0;
++            defo!("copying data from buffer len {} into Blocks", buffer.len());
++            // copy a Blocks of data from the buffer
++            // each Block must be <= blocksz
++            while buffer_at < buffer.len() {
++                let remain: usize = buffer.len() - buffer_at;
++                let to_copy = if remain < blocksz_u {
++                    remain
++                } else if buffer_at == 0 || buffer_at % blocksz_u == 0 {
++                    blocksz_u
++                } else {
++                    buffer_at % blocksz_u
++                };
++                defo!("to_copy is {}, buffer_at {}, buffer len {}, blocksz_u {}", to_copy, buffer_at, buffer.len(), blocksz_u);
++                debug_assert_gt!(to_copy, 0, "to_copy is {}", to_copy);
++                debug_assert_le!(to_copy, blocksz_u, "to_copy {}, blocksz_u {}", to_copy, blocksz_u);
++                blocks_n += 1;
++                let mut block: Block = Block::with_capacity(to_copy);
++                while block.len() < to_copy {
++                    block.push(0);
+                 }
+-            } else if blocklen_sz != self.blocksz {
+-                // not last block, is blocksz correct?
+-                let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
+-                defx!("({}): return Err", blockoffset);
+-                return ResultS3ReadBlock::Err(
+-                    Error::new(
+-                        ErrorKind::InvalidData,
+-                        format!(
+-                            "xz_decompress read only {} bytes for block {} expected to read {} bytes (block size), inflate stopped at byte {}. block last {}, filesz {}, filesz uncompressed {} (according to gzip header); {:?}",
+-                            blocklen_sz, bo_at, self.blocksz, byte_at, blockoffset_last, self.filesz, self.filesz_actual, self.path,
+-                        )
+-                    )
++                defo!(
++                    "block.copy_from_slice(buffer[{}..{}]) block capacity {} len {}",
++                    buffer_at, buffer_at + to_copy, block.capacity(), block.len()
+                 );
++                block.copy_from_slice(&buffer[buffer_at..buffer_at+to_copy]);
++                // store decompressed block
++                self.store_block_in_storage(bo_at, &BlockP::new(block));
++                buffer_at += to_copy;
++                bo_at += 1;
++                // drop "old" blocks
++                let mut bo_drop = bo_at;
++                while bo_drop > 0 && bo_drop <= blockoffset {
++                    defo!("drop old block {}", bo_drop - 1);
++                    self.drop_block(bo_drop - 1);
++                    bo_drop += 1;
++                }
+             }
+-
+-            // store decompressed block
+-            let blockp = BlockP::new(block);
+-            self.store_block_in_storage(bo_at, &blockp);
+-            if bo_at == blockoffset {
+-                defx!("({}): return Found", blockoffset);
+-                return ResultS3ReadBlock::Found(blockp);
++            defo!("({}): created and stored {} Blocks for buffer len {}, blocksz {}", blockoffset, blocks_n, buffer.len(), blocksz_u);
++            if bo_at >= blockoffset {
++                match self.blocks.get(&blockoffset) {
++                    Some(blockp) => {
++                        defx!("({}): return Found", blockoffset);
++                        return ResultS3ReadBlock::Found(blockp.clone());
++                    }
++                    None => {
++                        defx!("({}): return Err('get failed')", blockoffset);
++                        return ResultS3ReadBlock::Err(
++                                Error::new(
++                                    ErrorKind::UnexpectedEof,
++                                    format!("blocks.get({}) failed yet processed up to block {}", blockoffset, bo_at),
++                            ));
++                    }
++                }
+             }
+-            bo_at += 1;
+         }
+         defx!("({}): return Done", blockoffset);
+ 
+@@ -2511,6 +2543,23 @@ impl BlockReader {
+                     .unwrap()
+                     .clone();
+                 self.store_block_in_LRU_cache(blockoffset, &blockp);
++                /*
++                if self.streamed_file() {
++                    // drop "old" blocks
++                    let mut bo_drop: BlockOffset = match self.blocks.first_key_value() {
++                        Some((k, _)) => *k,
++                        None => blockoffset
++                    };
++                    while bo_drop > 0 && bo_drop <= blockoffset {
++                        defo!("streamed_file: drop old block {}", bo_drop - 1);
++                        self.drop_block(bo_drop - 1);
++                        bo_drop = match self.blocks.first_key_value() {
++                            Some((k, _)) => *k,
++                            None => blockoffset
++                        };
++                    }
++                }
++                */
+                 defx!(
+                     "return Found(BlockP@{:p}); use stored Block[{}] @[{}, {}) len {}",
+                     &*self.blocks[&blockoffset],

@@ -1,0 +1,2328 @@
+2023-04-10T17:09:22-0400 INFO --- logging initialized ---
+2023-04-10T17:09:22-0400 DDEBUG timer: config: 5 ms
+2023-04-10T17:09:22-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-10T17:09:22-0400 INFO Updating Subscription Management repositories.
+2023-04-10T17:09:22-0400 INFO Unable to read consumer identity
+2023-04-10T17:09:22-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-10T17:09:22-0400 DEBUG DNF version: 4.12.0
+2023-04-10T17:09:22-0400 DDEBUG Command: dnf install tar bzip2 kernel-devel-5.14.0-162.6.1.el9_1.x86_64 kernel-headers perl gcc make elfutils-libelf-devel 
+2023-04-10T17:09:22-0400 DDEBUG Installroot: /
+2023-04-10T17:09:22-0400 DDEBUG Releasever: 9
+2023-04-10T17:09:22-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-10T17:09:22-0400 DDEBUG Base command: install
+2023-04-10T17:09:22-0400 DDEBUG Extra commands: ['install', 'tar', 'bzip2', 'kernel-devel-5.14.0-162.6.1.el9_1.x86_64', 'kernel-headers', 'perl', 'gcc', 'make', 'elfutils-libelf-devel']
+2023-04-10T17:09:22-0400 DDEBUG Cleaning up.
+2023-04-10T17:09:22-0400 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 102, in _main
+    cli.configure(list(map(ucd, args)), option_parser())
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 883, in configure
+    self.command.configure()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/install.py", line 67, in configure
+    commands._checkEnabledRepo(self.base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/__init__.py", line 92, in _checkEnabledRepo
+    raise dnf.cli.CliError(msg)
+dnf.cli.CliError: There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-10T17:09:22-0400 CRITICAL Error: There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-10T18:01:18-0400 INFO --- logging initialized ---
+2023-04-10T18:01:18-0400 DDEBUG timer: config: 47 ms
+2023-04-10T18:01:18-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-10T18:01:18-0400 INFO Updating Subscription Management repositories.
+2023-04-10T18:01:18-0400 INFO Unable to read consumer identity
+2023-04-10T18:01:18-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-10T18:01:18-0400 DEBUG DNF version: 4.12.0
+2023-04-10T18:01:18-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-10T18:01:18-0400 DDEBUG Installroot: /
+2023-04-10T18:01:18-0400 DDEBUG Releasever: 9
+2023-04-10T18:01:18-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-10T18:01:18-0400 DDEBUG Base command: makecache
+2023-04-10T18:01:18-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-10T18:01:18-0400 DEBUG Making cache files for all metadata files.
+2023-04-10T18:01:18-0400 WARNING Failed determining last makecache time.
+2023-04-10T18:01:18-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-10T18:01:18-0400 DDEBUG Cleaning up.
+2023-04-10T19:06:17-0400 INFO --- logging initialized ---
+2023-04-10T19:06:17-0400 DDEBUG timer: config: 4 ms
+2023-04-10T19:06:17-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-10T19:06:17-0400 INFO Updating Subscription Management repositories.
+2023-04-10T19:06:17-0400 INFO Unable to read consumer identity
+2023-04-10T19:06:17-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-10T19:06:17-0400 DEBUG DNF version: 4.12.0
+2023-04-10T19:06:17-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-10T19:06:17-0400 DDEBUG Installroot: /
+2023-04-10T19:06:17-0400 DDEBUG Releasever: 9
+2023-04-10T19:06:17-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-10T19:06:17-0400 DDEBUG Base command: makecache
+2023-04-10T19:06:17-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-10T19:06:17-0400 DEBUG Making cache files for all metadata files.
+2023-04-10T19:06:17-0400 WARNING Failed determining last makecache time.
+2023-04-10T19:06:17-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-10T19:06:17-0400 DDEBUG Cleaning up.
+2023-04-10T20:30:06-0400 INFO --- logging initialized ---
+2023-04-10T20:30:06-0400 DDEBUG timer: config: 3 ms
+2023-04-10T20:30:06-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-10T20:30:06-0400 INFO Updating Subscription Management repositories.
+2023-04-10T20:30:06-0400 INFO Unable to read consumer identity
+2023-04-10T20:30:06-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-10T20:30:06-0400 DEBUG DNF version: 4.12.0
+2023-04-10T20:30:06-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-10T20:30:06-0400 DDEBUG Installroot: /
+2023-04-10T20:30:06-0400 DDEBUG Releasever: 9
+2023-04-10T20:30:06-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-10T20:30:06-0400 DDEBUG Base command: makecache
+2023-04-10T20:30:06-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-10T20:30:06-0400 DEBUG Making cache files for all metadata files.
+2023-04-10T20:30:06-0400 WARNING Failed determining last makecache time.
+2023-04-10T20:30:06-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-10T20:30:06-0400 DDEBUG Cleaning up.
+2023-04-10T22:26:16-0400 INFO --- logging initialized ---
+2023-04-10T22:26:16-0400 DDEBUG timer: config: 3 ms
+2023-04-10T22:26:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-10T22:26:16-0400 INFO Updating Subscription Management repositories.
+2023-04-10T22:26:16-0400 INFO Unable to read consumer identity
+2023-04-10T22:26:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-10T22:26:16-0400 DEBUG DNF version: 4.12.0
+2023-04-10T22:26:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-10T22:26:16-0400 DDEBUG Installroot: /
+2023-04-10T22:26:16-0400 DDEBUG Releasever: 9
+2023-04-10T22:26:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-10T22:26:16-0400 DDEBUG Base command: makecache
+2023-04-10T22:26:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-10T22:26:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-10T22:26:16-0400 WARNING Failed determining last makecache time.
+2023-04-10T22:26:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-10T22:26:16-0400 DDEBUG Cleaning up.
+2023-04-11T00:05:20-0400 INFO --- logging initialized ---
+2023-04-11T00:05:20-0400 DDEBUG timer: config: 10 ms
+2023-04-11T00:05:20-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T00:05:20-0400 INFO Updating Subscription Management repositories.
+2023-04-11T00:05:20-0400 INFO Unable to read consumer identity
+2023-04-11T00:05:20-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T00:05:20-0400 DEBUG DNF version: 4.12.0
+2023-04-11T00:05:20-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T00:05:20-0400 DDEBUG Installroot: /
+2023-04-11T00:05:20-0400 DDEBUG Releasever: 9
+2023-04-11T00:05:20-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T00:05:20-0400 DDEBUG Base command: makecache
+2023-04-11T00:05:20-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T00:05:20-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T00:05:20-0400 WARNING Failed determining last makecache time.
+2023-04-11T00:05:20-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T00:05:20-0400 DDEBUG Cleaning up.
+2023-04-11T01:28:31-0400 INFO --- logging initialized ---
+2023-04-11T01:28:31-0400 DDEBUG timer: config: 5 ms
+2023-04-11T01:28:31-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T01:28:31-0400 INFO Updating Subscription Management repositories.
+2023-04-11T01:28:31-0400 INFO Unable to read consumer identity
+2023-04-11T01:28:31-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T01:28:31-0400 DEBUG DNF version: 4.12.0
+2023-04-11T01:28:31-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T01:28:31-0400 DDEBUG Installroot: /
+2023-04-11T01:28:31-0400 DDEBUG Releasever: 9
+2023-04-11T01:28:31-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T01:28:31-0400 DDEBUG Base command: makecache
+2023-04-11T01:28:31-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T01:28:31-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T01:28:31-0400 WARNING Failed determining last makecache time.
+2023-04-11T01:28:31-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T01:28:31-0400 DDEBUG Cleaning up.
+2023-04-11T02:45:19-0400 INFO --- logging initialized ---
+2023-04-11T02:45:19-0400 DDEBUG timer: config: 0 ms
+2023-04-11T02:45:19-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T02:45:19-0400 INFO Updating Subscription Management repositories.
+2023-04-11T02:45:19-0400 INFO Unable to read consumer identity
+2023-04-11T02:45:19-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T02:45:19-0400 DEBUG DNF version: 4.12.0
+2023-04-11T02:45:19-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T02:45:19-0400 DDEBUG Installroot: /
+2023-04-11T02:45:19-0400 DDEBUG Releasever: 9
+2023-04-11T02:45:19-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T02:45:19-0400 DDEBUG Base command: makecache
+2023-04-11T02:45:19-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T02:45:19-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T02:45:19-0400 WARNING Failed determining last makecache time.
+2023-04-11T02:45:19-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T02:45:19-0400 DDEBUG Cleaning up.
+2023-04-11T04:20:52-0400 INFO --- logging initialized ---
+2023-04-11T04:20:52-0400 DDEBUG timer: config: 1 ms
+2023-04-11T04:20:56-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T04:20:56-0400 INFO Updating Subscription Management repositories.
+2023-04-11T04:20:56-0400 INFO Unable to read consumer identity
+2023-04-11T04:20:56-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T04:20:56-0400 DEBUG DNF version: 4.12.0
+2023-04-11T04:20:56-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T04:20:56-0400 DDEBUG Installroot: /
+2023-04-11T04:20:56-0400 DDEBUG Releasever: 9
+2023-04-11T04:20:56-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T04:20:56-0400 DDEBUG Base command: makecache
+2023-04-11T04:20:56-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T04:20:56-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T04:20:56-0400 WARNING Failed determining last makecache time.
+2023-04-11T04:20:56-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T04:20:56-0400 DDEBUG Cleaning up.
+2023-04-11T05:54:16-0400 INFO --- logging initialized ---
+2023-04-11T05:54:16-0400 DDEBUG timer: config: 0 ms
+2023-04-11T05:54:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T05:54:16-0400 INFO Updating Subscription Management repositories.
+2023-04-11T05:54:16-0400 INFO Unable to read consumer identity
+2023-04-11T05:54:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T05:54:16-0400 DEBUG DNF version: 4.12.0
+2023-04-11T05:54:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T05:54:16-0400 DDEBUG Installroot: /
+2023-04-11T05:54:16-0400 DDEBUG Releasever: 9
+2023-04-11T05:54:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T05:54:16-0400 DDEBUG Base command: makecache
+2023-04-11T05:54:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T05:54:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T05:54:16-0400 WARNING Failed determining last makecache time.
+2023-04-11T05:54:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T05:54:16-0400 DDEBUG Cleaning up.
+2023-04-11T06:58:16-0400 INFO --- logging initialized ---
+2023-04-11T06:58:16-0400 DDEBUG timer: config: 2 ms
+2023-04-11T06:58:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T06:58:16-0400 INFO Updating Subscription Management repositories.
+2023-04-11T06:58:16-0400 INFO Unable to read consumer identity
+2023-04-11T06:58:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T06:58:16-0400 DEBUG DNF version: 4.12.0
+2023-04-11T06:58:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T06:58:16-0400 DDEBUG Installroot: /
+2023-04-11T06:58:16-0400 DDEBUG Releasever: 9
+2023-04-11T06:58:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T06:58:16-0400 DDEBUG Base command: makecache
+2023-04-11T06:58:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T06:58:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T06:58:16-0400 WARNING Failed determining last makecache time.
+2023-04-11T06:58:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T06:58:16-0400 DDEBUG Cleaning up.
+2023-04-11T08:01:59-0400 INFO --- logging initialized ---
+2023-04-11T08:01:59-0400 DDEBUG timer: config: 4 ms
+2023-04-11T08:01:59-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T08:01:59-0400 INFO Updating Subscription Management repositories.
+2023-04-11T08:01:59-0400 INFO Unable to read consumer identity
+2023-04-11T08:01:59-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T08:01:59-0400 DEBUG DNF version: 4.12.0
+2023-04-11T08:01:59-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T08:01:59-0400 DDEBUG Installroot: /
+2023-04-11T08:01:59-0400 DDEBUG Releasever: 9
+2023-04-11T08:01:59-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T08:01:59-0400 DDEBUG Base command: makecache
+2023-04-11T08:01:59-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T08:01:59-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T08:01:59-0400 WARNING Failed determining last makecache time.
+2023-04-11T08:01:59-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T08:01:59-0400 DDEBUG Cleaning up.
+2023-04-11T09:14:16-0400 INFO --- logging initialized ---
+2023-04-11T09:14:16-0400 DDEBUG timer: config: 38 ms
+2023-04-11T09:14:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T09:14:16-0400 INFO Updating Subscription Management repositories.
+2023-04-11T09:14:16-0400 INFO Unable to read consumer identity
+2023-04-11T09:14:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T09:14:16-0400 DEBUG DNF version: 4.12.0
+2023-04-11T09:14:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T09:14:16-0400 DDEBUG Installroot: /
+2023-04-11T09:14:16-0400 DDEBUG Releasever: 9
+2023-04-11T09:14:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T09:14:16-0400 DDEBUG Base command: makecache
+2023-04-11T09:14:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T09:14:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T09:14:16-0400 WARNING Failed determining last makecache time.
+2023-04-11T09:14:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T09:14:16-0400 DDEBUG Cleaning up.
+2023-04-11T10:22:21-0400 INFO --- logging initialized ---
+2023-04-11T10:22:21-0400 DDEBUG timer: config: 0 ms
+2023-04-11T10:22:21-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T10:22:21-0400 INFO Updating Subscription Management repositories.
+2023-04-11T10:22:21-0400 INFO Unable to read consumer identity
+2023-04-11T10:22:21-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T10:22:21-0400 DEBUG DNF version: 4.12.0
+2023-04-11T10:22:21-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T10:22:21-0400 DDEBUG Installroot: /
+2023-04-11T10:22:21-0400 DDEBUG Releasever: 9
+2023-04-11T10:22:21-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T10:22:21-0400 DDEBUG Base command: makecache
+2023-04-11T10:22:21-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T10:22:21-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T10:22:21-0400 WARNING Failed determining last makecache time.
+2023-04-11T10:22:21-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T10:22:21-0400 DDEBUG Cleaning up.
+2023-04-11T11:41:17-0400 INFO --- logging initialized ---
+2023-04-11T11:41:17-0400 DDEBUG timer: config: 0 ms
+2023-04-11T11:41:17-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T11:41:17-0400 INFO Updating Subscription Management repositories.
+2023-04-11T11:41:17-0400 INFO Unable to read consumer identity
+2023-04-11T11:41:17-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T11:41:17-0400 DEBUG DNF version: 4.12.0
+2023-04-11T11:41:17-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T11:41:17-0400 DDEBUG Installroot: /
+2023-04-11T11:41:17-0400 DDEBUG Releasever: 9
+2023-04-11T11:41:17-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T11:41:17-0400 DDEBUG Base command: makecache
+2023-04-11T11:41:17-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T11:41:17-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T11:41:17-0400 WARNING Failed determining last makecache time.
+2023-04-11T11:41:17-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T11:41:17-0400 DDEBUG Cleaning up.
+2023-04-11T12:57:21-0400 INFO --- logging initialized ---
+2023-04-11T12:57:21-0400 DDEBUG timer: config: 6 ms
+2023-04-11T12:57:21-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T12:57:21-0400 INFO Updating Subscription Management repositories.
+2023-04-11T12:57:21-0400 INFO Unable to read consumer identity
+2023-04-11T12:57:21-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T12:57:21-0400 DEBUG DNF version: 4.12.0
+2023-04-11T12:57:21-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T12:57:21-0400 DDEBUG Installroot: /
+2023-04-11T12:57:21-0400 DDEBUG Releasever: 9
+2023-04-11T12:57:21-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T12:57:21-0400 DDEBUG Base command: makecache
+2023-04-11T12:57:21-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T12:57:21-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T12:57:21-0400 WARNING Failed determining last makecache time.
+2023-04-11T12:57:21-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T12:57:21-0400 DDEBUG Cleaning up.
+2023-04-11T14:25:18-0400 INFO --- logging initialized ---
+2023-04-11T14:25:18-0400 DDEBUG timer: config: 11 ms
+2023-04-11T14:25:18-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T14:25:18-0400 INFO Updating Subscription Management repositories.
+2023-04-11T14:25:18-0400 INFO Unable to read consumer identity
+2023-04-11T14:25:18-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T14:25:18-0400 DEBUG DNF version: 4.12.0
+2023-04-11T14:25:18-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T14:25:18-0400 DDEBUG Installroot: /
+2023-04-11T14:25:18-0400 DDEBUG Releasever: 9
+2023-04-11T14:25:18-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T14:25:18-0400 DDEBUG Base command: makecache
+2023-04-11T14:25:18-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T14:25:18-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T14:25:18-0400 WARNING Failed determining last makecache time.
+2023-04-11T14:25:18-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T14:25:18-0400 DDEBUG Cleaning up.
+2023-04-11T15:48:16-0400 INFO --- logging initialized ---
+2023-04-11T15:48:16-0400 DDEBUG timer: config: 0 ms
+2023-04-11T15:48:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T15:48:16-0400 INFO Updating Subscription Management repositories.
+2023-04-11T15:48:16-0400 INFO Unable to read consumer identity
+2023-04-11T15:48:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T15:48:16-0400 DEBUG DNF version: 4.12.0
+2023-04-11T15:48:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T15:48:16-0400 DDEBUG Installroot: /
+2023-04-11T15:48:16-0400 DDEBUG Releasever: 9
+2023-04-11T15:48:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T15:48:16-0400 DDEBUG Base command: makecache
+2023-04-11T15:48:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T15:48:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T15:48:16-0400 WARNING Failed determining last makecache time.
+2023-04-11T15:48:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T15:48:16-0400 DDEBUG Cleaning up.
+2023-04-11T16:54:16-0400 INFO --- logging initialized ---
+2023-04-11T16:54:16-0400 DDEBUG timer: config: 3 ms
+2023-04-11T16:54:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T16:54:16-0400 INFO Updating Subscription Management repositories.
+2023-04-11T16:54:16-0400 INFO Unable to read consumer identity
+2023-04-11T16:54:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T16:54:16-0400 DEBUG DNF version: 4.12.0
+2023-04-11T16:54:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T16:54:16-0400 DDEBUG Installroot: /
+2023-04-11T16:54:16-0400 DDEBUG Releasever: 9
+2023-04-11T16:54:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T16:54:16-0400 DDEBUG Base command: makecache
+2023-04-11T16:54:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T16:54:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T16:54:16-0400 WARNING Failed determining last makecache time.
+2023-04-11T16:54:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T16:54:16-0400 DDEBUG Cleaning up.
+2023-04-11T18:13:16-0400 INFO --- logging initialized ---
+2023-04-11T18:13:16-0400 DDEBUG timer: config: 2 ms
+2023-04-11T18:13:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T18:13:16-0400 INFO Updating Subscription Management repositories.
+2023-04-11T18:13:16-0400 INFO Unable to read consumer identity
+2023-04-11T18:13:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T18:13:16-0400 DEBUG DNF version: 4.12.0
+2023-04-11T18:13:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T18:13:16-0400 DDEBUG Installroot: /
+2023-04-11T18:13:16-0400 DDEBUG Releasever: 9
+2023-04-11T18:13:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T18:13:16-0400 DDEBUG Base command: makecache
+2023-04-11T18:13:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T18:13:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T18:13:16-0400 WARNING Failed determining last makecache time.
+2023-04-11T18:13:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T18:13:16-0400 DDEBUG Cleaning up.
+2023-04-11T19:17:18-0400 INFO --- logging initialized ---
+2023-04-11T19:17:18-0400 DDEBUG timer: config: 13 ms
+2023-04-11T19:17:18-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T19:17:18-0400 INFO Updating Subscription Management repositories.
+2023-04-11T19:17:18-0400 INFO Unable to read consumer identity
+2023-04-11T19:17:18-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T19:17:18-0400 DEBUG DNF version: 4.12.0
+2023-04-11T19:17:18-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T19:17:18-0400 DDEBUG Installroot: /
+2023-04-11T19:17:18-0400 DDEBUG Releasever: 9
+2023-04-11T19:17:18-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T19:17:18-0400 DDEBUG Base command: makecache
+2023-04-11T19:17:18-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T19:17:18-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T19:17:18-0400 WARNING Failed determining last makecache time.
+2023-04-11T19:17:18-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T19:17:18-0400 DDEBUG Cleaning up.
+2023-04-11T20:43:16-0400 INFO --- logging initialized ---
+2023-04-11T20:43:16-0400 DDEBUG timer: config: 0 ms
+2023-04-11T20:43:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T20:43:16-0400 INFO Updating Subscription Management repositories.
+2023-04-11T20:43:16-0400 INFO Unable to read consumer identity
+2023-04-11T20:43:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T20:43:16-0400 DEBUG DNF version: 4.12.0
+2023-04-11T20:43:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T20:43:16-0400 DDEBUG Installroot: /
+2023-04-11T20:43:16-0400 DDEBUG Releasever: 9
+2023-04-11T20:43:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T20:43:16-0400 DDEBUG Base command: makecache
+2023-04-11T20:43:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T20:43:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T20:43:16-0400 WARNING Failed determining last makecache time.
+2023-04-11T20:43:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T20:43:16-0400 DDEBUG Cleaning up.
+2023-04-11T22:40:13-0400 INFO --- logging initialized ---
+2023-04-11T22:40:13-0400 DDEBUG timer: config: 1 ms
+2023-04-11T22:40:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-11T22:40:16-0400 INFO Updating Subscription Management repositories.
+2023-04-11T22:40:16-0400 INFO Unable to read consumer identity
+2023-04-11T22:40:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-11T22:40:16-0400 DEBUG DNF version: 4.12.0
+2023-04-11T22:40:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-11T22:40:16-0400 DDEBUG Installroot: /
+2023-04-11T22:40:16-0400 DDEBUG Releasever: 9
+2023-04-11T22:40:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-11T22:40:16-0400 DDEBUG Base command: makecache
+2023-04-11T22:40:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-11T22:40:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-11T22:40:16-0400 WARNING Failed determining last makecache time.
+2023-04-11T22:40:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-11T22:40:16-0400 DDEBUG Cleaning up.
+2023-04-12T00:20:16-0400 INFO --- logging initialized ---
+2023-04-12T00:20:16-0400 DDEBUG timer: config: 7 ms
+2023-04-12T00:20:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T00:20:16-0400 INFO Updating Subscription Management repositories.
+2023-04-12T00:20:16-0400 INFO Unable to read consumer identity
+2023-04-12T00:20:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T00:20:16-0400 DEBUG DNF version: 4.12.0
+2023-04-12T00:20:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T00:20:16-0400 DDEBUG Installroot: /
+2023-04-12T00:20:16-0400 DDEBUG Releasever: 9
+2023-04-12T00:20:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T00:20:16-0400 DDEBUG Base command: makecache
+2023-04-12T00:20:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T00:20:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T00:20:16-0400 WARNING Failed determining last makecache time.
+2023-04-12T00:20:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T00:20:16-0400 DDEBUG Cleaning up.
+2023-04-12T02:02:56-0400 INFO --- logging initialized ---
+2023-04-12T02:02:56-0400 DDEBUG timer: config: 0 ms
+2023-04-12T02:02:56-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T02:02:56-0400 INFO Updating Subscription Management repositories.
+2023-04-12T02:02:56-0400 INFO Unable to read consumer identity
+2023-04-12T02:02:56-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T02:02:56-0400 DEBUG DNF version: 4.12.0
+2023-04-12T02:02:56-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T02:02:56-0400 DDEBUG Installroot: /
+2023-04-12T02:02:56-0400 DDEBUG Releasever: 9
+2023-04-12T02:02:56-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T02:02:56-0400 DDEBUG Base command: makecache
+2023-04-12T02:02:56-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T02:02:56-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T02:02:56-0400 WARNING Failed determining last makecache time.
+2023-04-12T02:02:56-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T02:02:56-0400 DDEBUG Cleaning up.
+2023-04-12T03:58:16-0400 INFO --- logging initialized ---
+2023-04-12T03:58:16-0400 DDEBUG timer: config: 24 ms
+2023-04-12T03:58:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T03:58:16-0400 INFO Updating Subscription Management repositories.
+2023-04-12T03:58:16-0400 INFO Unable to read consumer identity
+2023-04-12T03:58:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T03:58:16-0400 DEBUG DNF version: 4.12.0
+2023-04-12T03:58:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T03:58:16-0400 DDEBUG Installroot: /
+2023-04-12T03:58:16-0400 DDEBUG Releasever: 9
+2023-04-12T03:58:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T03:58:16-0400 DDEBUG Base command: makecache
+2023-04-12T03:58:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T03:58:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T03:58:16-0400 WARNING Failed determining last makecache time.
+2023-04-12T03:58:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T03:58:16-0400 DDEBUG Cleaning up.
+2023-04-12T05:31:39-0400 INFO --- logging initialized ---
+2023-04-12T05:31:39-0400 DDEBUG timer: config: 49 ms
+2023-04-12T05:31:39-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T05:31:39-0400 INFO Updating Subscription Management repositories.
+2023-04-12T05:31:39-0400 INFO Unable to read consumer identity
+2023-04-12T05:31:39-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T05:31:39-0400 DEBUG DNF version: 4.12.0
+2023-04-12T05:31:39-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T05:31:39-0400 DDEBUG Installroot: /
+2023-04-12T05:31:39-0400 DDEBUG Releasever: 9
+2023-04-12T05:31:39-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T05:31:39-0400 DDEBUG Base command: makecache
+2023-04-12T05:31:39-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T05:31:39-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T05:31:39-0400 WARNING Failed determining last makecache time.
+2023-04-12T05:31:39-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T05:31:39-0400 DDEBUG Cleaning up.
+2023-04-12T07:04:06-0400 INFO --- logging initialized ---
+2023-04-12T07:04:06-0400 DDEBUG timer: config: 0 ms
+2023-04-12T07:04:06-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T07:04:06-0400 INFO Updating Subscription Management repositories.
+2023-04-12T07:04:06-0400 INFO Unable to read consumer identity
+2023-04-12T07:04:06-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T07:04:06-0400 DEBUG DNF version: 4.12.0
+2023-04-12T07:04:06-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T07:04:06-0400 DDEBUG Installroot: /
+2023-04-12T07:04:06-0400 DDEBUG Releasever: 9
+2023-04-12T07:04:06-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T07:04:06-0400 DDEBUG Base command: makecache
+2023-04-12T07:04:06-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T07:04:06-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T07:04:06-0400 WARNING Failed determining last makecache time.
+2023-04-12T07:04:06-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T07:04:06-0400 DDEBUG Cleaning up.
+2023-04-12T08:23:56-0400 INFO --- logging initialized ---
+2023-04-12T08:23:56-0400 DDEBUG timer: config: 4 ms
+2023-04-12T08:23:56-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T08:23:56-0400 INFO Updating Subscription Management repositories.
+2023-04-12T08:23:56-0400 INFO Unable to read consumer identity
+2023-04-12T08:23:56-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T08:23:56-0400 DEBUG DNF version: 4.12.0
+2023-04-12T08:23:56-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T08:23:56-0400 DDEBUG Installroot: /
+2023-04-12T08:23:56-0400 DDEBUG Releasever: 9
+2023-04-12T08:23:56-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T08:23:56-0400 DDEBUG Base command: makecache
+2023-04-12T08:23:56-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T08:23:56-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T08:23:56-0400 WARNING Failed determining last makecache time.
+2023-04-12T08:23:56-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T08:23:56-0400 DDEBUG Cleaning up.
+2023-04-12T09:48:16-0400 INFO --- logging initialized ---
+2023-04-12T09:48:16-0400 DDEBUG timer: config: 3 ms
+2023-04-12T09:48:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T09:48:16-0400 INFO Updating Subscription Management repositories.
+2023-04-12T09:48:16-0400 INFO Unable to read consumer identity
+2023-04-12T09:48:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T09:48:16-0400 DEBUG DNF version: 4.12.0
+2023-04-12T09:48:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T09:48:16-0400 DDEBUG Installroot: /
+2023-04-12T09:48:16-0400 DDEBUG Releasever: 9
+2023-04-12T09:48:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T09:48:16-0400 DDEBUG Base command: makecache
+2023-04-12T09:48:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T09:48:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T09:48:16-0400 WARNING Failed determining last makecache time.
+2023-04-12T09:48:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T09:48:16-0400 DDEBUG Cleaning up.
+2023-04-12T11:24:16-0400 INFO --- logging initialized ---
+2023-04-12T11:24:16-0400 DDEBUG timer: config: 0 ms
+2023-04-12T11:24:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T11:24:16-0400 INFO Updating Subscription Management repositories.
+2023-04-12T11:24:16-0400 INFO Unable to read consumer identity
+2023-04-12T11:24:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T11:24:16-0400 DEBUG DNF version: 4.12.0
+2023-04-12T11:24:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T11:24:16-0400 DDEBUG Installroot: /
+2023-04-12T11:24:16-0400 DDEBUG Releasever: 9
+2023-04-12T11:24:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T11:24:16-0400 DDEBUG Base command: makecache
+2023-04-12T11:24:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T11:24:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T11:24:16-0400 WARNING Failed determining last makecache time.
+2023-04-12T11:24:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T11:24:16-0400 DDEBUG Cleaning up.
+2023-04-12T13:19:56-0400 INFO --- logging initialized ---
+2023-04-12T13:19:56-0400 DDEBUG timer: config: 1 ms
+2023-04-12T13:19:56-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T13:19:56-0400 INFO Updating Subscription Management repositories.
+2023-04-12T13:19:56-0400 INFO Unable to read consumer identity
+2023-04-12T13:19:56-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T13:19:56-0400 DEBUG DNF version: 4.12.0
+2023-04-12T13:19:56-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T13:19:56-0400 DDEBUG Installroot: /
+2023-04-12T13:19:56-0400 DDEBUG Releasever: 9
+2023-04-12T13:19:56-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T13:19:56-0400 DDEBUG Base command: makecache
+2023-04-12T13:19:56-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T13:19:56-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T13:19:56-0400 WARNING Failed determining last makecache time.
+2023-04-12T13:19:56-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T13:19:56-0400 DDEBUG Cleaning up.
+2023-04-12T14:36:18-0400 INFO --- logging initialized ---
+2023-04-12T14:36:18-0400 DDEBUG timer: config: 9 ms
+2023-04-12T14:36:18-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T14:36:18-0400 INFO Updating Subscription Management repositories.
+2023-04-12T14:36:18-0400 INFO Unable to read consumer identity
+2023-04-12T14:36:18-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T14:36:18-0400 DEBUG DNF version: 4.12.0
+2023-04-12T14:36:18-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T14:36:18-0400 DDEBUG Installroot: /
+2023-04-12T14:36:18-0400 DDEBUG Releasever: 9
+2023-04-12T14:36:18-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T14:36:18-0400 DDEBUG Base command: makecache
+2023-04-12T14:36:18-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T14:36:18-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T14:36:18-0400 WARNING Failed determining last makecache time.
+2023-04-12T14:36:18-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T14:36:18-0400 DDEBUG Cleaning up.
+2023-04-12T16:26:18-0400 INFO --- logging initialized ---
+2023-04-12T16:26:18-0400 DDEBUG timer: config: 0 ms
+2023-04-12T16:26:18-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T16:26:18-0400 INFO Updating Subscription Management repositories.
+2023-04-12T16:26:18-0400 INFO Unable to read consumer identity
+2023-04-12T16:26:18-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T16:26:18-0400 DEBUG DNF version: 4.12.0
+2023-04-12T16:26:18-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T16:26:18-0400 DDEBUG Installroot: /
+2023-04-12T16:26:18-0400 DDEBUG Releasever: 9
+2023-04-12T16:26:18-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T16:26:18-0400 DDEBUG Base command: makecache
+2023-04-12T16:26:18-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T16:26:18-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T16:26:18-0400 WARNING Failed determining last makecache time.
+2023-04-12T16:26:18-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T16:26:18-0400 DDEBUG Cleaning up.
+2023-04-12T17:36:16-0400 INFO --- logging initialized ---
+2023-04-12T17:36:16-0400 DDEBUG timer: config: 6 ms
+2023-04-12T17:36:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T17:36:16-0400 INFO Updating Subscription Management repositories.
+2023-04-12T17:36:16-0400 INFO Unable to read consumer identity
+2023-04-12T17:36:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T17:36:16-0400 DEBUG DNF version: 4.12.0
+2023-04-12T17:36:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T17:36:16-0400 DDEBUG Installroot: /
+2023-04-12T17:36:16-0400 DDEBUG Releasever: 9
+2023-04-12T17:36:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T17:36:16-0400 DDEBUG Base command: makecache
+2023-04-12T17:36:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T17:36:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T17:36:16-0400 WARNING Failed determining last makecache time.
+2023-04-12T17:36:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T17:36:16-0400 DDEBUG Cleaning up.
+2023-04-12T18:49:16-0400 INFO --- logging initialized ---
+2023-04-12T18:49:16-0400 DDEBUG timer: config: 6 ms
+2023-04-12T18:49:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T18:49:16-0400 INFO Updating Subscription Management repositories.
+2023-04-12T18:49:16-0400 INFO Unable to read consumer identity
+2023-04-12T18:49:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T18:49:16-0400 DEBUG DNF version: 4.12.0
+2023-04-12T18:49:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T18:49:16-0400 DDEBUG Installroot: /
+2023-04-12T18:49:16-0400 DDEBUG Releasever: 9
+2023-04-12T18:49:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T18:49:16-0400 DDEBUG Base command: makecache
+2023-04-12T18:49:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T18:49:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T18:49:16-0400 WARNING Failed determining last makecache time.
+2023-04-12T18:49:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T18:49:16-0400 DDEBUG Cleaning up.
+2023-04-12T20:49:16-0400 INFO --- logging initialized ---
+2023-04-12T20:49:16-0400 DDEBUG timer: config: 0 ms
+2023-04-12T20:49:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T20:49:16-0400 INFO Updating Subscription Management repositories.
+2023-04-12T20:49:16-0400 INFO Unable to read consumer identity
+2023-04-12T20:49:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T20:49:16-0400 DEBUG DNF version: 4.12.0
+2023-04-12T20:49:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T20:49:16-0400 DDEBUG Installroot: /
+2023-04-12T20:49:16-0400 DDEBUG Releasever: 9
+2023-04-12T20:49:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T20:49:16-0400 DDEBUG Base command: makecache
+2023-04-12T20:49:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T20:49:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T20:49:16-0400 WARNING Failed determining last makecache time.
+2023-04-12T20:49:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T20:49:16-0400 DDEBUG Cleaning up.
+2023-04-12T22:38:17-0400 INFO --- logging initialized ---
+2023-04-12T22:38:17-0400 DDEBUG timer: config: 0 ms
+2023-04-12T22:38:17-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-12T22:38:17-0400 INFO Updating Subscription Management repositories.
+2023-04-12T22:38:17-0400 INFO Unable to read consumer identity
+2023-04-12T22:38:17-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-12T22:38:17-0400 DEBUG DNF version: 4.12.0
+2023-04-12T22:38:17-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-12T22:38:17-0400 DDEBUG Installroot: /
+2023-04-12T22:38:17-0400 DDEBUG Releasever: 9
+2023-04-12T22:38:17-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-12T22:38:17-0400 DDEBUG Base command: makecache
+2023-04-12T22:38:17-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-12T22:38:17-0400 DEBUG Making cache files for all metadata files.
+2023-04-12T22:38:17-0400 WARNING Failed determining last makecache time.
+2023-04-12T22:38:17-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-12T22:38:17-0400 DDEBUG Cleaning up.
+2023-04-13T00:00:16-0400 INFO --- logging initialized ---
+2023-04-13T00:00:16-0400 DDEBUG timer: config: 0 ms
+2023-04-13T00:00:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T00:00:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T00:00:16-0400 INFO Unable to read consumer identity
+2023-04-13T00:00:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T00:00:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T00:00:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T00:00:16-0400 DDEBUG Installroot: /
+2023-04-13T00:00:16-0400 DDEBUG Releasever: 9
+2023-04-13T00:00:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T00:00:16-0400 DDEBUG Base command: makecache
+2023-04-13T00:00:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T00:00:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T00:00:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T00:00:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T00:00:16-0400 DDEBUG Cleaning up.
+2023-04-13T01:32:05-0400 INFO --- logging initialized ---
+2023-04-13T01:32:05-0400 DDEBUG timer: config: 0 ms
+2023-04-13T01:32:06-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T01:32:06-0400 INFO Updating Subscription Management repositories.
+2023-04-13T01:32:06-0400 INFO Unable to read consumer identity
+2023-04-13T01:32:06-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T01:32:06-0400 DEBUG DNF version: 4.12.0
+2023-04-13T01:32:06-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T01:32:06-0400 DDEBUG Installroot: /
+2023-04-13T01:32:06-0400 DDEBUG Releasever: 9
+2023-04-13T01:32:06-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T01:32:06-0400 DDEBUG Base command: makecache
+2023-04-13T01:32:06-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T01:32:06-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T01:32:06-0400 WARNING Failed determining last makecache time.
+2023-04-13T01:32:06-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T01:32:06-0400 DDEBUG Cleaning up.
+2023-04-13T02:47:16-0400 INFO --- logging initialized ---
+2023-04-13T02:47:16-0400 DDEBUG timer: config: 2 ms
+2023-04-13T02:47:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T02:47:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T02:47:16-0400 INFO Unable to read consumer identity
+2023-04-13T02:47:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T02:47:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T02:47:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T02:47:16-0400 DDEBUG Installroot: /
+2023-04-13T02:47:16-0400 DDEBUG Releasever: 9
+2023-04-13T02:47:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T02:47:16-0400 DDEBUG Base command: makecache
+2023-04-13T02:47:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T02:47:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T02:47:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T02:47:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T02:47:16-0400 DDEBUG Cleaning up.
+2023-04-13T03:54:56-0400 INFO --- logging initialized ---
+2023-04-13T03:54:56-0400 DDEBUG timer: config: 44 ms
+2023-04-13T03:54:56-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T03:54:56-0400 INFO Updating Subscription Management repositories.
+2023-04-13T03:54:56-0400 INFO Unable to read consumer identity
+2023-04-13T03:54:56-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T03:54:56-0400 DEBUG DNF version: 4.12.0
+2023-04-13T03:54:56-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T03:54:56-0400 DDEBUG Installroot: /
+2023-04-13T03:54:56-0400 DDEBUG Releasever: 9
+2023-04-13T03:54:56-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T03:54:56-0400 DDEBUG Base command: makecache
+2023-04-13T03:54:56-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T03:54:56-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T03:54:56-0400 WARNING Failed determining last makecache time.
+2023-04-13T03:54:56-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T03:54:56-0400 DDEBUG Cleaning up.
+2023-04-13T05:49:16-0400 INFO --- logging initialized ---
+2023-04-13T05:49:16-0400 DDEBUG timer: config: 8 ms
+2023-04-13T05:49:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T05:49:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T05:49:16-0400 INFO Unable to read consumer identity
+2023-04-13T05:49:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T05:49:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T05:49:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T05:49:16-0400 DDEBUG Installroot: /
+2023-04-13T05:49:16-0400 DDEBUG Releasever: 9
+2023-04-13T05:49:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T05:49:16-0400 DDEBUG Base command: makecache
+2023-04-13T05:49:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T05:49:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T05:49:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T05:49:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T05:49:16-0400 DDEBUG Cleaning up.
+2023-04-13T07:14:56-0400 INFO --- logging initialized ---
+2023-04-13T07:14:56-0400 DDEBUG timer: config: 23 ms
+2023-04-13T07:14:56-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T07:14:56-0400 INFO Updating Subscription Management repositories.
+2023-04-13T07:14:56-0400 INFO Unable to read consumer identity
+2023-04-13T07:14:56-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T07:14:56-0400 DEBUG DNF version: 4.12.0
+2023-04-13T07:14:56-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T07:14:56-0400 DDEBUG Installroot: /
+2023-04-13T07:14:56-0400 DDEBUG Releasever: 9
+2023-04-13T07:14:56-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T07:14:56-0400 DDEBUG Base command: makecache
+2023-04-13T07:14:56-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T07:14:56-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T07:14:56-0400 WARNING Failed determining last makecache time.
+2023-04-13T07:14:56-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T07:14:56-0400 DDEBUG Cleaning up.
+2023-04-13T08:32:16-0400 INFO --- logging initialized ---
+2023-04-13T08:32:16-0400 DDEBUG timer: config: 0 ms
+2023-04-13T08:32:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T08:32:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T08:32:16-0400 INFO Unable to read consumer identity
+2023-04-13T08:32:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T08:32:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T08:32:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T08:32:16-0400 DDEBUG Installroot: /
+2023-04-13T08:32:16-0400 DDEBUG Releasever: 9
+2023-04-13T08:32:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T08:32:16-0400 DDEBUG Base command: makecache
+2023-04-13T08:32:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T08:32:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T08:32:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T08:32:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T08:32:16-0400 DDEBUG Cleaning up.
+2023-04-13T09:39:16-0400 INFO --- logging initialized ---
+2023-04-13T09:39:16-0400 DDEBUG timer: config: 27 ms
+2023-04-13T09:39:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T09:39:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T09:39:16-0400 INFO Unable to read consumer identity
+2023-04-13T09:39:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T09:39:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T09:39:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T09:39:16-0400 DDEBUG Installroot: /
+2023-04-13T09:39:16-0400 DDEBUG Releasever: 9
+2023-04-13T09:39:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T09:39:16-0400 DDEBUG Base command: makecache
+2023-04-13T09:39:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T09:39:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T09:39:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T09:39:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T09:39:16-0400 DDEBUG Cleaning up.
+2023-04-13T11:02:16-0400 INFO --- logging initialized ---
+2023-04-13T11:02:16-0400 DDEBUG timer: config: 1 ms
+2023-04-13T11:02:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T11:02:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T11:02:16-0400 INFO Unable to read consumer identity
+2023-04-13T11:02:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T11:02:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T11:02:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T11:02:16-0400 DDEBUG Installroot: /
+2023-04-13T11:02:16-0400 DDEBUG Releasever: 9
+2023-04-13T11:02:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T11:02:16-0400 DDEBUG Base command: makecache
+2023-04-13T11:02:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T11:02:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T11:02:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T11:02:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T11:02:16-0400 DDEBUG Cleaning up.
+2023-04-13T12:51:16-0400 INFO --- logging initialized ---
+2023-04-13T12:51:16-0400 DDEBUG timer: config: 13 ms
+2023-04-13T12:51:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T12:51:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T12:51:16-0400 INFO Unable to read consumer identity
+2023-04-13T12:51:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T12:51:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T12:51:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T12:51:16-0400 DDEBUG Installroot: /
+2023-04-13T12:51:16-0400 DDEBUG Releasever: 9
+2023-04-13T12:51:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T12:51:16-0400 DDEBUG Base command: makecache
+2023-04-13T12:51:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T12:51:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T12:51:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T12:51:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T12:51:16-0400 DDEBUG Cleaning up.
+2023-04-13T14:28:16-0400 INFO --- logging initialized ---
+2023-04-13T14:28:16-0400 DDEBUG timer: config: 10 ms
+2023-04-13T14:28:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T14:28:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T14:28:16-0400 INFO Unable to read consumer identity
+2023-04-13T14:28:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T14:28:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T14:28:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T14:28:16-0400 DDEBUG Installroot: /
+2023-04-13T14:28:16-0400 DDEBUG Releasever: 9
+2023-04-13T14:28:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T14:28:16-0400 DDEBUG Base command: makecache
+2023-04-13T14:28:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T14:28:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T14:28:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T14:28:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T14:28:16-0400 DDEBUG Cleaning up.
+2023-04-13T15:51:18-0400 INFO --- logging initialized ---
+2023-04-13T15:51:18-0400 DDEBUG timer: config: 0 ms
+2023-04-13T15:51:18-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T15:51:18-0400 INFO Updating Subscription Management repositories.
+2023-04-13T15:51:18-0400 INFO Unable to read consumer identity
+2023-04-13T15:51:18-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T15:51:18-0400 DEBUG DNF version: 4.12.0
+2023-04-13T15:51:18-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T15:51:18-0400 DDEBUG Installroot: /
+2023-04-13T15:51:18-0400 DDEBUG Releasever: 9
+2023-04-13T15:51:18-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T15:51:18-0400 DDEBUG Base command: makecache
+2023-04-13T15:51:18-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T15:51:18-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T15:51:18-0400 WARNING Failed determining last makecache time.
+2023-04-13T15:51:18-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T15:51:18-0400 DDEBUG Cleaning up.
+2023-04-13T16:58:16-0400 INFO --- logging initialized ---
+2023-04-13T16:58:16-0400 DDEBUG timer: config: 10 ms
+2023-04-13T16:58:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T16:58:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T16:58:16-0400 INFO Unable to read consumer identity
+2023-04-13T16:58:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T16:58:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T16:58:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T16:58:16-0400 DDEBUG Installroot: /
+2023-04-13T16:58:16-0400 DDEBUG Releasever: 9
+2023-04-13T16:58:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T16:58:16-0400 DDEBUG Base command: makecache
+2023-04-13T16:58:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T16:58:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T16:58:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T16:58:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T16:58:16-0400 DDEBUG Cleaning up.
+2023-04-13T18:23:16-0400 INFO --- logging initialized ---
+2023-04-13T18:23:16-0400 DDEBUG timer: config: 3 ms
+2023-04-13T18:23:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T18:23:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T18:23:16-0400 INFO Unable to read consumer identity
+2023-04-13T18:23:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T18:23:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T18:23:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T18:23:16-0400 DDEBUG Installroot: /
+2023-04-13T18:23:16-0400 DDEBUG Releasever: 9
+2023-04-13T18:23:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T18:23:16-0400 DDEBUG Base command: makecache
+2023-04-13T18:23:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T18:23:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T18:23:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T18:23:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T18:23:16-0400 DDEBUG Cleaning up.
+2023-04-13T19:30:56-0400 INFO --- logging initialized ---
+2023-04-13T19:30:56-0400 DDEBUG timer: config: 9 ms
+2023-04-13T19:30:56-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T19:30:56-0400 INFO Updating Subscription Management repositories.
+2023-04-13T19:30:56-0400 INFO Unable to read consumer identity
+2023-04-13T19:30:56-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T19:30:56-0400 DEBUG DNF version: 4.12.0
+2023-04-13T19:30:56-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T19:30:56-0400 DDEBUG Installroot: /
+2023-04-13T19:30:56-0400 DDEBUG Releasever: 9
+2023-04-13T19:30:56-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T19:30:56-0400 DDEBUG Base command: makecache
+2023-04-13T19:30:56-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T19:30:56-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T19:30:56-0400 WARNING Failed determining last makecache time.
+2023-04-13T19:30:56-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T19:30:56-0400 DDEBUG Cleaning up.
+2023-04-13T20:36:16-0400 INFO --- logging initialized ---
+2023-04-13T20:36:16-0400 DDEBUG timer: config: 9 ms
+2023-04-13T20:36:16-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-13T20:36:16-0400 INFO Updating Subscription Management repositories.
+2023-04-13T20:36:16-0400 INFO Unable to read consumer identity
+2023-04-13T20:36:16-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-13T20:36:16-0400 DEBUG DNF version: 4.12.0
+2023-04-13T20:36:16-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-13T20:36:16-0400 DDEBUG Installroot: /
+2023-04-13T20:36:16-0400 DDEBUG Releasever: 9
+2023-04-13T20:36:16-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-13T20:36:16-0400 DDEBUG Base command: makecache
+2023-04-13T20:36:16-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-13T20:36:16-0400 DEBUG Making cache files for all metadata files.
+2023-04-13T20:36:16-0400 WARNING Failed determining last makecache time.
+2023-04-13T20:36:16-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-13T20:36:16-0400 DDEBUG Cleaning up.
+2023-04-22T15:54:30-0400 INFO --- logging initialized ---
+2023-04-22T15:54:30-0400 DDEBUG timer: config: 3 ms
+2023-04-22T15:54:30-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T15:54:30-0400 INFO Updating Subscription Management repositories.
+2023-04-22T15:54:30-0400 INFO Unable to read consumer identity
+2023-04-22T15:54:30-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-22T15:54:30-0400 DEBUG DNF version: 4.12.0
+2023-04-22T15:54:30-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-22T15:54:30-0400 DDEBUG Installroot: /
+2023-04-22T15:54:30-0400 DDEBUG Releasever: 9
+2023-04-22T15:54:30-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T15:54:30-0400 DDEBUG Base command: makecache
+2023-04-22T15:54:30-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T15:54:30-0400 DEBUG Making cache files for all metadata files.
+2023-04-22T15:54:30-0400 WARNING Failed determining last makecache time.
+2023-04-22T15:54:30-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-22T15:54:30-0400 DDEBUG Cleaning up.
+2023-04-22T17:05:30-0400 INFO --- logging initialized ---
+2023-04-22T17:05:30-0400 DDEBUG timer: config: 17 ms
+2023-04-22T17:05:30-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T17:05:30-0400 INFO Updating Subscription Management repositories.
+2023-04-22T17:05:30-0400 INFO Unable to read consumer identity
+2023-04-22T17:05:30-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-22T17:05:30-0400 DEBUG DNF version: 4.12.0
+2023-04-22T17:05:30-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-22T17:05:30-0400 DDEBUG Installroot: /
+2023-04-22T17:05:30-0400 DDEBUG Releasever: 9
+2023-04-22T17:05:30-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T17:05:30-0400 DDEBUG Base command: makecache
+2023-04-22T17:05:30-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T17:05:30-0400 DEBUG Making cache files for all metadata files.
+2023-04-22T17:05:30-0400 WARNING Failed determining last makecache time.
+2023-04-22T17:05:30-0400 INFO There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-22T17:05:30-0400 DDEBUG Cleaning up.
+2023-04-22T17:52:06-0400 INFO --- logging initialized ---
+2023-04-22T17:52:06-0400 DDEBUG timer: config: 61 ms
+2023-04-22T17:52:06-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T17:52:06-0400 INFO Updating Subscription Management repositories.
+2023-04-22T17:52:06-0400 INFO Unable to read consumer identity
+2023-04-22T17:52:06-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-22T17:52:06-0400 DEBUG YUM version: 4.12.0
+2023-04-22T17:52:06-0400 DDEBUG Command: yum install git 
+2023-04-22T17:52:06-0400 DDEBUG Installroot: /
+2023-04-22T17:52:06-0400 DDEBUG Releasever: 9
+2023-04-22T17:52:06-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T17:52:06-0400 DDEBUG Base command: install
+2023-04-22T17:52:06-0400 DDEBUG Extra commands: ['install', 'git']
+2023-04-22T17:52:06-0400 DDEBUG Cleaning up.
+2023-04-22T17:52:06-0400 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 102, in _main
+    cli.configure(list(map(ucd, args)), option_parser())
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 883, in configure
+    self.command.configure()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/install.py", line 67, in configure
+    commands._checkEnabledRepo(self.base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/__init__.py", line 92, in _checkEnabledRepo
+    raise dnf.cli.CliError(msg)
+dnf.cli.CliError: There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-22T17:52:06-0400 CRITICAL Error: There are no enabled repositories in "/etc/yum.repos.d", "/etc/yum/repos.d", "/etc/distro.repos.d".
+2023-04-22T18:46:26-0400 INFO --- logging initialized ---
+2023-04-22T18:46:26-0400 DDEBUG timer: config: 10 ms
+2023-04-22T18:46:26-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T18:46:26-0400 INFO Updating Subscription Management repositories.
+2023-04-22T18:46:26-0400 INFO Unable to read consumer identity
+2023-04-22T18:46:26-0400 INFO 
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+2023-04-22T18:46:26-0400 DEBUG DNF version: 4.12.0
+2023-04-22T18:46:26-0400 DDEBUG Command: dnf repolist 
+2023-04-22T18:46:26-0400 DDEBUG Installroot: /
+2023-04-22T18:46:26-0400 DDEBUG Releasever: 9
+2023-04-22T18:46:26-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T18:46:26-0400 DDEBUG Base command: repolist
+2023-04-22T18:46:26-0400 DDEBUG Extra commands: ['repolist']
+2023-04-22T18:46:26-0400 WARNING No repositories available
+2023-04-22T18:46:26-0400 DDEBUG Cleaning up.
+2023-04-22T18:49:00-0400 INFO --- logging initialized ---
+2023-04-22T18:49:00-0400 DDEBUG timer: config: 95 ms
+2023-04-22T18:49:00-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T18:49:00-0400 INFO Updating Subscription Management repositories.
+2023-04-22T18:49:00-0400 DEBUG DNF version: 4.12.0
+2023-04-22T18:49:00-0400 DDEBUG Command: dnf repolist 
+2023-04-22T18:49:00-0400 DDEBUG Installroot: /
+2023-04-22T18:49:00-0400 DDEBUG Releasever: 9
+2023-04-22T18:49:00-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T18:49:00-0400 DDEBUG Base command: repolist
+2023-04-22T18:49:00-0400 DDEBUG Extra commands: ['repolist']
+2023-04-22T18:49:00-0400 DDEBUG Cleaning up.
+2023-04-22T18:49:05-0400 INFO --- logging initialized ---
+2023-04-22T18:49:05-0400 DDEBUG timer: config: 3 ms
+2023-04-22T18:49:05-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T18:49:05-0400 INFO Updating Subscription Management repositories.
+2023-04-22T18:49:06-0400 DEBUG DNF version: 4.12.0
+2023-04-22T18:49:06-0400 DDEBUG Command: dnf install git 
+2023-04-22T18:49:06-0400 DDEBUG Installroot: /
+2023-04-22T18:49:06-0400 DDEBUG Releasever: 9
+2023-04-22T18:49:06-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T18:49:06-0400 DDEBUG Base command: install
+2023-04-22T18:49:06-0400 DDEBUG Extra commands: ['install', 'git']
+2023-04-22T18:49:06-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-04-22T18:49:06-0400 DEBUG repo: downloading from remote: rhel-9-for-x86_64-appstream-rpms
+2023-04-22T18:49:08-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 20 Apr 2023 10:38:53 AM EDT.
+2023-04-22T18:49:08-0400 DEBUG repo: downloading from remote: rhel-9-for-x86_64-baseos-rpms
+2023-04-22T18:49:08-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Thu 20 Apr 2023 10:37:11 AM EDT.
+2023-04-22T18:49:08-0400 DDEBUG timer: sack setup: 2739 ms
+2023-04-22T18:49:08-0400 DEBUG Completion plugin: Generating completion cache...
+2023-04-22T18:49:09-0400 DEBUG --> Starting dependency resolution
+2023-04-22T18:49:09-0400 DEBUG ---> Package perl-Error.noarch 1:0.17029-7.el9 will be installed
+2023-04-22T18:49:09-0400 DEBUG ---> Package perl-TermReadKey.x86_64 2.38-11.el9 will be installed
+2023-04-22T18:49:09-0400 DEBUG ---> Package perl-lib.x86_64 0.65-479.el9 will be installed
+2023-04-22T18:49:09-0400 DEBUG ---> Package git-core.x86_64 2.31.1-3.el9_1 will be installed
+2023-04-22T18:49:09-0400 DEBUG ---> Package git-core-doc.noarch 2.31.1-3.el9_1 will be installed
+2023-04-22T18:49:09-0400 DEBUG ---> Package git.x86_64 2.31.1-3.el9_1 will be installed
+2023-04-22T18:49:09-0400 DEBUG ---> Package perl-Git.noarch 2.31.1-3.el9_1 will be installed
+2023-04-22T18:49:09-0400 DEBUG --> Finished dependency resolution
+2023-04-22T18:49:09-0400 DDEBUG timer: depsolve: 10 ms
+2023-04-22T18:49:09-0400 INFO Dependencies resolved.
+2023-04-22T18:49:09-0400 INFO =========================================================================
+ Package   Arch   Version         Repository                        Size
+=========================================================================
+Installing:
+ [1m[32mgit      (B[m x86_64 2.31.1-3.el9_1  rhel-9-for-x86_64-appstream-rpms 124 k
+Installing dependencies:
+ [1m[32mgit-core (B[m x86_64 2.31.1-3.el9_1  rhel-9-for-x86_64-appstream-rpms 3.6 M
+ [1m[32mgit-core-doc(B[m
+           noarch 2.31.1-3.el9_1  rhel-9-for-x86_64-appstream-rpms 2.5 M
+ [1m[32mperl-Error(B[m
+           noarch 1:0.17029-7.el9 rhel-9-for-x86_64-appstream-rpms  46 k
+ [1m[32mperl-Git (B[m noarch 2.31.1-3.el9_1  rhel-9-for-x86_64-appstream-rpms  40 k
+ [1m[32mperl-TermReadKey(B[m
+           x86_64 2.38-11.el9     rhel-9-for-x86_64-appstream-rpms  40 k
+ [1m[32mperl-lib (B[m x86_64 0.65-479.el9    rhel-9-for-x86_64-appstream-rpms  25 k
+
+Transaction Summary
+=========================================================================
+Install  7 Packages
+
+2023-04-22T18:49:09-0400 INFO Total download size: 6.4 M
+2023-04-22T18:49:09-0400 INFO Installed size: 32 M
+2023-04-22T18:49:10-0400 INFO Downloading Packages:
+2023-04-22T18:49:11-0400 INFO -------------------------------------------------------------------------
+2023-04-22T18:49:11-0400 INFO Total                                     11 MB/s | 6.4 MB     00:00     
+2023-04-22T18:49:11-0400 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2023-04-22T18:49:11-0400 CRITICAL Importing GPG key 0xFD431D51:
+ Userid     : "Red Hat, Inc. (release key 2) <security@redhat.com>"
+ Fingerprint: 567E 347A D004 4ADE 55BA 8A5F 199E 2F91 FD43 1D51
+ From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+2023-04-22T18:49:12-0400 INFO Key imported successfully
+2023-04-22T18:49:12-0400 CRITICAL Importing GPG key 0x5A6340B3:
+ Userid     : "Red Hat, Inc. (auxiliary key 3) <security@redhat.com>"
+ Fingerprint: 7E46 2425 8C40 6535 D56D 6F13 5054 E4A4 5A63 40B3
+ From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+2023-04-22T18:49:13-0400 INFO Key imported successfully
+2023-04-22T18:49:13-0400 INFO Running transaction check
+2023-04-22T18:49:13-0400 INFO Transaction check succeeded.
+2023-04-22T18:49:13-0400 INFO Running transaction test
+2023-04-22T18:49:13-0400 INFO Transaction test succeeded.
+2023-04-22T18:49:13-0400 DDEBUG timer: transaction test: 247 ms
+2023-04-22T18:49:13-0400 INFO Running transaction
+2023-04-22T18:49:13-0400 DEBUG RPMDB altered outside of DNF.
+2023-04-22T18:49:13-0400 DDEBUG RPM transaction start.
+2023-04-22T18:49:14-0400 DDEBUG RPM transaction over.
+2023-04-22T18:49:14-0400 DDEBUG timer: verify transaction: 96 ms
+2023-04-22T18:49:14-0400 DDEBUG timer: transaction: 1034 ms
+2023-04-22T18:49:14-0400 DEBUG Completion plugin: Generating completion cache...
+2023-04-22T18:49:14-0400 INFO Installed products updated.
+2023-04-22T18:49:14-0400 DEBUG Installed: git-2.31.1-3.el9_1.x86_64
+2023-04-22T18:49:14-0400 DEBUG Installed: git-core-2.31.1-3.el9_1.x86_64
+2023-04-22T18:49:14-0400 DEBUG Installed: git-core-doc-2.31.1-3.el9_1.noarch
+2023-04-22T18:49:14-0400 DEBUG Installed: perl-Error-1:0.17029-7.el9.noarch
+2023-04-22T18:49:14-0400 DEBUG Installed: perl-Git-2.31.1-3.el9_1.noarch
+2023-04-22T18:49:14-0400 DEBUG Installed: perl-TermReadKey-2.38-11.el9.x86_64
+2023-04-22T18:49:14-0400 DEBUG Installed: perl-lib-0.65-479.el9.x86_64
+2023-04-22T18:49:15-0400 INFO Complete!
+2023-04-22T18:49:15-0400 DDEBUG Cleaning up.
+2023-04-22T18:49:15-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/perl-lib-0.65-479.el9.x86_64.rpm removed
+2023-04-22T18:49:15-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/perl-TermReadKey-2.38-11.el9.x86_64.rpm removed
+2023-04-22T18:49:15-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/git-core-doc-2.31.1-3.el9_1.noarch.rpm removed
+2023-04-22T18:49:15-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/git-2.31.1-3.el9_1.x86_64.rpm removed
+2023-04-22T18:49:15-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/perl-Git-2.31.1-3.el9_1.noarch.rpm removed
+2023-04-22T18:49:15-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/perl-Error-0.17029-7.el9.noarch.rpm removed
+2023-04-22T18:49:15-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/git-core-2.31.1-3.el9_1.x86_64.rpm removed
+2023-04-22T18:51:46-0400 INFO --- logging initialized ---
+2023-04-22T18:51:46-0400 DDEBUG timer: config: 8 ms
+2023-04-22T18:51:47-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T18:51:47-0400 INFO Updating Subscription Management repositories.
+2023-04-22T18:51:48-0400 DEBUG DNF version: 4.12.0
+2023-04-22T18:51:48-0400 DDEBUG Command: dnf install gcc 
+2023-04-22T18:51:48-0400 DDEBUG Installroot: /
+2023-04-22T18:51:48-0400 DDEBUG Releasever: 9
+2023-04-22T18:51:48-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T18:51:48-0400 DDEBUG Base command: install
+2023-04-22T18:51:48-0400 DDEBUG Extra commands: ['install', 'gcc']
+2023-04-22T18:51:48-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-04-22T18:51:48-0400 DEBUG repo: using cache for: rhel-9-for-x86_64-appstream-rpms
+2023-04-22T18:51:48-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 20 Apr 2023 10:38:53 AM EDT.
+2023-04-22T18:51:48-0400 DEBUG repo: using cache for: rhel-9-for-x86_64-baseos-rpms
+2023-04-22T18:51:48-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Thu 20 Apr 2023 10:37:11 AM EDT.
+2023-04-22T18:51:48-0400 INFO Last metadata expiration check: 0:02:40 ago on Sat 22 Apr 2023 06:49:08 PM EDT.
+2023-04-22T18:51:48-0400 DDEBUG timer: sack setup: 612 ms
+2023-04-22T18:51:48-0400 DEBUG --> Starting dependency resolution
+2023-04-22T18:51:48-0400 DEBUG ---> Package libxcrypt-devel.x86_64 4.4.18-3.el9 will be installed
+2023-04-22T18:51:48-0400 DEBUG ---> Package glibc-headers.x86_64 2.34-40.el9 will be installed
+2023-04-22T18:51:48-0400 DEBUG ---> Package glibc-devel.x86_64 2.34-40.el9 will be installed
+2023-04-22T18:51:48-0400 DEBUG ---> Package gcc.x86_64 11.3.1-2.1.el9 will be installed
+2023-04-22T18:51:48-0400 DEBUG ---> Package kernel-headers.x86_64 5.14.0-162.23.1.el9_1 will be installed
+2023-04-22T18:51:48-0400 DEBUG ---> Package make.x86_64 1:4.3-7.el9 will be installed
+2023-04-22T18:51:48-0400 DEBUG --> Finished dependency resolution
+2023-04-22T18:51:48-0400 DDEBUG timer: depsolve: 24 ms
+2023-04-22T18:51:48-0400 INFO Dependencies resolved.
+2023-04-22T18:51:48-0400 INFO =========================================================================
+ Package
+     Arch   Version               Repository                        Size
+=========================================================================
+Installing:
+ [1m[32mgcc(B[m x86_64 11.3.1-2.1.el9        rhel-9-for-x86_64-appstream-rpms  32 M
+Installing dependencies:
+ [1m[32mglibc-devel(B[m
+     x86_64 2.34-40.el9           rhel-9-for-x86_64-appstream-rpms  47 k
+ [1m[32mglibc-headers(B[m
+     x86_64 2.34-40.el9           rhel-9-for-x86_64-appstream-rpms 547 k
+ [1m[32mkernel-headers(B[m
+     x86_64 5.14.0-162.23.1.el9_1 rhel-9-for-x86_64-appstream-rpms 3.5 M
+ [1m[32mlibxcrypt-devel(B[m
+     x86_64 4.4.18-3.el9          rhel-9-for-x86_64-appstream-rpms  32 k
+ [1m[32mmake(B[m
+     x86_64 1:4.3-7.el9           rhel-9-for-x86_64-baseos-rpms    542 k
+
+Transaction Summary
+=========================================================================
+Install  6 Packages
+
+2023-04-22T18:51:48-0400 INFO Total download size: 37 M
+2023-04-22T18:51:48-0400 INFO Installed size: 94 M
+2023-04-22T18:51:50-0400 INFO Downloading Packages:
+2023-04-22T18:51:52-0400 INFO -------------------------------------------------------------------------
+2023-04-22T18:51:52-0400 INFO Total                                     18 MB/s |  37 MB     00:02     
+2023-04-22T18:51:52-0400 DEBUG Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures
+2023-04-22T18:51:52-0400 INFO Running transaction check
+2023-04-22T18:51:52-0400 INFO Transaction check succeeded.
+2023-04-22T18:51:52-0400 INFO Running transaction test
+2023-04-22T18:51:53-0400 INFO Transaction test succeeded.
+2023-04-22T18:51:53-0400 DDEBUG timer: transaction test: 351 ms
+2023-04-22T18:51:53-0400 INFO Running transaction
+2023-04-22T18:51:53-0400 DDEBUG RPM transaction start.
+2023-04-22T18:51:54-0400 DDEBUG RPM transaction over.
+2023-04-22T18:51:55-0400 DDEBUG timer: verify transaction: 112 ms
+2023-04-22T18:51:55-0400 DDEBUG timer: transaction: 1664 ms
+2023-04-22T18:51:55-0400 DEBUG Completion plugin: Generating completion cache...
+2023-04-22T18:51:55-0400 INFO Installed products updated.
+2023-04-22T18:51:55-0400 DEBUG Installed: gcc-11.3.1-2.1.el9.x86_64
+2023-04-22T18:51:55-0400 DEBUG Installed: glibc-devel-2.34-40.el9.x86_64
+2023-04-22T18:51:55-0400 DEBUG Installed: glibc-headers-2.34-40.el9.x86_64
+2023-04-22T18:51:55-0400 DEBUG Installed: kernel-headers-5.14.0-162.23.1.el9_1.x86_64
+2023-04-22T18:51:55-0400 DEBUG Installed: libxcrypt-devel-4.4.18-3.el9.x86_64
+2023-04-22T18:51:55-0400 DEBUG Installed: make-1:4.3-7.el9.x86_64
+2023-04-22T18:51:55-0400 INFO Complete!
+2023-04-22T18:51:55-0400 DDEBUG Cleaning up.
+2023-04-22T18:51:55-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-baseos-rpms-a2cdae14f4ed6c20/packages/make-4.3-7.el9.x86_64.rpm removed
+2023-04-22T18:51:55-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/glibc-devel-2.34-40.el9.x86_64.rpm removed
+2023-04-22T18:51:55-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/glibc-headers-2.34-40.el9.x86_64.rpm removed
+2023-04-22T18:51:55-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/libxcrypt-devel-4.4.18-3.el9.x86_64.rpm removed
+2023-04-22T18:51:55-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/gcc-11.3.1-2.1.el9.x86_64.rpm removed
+2023-04-22T18:51:55-0400 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-appstream-rpms-3dc6dc0880df5476/packages/kernel-headers-5.14.0-162.23.1.el9_1.x86_64.rpm removed
+2023-04-22T18:54:30-0400 INFO --- logging initialized ---
+2023-04-22T18:54:30-0400 DDEBUG timer: config: 16 ms
+2023-04-22T18:54:30-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T18:54:30-0400 INFO Updating Subscription Management repositories.
+2023-04-22T18:54:31-0400 DEBUG DNF version: 4.12.0
+2023-04-22T18:54:31-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-22T18:54:31-0400 DDEBUG Installroot: /
+2023-04-22T18:54:31-0400 DDEBUG Releasever: 9
+2023-04-22T18:54:31-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T18:54:31-0400 DDEBUG Base command: makecache
+2023-04-22T18:54:31-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T18:54:31-0400 DEBUG Making cache files for all metadata files.
+2023-04-22T18:54:31-0400 WARNING Failed determining last makecache time.
+2023-04-22T18:54:31-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-04-22T18:54:31-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-04-22T18:54:32-0400 DEBUG reviving: 'rhel-9-for-x86_64-appstream-rpms' can be revived - repomd matches.
+2023-04-22T18:54:32-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 20 Apr 2023 10:38:53 AM EDT.
+2023-04-22T18:54:32-0400 DEBUG reviving: 'rhel-9-for-x86_64-baseos-rpms' can be revived - repomd matches.
+2023-04-22T18:54:32-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Thu 20 Apr 2023 10:37:11 AM EDT.
+2023-04-22T18:54:32-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-04-22T18:54:32-0400 DDEBUG timer: sack setup: 890 ms
+2023-04-22T18:54:32-0400 INFO Metadata cache created.
+2023-04-22T18:54:32-0400 DDEBUG Cleaning up.
+2023-04-22T20:54:30-0400 INFO --- logging initialized ---
+2023-04-22T20:54:30-0400 DDEBUG timer: config: 45 ms
+2023-04-22T20:54:30-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T20:54:30-0400 INFO Updating Subscription Management repositories.
+2023-04-22T20:54:30-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-04-22T20:54:30-0400 DEBUG DNF version: 4.12.0
+2023-04-22T20:54:30-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-22T20:54:30-0400 DDEBUG Installroot: /
+2023-04-22T20:54:30-0400 DDEBUG Releasever: 9
+2023-04-22T20:54:30-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T20:54:30-0400 DDEBUG Base command: makecache
+2023-04-22T20:54:30-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T20:54:30-0400 DEBUG Making cache files for all metadata files.
+2023-04-22T20:54:30-0400 INFO Metadata cache refreshed recently.
+2023-04-22T20:54:30-0400 DDEBUG Cleaning up.
+2023-04-22T22:51:10-0400 INFO --- logging initialized ---
+2023-04-22T22:51:10-0400 DDEBUG timer: config: 17 ms
+2023-04-22T22:51:10-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-22T22:51:10-0400 INFO Updating Subscription Management repositories.
+2023-04-22T22:51:10-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-04-22T22:51:10-0400 DEBUG DNF version: 4.12.0
+2023-04-22T22:51:10-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-22T22:51:10-0400 DDEBUG Installroot: /
+2023-04-22T22:51:10-0400 DDEBUG Releasever: 9
+2023-04-22T22:51:10-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-22T22:51:10-0400 DDEBUG Base command: makecache
+2023-04-22T22:51:10-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-22T22:51:10-0400 DEBUG Making cache files for all metadata files.
+2023-04-22T22:51:10-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-04-22T22:51:10-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-04-22T22:51:10-0400 DEBUG error: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com] (https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml).
+2023-04-22T22:51:10-0400 WARNING Errors during downloading metadata for repository 'rhel-9-for-x86_64-appstream-rpms':
+  - Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-04-22T22:51:10-0400 DDEBUG Cleaning up.
+2023-04-22T22:51:10-0400 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 573, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 372, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 401, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 580, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-04-22T22:51:10-0400 CRITICAL Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-04-23T00:04:30-0400 INFO --- logging initialized ---
+2023-04-23T00:04:30-0400 DDEBUG timer: config: 4 ms
+2023-04-23T00:04:30-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-23T00:04:30-0400 INFO Updating Subscription Management repositories.
+2023-04-23T00:04:30-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-04-23T00:04:30-0400 DEBUG DNF version: 4.12.0
+2023-04-23T00:04:30-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-23T00:04:30-0400 DDEBUG Installroot: /
+2023-04-23T00:04:30-0400 DDEBUG Releasever: 9
+2023-04-23T00:04:30-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-23T00:04:30-0400 DDEBUG Base command: makecache
+2023-04-23T00:04:30-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-23T00:04:30-0400 DEBUG Making cache files for all metadata files.
+2023-04-23T00:04:30-0400 INFO Metadata cache refreshed recently.
+2023-04-23T00:04:30-0400 DDEBUG Cleaning up.
+2023-04-23T01:44:30-0400 INFO --- logging initialized ---
+2023-04-23T01:44:30-0400 DDEBUG timer: config: 18 ms
+2023-04-23T01:44:30-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-04-23T01:44:30-0400 INFO Updating Subscription Management repositories.
+2023-04-23T01:44:31-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-04-23T01:44:31-0400 DEBUG DNF version: 4.12.0
+2023-04-23T01:44:31-0400 DDEBUG Command: dnf makecache --timer 
+2023-04-23T01:44:31-0400 DDEBUG Installroot: /
+2023-04-23T01:44:31-0400 DDEBUG Releasever: 9
+2023-04-23T01:44:31-0400 DEBUG cachedir: /var/cache/dnf
+2023-04-23T01:44:31-0400 DDEBUG Base command: makecache
+2023-04-23T01:44:31-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-04-23T01:44:31-0400 DEBUG Making cache files for all metadata files.
+2023-04-23T01:44:31-0400 INFO Metadata cache refreshed recently.
+2023-04-23T01:44:31-0400 DDEBUG Cleaning up.
+2023-05-06T21:57:06-0400 INFO --- logging initialized ---
+2023-05-06T21:57:06-0400 DDEBUG timer: config: 3 ms
+2023-05-06T21:57:06-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-06T21:57:06-0400 INFO Updating Subscription Management repositories.
+2023-05-06T21:57:08-0400 DEBUG YUM version: 4.12.0
+2023-05-06T21:57:08-0400 DDEBUG Command: yum install iproute 
+2023-05-06T21:57:08-0400 DDEBUG Installroot: /
+2023-05-06T21:57:08-0400 DDEBUG Releasever: 9
+2023-05-06T21:57:08-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-06T21:57:08-0400 DDEBUG Base command: install
+2023-05-06T21:57:08-0400 DDEBUG Extra commands: ['install', 'iproute']
+2023-05-06T21:57:08-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-05-06T21:57:09-0400 DEBUG reviving: failed for 'rhel-9-for-x86_64-appstream-rpms', mismatched repomd.
+2023-05-06T21:57:09-0400 DEBUG repo: downloading from remote: rhel-9-for-x86_64-appstream-rpms
+2023-05-06T21:57:12-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 04 May 2023 09:43:02 AM EDT.
+2023-05-06T21:57:12-0400 DEBUG reviving: failed for 'rhel-9-for-x86_64-baseos-rpms', mismatched repomd.
+2023-05-06T21:57:12-0400 DEBUG repo: downloading from remote: rhel-9-for-x86_64-baseos-rpms
+2023-05-06T21:57:14-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Thu 04 May 2023 09:42:24 AM EDT.
+2023-05-06T21:57:14-0400 INFO Last metadata expiration check: 0:00:01 ago on Sat 06 May 2023 09:57:13 PM EDT.
+2023-05-06T21:57:14-0400 DDEBUG timer: sack setup: 6222 ms
+2023-05-06T21:57:14-0400 DEBUG Completion plugin: Generating completion cache...
+2023-05-06T21:57:15-0400 INFO Package iproute-5.18.0-1.el9.x86_64 is already installed.
+2023-05-06T21:57:15-0400 DEBUG --> Starting dependency resolution
+2023-05-06T21:57:15-0400 DEBUG --> Finished dependency resolution
+2023-05-06T21:57:15-0400 DDEBUG timer: depsolve: 17 ms
+2023-05-06T21:57:15-0400 INFO Dependencies resolved.
+2023-05-06T21:57:15-0400 INFO Nothing to do.
+2023-05-06T21:57:15-0400 INFO Complete!
+2023-05-06T21:57:15-0400 DDEBUG Cleaning up.
+2023-05-06T21:58:28-0400 INFO --- logging initialized ---
+2023-05-06T21:58:28-0400 DDEBUG timer: config: 13 ms
+2023-05-06T21:58:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-06T21:58:28-0400 INFO Updating Subscription Management repositories.
+2023-05-06T21:58:29-0400 DEBUG DNF version: 4.12.0
+2023-05-06T21:58:29-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-06T21:58:29-0400 DDEBUG Installroot: /
+2023-05-06T21:58:29-0400 DDEBUG Releasever: 9
+2023-05-06T21:58:29-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-06T21:58:29-0400 DDEBUG Base command: makecache
+2023-05-06T21:58:29-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-06T21:58:29-0400 DEBUG Making cache files for all metadata files.
+2023-05-06T21:58:29-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-06T21:58:29-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-06T21:58:30-0400 DEBUG reviving: 'rhel-9-for-x86_64-appstream-rpms' can be revived - repomd matches.
+2023-05-06T21:58:30-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 04 May 2023 09:43:02 AM EDT.
+2023-05-06T21:58:30-0400 DEBUG reviving: 'rhel-9-for-x86_64-baseos-rpms' can be revived - repomd matches.
+2023-05-06T21:58:30-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Thu 04 May 2023 09:42:24 AM EDT.
+2023-05-06T21:58:30-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-05-06T21:58:30-0400 DDEBUG timer: sack setup: 922 ms
+2023-05-06T21:58:30-0400 INFO Metadata cache created.
+2023-05-06T21:58:30-0400 DDEBUG Cleaning up.
+2023-05-06T22:05:29-0400 INFO --- logging initialized ---
+2023-05-06T22:05:29-0400 DDEBUG timer: config: 4 ms
+2023-05-06T22:05:29-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-06T22:05:29-0400 INFO Updating Subscription Management repositories.
+2023-05-06T22:05:30-0400 DEBUG YUM version: 4.12.0
+2023-05-06T22:05:30-0400 DDEBUG Command: yum install iproute 
+2023-05-06T22:05:30-0400 DDEBUG Installroot: /
+2023-05-06T22:05:30-0400 DDEBUG Releasever: 9
+2023-05-06T22:05:30-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-06T22:05:30-0400 DDEBUG Base command: install
+2023-05-06T22:05:30-0400 DDEBUG Extra commands: ['install', 'iproute']
+2023-05-06T22:05:30-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-05-06T22:05:30-0400 DEBUG repo: using cache for: rhel-9-for-x86_64-appstream-rpms
+2023-05-06T22:05:31-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 04 May 2023 09:43:02 AM EDT.
+2023-05-06T22:05:31-0400 DEBUG repo: using cache for: rhel-9-for-x86_64-baseos-rpms
+2023-05-06T22:05:31-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Thu 04 May 2023 09:42:24 AM EDT.
+2023-05-06T22:05:31-0400 INFO Last metadata expiration check: 0:07:01 ago on Sat 06 May 2023 09:58:30 PM EDT.
+2023-05-06T22:05:31-0400 DDEBUG timer: sack setup: 551 ms
+2023-05-06T22:05:31-0400 INFO Package iproute-5.18.0-1.el9.x86_64 is already installed.
+2023-05-06T22:05:31-0400 DEBUG --> Starting dependency resolution
+2023-05-06T22:05:31-0400 DEBUG --> Finished dependency resolution
+2023-05-06T22:05:31-0400 DDEBUG timer: depsolve: 15 ms
+2023-05-06T22:05:31-0400 INFO Dependencies resolved.
+2023-05-06T22:05:31-0400 INFO Nothing to do.
+2023-05-06T22:05:31-0400 INFO Complete!
+2023-05-06T22:05:31-0400 DDEBUG Cleaning up.
+2023-05-06T23:14:28-0400 INFO --- logging initialized ---
+2023-05-06T23:14:28-0400 DDEBUG timer: config: 5 ms
+2023-05-06T23:14:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-06T23:14:28-0400 INFO Updating Subscription Management repositories.
+2023-05-06T23:14:29-0400 DEBUG DNF version: 4.12.0
+2023-05-06T23:14:29-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-06T23:14:29-0400 DDEBUG Installroot: /
+2023-05-06T23:14:29-0400 DDEBUG Releasever: 9
+2023-05-06T23:14:29-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-06T23:14:29-0400 DDEBUG Base command: makecache
+2023-05-06T23:14:29-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-06T23:14:29-0400 DEBUG Making cache files for all metadata files.
+2023-05-06T23:14:29-0400 INFO Metadata cache refreshed recently.
+2023-05-06T23:14:29-0400 DDEBUG Cleaning up.
+2023-05-07T00:40:31-0400 INFO --- logging initialized ---
+2023-05-07T00:40:31-0400 DDEBUG timer: config: 3 ms
+2023-05-07T00:40:31-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T00:40:31-0400 INFO Updating Subscription Management repositories.
+2023-05-07T00:40:32-0400 DEBUG DNF version: 4.12.0
+2023-05-07T00:40:32-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T00:40:32-0400 DDEBUG Installroot: /
+2023-05-07T00:40:32-0400 DDEBUG Releasever: 9
+2023-05-07T00:40:32-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T00:40:32-0400 DDEBUG Base command: makecache
+2023-05-07T00:40:32-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T00:40:32-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T00:40:32-0400 INFO Metadata cache refreshed recently.
+2023-05-07T00:40:32-0400 DDEBUG Cleaning up.
+2023-05-07T02:11:17-0400 INFO --- logging initialized ---
+2023-05-07T02:11:17-0400 DDEBUG timer: config: 15 ms
+2023-05-07T02:11:17-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T02:11:17-0400 INFO Updating Subscription Management repositories.
+2023-05-07T02:11:19-0400 DEBUG DNF version: 4.12.0
+2023-05-07T02:11:19-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T02:11:19-0400 DDEBUG Installroot: /
+2023-05-07T02:11:19-0400 DDEBUG Releasever: 9
+2023-05-07T02:11:19-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T02:11:19-0400 DDEBUG Base command: makecache
+2023-05-07T02:11:19-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T02:11:19-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T02:11:19-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-07T02:11:19-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-07T02:11:20-0400 DEBUG reviving: 'rhel-9-for-x86_64-appstream-rpms' can be revived - repomd matches.
+2023-05-07T02:11:20-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 04 May 2023 09:43:02 AM EDT.
+2023-05-07T02:11:20-0400 DEBUG reviving: 'rhel-9-for-x86_64-baseos-rpms' can be revived - repomd matches.
+2023-05-07T02:11:20-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Thu 04 May 2023 09:42:24 AM EDT.
+2023-05-07T02:11:20-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-05-07T02:11:20-0400 DDEBUG timer: sack setup: 1135 ms
+2023-05-07T02:11:20-0400 INFO Metadata cache created.
+2023-05-07T02:11:20-0400 DDEBUG Cleaning up.
+2023-05-07T04:02:28-0400 INFO --- logging initialized ---
+2023-05-07T04:02:28-0400 DDEBUG timer: config: 0 ms
+2023-05-07T04:02:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T04:02:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T04:02:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T04:02:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T04:02:28-0400 DDEBUG Installroot: /
+2023-05-07T04:02:28-0400 DDEBUG Releasever: 9
+2023-05-07T04:02:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T04:02:28-0400 DDEBUG Base command: makecache
+2023-05-07T04:02:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T04:02:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T04:02:28-0400 INFO Metadata cache refreshed recently.
+2023-05-07T04:02:28-0400 DDEBUG Cleaning up.
+2023-05-07T05:40:03-0400 INFO --- logging initialized ---
+2023-05-07T05:40:03-0400 DDEBUG timer: config: 0 ms
+2023-05-07T05:40:03-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T05:40:03-0400 INFO Updating Subscription Management repositories.
+2023-05-07T05:40:03-0400 DEBUG DNF version: 4.12.0
+2023-05-07T05:40:03-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T05:40:03-0400 DDEBUG Installroot: /
+2023-05-07T05:40:03-0400 DDEBUG Releasever: 9
+2023-05-07T05:40:03-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T05:40:03-0400 DDEBUG Base command: makecache
+2023-05-07T05:40:03-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T05:40:03-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T05:40:03-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-07T05:40:03-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-07T05:40:03-0400 DEBUG reviving: 'rhel-9-for-x86_64-appstream-rpms' can be revived - repomd matches.
+2023-05-07T05:40:03-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 04 May 2023 09:43:02 AM EDT.
+2023-05-07T05:40:03-0400 DEBUG reviving: 'rhel-9-for-x86_64-baseos-rpms' can be revived - repomd matches.
+2023-05-07T05:40:03-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Thu 04 May 2023 09:42:24 AM EDT.
+2023-05-07T05:40:03-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-05-07T05:40:03-0400 DDEBUG timer: sack setup: 0 ms
+2023-05-07T05:40:03-0400 INFO Metadata cache created.
+2023-05-07T05:40:03-0400 DDEBUG Cleaning up.
+2023-05-07T06:52:51-0400 INFO --- logging initialized ---
+2023-05-07T06:52:51-0400 DDEBUG timer: config: 5 ms
+2023-05-07T06:52:51-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T06:52:51-0400 INFO Updating Subscription Management repositories.
+2023-05-07T06:52:52-0400 DEBUG DNF version: 4.12.0
+2023-05-07T06:52:52-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T06:52:52-0400 DDEBUG Installroot: /
+2023-05-07T06:52:52-0400 DDEBUG Releasever: 9
+2023-05-07T06:52:52-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T06:52:52-0400 DDEBUG Base command: makecache
+2023-05-07T06:52:52-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T06:52:53-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T06:52:53-0400 INFO Metadata cache refreshed recently.
+2023-05-07T06:52:53-0400 DDEBUG Cleaning up.
+2023-05-07T08:33:28-0400 INFO --- logging initialized ---
+2023-05-07T08:33:28-0400 DDEBUG timer: config: 3 ms
+2023-05-07T08:33:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T08:33:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T08:33:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T08:33:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T08:33:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T08:33:28-0400 DDEBUG Installroot: /
+2023-05-07T08:33:28-0400 DDEBUG Releasever: 9
+2023-05-07T08:33:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T08:33:28-0400 DDEBUG Base command: makecache
+2023-05-07T08:33:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T08:33:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T08:33:28-0400 INFO Metadata cache refreshed recently.
+2023-05-07T08:33:28-0400 DDEBUG Cleaning up.
+2023-05-07T09:38:06-0400 INFO --- logging initialized ---
+2023-05-07T09:38:06-0400 DDEBUG timer: config: 15 ms
+2023-05-07T09:38:06-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T09:38:06-0400 INFO Updating Subscription Management repositories.
+2023-05-07T09:38:06-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T09:38:06-0400 DEBUG DNF version: 4.12.0
+2023-05-07T09:38:06-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T09:38:06-0400 DDEBUG Installroot: /
+2023-05-07T09:38:06-0400 DDEBUG Releasever: 9
+2023-05-07T09:38:06-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T09:38:06-0400 DDEBUG Base command: makecache
+2023-05-07T09:38:06-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T09:38:06-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T09:38:06-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-07T09:38:06-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-07T09:38:06-0400 DEBUG error: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com] (https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml).
+2023-05-07T09:38:06-0400 WARNING Errors during downloading metadata for repository 'rhel-9-for-x86_64-appstream-rpms':
+  - Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T09:38:06-0400 DDEBUG Cleaning up.
+2023-05-07T09:38:06-0400 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 573, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 372, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 401, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 580, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T09:38:06-0400 CRITICAL Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T11:38:28-0400 INFO --- logging initialized ---
+2023-05-07T11:38:28-0400 DDEBUG timer: config: 8 ms
+2023-05-07T11:38:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T11:38:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T11:38:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T11:38:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T11:38:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T11:38:28-0400 DDEBUG Installroot: /
+2023-05-07T11:38:28-0400 DDEBUG Releasever: 9
+2023-05-07T11:38:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T11:38:28-0400 DDEBUG Base command: makecache
+2023-05-07T11:38:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T11:38:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T11:38:28-0400 INFO Metadata cache refreshed recently.
+2023-05-07T11:38:28-0400 DDEBUG Cleaning up.
+2023-05-07T12:50:29-0400 INFO --- logging initialized ---
+2023-05-07T12:50:29-0400 DDEBUG timer: config: 3 ms
+2023-05-07T12:50:29-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T12:50:29-0400 INFO Updating Subscription Management repositories.
+2023-05-07T12:50:29-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T12:50:29-0400 DEBUG DNF version: 4.12.0
+2023-05-07T12:50:29-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T12:50:29-0400 DDEBUG Installroot: /
+2023-05-07T12:50:29-0400 DDEBUG Releasever: 9
+2023-05-07T12:50:29-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T12:50:29-0400 DDEBUG Base command: makecache
+2023-05-07T12:50:29-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T12:50:29-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T12:50:29-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-07T12:50:29-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-07T12:50:29-0400 DEBUG error: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com] (https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml).
+2023-05-07T12:50:29-0400 WARNING Errors during downloading metadata for repository 'rhel-9-for-x86_64-appstream-rpms':
+  - Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T12:50:29-0400 DDEBUG Cleaning up.
+2023-05-07T12:50:29-0400 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 573, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 372, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 401, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 580, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T12:50:29-0400 CRITICAL Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T14:31:28-0400 INFO --- logging initialized ---
+2023-05-07T14:31:28-0400 DDEBUG timer: config: 16 ms
+2023-05-07T14:31:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T14:31:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T14:31:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T14:31:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T14:31:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T14:31:28-0400 DDEBUG Installroot: /
+2023-05-07T14:31:28-0400 DDEBUG Releasever: 9
+2023-05-07T14:31:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T14:31:28-0400 DDEBUG Base command: makecache
+2023-05-07T14:31:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T14:31:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T14:31:28-0400 INFO Metadata cache refreshed recently.
+2023-05-07T14:31:28-0400 DDEBUG Cleaning up.
+2023-05-07T15:36:31-0400 INFO --- logging initialized ---
+2023-05-07T15:36:31-0400 DDEBUG timer: config: 10 ms
+2023-05-07T15:36:31-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T15:36:31-0400 INFO Updating Subscription Management repositories.
+2023-05-07T15:36:31-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T15:36:31-0400 DEBUG DNF version: 4.12.0
+2023-05-07T15:36:31-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T15:36:31-0400 DDEBUG Installroot: /
+2023-05-07T15:36:31-0400 DDEBUG Releasever: 9
+2023-05-07T15:36:31-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T15:36:31-0400 DDEBUG Base command: makecache
+2023-05-07T15:36:31-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T15:36:31-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T15:36:31-0400 INFO Metadata cache refreshed recently.
+2023-05-07T15:36:31-0400 DDEBUG Cleaning up.
+2023-05-07T17:11:28-0400 INFO --- logging initialized ---
+2023-05-07T17:11:28-0400 DDEBUG timer: config: 4 ms
+2023-05-07T17:11:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T17:11:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T17:11:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T17:11:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T17:11:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T17:11:28-0400 DDEBUG Installroot: /
+2023-05-07T17:11:28-0400 DDEBUG Releasever: 9
+2023-05-07T17:11:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T17:11:28-0400 DDEBUG Base command: makecache
+2023-05-07T17:11:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T17:11:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T17:11:28-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-07T17:11:28-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-07T17:11:28-0400 DEBUG error: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com] (https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml).
+2023-05-07T17:11:28-0400 WARNING Errors during downloading metadata for repository 'rhel-9-for-x86_64-appstream-rpms':
+  - Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T17:11:28-0400 DDEBUG Cleaning up.
+2023-05-07T17:11:28-0400 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 573, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 372, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 401, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 580, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T17:11:28-0400 CRITICAL Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T19:05:28-0400 INFO --- logging initialized ---
+2023-05-07T19:05:28-0400 DDEBUG timer: config: 49 ms
+2023-05-07T19:05:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T19:05:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T19:05:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T19:05:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T19:05:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T19:05:28-0400 DDEBUG Installroot: /
+2023-05-07T19:05:28-0400 DDEBUG Releasever: 9
+2023-05-07T19:05:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T19:05:28-0400 DDEBUG Base command: makecache
+2023-05-07T19:05:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T19:05:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T19:05:28-0400 INFO Metadata cache refreshed recently.
+2023-05-07T19:05:28-0400 DDEBUG Cleaning up.
+2023-05-07T20:52:28-0400 INFO --- logging initialized ---
+2023-05-07T20:52:28-0400 DDEBUG timer: config: 0 ms
+2023-05-07T20:52:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T20:52:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T20:52:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T20:52:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T20:52:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T20:52:28-0400 DDEBUG Installroot: /
+2023-05-07T20:52:28-0400 DDEBUG Releasever: 9
+2023-05-07T20:52:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T20:52:28-0400 DDEBUG Base command: makecache
+2023-05-07T20:52:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T20:52:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T20:52:28-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-07T20:52:28-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-07T20:52:28-0400 DEBUG error: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com] (https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml).
+2023-05-07T20:52:28-0400 WARNING Errors during downloading metadata for repository 'rhel-9-for-x86_64-appstream-rpms':
+  - Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T20:52:28-0400 DDEBUG Cleaning up.
+2023-05-07T20:52:28-0400 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 573, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 372, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 401, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 580, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T20:52:28-0400 CRITICAL Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-07T22:48:28-0400 INFO --- logging initialized ---
+2023-05-07T22:48:28-0400 DDEBUG timer: config: 3 ms
+2023-05-07T22:48:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T22:48:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T22:48:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T22:48:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T22:48:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T22:48:28-0400 DDEBUG Installroot: /
+2023-05-07T22:48:28-0400 DDEBUG Releasever: 9
+2023-05-07T22:48:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T22:48:28-0400 DDEBUG Base command: makecache
+2023-05-07T22:48:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T22:48:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T22:48:28-0400 INFO Metadata cache refreshed recently.
+2023-05-07T22:48:28-0400 DDEBUG Cleaning up.
+2023-05-07T23:51:28-0400 INFO --- logging initialized ---
+2023-05-07T23:51:28-0400 DDEBUG timer: config: 123 ms
+2023-05-07T23:51:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-07T23:51:28-0400 INFO Updating Subscription Management repositories.
+2023-05-07T23:51:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-07T23:51:28-0400 DEBUG DNF version: 4.12.0
+2023-05-07T23:51:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-07T23:51:28-0400 DDEBUG Installroot: /
+2023-05-07T23:51:28-0400 DDEBUG Releasever: 9
+2023-05-07T23:51:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-07T23:51:28-0400 DDEBUG Base command: makecache
+2023-05-07T23:51:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-07T23:51:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-07T23:51:28-0400 INFO Metadata cache refreshed recently.
+2023-05-07T23:51:28-0400 DDEBUG Cleaning up.
+2023-05-08T01:17:28-0400 INFO --- logging initialized ---
+2023-05-08T01:17:28-0400 DDEBUG timer: config: 4 ms
+2023-05-08T01:17:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-08T01:17:28-0400 INFO Updating Subscription Management repositories.
+2023-05-08T01:17:28-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-08T01:17:28-0400 DEBUG DNF version: 4.12.0
+2023-05-08T01:17:28-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-08T01:17:28-0400 DDEBUG Installroot: /
+2023-05-08T01:17:28-0400 DDEBUG Releasever: 9
+2023-05-08T01:17:28-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-08T01:17:28-0400 DDEBUG Base command: makecache
+2023-05-08T01:17:28-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-08T01:17:28-0400 DEBUG Making cache files for all metadata files.
+2023-05-08T01:17:28-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-08T01:17:28-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-08T01:17:28-0400 DEBUG error: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com] (https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml).
+2023-05-08T01:17:28-0400 WARNING Errors during downloading metadata for repository 'rhel-9-for-x86_64-appstream-rpms':
+  - Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-08T01:17:28-0400 DDEBUG Cleaning up.
+2023-05-08T01:17:28-0400 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 573, in load
+    ret = self._repo.load()
+  File "/usr/lib64/python3.9/site-packages/libdnf/repo.py", line 331, in load
+    return _repo.Repo_load(self)
+libdnf._error.Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/makecache.py", line 50, in run
+    return self.base.update_cache(timer)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 372, in update_cache
+    self.fill_sack(load_system_repo=False, load_available_repos=True)  # performs the md sync
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 401, in fill_sack
+    self._add_repo_to_sack(r)
+  File "/usr/lib/python3.9/site-packages/dnf/base.py", line 141, in _add_repo_to_sack
+    repo.load()
+  File "/usr/lib/python3.9/site-packages/dnf/repo.py", line 580, in load
+    raise dnf.exceptions.RepoError(str(e))
+dnf.exceptions.RepoError: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-08T01:17:28-0400 CRITICAL Error: Failed to download metadata for repo 'rhel-9-for-x86_64-appstream-rpms': Cannot download repomd.xml: Curl error (6): Couldn't resolve host name for https://cdn.redhat.com/content/dist/rhel9/9/x86_64/appstream/os/repodata/repomd.xml [Could not resolve host: cdn.redhat.com]
+2023-05-08T02:43:28-0400 INFO --- logging initialized ---
+2023-05-08T02:43:28-0400 DDEBUG timer: config: 44 ms
+2023-05-08T02:43:28-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-08T02:43:28-0400 INFO Updating Subscription Management repositories.
+2023-05-08T02:43:29-0400 INFO 
+This system is registered with an entitlement server, but is not receiving updates. You can use subscription-manager to assign subscriptions.
+
+2023-05-08T02:43:29-0400 DEBUG DNF version: 4.12.0
+2023-05-08T02:43:29-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-08T02:43:29-0400 DDEBUG Installroot: /
+2023-05-08T02:43:29-0400 DDEBUG Releasever: 9
+2023-05-08T02:43:29-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-08T02:43:29-0400 DDEBUG Base command: makecache
+2023-05-08T02:43:29-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-08T02:43:30-0400 DEBUG Making cache files for all metadata files.
+2023-05-08T02:43:30-0400 INFO Metadata cache refreshed recently.
+2023-05-08T02:43:30-0400 DDEBUG Cleaning up.
+2023-05-10T00:48:40-0400 INFO --- logging initialized ---
+2023-05-10T00:48:40-0400 DDEBUG timer: config: 20 ms
+2023-05-10T00:48:40-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-10T00:48:40-0400 INFO Updating Subscription Management repositories.
+2023-05-10T00:48:42-0400 DEBUG DNF version: 4.12.0
+2023-05-10T00:48:42-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-10T00:48:42-0400 DDEBUG Installroot: /
+2023-05-10T00:48:42-0400 DDEBUG Releasever: 9
+2023-05-10T00:48:42-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-10T00:48:42-0400 DDEBUG Base command: makecache
+2023-05-10T00:48:42-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-10T00:48:42-0400 DEBUG Making cache files for all metadata files.
+2023-05-10T00:48:42-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-05-10T00:48:42-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-05-10T00:48:42-0400 DEBUG reviving: failed for 'rhel-9-for-x86_64-appstream-rpms', mismatched repomd.
+2023-05-10T00:48:42-0400 DEBUG repo: downloading from remote: rhel-9-for-x86_64-appstream-rpms
+2023-05-10T00:48:46-0400 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Tue 09 May 2023 02:35:15 PM EDT.
+2023-05-10T00:48:46-0400 DEBUG reviving: failed for 'rhel-9-for-x86_64-baseos-rpms', mismatched repomd.
+2023-05-10T00:48:46-0400 DEBUG repo: downloading from remote: rhel-9-for-x86_64-baseos-rpms
+2023-05-10T00:48:47-0400 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Tue 09 May 2023 09:04:33 AM EDT.
+2023-05-10T00:48:48-0400 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-05-10T00:48:48-0400 DDEBUG timer: sack setup: 6202 ms
+2023-05-10T00:48:48-0400 DEBUG Completion plugin: Generating completion cache...
+2023-05-10T00:48:48-0400 INFO Metadata cache created.
+2023-05-10T00:48:48-0400 DDEBUG Cleaning up.
+2023-05-10T02:09:39-0400 INFO --- logging initialized ---
+2023-05-10T02:09:39-0400 DDEBUG timer: config: 0 ms
+2023-05-10T02:09:39-0400 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-05-10T02:09:39-0400 INFO Updating Subscription Management repositories.
+2023-05-10T02:09:40-0400 DEBUG DNF version: 4.12.0
+2023-05-10T02:09:40-0400 DDEBUG Command: dnf makecache --timer 
+2023-05-10T02:09:40-0400 DDEBUG Installroot: /
+2023-05-10T02:09:40-0400 DDEBUG Releasever: 9
+2023-05-10T02:09:40-0400 DEBUG cachedir: /var/cache/dnf
+2023-05-10T02:09:40-0400 DDEBUG Base command: makecache
+2023-05-10T02:09:40-0400 DDEBUG Extra commands: ['makecache', '--timer']
+2023-05-10T02:09:40-0400 DEBUG Making cache files for all metadata files.
+2023-05-10T02:09:40-0400 INFO Metadata cache refreshed recently.
+2023-05-10T02:09:40-0400 DDEBUG Cleaning up.
+2023-12-15T01:36:31-0500 INFO --- logging initialized ---
+2023-12-15T01:36:31-0500 DDEBUG timer: config: 3 ms
+2023-12-15T01:36:31-0500 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2023-12-15T01:36:31-0500 INFO Updating Subscription Management repositories.
+2023-12-15T01:36:32-0500 DEBUG DNF version: 4.12.0
+2023-12-15T01:36:32-0500 DDEBUG Command: dnf makecache --timer 
+2023-12-15T01:36:32-0500 DDEBUG Installroot: /
+2023-12-15T01:36:32-0500 DDEBUG Releasever: 9
+2023-12-15T01:36:32-0500 DEBUG cachedir: /var/cache/dnf
+2023-12-15T01:36:32-0500 DDEBUG Base command: makecache
+2023-12-15T01:36:32-0500 DDEBUG Extra commands: ['makecache', '--timer']
+2023-12-15T01:36:32-0500 DEBUG Making cache files for all metadata files.
+2023-12-15T01:36:32-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2023-12-15T01:36:32-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2023-12-15T01:36:32-0500 DEBUG repo: downloading from remote: rhel-9-for-x86_64-appstream-rpms
+2023-12-15T01:36:34-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 14 Dec 2023 03:04:50 AM EST.
+2023-12-15T01:36:35-0500 DEBUG repo: downloading from remote: rhel-9-for-x86_64-baseos-rpms
+2023-12-15T01:36:36-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Wed 13 Dec 2023 11:44:35 AM EST.
+2023-12-15T01:36:36-0500 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2023-12-15T01:36:36-0500 DDEBUG timer: sack setup: 4083 ms
+2023-12-15T01:36:36-0500 DEBUG Completion plugin: Generating completion cache...
+2023-12-15T01:36:36-0500 INFO Metadata cache created.
+2023-12-15T01:36:36-0500 DDEBUG Cleaning up.
+2024-02-16T19:54:37-0500 INFO --- logging initialized ---
+2024-02-16T19:54:37-0500 DDEBUG timer: config: 6 ms
+2024-02-16T19:54:37-0500 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2024-02-16T19:54:37-0500 INFO Updating Subscription Management repositories.
+2024-02-16T19:54:39-0500 DEBUG YUM version: 4.12.0
+2024-02-16T19:54:39-0500 DDEBUG Command: yum install iproute 
+2024-02-16T19:54:39-0500 DDEBUG Installroot: /
+2024-02-16T19:54:39-0500 DDEBUG Releasever: 9
+2024-02-16T19:54:39-0500 DEBUG cachedir: /var/cache/dnf
+2024-02-16T19:54:39-0500 DDEBUG Base command: install
+2024-02-16T19:54:39-0500 DDEBUG Extra commands: ['install', 'iproute']
+2024-02-16T19:54:39-0500 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2024-02-16T19:54:39-0500 DEBUG reviving: failed for 'rhel-9-for-x86_64-appstream-rpms', mismatched repomd.
+2024-02-16T19:54:39-0500 DEBUG repo: downloading from remote: rhel-9-for-x86_64-appstream-rpms
+2024-02-16T19:54:46-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 15 Feb 2024 09:34:04 AM EST.
+2024-02-16T19:54:46-0500 DEBUG reviving: failed for 'rhel-9-for-x86_64-baseos-rpms', mismatched repomd.
+2024-02-16T19:54:46-0500 DEBUG repo: downloading from remote: rhel-9-for-x86_64-baseos-rpms
+2024-02-16T19:54:49-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Wed 14 Feb 2024 07:52:15 AM EST.
+2024-02-16T19:54:49-0500 INFO Last metadata expiration check: 0:00:01 ago on Fri 16 Feb 2024 07:54:48 PM EST.
+2024-02-16T19:54:50-0500 DDEBUG timer: sack setup: 10807 ms
+2024-02-16T19:54:50-0500 DEBUG Completion plugin: Generating completion cache...
+2024-02-16T19:54:50-0500 INFO Package iproute-6.1.0-1.el9.x86_64 is already installed.
+2024-02-16T19:54:50-0500 DEBUG --> Starting dependency resolution
+2024-02-16T19:54:50-0500 DEBUG ---> Package iproute.x86_64 6.1.0-1.el9 will be upgraded
+2024-02-16T19:54:50-0500 DEBUG ---> Package iproute.x86_64 6.2.0-5.el9 will be an upgrade
+2024-02-16T19:54:50-0500 DEBUG ---> Package iproute-tc.x86_64 6.1.0-1.el9 will be upgraded
+2024-02-16T19:54:50-0500 DEBUG ---> Package iproute-tc.x86_64 6.2.0-5.el9 will be an upgrade
+2024-02-16T19:54:50-0500 DEBUG --> Finished dependency resolution
+2024-02-16T19:54:50-0500 DDEBUG timer: depsolve: 25 ms
+2024-02-16T19:54:50-0500 INFO Dependencies resolved.
+2024-02-16T19:54:50-0500 INFO ============================================================================================================================================
+ Package                      Architecture             Version                        Repository                                       Size
+============================================================================================================================================
+Upgrading:
+ [1m[32miproute                     (B[m x86_64                   6.2.0-5.el9                    rhel-9-for-x86_64-baseos-rpms                   817 k
+ [1m[32miproute-tc                  (B[m x86_64                   6.2.0-5.el9                    rhel-9-for-x86_64-baseos-rpms                   466 k
+
+Transaction Summary
+============================================================================================================================================
+Upgrade  2 Packages
+
+2024-02-16T19:54:50-0500 INFO Total download size: 1.3 M
+2024-02-16T19:54:52-0500 INFO Downloading Packages:
+2024-02-16T19:54:52-0500 INFO --------------------------------------------------------------------------------------------------------------------------------------------
+2024-02-16T19:54:52-0500 INFO Total                                                                                                       2.8 MB/s | 1.3 MB     00:00     
+2024-02-16T19:54:52-0500 DEBUG Using rpmkeys executable at /bin/rpmkeys to verify signatures
+2024-02-16T19:54:52-0500 INFO Running transaction check
+2024-02-16T19:54:53-0500 INFO Transaction check succeeded.
+2024-02-16T19:54:53-0500 INFO Running transaction test
+2024-02-16T19:54:54-0500 INFO Transaction test succeeded.
+2024-02-16T19:54:54-0500 DDEBUG timer: transaction test: 1143 ms
+2024-02-16T19:54:54-0500 INFO Running transaction
+2024-02-16T19:54:54-0500 DDEBUG RPM transaction start.
+2024-02-16T19:54:55-0500 DDEBUG RPM transaction over.
+2024-02-16T19:54:55-0500 DDEBUG timer: verify transaction: 252 ms
+2024-02-16T19:54:55-0500 DDEBUG timer: transaction: 1123 ms
+2024-02-16T19:54:55-0500 DEBUG Completion plugin: Generating completion cache...
+2024-02-16T19:54:55-0500 INFO Installed products updated.
+2024-02-16T19:54:55-0500 DEBUG Upgraded: iproute-6.2.0-5.el9.x86_64
+2024-02-16T19:54:55-0500 DEBUG Upgraded: iproute-tc-6.2.0-5.el9.x86_64
+2024-02-16T19:54:55-0500 INFO Complete!
+2024-02-16T19:54:55-0500 DDEBUG Cleaning up.
+2024-02-16T19:54:55-0500 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-baseos-rpms-a2cdae14f4ed6c20/packages/iproute-tc-6.2.0-5.el9.x86_64.rpm removed
+2024-02-16T19:54:55-0500 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-baseos-rpms-a2cdae14f4ed6c20/packages/iproute-6.2.0-5.el9.x86_64.rpm removed
+2024-02-16T19:55:01-0500 INFO --- logging initialized ---
+2024-02-16T19:55:01-0500 DDEBUG timer: config: 4 ms
+2024-02-16T19:55:01-0500 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2024-02-16T19:55:01-0500 INFO Updating Subscription Management repositories.
+2024-02-16T19:55:02-0500 DEBUG YUM version: 4.12.0
+2024-02-16T19:55:02-0500 DDEBUG Command: yum install login 
+2024-02-16T19:55:02-0500 DDEBUG Installroot: /
+2024-02-16T19:55:02-0500 DDEBUG Releasever: 9
+2024-02-16T19:55:02-0500 DEBUG cachedir: /var/cache/dnf
+2024-02-16T19:55:02-0500 DDEBUG Base command: install
+2024-02-16T19:55:02-0500 DDEBUG Extra commands: ['install', 'login']
+2024-02-16T19:55:02-0500 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2024-02-16T19:55:02-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-appstream-rpms
+2024-02-16T19:55:02-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 15 Feb 2024 09:34:04 AM EST.
+2024-02-16T19:55:02-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-baseos-rpms
+2024-02-16T19:55:02-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Wed 14 Feb 2024 07:52:15 AM EST.
+2024-02-16T19:55:02-0500 INFO Last metadata expiration check: 0:00:14 ago on Fri 16 Feb 2024 07:54:48 PM EST.
+2024-02-16T19:55:03-0500 DDEBUG timer: sack setup: 430 ms
+2024-02-16T19:55:03-0500 INFO No match for argument: [1mlogin(B[m
+2024-02-16T19:55:03-0500 DDEBUG Cleaning up.
+2024-02-16T19:55:03-0500 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/install.py", line 118, in run
+    raise dnf.exceptions.PackagesNotAvailableError(_("Unable to find a match"),
+dnf.exceptions.PackagesNotAvailableError: Unable to find a match: login
+2024-02-16T19:55:03-0500 CRITICAL Error: Unable to find a match: login
+2024-02-16T19:57:48-0500 INFO --- logging initialized ---
+2024-02-16T19:57:48-0500 DDEBUG timer: config: 11 ms
+2024-02-16T19:57:48-0500 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2024-02-16T19:57:48-0500 INFO Updating Subscription Management repositories.
+2024-02-16T19:57:49-0500 DEBUG YUM version: 4.12.0
+2024-02-16T19:57:49-0500 DDEBUG Command: yum install shadow-utils 
+2024-02-16T19:57:49-0500 DDEBUG Installroot: /
+2024-02-16T19:57:49-0500 DDEBUG Releasever: 9
+2024-02-16T19:57:49-0500 DEBUG cachedir: /var/cache/dnf
+2024-02-16T19:57:49-0500 DDEBUG Base command: install
+2024-02-16T19:57:49-0500 DDEBUG Extra commands: ['install', 'shadow-utils']
+2024-02-16T19:57:49-0500 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2024-02-16T19:57:49-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-appstream-rpms
+2024-02-16T19:57:49-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 15 Feb 2024 09:34:04 AM EST.
+2024-02-16T19:57:49-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-baseos-rpms
+2024-02-16T19:57:49-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Wed 14 Feb 2024 07:52:15 AM EST.
+2024-02-16T19:57:49-0500 INFO Last metadata expiration check: 0:03:01 ago on Fri 16 Feb 2024 07:54:48 PM EST.
+2024-02-16T19:57:49-0500 DDEBUG timer: sack setup: 414 ms
+2024-02-16T19:57:49-0500 INFO Package shadow-utils-2:4.9-5.el9.x86_64 is already installed.
+2024-02-16T19:57:49-0500 DEBUG --> Starting dependency resolution
+2024-02-16T19:57:49-0500 DEBUG ---> Package shadow-utils.x86_64 2:4.9-5.el9 will be upgraded
+2024-02-16T19:57:49-0500 DEBUG ---> Package shadow-utils.x86_64 2:4.9-8.el9 will be an upgrade
+2024-02-16T19:57:49-0500 DEBUG --> Finished dependency resolution
+2024-02-16T19:57:49-0500 DDEBUG timer: depsolve: 32 ms
+2024-02-16T19:57:49-0500 INFO Dependencies resolved.
+2024-02-16T19:57:49-0500 INFO ============================================================================================================================================
+ Package                       Architecture            Version                         Repository                                      Size
+============================================================================================================================================
+Upgrading:
+ [1m[32mshadow-utils                 (B[m x86_64                  2:4.9-8.el9                     rhel-9-for-x86_64-baseos-rpms                  1.2 M
+
+Transaction Summary
+============================================================================================================================================
+Upgrade  1 Package
+
+2024-02-16T19:57:49-0500 INFO Total download size: 1.2 M
+2024-02-16T19:57:50-0500 INFO Downloading Packages:
+2024-02-16T19:57:51-0500 INFO --------------------------------------------------------------------------------------------------------------------------------------------
+2024-02-16T19:57:51-0500 INFO Total                                                                                                       3.0 MB/s | 1.2 MB     00:00     
+2024-02-16T19:57:51-0500 DEBUG Using rpmkeys executable at /bin/rpmkeys to verify signatures
+2024-02-16T19:57:51-0500 INFO Running transaction check
+2024-02-16T19:57:51-0500 INFO Transaction check succeeded.
+2024-02-16T19:57:51-0500 INFO Running transaction test
+2024-02-16T19:57:51-0500 INFO Transaction test succeeded.
+2024-02-16T19:57:51-0500 DDEBUG timer: transaction test: 99 ms
+2024-02-16T19:57:51-0500 INFO Running transaction
+2024-02-16T19:57:51-0500 DDEBUG RPM transaction start.
+2024-02-16T19:57:51-0500 DDEBUG RPM transaction over.
+2024-02-16T19:57:51-0500 DDEBUG timer: verify transaction: 82 ms
+2024-02-16T19:57:51-0500 DDEBUG timer: transaction: 618 ms
+2024-02-16T19:57:51-0500 DEBUG Completion plugin: Generating completion cache...
+2024-02-16T19:57:52-0500 INFO Installed products updated.
+2024-02-16T19:57:52-0500 DEBUG Upgraded: shadow-utils-2:4.9-8.el9.x86_64
+2024-02-16T19:57:52-0500 INFO Complete!
+2024-02-16T19:57:52-0500 DDEBUG Cleaning up.
+2024-02-16T19:57:52-0500 DDEBUG /var/cache/dnf/rhel-9-for-x86_64-baseos-rpms-a2cdae14f4ed6c20/packages/shadow-utils-4.9-8.el9.x86_64.rpm removed
+2024-02-16T19:59:32-0500 INFO --- logging initialized ---
+2024-02-16T19:59:32-0500 DDEBUG timer: config: 4 ms
+2024-02-16T19:59:32-0500 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2024-02-16T19:59:32-0500 INFO Updating Subscription Management repositories.
+2024-02-16T19:59:33-0500 DEBUG DNF version: 4.12.0
+2024-02-16T19:59:33-0500 DDEBUG Command: dnf makecache --timer 
+2024-02-16T19:59:33-0500 DDEBUG Installroot: /
+2024-02-16T19:59:33-0500 DDEBUG Releasever: 9
+2024-02-16T19:59:33-0500 DEBUG cachedir: /var/cache/dnf
+2024-02-16T19:59:33-0500 DDEBUG Base command: makecache
+2024-02-16T19:59:33-0500 DDEBUG Extra commands: ['makecache', '--timer']
+2024-02-16T19:59:33-0500 DEBUG Making cache files for all metadata files.
+2024-02-16T19:59:33-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: has expired and will be refreshed.
+2024-02-16T19:59:33-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: has expired and will be refreshed.
+2024-02-16T19:59:33-0500 DEBUG reviving: 'rhel-9-for-x86_64-appstream-rpms' can be revived - repomd matches.
+2024-02-16T19:59:33-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 15 Feb 2024 09:34:04 AM EST.
+2024-02-16T19:59:33-0500 DEBUG reviving: 'rhel-9-for-x86_64-baseos-rpms' can be revived - repomd matches.
+2024-02-16T19:59:34-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Wed 14 Feb 2024 07:52:15 AM EST.
+2024-02-16T19:59:34-0500 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2024-02-16T19:59:34-0500 DDEBUG timer: sack setup: 491 ms
+2024-02-16T19:59:34-0500 INFO Metadata cache created.
+2024-02-16T19:59:34-0500 DDEBUG Cleaning up.
+2024-02-16T19:59:42-0500 INFO --- logging initialized ---
+2024-02-16T19:59:42-0500 DDEBUG timer: config: 3 ms
+2024-02-16T19:59:42-0500 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2024-02-16T19:59:42-0500 INFO Updating Subscription Management repositories.
+2024-02-16T19:59:43-0500 DEBUG YUM version: 4.12.0
+2024-02-16T19:59:43-0500 DDEBUG Command: yum install iproute 
+2024-02-16T19:59:43-0500 DDEBUG Installroot: /
+2024-02-16T19:59:43-0500 DDEBUG Releasever: 9
+2024-02-16T19:59:43-0500 DEBUG cachedir: /var/cache/dnf
+2024-02-16T19:59:43-0500 DDEBUG Base command: install
+2024-02-16T19:59:43-0500 DDEBUG Extra commands: ['install', 'iproute']
+2024-02-16T19:59:43-0500 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2024-02-16T19:59:43-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-appstream-rpms
+2024-02-16T19:59:43-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 15 Feb 2024 09:34:04 AM EST.
+2024-02-16T19:59:43-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-baseos-rpms
+2024-02-16T19:59:43-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Wed 14 Feb 2024 07:52:15 AM EST.
+2024-02-16T19:59:43-0500 INFO Last metadata expiration check: 0:00:10 ago on Fri 16 Feb 2024 07:59:33 PM EST.
+2024-02-16T19:59:43-0500 DDEBUG timer: sack setup: 243 ms
+2024-02-16T19:59:43-0500 INFO Package iproute-6.2.0-5.el9.x86_64 is already installed.
+2024-02-16T19:59:43-0500 DEBUG --> Starting dependency resolution
+2024-02-16T19:59:43-0500 DEBUG --> Finished dependency resolution
+2024-02-16T19:59:43-0500 DDEBUG timer: depsolve: 0 ms
+2024-02-16T19:59:43-0500 INFO Dependencies resolved.
+2024-02-16T19:59:44-0500 INFO Nothing to do.
+2024-02-16T19:59:44-0500 INFO Complete!
+2024-02-16T19:59:44-0500 DDEBUG Cleaning up.
+2024-02-16T20:00:14-0500 INFO --- logging initialized ---
+2024-02-16T20:00:14-0500 DDEBUG timer: config: 1 ms
+2024-02-16T20:00:14-0500 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2024-02-16T20:00:14-0500 INFO Updating Subscription Management repositories.
+2024-02-16T20:00:15-0500 DEBUG YUM version: 4.12.0
+2024-02-16T20:00:15-0500 DDEBUG Command: yum install faillog 
+2024-02-16T20:00:15-0500 DDEBUG Installroot: /
+2024-02-16T20:00:15-0500 DDEBUG Releasever: 9
+2024-02-16T20:00:15-0500 DEBUG cachedir: /var/cache/dnf
+2024-02-16T20:00:15-0500 DDEBUG Base command: install
+2024-02-16T20:00:15-0500 DDEBUG Extra commands: ['install', 'faillog']
+2024-02-16T20:00:15-0500 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2024-02-16T20:00:15-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-appstream-rpms
+2024-02-16T20:00:15-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 15 Feb 2024 09:34:04 AM EST.
+2024-02-16T20:00:15-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-baseos-rpms
+2024-02-16T20:00:15-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Wed 14 Feb 2024 07:52:15 AM EST.
+2024-02-16T20:00:15-0500 INFO Last metadata expiration check: 0:00:42 ago on Fri 16 Feb 2024 07:59:33 PM EST.
+2024-02-16T20:00:15-0500 DDEBUG timer: sack setup: 216 ms
+2024-02-16T20:00:15-0500 INFO No match for argument: [1mfaillog(B[m
+2024-02-16T20:00:15-0500 DDEBUG Cleaning up.
+2024-02-16T20:00:15-0500 SUBDEBUG 
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 67, in main
+    return _main(base, args, cli_class, option_parser_class)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 106, in _main
+    return cli_run(cli, base)
+  File "/usr/lib/python3.9/site-packages/dnf/cli/main.py", line 122, in cli_run
+    cli.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/cli.py", line 1057, in run
+    return self.command.run()
+  File "/usr/lib/python3.9/site-packages/dnf/cli/commands/install.py", line 118, in run
+    raise dnf.exceptions.PackagesNotAvailableError(_("Unable to find a match"),
+dnf.exceptions.PackagesNotAvailableError: Unable to find a match: faillog
+2024-02-16T20:00:15-0500 CRITICAL Error: Unable to find a match: faillog
+2024-02-16T20:00:21-0500 INFO --- logging initialized ---
+2024-02-16T20:00:21-0500 DDEBUG timer: config: 10 ms
+2024-02-16T20:00:21-0500 DEBUG Loaded plugins: builddep, changelog, config-manager, copr, debug, debuginfo-install, download, generate_completion_cache, groups-manager, kpatch, needs-restarting, playground, product-id, repoclosure, repodiff, repograph, repomanage, reposync, subscription-manager, uploadprofile
+2024-02-16T20:00:21-0500 INFO Updating Subscription Management repositories.
+2024-02-16T20:00:22-0500 DEBUG YUM version: 4.12.0
+2024-02-16T20:00:22-0500 DDEBUG Command: yum search faillog 
+2024-02-16T20:00:22-0500 DDEBUG Installroot: /
+2024-02-16T20:00:22-0500 DDEBUG Releasever: 9
+2024-02-16T20:00:22-0500 DEBUG cachedir: /var/cache/dnf
+2024-02-16T20:00:22-0500 DDEBUG Base command: search
+2024-02-16T20:00:22-0500 DDEBUG Extra commands: ['search', 'faillog']
+2024-02-16T20:00:22-0500 DEBUG User-Agent: constructed: 'libdnf (Red Hat Enterprise Linux 9.1; generic; Linux.x86_64)'
+2024-02-16T20:00:22-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-appstream-rpms
+2024-02-16T20:00:22-0500 DEBUG rhel-9-for-x86_64-appstream-rpms: using metadata from Thu 15 Feb 2024 09:34:04 AM EST.
+2024-02-16T20:00:22-0500 DEBUG repo: using cache for: rhel-9-for-x86_64-baseos-rpms
+2024-02-16T20:00:22-0500 DEBUG rhel-9-for-x86_64-baseos-rpms: using metadata from Wed 14 Feb 2024 07:52:15 AM EST.
+2024-02-16T20:00:22-0500 INFO Last metadata expiration check: 0:00:49 ago on Fri 16 Feb 2024 07:59:33 PM EST.
+2024-02-16T20:00:22-0500 DDEBUG timer: sack setup: 216 ms
+2024-02-16T20:00:22-0500 DEBUG Searching Packages: 
+2024-02-16T20:00:22-0500 INFO No matches found.
+2024-02-16T20:00:22-0500 DDEBUG Cleaning up.

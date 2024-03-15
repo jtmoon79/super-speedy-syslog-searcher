@@ -8,6 +8,8 @@ use std::fmt::Debug;
 #[doc(hidden)]
 pub use std::path::Path;
 
+use kinded::Kinded;
+
 /// `F`ake `Path` or `F`ile `Path`.
 ///
 /// Type alias `FPath` is a simpler stand-in for formalized file system path
@@ -377,10 +379,14 @@ where
 pub enum FileProcessingResult<E> {
     FileErrEmpty,
     FileErrTooSmall,
+    /// `FileErrTooSmall` but with a custom message
+    FileErrTooSmallS(String),
     FileErrNullBytes,
     FileErrNoLinesFound,
     FileErrNoSyslinesFound,
     FileErrNoSyslinesInDtRange,
+    FileErrNoValidFixedStruct,
+    FileErrNoFixedStructInDtRange,
     /// Carries the `E` error data. This is how an [`Error`] is carried between
     /// a processing thread and the main printing thread.
     ///
@@ -442,6 +448,9 @@ impl<E> PartialEq for FileProcessingResult<E> {
             FileProcessingResult::FileErrTooSmall => {
                 matches!(*other, FileProcessingResult::FileErrTooSmall)
             }
+            FileProcessingResult::FileErrTooSmallS(_) => {
+                matches!(*other, FileProcessingResult::FileErrTooSmallS(_))
+            }
             FileProcessingResult::FileErrNullBytes => {
                 matches!(*other, FileProcessingResult::FileErrNullBytes)
             }
@@ -453,6 +462,12 @@ impl<E> PartialEq for FileProcessingResult<E> {
             }
             FileProcessingResult::FileErrNoSyslinesInDtRange => {
                 matches!(*other, FileProcessingResult::FileErrNoSyslinesInDtRange)
+            }
+            FileProcessingResult::FileErrNoValidFixedStruct => {
+                matches!(*other, FileProcessingResult::FileErrNoValidFixedStruct)
+            }
+            FileProcessingResult::FileErrNoFixedStructInDtRange => {
+                matches!(*other, FileProcessingResult::FileErrNoFixedStructInDtRange)
             }
             FileProcessingResult::FileErrIo(_) => {
                 matches!(*other, FileProcessingResult::FileErrIo(_))
@@ -480,6 +495,19 @@ impl<E> PartialEq for FileProcessingResult<E> {
 }
 impl<E> Eq for FileProcessingResult<E> {}
 
+/// the various kinds of fixedstruct files, i.e. C-struct records
+// BUG: `Kinded` claims to automatically derive multiple traits but does not
+//      see <https://crates.io/crates/kinded>
+#[derive(Clone, Copy, Debug, Eq, Kinded, PartialEq)]
+pub enum FixedStructFileType {
+    Acct,
+    AcctV3,
+    Lastlog,
+    Lastlogx,
+    Utmp,
+    Utmpx,
+}
+
 /// File types that can be processed by [`SyslogProcessor`]
 /// (and underlying "structs"; [`SyslineReader`], etc.).
 ///
@@ -488,12 +516,15 @@ impl<E> Eq for FileProcessingResult<E> {}
 // TODO: [2023/04] types Unset, Unparseable, Unknown are confusing to keep around
 //       and make extra work for all match statements.
 //       Can they be removed?
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+// BUG: `Kinded` claims to automatically derive multiple traits but does not
+//      see <https://crates.io/crates/kinded>
+#[derive(Clone, Copy, Debug, Eq, Kinded)]
 pub enum FileType {
     /// an unset value, the default, encountering this value is an error
     Unset,
     /// a plain vanilla file, e.g. `file.log`. Presumed to be a "syslog" file
     /// as the term is loosely used in this project.
+    // TODO: change from `File` to `Syslog`, or maybe `AdhocText`
     File,
     /// a compressed gzipped file, e.g. `log.gz`,
     /// (presumed to contain one regular file; see Issue #8)
@@ -510,10 +541,8 @@ pub enum FileType {
     /// a file compressed "xz'd" file, e.g. `log.xz`
     /// (presumed to contain one regular file; see Issue #11)
     Xz,
-    /// a binary [utmp/umtpx format] file
-    ///
-    /// [utmp/umtpx format]: https://man7.org/linux/man-pages/man5/utmp.5.html
-    Utmpx,
+    /// a binary acct/lastlog/lastlogx/utmp/umtpx format file
+    FixedStruct { type_: FixedStructFileType },
     /// a [Windows XML EventLog] file
     ///
     /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
@@ -524,15 +553,16 @@ pub enum FileType {
     Journal,
     /// a file type known to be unparseable
     // TODO: [2023/03] fix misspelling, `Unparseable` -> `Unparsable`
+    // TODO: [2024/03] this type is confusing and should be removed.
     Unparseable,
     /// an unknown file type (catch all)
     Unknown,
 }
 
-// XXX: Deriving `Default` on enums is experimental.
-//      See issue #86985 <https://github.com/rust-lang/rust/issues/86985>
-//      When `Default` is integrated then this `impl Default` can be removed.
-//      Issue #18
+// TRACKING: Deriving `Default` on enums is experimental.
+//           See issue #86985 <https://github.com/rust-lang/rust/issues/86985>
+//           When `Default` is integrated then this `impl Default` can be removed.
+//           Issue #18
 impl Default for FileType {
     fn default() -> Self {
         FileType::Unset
@@ -551,12 +581,36 @@ impl std::fmt::Display for FileType {
             FileType::Tar => write!(f, "TAR"),
             FileType::TarGz => write!(f, "TAR GZIP"),
             FileType::Xz => write!(f, "XZ"),
-            FileType::Utmpx => write!(f, "UTMP"),
+            FileType::FixedStruct{type_:FixedStructFileType::Acct} => write!(f, "ACCT"),
+            FileType::FixedStruct{type_:FixedStructFileType::AcctV3} => write!(f, "ACCT_V3"),
+            FileType::FixedStruct{type_:FixedStructFileType::Lastlog} => write!(f, "LASTLOG"),
+            FileType::FixedStruct{type_:FixedStructFileType::Lastlogx} => write!(f, "LASTLOGX"),
+            FileType::FixedStruct{type_:FixedStructFileType::Utmp} => write!(f, "UTMP/WTMP"),
+            FileType::FixedStruct{type_:FixedStructFileType::Utmpx} => write!(f, "UTMPX/WTMPX"),
             FileType::Evtx => write!(f, "EVTX"),
             FileType::Journal => write!(f, "JOURNAL"),
             FileType::Unparseable => write!(f, "UNPARSABLE"),
             FileType::Unknown => write!(f, "UNKNOWN"),
         }
+    }
+}
+
+impl PartialEq for FileType {
+    fn eq(&self, other: &Self) -> bool {
+        matches!(
+            (self, other),
+            (FileType::Unset, FileType::Unset)
+            | (FileType::File, FileType::File)
+            | (FileType::Gz, FileType::Gz)
+            | (FileType::Tar, FileType::Tar)
+            | (FileType::TarGz, FileType::TarGz)
+            | (FileType::Xz, FileType::Xz)
+            | (FileType::FixedStruct{..}, FileType::FixedStruct{..})
+            | (FileType::Evtx, FileType::Evtx)
+            | (FileType::Journal, FileType::Journal)
+            | (FileType::Unparseable, FileType::Unparseable)
+            | (FileType::Unknown, FileType::Unknown)
+        )
     }
 }
 
@@ -581,7 +635,7 @@ impl FileType {
             | FileType::Gz
             | FileType::Tar
             | FileType::Xz
-            | FileType::Utmpx
+            | FileType::FixedStruct{..}
             | FileType::Evtx
             | FileType::Journal
             | FileType::Unknown
@@ -602,13 +656,13 @@ pub enum LogMessageType {
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     Sysline,
-    /// A binary [utmp/umtpx format] file.
-    ///
-    /// Relates to a [`Utmpx`].
-    ///
-    /// [utmp/umtpx format]: https://man7.org/linux/man-pages/man5/utmp.5.html
-    /// [`Utmpx`]: crate::data::utmpx::Utmpx
-    Utmpx,
+    // / A binary [lastlog/lastlogx/utmp/utmpx format] file.
+    // /
+    // / Relates to a [`FixedStruct`].
+    // / 
+    // / [lastlog/lastlogx/utmp/utmpx format]: https://web.archive.org/web/20231216015325/https://man.freebsd.org/cgi/man.cgi?query=lastlog&sektion=5&manpath=NetBSD+9.3
+    // / [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    FixedStruct,
     /// A [Windows XML EventLog] file.
     ///
     /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
@@ -633,7 +687,7 @@ impl std::fmt::Display for LogMessageType {
     ) -> std::fmt::Result {
         match self {
             LogMessageType::Sysline => write!(f, "syslog lines"),
-            LogMessageType::Utmpx => write!(f, "utmpx entries"),
+            LogMessageType::FixedStruct => write!(f, "fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)"),
             LogMessageType::Evtx => write!(f, "evtx entries"),
             LogMessageType::Journal => write!(f, "journal entries"),
             LogMessageType::All => write!(f, "ALL"),
@@ -644,8 +698,8 @@ impl std::fmt::Display for LogMessageType {
 /// convert a [`FileType`] to a [`LogMessageType`]
 pub fn filetype_to_logmessagetype(filetype: FileType) -> LogMessageType {
     match filetype {
-        FileType::Utmpx => LogMessageType::Utmpx,
         FileType::Evtx => LogMessageType::Evtx,
+        FileType::FixedStruct{..} => LogMessageType::FixedStruct,
         FileType::Journal => LogMessageType::Journal,
         FileType::File
         | FileType::Gz
@@ -662,7 +716,9 @@ pub fn filetype_to_logmessagetype(filetype: FileType) -> LogMessageType {
 #[macro_export]
 macro_rules! debug_panic {
     ($($arg:tt)*) => (
-        if cfg!(debug_assertions) {
+        // use `if cfg!` instead of `#[cfg(...)]` to avoid `unreachable_code` warning
+        if cfg!(any(debug_assertions, test))
+        {
             panic!($($arg)*);
         }
     )
@@ -704,3 +760,404 @@ pub const NLu8a: [u8; 1] = [NLu8];
 ///
 /// According to <https://stackoverflow.com/a/41822232/471376>.
 pub const SYSLOG_SZ_MAX: usize = 8096;
+
+// TRACKING: Tracking Issue for comparing values in const items <https://github.com/rust-lang/rust/issues/92391>
+//pub const MAX_SZ: usize = core::cmp::max(linux_x86::UTMPX_SZ, openbsd_x86::UTMPX_SZ);
+
+// TRACKING: Tracking Issue for comparing Trait objects in const context <https://github.com/rust-lang/rust/issues/67792>
+//           this would allow making the `max` and `min` functions into supporting all numbers
+//           and other comparables.
+//           i.e.
+//                 pub const max2(a: T, b: T) -> T
+//                 where T: ~const PartialOrd, ~const Ord
+
+/// local `const` helper to return the maximum of two `usize` values
+///
+/// Credit to <https://stackoverflow.com/a/53646925/471376>
+#[allow(clippy::too_many_arguments)]
+pub const fn max2(a: usize, b: usize) -> usize
+{
+    [a, b][(a < b) as usize]
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max3(a: usize, b: usize, c: usize) -> usize {
+    max2(max2(a, b), c)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max4(a: usize, b: usize, c: usize, d: usize) -> usize {
+    max2(max3(a, b, c), d)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max5(a: usize, b: usize, c: usize, d: usize, e: usize) -> usize {
+    max2(max4(a, b, c, d), e)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max6(a: usize, b: usize, c: usize, d: usize, e: usize, f: usize) -> usize {
+    max2(max5(a, b, c, d, e), f)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max7(a: usize, b: usize, c: usize, d: usize, e: usize, f: usize, g: usize) -> usize {
+    max2(max6(a, b, c, d, e, f), g)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max8(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+) -> usize {
+    max2(max7(a, b, c, d, e, f, g), h)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max9(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+) -> usize {
+    max2(max8(a, b, c, d, e, f, g, h), i)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max10(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+) -> usize {
+    max2(max9(a, b, c, d, e, f, g, h, i), j)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max11(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+) -> usize {
+    max2(max10(a, b, c, d, e, f, g, h, i, j), k)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max12(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+) -> usize {
+    max2(max11(a, b, c, d, e, f, g, h, i, j, k), l)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max13(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+    m: usize,
+) -> usize {
+    max2(max12(a, b, c, d, e, f, g, h, i, j, k, l), m)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max14(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+    m: usize,
+    n: usize,
+) -> usize {
+    max2(max13(a, b, c, d, e, f, g, h, i, j, k, l, m), n)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max15(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+    m: usize,
+    n: usize,
+    o: usize,
+) -> usize {
+    max2(max14(a, b, c, d, e, f, g, h, i, j, k, l, m, n), o)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn max16(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+    m: usize,
+    n: usize,
+    o: usize,
+    p: usize,
+) -> usize {
+    max2(max15(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o), p)
+}
+
+/// local `const` helper to return the minimum of two `usize` values
+///
+/// Credit to <https://stackoverflow.com/a/53646925/471376>
+#[allow(clippy::too_many_arguments)]
+pub const fn min2(a: usize, b: usize) -> usize {
+    [a, b][(a > b) as usize]
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min3(a: usize, b: usize, c: usize) -> usize {
+    min2(min2(a, b), c)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min4(a: usize, b: usize, c: usize, d: usize) -> usize {
+    min2(min3(a, b, c), d)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min5(a: usize, b: usize, c: usize, d: usize, e: usize) -> usize {
+    min2(min4(a, b, c, d), e)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min6(a: usize, b: usize, c: usize, d: usize, e: usize, f: usize) -> usize {
+    min2(min5(a, b, c, d, e), f)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min7(a: usize, b: usize, c: usize, d: usize, e: usize, f: usize, g: usize) -> usize {
+    min2(min6(a, b, c, d, e, f), g)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min8(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize
+) -> usize {
+    min2(min7(a, b, c, d, e, f, g), h)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min9(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+) -> usize {
+    min2(min8(a, b, c, d, e, f, g, h), i)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min10(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+) -> usize {
+    min2(min9(a, b, c, d, e, f, g, h, i), j)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min11(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+) -> usize {
+    min2(min10(a, b, c, d, e, f, g, h, i, j), k)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min12(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+) -> usize {
+    min2(min11(a, b, c, d, e, f, g, h, i, j, k), l)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min13(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+    m: usize,
+) -> usize {
+    min2(min12(a, b, c, d, e, f, g, h, i, j, k, l), m)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min14(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+    m: usize,
+    n: usize,
+) -> usize {
+    min2(min13(a, b, c, d, e, f, g, h, i, j, k, l, m), n)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min15(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+    m: usize,
+    n: usize,
+    o: usize,
+) -> usize {
+    min2(min14(a, b, c, d, e, f, g, h, i, j, k, l, m, n), o)
+}
+
+#[allow(clippy::too_many_arguments)]
+pub const fn min16(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+    h: usize,
+    i: usize,
+    j: usize,
+    k: usize,
+    l: usize,
+    m: usize,
+    n: usize,
+    o: usize,
+    p: usize,
+) -> usize {
+    min2(min15(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o), p)
+}

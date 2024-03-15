@@ -54,7 +54,7 @@ declare -ar S4_ARGS=(
     --separator='⇳\n'
     --journal-output=export
     --dt-after='19990303T000000+0000'
-    --dt-before='20230410T221032+0000'
+    --dt-before='20240210T221032+0000'
     --summary
     '-'
     "${@}"

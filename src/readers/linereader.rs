@@ -193,7 +193,9 @@ impl LineReader {
     // If the file has only one block then different considerations apply.
 
     /// Create a new `LineReader`.
-    // NOTE: should not attempt any block reads here, similar to other `*Readers`
+    ///
+    /// **NOTE:** should not attempt any block reads here,
+    /// similar to other `*Readers::new()`
     pub fn new(
         path: FPath,
         filetype: FileType,
@@ -463,7 +465,10 @@ impl LineReader {
         linep
     }
 
-    /// Forcefully `drop` the [`Lines`]. For "[streaming stage]".
+    /// Proactively `drop` the [`Lines`]. For "[streaming stage]".
+    /// This calls [`LineReader::drop_line`].
+    ///
+    /// _The caller must know what they are doing!_
     ///
     /// [`Lines`]: crate::data::line::Lines
     /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
@@ -483,9 +488,10 @@ impl LineReader {
         ret
     }
 
-    /// Forcefully `drop` the [`Line`]. For "[streaming stage]".
+    /// Proactively `drop` the [`Line`]. For "[streaming stage]".
+    /// This calls [`BlockReader::drop_block`].
     ///
-    /// The caller must know what they are doing!
+    /// _The caller must know what they are doing!_
     ///
     /// [`Line`s]: crate::data::line::Line
     /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
