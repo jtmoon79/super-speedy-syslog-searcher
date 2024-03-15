@@ -60,6 +60,8 @@ declare -ar S4_ARGS=(
     "${@}"
 )
 
+echo "${PS4}cat '${logs}'" >&2
+
 # run the release build
 time (
     set -x
@@ -67,6 +69,8 @@ time (
 ) || true
 
 echo >&2
+
+echo "${PS4}cat '${logs}'" >&2
 
 # run the debug build (might take a few minutes)
 time (
@@ -93,13 +97,18 @@ echo "super_speedy_syslog_searcher debug output '${tmpd}'"
 echo "  Line Count ${s4d_lc}"
 echo "  Byte Count ${s4d_bc}"
 
+DIFF=diff
+if which colordiff &>/dev/null; then
+    DIFF=colordiff
+fi
+
 declare -i ret=0
-if ! diff --text --brief "${tmpr}" "${tmpd}"; then
+if ! "${DIFF}" --text --brief "${tmpr}" "${tmpd}"; then
     ret=1
     echo "Files are not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview:"
-    ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${tmpr}" "${tmpd}") || true) | head -n 20
+    ((set -x; "${DIFF}" --text -y --width=${COLUMNS-120} --suppress-common-lines "${tmpr}" "${tmpd}") || true) | head -n 20
     echo
 else
     echo
