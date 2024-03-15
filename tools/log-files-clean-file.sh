@@ -37,6 +37,8 @@ function replace_MAC () {
 }
 
 function replace_IPv4 () {
+    # TODO: this must replace the IPv4 with the same string length IPv4
+    #       otherwise fixedstruct files are broken
     # found
     #    10.100.244.33
     # becomes
@@ -196,10 +198,10 @@ function replace() {
     # could be more efficient by combining these into one call to `sed`
     # but *meh*, this script is run rarely, so good enough
     replace_MAC "${@}"
-    replace_IPv4 "${@}"
+    # replace_IPv4 "${@}"
     replace_GUID "${@}"
     replace_port "${@}"
-    replace_num "${@}"
+    # replace_num "${@}"
     replace_SSH_hash "${@}"
     replace_user_passed "${@}"
 }
@@ -263,7 +265,7 @@ Number 12345678
 fi
 
 for file in "${@}"; do
-    trunc "${file}"
+    # trunc "${file}"
     replace "${file}"
     echo -e "\e[1m\e[93m${file}\e[0m" >&2
     cat "${file}"
