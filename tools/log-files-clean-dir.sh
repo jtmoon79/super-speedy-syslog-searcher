@@ -16,21 +16,6 @@ fi
 for path in "${@}"; do
     (
         set -x
-        # remove non-plain-text non-syslog files
-        find "${path}" -xdev \
-            -type f \
-            \( \
-                -name '*.tar' -or \
-                -name '*.gz' -or \
-                -name '*.xz' -or \
-                -name '*.json' -or \
-                -name '*.xml' -or \
-                -name 'btmp' -or \
-                -name 'wtmp' -or \
-                -name 'faillog' -or \
-                -name 'lastlog' \
-            \) \
-            -print -delete
         # remove empty files
         find "${path}" -xdev \
             -type f \
