@@ -1,0 +1,5 @@
+root     pts/0        Sat Feb 17 20:25   still logged in    192.168.100.254
+runlevel (to lvl 5)   Sun Jan 21 17:03   still running      0.0.0.0
+reboot   system boot  Wed Dec 31 16:00   still running      0.0.0.0
+
+utmp begins Wed Dec 31 16:00:04 1969

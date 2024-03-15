@@ -1,0 +1,181 @@
+Jan 28 15:59:23 crape syslogd[63405]: start
+Jan 28 15:59:23 crape /bsd: OpenBSD 7.4 (GENERIC.MP) #1397: Tue Oct 10 09:02:37 MDT 2023
+Jan 28 15:59:23 crape /bsd:     deraadt@amd64.openbsd.org:/usr/src/sys/arch/amd64/compile/GENERIC.MP
+Jan 28 15:59:23 crape /bsd: real mem = 1056899072 (1007MB)
+Jan 28 15:59:23 crape /bsd: avail mem = 1005211648 (958MB)
+Jan 28 15:59:23 crape /bsd: random: good seed from bootblocks
+Jan 28 15:59:23 crape /bsd: mpath0 at root
+Jan 28 15:59:23 crape /bsd: scsibus0 at mpath0: 256 targets
+Jan 28 15:59:23 crape /bsd: mainbus0 at root
+Jan 28 15:59:23 crape /bsd: bios0 at mainbus0: SMBIOS rev. 2.5 @ 0xe1000 (10 entries)
+Jan 28 15:59:23 crape /bsd: bios0: vendor innotek GmbH version "VirtualBox" date 12/01/2006
+Jan 28 15:59:23 crape /bsd: bios0: innotek GmbH VirtualBox
+Jan 28 15:59:23 crape /bsd: acpi0 at bios0: ACPI 4.0
+Jan 28 15:59:23 crape /bsd: acpi0: sleep states S0 S5
+Jan 28 15:59:23 crape /bsd: acpi0: tables DSDT FACP APIC SSDT
+Jan 28 15:59:23 crape /bsd: acpi0: wakeup devices
+Jan 28 15:59:23 crape /bsd: acpitimer0 at acpi0: 3579545 Hz, 32 bits
+Jan 28 15:59:23 crape /bsd: acpimadt0 at acpi0 addr 0xfee00000: PC-AT compat
+Jan 28 15:59:23 crape /bsd: cpu0 at mainbus0: apid 0 (boot processor)
+Jan 28 15:59:23 crape /bsd: cpu0: AMD Ryzen 7 7700X 8-Core Processor, 4500.26 MHz, 19-61-02, patch ffffffff
+Jan 28 15:59:23 crape /bsd: cpu0: FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LONG,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT,SSBDNR
+Jan 28 15:59:23 crape /bsd: cpu0: 32KB 64b/line 8-way D-cache, 32KB 64b/line 8-way I-cache
+Jan 28 15:59:23 crape /bsd: cpu0: 1MB 64b/line 8-way L2 cache
+Jan 28 15:59:23 crape /bsd: cpu0: smt 0, core 0, package 0
+Jan 28 15:59:23 crape /bsd: mtrr: CPU supports MTRRs but not enabled by BIOS
+Jan 28 15:59:23 crape /bsd: cpu0: apic clock running at 1000MHz
+Jan 28 15:59:23 crape /bsd: cpu1 at mainbus0: apid 1 (application processor)
+Jan 28 15:59:23 crape /bsd: cpu1: AMD Ryzen 7 7700X 8-Core Processor, 4495.20 MHz, 19-61-02, patch ffffffff
+Jan 28 15:59:23 crape /bsd: cpu1: FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LONG,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT,SSBDNR
+Jan 28 15:59:23 crape /bsd: cpu1: 32KB 64b/line 8-way D-cache, 32KB 64b/line 8-way I-cache
+Jan 28 15:59:23 crape /bsd: cpu1: 1MB 64b/line 8-way L2 cache
+Jan 28 15:59:23 crape /bsd: cpu1: smt 0, core 0, package 1
+Jan 28 15:59:23 crape /bsd: tsc: cpu0/cpu1: sync test failed
+Jan 28 15:59:23 crape /bsd: ioapic0 at mainbus0: apid 2 pa 0xfec00000, version 20, 24 pins, remapped
+Jan 28 15:59:23 crape /bsd: acpiprt0 at acpi0: bus 0 (PCI0)
+Jan 28 15:59:23 crape /bsd: acpipci0 at acpi0 PCI0: 0x00000000 0x00000011 0x00000001
+Jan 28 15:59:23 crape /bsd: acpiac0 at acpi0: AC unit online
+Jan 28 15:59:23 crape /bsd: acpicpu0 at acpi0: C1(@1 halt!)
+Jan 28 15:59:23 crape /bsd: acpicpu1 at acpi0: C1(@1 halt!)
+Jan 28 15:59:23 crape /bsd: acpivideo0 at acpi0: GFX0
+Jan 28 15:59:23 crape /bsd: pci0 at mainbus0 bus 0
+Jan 28 15:59:23 crape /bsd: pchb0 at pci0 dev 0 function 0 "Intel 82441FX" rev 0x02
+Jan 28 15:59:23 crape /bsd: pcib0 at pci0 dev 1 function 0 "Intel 82371SB ISA" rev 0x00
+Jan 28 15:59:23 crape /bsd: pciide0 at pci0 dev 1 function 1 "Intel 82371AB IDE" rev 0x01: DMA, channel 0 configured to compatibility, channel 1 configured to compatibility
+Jan 28 15:59:23 crape /bsd: wd0 at pciide0 channel 0 drive 0: <VBOX HARDDISK>
+Jan 28 15:59:23 crape /bsd: wd0: 128-sector PIO, LBA, 16384MB, 33554432 sectors
+Jan 28 15:59:23 crape /bsd: wd0(pciide0:0:0): using PIO mode 4, Ultra-DMA mode 2
+Jan 28 15:59:23 crape /bsd: atapiscsi0 at pciide0 channel 1 drive 0
+Jan 28 15:59:23 crape /bsd: scsibus1 at atapiscsi0: 2 targets
+Jan 28 15:59:23 crape /bsd: cd0 at scsibus1 targ 0 lun 0: <VBOX, CD-ROM, 1.0> removable
+Jan 28 15:59:23 crape /bsd: cd0(pciide0:1:0): using PIO mode 4, Ultra-DMA mode 2
+Jan 28 15:59:23 crape /bsd: vga1 at pci0 dev 2 function 0 "VMware SVGA II" rev 0x00
+Jan 28 15:59:23 crape /bsd: wsdisplay0 at vga1 mux 1: console (80x25, vt100 emulation)
+Jan 28 15:59:23 crape /bsd: wsdisplay0: screen 1-5 added (80x25, vt100 emulation)
+Jan 28 15:59:23 crape /bsd: em0 at pci0 dev 3 function 0 "Intel 82540EM" rev 0x02: apic 2 int 19, address 08:00:27:de:d3:b1
+Jan 28 15:59:23 crape /bsd: "InnoTek Guest Service" rev 0x00 at pci0 dev 4 function 0 not configured
+Jan 28 15:59:23 crape /bsd: auich0 at pci0 dev 5 function 0 "Intel 82801AA AC97" rev 0x01: apic 2 int 21, ICH
+Jan 28 15:59:23 crape /bsd: ac97: codec id 0x83847600 (SigmaTel STAC9700)
+Jan 28 15:59:23 crape /bsd: audio0 at auich0
+Jan 28 15:59:23 crape /bsd: ohci0 at pci0 dev 6 function 0 "Apple Intrepid USB" rev 0x00: apic 2 int 22, version 1.0
+Jan 28 15:59:23 crape /bsd: piixpm0 at pci0 dev 7 function 0 "Intel 82371AB Power" rev 0x08: apic 2 int 23
+Jan 28 15:59:23 crape /bsd: iic0 at piixpm0
+Jan 28 15:59:23 crape /bsd: ehci0 at pci0 dev 11 function 0 "Intel 82801FB USB" rev 0x00: apic 2 int 19
+Jan 28 15:59:23 crape /bsd: usb0 at ehci0: USB revision 2.0
+Jan 28 15:59:23 crape /bsd: uhub0 at usb0 configuration 1 interface 0 "Intel EHCI root hub" rev 2.00/1.00 addr 1
+Jan 28 15:59:23 crape /bsd: isa0 at pcib0
+Jan 28 15:59:23 crape /bsd: isadma0 at isa0
+Jan 28 15:59:23 crape /bsd: pckbc0 at isa0 port 0x60/5 irq 1 irq 12
+Jan 28 15:59:23 crape /bsd: pckbd0 at pckbc0 (kbd slot)
+Jan 28 15:59:23 crape /bsd: wskbd0 at pckbd0: console keyboard, using wsdisplay0
+Jan 28 15:59:23 crape /bsd: pms0 at pckbc0 (aux slot)
+Jan 28 15:59:23 crape /bsd: wsmouse0 at pms0 mux 0
+Jan 28 15:59:23 crape /bsd: pcppi0 at isa0 port 0x61
+Jan 28 15:59:23 crape /bsd: spkr0 at pcppi0
+Jan 28 15:59:23 crape /bsd: usb1 at ohci0: USB revision 1.0
+Jan 28 15:59:23 crape /bsd: uhub1 at usb1 configuration 1 interface 0 "Apple OHCI root hub" rev 1.00/1.00 addr 1
+Jan 28 15:59:23 crape /bsd: vscsi0 at root
+Jan 28 15:59:23 crape /bsd: scsibus2 at vscsi0: 256 targets
+Jan 28 15:59:23 crape /bsd: softraid0 at root
+Jan 28 15:59:23 crape /bsd: scsibus3 at softraid0: 256 targets
+Jan 28 15:59:23 crape /bsd: root on wd0a (75b184b3e71130eb.a) swap on wd0b dump on wd0b
+Jan 28 15:59:23 crape ntpd[41508]: creating new /var/db/ntpd.drift
+Jan 28 16:12:31 crape savecore: no core dump
+Jan 28 16:13:12 crape reorder_kernel: kernel relinking done
+Jan 28 16:17:34 crape pkg_add: Added quirks-6.160
+Jan 28 16:17:35 crape pkg_add: Added links-1.03p0
+Jan 28 16:17:42 crape pkg_add: Added libiconv-1.17
+Jan 28 16:17:43 crape pkg_add: Added gettext-runtime-0.22.2
+Jan 28 16:17:44 crape pkg_add: Added bash-5.2.15
+Jan 28 16:18:42 crape pkg_add: Added nghttp2-1.57.0
+Jan 28 16:18:42 crape pkg_add: Added nghttp3-0.15.0
+Jan 28 16:18:42 crape pkg_add: Added ngtcp2-0.19.1
+Jan 28 16:18:44 crape pkg_add: Added curl-8.5.0
+Jan 28 16:20:18 crape pkg_add: Added nano-7.2
+Jan 28 16:58:36 crape halt: halted by root
+Jan 28 16:58:36 crape syslogd[63405]: exiting on signal 15
+Feb  2 07:03:13 crape syslogd[83602]: start
+Feb  2 07:03:13 crape /bsd: OpenBSD 7.4 (GENERIC.MP) #1397: Tue Oct 10 09:02:37 MDT 2023
+Feb  2 07:03:13 crape /bsd:     deraadt@amd64.openbsd.org:/usr/src/sys/arch/amd64/compile/GENERIC.MP
+Feb  2 07:03:13 crape /bsd: real mem = 1056899072 (1007MB)
+Feb  2 07:03:13 crape /bsd: avail mem = 1005178880 (958MB)
+Feb  2 07:03:13 crape /bsd: random: good seed from bootblocks
+Feb  2 07:03:13 crape /bsd: mpath0 at root
+Feb  2 07:03:13 crape /bsd: scsibus0 at mpath0: 256 targets
+Feb  2 07:03:13 crape /bsd: mainbus0 at root
+Feb  2 07:03:13 crape /bsd: bios0 at mainbus0: SMBIOS rev. 2.5 @ 0xe1000 (10 entries)
+Feb  2 07:03:13 crape /bsd: bios0: vendor innotek GmbH version "VirtualBox" date 12/01/2006
+Feb  2 07:03:13 crape /bsd: bios0: innotek GmbH VirtualBox
+Feb  2 07:03:13 crape /bsd: acpi0 at bios0: ACPI 4.0
+Feb  2 07:03:13 crape /bsd: acpi0: sleep states S0 S5
+Feb  2 07:03:13 crape /bsd: acpi0: tables DSDT FACP APIC SSDT
+Feb  2 07:03:13 crape /bsd: acpi0: wakeup devices
+Feb  2 07:03:13 crape /bsd: acpitimer0 at acpi0: 3579545 Hz, 32 bits
+Feb  2 07:03:13 crape /bsd: acpimadt0 at acpi0 addr 0xfee00000: PC-AT compat
+Feb  2 07:03:13 crape /bsd: cpu0 at mainbus0: apid 0 (boot processor)
+Feb  2 07:03:13 crape /bsd: cpu0: AMD Ryzen 7 7700X 8-Core Processor, 4464.54 MHz, 19-61-02, patch ffffffff
+Feb  2 07:03:13 crape /bsd: cpu0: FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LONG,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT,SSBDNR
+Feb  2 07:03:13 crape /bsd: cpu0: 32KB 64b/line 8-way D-cache, 32KB 64b/line 8-way I-cache
+Feb  2 07:03:13 crape /bsd: cpu0: 1MB 64b/line 8-way L2 cache
+Feb  2 07:03:13 crape /bsd: cpu0: smt 0, core 0, package 0
+Feb  2 07:03:13 crape /bsd: mtrr: CPU supports MTRRs but not enabled by BIOS
+Feb  2 07:03:13 crape /bsd: cpu0: apic clock running at 1000MHz
+Feb  2 07:03:13 crape /bsd: cpu1 at mainbus0: apid 1 (application processor)
+Feb  2 07:03:13 crape /bsd: cpu1: AMD Ryzen 7 7700X 8-Core Processor, 4499.02 MHz, 19-61-02, patch ffffffff
+Feb  2 07:03:13 crape /bsd: cpu1: FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CFLUSH,MMX,FXSR,SSE,SSE2,HTT,SSE3,PCLMUL,SSSE3,CX16,SSE4.1,SSE4.2,MOVBE,POPCNT,AES,RDRAND,NXE,MMXX,FFXSR,RDTSCP,LONG,LAHF,CMPLEG,AMCR8,ABM,SSE4A,MASSE,3DNOWP,ITSC,FSGSBASE,BMI1,BMI2,INVPCID,RDSEED,CLFLUSHOPT,SSBDNR
+Feb  2 07:03:13 crape /bsd: cpu1: 32KB 64b/line 8-way D-cache, 32KB 64b/line 8-way I-cache
+Feb  2 07:03:13 crape /bsd: cpu1: 1MB 64b/line 8-way L2 cache
+Feb  2 07:03:13 crape /bsd: cpu1: smt 0, core 0, package 1
+Feb  2 07:03:13 crape /bsd: tsc: cpu0/cpu1: sync test failed
+Feb  2 07:03:13 crape /bsd: ioapic0 at mainbus0: apid 2 pa 0xfec00000, version 20, 24 pins, remapped
+Feb  2 07:03:13 crape /bsd: acpiprt0 at acpi0: bus 0 (PCI0)
+Feb  2 07:03:13 crape /bsd: acpipci0 at acpi0 PCI0: 0x00000000 0x00000011 0x00000001
+Feb  2 07:03:13 crape /bsd: acpiac0 at acpi0: AC unit online
+Feb  2 07:03:13 crape /bsd: acpicpu0 at acpi0: C1(@1 halt!)
+Feb  2 07:03:13 crape /bsd: acpicpu1 at acpi0: C1(@1 halt!)
+Feb  2 07:03:13 crape /bsd: acpivideo0 at acpi0: GFX0
+Feb  2 07:03:13 crape /bsd: pci0 at mainbus0 bus 0
+Feb  2 07:03:13 crape /bsd: pchb0 at pci0 dev 0 function 0 "Intel 82441FX" rev 0x02
+Feb  2 07:03:13 crape /bsd: pcib0 at pci0 dev 1 function 0 "Intel 82371SB ISA" rev 0x00
+Feb  2 07:03:13 crape /bsd: pciide0 at pci0 dev 1 function 1 "Intel 82371AB IDE" rev 0x01: DMA, channel 0 configured to compatibility, channel 1 configured to compatibility
+Feb  2 07:03:13 crape /bsd: wd0 at pciide0 channel 0 drive 0: <VBOX HARDDISK>
+Feb  2 07:03:13 crape /bsd: wd0: 128-sector PIO, LBA, 16384MB, 33554432 sectors
+Feb  2 07:03:13 crape /bsd: wd0(pciide0:0:0): using PIO mode 4, Ultra-DMA mode 2
+Feb  2 07:03:13 crape /bsd: atapiscsi0 at pciide0 channel 1 drive 0
+Feb  2 07:03:13 crape /bsd: scsibus1 at atapiscsi0: 2 targets
+Feb  2 07:03:13 crape /bsd: cd0 at scsibus1 targ 0 lun 0: <VBOX, CD-ROM, 1.0> removable
+Feb  2 07:03:13 crape /bsd: cd0(pciide0:1:0): using PIO mode 4, Ultra-DMA mode 2
+Feb  2 07:03:13 crape /bsd: vga1 at pci0 dev 2 function 0 "VMware SVGA II" rev 0x00
+Feb  2 07:03:13 crape /bsd: wsdisplay0 at vga1 mux 1: console (80x25, vt100 emulation)
+Feb  2 07:03:13 crape /bsd: wsdisplay0: screen 1-5 added (80x25, vt100 emulation)
+Feb  2 07:03:13 crape /bsd: em0 at pci0 dev 3 function 0 "Intel 82540EM" rev 0x02: apic 2 int 19, address 08:00:27:de:d3:b1
+Feb  2 07:03:13 crape /bsd: "InnoTek Guest Service" rev 0x00 at pci0 dev 4 function 0 not configured
+Feb  2 07:03:13 crape /bsd: auich0 at pci0 dev 5 function 0 "Intel 82801AA AC97" rev 0x01: apic 2 int 21, ICH
+Feb  2 07:03:13 crape /bsd: ac97: codec id 0x83847600 (SigmaTel STAC9700)
+Feb  2 07:03:13 crape /bsd: audio0 at auich0
+Feb  2 07:03:13 crape /bsd: ohci0 at pci0 dev 6 function 0 "Apple Intrepid USB" rev 0x00: apic 2 int 22, version 1.0
+Feb  2 07:03:13 crape /bsd: piixpm0 at pci0 dev 7 function 0 "Intel 82371AB Power" rev 0x08: apic 2 int 23
+Feb  2 07:03:13 crape /bsd: iic0 at piixpm0
+Feb  2 07:03:13 crape /bsd: ehci0 at pci0 dev 11 function 0 "Intel 82801FB USB" rev 0x00: apic 2 int 19
+Feb  2 07:03:13 crape /bsd: usb0 at ehci0: USB revision 2.0
+Feb  2 07:03:13 crape /bsd: uhub0 at usb0 configuration 1 interface 0 "Intel EHCI root hub" rev 2.00/1.00 addr 1
+Feb  2 07:03:13 crape /bsd: isa0 at pcib0
+Feb  2 07:03:13 crape /bsd: isadma0 at isa0
+Feb  2 07:03:13 crape /bsd: pckbc0 at isa0 port 0x60/5 irq 1 irq 12
+Feb  2 07:03:13 crape /bsd: pckbd0 at pckbc0 (kbd slot)
+Feb  2 07:03:13 crape /bsd: wskbd0 at pckbd0: console keyboard, using wsdisplay0
+Feb  2 07:03:13 crape /bsd: pms0 at pckbc0 (aux slot)
+Feb  2 07:03:13 crape /bsd: wsmouse0 at pms0 mux 0
+Feb  2 07:03:13 crape /bsd: pcppi0 at isa0 port 0x61
+Feb  2 07:03:13 crape /bsd: spkr0 at pcppi0
+Feb  2 07:03:13 crape /bsd: usb1 at ohci0: USB revision 1.0
+Feb  2 07:03:13 crape /bsd: uhub1 at usb1 configuration 1 interface 0 "Apple OHCI root hub" rev 1.00/1.00 addr 1
+Feb  2 07:03:13 crape /bsd: vscsi0 at root
+Feb  2 07:03:13 crape /bsd: scsibus2 at vscsi0: 256 targets
+Feb  2 07:03:13 crape /bsd: softraid0 at root
+Feb  2 07:03:13 crape /bsd: scsibus3 at softraid0: 256 targets
+Feb  2 07:03:13 crape /bsd: root on wd0a (75b184b3e71130eb.a) swap on wd0b dump on wd0b
+Feb  2 07:03:13 crape /bsd: WARNING: clock gained 4 days
+Feb  2 07:03:13 crape /bsd: WARNING: CHECK AND RESET THE DATE!
+Feb  2 15:03:15 crape savecore: no core dump
+Feb  2 15:03:50 crape reorder_kernel: kernel relinking done

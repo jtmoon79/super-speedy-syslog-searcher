@@ -1,0 +1,7 @@
+root      pts/2                     Sun Feb 25 2024 03:16:01   still logged in
+reboot    ~                         Sun Feb 25 2024 03:15:25
+shutdown  ~                         Fri Feb 16 2024 23:13:25
+root      pts/3                     Fri Feb 16 2024 21:56:02 - 23:07:16  (01:11:14)
+root      pts/2                     Fri Feb 16 2024 21:55:54 - 23:07:10  (01:11:16)
+
+wtmp begins Fri Feb 16 2024 21:06:17

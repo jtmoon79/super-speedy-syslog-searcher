@@ -141,14 +141,24 @@ function compare_single_file() {
 
 declare diff_found=false
 
+DIFF=diff
+if which colordiff &>/dev/null; then
+    DIFF=colordiff
+fi
+
+declare -i width=140
+if [[ "${COLUMNS+x}" ]]; then
+    width=$(($COLUMNS * 2))
+fi
+
 # compare stdout
-if ! diff --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
+if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     ret=1
     echo "Output of stdout are not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview of stdout:"
     set +o pipefail
-    ((set -x; diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${CURRENT_OUT}" "${EXPECT_OUT}") || true) | head -n 200 | indent
+    ((set -x; "${DIFF}" --text -y --width=${width} --suppress-common-lines "${CURRENT_OUT}" "${EXPECT_OUT}") || true) | head -n 200 | indent
     echo
     echo
     echo -e "Do you need to run \e[1mcompare-current-and-expected-update.sh\e[0m ?"
@@ -160,14 +170,14 @@ else
 fi
 
 # compare stderr
-if ! diff --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
+if ! "${DIFF}" --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
     ret=1
     echo "Output of stderr is not the same. (ಠ_ಠ)"
     echo
     echo "Difference Preview of stderr:"
     set +o pipefail
     ((set +e; set -x;
-        diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${CURRENT_ERR}" "${EXPECT_ERR}") || true
+        "${DIFF}" --text -y --width=${width} --suppress-common-lines "${CURRENT_ERR}" "${EXPECT_ERR}") || true
     ) | head -n 100 | indent
     echo
 else
@@ -192,25 +202,31 @@ while read -r log_file; do
     ) || true
     stderr_clean "${tmp2}"
 
-    if ! diff --text --brief "${log_file_stdout}" "${tmp1}" &>/dev/null; then
+    if ! "${DIFF}" --text --brief "${log_file_stdout}" "${tmp1}" &>/dev/null; then
         diff_log+=1
         ret=1
         echo "    Different stdout ${log_file_stdout}" >&2
-        ((set +e
-            diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${log_file_stdout}" "${tmp1}") || true
-        ) | head -n 10 | indent
+        (
+            (set -x +e;
+                "${DIFF}" --text -y --width=${width} --suppress-common-lines "${log_file_stdout}" "${tmp1}"
+            ) || true
+        ) | head -n 20 | indent
         echo >&2
+        tmp1=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
     else
         same_log+=1
     fi
-    if ! diff --text --brief "${log_file_stderr}" "${tmp2}" &>/dev/null; then
+    if ! "${DIFF}" --text --brief "${log_file_stderr}" "${tmp2}" &>/dev/null; then
         diff_log+=1
         ret=1
         echo "    Different stderr ${log_file_stderr}" >&2
-        ((set +e
-            diff --text -y --width=${COLUMNS-120} --suppress-common-lines "${log_file_stderr}" "${tmp2}") || true
-        ) | head -n 10 | indent
+        (
+            (set -x +e;
+                "${DIFF}" --text -y --width=${width} --suppress-common-lines "${log_file_stderr}" "${tmp2}"
+            ) || true
+        ) | head -n 20 | indent
         echo >&2
+        tmp2=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
     else
         same_log+=1
     fi

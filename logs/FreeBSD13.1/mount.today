@@ -1,0 +1,12 @@
+devfs			/dev			devfs	rw		0 0
+zroot			/zroot			zfs	rw,noatime,nfsv4acls 	0 0
+zroot/ROOT/default	/			zfs	rw,noatime,nfsv4acls 	0 0
+zroot/tmp		/tmp			zfs	rw,nosuid,noatime,nfsv4acls 	0 0
+zroot/usr/home		/usr/home		zfs	rw,noatime,nfsv4acls 	0 0
+zroot/usr/ports		/usr/ports		zfs	rw,nosuid,noatime,nfsv4acls 	0 0
+zroot/usr/src		/usr/src		zfs	rw,noatime,nfsv4acls 	0 0
+zroot/var/audit		/var/audit		zfs	rw,noexec,nosuid,noatime,nfsv4acls 	0 0
+zroot/var/crash		/var/crash		zfs	rw,noexec,nosuid,noatime,nfsv4acls 	0 0
+zroot/var/log		/var/log		zfs	rw,noexec,nosuid,noatime,nfsv4acls 	0 0
+zroot/var/mail		/var/mail		zfs	rw,nfsv4acls 	0 0
+zroot/var/tmp		/var/tmp		zfs	rw,nosuid,noatime,nfsv4acls 	0 0

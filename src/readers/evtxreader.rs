@@ -87,6 +87,7 @@ pub type Timestamp = DateTime<Utc>;
 /// Optional [`Timestamp`].
 pub type TimestampOpt = Option<Timestamp>;
 
+// TODO: change to a typed `struct EventsKey(...)`
 pub type EventsKey = (Timestamp, usize);
 pub type Events = BTreeMap<EventsKey, Evtx>;
 
@@ -139,7 +140,8 @@ pub fn ts_pass_filters(
     match (ts_filter_after, ts_filter_before) {
         (None, None) => {
             defx!("return InRange; (no dt filters)");
-            return Result_Filter_DateTime2::InRange;
+
+            Result_Filter_DateTime2::InRange
         }
         (Some(da), Some(db)) => {
             debug_assert_le!(da, db, "Bad datetime range values filter_after {:?} {:?} filter_before", da, db);
@@ -181,20 +183,24 @@ pub fn ts_pass_filters(
 
 /// A wrapper for using [`EvtxParser`] to read a [evtx format file].
 ///
-/// .evtx files in the wild were found to store event in a non-chronological
+/// An `EvtxReader` presumes the file events are not stored in chronological
+/// order.
+///
+/// `.evtx` files in the wild were found to store events in a non-chronological
 /// order, e.g. the XML value at `Event.System.TimeCreated` are not
-/// necessarily in ascending order.
+/// necessarily in ascending order.<br/>
 /// About 2/3 of the files on a long-running Windows 11 system were found to be
-/// in this "out of order" state.
-/// More accurately, using `evtx_dump` to dump a .evtx file displayed events in
-/// non-chronological order (so unlikely but possibly a problem with
-/// `evtx_dump`). Either way, that is the underlying
-/// library used to read the .evtx files so it's a problem for this program.
+/// in this "out of order" state.<br/>
+/// More accurately, using `evtx_dump` to dump a `.evtx` file displayed events
+//; in non-chronological order (so unlikely but possibly a problem with
+/// `evtx_dump`).
+/// Either way, that is the underlying
+/// library used to read the `.evtx` files so it's a problem for this
+/// program.<br/>
 /// This `EvtxReader` wrapper sorts the events by timestamp and then by
-/// order of enumeration.
+/// order of enumeration.<br/>
 /// Unfortunately, this means the entire file must be read into memory before
-/// Events can be further processed (compared to other log messages) and then
-/// printed.
+/// Events can be further processed and then printed.<br/>
 /// Also see [Issue #86].
 ///
 /// [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
@@ -261,6 +267,7 @@ pub struct EvtxReader {
     ///
     /// [`Error`]: std::io::Error
     /// [Clone or Copy `Error`]: https://github.com/rust-lang/rust/issues/24135
+    // TRACKING: https://github.com/rust-lang/rust/issues/24135
     error: Option<String>,
 }
 
@@ -304,7 +311,9 @@ pub struct SummaryEvtxReader {
 /// Implement the EvtxReader.
 impl<'a> EvtxReader {
     /// Create a new `EvtxReader`.
-    // NOTE: should not attempt any file reads here, similar to other `*Readers`
+    ///
+    /// **NOTE:** should not attempt any file reads here, similar to other
+    /// `*Readers::new()`
     pub fn new(
         path: FPath,
     ) -> Result<EvtxReader> {

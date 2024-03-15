@@ -5,7 +5,8 @@ Speedily search and merge log messages by datetime.
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
 This includes log files that are compressed (`.gz`, `.xz`), or archived (`.tar`),
-and binary format logs including utmpx user accounting records (`utmp`, `wtmp`),
+and binary format logs including acct/lastlog/utmp accounting records
+(`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
 It will parse a variety of formal and ad-hoc log message datetime formats.
 
@@ -339,7 +340,7 @@ See the real-world example rationale in section
     - [RFC 5424]
     - [ISO 8601] \*\*
   - [Red Hat Audit Log] files
-  - binary ["utmpx" user accounting records] files
+  - binary [user accounting records] files (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`)
   - binary [Windows Event Log] files
   - binary [systemd journal] files with printing options matching [`journalctl`]
   - many varying text log messages with ad-hoc datetime formats
@@ -356,7 +357,7 @@ See the real-world example rationale in section
 - Processes invalid UTF-8
 - Accepts arbitrarily large files \*\*\*\*
 
-["utmpx" user accounting records]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
+[user accounting records]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
 [RFC 2822]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
 [RFC 3164]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8

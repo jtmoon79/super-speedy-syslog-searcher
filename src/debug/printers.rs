@@ -220,7 +220,7 @@ pub fn file_to_String_noraw(path: &FPath) -> String {
     s3
 }
 
-/// helper flush stdout and stderr
+/// Helper flush stdout and stderr
 #[doc(hidden)]
 #[allow(dead_code)]
 #[cfg(any(debug_assertions, test))]

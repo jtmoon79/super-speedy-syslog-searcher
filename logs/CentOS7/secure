@@ -1,0 +1,59 @@
+Apr 23 02:36:51 eggbert polkitd[657]: Registered Authentication Agent for unix-process:14097:4033422 (system bus name :1.119 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8)
+Apr 23 02:36:51 eggbert polkitd[657]: Unregistered Authentication Agent for unix-process:14097:4033422 (system bus name :1.119, object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8) (disconnected from bus)
+May  6 21:19:24 eggbert polkitd[672]: Loading rules from directory /etc/polkit-1/rules.d
+May  6 21:19:24 eggbert polkitd[672]: Loading rules from directory /usr/share/polkit-1/rules.d
+May  6 21:19:24 eggbert polkitd[672]: Finished loading, compiling and executing 2 rules
+May  6 21:19:24 eggbert polkitd[672]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+May  6 21:19:43 eggbert sshd[1024]: Server listening on 0.0.0.0 port 22.
+May  6 21:19:43 eggbert sshd[1024]: Server listening on :: port 22.
+May 10 00:33:59 eggbert polkitd[666]: Loading rules from directory /etc/polkit-1/rules.d
+May 10 00:33:59 eggbert polkitd[666]: Loading rules from directory /usr/share/polkit-1/rules.d
+May 10 00:33:59 eggbert polkitd[666]: Finished loading, compiling and executing 2 rules
+May 10 00:34:09 eggbert polkitd[666]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+May 10 00:34:27 eggbert sshd[1068]: Server listening on 0.0.0.0 port 22.
+May 10 00:34:27 eggbert sshd[1068]: Server listening on :: port 22.
+May 10 00:34:56 eggbert login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+May 10 00:34:56 eggbert login: ROOT LOGIN ON tty1
+May 10 00:36:28 eggbert sshd[1803]: Accepted password for root from 192.168.100.254 port 50784 ssh2
+May 10 00:36:28 eggbert sshd[1803]: pam_unix(sshd:session): session opened for user root by (uid=0)
+May 10 02:32:03 eggbert polkitd[666]: Registered Authentication Agent for unix-process:5801:716155 (system bus name :1.31 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8)
+Dec 15 02:54:20 eggbert polkitd[675]: Loading rules from directory /etc/polkit-1/rules.d
+Dec 15 02:54:20 eggbert polkitd[675]: Loading rules from directory /usr/share/polkit-1/rules.d
+Dec 15 02:54:20 eggbert polkitd[675]: Finished loading, compiling and executing 2 rules
+Dec 15 02:54:20 eggbert polkitd[675]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+Dec 15 02:54:39 eggbert sshd[1021]: Server listening on 0.0.0.0 port 22.
+Dec 15 02:54:39 eggbert sshd[1021]: Server listening on :: port 22.
+Dec 15 03:01:45 eggbert login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Dec 15 03:01:45 eggbert login: ROOT LOGIN ON tty1
+Dec 15 03:03:09 eggbert sshd[1814]: Accepted password for root from 192.168.100.254 port 51220 ssh2
+Dec 15 03:03:09 eggbert sshd[1814]: pam_unix(sshd:session): session opened for user root by (uid=0)
+Dec 15 03:08:57 eggbert sshd[2807]: Connection closed by ::1 port 44346 [preauth]
+Dec 15 03:09:05 eggbert sshd[1814]: Received disconnect from 192.168.100.254 port 51220:11: disconnected by user
+Dec 15 03:09:05 eggbert sshd[1814]: Disconnected from 192.168.100.254 port 51220
+Dec 15 03:09:05 eggbert sshd[1814]: pam_unix(sshd:session): session closed for user root
+Dec 15 03:09:15 eggbert sshd[2855]: Accepted password for root from 192.168.100.254 port 51204 ssh2
+Dec 15 03:09:15 eggbert sshd[2855]: pam_unix(sshd:session): session opened for user root by (uid=0)
+Dec 15 03:09:33 eggbert useradd[3235]: new group: name=user1, GID=1001
+Dec 15 03:09:33 eggbert useradd[3235]: new user: name=user1, UID=1001, GID=1001, home=/home/user1, shell=/bin/bash
+Dec 15 03:09:42 eggbert sudo:    root : TTY=pts/0 ; PWD=/var/log ; USER=user1 ; COMMAND=/bin/bash
+Dec 15 03:09:42 eggbert sudo: pam_unix(sudo-i:session): session opened for user user1 by root(uid=0)
+Dec 15 03:09:44 eggbert sudo: pam_unix(sudo-i:session): session closed for user user1
+Dec 15 03:09:53 eggbert sshd[3327]: Connection closed by ::1 port 44348 [preauth]
+Dec 15 03:10:03 eggbert sshd[3351]: Connection closed by ::1 port 44350 [preauth]
+Dec 15 03:10:09 eggbert passwd: pam_unix(passwd:chauthtok): password changed for user1
+Dec 15 03:10:21 eggbert sshd[3422]: Accepted password for user1 from ::1 port 44352 ssh2
+Dec 15 03:10:21 eggbert sshd[3422]: pam_unix(sshd:session): session opened for user user1 by (uid=0)
+Dec 15 03:10:22 eggbert sshd[3426]: Received disconnect from ::1 port 44352:11: disconnected by user
+Dec 15 03:10:22 eggbert sshd[3426]: Disconnected from ::1 port 44352
+Dec 15 03:10:22 eggbert sshd[3422]: pam_unix(sshd:session): session closed for user user1
+Dec 15 03:11:39 eggbert polkitd[675]: Registered Authentication Agent for unix-process:3622:114236 (system bus name :1.29 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_US.UTF-8)
+Feb 16 18:33:22 eggbert polkitd[672]: Loading rules from directory /etc/polkit-1/rules.d
+Feb 16 18:33:22 eggbert polkitd[672]: Loading rules from directory /usr/share/polkit-1/rules.d
+Feb 16 18:33:22 eggbert polkitd[672]: Finished loading, compiling and executing 2 rules
+Feb 16 18:33:22 eggbert polkitd[672]: Acquired the name org.freedesktop.PolicyKit1 on the system bus
+Feb 16 18:33:31 eggbert sshd[1003]: Server listening on 0.0.0.0 port 22.
+Feb 16 18:33:31 eggbert sshd[1003]: Server listening on :: port 22.
+Feb 16 18:35:42 eggbert login: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
+Feb 16 18:35:42 eggbert login: ROOT LOGIN ON tty1
+Feb 16 18:36:22 eggbert sshd[1801]: Accepted password for root from 192.168.100.254 port 49434 ssh2
+Feb 16 18:36:22 eggbert sshd[1801]: pam_unix(sshd:session): session opened for user root by (uid=0)

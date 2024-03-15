@@ -4,9 +4,12 @@
 //! and prepare data needed to create a [`SyslogProcessor`] instance or other
 //! "Reader" instance for file processing.
 //!
+//! This should be the only file that deals with `MimeGuess` type.
+// TODO: [2023/10] make that prior statement true; nothing else uses `MimeGuess`
+//!
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 
-use crate::common::{FPath, FileType};
+use crate::common::{FPath, FileType, FixedStructFileType};
 use crate::readers::blockreader::SUBPATH_SEP;
 use crate::readers::helpers::{
     filename_count_extensions,
@@ -60,7 +63,7 @@ pub enum ProcessPathResult {
 }
 
 #[cfg(test)]
-/// helper to `copy_process_path_result_canonicalize_path`
+/// Helper to `copy_process_path_result_canonicalize_path`
 fn canonicalize_fpath(fpath: &FPath) -> FPath {
     let path: &Path = fpath_to_path(fpath);
     match path.canonicalize() {
@@ -122,23 +125,51 @@ const PARSEABLE_FILENAMES_FILE: [&str; 3] = [
     "kernlog",
 ];
 
+/// [acct format] file names.
+///
+/// [acct format]: https://man.netbsd.org/acct.5
+const ACCT_FILENAMES_FILE: [&str; 2] = [
+    // Linux, NetBSD
+    "acct",
+    // Linux acct v3
+    "pacct",
+];
+
+/// [laslog format] file names.
+///
+/// [lastlog format]: https://web.archive.org/web/20231216015325/https://man.freebsd.org/cgi/man.cgi?query=lastlog&sektion=5&manpath=NetBSD+9.3
+const LASTLOG_FILENAMES_FILE: [&str; 1] = [
+    // multiple systems
+    "lastlog",
+];
+
+/// [laslogx format] file names.
+///
+/// [lastlogx format]: https://web.archive.org/web/20231216015325/https://man.freebsd.org/cgi/man.cgi?query=lastlog&sektion=5&manpath=NetBSD+9.3
+const LASTLOGX_FILENAMES_FILE: [&str; 1] = [
+    // NetBSD
+    "lastlogx",
+];
+
 /// [utmpx format] file names.
 ///
 /// [utmpx format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#Location
-const UTMP_FILENAMES_FILE: [&str; 9] = [
-    // Linux, HP-UX
+const UTMP_FILENAMES_FILE: [&str; 3] = [
+    // Linux, HP-UX, FreeBSD, NetBSD, OpenBSD
     "btmp",
     "utmp",
     "wtmp",
-    // Solaris
+];
+
+
+/// [utmpx format] file names.
+///
+/// [utmpx format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#Location
+const UTMPX_FILENAMES_FILE: [&str; 3] = [
+    // Solaris, FreeBSD, NetBSD, OpenBSD
     "btmpx",
     "utmpx",
     "wtmpx",
-    // FreeBSD
-    "utx.active",
-    "utx.lastlogin",
-    // `utx.log` is an ambiguous name, could be a plain log file or utmpx file
-    "utx.log",
 ];
 
 /// [evtx format] file name extensions.
@@ -256,34 +287,68 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
 /// in the name, e.g. `messages` or `syslog`, or files
 /// with appended extensions, e.g. `samba.log.old`.
 ///
-/// _supplementary_ for `fn mimeguess_to_filetype`.
-/// Does not replace that function!
+/// Users should call `path_to_filetype_mimeguess` instead of this function.
+///
+/// _Supplementary_ for `fn mimeguess_to_filetype`;
+/// `path_to_filetype` does not replace `mimeguess_to_filetype`!
 /// e.g. calling `path_to_filetype("file.txt")` will return `FileUnknown`.
+/// In other words, `path_to_filetype` is tightly bound to `mimeguess_to_filetype`.
+//
+// TODO: [2023/12/15] have this function call itself as long as there is a
+//       file extension to remove. Change the `path_to_filetype_mimeguess`
+//       to do less file name munging and truly only fallback to Mimeguess
+//       if this function return `Unknown`.
 pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     defn!("({:?})", path);
 
     let file_name: &OsStr = path
         .file_name()
         .unwrap_or_default();
-    deo!("file_name {:?}", file_name);
+    defo!("file_name {:?}", file_name);
     let file_name_string: String = file_name
         .to_str()
         .unwrap_or_default()
         .to_ascii_lowercase();
     let file_name_s: &str = file_name_string.as_str();
-    deo!("file_name_s {:?}", file_name_s);
+    defo!("file_name_s {:?}", file_name_s);
 
     if PARSEABLE_FILENAMES_FILE.contains(&file_name_s) {
         defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
         return FileType::File;
     }
+    defo!("Did not find {:?} in PARSEABLE_FILENAMES_FILE", file_name_s);
+
+    if ACCT_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return FixedStruct; ACCT_FILENAMES_FILE.contains({:?})", file_name_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Acct };
+    }
+    defo!("Did not find {:?} in ACCT_FILENAMES_FILE", file_name_s);
+
+    if LASTLOG_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return Lastlog; LASTLOG_FILENAMES_FILE.contains({:?})", file_name_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlog };
+    }
+    defo!("Did not find {:?} in LASTLOG_FILENAMES_FILE", file_name_s);
+
+    if LASTLOGX_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return Lastlogx; LASTLOGX_FILENAMES_FILE.contains({:?})", file_name_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlogx };
+    }
+    defo!("Did not find {:?} in LASTLOGX_FILENAMES_FILE", file_name_s);
 
     if UTMP_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return Utmpx; UTMP_FILENAMES_FILE.contains({:?})", file_name_s);
-        return FileType::Utmpx;
+        defx!("return FixedStruct; UTMP_FILENAMES_FILE.contains({:?})", file_name_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Utmp };
     }
+    defo!("Did not find {:?} in UTMP_FILENAMES_FILE", file_name_s);
 
-    // XXX: `file_prefix` WIP https://github.com/rust-lang/rust/issues/86319
+    if UTMPX_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return FixedStruct; UTMPX_FILENAMES_FILE.contains({:?})", file_name_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Utmpx };
+    }
+    defo!("Did not find {:?} in UTMPX_FILENAMES_FILE", file_name_s);
+
+    // TRACKING: `Path::file_prefix` WIP https://github.com/rust-lang/rust/issues/86319
     //let file_prefix: &OsStr = &path.file_prefix().unwrap_or_default();
     let file_prefix = path
         .file_stem()
@@ -293,7 +358,7 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         .unwrap_or_default()
         .to_ascii_lowercase();
     let file_prefix_s: &str = file_prefix_string.as_str();
-    deo!("file_prefix {:?}", file_prefix_s);
+    defo!("file_prefix {:?}", file_prefix_s);
 
     let file_suffix: &OsStr = path
         .extension()
@@ -303,7 +368,7 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         .unwrap_or_default()
         .to_ascii_lowercase();
     let file_suffix_s = file_suffix_string.as_str();
-    deo!("file_suffix {:?}", file_suffix_s);
+    defo!("file_suffix {:?}", file_suffix_s);
 
     if EVTX_FILENAMES_EXT.contains(&file_suffix_s) {
         defx!("return Evtx; EVTX_FILENAMES_EXT.contains({:?})", file_suffix_s);
@@ -315,9 +380,16 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         return FileType::Journal;
     }
 
+    // FreeBSD has a file `utx.lastlogin` which is the resident `utmpx` format
+
+    if LASTLOG_FILENAMES_FILE.contains(&file_prefix_s) {
+        defx!("return Lastlog; LASTLOG_FILENAMES_FILE.contains({:?})", file_prefix_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlog };
+    }
+
     if UTMP_FILENAMES_FILE.contains(&file_suffix_s) {
-        defx!("return Utmpx; UTMP_FILENAMES_FILE.contains({:?})", file_suffix_s);
-        return FileType::Utmpx;
+        defx!("return FixedStruct; UTMP_FILENAMES_FILE.contains({:?})", file_suffix_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Utmp };
     }
 
     // FileTgz (returns `Unparseable`)
@@ -465,6 +537,44 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         return FileType::File;
     }
 
+    // try known files again but only on the prefix
+
+    if PARSEABLE_FILENAMES_FILE.contains(&file_prefix_s) {
+        defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_prefix_s);
+        return FileType::File;
+    }
+    defo!("Did not find {:?} in PARSEABLE_FILENAMES_FILE", file_prefix_s);
+
+    if ACCT_FILENAMES_FILE.contains(&file_prefix_s) {
+        defx!("return FixedStruct; ACCT_FILENAMES_FILE.contains({:?})", file_prefix_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Acct };
+    }
+    defo!("Did not find {:?} in ACCT_FILENAMES_FILE", file_prefix_s);
+
+    if LASTLOG_FILENAMES_FILE.contains(&file_prefix_s) {
+        defx!("return Lastlog; LASTLOG_FILENAMES_FILE.contains({:?})", file_prefix_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlog };
+    }
+    defo!("Did not find {:?} in LASTLOG_FILENAMES_FILE", file_prefix_s);
+
+    if LASTLOGX_FILENAMES_FILE.contains(&file_prefix_s) {
+        defx!("return Lastlogx; LASTLOGX_FILENAMES_FILE.contains({:?})", file_prefix_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlogx };
+    }
+    defo!("Did not find {:?} in LASTLOGX_FILENAMES_FILE", file_prefix_s);
+
+    if UTMP_FILENAMES_FILE.contains(&file_prefix_s) {
+        defx!("return FixedStruct; UTMP_FILENAMES_FILE.contains({:?})", file_prefix_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Utmp };
+    }
+    defo!("Did not find {:?} in UTMP_FILENAMES_FILE", file_prefix_s);
+
+    if UTMPX_FILENAMES_FILE.contains(&file_prefix_s) {
+        defx!("return FixedStruct; UTMPX_FILENAMES_FILE.contains({:?})", file_prefix_s);
+        return FileType::FixedStruct{ type_: FixedStructFileType::Utmpx };
+    }
+    defo!("Did not find {:?} in UTMPX_FILENAMES_FILE", file_prefix_s);
+
     // some logs have no extension in the name
     if path.extension().is_none() {
         defx!("return File; no path.extension()");
@@ -495,7 +605,7 @@ pub fn processable_filetype(filetype: &FileType) -> bool {
         | FileType::Tar
         | FileType::TarGz
         | FileType::Xz
-        | FileType::Utmpx
+        | FileType::FixedStruct{..}
         | FileType::Evtx
         | FileType::Journal
         // `FileType::Unparseable` is not parseable but
@@ -511,6 +621,54 @@ pub fn processable_filetype(filetype: &FileType) -> bool {
 /// Users should prefer this function and not those other functions.
 pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
     defn!("({:?})", path);
+
+    let file_name: &OsStr = path
+        .file_name()
+        .unwrap_or_default();
+    defo!("file_name {:?}", file_name);
+    let file_name_string: String = file_name
+        .to_str()
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    let file_name_s: &str = file_name_string.as_str();
+    defo!("file_name_s {:?}", file_name_s);
+
+    // hack, preempt other checks with known special cases
+    if PARSEABLE_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
+        return (FileType::File, MimeGuess::from_ext(""));
+    }
+    defo!("Did not find {:?} in PARSEABLE_FILENAMES_FILE", file_name_s);
+
+    if ACCT_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return FixedStruct{{Acct}}; ACCT_FILENAMES_FILE.contains({:?})", file_name_s);
+        return (FileType::FixedStruct{type_: FixedStructFileType::Acct}, MimeGuess::from_ext(""));
+    }
+    defo!("Did not find {:?} in ACCT_FILENAMES_FILE", file_name_s);
+
+    if LASTLOG_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return FixedStruct{{Lastlog}}; LASTLOG_FILENAMES_FILE.contains({:?})", file_name_s);
+        return (FileType::FixedStruct{type_: FixedStructFileType::Lastlog}, MimeGuess::from_ext(""));
+    }
+    defo!("Did not find {:?} in LASTLOG_FILENAMES_FILE", file_name_s);
+
+    if LASTLOGX_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return FixedStruct{{Lastlogx}}; LASTLOGX_FILENAMES_FILE.contains({:?})", file_name_s);
+        return (FileType::FixedStruct{type_: FixedStructFileType::Lastlogx}, MimeGuess::from_ext(""));
+    }
+    defo!("Did not find {:?} in LASTLOGX_FILENAMES_FILE", file_name_s);
+
+    if UTMP_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return FixedStruct{{Utmp}}; UTMP_FILENAMES_FILE.contains({:?})", file_name_s);
+        return (FileType::FixedStruct{type_: FixedStructFileType::Utmp}, MimeGuess::from_ext(""));
+    }
+    defo!("Did not find {:?} in UTMP_FILENAMES_FILE", file_name_s);
+
+    if UTMPX_FILENAMES_FILE.contains(&file_name_s) {
+        defx!("return FixedStruct{{Utmpx}}; UTMPX_FILENAMES_FILE.contains({:?})", file_name_s);
+        return (FileType::FixedStruct{type_: FixedStructFileType::Utmpx}, MimeGuess::from_ext(""));
+    }
+    defo!("Did not find {:?} in UTMPX_FILENAMES_FILE", file_name_s);
 
     // first, try to determine the mimetype
     let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
@@ -625,7 +783,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
         | FileType::Tar
         | FileType::TarGz
         | FileType::Xz
-        | FileType::Utmpx
+        | FileType::FixedStruct{..}
         | FileType::Evtx
         | FileType::Journal
         | FileType::Unparseable
@@ -647,7 +805,7 @@ pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess)
     path_to_filetype_mimeguess(path_)
 }
 
-/// helper to `process_path_tar`
+/// Helper to `process_path_tar`
 fn error_to_string(error: &std::io::Error, path: &FPath) -> String {
     String::from(
         format!(
@@ -831,7 +989,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             | FileType::Gz
             | FileType::Tar
             | FileType::Xz
-            | FileType::Utmpx
+            | FileType::FixedStruct{..}
             | FileType::Evtx
             | FileType::Journal
             | FileType::Unknown

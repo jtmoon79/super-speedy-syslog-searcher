@@ -200,10 +200,11 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
-// XXX: it would be better-suited to use rust feature `#[cfg(accessible(..))]`
-//      which is unfortunately still unimplemented, see rust-lang/rust#64797
-//      https://github.com/rust-lang/rust/issues/64797
-//      Relates to Issue #100 jtmoon79/super-speedy-syslog-searcher#100
+// TRACKING: rust-lang/rust#64797 https://github.com/rust-lang/rust/issues/64797
+//           it would be better-suited to use rust feature `#[cfg(accessible(..))]`
+//           which is unfortunately still unimplemented
+//           Relates to Issue #100 jtmoon79/super-speedy-syslog-searcher#100
+//           <https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/100>
 #[cfg(not(target_os = "windows"))]
 pub use ::nix::errno::Errno;
 #[allow(unused_imports)]
@@ -672,7 +673,8 @@ pub fn em_pass_filters(
     match (em_filter_after, em_filter_before) {
         (None, None) => {
             defx!("return InRange; (no dt filters)");
-            return Result_Filter_DateTime2::InRange;
+
+            Result_Filter_DateTime2::InRange
         }
         (Some(em_a), Some(em_b)) => {
             debug_assert_le!(em_a, em_b, "Bad datetime range values filter_after {:?} {:?} filter_before", em_a, em_b);
@@ -745,6 +747,7 @@ pub fn em_after_or_before(
     Result_Filter_DateTime1::OccursAtOrAfter
 }
 
+// TODO: change to a typed `struct EntryBufferKey(...)`
 type EntryBufferKey = (DateTimeL, usize);
 type EntryBuffer = BTreeMap<EntryBufferKey, JournalEntry>;
 
@@ -946,6 +949,7 @@ pub struct JournalReader {
     ///
     /// [`Error`]: std::io::Error
     /// [Clone or Copy `Error`]: https://github.com/rust-lang/rust/issues/24135
+    // TRACKING: https://github.com/rust-lang/rust/issues/24135
     error: Option<String>,
     #[cfg(test)]
     pub(crate) force_error_range_opt: ForceErrorRangeOpt,
@@ -996,7 +1000,9 @@ impl<'a> JournalReader {
     pub const ENTRY_BUFFER_SZ: usize = 0x200 - 1;
 
     /// Create a new `JournalReader`.
-    // NOTE: should not attempt any file reads here, similar to other `*Readers`
+    ///
+    /// NOTE: should not attempt any file reads here,
+    /// similar to other `*Readers::new()`
     pub fn new(
         path: FPath,
         journal_output: JournalOutput,

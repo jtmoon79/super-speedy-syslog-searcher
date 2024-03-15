@@ -57,7 +57,7 @@ const RS3T_FOUND: ResultS3LineFind_Test = ResultS3LineFind_Test::Found;
 
 // -------------------------------------------------------------------------------------------------
 
-/// helper to wrap the match and panic checks
+/// Helper to wrap the match and panic checks
 fn new_LineReader(
     path: &FPath,
     blocksz: BlockSz,
@@ -1939,6 +1939,8 @@ fn test_LineReader_summary_empty(
     0
 )]
 /// test `LineReader.Summary()`
+// TODO: [2024/03/10] copy design of similar function
+//       `fixedstructreader_tests.rs:test_FixedStructReader_summary`
 fn test_SummaryLineReader(
     path: &FPath,
     blocksz: BlockSz,

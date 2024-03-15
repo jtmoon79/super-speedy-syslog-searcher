@@ -269,7 +269,7 @@ impl JournalEntry {
     ) -> Self {
         def1ñ!();
 
-        #[cfg(debug_assertions)]
+        #[cfg(any(debug_assertions, test))]
         {
             if DT_USES_SOURCE_OVERRIDE.is_none() {
                 match dt_uses_source {

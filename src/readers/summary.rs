@@ -19,12 +19,12 @@ use crate::readers::blockreader::{
     BLOCKSZ_MAX,
     SummaryBlockReader,
 };
-#[cfg(debug_assertions)]
+#[cfg(any(debug_assertions, test))]
 use crate::readers::blockreader::BLOCKSZ_MIN;
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::SummarySyslogProcessor;
-use crate::readers::utmpxreader::SummaryUtmpxReader;
+use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::evtxreader::SummaryEvtxReader;
 use crate::readers::journalreader::SummaryJournalReader;
 
@@ -32,6 +32,8 @@ use std::fmt;
 
 use ::min_max::max;
 use ::more_asserts::{debug_assert_ge, debug_assert_le};
+#[cfg(any(debug_assertions, test))]
+use ::more_asserts::{assert_ge, assert_le};
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
@@ -43,7 +45,8 @@ use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 macro_rules! debug_assert_none {
     ($($arg:expr),+) => {
         $(
-            if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
+            {
                 match $arg {
                     None => {}
                     Some(..) => panic!("'{}' is not None", stringify!($arg))
@@ -67,10 +70,10 @@ pub enum SummaryReaderData {
     ///
     /// [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
     Syslog((SummaryBlockReader, SummaryLineReader, SummarySyslineReader, SummarySyslogProcessor)),
-    /// For a [`UtmpxReader`] and underlying readers.
+    /// For a [`FixedStructReader`] and underlying readers.
     ///
-    /// [`UtmpxReader`]: crate::readers::utmpxreader::UtmpxReader
-    Utmpx((SummaryBlockReader, SummaryUtmpxReader)),
+    /// [`FixedStructReader`]: crate::readers::fixedstructreader::FixedStructReader
+    FixedStruct((SummaryBlockReader, SummaryFixedStructReader)),
     /// For a [`EvtxReader`].
     ///
     /// [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
@@ -92,7 +95,7 @@ impl SummaryReaderData {
 
 /// Accumulated statistics about processing and printing activity of a single
 /// file processed by a `SyslineReader` and it's underlying `LineReader` and
-/// it's underlying `BlockReader`, _or_ a `UtmpxReader` and it's underlying
+/// it's underlying `BlockReader`, _or_ a `FixedStructReader` and it's underlying
 /// `BlockReader`.
 ///
 /// For CLI option `--summary`.
@@ -109,8 +112,10 @@ pub struct Summary {
     /// When `logmessagetype` is [`LogMessageType::Sysline`] then this must be
     /// [`SummaryReaderData::Syslog`].
     ///
-    /// When `logmessagetype` is [`LogMessageType::Sysline`] then this must be
-    /// [`SummaryReaderData::Utmpx`].
+    /// When `logmessagetype` is [`LogMessageType::FixedStruct*`] then this must be
+    /// [`SummaryReaderData::FixedStruct`].
+    ///
+    /// [`LogMessageType::FixedStruct*`]: crate::common::LogMessageType
     pub readerdata: SummaryReaderData,
     /// The first encountered [`Error`], if any, as a `String`.
     ///
@@ -118,6 +123,7 @@ pub struct Summary {
     ///
     /// [`Error`]: std::io::Error
     /// [Clone or Copy `Error`]: https://github.com/rust-lang/rust/issues/24135
+    // TRACKING: https://github.com/rust-lang/rust/issues/24135
     pub error: Option<String>,
 }
 
@@ -132,18 +138,18 @@ impl Summary {
         summarylinereader_opt: Option<SummaryLineReader>,
         summarysyslinereader_opt: Option<SummarySyslineReader>,
         summarysyslogprocessor_opt: Option<SummarySyslogProcessor>,
-        summaryutmpreader_opt: Option<SummaryUtmpxReader>,
+        summaryfixedstructreader_opt: Option<SummaryFixedStructReader>,
         summaryevtxreader_opt: Option<SummaryEvtxReader>,
         summaryjournalreader_opt: Option<SummaryJournalReader>,
         error: Option<String>,
     ) -> Summary {
-        #[cfg(debug_assertions)]
+        #[cfg(any(debug_assertions, test))]
         match summaryblockreader_opt.as_ref() {
             // XXX: random sanity checks
             Some(summaryblockreader) => {
-                debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryblockreader.blockreader_blocks, "There is less bytes than Blocks");
-                debug_assert_ge!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MIN, "blocksz too small");
-                debug_assert_le!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MAX, "blocksz too big");
+                assert_ge!(summaryblockreader.blockreader_bytes, summaryblockreader.blockreader_blocks, "There is less bytes than Blocks");
+                assert_ge!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MIN, "blocksz too small");
+                assert_le!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MAX, "blocksz too big");
             }
             None => {}
         }
@@ -155,7 +161,7 @@ impl Summary {
         match logmessagetype {
             LogMessageType::Sysline => {
                 debug_assert_none!(
-                    summaryutmpreader_opt,
+                    summaryfixedstructreader_opt,
                     summaryevtxreader_opt
                 );
                 let summaryblockreader = summaryblockreader_opt.unwrap();
@@ -180,7 +186,7 @@ impl Summary {
                     error,
                 }
             }
-            LogMessageType::Utmpx => {
+            LogMessageType::FixedStruct => {
                 debug_assert_none!(
                     summarylinereader_opt,
                     summarysyslinereader_opt,
@@ -188,12 +194,12 @@ impl Summary {
                     summaryevtxreader_opt
                 );
                 let summaryblockreader = summaryblockreader_opt.unwrap();
-                let summaryutmpreader = summaryutmpreader_opt.unwrap();
-                debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryutmpreader.utmpxreader_utmp_entries, "There is less bytes than Utmpx Entries");
-                let readerdata: SummaryReaderData = SummaryReaderData::Utmpx(
+                let summaryfixedstructreader = summaryfixedstructreader_opt.unwrap();
+                debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryfixedstructreader.fixedstructreader_utmp_entries, "There is less bytes than FixedStruct Entries");
+                let readerdata: SummaryReaderData = SummaryReaderData::FixedStruct(
                     (
                         summaryblockreader,
-                        summaryutmpreader,
+                        summaryfixedstructreader,
                     ),
                 );
                 Summary {
@@ -204,13 +210,37 @@ impl Summary {
                     error,
                 }
             }
+            // LogMessageType::FixedStructFixedStruct => {
+            //     debug_assert_none!(
+            //         summarylinereader_opt,
+            //         summarysyslinereader_opt,
+            //         summarysyslogprocessor_opt,
+            //         summaryevtxreader_opt
+            //     );
+            //     let summaryblockreader = summaryblockreader_opt.unwrap();
+            //     let summaryfixedstructreader = summaryfixedstructreader_opt.unwrap();
+            //     debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryfixedstructreader.fixedstructreader_utmp_entries, "There is less bytes than FixedStruct Entries");
+            //     let readerdata: SummaryReaderData = SummaryReaderData::FixedStruct(
+            //         (
+            //             summaryblockreader,
+            //             summaryfixedstructreader,
+            //         ),
+            //     );
+            //     Summary {
+            //         path,
+            //         filetype,
+            //         logmessagetype,
+            //         readerdata,
+            //         error,
+            //     }
+            // }
             LogMessageType::Evtx => {
                 debug_assert_none!(
                     summaryblockreader_opt,
                     summarylinereader_opt,
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
-                    summaryutmpreader_opt
+                    summaryfixedstructreader_opt
                 );
                 let summaryevtxreader = summaryevtxreader_opt.unwrap();
                 let readerdata: SummaryReaderData = SummaryReaderData::Etvx(
@@ -255,7 +285,6 @@ impl Summary {
         error: Option<String>,
     ) -> Summary {
         // some sanity checks
-        //debug_assert_ge!(blockreader_blocksz, BLOCKSZ_MIN, "blocksz too small");
         debug_assert_le!(blockreader_blocksz, BLOCKSZ_MAX, "blocksz too big");
 
         Summary {
@@ -268,7 +297,7 @@ impl Summary {
         }
     }
 
-    /// helper to get optional `SummaryBlockReader` reference
+    /// Helper to get optional `SummaryBlockReader` reference
     pub fn blockreader(&self) -> Option<&SummaryBlockReader> {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
@@ -286,10 +315,10 @@ impl Summary {
                     _summarysyslogprocessor,
                 )
             ) => Some(summaryblockreader),
-            SummaryReaderData::Utmpx(
+            SummaryReaderData::FixedStruct(
                 (
                     summaryblockreader,
-                    _summaryutmpreader,
+                    _summaryfixedstructreader,
                 )
             ) => Some(summaryblockreader),
             SummaryReaderData::Etvx(_) => None,
@@ -316,12 +345,12 @@ impl Summary {
                     _summarysyslogprocessor,
                 )
             ) => &summarysyslinereader.syslinereader_datetime_first,
-            SummaryReaderData::Utmpx(
+            SummaryReaderData::FixedStruct(
                 (
                     _summaryblockreader,
-                    summaryutmpreader,
+                    summaryfixedstructreader,
                 )
-            ) => &summaryutmpreader.utmpxreader_datetime_first,
+            ) => &summaryfixedstructreader.fixedstructreader_datetime_first,
             SummaryReaderData::Etvx(summaryevtxreader)
                 => &summaryevtxreader.evtxreader_datetime_first_accepted,
             SummaryReaderData::Journal(summaryjournalreader)
@@ -344,12 +373,12 @@ impl Summary {
                     _summarysyslogprocessor,
                 )
             ) => &summarysyslinereader.syslinereader_datetime_last,
-            SummaryReaderData::Utmpx(
+            SummaryReaderData::FixedStruct(
                 (
                     _summaryblockreader,
-                    summaryutmpreader,
+                    summaryfixedstructreader,
                 )
-            ) => &summaryutmpreader.utmpxreader_datetime_last,
+            ) => &summaryfixedstructreader.fixedstructreader_datetime_last,
             SummaryReaderData::Etvx(summaryevtxreader)
                 => &summaryevtxreader.evtxreader_datetime_last_accepted,
             SummaryReaderData::Journal(summaryjournalreader)
@@ -405,10 +434,10 @@ impl Summary {
                     summarysyslinereader.syslinereader_ezcheckd2_miss
                 )
             }
-            SummaryReaderData::Utmpx(
+            SummaryReaderData::FixedStruct(
                 (
                     summaryblockreader,
-                    summaryutmpreader,
+                    summaryfixedstructreader,
                 )
             ) => {
                 max!(
@@ -418,8 +447,8 @@ impl Summary {
                     summaryblockreader.blockreader_read_blocks_hit,
                     summaryblockreader.blockreader_read_blocks_miss,
                     summaryblockreader.blockreader_read_blocks_put,
-                    summaryutmpreader.utmpxreader_utmp_entries_max,
-                    summaryutmpreader.utmpxreader_utmp_entries_miss
+                    summaryfixedstructreader.fixedstructreader_utmp_entries_max,
+                    summaryfixedstructreader.fixedstructreader_utmp_entries_miss
                 )
             }
             SummaryReaderData::Etvx(summaryevtxreader) => {
@@ -464,10 +493,10 @@ impl Summary {
                     summarysyslinereader.syslinereader_drop_sysline_errors
                 )
             }
-            SummaryReaderData::Utmpx(
+            SummaryReaderData::FixedStruct(
                 (
                     summaryblockreader,
-                    _summaryutmpreader,
+                    _summaryfixedstructreader,
                 )
             ) => {
                 max!(
@@ -503,7 +532,7 @@ impl fmt::Debug for Summary {
                 match self.filetype {
                     FileType::File
                     | FileType::Tar
-                    | FileType::Utmpx
+                    | FileType::FixedStruct{..}
                     | FileType::Unknown => f
                         .debug_struct("")
                         .field("bytes", &summaryblockreader.blockreader_bytes)
@@ -543,18 +572,18 @@ impl fmt::Debug for Summary {
                         unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype),
                 }
             }
-            SummaryReaderData::Utmpx(
+            SummaryReaderData::FixedStruct(
                 (
                     summaryblockreader,
-                    summaryutmpreader,
+                    summaryfixedstructreader,
                 )
             ) => {
                 match self.filetype {
-                    FileType::Utmpx => f
+                    FileType::FixedStruct{..} => f
                         .debug_struct("")
                         .field("bytes", &summaryblockreader.blockreader_bytes)
                         .field("bytes total", &summaryblockreader.blockreader_bytes_total)
-                        .field("utmp entries", &summaryutmpreader.utmpxreader_utmp_entries)
+                        .field("entries", &summaryfixedstructreader.fixedstructreader_utmp_entries)
                         .field("blocks", &summaryblockreader.blockreader_blocks)
                         .field("blocks total", &summaryblockreader.blockreader_blocks_total)
                         .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)

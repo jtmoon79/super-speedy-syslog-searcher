@@ -1,0 +1,6 @@
+root      ttyp0    192.168.100.254          Sun Jan 28 16:18   still logged in
+root      ttyC0                             Sun Jan 28 16:17   still logged in
+root      ttyC0                             Sun Jan 28 16:12 - 16:17  (00:04)
+reboot    ~                                 Sun Jan 28 16:12
+
+wtmp begins Sun Jan 28 16:12 2024

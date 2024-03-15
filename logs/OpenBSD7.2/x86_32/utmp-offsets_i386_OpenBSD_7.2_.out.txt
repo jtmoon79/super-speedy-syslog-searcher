@@ -1,0 +1,16 @@
+CPU Architecture x86_32
+
+_PATH_LASTLOG    '/var/log/lastlog'
+lastlog               sizeof 272
+lastlog.ll_time  @  0 sizeof   8
+lastlog.ll_line  @  8 sizeof   8
+lastlog.ll_host  @ 16 sizeof 256
+
+_PATH_UTMP        '/var/run/utmp'
+_PATH_WTMP        '/var/log/wtmp'
+utmp                   sizeof 304
+utmp.ut_line      @  0 sizeof   8
+utmp.ut_name      @  8 sizeof  32
+utmp.ut_host      @ 40 sizeof 256
+utmp.ut_time      @296 sizeof   8
+

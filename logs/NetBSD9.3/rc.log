@@ -1,0 +1,173 @@
+[/etc/rc starting at Fri Dec  1 03:06:39 EST 2023]
+[running rcorder]
+[running /etc/rc.d/wdogctl]
+[running /etc/rc.d/fsck_root]
+Starting root file system check:
+/dev/rdk0: file system is clean; not checking
+[running /etc/rc.d/modules]
+[running /etc/rc.d/resize_root]
+[NOTE: Output from /etc/rc.d/resize_root is not logged]
+[running /etc/rc.d/root]
+[running /etc/rc.d/zfs]
+[running /etc/rc.d/ccd]
+[running /etc/rc.d/rndctl]
+[running /etc/rc.d/cgd]
+[NOTE: Output from /etc/rc.d/cgd is not logged]
+[running /etc/rc.d/lvm]
+[running /etc/rc.d/raidframe]
+[running /etc/rc.d/DISKS]
+[running /etc/rc.d/swap1]
+swapctl: setting dump device to /dev/dk1
+swapctl: adding /dev/dk1 as swap device at priority 0
+[running /etc/rc.d/fsck]
+Starting file system checks:
+[running /etc/rc.d/mountcritlocal]
+[NOTE: Optional file system /var is not present]
+[running /etc/rc.d/random_seed]
+Loaded entropy from /var/db/entropy-file.
+[running /etc/rc.d/bootconf.sh]
+[NOTE: Output from /etc/rc.d/bootconf.sh is not logged]
+[running /etc/rc.d/ttys]
+Setting tty flags.
+[running /etc/rc.d/npf_boot]
+[running /etc/rc.d/pf_boot]
+[running /etc/rc.d/ipsec]
+[running /etc/rc.d/ipfilter]
+[running /etc/rc.d/sysctl]
+Setting sysctl variables:
+ddb.onpanic: 1 -> 0
+[running /etc/rc.d/network]
+Starting network.
+Hostname: kek.boo
+IPv6 mode: host
+Configuring network interfaces: wm0.
+Adding interface aliases:.
+Waiting for DAD to complete for statically configured addresses...
+[running /etc/rc.d/wpa_supplicant]
+[running /etc/rc.d/dhcpcd]
+Starting dhcpcd.
+[running /etc/rc.d/ldpd]
+[running /etc/rc.d/staticroute]
+[running /etc/rc.d/mdnsd]
+[running /etc/rc.d/npf]
+[running /etc/rc.d/pf]
+[running /etc/rc.d/route6d]
+[running /etc/rc.d/routed]
+[running /etc/rc.d/NETWORKING]
+[running /etc/rc.d/iscsid]
+[running /etc/rc.d/mountcritremote]
+[NOTE: Optional file system /usr is not present]
+[running /etc/rc.d/sysdb]
+Building databases: dev, utmp, utmpx.
+[running /etc/rc.d/newsyslog]
+[running /etc/rc.d/wscons]
+Keyboard encoding -> us
+[running /etc/rc.d/syslogd]
+Starting syslogd.
+[running /etc/rc.d/ppp]
+[running /etc/rc.d/unbound]
+[running /etc/rc.d/named]
+[running /etc/rc.d/rtclocaltime]
+[running /etc/rc.d/ntpdate]
+Setting date via ntp.
+[running /etc/rc.d/rpcbind]
+[running /etc/rc.d/ypserv]
+[running /etc/rc.d/ypbind]
+[running /etc/rc.d/yppasswdd]
+[running /etc/rc.d/mountall]
+Mounting all file systems...
+[running /etc/rc.d/perusertmp]
+[running /etc/rc.d/cleartmp]
+Clearing temporary files.
+[running /etc/rc.d/xfs]
+[running /etc/rc.d/accounting]
+[running /etc/rc.d/amd]
+[running /etc/rc.d/dmesg]
+[running /etc/rc.d/fccache]
+Updating fontconfig cache: done.
+[running /etc/rc.d/veriexec]
+[running /etc/rc.d/ldconfig]
+[running /etc/rc.d/quota]
+Checking quotas: done.
+[running /etc/rc.d/mountd]
+[running /etc/rc.d/nfsd]
+[running /etc/rc.d/nfslocking]
+[running /etc/rc.d/pwcheck]
+[running /etc/rc.d/gpio]
+[running /etc/rc.d/ipnat]
+[running /etc/rc.d/securelevel]
+[running /etc/rc.d/swap2]
+swapctl: setting dump device to /dev/dk1
+[running /etc/rc.d/virecover]
+Starting virecover.
+[running /etc/rc.d/altqd]
+[running /etc/rc.d/blacklistd]
+[running /etc/rc.d/ifwatchd]
+[running /etc/rc.d/ipfs]
+[running /etc/rc.d/ipmon]
+[running /etc/rc.d/kdc]
+[running /etc/rc.d/npfd]
+[running /etc/rc.d/pflogd]
+[running /etc/rc.d/racoon]
+[running /etc/rc.d/savecore]
+Checking for core dump...
+savecore: no core dump
+[running /etc/rc.d/SERVERS]
+[running /etc/rc.d/DAEMON]
+[running /etc/rc.d/apmd]
+[running /etc/rc.d/bluetooth]
+[running /etc/rc.d/bootparams]
+[running /etc/rc.d/devpubd]
+[running /etc/rc.d/dhcpd]
+[running /etc/rc.d/dhcpd6]
+[running /etc/rc.d/dhcrelay]
+[running /etc/rc.d/ftp_proxy]
+[running /etc/rc.d/irdaattach]
+[running /etc/rc.d/local]
+Starting local daemons:.
+[running /etc/rc.d/lpd]
+[running /etc/rc.d/makemandb]
+[running /etc/rc.d/mopd]
+[running /etc/rc.d/motd]
+Updating motd.
+[running /etc/rc.d/mrouted]
+[running /etc/rc.d/ntpd]
+[running /etc/rc.d/powerd]
+Starting powerd.
+[running /etc/rc.d/rarpd]
+[running /etc/rc.d/rbootd]
+[running /etc/rc.d/rtadvd]
+[running /etc/rc.d/rwho]
+[running /etc/rc.d/screenblank]
+[running /etc/rc.d/timed]
+[running /etc/rc.d/tpctl]
+[running /etc/rc.d/LOGIN]
+[running /etc/rc.d/xdm]
+Starting xdm.
+[running /etc/rc.d/wsmoused]
+[running /etc/rc.d/sshd]
+Starting sshd.
+[running /etc/rc.d/smtoff]
+[running /etc/rc.d/raidframeparity]
+[running /etc/rc.d/postfix]
+Starting postfix.
+[running /etc/rc.d/ndbootd]
+[running /etc/rc.d/moused]
+[running /etc/rc.d/mixerctl]
+[running /etc/rc.d/isibootd]
+[running /etc/rc.d/iscsi_target]
+[running /etc/rc.d/ip6addrctl]
+[running /etc/rc.d/inetd]
+Starting inetd.
+[running /etc/rc.d/identd]
+[running /etc/rc.d/httpd]
+[running /etc/rc.d/hostapd]
+[running /etc/rc.d/ftpd]
+[running /etc/rc.d/envsys]
+[running /etc/rc.d/cron]
+Starting cron.
+[running /etc/rc.d/autounmountd]
+[running /etc/rc.d/automountd]
+[running /etc/rc.d/automount]
+[/etc/rc finished at Fri Dec  1 03:06:58 EST 2023]
+[/etc/rc exiting with status 0]

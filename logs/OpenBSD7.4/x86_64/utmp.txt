@@ -1,0 +1,4 @@
+root      ttyp0    192.168.100.254          Sun Jan 28 16:18   still logged in
+root      ttyC0                             Sun Jan 28 16:17   still logged in
+
+utmp begins Wed Dec 31 16:00 1969

@@ -1,0 +1,101 @@
+NetBSD 9.3 NetBSD 9.3 (GENERIC) #0: Thu Aug  4 15:30:37 UTC 2022  mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/i386/compile/GENERIC i386 i386
+
+CPU Architecture x86_32
+
+AFORK 1
+ASU 2
+ACOMPAT 4
+ACORE 8
+AXSIG 16
+
+acct                 sizeof  56
+acct.ac_comm    @  0 sizeof  16
+acct.ac_utime   @ 16 sizeof   2
+acct.ac_stime   @ 18 sizeof   2
+acct.ac_etime   @ 20 sizeof   2
+acct.ac_btime   @ 24 sizeof   8
+acct.ac_uid     @ 32 sizeof   4
+acct.ac_gid     @ 36 sizeof   4
+acct.ac_mem     @ 40 sizeof   2
+acct.ac_io      @ 42 sizeof   2
+acct.ac_tty     @ 44 sizeof   8
+acct.ac_flag    @ 52 sizeof   1
+
+UT_NAMESIZE 8
+UT_LINESIZE 8
+UT_HOSTSIZE 16
+
+_PATH_LASTLOG    '/var/log/lastlog'
+
+lastlog               sizeof  32
+lastlog.ll_time  @  0 sizeof   8
+lastlog.ll_line  @  8 sizeof   8
+lastlog.ll_host  @ 16 sizeof  16
+
+_PATH_LASTLOGX   '/var/log/lastlogx'
+
+lastlogx               sizeof 428
+lastlogx.ll_tv    @  0 sizeof  12
+lastlogx.ll_line  @ 12 sizeof  32
+lastlogx.ll_host  @ 44 sizeof 256
+lastlogx.ll_ss    @300 sizeof 128
+
+timeval               sizeof  12
+timeval.tv_sec   @  0 sizeof   8
+timeval.tv_usec  @  8 sizeof   4
+
+_PATH_UTMP        '/var/run/utmp'
+_PATH_WTMP        '/var/log/wtmp'
+
+UT_NAMESIZE 8
+UT_LINESIZE 8
+UT_HOSTSIZE 16
+
+utmp                   sizeof  40
+utmp.ut_line      @  0 sizeof   8
+utmp.ut_name      @  8 sizeof   8
+utmp.ut_host      @ 16 sizeof  16
+utmp.ut_time      @ 32 sizeof   8
+
+_PATH_UTMPX        '/var/run/utmpx'
+_PATH_WTMPX       '/var/log/wtmpx'
+
+EMPTY 0
+RUN_LVL 1
+BOOT_TIME 2
+OLD_TIME 3
+NEW_TIME 4
+INIT_PROCESS 5
+LOGIN_PROCESS 6
+USER_PROCESS 7
+DEAD_PROCESS 8
+ACCOUNTING 9
+SIGNATURE 10
+DOWN_TIME 11
+UTX_USERSIZE 32
+_UTX_USERSIZE 32
+UTX_LINESIZE 32
+_UTX_LINESIZE 32
+UTX_IDSIZE 4
+_UTX_IDSIZE 4
+UTX_HOSTSIZE 256
+_UTX_HOSTSIZE 256
+_UTX_PADSIZE 40
+
+utmpx                   sizeof 516
+utmpx.ut_type      @326 sizeof   2
+utmpx.ut_pid       @328 sizeof   4
+utmpx.ut_line      @ 36 sizeof  32
+utmpx.ut_id        @ 32 sizeof   4
+utmpx.ut_user      @  0 sizeof  32
+utmpx.ut_name      @  0 sizeof  32
+utmpx.ut_host      @ 68 sizeof 256
+utmpx.ut_exit      @332 sizeof   4
+utmpx.ut_ss        @336 sizeof 128
+utmpx.ut_session   @324 sizeof   2
+utmpx.ut_xtime     @464 sizeof   8
+utmpx.ut_tv        @464 sizeof  12
+utmpx.ut_tv.tv_sec @464 sizeof   8
+utmpx.ut_tv.tv_usec@472 sizeof   4
+utmpx.ut_pad       @476 sizeof  40
+

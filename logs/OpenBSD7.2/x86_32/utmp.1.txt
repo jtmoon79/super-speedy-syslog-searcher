@@ -1,0 +1,4 @@
+root      ttyp2    192.168.100.254          Thu Nov 30 23:59:31   still logged in
+root      ttyp1    :0                       Thu Nov 30 23:50:41   still logged in
+
+utmp begins Wed Dec 31 16:00:00 1969
