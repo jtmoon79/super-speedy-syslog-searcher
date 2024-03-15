@@ -45,6 +45,7 @@ export PERF
 (
     set -x
     cargo flamegraph --version
+    "${PERF}" --version
 )
 
 declare -r PROGRAM=${PROGRAM-./target/flamegraph/s4}
@@ -68,12 +69,16 @@ rm -f -- perf.data perf.data.old "${OUT}"
 
 # NOTE: if $NOTES contains a '--' then .svg will fail to render
 NOTES=$("${PROGRAM}" --version)
+if GITLOG_HASH1=$(git log -n1 --pretty=format:%h 2>/dev/null); then
+    NOTES+="; git: ${GITLOG_HASH1}"
+fi
 
 declare -a args=()
 if [[ ${#} -ge 1 ]]; then
     # use user-passed arguments
     for arg in "${@}"; do
         args+=("${arg}")
+        shift
     done
 else
     # default arguments
@@ -98,11 +103,12 @@ else
                )
 fi
 
-# This is higher than default 997 and will not cause CPU/IO overload
+# Sampling frequency.
+# This is higher than default 997 and should not cause CPU/IO overload
 # warning and dropped chunks (found by trial and error, probably host dependent).
-FREQ=3000
+FREQ=${FREQ-3000}
 
-NOTES+="; -freq ${FREQ}"
+NOTES+="; -freq ${FREQ}; $(date +%Y%m%dT%H%M%S%z)"
 
 set -x
 
@@ -120,6 +126,8 @@ cargo flamegraph \
     --output "${OUT}" \
     --bin "${BIN}" \
     --notes "${NOTES}" \
+    --root \
+    --ignore-status \
     --freq ${FREQ} \
     "${@}" \
     -- \
