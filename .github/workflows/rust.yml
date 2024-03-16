@@ -522,7 +522,7 @@ jobs:
           sudo apt install --yes libsystemd0
       # download & run debug
       - name: Download debug binary
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: s4_debug
       - name: Run Program Debug
@@ -557,7 +557,7 @@ jobs:
           ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
       # download & run release
       - name: Download release binary
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: s4_release
       - name: Run Program Release
