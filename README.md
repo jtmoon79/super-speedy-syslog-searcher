@@ -37,7 +37,7 @@ The first goal of `s4` is speedy searching and printing.
   - [Why `s4`?](#why-s4)
   - [Features](#features)
   - [Limitations](#limitations)
-  - [Hacks](#hacks)
+  - [\*\*\*\*\* Hacks](#-hacks)
 - [More](#more)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
@@ -325,7 +325,7 @@ developer](https://github.com/jtmoon79) wanted an excuse to learn rust 🦀,
 and wanted to create an open-source tool for a recurring need of some
 Software Test Engineers 😄
 
-See the real-world example rationale in section
+See the real-world example rationale in the section below,
 [_logging chaos; the problem `s4` solves_].
 
 [_logging chaos; the problem `s4` solves_]: #logging-chaos-the-problem-s4-solves
@@ -340,13 +340,15 @@ See the real-world example rationale in section
     - [RFC 5424]
     - [ISO 8601] \*\*
   - [Red Hat Audit Log] files
-  - binary [user accounting records] files (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`)
+  - binary user accounting records files
+    ([`acct`, `pacct`], [`lastlog`], [`utmp`, `utmpx`])
+    from multiple Operating Systems and CPU architectures
   - binary [Windows Event Log] files
   - binary [systemd journal] files with printing options matching [`journalctl`]
   - many varying text log messages with ad-hoc datetime formats
   - multi-line log messages
 - Inspects `.tar` archive files for parseable log files \*\*\*
-- Inspects `.gz` and `.xz` compressed files for parseable log files \*\*\*
+- Inspects `.gz` and `.xz` compressed files for parseable log files \*\*\*\*
 - Tested against "in the wild" log files from varying sources
   (see project path [`./logs/`])
 - Prepends datetime and file paths, for easy programmatic parsing or
@@ -355,9 +357,11 @@ See the real-world example rationale in section
   (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
   _run `s4`_, Step _Run script compare-grep-sort_)
 - Processes invalid UTF-8
-- Accepts arbitrarily large files \*\*\*\*
+- Accepts arbitrarily large files \*\*\*\*\*
 
-[user accounting records]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
+[`acct`, `pacct`]: https://www.man7.org/linux/man-pages/man5/acct.5.html
+[`lastlog`]: https://man.netbsd.org/lastlog.5
+[`utmp`, `utmpx`]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
 [RFC 2822]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
 [RFC 3164]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
 [RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
@@ -376,10 +380,6 @@ See the real-world example rationale in section
   ([Issue #8])
 - Cannot process multi-file `.xz` files (only processes first stream found).
   ([Issue #11])
-- \*\*\* Cannot process archive files or compressed files within other
-  archive files or compressed files ([Issue #14]),<br/>
-  e.g. `logs.tgz`<br/>
-  e.g. file `syslog.xz` file within archive `logs.tar`
 - Cannot process `.zip` archives ([Issue #39])
 - \*\* ISO 8601
   - ISO 8601 forms recognized
@@ -393,8 +393,10 @@ See the real-world example rationale in section
     - [_Ordinal dates_], i.e. "day of the year", format `YYYY-DDD`, e.g. `"2022-321"`
     - [_Week dates_], i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
     - times [without minutes and seconds] (i.e. only `hh`)
-- \*\*\*\* Only for unarchived, uncompressed files ([Issue #9], [Issue #12], [Issue #13])
-  and not for EVTX files ([Issue #86])
+- \*\*\* Cannot process archive files or compressed files within other
+  archive files or compressed files ([Issue #14]),<br/>
+  e.g. `logs.tgz`, e.g. file `syslog.xz` file within archive `logs.tar`
+- \*\*\*\* Can only process compressed syslog files ([Issue #9], [Issue #12], [Issue #13], [Issue #86])
 
 [Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
@@ -410,10 +412,13 @@ See the real-world example rationale in section
 [Issue #13]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13
 [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
 
-### Hacks
+### \*\*\*\*\* Hacks
 
-- Entire `.xz` files are read into memory during the initial `open` ([Issue #12])
+- Entire `.xz` files are read into memory before printing ([Issue #12])
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
+- Entire [user accounting record files are read into memory] before printing
+
+[user accounting record files are read into memory]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/894a981202ef67912360f3e42a56c65a5112a584/src/readers/fixedstructreader.rs#L182-L192
 
 <br/>
 
@@ -430,7 +435,7 @@ From the git cloned project directory run `cargo build`.
 
 ### Parsing `.journal` files
 
-Requires `libsystemd` to be installed to then use `libsystemd.so`.
+Requires `libsystemd` to be installed to use `libsystemd.so` at runtime.
 
 ### Requesting Support For DateTime Formats; your particular log file
 
