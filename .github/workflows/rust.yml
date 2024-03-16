@@ -33,7 +33,8 @@ env:
   # run options for release
   S4_ARGSR: --blocksz 0x40 -s
   # run files
-  S4_TEST_FILES: ./logs/other/tests/dtf2-2.log
+  S4_TEST_FILES: ./logs/CentOS9/x86_64/wtmp
+                 ./logs/other/tests/dtf2-2.log
                  ./logs/other/tests/dtf3-2a.log
                  ./logs/other/tests/dtf5-6a.log.gz
                  ./logs/other/tests/dtf7-20-LEVELS.log.xz
@@ -41,8 +42,29 @@ env:
                  ./logs/other/tests/gen-20-1-faces.log
                  ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
                  ./logs/other/tests/gen-20-2-2-faces.log
-                 ./logs/programs/utmp/host-entry6.wtmp
+                 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
                  ./logs/programs/journal/RHE_91_system.journal
+                 ./logs/standards/ISO8601-Date-Ordinal.log
+                 ./logs/standards/RFC-5424-6dot-0700.log
+                 ./logs/standards/RFC-5424-2dotZ.log
+                 ./logs/standards/ISO8601-Date-Extend.log
+                 ./logs/standards/ISO8601-YYYYDDMMTHHMM.log
+                 ./logs/standards/ctime.log
+                 ./logs/standards/ISO8601-YYYYMMDD.log
+                 ./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS.log
+                 ./logs/standards/RFC-3164.log
+                 ./logs/standards/Japanese-era.log
+                 ./logs/standards/ISO8601-YYYY-MM-DD.log
+                 ./logs/standards/W3C-DTF.log
+                 ./logs/standards/RFC-5424-2dot-0400.log
+                 ./logs/standards/ISO8601-Date-Week.log
+                 ./logs/standards/RFC-5424-3dotZ.log
+                 ./logs/standards/ISO8601-YYYYMM.log
+                 ./logs/standards/ISO8601-YYYY-DDD.log
+                 ./logs/standards/ISO8601-YY-MM-DD.log
+                 ./logs/standards/Unix-ms.log
+                 ./logs/standards/ISO8601-YYYYDDMMTHHMMSS.log
+                 ./logs/standards/RFC-2822.log
 jobs:
 
   job_rust_msrv_os:
