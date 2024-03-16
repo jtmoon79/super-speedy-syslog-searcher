@@ -182,7 +182,12 @@ pub type ResultFixedStructReaderScoreFileError = ResultFixedStructReaderScoreFil
 /// A `FixedStructReader` first deteremines the `FixedStructType` of the file
 /// in [`preprocess_fixedstructtype`].
 /// Then it scans all ***t***ime ***v***alues in each entry to determine the
-/// order to process the entries in [`preprocess_timevalues`].
+/// order to process the entries in [`preprocess_timevalues`]. This implies the
+/// `blockreader` must read the entire file into memory. So far, "in the wild"
+/// user accounting records are only a few kilobytes at most. So reading the
+/// entire file into memory should not put too much strain on memory usage.
+/// The processing of time values is done first and for the entire file
+/// because records may not be stored in chronological order.
 /// Then the caller makes repeated calls to [`process_entry_at`] which processes
 /// the `FixedStruct`s found in the file.
 ///
