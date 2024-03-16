@@ -98,19 +98,19 @@ jobs:
           ./target/release/s4 --help
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'windows-latest' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: s4.exe ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4.exe
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'macos-latest' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4
@@ -156,7 +156,7 @@ jobs:
           cargo build --verbose
           cp -av ./target/debug/s4 ./s4_debug
       - name: Upload debug binary for test
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: s4_debug
           path: ./s4_debug
@@ -169,12 +169,12 @@ jobs:
           cargo build --release --verbose
           cp -av ./target/release/s4 ./s4_release
       - name: Upload release binary for test
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: s4_release
           path: ./s4_release
       - name: Upload release binary (Ubuntu Linux)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: s4
           path: ./target/release/s4
