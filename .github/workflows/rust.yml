@@ -61,7 +61,7 @@ jobs:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
       - run: |
           git config --global core.protectNTFS false
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ matrix.msrv }}
@@ -102,7 +102,7 @@ jobs:
       matrix:
         rust_version: ["stable", "beta"]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ matrix.rust_version }}
@@ -122,7 +122,7 @@ jobs:
     steps:
       # build & upload debug
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
@@ -281,7 +281,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
@@ -302,7 +302,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
@@ -322,7 +322,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
@@ -340,7 +340,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
@@ -385,7 +385,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
@@ -404,7 +404,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
@@ -424,7 +424,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build Documentation
         run: cargo doc --locked --release --no-deps -v
       - name: Publish Dry Run
@@ -437,7 +437,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Python 3.10
         uses: actions/setup-python@v4
         with:
@@ -468,7 +468,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run codecov-validate.sh
         run: ./tools/codecov-validate.sh -v
 
@@ -481,7 +481,7 @@ jobs:
     steps:
       # checkout for the log files
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
@@ -601,7 +601,7 @@ jobs:
       COVERALLS_FILE: ./coveralls.lcov
     steps:
       - name: git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.VERSION_LLVM_COV }}
