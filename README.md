@@ -328,7 +328,7 @@ Software Test Engineers 😄
 See the real-world example rationale in section
 [_logging chaos; the problem `s4` solves_].
 
-[_logging chaos; the problem `s4` solves_]: (#logging-chaos-the-problem-s4-solves)
+[_logging chaos; the problem `s4` solves_]: #logging-chaos-the-problem-s4-solves
 
 ### Features
 
