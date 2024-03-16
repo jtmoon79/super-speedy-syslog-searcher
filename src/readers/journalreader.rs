@@ -2263,7 +2263,7 @@ impl<'a> JournalReader {
     ///     | grep -oEe '^    [[:alpha:]_]+\=' \
     ///     | tr -d '=' | sort | uniq | sed -E 's/^[ ]*//'
     /// ```
-    const FIELD_ORDER_VERBOSE: [&[u8]; 102] = [
+    const FIELD_ORDER_VERBOSE: [&'static [u8]; 102] = [
         b"_TRANSPORT",
         b"_UID",
         b"_GID",
