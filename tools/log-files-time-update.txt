@@ -499,7 +499,6 @@
 ./logs/programs/evtx/NoEvents.evtx|2023-02-01T00:00:00
 ./logs/programs/journal/CentOS_7_system.journal|2023-04-10T15:14:12
 ./logs/programs/journal/RHE_91_system.journal|2023-04-10T15:10:34-0700
-./logs/programs/journal/Ubuntu20_system.journal|2023-04-15T22:43:43
 ./logs/programs/journal/Ubuntu22-user-1000.journal|2023-03-31T23:44:33
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal|2023-04-02T00:07:01-0700
 ./logs/programs/Microsoft IIS/example.log|2020-03-01T23:58:11
