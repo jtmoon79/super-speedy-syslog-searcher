@@ -245,6 +245,7 @@ if [[ ${ret} -ne 0 ]]; then
     echo
     echo -e "Do you need to run \e[1m$(dirname "${0}")/update.sh\e[0m ?"
     echo
+    echo -e "Remember to run \e[1m$(dirname "${0}"/..)/log-files-time-update.sh\e[0m before that!"
 fi
 
 exit ${ret}

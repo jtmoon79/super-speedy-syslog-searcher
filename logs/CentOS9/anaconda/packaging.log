@@ -56,6 +56,7 @@
 21:48:20,421 DBG packaging: Install + download space required 6.29 GiB
 21:48:20,421 INF packaging: 1156 packages selected totalling 6.29 GiB
 21:48:20,458 DBG packaging: Source doesn't require network for installation
+
 14:49:03,354 DBG packaging: Input mount points: {'/dev': Size (4 MiB), '/dev/shm': Size (984.98046875 MiB), '/run': Size (381.3828125 MiB), '/run/install/repo': Size (0 B), '/': Size (1.053089141845703125 GiB), '/tmp': Size (963.4453125 MiB)}
 14:49:03,354 INF packaging: Estimated size: download 1.58 GiB & install 4.71 GiB
 14:49:03,354 DBG packaging: No sufficient mountpoints found

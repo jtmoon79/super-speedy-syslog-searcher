@@ -75,33 +75,33 @@ File: ./logs/CentOS7/yum.log
       logmessagetype : syslog lines
       MIME guess     : MimeGuess(["text/plain"])
   Printed:
-      bytes         : 84944
-      lines         : 499
-      syslines      : 499
+      bytes         : 24681
+      lines         : 145
+      syslines      : 142
   Processed:
-      file size     : 29555 (0x7373) (bytes)
-      bytes         : 29555 (0x7373)
-      bytes total   : 29555 (0x7373)
+      file size     : 8586 (0x218A) (bytes)
+      bytes         : 8586 (0x218A)
+      bytes total   : 8586 (0x218A)
       block size    : 256 (0x100)
-      blocks        : 116
-      blocks total  : 116
-      lines         : 499
-      syslines      : 503
-      syslines high : 499
+      blocks        : 34
+      blocks total  : 34
+      lines         : 145
+      syslines      : 146
+      syslines high : 142
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  498, miss  999, 33.3%
-      caching: LineReader::find_line() LRU cache                   : hit    7, miss 1000,  0.7%, put  999
-      copying: SyslineReader::get_boxptrs()                        : sgl  493, dbl    47, mult    0
-      storage: SyslineReader::find_sysline() syslines              : hit    0, miss  503,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  499, miss  503, 49.8%, put  503
-      caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss 1002,  0.0%, put 1002
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  498, miss  507, 49.6%, put    0
-      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit    0, miss  510,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss   30,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 540
+      storage: LineReader::find_line() lines                       : hit 141, miss 291, 32.6%
+      caching: LineReader::find_line() LRU cache                   : hit  12, miss 289,  4.0%, put 288
+      copying: SyslineReader::get_boxptrs()                        : sgl 174, dbl    9, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 146,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 142, miss 146, 49.3%, put 146
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 288,  0.0%, put 288
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 141, miss 158, 47.2%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss 153,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss  30,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 183
   Processing Drops:
 
 File: ./logs/cygwin/setup.log
@@ -15287,14 +15287,14 @@ Paths considered      : 488
 Paths not processed   : 3
 Files processed       : 485
 Files printed         : 401
-Printed bytes         : 11983070
-Printed lines         : 14492
-Printed syslines      : 12057
+Printed bytes         : 11921379
+Printed lines         : 14138
+Printed syslines      : 11700
 Printed evtx events   : 227
 Printed fixedstruct   : 98
 Printed journal events: 2081
 Regex compiled        : 127
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 15435
+Channel Receive ok    : 15078
 Channel Receive err   : 0
