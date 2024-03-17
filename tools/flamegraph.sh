@@ -67,7 +67,6 @@ OUT='flamegraph.svg'
 ) || true
 rm -f -- perf.data perf.data.old "${OUT}"
 
-# NOTE: if $NOTES contains a '--' then .svg will fail to render
 NOTES=$("${PROGRAM}" --version)
 if GITLOG_HASH1=$(git log -n1 --pretty=format:%h 2>/dev/null); then
     NOTES+="; git: ${GITLOG_HASH1}"
@@ -97,7 +96,6 @@ else
                 echo './logs/other/tests/gen-100-10-skullcrossbones.tar'
                 echo './logs/programs/journal/CentOS_7_system.journal'
                 echo './logs/programs/journal/RHE_91_system.journal'
-                echo './logs/programs/journal/Ubuntu20_system.journal'
                 echo './logs/programs/journal/Ubuntu22-user-1000.journal'
                 echo './logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx'
                )
@@ -108,8 +106,18 @@ fi
 # warning and dropped chunks (found by trial and error, probably host dependent).
 FREQ=${FREQ-3000}
 
-NOTES+="; -freq ${FREQ}; $(date +%Y%m%dT%H%M%S%z)"
+NOTES+="; -freq ${FREQ}; created $(date +%Y%m%dT%H%M%S%z)"
 
+function html_sed_escape() {
+    # escape for HTML and for sed
+    python3 -c "\
+from html import escape
+print(escape(r''' ${1-} '''[1:-1]).replace('/', r'\/'))
+"
+}
+
+NOTES_ESCAPED=$(html_sed_escape "${NOTES}")
+(
 set -x
 
 # force important variables to echo in debug output
@@ -117,7 +125,6 @@ PERF=${PERF}
 CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG}
 RUST_BACKTRACE=${RUST_BACKTRACE}
 
-exec \
 cargo flamegraph \
     --verbose \
     --flamechart \
@@ -125,7 +132,7 @@ cargo flamegraph \
     --deterministic \
     --output "${OUT}" \
     --bin "${BIN}" \
-    --notes "${NOTES}" \
+    --notes "${NOTES_ESCAPED}" \
     --root \
     --ignore-status \
     --freq ${FREQ} \
@@ -133,3 +140,12 @@ cargo flamegraph \
     -- \
         "${args[@]}" \
         1>/dev/null \
+)
+
+# Forcibly update the .svg title element with $NOTES and $args
+# The title element looks like:
+#      <text id="title" fill="rgb(0,0,0)" x="50.0000%" y="24.00">Flame Graph</text>
+
+ARGS_ESCAPED=$(html_sed_escape "${args[*]}")
+
+sed -i -Ee 's/(<text id="title" .*>)Flame Graph(<\/text>)/\1Flame Graph: '"${NOTES_ESCAPED}"'<br\/>; s4 '"${ARGS_ESCAPED}"'\2/' -- "${OUT}"
