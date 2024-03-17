@@ -4698,7 +4698,7 @@ lazy_static! {
                 de_err!("Failed to write DateTimeParseDatasCompiledCount {:?}", _err);
             }
         }
-        defx!("init DATETIME_PARSE_DATAS_REGEX_VEC");
+        defx!("init DATETIME_PARSE_DATAS_REGEX_VEC {:?}", count);
 
         datas
     };
@@ -5634,7 +5634,7 @@ pub fn bytes_to_regex_to_datetime(
     };
 
     // derive the `LineIndex` bounds of the datetime substring within `data`
-    // TODO: cost-savings: only track dt_first dt_last if passed `--color`
+    // TODO: cost-savings: only track dt_beg, dt_end if passed `--color`
     let dt_beg: LineIndex = match captures.name(dtpd.cgn_first) {
         Some(match_) => match_.start() as LineIndex,
         None => 0,
