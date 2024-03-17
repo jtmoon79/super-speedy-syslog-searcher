@@ -1608,13 +1608,16 @@ type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 fn chan_send(
     chan_send_dt: &ChanSendDatum,
     chan_datum: ChanDatum,
-    path: &FPath,
+    _path: &FPath,
 ) {
     match chan_send_dt.send(chan_datum)
     {
         Ok(_) => {}
-        Err(err) =>
-            e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
+        Err(_err) =>
+            de_err!(
+                "chan_send_dt.send(…) failed {} for {:?}",
+                _err, _path
+            )
     }
 }
 
@@ -1691,13 +1694,11 @@ fn exec_syslogprocessor(
     let result = syslogproc.process_stage0_valid_file_check();
     let mtime = syslogproc.mtime();
     let dt = systemtime_to_datetime(&tz_offset, &mtime);
-    match chan_send_dt.send(
-        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), result)
-    ) {
-        Ok(_) => {}
-        Err(err) =>
-            e_err!("A chan_send_dt.send(…) failed {} for {:?}", err, path)
-    }
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), result),
+        &path,
+    );
 
     deo!("{:?}({}): processing stage 1", _tid, _tname);
 
@@ -3824,13 +3825,15 @@ fn processing_loop(
                     let mut printed: Count = 0;
                     match printer.print_evtx(evtx) {
                         Ok(printed_) => printed = printed_ as Count,
-                        Err(err) => {
+                        Err(_err) => {
                             // Only print a printing error once.
                             if !has_print_err {
                                 has_print_err = true;
                                 // BUG: Issue #3 colorization settings in the context of a pipe
-                                e_err!("failed to print {}", err);
+                                de_err!("failed to print {}", _err);
                             }
+                            defo!("print error, will disconnect channel {:?}", pathid);
+                            disconnect.push(*pathid);
                         }
                     }
                     if sepb_print {
@@ -3853,13 +3856,15 @@ fn processing_loop(
                     let mut printed: Count = 0;
                     match printer.print_fixedstruct(entry, &mut buffer_utmp) {
                         Ok(printed_) => printed = printed_ as Count,
-                        Err(err) => {
+                        Err(_err) => {
                             // Only print a printing error once.
                             if !has_print_err {
                                 has_print_err = true;
                                 // BUG: Issue #3 colorization settings in the context of a pipe
-                                e_err!("failed to print {}", err);
+                                de_err!("failed to print {}", _err);
                             }
+                            defo!("print error, will disconnect channel {:?}", pathid);
+                            disconnect.push(*pathid);
                         }
                     }
                     if sepb_print {
@@ -3882,13 +3887,15 @@ fn processing_loop(
                     let mut printed: Count = 0;
                     match printer.print_journalentry(journalentry) {
                         Ok(printed_) => printed = printed_ as Count,
-                        Err(err) => {
+                        Err(_err) => {
                             // Only print a printing error once.
                             if !has_print_err {
                                 has_print_err = true;
                                 // BUG: Issue #3 colorization settings in the context of a pipe
-                                e_err!("failed to print {}", err);
+                                de_err!("failed to print {}", _err);
                             }
+                            defo!("print error, will disconnect channel {:?}", pathid);
+                            disconnect.push(*pathid);
                         }
                     }
                     if sepb_print {
@@ -3918,13 +3925,15 @@ fn processing_loop(
                     let mut printed: Count = 0;
                     match printer.print_sysline(syslinep) {
                         Ok(printed_) => printed = printed_ as Count,
-                        Err(err) => {
+                        Err(_err) => {
                             // Only print a printing error once.
                             if !has_print_err {
                                 has_print_err = true;
                                 // BUG: Issue #3 colorization settings in the context of a pipe
-                                e_err!("failed to print {}", err);
+                                de_err!("failed to print {}", _err);
                             }
+                            defo!("print error, will disconnect channel {:?}", pathid);
+                            disconnect.push(*pathid);
                         }
                     }
                     if sepb_print {
@@ -3968,6 +3977,8 @@ fn processing_loop(
             map_pathid_chanrecvdatum.remove(pathid);
             defo!("C pathid_to_prependname.remove({:?});", pathid);
             pathid_to_prependname.remove(pathid);
+            defo!("C map_pathid_printer.remove({:?});", pathid);
+            map_pathid_printer.remove(pathid);
         }
         // are there any channels to receive from?
         if map_pathid_chanrecvdatum.is_empty() {
