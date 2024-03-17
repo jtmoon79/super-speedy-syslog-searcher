@@ -56,15 +56,23 @@ export CARGO_PROFILE_RELEASE_DEBUG=true
 #export RUSTC_LINKER=$(which clang)
 export RUST_BACKTRACE=1
 
-OUT='flamegraph.svg'
+OUT="${OUT-flamegraph.svg}"
 
 (
     set -x
     # verify flamegraph can run the binary (just prints the version)
-    # ignore errors; will not capture any data because the program run-time is
-    # too short
-    cargo flamegraph --profile flamegraph --bin "${BIN}" -- --version
-) || true
+    cargo flamegraph \
+        --verbose \
+        --flamechart \
+        --profile flamegraph \
+        --deterministic \
+        --output "${OUT}" \
+        --bin "${BIN}" \
+        --root \
+        --ignore-status \
+        --freq ${FREQ} \
+        -- --version
+)
 rm -f -- perf.data perf.data.old "${OUT}"
 
 NOTES=$("${PROGRAM}" --version)
@@ -102,7 +110,7 @@ else
 fi
 
 # Sampling frequency.
-# This is higher than default 997 and should not cause CPU/IO overload
+# This is higher than default 997, hopefully it does not cause CPU/IO overload
 # warning and dropped chunks (found by trial and error, probably host dependent).
 FREQ=${FREQ-3000}
 
@@ -110,7 +118,7 @@ NOTES+="; -freq ${FREQ}; created $(date +%Y%m%dT%H%M%S%z)"
 
 function html_sed_escape() {
     # escape for HTML and for sed
-    python3 -c "\
+    python3 -B -E -s -c "\
 from html import escape
 print(escape(r''' ${1-} '''[1:-1]).replace('/', r'\/'))
 "
@@ -146,6 +154,12 @@ cargo flamegraph \
 # The title element looks like:
 #      <text id="title" fill="rgb(0,0,0)" x="50.0000%" y="24.00">Flame Graph</text>
 
+BIN_ESCAPED=$(html_sed_escape "${BIN}")
 ARGS_ESCAPED=$(html_sed_escape "${args[*]}")
 
-sed -i -Ee 's/(<text id="title" .*>)Flame Graph(<\/text>)/\1Flame Graph: '"${NOTES_ESCAPED}"'<br\/>; s4 '"${ARGS_ESCAPED}"'\2/' -- "${OUT}"
+sed -i -Ee 's/(<text id="title" .*>)Flame Graph(<\/text>)/\1Flame Graph: '"${NOTES_ESCAPED}"'<br\/>; '"${BIN_ESCAPED}"' '"${ARGS_ESCAPED}"'\2/' -- "${OUT}"
+
+if which xmllint &>/dev/null; then
+    # the generated .svg file is a few huge lines so make it git-friendly (more lines more often)
+    xmllint --format --recover --output "${OUT}" "${OUT}"
+fi
