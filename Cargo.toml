@@ -35,7 +35,7 @@ exclude = [
 [dependencies]
 bstr = "1.8.0"
 chrono = "0.4.28"
-clap = { version = "=4.2.1", features = ["derive"] }
+clap = { version = "=4.5.3", features = ["derive"] }
 const_format = "0.2.31"
 crossbeam-channel = "0.5.8"
 dlopen2 = "0.6"
