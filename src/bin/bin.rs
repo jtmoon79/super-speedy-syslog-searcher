@@ -4134,7 +4134,7 @@ fn processing_loop(
 
     // TODO: Issue #5 return code confusion
     //       the rationale for returning `false` (and then the process return code 1)
-    //       is clunky, and could use a little refactoring. Also needs a gituhub Issue
+    //       is clunky, and could use a little refactoring.
     let mut ret: bool = true;
     if chan_recv_err > 0 {
         defo!("F chan_recv_err {}; return false", chan_recv_err);
