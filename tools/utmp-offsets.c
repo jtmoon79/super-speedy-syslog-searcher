@@ -7,7 +7,7 @@
 // in bash, run:
 //     (set -eux; rm -fv ./utmp-offsets ./utmp-offsets.out; cc -o ./utmp-offsets utmp-offsets.c; uname -a; ./utmp-offsets | tee ./utmp-offsets.out)
 //
-// to find relevent header files:
+// to find relevant header files:
 //     find /usr/ /lib/ -type f -name 'utmp*h' -o -name 'btmp*h' -o -name 'wtmp*h' -o -name 'last*h'
 
 // The locations of structs is not reliable.

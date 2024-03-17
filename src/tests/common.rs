@@ -2060,7 +2060,7 @@ lazy_static! {
         MimeGuess::from_path(path)
     };
 }
-pub const NTF_TGZ_8BYTE_FILETYPE: FileType = FileType::Unparseable;
+pub const NTF_TGZ_8BYTE_FILETYPE: FileType = FileType::Unparsable;
 pub const NTF_TGZ_8BYTE_FILEA_FILETYPE: FileType = FileType::TarGz;
 
 // -------------------------------------------------------------------------------------------------

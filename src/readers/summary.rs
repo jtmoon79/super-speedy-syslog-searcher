@@ -566,7 +566,7 @@ impl fmt::Debug for Summary {
                     // Summary::default()
                     FileType::Evtx
                     | FileType::Journal
-                    | FileType::Unparseable => f.debug_struct("").finish(),
+                    | FileType::Unparsable => f.debug_struct("").finish(),
                     FileType::TarGz
                     | FileType::Unset =>
                         unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype),

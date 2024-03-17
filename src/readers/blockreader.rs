@@ -1284,7 +1284,7 @@ impl BlockReader {
                 unimplemented!("BlockReader is not implemented for filetype {:?}", filetype);
             }
             // something is wrong if these are encountered
-            | FileType::Unparseable
+            | FileType::Unparsable
             | FileType::Unset
             => panic!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path),
         }
@@ -1380,7 +1380,7 @@ impl BlockReader {
             FileType::Evtx => panic!("BlockReader not implemented for Evtx"),
             // something is wrong if these are encountered
             FileType::Unset => panic!("Unexpected Unset"),
-            FileType::Unparseable => panic!("Unexpected Unparseable"),
+            FileType::Unparsable => panic!("Unexpected Unparsable"),
         }
     }
 
@@ -1477,7 +1477,7 @@ impl BlockReader {
             => unimplemented!("BlockReader does handle filetype {:?}", self.filetype),
             // something is wrong if these are encountered
             FileType::Unset => panic!("Unexpected Unset"),
-            FileType::Unparseable => panic!("Unexpected Unparseable"),
+            FileType::Unparsable => panic!("Unexpected Unparsable"),
         }
     }
 
@@ -2674,7 +2674,7 @@ impl BlockReader {
                 self.filetype, self.path,
             ),
             // something is wrong if these are encountered
-            | FileType::Unparseable
+            | FileType::Unparsable
             | FileType::Unset
             => panic!(
                 "BlockReader::read_block bad filetype {:?}; path {:?}",

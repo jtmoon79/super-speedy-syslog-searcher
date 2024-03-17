@@ -3146,9 +3146,9 @@ fn processing_loop(
         match processpathresult {
             // XXX: use `ref` to avoid "use of partially moved value" error
             ProcessPathResult::FileValid(ref path, ref mimeguess, ref filetype) => {
-                if matches!(filetype, FileType::Unparseable) {
-                    // known unparseable file
-                    defo!("paths_invalid_results.push(FileErrUnparseable)");
+                if matches!(filetype, FileType::Unparsable) {
+                    // known unparsable file
+                    defo!("paths_invalid_results.push(FileErrUnparsable)");
                     map_pathid_results_invalid.insert(
                         pathid_counter,
                         ProcessPathResult::FileErrNotSupported(path.clone(), *mimeguess),
@@ -4550,7 +4550,7 @@ fn print_summary_opt_processed_summaryblockreader(
         | FileType::Evtx
         | FileType::Journal
         | FileType::Unset
-        | FileType::Unparseable
+        | FileType::Unparsable
         => {
             eprintln!("{}unsupported filetype: {:?}", indent, summary.filetype);
             return;

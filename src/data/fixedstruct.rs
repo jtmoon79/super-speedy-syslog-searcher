@@ -3922,7 +3922,7 @@ impl Clone for FixedStruct {
     /// Cannot `#[derive(Clone)]` because that requires
     /// trait `Sized` to be `impl` for all fields of `FixedStruct`.
     /// But the `FixedStructTrait` trait is used as a `dyn` trait
-    /// object; it is dynically sized (it is sized at runtime).
+    /// object; it is dynamically sized (it is sized at runtime).
     /// So a `FixedStructTrait` cannot `impl`ement `Sized` thus `FixedStruct` cannot
     /// `impl`ement `Sized` thus must manually implement `clone`.
     fn clone(self: &FixedStruct) -> Self {
@@ -4681,7 +4681,7 @@ macro_rules! set_buffer_at_or_err_number_bin4 {
 /// If the index is out of bounds, return `InfoAsBytes::Fail`.
 macro_rules! set_buffer_at_or_err_ipv4 {
     ($buffer:ident, $at:ident, $value:expr) => ({{
-        // separate each octect of the IPv4 address
+        // separate each octet of the IPv4 address
         let o0: u8 = (($value >> 24) & 0xFF) as u8;
         let o1: u8 = (($value >> 16) & 0xFF) as u8;
         let o2: u8 = (($value >> 8) & 0xFF) as u8;

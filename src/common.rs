@@ -513,7 +513,7 @@ pub enum FixedStructFileType {
 ///
 /// [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
-// TODO: [2023/04] types Unset, Unparseable, Unknown are confusing to keep around
+// TODO: [2023/04] types Unset, Unparsable, Unknown are confusing to keep around
 //       and make extra work for all match statements.
 //       Can they be removed?
 // BUG: `Kinded` claims to automatically derive multiple traits but does not
@@ -532,7 +532,7 @@ pub enum FileType {
     /// a plain file within a `.tar` archive file
     Tar,
     /// a file within a compressed gzipped `.tar` or `.tgz` archive file
-    /// Currently unparseable. See [Issue #14]
+    /// Currently unparsable. See [Issue #14]
     ///
     /// This ended up here from overzealous planning. It is not currently used.
     ///
@@ -551,10 +551,9 @@ pub enum FileType {
     ///
     /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
     Journal,
-    /// a file type known to be unparseable
-    // TODO: [2023/03] fix misspelling, `Unparseable` -> `Unparsable`
+    /// a file type known to be unparsable
     // TODO: [2024/03] this type is confusing and should be removed.
-    Unparseable,
+    Unparsable,
     /// an unknown file type (catch all)
     Unknown,
 }
@@ -589,7 +588,7 @@ impl std::fmt::Display for FileType {
             FileType::FixedStruct{type_:FixedStructFileType::Utmpx} => write!(f, "UTMPX/WTMPX"),
             FileType::Evtx => write!(f, "EVTX"),
             FileType::Journal => write!(f, "JOURNAL"),
-            FileType::Unparseable => write!(f, "UNPARSABLE"),
+            FileType::Unparsable => write!(f, "UNPARSABLE"),
             FileType::Unknown => write!(f, "UNKNOWN"),
         }
     }
@@ -608,7 +607,7 @@ impl PartialEq for FileType {
             | (FileType::FixedStruct{..}, FileType::FixedStruct{..})
             | (FileType::Evtx, FileType::Evtx)
             | (FileType::Journal, FileType::Journal)
-            | (FileType::Unparseable, FileType::Unparseable)
+            | (FileType::Unparsable, FileType::Unparsable)
             | (FileType::Unknown, FileType::Unknown)
         )
     }
@@ -708,7 +707,7 @@ pub fn filetype_to_logmessagetype(filetype: FileType) -> LogMessageType {
         | FileType::Unknown
         => LogMessageType::Sysline,
         FileType::TarGz => panic!("unexpected filetype TarGz"),
-        FileType::Unparseable => panic!("unexpected filetype Unparseable"),
+        FileType::Unparsable => panic!("unexpected filetype Unparsable"),
         FileType::Unset => panic!("unexpected filetype Unset"),
     }
 }

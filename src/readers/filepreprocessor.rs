@@ -228,7 +228,7 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
     const APP_X_XZ: &str = "application/x-xz";
     const APP_TAR: &str = "application/x-tar";
     const APP_GTAR: &str = "application/x-gtar";
-    // known unparseable log file types
+    // known unparsable log file types
     const APP_TARGZ: &str = "application/x-compressed";
     const APP_ETL: &str = "application/etl";
     const APP_ZIP: &str = "application/zip";
@@ -251,13 +251,13 @@ pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
         // Support for `.etl` is Issue #99
         | APP_ETL
         // Support for `.zip` is Issue #39
-        | APP_ZIP => FileType::Unparseable,
+        | APP_ZIP => FileType::Unparsable,
         _ => FileType::Unknown,
     }
 }
 
 /// Given multiple [`MimeGuess`] try to map any to a parseable `FileType`.
-/// Attempt to preserve known unparseable files.
+/// Attempt to preserve known unparsable files.
 ///
 /// [`MimeGuess`]: https://docs.rs/mime_guess/2.0.4/mime_guess/struct.MimeGuess.html
 pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
@@ -267,8 +267,8 @@ pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
         deo!("mimeguess_to_filetype: check {:?}", mimeguess_);
         match mimeguess_to_filetype_str(mimeguess_.as_ref()) {
             FileType::Unset => {}
-            FileType::Unparseable => {
-                filetype_un = FileType::Unparseable;
+            FileType::Unparsable => {
+                filetype_un = FileType::Unparsable;
             }
             val => {
                 defx!("mimeguess_to_filetype: return {:?}", val);
@@ -392,20 +392,20 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
         return FileType::FixedStruct{ type_: FixedStructFileType::Utmp };
     }
 
-    // FileTgz (returns `Unparseable`)
-    // Known to be unparseable. Someday it should be supported. Issue #14
+    // FileTgz (returns `Unparsable`)
+    // Known to be unparsable. Someday it should be supported. Issue #14
 
     // for example `data.tgz`
     // XXX: this should be handled in `path_to_filetype_mimeguess`
     if file_suffix_s == "tgz" {
-        defx!("return Unparseable; .tgz");
-        return FileType::Unparseable;
+        defx!("return Unparsable; .tgz");
+        return FileType::Unparsable;
     }
 
     // for example `data.tgz.old`
     if file_prefix_s.ends_with(".tgz") {
-        defx!("return Unparseable; data.tgz");
-        return FileType::Unparseable;
+        defx!("return Unparsable; data.tgz");
+        return FileType::Unparsable;
     }
 
     // FileGz
@@ -608,9 +608,9 @@ pub fn processable_filetype(filetype: &FileType) -> bool {
         | FileType::FixedStruct{..}
         | FileType::Evtx
         | FileType::Journal
-        // `FileType::Unparseable` is not parseable but
+        // `FileType::Unparsable` is not parseable but
         // but is explicitly recognized as such.
-        | FileType::Unparseable
+        | FileType::Unparsable
         => true,
     }
 }
@@ -786,7 +786,7 @@ pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
         | FileType::FixedStruct{..}
         | FileType::Evtx
         | FileType::Journal
-        | FileType::Unparseable
+        | FileType::Unparsable
         => {},
     }
 
@@ -909,7 +909,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
 
     // if passed a path directly to a plain file (or a symlink to a plain file)
     // and `force` then assume the user wants to force an attempt to process
-    // such a file (even if it's known to be unparseable, e.g. `picture.png`)
+    // such a file (even if it's known to be unparsable, e.g. `picture.png`)
     // so skip call to `parseable_filetype` and treat is as `FileValid`
     if std_path.is_file() {
         let filetype: FileType;
@@ -978,7 +978,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             continue;
         }
         match filetype {
-            FileType::TarGz | FileType::Unparseable => {
+            FileType::TarGz | FileType::Unparsable => {
                 deo!("Path not supported {:?}", std_path_entry);
                 paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry, mimeguess));
             }
