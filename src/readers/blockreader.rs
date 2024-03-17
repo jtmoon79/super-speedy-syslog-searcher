@@ -1416,12 +1416,18 @@ impl BlockReader {
     // TODO: also handle when `self.file_metadata_modified` is zero
     //       (or a non-meaningful placeholder value).
     pub fn mtime(&self) -> SystemTime {
-        def1ñ!();
         match self.filetype {
             FileType::File
             | FileType::FixedStruct{..}
             | FileType::Unknown
-            | FileType::Xz => self.file_metadata_modified,
+            | FileType::Xz => {
+                defñ!(
+                    "{:?}: file_metadata_modified {:?}",
+                    self.filetype, self.file_metadata_modified
+                );
+
+                self.file_metadata_modified
+            }
             FileType::Gz => {
                 let mtime = self
                     .gz
@@ -1430,8 +1436,16 @@ impl BlockReader {
                     .mtime;
                 if mtime != 0 {
                     let seconds = mtime as u64;
-                    seconds_to_systemtime(&seconds)
+                    let st = seconds_to_systemtime(&seconds);
+                    defñ!("{:?}: mtime {} -> {:?}", self.filetype, mtime, st);
+
+                    st
                 } else {
+                    defñ!(
+                        "{:?}: file_metadata_modified {:?}",
+                        self.filetype, self.file_metadata_modified
+                    );
+
                     self.file_metadata_modified
                 }
             }
@@ -1443,8 +1457,16 @@ impl BlockReader {
                     .mtime;
                 if mtime != 0 {
                     let seconds = mtime as u64;
-                    seconds_to_systemtime(&seconds)
+                    let st = seconds_to_systemtime(&seconds);
+                    defñ!("{:?}: mtime {} -> {:?}", self.filetype, mtime, st);
+
+                    st
                 } else {
+                    defñ!(
+                        "{:?}: file_metadata_modified {:?}",
+                        self.filetype, self.file_metadata_modified
+                    );
+
                     self.file_metadata_modified
                 }
             }
@@ -1452,7 +1474,7 @@ impl BlockReader {
             FileType::Evtx
             | FileType::Journal
             | FileType::TarGz
-            => unimplemented!("Unsupported filetype {:?}", self.filetype),
+            => unimplemented!("BlockReader does handle filetype {:?}", self.filetype),
             // something is wrong if these are encountered
             FileType::Unset => panic!("Unexpected Unset"),
             FileType::Unparseable => panic!("Unexpected Unparseable"),
