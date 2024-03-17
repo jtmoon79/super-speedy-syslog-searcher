@@ -565,7 +565,7 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 
 #### Microsoft Windows 10
 
-Here are is a snippet from a Windows 10 host, log file
+Here is a snippet from a Windows 10 host, log file
 `${env:SystemRoot}\debug\mrt.log`
 
 ```text
