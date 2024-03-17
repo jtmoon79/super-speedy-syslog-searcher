@@ -21,7 +21,7 @@ The first goal of `s4` is speedy searching and printing.
 
 [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.6.68&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
 [![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/latest?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/latest/)
-[![Rust](https://img.shields.io/badge/rust-1.67.0%2B-blue.svg?style=flat-square&logo=rust&cacheSeconds=3600&logoColor=800000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/)<!-- MSRV in this badge must match `rust-version` in `Cargo.toml` -->
+[![Rust](https://img.shields.io/badge/rust-1.67.1%2B-blue.svg?style=flat-square&logo=rust&cacheSeconds=3600&logoColor=800000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/)<!-- MSRV in this badge must match `rust-version` in `Cargo.toml` -->
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
 
 [![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher)
