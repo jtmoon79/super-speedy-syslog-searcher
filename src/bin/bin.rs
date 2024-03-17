@@ -78,11 +78,6 @@ use ::const_format::concatcp;
 //       see https://github.com/rust-lang/rust/pull/93563/ and https://releases.rs/docs/1.67.0/
 use ::crossbeam_channel;
 use ::lazy_static::lazy_static;
-// TODO: [2024/03/10] cost-savings: use `::lexical::ToLexical` to add `to_lexical`
-//       function numbers, i.e. `usize`, `u32` etc.
-//       When printing the summary, write numbers to a static buffer then
-//       write that to the console.
-//       https://docs.rs/lexical/latest/lexical/trait.ToLexical.html#tymethod.to_lexical
 use ::mime_guess::MimeGuess;
 use ::regex::Regex;
 use ::si_trace_print::{

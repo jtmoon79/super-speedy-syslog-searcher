@@ -44,8 +44,6 @@ use std::ffi::CStr;
 use std::fmt;
 use std::io::{Error, ErrorKind};
 
-use ::lexical::to_string as number_to_string;
-
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -57,10 +55,16 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
+use numtoa::NumToA;  // adds `numtoa` method to numbers
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::static_assertions::const_assert;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/// size of the `[u8]` buffer used for `numtoa` conversions
+/// good up to `i64::MAX` or `i64::MIN` plus a little "just in case" head room
+pub const NUMTOA_BUF_SZ: usize = 22;
 
 /// A scoring system for the quality of the data in a [`FixedStruct`]. A higher score
 /// means the data is more likely to be the [`FixedStructType`] expected.
@@ -4523,7 +4527,7 @@ pub fn buffer_to_fixedstructptr(buffer: &[u8], fixedstructtype: FixedStructType)
 }
 
 /// Helper to [`FixedStruct::as_bytes`].
-/// Write a byte `b` that is `u8` to the `buffer` at index`at`
+/// Write a byte `b` that is `u8` to the `buffer` at index `at`
 /// If the index is out of bounds, return `InfoAsBytes::Fail`.
 macro_rules! set_buffer_at_or_err_u8 {
     ($buffer:ident, $at:ident, $b:expr) => ({{
@@ -4536,7 +4540,7 @@ macro_rules! set_buffer_at_or_err_u8 {
 }
 
 /// Helper to [`FixedStruct::as_bytes`].
-/// Write a byte `b` that is `i8` to the `buffer` at index`at`
+/// Write a byte `b` that is `i8` to the `buffer` at index `at`
 /// If the index is out of bounds, return `InfoAsBytes::Fail`.
 macro_rules! set_buffer_at_or_err_i8 {
     ($buffer:ident, $at:ident, $c:expr) => ({{
@@ -4545,6 +4549,17 @@ macro_rules! set_buffer_at_or_err_i8 {
             Err(_) => 0,
         };
         set_buffer_at_or_err_u8!($buffer, $at, c_);
+    }})
+}
+
+/// Helper to [`FixedStruct::as_bytes`].
+/// Write a byte `b` that is `&[u8]` to the `buffer` at index `at`
+/// If the index is out of bounds, return `InfoAsBytes::Fail`.
+macro_rules! set_buffer_at_or_err_u8_array {
+    ($buffer:ident, $at:ident, $b:expr) => ({{
+        for b_ in $b.iter() {
+            set_buffer_at_or_err_u8!($buffer, $at, *b_);
+        }
     }})
 }
 
@@ -4589,18 +4604,29 @@ macro_rules! set_buffer_at_or_err_cstrn {
 /// Helper to [`FixedStruct::as_bytes`].
 /// Write the `ut_type` that is `i16` to the `buffer` at index`at`.
 /// If the index is out of bounds, return `InfoAsBytes::Fail`.
+macro_rules! set_buffer_at_or_err_ut_type {
+    ($buffer:ident, $at:ident, $ut_type:expr, $type_:ty, $len:ident) => ({{
+        // sanity check passed number type is 2 bytes or less so `buffer_num` is enough
+        const_assert!(std::mem::size_of::<$type_>() <= 2);
+        let mut buffer_num = [0u8; 8];
+        match &$ut_type {
+            n if &0 <= n && n < &$len => {
+                set_buffer_at_or_err_str!($buffer, $at, UT_TYPE_VAL_TO_STR[*n as usize]);
+            }
+            n_ => {
+                let num = n_.numtoa(10, &mut buffer_num);
+                set_buffer_at_or_err_u8_array!($buffer, $at, num);
+            },
+        }
+    }})
+}
+
+/// Helper to [`FixedStruct::as_bytes`].
+/// Write the `ut_type` that is `i16` to the `buffer` at index`at`.
+/// If the index is out of bounds, return `InfoAsBytes::Fail`.
 macro_rules! set_buffer_at_or_err_ut_type_i16 {
     ($buffer:ident, $at:ident, $ut_type:expr) => ({{
-        let ut_types_string: String;
-        let ut_types: &str = match &$ut_type {
-            n if &0 <= n && n < &UT_TYPE_VAL_TO_STR_LEN_i16 => UT_TYPE_VAL_TO_STR[*n as usize],
-            _ => {
-                ut_types_string = format!("{}", $ut_type);
-
-                ut_types_string.as_str()
-            },
-        };
-        set_buffer_at_or_err_str!($buffer, $at, ut_types);
+        set_buffer_at_or_err_ut_type!($buffer, $at, $ut_type, i16, UT_TYPE_VAL_TO_STR_LEN_i16)
     }})
 }
 
@@ -4609,25 +4635,33 @@ macro_rules! set_buffer_at_or_err_ut_type_i16 {
 /// If the index is out of bounds, return `InfoAsBytes::Fail`.
 macro_rules! set_buffer_at_or_err_ut_type_u16 {
     ($buffer:ident, $at:ident, $ut_type:expr) => ({{
-        let ut_types_string: String;
-        let ut_types: &str = match &$ut_type {
-            n if &0 <= n && n < &UT_TYPE_VAL_TO_STR_LEN_u16 => UT_TYPE_VAL_TO_STR[*n as usize],
-            _ => {
-                ut_types_string = format!("{}", $ut_type);
+        set_buffer_at_or_err_ut_type!($buffer, $at, $ut_type, u16, UT_TYPE_VAL_TO_STR_LEN_u16)
+    }})
+}
 
-                ut_types_string.as_str()
-            },
-        };
-        set_buffer_at_or_err_str!($buffer, $at, ut_types);
+/// Helper to [`FixedStruct::as_bytes`].
+/// Write the `number` value of type `$type_` into `buffer` at index `at`.
+/// If the index is out of bounds, return `InfoAsBytes::Fail`.
+macro_rules! set_buffer_at_or_err_number {
+    ($buffer:ident, $at:ident, $number:expr, $type_:ty) => ({{
+        // sanity check passed number type is 8 bytes or less so `buffer_num` is enough
+        const_assert!(std::mem::size_of::<$type_>() <= 8);
+        let mut buffer_num = [0u8; 22];
+        // XXX: copy to local variable to avoid packed warning
+        let num_val = $number;
+        let num = num_val.numtoa(10, &mut buffer_num);
+        set_buffer_at_or_err_u8_array!($buffer, $at, num);
     }})
 }
 
 /// Helper to [`FixedStruct::as_bytes`].
 /// Write the `number` value of type `i64` into `buffer` at index `at`.
 /// If the index is out of bounds, return `InfoAsBytes::Fail`.
-macro_rules! set_buffer_at_or_err_number {
+macro_rules! set_buffer_at_or_err_number_f32 {
     ($buffer:ident, $at:ident, $number:expr, $type_:ty) => ({{
-        let number_string = number_to_string::<$type_>($number);
+        // XXX: copy to local variable to avoid packed warning
+        let num = $number;
+        let number_string = format!("{}", num);
         set_buffer_at_or_err_string!($buffer, $at, number_string);
     }})
 }
@@ -4654,8 +4688,7 @@ macro_rules! set_buffer_at_or_err_ipv4 {
         let o3: u8 = ($value & 0xFF) as u8;
         // write each octet to the buffer
         for (i, b_) in (&[o3, o2, o1, o0]).iter().enumerate() {
-            let octet_string = number_to_string::<u8>(*b_);
-            set_buffer_at_or_err_string!($buffer, $at, octet_string);
+            set_buffer_at_or_err_number!($buffer, $at, *b_, u8);
             if i != 3 {
                 set_buffer_at_or_err_u8!($buffer, $at, b'.');
             }
@@ -5669,7 +5702,7 @@ impl FixedStruct
                 dt_end = at;
                 // ac_etime
                 set_buffer_at_or_err_str!(buffer, at, " ac_etime ");
-                set_buffer_at_or_err_number!(buffer, at, acct_v3.ac_etime, f32);
+                set_buffer_at_or_err_number_f32!(buffer, at, acct_v3.ac_etime, f32);
                 // ac_utime
                 set_buffer_at_or_err_str!(buffer, at, " ac_utime ");
                 set_buffer_at_or_err_number!(buffer, at, acct_v3.ac_utime, linux_x86::comp_t);

@@ -2184,6 +2184,7 @@ impl<'a> JournalReader {
 
         buffer.push_str(KEY__REALTIME_TIMESTAMP);
         buffer.push(FIELD_MID_U8);
+        // TODO: cost-savings: use crate `numtoa` to convert number to readable bytes
         buffer.push_str(&realtime_timestamp.to_string());
         buffer.push(FIELD_END_U8);
 
@@ -2193,6 +2194,7 @@ impl<'a> JournalReader {
             Some(m) => {
                 buffer.push_str(KEY__MONOTONIC_TIMESTAMP_BYTES);
                 buffer.push(FIELD_MID_U8);
+                // TODO: cost-savings: use crate `numtoa` to convert number to readable bytes
                 buffer.push_str(&m.to_string());
                 buffer.push(FIELD_END_U8);
             },
