@@ -7,3 +7,4 @@
 tools/compare-current-and-expected_current.stderr
 tools/compare-current-and-expected_current.stdout
 perf.data
+perf.data.old
