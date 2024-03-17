@@ -600,6 +600,8 @@ impl SyslogProcessor {
     /// [`Sysline`]: crate::data::sysline::Sysline
     /// [`BlockReader`]: crate::readers::blockreader::BlockReader
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
+    // BUG: does not revise year guesstimation based on encountering leap date February 29
+    //      See Issue #245
     pub fn process_missing_year(
         &mut self,
         mtime: SystemTime,
@@ -608,9 +610,12 @@ impl SyslogProcessor {
         defn!("({:?}, {:?})", mtime, filter_dt_after_opt);
         debug_assert!(!self.did_process_missing_year(), "process_missing_year() must only be called once");
         let dt_mtime: DateTimeL = systemtime_to_datetime(&self.tz_offset, &mtime);
+        defo!("converted dt_mtime {:?}", dt_mtime);
         let year: Year = dt_mtime.date_naive().year() as Year;
         self.missing_year = Some(year);
+        defo!("converted missing_year {:?}", self.missing_year);
         let mut year_opt: Option<Year> = Some(year);
+        defo!("year_opt {:?}", year_opt);
         let charsz_fo: FileOffset = self.charsz() as FileOffset;
 
         // The previously stored `Sysline`s have a filler year that is most likely incorrect.
