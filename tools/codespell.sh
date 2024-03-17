@@ -37,4 +37,4 @@ exec \
     ./Extended-Thoughts.md \
     ./README.md \
     ./src/ \
-    ./tools/ \
+    $(find ./tools -maxdepth 1 -type f) \
