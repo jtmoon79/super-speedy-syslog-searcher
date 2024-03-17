@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<usagestats version="1" endTime="447455">
+    <interactive count="0" time="0" />
+    <non-interactive count="0" time="0" />
+    <keyguard-shown count="0" time="0" />
+    <keyguard-hidden count="0" time="0" />
+    <packages>
+        <package lastTimeActive="-1710619136617" package="com.google.android.ext.services" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.google.android.googlequicksearchbox" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.android.providers.calendar" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.android.providers.media" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="322477" package="com.android.providers.downloads" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.android.defcontainer" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="364318" package="com.android.vending" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="268376" package="android" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="161885" package="com.android.launcher3" timeActive="0" lastEvent="2" />
+        <package lastTimeActive="-1710619136617" package="com.android.settings.intelligence" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="366704" package="com.google.android.setupwizard" timeActive="47958" lastEvent="2" appLaunchCount="4" />
+        <package lastTimeActive="-1710619136617" package="com.android.keychain" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="285585" package="com.android.chrome" timeActive="123078" lastEvent="2" appLaunchCount="1" />
+        <package lastTimeActive="353666" package="com.google.android.gms" timeActive="13948" lastEvent="2" appLaunchCount="1" />
+        <package lastTimeActive="-1710619136617" package="com.google.android.gsf" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.google.android.partnersetup" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.android.inputmethod.latin" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.android.providers.partnerbookmarks" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="447455" package="com.android.settings" timeActive="90821" lastEvent="2" appLaunchCount="3" />
+        <package lastTimeActive="-1710619136617" package="com.android.providers.blockednumber" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.android.providers.userdictionary" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="-1710619136617" package="com.android.providers.contacts" timeActive="0" lastEvent="0" />
+        <package lastTimeActive="337285" package="com.google.android.apps.restore" timeActive="5687" lastEvent="2" appLaunchCount="1" />
+    </packages>
+    <configurations />
+    <event-log>
+        <event time="159" package="com.google.android.setupwizard" flags="0" type="12" />
+        <event time="295" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="6689" package="com.google.android.setupwizard" flags="0" type="12" />
+        <event time="10213" package="com.android.vending" flags="0" type="12" />
+        <event time="52435" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="69265" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="70104" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="114705" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="124210" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="124725" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="125215" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="125644" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="126598" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="127217" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="127866" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="128292" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="161885" package="com.android.launcher3" class="com.android.launcher3.Launcher" flags="0" type="2" />
+        <event time="162039" package="com.android.chrome" class="org.chromium.chrome.browser.ChromeTabbedActivity" flags="0" type="1" />
+        <event time="162394" package="com.android.chrome" class="org.chromium.chrome.browser.ChromeTabbedActivity" flags="0" type="2" />
+        <event time="162541" package="com.android.chrome" class="org.chromium.chrome.browser.firstrun.TabbedModeFirstRunActivity" flags="0" type="1" />
+        <event time="165967" package="com.android.chrome" class="org.chromium.chrome.browser.firstrun.TabbedModeFirstRunActivity" flags="0" type="2" />
+        <event time="166288" package="com.android.chrome" class="org.chromium.chrome.browser.ChromeTabbedActivity" flags="0" type="1" />
+        <event time="246027" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="268375" package="com.android.vending" flags="0" type="10" />
+        <event time="268376" package="android" flags="0" type="10" />
+        <event time="285585" package="com.android.chrome" class="org.chromium.chrome.browser.ChromeTabbedActivity" flags="0" type="2" />
+        <event time="285723" package="com.android.settings" class="com.android.settings.Settings" flags="0" type="1" />
+        <event time="290386" package="com.android.settings" class="com.android.settings.Settings" flags="0" type="2" />
+        <event time="290424" package="com.google.android.setupwizard" class="com.google.android.setupwizard.deferred.DeferredTrampolineActivity" flags="0" type="1" />
+        <event time="290544" package="com.google.android.setupwizard" class="com.google.android.setupwizard.deferred.DeferredTrampolineActivity" flags="0" type="2" />
+        <event time="290555" package="com.google.android.setupwizard" class="com.google.android.setupwizard.predeferred.PreDeferredSetupWizardActivity" flags="0" type="1" />
+        <event time="290599" package="com.google.android.setupwizard" class="com.google.android.setupwizard.predeferred.PreDeferredSetupWizardActivity" flags="0" type="2" />
+        <event time="290603" package="com.google.android.setupwizard" class="com.google.android.setupwizard.predeferred.ConnectToWifiActivity" flags="0" type="1" />
+        <event time="290648" package="com.google.android.setupwizard" class="com.google.android.setupwizard.predeferred.ConnectToWifiActivity" flags="0" type="2" />
+        <event time="290677" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="290726" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="291010" package="com.google.android.setupwizard" class="com.google.android.setupwizard.SetupWizardExitActivity" flags="0" type="1" />
+        <event time="291110" package="com.google.android.setupwizard" class="com.google.android.setupwizard.SetupWizardExitActivity" flags="0" type="2" />
+        <event time="291154" package="com.google.android.setupwizard" class="com.google.android.setupwizard.deferred.DeferredSetupWizardActivity" flags="0" type="1" />
+        <event time="291207" package="com.google.android.setupwizard" class="com.google.android.setupwizard.deferred.DeferredSetupWizardActivity" flags="0" type="2" />
+        <event time="291251" package="com.google.android.setupwizard" flags="0" type="12" />
+        <event time="291304" package="com.google.android.setupwizard" class="com.google.android.setupwizard.deferred.DeferredSetupWelcomeActivity" flags="0" type="1" />
+        <event time="294781" package="com.google.android.setupwizard" class="com.google.android.setupwizard.deferred.DeferredSetupWelcomeActivity" flags="0" type="2" />
+        <event time="294789" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="294860" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="294908" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="1" />
+        <event time="322477" package="com.android.providers.downloads" flags="0" type="12" />
+        <event time="328360" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="2" />
+        <event time="328387" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="328494" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="328541" package="com.google.android.setupwizard" class="com.google.android.setupwizard.carrier.SimMissingActivity" flags="0" type="1" />
+        <event time="328626" package="com.google.android.setupwizard" class="com.google.android.setupwizard.carrier.SimMissingActivity" flags="0" type="2" />
+        <event time="328699" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="328754" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="328804" package="com.google.android.setupwizard" class="com.google.android.setupwizard.carrier.SimSetupActivity" flags="0" type="1" />
+        <event time="328921" package="com.google.android.setupwizard" class="com.google.android.setupwizard.carrier.SimSetupActivity" flags="0" type="2" />
+        <event time="328975" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="329011" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="329083" package="com.google.android.setupwizard" class="com.google.android.setupwizard.network.NetworkActivity" flags="0" type="1" />
+        <event time="329151" package="com.google.android.setupwizard" class="com.google.android.setupwizard.network.NetworkActivity" flags="0" type="2" />
+        <event time="329344" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="329578" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="329657" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="1" />
+        <event time="329747" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="2" />
+        <event time="329823" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="329906" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="329989" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="1" />
+        <event time="330226" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="2" />
+        <event time="330236" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="330267" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="330281" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="1" />
+        <event time="331179" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="2" />
+        <event time="331192" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="331275" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="331296" package="com.google.android.setupwizard" class="com.google.android.setupwizard.restore.UsbMigrationWrapper" flags="0" type="1" />
+        <event time="331370" package="com.google.android.setupwizard" class="com.google.android.setupwizard.restore.UsbMigrationWrapper" flags="0" type="2" />
+        <event time="331598" package="com.google.android.apps.restore" class="com.google.android.apps.pixelmigrate.component.RestoreChoiceActivity" flags="0" type="1" />
+        <event time="337285" package="com.google.android.apps.restore" class="com.google.android.apps.pixelmigrate.component.RestoreChoiceActivity" flags="0" type="2" />
+        <event time="337311" package="com.google.android.setupwizard" class="com.google.android.setupwizard.restore.UsbMigrationWrapper" flags="0" type="1" />
+        <event time="337360" package="com.google.android.setupwizard" class="com.google.android.setupwizard.restore.UsbMigrationWrapper" flags="0" type="2" />
+        <event time="337394" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="337430" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="337465" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="337509" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="337514" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="1" />
+        <event time="339084" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="2" />
+        <event time="339092" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="339183" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="339293" package="com.google.android.setupwizard" class="com.google.android.setupwizard.account.AccountSetupWrapper" flags="0" type="1" />
+        <event time="339384" package="com.google.android.setupwizard" class="com.google.android.setupwizard.account.AccountSetupWrapper" flags="0" type="2" />
+        <event time="339554" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.common.UnpackingRedirectActivity" flags="0" type="1" />
+        <event time="339688" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.common.UnpackingRedirectActivity" flags="0" type="2" />
+        <event time="339705" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.addaccount.AccountIntroActivity" flags="0" type="1" />
+        <event time="339788" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.addaccount.AccountIntroActivity" flags="0" type="2" />
+        <event time="339813" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.addaccount.WrapperControlledActivity" flags="0" type="1" />
+        <event time="339899" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.addaccount.WrapperControlledActivity" flags="0" type="2" />
+        <event time="339973" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.addaccount.PreAddAccountActivity" flags="0" type="1" />
+        <event time="342217" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.addaccount.PreAddAccountActivity" flags="0" type="2" />
+        <event time="342223" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.addaccount.WrapperControlledActivity" flags="0" type="1" />
+        <event time="342366" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.addaccount.WrapperControlledActivity" flags="0" type="2" />
+        <event time="342408" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.minutemaid.MinuteMaidActivity" flags="0" type="1" />
+        <event time="353666" package="com.google.android.gms" class="com.google.android.gms.auth.uiflows.minutemaid.MinuteMaidActivity" flags="0" type="2" />
+        <event time="353731" package="com.google.android.setupwizard" class="com.google.android.setupwizard.account.AccountSetupWrapper" flags="0" type="1" />
+        <event time="353741" package="com.google.android.setupwizard" class="com.google.android.setupwizard.account.AccountSetupWrapper" flags="0" type="2" />
+        <event time="353743" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="353783" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="353903" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="353964" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="353990" package="com.google.android.setupwizard" class="com.google.android.setupwizard.carrier.EsimSetupWrapper" flags="0" type="1" />
+        <event time="354010" package="com.google.android.setupwizard" class="com.google.android.setupwizard.carrier.EsimSetupWrapper" flags="0" type="2" />
+        <event time="354023" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="354085" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="354098" package="com.google.android.setupwizard" class="com.google.android.setupwizard.user.FingerprintWrapper" flags="0" type="1" />
+        <event time="354129" package="com.google.android.setupwizard" class="com.google.android.setupwizard.user.FingerprintWrapper" flags="0" type="2" />
+        <event time="354147" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="354179" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="354188" package="com.google.android.setupwizard" class="com.google.android.setupwizard.user.LockScreenWrapper" flags="0" type="1" />
+        <event time="354227" package="com.google.android.setupwizard" class="com.google.android.setupwizard.user.LockScreenWrapper" flags="0" type="2" />
+        <event time="354351" package="com.android.settings" class="com.android.settings.password.SetupChooseLockGeneric" flags="0" type="1" />
+        <event time="359948" package="com.android.settings" class="com.android.settings.password.SetupChooseLockGeneric" flags="0" type="2" />
+        <event time="360036" package="com.google.android.setupwizard" class="com.google.android.setupwizard.user.LockScreenWrapper" flags="0" type="1" />
+        <event time="360075" package="com.google.android.setupwizard" class="com.google.android.setupwizard.user.LockScreenWrapper" flags="0" type="2" />
+        <event time="360114" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="360217" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="360308" package="com.google.android.setupwizard" class="com.google.android.setupwizard.user.SuggestedActionsActivity" flags="0" type="1" />
+        <event time="364032" package="com.google.android.setupwizard" class="com.google.android.setupwizard.user.SuggestedActionsActivity" flags="0" type="2" />
+        <event time="364077" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="364112" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="364150" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="1" />
+        <event time="364318" package="com.android.vending" flags="0" type="12" />
+        <event time="365803" package="com.google.android.setupwizard" class="com.google.android.setupwizard.ProgressActivity" flags="0" type="2" />
+        <event time="365823" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="365944" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="366009" package="com.google.android.setupwizard" class="com.google.android.setupwizard.account.KidPostSetupWrapper" flags="0" type="1" />
+        <event time="366197" package="com.google.android.setupwizard" class="com.google.android.setupwizard.account.KidPostSetupWrapper" flags="0" type="2" />
+        <event time="366320" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="1" />
+        <event time="366402" package="com.google.android.setupwizard" class="com.google.android.setupwizard.WizardManagerActivity" flags="0" type="2" />
+        <event time="366476" package="com.google.android.setupwizard" class="com.google.android.setupwizard.SetupWizardExitActivity" flags="0" type="1" />
+        <event time="366704" package="com.google.android.setupwizard" class="com.google.android.setupwizard.SetupWizardExitActivity" flags="0" type="2" />
+        <event time="366864" package="com.android.settings" class="com.android.settings.Settings" flags="0" type="1" />
+        <event time="375539" package="com.android.settings" class="com.android.settings.Settings" flags="0" type="2" />
+        <event time="375553" package="com.android.settings" class="com.android.settings.Settings$SystemDashboardActivity" flags="0" type="1" />
+        <event time="395355" package="com.android.settings" class="com.android.settings.Settings$SystemDashboardActivity" flags="0" type="2" />
+        <event time="395358" package="com.android.settings" class="com.android.settings.Settings" flags="0" type="1" />
+        <event time="406734" package="com.android.settings" class="com.android.settings.Settings" flags="0" type="2" />
+        <event time="406745" package="com.android.settings" class="com.android.settings.Settings$AndroidX86DashboardActivity" flags="0" type="1" />
+        <event time="422187" package="com.android.settings" class="com.android.settings.Settings$AndroidX86DashboardActivity" flags="0" type="2" />
+        <event time="422189" package="com.android.settings" class="com.android.settings.Settings" flags="0" type="1" />
+        <event time="447455" package="com.android.settings" class="com.android.settings.Settings" flags="0" type="2" />
+    </event-log>
+</usagestats>

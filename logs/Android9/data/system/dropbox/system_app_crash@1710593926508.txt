@@ -1,0 +1,21 @@
+Process: org.android_x86.analytics
+PID: 1783
+Flags: 0x3088be4d
+Package: org.android_x86.analytics v28 (9)
+Foreground: No
+Build: Android-x86/android_x86_64/x86_64:9/PI/lh03251128:userdebug/test-keys
+
+java.lang.RuntimeException: Stub!
+	at org.apache.http.impl.client.AbstractHttpClient.<init>(AbstractHttpClient.java:37)
+	at org.apache.http.impl.client.DefaultHttpClient.<init>(DefaultHttpClient.java:39)
+	at com.google.analytics.tracking.android.PersistentAnalyticsStore.<init>(PersistentAnalyticsStore.java:119)
+	at com.google.analytics.tracking.android.PersistentAnalyticsStore.<init>(PersistentAnalyticsStore.java:96)
+	at com.google.analytics.tracking.android.GAServiceManager.getStore(GAServiceManager.java:173)
+	at com.google.analytics.tracking.android.GAServiceProxy.useStore(GAServiceProxy.java:315)
+	at com.google.analytics.tracking.android.GAServiceProxy.onConnectionFailed(GAServiceProxy.java:392)
+	at com.google.analytics.tracking.android.AnalyticsGmsCoreClient.connect(AnalyticsGmsCoreClient.java:90)
+	at com.google.analytics.tracking.android.GAServiceProxy.connectToService(GAServiceProxy.java:330)
+	at com.google.analytics.tracking.android.GAServiceProxy.access$600(GAServiceProxy.java:28)
+	at com.google.analytics.tracking.android.GAServiceProxy$ReconnectTask.run(GAServiceProxy.java:415)
+	at java.util.TimerThread.mainLoop(Timer.java:562)
+	at java.util.TimerThread.run(Timer.java:512)

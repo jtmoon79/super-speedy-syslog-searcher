@@ -1,0 +1,8 @@
+isPrevious: true
+Build: Android-x86/android_x86_64/x86_64:9/PI/lh03251128:userdebug/test-keys
+Hardware: unknown
+Revision: 0
+Bootloader: unknown
+Radio: 
+Kernel: Linux version 4.19.110-android-x86_64-g066cc1d (lh@android-x86) (gcc version 4.6 20120106 (prerelease) (GCC)) #1 SMP PREEMPT Wed Mar 25 11:32:46 CST 2020
+

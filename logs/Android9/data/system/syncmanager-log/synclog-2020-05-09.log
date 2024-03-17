@@ -1,0 +1,9 @@
+2020-05-09 00:24:38.612 1218 Loaded 0 items
+2020-05-09 00:24:38.614 1218 Sync manager initialized: Android-x86/android_x86_64/x86_64:9/PI/lh03251128:userdebug/test-keys
+2020-05-09 00:24:38.871 1361 onStartUser: user=0
+2020-05-09 00:24:44.019 1361 onUnlockUser: user=0
+2020-05-09 00:24:44.282 1361 updateRunningAccountsH: []
+2020-05-09 00:24:44.285 1361 Loaded persisted syncs: 0 periodic syncs, 0 oneshot syncs, 7 total system server jobs, JobStats: FirstLoad: 0/0/0 LastSave: -1/-1/-1
+2020-05-09 00:27:05.588 1218 rescheduleSyncs() ep=ALL ACCS/ALL PDRS:u-1 why=network reconnect
+2020-05-09 00:30:02.855 1218 JobStats: FirstLoad: 0/0/0 LastSave: 33/2/0
+2020-05-09 00:30:02.855 1218 Shutting down.

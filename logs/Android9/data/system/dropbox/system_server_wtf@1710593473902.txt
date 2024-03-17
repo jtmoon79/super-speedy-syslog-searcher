@@ -1,0 +1,22 @@
+Process: system_server
+Subject: StorageManagerService
+Build: Android-x86/android_x86_64/x86_64:9/PI/lh03251128:userdebug/test-keys
+
+android.util.Log$TerribleFailure: Failed to read field SystemLocale
+	at android.util.Log.wtf(Log.java:299)
+	at android.util.Slog.wtf(Slog.java:107)
+	at com.android.server.StorageManagerService.getField(StorageManagerService.java:2410)
+	at com.android.server.StorageManagerService.copyLocaleFromMountService(StorageManagerService.java:982)
+	at com.android.server.StorageManagerService.handleDaemonConnected(StorageManagerService.java:975)
+	at com.android.server.StorageManagerService.access$900(StorageManagerService.java:171)
+	at com.android.server.StorageManagerService$StorageManagerServiceHandler.handleMessage(StorageManagerService.java:572)
+	at android.os.Handler.dispatchMessage(Handler.java:106)
+	at android.os.Looper.loop(Looper.java:193)
+	at android.os.HandlerThread.run(HandlerThread.java:65)
+Caused by: android.os.ServiceSpecificException: Failed to read field SystemLocale (code 0)
+	at android.os.Parcel.createException(Parcel.java:1964)
+	at android.os.Parcel.readException(Parcel.java:1918)
+	at android.os.Parcel.readException(Parcel.java:1868)
+	at android.os.IVold$Stub$Proxy.fdeGetField(IVold.java:1094)
+	at com.android.server.StorageManagerService.getField(StorageManagerService.java:2408)
+	... 7 more

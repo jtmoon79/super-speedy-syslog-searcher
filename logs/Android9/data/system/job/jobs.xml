@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<job-info version="0">
+    <job jobid="107" package="com.android.chrome" class="org.chromium.components.background_task_scheduler.internal.BackgroundTaskJobService" sourcePackageName="com.android.chrome" sourceUserId="0" uid="10071" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" />
+        <one-off deadline="1710965604186" delay="1710879203186" />
+        <extras>
+            <pbundle_as_map name="_background_task_extras">
+                <string name="serialized_task_extras"></string>
+            </pbundle_as_map>
+            <long name="_background_task_end_time" value="346296915" />
+            <long name="_background_task_schedule_time" value="1710619306270" />
+        </extras>
+    </job>
+    <job jobid="54" package="com.android.chrome" class="org.chromium.components.background_task_scheduler.internal.BackgroundTaskJobService" sourcePackageName="com.android.chrome" sourceUserId="0" uid="10071" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints />
+        <one-off deadline="1710748912032" delay="1710662512032" />
+        <extras>
+            <pbundle_as_map name="_background_task_extras">
+                <boolean name="extra_battery_requires_charging" value="false" />
+                <int name="extra_optimal_battery_percentage" value="0" />
+                <int name="extra_task_type" value="1" />
+            </pbundle_as_map>
+        </extras>
+    </job>
+    <job jobid="-268" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705782247" delay="1710619382247" />
+        <extras>
+            <string name="background_task_data">CJcEEIUBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-362" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619428038" lastFailedRunTime="0">
+        <constraints />
+        <periodic period="28800000" flex="28800000" deadline="1710676982354" delay="1710648182354" />
+        <extras>
+            <string name="background_task_data">CNMFELQBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-288" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619383685" lastFailedRunTime="0">
+        <constraints charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710792182313" delay="1710705782313" />
+        <extras>
+            <string name="background_task_data">CL8EEI8BJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-462" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619458869" lastFailedRunTime="0">
+        <constraints />
+        <periodic period="43200000" flex="43200000" deadline="1710705782521" delay="1710662582521" />
+        <extras>
+            <string name="background_task_data">CJsHEOYBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-202" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619458920" lastFailedRunTime="0">
+        <constraints net-capabilities="96256" net-unwanted-capabilities="0" net-transport-types="0" charging="true" />
+        <periodic period="259200000" flex="259200000" deadline="1711137782543" delay="1710878582543" />
+        <extras>
+            <string name="background_task_data">CJMDEGQlScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-166" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="604800000" flex="604800000" deadline="1711224182521" delay="1710619382521" />
+        <extras>
+            <string name="background_task_data">CMsCEFIlScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-480" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619458974" lastFailedRunTime="0">
+        <constraints net-capabilities="96256" net-unwanted-capabilities="0" net-transport-types="0" />
+        <periodic period="86400000" flex="86400000" deadline="1710792182550" delay="1710705782550" />
+        <extras>
+            <string name="background_task_data">CL8HEO8BJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-358" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619382517" lastFailedRunTime="0">
+        <constraints net-capabilities="96256" net-unwanted-capabilities="0" net-transport-types="0" charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710792182128" delay="1710705782128" />
+        <extras>
+            <string name="background_task_data">CMsFELIBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-486" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619382539" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" />
+        <periodic period="86400000" flex="86400000" deadline="1710792182128" delay="1710705782128" />
+        <extras>
+            <string name="background_task_data">CMsHEPIBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-446" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619382577" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" />
+        <periodic period="43200000" flex="43200000" deadline="1710705782291" delay="1710662582291" />
+        <extras>
+            <string name="background_task_data">CPsGEN4BJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-290" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619386787" lastFailedRunTime="0">
+        <constraints charging="true" />
+        <periodic period="21600000" flex="21600000" deadline="1710662582310" delay="1710640982310" />
+        <extras>
+            <string name="background_task_data">CMMEEJABJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-48" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" idle="true" charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705782084" delay="1710619382084" />
+        <extras>
+            <string name="background_task_data">CF8QFyVJyfUR</string>
+        </extras>
+    </job>
+    <job jobid="-148" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619458849" lastFailedRunTime="0">
+        <constraints net-capabilities="96256" net-unwanted-capabilities="0" net-transport-types="0" />
+        <periodic period="86400000" flex="86400000" deadline="1710792182520" delay="1710705782520" />
+        <extras>
+            <string name="background_task_data">CKcCEEklScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-30" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705782080" delay="1710619382080" />
+        <extras>
+            <string name="background_task_data">CDsQDiVJyfUR</string>
+        </extras>
+    </job>
+    <job jobid="-350" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619382652" lastFailedRunTime="0">
+        <constraints />
+        <periodic period="43200000" flex="43200000" deadline="1710705782291" delay="1710662582291" />
+        <extras>
+            <string name="background_task_data">CLsFEK4BJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-406" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619386891" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" />
+        <periodic period="21600000" flex="21600000" deadline="1710662582343" delay="1710640982343" />
+        <extras>
+            <string name="background_task_data">CKsGEMoBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-370" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619382588" lastFailedRunTime="0">
+        <constraints net-capabilities="96256" net-unwanted-capabilities="0" net-transport-types="0" charging="true" />
+        <periodic period="14400000" flex="14400000" deadline="1710648182291" delay="1710633782291" />
+        <extras>
+            <string name="background_task_data">COMFELgBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-188" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" idle="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705782534" delay="1710619382534" />
+        <extras>
+            <string name="background_task_data">CPcCEF0lScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-110" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="43200000" flex="43200000" deadline="1710662582508" delay="1710619382508" />
+        <extras>
+            <string name="background_task_data">CNsBEDYlScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-484" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619382530" lastFailedRunTime="0">
+        <constraints net-capabilities="96256" net-unwanted-capabilities="0" net-transport-types="0" charging="true" />
+        <periodic period="7200000" flex="7200000" deadline="1710633782128" delay="1710626582128" />
+        <extras>
+            <string name="background_task_data">CMcHEPEBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-292" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619390370" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" charging="true" />
+        <periodic period="21600000" flex="21600000" deadline="1710662582292" delay="1710640982292" />
+        <extras>
+            <string name="background_task_data">CMcEEJEBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-294" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619391823" lastFailedRunTime="0">
+        <constraints net-capabilities="96256" net-unwanted-capabilities="0" net-transport-types="0" charging="true" />
+        <periodic period="21600000" flex="21600000" deadline="1710662582314" delay="1710640982314" />
+        <extras>
+            <string name="background_task_data">CMsEEJIBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-452" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619458635" lastFailedRunTime="0">
+        <constraints charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710792182507" delay="1710705782507" />
+        <extras>
+            <string name="background_task_data">CIcHEOEBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-324" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619382388" lastFailedRunTime="0">
+        <constraints charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710792182077" delay="1710705782077" />
+        <extras>
+            <string name="background_task_data">CIcFEKEBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="2000007999" package="com.google.android.googlequicksearchbox" class="com.google.android.libraries.notifications.entrypoints.scheduled.ScheduledTaskService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619251674" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" />
+        <periodic period="86400000" flex="86400000" deadline="1710792037325" delay="1710705637325" />
+        <extras>
+            <string name="com.google.android.libraries.notifications.INTENT_EXTRA_TASK_HANDLER">PERIODIC_TASK</string>
+        </extras>
+    </job>
+    <job jobid="-380" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705782507" delay="1710619382507" />
+        <extras>
+            <string name="background_task_data">CPcFEL0BJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-382" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705782084" delay="1710619382084" />
+        <extras>
+            <string name="background_task_data">CPsFEL4BJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-256" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619428405" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710792182419" delay="1710705782419" />
+        <extras>
+            <string name="background_task_data">CP8DEH8lScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-128" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619458829" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" />
+        <periodic period="34200000" flex="34200000" deadline="1710687782511" delay="1710653582511" />
+        <extras>
+            <string name="background_task_data">CP8BED8lScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-234" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" idle="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705782512" delay="1710619382512" />
+        <extras>
+            <string name="background_task_data">CNMDEHQlScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-154" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" charging="true" />
+        <periodic period="604800000" flex="604800000" deadline="1711224182522" delay="1710619382522" />
+        <extras>
+            <string name="background_task_data">CLMCEEwlScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-170" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705782525" delay="1710619382525" />
+        <extras>
+            <string name="background_task_data">CNMCEFQlScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-12" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="172800000" flex="172800000" deadline="1710792182019" delay="1710619382019" />
+        <extras>
+            <string name="background_task_data">CBcQBSVJyfUR</string>
+        </extras>
+    </job>
+    <job jobid="-184" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints net-capabilities="94208" net-unwanted-capabilities="0" net-transport-types="0" idle="true" />
+        <periodic period="28800000" flex="28800000" deadline="1710648182527" delay="1710619382527" />
+        <extras>
+            <string name="background_task_data">CO8CEFslScn1EQ</string>
+        </extras>
+    </job>
+    <job jobid="-408" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="28800000" flex="28800000" deadline="1710648182356" delay="1710619382356" />
+        <extras>
+            <string name="background_task_data">CK8GEMsBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-352" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="1710619382687" lastFailedRunTime="0">
+        <constraints net-capabilities="96256" net-unwanted-capabilities="0" net-transport-types="0" />
+        <periodic period="43200000" flex="43200000" deadline="1710705782292" delay="1710662582292" />
+        <extras>
+            <string name="background_task_data">CL8FEK8BJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="-334" package="com.google.android.googlequicksearchbox" class="com.google.android.apps.gsa.tasks.BackgroundTasksJobService" sourcePackageName="com.google.android.googlequicksearchbox" sourceUserId="0" uid="10024" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <periodic period="7200000" flex="7200000" deadline="1710626582317" delay="1710619382317" />
+        <extras>
+            <string name="background_task_data">CJsFEKYBJUnJ9RE</string>
+        </extras>
+    </job>
+    <job jobid="5824" package="com.google.android.setupwizard" class="com.google.android.setupwizard.deferred.DeferredCleanUpJobService" sourcePackageName="com.google.android.setupwizard" sourceUserId="0" uid="10011" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" />
+        <one-off delay="1710878627805" />
+        <extras />
+    </job>
+    <job jobid="2131427336" package="com.android.settings" class="com.android.settings.fuelgauge.batterytip.AnomalyConfigJobService" sourcePackageName="com.android.settings" sourceUserId="0" uid="1000" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705541220" delay="1710619141220" />
+        <extras />
+    </job>
+    <job jobid="2131427335" package="com.android.settings" class="com.android.settings.fuelgauge.batterytip.AnomalyCleanupJobService" sourcePackageName="com.android.settings" sourceUserId="0" uid="1000" priority="0" flags="0" lastSuccessfulRunTime="0" lastFailedRunTime="0">
+        <constraints idle="true" charging="true" />
+        <periodic period="86400000" flex="86400000" deadline="1710705541228" delay="1710619141228" />
+        <extras />
+    </job>
+</job-info>

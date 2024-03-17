@@ -1,0 +1,1 @@
+reboot:n,reason:userrequested,shutdown_activity_manager:354,shutdown_radios:20,begin_shutdown:1710619583880,shutdown_send_shutdown_broadcast:159,shutdown_system_server:578,shutdown_package_manager:45

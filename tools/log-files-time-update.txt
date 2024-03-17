@@ -2,6 +2,22 @@
 #     find ./logs/ -type f -printf '%p|%TY-%Tm-%Td %TH:%TM:%TS -08:00\n'
 #file/path|datetime
 ./logs/Alpine3.17/utmp-offsets-x86_64.out.txt|2023-12-15 14:34:48.273228668 -0800
+./logs/Android9/data/system/batterystats-daily.xml|2024-03-16 05:51:12.688280700 -0700
+./logs/Android9/data/system/dropbox/SYSTEM_BOOT@1710619136729.txt|2024-03-16 12:58:56.728027900 -0700
+./logs/Android9/data/system/dropbox/event_data@1710619152120.txt|2024-03-16 12:59:12.119984200 -0700
+./logs/Android9/data/system/dropbox/event_log@1710619143422.txt|2024-03-16 12:59:03.421878700 -0700
+./logs/Android9/data/system/dropbox/keymaster@1710593926510.dat|2024-03-16 12:52:47.205941000 -0700
+./logs/Android9/data/system/dropbox/system_app_crash@1710593926508.txt|2024-03-16 12:52:15.120863200 -0700
+./logs/Android9/data/system/dropbox/system_server_wtf@1710593473902.txt|2024-03-16 05:51:13.901434900 -0700
+./logs/Android9/data/system/job/jobs.xml|2024-03-16 13:05:03.216606700 -0700
+./logs/Android9/data/system/log-files.xml|2024-03-16 12:58:56.729028000 -0700
+./logs/Android9/data/system/notification_log.db|2024-03-16 13:01:03.246107700 -0700
+./logs/Android9/data/system/package-dex-usage.list|2024-03-16 13:06:24.425928000 -0700
+./logs/Android9/data/system/package-usage.list|2024-03-16 13:06:24.393923900 -0700
+./logs/Android9/data/system/shutdown-metrics.txt|2024-03-16 13:06:24.457932100 -0700
+./logs/Android9/data/system/syncmanager-log/synclog-2020-05-09.log|2020-05-08 17:30:02.851467000 -0700
+./logs/Android9/data/system/syncmanager-log/synclog-2024-03-16.log|2024-03-16 13:06:23.897860900 -0700
+./logs/Android9/data/system/usagestats/1710619136617|2024-03-16 13:06:24.157893900 -0700
 ./logs/busybox (via rsyslog)/dropbear.log|2023-01-01T15:00:36-08:00
 ./logs/busybox (via rsyslog)/kernel.log|2023-01-01T13:58:25-08:00
 ./logs/busybox (via rsyslog)/netifd.log|2023-01-01T14:21:13-08:00

@@ -1,0 +1,16 @@
+2024-03-16 08:51:14.691 1231 Loaded 0 items
+2024-03-16 08:51:14.702 1231 Sync manager initialized: Android-x86/android_x86_64/x86_64:9/PI/lh03251128:userdebug/test-keys
+2024-03-16 08:51:15.093 1354 onStartUser: user=0
+2024-03-16 08:51:20.068 1354 onUnlockUser: user=0
+2024-03-16 08:51:24.900 1354 updateRunningAccountsH: []
+2024-03-16 08:51:25.071 1354 Loaded persisted syncs: 0 periodic syncs, 0 oneshot syncs, 10 total system server jobs, JobStats: FirstLoad: 33/2/0 LastSave: -1/-1/-1
+2024-03-16 08:51:28.255 1231 rescheduleSyncs() ep=ALL ACCS/ALL PDRS:u-1 why=network reconnect
+2024-03-16 08:58:47.124 1243 Loaded 0 items
+2024-03-16 08:58:47.126 1243 Sync manager initialized: Android-x86/android_x86_64/x86_64:9/PI/lh03251128:userdebug/test-keys
+2024-03-16 08:58:47.444 1364 onStartUser: user=0
+2024-03-16 08:58:50.940 1364 onUnlockUser: user=0
+2024-03-16 08:58:52.983 1364 updateRunningAccountsH: []
+2024-03-16 08:58:52.984 1364 Loaded persisted syncs: 0 periodic syncs, 0 oneshot syncs, 10 total system server jobs, JobStats: FirstLoad: 32/2/0 LastSave: -1/-1/-1
+2024-03-16 08:58:55.547 1243 rescheduleSyncs() ep=ALL ACCS/ALL PDRS:u-1 why=network reconnect
+2024-03-16 16:06:23.897 1243 JobStats: FirstLoad: 32/2/0 LastSave: 42/2/0
+2024-03-16 16:06:23.898 1243 Shutting down.
