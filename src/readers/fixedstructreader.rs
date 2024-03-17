@@ -1,9 +1,5 @@
 // src/readers/fixedstructreader.rs
 
-// LAST WORKING HERE 20240310 review all TODOs in new files
-// Add tests for helpers like `convert_tvsec_to_datetime` and `convert_tvpair_to_datetime`
-// Also consider just walking through the code slowly.
-
 //! Implements a [`FixedStructReader`],
 //! the driver of deriving [`FixedStruct`s] from a fixed C-struct format file
 //! using a [`BlockReader`].
