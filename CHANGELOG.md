@@ -218,6 +218,8 @@ _Released 2024-03-17_
 
 [0.6.68..0.6.69]
 
+_MSRV 1.67.1_
+
 ### New
 
 - (DOCS) syslogprocessor.rs docstring about "syslog file" ([c618a199f59706ad2cfca64e2c37bbe4b615faf1])
@@ -351,6 +353,8 @@ _Released 2023-07-22_
 
 [0.6.67..0.6.68]
 
+_MSRV 1.67.0_
+
 ### New
 
 - (BIN) bin.rs parse -a -b fractional seconds %6f [Issue #145] ([54b0860302e2b691ef6ca54c1bde09fa97e1e3b2])
@@ -381,6 +385,8 @@ _Released 2023-07-22_
 _Released 2023-07-08_
 
 [0.6.66..0.6.67]
+
+_MSRV 1.66.0_
 
 ### New
 
@@ -432,6 +438,8 @@ _Released 2023-05-13_
 
 [0.6.65..0.6.66]
 
+_MSRV 1.66.0_
+
 ### Changes
 
 - (LIB) (TESTS) (TOOLS) improve tests and logs for `BlockReader::mtime()` and files that are `FileType::Unknown` ([b2530a582f9edcab94d80f9e53142ee801c8335f]) ([f5abc7a12684e6ebf12721a64c95e76a7a620c6b])
@@ -447,6 +455,8 @@ _Released 2023-05-13_
 _Released 2023-05-11_
 
 [0.6.64..0.6.65]
+
+_MSRV 1.66.0_
 
 ### New
 
@@ -465,6 +475,8 @@ _Released 2023-05-11_
 _Released 2023-05-09_
 
 [0.6.63..0.6.64]
+
+_MSRV 1.66.0_
 
 ### New
 
@@ -504,6 +516,8 @@ _Released 2023-05-01_
 
 [0.6.62..0.6.63]
 
+_MSRV 1.66.0_
+
 ### New
 
 - (LIB) datetime.rs match single-digit days and hours [Issue #98] ([830dbbd5e18ad8d53727026536b1b07c58411c35])
@@ -527,6 +541,8 @@ _Released 2023-04-27_
 
 [0.6.61..0.6.62]
 
+_MSRV 1.66.0_
+
 ### Fixes
 
 - (LIB) fails to build on Debian 11 aarch64 [Issue #108] ([67cb45a47f6c277bc0afc9ac9689b2a05d7b5049])
@@ -538,6 +554,8 @@ _Released 2023-04-27_
 _Released 2023-04-23_
 
 [0.6.60...0.6.61]
+
+_MSRV 1.66.0_
 
 ### New
 
@@ -561,6 +579,8 @@ _Released 2023-04-22_
 
 [0.5.59...0.6.60]
 
+_MSRV 1.66.0_
+
 ### New
 
 - (LIB) (BIN) (DOCS) (TOOLS) (PROJECT) (BUILD) systemd journal parsing [Issue #17] ([3a6eac6bab6e45b5cb413176a614cb329c4d3f67])
@@ -572,6 +592,8 @@ _Released 2023-04-22_
 _Released 2023-03-31_
 
 [0.5.58...0.5.59]
+
+_MSRV 1.66.0_
 
 ### Changes
 
@@ -593,6 +615,8 @@ _Released 2023-03-29_
 
 [0.4.57...0.5.58]
 
+_MSRV 1.66.0_
+
 ### New
 
 - (BIN) Allow user-passed timezone for prepended datetime [Issue #27] ([630b8ce945dd2f87d88c357afec26a0a5bdbed60])
@@ -612,6 +636,8 @@ _Released 2023-03-26_
 
 [0.4.56...0.4.57]
 
+_MSRV 1.66.0_
+
 ### Changes
 
 - (LIB) Print evtx files in chronological order [Issue #86] ([e42d021c20b90e50c464541fb3d358ac24ce3b3a])
@@ -630,6 +656,8 @@ _Released 2023-03-26_
 _Released 2023-03-24_
 
 [0.3.55...0.4.56]
+
+_MSRV 1.66.0_
 
 ### New
 
@@ -651,6 +679,8 @@ _Released 2023-03-24_
 _Released 2023-03-18_
 
 [0.3.54...0.3.55]
+
+_MSRV 1.66.0_
 
 ### New
 
@@ -677,6 +707,8 @@ _Released 2023-03-17_
 
 [0.2.53...0.3.54]
 
+_MSRV 1.66.0_
+
 ### New
 
 - (BIN) use shrink_to_fit on maps [Issue #84] ([e9b501fc77259d0c1c050bedc5a61c3516e4c307])
@@ -695,6 +727,8 @@ _Released 2023-03-10_
 
 [0.2.52...0.3.53]
 
+_MSRV 1.66.0_
+
 ### New
 
 - (LIB) add support for utmpx login records (major refactoring) [Issue #70] ([b227f531a6f348cdd9b3fa5fe010adf979dd8e98])
@@ -711,6 +745,8 @@ _Released 2023-02-15_
 
 [0.2.51...0.2.52]
 
+_MSRV 1.64.0_
+
 ### New
 
 - (LIB) datetime.rs add format catalina apache access  [Issue #82] ([5337dd907a456236ebd038f7b3df6fa4e1687a68]) ([997a365d6a6c72f8a3e847f1c253b1f236f05a5f])
@@ -722,6 +758,8 @@ _Released 2023-02-15_
 _Released 2023-02-09_
 
 [0.2.50...0.2.51]
+
+_MSRV 1.64.0_
 
 ### New
 
@@ -736,6 +774,8 @@ _Released 2023-02-09_
 _Released 2023-01-29_
 
 [0.2.49...0.2.50]
+
+_MSRV 1.64.0_
 
 ### New
 
@@ -766,6 +806,8 @@ _Released 2023-01-26_
 
 [0.2.48...0.2.49]
 
+_MSRV 1.64.0_
+
 ### Changes
 
 - (LIB) src/ refactor find_line_in_block find_sysline_in_block partial ([cda6e991ea22413221c90eacd9b5a16c875ef316])
@@ -788,6 +830,8 @@ _Released 2023-01-26_
 ## 0.2.48
 
 _Released 2023-01-15_
+
+_MSRV 1.61.0_
 
 ### New
 
@@ -835,6 +879,8 @@ _Released 2023-01-09_
 
 [0.2.46...0.2.47]
 
+_MSRV 1.61.0_
+
 - (BIN) bin.rs fix typo in clap help ([b03da48883f07bd1e089f080dc4bc6fa9cfc8578])
 - (DOCS) README update --help ([cdaad462bfea78e0e079853e198a32ec89a5d7bc])
 
@@ -845,6 +891,8 @@ _Released 2023-01-09_
 _Released 2023-01-09_
 
 [0.1.45...0.2.46]
+
+_MSRV 1.61.0_
 
 ### New
 
@@ -894,6 +942,8 @@ _Released 2023-01-01_
 
 [0.1.44...0.1.45]
 
+_MSRV 1.61.0_
+
 ### New
 
 - (LIB) datetime.rs add pattern for apport.log [Issue #55] ([7557a59e99faf297d2055d5d9ea86b4fbfe8ba5e])
@@ -911,6 +961,8 @@ _Released 2023-01-01_
 _Released 2022-12-29_
 
 [0.1.43...0.1.44]
+
+_MSRV 1.61.0_
 
 ### New
 
@@ -937,6 +989,8 @@ _Released 2022-12-26_
 
 [0.1.42...0.1.43]
 
+_MSRV 1.61.0_
+
 ### New
 
 - (CI) add codecov.yml ([bd49cdc8220e8adcfea71f04c6ebcfb51946336b])
@@ -955,6 +1009,8 @@ _Released 2022-12-19_
 
 [0.1.41...0.1.42]
 
+_MSRV 1.61.0_
+
 ### Changes
 
 - (BIN) (BUILD) update clap from 3 to 4 ([f58f506f17d6b76343d5bd814749259e3b380cc2])
@@ -967,6 +1023,8 @@ _Released 2022-12-19_
 _Released 2022-12-18_
 
 [0.1.40...0.1.41]
+
+_MSRV 1.61.0_
 
 ### Changes
 
@@ -987,6 +1045,8 @@ _Released 2022-11-22_
 
 [0.1.39...0.1.40]
 
+_MSRV 1.61.0_
+
 ### New
 
 - (BIN) add CLI option `--prepend-separator` ([467b14dbc59a60a808e7a71a1083f2490cf31d48])
@@ -1003,6 +1063,8 @@ _Released 2022-10-19_
 
 [0.1.38...0.1.39]
 
+_MSRV 1.61.0_
+
 ### Changes
 
 - (LIB) Cargo.toml rust MSRV 1.61.0 ([3c4e8b1b37415ad0662019d1792525ab0b00a8f9]) 
@@ -1018,6 +1080,8 @@ _Released 2022-10-19_
 _Released 2022-10-16_
 
 [0.0.37...0.1.38]
+
+_MSRV 1.62.0_
 
 ### New
 
@@ -1036,6 +1100,8 @@ _Released 2022-10-12_
 
 [0.0.36...0.0.37]
 
+_MSRV 1.62.0_
+
 ### New
 
 - (LIB) datetime.rs patterns for Windows compsetup.log mrt.log ([0f225cee04b5443a58369b95bc8e6f10ed3f6401])
@@ -1052,6 +1118,8 @@ _Released 2022-10-12_
 _Released 2022-10-10_
 
 [0.0.35...0.0.36]
+
+_MSRV 1.62.0_
 
 ### New
 
@@ -1075,6 +1143,8 @@ _Released 2022-10-09_
 
 [0.0.34...0.0.35]
 
+_MSRV 1.62.0_
+
 ### New
 
 - (LIB) datetime.rs handle format with syslog levels [Issue #57] ([d75fdfc0fb7b34f4e6b5ac2cfbcbfca7df0ccf59])
@@ -1095,6 +1165,8 @@ _Released 2022-10-09_
 _Released 2022-10-07_
 
 [0.0.33...0.0.34]
+
+_MSRV 1.62.0_
 
 ### New
 
@@ -1117,6 +1189,8 @@ _Released 2022-09-21_
 
 [0.0.32...0.0.33]
 
+_MSRV 1.62.0_
+
 ### New
 
 - (BIN) bin.rs allow user opt dt format string [Issue #28] ([6660f686f02ca2d98c9cdfe3c72cc906e446df1f])
@@ -1129,6 +1203,8 @@ _Released 2022-09-21_
 _Released 2022-09-20_
 
 [0.0.31...0.0.32]
+
+_MSRV 1.62.0_
 
 ### New
 
@@ -1146,6 +1222,8 @@ _Released 2022-09-19_
 
 [0.0.30...0.0.31]
 
+_MSRV 1.62.0_
+
 ### New
 
 - (DOCS) improved README badges ([30553b7989b55c802704c42deefe9424347092ee]) ([b5d4d91779599bae9fc15d78c5e3db3f4a43f18b]) ([17cd497307d04f3d8a9b058a72e3ea415a9a9f89])
@@ -1157,6 +1235,8 @@ _Released 2022-09-19_
 _Released 2022-09-18_
 
 [0.0.29...0.0.30]
+
+_MSRV 1.62.0_
 
 ### New
 
