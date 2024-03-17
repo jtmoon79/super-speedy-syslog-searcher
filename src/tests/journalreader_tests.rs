@@ -7,8 +7,8 @@
 #![allow(clippy::too_many_arguments)]
 
 use std::io::ErrorKind;
-use std::path::Path;
 use std::ops::Range;
+use std::path::Path;
 
 use crate::common::{
     Count,
@@ -71,7 +71,7 @@ use crate::tests::common::{
     SYSTEMD_NOT_AVAILABLE,
 };
 
-use bstr::ByteSlice;
+use ::bstr::ByteSlice;
 use ::criterion::black_box;
 use ::test_case::test_case;
 use ::si_trace_print::{
@@ -192,8 +192,7 @@ fn test_errno_to_errorkind() {
 #[test_case(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH)]
 #[test_case(&JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH)]
 fn test_mtime(path: &FPath) {
-    if SYSTEMD_NOT_AVAILABLE
-    {
+    if SYSTEMD_NOT_AVAILABLE {
         defñ!("skip");
         return;
     }
@@ -216,8 +215,7 @@ fn test_JournalReader_new_(path: &FPath, ok: bool) {
     defn!();
     let load = load_library_systemd();
     defo!("load_library_systemd() returned {:?}", load);
-    if SYSTEMD_NOT_AVAILABLE
-    {
+    if SYSTEMD_NOT_AVAILABLE {
         match load {
             LoadLibraryError::Ok => {
                 panic!("Unexpected match LoadLibraryError::Ok")
@@ -311,8 +309,7 @@ fn test_JournalReader_entry1_output(
     journal_output: JournalOutput,
     expect_data: &str,
 ) {
-    if SYSTEMD_NOT_AVAILABLE
-    {
+    if SYSTEMD_NOT_AVAILABLE {
         defñ!("skip");
         return;
     }
@@ -421,8 +418,7 @@ fn test_JournalReader_next_summary(
     api_call_errors: Count,
     range_error_opt: ForceErrorRangeOpt,
 ) {
-    if SYSTEMD_NOT_AVAILABLE
-    {
+    if SYSTEMD_NOT_AVAILABLE {
         defñ!("skip");
         return;
     }

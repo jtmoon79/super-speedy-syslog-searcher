@@ -45,7 +45,7 @@ use crate::tests::common::{
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
-use ::si_trace_print::printers::{defo, defn, defx};
+use ::si_trace_print::printers::{defn, defo, defx};
 use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -272,8 +272,7 @@ fn test_PrinterLogMessage_print_evtx(
     let mut er = EvtxReader::new(EVTX_KPNP_FPATH.clone()).unwrap();
     let mut prints: usize = 0;
     er.analyze(&None, &None);
-    while let Some(evtx) = er.next()
-    {
+    while let Some(evtx) = er.next() {
         match plm.print_evtx(&evtx) {
             Ok(_) => {
                 prints += 1;

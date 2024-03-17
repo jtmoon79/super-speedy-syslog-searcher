@@ -2,6 +2,7 @@
 # docs at https://rust-lang.github.io/rustfmt/
 array_width = 20
 attr_fn_like_width = 30
+#blank_lines_lower_bound = 1  # unstable (nightly)
 chain_width = 30
 #comment_width = 80 # unstable (Nightly only)
 edition = "2021"
@@ -13,7 +14,7 @@ hard_tabs = false
 #imports_granularity = "Module" # unstable (Nightly only)
 imports_layout = "Vertical" # unstable (Nightly only)
 match_arm_leading_pipes = "Preserve"
-max_width = 110
+max_width = 120
 merge_derives = true
 newline_style = "Unix"
 #normalize_doc_attributes = true # unstable (Nightly only)

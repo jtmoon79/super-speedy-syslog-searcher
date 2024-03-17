@@ -616,7 +616,7 @@ impl LineReader {
         fileoffset: FileOffset,
     ) -> Option<ResultS3LineFind> {
         // check LRU cache first (this is very fast)
-        if ! self.find_line_lru_cache_enabled {
+        if !self.find_line_lru_cache_enabled {
             return None;
         }
         match self
@@ -1220,7 +1220,7 @@ impl LineReader {
                 );
             }
 
-            if ! partial_line {
+            if !partial_line {
                 // quick-check if this Line is already known
                 match self.get_linep(&fo_) {
                     Some(linep_prev) => {
@@ -1814,7 +1814,7 @@ impl LineReader {
                     self.path(),
                 );
             }
-        } // end if ! found_nl_b
+        } // end if !found_nl_b
 
         //
         // walk backwards through blocks and bytes looking for newline A (line terminator of preceding Line or beginning of file)

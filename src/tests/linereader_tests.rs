@@ -37,8 +37,8 @@ use crate::debug::printers::{
 };
 
 use ::more_asserts::{assert_ge, assert_le};
+use ::si_trace_print::printers::{defn, defo, defx};
 use ::si_trace_print::stack::{sn, so, stack_offset_set, sx};
-use ::si_trace_print::printers::{defo, defn, defx};
 use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1483,11 +1483,11 @@ fn test_find_line_in_block_4_bszFF() {
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
     let in_out: TestFindLineInBlockCheck = vec![
-        (0,(RS3T_FOUND, None), String::from("a\n")),
-        (1,(RS3T_FOUND, None), String::from("a\n")),
-        (2,(RS3T_FOUND, None), String::from("b\n")),
-        (3,(RS3T_FOUND, None), String::from("b\n")),
-        (4,(RS3T_FOUND, None), String::from("c\n")),
+        (0, (RS3T_FOUND, None), String::from("a\n")),
+        (1, (RS3T_FOUND, None), String::from("a\n")),
+        (2, (RS3T_FOUND, None), String::from("b\n")),
+        (3, (RS3T_FOUND, None), String::from("b\n")),
+        (4, (RS3T_FOUND, None), String::from("c\n")),
         (5, (RS3T_FOUND, None), String::from("c\n")),
         (6, (RS3T_FOUND, None), String::from("d\n")),
         (7, (RS3T_FOUND, None), String::from("d\n")),

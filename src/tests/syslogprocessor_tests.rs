@@ -38,9 +38,9 @@ use ::const_format::concatcp;
 use ::filetime;
 use ::lazy_static::lazy_static;
 use ::more_asserts::assert_gt;
-use ::test_case::test_case;
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{defn, defo, defx, defñ};
+use ::test_case::test_case;
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

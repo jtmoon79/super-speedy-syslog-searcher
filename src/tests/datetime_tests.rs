@@ -71,10 +71,10 @@ use crate::debug::printers::buffer_to_String_noraw;
 use std::collections::HashSet;
 use std::str;
 
+use ::bstr::ByteSlice;
 // for `with_nanosecond()`, `year()`, and others
 #[allow(unused_imports)]
 use ::chrono::{Datelike, Timelike};
-use ::bstr::ByteSlice;
 use ::more_asserts::{assert_gt, assert_le, assert_lt};
 use ::regex;
 use ::si_trace_print::stack::stack_offset_set;
@@ -545,7 +545,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
             );
         } else {
             assert!(
-                ! dt_pattern_has_tz_fill(dtpat),
+                !dt_pattern_has_tz_fill(dtpat),
                 "dt_pattern has fill timezone {:?} for tz {:?}; declared at line {}",
                 dtpat,
                 dtfs.tz,
@@ -769,7 +769,7 @@ fn test_Map_TZ_names() {
         let tz_name_captured = captures.get(1).unwrap().as_str();
         assert_eq!(&tz_name_captured, tz_name, "CGP_TZZ Regex captured {:?} != {:?} expected", tz_name_captured, tz_name);
         assert!(CGP_TZZ.contains(tz_name), "CGP_TZZ does not contain name {:?} from MAP_TZZ_TO_TZz", tz_name);
-        if ! tz_val.is_empty() {
+        if !tz_val.is_empty() {
             assert_eq!(tz_val.len(), 6, "Bad timezone value {:?} length {:?} for entry {:?}", tz_val, tz_val.len(), tz_name);
             assert!("+-".contains(tz_val.chars().nth(0).unwrap()), "Bad timezone value starts_with {:?} for entry {:?}", tz_val, tz_name);
             assert!("01".contains(tz_val.chars().nth(1).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);

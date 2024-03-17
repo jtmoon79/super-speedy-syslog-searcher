@@ -181,9 +181,9 @@ use std::fmt;
 use std::ffi::{CStr, CString};
 use std::io::{Error, ErrorKind, Result};
 use std::mem;
-use std::path::Path;
 #[cfg(test)]
 use std::ops::Range;
+use std::path::Path;
 use std::slice::Iter;
 use std::str::FromStr;
 use std::string::ToString;
@@ -1653,7 +1653,7 @@ impl<'a> JournalReader {
         // getting here means the above call `next_dispatch` has returned
         // `Done`. Now just want to exhaust the remainder of `self.fill_buffer`.
         self.next_fill_buffer_loop = false;
-        if ! self.fill_buffer.is_empty() {
+        if !self.fill_buffer.is_empty() {
             let entry = self.fill_buffer.pop_first().unwrap();
             def1x!("return Found (index {})", entry.0.1);
             return ResultNext::Found(entry.1);
@@ -1979,7 +1979,7 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
-        if ! is_monotonic {
+        if !is_monotonic {
             def1o!("write field 1 Datetime");
             debug_assert_ne!(datetime_format, "", "datetime_format must not be empty");
             let dts: String = dt.format(datetime_format).to_string();
@@ -2487,7 +2487,7 @@ impl<'a> JournalReader {
         // XXX: declare `monotonic_usec_str` outside this `if` block so that it lives
         //      long enough for use in `fields`
         let monotonic_usec_str: String;
-        if ! fields.contains_key(&*KEY__MONOTONIC_TIMESTAMP_BYTES) {
+        if !fields.contains_key(&*KEY__MONOTONIC_TIMESTAMP_BYTES) {
             match self.get_monotonic_usec() {
                 Some(m) => {
                     monotonic_usec_str = m.to_string();

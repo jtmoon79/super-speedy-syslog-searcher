@@ -8,9 +8,7 @@
     non_snake_case
 )]
 
-use ::s4lib::common::{
-    NLu8,
-};
+use ::s4lib::common::NLu8;
 
 use ::bstr::ByteSlice;
 use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
@@ -106,7 +104,10 @@ fn get_byteslice_find_byte_and_repeatlast() {
 fn get_byteslice_find_byte_iter() {
     let data = DATA_XML_U8;
     let mut a: usize = 0;
-    for b in data[a..].find_byte(NLu8).iter() {
+    for b in data[a..]
+        .find_byte(NLu8)
+        .iter()
+    {
         let line = &data[a..a + b + CHARSZ];
         a += b + CHARSZ;
         black_box(line);

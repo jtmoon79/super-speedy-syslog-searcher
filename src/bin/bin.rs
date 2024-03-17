@@ -1610,7 +1610,11 @@ type MapPathIdChanRecvDatum = BTreeMap<PathId, ChanRecvDatum>;
 /// Helper to send a [`ChanDatum::NewMessage`] to the main printing thread
 /// and print an error if there was an error sending.
 #[inline(always)]
-fn chan_send(chan_send_dt: &ChanSendDatum, chan_datum: ChanDatum, path: &FPath) {
+fn chan_send(
+    chan_send_dt: &ChanSendDatum,
+    chan_datum: ChanDatum,
+    path: &FPath,
+) {
     match chan_send_dt.send(chan_datum)
     {
         Ok(_) => {}
@@ -2459,7 +2463,10 @@ impl fmt::Debug for SummaryPrinted {
 }
 
 /// print the passed `DateTimeL` as UTC with dimmed color
-fn print_datetime_utc_dimmed(dt: &DateTimeL, color_choice_opt: Option<ColorChoice>) {
+fn print_datetime_utc_dimmed(
+    dt: &DateTimeL,
+    color_choice_opt: Option<ColorChoice>,
+) {
     let dt_utc = dt.with_timezone(&*FIXEDOFFSET0);
     match print_colored_stderr(
         COLOR_DIMMED,
@@ -2632,7 +2639,7 @@ impl SummaryPrinted {
                     }
                 }
             }
-            None => {},
+            None => {}
         }
 
         match summaryfixedstructreader_opt {
@@ -3112,7 +3119,7 @@ fn processing_loop(
     // use `map_pathid_path` for iterating, it is a BTreeMap (which iterates in consistent key order)
     let mut map_pathid_path = MapPathIdToFPath::new();
     // map `PathId` to the last `FileProcessResult
-    let mut map_pathid_file_processing_result= MapPathIdToFileProcessingResultBlockZero::with_capacity(file_count);
+    let mut map_pathid_file_processing_result = MapPathIdToFileProcessingResultBlockZero::with_capacity(file_count);
     // map `PathId` to file's file-system _Modified Time_ attribute
     let mut map_pathid_modified_time = MapPathIdToModifiedTime::with_capacity(file_count);
     // map `PathId` to  acknowledgement of receipt of a `ChanDatum::FileInfo` message.
@@ -3280,7 +3287,7 @@ fn processing_loop(
         };
         let logmessagespecificdata = match filetype {
             FileType::Journal => LogMessageSpecificData::Journal(journal_output),
-            _ => LogMessageSpecificData::None
+            _ => LogMessageSpecificData::None,
         };
         let thread_data: ThreadInitData = (
             path.clone().to_owned(),
@@ -3313,7 +3320,7 @@ fn processing_loop(
     if map_pathid_chanrecvdatum.is_empty() {
         // No threads were created. This can happen if user passes only paths
         // that do not exist. Print summary (optional) and return.
-        if ! cli_opt_summary {
+        if !cli_opt_summary {
             return false;
         }
         eprintln!("Summary:");
@@ -3519,7 +3526,7 @@ fn processing_loop(
                                 None => {}
                             }
                             defo!("B1 received file_processing_result {:?} for {:?}", file_processing_result, pathid);
-                            if ! file_processing_result.is_ok() {
+                            if !file_processing_result.is_ok() {
                                 _fileprocessing_not_okay += 1;
                             }
                             map_pathid_file_processing_result.insert(pathid, file_processing_result);
@@ -3540,12 +3547,12 @@ fn processing_loop(
                             }
                             defo!("B3 will disconnect channel {:?}", pathid);
                             disconnect.push(pathid);
-                            if ! file_processing_result.is_ok() {
+                            if !file_processing_result.is_ok() {
                                 _fileprocessing_not_okay += 1;
                             }
                             // only save the `FileProcessingResult` if it is not `FileOk` or `FileStub`
                             // and if an `FileOk` is not already in the map
-                            if ! file_processing_result.is_ok()
+                            if !file_processing_result.is_ok()
                                && ! file_processing_result.is_stub()
                                && ! map_pathid_file_processing_result.get(&pathid).unwrap_or(&FILEOK).is_ok()
                             {
@@ -3568,7 +3575,7 @@ fn processing_loop(
             {
                 // how long has it been since a `ChanDatum::FileInfo` was received?
                 // was it longer than maximum possible number of file processing threads?
-                if ! map_pathid_received_fileinfo.is_empty()
+                if !map_pathid_received_fileinfo.is_empty()
                    && _count_since_received_fileinfo > file_count
                 {
                     // very likely stuck in a loop, e.g. a file processing thread
@@ -3580,7 +3587,7 @@ fn processing_loop(
                 }
             }
 
-            if ! map_pathid_received_fileinfo.is_empty()
+            if !map_pathid_received_fileinfo.is_empty()
                 && map_pathid_received_fileinfo.iter().all(|(_, v)| v == &true)
             {
                 defo!("C map_pathid_received_fileinfo.all() are true");
@@ -3995,7 +4002,7 @@ fn processing_loop(
         for (pathid, summary) in map_pathid_summary.iter() {
             match &summary.error {
                 Some(_) => {
-                    if ! summary.readerdata.is_dummy()
+                    if !summary.readerdata.is_dummy()
                         && summary.has_blockreader()
                         && summary.blockreader().unwrap().blockreader_blocks == 0
                         && !map_pathid_results_invalid.contains_key(pathid)
@@ -4235,7 +4242,7 @@ fn print_file_about(
     // print `FileProcessingResult` if it was not okay
     match file_processing_result {
         Some(result) => {
-            if ! result.is_ok() {
+            if !result.is_ok() {
                 eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
                 match print_colored_stderr(
                     COLOR_ERROR,

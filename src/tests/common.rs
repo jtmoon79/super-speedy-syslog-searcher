@@ -288,9 +288,7 @@ lazy_static! {
         create_temp_file_bytes_with_suffix(&GZ_1BYTE_DATA, &String::from("-one-byte.gz"));
     pub static ref NTF_GZ_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE_GZ);
     pub static ref NTF_GZ_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_GZ_1BYTE_FPATH);
-    pub static ref NTF_GZ_1BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(
-        &1_659_160_178
-    );
+    pub static ref NTF_GZ_1BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_160_178);
 }
 
 ///
@@ -310,9 +308,7 @@ lazy_static! {
         create_temp_file_bytes_with_suffix(&GZ_8BYTE_DATA, &String::from("-eight-byte.gz"));
     pub static ref NTF_GZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_GZ);
     pub static ref NTF_GZ_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_GZ_8BYTE_FPATH);
-    pub static ref NTF_GZ_8BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(
-        &1_659_322_953
-    );
+    pub static ref NTF_GZ_8BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_322_953);
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2494,7 +2490,7 @@ pub const LINUX_X86_LASTLOG_BUFFER1: [u8; linux_x86::LASTLOG_SZ] = [
 pub const LINUX_X86_LASTLOG_1ENTRY_FILENAME: &str = "linux_x86_lastlog1.lastlog";
 pub const LINUX_X86_LASTLOG_1ENTRY_FILESZ: FileSz = LINUX_X86_LASTLOG_BUFFER1.len() as FileSz;
 
-lazy_static!{
+lazy_static! {
     // LINUX_X86_LASTLOG_1ENTRY
 
     pub static ref LINUX_X86_LASTLOG_1ENTRY_DATA: Vec<u8> = {
@@ -3488,10 +3484,7 @@ pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
     };
     let mut at_byte: usize = 0;
     let mut at_block: usize = 0;
-    eprintln!(
-        "contents_file {:?} per block (?? bytes):\n{}",
-        path, HORZ_LINE,
-    );
+    eprintln!("contents_file {:?} per block (?? bytes):\n{}", path, HORZ_LINE);
     loop {
         let bytes_read = match file_.read(buffer.as_mut_slice()) {
             Ok(val) => val,
@@ -3506,9 +3499,7 @@ pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
         let data = &buffer[..bytes_read];
         at_byte += data.len();
         let data_str_noraw: String = buffer_to_String_noraw(data);
-        eprintln!(
-            "@{0:3} 0x{0:03X} [{1:2}]: {2}", at_byte, at_block, data_str_noraw,
-        );
+        eprintln!("@{0:3} 0x{0:03X} [{1:2}]: {2}", at_byte, at_block, data_str_noraw);
         at_block += 1;
     }
     eprintln!("{}", HORZ_LINE);

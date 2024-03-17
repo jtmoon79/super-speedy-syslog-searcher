@@ -4720,7 +4720,7 @@ macro_rules! tv_to_datetime_or_err {
 macro_rules! score_fixedstruct_cstr {
     ($score:ident, $cstr:expr) => {{
         let cstr_: &CStr = $cstr;
-        if ! is_empty(cstr_) {
+        if !is_empty(cstr_) {
             $score += 1;
             for c in cstr_.to_bytes().iter() {
                 match c {

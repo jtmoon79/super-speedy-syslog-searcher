@@ -14,7 +14,7 @@ use crate::readers::blockreader::{Block, BlockIndex, BlockOffset, BlockP, BlockS
 
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
-use ::si_trace_print::printers::{defo, defn, defx};
+use ::si_trace_print::printers::{defn, defo, defx};
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

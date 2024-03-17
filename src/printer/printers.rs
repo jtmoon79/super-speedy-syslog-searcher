@@ -29,10 +29,7 @@ use ::bstr::ByteSlice;
 #[doc(hidden)]
 pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
 #[allow(unused_imports)]
-use ::more_asserts::{
-    debug_assert_le,
-    debug_assert_lt,
-};
+use ::more_asserts::{debug_assert_le, debug_assert_lt};
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ};
 use ::si_trace_print::printers::debug_print_guard;
