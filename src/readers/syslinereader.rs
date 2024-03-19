@@ -63,7 +63,12 @@ use std::sync::Arc;
 use ::itertools::Itertools; // brings in `sorted_by`
 use ::lru::LruCache;
 use ::mime_guess::MimeGuess;
-use ::more_asserts::{assert_le, debug_assert_le, debug_assert_lt, debug_assert_gt};
+use ::more_asserts::{
+    assert_le,
+    debug_assert_le,
+    debug_assert_lt,
+    debug_assert_gt,
+};
 use ::rangemap::RangeMap;
 #[allow(unused_imports)]
 use ::si_trace_print::{
