@@ -6,6 +6,9 @@
 # `sort` (preferably GNU). Passed arguments are forwarded to `/usr/bin/time`, except
 # optional argument `--keep`.
 #
+# This script also compares the standard output of each program.
+# If stdout is the same then exit 0 else 1.
+#
 
 set -euo pipefail
 
@@ -77,13 +80,13 @@ declare -ar s4_args=(
 # run both programs, time the runs
 
 (
-#export RUST_BACKTRACE=1
-set -x
-$time -p "${@}" -- \
-    "${PROGRAM}" \
-    "${s4_args[@]}" \
-    "${files[@]}" \
-    >/dev/null
+    #export RUST_BACKTRACE=1
+    set -x
+    $time -p "${@}" -- \
+        "${PROGRAM}" \
+        "${s4_args[@]}" \
+        "${files[@]}" \
+        >/dev/null
 )
 
 echo
@@ -91,14 +94,13 @@ echo
 # search for datetimes between $after_dt $befor_dt
 # using decently constrained regexp to match meaning
 (
-set -x
-$time -p "${@}" -- \
-    bash -c "
-    $grep -hEe '${regex_dt}' -- \
-    ${files[*]} \
-    | $sort -t ' ' -k 1 -s \
-    >/dev/null \
-    "    
+    set -x
+    $time -p "${@}" -- \
+        bash -c "\
+$grep -hEe '${regex_dt}' -- \
+${files[*]} \
+| $sort -t ' ' -k 1 -s \
+>/dev/null"
 )
 
 # run both programs again, save output for comparison
