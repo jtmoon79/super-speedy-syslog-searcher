@@ -345,11 +345,11 @@ See the real-world example rationale in the section below,
 
 - Parses:
   - Ad-hoc log messages using formal datetime formats:
-    - [RFC 2822]
-    - [RFC 3164]
-    - [RFC 3339]
-    - [RFC 5424]
-    - [ISO 8601] \*\*
+    - [Internet Message Format (RFC 2822)]<br/>e.g. _Wed, 1 Jan 2020 22:00:00 PST message…_
+    - [The BSD syslog Protocol (RFC 3164)]<br/>e.g. _\<8\>Jan 1 22:00:00 message…_
+    - [Date and Time on the Internet: Timestamps (RFC 3339)]<br/>e.g. _2020-01-01T22:00:00-08:00 message…_
+    - [The Syslog Protocol (RFC 5424)]<br/>e.g. _2020-01-01T22:00:00-08:00 message…_
+    - [ISO 8601]<br/>e.g. _2020-01-01T22:00:00-08:00 message…_, _20200101T220000-0800 message…_, etc. \*\*
   - [Red Hat Audit Log] files
   - binary user accounting records files
     ([`acct`, `pacct`], [`lastlog`], [`utmp`, `utmpx`])
@@ -373,10 +373,10 @@ See the real-world example rationale in the section below,
 [`acct`, `pacct`]: https://www.man7.org/linux/man-pages/man5/acct.5.html
 [`lastlog`]: https://man.netbsd.org/lastlog.5
 [`utmp`, `utmpx`]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
-[RFC 2822]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
-[RFC 3164]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
-[RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
-[RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3
+[Internet Message Format (RFC 2822)]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
+[The BSD syslog Protocol (RFC 3164)]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
+[Date and Time on the Internet: Timestamps (RFC 3339)]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
+[The Syslog Protocol (RFC 5424)]: https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3
 [ISO 8601]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles
 [Red Hat Audit Log]: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security_guide/sec-understanding_audit_log_files
 [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
