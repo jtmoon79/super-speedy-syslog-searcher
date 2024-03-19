@@ -214,18 +214,18 @@ jobs:
           # XXX: wasm fails to compile due to missing tools
           #
           # Tier 1
-          # - aarch64-unknown-linux-gnu
+          - aarch64-unknown-linux-gnu
           # - i686-pc-windows-gnu
           # - i686-pc-windows-msvc
-          # - i686-unknown-linux-gnu
+          - i686-unknown-linux-gnu
           # - x86_64-pc-windows-gnu
           - x86_64-pc-windows-msvc
           # - x86_64-unknown-linux-gnu  # version `GLIBC_2.25' not found
           # Tier 2 w host tools
           # - aarch64-pc-windows-msvc  # version `GLIBC_2.25' not found
-          # - aarch64-unknown-linux-musl
-          # - arm-unknown-linux-gnueabi
-          # - arm-unknown-linux-gnueabihf
+          - aarch64-unknown-linux-musl
+          - arm-unknown-linux-gnueabi
+          - arm-unknown-linux-gnueabihf
           # - armv7-unknown-linux-gnueabihf  # version `GLIBC_2.25' not found
           # - loongarch64-unknown-linux-gnu
           # - powerpc-unknown-linux-gnu  # version `GLIBC_2.25' not found
@@ -239,9 +239,9 @@ jobs:
           # - x86_64-unknown-netbsd
           # Tier 2 without host tools
           # just a few chosen
-          # - x86_64-sun-solaris  # fails due to uapi; see Issue #171
+          - x86_64-sun-solaris
           # - wasm32-unknown-emscripten
-          # - aarch64-linux-android  # fails due to uapi; see Issue #171
+          - aarch64-linux-android
           # - wasm32-unknown-unknown
           # - wasm32-wasi
           # - x86_64-linux-android
@@ -271,7 +271,7 @@ jobs:
           # Tier 1
           - x86_64-apple-darwin
           # Tier 2 w host tools
-          # - aarch64-apple-darwin  # fails due to uapi; see Issue #171
+          - aarch64-apple-darwin
           # Tier 2 without host tools
           # - aarch64-apple-ios  # fails due to uapi; see Issue #171
           # - x86_64-apple-ios  # fails due to uapi; see Issue #171
@@ -288,20 +288,19 @@ jobs:
           cross --version
           cross check --lib --bins --target ${{ matrix.target }}
 
-  # fails due to uapi; see Issue #171
-  #job_test_wasm:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@v4
-  #    - uses: moonrepo/setup-rust@v1
-  #      with:
-  #        channel: ${{ env.MSRV_UPLOAD }}
-  #        bins: cargo-wasi
-  #        targets: wasm32-wasi
-  #    - uses: mwilliamson/setup-wasmtime-action@v2
-  #      with:
-  #        wasmtime-version: "12.0.1"
-  #    - run: cargo wasi test --color=always -- --color=always
+  job_test_wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: moonrepo/setup-rust@v1
+        with:
+          channel: ${{ env.MSRV_UPLOAD }}
+          bins: cargo-wasi
+          targets: wasm32-wasi
+      - uses: mwilliamson/setup-wasmtime-action@v2
+        with:
+          wasmtime-version: "12.0.1"
+      - run: cargo wasi test --color=always -- --color=always
 
   job_check:
     # this job downloads and builds dependency crates
