@@ -129,22 +129,22 @@ if __name__ == "__main__":
         while entry := reader.get_next():
             i += 1
             print(f"{i}", end="")
-            for field in fields:
+            for field_ in fields:
                 # special handling for monotonic timestamp
-                if field == KEY_MONOTONIC_TIMESTAMP:
+                if field_ == KEY_MONOTONIC_TIMESTAMP:
                     mt_ts = entry.get(KEY_MONOTONIC_TIMESTAMP, " ")
                     mt_ts = str(mt_ts.timestamp)
                     print(f"{sep}{mt_ts}", end="")
                 else:
                     # default print at least a space to piping stdout to
                     # `column -t -s '|'` will correctly parse
-                    value = entry.get(field, " ")
+                    value = entry.get(field_, " ")
                     # replace some control characters with glyph representations
                     if oneline:
-                        value = value.replace("\0", "␀")
-                        value = value.replace("\n", "␤")
-                        value = value.replace("\1", "␁")
-                        value = value.replace("\r", "␊")
+                        value = value.replace("\0", "␀") \
+                            .replace("\n", "␤") \
+                            .replace("\1", "␁") \
+                            .replace("\r", "␊")
                     print(f"{sep}{value}", end="")
             print()
             sys.stdout.flush()
