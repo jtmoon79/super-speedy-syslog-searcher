@@ -44,6 +44,12 @@ The first goal of `s4` is speedy searching and printing.
   - [Limitations](#limitations)
   - [\*\*\*\*\* Hacks](#-hacks)
 - [More](#more)
+  - [Comparisons](#comparisons)
+    - [General Features](#general-features)
+    - [Formal Log DateTime Supported](#formal-log-datetime-supported)
+    - [Other Log or File Formats Supported](#other-log-or-file-formats-supported)
+    - [Archive Formats Supported](#archive-formats-supported)
+    - [Speed Comparison](#speed-comparison)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
   - [Requesting Support For DateTime Formats; your particular log file](#requesting-support-for-datetime-formats-your-particular-log-file)
@@ -428,6 +434,108 @@ See the real-world example rationale in the section below,
 <br/>
 
 ## More
+
+### Comparisons
+
+An overfiew of features of varying log mergers including GNU tools.
+
+- GNU _`grep`_ piped to GNU _`sort`_
+- _Super Speedy Syslog Searcher_; `s4`
+- [_logmerger_](https://github.com/ptmcg/logmerger); `logmerger`
+- [_Toolong_](https://github.com/Textualize/toolong); `tl`
+- [_logdissect_](https://github.com/dogoncouch/logdissect); `logdissect.py`
+
+---
+
+- ✔ = _Yes_
+- ⬤ = _Most_
+- ◒ = _Some_
+- ✗ = _No_
+- ☐ = _with an accompanying GNU program_
+- ! = _with user input_
+- ‼ = _with complex user input_
+
+---
+
+#### General Features
+
+|Program        |Source|CLI|TUI|Interactive|live tail|merge varying log formats|
+|-              |-     |-  |-  |-          |-        |-                        |
+|`grep \| sort` |C     |✔  |✗ |✗          |☐ `tail`|✗                        |
+|`s4`           |Rust  |✔  |✗ |✗          |✗       |✔                        |
+|`logmerger`    |Python|✔  |✔ |✔          |✗       |‼                        |
+|`tl`           |Python|✔  |✔ |✔          |✔       |✗                        |
+|`logdissect.py`|Python|✔  |✗ |✗          |✗       |✗                        |
+
+---
+
+#### Formal Log DateTime Supported
+
+|Program                   |RFC 2822|RFC 3164|RFC 3339|RFC 5424|ISO 8601|
+|-                         |-       |-       |-       |-       |-       |
+|`grep \| sort`            |✗      |‼        |!       |!       |!       |
+|`s4`                      |✔      |✔       |✔       |✔      |⬤ \*\*  |
+|`logmerger`               |✗      |✗       |!       |!       |◒       |
+|`tl`                      |✗      |✗       |✔       |✔      |✔       |
+
+<!--
+|`logdissect.py`           |!       |!       |!       |!       |!       |
+
+XXX: I could not get `logdissect.py` to work for any "parser" for any standard RFC log file.
+```bash
+  for logfile in ./logs/standards/*.log ; do
+    for lp in ciscoios emerge linejson sojson syslog syslogiso syslognohost tcpdump webaccess windowsrsyslog ; do
+      (set -x;
+      logdissect -p $lp $logfile) 2>/dev/null
+    done
+  done
+```
+-->
+
+---
+
+#### Other Log or File Formats Supported
+
+|Program        |Ad-hoc text formats|Red Hat Audit Log|journal|`acct`/`lastlog`/`utmp`|`.evtx`|`.pcap`/`.pcapng`|`.jsonl`|
+|-              |-                  |-                |-      |-                      |-      |-                |-       |
+|`grep \| sort` |‼                  |!                |✗      |✗                     |✗      |✗               |✗       |
+|`s4`           |✔                  |✔               |✔      |✔                     |✔      |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/255)|✔ \* |
+|`logmerger`    |‼                  |‼                |✗      |✗                     |✗      |✗               |✗       |
+|`tl`           |✗                  |✗               |✗      |✗                     |✗      |✗               |✔       |
+
+\* _if each JSONL record includes a datetimestamp_
+
+---
+
+#### Archive Formats Supported
+
+|Program        |`.gz`     |`.bz`/`.bz2` |`.xz`   |`.tar`|
+|-              |-         |-            |-       |-     |
+|`grep \| sort` |☐ `gzip` |☐ `bzip2`    |☐ `xz` |✗     |
+|`s4`           |✔        |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/40)|✔      |✔     |
+|`logmerger`    |✔        |✗            |✗      |✗     |
+|`tl`           |✔        |✔            |✗      |✗     |
+|`logdissect.py`|✔        |✗            |✗      |✗     |
+
+---
+
+#### Speed Comparison
+
+A comparison of merging three large log files.
+This comparison, which was very informal, used GNU `time` running on Ubuntu 22.
+
+|Program       |real|user|sys |
+|-             |-   |-   |-   |
+|`grep \| sort`|0.05|0.04|0.00|
+|`s4`          |0.05|0.05|0.02|
+|`logmerger`   |0.72|0.70|0.01|
+
+See directory [compare-log-mergers] and results in [`compare-log-mergers.txt`].
+
+[compare-log-mergers]: ./tools/compare-log-mergers/
+[`compare-log-mergers.txt`]: ./releases/0.6.69rc1/compare-log-mergers.txt
+
+---
 
 ### Building locally
 
