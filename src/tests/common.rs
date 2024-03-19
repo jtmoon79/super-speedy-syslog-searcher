@@ -53,8 +53,6 @@ use std::io::Read;
 use std::sync::Arc; // for `std::fs::File.read`
 
 use ::lazy_static::lazy_static;
-#[allow(unused_imports)]
-use ::utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
