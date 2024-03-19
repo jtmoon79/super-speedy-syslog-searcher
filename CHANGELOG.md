@@ -284,31 +284,31 @@ _MSRV 1.67.1_
 - (LIB) Cargo.toml clap downgrade 4.1.0 to support MSRV 1.66.0 ([afc0dab53064bef4aec0f5181e25b8f96e0169f4])
 - (LIB) Cargo.toml remove dependency `backtrace` ([b339c881ae94eb1b14c02462042c4c8e8416e951])
 - (LIB) Cargo remove flamegraph as a dependency ([f08dd9c4bdc950c70d380d0a98c9546d8efd8c00])
-- (LIB) dependabot: bump bstr from 1.6.0 to 1.7.0 (#199) ([cff93366ae59c85d01f5d818ea2e8c8c73cedb87])
-- (LIB) dependabot: bump bstr from 1.7.0 to 1.9.0 (#237) ([a09e9f660ce2de3327a34879a5e184b3ef91a79e])
+- (LIB) dependabot: bump bstr from 1.6.0 to 1.7.0 [(#199)] ([cff93366ae59c85d01f5d818ea2e8c8c73cedb87])
+- (LIB) dependabot: bump bstr from 1.7.0 to 1.9.0 [(#237)] ([a09e9f660ce2de3327a34879a5e184b3ef91a79e])
 - (LIB) dependabot: bump clap from 4.3.12 to 4.3.19 ([2c1a38eaca7a66c54938c66abd046fc21e34b58e])
-- (LIB) dependabot: bump clap from 4.3.19 to 4.3.21 (#172) ([1c6ccb188129272267fd14d0f16fff42f67d81c6])
-- (LIB) dependabot: bump clap from 4.3.21 to 4.3.23 (#175) ([0f4521cd7cfe059fddab74cfd29f7920d6070ad7])
-- (LIB) dependabot: bump clap from 4.3.23 to 4.4.6 (#193) ([50e3c5235ab8aa95ffe58b7114bdf257d4bdeff5])
-- (LIB) dependabot: bump dlopen2 from 0.5.0 to 0.6.1 (#166) ([f42039339adc2bbb24d983232ba5c9f52cf03316])
-- (LIB) dependabot: bump encoding_rs from 0.8.32 to 0.8.33 (#177) ([bdafe96f41ea33ec27a840dbda74ed909f6f7532])
+- (LIB) dependabot: bump clap from 4.3.19 to 4.3.21 [(#172)] ([1c6ccb188129272267fd14d0f16fff42f67d81c6])
+- (LIB) dependabot: bump clap from 4.3.21 to 4.3.23 [(#175)] ([0f4521cd7cfe059fddab74cfd29f7920d6070ad7])
+- (LIB) dependabot: bump clap from 4.3.23 to 4.4.6 [(#193)] ([50e3c5235ab8aa95ffe58b7114bdf257d4bdeff5])
+- (LIB) dependabot: bump dlopen2 from 0.5.0 to 0.6.1 [(#166)] ([f42039339adc2bbb24d983232ba5c9f52cf03316])
+- (LIB) dependabot: bump encoding_rs from 0.8.32 to 0.8.33 [(#177)] ([bdafe96f41ea33ec27a840dbda74ed909f6f7532])
 - (LIB) dependabot: bump filetime from 0.2.21 to 0.2.22 ([0c6ba914d48380fae289077ea08b282484e075b5])
-- (LIB) dependabot: bump flate2 from 1.0.26 to 1.0.27 (#176) ([53e8a75974dfe4bf11740ad80c0fe769dfa0ebdb])
-- (LIB) dependabot: bump itertools from 0.11.0 to 0.12.1 (#246) ([e37557772d193a2e812598ed06ea0ab8656dd293])
-- (LIB) dependabot: bump libc from 0.2.149 to 0.2.153 (#247) ([24691784f79d33a5dd5497f53e064302dfb161d3])
-- (LIB) dependabot: bump lru from 0.11.0 to 0.12.0 (#197) ([08fed12cf9f2e7a4003a02d2a3e3efecddf49c80])
-- (LIB) dependabot: bump memchr from 2.5.0 to 2.6.4 (#195) ([8123ef1843ffed2f79a403105d3bdc819c9bb0ba])
-- (LIB) dependabot: bump nix from 0.26.2 to 0.27.1 (#178) ([68583d84a3722a27bec69a77984cd9e1167929bc])
-- (LIB) dependabot: bump regex from 1.9.1 to 1.9.3 (#169) ([ddc2a8036d9ea83b75bdc5cf506c365f5b09a3a7])
-- (LIB) dependabot: bump regex from 1.9.3 to 1.9.4 (#181) ([eb5a1c333d495d5ffdd95c390992de1e2a26e92d])
-- (LIB) dependabot: bump regex from 1.9.4 to 1.10.2 (#203) ([a01e57d237f55bba7e9541559c7bc0b6286cf8c0])
-- (LIB) dependabot: bump rustix from 0.36.9 to 0.36.16 (#200) ([3e70a605e7642596337bc49deda5a542c75aaddf])
-- (LIB) dependabot: bump tar from 0.4.39 to 0.4.40 (#173) ([e3b58f922ce8b312ee1fc9b04b39e5dcf75cf1c4])
+- (LIB) dependabot: bump flate2 from 1.0.26 to 1.0.27 [(#176)] ([53e8a75974dfe4bf11740ad80c0fe769dfa0ebdb])
+- (LIB) dependabot: bump itertools from 0.11.0 to 0.12.1 [(#246)] ([e37557772d193a2e812598ed06ea0ab8656dd293])
+- (LIB) dependabot: bump libc from 0.2.149 to 0.2.153 [(#247)] ([24691784f79d33a5dd5497f53e064302dfb161d3])
+- (LIB) dependabot: bump lru from 0.11.0 to 0.12.0 [(#197)] ([08fed12cf9f2e7a4003a02d2a3e3efecddf49c80])
+- (LIB) dependabot: bump memchr from 2.5.0 to 2.6.4 [(#195)] ([8123ef1843ffed2f79a403105d3bdc819c9bb0ba])
+- (LIB) dependabot: bump nix from 0.26.2 to 0.27.1 [(#178)] ([68583d84a3722a27bec69a77984cd9e1167929bc])
+- (LIB) dependabot: bump regex from 1.9.1 to 1.9.3 [(#169)] ([ddc2a8036d9ea83b75bdc5cf506c365f5b09a3a7])
+- (LIB) dependabot: bump regex from 1.9.3 to 1.9.4 [(#181)] ([eb5a1c333d495d5ffdd95c390992de1e2a26e92d])
+- (LIB) dependabot: bump regex from 1.9.4 to 1.10.2 [(#203)] ([a01e57d237f55bba7e9541559c7bc0b6286cf8c0])
+- (LIB) dependabot: bump rustix from 0.36.9 to 0.36.16 [(#200)] ([3e70a605e7642596337bc49deda5a542c75aaddf])
+- (LIB) dependabot: bump tar from 0.4.39 to 0.4.40 [(#173)] ([e3b58f922ce8b312ee1fc9b04b39e5dcf75cf1c4])
 - (LIB) dependabot: bump tempfile from 3.6.0 to 3.7.0 ([5543ff7204b50723dbdcd9042bd9747b74821bfb])
-- (LIB) dependabot: bump tempfile from 3.7.0 to 3.7.1 (#168) ([46c1502f07d0481c3aaab5e05899296f25c6ea13])
-- (LIB) dependabot: bump tempfile from 3.7.1 to 3.8.0 (#174) ([5d5ce99c92198d0e843259c1d32f08ba87d0039b])
-- (LIB) dependabot: bump webpki from 0.22.0 to 0.22.4 (#204) ([6671e40e458f0068097135fb37f7f5a279367396])
-- (LIB) dependabot: bump zerocopy from 0.7.25 to 0.7.32 (#249) ([f3749f5ba0323c8b5c685ff5bed0b63f472be3e9])
+- (LIB) dependabot: bump tempfile from 3.7.0 to 3.7.1 [(#168)] ([46c1502f07d0481c3aaab5e05899296f25c6ea13])
+- (LIB) dependabot: bump tempfile from 3.7.1 to 3.8.0 [(#174)] ([5d5ce99c92198d0e843259c1d32f08ba87d0039b])
+- (LIB) dependabot: bump webpki from 0.22.0 to 0.22.4 [(#204)] ([6671e40e458f0068097135fb37f7f5a279367396])
+- (LIB) dependabot: bump zerocopy from 0.7.25 to 0.7.32 [(#249)] ([f3749f5ba0323c8b5c685ff5bed0b63f472be3e9])
 - (LIB) src/ remove debug prints with addresses [Issue #213] ([fdc1899ac00ddde0355f09a5c6aaf6d79a1aeec7])
 - (LIB) fixedstruct.rs swap numtoa for lexical ([4e32f5ceab4b77a533fcc62ea68377d209b7a282])
 - (LIB) src/ NFC code comment updates, docstring links ([bd9b494e083a2861f8c991cfe75f80f61d72ddef])
@@ -1588,6 +1588,28 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #241]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/241
 [Issue #245]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/245
 [Issue #250]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/250
+[(#166)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/166
+[(#168)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/168
+[(#169)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/169
+[(#172)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/172
+[(#173)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/173
+[(#174)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/174
+[(#175)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/175
+[(#176)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/176
+[(#177)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/177
+[(#178)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/178
+[(#181)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/181
+[(#193)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/193
+[(#195)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/195
+[(#197)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/197
+[(#199)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/199
+[(#200)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/200
+[(#203)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/203
+[(#204)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/204
+[(#237)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/237
+[(#246)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/246
+[(#247)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/247
+[(#249)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/249
 [0.0.1...0.0.21]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.1...0.0.21
 [0.0.21...0.0.22]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.21...0.0.22
 [0.0.22...0.0.23]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.0.22...0.0.23
