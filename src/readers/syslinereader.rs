@@ -1802,7 +1802,7 @@ impl SyslineReader {
                                 fileoffset, err
                             );
                             // cache errors can be ignored.. though if an error was
-                            // stored in the cacue then there is other serious problems
+                            // stored in the cache then there is other serious problems
                         }
                     }
                 }
