@@ -39,6 +39,29 @@ grep -oEe '\[Issue #([[:digit:]]+)\]' -- "${CHANGELOG}" \
     | uniq \
     >> "${tmp_links}"
 
+# match dependabot pull-request link style
+#
+#    [(#237)]
+#
+# from commit message
+#
+#    dependabot: bump bstr from 1.7.0 to 1.9.0 [(#237)]
+#
+# brackets are manually added, original commit message is
+#
+#    dependabot: bump bstr from 1.7.0 to 1.9.0 (#237)
+#
+# prints
+#
+#    [(#237)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/237
+#
+grep -oEe ' \[\(#([[:digit:]]{2,4})\)\]' -- "${CHANGELOG}" \
+    | tr -d ' ' \
+    | sort -n -t '#' -k2 \
+    | sed -Ee 's|^\[\(#([[:digit:]]{2,4})\)\]$|[(#\1)]: '"${URL_PROJECT}"'/pull/\1|g' \
+    | uniq \
+    >> "${tmp_links}"
+
 # match tag comparison link, e.g.
 #
 #    [0.0.26..main]
