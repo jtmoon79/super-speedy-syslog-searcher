@@ -68,12 +68,14 @@ function print_line_at () {
     printf "%0${lc_i}d" "${1}"
 }
 
+declare -r dt_format=${DT_FORMAT-'+%Y%m%dT%H%M%S'}
+
 declare -i sysline_loop=0
 declare -i line_at=0
 while [[ ${sysline_loop} -lt ${sysline_count} ]]; do
     declare -i sysline_extra=0
     # datetimestamp
-    dts=$(date --date "@${dt_start}" '+%Y%m%dT%H%M%S' | tr -d '\n')
+    dts=$(date --date "@${dt_start}" "${dt_format}" | tr -d '\n')
     while [[ ${sysline_extra} -lt ${sysline_repeat} ]]; do
         # gather a subset of the alphabet
         declare -i alpha_at=$((${line_at} % ${alen}))
