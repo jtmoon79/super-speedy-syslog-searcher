@@ -436,11 +436,13 @@ See the real-world example rationale in the section below,
 
 <br/>
 
+---
+
 ## More
 
 ### Comparisons
 
-An overfiew of features of varying log mergers including GNU tools.
+An overview of features of varying log mergers including GNU tools.
 
 - GNU _`grep`_ piped to GNU _`sort`_
 - _Super Speedy Syslog Searcher_; `s4`
@@ -523,7 +525,7 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 #### Speed Comparison
 
 A comparison of merging three large log files.
-This comparison, which was very informal, used GNU `time` running on Ubuntu 22.
+This informal used GNU `time` running on Ubuntu 22 on WSL2.
 
 |Program       |real|user|sys |
 |-             |-   |-   |-   |
@@ -751,7 +753,7 @@ by the resident `utmpdump` tool. What then!? 😰
 
 This chaotic logging approach is typical of commercial and open-source software.
 And it's a mess!
-Attempting to sort log messages by their natural sort mechanism,
+Attempting to merge log messages by their natural sort mechanism,
 a datetime stamp, is difficult to impossible.
 
 Hence the need for _Super Speedy Syslog Searcher_! 🦸
