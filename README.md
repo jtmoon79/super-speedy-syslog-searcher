@@ -308,6 +308,8 @@ Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 ```
 
+---
+
 ## About
 
 ### Why `s4`?
@@ -445,8 +447,6 @@ An overfiew of features of varying log mergers including GNU tools.
 - [_logmerger_](https://github.com/ptmcg/logmerger); `logmerger`
 - [_Toolong_](https://github.com/Textualize/toolong); `tl`
 - [_logdissect_](https://github.com/dogoncouch/logdissect); `logdissect.py`
-
----
 
 - ✔ = _Yes_
 - ⬤ = _Most_
@@ -757,6 +757,8 @@ a datetime stamp, is difficult to impossible.
 Hence the need for _Super Speedy Syslog Searcher_! 🦸
 
 [logs access attempts in an ad-hoc format]: https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log
+
+---
 
 ## Further Reading
 
