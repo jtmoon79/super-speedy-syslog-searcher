@@ -56,13 +56,14 @@ The first goal of `s4` is speedy searching and printing.
   - ["syslog" and other project definitions](#syslog-and-other-project-definitions)
     - [syslog](#syslog)
     - [log message](#log-message)
-- [logging chaos; the problem `s4` solves](#logging-chaos-the-problem-s4-solves)
+- [logging chaos: the problem `s4` solves](#logging-chaos-the-problem-s4-solves)
   - [open-source software examples](#open-source-software-examples)
     - [nginx webserver](#nginx-webserver)
     - [Debian 11](#debian-11)
   - [commercial software examples](#commercial-software-examples)
     - [Synology DiskStation](#synology-diskstation)
     - [Microsoft Windows 10](#microsoft-windows-10)
+    - [binary files](#binary-files)
   - [Summary](#summary)
 - [Further Reading](#further-reading)
 <!---toc end--->
@@ -337,9 +338,9 @@ and wanted to create an open-source tool for a recurring need of some
 Software Test Engineers 😄
 
 See the real-world example rationale in the section below,
-[_logging chaos; the problem `s4` solves_].
+[_logging chaos: the problem `s4` solves_].
 
-[_logging chaos; the problem `s4` solves_]: #logging-chaos-the-problem-s4-solves
+[_logging chaos: the problem `s4` solves_]: #logging-chaos-the-problem-s4-solves
 
 ### Features
 
@@ -585,11 +586,13 @@ A "log message" is a single log entry for any type of logging scheme;
 an entry in a utmpx file, an entry in a systemd journal, an entry in a
 Windows Event Log, a formal syslog message, or an ad-hoc log message.
 
-## logging chaos; the problem `s4` solves
+---
 
-In practice, most log file formats are an ad-hoc format that
-may not follow any formal definition. Sorting varying log messages by datetime
-is prohibitively tedious.
+## logging chaos: the problem `s4` solves
+
+In practice, most log file formats are an ad-hoc format. And among formally
+defined log formats, there are many variations. The result is merging varying
+log messages by datetime is prohibitively tedious.
 
 The following real-world example log files are available in project directory
 `./logs`.
@@ -713,6 +716,36 @@ And a snippet from the same Windows 10 host, log file
 ```
 
 (yes, it reads hour `14`, and `PM`…  🙄)
+
+#### binary files
+
+And then there are binary files, such as the `wtmp` file on a Linux host.
+Using tool `utmpdump`, a record structure is converted to text like:
+
+```text
+[7] [12103] [ts/0] [user] [pts/0] [172.1.2.1] [172.1.2.2] [2023-03-05T23:12:36,270185+00:00]
+```
+
+And a sample from _systemd_ `journalctl`
+
+```text
+Mar 03 10:26:10 host systemd[1]: Started OpenBSD Secure Shell server.
+░░ Subject: A start job for unit ssh.service has finished successfully
+░░ Defined-By: systemd
+░░ Support: http://www.ubuntu.com/support
+░░
+░░ A start job for unit ssh.service has finished successfully.
+░░
+░░ The job identifier is 120.
+Mar 03 10:31:23 host sshd[4559]: Accepted login for user1 from 172.1.2.1 port 51730 ssh2
+```
+
+Try merging those two log messages by datetime using GNU `grep`, `sort`, `sed`,
+or `awk`! 😨
+
+Additionally, if the `wtmp` file is transported from a different architecture
+or Operating System, then the binary record structure may not be parseable
+by the resident `utmpdump` tool. What then!? 😰
 
 ### Summary
 
