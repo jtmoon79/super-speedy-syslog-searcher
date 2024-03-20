@@ -3400,7 +3400,7 @@ fn processing_loop(
     }
 
     //
-    // preparation for the main coordination loop (e.g. the "game loop")
+    // preparation for the main coordination loop (e.g. the "game loop", or the "printing loop")
     //
 
     let mut first_print = true;
@@ -3785,8 +3785,9 @@ fn processing_loop(
             //
             // Here is part of the "sorting" of different log messages from different files
             // by datetime.
-            // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut` which
-            // iterates in order of key sort. https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.iter_mut
+            // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut`
+            // which iterates in order of key sort.
+            // https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.iter_mut
             //
             // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
             //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33
@@ -3817,15 +3818,31 @@ fn processing_loop(
             let printer: &mut PrinterLogMessage = map_pathid_printer
                 .get_mut(pathid)
                 .unwrap();
+            // XXX: regarding printing errors about printing errors,
+            //      In release builds, this code does not print errors about prior printing errors.
+            //      It does not distinguish errors either. So errors due to a pipe closing
+            //      are treated no different than something really bad that I would normally
+            //      like to inform the user about.
+            //      However, having cross-platform support to distinguish the type of error
+            //      and whether the user should be be informed is a lot of tedious work.
+            //      Additionally, printing errors about errors is likely going to itself fail
+            //      because printing is probably permanently in a bad state.
+
+            // TODO: [2024/03/19] cost-savings: It would be easy to add `if summary` around
+            //       all summary updates within this function. Only update Summary data
+            //       when needed.
+            //       (it's a little more work to do this in the various `*Readers`.)
+
+            // this `match` statement is where the actual printing takes place in this
+            // main thread or "printing thread"
             match log_message {
                 LogMessage::Evtx(evtx) => {
                     defo!("A3.3 printing Evtx PathId: {:?}", pathid);
-                    // the most important part of this main thread loop
                     let mut printed: Count = 0;
                     match printer.print_evtx(evtx) {
                         Ok(printed_) => printed = printed_ as Count,
                         Err(_err) => {
-                            // Only print a printing error once.
+                            // Only print a printing error once and only for debug builds.
                             if !has_print_err {
                                 has_print_err = true;
                                 // BUG: Issue #3 colorization settings in the context of a pipe
@@ -3851,12 +3868,11 @@ fn processing_loop(
                 }
                 LogMessage::FixedStruct(entry) => {
                     defo!("A3.2 printing FixedStruct PathId: {:?}", pathid);
-                    // the most important part of this main thread loop
                     let mut printed: Count = 0;
                     match printer.print_fixedstruct(entry, &mut buffer_utmp) {
                         Ok(printed_) => printed = printed_ as Count,
                         Err(_err) => {
-                            // Only print a printing error once.
+                            // Only print a printing error once and only for debug builds.
                             if !has_print_err {
                                 has_print_err = true;
                                 // BUG: Issue #3 colorization settings in the context of a pipe
@@ -3882,12 +3898,11 @@ fn processing_loop(
                 }
                 LogMessage::Journal(journalentry) => {
                     defo!("A3.4 printing JournalEntry PathId: {:?}", pathid);
-                    // the most important part of this main thread loop
                     let mut printed: Count = 0;
                     match printer.print_journalentry(journalentry) {
                         Ok(printed_) => printed = printed_ as Count,
                         Err(_err) => {
-                            // Only print a printing error once.
+                            // Only print a printing error once and only for debug builds.
                             if !has_print_err {
                                 has_print_err = true;
                                 // BUG: Issue #3 colorization settings in the context of a pipe
@@ -3912,20 +3927,17 @@ fn processing_loop(
                     }
                 }
                 LogMessage::Sysline(syslinep) => {
-                    //let syslinep: &SyslineP = chan_datum.0.as_ref().unwrap();
                     defo!(
                         "A3.1 printing SyslineP @[{}, {}] PathId: {:?}",
                         syslinep.fileoffset_begin(),
                         syslinep.fileoffset_end(),
                         pathid
                     );
-                    // print the sysline!
-                    // the most important part of this main thread loop
                     let mut printed: Count = 0;
                     match printer.print_sysline(syslinep) {
                         Ok(printed_) => printed = printed_ as Count,
                         Err(_err) => {
-                            // Only print a printing error once.
+                            // Only print a printing error once and only for debug builds.
                             if !has_print_err {
                                 has_print_err = true;
                                 // BUG: Issue #3 colorization settings in the context of a pipe
@@ -3943,7 +3955,7 @@ fn processing_loop(
                     }
                     // If a file's last char is not a '\n' then the next printed sysline
                     // (from a different file) will print on the same terminal line.
-                    // While this is accurate byte-wise, it's difficult to read read and unexpected, and
+                    // While this is accurate byte-wise, it's difficult to read and unexpected, and
                     // makes scripting line-oriented scripting more difficult. This is especially
                     // visually jarring when prepended data is present (`-l`, `-p`, etc.).
                     // So in case of no ending '\n', print an extra '\n' to improve human readability
