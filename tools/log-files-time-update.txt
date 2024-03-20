@@ -591,9 +591,10 @@
 ./logs/standards/ISO8601-Date-Ordinal.log|2018-10-13T22:55:18.912-04:00
 ./logs/standards/ISO8601-Date-Week.log|2018-10-13T22:55:18.912-04:00
 ./logs/standards/ISO8601-YY-MM-DD.log|1999-01-03T00:00:00
-./logs/standards/ISO8601-YYYY-DDD.log
+./logs/standards/ISO8601-YYYY-DDD.log|1981-04-06T12:00:00
 ./logs/standards/ISO8601-YYYYDDMMTHHMM.log|2007-04-05T14:31:00
-./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS.log|2007-04-05T14:30:01
+./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS.log|2007-04-05T14:30:01Z
+./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS_2.log|2007-04-05T14:30:00Z
 ./logs/standards/ISO8601-YYYYDDMMTHHMMSS.log|2007-04-05T14:30:01
 ./logs/standards/ISO8601-YYYY-MM-DD.log|1981-04-06T00:00:00
 ./logs/standards/ISO8601-YYYYMMDD.log|1981-04-06T00:00:00
@@ -605,7 +606,8 @@
 ./logs/standards/RFC-5424-2dotZ.log|1985-04-12T23:20:51Z
 ./logs/standards/RFC-5424-3dotZ.log|2003-10-11T22:14:16Z
 ./logs/standards/RFC-5424-6dot-0700.log|2003-08-24T05:14:16-07:00
-./logs/standards/Unix-ms.log
+./logs/standards/RFC-5424-Z.log|1985-04-12T23:20:50Z
+./logs/standards/Unix-ms.log|2018-10-14 02:55:19Z
 ./logs/standards/W3C-DTF.log|2018-10-13T22:55:19-04:00
 ./logs/synology-DS6/apparmor.log|2016-12-05 22:01:43-08:00
 ./logs/synology-DS6/auth.log|2016-12-05 20:47:00-08:00
