@@ -423,7 +423,8 @@ pub mod freebsd_x8664 {
     use ::static_assertions::const_assert_eq;
 
     pub type subseconds_t = std::ffi::c_longlong;
-    pub type time_t = std::ffi::c_long;
+    // XXX: use `i64` to satisfy various cross-compilation targets
+    pub type time_t = i64;
 
     // utmpx
 
