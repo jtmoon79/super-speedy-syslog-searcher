@@ -404,7 +404,7 @@ fn test_find_datetime_in_line() {
                     );
                 }
                 ResultFindDateTime::Err(err) => {
-                    assert!(false, "returned Error; failed to match test line at index {:?}, case {:?}; Error {:?}", i, j, err);
+                    panic!("returned Error; failed to match test line at index {:?}, case {:?}; Error {:?}", i, j, err);
                 }
             }
             eprintln!();
@@ -489,7 +489,7 @@ fn test_parse_datetime_in_line_cached__no_cache() {
                     );
                 }
                 ResultFindDateTime::Err(err) => {
-                    assert!(false, "returned Error; failed to match test line at index {:?}, case {:?}; Error {:?}", i, j, err);
+                    panic!("returned Error; failed to match test line at index {:?}, case {:?}; Error {:?}", i, j, err);
                 }
             }
             eprintln!();
