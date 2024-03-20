@@ -40,7 +40,15 @@ use std::sync::Arc;
 use ::lru::LruCache;
 use ::mime_guess::MimeGuess;
 #[allow(unused_imports)]
-use ::more_asserts::{assert_ge, assert_gt, assert_le, debug_assert_ge, debug_assert_gt, debug_assert_le, debug_assert_lt};
+use ::more_asserts::{
+    assert_ge,
+    assert_gt,
+    assert_le,
+    debug_assert_ge,
+    debug_assert_gt,
+    debug_assert_le,
+    debug_assert_lt,
+};
 // `flate2` is for gzip files.
 use ::flate2::read::GzDecoder;
 use ::flate2::GzHeader;
