@@ -15,7 +15,13 @@ cd "$(dirname "${0}")/../.."
 time=$(which time)
 (set -x; $time --version) | head -n1
 
-PYTHON=${PYTHON-$(which python 2>/dev/null || which python3 2>/dev/null)}
+PYTHON=${PYTHON-$(
+    if which -a python &>/dev/null; then
+        echo -n 'python'
+    else
+        echo -n 'python3'
+    fi
+)}
 (set -x; "${PYTHON}" --version) | head -n1
 
 declare -a files=(

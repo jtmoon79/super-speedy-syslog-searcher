@@ -1,7 +1,7 @@
 ./tools/compare-log-mergers/compare-log-mergers.sh
 + /usr/bin/time --version
 time (GNU Time) UNKNOWN
-+ /home/ulug/Projects-Here/super-speedy-syslog-searcher/.virtualenv-ubuntu22/bin/python --version
++ /home/user/Projects/super-speedy-syslog-searcher/.virtualenv-ubuntu22/bin/python --version
 Python 3.10.12
 ----------------------------------------
 + /usr/bin/grep --version
