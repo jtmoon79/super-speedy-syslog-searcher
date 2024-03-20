@@ -165,7 +165,6 @@ use ::s4lib::readers::summary::{
 };
 use ::s4lib::readers::syslinereader::{ResultS3SyslineFind, SummarySyslineReader};
 use ::s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
-#[allow(unused_imports)]
 use ::s4lib::printer::printers::{
     color_rand,
     print_colored_stderr,

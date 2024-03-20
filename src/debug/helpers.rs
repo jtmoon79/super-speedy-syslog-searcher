@@ -10,7 +10,7 @@ use std::fs::File;
 use std::path::PathBuf;
 
 use std::io::ErrorKind;
-#[allow(unused_imports)] // XXX: clippy wrongly marks this as unused
+#[allow(unused_imports)] // XXX: clippy wrongly marks `Write` as unused
 use std::io::Write; // for `NamedTempFile.write_all`
 
 use ::filepath::FilePath; // provide `path` function on `File`

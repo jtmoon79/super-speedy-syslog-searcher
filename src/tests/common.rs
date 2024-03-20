@@ -49,8 +49,6 @@ use crate::debug::printers::{
 
 use std::fs::File;
 use std::io::Read;
-#[allow(unused_imports)]
-use std::sync::Arc; // for `std::fs::File.read`
 
 use ::lazy_static::lazy_static;
 

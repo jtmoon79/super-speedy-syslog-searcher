@@ -13,7 +13,7 @@ use std::io::prelude::*; // for `std::fs::File.read_to_string`
 #[doc(hidden)]
 pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
 #[doc(hidden)]
-#[allow(unused_imports)]
+#[cfg(any(debug_assertions, test))]
 use ::utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
