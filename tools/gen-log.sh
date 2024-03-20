@@ -1,23 +1,28 @@
 #!/usr/bin/env bash
 #
-# quick hacky script to generate a syslog file for testing
+# quick script to generate a syslog file for testing
 #
-# $ gen-log.sh [LINE COUNT] [REPEAT EACH LINE] [APPEND TEXT] [EXTRA NON-DATETIME LINES] [DATETIME START]
+# $ gen-log.sh [LINE COUNT] [REPEAT EACH LINE] [APPEND TEXT] [EXTRA NON-DATETIME LINES COUNT] [DATETIME START]
 #
-# slow for large LINE COUNT
-# would be nice to have a proper python script to do this, but good enough for now
+# XXX: slow for large LINE COUNT
+#
+# XXX: It would be nice to have a proper python script to do this.
+#      This is good enough for now
 #
 
 set -euo pipefail
 
 # hardcoded data to print on each syslog line
 declare -ar alphabet=(
-  #0 1 2 3 4 5 6 7 8 9
-  #a b c d e f g h i j k l m n o p q r s t u v w x y z
-  #A B C D E F G H I J K L M N O P Q R S T U V W Z Y Z
-  #À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß
-  #à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ
-  😀 😁 😂 😃 😄 😅 😆 😇 😈 😉 😊 😋 😌 😍 😎 😏 😐 😑 😒 😓 😔 😕 😖 😗 😘 😙 😚 😛 😜 😝 😞 😟 😠 😡 😢 😣 😤 😥 😦 😧 😨 😩 😪 😫 😬 😭 😮 😯 😰 😱 😲 😳 😴 😵 😶 😷 😸 😹 😺 😻 😼 😽 😾 😿 🙀 🙁 🙂 🙃
+  # 0 1 2 3 4 5 6 7 8 9
+  # a b c d e f g h i j k l m n o p q r s t u v w x y z
+  # A B C D E F G H I J K L M N O P Q R S T U V W Z Y Z
+  # À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß
+  # à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ÿ
+  😀 😁 😂 😃 😄 😅 😆 😇 😈 😉 😊 😋 😌 😍 😎 😏 😐 😑 😒 😓 😔 😕
+  😖 😗 😘 😙 😚 😛 😜 😝 😞 😟 😠 😡 😢 😣 😤 😥 😦 😧 😨 😩 😪 😫
+  😬 😭 😮 😯 😰 😱 😲 😳 😴 😵 😶 😷 😸 😹 😺 😻 😼 😽 😾 😿 🙀 🙁
+  🙂 🙃
 )
 declare -ir alen=${#alphabet[@]}
 
@@ -51,9 +56,7 @@ declare -i a=0
 while [[ ${a} -lt ${alen} ]]; do
     declare alpha=''
     declare -i c=a
-    # static length
-    #declare -i c_stop=$((a + alen))
-    # growing length
+    # growing line length
     declare -i c_stop=$((c + alen + linelen))
     while [[ ${c} -lt ${c_stop} ]]; do
         alpha+="${alphabet[$((${c} % ${alen}))]}"
@@ -98,6 +101,7 @@ while [[ ${sysline_loop} -lt ${sysline_count} ]]; do
         done
         sysline_extra+=1
     done
-    dt_start+=1  # advance datetime by one second
+    # advance datetime by one second
+    dt_start+=1
     sysline_loop+=1
 done
