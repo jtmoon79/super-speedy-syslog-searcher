@@ -203,52 +203,54 @@ jobs:
           # https://doc.rust-lang.org/nightly/rustc/platform-support.html
           # listings should follow the same order
           #
-          # XXX: most `aarch64` targets fail due to errors from `uapi` crate, e.g.
-          #         no `__timeval` in `c`
-          #      See Issue #171
-          #
           # XXX: some targets fail to missing a specific glibc required by
           #      libserde_derive, the error message reads:
           #         version `GLIBC_2.25' not found (required by /target/debug/deps/libserde_derive-917db958580e9b6d.so)
+          #      see https://users.rust-lang.org/t/how-to-compile-rust-with-a-specific-glibc-version-for-gnueabihf-architecture/6680
+          #      see https://github.com/japaric/rust-cross#advanced-topics
           #
           # XXX: wasm fails to compile due to missing tools
           #
           # Tier 1
           - aarch64-unknown-linux-gnu
-          # - i686-pc-windows-gnu
-          # - i686-pc-windows-msvc
+          - i686-pc-windows-gnu
+          - i686-pc-windows-msvc
           - i686-unknown-linux-gnu
-          # - x86_64-pc-windows-gnu
+          - x86_64-pc-windows-gnu
           - x86_64-pc-windows-msvc
           # - x86_64-unknown-linux-gnu  # version `GLIBC_2.25' not found
-          # Tier 2 w host tools
+          # Tier 2 with host tools
           # - aarch64-pc-windows-msvc  # version `GLIBC_2.25' not found
           - aarch64-unknown-linux-musl
-          - arm-unknown-linux-gnueabi
+          # - arm-unknown-linux-gnueabi  # version `GLIBC_2.25' not found
           - arm-unknown-linux-gnueabihf
           # - armv7-unknown-linux-gnueabihf  # version `GLIBC_2.25' not found
-          # - loongarch64-unknown-linux-gnu
+          # - loongarch64-unknown-linux-gnu  # toolchain 1.67.1 does not support ...
           # - powerpc-unknown-linux-gnu  # version `GLIBC_2.25' not found
           # - powerpc64-unknown-linux-gnu  # version `GLIBC_2.25' not found
           # - powerpc64le-unknown-linux-gnu  # version `GLIBC_2.25' not found
-          # - riscv64gc-unknown-linux-gnu
+          - riscv64gc-unknown-linux-gnu
+          # - sparc64-unknown-linux-gnu # version `GLIBC_2.29' not found
           # - s390x-unknown-linux-gnu  # version `GLIBC_2.25' not found
           # - x86_64-unknown-freebsd  # version `GLIBC_2.25' not found
           # - x86_64-unknown-illumos  # fails due to uapi; see Issue #171
-          # - x86_64-unknown-linux-musl
-          # - x86_64-unknown-netbsd
+          - x86_64-unknown-linux-musl
+          # - x86_64-unknown-netbsd  # version `GLIBC_2.25' not found
           # Tier 2 without host tools
-          # just a few chosen
+          # (just a few chosen)
           - x86_64-sun-solaris
-          # - wasm32-unknown-emscripten
+          - x86_64-linux-android
           - aarch64-linux-android
+          # - wasm32-unknown-emscripten
           # - wasm32-unknown-unknown
-          # - wasm32-wasi
-          # - x86_64-linux-android
+          # - wasm32-wasi  # error: could not compile `dlopen2`
           # Tier 3
-          # - i686-unknown-netbsd
-          # - i686-unknown-openbsd
-          # - x86_64-unknown-openbsd
+          # - aarch64-unknown-openbsd # toolchain 1.67.1 does not support ...
+          # - aarch64-unknown-netbsd # toolchain 1.67.1 does not support ...
+          # - i686-unknown-netbsd  # toolchain 1.67.1 does not support ...
+          # - i686-unknown-openbsd  # toolchain 1.67.1 does not support ...
+          # - x86_64-unknown-dragonfly  # toolchain 1.67.1 does not support ...
+          # - x86_64-unknown-openbsd  # toolchain 1.67.1 does not support ...
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -259,22 +261,23 @@ jobs:
           targets: ${{ matrix.target }}
       - run: |
           set -eux
+          rustup show
           cross --version
           cross check --lib --bins --target ${{ matrix.target }}
 
   job_cross_targets_macos:
     name: cross ${{ matrix.target }} on macos-latest
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_release_channel, job_rust_msrv_os, job_cross_targets]
     strategy:
       matrix:
         target:
           # Tier 1
           - x86_64-apple-darwin
-          # Tier 2 w host tools
+          # Tier 2 with host tools
           - aarch64-apple-darwin
           # Tier 2 without host tools
-          # - aarch64-apple-ios  # fails due to uapi; see Issue #171
-          # - x86_64-apple-ios  # fails due to uapi; see Issue #171
+          - aarch64-apple-ios
+          - x86_64-apple-ios
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -285,22 +288,25 @@ jobs:
           targets: ${{ matrix.target }}
       - run: |
           set -eux
+          rustup show
           cross --version
           cross check --lib --bins --target ${{ matrix.target }}
 
-  job_test_wasm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          bins: cargo-wasi
-          targets: wasm32-wasi
-      - uses: mwilliamson/setup-wasmtime-action@v2
-        with:
-          wasmtime-version: "12.0.1"
-      - run: cargo wasi test --color=always -- --color=always
+  # job_test_wasm:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v4
+  #    - uses: moonrepo/setup-rust@v1
+  #      with:
+  #        channel: ${{ env.MSRV_UPLOAD }}
+  #        bins: cargo-wasi
+  #        targets: wasm32-wasi
+  #    - uses: mwilliamson/setup-wasmtime-action@v2
+  #      with:
+  #        wasmtime-version: "12.0.1"
+  #    # can not compile `filepath`
+  #    # see https://github.com/evilpie/filepath/issues/6
+  #    - run: cargo wasi test --color=always -- --color=always
 
   job_check:
     # this job downloads and builds dependency crates
