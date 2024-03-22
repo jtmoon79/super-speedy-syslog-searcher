@@ -488,7 +488,7 @@ jobs:
             --disable-pip-version-check \
             --no-python-version-warning \
             --no-color \
-            yamllint
+            yamllint==1.35.1
           python -m pip list \
             --disable-pip-version-check \
             --no-python-version-warning \
