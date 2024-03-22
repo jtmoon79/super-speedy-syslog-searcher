@@ -58,6 +58,11 @@ export RUST_BACKTRACE=1
 
 OUT="${OUT-flamegraph.svg}"
 
+# Sampling frequency.
+# This is higher than default 997, hopefully it does not cause CPU/IO overload
+# warning and dropped chunks (found by trial and error, probably host dependent).
+FREQ=${FREQ-3000}
+
 (
     set -x
     # verify flamegraph can run the binary (just prints the version)
@@ -108,11 +113,6 @@ else
                 echo './logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx'
                )
 fi
-
-# Sampling frequency.
-# This is higher than default 997, hopefully it does not cause CPU/IO overload
-# warning and dropped chunks (found by trial and error, probably host dependent).
-FREQ=${FREQ-3000}
 
 NOTES+="; -freq ${FREQ}; created $(date +%Y%m%dT%H%M%S%z)"
 
