@@ -9,7 +9,6 @@ use crate::common::FileOffset;
 use std::ffi::CStr;
 use std;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Return the basename of an `FPath`.
 pub fn basename(path: &FPath) -> FPath {

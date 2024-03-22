@@ -85,7 +85,6 @@ use ::si_trace_print::{
     defñ,
 };
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// fileoffset for `UTMPX2`
 const UTMPX2_FO2: FileOffset = linux_x86::UTMPX_SZ_FO;

@@ -16,7 +16,6 @@ pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
 #[cfg(any(debug_assertions, test))]
 use ::utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// `d`ebug `e`println! an `err`or
 #[macro_export]
@@ -78,9 +77,8 @@ macro_rules! e_wrn {
 }
 pub use e_wrn;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ------------------------------------------
 // helper functions - various print and write
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// turn passed u8 into char, for any char values that are CLI formatting instructions transform
 /// them to pictoral representations, e.g. '\n' returns a pictoral unicode representation '␊'.

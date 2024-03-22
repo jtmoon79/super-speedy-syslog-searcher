@@ -42,7 +42,6 @@ use ::more_asserts::assert_gt;
 use ::si_trace_print::printers::{defn, defo, defx, defñ};
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 
@@ -574,8 +573,6 @@ lazy_static! {
         seconds_to_systemtime(&107744400)
     };
 }
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Helper to wrap the match and panic checks
 fn new_SyslogProcessor(

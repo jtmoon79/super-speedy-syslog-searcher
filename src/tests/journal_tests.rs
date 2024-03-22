@@ -29,7 +29,6 @@ use crate::tests::common::{
 use ::more_asserts::assert_le;
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #[test]
 fn test_journalentry_new() {

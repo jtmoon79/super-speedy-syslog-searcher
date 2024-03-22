@@ -33,9 +33,9 @@ use ::more_asserts::debug_assert_ge;
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, def1n, def1ñ, def1x, den, deo, dex, deñ};
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ----------
 // LineReader
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Map [`FileOffset`] To [`Line`].
 ///

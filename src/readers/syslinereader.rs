@@ -87,9 +87,9 @@ use ::si_trace_print::{
 };
 use ::static_assertions::const_assert;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ----------------------------------------
 // DateTime typing, strings, and formatting
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// `Count` of datetime format strings used.
 ///
@@ -126,9 +126,8 @@ pub type ResultParseDateTime = Result<FindDateTimeData>;
 #[cfg(test)]
 pub type SetDroppedSyslines = HashSet<FileOffset>;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -------------
 // SyslineReader
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// [`Sysline`] Searching result.
 ///

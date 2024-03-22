@@ -77,7 +77,6 @@ use ::si_trace_print::{
 // `tar` is for tar files.
 use ::tar;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// [`Block`] Size in bytes.
 pub type BlockSz = u64;

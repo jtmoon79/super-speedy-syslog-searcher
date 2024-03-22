@@ -48,7 +48,6 @@ use ::lazy_static::lazy_static;
 use ::si_trace_print::printers::{defn, defo, defx};
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // XXX: copied from `syslinereader_tests.rs`
 const NTF5_DATA_LINE0: &str =

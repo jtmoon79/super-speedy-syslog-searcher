@@ -32,7 +32,6 @@ use ::more_asserts::{
     debug_assert_lt,
 };
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Error, broken data
 pub const EVTX_KPNP_DATA1_S_E: &str = r#"

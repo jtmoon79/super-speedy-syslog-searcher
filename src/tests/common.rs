@@ -52,7 +52,6 @@ use std::io::Read;
 
 use ::lazy_static::lazy_static;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 lazy_static! {
     // ready-made MimeGuess
@@ -136,8 +135,7 @@ lazy_static! {
     pub static ref TS_1: EpochMicroseconds = 1_000_000_456_123;
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
+// ---------------------
 // very simple log files
 
 lazy_static! {
@@ -233,7 +231,8 @@ lazy_static! {
 
 pub const NTF_LOG_EMPTY_FILETYPE: FileType = FileType::File;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ---------
+// gzip data
 
 /// gzip of an empty file using `gzip`
 ///
@@ -307,7 +306,8 @@ lazy_static! {
     pub static ref NTF_GZ_8BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_322_953);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -------
+// xz data
 
 /// xz of an empty file:
 ///
@@ -380,7 +380,8 @@ lazy_static! {
     pub static ref NTF_XZ_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_XZ_8BYTE_FPATH);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// --------
+// tar data
 
 // all tar data created using `tar (GNU tar) 1.34` on Ubuntu Linux
 
@@ -3422,7 +3423,8 @@ pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_EXPORT: &str =
 pub const JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT: &str =
     "Linux version 5.14.0-162.6.1.el9_1.x86_64 (mockbuild@x86-vm-07.build.eng.bos.redhat.com) (gcc (GCC) 11.3.1 20220421 (Red Hat 11.3.1-2), GNU ld version 2.35.2-24.el9) #1 SMP PREEMPT_DYNAMIC Fri Sep 30 07:36:03 EDT 2022\n";
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -------
+// helpers
 
 /// testing helper
 pub fn fill(v_: &mut Vec<FileOffset>) {

@@ -81,7 +81,6 @@ use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{defn, defo, defx};
 use ::test_case::{test_case, test_matrix};
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// does regex pattern have a year?
 pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {

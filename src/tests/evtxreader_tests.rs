@@ -32,7 +32,6 @@ use ::si_trace_print::printers::{defn, defo, defx, defñ};
 use ::si_trace_print::stack::stack_offset_set;
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Error, broken data
 pub const EVTX_KPNP_DATA1_S_E: &str = r#"

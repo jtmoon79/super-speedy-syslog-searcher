@@ -31,7 +31,6 @@ use ::more_asserts::{
     assert_ge, assert_gt, assert_le, assert_lt, debug_assert_gt, debug_assert_le, debug_assert_lt,
 };
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// A sequence of [`LinePart`] that make up a [`Line`].
 /// A `Line` may span multiple [`Block`s]. One `LinePart` refers to bytes
@@ -65,9 +64,8 @@ pub type RangeLineIndex = std::ops::Range<LineIndex>;
 /// [Atomic Reference Counting pointer]: std::sync::Arc
 pub type LineP = Arc<Line>;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ------------------------------
 // LinePart, Line, and LineReader
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// A `LinePart` is some or all of a [`Line`] within a [`Block`].
 /// The purpose of a `LinePart` is to help track a slice into a `Block`.

@@ -15,7 +15,6 @@ use crate::readers::blockreader::{
     BlockSz,
 };
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 fn block_new(data: &[u8]) -> BlockP {
     let block: Block = Block::from(data);
@@ -43,7 +42,6 @@ fn linepart_new(
     LinePart::new(blockp, beg, end, fo, bo, bsz)
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #[test]
 fn test_linepart_new_0_2() {
@@ -177,7 +175,8 @@ fn test_linepart_block_boxptr_ab_3_2_panic() {
     linepart.block_boxptr_ab(&3, &2);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ----------
+// new_line_*
 
 /// create line `"bc"`
 fn new_line_1_3() -> Line {

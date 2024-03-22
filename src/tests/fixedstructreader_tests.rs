@@ -65,7 +65,6 @@ use ::si_trace_print::printers::{defn, defo, defx, defñ};
 use ::si_trace_print::stack::stack_offset_set;
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // short alias
 const U1SZ: FileOffset = linux_x86::UTMPX_SZ as FileOffset;

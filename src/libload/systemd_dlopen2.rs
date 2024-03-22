@@ -23,7 +23,6 @@ use ::si_trace_print::{
     defñ,
 };
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// User-friendly name for the `libsystemd` library, used in error messages.
 #[cfg(not(windows))]

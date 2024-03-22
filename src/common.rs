@@ -10,6 +10,7 @@ pub use std::path::Path;
 
 use kinded::Kinded;
 
+
 /// `F`ake `Path` or `F`ile `Path`.
 ///
 /// Type alias `FPath` is a simpler stand-in for formalized file system path
@@ -42,9 +43,8 @@ pub type FileSz = u64;
 /// (Summary) counting.
 pub type Count = u64;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// --------------------------------------------------
 // custom Results enums for various *Reader functions
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // XXX: ripped from '\.rustup\toolchains\beta-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core\src\result.rs'
 //      https://doc.rust-lang.org/src/core/result.rs.html#481-495
@@ -724,9 +724,8 @@ macro_rules! debug_panic {
 }
 pub use debug_panic;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ----------------------
 // Blocks and BlockReader
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Offset into a file in bytes. Zero-based.
 pub type FileOffset = u64;
@@ -734,9 +733,8 @@ pub type FileOffset = u64;
 /// A [`Vec`](std::vec::Vec) of `u8`.
 pub type Bytes = Vec<u8>;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// --------------------
 // Lines and LineReader
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Minimum size of characters in bytes.
 /// UTF-8 would be value `1`, UTF-16 would be value `2`, etc.

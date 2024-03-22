@@ -60,7 +60,6 @@ use numtoa::NumToA;  // adds `numtoa` method to numbers
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 use ::static_assertions::const_assert;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// size of the `[u8]` buffer used for `numtoa` conversions
 /// good up to `i64::MAX` or `i64::MIN` plus a little "just in case" head room

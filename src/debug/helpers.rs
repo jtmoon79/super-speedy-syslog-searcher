@@ -23,9 +23,9 @@ pub use ::tempfile::NamedTempFile;
 #[doc(hidden)]
 pub use ::tempfile::TempDir;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// -------------------------------
 // temporary file helper functions
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// NamedTempFile instances default to this file name prefix.
 ///

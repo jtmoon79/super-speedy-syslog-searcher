@@ -80,9 +80,9 @@ use ::mime_guess::MimeGuess;
 use ::rangemap::RangeMap;
 use ::si_trace_print::{def1n, def1x, def1ñ, defn, defo, defx, defñ};
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ---------------
 // SyslogProcessor
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// `SYSLOG_SZ_MAX` as a `BlockSz`.
 pub(crate) const SYSLOG_SZ_MAX_BSZ: BlockSz = SYSLOG_SZ_MAX as BlockSz;

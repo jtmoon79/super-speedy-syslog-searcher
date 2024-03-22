@@ -74,9 +74,9 @@ use ::regex::bytes::Regex;
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 use ::unroll::unroll_for_loops;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// -----------------------------------------------
 // DateTime Regex Matching and strftime formatting
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// A _Year_ in a date
 pub type Year = i32;
@@ -2425,9 +2425,8 @@ pub(crate) const RP_LB: &RegexPattern = r"[\[\(<{]";
 /// [`RegexPattern`] right-side brackets
 pub(crate) const RP_RB: &RegexPattern = r"[\]\)>}]";
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------------------------------------------------
 // the global list of built-in Datetime parsing "instructions"
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Index into the global [`DATETIME_PARSE_DATAS`]
 pub type DateTimeParseInstrsIndex = usize;
@@ -5649,9 +5648,8 @@ pub fn bytes_to_regex_to_datetime(
     Some((dt_beg, dt_end, dt))
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// --------------------
 // DateTime comparisons
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Describe the result of comparing one [`DateTimeL`] to one DateTime Filter.
 ///
@@ -5811,9 +5809,8 @@ pub fn dt_pass_filters(
     }
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ---------------------------------------------
 // other miscellaneous DateTime function helpers
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Create a new [`DateTimeL`] instance that uses the passed `DateTimeL`
 /// month, day, and time, combined with the passed `Year`.
@@ -5859,11 +5856,11 @@ pub fn systemtime_year(
     dtu.year()
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// --------------------------------------------
 // search a slice quickly (loop unroll version)
+//
 // loop unrolled implementation of `slice.contains` for a byte slice and a hardcoded array
 // benchmark `benches/bench_slice_contains.rs` demonstrates this is faster
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #[inline(always)]
 #[unroll_for_loops]

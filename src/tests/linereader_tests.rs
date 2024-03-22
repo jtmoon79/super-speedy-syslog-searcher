@@ -41,7 +41,6 @@ use ::si_trace_print::printers::{defn, defo, defx};
 use ::si_trace_print::stack::{sn, so, stack_offset_set, sx};
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// dummy version of `ResultS3LineFind` for asserting return enum of `LineReader::find_line`
 #[allow(non_camel_case_types)]

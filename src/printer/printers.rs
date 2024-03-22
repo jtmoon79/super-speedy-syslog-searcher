@@ -34,9 +34,9 @@ use ::more_asserts::{debug_assert_le, debug_assert_lt};
 use ::si_trace_print::{defn, defo, defx, defñ};
 use ::si_trace_print::printers::debug_print_guard;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ---------------------
 // globals and constants
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// [`Color`] for printing prepended data like datetime, file name, etc.
 ///
@@ -102,9 +102,8 @@ pub const COLORS_TEXT: [Color; 29] = [
     Color::Rgb(255, 255, 255),
 ];
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ----------------
 // helper functions
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// "Cached" indexing value for `color_rand`.
 ///
@@ -127,9 +126,8 @@ pub fn color_rand() -> Color {
     COLORS_TEXT[ci]
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------
 // PrinterLogMessage
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// A printer for `s4lib` log messages that writes to Standard Out.
 ///
@@ -1528,9 +1526,8 @@ impl PrinterLogMessage {
     }
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------------------------------------------
 // other printer functions (no use of PrinterLogMessage)
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Print colored output to terminal if possible using passed stream,
 /// otherwise, print plain output.

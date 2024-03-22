@@ -31,7 +31,6 @@ use ::bstr::ByteSlice; // attaches `find` to `&[u8]`
 use ::more_asserts::debug_assert_le;
 use ::si_trace_print::{defñ, def1n, def1x, def1ñ};
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /*
 

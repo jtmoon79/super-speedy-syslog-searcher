@@ -68,7 +68,6 @@ use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{defn, defo, defx};
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 fn test_mimeguess_to_filetype(
     mimeguess: &MimeGuess,

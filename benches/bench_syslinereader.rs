@@ -9,8 +9,6 @@ use ::s4lib::readers::syslinereader::SyslineReader;
 
 use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 const BLOCKSZ: BlockSz = 0x200;
 
 fn new_syslinereader(

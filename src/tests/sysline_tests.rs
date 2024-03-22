@@ -16,7 +16,6 @@ use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{defn, defo, defx};
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #[allow(dead_code)]
 fn block_new(data: &[u8]) -> BlockP {
@@ -141,9 +140,8 @@ fn new_sysline2() -> Sysline {
     new_sysline(DATA_STR2, DT_BEG2, DT_END2)
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ---------------
 // Sysline testing
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 #[test]
 fn test_sysline_new_sysline1() {

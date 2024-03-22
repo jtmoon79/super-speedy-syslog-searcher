@@ -88,7 +88,6 @@ use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{defn, defo, defx, defñ};
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// Helper wrapper to create a new BlockReader
 fn new_BlockReader(

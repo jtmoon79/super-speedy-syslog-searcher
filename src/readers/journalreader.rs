@@ -237,7 +237,6 @@ use crate::libload::systemd_dlopen2::{
     journal_api,
 };
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 // XXX: ripped from `nix` crate
 // stub `Errno` for to allow Windows to build

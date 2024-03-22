@@ -101,7 +101,6 @@ use ::more_asserts::{assert_gt, assert_le};
 use ::si_trace_print::{defn, defo, defx, deo, stack::stack_offset_set};
 use ::test_case::test_case;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 /// check the return type of `find_sysline` to this dummy approximation of `ResultS3SyslineFind`
 pub type ResultS3SyslineFind_Test = ResultS3<(), std::io::Error>;
@@ -136,7 +135,8 @@ fn test_new_SyslineReader_2_bad_path_panics() {
     new_SyslineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024, *FO_P8);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ----
+// NTF5
 
 /// - `FileOffset` is the input
 /// - second parameter is expected result enum
@@ -244,7 +244,8 @@ fn test_find_sysline_A0(
     impl_find_sysline(cache, blocksz, checks);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -------
+// helpers
 
 /// Helper for common operations in `test_find_datetime_in_line`
 /// and `test_parse_datetime_in_line_cached__no_cache`
@@ -3639,8 +3640,6 @@ fn test_find_sysline_between_datetime_filter(
     impl_test_find_sysline_between_datetime_filter_NTF26B(cache, blocksz, None);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 type TestSyslineReaderCheck<'a> = (&'a str, FileOffset);
 type TestSyslineReaderChecks<'a> = Vec<(&'a str, FileOffset)>;
 
@@ -3805,7 +3804,7 @@ fn test_find_sysline_A1_dt6_128_X9999() {
     impl_test_SyslineReader_find_sysline(&NTF_A1_path, 128, 9999, &checks);
 }
 
-// -------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 /// Helper to assert `find_sysline` return enum
 fn assert_results4(
@@ -3837,7 +3836,7 @@ fn assert_results4(
     }
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------------------------------------------------------------------
 
 type TestSyslineReaderAnyInputCheck<'a> = (FileOffset, ResultS3SyslineFind_Test, FileOffset, &'a str);
 type TestSyslineReaderAnyInputChecks<'a> = Vec<TestSyslineReaderAnyInputCheck<'a>>;
@@ -4723,7 +4722,7 @@ fn test_find_sysline_H_dt4_Done() {
     impl_test_findsysline(&test_SyslineReader_H_ntf_path, 4, false, &checks);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------------------------------------------------------------------
 
 #[test_case(true; "cache")]
 #[test_case(false; "nocache")]
@@ -4789,7 +4788,7 @@ fn test_clear_syslines(cache: bool) {
     assert_eq!(cache, cache_actual, "Expected cache_enabled to be {}, it was {}", cache, cache_actual);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------------------------------------------------------------------
 
 // test `syslinereader.datetime_parse_data`
 
@@ -4905,7 +4904,7 @@ fn test_find_sysline_rand__dtf5_6c__8() {
     impl_test_find_sysline_rand(&FPath::from("./logs/other/tests/dtf5-6c.log"), 8);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------------------------------------------------------------------
 
 type CheckFindSyslineInBlock = Vec<(FileOffset, ResultS3SyslineFind_Test, String)>;
 
@@ -5131,7 +5130,7 @@ fn test_find_sysline_in_block__A3__12_FFFF(cache: bool) {
     impl_test_find_sysline_in_block(&NTF_A3_12_PATH, cache, checks, 0xFFFF);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------------------------------------------------------------------
 
 const HOUR: i32 = 3600;
 
@@ -5190,7 +5189,7 @@ fn test_datetime_parse_from_str__5_bad_without_tz() {
     assert_eq!(dt4, None);
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// -----------------------------------------------------------------------------
 
 /// given the vector of `DateTimeL`, return the vector index and value of the soonest
 /// (minimum) value within a `Some`
