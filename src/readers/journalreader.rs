@@ -245,6 +245,7 @@ use crate::libload::systemd_dlopen2::{
 //      which is unfortunately still unimplemented, see rust-lang/rust#64797
 //      https://github.com/rust-lang/rust/issues/64797
 //      Relates to Issue #100 jtmoon79/super-speedy-syslog-searcher#100
+//      https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/100
 #[cfg(target_os = "windows")]
 mod errno {
     use ::libc;
