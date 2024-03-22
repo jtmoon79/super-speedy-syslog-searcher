@@ -74,7 +74,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-22.04, ubuntu-20.04, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         # first `msrv` should match Cargo.toml:[package]:rust-version
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
