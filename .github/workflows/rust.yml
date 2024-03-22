@@ -74,7 +74,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-22.04, ubuntu-20.04, macos-latest, windows-latest]
         # first `msrv` should match Cargo.toml:[package]:rust-version
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
@@ -110,7 +110,7 @@ jobs:
           name: s4.exe ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4.exe
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.msrv == env.MSRV_UPLOAD }}
+        if: ${{ matrix.os == 'ubuntu-22.04' && matrix.msrv == env.MSRV_UPLOAD }}
         uses: actions/upload-artifact@v4
         with:
           name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
@@ -194,7 +194,7 @@ jobs:
       #     "${SCRIPT}"
 
   job_cross_targets:
-    name: cross ${{ matrix.target }}
+    name: cross ${{ matrix.target }} on ubuntu-22.04
     needs: [job_rust_release_channel, job_rust_msrv_os]
     strategy:
       matrix:
@@ -251,7 +251,7 @@ jobs:
           # - i686-unknown-openbsd  # toolchain 1.67.1 does not support ...
           # - x86_64-unknown-dragonfly  # toolchain 1.67.1 does not support ...
           # - x86_64-unknown-openbsd  # toolchain 1.67.1 does not support ...
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
@@ -266,7 +266,7 @@ jobs:
           cross check --lib --bins --target ${{ matrix.target }}
 
   job_cross_targets_macos:
-    name: cross ${{ matrix.target }} on macos-latest
+    name: cross ${{ matrix.target }} on macos-13
     needs: [job_rust_release_channel, job_rust_msrv_os, job_cross_targets]
     strategy:
       matrix:
@@ -278,7 +278,7 @@ jobs:
           # Tier 2 without host tools
           - aarch64-apple-ios
           - x86_64-apple-ios
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
