@@ -25,6 +25,7 @@ exclude = [
     "benches/bench_syslinereader.rs",
     "benches/README.md",
     "logs/*",
+    "releases/*",
     "src/**/README.md",
     "tmp/*",
     "tools/*",
