@@ -1565,18 +1565,6 @@ impl SyslineReader {
         true
     }
 
-    /*
-    /// get `DateTimeParseInstrsIndex` from SyslineReader. `rank` is zero-based with
-    /// zero being the most important rank.
-    ///
-    /// Passing `rank` value `0` will return the `DateTimeParseInstrsIndex` for the
-    /// most-used `DateTimeParseInstr` (i.e. the regex and strftime patterns used to extract
-    /// `DateTimeL` from `Line`s).
-    pub(crate) fn dt_pattern_index_at(&self, rank: usize) -> DateTimeParseInstrsIndex {
-        *(self.dt_patterns_indexes.iter().skip(rank).next().unwrap())
-    }
-    */
-
     /// Return most-used `DateTimeParseInstrsIndex`.
     pub(crate) fn dt_pattern_index_max_count(&self) -> DateTimeParseInstrsIndex {
         #[cfg(any(debug_assertions, test))]

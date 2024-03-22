@@ -145,18 +145,6 @@ impl Sysline {
         &self.dt
     }
 
-    /*
-    /// Some syslog datetime formats do not include the year. Some `Sysline` instances are created
-    /// with a dummy year. Later, after special processing, some `Sysline` may have the `dt` updated
-    /// to a determined year.
-    ///
-    /// Not ideal.
-    pub fn update_year(&mut self, year: &Year) {
-        let dt_new: DateTimeL = datetime_with_year(self.dt.as_ref().unwrap(), year);
-        self.dt = Some(dt_new);
-    }
-    */
-
     /// Return duration of difference between the two [`DateTimeL`] of each
     /// `Sysline`.
     ///
