@@ -1805,14 +1805,14 @@ impl SyslineReader {
             .syslines_by_range
             .get_key_value(&fileoffset)
         {
-            Some(range_fo) => {
+            Some((_range, fo)) => {
                 defo!(
-                    "hit syslines_by_range cache for FileOffset {} (found in range {:?})",
+                    "hit syslines_by_range cache for FileOffset {} (found in range {:?} @{})",
                     fileoffset,
-                    range_fo.0
+                    _range,
+                    fo,
                 );
                 self.syslines_by_range_hit += 1;
-                let fo: &FileOffset = range_fo.1;
                 let syslinep: SyslineP = self.syslines[fo].clone();
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 let fo_next: FileOffset = (*syslinep).fileoffset_next();
