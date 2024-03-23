@@ -5520,7 +5520,7 @@ fn test_ezcheck_slice(
     4,
     0,
     0,
-    508,
+    512,
     0,
     0,
     0,
@@ -5529,7 +5529,7 @@ fn test_ezcheck_slice(
     28,
     0,
     7,
-    480,
+    484,
     0,
     7;
     "NTF_GZ_8BYTE_FPATH"
@@ -5558,9 +5558,9 @@ fn test_ezcheck_slice(
     0,
     1,
     0,
-    75,
+    76,
     4,
-    71,
+    72,
     0,
     0,
     0,
@@ -5569,7 +5569,7 @@ fn test_ezcheck_slice(
     4,
     0,
     0,
-    71,
+    72,
     0;
     "NTF_SYSLINE_1_PATH (cache)"
 )]
@@ -5597,9 +5597,9 @@ fn test_ezcheck_slice(
     0,
     0,
     0,
-    75,
+    76,
     4,
-    71,
+    72,
     0,
     0,
     0,
@@ -5608,7 +5608,7 @@ fn test_ezcheck_slice(
     4,
     0,
     0,
-    71,
+    72,
     0;
     "NTF_SYSLINE_1_PATH (no cache)"
 )]
@@ -5636,10 +5636,10 @@ fn test_ezcheck_slice(
     1,
     2,
     0,
-    76,
+    77,
     0,
     0,
-    76,
+    77,
     0,
     0,
     0,
@@ -5647,7 +5647,7 @@ fn test_ezcheck_slice(
     4,
     0,
     0,
-    72,
+    73,
     0;
     "NTF_SYSLINE_2_PATH"
 )]

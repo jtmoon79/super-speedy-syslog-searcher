@@ -2445,7 +2445,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 127;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 128;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3423,6 +3423,15 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (19, 43, (O_P1, 2022, 10, 11, 0, 10, 26, 0), r#"192.168.0.172 - - {11/oct/2022 00:10:26 +01} "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (15, 38, (O_P1, 2022, 10, 11, 0, 10, 26, 0), r#"192.168.0.172	<11-oct-2022 00:10:26+01>	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (17, 41, (O_M8, 2020, 3, 7, 6, 30, 43, 0), r#"192.168.0.8 - - [07/Mar/2020:06:30:43 -08] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_LB, CGP_DAYde, D_Dq, CGP_MONTHb, D_Dq, CGP_YEAR, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, RP_RB),
+        DTFSS_bdHMSY, 0, 300, CGN_DAY, CGN_SECOND,
+        &[
+            // Flask web server default log format
+            (15, 35, (O_L, 2024, 3, 22, 15, 11, 28, 0), r#"127.0.0.1 - - [22/Mar/2024 15:11:28] "GET / HTTP/1.1" 200 -"#),
         ],
         line!(),
     ),
