@@ -121,6 +121,14 @@ jobs:
         with:
           name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4
+      - name: summary
+        shell: bash
+        run: |
+          set -eux
+          cargo install default-target
+          df=$(default-target)
+          echo 'Built target `'"${df}"'` using rust `'"${{ matrix.msrv }}"'` on ' \
+               '`'"${{ matrix.os }}"'`' >> ${GITHUB_STEP_SUMMARY}
 
   job_rust_release_channel:
     # this job downloads and builds dependency crates
