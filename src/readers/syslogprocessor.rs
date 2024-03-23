@@ -184,7 +184,7 @@ lazy_static! {
     /// in time.
     /// Of course, this apparent "jump backwards" means the year changed.
     // XXX: cannot make `const` because `secs` is a private field
-    static ref BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR: Duration = Duration::seconds(60 * 60 * 25);
+    static ref BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR: Duration = Duration::try_seconds(60 * 60 * 25).unwrap();
 }
 
 /// The `SyslogProcessor` uses [`SyslineReader`] to find [`Sysline`s] in a file.

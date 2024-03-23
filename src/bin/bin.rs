@@ -985,11 +985,21 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
         None => {}
     }
 
-    let duration = Duration::seconds(seconds)
-        + Duration::minutes(minutes)
-        + Duration::hours(hours)
-        + Duration::days(days)
-        + Duration::weeks(weeks);
+    let duration = match (
+        Duration::try_seconds(seconds),
+        Duration::try_minutes(minutes),
+        Duration::try_hours(hours),
+        Duration::try_days(days),
+        Duration::try_weeks(weeks)
+    ) {
+        (Some(s), Some(m), Some(h), Some(d), Some(w)) => {
+            s + m + h + d + w
+        }
+        _ => {
+            e_err!("Unable to parse a duration from {:?}", val);
+            return None;
+        }
+    };
     defx!("return {:?}, {:?}", duration, duration_offset_type);
 
     Some((duration, duration_offset_type))
@@ -5490,34 +5500,34 @@ mod tests {
     #[test_case(String::from(""), None)]
     #[test_case(String::from("1s"), None; "1s")]
     #[test_case(String::from("@1s"), None; "at_1s")]
-    #[test_case(String::from("-0s"), Some((Duration::seconds(0), NOW)))]
-    #[test_case(String::from("@+0s"), Some((Duration::seconds(0), OTHER)))]
-    #[test_case(String::from("-1s"), Some((Duration::seconds(-1), NOW)); "minus_1s")]
-    #[test_case(String::from("+1s"), Some((Duration::seconds(1), NOW)); "plus_1s")]
-    #[test_case(String::from("@-1s"), Some((Duration::seconds(-1), OTHER)); "at_minus_1s")]
-    #[test_case(String::from("@+1s"), Some((Duration::seconds(1), OTHER)); "at_plus_1s")]
-    #[test_case(String::from("@+9876s"), Some((Duration::seconds(9876), OTHER)); "other_plus_9876")]
-    #[test_case(String::from("@-9876s"), Some((Duration::seconds(-9876), OTHER)); "other_minus_9876")]
-    #[test_case(String::from("-9876s"), Some((Duration::seconds(-9876), NOW)); "now_minus_9876")]
-    #[test_case(String::from("-3h"), Some((Duration::hours(-3), NOW)))]
-    #[test_case(String::from("-4d"), Some((Duration::days(-4), NOW)))]
-    #[test_case(String::from("-5w"), Some((Duration::weeks(-5), NOW)))]
-    #[test_case(String::from("@+5w"), Some((Duration::weeks(5), OTHER)))]
-    #[test_case(String::from("-2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2), NOW)); "minus_2m1s")]
-    #[test_case(String::from("-2d1h"), Some((Duration::hours(-1) + Duration::days(-2), NOW)); "minus_2d1h")]
-    #[test_case(String::from("+2d1h"), Some((Duration::hours(1) + Duration::days(2), NOW)); "plus_2d1h")]
-    #[test_case(String::from("@+2d1h"), Some((Duration::hours(1) + Duration::days(2), OTHER)); "at_plus_2d1h")]
+    #[test_case(String::from("-0s"), Some((Duration::try_seconds(0).unwrap(), NOW)))]
+    #[test_case(String::from("@+0s"), Some((Duration::try_seconds(0).unwrap(), OTHER)))]
+    #[test_case(String::from("-1s"), Some((Duration::try_seconds(-1).unwrap(), NOW)); "minus_1s")]
+    #[test_case(String::from("+1s"), Some((Duration::try_seconds(1).unwrap(), NOW)); "plus_1s")]
+    #[test_case(String::from("@-1s"), Some((Duration::try_seconds(-1).unwrap(), OTHER)); "at_minus_1s")]
+    #[test_case(String::from("@+1s"), Some((Duration::try_seconds(1).unwrap(), OTHER)); "at_plus_1s")]
+    #[test_case(String::from("@+9876s"), Some((Duration::try_seconds(9876).unwrap(), OTHER)); "other_plus_9876")]
+    #[test_case(String::from("@-9876s"), Some((Duration::try_seconds(-9876).unwrap(), OTHER)); "other_minus_9876")]
+    #[test_case(String::from("-9876s"), Some((Duration::try_seconds(-9876).unwrap(), NOW)); "now_minus_9876")]
+    #[test_case(String::from("-3h"), Some((Duration::try_hours(-3).unwrap(), NOW)))]
+    #[test_case(String::from("-4d"), Some((Duration::try_days(-4).unwrap(), NOW)))]
+    #[test_case(String::from("-5w"), Some((Duration::try_weeks(-5).unwrap(), NOW)))]
+    #[test_case(String::from("@+5w"), Some((Duration::try_weeks(5).unwrap(), OTHER)))]
+    #[test_case(String::from("-2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap(), NOW)); "minus_2m1s")]
+    #[test_case(String::from("-2d1h"), Some((Duration::try_hours(-1).unwrap() + Duration::try_days(-2).unwrap(), NOW)); "minus_2d1h")]
+    #[test_case(String::from("+2d1h"), Some((Duration::try_hours(1).unwrap() + Duration::try_days(2).unwrap(), NOW)); "plus_2d1h")]
+    #[test_case(String::from("@+2d1h"), Some((Duration::try_hours(1).unwrap() + Duration::try_days(2).unwrap(), OTHER)); "at_plus_2d1h")]
     // "reverse" order should not matter
-    #[test_case(String::from("-1h2d"), Some((Duration::hours(-1) + Duration::days(-2), NOW)); "minus_1h2d")]
-    #[test_case(String::from("-4w3d2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
+    #[test_case(String::from("-1h2d"), Some((Duration::try_hours(-1).unwrap() + Duration::try_days(-2).unwrap(), NOW)); "minus_1h2d")]
+    #[test_case(String::from("-4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
     // "mixed" order should not matter
-    #[test_case(String::from("-3d4w1s2m"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
+    #[test_case(String::from("-3d4w1s2m"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
     // repeat values; only last is used
-    #[test_case(String::from("-6w5w4w"), Some((Duration::weeks(-4), NOW)))]
+    #[test_case(String::from("-6w5w4w"), Some((Duration::try_weeks(-4).unwrap(), NOW)))]
     // repeat values; only last is used
-    #[test_case(String::from("-5w4w3d2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
+    #[test_case(String::from("-5w4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
     // repeat values; only last is used
-    #[test_case(String::from("-6w5w4w3d2m1s"), Some((Duration::seconds(-1) + Duration::minutes(-2) + Duration::days(-3) + Duration::weeks(-4), NOW)))]
+    #[test_case(String::from("-6w5w4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
     fn test_string_wdhms_to_duration(
         input: String,
         expect: Option<(Duration, DUR_OFFSET_TYPE)>,

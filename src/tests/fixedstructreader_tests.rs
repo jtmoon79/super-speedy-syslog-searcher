@@ -444,7 +444,7 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
     }
 
     let dt_filter = Some(
-        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::seconds(seconds),
+        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(seconds).unwrap(),
     );
 
     let blocksz: BlockSz = 0x100;
@@ -1267,10 +1267,10 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
 
     let dt_filter_a = Some(
-        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::seconds(diff_a)
+        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(diff_a).unwrap()
     );
     let dt_filter_b = Some(
-        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::seconds(diff_b)
+        *LINUX_X86_UTMPX_BUFFER1_DT + Duration::try_seconds(diff_b).unwrap()
     );
 
     let mut fixedstructreader = 

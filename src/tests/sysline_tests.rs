@@ -69,7 +69,7 @@ const BLOCKOFFSET_INIT: BlockOffset = 2;
 lazy_static! {
     static ref DT_0: DateTimeL = DateTimeL::parse_from_rfc3339(DT_STR0).unwrap();
     static ref DT_1: DateTimeL = DateTimeL::parse_from_rfc3339(DT_STR1).unwrap();
-    static ref DIFF_0_1: Duration = Duration::seconds(1);
+    static ref DIFF_0_1: Duration = Duration::try_seconds(1).unwrap();
     static ref BLOCKOFFSET_LAST: BlockOffset = {
         let n_: BlockOffset = (DATA_STR0.as_bytes().len() / (BLOCKSZ as usize)) as BlockOffset;
         let x_: BlockOffset = match DATA_STR0.as_bytes().len() % (BLOCKSZ as usize) {

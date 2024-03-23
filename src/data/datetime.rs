@@ -202,7 +202,7 @@ pub fn ymdhmsl(
         sec,
     )
     .unwrap()
-    + Duration::milliseconds(milli)
+    + Duration::try_milliseconds(milli).unwrap()
 }
 
 /// create a `DateTime` with microseconds
