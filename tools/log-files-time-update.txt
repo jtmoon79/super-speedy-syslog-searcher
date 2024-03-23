@@ -914,3 +914,23 @@
 ./logs/Windows10Pro/System32/wbem/WMIMigration.log|2020/05/27 12:25:43.088
 ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log|2021/05/01 21:39:34.643
 ./logs/Windows11Pro/Logs/SIH/SIH.20230422.034724.362.1.etl|2023-04-23 14:46:45.000000000 -0700
+./logs/Windows11Pro/Local/AcSdkInsLog/MainSDKPluginSetup.log|2023-02-21 06:35:16.898
+./logs/Windows11Pro/Local/Docker/log/vm/acpid.log|2024-03-21T21:46:33.321077701Z
+./logs/Windows11Pro/Local/Docker/log/vm/com.docker.dev-envs.exe.stdout.log|2024-03-22T21:46:14.924748300Z
+./logs/Windows11Pro/Local/Docker/log/vm/com.docker.proxy.exe.stderr.log|2024-03-23T20:31:16.623403500Z
+./logs/Windows11Pro/Local/Google/DriveFS/Logs/chrome_debug.log|2024-03-22T14:02:00.476Z
+./logs/Windows11Pro/Local/Microsoft/CLR_v4.0_32/ngen.log|20240323 08:55:04.359
+./logs/Windows11Pro/Local/Microsoft/Internet Explorer/ie4uinit-ClearIconCache.log|2023-11-02T08:54:39
+./logs/Windows11Pro/Local/Microsoft/MSTeams/MSTeamsUpdate_2024-03-01_02-55-03.6153.log|2024-03-01T10:55:03-08:00
+./logs/Windows11Pro/Local/Microsoft/Olk/logs/olk_20231210_222042833.log|2023-12-10 22:20:44.478
+./logs/Windows11Pro/Local/Microsoft/OneDrive/logs/SyncDiagnostics.log|2024-03-23T02:19:21.0000000Z
+./logs/Windows11Pro/Local/Microsoft/OneDrive/setup/logs/Install_2024-03-14_232228_10368-1844.log|20240314 23:22:33.847
+./logs/Windows11Pro/Local/Microsoft/OneDrive/setup/logs/StandaloneUpdate_2024-03-16_051206_30520-25736.log|20240316 05:13:21.933
+./logs/Windows11Pro/Local/Microsoft/OneDrive/setup/logs/Update_2024-03-15_181725_1852-1868.log|2024-03-15 21:01:17
+./logs/Windows11Pro/Local/Packages/ArmouryCrate/ArmouryCrate_20231226.BackgroundTask.log|2023-12-26 11:05:33.158664800 -0800
+./logs/Windows11Pro/Local/Packages/ArmouryCrate/ArmouryCrate.UserSessionHelper_2024-03-15.log|2023-12-26 11:05:32
+./logs/Windows11Pro/Local/Packages/ArmouryCrate/Log - 20230221.log|2023-02-21T06:39:14.1291098-08:00
+./logs/Windows11Pro/Local/Packages/Microsoft.WindowsFeedbackHub/TempState/FBHubApp_20240317T135502_dc9f7bb7-11dd-4d04-9fd1-eddb23326856.log|20240317T13:55:04
+./logs/Windows11Pro/Local/Packages/Spotify/spotifyWidget-2023-03-08_122410.log|2023-03-13T21:25:24.705Z
+./logs/Windows11Pro/Temp/cv_debug.log|2024-03-22T21:45:54-0700
+./logs/Windows11Pro/Temp/dd_BackgroundDownload_20240323123526.log|2024-03-23T12:36:10

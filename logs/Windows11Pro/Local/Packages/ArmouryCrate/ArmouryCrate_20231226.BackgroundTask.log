@@ -1,0 +1,11 @@
+2023-12-26 11:05:32; Critical; ARMOURY CRATE Matrix; 12116; 1] ----------------------------------------------------------------------------------------------------
+2023-12-26 11:05:32; Critical; ARMOURY CRATE Matrix; 12116; 1] [12/26/2023 11:05:32 AM]
+2023-12-26 11:05:32; Critical; ARMOURY CRATE Matrix; 12116; 1] Gaming Center Version : 5.7.9.0
+2023-12-26 11:05:32; Critical; ARMOURY CRATE Matrix; 12116; 1] OS Version Build : 22621
+2023-12-26 11:05:32; Critical; ARMOURY CRATE Matrix; 12116; 1] ----------------------------------------------------------------------------------------------------
+2023-12-26 11:05:32; Information; LoadDebugOptions; 12116; 1] (22)DebugProductionLineEnabled:False, DebugProductLine:Unknown, DebugSubBrandEnabled:False, DebugSubBrand:Unknown, DebugLogEnabled:False, DebugLogLevel:Information, IgnoreOnePackageFlow:False, IgnoredPlugins:
+2023-12-26 11:05:32; Information; App; 12116; 1] (23)IsAdmin:True
+2023-12-26 11:05:32; Information; GameBoxPlugIn.GameBox-AppService; 12116; 1] (23)localSettings not ready.
+2023-12-26 11:05:32; Information; GameBoxPlugIn.GameBox-AppService; 12116; 1] (23)localSettings not ready.
+2023-12-26 11:05:32; Information; GameBoxPlugIn.GameBox-AppService; 12116; 1] (24)isAcceptablePL=False, isAcceptableSB=False, PrivacyPolicy=True
+2023-12-26 11:05:32; Critical; GameBoxPlugIn.GetCountryCode; 12116; 8] (334)US

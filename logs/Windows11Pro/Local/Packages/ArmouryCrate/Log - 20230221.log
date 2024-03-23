@@ -1,0 +1,27 @@
+2|2023-02-21T06:30:46.9340810-08:00|ERROR|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] [ComputerType] Type40 = 
+2|2023-02-21T06:39:11.0939874-08:00|ERROR|15|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] [ComputerType] Type40 = 0
+3|2023-02-21T06:39:11.0949890-08:00|ERROR|15|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] ShowToolPage = True
+4|2023-02-21T06:39:11.1119905-08:00|DEBUG|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] Create GridUpdateFolder
+5|2023-02-21T06:39:11.1119905-08:00|DEBUG|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] GridUpdateFile == Null
+6|2023-02-21T06:39:11.1119905-08:00|DEBUG|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] Download GridUpdateFile Start
+7|2023-02-21T06:39:11.1119905-08:00|DEBUG|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] DownloadEXE
+8|2023-02-21T06:39:11.1323432-08:00|TRACE|11|MetroLogService|DiscoverActiveDownloadsAsync Count: 0
+9|2023-02-21T06:39:11.1513423-08:00|TRACE|3|MetroLogService|HandleDownloadAsync: Windows.Networking.BackgroundTransfer.DownloadOperation
+10|2023-02-21T06:39:11.1553426-08:00|DEBUG|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] UnzipFile Start
+11|2023-02-21T06:39:11.3333684-08:00|TRACE|12|MetroLogService|Download File: GridUpdateFile.zip percent:100
+12|2023-02-21T06:39:11.3453681-08:00|TRACE|21|MetroLogService|HandleDownloadAsync Finally: GridUpdateFile.zip
+13|2023-02-21T06:39:11.3463686-08:00|DEBUG|21|MetroLogService|CheckSupportENV Start
+14|2023-02-21T06:39:11.3463686-08:00|DEBUG|4|MetroLogService|InitialFolder
+15|2023-02-21T06:39:11.3483690-08:00|DEBUG|4|MetroLogService|UpdateFile Exist
+16|2023-02-21T06:39:11.3523682-08:00|DEBUG|21|MetroLogService|UpdateFile Size > 0
+17|2023-02-21T06:39:11.3533684-08:00|DEBUG|21|MetroLogService|SupportTemp Exist
+18|2023-02-21T06:39:11.3533684-08:00|DEBUG|21|MetroLogService|Unzip UpdateFile
+19|2023-02-21T06:39:11.3573713-08:00|DEBUG|4|MetroLogService|Start LaunchASUSDriverInitialClient
+20|2023-02-21T06:39:12.1714413-08:00|DEBUG|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] RetryCount = 19
+21|2023-02-21T06:39:12.1754412-08:00|DEBUG|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] GridUpdateFile Size > 0
+22|2023-02-21T06:39:12.1764413-08:00|DEBUG|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] Unzip GridUpdateFile
+23|2023-02-21T06:39:12.1764413-08:00|ERROR|3|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] Exception Message: The file 'C:\Users\user\AppData\Local\Packages\ASUSGCDriverUpdateClient.exe' already exists.
+24|2023-02-21T06:39:13.1201031-08:00|ERROR|15|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] [CheckENV] InitUpdateClient = SetupUpdateClient
+25|2023-02-21T06:39:14.1291098-08:00|DEBUG|15|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] BackgroundSetup = True
+26|2023-02-21T06:39:14.1291098-08:00|DEBUG|15|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] menuId = Tools
+27|2023-02-21T06:39:14.1291098-08:00|DEBUG|15|MetroLogService|[GridPlugin.ToolsPage.SupportExtensionService] ShowMenu = Tools

@@ -1,0 +1,14 @@
+2023-02-21 06:35:09,951 [MainSDKPluginSetup] ========== Install Microsoft Edge WebView2 Runtime ==========
+2023-02-21 06:35:09,951 [MainSDKPluginSetup] params: /X{771D58AA-8A48-34A3-8001-5B12C7BCF274} /l "C:\Users\user1\AppData\Local\AcSdkInsLog\edgeInstall.log" /quiet /norestart
+2023-02-21 06:35:10,006 [MainSDKPluginSetup] Uninstall Microsoft Edge Beta ReturnCode: 645
+2023-02-21 06:35:10,006 [MainSDKPluginSetup] Uninstall Microsoft Edge Beta fail: 645
+2023-02-21 06:35:10,006 [MainSDKPluginSetup] strExeDir: C:\Program Files\ASUS\ACOnePackageTemp\ZipTemp\1.01.10
+2023-02-21 06:35:10,006 [MainSDKPluginSetup] params: /silent /install
+2023-02-21 06:35:16,871 [MainSDKPluginSetup] Install Edge WebView2 Runtime ReturnCode: 8004090d
+2023-02-21 06:35:16,871 [MainSDKPluginSetup] Install Edge WebView2 Runtime already installed
+2023-02-21 06:35:16,871 [MainSDKPluginSetup] Edge WebView2 Runtime x64 version: 110.0.1587.50
+2023-02-21 06:35:16,871 [MainSDKPluginSetup] strMainSDKPluginVer: 1.01.10
+2023-02-21 06:35:16,871 [MainSDKPluginSetup] Write MainSDKPlugin registry done
+2023-02-21 06:35:16,872 [MainSDKPluginSetup] ownPth: C:\Program Files\ASUS\ACOnePackageTemp\ZipTemp\1.01.10
+2023-02-21 06:35:16,873 [MainSDKPluginSetup] Copy MainSDKPluginSetup.exe to uninstall folder done 
+2023-02-21 06:35:16,898 [MainSDKPluginSetup] Copy 00DAF140 to uninstall folder done 

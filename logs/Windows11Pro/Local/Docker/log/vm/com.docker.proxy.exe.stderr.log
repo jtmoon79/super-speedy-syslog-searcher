@@ -1,0 +1,316 @@
+[2024-03-21T08:17:41.150261800Z] [2024-03-21T08:17:41.150261800Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T08:17:41.154436000Z] [2024-03-21T08:17:41.151292900Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T08:17:41.157039200Z] [2024-03-21T08:17:41.157039200Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-21T08:17:41.161700900Z] [2024-03-21T08:17:41.161182600Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1434ms)
+[2024-03-21T08:17:41.180995200Z] [2024-03-21T08:17:41.180470700Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0667996s)
+[2024-03-21T08:17:41.180995200Z] [2024-03-21T08:17:41.180995200Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T08:17:41.182031400Z] [2024-03-21T08:17:41.182031400Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T08:17:41.208345000Z] [2024-03-21T08:17:41.208345000Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0946739s)
+[2024-03-21T08:32:41.115969900Z] [2024-03-21T08:32:41.115969900Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-21T08:32:41.115969900Z] [2024-03-21T08:32:41.115969900Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+
+[2024-03-21T08:47:41.137478200Z] [2024-03-21T08:47:41.137478200Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-21T08:47:41.142164700Z] [2024-03-21T08:47:41.142164700Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.6865ms)
+[2024-03-21T08:47:41.142682100Z] [2024-03-21T08:47:41.142682100Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T08:47:41.143723800Z] [2024-03-21T08:47:41.143723800Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T08:47:41.148903200Z] [2024-03-21T08:47:41.148903200Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-21T08:47:41.153064000Z] [2024-03-21T08:47:41.153064000Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1608ms)
+[2024-03-21T08:47:41.173367300Z] [2024-03-21T08:47:41.172850900Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0445201s)
+[2024-03-21T08:47:41.173367300Z] [2024-03-21T08:47:41.173367300Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T08:47:41.174399200Z] [2024-03-21T08:47:41.174399200Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T08:47:41.199214200Z] [2024-03-21T08:47:41.199214200Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0708834s)
+[2024-03-21T09:02:41.129642700Z] [2024-03-21T09:02:41.129642700Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-21T09:02:41.129642700Z] [2024-03-21T09:02:41.129642700Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-21T11:02:41.218149900Z] [2024-03-21T11:02:41.218149900Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T11:02:41.219181800Z] [2024-03-21T11:02:41.219181800Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T11:02:41.293053000Z] [2024-03-21T11:02:41.293053000Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0630403s)
+[2024-03-21T11:17:41.222434200Z] [2024-03-21T11:17:41.222434200Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-21T11:17:41.314717700Z] [2024-03-21T11:17:41.314717700Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0965678s)
+[2024-03-21T11:32:41.230010700Z] [2024-03-21T11:32:41.230010700Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-21T12:32:41.265799500Z] [2024-03-21T12:32:41.265799500Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0391ms)
+[2024-03-21T12:32:41.265799500Z] [2024-03-21T12:32:41.265799500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-21T13:32:41.328642900Z] [2024-03-21T13:32:41.328642900Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1692ms)
+[2024-03-21T13:32:41.349141100Z] [2024-03-21T13:32:41.349141100Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0431707s)
+[2024-03-21T14:47:41.333957200Z] [2024-03-21T14:47:41.333957200Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T14:47:41.333957200Z] [2024-03-21T14:47:41.333957200Z][com.docker.proxy.exe][W] Error forwarding raw stream from dockerd: The pipe is being closed.
+[2024-03-21T15:47:41.381644400Z] [2024-03-21T15:47:41.381126000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T15:47:41.395144700Z] [2024-03-21T15:47:41.395144700Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-21T17:02:39.250486800Z] [2024-03-21T17:02:39.249975500Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.5468ms)
+[2024-03-21T17:02:39.250486800Z] [2024-03-21T17:02:39.250486800Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T17:32:39.275972600Z] [2024-03-21T17:32:39.275972600Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-21T17:32:39.276494700Z] [2024-03-21T17:32:39.275972600Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-21T18:02:39.296018600Z] [2024-03-21T18:02:39.296018600Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.6721ms)
+[2024-03-21T18:02:39.296539500Z] [2024-03-21T18:02:39.296539500Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T18:32:39.311381800Z] [2024-03-21T18:32:39.311381800Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-21T18:32:39.316092500Z] [2024-03-21T18:32:39.316092500Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.7107ms)
+[2024-03-21T19:02:39.343745300Z] [2024-03-21T19:02:39.343745300Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.145ms)
+[2024-03-21T19:02:39.344261700Z] [2024-03-21T19:02:39.344261700Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T19:32:39.401343100Z] [2024-03-21T19:32:39.401343100Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T19:32:39.426140200Z] [2024-03-21T19:32:39.426140200Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0821127s)
+[2024-03-21T20:17:39.366302000Z] [2024-03-21T20:17:39.366302000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T20:17:39.366825900Z] [2024-03-21T20:17:39.366825900Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-21T21:02:39.375872200Z] [2024-03-21T21:02:39.375872200Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-21T21:02:39.377422200Z] [2024-03-21T21:02:39.376905700Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0335ms)
+[2024-03-21T21:32:39.392117100Z] [2024-03-21T21:32:39.392117100Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5527ms)
+[2024-03-21T21:32:39.392634200Z] [2024-03-21T21:32:39.392117100Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5527ms)
+[2024-03-21T21:43:22.845782500Z] [2024-03-21T21:43:22.845278000Z][com.docker.proxy.exe][I] proxy << GET /events?filters=%7B%22event%22%3A%5B%22load%22%2C%22pull%22%2C%22tag%22%2C%22import%22%5D%7D (147h25m35.2785287s)
+-------------------------------------------------------------------------------->8
+[2024-03-21T21:46:27.944207700Z] [2024-03-21T21:46:27.943206600Z][com.docker.proxy.exe][I] set path configuration to OnHost
+[2024-03-21T21:46:27.944207700Z] [2024-03-21T21:46:27.944207700Z][com.docker.proxy.exe][I] ipc.NewClient: 1365e7b9-ProxyCMD -> \\.\pipe\dockerBackendApiServer BackendAPI
+[2024-03-21T22:01:19.763516300Z] [2024-03-21T22:01:19.763516300Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T22:46:19.706521400Z] [2024-03-21T22:46:19.706001400Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-21T23:16:19.726633200Z] [2024-03-21T23:16:19.726117000Z][com.docker.proxy.exe][W] Error forwarding raw stream from dockerd: The pipe is being closed.
+[2024-03-21T23:46:19.747541200Z] [2024-03-21T23:46:19.747541200Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0244ms)
+[2024-03-22T00:16:19.763776600Z] [2024-03-22T00:16:19.763776600Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.6521ms)
+[2024-03-22T00:46:19.792627900Z] [2024-03-22T00:46:19.792627900Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T01:16:19.834021600Z] [2024-03-22T01:16:19.834021600Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0484471s)
+[2024-03-22T02:01:19.800251800Z] [2024-03-22T02:01:19.799719700Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-22T02:31:19.820166900Z] [2024-03-22T02:31:19.819650900Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-22T03:01:19.852110800Z] [2024-03-22T03:01:19.852110800Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5554ms)
+[2024-03-22T03:31:19.866082000Z] [2024-03-22T03:31:19.866082000Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T04:01:19.880981800Z] [2024-03-22T04:01:19.880981800Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-22T04:31:19.912898900Z] [2024-03-22T04:31:19.912380600Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T05:01:19.971137600Z] [2024-03-22T05:01:19.971137600Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0858509s)
+[2024-03-22T05:46:19.906536700Z] [2024-03-22T05:46:19.906020900Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-22T06:01:20.014813600Z] [2024-03-22T06:01:20.014292100Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0881775s)
+[2024-03-22T06:46:19.923736200Z] [2024-03-22T06:46:19.923736200Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-22T07:16:19.941623300Z] [2024-03-22T07:16:19.941623300Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5635ms)
+[2024-03-22T07:46:19.970037300Z] [2024-03-22T07:46:19.970037300Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.038ms)
+[2024-03-22T08:16:19.993487400Z] [2024-03-22T08:16:19.993487400Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-22T08:46:20.042314900Z] [2024-03-22T08:46:20.042314900Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T09:31:20.013690400Z] [2024-03-22T09:31:20.013169900Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-22T09:46:29.988559800Z] [2024-03-22T09:46:29.988559800Z][com.docker.proxy.exe][I] 1365e7b9-ProxyCMD /proxy-control <-- [2024-03-22T02:46:29.988056600-07:00] (58653286) ipc ready : <nil>
+[2024-03-22T10:31:20.057667700Z] [2024-03-22T10:31:20.057667700Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.5418ms)
+[2024-03-22T11:01:20.066931700Z] [2024-03-22T11:01:20.066931700Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-22T11:31:20.090128000Z] [2024-03-22T11:31:20.090128000Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-22T12:01:20.116022600Z] [2024-03-22T12:01:20.116022600Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.2378ms)
+[2024-03-22T12:31:20.125950300Z] [2024-03-22T12:31:20.125431300Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-22T13:01:20.172848500Z] [2024-03-22T13:01:20.172848500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T13:31:20.237311500Z] [2024-03-22T13:31:20.237311500Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0840305s)
+[2024-03-22T14:16:20.193557100Z] [2024-03-22T14:16:20.193036600Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-22T14:46:20.188005500Z] [2024-03-22T14:46:20.188005500Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5691ms)
+[2024-03-22T15:16:20.206208900Z] [2024-03-22T15:16:20.206208900Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T15:46:20.240862700Z] [2024-03-22T15:46:20.240862700Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T16:16:20.287239600Z] [2024-03-22T16:16:20.287239600Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.147ms)
+[2024-03-22T17:01:20.272192500Z] [2024-03-22T17:01:20.271672600Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-22T17:31:18.232764200Z] [2024-03-22T17:31:18.232764200Z][com.docker.proxy.exe][W] Error forwarding raw stream from dockerd: The pipe is being closed.
+[2024-03-22T18:01:18.269338100Z] [2024-03-22T18:01:18.269338100Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-22T18:01:18.269338100Z] [2024-03-22T18:01:18.269338100Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-22T18:31:18.289602000Z] [2024-03-22T18:31:18.289083400Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6186ms)
+[2024-03-22T19:01:18.338509200Z] [2024-03-22T19:01:18.338509200Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-22T19:31:18.368301800Z] [2024-03-22T19:31:18.367783900Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0733408s)
+[2024-03-22T20:16:18.298868700Z] [2024-03-22T20:16:18.298868700Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (11.4283ms)
+[2024-03-22T20:46:18.304636000Z] [2024-03-22T20:46:18.304116400Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T21:16:18.311088100Z] [2024-03-22T21:16:18.310575300Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-22T21:16:18.312119300Z] [2024-03-22T21:16:18.311598700Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-22T21:46:18.329764400Z] [2024-03-22T21:46:18.329764400Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-22T21:46:18.333421500Z] [2024-03-22T21:46:18.332899100Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.1347ms)
+[2024-03-22T21:46:18.378051000Z] [2024-03-22T21:46:18.378051000Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0724298s)
+[2024-03-22T21:46:27.944122700Z] [2024-03-22T21:46:27.944122700Z][com.docker.proxy.exe][W] ipcstream: error waiting for next event on /proxy-control: context deadline exceeded (Client.Timeout or context cancellation while reading body)
+[2024-03-22T21:46:27.944122700Z] [2024-03-22T21:46:27.944122700Z][com.docker.proxy.exe][I] 1ff5e7b9-ProxyCMD /proxy-control <-- [2024-03-22T14:46:27.944122700-07:00] (5f22f0ab) ipc disconnected : <nil>
+[2024-03-22T21:46:27.961386700Z] [2024-03-22T21:46:27.961386700Z][com.docker.proxy.exe][W] ipcstream: error waiting for next event on /pause/state: context deadline exceeded (Client.Timeout or context cancellation while reading body)
+[2024-03-22T21:46:27.961386700Z] [2024-03-22T21:46:27.961386700Z][com.docker.proxy.exe][I] 72f41fb1-ProxyCMD /pause/state <-- [2024-03-22T14:46:27.961386700-07:00] (5af67f7f) ipc disconnected : <nil>
+[2024-03-22T21:46:29.946129200Z] [2024-03-22T21:46:29.946129200Z][com.docker.proxy.exe][I] 13f5efb9-ProxyCMD /proxy-control <-- [2024-03-22T14:46:29.946129200-07:00] (cc330399) ipc connecting : <nil>
+[2024-03-22T22:31:18.298379300Z] [2024-03-22T22:31:18.297863300Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-22T23:01:18.310176900Z] [2024-03-22T23:01:18.310176900Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (11.4113ms)
+[2024-03-22T23:31:18.308654700Z] [2024-03-22T23:31:18.308654700Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T00:01:18.388968200Z] [2024-03-23T00:01:18.388968200Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (53.3615ms)
+[2024-03-23T00:31:18.352654200Z] [2024-03-23T00:31:18.352654200Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6245ms)
+[2024-03-23T00:31:18.353180400Z] [2024-03-23T00:31:18.353180400Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T01:01:18.431115000Z] [2024-03-23T01:01:18.430604900Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0955936s)
+[2024-03-23T01:16:18.355806400Z] [2024-03-23T01:16:18.355806400Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T01:46:18.377670100Z] [2024-03-23T01:46:18.377670100Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T01:46:18.377670100Z] [2024-03-23T01:46:18.377670100Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T02:16:18.409397000Z] [2024-03-23T02:16:18.409397000Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0422ms)
+[2024-03-23T02:16:18.409919300Z] [2024-03-23T02:16:18.409397000Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0422ms)
+[2024-03-23T02:46:18.429701600Z] [2024-03-23T02:46:18.429183400Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T02:46:18.442347500Z] [2024-03-23T02:46:18.442347500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T03:16:18.488313600Z] [2024-03-23T03:16:18.488313600Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T04:31:18.474008600Z] [2024-03-23T04:31:18.474008600Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5451ms)
+[2024-03-23T04:31:18.477112800Z] [2024-03-23T04:31:18.477112800Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T06:46:18.542534400Z] [2024-03-23T06:46:18.542534400Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T06:46:18.542534400Z] [2024-03-23T06:46:18.542534400Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T07:16:18.572238000Z] [2024-03-23T07:16:18.572238000Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T07:16:18.572750900Z] [2024-03-23T07:16:18.572238000Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T08:16:18.626398800Z] [2024-03-23T08:16:18.626398800Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T08:16:18.630020900Z] [2024-03-23T08:16:18.630020900Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6221ms)[2024-03-23T09:01:18.613653400Z] [2024-03-23T09:01:18.613134200Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T09:01:18.614677400Z] [2024-03-23T09:01:18.614677400Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.5432ms)
+[2024-03-23T09:31:18.630793500Z] [2024-03-23T09:31:18.630793500Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5469ms)
+[2024-03-23T10:01:18.635502200Z] [2024-03-23T10:01:18.635502200Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T10:01:18.636026600Z] [2024-03-23T10:01:18.635502200Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T10:31:18.634975500Z] [2024-03-23T10:31:18.634975500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T10:31:18.634975500Z] [2024-03-23T10:31:18.634975500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T11:01:18.693463200Z] [2024-03-23T11:01:18.692944600Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1614ms)
+[2024-03-23T11:01:18.693978300Z] [2024-03-23T11:01:18.693978300Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T11:31:18.760600100Z] [2024-03-23T11:31:18.760088000Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0848506s)
+[2024-03-23T11:46:18.669463600Z] [2024-03-23T11:46:18.668955300Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T12:16:18.686772800Z] [2024-03-23T12:16:18.686772800Z][com.docker.proxy.exe][W] Error forwarding raw stream from dockerd: The pipe is being closed.
+[2024-03-23T12:16:18.687299700Z] [2024-03-23T12:16:18.686772800Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.569ms)
+[2024-03-23T12:46:18.720812300Z] [2024-03-23T12:46:18.720812300Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0399ms)
+[2024-03-23T12:46:18.720812300Z] [2024-03-23T12:46:18.720812300Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T13:16:18.757712000Z] [2024-03-23T13:16:18.757201900Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.5888ms)
+[2024-03-23T13:16:18.758243600Z] [2024-03-23T13:16:18.758243600Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T13:46:18.818692400Z] [2024-03-23T13:46:18.818692400Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T13:46:18.842978900Z] [2024-03-23T13:46:18.842469500Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.1028916s)
+[2024-03-23T14:31:18.773525800Z] [2024-03-23T14:31:18.773525800Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T14:31:18.773525800Z] [2024-03-23T14:31:18.773525800Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:01:18.778652800Z] [2024-03-23T15:01:18.778652800Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:01:18.778652800Z] [2024-03-23T15:01:18.778652800Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0369ms)
+[2024-03-23T15:01:18.778652800Z] [2024-03-23T15:01:18.778652800Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:01:18.783338000Z] [2024-03-23T15:01:18.782820100Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1673ms)
+[2024-03-23T15:01:18.783338000Z] [2024-03-23T15:01:18.782820100Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1673ms)
+[2024-03-23T15:01:18.783338000Z] [2024-03-23T15:01:18.783338000Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:01:18.783857000Z] [2024-03-23T15:01:18.783338000Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:01:18.784372000Z] [2024-03-23T15:01:18.784372000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:01:18.784889900Z] [2024-03-23T15:01:18.784372000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:01:18.797297900Z] [2024-03-23T15:01:18.797297900Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:01:18.800931300Z] [2024-03-23T15:01:18.800931300Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6334ms)
+[2024-03-23T15:01:18.801984700Z] [2024-03-23T15:01:18.801464100Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:01:18.803015000Z] [2024-03-23T15:01:18.802503100Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:01:18.808716200Z] [2024-03-23T15:01:18.808198000Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:01:18.812354700Z] [2024-03-23T15:01:18.812354700Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1567ms)
+[2024-03-23T15:01:18.831831600Z] [2024-03-23T15:01:18.831304400Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0388884s)
+[2024-03-23T15:01:18.831831600Z] [2024-03-23T15:01:18.831831600Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:01:18.832869000Z] [2024-03-23T15:01:18.832869000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:01:18.856729000Z] [2024-03-23T15:01:18.856729000Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.064313s)
+[2024-03-23T15:16:18.781512400Z] [2024-03-23T15:16:18.781512400Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:16:18.781512400Z] [2024-03-23T15:16:18.781512400Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:16:18.782540100Z] [2024-03-23T15:16:18.782540100Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0277ms)
+[2024-03-23T15:16:18.782540100Z] [2024-03-23T15:16:18.782540100Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0277ms)
+[2024-03-23T15:16:18.783068200Z] [2024-03-23T15:16:18.782540100Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:16:18.783068200Z] [2024-03-23T15:16:18.782540100Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:16:18.784105300Z] [2024-03-23T15:16:18.783585900Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:16:18.784105300Z] [2024-03-23T15:16:18.784105300Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:16:18.784105300Z] [2024-03-23T15:16:18.784105300Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5652ms)
+[2024-03-23T15:16:18.784623600Z] [2024-03-23T15:16:18.784623600Z][com.docker.proxy.exe][I] proxy << POST /grpc (2.0835ms)
+[2024-03-23T15:16:18.787727500Z] [2024-03-23T15:16:18.787727500Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:16:18.787727500Z] [2024-03-23T15:16:18.787727500Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:16:18.788255400Z] [2024-03-23T15:16:18.788255400Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (527.9µs)
+[2024-03-23T15:16:18.788774500Z] [2024-03-23T15:16:18.788774500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:16:18.788774500Z] [2024-03-23T15:16:18.788774500Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.047ms)
+[2024-03-23T15:16:18.788774500Z] [2024-03-23T15:16:18.788774500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:16:18.792920800Z] [2024-03-23T15:16:18.792402600Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6281ms)
+[2024-03-23T15:16:18.792920800Z] [2024-03-23T15:16:18.792920800Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.6654ms)
+[2024-03-23T15:16:18.793443200Z] [2024-03-23T15:16:18.792920800Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:16:18.793443200Z] [2024-03-23T15:16:18.792920800Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:16:18.793962500Z] [2024-03-23T15:16:18.793962500Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:16:18.794485900Z] [2024-03-23T15:16:18.793962500Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:16:18.806939500Z] [2024-03-23T15:16:18.806939500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:16:18.811614300Z] [2024-03-23T15:16:18.811090300Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1508ms)
+[2024-03-23T15:16:18.812134200Z] [2024-03-23T15:16:18.812134200Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:16:18.813174000Z] [2024-03-23T15:16:18.813174000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:16:18.817846700Z] [2024-03-23T15:16:18.817846700Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:16:18.822518900Z] [2024-03-23T15:16:18.822518900Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.6722ms)
+[2024-03-23T15:16:18.841563300Z] [2024-03-23T15:16:18.841035800Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0576978s)
+[2024-03-23T15:16:18.841563300Z] [2024-03-23T15:16:18.841563300Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:16:18.842602700Z] [2024-03-23T15:16:18.842602700Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:16:18.866884100Z] [2024-03-23T15:16:18.866374200Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0830362s)
+[2024-03-23T15:31:18.784034300Z] [2024-03-23T15:31:18.784034300Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:31:18.784034300Z] [2024-03-23T15:31:18.784034300Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:31:18.785581000Z] [2024-03-23T15:31:18.785061200Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0269ms)
+[2024-03-23T15:31:18.785581000Z] [2024-03-23T15:31:18.785581000Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.5467ms)
+[2024-03-23T15:31:18.785581000Z] [2024-03-23T15:31:18.785581000Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:31:18.785581000Z] [2024-03-23T15:31:18.785581000Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:31:18.786624500Z] [2024-03-23T15:31:18.786624500Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:31:18.787139600Z] [2024-03-23T15:31:18.786624500Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:31:18.787139600Z] [2024-03-23T15:31:18.787139600Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5586ms)
+[2024-03-23T15:31:18.787139600Z] [2024-03-23T15:31:18.787139600Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5586ms)
+[2024-03-23T15:31:18.790259200Z] [2024-03-23T15:31:18.790259200Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:31:18.790259200Z] [2024-03-23T15:31:18.790259200Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:31:18.790781600Z] [2024-03-23T15:31:18.790781600Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (522.4µs)
+[2024-03-23T15:31:18.791300500Z] [2024-03-23T15:31:18.790781600Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:31:18.791300500Z] [2024-03-23T15:31:18.791300500Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0413ms)
+[2024-03-23T15:31:18.791300500Z] [2024-03-23T15:31:18.791300500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:31:18.794939000Z] [2024-03-23T15:31:18.794939000Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6385ms)
+[2024-03-23T15:31:18.795456700Z] [2024-03-23T15:31:18.794939000Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1574ms)
+[2024-03-23T15:31:18.795456700Z] [2024-03-23T15:31:18.795456700Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:31:18.795456700Z] [2024-03-23T15:31:18.795456700Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:31:18.796494300Z] [2024-03-23T15:31:18.796494300Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:31:18.796494300Z] [2024-03-23T15:31:18.796494300Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:31:18.808937300Z] [2024-03-23T15:31:18.808937300Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:31:18.812577600Z] [2024-03-23T15:31:18.812577600Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6403ms)
+[2024-03-23T15:31:18.813091000Z] [2024-03-23T15:31:18.813091000Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:31:18.814137900Z] [2024-03-23T15:31:18.814137900Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:31:18.820350900Z] [2024-03-23T15:31:18.819833000Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:31:18.823481700Z] [2024-03-23T15:31:18.823481700Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6487ms)
+[2024-03-23T15:31:18.843913600Z] [2024-03-23T15:31:18.843913600Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0509928s)
+[2024-03-23T15:31:18.843913600Z] [2024-03-23T15:31:18.843913600Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:31:18.844967000Z] [2024-03-23T15:31:18.844967000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:31:18.869284800Z] [2024-03-23T15:31:18.868768700Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0758479s)
+[2024-03-23T15:46:18.807816700Z] [2024-03-23T15:46:18.807293400Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:46:18.807816700Z] [2024-03-23T15:46:18.807293400Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:46:18.809374000Z] [2024-03-23T15:46:18.808853600Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.5602ms)
+[2024-03-23T15:46:18.809374000Z] [2024-03-23T15:46:18.808853600Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.5602ms)
+[2024-03-23T15:46:18.809374000Z] [2024-03-23T15:46:18.809374000Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:46:18.809374000Z] [2024-03-23T15:46:18.809374000Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:46:18.810413600Z] [2024-03-23T15:46:18.810413600Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:46:18.810413600Z] [2024-03-23T15:46:18.810413600Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:46:18.810930400Z] [2024-03-23T15:46:18.810413600Z][com.docker.proxy.exe][W] Error forwarding raw stream from dockerd: The pipe is being closed.
+[2024-03-23T15:46:18.810930400Z] [2024-03-23T15:46:18.810930400Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5564ms)
+[2024-03-23T15:46:18.810930400Z] [2024-03-23T15:46:18.810930400Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5564ms)
+[2024-03-23T15:46:18.811452700Z] [2024-03-23T15:46:18.811452700Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:46:18.811452700Z] [2024-03-23T15:46:18.811452700Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T15:46:18.812493100Z] [2024-03-23T15:46:18.811975000Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (522.3µs)
+[2024-03-23T15:46:18.812493100Z] [2024-03-23T15:46:18.812493100Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0404ms)
+[2024-03-23T15:46:18.812493100Z] [2024-03-23T15:46:18.812493100Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:46:18.812493100Z] [2024-03-23T15:46:18.812493100Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:46:18.816661000Z] [2024-03-23T15:46:18.816661000Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1679ms)
+[2024-03-23T15:46:18.816661000Z] [2024-03-23T15:46:18.816661000Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1679ms)
+[2024-03-23T15:46:18.817182200Z] [2024-03-23T15:46:18.816661000Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:46:18.817182200Z] [2024-03-23T15:46:18.817182200Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:46:18.817701700Z] [2024-03-23T15:46:18.817701700Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:46:18.818218500Z] [2024-03-23T15:46:18.818218500Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:46:18.830865800Z] [2024-03-23T15:46:18.830865800Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:46:18.835537900Z] [2024-03-23T15:46:18.835021000Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1552ms)
+[2024-03-23T15:46:18.836057500Z] [2024-03-23T15:46:18.836057500Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:46:18.837099800Z] [2024-03-23T15:46:18.836576800Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:46:18.842284900Z] [2024-03-23T15:46:18.841764500Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T15:46:18.845921900Z] [2024-03-23T15:46:18.845921900Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1574ms)
+[2024-03-23T15:46:18.865657700Z] [2024-03-23T15:46:18.865136800Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0696801s)
+[2024-03-23T15:46:18.865657700Z] [2024-03-23T15:46:18.865657700Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T15:46:18.866699500Z] [2024-03-23T15:46:18.866699500Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T15:46:18.891697300Z] [2024-03-23T15:46:18.891180800Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0957241s)
+[2024-03-23T16:01:18.811105100Z] [2024-03-23T16:01:18.811105100Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T16:01:18.811630600Z] [2024-03-23T16:01:18.811105100Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T16:01:18.812658600Z] [2024-03-23T16:01:18.812658600Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.5535ms)
+[2024-03-23T16:01:18.812658600Z] [2024-03-23T16:01:18.812658600Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.5535ms)
+[2024-03-23T16:01:18.812658600Z] [2024-03-23T16:01:18.812658600Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T16:01:18.812658600Z] [2024-03-23T16:01:18.812658600Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T16:01:18.813692000Z] [2024-03-23T16:01:18.813692000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T16:01:18.814209800Z] [2024-03-23T16:01:18.813692000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T16:01:18.814209800Z] [2024-03-23T16:01:18.814209800Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5512ms)
+[2024-03-23T16:01:18.814729700Z] [2024-03-23T16:01:18.814209800Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.5512ms)
+[2024-03-23T16:01:18.817319800Z] [2024-03-23T16:01:18.817319800Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T16:01:18.817319800Z] [2024-03-23T16:01:18.817319800Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T16:01:18.818362900Z] [2024-03-23T16:01:18.818362900Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0431ms)
+[2024-03-23T16:01:18.818362900Z] [2024-03-23T16:01:18.818362900Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0431ms)
+[2024-03-23T16:01:18.818362900Z] [2024-03-23T16:01:18.818362900Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T16:01:18.818881900Z] [2024-03-23T16:01:18.818362900Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T16:01:18.823012800Z] [2024-03-23T16:01:18.822498300Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1354ms)
+[2024-03-23T16:01:18.823012800Z] [2024-03-23T16:01:18.823012800Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.6499ms)
+[2024-03-23T16:01:18.823012800Z] [2024-03-23T16:01:18.823012800Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T16:01:18.823530800Z] [2024-03-23T16:01:18.823012800Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T16:01:18.824570800Z] [2024-03-23T16:01:18.824049700Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T16:01:18.824570800Z] [2024-03-23T16:01:18.824570800Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T16:01:18.836905800Z] [2024-03-23T16:01:18.836905800Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T16:01:18.841059600Z] [2024-03-23T16:01:18.840523500Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6177ms)
+[2024-03-23T16:01:18.841581300Z] [2024-03-23T16:01:18.841581300Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T16:01:18.842618200Z] [2024-03-23T16:01:18.842618200Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T16:01:18.848295400Z] [2024-03-23T16:01:18.848295400Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T16:01:18.851920200Z] [2024-03-23T16:01:18.851920200Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (3.6248ms)
+[2024-03-23T17:16:16.428207400Z] [2024-03-23T17:16:16.427694000Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T17:16:16.428207400Z] [2024-03-23T17:16:16.428207400Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T17:46:16.442414100Z] [2024-03-23T17:46:16.442414100Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (1.0326ms)
+[2024-03-23T17:46:16.442414100Z] [2024-03-23T17:46:16.442414100Z][com.docker.proxy.exe][I] proxy >> GET /v1.42/version
+[2024-03-23T18:16:16.459940200Z] [2024-03-23T18:16:16.459940200Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T18:16:16.459940200Z] [2024-03-23T18:16:16.459940200Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T18:46:16.531317600Z] [2024-03-23T18:46:16.531317600Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0516483s)
+[2024-03-23T18:46:16.531317600Z] [2024-03-23T18:46:16.531317600Z][com.docker.proxy.exe][I] proxy >> POST /grpc
+[2024-03-23T19:31:16.484864100Z] [2024-03-23T19:31:16.484347800Z][com.docker.proxy.exe][I] proxy << POST /grpc (1.0362ms)
+[2024-03-23T19:31:16.495744000Z] [2024-03-23T19:31:16.495744000Z][com.docker.proxy.exe][I] proxy << HEAD /_ping (14.5128ms)
+[2024-03-23T20:01:16.525637100Z] [2024-03-23T20:01:16.525115500Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T20:01:16.525637100Z] [2024-03-23T20:01:16.525115500Z][com.docker.proxy.exe][I] proxy >> HEAD /_ping
+[2024-03-23T20:31:16.546575200Z] [2024-03-23T20:31:16.546575200Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1708ms)
+[2024-03-23T20:31:16.547092600Z] [2024-03-23T20:31:16.546575200Z][com.docker.proxy.exe][I] proxy << GET /v1.42/version (4.1708ms)
+[2024-03-23T20:31:16.598638700Z] [2024-03-23T20:31:16.598638700Z][com.docker.proxy.exe][I] Upgrading to raw stream
+[2024-03-23T20:31:16.623403500Z] [2024-03-23T20:31:16.623403500Z][com.docker.proxy.exe][I] proxy << POST /grpc (15m0.0855749s)

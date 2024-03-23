@@ -1,0 +1,24 @@
+[8040:0001][2024-03-23T12:35:26] Creating new ExperimentationService
+[8040:0001][2024-03-23T12:35:26] Telemetry property VS.ABExp.Flights : lazytoolboxinit;fwlargebuffer;refactoring;spmoretempsbtn1;asloff;keybindgoldbarext;asynccsproj;vsfricheditor;completionapi;typeimportcompletion:30562486
+[8040:0001][2024-03-23T12:35:26] UserActivityMonitor started.
+[8040:0001][2024-03-23T12:35:27] Telemetry property VS.SetupEngine.ActivityId : 24471446
+[8040:0001][2024-03-23T12:35:27] Telemetry property VS.SetupEngine.IsChildProcess : False
+[8040:0001][2024-03-23T12:35:27] Telemetry property VS.SetupEngine.IsNoCancel : True
+[8040:0001][2024-03-23T12:35:27] BEGIN: Background Download
+[8040:0001][2024-03-23T12:35:27] Running pre-check verification.
+[8040:0001][2024-03-23T12:35:27] BEGIN: Check for updates
+[8040:000f][2024-03-23T12:35:27] Telemetry property VS.SetupEngine.ChannelUpdateDisabled : False
+[8040:000d][2024-03-23T12:35:27] Authentication Environment variable setting value: null
+[8040:000a][2024-03-23T12:35:27] Authentication remote setting value: False
+[8040:0009][2024-03-23T12:35:27] Download requested: https://aka.ms/vs/17/release/channel
+[8040:0017][2024-03-23T12:35:27] Attempting download 'https://aka.ms/vs/17/release/channel' using engine 'WebClient'
+[8040:0017][2024-03-23T12:35:27] Download of 'https://aka.ms/vs/17/release/channel' succeeded using engine 'WebClient'
+[8040:0017][2024-03-23T12:35:27] Channel 'https://aka.ms/vs/17/release/channel' was not modified. IfModifiedSince: 2024-03-15 01:17:51 +00:00, LastModifiedDate: 2024-03-14 18:17:51 -07:00
+[8040:0017][2024-03-23T12:35:27] Channel manifest for https://aka.ms/vs/17/release/channel is already up to date.
+[8040:0001][2024-03-23T12:35:27] The cache manifest and downloaded manifest had the same version for instance: 9ddc2242. Did not compute update information.
+[8040:0001][2024-03-23T12:35:27] No restart manager available. Assuming no reboot required for instance state.
+[8040:0001][2024-03-23T12:35:27] END: Check for updates
+[8040:0001][2024-03-23T12:35:27] BEGIN: Launch child and wait
+
+[8040:0001][2024-03-23T12:36:10] END: Launch child and wait
+[8040:0001][2024-03-23T12:36:10] END: Background Download

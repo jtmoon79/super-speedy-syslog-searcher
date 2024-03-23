@@ -1,0 +1,106 @@
+Index	Time	Metadata	Thread	Message	Param0 Type	Param0 Value	Param1 Type	Param1 Value	Param2 Type	Param2 Value	Param3 Type	Param3 Value	Param4 Type	Param4 Value	Param5 Type	Param5 Value	Param6 Type	Param6 Value	Param7 Type	Param7 Value	Param8 Type	Param8 Value	Param9 Type	Param9 Value
+1	2023-12-10 22:20:42.839	[]        	36568	Application starting	sessionId	b2078139-af58-ff4b-a34c-8f0e3926320e	deviceId	54fe1b22-d90b-4a97-a544-80685f8099cf
+2	2023-12-10 22:20:42.842	[]        	36568	Command-line	arguments	"""C:\Program Files\WindowsApps\Microsoft.OutlookForWindows_1.2023.1129.0_x64__8wekyb3d8bbwe\olk.exe"" mailto:dtucker@dtucker.net"
+3	2023-12-10 22:20:42.842	[]        	36568	Profile information specified on the command-line	profileNameState	0	nameW	<Default>
+4	2023-12-10 22:20:42.842	[]        	36568	Starting tasks system
+5	2023-12-10 22:20:42.843	[]        	36568	Running as AppX package
+6	2023-12-10 22:20:42.843	[]        	36568	Starting Ungraceful App Exit system to check for crashes
+7	2023-12-10 22:20:42.843	[Tel.Req.]	36568	Indicating healthy shutdown last time app booted	shutdownNameW	HostAnomaly.txt
+8	2023-12-10 22:20:42.843	[Tel.Req.]	36568	Indicating healthy shutdown last time app booted	shutdownNameW	ClientAnomaly.txt
+9	2023-12-10 22:20:42.843	[]        	36568	Application started with the following command line	commandLineArguments	mailto:dtucker@dtucker.net
+10	2023-12-10 22:20:42.845	[]        	3900	Service not found	serviceName	nh://privacy/
+11	2023-12-10 22:20:42.845	[]        	3900	Service not found	serviceName	nh://privacy/
+12	2023-12-10 22:20:42.867	[]        	3900	The telemetry system has started. Events before this point will not have been reported
+13	2023-12-10 22:20:42.867	[Tel.Req.]	3900	Indicating healthy shutdown last time app booted	shutdownNameW	HostAnomaly.txt
+14	2023-12-10 22:20:42.868	[Tel.Req.]	3900	Indicating healthy shutdown last time app booted	shutdownNameW	ClientAnomaly.txt
+15	2023-12-10 22:20:42.868	[Tel.Samp.Req.]	36568	Boot Stage step result	step	start	stage	0	durationMillis	24	result	0
+16	2023-12-10 22:20:42.868	[]        	36568	Boot stage start returned BootAction::Continue	stage	0
+17	2023-12-10 22:20:42.868	[]        	3900	Installer boot component starting	version	1.2023.1129.100
+18	2023-12-10 22:20:42.868	[Tel.]    	3900	Detected we're using update processor: 	updateProcessor	XPD
+19	2023-12-10 22:20:42.868	[Tel.]    	3900	Last update date file missing, creating it. Barring clearing local state, this is likely a fresh install
+20	2023-12-10 22:20:42.868	[Tel.Samp.Req.]	36568	Boot Stage step result	step	start	stage	1	durationMillis	0	result	0
+21	2023-12-10 22:20:42.868	[]        	36568	Boot stage start returned BootAction::Continue	stage	1
+22	2023-12-10 22:20:42.868	[]        	3900	Flight status not set; using default (false)	flightName	nh-offline-boot
+23	2023-12-10 22:20:42.872	[Tel.Samp.Req.]	36568	Boot Stage step result	step	start	stage	2	durationMillis	3	result	0
+24	2023-12-10 22:20:42.872	[]        	36568	Boot stage start returned BootAction::Continue	stage	2
+25	2023-12-10 22:20:42.872	[]        	36568	The modules bootstrapper is starting
+26	2023-12-10 22:20:42.878	[Tel.Samp.Req.]	36568	Module phase duration.	phase	loadAll	durationMillis	5
+27	2023-12-10 22:20:42.878	[]        	34604	Flight status not set; using default (false)	flightName	nh-oneauth-verbose
+28	2023-12-10 22:20:42.878	[]        	34604	Flight status not set; using default (false)	flightName	nh-oneauth-nologs
+29	2023-12-10 22:20:42.879	[]        	34604	OneAuthInternalLog	logLevel	4	message	[OneAuth:Info:48bf5:00000000-0000-0000-0000-000000000000] MATS DeviceProfileTelemetryId: 342	identifiableInformation	0
+30	2023-12-10 22:20:42.879	[]        	34604	OneAuthInternalLog	logLevel	4	message	[OneAuth:Info:48a0s:00000000-0000-0000-0000-000000000000] MATS device telemetry disabled.	identifiableInformation	0
+31	2023-12-10 22:20:42.879	[]        	34604	OneAuthInternalLog	logLevel	4	message	[MSAL:0001]	INFO   	Startup:53	Starting up MSAL	identifiableInformation	0
+32	2023-12-10 22:20:42.879	[]        	34604	OneAuthInternalLog	logLevel	4	message	[MSAL:0001]	INFO   	AddConfigurationWithStorageManager:195	Created a new public client application with ID ''	identifiableInformation	0
+33	2023-12-10 22:20:42.879	[]        	34604	OneAuthInternalLog	logLevel	4	message	[OneAuth:Info:8mqsd:5c636b0a-5ec6-40d3-ad99-1ff13622ccf5] OneAuth Version 1.95.0 (com.microsoft.Olk)	identifiableInformation	0
+34	2023-12-10 22:20:42.879	[]        	34604	OneAuthInternalLog	logLevel	4	message	[OneAuth:Info:9zj7z:5c636b0a-5ec6-40d3-ad99-1ff13622ccf5] Language code 'en-US' is not supported, fall back to 'en'	identifiableInformation	0
+35	2023-12-10 22:20:42.879	[]        	34604	OneAuth MATS SessionId	correlationid	d7e019e4
+36	2023-12-10 22:20:42.879	[Tel.Samp.Req.]	36568	Module phase duration.	phase	init	durationMillis	1
+37	2023-12-10 22:20:42.880	[]        	34604	Flight status not set; using default (false)	flightName	nh-automatic-updatesV3
+38	2023-12-10 22:20:42.880	[Tel.Samp.Req.]	36568	Module phase duration.	phase	register	durationMillis	0
+39	2023-12-10 22:20:42.880	[]        	34604	Flight status not set; using default (false)	flightName	nh-monCDSParallelPutBlockUploads
+40	2023-12-10 22:20:42.880	[Tel.Samp.Req.]	36568	Module phase duration.	phase	resolve	durationMillis	0
+41	2023-12-10 22:20:42.880	[]        	42036	Flight status not set; using default (false)	flightName	nh-diag-enableHeapDumpsDataCollectorV2
+42	2023-12-10 22:20:42.880	[]        	42036	Check failed	errorMessage		checkName	NoValue	expression	lastKnownConsentForCurrentAccount	functionName	D:\a\_work\1\s\dev\src\nh\services\privacy\PrivacyService.cpp	lineNumber	103	tag	4294967295	optionalErrorCode	[no value]
+43	2023-12-10 22:20:42.883	[]        	30432	FindAccountResult	correlationid	bae6087a	accountIdW	6eea93638542900	accountFound	false	totalAccounts	0	findType	0
+44	2023-12-10 22:20:42.883	[Tel.Samp.Req.]	36568	Module phase duration.	phase	start	durationMillis	3
+45	2023-12-10 22:20:42.883	[Tel.Samp.Req.]	36568	Module phase duration.	phase	running	durationMillis	0
+46	2023-12-10 22:20:42.883	[Tel.Samp.Req.]	36568	Boot Stage step result	step	start	stage	3	durationMillis	11	result	0
+47	2023-12-10 22:20:42.883	[]        	36568	Boot stage start returned BootAction::Continue	stage	3
+48	2023-12-10 22:20:42.883	[Tel.Samp.Req.]	36568	Boot Stage step result	step	start	stage	4	durationMillis	0	result	0
+49	2023-12-10 22:20:42.883	[]        	36568	Boot stage start returned BootAction::Continue	stage	4
+50	2023-12-10 22:20:42.885	[]        	36568	Checking whether required directory exists	path	C:\Users\user1\AppData\Local\Microsoft\Olk	exists	true
+51	2023-12-10 22:20:42.885	[]        	36568	Flight status not set; using default (false)	flightName	nh-msAbydosFlags-new
+52	2023-12-10 22:20:42.885	[]        	36568	Flight status not set; using default (false)	flightName	nh-msEnhancedTextContrast
+53	2023-12-10 22:20:42.885	[]        	36568	CoreWebView2 environment creation starting	source	CreateEnvironment
+54	2023-12-10 22:20:42.893	[]        	36568	CoreWebView2 environment creation ends
+55	2023-12-10 22:20:42.893	[Tel.]    	36568	Core WebView2 version OK	installedVersion	120.0.2210.61
+56	2023-12-10 22:20:42.895	[]        	36568	Creating interop threading library config that forwards calls to the native host tasks system
+57	2023-12-10 22:20:42.895	[]        	36568	Service not found	serviceName	nativehost://interop
+58	2023-12-10 22:20:42.895	[]        	36568	Configuring interop threading library	uiThreadId	36568	threadingCallbacksSet	true
+59	2023-12-10 22:20:42.895	[]        	36568	Flight status not set; using default (false)	flightName	nh-showUpdateNotifications
+60	2023-12-10 22:20:42.895	[Tel.]    	36568	value of update notification flight setting	isEnabled	false
+61	2023-12-10 22:20:42.897	[]        	36568	Frm Wnd Class registered	succeeded	true	iconResourceId	400
+62	2023-12-10 22:20:42.897	[]        	36568	Using default window position.
+63	2023-12-10 22:20:42.908	[]        	36568	Monitor Count	count	2
+64	2023-12-10 22:20:42.908	[]        	36568	Display Device (Monitor) Info	nameW	\\.\DISPLAY1	isPrimary	true	width	2160	height	3840	scale	150
+65	2023-12-10 22:20:42.908	[]        	36568	Display Device (Monitor) Info	nameW	\\.\DISPLAY2	isPrimary	false	width	2160	height	3840	scale	150
+66	2023-12-10 22:20:42.911	[]        	36568	Status of setting Mica backdrop on compatible machines	micaBackdropStatus	Success
+67	2023-12-10 22:20:42.913	[Tel.Samp.Req.]	36568	WebView step happened (milliseconds) after creation	instance	1	webViewStepName	webViewWindowCreationEnd	millisecondsSinceCreation	17	webViewTelemetryContext	OutlookInitialWebView
+68	2023-12-10 22:20:42.913	[Tel.Samp.Req.]	36568	WebView step happened (milliseconds) after creation	instance	1	webViewStepName	coreWebView2ControllerCreationStarting:CreateInstance	millisecondsSinceCreation	17	webViewTelemetryContext	OutlookInitialWebView
+69	2023-12-10 22:20:42.936	[]        	36568	Directory entry	path	C:\Users\user1\AppData\Local\Packages\microsoft.windowscommunicationsapps_8wekyb3d8bbwe\LocalState\migration\correlation.json	fileSize	36
+70	2023-12-10 22:20:42.936	[]        	36568	Directory entry	path	C:\Users\user1\AppData\Local\Packages\microsoft.windowscommunicationsapps_8wekyb3d8bbwe\LocalState\migration\handoff.txt	fileSize	2
+71	2023-12-10 22:20:42.936	[]        	36568	Directory entry	path	C:\Users\user1\AppData\Local\Packages\microsoft.windowscommunicationsapps_8wekyb3d8bbwe\LocalState\migration\settings.json	fileSize	1034
+72	2023-12-10 22:20:43.034	[]        	36568	Flight status not set; using default (false)	flightName	nh-automatic-updatesV3
+73	2023-12-10 22:20:43.034	[]        	36568	Storing the ThreadID for the UI thread	threadId	36568
+74	2023-12-10 22:20:43.107	[Tel.Samp.Req.]	36568	WebView step happened (milliseconds) after creation	instance	1	webViewStepName	coreWebView2ControllerCreationEnds	millisecondsSinceCreation	212	webViewTelemetryContext	OutlookInitialWebView
+75	2023-12-10 22:20:43.107	[]        	36568	Flight status not set; using default (false)	flightName	nh-enabledevtools
+76	2023-12-10 22:20:43.108	[]        	36568	Memory Usage State Set	instance	1	processId	13938	errorCode	0	memoryUsageTargetLevel	0
+77	2023-12-10 22:20:43.108	[Tel.Req.]	36568	The navigation of default url starting	webViewTelemetryContext	OutlookInitialWebView
+78	2023-12-10 22:20:43.108	[]        	36568	Queued protocol operations	count	0
+79	2023-12-10 22:20:43.152	[]        	36568	Performing navigation with web resource request.
+80	2023-12-10 22:20:43.152	[]        	36568	WebView startup context	uri	https://outlook.office.com/mail/?nativeVersion=1.2023.1129.100&sessionId=b2078139-af58-ff4b-a34c-8f0e3926320e	headers	X-Client-ID=54fe1b22-d90b-4a97-a544-80685f8099cf,x-native-host=OneOutlook/1.2023.1129.100
+81	2023-12-10 22:20:43.155	[Tel.Samp.Req.]	36568	WebView step happened (milliseconds) after creation	instance	1	webViewStepName	NavigationStarting	millisecondsSinceCreation	259	webViewTelemetryContext	OutlookInitialWebView
+82	2023-12-10 22:20:43.155	[]        	36568	WebView navigation starting	navigationId	2	webViewTelemetryContext	OutlookInitialWebView
+83	2023-12-10 22:20:44.475	[]        	36568	PIE default	pieLogName	messageReceived	pieLogSeverity	diagnostic	pieLogMessageLength	98	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""instance"",""isIdRequest"":true,""messageId"":1,""message"":""id""}"	pieLogContext	1	pieLogSubcontext	0
+84	2023-12-10 22:20:44.476	[]        	36568	PIE default	pieLogName	[unknown event]	pieLogSeverity	information	pieLogMessageLength	8	pieLogMessage	instance	pieLogContext	1	pieLogSubcontext	1
+85	2023-12-10 22:20:44.476	[]        	36568	PIE default	pieLogName	sendingMessage	pieLogSeverity	diagnostic	pieLogMessageLength	118	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""instance"",""isIdRequest"":true,""messageId"":1,""wasSuccessful"":true,""message"":"	pieLogContext	55232134576534	pieLogSubcontext	0
+86	2023-12-10 22:20:44.476	[]        	36568	Message to WebView posted	messageLength	118
+87	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	messageReceived	pieLogSeverity	diagnostic	pieLogMessageLength	109	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":2,""message"":""Authentication""}"	pieLogContext	1	pieLogSubcontext	0
+88	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	[unknown event]	pieLogSeverity	information	pieLogMessageLength	7	pieLogMessage	version	pieLogContext	1	pieLogSubcontext	2
+89	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	sendingMessage	pieLogSeverity	diagnostic	pieLogMessageLength	119	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":2,""wasSuccessful"":true,""message"":"	pieLogContext	55232134576534	pieLogSubcontext	0
+90	2023-12-10 22:20:44.477	[]        	36568	Message to WebView posted	messageLength	119
+91	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	messageReceived	pieLogSeverity	diagnostic	pieLogMessageLength	106	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":3,""message"":""Diagnostics""}"	pieLogContext	1	pieLogSubcontext	0
+92	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	[unknown event]	pieLogSeverity	information	pieLogMessageLength	7	pieLogMessage	version	pieLogContext	1	pieLogSubcontext	3
+93	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	sendingMessage	pieLogSeverity	diagnostic	pieLogMessageLength	118	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":3,""wasSuccessful"":true,""message"":"	pieLogContext	55232134576534	pieLogSubcontext	0
+94	2023-12-10 22:20:44.477	[]        	36568	Message to WebView posted	messageLength	118
+95	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	messageReceived	pieLogSeverity	diagnostic	pieLogMessageLength	103	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":4,""message"":""Accounts""}"	pieLogContext	1	pieLogSubcontext	0
+96	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	[unknown event]	pieLogSeverity	information	pieLogMessageLength	7	pieLogMessage	version	pieLogContext	1	pieLogSubcontext	4
+97	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	sendingMessage	pieLogSeverity	diagnostic	pieLogMessageLength	120	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":4,""wasSuccessful"":true,""message"":"	pieLogContext	55232134576534	pieLogSubcontext	0
+98	2023-12-10 22:20:44.477	[]        	36568	Message to WebView posted	messageLength	120
+99	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	messageReceived	pieLogSeverity	diagnostic	pieLogMessageLength	107	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":5,""message"":""Notification""}"	pieLogContext	1	pieLogSubcontext	0
+100	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	[unknown event]	pieLogSeverity	information	pieLogMessageLength	7	pieLogMessage	version	pieLogContext	1	pieLogSubcontext	5
+101	2023-12-10 22:20:44.477	[]        	36568	PIE default	pieLogName	sendingMessage	pieLogSeverity	diagnostic	pieLogMessageLength	118	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":5,""wasSuccessful"":true,""message"":"	pieLogContext	55232134576534	pieLogSubcontext	0
+102	2023-12-10 22:20:44.477	[]        	36568	Message to WebView posted	messageLength	118
+103	2023-12-10 22:20:44.478	[]        	36568	PIE default	pieLogName	messageReceived	pieLogSeverity	diagnostic	pieLogMessageLength	112	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":6,""message"":""OutlookWebContext""}"	pieLogContext	1	pieLogSubcontext	0
+104	2023-12-10 22:20:44.478	[]        	36568	PIE default	pieLogName	[unknown event]	pieLogSeverity	information	pieLogMessageLength	7	pieLogMessage	version	pieLogContext	1	pieLogSubcontext	6
+105	2023-12-10 22:20:44.478	[]        	36568	PIE default	pieLogName	sendingMessage	pieLogSeverity	diagnostic	pieLogMessageLength	120	pieLogMessage	"{""contentType"":""app/pie"",""messageName"":""version"",""isIdRequest"":true,""messageId"":6,""wasSuccessful"":true,""message"":"	pieLogContext	55232134576534	pieLogSubcontext	0
