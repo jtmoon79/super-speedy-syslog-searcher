@@ -506,25 +506,24 @@
 ./logs/programs/AWS/Amazon Cloudfront/access.log|2019-12-13T22:37:02
 ./logs/programs/AWS/Amazon S3/server.log|2019-02-6T00:01:57 +0000
 ./logs/programs/AWS/application_load_balancer.log|2018-11-30T22:22:49Z
-./logs/programs/AWS/CloudTrail/ec2.json
-./logs/programs/AWS/CloudTrail/iam.json
-./logs/programs/AWS/CloudTrail/insights.json
+./logs/programs/AWS/CloudTrail/ec2.json|2014-03-06T17:10:34Z
+./logs/programs/AWS/CloudTrail/iam.json|2016-07-14T19:15:45Z
+./logs/programs/AWS/CloudTrail/insights.json|2019-11-14T00:52:00Z
 ./logs/programs/AWS/elasticloadbalancer.log|2015-05-13T23:39:44
 ./logs/programs/CPUID/CT-Log 2023-09-04 05-44-16.csv|2023-09-04 19:01:55.979146947 -0700
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx|2023-03-10T03:49:40
 ./logs/programs/evtx/NoEvents.evtx|2023-02-01T00:00:00
+./logs/programs/flask/server.log|2024-03-22 15:11:55 -0700
 ./logs/programs/journal/CentOS_7_system.journal|2023-04-10T15:14:12
 ./logs/programs/journal/RHE_91_system.journal|2023-04-10T15:10:34-0700
 ./logs/programs/journal/Ubuntu22-user-1000.journal|2023-03-31T23:44:33
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal|2023-04-02T00:07:01-0700
 ./logs/programs/Microsoft IIS/example.log|2020-03-01T23:58:11
 ./logs/programs/Microsoft IIS/w3c.log|2015-01-01T19:12:42
-#./logs/programs/ntp/loopstats|???
-./logs/programs/ntp/loopstats
-#./logs/programs/ntp/peerstats|???
-./logs/programs/ntp/peerstats
+./logs/programs/ntp/loopstats|2023-01-11T03:03:48.822Z
+./logs/programs/ntp/peerstats|2023-01-11T03:07:17.808Z
 ./logs/programs/pacman/pacman.log|2022-10-07 16:08:00
 ./logs/programs/proftpd/controls.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/proftpd.log|2020-10-03 11:26:13
