@@ -57,7 +57,7 @@ nix = "0.27.1"
 numtoa = "0.2.4"
 phf = { version = "0.11", features = ["macros"] }
 rand = "0.8.5"
-rangemap = "1.3.0"
+rangemap = "1.5.1"
 regex = "1.10.2"
 si_trace_print = "0.3.12"
 static_assertions = "1.1.0"
