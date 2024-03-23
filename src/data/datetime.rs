@@ -182,6 +182,9 @@ pub fn ymdhms(
 /// create a `DateTime` with milliseconds
 ///
 /// wrapper for chrono DateTime creation function
+///
+/// Testing only
+// #[cfg(test)] // XXX: causes import failure from `bin.rs` desptie only being used in tests
 #[allow(clippy::too_many_arguments)]
 pub fn ymdhmsl(
     fixedoffset: &FixedOffset,
@@ -208,6 +211,9 @@ pub fn ymdhmsl(
 /// create a `DateTime` with microseconds
 ///
 /// wrapper for chrono DateTime creation function
+///
+/// Testing only
+// #[cfg(test)] // XXX: causes import failure from `bin.rs` desptie only being used in tests
 #[allow(clippy::too_many_arguments)]
 pub fn ymdhmsm(
     fixedoffset: &FixedOffset,
