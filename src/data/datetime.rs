@@ -128,6 +128,7 @@ pub type DateTimeLOpt = Option<DateTimeL>;
 
 /// FixedOffset seconds
 #[cfg(test)]
+#[allow(non_camel_case_types)]
 type fos = i32;
 
 #[cfg(any(debug_assertions,test))]
