@@ -66,39 +66,49 @@ const CHARSZ: usize = 1;
 // TODO: It is presumptious to assume a dark background console. Would be good
 //       to react to the console (is it light or dark?) and adjust at run-time.
 //       Not sure if that is possible.
-// TODO: write-up Issue regarding color selection of themes for light
-//       and dark backgrounds. Link here.
-pub const COLORS_TEXT: [Color; 29] = [
-    Color::Yellow,
-    Color::Cyan,
-    Color::Red,
-    Color::Magenta,
+//       Issue #261
+pub const COLORS_TEXT: [Color; 28] = [
     // XXX: colors with low pixel values are difficult to see on dark console
     //      backgrounds recommend at least one pixel value of 102 or greater
-    Color::Rgb(102, 0, 0),
-    Color::Rgb(102, 102, 0),
-    Color::Rgb(127, 0, 0),
-    Color::Rgb(0, 0, 127),
-    Color::Rgb(127, 0, 127),
-    Color::Rgb(153, 76, 0),
-    Color::Rgb(153, 153, 0),
-    Color::Rgb(0, 153, 153),
+    // 102 + 230
+    Color::Rgb(102, 102, 230),
+    Color::Rgb(102, 230, 102),
+    Color::Rgb(102, 230, 230),
+    // 102 + 255
+    Color::Rgb(102, 102, 255),
+    Color::Rgb(102, 255, 102),
+    Color::Rgb(102, 255, 255),
+    // 127
     Color::Rgb(127, 127, 127),
-    Color::Rgb(127, 153, 153),
-    Color::Rgb(127, 153, 127),
-    Color::Rgb(127, 127, 230),
+    // 127 + 230
     Color::Rgb(127, 230, 127),
-    Color::Rgb(230, 127, 127),
+    Color::Rgb(127, 127, 230),
     Color::Rgb(127, 230, 230),
-    Color::Rgb(230, 230, 127),
-    Color::Rgb(230, 127, 230),
-    Color::Rgb(230, 230, 230),
+    // 127 + 255
+    Color::Rgb(127, 255, 127),
+    Color::Rgb(127, 127, 255),
+    Color::Rgb(127, 255, 255),
+    // 153
+    Color::Rgb(153, 153, 153),
+    // 153 + 255
     Color::Rgb(153, 153, 255),
     Color::Rgb(153, 255, 153),
-    Color::Rgb(255, 153, 153),
     Color::Rgb(153, 255, 255),
-    Color::Rgb(255, 255, 153),
-    Color::Rgb(255, 153, 255),
+    // 230 + 127
+    Color::Rgb(230, 127, 127),
+    Color::Rgb(230, 230, 127),
+    Color::Rgb(230, 127, 230),
+    // 230 + 153
+    Color::Rgb(230, 153, 153),
+    Color::Rgb(230, 230, 153),
+    Color::Rgb(230, 153, 230),
+    // 230
+    Color::Rgb(230, 230, 230),
+    // 230 + 255
+    Color::Rgb(230, 255, 255),
+    Color::Rgb(230, 230, 255),
+    Color::Rgb(230, 255, 230),
+    // 255
     Color::Rgb(255, 255, 255),
 ];
 
