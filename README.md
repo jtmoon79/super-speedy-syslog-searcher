@@ -654,14 +654,15 @@ file `/var/log/unattended-upgrades/unattended-upgrades-shutdown.log`:
 
 #### binary files
 
-And then there are binary files, such as the [`wtmp`] file on a Linux host.
-Using tool [`utmpdump`], a record structure is converted to text like:
+And then there are binary files, such as the [`wtmp`] file on Linux and other
+Unix Operating Systems.
+Using tool `utmpdump`, a `utmp` record structure is converted to text like:
 
 ```text
 [7] [12103] [ts/0] [user] [pts/0] [172.1.2.1] [172.1.2.2] [2023-03-05T23:12:36,270185+00:00]
 ```
 
-And from a binary _systemd_ `.journal` file, read using `journalctl`
+And from a _systemd_ `.journal` file, read using `journalctl`
 
 ```text
 Mar 03 10:26:10 host systemd[1]: Started OpenBSD Secure Shell server.
@@ -683,7 +684,6 @@ or Operating System, then the binary record structure is likely not parseable
 by the resident `utmpdump` tool. What then!? 😰
 
 [`wtmp`]: https://www.man7.org/linux/man-pages/man5/utmp.5.html
-[`utmpdump`]: https://www.man7.org/linux/man-pages/man1/utmpdump.1.html
 
 ### commercial software examples
 

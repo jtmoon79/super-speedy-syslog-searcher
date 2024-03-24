@@ -923,6 +923,7 @@
 ./logs/Windows11Pro/Local/Microsoft/MSTeams/MSTeamsUpdate_2024-03-01_02-55-03.6153.log|2024-03-01T10:55:03-08:00
 ./logs/Windows11Pro/Local/Microsoft/Olk/logs/olk_20231210_222042833.log|2023-12-10 22:20:44.478
 ./logs/Windows11Pro/Local/Microsoft/OneDrive/logs/SyncDiagnostics.log|2024-03-23T02:19:21.0000000Z
+./logs/Windows11Pro/Local/Microsoft/OneDrive/setup/logs/Install_2024-03-08_024135_31308-22904.log|20240308 02:41:41
 ./logs/Windows11Pro/Local/Microsoft/OneDrive/setup/logs/Install_2024-03-14_232228_10368-1844.log|20240314 23:22:33.847
 ./logs/Windows11Pro/Local/Microsoft/OneDrive/setup/logs/StandaloneUpdate_2024-03-16_051206_30520-25736.log|20240316 05:13:21.933
 ./logs/Windows11Pro/Local/Microsoft/OneDrive/setup/logs/Update_2024-03-15_181725_1852-1868.log|2024-03-15 21:01:17
