@@ -1077,6 +1077,7 @@ impl BlockReader {
                 def1o!("FileXz: buffer {:?}", buffer_);
                 let _crc32: u32 = u32::from_le_bytes(buffer_);
                 def1o!("FileXz: stream header CRC32 {0:} (0x{0:08X}) (0b{0:032b})", _crc32);
+                // TODO: check the CRC32?
 
                 // block #0 block header size
                 let mut buffer_: [u8; 1] = [0; 1];
