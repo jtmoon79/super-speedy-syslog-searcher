@@ -424,10 +424,7 @@ jobs:
   job_test_macos:
     name: test Mac OS
     needs: [job_rust_release_channel, job_rust_msrv_os]
-    strategy:
-      matrix:
-        os: [macos-11, macos-12, macos-13]
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
     steps:
       - name: git checkout
         uses: actions/checkout@v4
@@ -435,19 +432,6 @@ jobs:
         with:
           channel: ${{ env.MSRV_UPLOAD }}
           bins: cargo-nextest
-      - name: create log.tgz
-        shell: bash
-        run: |
-          set -eux
-          uname -a
-          ((sudo -- log show | head -n 5000) > /var/log/log-show.txt) || true
-          sudo -- log collect --size 10m --output /var/log/log-collect.logarchive
-          export GZIP=-9
-          sudo -- tar -zcvf /tmp/log.tgz /var/log/ /Library/Logs ~/Library/Logs
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.os }} log.tgz
-          path: /tmp/log.tgz
       - name: nextest (all)
         shell: bash
         run: |
