@@ -470,7 +470,12 @@ jobs:
       - name: Build Documentation
         run: cargo doc --locked --release --no-deps -v
       - name: Publish Dry Run
-        run: cargo publish --verbose --dry-run --allow-dirty
+        shell: bash
+        run: |
+          set -eux
+          cargo publish --dry-run
+          cargo package --list --all-features
+          cargo package --all-features
 
   job_yamllint:
     # this job installs Python PIP packages
