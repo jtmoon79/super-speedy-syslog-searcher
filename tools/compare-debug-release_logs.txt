@@ -41,6 +41,7 @@
 ./logs/Orbi/tmp/soap_check_fw_log
 ./logs/other/tests/empty.log
 ./logs/other/tests/dtf10-10a.log
+./logs/other/tests/dtf10-10b.log
 ./logs/other/tests/dtf11-A.log
 ./logs/other/tests/dtf12a-x2_patts.log
 ./logs/other/tests/dtf12b-x2_patts.log
@@ -50,6 +51,13 @@
 ./logs/other/tests/dtf13c.log
 ./logs/other/tests/dtf13d.log
 ./logs/other/tests/dtf14a.log
+./logs/other/tests/dtf15a.log
+./logs/other/tests/dtf15b.log
+./logs/other/tests/dtf16a.log
+./logs/other/tests/dtf16b.log
+./logs/other/tests/dtf16c.log
+./logs/other/tests/dtf16d.log
+./logs/other/tests/dtf16e.log
 ./logs/other/tests/dtf2-2.log
 ./logs/other/tests/dtf3-2b.log
 ./logs/other/tests/dtf4-2a.log

@@ -1728,13 +1728,13 @@ pub const CGP_MONTHms: &CaptureGroupPattern = r"(?P<month>1|2|3|4|5|6|7|8|9|10|1
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?P<month>01|02|03|04|05|06|07|08|09|10|11|12)";
 /// Regex capture group pattern for `strftime` month specifier `%b`,
 /// month name abbreviated to three characters, e.g. `Jan`.
-pub const CGP_MONTHb: &CaptureGroupPattern = r"(?P<month>jan|Jan|JAN|feb|Feb|FEB|mar|Mar|MAR|apr|Apr|APR|may|May|MAY|jun|Jun|JUN|jul|Jul|JUL|aug|Aug|AUG|sep|Sep|SEP|oct|Oct|OCT|nov|Nov|NOV|dec|Dec|DEC)";
+pub const CGP_MONTHb: &CaptureGroupPattern = r"(?P<month>(jan|Jan|JAN|feb|Feb|FEB|mar|Mar|MAR|apr|Apr|APR|may|May|MAY|jun|Jun|JUN|jul|Jul|JUL|aug|Aug|AUG|sep|Sep|SEP|oct|Oct|OCT|nov|Nov|NOV|dec|Dec|DEC)[\.]?)";
 /// Regex capture group pattern for `strftime` month specifier `%B`,
 /// month name long, e.g. `January`.
 pub const CGP_MONTHB: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|february|February|FEBRUARY|march|March|MARCH|april|April|APRIL|may|May|MAY|june|June|JUNE|july|July|JULY|august|August|AUGUST|september|September|SEPTEMBER|october|October|OCTOBER|november|November|NOVEMBER|december|December|DECEMBER)";
 /// Regex capture group pattern for `strftime` month specifier `%B` and `%b`,
 /// e.g. `January` or `Jan`.
-pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|jan|Jan|JAN|february|February|FEBRUARY|feb|Feb|FEB|march|March|MARCH|mar|Mar|MAR|april|April|APRIL|apr|Apr|APR|may|May|MAY|june|June|JUNE|jun|Jun|JUN|july|July|JULY|jul|Jul|JUL|august|August|AUGUST|aug|Aug|AUG|september|September|SEPTEMBER|sep|Sep|SEP|october|October|OCTOBER|oct|Oct|OCT|november|November|NOVEMBER|nov|Nov|NOV|december|December|DECEMBER|dec|Dec|DEC)";
+pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?P<month>january|January|JANUARY|jan[\.]?|Jan[\.]?|JAN[\.]?|february|February|FEBRUARY|feb[\.]?|Feb[\.]?|FEB[\.]?|march|March|MARCH|mar[\.]?|Mar[\.]?|MAR[\.]?|april|April|APRIL|apr[\.]?|Apr[\.]?|APR[\.]?|may|May|MAY|june|June|JUNE|jun[\.]?|Jun[\.]?|JUN[\.]?|july|July|JULY|jul[\.]?|Jul[\.]?|JUL[\.]?|august|August|AUGUST|aug[\.]?|Aug[\.]?|AUG[\.]?|september|September|SEPTEMBER|sep[\.]?|Sep[\.]?|SEP[\.]?|october|October|OCTOBER|oct[\.]?|Oct[\.]?|OCT[\.]?|november|November|NOVEMBER|nov[\.]?|Nov[\.]?|NOV[\.]?|december|December|DECEMBER|dec[\.]?|Dec[\.]?|DEC[\.]?)";
 /// Regex capture group pattern for `strftime` day specifier `%d`,
 /// number day of month with leading zero, e.g. `"02"` or `"31"`.
 /// Regex capture group pattern for `strftime` day specifier `%e`,
@@ -1745,11 +1745,11 @@ pub const CGP_DAYde: &CaptureGroupPattern = r"(?P<day>01|02|03|04|05|06|07|08|09
 /// Regex capture group pattern for `strftime` day specifier `%a`,
 /// named day of week, either long name or abbreviated three character name,
 /// e.g. `"Mon"`.
-pub const CGP_DAYa3: &RegexPattern = r"(?P<dayIgnore>mon|Mon|MON|tue|Tue|TUE|wed|Wed|WED|thu|Thu|THU|fri|Fri|FRI|sat|Sat|SAT|sun|Sun|SUN)";
+pub const CGP_DAYa3: &RegexPattern = r"(?P<dayIgnore>(mon|Mon|MON|tue|Tue|TUE|wed|Wed|WED|thu|Thu|THU|fri|Fri|FRI|sat|Sat|SAT|sun|Sun|SUN)[\.]?)";
 /// Regex capture group pattern for `strftime` day specifier `%a`,
 /// named day of week, either long name or abbreviated three character name,
 /// e.g. `"Mon"` or `"Monday"`.
-pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>monday|Monday|MONDAY|mon|Mon|MON|tuesday|Tuesday|TUESDAY|tue|Tue|TUE|wednesday|Wednesday|WEDNESDAY|wed|Wed|WED|thursday|Thursday|THURSDAY|thu|Thu|THU|friday|Friday|FRIDAY|fri|Fri|FRI|saturday|Saturday|SATURDAY|sat|Sat|SAT|sunday|Sunday|SUNDAY|sun|Sun|SUN)";
+pub const CGP_DAYa: &RegexPattern = r"(?P<dayIgnore>monday|Monday|MONDAY|mon[\.]?|Mon[\.]?|MON[\.]?|tuesday|Tuesday|TUESDAY|tue[\.]?|Tue[\.]?|TUE[\.]?|wednesday|Wednesday|WEDNESDAY|wed[\.]?|Wed[\.]?|WED[\.]?|thursday|Thursday|THURSDAY|thu[\.]?|Thu[\.]?|THU[\.]?|friday|Friday|FRIDAY|fri[\.]?|Fri[\.]?|FRI[\.]?|saturday|Saturday|SATURDAY|sat[\.]?|Sat[\.]?|SAT[\.]?|sunday|Sunday|SUNDAY|sun[\.]?|Sun[\.]?|SUN[\.]?)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 00 to 24.
 pub const CGP_HOUR: &CaptureGroupPattern = r"(?P<hour>00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 0 to 24.
@@ -2446,7 +2446,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 128;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 133;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2874,6 +2874,11 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (11, 35, (O_L, 2020, 9, 10, 10, 8, 35, 0), "Started On Thu Sep 10 10:08:35 2020"),
             (11, 34, (O_L, 2020, 9, 1, 10, 8, 35, 0), "Started On Thu Sep 1 10:08:35 2020"),
             (11, 35, (O_L, 2020, 9, 1, 10, 8, 35, 0), "Started On Thu Sep  1 10:08:35 2020"),
+            (11, 35, (O_L, 2020, 9, 1, 10, 8, 35, 0), "Started On Thu Sep. 1 10:08:35 2020"),
+            (11, 35, (O_L, 2020, 9, 1, 10, 8, 35, 0), "Started On Thu. Sep 1 10:08:35 2020"),
+            (11, 36, (O_L, 2020, 9, 1, 10, 8, 35, 0), "Started On Thu. Sep. 1 10:08:35 2020"),
+            (11, 36, (O_L, 2020, 9, 1, 10, 8, 35, 0), "Started On thu. sep. 1 10:08:35 2020"),
+            (11, 36, (O_L, 2020, 9, 1, 10, 8, 35, 0), "Started On THU. SEP. 1 10:08:35 2020"),
             (62, 86, (O_L, 2020, 11, 10, 18, 54, 47, 0), "Microsoft Windows Malicious Software Removal Tool Finished On Tue Nov 10 18:54:47 2020"),
         ],
         line!(),
@@ -3164,6 +3169,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (0, 31, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "tue. Jun 28 2022 01:51:12 +1230"),
             (0, 31, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "Mon. Jun 28 2022 01:51:12 +1230"),
             (0, 30, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "Mon Jun 28 2022 01:51:12 +1230"),
+            (0, 31, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "Mon. Jun 28 2022 01:51:12 +1230"),
+            (0, 31, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "Mon Jun. 28 2022 01:51:12 +1230"),
+            (0, 32, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "Mon. Jun. 28 2022 01:51:12 +1230"),
             (0, 30, (O_P1230, 2022, 6, 2, 1, 51, 12, 0), "Wed Jun 02 2022 01:51:12 +1230"),
             (0, 29, (O_P1230, 2022, 6, 2, 1, 51, 12, 0), "thu Jun 2 2022 01:51:12 +1230"),
             (0, 33, (O_P1230, 2022, 6, 28, 1, 51, 12, 0), "Friday Jun 28 2022 01:51:12 +1230"),
@@ -3600,6 +3608,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (8, 39, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning sat jan 01 2000 08:45:55 -09:00 warning‼"),
             (8, 39, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning	Sat Jan 01 2000 08:45:55 -09:00 warning ⇥ ×1‼"),
             (8, 39, (O_M9, 2000, 1, 3, 23, 30, 59, 0), "WARNING	MON JAN 03 2000 23:30:59 -09:00 warning ⇥ ×1‼"),
+            (8, 40, (O_M9, 2000, 1, 3, 23, 30, 59, 0), "WARNING	MON. JAN 03 2000 23:30:59 -09:00 warning ⇥ ×1‼"),
+            (8, 40, (O_M9, 2000, 1, 3, 23, 30, 59, 0), "WARNING	MON JAN. 03 2000 23:30:59 -09:00 warning ⇥ ×1‼"),
+            (8, 41, (O_M9, 2000, 1, 3, 23, 30, 59, 0), "WARNING	MON. JAN. 03 2000 23:30:59 -09:00 warning ⇥ ×1‼"),
             (9, 40, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning		Sat Jan 01 2000 08:45:55 -09:00 warning ⇥ ×2‼"),
             (6, 37, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "WARN: SAT JAN 01 2000 08:45:55 -09:00 warn:‼"),
             (7, 38, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "ERROR: Sat Jan 01 2000 08:45:55 -09:00 error:‼"),
@@ -3622,6 +3633,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (6, 36, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "INFO: Sat Jan 01 2000 08:45:55 -0900 info:‼"),
             (7, 37, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "INFO2: Sat Jan 01 2000 08:45:55 -0900 info2:‼"),
             (9, 39, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning: Sat Jan 01 2000 08:45:55 -0900 warning:‼"),
+            (9, 40, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning: Sat. Jan 01 2000 08:45:55 -0900 warning:‼"),
+            (9, 40, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning: Sat Jan. 01 2000 08:45:55 -0900 warning:‼"),
+            (9, 41, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning: Sat. Jan. 01 2000 08:45:55 -0900 warning:‼"),
             (8, 38, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning sat jan 01 2000 08:45:55 -0900 warning‼"),
             (8, 38, (O_M9, 2000, 1, 1, 8, 45, 55, 0), "warning	Sat Jan 01 2000 08:45:55 -0900	warning ⇥ ×1‼"),
             (8, 38, (O_M9, 2000, 1, 3, 23, 30, 59, 0), "WARNING	MON JAN 03 2000 23:30:59 -0900	warning ⇥ ×1‼"),
@@ -3649,6 +3663,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (7, 35, (O_M9, 2000, 1, 31, 8, 45, 55, 0), "INFO2: Sat Jan 31 2000 08:45:55 -09 info2:‼"),
             (9, 37, (O_M9, 2000, 1, 31, 8, 45, 55, 0), "warning: Sat Jan 31 2000 08:45:55 -09 warning:‼"),
             (8, 36, (O_M9, 2000, 1, 31, 8, 45, 55, 0), "warning sat jan 31 2000 08:45:55 -09 warning‼"),
+            (8, 37, (O_M9, 2000, 1, 31, 8, 45, 55, 0), "warning sat. jan 31 2000 08:45:55 -09 warning‼"),
+            (8, 37, (O_M9, 2000, 1, 31, 8, 45, 55, 0), "warning sat jan. 31 2000 08:45:55 -09 warning‼"),
+            (8, 38, (O_M9, 2000, 1, 31, 8, 45, 55, 0), "warning sat. jan. 31 2000 08:45:55 -09 warning‼"),
             (8, 36, (O_M9, 2000, 1, 31, 8, 45, 55, 0), "warning	Sat Jan 31 2000 08:45:55 -09	warning ⇥ ×1‼"),
             (8, 36, (O_M9, 2000, 1, 3, 23, 30, 59, 0), "WARNING	MON JAN 03 2000 23:30:59 -09	warning ⇥ ×1‼"),
             (9, 37, (O_M9, 2000, 1, 31, 8, 45, 55, 0), "warning		Sat Jan 31 2000 08:45:55 -09		warning ⇥ ×2‼"),
@@ -3676,6 +3693,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (6, 35, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "INFO: Sat Jan 31 2000 08:45:55 PONT info:‼"),
             (7, 36, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "INFO2: Sat Jan 31 2000 08:45:55 PONT info2:‼"),
             (9, 38, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "warning: Sat Jan 31 2000 08:45:55 pont warning:‼"),
+            (9, 39, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "warning: Sat. Jan 31 2000 08:45:55 pont warning:‼"),
+            (9, 39, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "warning: Sat Jan. 31 2000 08:45:55 pont warning:‼"),
+            (9, 40, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "warning: Sat. Jan. 31 2000 08:45:55 pont warning:‼"),
             (8, 37, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "warning sat jan 31 2000 08:45:55 pont warning‼"),
             (8, 37, (O_PONT, 2000, 1, 31, 8, 45, 55, 0), "warning	Sat Jan 31 2000 08:45:55 pont	warning ⇥ ×1‼"),
             (8, 37, (O_PONT, 2000, 1, 3, 23, 30, 59, 0), "WARNING	MON JAN 03 2000 23:30:59 PONT		warning ⇥ ×1‼"),
@@ -3910,6 +3930,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     // CGP_DAY version
     //
+    // timezone then year
     DTPD!(
         concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ, RP_BLANK12, CGP_YEAR, RP_NOALNUM),
         DTFSS_BdHMSYZ, 0, 45, CGN_DAYa, CGN_YEAR,
@@ -3979,7 +4000,100 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    // TODO: add prior without any TZ
+    // year then timezone
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12, CGP_TZZ, RP_NOALNUM),
+        DTFSS_BdHMSYZ, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (0, 27, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 2016 PST try umount root [1] times"),
+            (0, 28, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "MON DEC  5 21:01:12 2016 PST try umount root [1] times"),
+            (0, 28, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "MON DEC. 5 21:01:12 2016 PST try umount root [1] times"),
+            (0, 29, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "MON. DEC. 5 21:01:12 2016 PST try umount root [1] times"),
+            (0, 28, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "MON DEC 05 21:01:12 2016 PST try umount root [1] times"),
+            (0, 28, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "mon dec  5 21:01:12 2016 pst try umount root [1] times"),
+            (0, 31, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "MONDAY dec  5 21:01:12 2016 pst try umount root [1] times"),
+            (0, 31, (O_PST, 2016, 12, 5, 21, 1, 12, 0), "MONDAY DEC  5 21:01:12 2016 PST try umount root [1] times"),
+            (0, 27, (O_PDT, 2017, 5, 8, 8, 33, 0, 0), "mon May 8 08:33:00 2017 PDT try umount root [1] times"),
+            (0, 28, (O_PST, 2018, 2, 28, 14, 58, 7, 0), "Wed Feb 28 14:58:07 2018 PST try umount root [1] times"),
+            (0, 34, (O_PST, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY Feb 28 14:58:07 2018 PST try umount root [1] times"),
+            (0, 39, (O_PST, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY February 28 14:58:07\t2018\tPST try umount root [1] times"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZz, RP_NOALNUM),
+        DTFSS_BdHMSYz, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (0, 29, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 2016 -0000 try umount root [1] times"),
+            (0, 31, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 2016 −0000 try umount root [1] times"), // U+2212
+            (0, 30, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC  5 21:01:12 2016 +0000 try umount root [1] times"),
+            (0, 30, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC. 5 21:01:12 2016 +0000 try umount root [1] times"),
+            (0, 30, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC 05 21:01:12 2016 +0000 try umount root [1] times"),
+            (0, 30, (O_M1130, 2016, 12, 5, 21, 1, 12, 0), "mon dec  5 21:01:12 2016 -1130 try umount root [1] times"),
+            (0, 29, (O_P945, 2017, 5, 8, 8, 33, 0, 0), "mon May 8 08:33:00 2017 +0945 try umount root [1] times"),
+            (0, 32, (O_P945, 2017, 5, 8, 8, 33, 0, 0), "monday may 8 08:33:00 2017 +0945 try umount root [1] times"),
+            (0, 30, (O_M1030, 2018, 2, 28, 14, 58, 7, 0), "Wed Feb 28 14:58:07 2018 -1030 try umount root [1] times"),
+            (0, 36, (O_M1030, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY Feb 28 14:58:07 2018 -1030 try umount root [1] times"),
+            (0, 41, (O_M1030, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY February 28 14:58:07\t2018\t-1030 try umount root [1] times"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
+        DTFSS_BdHMSYzc, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (0, 30, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 2016 -00:00 try umount root [1] times"),
+            (0, 32, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 2016 −00:00 try umount root [1] times"), // U+2212
+            (0, 31, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC  5 21:01:12 2016 +00:00 try umount root [1] times"),
+            (0, 31, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC. 5 21:01:12 2016 +00:00 try umount root [1] times"),
+            (0, 31, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC 05 21:01:12 2016 +00:00 try umount root [1] times"),
+            (0, 31, (O_M1130, 2016, 12, 5, 21, 1, 12, 0), "mon dec  5 21:01:12 2016 -11:30 try umount root [1] times"),
+            (0, 30, (O_P945, 2017, 5, 8, 8, 33, 0, 0), "mon May 8 08:33:00 2017 +09:45 try umount root [1] times"),
+            (0, 33, (O_P945, 2017, 5, 8, 8, 33, 0, 0), "monday may 8 08:33:00 2017 +09:45 try umount root [1] times"),
+            (0, 31, (O_M1030, 2018, 2, 28, 14, 58, 7, 0), "Wed Feb 28 14:58:07 2018 -10:30 try umount root [1] times"),
+            (0, 37, (O_M1030, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY Feb 28 14:58:07 2018 -10:30 try umount root [1] times"),
+            (0, 42, (O_M1030, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY February 28 14:58:07 2018 -10:30 try umount root [1] times"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzp, RP_NOALNUM),
+        DTFSS_BdHMSYzp, 0, 45, CGN_DAYa, CGN_TZ,
+        &[
+            (0, 27, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 2016 -00 try umount root [1] times"),
+            (0, 28, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC  5 21:01:12 2016 +00 try umount root [1] times"),
+            (0, 28, (O_Z, 2016, 12, 5, 21, 1, 12, 0), "MON DEC 05 21:01:12 2016 +00 try umount root [1] times"),
+            (0, 28, (O_M11, 2016, 12, 5, 21, 1, 12, 0), "mon dec  5 21:01:12 2016 -11 try umount root [1] times"),
+            (0, 28, (O_M11, 2016, 12, 5, 21, 1, 12, 0), "mon dec. 5 21:01:12 2016 -11 try umount root [1] times"),
+            (0, 33, (O_M11, 2016, 12, 5, 21, 1, 12, 0), "mon december  5 21:01:12 2016 -11 try umount root [1] times"),
+            (0, 27, (O_P9, 2017, 5, 8, 8, 33, 0, 0), "mon May 8 08:33:00 2017 +09 try umount root [1] times"),
+            (0, 27, (O_P9, 2017, 5, 8, 8, 33, 0, 0), "mon MAY 8 08:33:00 2017 +09 try umount root [1] times"),
+            (0, 28, (O_M10, 2018, 2, 28, 14, 58, 7, 0), "Wed Feb 28 14:58:07 2018 -10 try umount root [1] times"),
+            (0, 34, (O_M10, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY Feb 28 14:58:07 2018 -10 try umount root [1] times"),
+            (0, 39, (O_M10, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY February 28 14:58:07 2018 -10 try umount root [1] times"),
+            (0, 39, (O_M10, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY FEBRUARY 28 14:58:07 2018 -10 try umount root [1] times"),
+        ],
+        line!(),
+    ),
+    // no timezone
+    DTPD!(
+        concatcp!("^", CGP_DAYa, RP_BLANK, CGP_MONTHBb, RP_BLANKS, CGP_DAYde, RP_BLANK, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSY, 0, 45, CGN_DAYa, CGN_YEAR,
+        &[
+            (0, 23, (O_L, 2016, 12, 5, 21, 1, 12, 0), "Mon Dec 5 21:01:12 2016 try umount root [1] times"),
+            (0, 24, (O_L, 2016, 12, 5, 21, 1, 12, 0), "MON DEC  5 21:01:12 2016 try umount root [1] times"),
+            (0, 24, (O_L, 2016, 12, 5, 21, 1, 12, 0), "MON DEC 05 21:01:12 2016 try umount root [1] times"),
+            (0, 24, (O_L, 2016, 12, 5, 21, 1, 12, 0), "mon dec  5 21:01:12 2016 try umount root [1] times"),
+            (0, 29, (O_L, 2016, 12, 5, 21, 1, 12, 0), "mon december  5 21:01:12 2016 try umount root [1] times"),
+            (0, 23, (O_L, 2017, 5, 8, 8, 33, 0, 0), "mon May 8 08:33:00 2017 try umount root [1] times"),
+            (0, 23, (O_L, 2017, 5, 8, 8, 33, 0, 0), "mon MAY 8 08:33:00 2017 try umount root [1] times"),
+            (0, 24, (O_L, 2018, 2, 28, 14, 58, 7, 0), "Wed Feb 28 14:58:07 2018 try umount root [1] times"),
+            (0, 30, (O_L, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY Feb 28 14:58:07 2018 try umount root [1] times"),
+            (0, 35, (O_L, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY February 28 14:58:07 2018 try umount root [1] times"),
+            (0, 35, (O_L, 2018, 2, 28, 14, 58, 7, 0), "WEDNESDAY FEBRUARY 28 14:58:07 2018 try umount root [1] times"),
+        ],
+        line!(),
+    ),
     //
     // from file `./logs/programs/proftpd/xferlog`, Issue #42
     // example with offset:
@@ -5062,6 +5176,9 @@ macro_rules! copy_u8_to_buffer {
 const MONTH_01_b_l: &[u8] = b"jan";
 const MONTH_01_b_u: &[u8] = b"Jan";
 const MONTH_01_b_U: &[u8] = b"JAN";
+const MONTH_01_b_ld: &[u8] = b"jan.";
+const MONTH_01_b_ud: &[u8] = b"Jan.";
+const MONTH_01_b_Ud: &[u8] = b"JAN.";
 const MONTH_01_B_l: &[u8] = b"january";
 const MONTH_01_B_u: &[u8] = b"January";
 const MONTH_01_B_U: &[u8] = b"JANUARY";
@@ -5069,6 +5186,9 @@ const MONTH_01_m: &[u8] = b"01";
 const MONTH_02_b_l: &[u8] = b"feb";
 const MONTH_02_b_u: &[u8] = b"Feb";
 const MONTH_02_b_U: &[u8] = b"FEB";
+const MONTH_02_b_ld: &[u8] = b"feb.";
+const MONTH_02_b_ud: &[u8] = b"Feb.";
+const MONTH_02_b_Ud: &[u8] = b"FEB.";
 const MONTH_02_B_l: &[u8] = b"february";
 const MONTH_02_B_u: &[u8] = b"February";
 const MONTH_02_B_U: &[u8] = b"FEBRUARY";
@@ -5076,6 +5196,9 @@ const MONTH_02_m: &[u8] = b"02";
 const MONTH_03_b_l: &[u8] = b"mar";
 const MONTH_03_b_u: &[u8] = b"Mar";
 const MONTH_03_b_U: &[u8] = b"MAR";
+const MONTH_03_b_ld: &[u8] = b"mar.";
+const MONTH_03_b_ud: &[u8] = b"Mar.";
+const MONTH_03_b_Ud: &[u8] = b"MAR.";
 const MONTH_03_B_l: &[u8] = b"march";
 const MONTH_03_B_u: &[u8] = b"March";
 const MONTH_03_B_U: &[u8] = b"MARCH";
@@ -5083,6 +5206,9 @@ const MONTH_03_m: &[u8] = b"03";
 const MONTH_04_b_l: &[u8] = b"apr";
 const MONTH_04_b_u: &[u8] = b"Apr";
 const MONTH_04_b_U: &[u8] = b"APR";
+const MONTH_04_b_ld: &[u8] = b"apr.";
+const MONTH_04_b_ud: &[u8] = b"Apr.";
+const MONTH_04_b_Ud: &[u8] = b"APR.";
 const MONTH_04_B_l: &[u8] = b"april";
 const MONTH_04_B_u: &[u8] = b"April";
 const MONTH_04_B_U: &[u8] = b"APRIL";
@@ -5100,6 +5226,9 @@ const MONTH_05_m: &[u8] = b"05";
 const MONTH_06_b_l: &[u8] = b"jun";
 const MONTH_06_b_u: &[u8] = b"Jun";
 const MONTH_06_b_U: &[u8] = b"JUN";
+const MONTH_06_b_ld: &[u8] = b"jun.";
+const MONTH_06_b_ud: &[u8] = b"Jun.";
+const MONTH_06_b_Ud: &[u8] = b"JUN.";
 const MONTH_06_B_l: &[u8] = b"june";
 const MONTH_06_B_u: &[u8] = b"June";
 const MONTH_06_B_U: &[u8] = b"JUNE";
@@ -5107,6 +5236,9 @@ const MONTH_06_m: &[u8] = b"06";
 const MONTH_07_b_l: &[u8] = b"jul";
 const MONTH_07_b_u: &[u8] = b"Jul";
 const MONTH_07_b_U: &[u8] = b"JUL";
+const MONTH_07_b_ld: &[u8] = b"jul.";
+const MONTH_07_b_ud: &[u8] = b"Jul.";
+const MONTH_07_b_Ud: &[u8] = b"JUL.";
 const MONTH_07_B_l: &[u8] = b"july";
 const MONTH_07_B_u: &[u8] = b"July";
 const MONTH_07_B_U: &[u8] = b"JULY";
@@ -5114,6 +5246,9 @@ const MONTH_07_m: &[u8] = b"07";
 const MONTH_08_b_l: &[u8] = b"aug";
 const MONTH_08_b_u: &[u8] = b"Aug";
 const MONTH_08_b_U: &[u8] = b"AUG";
+const MONTH_08_b_ld: &[u8] = b"aug.";
+const MONTH_08_b_ud: &[u8] = b"Aug.";
+const MONTH_08_b_Ud: &[u8] = b"AUG.";
 const MONTH_08_B_l: &[u8] = b"august";
 const MONTH_08_B_u: &[u8] = b"August";
 const MONTH_08_B_U: &[u8] = b"AUGUST";
@@ -5121,6 +5256,9 @@ const MONTH_08_m: &[u8] = b"08";
 const MONTH_09_b_l: &[u8] = b"sep";
 const MONTH_09_b_u: &[u8] = b"Sep";
 const MONTH_09_b_U: &[u8] = b"SEP";
+const MONTH_09_b_ld: &[u8] = b"sep.";
+const MONTH_09_b_ud: &[u8] = b"Sep.";
+const MONTH_09_b_Ud: &[u8] = b"SEP.";
 const MONTH_09_B_l: &[u8] = b"september";
 const MONTH_09_B_u: &[u8] = b"September";
 const MONTH_09_B_U: &[u8] = b"SEPTEMBER";
@@ -5128,6 +5266,9 @@ const MONTH_09_m: &[u8] = b"09";
 const MONTH_10_b_l: &[u8] = b"oct";
 const MONTH_10_b_u: &[u8] = b"Oct";
 const MONTH_10_b_U: &[u8] = b"OCT";
+const MONTH_10_b_ld: &[u8] = b"oct.";
+const MONTH_10_b_ud: &[u8] = b"Oct.";
+const MONTH_10_b_Ud: &[u8] = b"OCT.";
 const MONTH_10_B_l: &[u8] = b"october";
 const MONTH_10_B_u: &[u8] = b"October";
 const MONTH_10_B_U: &[u8] = b"OCTOBER";
@@ -5135,6 +5276,9 @@ const MONTH_10_m: &[u8] = b"10";
 const MONTH_11_b_l: &[u8] = b"nov";
 const MONTH_11_b_u: &[u8] = b"Nov";
 const MONTH_11_b_U: &[u8] = b"NOV";
+const MONTH_11_b_ld: &[u8] = b"nov.";
+const MONTH_11_b_ud: &[u8] = b"Nov.";
+const MONTH_11_b_Ud: &[u8] = b"NOV.";
 const MONTH_11_B_l: &[u8] = b"november";
 const MONTH_11_B_u: &[u8] = b"November";
 const MONTH_11_B_U: &[u8] = b"NOVEMBER";
@@ -5142,6 +5286,9 @@ const MONTH_11_m: &[u8] = b"11";
 const MONTH_12_b_l: &[u8] = b"dec";
 const MONTH_12_b_u: &[u8] = b"Dec";
 const MONTH_12_b_U: &[u8] = b"DEC";
+const MONTH_12_b_ld: &[u8] = b"dec.";
+const MONTH_12_b_ud: &[u8] = b"Dec.";
+const MONTH_12_b_Ud: &[u8] = b"DEC.";
 const MONTH_12_B_l: &[u8] = b"december";
 const MONTH_12_B_u: &[u8] = b"December";
 const MONTH_12_B_U: &[u8] = b"DECEMBER";
@@ -5170,6 +5317,19 @@ fn month_bB_to_month_m_bytes(
         MONTH_10_b_l | MONTH_10_b_u | MONTH_10_b_U => buffer.copy_from_slice(MONTH_10_m),
         MONTH_11_b_l | MONTH_11_b_u | MONTH_11_b_U => buffer.copy_from_slice(MONTH_11_m),
         MONTH_12_b_l | MONTH_12_b_u | MONTH_12_b_U => buffer.copy_from_slice(MONTH_12_m),
+        // then try *b*dot matches
+        MONTH_01_b_ld | MONTH_01_b_ud | MONTH_01_b_Ud => buffer.copy_from_slice(MONTH_01_m),
+        MONTH_02_b_ld | MONTH_02_b_ud | MONTH_02_b_Ud => buffer.copy_from_slice(MONTH_02_m),
+        MONTH_03_b_ld | MONTH_03_b_ud | MONTH_03_b_Ud => buffer.copy_from_slice(MONTH_03_m),
+        MONTH_04_b_ld | MONTH_04_b_ud | MONTH_04_b_Ud => buffer.copy_from_slice(MONTH_04_m),
+        // MONTH_05_b_ld not neeeded
+        MONTH_06_b_ld | MONTH_06_b_ud | MONTH_06_b_Ud => buffer.copy_from_slice(MONTH_06_m),
+        MONTH_07_b_ld | MONTH_07_b_ud | MONTH_07_b_Ud => buffer.copy_from_slice(MONTH_07_m),
+        MONTH_08_b_ld | MONTH_08_b_ud | MONTH_08_b_Ud => buffer.copy_from_slice(MONTH_08_m),
+        MONTH_09_b_ld | MONTH_09_b_ud | MONTH_09_b_Ud => buffer.copy_from_slice(MONTH_09_m),
+        MONTH_10_b_ld | MONTH_10_b_ud | MONTH_10_b_Ud => buffer.copy_from_slice(MONTH_10_m),
+        MONTH_11_b_ld | MONTH_11_b_ud | MONTH_11_b_Ud => buffer.copy_from_slice(MONTH_11_m),
+        MONTH_12_b_ld | MONTH_12_b_ud | MONTH_12_b_Ud => buffer.copy_from_slice(MONTH_12_m),
         // then try *B* matches
         MONTH_01_B_l | MONTH_01_B_u | MONTH_01_B_U => buffer.copy_from_slice(MONTH_01_m),
         MONTH_02_B_l | MONTH_02_B_u | MONTH_02_B_U => buffer.copy_from_slice(MONTH_02_m),
@@ -5568,11 +5728,17 @@ pub fn bytes_to_regex_to_datetime(
     // this is a very expensive function call.
     let captures: regex::bytes::Captures = match regex_.captures(data) {
         None => {
-            defx!("regex: no captures (returned None)");
+            defx!(
+                "regex: no captures (returned None) for DTPD! at index {}, line {}",
+                index, DATETIME_PARSE_DATAS[*index]._line_num,
+            );
             return None;
         }
         Some(captures) => {
-            deo!("regex: captured using DTPD! at index {}", index);
+            deo!(
+                "regex: captured using DTPD! at index {}, line {}",
+                 index, DATETIME_PARSE_DATAS[*index]._line_num,
+            );
             deo!("regex captures: len {}", captures.len());
 
             captures

@@ -5520,7 +5520,7 @@ fn test_ezcheck_slice(
     4,
     0,
     0,
-    512,
+    532,
     0,
     0,
     0,
@@ -5529,7 +5529,7 @@ fn test_ezcheck_slice(
     28,
     0,
     7,
-    484,
+    504,
     0,
     7;
     "NTF_GZ_8BYTE_FPATH"
