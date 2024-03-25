@@ -37,12 +37,12 @@
 //! The [`common`] module is for shared constants, definitions, and helper
 //! functions. There are also sub-module `common.rs` specific to that module,
 //! e.g. [`data/common.rs`].<br/>
-//! And finally the driver is under the [`bin/bin.rs`].
+//! And finally the driver is under the [`bin/s4.rs`].
 //!
 //! Also see [_Definitions of data_] and [`Sysline`].
 //!
 //! [RFC 5424]: https://www.rfc-editor.org/rfc/rfc5424.html
-//! [`bin/bin.rs`]: ../s4/index.html
+//! [`bin/s4.rs`]: ../s4/index.html
 //! [`data/common.rs`]: crate::data::common
 //! [_Definitions of data_]: crate::data
 //! [`Sysline`]: crate::data::sysline::Sysline

@@ -82,8 +82,7 @@ libc = "0.2.153"
 
 [[bin]]
 name = "s4"
-# TODO: rename to `s4.rs`
-path = "src/bin/bin.rs"
+path = "src/bin/s4.rs"
 edition = "2021"
 test = true
 doc = true
