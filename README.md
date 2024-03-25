@@ -537,7 +537,7 @@ This informal runtime comparison used GNU `time` running on Ubuntu 22 on WSL2.
 |-             |-   |-   |-   |
 |`grep \| sort`|0.05|0.04|0.00|
 |`s4`          |0.05|0.05|0.02|
-|`logmerger`   |0.72|0.70|0.01|
+|`logmerger`   |0.83|0.79|0.01|
 
 See directory [compare-log-mergers] and results in [`compare-log-mergers.txt`].
 

@@ -1,0 +1,50 @@
++ /usr/bin/time --version
+time (GNU Time) UNKNOWN
++ python --version
+Python 3.10.12
+----------------------------------------
++ /usr/bin/grep --version
+grep (GNU grep) 3.7
++ /usr/bin/sort --version
+sort (GNU coreutils) 8.32
+
++ /usr/bin/time -p -- bash -c '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > '\''/tmp/compare-log-mergers_S9jmY.out'\'''
+real 0.05
+user 0.04
+sys 0.00
+
+4403 /tmp/compare-log-mergers_S9jmY.out
+----------------------------------------
++ ./target/release/s4 --version
+super_speedy_syslog_searcher 0.6.70
+
++ /usr/bin/time -p -- ./target/release/s4 -a 2000-01-01T00:20:00 -b 2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
+real 0.05
+user 0.04
+sys 0.02
+
+4403 /tmp/compare-log-mergers_S9jmY.out
+----------------------------------------
++ logmerger --version
+logmerger         0.8.0
+
++ /usr/bin/time -p -- logmerger --inline --output=- --start 2000-01-01T00:20:00 --end 2000-01-01T00:50:00 ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
+real 0.83
+user 0.79
+sys 0.01
+
+4908 /tmp/compare-log-mergers_S9jmY.out
+----------------------------------------
++ logdissect --version
+logdissect 3.1.1
+
+TODO: figure out how to use logdissect. I'm unable to get it to match on ANY files.
+
+----------------------------------------
++ tl --version
+tl, version 1.4.0
+
++ /usr/bin/time -p -- tl --merge --output-merge=/tmp/compare-log-mergers_S9jmY.out ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
+real 1.81
+user 0.46
+sys 0.03
