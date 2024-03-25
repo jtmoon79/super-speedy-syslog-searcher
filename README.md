@@ -527,9 +527,9 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 
 A comparison of merging three large log files:
 
-- 2000 line log file, 1116357 bytes, with high-plane unicode
-- 2500 line log file, 1078842 bytes, with high-plane unicode
-- 5000 line log file, 2158138 bytes, with high-plane unicode
+- 2000 line log file, 1116357 bytes (≈1.1 MB), with high-plane unicode
+- 2500 line log file, 1078842 bytes (≈1.0 MB), with high-plane unicode
+- 5000 line log file, 2158138 bytes (≈2.1 MB), with high-plane unicode
 
 This informal runtime comparison used GNU `time` running on Ubuntu 22 on WSL2.
 
