@@ -77,7 +77,7 @@ The first goal of `s4` is speedy searching and printing.
 Assuming [rust is installed], run
 
 ```lang-text
-cargo install super_speedy_syslog_searcher
+cargo install --locked super_speedy_syslog_searcher
 ```
 
 [rust is installed]: https://www.rust-lang.org/tools/install
