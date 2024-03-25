@@ -26,9 +26,8 @@ declare -ar S4_TEST_FILES=(
 
 set -x
 
-# cargo install cargo-msrv
-cargo msrv verify
-
+cargo clean
+cargo msrv verify  # cargo install cargo-msrv
 cargo build
 cargo build --release
 cargo test --all-targets
