@@ -433,7 +433,7 @@ See the real-world example rationale in the section below,
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
 - Entire [user accounting record files are read into memory] before printing
 
-[user accounting record files are read into memory]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/894a981202ef67912360f3e42a56c65a5112a584/src/readers/fixedstructreader.rs#L182-L192
+[user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
 
 <br/>
 
