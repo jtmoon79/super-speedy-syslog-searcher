@@ -15,8 +15,7 @@ Datetime filters may be passed to narrow the search to a datetime range.
 The first goal of `s4` is speedy searching and printing.
 
 <!--
-* Must update parameters `branch=` and `version=` per release
-* Must update MSRV per update of MSRV
+* Must update parameters `branch=` and `version=` per release; replace the version
 -->
 
 [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.6.70&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
