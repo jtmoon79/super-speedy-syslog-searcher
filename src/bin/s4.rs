@@ -519,7 +519,7 @@ struct CLI_Args {
     )]
     paths: Vec<String>,
 
-    /// DateTime Filter After: print syslog lines with a datetime that is at
+    /// DateTime Filter After: print log messages with a datetime that is at
     /// or after this datetime. For example, "20200102T120000" or "-5d".
     #[clap(
         short = 'a',
@@ -528,7 +528,7 @@ struct CLI_Args {
     )]
     dt_after: Option<String>,
 
-    /// DateTime Filter Before: print syslog lines with a datetime that is at
+    /// DateTime Filter Before: print log messages with a datetime that is at
     /// or before this datetime.
     /// For example, "2020-01-03T23:00:00.321-05:30" or "@+1d+11h"
     #[clap(
@@ -1547,7 +1547,7 @@ type ThreadInitData = (
     FixedOffset,
 );
 
-/// Is this the last [`Sysline`] of the syslog file?
+/// Is this the last [`Sysline`] of the log file?
 ///
 /// [`Sysline`]: s4lib::data::sysline::Sysline
 type IsLastLogMessage = bool;
