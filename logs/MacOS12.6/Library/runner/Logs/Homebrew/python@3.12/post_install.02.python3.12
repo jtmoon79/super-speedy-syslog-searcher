@@ -1,0 +1,26 @@
+2024-02-19 01:34:12 +0000
+
+/usr/local/Cellar/python@3.12/3.12.2/bin/python3.12
+-Im
+pip
+install
+-v
+--no-deps
+--no-index
+--upgrade
+--isolated
+--target=/usr/local/lib/python3.12/site-packages
+/usr/local/Cellar/python@3.12/3.12.2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ensurepip/_bundled/pip-24.0-py3-none-any.whl
+/usr/local/Cellar/python@3.12/3.12.2/libexec/wheel-0.42.0-py3-none-any.whl
+
+WARNING: The directory '/Users/runner/Library/Caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Using pip 24.0 from /usr/local/lib/python3.12/site-packages/pip (python 3.12)
+Processing /usr/local/Cellar/python@3.12/3.12.2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ensurepip/_bundled/pip-24.0-py3-none-any.whl
+Processing /usr/local/Cellar/python@3.12/3.12.2/libexec/wheel-0.42.0-py3-none-any.whl
+Installing collected packages: wheel, pip
+  Creating /private/tmp/pip-target-k_h_cljq/bin
+  changing mode of /private/tmp/pip-target-k_h_cljq/bin/wheel to 755
+  changing mode of /private/tmp/pip-target-k_h_cljq/bin/pip to 755
+  changing mode of /private/tmp/pip-target-k_h_cljq/bin/pip3 to 755
+  changing mode of /private/tmp/pip-target-k_h_cljq/bin/pip3.12 to 755
+Successfully installed pip-24.0 wheel-0.42.0

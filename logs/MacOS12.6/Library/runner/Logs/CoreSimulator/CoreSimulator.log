@@ -1,0 +1,319 @@
+Feb 19 04:06:51 Mac-2748 CoreSimulatorService[74315] <Notice>: com.apple.CoreSimulator.CoreSimulatorService 857.7 starting.
+Feb 19 04:06:52 Mac-2748 CoreSimulatorService[74315] <Warning>: Device BC70B567-1078-4798-AFAF-D2274BA7C78F encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:52 Mac-2748 com.apple.dt.xcodebuild[74314] <Warning>: Found duplicate SDKs for appletvos16.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.0.sdk
+Feb 19 04:06:52 Mac-2748 com.apple.dt.xcodebuild[74314] <Warning>: Found duplicate SDKs for iphoneos16.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 04:06:52 Mac-2748 com.apple.dt.xcodebuild[74314] <Warning>: Found duplicate SDKs for watchos9.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.0.sdk
+Feb 19 04:06:52 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 1FFE953A-A052-4796-B1FC-C4A24594DADF encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 6FF39057-036E-4B8F-ABAF-561758A2AE9A encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 122190B6-13AB-4441-80D3-9F15E18C4BDC encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device FA7B8EDA-3E24-4D86-AAAB-47967DA12A14 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 668E96BC-B7C5-4D9A-9C3C-61ECC940ED78 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device EBEC5D94-9683-4AF9-B922-C5B8675581F7 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device E4BF73BA-BE3F-4F2A-A6ED-30AC637E9F7C encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device A2F980C7-D714-40B0-A1A7-200CAF383886 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 5CCB2BA9-B627-4102-8315-A8160136CE6E encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 04:06:55 Mac-2748 CoreSimulatorService[74315] <Warning>: Unable to locate a suitable watch runtime for phone=iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0, wanted watch=9.0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 5600EF43-5D2B-4F2A-BB28-E16FA0246C22 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device D2807FD5-93E9-489F-8F90-CEC4284EFD0F encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 3030D5CA-36DB-4F43-8C80-53432FB712F9 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 7D0822FC-7C5E-423F-91B4-78F5BA6F3BF3 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device CFFA1273-FB59-4D96-9F11-19629000EFF9 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 0939971C-4941-4271-9DD6-6DC27A53D0B6 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 8E60ACAD-FBD1-4A02-A407-93F284B3B369 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 5E73F14F-453B-45EA-8478-50B0D94B7394 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 8F50C66B-DA00-4AF1-87D3-4AC66F5CA3B8 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Warning>: Device AA61632F-5971-4B9A-AA58-BD30AE5336E4 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:09:26 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+Feb 19 04:11:59 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 866D73DE-9E0B-423A-9321-7393023165AC encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:02 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for tvOS 16.0 (16.0 - 20J373) - com.apple.CoreSimulator.SimRuntime.tvOS-16-0
+Feb 19 04:12:03 Mac-2748 CoreSimulatorService[74315] <Warning>: Device ED96DDAB-231F-43FB-B7F6-382A02300B89 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:03 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for tvOS 16.0 (16.0 - 20J373) - com.apple.CoreSimulator.SimRuntime.tvOS-16-0
+Feb 19 04:12:03 Mac-2748 CoreSimulatorService[74315] <Warning>: Device 9CE73AF4-49CE-4A71-83F5-859214D6C254 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:03 Mac-2748 CoreSimulatorService[74315] <Notice>: Could not locate default .GlobalPreferences.plist for tvOS 16.0 (16.0 - 20J373) - com.apple.CoreSimulator.SimRuntime.tvOS-16-0
+Feb 19 04:12:44 Mac-2748 CoreSimulatorService[74488] <Notice>: com.apple.CoreSimulator.CoreSimulatorService 857.13 starting.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 1034B650-AE7F-4AE1-89B3-8F90A6FCB6FF encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 com.apple.dt.xcodebuild[74487] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 04:12:45 Mac-2748 com.apple.dt.xcodebuild[74487] <Warning>: Found duplicate SDKs for iphoneos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 04:12:45 Mac-2748 com.apple.dt.xcodebuild[74487] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 7BA77CDA-2DBF-45E4-9600-58E05EBCCA4F encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device F037ED82-08FF-49B1-8B2F-9CFC2B72E497 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 03DE496B-CB59-42E0-964B-9B393EFCC4E3 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 6CE8BC0F-8415-42E4-A2FD-9F03437494C3 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 04FF728B-E0DA-4D39-A69A-D2DA246F0FB1 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 87211849-A5E3-4154-9497-6BC58ADA3F47 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 7B3972C0-8840-4384-94C9-29E61857A3A0 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device F9ED7CB7-463C-494F-9D09-C30C00342EFA encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 44E4EF67-3474-4AF6-9D6A-BB3441FB6E75 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Warning>: Device 8C55A2B1-9D20-4AF7-A45B-F9AEC1E34A30 encountered in creation state at launch.  The device will be re-created.
+Feb 19 04:12:45 Mac-2748 CoreSimulatorService[74488] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.0 (9.0 - 20R362) - com.apple.CoreSimulator.SimRuntime.watchOS-9-0
+
+Feb 19 06:57:54 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.4 (15.4 - 19E240) - com.apple.CoreSimulator.SimRuntime.iOS-15-4
+Feb 19 06:57:54 Mac-2748 CoreSimulatorService[72536] <Warning>: Device BB7CA163-42B9-4D02-8300-B2AEAF939871 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:57:55 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.4 (15.4 - 19E240) - com.apple.CoreSimulator.SimRuntime.iOS-15-4
+Feb 19 06:57:55 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 4409BC76-68C8-4133-91AC-EBD22C2B4E7F encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:57:55 Mac-2748 com.apple.CoreSimulator.simctl[73354] <Warning>: Found duplicate SDKs for appletvos15.4:
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS15.4.sdk
+Feb 19 06:57:55 Mac-2748 com.apple.CoreSimulator.simctl[73354] <Warning>: Found duplicate SDKs for iphoneos15.4:
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.4.sdk
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 06:57:55 Mac-2748 com.apple.CoreSimulator.simctl[73354] <Warning>: Found duplicate SDKs for watchos8.5:
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk
+Feb 19 06:57:55 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.4 (15.4 - 19E240) - com.apple.CoreSimulator.SimRuntime.iOS-15-4
+Feb 19 06:57:55 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 3347A5A8-0603-48C3-AFFA-96D83335DCAC encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:57:55 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.4 (15.4 - 19E240) - com.apple.CoreSimulator.SimRuntime.iOS-15-4
+
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 29BD3F78-A6BF-4DEA-827E-5B2129FEF524 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 28DBEF19-457F-4C32-B2CF-1D970FE771E1 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 com.apple.CoreSimulator.simctl[73382] <Warning>: Found duplicate SDKs for appletvos16.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.0.sdk
+Feb 19 06:58:12 Mac-2748 com.apple.CoreSimulator.simctl[73382] <Warning>: Found duplicate SDKs for iphoneos16.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 06:58:12 Mac-2748 com.apple.CoreSimulator.simctl[73382] <Warning>: Found duplicate SDKs for watchos9.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.0.sdk
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device D9BCBCA1-15A9-41B1-8314-46F14C607078 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device C2F6B47C-FF72-44DB-B680-1EB9B0CE568F encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 44D69D6F-3F77-402F-9641-32908AEF41A0 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device C17DBF50-4287-4EAA-BEDB-606FE544BEA4 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 3E8756CF-FD42-4B57-9970-E056E1410F8D encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 10042E2A-0F8B-4D91-8E20-18F241082A3E encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device DE3980BA-BDC2-49A1-9AD6-289D91E6CB87 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 5BE1023C-0B4D-4C43-9294-27C5908722B7 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device BCA7B946-E299-4630-84FA-738A61E6E886 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 1F4E255B-F24B-4C9A-9765-9E6A59A703A1 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 740D4E57-8C56-4073-8C52-764CA2E412DF encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device CD5960ED-835E-4AE6-B66B-9320B5FB0DD6 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 624B9F4D-1945-4578-B64E-AC25DD2FAF75 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 624B9F4D-1945-4578-B64E-AC25DD2FAF75 is not currently available so it cannot be setup. Service will monitor runtimes and device types. If they appear the device will be setup at that time. Availability failure: Error Domain=com.apple.CoreSimulator.SimError Code=404 "The com.apple.CoreSimulator.SimDeviceType.iPod-touch--7th-generation- simulator device type is not supported by the com.apple.CoreSimulator.SimRuntime.iOS-16-0 runtime." UserInfo={NSLocalizedDescription=The com.apple.CoreSimulator.SimDeviceType.iPod-touch--7th-generation- simulator device type is not supported by the com.apple.CoreSimulator.SimRuntime.iOS-16-0 runtime., NSLocalizedFailureReason=device type not supported by runtime}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: New device is stuck in creation state, deleting: iPod touch (7th generation) (624B9F4D-1945-4578-B64E-AC25DD2FAF75, iOS 16.0, Creating)
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=NSPOSIXErrorDomain Code=22 "Invalid argument" UserInfo={NSLocalizedFailureReason=Device was allocated but was stuck in creation state.  Check CoreSimulator.log for more information.}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device A6EFE3AD-CC70-42DB-AB88-1A8B071E277C encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.0 (16.0 - 20A360) - com.apple.CoreSimulator.SimRuntime.iOS-16-0
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 48F9A73E-5B8C-4D77-A0B6-8C174C9BAE55 encountered in creation state at launch.  The device will be re-created.
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Warning>: Device 48F9A73E-5B8C-4D77-A0B6-8C174C9BAE55 is not currently available so it cannot be setup. Service will monitor runtimes and device types. If they appear the device will be setup at that time. Availability failure: Error Domain=com.apple.CoreSimulator.SimError Code=404 "The com.apple.CoreSimulator.SimDeviceType.iPod-touch--7th-generation- simulator device type is not supported by the com.apple.CoreSimulator.SimRuntime.iOS-16-0 runtime." UserInfo={NSLocalizedDescription=The com.apple.CoreSimulator.SimDeviceType.iPod-touch--7th-generation- simulator device type is not supported by the com.apple.CoreSimulator.SimRuntime.iOS-16-0 runtime., NSLocalizedFailureReason=device type not supported by runtime}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: New device is stuck in creation state, deleting: iPod touch (7th generation) (48F9A73E-5B8C-4D77-A0B6-8C174C9BAE55, iOS 16.0, Creating)
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=NSPOSIXErrorDomain Code=22 "Invalid argument" UserInfo={NSLocalizedFailureReason=Device was allocated but was stuck in creation state.  Check CoreSimulator.log for more information.}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 14 (EBEC5D94-9683-4AF9-B922-C5B8675581F7, iOS 16.0, Shutdown)
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 13 mini (29BD3F78-A6BF-4DEA-827E-5B2129FEF524, iOS 16.0, Shutdown)
+Feb 19 06:58:12 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 13 mini (B8F7C761-C8A8-4642-8DCB-9AF235C43D85, iOS 16.1, Shutdown)
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 13 Pro Max (95F7AE3C-2AF8-4C1F-A175-9FB9520DD405, iOS 16.1, Shutdown)
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 13 Pro Max (95F7AE3C-2AF8-4C1F-A175-9FB9520DD405, iOS 16.1, Shutdown)
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 13 Pro (5F4A203E-B180-44D7-87CD-69643F2D58F3, iOS 16.1, Shutdown)
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 12 Pro Max (B429B7C0-4BBD-4CFC-941E-8F1E62DF92BD, iOS 16.1, Shutdown)
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 12 Pro Max (B429B7C0-4BBD-4CFC-941E-8F1E62DF92BD, iOS 16.1, Shutdown)
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 12 Pro (13BCE2A3-EBA9-4F4D-9A38-3824DA2932D3, iOS 16.1, Shutdown)
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 12 (9A406615-12C5-47AE-840F-FA8035F82778, iOS 16.1, Shutdown)
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 06:58:22 Mac-2748 CoreSimulatorService[72536] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+
+Feb 19 07:00:23 Mac-2748 com.apple.CoreSimulator.simctl[77948] <Warning>: Found duplicate SDKs for watchos8.5:
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk
+Feb 19 07:00:26 Mac-2748 com.apple.CoreSimulator.simctl[77972] <Warning>: Found duplicate SDKs for appletvos16.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.0.sdk
+Feb 19 07:00:26 Mac-2748 com.apple.CoreSimulator.simctl[77972] <Warning>: Found duplicate SDKs for iphoneos16.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:00:26 Mac-2748 com.apple.CoreSimulator.simctl[77972] <Warning>: Found duplicate SDKs for watchos9.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.0.sdk
+Feb 19 07:00:30 Mac-2748 com.apple.CoreSimulator.simctl[78001] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 07:00:30 Mac-2748 com.apple.CoreSimulator.simctl[78001] <Warning>: Found duplicate SDKs for iphoneos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:00:30 Mac-2748 com.apple.CoreSimulator.simctl[78001] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 07:00:33 Mac-2748 com.apple.CoreSimulator.simctl[78011] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 07:00:33 Mac-2748 com.apple.CoreSimulator.simctl[78011] <Warning>: Found duplicate SDKs for iphoneos16.2:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:00:33 Mac-2748 com.apple.CoreSimulator.simctl[78011] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 07:02:27 Mac-2748 com.apple.CoreSimulator.simctl[80919] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 07:02:27 Mac-2748 com.apple.CoreSimulator.simctl[80919] <Warning>: Found duplicate SDKs for iphoneos16.2:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:02:27 Mac-2748 com.apple.CoreSimulator.simctl[80919] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 07:02:28 Mac-2748 com.apple.CoreSimulator.simctl[80926] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 07:02:28 Mac-2748 com.apple.CoreSimulator.simctl[80926] <Warning>: Found duplicate SDKs for iphoneos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:02:28 Mac-2748 com.apple.CoreSimulator.simctl[80926] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 07:02:29 Mac-2748 com.apple.CoreSimulator.simctl[80934] <Warning>: Found duplicate SDKs for appletvos16.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.0.sdk
+Feb 19 07:02:29 Mac-2748 com.apple.CoreSimulator.simctl[80934] <Warning>: Found duplicate SDKs for iphoneos16.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:02:29 Mac-2748 com.apple.CoreSimulator.simctl[80934] <Warning>: Found duplicate SDKs for watchos9.0:
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.0.sdk
+Feb 19 07:02:30 Mac-2748 com.apple.CoreSimulator.simctl[80942] <Warning>: Found duplicate SDKs for appletvos15.4:
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS15.4.sdk
+Feb 19 07:02:30 Mac-2748 com.apple.CoreSimulator.simctl[80942] <Warning>: Found duplicate SDKs for iphoneos15.5:
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.5.sdk
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:02:30 Mac-2748 com.apple.CoreSimulator.simctl[80942] <Warning>: Found duplicate SDKs for watchos8.5:
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk
+Feb 19 07:02:31 Mac-2748 com.apple.CoreSimulator.simctl[80950] <Warning>: Found duplicate SDKs for appletvos15.4:
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS15.4.sdk
+Feb 19 07:02:31 Mac-2748 com.apple.CoreSimulator.simctl[80950] <Warning>: Found duplicate SDKs for iphoneos15.4:
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.4.sdk
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:02:31 Mac-2748 com.apple.CoreSimulator.simctl[80950] <Warning>: Found duplicate SDKs for watchos8.5:
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_13.3.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk
+Feb 19 07:02:34 Mac-2748 com.apple.CoreSimulator.simctl[80980] <Warning>: Found duplicate SDKs for appletvos15.4:
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS15.4.sdk
+Feb 19 07:02:34 Mac-2748 com.apple.CoreSimulator.simctl[80980] <Warning>: Found duplicate SDKs for iphoneos15.5:
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.5.sdk
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:02:34 Mac-2748 com.apple.CoreSimulator.simctl[80980] <Warning>: Found duplicate SDKs for watchos8.5:
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk
+Feb 19 07:02:34 Mac-2748 com.apple.CoreSimulator.simctl[80984] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+
+Feb 19 07:02:42 Mac-2748 com.apple.CoreSimulator.simctl[81055] <Warning>: Found duplicate SDKs for watchos8.5:
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_13.4.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.5.sdk
+Feb 19 07:02:43 Mac-2748 com.apple.CoreSimulator.simctl[81059] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 07:02:43 Mac-2748 com.apple.CoreSimulator.simctl[81059] <Warning>: Found duplicate SDKs for iphoneos16.2:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:02:43 Mac-2748 com.apple.CoreSimulator.simctl[81059] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 07:02:43 Mac-2748 com.apple.CoreSimulator.simctl[81062] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 07:02:43 Mac-2748 com.apple.CoreSimulator.simctl[81062] <Warning>: Found duplicate SDKs for iphoneos16.2:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 07:02:43 Mac-2748 com.apple.CoreSimulator.simctl[81062] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk

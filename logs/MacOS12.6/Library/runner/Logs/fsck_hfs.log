@@ -1,0 +1,110 @@
+
+fsck_hfs started at Fri Jan  5 04:03:59 2018
+** /dev/rdisk1s2 (NO WRITE)
+   Executing fsck_hfs (version hfs-366.70.1).
+** Checking non-journaled HFS Plus Volume.
+   The volume name is InstallESD
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking extended attributes file.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume InstallESD appears to be OK.
+fsck_hfs completed at Fri Jan  5 04:04:00 2018
+
+
+fsck_hfs started at Fri Jan  5 04:10:49 2018
+** /dev/rdisk1s2 (NO WRITE)
+   Executing fsck_hfs (version hfs-366.70.1).
+** Checking non-journaled HFS Plus Volume.
+   The volume name is InstallESD
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking extended attributes file.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume InstallESD appears to be OK.
+fsck_hfs completed at Fri Jan  5 04:10:50 2018
+
+
+fsck_hfs started at Tue Apr 10 23:35:31 2018
+** /dev/rdisk1s2 (NO WRITE)
+   Executing fsck_hfs (version hfs-407.30.1).
+** Checking non-journaled HFS Plus Volume.
+   The volume name is macOS High Sierra 10.13.4 Update
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking extended attributes file.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume macOS High Sierra 10.13.4 Update appears to be OK.
+fsck_hfs completed at Tue Apr 10 23:35:31 2018
+
+
+fsck_hfs started at Thu Jun  7 03:45:22 2018
+** /dev/rdisk1s2 (NO WRITE)
+   Executing fsck_hfs (version hfs-407.50.6).
+** Checking non-journaled HFS Plus Volume.
+   The volume name is macOS High Sierra 10.13.5 Update
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking extended attributes file.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume macOS High Sierra 10.13.5 Update appears to be OK.
+fsck_hfs completed at Thu Jun  7 03:45:22 2018
+
+
+fsck_hfs started at Thu Aug  9 07:55:08 2018
+** /dev/rdisk1s2 (NO WRITE)
+   Executing fsck_hfs (version hfs-407.50.6).
+** Checking non-journaled HFS Plus Volume.
+   The volume name is macOS High Sierra 10.13.6 Update
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking extended attributes file.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume macOS High Sierra 10.13.6 Update appears to be OK.
+fsck_hfs completed at Thu Aug  9 07:55:09 2018
+
+
+fsck_hfs started at Fri Jun 12 03:13:38 2020
+** /dev/rdisk2s2 (NO WRITE)
+   Executing fsck_hfs (version hfs-522.100.5).
+** Checking non-journaled HFS Plus Volume.
+   The volume name is VMware Tools
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume VMware Tools appears to be OK.
+fsck_hfs completed at Fri Jun 12 03:13:38 2020
+
+
+fsck_hfs started at Mon Mar  8 11:27:10 2021
+** /dev/rdisk2s2 (NO WRITE)
+   Executing fsck_hfs (version hfs-522.100.5).
+** Checking non-journaled HFS Plus Volume.
+   The volume name is VMware Tools
+** Checking extents overflow file.
+** Checking catalog file.
+** Checking multi-linked files.
+** Checking catalog hierarchy.
+** Checking volume bitmap.
+** Checking volume information.
+** The volume VMware Tools appears to be OK.
+fsck_hfs completed at Mon Mar  8 11:27:10 2021
+

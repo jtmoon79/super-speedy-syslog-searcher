@@ -1,0 +1,126 @@
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: deleted_messages
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: chat_handle_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: chat_message_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: message_attachment_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: handle
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_handle_join_idx_handle_id
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_is_read
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_message_join_idx_chat_id
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_idx_is_archived
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_idx_chat_room_name_service_name
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_handle_id
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_message_join_idx_message_id
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_idx_chat_identifier
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_message_join_idx_message_id_only
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_failed
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_associated_message
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_handle
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_attachment_join_idx_attachment_id
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_date
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_expire_state
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_idx_chat_identifier_service_name
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_other_handle
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_attachment_join_idx_message_id
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_was_downgraded
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: after_insert_on_message_attachment_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: after_delete_on_chat_message_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: after_delete_on_attachment
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: after_delete_on_message_attachment_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: add_to_deleted_messages
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: after_delete_on_chat
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: before_delete_on_attachment
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: after_delete_on_chat_handle_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: delete_associated_messages_after_delete_on_message
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: after_delete_on_message
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created trigger ok: after_insert_on_chat_message_join 
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: The current SMS database is v10013.  The current schema version is v11018. Can be migrated: YES
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Beginning migration.  The SMS db is currently at v10013, upgrading to v11018.
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Integrity checked success
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Initial Integrity checked success
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Dropped trigger: after_insert_on_message_attachment_join
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Dropped trigger: after_delete_on_chat_message_join
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Dropped trigger: after_delete_on_attachment
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Dropped trigger: after_delete_on_message_attachment_join
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Dropped trigger: add_to_deleted_messages
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Dropped trigger: after_delete_on_chat
+2018-01-05 04:34:49 -0800 IMDPersistenceAgent[335]: Dropped trigger: before_delete_on_attachment
+
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: after_insert_on_message_attachment_join, trigger: CREATE TRIGGER IF NOT EXISTS after_insert_on_message_attachment_join AFTER INSERT ON message_attachment_join BEGIN     UPDATE message       SET cache_has_attachments = 1     WHERE       message.ROWID = NEW.message_id; END
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: after_delete_on_chat_handle_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_chat_handle_join AFTER DELETE ON chat_handle_join BEGIN     DELETE FROM handle         WHERE handle.ROWID = OLD.handle_id     AND         (SELECT 1 from chat_handle_join WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE other_handle = OLD.handle_id LIMIT 1) IS NULL; END
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: after_insert_on_chat_message_join , trigger: CREATE TRIGGER IF NOT EXISTS after_insert_on_chat_message_join  AFTER INSERT ON chat_message_join BEGIN     UPDATE message       SET cache_roomnames = (         SELECT group_concat(c.room_name)         FROM chat c         INNER JOIN chat_message_join j ON c.ROWID = j.chat_id         WHERE           j.message_id = NEW.message_id       )       WHERE         message.ROWID = NEW.message_id; END
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: after_delete_on_message, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_message AFTER DELETE ON message BEGIN     DELETE FROM handle         WHERE handle.ROWID = OLD.handle_id     AND         (SELECT 1 from chat_handle_join WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE other_handle = OLD.handle_id LIMIT 1) IS NULL; END
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: update_message_date_after_update_on_message, trigger: CREATE TRIGGER IF NOT EXISTS update_message_date_after_update_on_message AFTER UPDATE OF date ON message BEGIN UPDATE chat_message_join SET message_date = NEW.date WHERE message_id = NEW.ROWID AND message_date != NEW.date; END
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: add_to_sync_deleted_messages, trigger: CREATE TRIGGER IF NOT EXISTS add_to_sync_deleted_messages AFTER DELETE ON message BEGIN     INSERT INTO sync_deleted_messages (guid, recordID) VALUES (OLD.guid, OLD.ck_record_id); END
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: after_delete_on_chat, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_chat AFTER DELETE ON chat BEGIN DELETE FROM chat_message_join WHERE chat_id = OLD.ROWID; END
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: delete_associated_messages_after_delete_on_message, trigger: CREATE TRIGGER IF NOT EXISTS delete_associated_messages_after_delete_on_message AFTER DELETE ON message BEGIN DELETE FROM message WHERE (OLD.associated_message_guid IS NULL AND associated_message_guid IS NOT NULL AND guid = OLD.associated_message_guid); END
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created trigger ok: before_delete_on_attachment, trigger: CREATE TRIGGER IF NOT EXISTS before_delete_on_attachment BEFORE DELETE ON attachment BEGIN   SELECT before_delete_attachment_path(OLD.ROWID, OLD.guid); END
+
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created table (if needed) ok: handle
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created table (if needed) ok: sync_deleted_chats
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created table (if needed) ok: message_attachment_join
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created table (if needed) ok: sync_deleted_attachments
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created table (if needed) ok: kvtable
+
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created trigger ok: after_delete_on_message_attachment_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_message_attachment_join AFTER DELETE ON message_attachment_join BEGIN     DELETE FROM attachment         WHERE attachment.ROWID = OLD.attachment_id     AND         (SELECT 1 from message_attachment_join WHERE attachment_id = OLD.attachment_id LIMIT 1) IS NULL; END
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Integrity checked success
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Message database migration passed post migrate integrity check
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Message's DB migration took 0.021483 seconds.
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: The current SMS database is v14005.  The current schema version is v14006. Can be migrated: YES
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Beginning migration.  The SMS db is currently at v14005, upgrading to v14006.
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Integrity checked success
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Initial Integrity checked success
+
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created trigger ok: after_delete_on_chat_message_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_chat_message_join AFTER DELETE ON chat_message_join BEGIN     UPDATE message       SET cache_roomnames = (         SELECT group_concat(c.room_name)         FROM chat c         INNER JOIN chat_message_join j ON c.ROWID = j.chat_id         WHERE           j.message_id = OLD.message_id       )       WHERE         message.ROWID = OLD.message_id;  DELETE FROM message WHERE message.ROWID = OLD.message_id AND OLD.message_id NOT IN (SELECT chat_message_join.message_id from chat_message_join WHERE chat_message_join.message_id = OLD.message_id LIMIT 1); END
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created trigger ok: after_delete_on_attachment, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_attachment AFTER DELETE ON attachment BEGIN   SELECT delete_attachment_path(OLD.filename); END
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created trigger ok: after_insert_on_message_attachment_join, trigger: CREATE TRIGGER IF NOT EXISTS after_insert_on_message_attachment_join AFTER INSERT ON message_attachment_join BEGIN     UPDATE message       SET cache_has_attachments = 1     WHERE       message.ROWID = NEW.message_id; END
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created trigger ok: after_delete_on_chat_handle_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_chat_handle_join AFTER DELETE ON chat_handle_join BEGIN     DELETE FROM handle         WHERE handle.ROWID = OLD.handle_id     AND         (SELECT 1 from chat_handle_join WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE other_handle = OLD.handle_id LIMIT 1) IS NULL; END
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created trigger ok: after_insert_on_chat_message_join , trigger: CREATE TRIGGER IF NOT EXISTS after_insert_on_chat_message_join  AFTER INSERT ON chat_message_join BEGIN     UPDATE message       SET cache_roomnames = (         SELECT group_concat(c.room_name)         FROM chat c         INNER JOIN chat_message_join j ON c.ROWID = j.chat_id         WHERE           j.message_id = NEW.message_id       )       WHERE         message.ROWID = NEW.message_id; END
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created trigger ok: after_delete_on_message, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_message AFTER DELETE ON message BEGIN     DELETE FROM handle         WHERE handle.ROWID = OLD.handle_id     AND         (SELECT 1 from chat_handle_join WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE other_handle = OLD.handle_id LIMIT 1) IS NULL; END
+
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: chat_handle_join
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: sync_deleted_messages
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: message_processing_task
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: handle
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: sync_deleted_chats
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: message_attachment_join
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: sync_deleted_attachments
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: kvtable
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: chat_message_join
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Migrated from 15000 to 15001 ok in 0.000563 seconds
+
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: chat_message_join
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Migrated from 15008 to 15009 ok in 0.000781 seconds
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: deleted_messages
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: chat_handle_join
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: sync_deleted_messages
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: message_processing_task
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: handle
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: sync_deleted_chats
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Created table (if needed) ok: message_attachment_join
+
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Message database migration passed post migrate integrity check
+2021-10-29 07:42:22 -0700 IMDPersistenceAgent[573]: Message's DB migration took 0.029742 seconds.
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: The current SMS database is v15009.  The current schema version is v15011. Can be migrated: YES
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Beginning migration.  The SMS db is currently at v15009, upgrading to v15011.
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Integrity checked success
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Initial Integrity checked success
+
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_delete_on_chat_message_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_chat_message_join AFTER DELETE ON chat_message_join BEGIN     UPDATE message       SET cache_roomnames = (         SELECT group_concat(c.room_name)         FROM chat c         INNER JOIN chat_message_join j ON c.ROWID = j.chat_id         WHERE           j.message_id = OLD.message_id       )       WHERE         message.ROWID = OLD.message_id;  DELETE FROM message WHERE message.ROWID = OLD.message_id AND OLD.message_id NOT IN (SELECT chat_message_join.message_id from chat_message_join WHERE chat_message_join.message_id = OLD.message_id LIMIT 1); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_delete_on_attachment, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_attachment AFTER DELETE ON attachment BEGIN   SELECT delete_attachment_path(OLD.filename); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_insert_on_message_attachment_join, trigger: CREATE TRIGGER IF NOT EXISTS after_insert_on_message_attachment_join AFTER INSERT ON message_attachment_join BEGIN     UPDATE message       SET cache_has_attachments = 1     WHERE       message.ROWID = NEW.message_id; END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_delete_on_chat_handle_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_chat_handle_join AFTER DELETE ON chat_handle_join BEGIN     DELETE FROM handle         WHERE handle.ROWID = OLD.handle_id     AND         (SELECT 1 from chat_handle_join WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE other_handle = OLD.handle_id LIMIT 1) IS NULL; END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_insert_on_chat_message_join , trigger: CREATE TRIGGER IF NOT EXISTS after_insert_on_chat_message_join  AFTER INSERT ON chat_message_join BEGIN     UPDATE message       SET cache_roomnames = (         SELECT group_concat(c.room_name)         FROM chat c         INNER JOIN chat_message_join j ON c.ROWID = j.chat_id         WHERE           j.message_id = NEW.message_id       )       WHERE         message.ROWID = NEW.message_id; END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_delete_on_message, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_message AFTER DELETE ON message BEGIN     DELETE FROM handle         WHERE handle.ROWID = OLD.handle_id     AND         (SELECT 1 from chat_handle_join WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE handle_id = OLD.handle_id LIMIT 1) IS NULL     AND         (SELECT 1 from message WHERE other_handle = OLD.handle_id LIMIT 1) IS NULL; END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: update_message_date_after_update_on_message, trigger: CREATE TRIGGER IF NOT EXISTS update_message_date_after_update_on_message AFTER UPDATE OF date ON message BEGIN UPDATE chat_message_join SET message_date = NEW.date WHERE message_id = NEW.ROWID AND message_date != NEW.date; END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_delete_on_message_plugin, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_message_plugin AFTER DELETE ON message WHEN OLD.balloon_bundle_id IS NOT NULL BEGIN   SELECT after_delete_message_plugin(OLD.ROWID, OLD.guid); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: add_to_sync_deleted_messages, trigger: CREATE TRIGGER IF NOT EXISTS add_to_sync_deleted_messages AFTER DELETE ON message BEGIN     INSERT INTO sync_deleted_messages (guid, recordID) VALUES (OLD.guid, OLD.ck_record_id); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_delete_on_chat, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_chat AFTER DELETE ON chat BEGIN DELETE FROM chat_message_join WHERE chat_id = OLD.ROWID; END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: delete_associated_messages_after_delete_on_message, trigger: CREATE TRIGGER IF NOT EXISTS delete_associated_messages_after_delete_on_message AFTER DELETE ON message BEGIN DELETE FROM message WHERE (OLD.associated_message_guid IS NULL AND associated_message_guid IS NOT NULL AND guid = OLD.associated_message_guid); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: before_delete_on_attachment, trigger: CREATE TRIGGER IF NOT EXISTS before_delete_on_attachment BEFORE DELETE ON attachment BEGIN   SELECT before_delete_attachment_path(OLD.ROWID, OLD.guid); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: add_to_sync_deleted_attachments, trigger: CREATE TRIGGER IF NOT EXISTS add_to_sync_deleted_attachments AFTER DELETE ON attachment BEGIN     INSERT INTO sync_deleted_attachments (guid, recordID) VALUES (OLD.guid, OLD.ck_record_id); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: add_to_deleted_messages, trigger: CREATE TRIGGER IF NOT EXISTS add_to_deleted_messages AFTER DELETE ON message BEGIN     INSERT INTO deleted_messages (guid) VALUES (OLD.guid); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: after_delete_on_message_attachment_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_message_attachment_join AFTER DELETE ON message_attachment_join BEGIN     DELETE FROM attachment         WHERE attachment.ROWID = OLD.attachment_id     AND         (SELECT 1 from message_attachment_join WHERE attachment_id = OLD.attachment_id LIMIT 1) IS NULL; END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Created trigger ok: update_last_failed_message_date, trigger: CREATE TRIGGER IF NOT EXISTS update_last_failed_message_date AFTER UPDATE OF error ON message WHEN   NEW.error != 0 AND NEW.date > COALESCE((SELECT value FROM kvtable WHERE key = 'lastFailedMessageDate'), 0) BEGIN   INSERT OR REPLACE INTO kvtable (key, value) VALUES ('lastFailedMessageDate', NEW.date);   INSERT OR REPLACE INTO kvtable (key, value) VALUES ('lastFailedMessageRowID', NEW.rowID); END
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Integrity checked success
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Message database migration passed post migrate integrity check
+2022-07-21 08:42:43 -0700 IMDPersistenceAgent[580]: Message's DB migration took 0.034030 seconds.
