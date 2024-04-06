@@ -324,7 +324,7 @@ but otherwise there is little source evidence.
 
 Currently, log file formats vary widely. _Most_ logs are an ad-hoc format.
 Even separate log files on the same system for the same service may have
-different message formats! 😵
+different message formats!
 Sorting these logged messages by datetime may be prohibitively difficult.
 The result is an engineer may have to "hunt and peck" among many log files,
 looking for problem clues around some datetime; so tedious!
@@ -679,11 +679,11 @@ Mar 03 10:31:23 host sshd[4559]: Accepted login for user1 from 172.1.2.1 port 51
 ```
 
 Try merging those two log messages by datetime using GNU `grep`, `sort`, `sed`,
-or `awk`! 😨
+or `awk`!
 
 Additionally, if the `wtmp` file is from a different architecture
 or Operating System, then the binary record structure is likely not parseable
-by the resident `utmpdump` tool. What then!? 😰
+by the resident `utmpdump` tool. What then!?
 
 [`wtmp`]: https://www.man7.org/linux/man-pages/man5/utmp.5.html
 
@@ -827,8 +827,8 @@ And a snippet from the same Windows 10 host, log file
 
 ### Summary
 
-This chaotic logging approach is typical of commercial and open-source software.
-And it's a mess!
+This chaotic logging approach is typical of commercial and open-source software,
+***AND IT'S A MESS!***
 Attempting to merge log messages by their natural sort mechanism,
 a datetime stamp, is difficult to impossible.
 
