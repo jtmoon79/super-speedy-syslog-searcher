@@ -63,6 +63,7 @@ The first goal of `s4` is speedy searching and printing.
     - [binary files](#binary-files)
   - [commercial software examples](#commercial-software-examples)
     - [Synology DiskStation](#synology-diskstation)
+    - [Mac OS 12](#mac-os-12)
     - [Microsoft Windows 10](#microsoft-windows-10)
   - [Summary](#summary)
 - [Further Reading](#further-reading)
@@ -714,6 +715,71 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 ```
 
 (yes, those are tab characters)
+
+#### Mac OS 12
+
+Here are log file snippets from a Mac OS 12.6 host.
+
+log file `/var/log/system`
+
+```text
+Sep 22 00:01:21 Mac-mini syslogd[108]: ASL Sender Statistics
+Sep 22 00:06:22 Mac-mini halt[78568]: SHUTDOWN_TIME: 1695341182 412865
+Oct 11 15:04:44 localhost bootlog[0]: BOOT_TIME 1697036684 0
+Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+```
+
+log file `/var/log/wifi`
+
+```text
+Thu Sep 21 23:05:35.850 Usb Host Notification NOT activated
+Fri Sep 22 15:05:01.994 Usb Host Notification activated!
+```
+
+log file `/var/log/fsck_hs.log`
+
+```text
+/dev/rdisk2s2: fsck_hfs started at Thu Sep 21 21:31:05 2023
+/dev/rdisk2s2: /dev/rdisk2s2: ** /dev/rdisk2s2 (NO WRITE)
+/dev/rdisk2s2:    Executing fsck_hfs (version hfs-583.100.10).
+  QUICKCHECK ONLY; FILESYSTEM CLEAN
+/dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 21:31:05 2023
+```
+
+log file `/var/log/anka.log`
+
+```text
+Fri Sep 22 00:06:05 UTC 2023: Checking /Library/Developer/CoreSimulator/Volumes/watchOS_20S75...
+Fri Sep 22 00:06:05 UTC 2023: No updates found
+```
+
+log file `/var/log/displaypolicyd.log`
+
+```text
+2023-09-15 04:26:56.329071-0700: Version: V6.5.7 starting [0]
+2023-09-15 04:26:56.330256-0700: Started at Fri Sep 15 04:26:56 2023
+2023-09-15 04:27:17.163031-0700: exit at user request Fri Sep 15 04:27:17 2023
+```
+
+log file `/var/log/com.apple.xpc.launchd/launchd.log.1`
+
+```text
+2023-10-26 16:56:23.171019 <Notice>: Doing boot task: restore-datapartition
+2023-10-26 16:56:23.271137 <Notice>: Doing boot task: enable-swap
+2023-10-26 16:56:23.287770 <Notice>: swap enabled
+```
+
+log file `/var/log/asl/logs/aslmanager.20231026T170200+00`
+
+```text
+Oct 26 17:02:00: aslmanager starting
+Oct 26 17:02:00: Processing data store /var/log/asl
+Oct 26 17:02:00: Data Store Size = 325176
+```
+
+Did you also notice how the log file _names_ differ in unexpected ways?
 
 #### Microsoft Windows 10
 
