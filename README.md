@@ -21,10 +21,10 @@ The first goal of `s4` is speedy searching and printing.
 
 [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.6.70&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
 [![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.6.70?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.6.70/)
-[![Rust](https://img.shields.io/badge/rust-1.67.1%2B-blue.svg?style=flat-square&logo=rust&cacheSeconds=3600&logoColor=800000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/)<!-- MSRV in this badge must match `rust-version` in `Cargo.toml` -->
+[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.6.70?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.6.70/Cargo.toml#L15)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
 
-[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher)
+[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.6.69&version=0.6.69)](https://crates.io/crates/super-speedy-syslog-searcher/0.6.69)
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000&version=0.6.70)](https://crates.io/crates/super-speedy-syslog-searcher)
 [![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.6.70&version=0.6.70)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.6.70)
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.6.70.svg)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
