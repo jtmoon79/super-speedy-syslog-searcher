@@ -5,7 +5,7 @@ Speedily search and merge log messages by datetime.
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
 This includes log files that are compressed (`.gz`, `.xz`), or archived (`.tar`),
-and binary format logs including acct/lastlog/utmp accounting records
+and binary format logs including acct, lastlog, and utmp accounting records
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
 It will parse a variety of formal and ad-hoc log message datetime formats.
