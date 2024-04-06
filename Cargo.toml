@@ -97,7 +97,7 @@ jetscii = "0.5.3"
 memchr = "2.7.2"
 tempdir = "0.3.7"
 tempfile = "3.8.0"
-test-case = "3.2.1"
+test-case = "3.3.1"
 
 # release build optimizations
 # from https://github.com/johnthagen/min-sized-rust
