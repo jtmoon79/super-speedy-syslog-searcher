@@ -370,9 +370,7 @@ See the real-world example rationale in the section below,
   (see project path [`./logs/`])
 - Prepends datetime and file paths, for easy programmatic parsing or
   visual traversal of varying log messages
-- Comparable speed as GNU `grep` and `sort`
-  (see project tool `./tools/compare-grep-sort.sh`; run in github Actions, Job
-  _run `s4`_, Step _Run script compare-grep-sort_)
+- [Comparable speed as GNU `grep` and `sort`](#speed-comparison)
 - Processes invalid UTF-8
 - Accepts arbitrarily large files <sup><a href="#hacks">see _Hacks_</a></sup>
 
