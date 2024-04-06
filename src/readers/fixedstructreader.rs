@@ -181,7 +181,8 @@ pub type ResultFixedStructReaderScoreFileError = ResultFixedStructReaderScoreFil
 /// order to process the entries in [`preprocess_timevalues`]. This implies the
 /// `blockreader` must read the entire file into memory. So far, "in the wild"
 /// user accounting records are only a few kilobytes at most. So reading the
-/// entire file into memory should not put too much strain on memory usage.
+/// entire file into memory should not put much strain on memory usage of a
+/// typical desktop or server.
 /// The processing of time values is done first and for the entire file
 /// because records may not be stored in chronological order.
 /// Then the caller makes repeated calls to [`process_entry_at`] which processes
