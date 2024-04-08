@@ -41,7 +41,7 @@ const_format = "0.2.31"
 crossbeam-channel = "0.5.12"
 dlopen2 = "0.6"
 encoding_rs = "0.8.33"
-evtx = { version = "0.8.1", features = ["multithreading"] }
+evtx = { version = "0.8.2", features = ["multithreading"] }
 flate2 = "1.0.27"
 itertools = "0.12.1"
 kinded = "0.3.0"
