@@ -96,7 +96,7 @@ filetime = "0.2.23"
 jetscii = "0.5.3"
 memchr = "2.7.2"
 tempdir = "0.3.7"
-tempfile = "3.8.0"
+tempfile = "3.10.1"
 test-case = "3.3.1"
 
 # release build optimizations
