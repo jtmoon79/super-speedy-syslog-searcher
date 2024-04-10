@@ -2935,6 +2935,14 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (1, 25, (O_L, 2019, 8, 10, 1, 46, 44, 4200000), r#"(08/10/2019-01:46:44.0042) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Config01_Location02" during apply"#),
             (1, 25, (O_L, 2020, 5, 27, 12, 25, 43, 87700000), "(05/27/2020-12:25:43.0877) Total number of objects successfully migrated :2346, failed objects :16"),
+            (1, 24, (O_L, 2020, 5, 27, 12, 25, 43, 87000000), "<05/27/2020-12:25:43.087> Total number of objects successfully migrated :2346, failed objects :16"),
+            // XXX: brackets can be mismatched which is not preferred. However, adding a regexp
+            //      for every bracket type would be too many regexp.
+            // TODO: find the regexp recipe that can correlate the left and right brackets.
+            (1, 24, (O_L, 2020, 5, 27, 12, 25, 43, 87000000), "(05/27/2020-12:25:43.087> Total number of objects successfully migrated :2346, failed objects :16"),
+            (1, 24, (O_L, 2020, 5, 27, 12, 25, 43, 87000000), "{05/27/2020-12:25:43.087] Total number of objects successfully migrated :2346, failed objects :16"),
+            (1, 24, (O_L, 2020, 5, 27, 12, 25, 43, 87000000), "[05/27/2020-12:25:43.087> Total number of objects successfully migrated :2346, failed objects :16"),
+            (1, 24, (O_L, 2020, 5, 27, 12, 25, 43, 87000000), "{05/27/2020-12:25:43.087] Total number of objects successfully migrated :2346, failed objects :16"),
         ],
         line!(),
     ),
