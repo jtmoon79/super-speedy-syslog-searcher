@@ -520,7 +520,6 @@ impl PrinterLogMessage {
         }
     }
 
-
     /// Helper function to transform [`sysline.dt`] to a `String`.
     ///
     /// [`sysline.dt`]: crate::data::sysline::Sysline

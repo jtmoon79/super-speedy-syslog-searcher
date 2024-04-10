@@ -42,7 +42,6 @@ fn linepart_new(
     LinePart::new(blockp, beg, end, fo, bo, bsz)
 }
 
-
 #[test]
 fn test_linepart_new_0_2() {
     linepart_new(0, 2, 0, 0, 16);

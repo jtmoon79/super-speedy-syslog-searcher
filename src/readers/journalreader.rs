@@ -434,11 +434,6 @@ mod errno {
 #[cfg(target_os = "windows")]
 pub type Errno = errno::Errno;
 
-/*
-
-
-*/
-
 /// Return type for various `JournalReader::next` methods.
 pub type ResultNext = ResultFind4<JournalEntry, Error>;
 /// Return type for [`JournalReader::next_common`] method.
@@ -1362,7 +1357,6 @@ impl<'a> JournalReader {
 
         Result::Ok(data)
     }
-
 
     /// Wrapper to call `sd_journal_enumerate_available_data`.
     /// Returns `Err` if the call fails.

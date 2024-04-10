@@ -3327,7 +3327,6 @@ impl fmt::Debug for netbsd_x8664::lastlog {
     }
 }
 
-
 // netbsd_x8664::lastlogx
 
 impl FixedStructTrait for netbsd_x8664::lastlogx {
@@ -3400,7 +3399,6 @@ impl fmt::Debug for netbsd_x8664::lastlogx {
             .finish()
     }
 }
-
 
 // netbsd_x8664::utmp
 
@@ -4137,7 +4135,6 @@ macro_rules! deo_field_dump_num_impl {
              field_val_string, value);
     }})
 }
-
 
 /// Convert `[u8]` bytes to a [`FixedStructDynPtr`] instance specified by
 /// `fixedstructtype`.
@@ -4877,7 +4874,6 @@ macro_rules! score_fixedstruct_ut_type {
         );
     }};
 }
-
 
 /// Helper to [`FixedStruct::score_fixedstruct`]
 /// Increase score if the bits are valid flag(s).

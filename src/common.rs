@@ -642,7 +642,6 @@ impl FileType {
     }
 }
 
-
 /// The type of message sent from file processing thread to the main printing
 /// thread. Similar to [`LogMessage`] but without the enclosed data.
 ///

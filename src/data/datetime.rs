@@ -4861,7 +4861,6 @@ lazy_static! {
     };
 }
 
-
 // TODO: Issue #6 handle all Unicode whitespace.
 //       This fn is essentially counteracting an errant call to
 //       `std::string:trim` within `Local.datetime_from_str`.
