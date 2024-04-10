@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Windows10Pro/INF/setupapi.offline.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 3826
+      lines         : 26
+      syslines      : 6
+  Processed:
+      file size     : 1919 (0x77F) (bytes)
+      bytes         : 1919 (0x77F)
+      bytes total   : 1919 (0x77F)
+      block size    : 256 (0x100)
+      blocks        : 8
+      blocks total  : 8
+      lines         : 27
+      syslines      : 6
+      syslines high : 5
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   3, miss  52,  5.5%
+      caching: LineReader::find_line() LRU cache                   : hit  10, miss  29, 25.6%, put  27
+      copying: SyslineReader::get_boxptrs()                        : sgl 390, dbl    7, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   7,  0.0%, put   6
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  30, 16.7%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   8, miss  11, 42.1%, largest skipped 42
+      optimize:SyslineReader::ezcheck12d2                          : hit 134, miss 244, 35.4%, largest skipped 44
+      process: regex captures attempted                            : 255
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 3851
+Printed lines         : 26
+Printed syslines      : 6
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 133
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 8
+Channel Receive err   : 0

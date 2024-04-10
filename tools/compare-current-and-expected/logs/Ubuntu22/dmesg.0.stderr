@@ -1,0 +1,55 @@
+
+Files:
+
+File: ./logs/Ubuntu22/dmesg.0
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess([])
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 1161 (0x489) (bytes)
+      bytes         : 256 (0x100)
+      bytes total   : 1161 (0x489)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 5
+      lines         : 1
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
+      copying: SyslineReader::get_boxptrs()                        : sgl 133, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   7,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 126,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 133
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 0
+Printed bytes         : 0
+Printed lines         : 0
+Printed syslines      : 0
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 133
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 2
+Channel Receive err   : 0

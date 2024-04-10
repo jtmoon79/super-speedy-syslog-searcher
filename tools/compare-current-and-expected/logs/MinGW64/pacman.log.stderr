@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/MinGW64/pacman.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 11411
+      lines         : 102
+      syslines      : 102
+  Processed:
+      file size     : 5699 (0x1643) (bytes)
+      bytes         : 5699 (0x1643)
+      bytes total   : 5699 (0x1643)
+      block size    : 256 (0x100)
+      blocks        : 23
+      blocks total  : 23
+      lines         : 102
+      syslines      : 102
+      syslines high : 15
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss 203,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 102, miss 103, 49.8%, put 102
+      copying: SyslineReader::get_boxptrs()                        : sgl 183, dbl   13, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 102,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss 102,  0.0%, put 102
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss 102,  1.0%, put 102
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 101, miss 102, 49.8%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 192,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 196
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 11819
+Printed lines         : 102
+Printed syslines      : 102
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 95
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 104
+Channel Receive err   : 0

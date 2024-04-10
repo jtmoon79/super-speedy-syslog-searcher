@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/synology-DS6/synoindex.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 1947
+      lines         : 8
+      syslines      : 8
+  Processed:
+      file size     : 1435 (0x59B) (bytes)
+      bytes         : 1435 (0x59B)
+      bytes total   : 1435 (0x59B)
+      block size    : 256 (0x100)
+      blocks        : 6
+      blocks total  : 6
+      lines         : 8
+      syslines      : 8
+      syslines high : 7
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 17,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  9, miss 10, 47.4%, put  8
+      copying: SyslineReader::get_boxptrs()                        : sgl 83, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  9,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  9,  0.0%, put  8
+      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  9,  0.0%, put  8
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  8, miss  8, 50.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 79,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 83
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 1979
+Printed lines         : 8
+Printed syslines      : 8
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 76
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 10
+Channel Receive err   : 0

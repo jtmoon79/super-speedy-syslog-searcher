@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Ubuntu18/apt/term.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 2607
+      lines         : 18
+      syslines      : 1
+  Processed:
+      file size     : 1546 (0x60A) (bytes)
+      bytes         : 1546 (0x60A)
+      bytes total   : 1546 (0x60A)
+      block size    : 256 (0x100)
+      blocks        : 7
+      blocks total  : 7
+      lines         : 19
+      syslines      : 1
+      syslines high : 1
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   1, miss  38,  2.6%
+      caching: LineReader::find_line() LRU cache                   : hit   5, miss  21, 19.2%, put  19
+      copying: SyslineReader::get_boxptrs()                        : sgl 173, dbl    2, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  22,  4.3%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   7, miss   2, 77.8%, largest skipped 58
+      optimize:SyslineReader::ezcheck12d2                          : hit 134, miss  32, 80.7%, largest skipped 58
+      process: regex captures attempted                            : 34
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 2611
+Printed lines         : 18
+Printed syslines      : 1
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 25
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 3
+Channel Receive err   : 0

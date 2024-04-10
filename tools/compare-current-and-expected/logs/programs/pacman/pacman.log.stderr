@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/programs/pacman/pacman.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 24563
+      lines         : 195
+      syslines      : 195
+  Processed:
+      file size     : 12083 (0x2F33) (bytes)
+      bytes         : 12083 (0x2F33)
+      bytes total   : 12083 (0x2F33)
+      block size    : 256 (0x100)
+      blocks        : 48
+      blocks total  : 48
+      lines         : 195
+      syslines      : 195
+      syslines high : 14
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss 389,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 195, miss 196, 49.9%, put 195
+      copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl   14, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 195,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss 195,  0.0%, put 195
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss 195,  0.5%, put 195
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 194, miss 195, 49.9%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 285,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 289
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 25344
+Printed lines         : 195
+Printed syslines      : 195
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 95
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 197
+Channel Receive err   : 0

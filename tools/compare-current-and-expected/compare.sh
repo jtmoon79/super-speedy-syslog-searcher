@@ -55,8 +55,6 @@ fi
 # get list of files to process
 #
 
-logs='./tools/compare-current-and-expected/logs.txt'
-
 if [[ ! -e "${LOGS}" ]]; then
     echo "ERROR file does not exist '${LOGS}'" >&2
     exit 1
@@ -71,7 +69,7 @@ fi
 
 cat "${LOGS}" >&2
 echo >&2
-echo "$(wc -l < "${LOGS}") files in \"${LOGS}\"" >&2
+echo "${LOGS_COUNT} files in \"${LOGS}\"" >&2
 echo >&2
 
 # verify s4 can run
@@ -186,9 +184,11 @@ else
     echo
 fi
 
+echo "Comparing ${LOGS_COUNT} individual files:"
+
 # compare individual files
-tmp1=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
-tmp2=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
+tmp1=$(mktemp -t "tmp.s4.compare-current-and-expected_stdout_XXXXX")
+tmp2=$(mktemp -t "tmp.s4.compare-current-and-expected_stderr_XXXXX")
 declare -i diff_log=0
 declare -i same_log=0
 while read -r log_file; do
@@ -198,7 +198,8 @@ while read -r log_file; do
     log_file_stdout="${HERE}/${log_file}.stdout"
     log_file_stderr="${HERE}/${log_file}.stderr"
     (
-        set +e; set +o pipefail;
+        set +e
+        set +o pipefail
         "${PROGRAM}" "${S4_ARGS[@]}" "${log_file}" 1>"${tmp1}" 2>"${tmp2}"
     ) || true
     stderr_clean "${tmp2}"

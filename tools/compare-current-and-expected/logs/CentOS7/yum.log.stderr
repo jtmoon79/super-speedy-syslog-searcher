@@ -1,0 +1,57 @@
+
+Files:
+
+File: ./logs/CentOS7/yum.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 16271
+      lines         : 145
+      syslines      : 142
+  Processed:
+      file size     : 8586 (0x218A) (bytes)
+      bytes         : 8586 (0x218A)
+      bytes total   : 8586 (0x218A)
+      block size    : 256 (0x100)
+      blocks        : 34
+      blocks total  : 34
+      lines         : 145
+      syslines      : 146
+      syslines high : 142
+  Parsers:
+                   datetime format missing year; estimated year of last sysline 2022
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit 141, miss 291, 32.6%
+      caching: LineReader::find_line() LRU cache                   : hit  12, miss 289,  4.0%, put 288
+      copying: SyslineReader::get_boxptrs()                        : sgl 174, dbl    9, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 146,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 142, miss 146, 49.3%, put 146
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 288,  0.0%, put 288
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 141, miss 158, 47.2%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss 153,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss  30,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 183
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 16840
+Printed lines         : 145
+Printed syslines      : 142
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 34
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 144
+Channel Receive err   : 0

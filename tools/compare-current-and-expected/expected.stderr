@@ -1,3 +1,4 @@
++ ./target/release/s4 --color=never --tz-offset=+08:00 --prepend-filepath --prepend-file-align --prepend-utc --prepend-dt-format=%Y%m%dT%H%M%S.%9f --prepend-separator=┋ '--separator=⇳\n' --journal-output=export --dt-after=19990303T000000+0000 --dt-before=20230410T221032+0000 --blocksz=0x100 --summary -
 
 Files:
 
@@ -15565,6 +15566,7 @@ Printed syslines      : 11700
 Printed evtx events   : 227
 Printed fixedstruct   : 98
 Printed journal events: 2081
+Regex patterns        : 133
 Regex compiled        : 133
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)

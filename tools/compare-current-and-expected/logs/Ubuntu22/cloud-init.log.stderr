@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Ubuntu22/cloud-init.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 2310
+      lines         : 14
+      syslines      : 14
+  Processed:
+      file size     : 1456 (0x5B0) (bytes)
+      bytes         : 1456 (0x5B0)
+      bytes total   : 1456 (0x5B0)
+      block size    : 256 (0x100)
+      blocks        : 6
+      blocks total  : 6
+      lines         : 14
+      syslines      : 14
+      syslines high : 10
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 14, miss 15, 48.3%, put 14
+      copying: SyslineReader::get_boxptrs()                        : sgl 84, dbl   3, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 14,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 14,  0.0%, put 14
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 14,  6.7%, put 14
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 13, miss 14, 48.1%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 83,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 87
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 2366
+Printed lines         : 14
+Printed syslines      : 14
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 74
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 16
+Channel Receive err   : 0

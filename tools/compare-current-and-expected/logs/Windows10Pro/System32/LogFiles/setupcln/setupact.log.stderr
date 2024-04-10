@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 242229
+      lines         : 1300
+      syslines      : 1205
+  Processed:
+      file size     : 125229 (0x1E92D) (bytes)
+      bytes         : 125229 (0x1E92D)
+      bytes total   : 125229 (0x1E92D)
+      block size    : 256 (0x100)
+      blocks        : 490
+      blocks total  : 490
+      lines         : 1300
+      syslines      : 1205
+      syslines high : 11
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit    0, miss 2599,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 1205, miss 1301, 48.1%, put 1300
+      copying: SyslineReader::get_boxptrs()                        : sgl  830, dbl   486, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss 1205,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss 1205,  0.0%, put 1205
+      caching: SyslineReader::find_sysline() LRU cache             : hit    1, miss 1205,  0.1%, put 1205
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 1204, miss 1300, 48.1%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit    0, miss    5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss 1311,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 1316
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 247049
+Printed lines         : 1300
+Printed syslines      : 1205
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 112
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 1207
+Channel Receive err   : 0

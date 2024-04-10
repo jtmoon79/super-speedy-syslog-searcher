@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Debian9/apt/term.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 34358
+      lines         : 292
+      syslines      : 7
+  Processed:
+      file size     : 17422 (0x440E) (bytes)
+      bytes         : 17422 (0x440E)
+      bytes total   : 17422 (0x440E)
+      block size    : 256 (0x100)
+      blocks        : 69
+      blocks total  : 69
+      lines         : 292
+      syslines      : 7
+      syslines high : 5
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   13, miss  581,  2.2%
+      caching: LineReader::find_line() LRU cache                   : hit    7, miss  303,  2.3%, put  301
+      copying: SyslineReader::get_boxptrs()                        : sgl 1338, dbl    37, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss    8,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    8,  0.0%, put    7
+      caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    8,  0.0%, put    7
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    7, miss  300,  2.3%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   20, miss   38, 34.5%, largest skipped 24
+      optimize:SyslineReader::ezcheck12d2                          : hit  283, miss 1034, 21.5%, largest skipped 39
+      process: regex captures attempted                            : 1072
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 34386
+Printed lines         : 292
+Printed syslines      : 7
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 131
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 9
+Channel Receive err   : 0

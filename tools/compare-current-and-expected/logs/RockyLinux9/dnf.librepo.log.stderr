@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/RockyLinux9/dnf.librepo.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 22911
+      lines         : 104
+      syslines      : 104
+  Processed:
+      file size     : 16151 (0x3F17) (bytes)
+      bytes         : 16151 (0x3F17)
+      bytes total   : 16151 (0x3F17)
+      block size    : 256 (0x100)
+      blocks        : 64
+      blocks total  : 64
+      lines         : 104
+      syslines      : 104
+      syslines high : 8
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss 209,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 105, miss 106, 49.8%, put 104
+      copying: SyslineReader::get_boxptrs()                        : sgl 163, dbl   15, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 105,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss 105,  0.0%, put 104
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 105,  0.0%, put 104
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 104, miss 104, 50.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 174,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 178
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 23328
+Printed lines         : 104
+Printed syslines      : 104
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 75
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 106
+Channel Receive err   : 0

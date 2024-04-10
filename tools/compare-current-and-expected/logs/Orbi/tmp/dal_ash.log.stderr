@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Orbi/tmp/dal_ash.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 1353
+      lines         : 9
+      syslines      : 8
+  Processed:
+      file size     : 831 (0x33F) (bytes)
+      bytes         : 831 (0x33F)
+      bytes total   : 831 (0x33F)
+      block size    : 256 (0x100)
+      blocks        : 4
+      blocks total  : 4
+      lines         : 9
+      syslines      : 8
+      syslines high : 8
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 17,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  8, miss 10, 44.4%, put  9
+      copying: SyslineReader::get_boxptrs()                        : sgl 86, dbl   1, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  8,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  8,  0.0%, put  8
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  8, 11.1%, put  8
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  7, miss  9, 43.8%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 83,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 87
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 1385
+Printed lines         : 9
+Printed syslines      : 8
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 79
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 10
+Channel Receive err   : 0

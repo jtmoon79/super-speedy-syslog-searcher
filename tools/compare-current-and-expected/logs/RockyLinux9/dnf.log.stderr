@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/RockyLinux9/dnf.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 100464
+      lines         : 763
+      syslines      : 677
+  Processed:
+      file size     : 56973 (0xDE8D) (bytes)
+      bytes         : 56973 (0xDE8D)
+      bytes total   : 56973 (0xDE8D)
+      block size    : 256 (0x100)
+      blocks        : 223
+      blocks total  : 223
+      lines         : 763
+      syslines      : 677
+      syslines high : 13
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   12, miss 1513,  0.8%
+      caching: LineReader::find_line() LRU cache                   : hit  677, miss  764, 47.0%, put  763
+      copying: SyslineReader::get_boxptrs()                        : sgl  691, dbl   134, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss  677,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss  677,  0.0%, put  677
+      caching: SyslineReader::find_sysline() LRU cache             : hit    1, miss  677,  0.1%, put  677
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  676, miss  763, 47.0%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit    0, miss    4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   62, miss  759,  7.6%, largest skipped 49
+      process: regex captures attempted                            : 763
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 103173
+Printed lines         : 763
+Printed syslines      : 677
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 75
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 679
+Channel Receive err   : 0

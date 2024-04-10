@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Orbi/var/log/soapclient/soap_agent.old
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess([])
+  Printed:
+      bytes         : 3477
+      lines         : 19
+      syslines      : 19
+  Processed:
+      file size     : 2033 (0x7F1) (bytes)
+      bytes         : 2033 (0x7F1)
+      bytes total   : 2033 (0x7F1)
+      block size    : 256 (0x100)
+      blocks        : 8
+      blocks total  : 8
+      lines         : 19
+      syslines      : 19
+      syslines high : 10
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  19, miss  20, 48.7%, put  19
+      copying: SyslineReader::get_boxptrs()                        : sgl 123, dbl    7, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  19,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  19,  0.0%, put  19
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  19,  5.0%, put  19
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  18, miss  19, 48.6%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 125,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 130
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 3553
+Printed lines         : 19
+Printed syslines      : 19
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 112
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 21
+Channel Receive err   : 0

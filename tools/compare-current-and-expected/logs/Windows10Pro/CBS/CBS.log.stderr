@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Windows10Pro/CBS/CBS.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 29419
+      lines         : 159
+      syslines      : 152
+  Processed:
+      file size     : 19561 (0x4C69) (bytes)
+      bytes         : 19561 (0x4C69)
+      bytes total   : 19561 (0x4C69)
+      block size    : 256 (0x100)
+      blocks        : 77
+      blocks total  : 77
+      lines         : 159
+      syslines      : 152
+      syslines high : 10
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   7, miss 310,  2.2%
+      caching: LineReader::find_line() LRU cache                   : hit 152, miss 160, 48.7%, put 159
+      copying: SyslineReader::get_boxptrs()                        : sgl 188, dbl   74, mult   1
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 152,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss 152,  0.0%, put 152
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss 152,  0.7%, put 152
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 151, miss 159, 48.7%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 258,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 263
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 30028
+Printed lines         : 159
+Printed syslines      : 152
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 112
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 154
+Channel Receive err   : 0

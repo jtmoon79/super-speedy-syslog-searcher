@@ -1,0 +1,57 @@
+
+Files:
+
+File: ./logs/RockyLinux9/secure
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess([])
+  Printed:
+      bytes         : 104034
+      lines         : 546
+      syslines      : 545
+  Processed:
+      file size     : 73458 (0x11EF2) (bytes)
+      bytes         : 73458 (0x11EF2)
+      bytes total   : 73458 (0x11EF2)
+      block size    : 256 (0x100)
+      blocks        : 287
+      blocks total  : 287
+      lines         : 546
+      syslines      : 546
+      syslines high : 545
+  Parsers:
+                   datetime format missing year; estimated year of last sysline 2022
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  544, miss 1093, 33.2%
+      caching: LineReader::find_line() LRU cache                   : hit    2, miss 1093,  0.2%, put 1092
+      copying: SyslineReader::get_boxptrs()                        : sgl  548, dbl    32, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss  546,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  545, miss  546, 50.0%, put  546
+      caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss 1091,  0.0%, put 1091
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  544, miss  549, 49.8%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit    0, miss  550,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss   30,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 580
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 106215
+Printed lines         : 546
+Printed syslines      : 545
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 34
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 547
+Channel Receive err   : 0

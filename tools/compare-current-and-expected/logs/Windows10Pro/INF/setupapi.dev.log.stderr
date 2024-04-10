@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Windows10Pro/INF/setupapi.dev.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 6367
+      lines         : 41
+      syslines      : 2
+  Processed:
+      file size     : 3610 (0xE1A) (bytes)
+      bytes         : 3610 (0xE1A)
+      bytes total   : 3610 (0xE1A)
+      block size    : 256 (0x100)
+      blocks        : 15
+      blocks total  : 15
+      lines         : 50
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   15, miss   98, 13.3%
+      caching: LineReader::find_line() LRU cache                   : hit    3, miss   64,  4.5%, put   62
+      copying: SyslineReader::get_boxptrs()                        : sgl 1204, dbl    14, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss    3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    3,  0.0%, put    2
+      caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    3,  0.0%, put    2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    2, miss   62,  3.1%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   36, miss   25, 59.0%, largest skipped 31
+      optimize:SyslineReader::ezcheck12d2                          : hit  513, miss  644, 44.3%, largest skipped 54
+      process: regex captures attempted                            : 669
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 6376
+Printed lines         : 41
+Printed syslines      : 2
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 133
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 4
+Channel Receive err   : 0

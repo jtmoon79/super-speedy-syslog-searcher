@@ -24,6 +24,8 @@ declare -rg EXPECT_OUT="${_HERE}/expected.stdout"
 declare -rg CURRENT_ERR="${_HERE}/current.stderr"
 declare -rg EXPECT_ERR="${_HERE}/expected.stderr"
 declare -rg LOGS="${_HERE}/logs.txt"
+LOGS_COUNT=$(cat "${LOGS}" | sed '/^$/d' | wc -l)
+declare -ir LOGS_COUNT
 
 declare -arg S4_ARGS=(
     --color=never
@@ -80,7 +82,6 @@ function stderr_clean () {
         -e '/^[ ]+blocks high[ ]+: .*$/d' \
         -e '/^[ ]+lines high[ ]+: .*$/d' \
         -e '/^ERROR: .*$/d' \
-        -e '0,/^\+ \..*$/d' \
         -e '/.*DateTimeParseInstr:.*/d' \
         "${1}"
 }

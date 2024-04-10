@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/FedoraRemix29/dnf.librepo.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 4980
+      lines         : 27
+      syslines      : 27
+  Processed:
+      file size     : 3171 (0xC63) (bytes)
+      bytes         : 3171 (0xC63)
+      bytes total   : 3171 (0xC63)
+      block size    : 256 (0x100)
+      blocks        : 13
+      blocks total  : 13
+      lines         : 27
+      syslines      : 27
+      syslines high : 9
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 55,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 28, miss 29, 49.1%, put 27
+      copying: SyslineReader::get_boxptrs()                        : sgl 97, dbl   7, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 28,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 28,  0.0%, put 27
+      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 28,  0.0%, put 27
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 27, miss 27, 50.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 100,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 104
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 5089
+Printed lines         : 27
+Printed syslines      : 27
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 78
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 29
+Channel Receive err   : 0

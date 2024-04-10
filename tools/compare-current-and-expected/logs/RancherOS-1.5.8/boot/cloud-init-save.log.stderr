@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 1732
+      lines         : 10
+      syslines      : 8
+  Processed:
+      file size     : 952 (0x3B8) (bytes)
+      bytes         : 952 (0x3B8)
+      bytes total   : 952 (0x3B8)
+      block size    : 256 (0x100)
+      blocks        : 4
+      blocks total  : 4
+      lines         : 10
+      syslines      : 8
+      syslines high : 8
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  19,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   8, miss  11, 42.1%, put  10
+      copying: SyslineReader::get_boxptrs()                        : sgl 117, dbl    3, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   8,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   8,  0.0%, put   8
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   8, 11.1%, put   8
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  10, 41.2%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 114,  0.9%, largest skipped 9
+      process: regex captures attempted                            : 119
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 1765
+Printed lines         : 10
+Printed syslines      : 8
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 111
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 10
+Channel Receive err   : 0

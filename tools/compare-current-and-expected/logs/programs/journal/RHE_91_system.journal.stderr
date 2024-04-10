@@ -1,0 +1,38 @@
+
+Files:
+
+File: ./logs/programs/journal/RHE_91_system.journal
+  About:
+      filetype       : JOURNAL
+      logmessagetype : journal entries
+      MIME guess     : MimeGuess([])
+  Printed:
+      bytes         : 5861466
+      journal events: 2078
+  Processed:
+      file size     : 4644864 (0x46E000) (bytes)
+      journal events: 2079
+      out of order  : 0
+      lib. API calls: 62139
+      API errors    : 0
+(2023-04-10 22:10:32.863768 +00:00)
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 5869778
+Printed lines         : 0
+Printed syslines      : 0
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 2078
+Regex patterns        : 133
+Regex compiled        : 0
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 2080
+Channel Receive err   : 0

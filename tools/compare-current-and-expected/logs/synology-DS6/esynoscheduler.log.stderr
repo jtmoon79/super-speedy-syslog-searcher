@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/synology-DS6/esynoscheduler.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 2938
+      lines         : 19
+      syslines      : 3
+  Processed:
+      file size     : 1627 (0x65B) (bytes)
+      bytes         : 1627 (0x65B)
+      bytes total   : 1627 (0x65B)
+      block size    : 256 (0x100)
+      blocks        : 7
+      blocks total  : 7
+      lines         : 19
+      syslines      : 3
+      syslines high : 3
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   6, miss  21, 22.2%, put  19
+      copying: SyslineReader::get_boxptrs()                        : sgl 362, dbl    2, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  21, 12.5%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   7, miss  11, 38.9%, largest skipped 17
+      optimize:SyslineReader::ezcheck12d2                          : hit 129, miss 217, 37.3%, largest skipped 17
+      process: regex captures attempted                            : 228
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 2950
+Printed lines         : 19
+Printed syslines      : 3
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 133
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 5
+Channel Receive err   : 0

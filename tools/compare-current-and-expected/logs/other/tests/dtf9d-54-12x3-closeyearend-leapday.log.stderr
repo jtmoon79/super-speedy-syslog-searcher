@@ -1,0 +1,57 @@
+
+Files:
+
+File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 1766
+      lines         : 16
+      syslines      : 16
+  Processed:
+      file size     : 1197 (0x4AD) (bytes)
+      bytes         : 941 (0x3AD)
+      bytes total   : 1197 (0x4AD)
+      block size    : 256 (0x100)
+      blocks        : 4
+      blocks total  : 5
+      lines         : 23
+      syslines      : 22
+      syslines high : 20
+  Parsers:
+                   datetime format missing year; estimated year of last sysline 2000
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit 18, miss 45, 28.6%
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss 42,  6.7%, put 41
+      copying: SyslineReader::get_boxptrs()                        : sgl 57, dbl   2, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 22,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 20, miss 22, 47.6%, put 22
+      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 42,  0.0%, put 42
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 16, miss 27, 37.2%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss 29,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 30,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 59
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 1830
+Printed lines         : 16
+Printed syslines      : 16
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 33
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 18
+Channel Receive err   : 0

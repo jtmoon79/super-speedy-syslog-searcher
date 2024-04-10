@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 6379
+      lines         : 55
+      syslines      : 55
+  Processed:
+      file size     : 1539 (0x603) (bytes)
+      bytes         : 1539 (0x603)
+      bytes total   : 1539 (0x603)
+      block size    : 256 (0x100)
+      blocks        : 7
+      blocks total  : 7
+      lines         : 55
+      syslines      : 55
+      syslines high : 32
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss 109,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  55, miss  56, 49.5%, put  55
+      copying: SyslineReader::get_boxptrs()                        : sgl 127, dbl    6, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  55,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  55,  0.0%, put  55
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  55,  1.8%, put  55
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  54, miss  55, 49.5%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 129,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 133
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 6600
+Printed lines         : 55
+Printed syslines      : 55
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 79
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 57
+Channel Receive err   : 0

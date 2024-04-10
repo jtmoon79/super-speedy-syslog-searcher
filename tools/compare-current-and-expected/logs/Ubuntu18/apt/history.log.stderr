@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Ubuntu18/apt/history.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 969
+      lines         : 5
+      syslines      : 2
+  Processed:
+      file size     : 660 (0x294) (bytes)
+      bytes         : 660 (0x294)
+      bytes total   : 660 (0x294)
+      block size    : 256 (0x100)
+      blocks        : 3
+      blocks total  : 3
+      lines         : 6
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   1, miss  12,  7.7%
+      caching: LineReader::find_line() LRU cache                   : hit   7, miss   8, 46.7%, put   6
+      copying: SyslineReader::get_boxptrs()                        : sgl 315, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   3,  0.0%, put   2
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss  10, 16.7%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   7, miss  11, 38.9%, largest skipped 30
+      optimize:SyslineReader::ezcheck12d2                          : hit 127, miss 170, 42.8%, largest skipped 30
+      process: regex captures attempted                            : 181
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 977
+Printed lines         : 5
+Printed syslines      : 2
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 133
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 4
+Channel Receive err   : 0

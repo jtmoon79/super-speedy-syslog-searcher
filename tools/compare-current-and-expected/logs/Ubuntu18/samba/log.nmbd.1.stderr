@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/Ubuntu18/samba/log.nmbd.1
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess([])
+  Printed:
+      bytes         : 2621
+      lines         : 19
+      syslines      : 7
+  Processed:
+      file size     : 1424 (0x590) (bytes)
+      bytes         : 1424 (0x590)
+      bytes total   : 1424 (0x590)
+      block size    : 256 (0x100)
+      blocks        : 6
+      blocks total  : 6
+      lines         : 19
+      syslines      : 7
+      syslines high : 7
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
+      copying: SyslineReader::get_boxptrs()                        : sgl 155, dbl    2, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   8,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   8,  0.0%, put   7
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   8,  0.0%, put   7
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  20, 25.9%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   5, miss   2, 71.4%, largest skipped 63
+      optimize:SyslineReader::ezcheck12d2                          : hit  84, miss  66, 56.0%, largest skipped 64
+      process: regex captures attempted                            : 68
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 2649
+Printed lines         : 19
+Printed syslines      : 7
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 57
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 9
+Channel Receive err   : 0

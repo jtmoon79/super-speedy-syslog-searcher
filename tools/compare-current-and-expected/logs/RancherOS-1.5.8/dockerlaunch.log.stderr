@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/RancherOS-1.5.8/dockerlaunch.log
+  About:
+      filetype       : TEXT
+      logmessagetype : syslog lines
+      MIME guess     : MimeGuess(["text/plain"])
+  Printed:
+      bytes         : 7707
+      lines         : 45
+      syslines      : 45
+  Processed:
+      file size     : 4557 (0x11CD) (bytes)
+      bytes         : 4557 (0x11CD)
+      bytes total   : 4557 (0x11CD)
+      block size    : 256 (0x100)
+      blocks        : 18
+      blocks total  : 18
+      lines         : 45
+      syslines      : 45
+      syslines high : 9
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  91,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  46, miss  47, 49.5%, put  45
+      copying: SyslineReader::get_boxptrs()                        : sgl 139, dbl   15, mult   1
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  46,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  46,  0.0%, put  45
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  46,  0.0%, put  45
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  45, miss  45, 50.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 150,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 155
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 7888
+Printed lines         : 45
+Printed syslines      : 45
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 133
+Regex compiled        : 111
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 47
+Channel Receive err   : 0
