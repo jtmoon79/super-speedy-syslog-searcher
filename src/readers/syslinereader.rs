@@ -1169,6 +1169,8 @@ impl SyslineReader {
     ///
     /// [`Ok`]: self::ResultFindDateTime
     /// [`Err`]: self::ResultFindDateTime
+    // TODO: statistics counters should be passed within a tuple, just for a little bit
+    //       of cleanliness.
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn find_datetime_in_line(
         line: &Line,
