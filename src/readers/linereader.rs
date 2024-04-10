@@ -148,7 +148,7 @@ impl fmt::Debug for LineReader {
 // TODO: [2023/05] instead of having 1:1 manual copying of `LineReader`
 //       fields to `SummaryLineReader` fields, just store a
 //       `SummaryLineReader` in `LineReader` and update directly.
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct SummaryLineReader {
     /// `Count` of `Lines` processed by `LineReader`
     pub linereader_lines: Count,

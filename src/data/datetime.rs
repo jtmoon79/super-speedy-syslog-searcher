@@ -46,6 +46,8 @@ pub use crate::data::line::{LineIndex, RangeLineIndex};
 
 use std::convert::TryFrom; // for passing array slices as references
 use std::fmt;
+#[cfg(debug_assertions)]
+use std::thread;
 #[doc(hidden)]
 pub use std::time::{SystemTime, UNIX_EPOCH};
 use std::sync::RwLock;
@@ -67,6 +69,7 @@ pub use ::chrono::{
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
 use ::more_asserts::{debug_assert_ge, debug_assert_le, debug_assert_lt};
+use ::once_cell::sync::OnceCell;
 use ::phf::phf_map;
 use ::phf::Map as PhfMap;
 use ::regex::bytes::Regex;
@@ -170,6 +173,29 @@ pub fn ymdhms(
     min: u32,
     sec: u32,
 ) -> DateTimeL {
+    fixedoffset.with_ymd_and_hms(
+        year,
+        month,
+        day,
+        hour,
+        min,
+        sec,
+    ).unwrap()
+}
+
+/// create a `DateTime` with FixedOffset `+00:00`
+///
+/// wrapper for chrono DateTime creation function
+#[cfg(test)]
+pub fn ymdhms0(
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    min: u32,
+    sec: u32,
+) -> DateTimeL {
+    let fixedoffset = FixedOffset::east_opt(0).unwrap();
     fixedoffset.with_ymd_and_hms(
         year,
         month,
@@ -2440,7 +2466,7 @@ pub type DateTimeParseInstrsIndex = usize;
 
 /// A run-time created vector of [`DateTimeRegex`] instances that is a
 /// counterpart to [`DATETIME_PARSE_DATAS`]
-pub type DateTimeParseInstrsRegexVec = Vec<DateTimeRegex>;
+pub type DateTimeParseInstrsRegexVec = Vec<OnceCell<DateTimeRegex>>;
 
 /// Length of [`DATETIME_PARSE_DATAS`] (one past last index)
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
@@ -4792,8 +4818,11 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
 
 lazy_static! {
     /// Count of compiled regular expressions from `DateTimeParseData` instances.
-    pub static ref DateTimeParseDatasCompiledCount: RwLock<usize>
-        = RwLock::new(0);
+    pub static ref DateTimeParseDatasCompiledCount: RwLock<usize> = {
+        defo!("init DateTimeParseDatasCompiledCount");
+
+        RwLock::new(0)
+    };
 
     /// Run-time created mapping of compiled [`Regex`].
     ///
@@ -4813,25 +4842,17 @@ lazy_static! {
             DATETIME_PARSE_DATAS_LEN
         );
         let mut count: usize = 0;
-        for (_i, data) in DATETIME_PARSE_DATAS.iter().enumerate() {
-            defo!("init RegEx {:?}", _i);
-            datas.push(Regex::new(data.regex_pattern).unwrap());
+        while count < DATETIME_PARSE_DATAS_LEN {
+            defo!("init OnceCell {:?}", count);
+            datas.push(OnceCell::new());
             count += 1;
-        }
-        // update the global counter
-        match DateTimeParseDatasCompiledCount.write() {
-            Ok(mut w) => {
-                *w += count;
-            }
-            Err(_err) => {
-                de_err!("Failed to write DateTimeParseDatasCompiledCount {:?}", _err);
-            }
         }
         defx!("init DATETIME_PARSE_DATAS_REGEX_VEC {:?}", count);
 
         datas
     };
 }
+
 
 // TODO: Issue #6 handle all Unicode whitespace.
 //       This fn is essentially counteracting an errant call to
@@ -5715,13 +5736,45 @@ pub fn bytes_to_regex_to_datetime(
 ) -> Option<CapturedDtData> {
     defn!("(…, {:?}, {:?}, {:?}, {:?})", index, year_opt, tz_offset, tz_offset_string);
 
-    let regex_: &Regex = match DATETIME_PARSE_DATAS_REGEX_VEC.get(*index) {
-        Some(val) => val,
-        None =>
-            panic!(
-                "requested DATETIME_PARSE_DATAS_REGEX_VEC.get({}), returned None. DATETIME_PARSE_DATAS_REGEX_VEC.len() {}",
-                index, DATETIME_PARSE_DATAS_REGEX_VEC.len()
-            ),
+    // get the OnceCell
+    let entry: &OnceCell<DateTimeRegex> = &DATETIME_PARSE_DATAS_REGEX_VEC[*index];
+    // compile the regex if it hasn't been compiled yet
+    let result_init: Result<&Regex, std::io::Error> = entry.get_or_try_init(||
+        {
+            let regex_pattern = DATETIME_PARSE_DATAS[*index].regex_pattern;
+            // update the global counter
+            let mut _count: usize = 0;
+            match DateTimeParseDatasCompiledCount.write() {
+                Ok(mut w) => {
+                    *w += 1;
+                    _count = *w;
+                }
+                Err(_err) => {
+                    de_err!("Failed to write DateTimeParseDatasCompiledCount {:?}", _err);
+                }
+            };
+            // create the regex
+            #[cfg(debug_assertions)]
+            {
+                let tcurrent = thread::current();
+                let tname = tcurrent.name().unwrap();
+                defo!(
+                    "init RegEx {} from line {:?} ({})",
+                    _count, DATETIME_PARSE_DATAS[*index]._line_num, tname,
+                );
+            }
+            let regex_: DateTimeRegex = DateTimeRegex::new(regex_pattern).unwrap();
+
+            Ok(regex_)
+        }
+    );
+    // get the regex reference
+    let regex_: &DateTimeRegex = match result_init {
+        Ok(val) => val,
+        Err(_err) => {
+            debug_panic!("Failed get_or_try_init {:?}", _err);
+            return None;
+        }
     };
 
     // The regular expression matching call. According to `tools/flamegraph.sh`

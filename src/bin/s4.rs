@@ -116,6 +116,7 @@ use ::s4lib::data::datetime::{
     MAP_TZZ_TO_TZz,
     Utc,
     DATETIME_PARSE_DATAS,
+    DATETIME_PARSE_DATAS_LEN,
     systemtime_to_datetime,
 };
 use ::s4lib::data::common::LogMessage;
@@ -4087,9 +4088,10 @@ fn processing_loop(
         eprintln!("Printed journal events: {}", summaryprinted.journalentries);
         let count: isize = match DateTimeParseDatasCompiledCount.read() {
             Ok(count) => *count as isize,
-            // hacky hint that the count is not available
+            // XXX: hacky hint that the count is not available
             Err(_) => -1,
         };
+        eprintln!("Regex patterns        : {}", DATETIME_PARSE_DATAS_LEN);
         eprintln!("Regex compiled        : {}", count);
 
         eprint!("Datetime filter -a    :");

@@ -7,23 +7,40 @@
 
 use crate::common::{Count, FPath, FileOffset};
 use crate::data::sysline::SyslineP;
+use crate::data::datetime::ymdhms0;
 use crate::debug::helpers::{
-    create_temp_file, create_temp_file_data, ntf_fpath, NamedTempFile
+    create_temp_file,
+    create_temp_file_data,
+    ntf_fpath,
+    NamedTempFile,
 };
-use crate::readers::blockreader::BlockSz;
+use crate::readers::blockreader::{
+    BlockSz,
+    SummaryBlockReader,
+};
 use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
+use crate::readers::summary::SummaryReaderData;
 use crate::data::datetime::{
     datetime_parse_from_str,
     DateTimeL,
     DateTimeLOpt,
     DateTimePattern_str,
+    DateTimeParseDatasCompiledCount,
     FixedOffset,
     SystemTime,
     seconds_to_systemtime,
 };
-use crate::readers::syslinereader::ResultS3SyslineFind;
+use crate::readers::linereader::SummaryLineReader;
+use crate::readers::syslinereader::{
+    DateTimePatternCounts,
+    SummarySyslineReader,
+    ResultS3SyslineFind,
+};
 use crate::readers::syslogprocessor::{
-    FileProcessingResultBlockZero, SyslogProcessor, SYSLOG_SZ_MAX_BSZ,
+    FileProcessingResultBlockZero,
+    SummarySyslogProcessor,
+    SyslogProcessor,
+    SYSLOG_SZ_MAX_BSZ,
 };
 use crate::tests::common::{
     eprint_file,
@@ -37,7 +54,7 @@ use crate::tests::common::{
 use ::const_format::concatcp;
 use ::filetime;
 use ::lazy_static::lazy_static;
-use ::more_asserts::assert_gt;
+use ::more_asserts::{assert_ge, assert_gt};
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{defn, defo, defx, defñ};
 use ::test_case::test_case;
@@ -1021,6 +1038,60 @@ fn test_process_stage0to3_drop_data(
     assert_gt!(dropped_blocks.len(), 0, "Expected *some* dropped Blocks but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
 }
 
+/// It is difficult to test `DateTimeParseDatasCompiledCount` because it is a
+/// global singleton. And since the ordering of tests is not predictable
+/// then it's value cannot be predicted except to be greater than some number after
+/// exercising a `SyslogProcessor` (or `SyslineReader`).
+/// Setting and resetting the global singletons `DATETIME_PARSE_DATAS_REGEX_VEC`
+/// and `DateTimeParseDatasCompiledCount` requires an associated global mutex.
+/// If there was a global mutex then _every_ test function that effects those
+/// global singletons would need to use that global mutex lock.
+/// This is too much boilerplate to require for so many tests.
+/// So just test `DateTimeParseDatasCompiledCount` is greater than some number
+/// after processing the file with a `SyslogProcessor` instance.
+#[test_case(&NTF1S_A_PATH, 34)]
+#[test_case(&NTF1S_B_PATH, 34)]
+#[test_case(&NTF1S_C_PATH, 0)]
+#[test_case(&NTF5_PATH, 34)]
+#[test_case(&NTF5X4_PATH, 79)]
+#[test_case(&NTF3_PATH, 32)]
+#[test_case(&NTF9_PATH, 32)]
+#[test_case(&NTF7_2_PATH, 32)]
+fn test_datetime_parse_datas_compiled_count(
+    path: &FPath,
+    count_ge: usize,
+) {
+    let mut syslogprocessor = new_SyslogProcessor(path, SZ);
+
+    // find all the entries
+    let mut fo: FileOffset = 0;
+    loop {
+        match syslogprocessor.find_sysline(fo) {
+            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+                fo = fo_;
+            }
+            ResultS3SyslineFind::Done => {
+                break;
+            }
+            ResultS3SyslineFind::Err(err) => {
+                panic!("Error {}", err);
+            }
+        }
+    }
+
+    let count = match DateTimeParseDatasCompiledCount.read() {
+        Ok(count) => *count,
+        Err(err) => {
+            panic!("Error DateTimeParseDatasCompiledCount.read() failed {}", err);
+        }
+    };
+    eprintln!("DateTimeParseDatasCompiledCount {}", count);
+    assert_ge!(
+        count, count_ge,
+        "DateTimeParseDatasCompiledCount expected >={}, actual {}", count_ge, count
+    );
+}
+
 /// test `SyslogProcessor::summary` and `SyslogProcessor::summary_complete`
 /// before doing any processing
 #[test_case(&NTF_LOG_EMPTY_FPATH, 0x100)]
@@ -1037,6 +1108,153 @@ fn test_SyslogProcessor_summary_empty(
     _ = syslogprocessor.summary_complete();
 }
 
-// TODO: [2023/03/23]  test `SyslogProcessor::summary` and `SyslogProcessor::summary_complete`
-// TODO: [2024/03/10] copy design of similar function
-//       `fixedstructreader_tests.rs:test_FixedStructReader_summary`
+#[test_case(
+    &*NTF5X4_PATH,
+    0x64,
+    SummaryBlockReader {
+        blockreader_bytes: 120,
+        blockreader_bytes_total: 120,
+        blockreader_blocks: 2,
+        blockreader_blocks_total: 2,
+        blockreader_blocksz: 100,
+        blockreader_filesz: 120,
+        blockreader_filesz_actual: 120,
+        blockreader_read_block_lru_cache_hit: 4,
+        blockreader_read_block_lru_cache_miss: 2,
+        blockreader_read_block_lru_cache_put: 2,
+        blockreader_read_blocks_hit: 0,
+        blockreader_read_blocks_miss: 2,
+        blockreader_read_blocks_put: 2,
+        blockreader_read_blocks_reread_error: 0,
+        blockreader_blocks_highest: 2,
+        blockreader_blocks_dropped_ok: 0,
+        blockreader_blocks_dropped_err: 0,
+    },
+    SummaryLineReader {
+        linereader_lines: 5,
+        linereader_lines_stored_highest: 5,
+        linereader_lines_hits: 0,
+        linereader_lines_miss: 9,
+        linereader_find_line_lru_cache_hit: 4,
+        linereader_find_line_lru_cache_miss: 7,
+        linereader_find_line_lru_cache_put: 5,
+        linereader_drop_line_ok: 0,
+        linereader_drop_line_errors: 0,
+    },
+    SummarySyslineReader {
+        syslinereader_syslines: 5,
+        syslinereader_syslines_stored_highest: 5,
+        syslinereader_syslines_hit: 0,
+        syslinereader_syslines_miss: 6,
+        syslinereader_syslines_by_range_hit: 0,
+        syslinereader_syslines_by_range_miss: 6,
+        syslinereader_syslines_by_range_put: 5,
+        syslinereader_patterns: DateTimePatternCounts::from([(33, 1), (78, 4)]),
+        syslinereader_datetime_first: Some(ymdhms0(1972, 1, 1, 1, 0, 11)),
+        syslinereader_datetime_last: Some(ymdhms0(2000, 5, 15, 5, 0, 55)),
+        syslinereader_find_sysline_lru_cache_hit: 0,
+        syslinereader_find_sysline_lru_cache_miss: 6,
+        syslinereader_find_sysline_lru_cache_put: 6,
+        syslinereader_parse_datetime_in_line_lru_cache_hit: 4,
+        syslinereader_parse_datetime_in_line_lru_cache_miss: 5,
+        syslinereader_parse_datetime_in_line_lru_cache_put: 0,
+        syslinereader_get_boxptrs_singleptr: 116,
+        syslinereader_get_boxptrs_doubleptr: 1,
+        syslinereader_get_boxptrs_multiptr: 0,
+        syslinereader_regex_captures_attempted: 117,
+        syslinereader_drop_sysline_ok: 0,
+        syslinereader_drop_sysline_errors: 0,
+        syslinereader_ezcheck12_hit: 0,
+        syslinereader_ezcheck12_miss: 0,
+        syslinereader_ezcheck12_hit_max: 0,
+        syslinereader_ezcheckd2_hit: 0,
+        syslinereader_ezcheckd2_miss: 9,
+        syslinereader_ezcheckd2_hit_max: 0,
+        syslinereader_ezcheck12d2_hit: 0,
+        syslinereader_ezcheck12d2_miss: 108,
+        syslinereader_ezcheck12d2_hit_max: 0,
+    },
+    SummarySyslogProcessor {
+        syslogprocessor_missing_year: None,
+    }; "NTF5X4_PATH 0x64"
+)]
+fn test_Reader_summary(
+    path: &FPath,
+    blocksz: BlockSz,
+    expect_summaryblockreader: SummaryBlockReader,
+    expect_summarylinereader: SummaryLineReader,
+    expect_summarysyslinereader: SummarySyslineReader,
+    expect_summarysyslogprocessor: SummarySyslogProcessor,
+) {
+    let mut syslogprocessor = new_SyslogProcessor(
+        path,
+        blocksz,
+    );
+
+    // find all the entries
+    let mut fo: FileOffset = 0;
+    loop {
+        let result = syslogprocessor.find_sysline(fo);
+        match result {
+            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+                fo = fo_;
+            }
+            ResultS3SyslineFind::Done => {
+                break;
+            }
+            ResultS3SyslineFind::Err(err) => {
+                panic!("Error {}", err);
+            }
+        }
+    }
+
+    // get the summaries
+    let summary = syslogprocessor.summary_complete();
+    let (
+        summaryblockreader,
+        summarylinereader,
+        summarysyslinereader,
+        summarysyslogreader,
+    ) = match summary.readerdata {
+        SummaryReaderData::Syslog((
+            summaryblockreader,
+            summarylinereader,
+            summarysyslinereader,
+            summarysyslogreader,
+        )) => {
+            (
+                summaryblockreader,
+                summarylinereader,
+                summarysyslinereader,
+                summarysyslogreader,
+            )
+        }
+        _ => panic!(),
+    };
+    eprintln!("\nsummaryblockreader:\n{:?}\n", summaryblockreader);
+    eprintln!("\nsummarylinereader:\n{:?}\n", summarylinereader);
+    eprintln!("\nsummarysyslinereader:\n{:?}\n", summarysyslinereader);
+    eprintln!("\nsummarysyslogreader:\n{:?}\n", summarysyslogreader);
+    assert_eq!(
+        summaryblockreader,
+        expect_summaryblockreader,
+    );
+    assert_eq!(
+        summarylinereader,
+        expect_summarylinereader,
+    );
+    assert_eq!(
+        summarysyslinereader,
+        expect_summarysyslinereader,
+    );
+    assert_eq!(
+        summarysyslogreader,
+        expect_summarysyslogprocessor,
+    );
+
+    let summarysyslogreader2 = syslogprocessor.summary();
+    assert_eq!(
+        summarysyslogreader2,
+        expect_summarysyslogprocessor,
+    );
+}

@@ -266,10 +266,10 @@ impl Debug for SyslogProcessor {
 }
 
 // TODO: [2023/04] remove redundant variable prefix name `syslogprocessor_`
-#[derive(Clone, Default)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct SummarySyslogProcessor {
     /// `SyslogProcessor::missing_year`
-    pub SyslogProcessor_missing_year: Option<Year>,
+    pub syslogprocessor_missing_year: Option<Year>,
 }
 
 impl SyslogProcessor {

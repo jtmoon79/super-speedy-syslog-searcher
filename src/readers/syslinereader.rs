@@ -43,10 +43,6 @@ use crate::data::datetime::{
     slice_contains_D2,
     slice_contains_12_D2,
 };
-#[cfg(any(debug_assertions, test))]
-use crate::data::datetime::{
-    DateTimeRegex, DATETIME_PARSE_DATAS_REGEX_VEC
-};
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
 use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockSz};
@@ -380,7 +376,7 @@ where
 // TODO: [2023/05] instead of having 1:1 manual copying of `SyslineReader`
 //       fields to `SummarySyslineReader` fields, just store a
 //       `SummarySyslineReader` in `SyslineReader` and update directly.
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct SummarySyslineReader {
     /// `Count` of `Syslines` processed by `SyslineReader`
     pub syslinereader_syslines: Count,
@@ -1499,10 +1495,7 @@ impl SyslineReader {
         {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
-                let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC
-                    .get(*k)
-                    .unwrap();
-                defo!("self.dt_patterns_counts[{:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
+                defo!("self.dt_patterns_counts[{:?}]={:?} is {:?}", k, v, data_);
             }
         }
         defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
@@ -1552,10 +1545,7 @@ impl SyslineReader {
         {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
-                let data_rex_: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC
-                    .get(*k)
-                    .unwrap();
-                defo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", k, v, data_, data_rex_);
+                defo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}", k, v, data_);
             }
         }
 
@@ -1571,10 +1561,7 @@ impl SyslineReader {
         {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
-                let data_rex: &DateTimeRegex = DATETIME_PARSE_DATAS_REGEX_VEC
-                    .get(*k)
-                    .unwrap();
-                defo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}, {:?}", k, v, data, data_rex);
+                defo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}", k, v, data);
             }
             for val in self
                 .dt_patterns_indexes

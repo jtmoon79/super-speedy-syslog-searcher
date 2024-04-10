@@ -485,7 +485,7 @@ impl fmt::Debug for BlockReader {
 //       fields to `SummaryBlockReader` fields, just store a
 //       `SummaryBlockReader` in `BlockReader` and update directly.
 #[allow(non_snake_case)]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct SummaryBlockReader {
     pub blockreader_bytes: Count,
     pub blockreader_bytes_total: FileSz,

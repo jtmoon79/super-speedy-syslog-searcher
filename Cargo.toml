@@ -55,6 +55,9 @@ more-asserts = "0.3.1"
 mut_static = "5.0.0"
 nix = "0.27.1"
 numtoa = "0.2.4"
+# TODO: instead of `once_cell` crate, use `std::sync::OnceLock` when it becomes stable
+#       TRACKING: https://github.com/rust-lang/rust/issues/74465
+once_cell = "1.19.0"
 phf = { version = "0.11", features = ["macros"] }
 rand = "0.8.5"
 rangemap = "1.5.1"
