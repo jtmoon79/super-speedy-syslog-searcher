@@ -4517,7 +4517,7 @@ fn print_summary_opt_processed(
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
                 eprintln!("{}@[{}] uses {} {:?}", indent2, patt.0, patt.1, dtpd);
             }
-            match summarysyslogprocessor.SyslogProcessor_missing_year {
+            match summarysyslogprocessor.syslogprocessor_missing_year {
                 Some(year) => {
                     eprintln!(
                         "{}datetime format missing year; estimated year of last sysline {:?}",

@@ -1316,10 +1316,10 @@ impl SyslogProcessor {
     }
 
     pub fn summary(&self) -> SummarySyslogProcessor {
-        let SyslogProcessor_missing_year = self.missing_year;
+        let syslogprocessor_missing_year = self.missing_year;
 
         SummarySyslogProcessor {
-            SyslogProcessor_missing_year,
+            syslogprocessor_missing_year,
         }
     }
 
