@@ -59,7 +59,6 @@ set -x
         ./performance-data \
         ./valgrind \
         ./Notes.txt \
-        ./flamegraph.svg* \
         ./flamegraph*.svg \
         ./releases \
         ./tests \
