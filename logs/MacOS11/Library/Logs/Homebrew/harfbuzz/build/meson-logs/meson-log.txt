@@ -1,0 +1,394 @@
+Build started at 2024-01-28T10:17:47.588140
+Main binary: /usr/local/opt/python@3.12/bin/python3.12
+Build Options: -Dcairo=enabled -Dcoretext=enabled -Dfreetype=enabled -Dglib=enabled -Dgobject=enabled -Dgraphite=enabled -Dicu=enabled -Dintrospection=enabled -Dtests=disabled -Dprefix=/usr/local/Cellar/harfbuzz/8.3.0 -Dlibdir=/usr/local/Cellar/harfbuzz/8.3.0/lib -Dbuildtype=release -Ddefault_library=both -Dwrap_mode=nofallback
+Python system: Darwin
+The Meson build system
+Version: 1.3.1
+Source dir: /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0
+Build dir: /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build
+Build type: native build
+Project name: harfbuzz
+Project version: 8.3.0
+-----------
+Detecting compiler via: `clang --version` -> 0
+stdout:
+Apple clang version 13.0.0 (clang-1300.0.29.30)
+Target: x86_64-apple-darwin20.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode_13.2.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+-----------
+Running command: clang -E -dM -
+-----
+-----------
+Detecting linker via: `clang -Wl,--version` -> 1
+stderr:
+ld: unknown option: --version
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+-----------
+
+
+
+
+Detecting Apple linker via: `clang -Wl,-v` -> 1
+stderr:
+@(#)PROGRAM:ld  PROJECT:ld64-711
+BUILD 21:57:11 Nov 17 2021
+configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/usr/local/opt/icu4c/lib
+	/usr/local/lib
+	/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks/OpenGL.framework/Versions/Current/Libraries
+	/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/usr/lib
+Framework search paths:
+	/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks/
+Undefined symbols for architecture x86_64:
+  "_main", referenced from:
+     implicit entry/start for main executable
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+-----------
+Sanity testing C compiler: clang
+Is cross compiler: False.
+Sanity check compiler command line: clang sanitycheckc.c -o sanitycheckc.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/sanitycheckc.exe
+C compiler for the build machine: clang (clang 13.0.0 "Apple clang version 13.0.0 (clang-1300.0.29.30)")
+C linker for the build machine: clang ld64 711
+-----------
+Detecting linker via: `llvm-ar --version` -> [Errno 2] No such file or directory: 'llvm-ar'
+-----------
+Detecting linker via: `ar --version` -> 1
+stderr:
+usage:  ar -d [-TLsv] archive file ...
+	ar -m [-TLsv] archive file ...
+	ar -m [-abiTLsv] position archive file ...
+	ar -p [-TLsv] archive [file ...]
+	ar -q [-cTLsv] archive file ...
+	ar -r [-cuTLsv] archive file ...
+	ar -r [-abciuTLsv] position archive file ...
+	ar -t [-TLsv] archive [file ...]
+	ar -x [-ouTLsv] archive [file ...]
+-----------
+-----------
+Detecting compiler via: `clang++ --version` -> 0
+stdout:
+Apple clang version 13.0.0 (clang-1300.0.29.30)
+Target: x86_64-apple-darwin20.6.0
+Thread model: posix
+InstalledDir: /Applications/Xcode_13.2.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+-----------
+Running command: clang++ -E -dM -
+-----
+-----------
+Detecting linker via: `clang++ -Wl,--version` -> 1
+stderr:
+ld: unknown option: --version
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+-----------
+-----------
+Detecting Apple linker via: `clang++ -Wl,-v` -> 1
+stderr:
+@(#)PROGRAM:ld  PROJECT:ld64-711
+BUILD 21:57:11 Nov 17 2021
+configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/usr/local/opt/icu4c/lib
+	/usr/local/lib
+	/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks/OpenGL.framework/Versions/Current/Libraries
+	/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/usr/lib
+Framework search paths:
+	/Library/Developer/CommandLineTools/SDKs/MacOSX11.sdk/System/Library/Frameworks/
+Undefined symbols for architecture x86_64:
+  "_main", referenced from:
+     implicit entry/start for main executable
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+-----------
+Sanity testing C++ compiler: clang++
+Is cross compiler: False.
+Sanity check compiler command line: clang++ sanitycheckcpp.cc -o sanitycheckcpp.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/sanitycheckcpp.exe
+C++ compiler for the build machine: clang++ (clang 13.0.0 "Apple clang version 13.0.0 (clang-1300.0.29.30)")
+C++ linker for the build machine: clang++ ld64 711
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Target machine cpu family: x86_64
+Target machine cpu: x86_64
+Running compile:
+Working directory:  /private/tmp/tmpn8nkmjxe
+Code:
+ int i = static_cast<int>(0);
+-----------
+Command line: `clang++ /private/tmp/tmpn8nkmjxe/testfile.cpp -o /private/tmp/tmpn8nkmjxe/output.obj -c -std=c++11` -> 0
+Compiler accepts -std=c++11: YES
+Running compile:
+Working directory:  /private/tmp/tmp3kuunka1
+Code:
+ 
+        
+        #ifndef _MSC_FULL_VER
+        # define _MSC_FULL_VER "MESON_GET_DEFINE_UNDEFINED_SENTINEL"
+        #endif
+        "MESON_GET_DEFINE_DELIMITER_START"
+_MSC_FULL_VER
+"MESON_GET_DEFINE_DELIMITER_END"
+-----------
+Command line: `clang++ /private/tmp/tmp3kuunka1/testfile.cpp -E -P -P -O0 -fpermissive -Werror=implicit-function-declaration -std=c++11 -fno-exceptions` -> 0
+stdout:
+"MESON_GET_DEFINE_DELIMITER_START"
+"MESON_GET_DEFINE_UNDEFINED_SENTINEL"
+"MESON_GET_DEFINE_DELIMITER_END"
+-----------
+Fetching value of define "_MSC_FULL_VER" : (undefined) 
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp25e_8fox
+Code:
+ int main(void) { return 0; }
+
+-----------
+Command line: `clang++ /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp25e_8fox/testfile.cpp -o /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp25e_8fox/output.exe -O0 -fpermissive -Werror=implicit-function-declaration -Wl,-fatal_warnings -Bsymbolic-functions` -> 0
+Compiler for C++ supports link arguments -Bsymbolic-functions: YES 
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpb944rhdo
+Code:
+ extern int i;
+int i;
+
+-----------
+Command line: `clang++ /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpb944rhdo/testfile.cpp -o /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpb944rhdo/output.obj -c -O0 -fpermissive -Werror=implicit-function-declaration -Werror=unknown-warning-option -Werror=unused-command-line-argument -Werror=ignored-optimization-argument -fno-exceptions` -> 0
+Compiler for C++ supports arguments -fno-exceptions: YES 
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp9uxa3yas
+Code:
+ extern int i;
+int i;
+
+-----------
+Command line: `clang++ /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp9uxa3yas/testfile.cpp -o /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp9uxa3yas/output.obj -c -O0 -fpermissive -Werror=implicit-function-declaration -Werror=unknown-warning-option -Werror=unused-command-line-argument -Werror=ignored-optimization-argument -fno-rtti` -> 0
+Compiler for C++ supports arguments -fno-rtti: YES 
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpoahdfk_4
+Code:
+ extern int i;
+int i;
+
+-----------
+Command line: `clang++ /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpoahdfk_4/testfile.cpp -o /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpoahdfk_4/output.obj -c -O0 -fpermissive -Werror=implicit-function-declaration -Werror=unknown-warning-option -Werror=unused-command-line-argument -Werror=ignored-optimization-argument -fno-threadsafe-statics` -> 0
+Compiler for C++ supports arguments -fno-threadsafe-statics: YES 
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpyji9uz7m
+Code:
+ extern int i;
+
+
+Command line: `clang++ /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpfqzqlpws/testfile.cpp -o /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpfqzqlpws/output.obj -c -O0 -fpermissive -Werror=implicit-function-declaration -Werror=unknown-warning-option -Werror=unused-command-line-argument -Werror=ignored-optimization-argument -std=c++11 -fno-exceptions` -> 0
+stderr:
+/private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpfqzqlpws/testfile.cpp:3:13: warning: expression result unused [-Wunused-value]
+            sizeof(CTFontRef);
+            ^~~~~~~~~~~~~~~~~
+1 warning generated.
+-----------
+Checking for type "CTFontRef" with dependency appleframeworks: YES 
+Run-time dependency threads found: YES
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpyuphn3fh
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("unistd.h")
+          #error "Header 'unistd.h' could not be found"
+         #endif
+        #else
+         #include <unistd.h>
+        #endif
+-----------
+Command line: `clang++ /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpyuphn3fh/testfile.cpp -E -P -P -O0 -fpermissive -Werror=implicit-function-declaration -std=c++11 -fno-exceptions` -> 0
+Has header "unistd.h" : YES 
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp5ixeut9l
+Code:
+ 
+        #ifdef __has_include
+         #if !__has_include("sys/mman.h")
+          #error "Header 'sys/mman.h' could not be found"
+         #endif
+        #else
+         #include <sys/mman.h>
+        #endif
+
+
+-----------
+Command line: `clang++ -I/usr/local/opt/libpng/include/libpng16 -I/usr/local/opt/freetype/include/freetype2 /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp56mp6_qb/testfile.cpp -o /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmp56mp6_qb/output.exe -O0 -fpermissive -Werror=implicit-function-declaration -std=c++11 -fno-exceptions -Wl,-no_weak_imports /usr/local/opt/freetype/lib/libfreetype.dylib` -> 0
+Checking for function "FT_Done_MM_Var" with dependency freetype2: YES 
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpfpl5u1ft
+Code:
+ 
+        #define FT_Get_Transform meson_disable_define_of_FT_Get_Transform
+        
+        #include <limits.h>
+        #undef FT_Get_Transform
+        
+        #ifdef __cplusplus
+        extern "C"
+        #endif
+        char FT_Get_Transform (void);
+        
+        #if defined __stub_FT_Get_Transform || defined __stub___FT_Get_Transform
+        fail fail fail this function is not going to work
+        #endif
+        
+        int main(void) {
+          return FT_Get_Transform ();
+        }
+-----------
+Command line: `clang++ -I/usr/local/opt/libpng/include/libpng16 -I/usr/local/opt/freetype/include/freetype2 /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpfpl5u1ft/testfile.cpp -o /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpfpl5u1ft/output.exe -O0 -fpermissive -Werror=implicit-function-declaration -std=c++11 -fno-exceptions -Wl,-no_weak_imports /usr/local/opt/freetype/lib/libfreetype.dylib` -> 0
+Checking for function "FT_Get_Transform" with dependency freetype2: YES 
+Program gen-hb-version.py found: YES (/private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/src/gen-hb-version.py)
+Configuring hb-version.h with command
+Running command: /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/src/gen-hb-version.py 8.3.0 /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/src/hb-version.h /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/src/hb-version.h.in
+--- stdout ---
+
+--- stderr ---
+
+
+Program ragel found: NO
+src/meson.build:414: WARNING: You have to install ragel if you are going to develop HarfBuzz itself
+Program gen-harfbuzzcc.py found: YES (/private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/src/gen-harfbuzzcc.py)
+Configuring hb-features.h using configuration
+Configuring hb-supported-features.h using configuration
+Program gen-def.py found: YES (/private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/src/gen-def.py)
+Using cached compile:
+Cached command line:  clang++ /private/tmp/tmp3kuunka1/testfile.cpp -E -P -P -O0 -fpermissive -Werror=implicit-function-declaration -std=c++11 -fno-exceptions 
+
+Code:
+ 
+        
+        #ifndef _MSC_FULL_VER
+        # define _MSC_FULL_VER "MESON_GET_DEFINE_UNDEFINED_SENTINEL"
+        #endif
+        "MESON_GET_DEFINE_DELIMITER_START"
+_MSC_FULL_VER
+"MESON_GET_DEFINE_DELIMITER_END"
+Cached compiler stdout:
+ 
+
+
+
+
+        "MESON_GET_DEFINE_DELIMITER_START"
+"MESON_GET_DEFINE_UNDEFINED_SENTINEL"
+"MESON_GET_DEFINE_DELIMITER_END"
+
+Cached compiler stderr:
+ 
+Fetching value of define "_MSC_FULL_VER" : (undefined) (cached)
+Program gen-harfbuzzcc.py found: YES (/private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/src/gen-harfbuzzcc.py)
+Dependency cairo found: YES 1.18.0 (cached)
+src/meson.build:809: WARNING: Project targets '>= 0.55.0' but uses feature introduced in '1.3.0': fs.relative_to.
+Configuring harfbuzz-config.cmake using configuration
+Dependency glib-2.0 found: YES 2.78.3 (cached)
+env[PKG_CONFIG_PATH]: /usr/local/opt/gobject-introspection/lib/pkgconfig:/usr/local/opt/python@3.12/lib/pkgconfig:/usr/local/opt/libpng/lib/pkgconfig:/usr/local/opt/freetype/lib/pkgconfig:/usr/local/opt/fontconfig/lib/pkgconfig:/usr/local/opt/pcre2/lib/pkgconfig:/usr/local/opt/glib/lib/pkgconfig:/usr/local/opt/libxau/lib/pkgconfig:/usr/local/opt/libxdmcp/lib/pkgconfig:/usr/local/opt/libxcb/lib/pkgconfig:/usr/local/opt/libx11/lib/pkgconfig:/usr/local/opt/libxext/lib/pkgconfig:/usr/local/opt/libxrender/lib/pkgconfig:/usr/local/opt/lzo/lib/pkgconfig:/usr/local/opt/pixman/lib/pkgconfig:/usr/local/opt/cairo/lib/pkgconfig:/usr/local/opt/graphite2/lib/pkgconfig:/usr/local/opt/icu4c/lib/pkgconfig:/usr/local/opt/xorgproto/share/pkgconfig
+env[PKG_CONFIG_LIBDIR]: /usr/lib/pkgconfig:/usr/local/Homebrew/Library/Homebrew/os/mac/pkgconfig/11
+env[PKG_CONFIG]: /usr/local/Homebrew/Library/Homebrew/shims/mac/super/pkg-config
+-----------
+Called: `/usr/local/Homebrew/Library/Homebrew/shims/mac/super/pkg-config --variable=glib_mkenums glib-2.0` -> 0
+stdout:
+/usr/local/Cellar/glib/2.78.3/bin/glib-mkenums
+
+-----------
+Got pkg-config variable girdir : /usr/local/Cellar/gobject-introspection/1.78.1/share/gir-1.0
+Running compile:
+Working directory:  /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpkggsjom9
+Code:
+ 
+-----------
+Command line: `clang /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpkggsjom9/testfile.c -o /private/tmp/harfbuzz-20240128-59119-oqdy55/harfbuzz-8.3.0/build/meson-private/tmpkggsjom9/output.obj -c -O0 -Werror=implicit-function-declaration -Werror=unknown-warning-option -Werror=unused-command-line-argument -Werror=ignored-optimization-argument --print-search-dirs` -> 0
+stdout:
+programs: =/Applications/Xcode_13.2.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+libraries: =/Applications/Xcode_13.2.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0
+-----------
+Program gtkdoc-scan found: NO
+Message: Not building documentation as gtk-doc was not found
+Configuring config.h using configuration
+Build targets in project: 30
+WARNING: Project specifies a minimum meson_version '>= 0.55.0' but uses features which were added in newer versions:
+ * 1.3.0: {'fs.relative_to'}
+NOTICE: Future-deprecated features used:
+ * 0.64.0: {'copy arg in configure_file'}
+
+harfbuzz 8.3.0
+
+  Directories
+    prefix                    : /usr/local/Cellar/harfbuzz/8.3.0
+    bindir                    : bin
+    libdir                    : lib
+    includedir                : include
+    datadir                   : share
+    cmakepackagedir           : lib/cmake
+
+  Unicode callbacks (you want at least one)
+    Builtin                   : YES
+    Glib                      : YES
+    ICU                       : YES
+
+  Font callbacks (the more the merrier)
+    Builtin                   : YES
+    FreeType                  : YES
+
+  Dependencies used for command-line utilities
+    Cairo                     : YES
+    Chafa                     : NO
+
+  Additional shapers
+    Graphite2                 : YES
+    WebAssembly (experimental): NO
+
+  Platform shapers (not normally needed)
+    CoreText                  : YES
+    DirectWrite (experimental): NO
+    GDI/Uniscribe             : NO
+
+  Other features
+    Documentation             : NO
+    GObject bindings          : YES
+    Cairo integration         : YES
+    Introspection             : YES
+    Experimental APIs         : NO
+
+  Testing
+    Tests                     : NO
+    Benchmark                 : NO
+
+  User defined options
+    buildtype                 : release
+    default_library           : both
+    libdir                    : /usr/local/Cellar/harfbuzz/8.3.0/lib
+    prefix                    : /usr/local/Cellar/harfbuzz/8.3.0
+    wrap_mode                 : nofallback
+    cairo                     : enabled
+    coretext                  : enabled
+    freetype                  : enabled
+    glib                      : enabled
+    gobject                   : enabled
+    graphite                  : enabled
+    icu                       : enabled
+    introspection             : enabled
+    tests                     : disabled
+
+Found ninja-1.11.1 at /usr/local/Homebrew/Library/Homebrew/shims/mac/super/ninja
+Failed to guess install tag for /usr/local/Cellar/harfbuzz/8.3.0/lib/cmake/harfbuzz/harfbuzz-config.cmake
+Failed to guess install tag for /usr/local/Cellar/harfbuzz/8.3.0/lib/cmake/harfbuzz/harfbuzz-config.cmake

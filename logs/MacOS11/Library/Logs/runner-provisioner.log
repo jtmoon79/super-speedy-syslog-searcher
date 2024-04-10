@@ -1,0 +1,36 @@
+Starting service provider configuration
+Done configuring service provider
+[16:05:39] info: Provisioner[0]
+      Provisioner version: 2.0.359.1+f83ed258e46724b307a9ecf8c1c002bbfee20d2f
+[16:05:39] info: Provisioner[0]
+      The system has been up for 130 seconds. Processor Count: 3
+[16:05:39] info: Provisioner[0]
+      E2E/VMStartTime: 2024-03-05T16:03:28.6068790Z; ProvisionerStartTime: 2024-03-05T16:05:08.9335660+00:00
+[16:05:39] info: Provisioner[0]
+      Image provisioning mode
+
+[16:05:53] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.RequestResourceProvider[0]
+      Successfully downloaded resource PoolProvider:osx.10.11-x64:2.313.0
+[16:05:53] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.RequestResourceProvider[0]
+      Downloading 3 for request type DevFabric
+[16:05:53] info: MachineManagement.Provisioning.Mac.MacMachineEnvironment[0]
+      Running Factory Provisioning for PoolProvider
+
+[16:05:55] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Copy /Users/runner/imagedata.json file to the /Users/runner/runners/2.313.0/.setup_info target
+[16:05:55] info: MachineManagement.Provisioning.Mac.MacMachineEnvironment[0]
+      Running Factory Provisioning for DevFabric
+[16:05:55] info: MachineManagement.Provisioning.Mac.MacMachineEnvironment[0]
+      Creating marker file to indicate machine is clean, will be deleted when first request is executed
+[16:05:55] info: MachineManagement.Provisioning.MachineProvisioner[0]
+      Removing provisioning setting
+[16:05:55] info: MachineManagement.Provisioning.Mac.MacMachineEnvironment[0]
+      Waiting for AuthorizationTokenFile to be dropped by Custom Script Extension...
+Starting service provider configuration
+Done configuring service provider
+
+√ Connected to GitHub
+
+Current runner version: '2.314.1'
+2024-03-24 20:21:15Z: Listening for Jobs
+2024-03-24 20:21:22Z: Running job: test Mac OS (macos-11)

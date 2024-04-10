@@ -1,0 +1,42 @@
+ Time	               Bundle ID	              Status	Comment
+0.000	                       -	                   -	TALagent Started (system uptime: 50.05 sec, current time: 536847033.58)
+0.011	                       -	                   -	Liveness: 0 -> 1 (run_as_server)
+0.013	                       -	                   -	Liveness: 1 -> 2 (create_xpc_listener)
+0.013	                       -	                   -	Blocking app contact
+0.093	                       -	                   -	Successfully read encryption key from keychain in 0.080282 seconds
+0.126	                       -	                   -	Liveness: 2 -> 3 (server_show_windows_for_asns)
+0.126	                       -	                   -	server_show_windows_for_asns start
+0.127	                       -	                   -	Allowing apps to contact us
+0.127	                       -	                   -	TAL launch still in progress because Finder has not checked in
+0.127	                       -	                   -	Still waiting for registration from Finder
+0.127	                       -	                   -	Liveness: 3 -> 4 (add_app)
+0.127	                       -	                   -	Finder not yet launched, but pretending it is
+0.130	                       -	                   -	_LSSetApplicationInformationItem(kLSDefaultSessionID, asn, _kLSApplicationIsHiddenKey, hidden ? kCFBooleanTrue : kCFBooleanFalse, NULL) produced OSStatus -50 on line 677 in TCApplication.m
+0.130	                       -	                   -	_LSSetApplicationInformationItem(kLSDefaultSessionID, asn, TAL_kLSIsProxiedForTALKey, kCFBooleanTrue, NULL) produced OSStatus -50 on line 680 in TCApplication.m
+0.133	                       -	                   -	loginwindow launched no apps (but we still have to handle Finder)
+0.133	                       -	                   -	Bitmaps Ready (0 apps, 0 windows)
+0.134	        com.apple.finder	                   -	Disposing because it has no windows
+0.135	        com.apple.finder	            Disposed	
+0.135	                       -	                   -	server_show_windows_for_asns end
+0.137	                       -	                   -	TAL launch still in progress because Finder has not checked in
+0.137	                       -	                   -	Still waiting for registration from Finder
+0.137	                       -	                   -	TAL launch still in progress because Finder has not checked in
+0.137	                       -	                   -	Still waiting for registration from Finder
+0.150	                       -	                   -	TAL launch still in progress because Finder has not checked in
+0.150	                       -	                   -	Still waiting for registration from Finder
+0.460	                       -	                   -	TAL launch still in progress because Finder has not checked in
+0.460	                       -	                   -	Still waiting for registration from Finder
+1.270	                       -	                   -	TAL launch still in progress because Finder has not checked in
+1.270	                       -	                   -	Still waiting for registration from Finder
+1.359	        com.apple.finder	                   -	Finder checked in
+1.359	                       -	                   -	All started apps have registered (no remaining unregistered apps)
+1.360	                       -	                   -	Waiting for Dock...
+1.360	                       -	                   -	Dock is avaialable.
+1.360	                       -	                   -	Liveness: 4 -> 5 (_wait_for_dock)
+1.360	                       -	                   -	TAL Relaunch - all apps registered as ready
+1.360	                       -	                   -	Liveness: 5 -> 4 (__server_show_windows_for_asns_block_invoke.34)
+1.361	                       -	                   -	Liveness: 4 -> 3 (___wait_for_dock_block_invoke_3)
+2.331	                       -	                   -	Liveness: 3 -> 2 (__remove_app_block_invoke)
+3.278	                       -	                   -	Liveness: 2 -> 1 (__create_xpc_listener_block_invoke)
+16.295	                       -	                   -	Liveness: 1 -> 0 (__run_as_server_block_invoke)
+16.295	                       -	                   -	Exiting out of boredom

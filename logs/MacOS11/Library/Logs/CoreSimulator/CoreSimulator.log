@@ -1,0 +1,47 @@
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Notice>: com.apple.CoreSimulator.CoreSimulatorService 783.5 starting.
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Warning>: Device EA5E8B80-3D97-4A65-A4B7-FC32EE611B22 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.2 (15.2 - 19C51) - com.apple.CoreSimulator.SimRuntime.iOS-15-2
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 6AC8A9E6-B824-435D-B540-645FEA7B5020 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.2 (15.2 - 19C51) - com.apple.CoreSimulator.SimRuntime.iOS-15-2
+
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 0735183A-BF66-405A-A12A-B161672C5300 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.2 (15.2 - 19C51) - com.apple.CoreSimulator.SimRuntime.iOS-15-2
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Warning>: Device D33B5916-179C-43B7-AC12-F64066677DE1 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.2 (15.2 - 19C51) - com.apple.CoreSimulator.SimRuntime.iOS-15-2
+Jan 28 18:07:33 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 94742348-797D-4EA6-903A-CCBFA74FEAB3 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:07:34 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 15.2 (15.2 - 19C51) - com.apple.CoreSimulator.SimRuntime.iOS-15-2
+Jan 28 18:07:34 Mac-2516 CoreSimulatorService[24126] <Warning>: Device E486741C-6B09-4E58-B3C0-B7480B696F3F encountered in creation state at launch.  The device will be re-created.
+
+Jan 28 18:09:13 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 6.2 (6.2.1 - 17T531) - com.apple.CoreSimulator.SimRuntime.watchOS-6-2
+Jan 28 18:09:13 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 594E262A-73F0-421E-9CF5-37DA9D2BC4F4 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:09:13 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 8.3 (8.3 - 19S51) - com.apple.CoreSimulator.SimRuntime.watchOS-8-3
+Jan 28 18:09:13 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 34EF6DD1-454E-49FA-9C05-7CE6B3FEFB98 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:09:13 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 8.3 (8.3 - 19S51) - com.apple.CoreSimulator.SimRuntime.watchOS-8-3
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 812C10F3-C6C4-4C4B-80E9-CF4D0DCC0899 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 14.4 (14.4 - 18D46) - com.apple.CoreSimulator.SimRuntime.iOS-14-4
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 1E37E5E9-D143-4BCD-BCCD-612B8CBE7D1D encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 14.4 (14.4 - 18D46) - com.apple.CoreSimulator.SimRuntime.iOS-14-4
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 1D65C0BA-3AC4-4278-A7D4-FA1D5DCE5302 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 14.4 (14.4 - 18D46) - com.apple.CoreSimulator.SimRuntime.iOS-14-4
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 51FE255F-5A3E-47E5-818D-E16AD1F4719F encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 14.4 (14.4 - 18D46) - com.apple.CoreSimulator.SimRuntime.iOS-14-4
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Warning>: Device 627EB893-D308-45CD-94E4-2C56E2B79B59 encountered in creation state at launch.  The device will be re-created.
+Jan 28 18:09:18 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 14.4 (14.4 - 18D46) - com.apple.CoreSimulator.SimRuntime.iOS-14-4
+
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 8.0 (8.0 - 19R345) - com.apple.CoreSimulator.SimRuntime.watchOS-8-0
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 12 Pro Max (F6D783C0-6801-435B-9694-2D76BAA44CF3, iOS 15.0, Shutdown)
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 8.0 (8.0 - 19R345) - com.apple.CoreSimulator.SimRuntime.watchOS-8-0
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 12 mini (7E2BDE73-3981-44A7-AF34-C339287B8E3A, iOS 15.0, Shutdown)
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 8.0 (8.0 - 19R345) - com.apple.CoreSimulator.SimRuntime.watchOS-8-0
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 12 (057F60F1-D96F-4C47-8C1C-E727A72D0AB0, iOS 15.0, Shutdown)
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Jan 28 18:09:39 Mac-2516 CoreSimulatorService[24126] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 8.0 (8.0 - 19R345) - com.apple.CoreSimulator.SimRuntime.watchOS-8-0

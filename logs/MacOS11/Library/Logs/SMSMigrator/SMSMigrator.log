@@ -1,0 +1,45 @@
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: deleted_messages
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: chat_handle_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: chat_message_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: message_attachment_join
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created table (if needed) ok: handle
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: chat_handle_join_idx_handle_id
+2018-01-05 04:00:28 -0800 IMDPersistenceAgent[298]: Created index ok: message_idx_is_read
+
+2019-10-11 04:27:51 -0700 IMDPersistenceAgent[460]: Created trigger ok: add_to_deleted_messages, trigger: CREATE TRIGGER IF NOT EXISTS add_to_deleted_messages AFTER DELETE ON message BEGIN     INSERT INTO deleted_messages (guid) VALUES (OLD.guid); END
+2019-10-11 04:27:51 -0700 IMDPersistenceAgent[460]: Created trigger ok: after_delete_on_message_attachment_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_message_attachment_join AFTER DELETE ON message_attachment_join BEGIN     DELETE FROM attachment         WHERE attachment.ROWID = OLD.attachment_id     AND         (SELECT 1 from message_attachment_join WHERE attachment_id = OLD.attachment_id LIMIT 1) IS NULL; END
+2019-10-11 04:27:51 -0700 IMDPersistenceAgent[460]: Integrity checked success
+2019-10-11 04:27:51 -0700 IMDPersistenceAgent[460]: Message database migration passed post migrate integrity check
+2019-10-11 04:27:51 -0700 IMDPersistenceAgent[460]: Message's DB migration took 0.026724 seconds.
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: The current SMS database is v13004.  The current schema version is v13500. Can be migrated: YES
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Beginning migration.  The SMS db is currently at v13004, upgrading to v13500.
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Integrity checked success
+
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created index ok: chat_idx_chat_room_name_service_name
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created index ok: message_idx_other_handle
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created index ok: message_idx_was_downgraded
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Created index ok: chat_idx_is_archived
+
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Message database migration passed post migrate integrity check
+2019-11-01 06:08:46 -0700 IMDPersistenceAgent[490]: Message's DB migration took 0.017782 seconds.
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: The current SMS database is v13500.  The current schema version is v14005. Can be migrated: YES
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Beginning migration.  The SMS db is currently at v13500, upgrading to v14005.
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Integrity checked success
+
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created index ok: chat_idx_is_archived
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created index ok: message_idx_expire_state
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created index ok: chat_message_join_idx_message_date_id_chat_id
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created index ok: message_idx_is_read
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created index ok: message_idx_isRead_isFromMe_itemType
+2021-04-26 11:26:16 -0700 IMDPersistenceAgent[463]: Created index ok: message_idx_failed
+
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created table (if needed) ok: sync_deleted_attachments
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created table (if needed) ok: kvtable
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created table (if needed) ok: chat_message_join
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created index ok: message_attachment_join_idx_message_id
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created index ok: chat_idx_chat_identifier_service_name
+
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Created trigger ok: after_delete_on_message_attachment_join, trigger: CREATE TRIGGER IF NOT EXISTS after_delete_on_message_attachment_join AFTER DELETE ON message_attachment_join BEGIN     DELETE FROM attachment         WHERE attachment.ROWID = OLD.attachment_id     AND         (SELECT 1 from message_attachment_join WHERE attachment_id = OLD.attachment_id LIMIT 1) IS NULL; END
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Integrity checked success
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Message database migration passed post migrate integrity check
+2021-05-24 13:13:53 -0700 IMDPersistenceAgent[472]: Message's DB migration took 0.016705 seconds.
