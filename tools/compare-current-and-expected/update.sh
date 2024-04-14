@@ -71,7 +71,6 @@ echo "${PS4}${PROGRAM} $(for arg in "${S4_ARGS[@]}"; do echo -n "'${arg}' "; don
 (
     set +e
     set +o pipefail
-    set -x
     "${PROGRAM}" "${S4_ARGS[@]}" - < "${LOGS}"
 ) 1> "${EXPECT_OUT}" 2> "${EXPECT_ERR}" || true
 

@@ -84,7 +84,6 @@ echo "${PS4}${PROGRAM} ${S4_ARGS_QUOTED}- < '${LOGS}'" >&2
 (
     set +e
     set +o pipefail
-    set -x
     "${PROGRAM}" "${S4_ARGS[@]}" - < "${LOGS}"
 ) 1> "${CURRENT_OUT}" 2> "${CURRENT_ERR}" || true
 

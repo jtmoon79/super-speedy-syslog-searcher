@@ -1,4 +1,3 @@
-+ ./target/release/s4 --color=never --tz-offset=+08:00 --prepend-filepath --prepend-file-align --prepend-utc --prepend-dt-format=%Y%m%dT%H%M%S.%9f --prepend-separator=┋ '--separator=⇳\n' --journal-output=export --dt-after=19990303T000000+0000 --dt-before=20230410T221032+0000 --blocksz=0x100 --summary -
 
 Files:
 
