@@ -34,7 +34,7 @@ exclude = [
 ]
 
 [dependencies]
-bstr = "1.8.0"
+bstr = "1.9.1"
 chrono = "0.4.37"
 clap = { version = "=4.2.1", features = ["derive"] }
 const_format = "0.2.31"
