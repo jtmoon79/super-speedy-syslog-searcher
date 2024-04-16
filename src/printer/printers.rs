@@ -400,7 +400,9 @@ impl PrinterLogMessage {
         let mut color_spec_datetime: ColorSpec = ColorSpec::new();
         color_spec_datetime.set_fg(Some(color_logmessage));
         color_spec_datetime.set_underline(true);
-        let color_spec_last = color_spec_default.clone();
+        // set `color_spec_last` to unset color so first print
+        // forces a set (see `setcolor_or_return` macro)
+        let color_spec_last = ColorSpec::new();
         let prepend_date_format_: DateTimePattern_string = prepend_date_format.unwrap_or_default();
         let do_prepend_date = !prepend_date_format_.is_empty();
 
