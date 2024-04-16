@@ -541,6 +541,8 @@ impl PrinterLogMessage {
         let dt_: DateTimeL = (*syslinep)
             .dt()
             .with_timezone(&self.prepend_date_offset);
+        // TODO: cost-savings: use `format_with_items` where the passed `Items`
+        //       is created once (`StrftimeItems::new(fmt)`)
         let dt_delayedformat = dt_.format(
             self.prepend_date_format
                 .as_str(),
