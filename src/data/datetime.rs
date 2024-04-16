@@ -4218,6 +4218,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     [2019-03-01 16:56] [PACMAN] synchronizing package lists
     //
     DTPD!(
+        // add more "guard" chars
         concatcp!(r"^\[", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHq, CGP_HOUR, D_Te, CGP_MINUTE, r"\]"),
         DTFSS_YmdHM, 0, 20, CGN_YEAR, CGN_MINUTE,
         &[
