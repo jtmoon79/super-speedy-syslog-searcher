@@ -2,18 +2,6 @@
 
 Speedily search and merge log messages by datetime.
 
-_Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
-and merge varying log messages from varying log files, sorted by datetime.
-This includes log files that are compressed (`.gz`, `.xz`), or archived (`.tar`),
-and binary format logs including acct, lastlog, and utmp accounting records
-(`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
-systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
-It will parse a variety of formal and ad-hoc log message datetime formats.
-
-Datetime filters may be passed to narrow the search to a datetime range.
-
-The first goal of `s4` is speedy searching and printing.
-
 <!--
 * Must update parameters `branch=` and `version=` per release; replace the version
 -->
@@ -27,6 +15,18 @@ The first goal of `s4` is speedy searching and printing.
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000&version=0.6.70)](https://crates.io/crates/super-speedy-syslog-searcher)
 [![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.6.70&version=0.6.70)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.6.70)
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.6.70.svg)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
+
+_Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
+and merge varying log messages from varying log files, sorted by datetime.
+This includes log files that are compressed (`.gz`, `.xz`), or archived (`.tar`),
+and binary format logs including acct, lastlog, and utmp accounting records
+(`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
+systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
+It will parse a variety of formal and ad-hoc log message datetime formats.
+
+Datetime filters may be passed to narrow the search to a datetime range.
+
+The first goal of `s4` is speedy searching and printing.
 
 ---
 
