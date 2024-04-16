@@ -13,7 +13,7 @@ Speedily search and merge log messages by datetime.
 
 [![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.6.69&version=0.6.71)](https://crates.io/crates/super-speedy-syslog-searcher/0.6.71)
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000&version=0.6.71)](https://crates.io/crates/super-speedy-syslog-searcher/0.6.71)
-[![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.6.70&version=0.6.70)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.6.71)
+[![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.6.71&version=0.6.71)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.6.71)
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.6.71.svg)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
@@ -530,18 +530,24 @@ A comparison of merging three large log files:
 - 2500 line log file, 1078842 bytes (≈1.0 MB), with high-plane unicode
 - 5000 line log file, 2158138 bytes (≈2.1 MB), with high-plane unicode
 
-This informal runtime comparison used GNU `time` running on Ubuntu 22 on WSL2.
-
 |Program       |real|user|sys |
 |-             |-   |-   |-   |
-|`grep \| sort`|0.05|0.04|0.00|
-|`s4`          |0.05|0.05|0.02|
-|`logmerger`   |0.83|0.79|0.01|
+|`grep \| sort`|0.04|0.04|0.00|
+|`s4`          |0.04|0.03|0.04|
+|`logmerger`   |0.78|0.74|0.00|
+|`tl`          |0.94|0.55|0.06|
+
+This informal runtime comparison used GNU `time` running on Ubuntu 22 on WSL2.
+
+- `grep` 3.7, `sort` 8.32
+- `s4` 0.6.71
+- `logmerger` 0.8.0 on Python 3.10.12
+- `tl` 1.4.0 on Python 3.10.12
 
 See directory [compare-log-mergers] and results in [`compare-log-mergers.txt`].
 
 [compare-log-mergers]: ./tools/compare-log-mergers/
-[`compare-log-mergers.txt`]: ./releases/0.6.70/compare-log-mergers.txt
+[`compare-log-mergers.txt`]: ./releases/0.6.71/compare-log-mergers.txt
 
 ---
 
