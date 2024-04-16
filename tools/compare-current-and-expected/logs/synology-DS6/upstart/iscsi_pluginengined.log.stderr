@@ -24,14 +24,14 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  17, miss  20, 45.9%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 223, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 243, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  17,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  17,  0.0%, put  17
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  17,  5.6%, put  17
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  16, miss  19, 45.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   7, miss   4, 63.6%, largest skipped 40
-      optimize:SyslineReader::ezcheck12d2                          : hit 127, miss  87, 59.3%, largest skipped 40
+      optimize:SyslineReader::ezcheck12d2                          : hit 147, miss  87, 62.8%, largest skipped 40
       process: regex captures attempted                            : 91
   Processing Drops:
 
@@ -48,7 +48,7 @@ Printed syslines      : 17
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 133
+Regex patterns        : 153
 Regex compiled        : 75
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)

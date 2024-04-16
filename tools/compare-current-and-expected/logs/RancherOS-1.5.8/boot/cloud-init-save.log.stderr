@@ -24,15 +24,15 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  19,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   8, miss  11, 42.1%, put  10
-      copying: SyslineReader::get_boxptrs()                        : sgl 117, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 137, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   8,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   8,  0.0%, put   8
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   8, 11.1%, put   8
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  10, 41.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   5,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 114,  0.9%, largest skipped 9
-      process: regex captures attempted                            : 119
+      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 134,  0.7%, largest skipped 9
+      process: regex captures attempted                            : 139
   Processing Drops:
 
 
@@ -48,8 +48,8 @@ Printed syslines      : 8
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 133
-Regex compiled        : 111
+Regex patterns        : 153
+Regex compiled        : 131
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok    : 10

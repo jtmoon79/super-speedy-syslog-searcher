@@ -24,14 +24,14 @@ File: ./logs/synology-DS6/packages/LogCenter.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  21, 32.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 626, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 706, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  23, 17.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  28, miss   4, 87.5%, largest skipped 35
-      optimize:SyslineReader::ezcheck12d2                          : hit 518, miss  79, 86.8%, largest skipped 40
+      optimize:SyslineReader::ezcheck12d2                          : hit 598, miss  79, 88.3%, largest skipped 40
       process: regex captures attempted                            : 83
   Processing Drops:
 
@@ -48,7 +48,7 @@ Printed syslines      : 5
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 133
+Regex patterns        : 153
 Regex compiled        : 79
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)

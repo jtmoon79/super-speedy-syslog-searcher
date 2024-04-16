@@ -2472,7 +2472,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<OnceCell<DateTimeRegex>>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 133;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 153;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -4267,6 +4267,201 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     //
+    // ---------------------------------------------------------------------------------------------
+    //
+    // matches of datetime field commonly found in JSONL files (single-line JSON entries)
+    //
+    // example with offset:
+    //
+    //               1         2         3         4         5         6         7         8         9         0         1         2         3         4         5
+    //     0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+    //     {"level":"INFO","message":"Started","timestamp":"2024-04-08T21:55:48.726Z"}
+    //
+    // "timestamp" with fractional
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, "\""),
+        DTFSS_YmdHMSfZ, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (49, 73, (O_Z, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32.123Z"}"#),
+            (16, 43, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"TIMESTAMP" : "2000/01/02 05-01-32.123 PST", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzc, "\""),
+        DTFSS_YmdHMSfzc, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (49, 78, (O_Z, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32.123+00:00"}"#),
+            (16, 46, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"TIMESTAMP" : "2000/01/02 05-01-32.123 -08:00", "data" : ""}"#),
+            (16, 48, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"TIMESTAMP" : "2000/01/02 05-01-32.123 −08:00", "data" : ""}"#), // U+2212
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, "\""),
+        DTFSS_YmdHMSfz, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (49, 77, (O_Z, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32.123+0000"}"#),
+            (16, 45, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"TIMESTAMP" : "2000/01/02 05-01-32.123 -0800", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzp, "\""),
+        DTFSS_YmdHMSfzp, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (49, 76, (O_Z, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32.123 +00"}"#),
+            (16, 42, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"TIMESTAMP" : "2000/01/02 05-01-32.123-08", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, "\""),
+        DTFSS_YmdHMSf, 0, 2056, CGN_YEAR, CGN_FRACTIONAL,
+        &[
+            (49, 72, (O_L, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32.123"}"#),
+            (16, 39, (O_L, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"TIMESTAMP" : "2000/01/02 05-01-32.123", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    // "timestamp" without fractional
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZZ, "\""),
+        DTFSS_YmdHMSZ, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (49, 69, (O_Z, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32Z"}"#),
+            (16, 39, (O_M8, 2000, 1, 2, 5, 1, 32, 0), r#"{"TIMESTAMP" : "2000/01/02 05-01-32 PST", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZzc, "\""),
+        DTFSS_YmdHMSzc, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (49, 75, (O_Z, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32 +00:00"}"#),
+            (16, 41, (O_M8, 2000, 1, 2, 5, 1, 32, 0), r#"{"TIMESTAMP" : "2000/01/02 05-01-32-08:00", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZz, "\""),
+        DTFSS_YmdHMSz, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (49, 73, (O_Z, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32+0000"}"#),
+            (16, 41, (O_M8, 2000, 1, 2, 5, 1, 32, 0), r#"{"TIMESTAMP" : "2000/01/02 05-01-32 -0800", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZzp, "\""),
+        DTFSS_YmdHMSzp, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (49, 72, (O_Z, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32 +00"}"#),
+            (16, 39, (O_M8, 2000, 1, 2, 5, 1, 32, 0), r#"{"TIMESTAMP" : "2000/01/02 05-01-32 -08", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, "\""),
+        DTFSS_YmdHMS, 0, 2056, CGN_YEAR, CGN_SECOND,
+        &[
+            (49, 68, (O_L, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","timestamp":"2000-01-02T05:01:32"}"#),
+            (16, 35, (O_L, 2000, 1, 2, 5, 1, 32, 0), r#"{"TIMESTAMP" : "2000/01/02 05:01:32", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    // "datetime" with fractional
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZZ, "\""),
+        DTFSS_YmdHMSfZ, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (48, 72, (O_Z, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32.123Z"}"#),
+            (15, 42, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"DATETIME" : "2000/01/02 05-01-32.123 PST", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzc, "\""),
+        DTFSS_YmdHMSfzc, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (48, 77, (O_Z, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32.123+00:00"}"#),
+            (15, 45, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"DATETIME" : "2000/01/02 05-01-32.123 -08:00", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZz, "\""),
+        DTFSS_YmdHMSfz, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (48, 76, (O_Z, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32.123+0000"}"#),
+            (15, 44, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"DATETIME" : "2000/01/02 05-01-32.123 -0800", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_BLANKq, CGP_TZzp, "\""),
+        DTFSS_YmdHMSfzp, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (48, 75, (O_Z, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32.123 +00"}"#),
+            (15, 41, (O_M8, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"DATETIME" : "2000/01/02 05-01-32.123-08", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL, "\""),
+        DTFSS_YmdHMSf, 0, 2056, CGN_YEAR, CGN_FRACTIONAL,
+        &[
+            (48, 71, (O_L, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32.123"}"#),
+            (15, 38, (O_L, 2000, 1, 2, 5, 1, 32, 123000000), r#"{"DATETIME" : "2000/01/02 05-01-32.123", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    // "datetime" without fractional
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZZ, "\""),
+        DTFSS_YmdHMSZ, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (48, 68, (O_Z, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32Z"}"#),
+            (15, 38, (O_M8, 2000, 1, 2, 5, 1, 32, 0), r#"{"DATETIME" : "2000/01/02 05-01-32 PST", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZzc, "\""),
+        DTFSS_YmdHMSzc, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (48, 74, (O_Z, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32 +00:00"}"#),
+            (15, 40, (O_M8, 2000, 1, 2, 5, 1, 32, 0), r#"{"DATETIME" : "2000/01/02 05-01-32-08:00", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZz, "\""),
+        DTFSS_YmdHMSz, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (48, 72, (O_Z, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32+0000"}"#),
+            (15, 40, (O_M8, 2000, 1, 2, 5, 1, 32, 0), r#"{"DATETIME" : "2000/01/02 05-01-32 -0800", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZzp, "\""),
+        DTFSS_YmdHMSzp, 0, 2056, CGN_YEAR, CGN_TZ,
+        &[
+            (48, 71, (O_Z, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32 +00"}"#),
+            (15, 38, (O_M8, 2000, 1, 2, 5, 1, 32, 0), r#"{"DATETIME" : "2000/01/02 05-01-32 -08", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, "\""),
+        DTFSS_YmdHMS, 0, 2056, CGN_YEAR, CGN_SECOND,
+        &[
+            (48, 67, (O_L, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32"}"#),
+            (15, 34, (O_L, 2000, 1, 2, 5, 1, 32, 0), r#"{"DATETIME" : "2000/01/02 05:01:32", "data" : ""}"#),
+        ],
+        line!(),
+    ),
     // ---------------------------------------------------------------------------------------------
     //
     // general matches anywhere in the first 1024 bytes of the line

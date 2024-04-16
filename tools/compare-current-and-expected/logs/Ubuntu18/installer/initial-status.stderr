@@ -23,15 +23,15 @@ File: ./logs/Ubuntu18/installer/initial-status
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    0, miss   19,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit    1, miss   10,  9.1%, put    9
-      copying: SyslineReader::get_boxptrs()                        : sgl 1197, dbl     0, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1377, dbl     0, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    0, miss   10,  0.0%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   49, miss   14, 77.8%, largest skipped 69
-      optimize:SyslineReader::ezcheck12d2                          : hit  882, miss  252, 77.8%, largest skipped 69
-      process: regex captures attempted                            : 266
+      optimize:SyslineReader::ezcheck12d2                          : hit 1022, miss  292, 77.8%, largest skipped 69
+      process: regex captures attempted                            : 306
   Processing Drops:
 
 
@@ -47,8 +47,8 @@ Printed syslines      : 0
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 133
-Regex compiled        : 133
+Regex patterns        : 153
+Regex compiled        : 153
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok    : 2

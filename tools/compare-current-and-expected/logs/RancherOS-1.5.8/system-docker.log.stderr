@@ -24,15 +24,15 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  42,  2.3%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss  23, 14.8%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 255, dbl    9, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 295, dbl    9, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  23,  4.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   7, miss   5, 58.3%, largest skipped 77
-      optimize:SyslineReader::ezcheck12d2                          : hit 128, miss 124, 50.8%, largest skipped 77
-      process: regex captures attempted                            : 129
+      optimize:SyslineReader::ezcheck12d2                          : hit 148, miss 144, 50.7%, largest skipped 77
+      process: regex captures attempted                            : 149
   Processing Drops:
 
 
@@ -48,8 +48,8 @@ Printed syslines      : 1
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 133
-Regex compiled        : 111
+Regex patterns        : 153
+Regex compiled        : 131
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok    : 3
