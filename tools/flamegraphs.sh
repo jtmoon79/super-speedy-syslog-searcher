@@ -12,6 +12,9 @@ DIROUT=${DIROUT-.}
 
 set -x
 
+export OUT="${DIROUT}/flamegraph-help.svg"
+FREQ=9999 "${SCRIPT}" '--help'
+
 export OUT="${DIROUT}/flamegraph-evtx.svg"
 "${SCRIPT}" './logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx'
 
@@ -30,5 +33,5 @@ export OUT="${DIROUT}/flamegraph-syslog-xz.svg"
 export OUT="${DIROUT}/flamegraph-syslog-tar.svg"
 "${SCRIPT}" './logs/other/tests/gen-1000-3-foobar.log.tar'
 
-export OUT="${DIROUT}/flamegraph-syslog-utmp.svg"
+export OUT="${DIROUT}/flamegraph-utmp.svg"
 "${SCRIPT}" './logs/CentOS7/x86_64/wtmp'
