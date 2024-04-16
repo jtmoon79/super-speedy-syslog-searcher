@@ -75,6 +75,7 @@ FREQ=${FREQ-3000}
         --bin "${BIN}" \
         --root \
         --ignore-status \
+        --no-inline \
         --freq ${FREQ} \
         -- --version
 )
@@ -143,6 +144,7 @@ cargo flamegraph \
     --notes "${NOTES_ESCAPED}" \
     --root \
     --ignore-status \
+    --no-inline \
     --freq ${FREQ} \
     "${@}" \
     -- \
