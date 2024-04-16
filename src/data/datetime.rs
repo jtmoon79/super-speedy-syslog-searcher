@@ -5189,6 +5189,7 @@ pub fn u8_to_str(data: &[u8]) -> Option<&str> {
         let va = encoding_rs::mem::utf8_latin1_up_to(data);
         if va != data.len() {
             // TODO: this needs a better resolution
+            de_wrn!("u8_to_str return None; va {} != {} data.len()", va, data.len());
             return None; // invalid UTF8
         }
     }
@@ -5886,32 +5887,42 @@ pub(crate) fn captures_to_buffer_bytes(
         }
         DTFS_Tz::Z => {
             #[allow(non_snake_case)]
-            let tzZ: &str = u8_to_str(
+            let tzZ: &str = match u8_to_str(
                 captures
                     .name(CGN_TZ)
                     .as_ref()
                     .unwrap()
                     .as_bytes(),
-            )
-            .unwrap();
-            match MAP_TZZ_TO_TZz.get_entry(tzZ) {
-                Some((_tz_abbr, tz_offset_val)) => {
-                    match tz_offset_val.is_empty() {
-                        true => {
-                            // given an ambiguous timezone name, fallback to
-                            // passed TZ offset
-                            copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
-                        }
-                        false => {
-                            // given an unambiguous timezone name, use associated offset
-                            copy_slice_to_buffer!(tz_offset_val.as_bytes(), buffer, at);
+            ) {
+                Some(val) => val,
+                None => {
+                    ""
+                }
+            };
+            if tzZ.is_empty() {
+                debug_panic!("tzZ.is_empty()");
+                // `u8_to_str` failed, fallback to using passed TZ offset
+                copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
+            } else {
+                match MAP_TZZ_TO_TZz.get_entry(tzZ) {
+                    Some((_tz_abbr, tz_offset_val)) => {
+                        match tz_offset_val.is_empty() {
+                            true => {
+                                // given an ambiguous timezone name, fallback to
+                                // passed TZ offset
+                                copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
+                            }
+                            false => {
+                                // given an unambiguous timezone name, use associated offset
+                                copy_slice_to_buffer!(tz_offset_val.as_bytes(), buffer, at);
+                            }
                         }
                     }
-                }
-                None => {
-                    // cannot find entry in MAP_TZZ_TO_TZz, use passed TZ offset
-                    debug_panic!("captured named timezone {:?} not found in MAP_TZZ_TO_TZz", tzZ);
-                    copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
+                    None => {
+                        // cannot find entry in MAP_TZZ_TO_TZz, use passed TZ offset
+                        debug_panic!("captured named timezone {:?} not found in MAP_TZZ_TO_TZz", tzZ);
+                        copy_slice_to_buffer!(tz_offset_string.as_bytes(), buffer, at);
+                    }
                 }
             }
         }
