@@ -1,0 +1,18 @@
+[0B04:0B1C][2024-03-21T00:02:50]i000: === Logging started: 2024-03-21T00:02:50+00:00 ===
+[0B04:0B1C][2024-03-21T00:02:50]i000: Executable: C:\ProgramData\Package Cache\CKDKEOIBNAASD\ProvisioningGatekeeper.exe v7.3.17506.0
+[0B04:0B1C][2024-03-21T00:02:50]i000: Computer  : ONEOFF-L3333SX0
+[0B04:0B1C][2024-03-21T00:02:50]i000: --- logging level: standard ---
+[0B04:0B1C][2024-03-21T00:02:50]i000: Starting provisioning check at T+0 seconds
+[0B04:0B1C][2024-03-21T00:02:50]i000: Agent ID: 23909809801928308935
+[0B04:0B1C][2024-03-21T00:02:50]i000: Sensor connected to cloud
+[0B04:0B1C][2024-03-21T00:02:50]i000: Entitlement tags are set correctly
+[0B04:0B1C][2024-03-21T00:02:50]i000: Found channel file: C-00000001-00000000-00000362.sys
+[0B04:0B1C][2024-03-21T00:02:50]i000: Found channel file: C-00000003-00000000-00000007.sys
+[0B04:0B1C][2024-03-21T00:02:50]i000: Found channel file: C-00000005-00000000-00000001.sys
+[0B04:0B1C][2024-03-21T00:02:50]i000: Found channel file: C-00000011-00000000-00000056.sys
+
+[0B04:0B1C][2024-03-21T00:02:50]i000: Found channel file: C-00000511-00000000-00000008.sys
+[0B04:0B1C][2024-03-21T00:02:50]i000: Found channel file: C-00001001-00000000-00000012.sys
+[0B04:0B1C][2024-03-21T00:02:50]i000: Found 84 channel files
+[0B04:0B1C][2024-03-21T00:02:50]i000: Provisioning has completed successfully
+[0B04:0B1C][2024-03-21T00:02:50]i000: === Logging stopped: 2024-03-21T00:02:50+00:00 ===

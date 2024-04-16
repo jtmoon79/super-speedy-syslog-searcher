@@ -1,0 +1,82 @@
+[18D8:220C][2024-03-21T00:02:38]i001: Burn v3.33.3.3315, Windows v10.0 path: C:\Program Files (x86)\CSInstallTemp{68E6EE6E}\.cr\WindowsSensor.GovLaggar.exe
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing numeric variable 'DowngradingBundle' to value '0'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing numeric variable 'ExistingCustomerId' to value '0'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing hidden variable 'CID'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing hidden variable 'Password'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing numeric variable 'ProvWaitTime' to value '1200000'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing hidden variable 'MAINTENANCE_TOKEN'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing hidden variable 'PW'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing hidden variable 'ProvToken'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing hidden variable 'ProvisioningToken'
+[18D8:220C][2024-03-21T00:02:38]i000: Initializing string variable 'BILLINGTYPE' to value ''
+[18D8:220C][2024-03-21T00:02:38]i000: Setting string variable 'WixBundleOriginalSource' to value 'D:\Deploy\Scripts\WindowsSensor.GovLaggar.exe'
+[18D8:220C][2024-03-21T00:02:38]i000: Setting string variable 'WixBundleOriginalSourceFolder' to value 'D:\Deploy\Scripts\'
+[18D8:220C][2024-03-21T00:02:38]i000: Setting string variable 'WixBundleName' to value 'CrowdStrike Windows Sensor'
+[18D8:220C][2024-03-21T00:02:38]i100: Detect begin, 14 packages
+[18D8:1710][2024-03-21T00:02:38]i000: Working folder path not found: C:\ProgramData\CSInstallTemp*
+[18D8:1710][2024-03-21T00:02:38]i000: Setting hidden variable 'CID'
+[18D8:1710][2024-03-21T00:02:38]i000: Setting string variable 'GROUPING_TAGS' to value 'mfg'
+[18D8:1710][2024-03-21T00:02:38]i000: Setting string variable 'CloudId' to value ''
+[18D8:1710][2024-03-21T00:02:38]i000: Setting numeric variable 'NativeArchX64' to value 1
+[18D8:1710][2024-03-21T00:02:38]i000: Setting numeric variable 'OSProductType' to value 1
+[18D8:1710][2024-03-21T00:02:38]i000: Setting numeric variable 'ValidCustomerId' to value 1
+[18D8:220C][2024-03-21T00:02:38]i052: Condition 'VersionNT = v6.1' evaluates to false.
+[18D8:220C][2024-03-21T00:02:38]i052: Condition 'VersionNT = v6.1' evaluates to false.
+[18D8:220C][2024-03-21T00:02:38]i000: Setting numeric variable 'BrokenUpgradeVersionDetected' to value 2
+[18D8:220C][2024-03-21T00:02:38]i000: Setting string variable 'WINDOWS_CURRENT_BUILD_NUMBER' to value '19045'
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: UninstallRelatedProducts.exe, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: CSFalconServiceUninstallTool_x64.exe, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: Agent64, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: DeviceControl64, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: DeviceControlLegacy64, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: FirmwareAnalysis64, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: CSFalconServiceUninstallTool_x86.exe, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: Agent32, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: DeviceControl32, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: DeviceControlLegacy32, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: FirmwareAnalysis32, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: CSFalconServiceUninstallTool_arm64.exe, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: AgentA64, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i101: Detected package: ProvisioningGatekeeper.exe, state: Absent, cached: None
+[18D8:220C][2024-03-21T00:02:38]i052: Condition 'WixBundleElevated' evaluates to true.
+
+[18D8:1710][2024-03-21T00:02:38]i000: Service not disabled: WinHttpAutoProxySvc
+[18D8:1710][2024-03-21T00:02:38]i000: Service not disabled: lmhosts
+[18D8:1710][2024-03-21T00:02:38]i000: Service running: lmhosts
+[18D8:1710][2024-03-21T00:02:38]i000: Service not disabled: Dhcp
+[18D8:1710][2024-03-21T00:02:38]i000: Service running: Dhcp
+[18D8:1710][2024-03-21T00:02:38]i000: Service not disabled: BFE
+[18D8:1710][2024-03-21T00:02:38]i000: Service running: BFE
+[18D8:1710][2024-03-21T00:02:38]i000: Required service not disabled: nsi
+[18D8:1710][2024-03-21T00:02:38]i000: Required service running: nsi
+[18D8:1710][2024-03-21T00:02:38]i000: Validated required service: nsi
+[18D8:1710][2024-03-21T00:02:38]i000: Required service not disabled: power
+[18D8:1710][2024-03-21T00:02:38]i000: Required service running: power
+[18D8:1710][2024-03-21T00:02:38]i000: Validated required service: power
+[18D8:1710][2024-03-21T00:02:38]i000: Validated required certificate: subject: DigiCert Assured ID Root CA, store: Root
+[18D8:1710][2024-03-21T00:02:38]i000: Validated required certificate: subject: DigiCert High Assurance EV Root CA, store: Root
+
+[18D8:1710][2024-03-21T00:02:50]i000: Sensor is already running.
+[18D8:220C][2024-03-21T00:02:50]i399: Apply complete, result: 0x0, restart: None, ba requested restart:  No
+[18D8:220C][2024-03-21T00:02:50]i500: Shutting down, exit code: 0x0
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: BILLINGTYPE = 
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: BrokenUpgradeVersionDetected = 2
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: CID = *****
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: CloudId = 
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: DowngradingBundle = 0
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: ExistingCustomerId = 0
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: GROUPING_TAGS = mfg
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: NativeArchX64 = 1
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: OSProductType = 1
+
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: ValidCustomerId = 1
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: VersionNT = 10.0.0.0
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: WINDOWS_CURRENT_BUILD_NUMBER = 19045
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: WixBundleAction = 5
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: WixBundleElevated = 1
+[18D8:220C][2024-03-21T00:02:50]i410: Variable: WixBundleInstalled = 0
+
+[18D8:220C][2024-03-21T00:02:50]i000: Registry flush complete: 0
+[18D8:220C][2024-03-21T00:02:50]i000: Flushing system volume: \\.\C:
+[18D8:220C][2024-03-21T00:02:50]i000: System volume flush complete: 0
+[18D8:220C][2024-03-21T00:02:50]i007: Exit code: 0x0, restarting: No

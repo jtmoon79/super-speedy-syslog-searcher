@@ -575,6 +575,10 @@
 ./logs/programs/AWS/CloudTrail/insights.json|2019-11-14T00:52:00Z
 ./logs/programs/AWS/elasticloadbalancer.log|2015-05-13T23:39:44
 ./logs/programs/CPUID/CT-Log 2023-09-04 05-44-16.csv|2023-09-04 19:01:55.979146947 -0700
+./logs/programs/Crowdstrike/CrowdStrike Windows Sensor_20240321000238_002_DeviceControl64.log|2024-03-20 17:02:50 -0700
+./logs/programs/Crowdstrike/CrowdStrike Windows Sensor_20240321000238_003_FirmwareAnalysis64.log|2024-03-20 17:02:50 -0700
+./logs/programs/Crowdstrike/CrowdStrike Windows Sensor_20240321000238_004_ProvisioningGatekeeper.exe.log|2024-03-20 17:02:50 -0700
+./logs/programs/Crowdstrike/CrowdStrike Windows Sensor_20240321000238.log|2024-03-20 17:02:50 -0700
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log|2022-10-08 06:22:57 +0000
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log|2022-10-07 01:15:36 +0000
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx|2023-03-10T03:49:40
