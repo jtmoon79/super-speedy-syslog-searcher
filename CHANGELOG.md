@@ -262,6 +262,7 @@ _MSRV 1.67.1_
 - (LIB) dependabot: bump tempfile from 3.8.1 to 3.10.1 (#278) ([0664eebccafedc636d0c03f67e5098bcad95b99a])
 - (LIB) dependabot: bump test-case from 3.2.1 to 3.3.1 ([8821b40c3d4992a09b44e1e69d676d91296277be])
 - (LIB) dependabot: bump walkdir from 2.4.0 to 2.5.0 ([8bf2c81214b7da088b688badfbc40abd54e9c07b])
+- (PROJECT) add releases/0.6.71 ([39b8fbfb1e3c26bfd92ad7817c7b185ea33565c4])
 - (PROJECT) add MacOS11 log and crash files ([145efc2f581de83aa8c639adbd49ad926f392be7])
 - (TEST) datetime.rs add 5 tests using different brackets ([2340084f30e25df0e81af73ef2d06f60f42963aa])
 - (TOOLS) backup.sh fix flamegraph file listed twice ([12871b740007754071764243b290be6cc4fe272b])
