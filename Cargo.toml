@@ -10,7 +10,11 @@ authors = ["James Thomas Moon"]
 license = "MIT"
 keywords = ["syslog", "log", "log-parser", "search", "merge"]
 # see https://crates.io/category_slugs
-categories = ["command-line-utilities", "filesystem"]
+categories = [
+    "command-line-utilities",
+    "date-and-time",
+    "filesystem",
+]
 readme = "README.md"
 version = "0.6.70"
 edition = "2021"
