@@ -4475,7 +4475,7 @@ fn print_summary_opt_processed(
             }
             match summaryjournalreader.journalreader_datetime_last_processed {
                 Some(dt) => {
-                    eprintln!("{}datetime last : {:?} ", indent2, dt);
+                    eprint!("{}datetime last : {:?} ", indent2, dt);
                     print_datetime_utc_dimmed(&dt, Some(*color_choice));
                     eprintln!();
                 }
