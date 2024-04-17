@@ -127,10 +127,11 @@ Print the log messages on January 1, 2022, from 12:00:00 to 16:00:00
 s4 /var/log -a 20220101T120000 -b 20220101T160000
 ```
 
-Print only the log messages since yesterday at this time
+Print the journal log messages from up to an hour ago, prepending the journal file name
+(with the help of `find`)
 
 ```lang-text
-s4 /var/log -a=-1d
+find / -xdev -name '*.journal' -type f 2>/dev/null | s4 - -a=-1d -n
 ```
 
 Print only the log messages that occurred two days ago
