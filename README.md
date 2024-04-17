@@ -12,7 +12,7 @@ Speedily search and merge log messages by datetime.
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
 
 [![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.6.69&version=0.6.71)](https://crates.io/crates/super-speedy-syslog-searcher/0.6.71)
-[![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000&version=0.6.71)](https://crates.io/crates/super-speedy-syslog-searcher/0.6.71)
+[![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher#:~:text=Downloads%20all%20time)
 [![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.6.71&version=0.6.71)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.6.71)
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.6.71.svg)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
 
