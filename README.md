@@ -175,16 +175,15 @@ Arguments:
 
 Options:
   -a, --dt-after <DT_AFTER>
-          DateTime Filter After: print syslog lines with a datetime that is at
-          or after this datetime.
-          For example, "20200102T120000" or "-5d".
+          DateTime Filter After: print log messages with a datetime that is at
+          or after this datetime. For example, "20200102T120000" or "-5d".
   -b, --dt-before <DT_BEFORE>
-          DateTime Filter Before: print syslog lines with a datetime that is at
+          DateTime Filter Before: print log messages with a datetime that is at
           or before this datetime.
           For example, "2020-01-03T23:00:00.321-05:30" or "@+1d+11h"
   -t, --tz-offset <TZ_OFFSET>
           Default timezone offset for datetimes without a timezone.
-          For example, log message "[20200102T120000] Starting service" has a
+          For example, log message "_\[20200102T120000\] Starting service_" has a
           datetime substring "20200102T120000".
           The datetime substring does not have a timezone offset
           so the TZ_OFFSET value would be used.
@@ -229,8 +228,7 @@ Options:
           Matches journalctl --output options.
           [default: short]
           [possible values: short, short-precise, short-iso, short-iso-precise,
-                            short-full, short-monotonic, short-unix, verbose,
-                            export, cat]
+          short-full, short-monotonic, short-unix, verbose, export, cat]
   -c, --color <COLOR_CHOICE>
           Choose to print to terminal using colors.
           [default: auto]
@@ -281,8 +279,8 @@ Arguments "-a 20220102 -b @+1d" are equivalent to "-a 20220102 -b 20220103".
 Arguments "-a @-6h -b 20220101T120000" are equivalent to
 "-a 20220101T060000 -b 20220101T120000".
 
-Without a timezone, the Datetime Filter is presumed to be the local system
-timezone.
+Without a timezone, the Datetime Filter is presumed to be the local
+system timezone.
 
 Command-line passed timezones may be numeric timezone offsets,
 e.g. "+09:00", "+0900", or "+09", or named timezone offsets, e.g. "JST".
