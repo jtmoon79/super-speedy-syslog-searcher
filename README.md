@@ -109,6 +109,8 @@ Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction Sil
 
 <sup>(note that UTF-16 encoded logs cannot be parsed, see [Issue #16])</sup>
 
+<sup>(note that opening too many files causes error _too many files open_, see [Issue #270], so `Get-ChildItem -Filter` lessens the number of files opened by `s4.exe`)</sup>
+
 Or the [Windows Event logs]
 
 ```lang-text
@@ -189,6 +191,7 @@ s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 
 [Windows Event logs]: https://github.com/libyal/libevtx/blob/20221101/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
 [Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
+[Issue #270]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/270
 
 ### `--help`
 
