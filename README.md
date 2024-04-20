@@ -411,7 +411,7 @@ See the real-world example rationale in the section below,
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within other
   archive files or compressed files ([Issue #14]),<br/>
   e.g. `logs.tgz`, e.g. file `syslog.xz` file within archive `logs.tar`
-- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files ([Issue #9], [Issue #12], [Issue #13], [Issue #86]), not `.journal`, `.evtx`, or binary files like `wtmp`
+- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files ([Issue #9], [Issue #12], [Issue #13], [Issue #86]), not `.journal`, `.evtx`, or accounting records like `wtmp`
 
 [Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
