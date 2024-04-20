@@ -6,6 +6,7 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
+use crate::common::FPath;
 use crate::tests::common::{
     FO_0,
     FO_P1,
@@ -675,6 +676,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     eprintln!("Test Regex self-tests …");
     eprintln!("  Regex Pattern     : {:?}", dtpd.regex_pattern);
     eprintln!("  DateTime Pattern  : {:?}", dtpd.dtfs.pattern);
+    let dummy_fpath: FPath = FPath::from("test_DATETIME_PARSE_DATAS_test_cases");
     for test_case_ in dtpd._test_cases {
         eprintln!("  Test Data all          : {:?}", test_case_);
         let data = test_case_.3.as_bytes();
@@ -692,7 +694,15 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
             year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
         }
         let s = buffer_to_String_noraw(data);
-        match bytes_to_regex_to_datetime(slice_, &index, &year_opt, &FO_L, &FO_L_STR) {
+        match bytes_to_regex_to_datetime(
+            slice_,
+            &index,
+            &year_opt,
+            &FO_L,
+            &FO_L_STR,
+            #[cfg(any(debug_assertions, test))]
+            &dummy_fpath,
+        ) {
             Some(capdata) => {
                 eprintln!(
                     "Passed dtpd declared at line {} result {:?}, test data {:?}",

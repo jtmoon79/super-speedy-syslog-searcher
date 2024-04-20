@@ -1348,7 +1348,15 @@ impl SyslineReader {
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
             (dt_beg, dt_end, dt) =
-                match bytes_to_regex_to_datetime(slice_, index, year_opt, tz_offset, tz_offset_string) {
+                match bytes_to_regex_to_datetime(
+                    slice_,
+                    index,
+                    year_opt,
+                    tz_offset,
+                    tz_offset_string,
+                    #[cfg(any(debug_assertions, test))]
+                    path,
+                ) {
                     None => continue,
                     Some(val) => val,
             };

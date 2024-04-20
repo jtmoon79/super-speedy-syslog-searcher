@@ -40,13 +40,15 @@
 
 use crate::{de_err, de_wrn, debug_panic};
 #[cfg(any(debug_assertions, test))]
+use crate::common::FPath;
+#[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
 #[doc(hidden)]
 pub use crate::data::line::{LineIndex, RangeLineIndex};
 
 use std::convert::TryFrom; // for passing array slices as references
 use std::fmt;
-#[cfg(debug_assertions)]
+#[cfg(any(debug_assertions, test))]
 use std::thread;
 #[doc(hidden)]
 pub use std::time::{SystemTime, UNIX_EPOCH};
@@ -5947,6 +5949,8 @@ pub fn bytes_to_regex_to_datetime(
     year_opt: &Option<Year>,
     tz_offset: &FixedOffset,
     tz_offset_string: &String,
+    #[cfg(any(debug_assertions, test))]
+    path: &FPath,
 ) -> Option<CapturedDtData> {
     defn!("(…, {:?}, {:?}, {:?}, {:?})", index, year_opt, tz_offset, tz_offset_string);
 
@@ -5968,13 +5972,13 @@ pub fn bytes_to_regex_to_datetime(
                 }
             };
             // create the regex
-            #[cfg(debug_assertions)]
+            #[cfg(any(debug_assertions, test))]
             {
                 let tcurrent = thread::current();
                 let tname = tcurrent.name().unwrap();
                 defo!(
-                    "init RegEx {} from line {:?} ({})",
-                    _count, DATETIME_PARSE_DATAS[*index]._line_num, tname,
+                    "init RegEx {} from line {:?} (thread {}) ({:?})",
+                    _count, DATETIME_PARSE_DATAS[*index]._line_num, tname, path
                 );
             }
             let regex_: DateTimeRegex = DateTimeRegex::new(regex_pattern).unwrap();
