@@ -99,6 +99,16 @@ On Windows, print the ad-hoc logs under `C:\Windows\Logs`
 s4.exe C:\Windows\Logs
 ```
 
+On Windows, print all `.log` files under `C:\Windows` (with the help of Powershell)
+
+```lang-powershell
+Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction SilentlyContinue `
+  | Select-Object -ExpandProperty FullName `
+  | s4.exe -
+```
+
+<sup>(note that UTF-16 encoded logs cannot be parsed, see [Issue #16])</sup>
+
 Or the [Windows Event logs]
 
 ```lang-text
@@ -129,11 +139,30 @@ Print the log messages on January 1, 2022, from 12:00:00 to 16:00:00
 s4 /var/log -a 20220101T120000 -b 20220101T160000
 ```
 
-Print the journal log messages from up to an hour ago, prepending the journal file name
+Print the record-keeping log messages from up to a day ago
 (with the help of `find`)
 
 ```lang-text
-find / -xdev -name '*.journal' -type f 2>/dev/null | s4 - -a=-1d -n
+find /var -xdev -type f \( \
+    -name 'lastlog' \
+    -or -name 'wtmp' \
+    -or -name 'wtmpx' \
+    -or -name 'utmp' \
+    -or -name 'utmpx' \
+    -or -name 'acct' \
+    -or -name 'pacct' \
+  \) \
+    2>/dev/null \
+    | s4 - -a=-1d
+```
+
+Print the journal log messages from up to an hour ago,
+prepending the journal file name
+(with the help of `find`)
+
+```lang-text
+find / -xdev -name '*.journal' -type f 2>/dev/null \
+    | s4 - -a=-1h -n
 ```
 
 Print only the log messages that occurred two days ago
@@ -159,6 +188,7 @@ s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ```
 
 [Windows Event logs]: https://github.com/libyal/libevtx/blob/20221101/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
+[Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 
 ### `--help`
 
