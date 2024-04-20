@@ -633,26 +633,27 @@ nginx is following the bad example set by the apache web server.
 
 #### Debian 11
 
-Here is a log snippet from a Debian 11 host, file `/var/log/alternatives.log`:
+Here are log snippets from a Debian 11 host.
+
+file `/var/log/alternatives.log`
 
 ```text
 update-alternatives 2022-10-10 23:59:47: run with --quiet --remove rcp /usr/bin/ssh
 ```
 
-And a snippet from the same Debian 11 host, file `/var/log/dpkg.log`:
+file `/var/log/dpkg.log`
 
 ```text
 2022-10-10 15:15:02 upgrade gpgv:amd64 2.2.27-2 2.2.27-2+deb11u1
 ```
 
-And a snippet from the same Debian 11 host, file `/var/log/kern.log`:
+file `/var/log/kern.log`
 
 ```text
 Oct 10 23:07:16 debian11-b kernel: [    0.10034] Linux version 5.10.0-11-amd64
 ```
 
-And a snippet from the same Debian 11 host,
-file `/var/log/unattended-upgrades/unattended-upgrades-shutdown.log`:
+file `/var/log/unattended-upgrades/unattended-upgrades-shutdown.log`
 
 ```text
 2022-10-10 23:07:16,775 WARNING - Unable to monitor PrepareForShutdown() signal, polling instead.
@@ -699,21 +700,21 @@ file on the same system.
 
 #### Synology DiskStation
 
-Here is a log snippet from a Synology DiskStation package _DownloadStation_:
+Here are log file snippets from a Synology DiskStation host.
+
+file `DownloadStation.log`
 
 ```text
 2019/06/23 21:13:34	(system) trigger DownloadStation 3.8.13-3519 Begin start-stop-status start
 ```
 
-And a snippet from a Synology DiskStation OS log file `sfdisk.log` on the same
-host:
+file `sfdisk.log`
 
 ```text
 2019-04-06T01:07:40-07:00 dsnet sfdisk: Device /dev/sdq change partition.
 ```
 
-And a snippet from a Synology DiskStation OS log file `synobackup.log` on the
-same host:
+file `synobackup.log`
 
 ```text
 info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task started.
@@ -725,7 +726,7 @@ info	2018/02/24 02:30:04	SYSTEM:	[Local][Backup Task Backup1] Backup task starte
 
 Here are log file snippets from a Mac OS 12.6 host.
 
-log file `/var/log/system`
+file `/var/log/system`
 
 ```text
 Sep 22 00:01:21 Mac-mini syslogd[108]: ASL Sender Statistics
@@ -736,14 +737,14 @@ Oct 11 15:04:55 localhost syslogd[110]: Configuration Notice:
 	Those messages may not appear in standard system log files or in the ASL database.
 ```
 
-log file `/var/log/wifi`
+file `/var/log/wifi`
 
 ```text
 Thu Sep 21 23:05:35.850 Usb Host Notification NOT activated
 Fri Sep 22 15:05:01.994 Usb Host Notification activated!
 ```
 
-log file `/var/log/fsck_hs.log`
+file `/var/log/fsck_hs.log`
 
 ```text
 /dev/rdisk2s2: fsck_hfs started at Thu Sep 21 21:31:05 2023
@@ -753,14 +754,14 @@ log file `/var/log/fsck_hs.log`
 /dev/rdisk2s2: fsck_hfs completed at Thu Sep 21 21:31:05 2023
 ```
 
-log file `/var/log/anka.log`
+file `/var/log/anka.log`
 
 ```text
 Fri Sep 22 00:06:05 UTC 2023: Checking /Library/Developer/CoreSimulator/Volumes/watchOS_20S75...
 Fri Sep 22 00:06:05 UTC 2023: No updates found
 ```
 
-log file `/var/log/displaypolicyd.log`
+file `/var/log/displaypolicyd.log`
 
 ```text
 2023-09-15 04:26:56.329071-0700: Version: V6.5.7 starting [0]
@@ -768,7 +769,7 @@ log file `/var/log/displaypolicyd.log`
 2023-09-15 04:27:17.163031-0700: exit at user request Fri Sep 15 04:27:17 2023
 ```
 
-log file `/var/log/com.apple.xpc.launchd/launchd.log.1`
+file `/var/log/com.apple.xpc.launchd/launchd.log.1`
 
 ```text
 2023-10-26 16:56:23.171019 <Notice>: Doing boot task: restore-datapartition
@@ -776,7 +777,7 @@ log file `/var/log/com.apple.xpc.launchd/launchd.log.1`
 2023-10-26 16:56:23.287770 <Notice>: swap enabled
 ```
 
-log file `/var/log/asl/logs/aslmanager.20231026T170200+00`
+file `/var/log/asl/logs/aslmanager.20231026T170200+00`
 
 ```text
 Oct 26 17:02:00: aslmanager starting
@@ -788,16 +789,16 @@ Did you also notice how the log file _names_ differ in unexpected ways?
 
 #### Microsoft Windows 10
 
-Here is a snippet from a Windows 10 host, log file
-`${env:SystemRoot}\debug\mrt.log`
+Here are log snippets from a Windows 10 host.
+
+file `${env:SystemRoot}\debug\mrt.log`
 
 ```text
 Microsoft Windows Malicious Software Removal Tool v5.83, (build 5.83.13532.1)
 Started On Thu Sep 10 10:08:35 2020
 ```
 
-And a snippet from the same Windows 10 host, log file
-`${env:SystemRoot}\comsetup.log`
+file `${env:SystemRoot}\comsetup.log`
 
 ```text
 COM+[12:24:34]: ********************************************************************************
@@ -805,22 +806,19 @@ COM+[12:24:34]: Setup started - [DATE:05,27,2020 TIME: 12:24 pm]
 COM+[12:24:34]: ********************************************************************************
 ```
 
-And a snippet from the same Windows 10 host, log file
-`${env:SystemRoot}\DirectX.log`
+file `${env:SystemRoot}\DirectX.log`
 
 ```text
 11/01/19 20:03:40: infinst: Installed file C:\WINDOWS\system32\xactengine2_1.dll
 ```
 
-And a snippet from the same Windows 10 host, log file
-`${env:SystemRoot}/Microsoft.NET/Framework/v4.0.30319/ngen.log`
+file `${env:SystemRoot}/Microsoft.NET/Framework/v4.0.30319/ngen.log`
 
 ```text
 09/15/2022 14:13:22.951 [515]: 1>Warning: System.IO.FileNotFoundException: Could not load file or assembly
 ```
 
-And a snippet from the same Windows 10 host, log file
-`${env:SystemRoot}/Performance/WinSAT/winsat.log`
+file `${env:SystemRoot}/Performance/WinSAT/winsat.log`
 
 ```text
 68902359 (21103) - exe\logging.cpp:0841: --- START 2022\5\17 14:26:09 PM ---
