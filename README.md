@@ -18,15 +18,15 @@ Speedily search and merge log messages by datetime.
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
-This includes stanardized log file formats (RFC 3164 "syslog"), Red Hat Audit
-logs, and many ad-hoc log file formats, including multi-line log messages,
-binary format logs including acct, lastlog, and utmp accounting records
+Datetime filters may be passed to narrow the search to a datetime range.
+
+`s4` can read standardized log file formats like RFC 3164 logs ("syslog"),
+Red Hat Audit logs, and can read non-standardized ad-hoc log file formats,
+including multi-line log messages.
+It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
-`s4` can read compressed logs (`.gz`, `.xz`), or archived logs (`.tar`).
-It will parse a variety of formal and ad-hoc log message datetime formats.<sup><a href="#f3">\[3\]</a></sup>
-
-Datetime filters may be passed to narrow the search to a datetime range.
+`s4` can read compressed logs (`.gz`, `.xz`), or archived logs (`.tar`).<sup><a href="#f3">\[3\]</a></sup>
 
 The first goal of `s4` is speedy searching and printing.
 
