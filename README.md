@@ -861,7 +861,7 @@ file `${env:SystemRoot}/Performance/WinSAT/winsat.log`
 ### Summary
 
 This chaotic logging approach is typical of commercial and open-source software,
-***AND IT'S A MESS!***
+__*AND IT'S A MESS!*__
 Attempting to merge log messages by their natural sort mechanism,
 a datetime stamp, is difficult to impossible.
 
