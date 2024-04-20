@@ -18,11 +18,13 @@ Speedily search and merge log messages by datetime.
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
-This includes log files that are compressed (`.gz`, `.xz`), or archived (`.tar`),
-and binary format logs including acct, lastlog, and utmp accounting records
+This includes stanardized log file formats (RFC 3164 "syslog"), Red Hat Audit
+logs, and many ad-hoc log file formats, including multi-line log messages,
+binary format logs including acct, lastlog, and utmp accounting records
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
-It will parse a variety of formal and ad-hoc log message datetime formats.
+`s4` can read compressed logs (`.gz`, `.xz`), or archived logs (`.tar`).
+It will parse a variety of formal and ad-hoc log message datetime formats.<sup><a href="#f3">\[3\]</a></sup>
 
 Datetime filters may be passed to narrow the search to a datetime range.
 
@@ -409,7 +411,7 @@ See the real-world example rationale in the section below,
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within other
   archive files or compressed files ([Issue #14]),<br/>
   e.g. `logs.tgz`, e.g. file `syslog.xz` file within archive `logs.tar`
-- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed syslog files ([Issue #9], [Issue #12], [Issue #13], [Issue #86])
+- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files ([Issue #9], [Issue #12], [Issue #13], [Issue #86]), not `.journal`, `.evtx`, or binary files like `wtmp`
 
 [Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
