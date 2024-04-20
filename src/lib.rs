@@ -29,7 +29,7 @@
 //! <br/>
 //! The [`printer`] module handles printing log messages to standard output,
 //! along with user-passed command-line printing options
-//! (e.g. `--color`, `--prepend-tz`, etc.).<br/>
+//! (e.g. `--color=always`, `--prepend-utc`, etc.).<br/>
 //! The [`debug`] module is for helper functions and features for debug builds
 //! and testing (it may not appear in these generated docs).<br/>
 //! The [`libload`] module is for loading shared
