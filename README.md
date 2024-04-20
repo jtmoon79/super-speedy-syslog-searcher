@@ -409,9 +409,9 @@ See the real-world example rationale in the section below,
     - [_Week dates_], i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
     - times [without minutes and seconds] (i.e. only `hh`)
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within other
-  archive files or compressed files ([Issue #14]),<br/>
+  archive files or compressed files ([Issue #14])<br/>
   e.g. `logs.tgz`, e.g. file `syslog.xz` file within archive `logs.tar`
-- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files ([Issue #9], [Issue #12], [Issue #13], [Issue #86]), not `.journal`, `.evtx`, or accounting records like `wtmp`
+- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files ([Issue #283]), does not process compressed `.journal` files ([Issue #284]), `.evtx` files, or accounting records like `wtmp` ([Issue #285])
 
 [Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
@@ -422,10 +422,11 @@ See the real-world example rationale in the section below,
 [_Ordinal dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates
 [_Week dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates
 [without minutes and seconds]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times
-[Issue #9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/9
 [Issue #12]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12
-[Issue #13]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13
 [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
+[Issue #283]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/283
+[Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
+[Issue #285]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/285
 
 ### Hacks
 
