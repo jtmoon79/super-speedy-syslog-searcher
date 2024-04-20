@@ -34,7 +34,7 @@ function exit_() {
 trap exit_ EXIT
 
 # if `nextest` is installed and can list tests then use `nextest`
-if cargo nextest list 2>/dev/null; then
+if (set -x; cargo nextest list) 2>/dev/null; then
     (
         set -x
         cargo nextest --version
