@@ -2438,7 +2438,7 @@ const RP_cq: &RegexPattern = "[,]?";
 /// - <https://learningnetwork.cisco.com/s/article/syslog-severity-amp-level>
 /// - <https://learningnetwork.cisco.com/s/feed/0D53i00000KsKHECA3>
 /// - <https://success.trendmicro.com/dcx/s/solution/TP000086250>
-const RP_LEVELS: &RegexPattern = r"((?i)DEBUG[[[:digit:]]]|DEBUG|INFO[[[:digit:]]]|INFO|ERROR[[[:digit:]]]|ERROR|ERR|TRACE[[[:digit:]]]|TRACE|WARN[[[:digit:]]]|WARN|WARNING|VERBOSE[[[:digit:]]]|VERBOSE|EMERGENCY|EMERG|NOTICE|CRIT|CRITICAL|ALERT[[[:digit:]]]|ALERT(?-i))";
+const RP_LEVELS: &RegexPattern = r"((?i)DEBUG[[[:digit:]]]|DEBUG|INFO[[[:digit:]]]|INFO|ERROR[[[:digit:]]]|ERROR|ERR|TRACE[[[:digit:]]]|TRACE|WARN[[[:digit:]]]|WARN|WARNING|VERBOSE[[[:digit:]]]|VERBOSE|EMERGENCY|EMERG|NOTICE|CRIT|CRITICAL|ALERT[[[:digit:]]]|ALERT(?-i)|PANIC)";
 /// [`RegexPattern`] blank
 const RP_BLANK: &RegexPattern = "[[:blank:]]";
 /// [`RegexPattern`] blank?
