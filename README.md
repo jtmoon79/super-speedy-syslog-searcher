@@ -20,9 +20,10 @@ _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
 Datetime filters may be passed to narrow the search to a datetime range.
 
-`s4` can read standardized log file formats like RFC 3164 logs ("syslog"),
-Red Hat Audit logs, and can read non-standardized ad-hoc log file formats,
-including multi-line log messages.
+`s4` can read standardized log message formats like RFC 3164 and RFC 5424
+("syslog"),
+Red Hat Audit logs, and can read many non-standardized ad-hoc log message
+formats, including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
@@ -444,22 +445,20 @@ See the real-world example rationale in the section below,
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within other
   archive files or compressed files ([Issue #14])<br/>
   e.g. `logs.tgz`, e.g. file `syslog.xz` file within archive `logs.tar`
-- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files ([Issue #283]), does not process compressed `.journal` files ([Issue #284]), `.evtx` files, or accounting records like `wtmp` ([Issue #285])
+- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files; does not process compressed `.journal` files ([Issue #284]), `.evtx` files, or accounting records like `wtmp` ([Issue #285])
 
-[Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
 [Issue #11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11
 [Issue #14]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14
+[Issue #12]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12
 [Issue #39]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39
+[Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
+[Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
+[Issue #285]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/285
 [ISO descriptive format]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates
 [_Ordinal dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates
 [_Week dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates
 [without minutes and seconds]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Times
-[Issue #12]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12
-[Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
-[Issue #283]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/283
-[Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
-[Issue #285]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/285
 
 ### Hacks
 
