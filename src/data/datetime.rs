@@ -3831,6 +3831,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // TODO: add `RP_LEVELS` regex for lines like:
+    //       <Notice>: 2024-03-24 19:46:10.665578 (pid/5566 [diskutil]) Service stub created for com.apple.audio.SandboxHelper
+    //       [INFO]	2024-03-24 19:46:10.665578	(pid/5566 [diskutil])	Service stub created for com.apple.audio.SandboxHelper
     // ---------------------------------------------------------------------------------------------
     //
     // example with offset:
