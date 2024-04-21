@@ -624,7 +624,7 @@ multiple text lines.
 
 See [docs section _Definitions of data_] for more project definitions.
 
-[defined among several RFCs]: https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1110915683#Internet_standard_documents
+[defined among several RFCs]: https://en.wikipedia.org/w/index.php?title=Syslog&oldid=1219545533#Internet_standard_documents
 [docs section _Definitions of data_]: https://docs.rs/super_speedy_syslog_searcher/latest/s4lib/data/index.html
 
 #### log message
