@@ -448,7 +448,7 @@ See the real-world example rationale in the section below,
     - times [without minutes and seconds] (i.e. only `hh`)
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within other
   archive files or compressed files ([Issue #14])<br/>
-  e.g. `logs.tgz`, e.g. file `syslog.xz` file within archive `logs.tar`
+  e.g. cannot process `logs.tar.xz`
 - <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files; does not process compressed `.journal` files ([Issue #284]), `.evtx` files, or accounting records like `wtmp` ([Issue #285])
 
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
