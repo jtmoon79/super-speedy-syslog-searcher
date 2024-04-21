@@ -543,7 +543,7 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 |-              |-                  |-                |-      |-                      |-      |-                |-       |
 |`grep \| sort` |‼                  |!                |✗      |✗                     |✗      |✗               |✗       |
 |`s4`           |✔                  |✔               |✔      |✔                     |✔      |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/255)|✔ |
-|`logmerger`    |‼                  |‼                |✗      |✗                     |✗      |✗               |✗       |
+|`logmerger`    |‼                  |‼                |✗      |✗                     |✗      |✔               |✗       |
 |`tl`           |✗                  |✗               |✗      |✗                     |✗      |✗               |✔       |
 
 ---
