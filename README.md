@@ -111,7 +111,7 @@ Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction Sil
 
 <sup>(note that opening too many files causes error _too many files open_, see [Issue #270], so `Get-ChildItem -Filter` lessens the number of files opened by `s4.exe`)</sup>
 
-Or the [Windows Event logs]
+On Windows, print the [Windows Event logs]
 
 ```lang-text
 s4.exe C:\Windows\System32\winevt\Logs
