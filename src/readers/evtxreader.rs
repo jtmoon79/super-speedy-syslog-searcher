@@ -255,8 +255,6 @@ pub struct EvtxReader {
     filesz: FileSz,
     /// file Last Modified time from file-system metadata
     mtime: SystemTime,
-    /// Internal tracking of "`out_of_order`" state.
-    //out_of_order_dt: Option<DateTime<Utc>>,
     /// Count of EVTX entries found to be out of order.
     out_of_order: Count,
     /// has `self.analyze()` been called?
