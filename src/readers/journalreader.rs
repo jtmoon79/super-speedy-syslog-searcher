@@ -2804,6 +2804,10 @@ impl<'a> JournalReader {
     /// Similar to [`dt_first_last_update`].
     ///
     /// [`dt_first_last_update`]: crate::readers::syslinereader::SyslineReader#method.dt_first_last_update
+    // TODO: [2024/04] track log messages not in chronological order, similar to
+    //       tracking done in `FixedStructReader::entries_out_of_order` and
+    //       `EvtxReader::out_of_order`
+    //       Print the result in the `--summary` output.
     fn em_first_last_update_processed(
         &mut self,
         em: &EpochMicroseconds,

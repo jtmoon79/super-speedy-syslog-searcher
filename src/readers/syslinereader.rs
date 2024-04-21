@@ -1378,6 +1378,10 @@ impl SyslineReader {
 
     /// Update the two statistic `DateTimeL` of
     /// `self.dt_first` and `self.dt_last`.
+    // TODO: [2024/04] track log messages not in chronological order, similar to
+    //       tracking done in `FixedStructReader::entries_out_of_order` and
+    //       `EvtxReader::out_of_order`
+    //       Print the result in the `--summary` output.
     fn dt_first_last_update(
         &mut self,
         datetime: &DateTimeL,
