@@ -21,6 +21,9 @@ export OUT="${DIROUT}/flamegraph-evtx.svg"
 export OUT="${DIROUT}/flamegraph-journal.svg"
 "${SCRIPT}" './logs/programs/journal/Ubuntu22-user-1000x3.journal'
 
+export OUT="${DIROUT}/flamegraph-syslog-no-matches.svg"
+"${SCRIPT}" './logs/other/tests/numbers3.log'
+
 export OUT="${DIROUT}/flamegraph-syslog.svg"
 "${SCRIPT}" './logs/other/tests/gen-99999-1-Motley_Crue.log'
 
