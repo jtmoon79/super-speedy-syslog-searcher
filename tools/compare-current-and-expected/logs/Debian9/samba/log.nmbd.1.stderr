@@ -24,15 +24,15 @@ File: ./logs/Debian9/samba/log.nmbd.1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 175, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 176, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  21, 22.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   1, miss   6, 14.3%, largest skipped 21
+      optimize:SyslineReader::ezcheckd2                            : hit   1, miss   7, 12.5%, largest skipped 21
       optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 169,  1.2%, largest skipped 24
-      process: regex captures attempted                            : 175
+      process: regex captures attempted                            : 176
   Processing Drops:
 
 
@@ -48,8 +48,8 @@ Printed syslines      : 6
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 153
-Regex compiled        : 150
+Regex patterns        : 154
+Regex compiled        : 151
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok    : 8

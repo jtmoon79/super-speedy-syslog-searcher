@@ -24,13 +24,13 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   7, miss  20, 25.9%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 175, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 176, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   7,  0.0%, put   7
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   7, 12.5%, put   7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  19, 24.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   7, miss   0, 100.0%, largest skipped 74
+      optimize:SyslineReader::ezcheckd2                            : hit   8, miss   0, 100.0%, largest skipped 74
       optimize:SyslineReader::ezcheck12d2                          : hit 156, miss  13, 92.3%, largest skipped 74
       process: regex captures attempted                            : 13
   Processing Drops:
@@ -48,7 +48,7 @@ Printed syslines      : 7
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 153
+Regex patterns        : 154
 Regex compiled        : 6
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)

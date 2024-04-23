@@ -1184,6 +1184,8 @@ const DTP_YmdHMSfzp: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%#z";
 /// no second, chrono will set to value 0
 const DTP_mdHMYZc: &DateTimePattern_str = "%Y%m%dT%H%M%:z";
 
+/// `%Y` `%:z` is filled
+const DTP_mdHMS: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%Y` `%:z` is filled, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
 const DTP_BdHMS: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%Y` is filled, `%Z` transformed to `%:z`, `%B` value transformed to `%m` value by [`captures_to_buffer_bytes`]
@@ -1361,6 +1363,18 @@ const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
     pattern: DTP_YmdHMSfzc,
 };
 
+const DTFSS_mdHMS: DTFSSet = DTFSSet {
+    year: DTFS_Year::_fill,
+    month: DTFS_Month::m,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
+    pattern: DTP_mdHMS,
+};
 const DTFSS_BdHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::_fill,
     month: DTFS_Month::B,
@@ -2400,7 +2414,7 @@ pub static MAP_TZZ_TO_TZz: PhfMap<&'static str, &'static str> = phf_map! {
 };
 
 /// [`RegexPattern`] divider _date?_ `2020/01/01` or `2020-01-01` or
-/// `2020 01 01` or `20200101`
+/// `2020 01 01` or `2020-01-01` or `20200101`
 const D_Dq: &RegexPattern = r"[ /\-]?";
 /// [`RegexPattern`] divider _date?_ `2020/01/01` or `2020-01-01` or
 /// `2020 01 01` or `20200101` or `2020\01\01`
@@ -2424,6 +2438,9 @@ const D_DHcdq: &RegexPattern = r"[ T\-:]?";
 /// [`RegexPattern`] divider _day_ to _hour_ with colon or dash or underline,
 /// `2020:01:01_20:30:00`.
 const D_DHcdqu: &RegexPattern = r"[ T\-:_]?";
+/// [`RegexPattern`] divider _day_ to _hour_ with colon or dash or underline
+/// or slash, `2020:01:01\20:30:00`.
+const D_DHcdqus: &RegexPattern = r"[ T/\\\-:_]?";
 /// [`RegexPattern`] divider _fractional_, `2020/01/01T20:30:00,123456`
 const D_SF: &RegexPattern = r"[\.,]";
 
@@ -2474,7 +2491,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<OnceCell<DateTimeRegex>>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 153;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 154;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -4465,6 +4482,25 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         &[
             (48, 67, (O_L, 2000, 1, 2, 5, 1, 32, 0), r#"{"level":"INFO","message":"Started","datetime":"2000-01-02T05:01:32"}"#),
             (15, 34, (O_L, 2000, 1, 2, 5, 1, 32, 0), r#"{"DATETIME" : "2000/01/02 05:01:32", "data" : ""}"#),
+        ],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // Chrome cv_debug.log format
+    //
+    // example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     {"logTime": "0226/052726", "correlationVector":"C3BF38D097234ED3A46F33A1C497BF65","action":"FETCH_UX_CONFIG", "result":""}
+    //
+    DTPD!(
+        concatcp!(r#""(LOGTIME|LogTime|logTime|logtime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_MONTHm, D_Deq, CGP_DAYde, D_DHcdqus, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, "\""),
+        DTFSS_mdHMS, 0, 512, CGN_MONTH, CGN_SECOND,
+        &[
+            (13, 24, (O_L, YD, 2, 26, 5, 27, 26, 0), r#"{"logTime": "0226/052726", "correlationVector":"A","action":"FETCH_UX_CONFIG", "result":""}"#),
+            (13, 24, (O_L, YD, 2, 26, 5, 27, 26, 0), r#"{"LOGTIME" :"0226/052726", "correlationVector":"A","action":"FETCH_UX_CONFIG", "result":""}"#),
         ],
         line!(),
     ),

@@ -24,15 +24,15 @@ File: ./logs/Debian9/aptitude.4
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  37,  5.1%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 662, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 666, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  26,  3.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  21, miss  11, 65.6%, largest skipped 69
+      optimize:SyslineReader::ezcheckd2                            : hit  24, miss  12, 66.7%, largest skipped 69
       optimize:SyslineReader::ezcheck12d2                          : hit 446, miss 186, 70.6%, largest skipped 69
-      process: regex captures attempted                            : 197
+      process: regex captures attempted                            : 198
   Processing Drops:
 
 
@@ -48,8 +48,8 @@ Printed syslines      : 1
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 153
-Regex compiled        : 153
+Regex patterns        : 154
+Regex compiled        : 154
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok    : 3

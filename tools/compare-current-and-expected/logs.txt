@@ -495,3 +495,4 @@
 ./logs/Windows10Pro/System32/NetSetupMig.log
 ./logs/Windows10Pro/System32/wbem/WMIMigration.log
 ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
+./logs/Windows11Pro/Temp/cv_debug.log

@@ -23,15 +23,15 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 153, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 154, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   6, miss   1, 85.7%, largest skipped 99
+      optimize:SyslineReader::ezcheckd2                            : hit   6, miss   2, 75.0%, largest skipped 99
       optimize:SyslineReader::ezcheck12d2                          : hit  77, miss  69, 52.7%, largest skipped 64
-      process: regex captures attempted                            : 70
+      process: regex captures attempted                            : 71
   Processing Drops:
 
 
@@ -47,8 +47,8 @@ Printed syslines      : 0
 Printed evtx events   : 0
 Printed fixedstruct   : 0
 Printed journal events: 0
-Regex patterns        : 153
-Regex compiled        : 70
+Regex patterns        : 154
+Regex compiled        : 71
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok    : 2
