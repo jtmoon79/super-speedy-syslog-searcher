@@ -1017,9 +1017,11 @@ fn string_to_rel_offset_datetime(
     dt_other_opt: &DateTimeLOpt,
     now_utc: &DateTime<Utc>,
 ) -> DateTimeLOpt {
+    defn!("({:?}, {:?}, {:?}, {:?})", val, tz_offset, dt_other_opt, now_utc);
     let (duration, duration_offset_type) = match string_wdhms_to_duration(val) {
         Some((dur, dur_type)) => (dur, dur_type),
         None => {
+            defx!();
             return None;
         }
     };
@@ -1040,7 +1042,7 @@ fn string_to_rel_offset_datetime(
             let now = tz_offset.from_utc_datetime(&now_utc_.naive_utc());
             defo!("now     {:?}", now);
             let now_off = now.checked_add_signed(duration);
-            defo!("now_sub {:?}", now_off.unwrap());
+            defx!("now_off {:?}", now_off.unwrap());
 
             now_off
         }
@@ -1049,7 +1051,7 @@ fn string_to_rel_offset_datetime(
                 Some(dt_other) => {
                     defo!("other     {:?}", dt_other);
                     let other_off = dt_other.checked_add_signed(duration);
-                    defo!("other_off {:?}", other_off.unwrap());
+                    defx!("other_off {:?}", other_off.unwrap());
 
                     other_off
                 }
@@ -1084,7 +1086,17 @@ fn process_dt(
     let dto: DateTimeLOpt;
     // try to match user-passed string to chrono strftime format strings
     #[allow(non_snake_case)]
-    for (pattern_, _has_year, has_tz, has_tzZ, has_time) in CLI_FILTER_PATTERNS.iter() {
+    for (
+        pattern_,
+        _has_year,
+        has_tz,
+        has_tzZ,
+        has_time,
+    ) in CLI_FILTER_PATTERNS.iter() {
+        defo!(
+            "(pattern {:?}, has_year {:?}, has_tz {:?}, has_tzZ {:?}, has_time {:?})",
+            pattern_, _has_year, has_tz, has_tzZ, has_time,
+        );
         let mut pattern: String = String::from(*pattern_);
         let mut dts_: String = dts.clone();
         // if !has_tzZ then modify trailing string timezone (e.g. "PDT") to
