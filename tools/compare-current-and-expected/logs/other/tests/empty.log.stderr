@@ -7,33 +7,6 @@ File: ./logs/other/tests/empty.log
       logmessagetype : syslog lines
       MIME guess     : MimeGuess(["text/plain"])
       Processing Err : FileErrEmpty
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size     : 0 (0x0) (bytes)
-      bytes         : 0 (0x0)
-      bytes total   : 0 (0x0)
-      block size    : 256 (0x100)
-      blocks        : 0
-      blocks total  : 0
-      lines         : 0
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 0,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 0,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 0,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 0,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
-  Processing Drops:
 
 
 Program Summary:

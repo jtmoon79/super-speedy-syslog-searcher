@@ -22,6 +22,7 @@ use ::lazy_static::lazy_static;
 use ::mime_guess::MimeGuess;
 use ::si_trace_print::defñ;
 
+use crate::debug_panic;
 use crate::common::{
     Count,
     FPath,
@@ -1759,8 +1760,21 @@ fn print_file_summary(
         mimeguess,
         summary_opt,
         color,
-        color_choice
+        color_choice,
     );
+    // do not print any summary numbers for empty files (they should all be zero)
+    if let Some(result) = file_processing_result {
+        match result {
+            FileProcessingResultBlockZero::FileErrEmpty => {
+                return;
+            }
+            FileProcessingResultBlockZero::FileErrStub => {
+                debug_panic!("result is FileErrStub");
+                return;
+            }
+            _ => {}
+        }
+    }
     print_summary_opt_printed(summary_print_opt, summary_opt, color_choice);
     print_summary_opt_processed(summary_opt, color_choice);
     if OPT_SUMMARY_PRINT_CACHE_STATS {
