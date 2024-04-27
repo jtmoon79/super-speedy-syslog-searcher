@@ -698,7 +698,7 @@ file `/var/log/unattended-upgrades/unattended-upgrades-shutdown.log`
 
 #### binary files
 
-And then there are binary files, such as the [`wtmp`] file on Linux and other
+And then there are binary files, such as the `wtmp` file on Linux and other
 Unix Operating Systems.
 Using tool `utmpdump`, a `utmp` record structure is converted to text like:
 
@@ -726,8 +726,6 @@ or `awk`!
 Additionally, if the `wtmp` file is from a different architecture
 or Operating System, then the binary record structure is likely not parseable
 by the resident `utmpdump` tool. What then!?
-
-[`wtmp`]: https://www.man7.org/linux/man-pages/man5/utmp.5.html
 
 ### commercial software examples
 
