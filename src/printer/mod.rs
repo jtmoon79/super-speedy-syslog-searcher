@@ -11,3 +11,4 @@
 //! [`JournalEntry`s]: crate::data::journal::JournalEntry
 
 pub mod printers;
+pub mod summary;

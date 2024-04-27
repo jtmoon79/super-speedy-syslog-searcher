@@ -2,6 +2,7 @@
 
 //! Common imports, type aliases, and other globals for _s4lib_.
 
+use std::collections::HashSet;
 #[doc(hidden)]
 pub use std::fs::File;
 use std::fmt::Debug;
@@ -42,6 +43,17 @@ pub type FileSz = u64;
 /// A general-purpose counting type, typically used for internal statistics
 /// (Summary) counting.
 pub type Count = u64;
+
+/// File paths are needed as keys. Many such keys are passed around among
+/// different threads.
+/// Instead of passing clones of `FPath`, pass around a relatively light-weight
+/// `usize` as a key.
+/// The main processing thread uses the `PathId` key for various lookups,
+/// including the file path.
+pub type PathId = usize;
+
+/// a set of [`PathId`]
+pub type SetPathId = HashSet<PathId>;
 
 // --------------------------------------------------
 // custom Results enums for various *Reader functions
