@@ -6,6 +6,9 @@
 # `sort` (preferably GNU). Passed arguments are forwarded to `/usr/bin/time`, except
 # optional argument `--keep`.
 #
+# optional export `FILES` is string that is a list of files to search,
+# separated by spaces.
+#
 # This script also compares the standard output of each program.
 # If stdout is the same then exit 0 else 1.
 #
@@ -30,6 +33,8 @@ time=$(which time)
 
 echo
 
+TIME_FORMAT='real %e s, Max RSS %M KB, %P %%CPU, (%x)'
+
 do_keep=false
 if [[ "${1-}" = "--keep" ]]; then
     do_keep=true
@@ -49,31 +54,58 @@ function exit_() {
 
 trap exit_ EXIT
 
-declare -a files=(
-    ./logs/other/tests/gen-100-10-.......log
-    ./logs/other/tests/gen-100-10-BRAAAP.log
-    ./logs/other/tests/gen-100-10-FOOBAR.log
-    ./logs/other/tests/gen-100-10-______.log
-    ./logs/other/tests/gen-100-10-skullcrossbones.log
-    ./logs/other/tests/gen-100-4-happyface.log
-    ./logs/other/tests/gen-1000-3-foobar.log
-    ./logs/other/tests/gen-200-1-jajaja.log
-    ./logs/other/tests/gen-400-4-shamrock.log
-    ./logs/other/tests/gen-99999-1-Motley_Crue.log
-)
+if [[ -z "${FILES-}" ]]; then
+    # default files to compare
+    declare -a FILES=(
+        ./logs/other/tests/gen-100-10-.......log
+        ./logs/other/tests/gen-100-10-BRAAAP.log
+        ./logs/other/tests/gen-100-10-FOOBAR.log
+        ./logs/other/tests/gen-100-10-______.log
+        ./logs/other/tests/gen-100-10-skullcrossbones.log
+        ./logs/other/tests/gen-100-4-happyface.log
+        ./logs/other/tests/gen-1000-3-foobar.log
+        ./logs/other/tests/gen-200-1-jajaja.log
+        ./logs/other/tests/gen-400-4-shamrock.log
+        ./logs/other/tests/gen-99999-1-Motley_Crue.log
+    )
+else
+    # user can export `FILES` as a string of filenames separated by spaces
+    # then each substring is copied to an array element
+    declare -a FILES_=()
+    for ff in ${FILES}; do
+        # trim whitespace
+        ff=$(echo "${ff}" | tr -d '\n')
+        ff=${ff## }
+        ff=${ff%% }
+        if [[ -z "${ff}" ]]; then
+            continue
+        fi
+        FILES_[${#FILES_[@]}]=${ff}
+    done
+    unset FILES
+    declare -a FILES=("${FILES_[@]}")
+fi
 
-# force reading of files from disk to allow any possible caching,
-# so a little less difference in the two timed processes
-cat "${files[@]}" > /dev/null
+for ff in "${FILES[@]}"; do
+    if [[ ! -f "${ff}" ]]; then
+        echo "ERROR: File not found '${ff}'" >&2
+        exit 1
+    fi
+done
 
-# search for datetimes between
-declare -r after_dt='20000101T000000'
-declare -r befor_dt='20000101T025959.999999'
-# regexp equivalent of $after_dt $befor_dt
-declare -r regex_dt='^20000101T0[012][[:digit:]]{4}'
+# force reading of FILES from disk (twice!) to allow any possible caching,
+# hopefully there's a little less difference in the two timed processes
+cat "${FILES[@]}" > /dev/null
+cat "${FILES[@]}" > /dev/null
+
+# search for datetimes between ...
+declare -r AFTER_DT=${AFTER_DT-'20000101T080000'}
+declare -r BEFORE_DT=${BEFORE_DT-'20000101T085959.999999'}
+# regexp equivalent of $AFTER_DT $BEFORE_DT
+declare -r regex_dt='^20000101T08[[:digit:]]{4}'
 # declare s4 args once
 declare -ar s4_args=(
-    -a "${after_dt}" -b "${befor_dt}"
+    -a "${AFTER_DT}" -b "${BEFORE_DT}"
     --color never
 )
 
@@ -82,23 +114,27 @@ declare -ar s4_args=(
 (
     #export RUST_BACKTRACE=1
     set -x
-    $time -p "${@}" -- \
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
         "${PROGRAM}" \
         "${s4_args[@]}" \
-        "${files[@]}" \
+        "${FILES[@]}" \
         >/dev/null
 )
 
 echo
 
-# search for datetimes between $after_dt $befor_dt
+# search for datetimes between $AFTER_DT $BEFORE_DT
 # using decently constrained regexp to match meaning
 (
     set -x
-    $time -p "${@}" -- \
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
         bash -c "\
 $grep -hEe '${regex_dt}' -- \
-${files[*]} \
+${FILES[*]} \
 | $sort -t ' ' -k 1 -s \
 >/dev/null"
 )
@@ -107,11 +143,11 @@ ${files[*]} \
 
 "${PROGRAM}" \
     "${s4_args[@]}" \
-    "${files[@]}" \
+    "${FILES[@]}" \
     > "${tmp1}"
 
 $grep -hEe "${regex_dt}" -- \
-    "${files[@]}" \
+    "${FILES[@]}" \
     | $sort -t ' ' -k 1 -s \
     > "${tmp2}"
 
