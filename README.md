@@ -72,8 +72,8 @@ The first goal of `s4` is speedy searching and printing.
     - [Mac OS 12](#mac-os-12)
     - [Microsoft Windows 10](#microsoft-windows-10)
   - [Summary](#summary)
-- [Stargazers](#stargazers)
 - [Further Reading](#further-reading)
+- [Stargazers](#stargazers)
 <!---toc end--->
 
 ---
@@ -877,10 +877,6 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 
 ---
 
-## Stargazers
-
-[![Stargazers over time](https://starchart.cc/jtmoon79/super-speedy-syslog-searcher.svg?variant=adaptive)](https://starchart.cc/jtmoon79/super-speedy-syslog-searcher)
-
 ## Further Reading
 
 - [`CHANGELOG.md`]
@@ -888,6 +884,10 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 
 [`CHANGELOG.md`]: ./CHANGELOG.md
 [`Extended-Thoughts.md`]: ./Extended-Thoughts.md
+
+## Stargazers
+
+[![Stargazers over time](https://starchart.cc/jtmoon79/super-speedy-syslog-searcher.svg?variant=adaptive)](https://starchart.cc/jtmoon79/super-speedy-syslog-searcher)
 
 ---
 
