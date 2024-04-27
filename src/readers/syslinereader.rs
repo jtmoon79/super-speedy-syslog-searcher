@@ -56,6 +56,7 @@ use std::fmt;
 use std::io::{Error, ErrorKind, Result};
 use std::sync::Arc;
 
+use ::const_format::assertcp_eq;
 use ::itertools::Itertools; // brings in `sorted_by`
 use ::lru::LruCache;
 use ::mime_guess::MimeGuess;
@@ -81,7 +82,6 @@ use ::si_trace_print::{
     dex,
     deñ,
 };
-use ::static_assertions::const_assert;
 
 
 // ----------------------------------------
@@ -1503,7 +1503,7 @@ impl SyslineReader {
         defn!();
         debug_assert!(!self.analyzed, "already called dt_patterns_analysis()");
         // XXX: DT_PATERN_MAX > 1 is unimplemented
-        const_assert!(SyslineReader::DT_PATTERN_MAX == 1);
+        assertcp_eq!(SyslineReader::DT_PATTERN_MAX, 1);
 
         #[cfg(any(debug_assertions, test))]
         {

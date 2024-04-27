@@ -44,6 +44,7 @@ use std::ffi::CStr;
 use std::fmt;
 use std::io::{Error, ErrorKind};
 
+use ::const_format::assertcp;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -58,7 +59,6 @@ use ::more_asserts::{
 use numtoa::NumToA;  // adds `numtoa` method to numbers
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-use ::static_assertions::const_assert;
 
 
 /// size of the `[u8]` buffer used for `numtoa` conversions
@@ -419,7 +419,7 @@ pub mod freebsd_x8664 {
     use std::ffi::CStr;
     use std::mem::size_of;
     use ::memoffset::offset_of;
-    use ::static_assertions::const_assert_eq;
+    use ::const_format::assertcp_eq;
 
     pub type subseconds_t = std::ffi::c_longlong;
     // XXX: use `i64` to satisfy various cross-compilation targets
@@ -446,9 +446,9 @@ pub mod freebsd_x8664 {
     }
 
     pub const TIMEVAL_SZ: usize = size_of::<timeval>();
-    const_assert_eq!(TIMEVAL_SZ, 16);
-    const_assert_eq!(offset_of!(timeval, tv_sec), 0);
-    const_assert_eq!(offset_of!(timeval, tv_usec), 8);
+    assertcp_eq!(TIMEVAL_SZ, 16);
+    assertcp_eq!(offset_of!(timeval, tv_sec), 0);
+    assertcp_eq!(offset_of!(timeval, tv_usec), 8);
 
     pub const UT_IDSIZE: usize = 8;
     pub const UT_USERSIZE: usize = 32;
@@ -526,16 +526,16 @@ pub mod freebsd_x8664 {
     pub const UTMPX_TIMEVALUE_SZ: usize = TIMEVAL_SZ;
     pub const UTMPX_TIMEVALUE_OFFSET_TV_SEC: usize = UTMPX_TIMEVALUE_OFFSET + offset_of!(timeval, tv_sec);
     pub const UTMPX_TIMEVALUE_OFFSET_TV_USEC: usize = UTMPX_TIMEVALUE_OFFSET + offset_of!(timeval, tv_usec);
-    const_assert_eq!(UTMPX_SZ, 280);
-    const_assert_eq!(offset_of!(utmpx, ut_type), 0);
-    const_assert_eq!(offset_of!(utmpx, __gap1), 2);
-    const_assert_eq!(offset_of!(utmpx, ut_tv), 8);
-    const_assert_eq!(offset_of!(utmpx, ut_id), 24);
-    const_assert_eq!(offset_of!(utmpx, ut_pid), 32);
-    const_assert_eq!(offset_of!(utmpx, ut_user), 36);
-    const_assert_eq!(offset_of!(utmpx, ut_line), 68);
-    const_assert_eq!(offset_of!(utmpx, ut_host), 84);
-    const_assert_eq!(offset_of!(utmpx, __ut_spare), 212);
+    assertcp_eq!(UTMPX_SZ, 280);
+    assertcp_eq!(offset_of!(utmpx, ut_type), 0);
+    assertcp_eq!(offset_of!(utmpx, __gap1), 2);
+    assertcp_eq!(offset_of!(utmpx, ut_tv), 8);
+    assertcp_eq!(offset_of!(utmpx, ut_id), 24);
+    assertcp_eq!(offset_of!(utmpx, ut_pid), 32);
+    assertcp_eq!(offset_of!(utmpx, ut_user), 36);
+    assertcp_eq!(offset_of!(utmpx, ut_line), 68);
+    assertcp_eq!(offset_of!(utmpx, ut_host), 84);
+    assertcp_eq!(offset_of!(utmpx, __ut_spare), 212);
 
     /// Helpers for use in `fmt::Debug` trait.
     impl utmpx {
@@ -587,7 +587,7 @@ pub mod linux_arm64aarch64 {
     use crate::common::FileOffset;
     use std::ffi::CStr;
     use std::mem::size_of;
-    use ::static_assertions::const_assert_eq;
+    use ::const_format::assertcp_eq;
     use ::memoffset::offset_of;
 
     pub type c_char = std::ffi::c_char;
@@ -612,9 +612,9 @@ pub mod linux_arm64aarch64 {
     }
 
     pub const TIMEVAL_SZ: usize = size_of::<timeval>();
-    const_assert_eq!(TIMEVAL_SZ, 16);
-    const_assert_eq!(offset_of!(timeval, tv_sec), 0);
-    const_assert_eq!(offset_of!(timeval, tv_usec), 8);
+    assertcp_eq!(TIMEVAL_SZ, 16);
+    assertcp_eq!(offset_of!(timeval, tv_sec), 0);
+    assertcp_eq!(offset_of!(timeval, tv_usec), 8);
 
     pub const UT_LINESIZE: usize = 32;
     pub const UT_IDSIZE: usize = 4;
@@ -652,10 +652,10 @@ pub mod linux_arm64aarch64 {
     pub const LASTLOG_SZ_FO: FileOffset = LASTLOG_SZ as FileOffset;
     pub const LASTLOG_TIMEVALUE_OFFSET: usize = offset_of!(lastlog, ll_time);
     pub const LASTLOG_TIMEVALUE_SZ: usize = size_of::<ll_time_t>();
-    const_assert_eq!(LASTLOG_SZ, 296);
-    const_assert_eq!(offset_of!(lastlog, ll_time), 0);
-    const_assert_eq!(offset_of!(lastlog, ll_line), 8);
-    const_assert_eq!(offset_of!(lastlog, ll_host), 40);
+    assertcp_eq!(LASTLOG_SZ, 296);
+    assertcp_eq!(offset_of!(lastlog, ll_time), 0);
+    assertcp_eq!(offset_of!(lastlog, ll_line), 8);
+    assertcp_eq!(offset_of!(lastlog, ll_host), 40);
 
     // utmp == utmpx
 
@@ -787,18 +787,18 @@ pub mod linux_arm64aarch64 {
     pub const UTMPX_SZ_FO: FileOffset = UTMPX_SZ as FileOffset;
     pub const UTMPX_TIMEVALUE_OFFSET: usize = offset_of!(utmpx, ut_tv);
     pub const UTMPX_TIMEVALUE_SZ: usize = TIMEVAL_SZ;
-    const_assert_eq!(UTMPX_SZ, 400);
-    const_assert_eq!(offset_of!(utmpx, ut_type), 0);
-    const_assert_eq!(offset_of!(utmpx, ut_pid), 4);
-    const_assert_eq!(offset_of!(utmpx, ut_line), 8);
-    const_assert_eq!(offset_of!(utmpx, ut_id), 40);
-    const_assert_eq!(offset_of!(utmpx, ut_user), 44);
-    const_assert_eq!(offset_of!(utmpx, ut_host), 76);
-    const_assert_eq!(offset_of!(utmpx, ut_exit), 332);
-    const_assert_eq!(offset_of!(utmpx, ut_session), 336);
-    const_assert_eq!(offset_of!(utmpx, ut_tv), 344);
-    const_assert_eq!(offset_of!(utmpx, ut_addr_v6), 360);
-    const_assert_eq!(offset_of!(utmpx, __glibc_reserved), 376);
+    assertcp_eq!(UTMPX_SZ, 400);
+    assertcp_eq!(offset_of!(utmpx, ut_type), 0);
+    assertcp_eq!(offset_of!(utmpx, ut_pid), 4);
+    assertcp_eq!(offset_of!(utmpx, ut_line), 8);
+    assertcp_eq!(offset_of!(utmpx, ut_id), 40);
+    assertcp_eq!(offset_of!(utmpx, ut_user), 44);
+    assertcp_eq!(offset_of!(utmpx, ut_host), 76);
+    assertcp_eq!(offset_of!(utmpx, ut_exit), 332);
+    assertcp_eq!(offset_of!(utmpx, ut_session), 336);
+    assertcp_eq!(offset_of!(utmpx, ut_tv), 344);
+    assertcp_eq!(offset_of!(utmpx, ut_addr_v6), 360);
+    assertcp_eq!(offset_of!(utmpx, __glibc_reserved), 376);
 
     /// From [`utmpx.h`], Linux 6.1
     /// ```C
@@ -856,7 +856,7 @@ pub mod linux_x86 {
     use std::ffi::CStr;
     use std::mem::size_of;
     use ::memoffset::offset_of;
-    use ::static_assertions::const_assert_eq;
+    use ::const_format::assertcp_eq;
 
     pub type b_time_t = std::ffi::c_uint;
     pub type c_char = std::ffi::c_char;
@@ -958,24 +958,24 @@ pub mod linux_x86 {
     pub const ACCT_SZ_FO: FileOffset = ACCT_SZ as FileOffset;
     pub const ACCT_TIMEVALUE_OFFSET: usize = offset_of!(acct, ac_btime);
     pub const ACCT_TIMEVALUE_SZ: usize = size_of::<b_time_t>();
-    const_assert_eq!(ACCT_SZ, 64);
-    const_assert_eq!(offset_of!(acct, ac_flag), 0);
-    const_assert_eq!(offset_of!(acct, ac_uid), 2);
-    const_assert_eq!(offset_of!(acct, ac_gid), 4);
-    const_assert_eq!(offset_of!(acct, ac_tty), 6);
-    const_assert_eq!(offset_of!(acct, ac_btime), 8);
-    const_assert_eq!(offset_of!(acct, ac_utime), 12);
-    const_assert_eq!(offset_of!(acct, ac_stime), 14);
-    const_assert_eq!(offset_of!(acct, ac_etime), 16);
-    const_assert_eq!(offset_of!(acct, ac_mem), 18);
-    const_assert_eq!(offset_of!(acct, ac_io), 20);
-    const_assert_eq!(offset_of!(acct, ac_rw), 22);
-    const_assert_eq!(offset_of!(acct, ac_minflt), 24);
-    const_assert_eq!(offset_of!(acct, ac_majflt), 26);
-    const_assert_eq!(offset_of!(acct, ac_swaps), 28);
-    const_assert_eq!(offset_of!(acct, ac_exitcode), 32);
-    const_assert_eq!(offset_of!(acct, ac_comm), 36);
-    const_assert_eq!(offset_of!(acct, ac_pad), 53);
+    assertcp_eq!(ACCT_SZ, 64);
+    assertcp_eq!(offset_of!(acct, ac_flag), 0);
+    assertcp_eq!(offset_of!(acct, ac_uid), 2);
+    assertcp_eq!(offset_of!(acct, ac_gid), 4);
+    assertcp_eq!(offset_of!(acct, ac_tty), 6);
+    assertcp_eq!(offset_of!(acct, ac_btime), 8);
+    assertcp_eq!(offset_of!(acct, ac_utime), 12);
+    assertcp_eq!(offset_of!(acct, ac_stime), 14);
+    assertcp_eq!(offset_of!(acct, ac_etime), 16);
+    assertcp_eq!(offset_of!(acct, ac_mem), 18);
+    assertcp_eq!(offset_of!(acct, ac_io), 20);
+    assertcp_eq!(offset_of!(acct, ac_rw), 22);
+    assertcp_eq!(offset_of!(acct, ac_minflt), 24);
+    assertcp_eq!(offset_of!(acct, ac_majflt), 26);
+    assertcp_eq!(offset_of!(acct, ac_swaps), 28);
+    assertcp_eq!(offset_of!(acct, ac_exitcode), 32);
+    assertcp_eq!(offset_of!(acct, ac_comm), 36);
+    assertcp_eq!(offset_of!(acct, ac_pad), 53);
 
     impl acct {
         pub fn ac_comm(&self) -> &CStr {
@@ -1074,26 +1074,26 @@ pub mod linux_x86 {
     pub const ACCT_V3_SZ_FO: FileOffset = ACCT_V3_SZ as FileOffset;
     pub const ACCT_V3_TIMEVALUE_OFFSET: usize = offset_of!(acct_v3, ac_btime);
     pub const ACCT_V3_TIMEVALUE_SZ: usize = size_of::<b_time_t>();
-    const_assert_eq!(ACCT_V3_SZ, 64);
-    const_assert_eq!(offset_of!(acct_v3, ac_flag), 0);
-    const_assert_eq!(offset_of!(acct_v3, ac_version), 1);
-    const_assert_eq!(offset_of!(acct_v3, ac_tty), 2);
-    const_assert_eq!(offset_of!(acct_v3, ac_exitcode), 4);
-    const_assert_eq!(offset_of!(acct_v3, ac_uid), 8);
-    const_assert_eq!(offset_of!(acct_v3, ac_gid), 12);
-    const_assert_eq!(offset_of!(acct_v3, ac_pid), 16);
-    const_assert_eq!(offset_of!(acct_v3, ac_ppid), 20);
-    const_assert_eq!(offset_of!(acct_v3, ac_btime), 24);
-    const_assert_eq!(offset_of!(acct_v3, ac_etime), 28);
-    const_assert_eq!(offset_of!(acct_v3, ac_utime), 32);
-    const_assert_eq!(offset_of!(acct_v3, ac_stime), 34);
-    const_assert_eq!(offset_of!(acct_v3, ac_mem), 36);
-    const_assert_eq!(offset_of!(acct_v3, ac_io), 38);
-    const_assert_eq!(offset_of!(acct_v3, ac_rw), 40);
-    const_assert_eq!(offset_of!(acct_v3, ac_minflt), 42);
-    const_assert_eq!(offset_of!(acct_v3, ac_majflt), 44);
-    const_assert_eq!(offset_of!(acct_v3, ac_swaps), 46);
-    const_assert_eq!(offset_of!(acct_v3, ac_comm), 48);
+    assertcp_eq!(ACCT_V3_SZ, 64);
+    assertcp_eq!(offset_of!(acct_v3, ac_flag), 0);
+    assertcp_eq!(offset_of!(acct_v3, ac_version), 1);
+    assertcp_eq!(offset_of!(acct_v3, ac_tty), 2);
+    assertcp_eq!(offset_of!(acct_v3, ac_exitcode), 4);
+    assertcp_eq!(offset_of!(acct_v3, ac_uid), 8);
+    assertcp_eq!(offset_of!(acct_v3, ac_gid), 12);
+    assertcp_eq!(offset_of!(acct_v3, ac_pid), 16);
+    assertcp_eq!(offset_of!(acct_v3, ac_ppid), 20);
+    assertcp_eq!(offset_of!(acct_v3, ac_btime), 24);
+    assertcp_eq!(offset_of!(acct_v3, ac_etime), 28);
+    assertcp_eq!(offset_of!(acct_v3, ac_utime), 32);
+    assertcp_eq!(offset_of!(acct_v3, ac_stime), 34);
+    assertcp_eq!(offset_of!(acct_v3, ac_mem), 36);
+    assertcp_eq!(offset_of!(acct_v3, ac_io), 38);
+    assertcp_eq!(offset_of!(acct_v3, ac_rw), 40);
+    assertcp_eq!(offset_of!(acct_v3, ac_minflt), 42);
+    assertcp_eq!(offset_of!(acct_v3, ac_majflt), 44);
+    assertcp_eq!(offset_of!(acct_v3, ac_swaps), 46);
+    assertcp_eq!(offset_of!(acct_v3, ac_comm), 48);
 
     impl acct_v3 {
         pub fn ac_comm(&self) -> &CStr {
@@ -1128,10 +1128,10 @@ pub mod linux_x86 {
     pub const LASTLOG_SZ_FO: FileOffset = LASTLOG_SZ as FileOffset;
     pub const LASTLOG_TIMEVALUE_OFFSET: usize = offset_of!(lastlog, ll_time);
     pub const LASTLOG_TIMEVALUE_SZ: usize = size_of::<ll_time_t>();
-    const_assert_eq!(LASTLOG_SZ, 292);
-    const_assert_eq!(offset_of!(lastlog, ll_time), 0);
-    const_assert_eq!(offset_of!(lastlog, ll_line), 4);
-    const_assert_eq!(offset_of!(lastlog, ll_host), 36);
+    assertcp_eq!(LASTLOG_SZ, 292);
+    assertcp_eq!(offset_of!(lastlog, ll_time), 0);
+    assertcp_eq!(offset_of!(lastlog, ll_line), 4);
+    assertcp_eq!(offset_of!(lastlog, ll_host), 36);
 
     impl lastlog {
         pub fn ll_line(&self) -> &CStr {
@@ -1165,9 +1165,9 @@ pub mod linux_x86 {
     }
     
     pub const __TIMEVAL_SZ: usize = size_of::<__timeval>();
-    const_assert_eq!(__TIMEVAL_SZ, 8);
-    const_assert_eq!(offset_of!(__timeval, tv_sec), 0);
-    const_assert_eq!(offset_of!(__timeval, tv_usec), 4);
+    assertcp_eq!(__TIMEVAL_SZ, 8);
+    assertcp_eq!(offset_of!(__timeval, tv_sec), 0);
+    assertcp_eq!(offset_of!(__timeval, tv_usec), 4);
 
     #[derive(Clone, Copy)]
     #[repr(C, align(2))]
@@ -1178,9 +1178,9 @@ pub mod linux_x86 {
     }
 
     pub const __EXIT_STATUS: usize = size_of::<__exit_status>();
-    const_assert_eq!(__EXIT_STATUS, 4);
-    const_assert_eq!(offset_of!(__exit_status, e_termination), 0);
-    const_assert_eq!(offset_of!(__exit_status, e_exit), 2);
+    assertcp_eq!(__EXIT_STATUS, 4);
+    assertcp_eq!(offset_of!(__exit_status, e_termination), 0);
+    assertcp_eq!(offset_of!(__exit_status, e_exit), 2);
 
     // TODO: [2024/02/16] add faillog struct.
     //       `faillog` is from older CentOS releases so low priority.
@@ -1277,18 +1277,18 @@ pub mod linux_x86 {
     pub const UTMPX_SZ_FO: FileOffset = UTMPX_SZ as FileOffset;
     pub const UTMPX_TIMEVALUE_OFFSET: usize = offset_of!(utmpx, ut_tv);
     pub const UTMPX_TIMEVALUE_SZ: usize = __TIMEVAL_SZ;
-    const_assert_eq!(UTMPX_SZ, 384);
-    const_assert_eq!(offset_of!(utmpx, ut_type), 0);
-    const_assert_eq!(offset_of!(utmpx, ut_pid), 4);
-    const_assert_eq!(offset_of!(utmpx, ut_line), 8);
-    const_assert_eq!(offset_of!(utmpx, ut_id), 40);
-    const_assert_eq!(offset_of!(utmpx, ut_user), 44);
-    const_assert_eq!(offset_of!(utmpx, ut_host), 76);
-    const_assert_eq!(offset_of!(utmpx, ut_exit), 332);
-    const_assert_eq!(offset_of!(utmpx, ut_session), 336);
-    const_assert_eq!(offset_of!(utmpx, ut_tv), 340);
-    const_assert_eq!(offset_of!(utmpx, ut_addr_v6), 348);
-    const_assert_eq!(offset_of!(utmpx, __glibc_reserved), 364);
+    assertcp_eq!(UTMPX_SZ, 384);
+    assertcp_eq!(offset_of!(utmpx, ut_type), 0);
+    assertcp_eq!(offset_of!(utmpx, ut_pid), 4);
+    assertcp_eq!(offset_of!(utmpx, ut_line), 8);
+    assertcp_eq!(offset_of!(utmpx, ut_id), 40);
+    assertcp_eq!(offset_of!(utmpx, ut_user), 44);
+    assertcp_eq!(offset_of!(utmpx, ut_host), 76);
+    assertcp_eq!(offset_of!(utmpx, ut_exit), 332);
+    assertcp_eq!(offset_of!(utmpx, ut_session), 336);
+    assertcp_eq!(offset_of!(utmpx, ut_tv), 340);
+    assertcp_eq!(offset_of!(utmpx, ut_addr_v6), 348);
+    assertcp_eq!(offset_of!(utmpx, __glibc_reserved), 364);
 
     /// helpers for `fmt::Debug` trait
     ///
@@ -1338,7 +1338,7 @@ pub mod netbsd_x8632 {
     use std::ffi::CString;
     use std::mem::size_of;
     use ::memoffset::offset_of;
-    use ::static_assertions::const_assert_eq;
+    use ::const_format::assertcp_eq;
 
     pub type comp_t = std::ffi::c_ushort;
     pub type c_char = std::ffi::c_char;
@@ -1440,18 +1440,18 @@ pub mod netbsd_x8632 {
     pub const ACCT_SZ_FO: FileOffset = ACCT_SZ as FileOffset;
     pub const ACCT_TIMEVALUE_OFFSET: usize = offset_of!(acct, ac_btime);
     pub const ACCT_TIMEVALUE_SZ: usize = size_of::<time_t>();
-    const_assert_eq!(ACCT_SZ, 56);
-    const_assert_eq!(offset_of!(acct, ac_comm), 0);
-    const_assert_eq!(offset_of!(acct, ac_utime), 16);
-    const_assert_eq!(offset_of!(acct, ac_stime), 18);
-    const_assert_eq!(offset_of!(acct, ac_etime), 20);
-    const_assert_eq!(offset_of!(acct, ac_btime), 24);
-    const_assert_eq!(offset_of!(acct, ac_uid), 32);
-    const_assert_eq!(offset_of!(acct, ac_gid), 36);
-    const_assert_eq!(offset_of!(acct, ac_mem), 40);
-    const_assert_eq!(offset_of!(acct, ac_io), 42);
-    const_assert_eq!(offset_of!(acct, ac_tty), 44);
-    const_assert_eq!(offset_of!(acct, ac_flag), 52);
+    assertcp_eq!(ACCT_SZ, 56);
+    assertcp_eq!(offset_of!(acct, ac_comm), 0);
+    assertcp_eq!(offset_of!(acct, ac_utime), 16);
+    assertcp_eq!(offset_of!(acct, ac_stime), 18);
+    assertcp_eq!(offset_of!(acct, ac_etime), 20);
+    assertcp_eq!(offset_of!(acct, ac_btime), 24);
+    assertcp_eq!(offset_of!(acct, ac_uid), 32);
+    assertcp_eq!(offset_of!(acct, ac_gid), 36);
+    assertcp_eq!(offset_of!(acct, ac_mem), 40);
+    assertcp_eq!(offset_of!(acct, ac_io), 42);
+    assertcp_eq!(offset_of!(acct, ac_tty), 44);
+    assertcp_eq!(offset_of!(acct, ac_flag), 52);
 
     impl acct {
         pub fn ac_comm(&self) -> &CStr {
@@ -1477,9 +1477,9 @@ pub mod netbsd_x8632 {
     }
 
     pub const TIMEVAL_SZ: usize = size_of::<timeval>();
-    const_assert_eq!(TIMEVAL_SZ, 12);
-    const_assert_eq!(offset_of!(timeval, tv_sec), 0);
-    const_assert_eq!(offset_of!(timeval, tv_usec), 8);
+    assertcp_eq!(TIMEVAL_SZ, 12);
+    assertcp_eq!(offset_of!(timeval, tv_sec), 0);
+    assertcp_eq!(offset_of!(timeval, tv_usec), 8);
 
     // lastlog
     // same size as `linux_x86::lastlog`
@@ -1519,11 +1519,11 @@ pub mod netbsd_x8632 {
     pub const LASTLOGX_SZ_FO: FileOffset = LASTLOGX_SZ as FileOffset;
     pub const LASTLOGX_TIMEVALUE_OFFSET: usize = offset_of!(lastlogx, ll_tv);
     pub const LASTLOGX_TIMEVALUE_SZ: usize = TIMEVAL_SZ;
-    const_assert_eq!(LASTLOGX_SZ, 428);
-    const_assert_eq!(offset_of!(lastlogx, ll_tv), 0);
-    const_assert_eq!(offset_of!(lastlogx, ll_line), 12);
-    const_assert_eq!(offset_of!(lastlogx, ll_host), 44);
-    const_assert_eq!(offset_of!(lastlogx, ll_ss), 300);
+    assertcp_eq!(LASTLOGX_SZ, 428);
+    assertcp_eq!(offset_of!(lastlogx, ll_tv), 0);
+    assertcp_eq!(offset_of!(lastlogx, ll_line), 12);
+    assertcp_eq!(offset_of!(lastlogx, ll_host), 44);
+    assertcp_eq!(offset_of!(lastlogx, ll_ss), 300);
 
     pub const PATH_LASTLOGX: &str = "/var/log/lastlogx";
 
@@ -1549,8 +1549,8 @@ pub mod netbsd_x8632 {
         pub e_exit: uint16_t,
     }
 
-    const_assert_eq!(offset_of!(ut_exit, e_termination), 0);
-    const_assert_eq!(offset_of!(ut_exit, e_exit), 2);
+    assertcp_eq!(offset_of!(ut_exit, e_termination), 0);
+    assertcp_eq!(offset_of!(ut_exit, e_exit), 2);
 
     /// ```text
     /// utmpx                   sizeof 516
@@ -1591,18 +1591,18 @@ pub mod netbsd_x8632 {
     pub const UTMPX_SZ_FO: FileOffset = UTMPX_SZ as FileOffset;
     pub const UTMPX_TIMEVALUE_OFFSET: usize = offset_of!(utmpx, ut_tv);
     pub const UTMPX_TIMEVALUE_SZ: usize = TIMEVAL_SZ;
-    const_assert_eq!(UTMPX_SZ, 516);
-    const_assert_eq!(offset_of!(utmpx, ut_name), 0);
-    const_assert_eq!(offset_of!(utmpx, ut_id), 32);
-    const_assert_eq!(offset_of!(utmpx, ut_line), 36);
-    const_assert_eq!(offset_of!(utmpx, ut_host), 68);
-    const_assert_eq!(offset_of!(utmpx, ut_session), 324);
-    const_assert_eq!(offset_of!(utmpx, ut_type), 326);
-    const_assert_eq!(offset_of!(utmpx, ut_pid), 328);
-    const_assert_eq!(offset_of!(utmpx, ut_exit), 332);
-    const_assert_eq!(offset_of!(utmpx, ut_ss), 336);
-    const_assert_eq!(offset_of!(utmpx, ut_tv), 464);
-    const_assert_eq!(offset_of!(utmpx, ut_pad), 476);
+    assertcp_eq!(UTMPX_SZ, 516);
+    assertcp_eq!(offset_of!(utmpx, ut_name), 0);
+    assertcp_eq!(offset_of!(utmpx, ut_id), 32);
+    assertcp_eq!(offset_of!(utmpx, ut_line), 36);
+    assertcp_eq!(offset_of!(utmpx, ut_host), 68);
+    assertcp_eq!(offset_of!(utmpx, ut_session), 324);
+    assertcp_eq!(offset_of!(utmpx, ut_type), 326);
+    assertcp_eq!(offset_of!(utmpx, ut_pid), 328);
+    assertcp_eq!(offset_of!(utmpx, ut_exit), 332);
+    assertcp_eq!(offset_of!(utmpx, ut_ss), 336);
+    assertcp_eq!(offset_of!(utmpx, ut_tv), 464);
+    assertcp_eq!(offset_of!(utmpx, ut_pad), 476);
 
     pub const PATH_UTMPX: &str = "/var/run/utmpx";
     pub const PATH_WTMPX: &str = "/var/log/wtmpx";
@@ -1654,7 +1654,7 @@ pub mod netbsd_x8664 {
     use crate::common::FileOffset;
     use std::ffi::CStr;
     use std::mem::size_of;
-    use ::static_assertions::const_assert_eq;
+    use ::const_format::assertcp_eq;
     use ::memoffset::offset_of;
 
     pub type c_char = std::ffi::c_char;
@@ -1691,10 +1691,10 @@ pub mod netbsd_x8664 {
     }
 
     pub const TIMEVAL_SZ: usize = size_of::<timeval>();
-    const_assert_eq!(TIMEVAL_SZ, 16);
-    const_assert_eq!(offset_of!(timeval, tv_sec), 0);
-    const_assert_eq!(offset_of!(timeval, tv_usec), 8);
-    const_assert_eq!(offset_of!(timeval, __pad), 12);
+    assertcp_eq!(TIMEVAL_SZ, 16);
+    assertcp_eq!(offset_of!(timeval, tv_sec), 0);
+    assertcp_eq!(offset_of!(timeval, tv_usec), 8);
+    assertcp_eq!(offset_of!(timeval, __pad), 12);
 
     // lastlog
 
@@ -1740,10 +1740,10 @@ pub mod netbsd_x8664 {
     pub const LASTLOG_SZ_FO: FileOffset = LASTLOG_SZ as FileOffset;
     pub const LASTLOG_TIMEVALUE_OFFSET: usize = offset_of!(lastlog, ll_time);
     pub const LASTLOG_TIMEVALUE_SZ: usize = size_of::<time_t>();
-    const_assert_eq!(LASTLOG_SZ, 32);
-    const_assert_eq!(offset_of!(lastlog, ll_time), 0);
-    const_assert_eq!(offset_of!(lastlog, ll_line), 8);
-    const_assert_eq!(offset_of!(lastlog, ll_host), 16);
+    assertcp_eq!(LASTLOG_SZ, 32);
+    assertcp_eq!(offset_of!(lastlog, ll_time), 0);
+    assertcp_eq!(offset_of!(lastlog, ll_line), 8);
+    assertcp_eq!(offset_of!(lastlog, ll_host), 16);
 
     pub const PATH_LASTLOG: &str = "/var/log/lastlog";
 
@@ -1813,11 +1813,11 @@ pub mod netbsd_x8664 {
     pub const LASTLOGX_SZ_FO: FileOffset = LASTLOG_SZ as FileOffset;
     pub const LASTLOGX_TIMEVALUE_OFFSET: usize = offset_of!(lastlogx, ll_tv);
     pub const LASTLOGX_TIMEVALUE_SZ: usize = TIMEVAL_SZ;
-    const_assert_eq!(LASTLOGX_SZ, 432);
-    const_assert_eq!(offset_of!(lastlogx, ll_tv), 0);
-    const_assert_eq!(offset_of!(lastlogx, ll_line), 16);
-    const_assert_eq!(offset_of!(lastlogx, ll_host), 48);
-    const_assert_eq!(offset_of!(lastlogx, ll_ss), 304);
+    assertcp_eq!(LASTLOGX_SZ, 432);
+    assertcp_eq!(offset_of!(lastlogx, ll_tv), 0);
+    assertcp_eq!(offset_of!(lastlogx, ll_line), 16);
+    assertcp_eq!(offset_of!(lastlogx, ll_host), 48);
+    assertcp_eq!(offset_of!(lastlogx, ll_ss), 304);
 
     pub const PATH_LASTLOGX: &str = "/var/log/lastlogx";
 
@@ -1873,11 +1873,11 @@ pub mod netbsd_x8664 {
     pub const UTMP_SZ_FO: FileOffset = UTMP_SZ as FileOffset;
     pub const UTMP_TIMEVALUE_OFFSET: usize = offset_of!(utmp, ut_time);
     pub const UTMP_TIMEVALUE_SZ: usize = size_of::<time_t>();
-    const_assert_eq!(UTMP_SZ, 40);
-    const_assert_eq!(offset_of!(utmp, ut_line), 0);
-    const_assert_eq!(offset_of!(utmp, ut_name), 8);
-    const_assert_eq!(offset_of!(utmp, ut_host), 16);
-    const_assert_eq!(offset_of!(utmp, ut_time), 32);
+    assertcp_eq!(UTMP_SZ, 40);
+    assertcp_eq!(offset_of!(utmp, ut_line), 0);
+    assertcp_eq!(offset_of!(utmp, ut_name), 8);
+    assertcp_eq!(offset_of!(utmp, ut_host), 16);
+    assertcp_eq!(offset_of!(utmp, ut_time), 32);
 
     pub const PATH_UTMP: &str = "/var/run/utmp";
     pub const PATH_WTMP: &str = "/var/log/wtmp";
@@ -1908,9 +1908,9 @@ pub mod netbsd_x8664 {
     }
 
     pub const UT_EXIT_SZ: usize = size_of::<ut_exit>();
-    const_assert_eq!(UT_EXIT_SZ, 4);
-    const_assert_eq!(offset_of!(ut_exit, e_termination), 0);
-    const_assert_eq!(offset_of!(ut_exit, e_exit), 2);
+    assertcp_eq!(UT_EXIT_SZ, 4);
+    assertcp_eq!(offset_of!(ut_exit, e_termination), 0);
+    assertcp_eq!(offset_of!(ut_exit, e_exit), 2);
 
     /// [from `utmpx.h`]
     /// ```C
@@ -2000,17 +2000,17 @@ pub mod netbsd_x8664 {
     pub const UTMPX_SZ_FO: FileOffset = UTMPX_SZ as FileOffset;
     pub const UTMPX_TIMEVALUE_OFFSET: usize = offset_of!(utmpx, ut_tv);
     pub const UTMPX_TIMEVALUE_SZ: usize = TIMEVAL_SZ;
-    const_assert_eq!(UTMPX_SZ, 520);
-    const_assert_eq!(offset_of!(utmpx, ut_user), 0);
-    const_assert_eq!(offset_of!(utmpx, ut_id), 32);
-    const_assert_eq!(offset_of!(utmpx, ut_line), 36);
-    const_assert_eq!(offset_of!(utmpx, ut_host), 68);
-    const_assert_eq!(offset_of!(utmpx, ut_session), 324);
-    const_assert_eq!(offset_of!(utmpx, ut_type), 326);
-    const_assert_eq!(offset_of!(utmpx, ut_pid), 328);
-    const_assert_eq!(offset_of!(utmpx, ut_exit), 332);
-    const_assert_eq!(offset_of!(utmpx, ut_tv), 464);
-    const_assert_eq!(offset_of!(utmpx, ut_pad), 480);
+    assertcp_eq!(UTMPX_SZ, 520);
+    assertcp_eq!(offset_of!(utmpx, ut_user), 0);
+    assertcp_eq!(offset_of!(utmpx, ut_id), 32);
+    assertcp_eq!(offset_of!(utmpx, ut_line), 36);
+    assertcp_eq!(offset_of!(utmpx, ut_host), 68);
+    assertcp_eq!(offset_of!(utmpx, ut_session), 324);
+    assertcp_eq!(offset_of!(utmpx, ut_type), 326);
+    assertcp_eq!(offset_of!(utmpx, ut_pid), 328);
+    assertcp_eq!(offset_of!(utmpx, ut_exit), 332);
+    assertcp_eq!(offset_of!(utmpx, ut_tv), 464);
+    assertcp_eq!(offset_of!(utmpx, ut_pad), 480);
 
     pub const PATH_UTMPX: &str = "/var/run/utmpx";
     pub const PATH_WTMPX: &str = "/var/log/wtmpx";
@@ -2073,7 +2073,7 @@ pub mod openbsd_x86 {
     use crate::common::FileOffset;
     use std::ffi::CStr;
     use std::mem::size_of;
-    use ::static_assertions::const_assert_eq;
+    use ::const_format::assertcp_eq;
     use ::memoffset::offset_of;
 
     pub type c_char = std::ffi::c_char;
@@ -2120,10 +2120,10 @@ pub mod openbsd_x86 {
     pub const LASTLOG_SZ_FO: FileOffset = LASTLOG_SZ as FileOffset;
     pub const LASTLOG_TIMEVALUE_OFFSET: usize = offset_of!(lastlog, ll_time);
     pub const LASTLOG_TIMEVALUE_SZ: usize = size_of::<time_t>();
-    const_assert_eq!(LASTLOG_SZ, 272);
-    const_assert_eq!(offset_of!(lastlog, ll_time), 0);
-    const_assert_eq!(offset_of!(lastlog, ll_line), 8);
-    const_assert_eq!(offset_of!(lastlog, ll_host), 16);
+    assertcp_eq!(LASTLOG_SZ, 272);
+    assertcp_eq!(offset_of!(lastlog, ll_time), 0);
+    assertcp_eq!(offset_of!(lastlog, ll_line), 8);
+    assertcp_eq!(offset_of!(lastlog, ll_host), 16);
 
     pub const PATH_LASTLOG: &str = "/var/log/lastlog";
 
@@ -2189,11 +2189,11 @@ pub mod openbsd_x86 {
     pub const UTMP_SZ_FO: FileOffset = UTMP_SZ as FileOffset;
     pub const UTMP_TIMEVALUE_OFFSET: usize = offset_of!(utmp, ut_time);
     pub const UTMP_TIMEVALUE_SZ: usize = size_of::<time_t>();
-    const_assert_eq!(UTMP_SZ, 304);
-    const_assert_eq!(offset_of!(utmp, ut_line), 0);
-    const_assert_eq!(offset_of!(utmp, ut_name), 8);
-    const_assert_eq!(offset_of!(utmp, ut_host), 40);
-    const_assert_eq!(offset_of!(utmp, ut_time), 296);
+    assertcp_eq!(UTMP_SZ, 304);
+    assertcp_eq!(offset_of!(utmp, ut_line), 0);
+    assertcp_eq!(offset_of!(utmp, ut_name), 8);
+    assertcp_eq!(offset_of!(utmp, ut_host), 40);
+    assertcp_eq!(offset_of!(utmp, ut_time), 296);
 
     pub const PATH_UTMP: &str = "/var/run/utmp";
     pub const PATH_WTMP: &str = "/var/log/wtmp";
@@ -4604,7 +4604,7 @@ macro_rules! set_buffer_at_or_err_cstrn {
 macro_rules! set_buffer_at_or_err_ut_type {
     ($buffer:ident, $at:ident, $ut_type:expr, $type_:ty, $len:ident) => ({{
         // sanity check passed number type is 2 bytes or less so `buffer_num` is enough
-        const_assert!(std::mem::size_of::<$type_>() <= 2);
+        assertcp!(std::mem::size_of::<$type_>() <= 2);
         let mut buffer_num = [0u8; 8];
         match &$ut_type {
             n if &0 <= n && n < &$len => {
@@ -4642,7 +4642,7 @@ macro_rules! set_buffer_at_or_err_ut_type_u16 {
 macro_rules! set_buffer_at_or_err_number {
     ($buffer:ident, $at:ident, $number:expr, $type_:ty) => ({{
         // sanity check passed number type is 8 bytes or less so `buffer_num` is enough
-        const_assert!(std::mem::size_of::<$type_>() <= 8);
+        assertcp!(std::mem::size_of::<$type_>() <= 8);
         let mut buffer_num = [0u8; 22];
         // XXX: copy to local variable to avoid packed warning
         let num_val = $number;

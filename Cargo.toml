@@ -41,7 +41,7 @@ exclude = [
 bstr = "1.9.1"
 chrono = "0.4.38"
 clap = { version = "=4.2.1", features = ["derive"] }
-const_format = "0.2.31"
+const_format = { version = "0.2.31", features = ["assertcp"] }
 crossbeam-channel = "0.5.12"
 dlopen2 = "0.7"
 encoding_rs = "0.8.34"
@@ -68,7 +68,6 @@ rand = "0.8.5"
 rangemap = "1.5.1"
 regex = "1.10.4"
 si_trace_print = "0.3.12"
-static_assertions = "1.1.0"
 tar = "0.4.40"
 termcolor = "1.1.3"
 unicode-width = "0.1.10"
