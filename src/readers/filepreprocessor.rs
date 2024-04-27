@@ -26,6 +26,7 @@ use std::path::Path;
 #[cfg(test)]
 use std::str::FromStr; // for `String::from_str`
 
+use ::jwalk;
 #[doc(hidden)]
 pub use ::mime_guess::MimeGuess;
 #[allow(unused_imports)]
@@ -930,12 +931,13 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
 
     let mut paths: Vec<ProcessPathResult> = Vec::<ProcessPathResult>::new();
 
+    deo!("jwalk::rayon::current_num_threads = {}", jwalk::rayon::current_num_threads());
+    deo!("jwalk::rayon::max_num_threads = {}", jwalk::rayon::max_num_threads());
+
     deo!("WalkDir({:?})…", path);
-    for entry in walkdir::WalkDir::new(path.as_str())
+    for entry in jwalk::WalkDir::new(path.as_str())
         .follow_links(true)
-        .contents_first(true)
-        .sort_by_file_name()
-        .same_file_system(false)
+        .sort(true)
     {
         // XXX: what is type `T` in `Result<T, E>` returned by `WalkDir`?
         let path_entry = match entry {
@@ -950,7 +952,7 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
         };
 
         deo!("analayzing {:?}", path_entry);
-        let std_path_entry: &Path = path_entry.path();
+        let std_path_entry: &Path = &path_entry.path();
         let fpath_entry: FPath = path_to_fpath(std_path_entry);
         if !path_entry
             .file_type()
