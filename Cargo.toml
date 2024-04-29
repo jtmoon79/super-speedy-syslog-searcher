@@ -46,7 +46,7 @@ crossbeam-channel = "0.5.12"
 dlopen2 = "0.7"
 encoding_rs = "0.8.34"
 evtx = { version = "0.8.2", features = ["multithreading"] }
-flate2 = "1.0.27"
+flate2 = "1.0.30"
 itertools = "0.12.1"
 jwalk = "0.8.1"
 kinded = "0.3.0"
