@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Windows10Pro/DISM/dism.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 22539
       lines         : 111

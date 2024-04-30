@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/RancherOS-1.5.8/boot/autologin
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 319
       lines         : 2

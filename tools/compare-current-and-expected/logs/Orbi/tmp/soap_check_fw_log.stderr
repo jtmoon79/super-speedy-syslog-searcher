@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Orbi/tmp/soap_check_fw_log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 2375
       lines         : 19

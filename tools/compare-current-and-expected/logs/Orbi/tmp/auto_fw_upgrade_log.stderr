@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Orbi/tmp/auto_fw_upgrade_log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1237
       lines         : 9

@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Ubuntu18/kern.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2754
       lines         : 19

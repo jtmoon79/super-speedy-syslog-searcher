@@ -59,7 +59,6 @@ use std::sync::Arc;
 use ::const_format::assertcp_eq;
 use ::itertools::Itertools; // brings in `sorted_by`
 use ::lru::LruCache;
-use ::mime_guess::MimeGuess;
 use ::more_asserts::{
     assert_le,
     debug_assert_le,
@@ -567,14 +566,6 @@ impl SyslineReader {
     #[inline(always)]
     pub const fn filesz(&self) -> FileSz {
         self.linereader.filesz()
-    }
-
-    /// See [`BlockReader::mimeguess`].
-    ///
-    /// [`BlockReader::mimeguess`]: crate::readers::blockreader::BlockReader#method.mimeguess
-    #[inline(always)]
-    pub const fn mimeguess(&self) -> MimeGuess {
-        self.linereader.mimeguess()
     }
 
     /// See [`BlockReader::path`].

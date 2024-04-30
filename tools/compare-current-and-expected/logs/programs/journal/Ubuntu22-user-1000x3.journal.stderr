@@ -5,7 +5,6 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   About:
       filetype       : JOURNAL
       logmessagetype : journal entries
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 12526
       journal events: 3

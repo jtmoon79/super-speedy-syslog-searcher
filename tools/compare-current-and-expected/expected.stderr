@@ -6,7 +6,6 @@ File: ./logs/CentOS7/x86_64/btmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/CentOS7/x86_64/lastlog
@@ -14,7 +13,6 @@ File: ./logs/CentOS7/x86_64/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/CentOS7/x86_64/utmp
@@ -22,7 +20,6 @@ File: ./logs/CentOS7/x86_64/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/CentOS7/x86_64/wtmp
@@ -31,7 +28,6 @@ File: ./logs/CentOS7/x86_64/wtmp
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 886
       entries       : 3
@@ -58,7 +54,6 @@ File: ./logs/CentOS9/x86_64/btmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/CentOS9/x86_64/wtmp
@@ -66,14 +61,12 @@ File: ./logs/CentOS9/x86_64/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/CentOS7/yum.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 24681
       lines         : 145
@@ -106,9 +99,8 @@ File: ./logs/CentOS7/yum.log
 
 File: ./logs/cygwin/setup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 14671
       lines         : 77
@@ -140,9 +132,8 @@ File: ./logs/cygwin/setup.log
 
 File: ./logs/cygwin/setup.log.full
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 12622
       lines         : 77
@@ -177,7 +168,6 @@ File: ./logs/Debian11/aarch64_ARM64/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/aarch64_ARM64/utmp
@@ -185,7 +175,6 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/aarch64_ARM64/wtmp
@@ -193,7 +182,6 @@ File: ./logs/Debian11/aarch64_ARM64/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/aarch64_ARMv6/lastlog
@@ -201,7 +189,6 @@ File: ./logs/Debian11/aarch64_ARMv6/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/aarch64_ARMv6/utmp
@@ -209,7 +196,6 @@ File: ./logs/Debian11/aarch64_ARMv6/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/aarch64_ARMv6/wtmp
@@ -217,7 +203,6 @@ File: ./logs/Debian11/aarch64_ARMv6/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/armv6l_ARMv6/lastlog
@@ -225,7 +210,6 @@ File: ./logs/Debian11/armv6l_ARMv6/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/armv6l_ARMv6/utmp
@@ -233,7 +217,6 @@ File: ./logs/Debian11/armv6l_ARMv6/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/armv6l_ARMv6/wtmp
@@ -241,7 +224,6 @@ File: ./logs/Debian11/armv6l_ARMv6/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/armv7l_ARMv6/lastlog
@@ -249,7 +231,6 @@ File: ./logs/Debian11/armv7l_ARMv6/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/armv7l_ARMv6/utmp
@@ -257,7 +238,6 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/armv7l_ARMv6/wtmp
@@ -265,7 +245,6 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
@@ -273,14 +252,12 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Debian11/alternatives.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 5887
       lines         : 15
@@ -312,9 +289,8 @@ File: ./logs/Debian11/alternatives.log
 
 File: ./logs/Debian11/apache2/access.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1289
       lines         : 5
@@ -346,9 +322,8 @@ File: ./logs/Debian11/apache2/access.log
 
 File: ./logs/Debian11/apache2/error.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1248
       lines         : 5
@@ -380,9 +355,8 @@ File: ./logs/Debian11/apache2/error.log
 
 File: ./logs/Debian11/dpkg.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 8499
       lines         : 49
@@ -414,9 +388,8 @@ File: ./logs/Debian11/dpkg.log
 
 File: ./logs/Debian11/kern.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 5761
       lines         : 21
@@ -449,9 +422,8 @@ File: ./logs/Debian11/kern.log
 
 File: ./logs/Debian11/messages
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 5589
       lines         : 21
@@ -484,9 +456,8 @@ File: ./logs/Debian11/messages
 
 File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1151
       lines         : 5
@@ -518,9 +489,8 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
 
 File: ./logs/Debian11/user.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 5913
       lines         : 25
@@ -553,9 +523,8 @@ File: ./logs/Debian11/user.log
 
 File: ./logs/Debian9/alternatives.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4872
       lines         : 19
@@ -587,9 +556,8 @@ File: ./logs/Debian9/alternatives.log
 
 File: ./logs/Debian9/apport.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1411
       lines         : 6
@@ -621,9 +589,8 @@ File: ./logs/Debian9/apport.log.1
 
 File: ./logs/Debian9/apt/eipp.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -654,9 +621,8 @@ File: ./logs/Debian9/apt/eipp.log
 
 File: ./logs/Debian9/apt/history.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1296
       lines         : 9
@@ -688,9 +654,8 @@ File: ./logs/Debian9/apt/history.log
 
 File: ./logs/Debian9/aptitude.4
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 2805
       lines         : 18
@@ -722,9 +687,8 @@ File: ./logs/Debian9/aptitude.4
 
 File: ./logs/Debian9/apt/term.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 49834
       lines         : 292
@@ -756,9 +720,8 @@ File: ./logs/Debian9/apt/term.log
 
 File: ./logs/Debian9/auth.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3861
       lines         : 19
@@ -791,9 +754,8 @@ File: ./logs/Debian9/auth.log
 
 File: ./logs/Debian9/boot.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -824,9 +786,8 @@ File: ./logs/Debian9/boot.log
 
 File: ./logs/Debian9/clamav/clamd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1458
       lines         : 8
@@ -858,9 +819,8 @@ File: ./logs/Debian9/clamav/clamd.log
 
 File: ./logs/Debian9/dpkg.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3204
       lines         : 19
@@ -892,9 +852,8 @@ File: ./logs/Debian9/dpkg.log.1
 
 File: ./logs/Debian9/kern.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3728
       lines         : 19
@@ -927,9 +886,8 @@ File: ./logs/Debian9/kern.log
 
 File: ./logs/Debian9/messages.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 264
       lines         : 1
@@ -962,9 +920,8 @@ File: ./logs/Debian9/messages.log
 
 File: ./logs/Debian9/nginx/access.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6346
       lines         : 19
@@ -996,9 +953,8 @@ File: ./logs/Debian9/nginx/access.log
 
 File: ./logs/Debian9/nginx/access.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6346
       lines         : 19
@@ -1030,9 +986,8 @@ File: ./logs/Debian9/nginx/access.log.1
 
 File: ./logs/Debian9/nginx/error.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6099
       lines         : 19
@@ -1064,9 +1019,8 @@ File: ./logs/Debian9/nginx/error.log
 
 File: ./logs/Debian9/nginx/error.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6099
       lines         : 19
@@ -1098,9 +1052,8 @@ File: ./logs/Debian9/nginx/error.log.1
 
 File: ./logs/Debian9/samba/log.192.168.0.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 380
       lines         : 2
@@ -1132,9 +1085,8 @@ File: ./logs/Debian9/samba/log.192.168.0.1
 
 File: ./logs/Debian9/samba/log.192.168.0.2
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 381
       lines         : 2
@@ -1166,9 +1118,8 @@ File: ./logs/Debian9/samba/log.192.168.0.2
 
 File: ./logs/Debian9/samba/log.host1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 381
       lines         : 2
@@ -1200,9 +1151,8 @@ File: ./logs/Debian9/samba/log.host1
 
 File: ./logs/Debian9/samba/log.host2
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 380
       lines         : 2
@@ -1234,9 +1184,8 @@ File: ./logs/Debian9/samba/log.host2
 
 File: ./logs/Debian9/samba/log.nmbd
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 559
       lines         : 3
@@ -1268,9 +1217,8 @@ File: ./logs/Debian9/samba/log.nmbd
 
 File: ./logs/Debian9/samba/log.nmbd.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3696
       lines         : 18
@@ -1302,9 +1250,8 @@ File: ./logs/Debian9/samba/log.nmbd.1
 
 File: ./logs/Debian9/samba/log.nmbd.old
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3696
       lines         : 18
@@ -1336,9 +1283,8 @@ File: ./logs/Debian9/samba/log.nmbd.old
 
 File: ./logs/Debian9/samba/log.smbd.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 375
       lines         : 2
@@ -1370,9 +1316,8 @@ File: ./logs/Debian9/samba/log.smbd.1
 
 File: ./logs/Debian9/syslog
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3958
       lines         : 19
@@ -1405,9 +1350,8 @@ File: ./logs/Debian9/syslog
 
 File: ./logs/Debian9/user.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 697
       lines         : 3
@@ -1440,9 +1384,8 @@ File: ./logs/Debian9/user.log.1
 
 File: ./logs/Debian9/Xorg.0.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -1473,9 +1416,8 @@ File: ./logs/Debian9/Xorg.0.log
 
 File: ./logs/Debian9/Xorg.0.log.old
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -1506,9 +1448,8 @@ File: ./logs/Debian9/Xorg.0.log.old
 
 File: ./logs/FedoraRemix29/dnf.librepo.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6168
       lines         : 27
@@ -1540,9 +1481,8 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
 
 File: ./logs/FedoraRemix29/dnf.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 89471
       lines         : 476
@@ -1574,9 +1514,8 @@ File: ./logs/FedoraRemix29/dnf.log
 
 File: ./logs/FedoraRemix29/hawkeye.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 7574
       lines         : 37
@@ -1609,9 +1548,8 @@ File: ./logs/FedoraRemix29/hawkeye.log
 
 File: ./logs/MinGW64/pacman.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 17021
       lines         : 102
@@ -1646,7 +1584,6 @@ File: ./logs/NetBSD9.3/x86_32/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_32/lastlogx
@@ -1654,7 +1591,6 @@ File: ./logs/NetBSD9.3/x86_32/lastlogx
       filetype       : LASTLOGX
       fixedstructtype: Lastlogx
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : FileErrNoValidFixedStruct
 
 File: ./logs/NetBSD9.3/x86_32/utmp
@@ -1662,7 +1598,6 @@ File: ./logs/NetBSD9.3/x86_32/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_32/utmpx
@@ -1670,7 +1605,6 @@ File: ./logs/NetBSD9.3/x86_32/utmpx
       filetype       : UTMPX/WTMPX
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_32/wtmp
@@ -1678,7 +1612,6 @@ File: ./logs/NetBSD9.3/x86_32/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_32/wtmpx
@@ -1686,7 +1619,6 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx
       filetype       : UTMPX/WTMPX
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_32/wtmpx.0
@@ -1694,7 +1626,6 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx.0
       filetype       : UTMPX/WTMPX
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_64/lastlog
@@ -1702,7 +1633,6 @@ File: ./logs/NetBSD9.3/x86_64/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_64/lastlogx
@@ -1710,7 +1640,6 @@ File: ./logs/NetBSD9.3/x86_64/lastlogx
       filetype       : LASTLOGX
       fixedstructtype: Lastlogx
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : FileErrNoValidFixedStruct
 
 File: ./logs/NetBSD9.3/x86_64/utmp
@@ -1718,7 +1647,6 @@ File: ./logs/NetBSD9.3/x86_64/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_64/utmpx
@@ -1726,7 +1654,6 @@ File: ./logs/NetBSD9.3/x86_64/utmpx
       filetype       : UTMPX/WTMPX
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_64/wtmp
@@ -1734,7 +1661,6 @@ File: ./logs/NetBSD9.3/x86_64/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/NetBSD9.3/x86_64/wtmpx
@@ -1742,7 +1668,6 @@ File: ./logs/NetBSD9.3/x86_64/wtmpx
       filetype       : UTMPX/WTMPX
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/OpenBSD7.2/x86_32/lastlog
@@ -1750,7 +1675,6 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/OpenBSD7.2/x86_32/lastlog.1
@@ -1758,7 +1682,6 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog.1
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/OpenBSD7.2/x86_32/utmp.1
@@ -1766,7 +1689,6 @@ File: ./logs/OpenBSD7.2/x86_32/utmp.1
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/OpenBSD7.2/x86_32/wtmp
@@ -1775,7 +1697,6 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Utmp
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1228
       entries       : 7
@@ -1803,7 +1724,6 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Utmp
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1228
       entries       : 7
@@ -1830,7 +1750,6 @@ File: ./logs/OpenBSD7.4/x86_64/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/OpenBSD7.4/x86_64/utmp
@@ -1838,7 +1757,6 @@ File: ./logs/OpenBSD7.4/x86_64/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/OpenBSD7.4/x86_64/wtmp
@@ -1846,14 +1764,12 @@ File: ./logs/OpenBSD7.4/x86_64/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/OpenSUSE15/YaST2/y2log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 4199
       lines         : 20
@@ -1885,9 +1801,8 @@ File: ./logs/OpenSUSE15/YaST2/y2log
 
 File: ./logs/OpenSUSE15/zypper.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4874
       lines         : 19
@@ -1919,9 +1834,8 @@ File: ./logs/OpenSUSE15/zypper.log
 
 File: ./logs/OpenSUSE15/zypp/history
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 9094
       lines         : 39
@@ -1953,9 +1867,8 @@ File: ./logs/OpenSUSE15/zypp/history
 
 File: ./logs/Orbi/tmp/auto_fw_upgrade_log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1642
       lines         : 9
@@ -1987,9 +1900,8 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
 
 File: ./logs/Orbi/tmp/dal_ash.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1830
       lines         : 9
@@ -2021,9 +1933,8 @@ File: ./logs/Orbi/tmp/dal_ash.log
 
 File: ./logs/Orbi/tmp/soap_check_fw_log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3268
       lines         : 19
@@ -2055,9 +1966,8 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
 
 File: ./logs/Orbi/tmp/UpAgent.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3974
       lines         : 19
@@ -2089,9 +1999,8 @@ File: ./logs/Orbi/tmp/UpAgent.log
 
 File: ./logs/Orbi/tmp/xagent.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3704
       lines         : 19
@@ -2123,9 +2032,8 @@ File: ./logs/Orbi/tmp/xagent.log
 
 File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3973
       lines         : 19
@@ -2157,9 +2065,8 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
 
 File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3973
       lines         : 19
@@ -2191,9 +2098,8 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
 
 File: ./logs/Orbi/var/log/soapclient/soap_agent
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 4244
       lines         : 19
@@ -2225,9 +2131,8 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
 
 File: ./logs/Orbi/var/log/soapclient/soap_agent.old
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 4142
       lines         : 19
@@ -2259,16 +2164,14 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
 
 File: ./logs/other/tests/empty.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
       Processing Err : FileErrEmpty
 
 File: ./logs/other/tests/basic-basic-dt10-repeats.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 7315
       lines         : 55
@@ -2300,9 +2203,8 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
 
 File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 7644
       lines         : 55
@@ -2334,9 +2236,8 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
 
 File: ./logs/other/tests/basic-basic-dt20.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2619
       lines         : 20
@@ -2368,9 +2269,8 @@ File: ./logs/other/tests/basic-basic-dt20.log
 
 File: ./logs/other/tests/basic-dt1.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 131
       lines         : 1
@@ -2402,9 +2302,8 @@ File: ./logs/other/tests/basic-dt1.log
 
 File: ./logs/other/tests/basic-dt27.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3887
       lines         : 27
@@ -2436,9 +2335,8 @@ File: ./logs/other/tests/basic-dt27.log
 
 File: ./logs/other/tests/basic-dt2b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 487
       lines         : 4
@@ -2470,9 +2368,8 @@ File: ./logs/other/tests/basic-dt2b.log
 
 File: ./logs/other/tests/basic-dt2.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 262
       lines         : 2
@@ -2504,9 +2401,8 @@ File: ./logs/other/tests/basic-dt2.log
 
 File: ./logs/other/tests/basic-dt6.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 800
       lines         : 6
@@ -2538,9 +2434,8 @@ File: ./logs/other/tests/basic-dt6.log
 
 File: ./logs/other/tests/basic-dt-u.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 7262
       lines         : 54
@@ -2572,9 +2467,8 @@ File: ./logs/other/tests/basic-dt-u.log
 
 File: ./logs/other/tests/basic-dt-u-mixnl.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 7735
       lines         : 64
@@ -2606,9 +2500,8 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
 
 File: ./logs/other/tests/dtf10-10a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1186
       lines         : 8
@@ -2640,9 +2533,8 @@ File: ./logs/other/tests/dtf10-10a.log
 
 File: ./logs/other/tests/dtf10-10b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1841
       lines         : 13
@@ -2674,9 +2566,8 @@ File: ./logs/other/tests/dtf10-10b.log
 
 File: ./logs/other/tests/dtf11-A.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1923
       lines         : 13
@@ -2708,9 +2599,8 @@ File: ./logs/other/tests/dtf11-A.log
 
 File: ./logs/other/tests/dtf12a-x2_patts.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1183
       lines         : 8
@@ -2742,9 +2632,8 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
 
 File: ./logs/other/tests/dtf12b-x2_patts.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1042
       lines         : 7
@@ -2776,9 +2665,8 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
 
 File: ./logs/other/tests/dtf12c-x3_patts.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1782
       lines         : 12
@@ -2810,9 +2698,8 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
 
 File: ./logs/other/tests/dtf13a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 564
       lines         : 3
@@ -2844,9 +2731,8 @@ File: ./logs/other/tests/dtf13a.log
 
 File: ./logs/other/tests/dtf13b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 561
       lines         : 3
@@ -2878,9 +2764,8 @@ File: ./logs/other/tests/dtf13b.log
 
 File: ./logs/other/tests/dtf13c.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 564
       lines         : 3
@@ -2912,9 +2797,8 @@ File: ./logs/other/tests/dtf13c.log
 
 File: ./logs/other/tests/dtf13d.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 555
       lines         : 3
@@ -2946,9 +2830,8 @@ File: ./logs/other/tests/dtf13d.log
 
 File: ./logs/other/tests/dtf14a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -2980,9 +2863,8 @@ File: ./logs/other/tests/dtf14a.log
 
 File: ./logs/other/tests/dtf15a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -3014,9 +2896,8 @@ File: ./logs/other/tests/dtf15a.log
 
 File: ./logs/other/tests/dtf15b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -3048,9 +2929,8 @@ File: ./logs/other/tests/dtf15b.log
 
 File: ./logs/other/tests/dtf16a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -3082,9 +2962,8 @@ File: ./logs/other/tests/dtf16a.log
 
 File: ./logs/other/tests/dtf16b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -3116,9 +2995,8 @@ File: ./logs/other/tests/dtf16b.log
 
 File: ./logs/other/tests/dtf16c.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -3150,9 +3028,8 @@ File: ./logs/other/tests/dtf16c.log
 
 File: ./logs/other/tests/dtf16d.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -3184,9 +3061,8 @@ File: ./logs/other/tests/dtf16d.log
 
 File: ./logs/other/tests/dtf16e.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -3218,9 +3094,8 @@ File: ./logs/other/tests/dtf16e.log
 
 File: ./logs/other/tests/dtf2-2.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 393
       lines         : 3
@@ -3252,9 +3127,8 @@ File: ./logs/other/tests/dtf2-2.log
 
 File: ./logs/other/tests/dtf3-1.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 140
       lines         : 1
@@ -3286,9 +3160,8 @@ File: ./logs/other/tests/dtf3-1.log
 
 File: ./logs/other/tests/dtf3-2a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 290
       lines         : 2
@@ -3320,9 +3193,8 @@ File: ./logs/other/tests/dtf3-2a.log
 
 File: ./logs/other/tests/dtf3-2b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 515
       lines         : 4
@@ -3354,9 +3226,8 @@ File: ./logs/other/tests/dtf3-2b.log
 
 File: ./logs/other/tests/dtf4-2a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 304
       lines         : 2
@@ -3388,9 +3259,8 @@ File: ./logs/other/tests/dtf4-2a.log
 
 File: ./logs/other/tests/dtf4-2b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 417
       lines         : 3
@@ -3422,9 +3292,8 @@ File: ./logs/other/tests/dtf4-2b.log
 
 File: ./logs/other/tests/dtf5-1.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 139
       lines         : 1
@@ -3456,9 +3325,8 @@ File: ./logs/other/tests/dtf5-1.log
 
 File: ./logs/other/tests/dtf5-2a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 282
       lines         : 2
@@ -3490,9 +3358,8 @@ File: ./logs/other/tests/dtf5-2a.log
 
 File: ./logs/other/tests/dtf5-2b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 507
       lines         : 4
@@ -3524,9 +3391,8 @@ File: ./logs/other/tests/dtf5-2b.log
 
 File: ./logs/other/tests/dtf5-2c.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 732
       lines         : 6
@@ -3558,9 +3424,8 @@ File: ./logs/other/tests/dtf5-2c.log
 
 File: ./logs/other/tests/dtf5-3-LF-CR.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 633
       lines         : 4
@@ -3592,9 +3457,8 @@ File: ./logs/other/tests/dtf5-3-LF-CR.log
 
 File: ./logs/other/tests/dtf5-3-r-n.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 865
       lines         : 6
@@ -3626,9 +3490,8 @@ File: ./logs/other/tests/dtf5-3-r-n.log
 
 File: ./logs/other/tests/dtf5-6a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 860
       lines         : 6
@@ -3660,9 +3523,8 @@ File: ./logs/other/tests/dtf5-6a.log
 
 File: ./logs/other/tests/dtf5-6a.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 860
       lines         : 6
@@ -3694,9 +3556,8 @@ File: ./logs/other/tests/dtf5-6a.log.1
 
 File: ./logs/other/tests/dtf5-6a.log.gz
   About:
-      filetype       : GZIP
+      filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/gzip"])
   Printed:
       bytes         : 860
       lines         : 6
@@ -3729,9 +3590,8 @@ File: ./logs/other/tests/dtf5-6a.log.gz
 
 File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz
   About:
-      filetype       : TAR
+      filetype       : TEXT UTF8/ASCII (tar)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/gzip"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -3763,9 +3623,8 @@ File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz
 
 File: ./logs/other/tests/dtf5-6a.log.old
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 860
       lines         : 6
@@ -3797,9 +3656,8 @@ File: ./logs/other/tests/dtf5-6a.log.old
 
 File: ./logs/other/tests/dtf5-6a.log.xz
   About:
-      filetype       : XZ
+      filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/x-xz"])
   Printed:
       bytes         : 860
       lines         : 6
@@ -3832,9 +3690,8 @@ File: ./logs/other/tests/dtf5-6a.log.xz
 
 File: ./logs/other/tests/dtf5-6b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1581
       lines         : 12
@@ -3866,9 +3723,8 @@ File: ./logs/other/tests/dtf5-6b.log
 
 File: ./logs/other/tests/dtf5-6c.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4381
       lines         : 32
@@ -3900,9 +3756,8 @@ File: ./logs/other/tests/dtf5-6c.log
 
 File: ./logs/other/tests/dtf6z-1.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 744
       lines         : 5
@@ -3934,9 +3789,8 @@ File: ./logs/other/tests/dtf6z-1.log
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3480
       lines         : 20
@@ -3968,9 +3822,8 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
   About:
-      filetype       : GZIP
+      filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/gzip"])
   Printed:
       bytes         : 3480
       lines         : 20
@@ -4003,9 +3856,8 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.old
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3480
       lines         : 20
@@ -4037,9 +3889,8 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
   About:
-      filetype       : GZIP
+      filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/gzip"])
   Printed:
       bytes         : 3480
       lines         : 20
@@ -4072,9 +3923,8 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVELS.log
   About:
-      filetype       : TAR
+      filetype       : TEXT UTF8/ASCII (tar)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3480
       lines         : 20
@@ -4107,9 +3957,8 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVEL
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
   About:
-      filetype       : XZ
+      filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/x-xz"])
   Printed:
       bytes         : 3480
       lines         : 20
@@ -4142,9 +3991,8 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
 
 File: ./logs/other/tests/dtf7-5-LEVELS.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 827
       lines         : 5
@@ -4176,9 +4024,8 @@ File: ./logs/other/tests/dtf7-5-LEVELS.log
 
 File: ./logs/other/tests/dtf8-20-LEVELS.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3600
       lines         : 20
@@ -4210,9 +4057,8 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
 
 File: ./logs/other/tests/dtf9a-2.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 700
       lines         : 2
@@ -4245,9 +4091,8 @@ File: ./logs/other/tests/dtf9a-2.log
 
 File: ./logs/other/tests/dtf9b-12-leapday.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -4278,9 +4123,8 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
 
 File: ./logs/other/tests/dtf9c-12-baddate.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -4311,9 +4155,8 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
 
 File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
   About:
-      filetype       : TAR
+      filetype       : TEXT UTF8/ASCII (tar)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3206
       lines         : 25
@@ -4347,9 +4190,8 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
 
 File: ./logs/other/tests/dtf9c-23-12x2.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3206
       lines         : 25
@@ -4382,9 +4224,8 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
 
 File: ./logs/other/tests/dtf9d-12x3-37.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 5057
       lines         : 38
@@ -4417,9 +4258,8 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
 
 File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3190
       lines         : 24
@@ -4452,9 +4292,8 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
 
 File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3302
       lines         : 25
@@ -4487,9 +4326,8 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
 
 File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2134
       lines         : 16
@@ -4522,9 +4360,8 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
 
 File: ./logs/other/tests/dtf-varying-10.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1406
       lines         : 10
@@ -4556,9 +4393,8 @@ File: ./logs/other/tests/dtf-varying-10.log
 
 File: ./logs/other/tests/dt-mix1.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2751
       lines         : 21
@@ -4590,32 +4426,28 @@ File: ./logs/other/tests/dt-mix1.log
 
 File: ./logs/other/tests/empty.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
       Processing Err : FileErrEmpty
 
 File: ./logs/other/tests/empty.log.gz
   About:
-      filetype       : GZIP
+      filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/gzip"])
       Processing Err : invalid data
   Error: gzip file size 0 is too small for "./logs/other/tests/empty.log.gz"
 
 File: ./logs/other/tests/empty.log.xz
   About:
-      filetype       : XZ
+      filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/x-xz"])
       Processing Err : unexpected end of file
   Error: failed to fill whole buffer (FileXz stream header magic bytes) file "./logs/other/tests/empty.log.xz"
 
 File: ./logs/other/tests/invalid.gz
   About:
-      filetype       : GZIP
+      filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/gzip"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -4650,23 +4482,20 @@ File: ./logs/other/tests/invalid.journal
   About:
       filetype       : JOURNAL
       logmessagetype : journal entries
-      MIME guess     : MimeGuess([])
       Processing Err : other error
   Error: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
 
 File: ./logs/other/tests/invalid.xz
   About:
-      filetype       : XZ
+      filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/x-xz"])
       Processing Err : invalid data
   Error: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
 
 File: ./logs/other/tests/invalid1a.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -4697,9 +4526,8 @@ File: ./logs/other/tests/invalid1a.log
 
 File: ./logs/other/tests/invalid1b.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -4730,9 +4558,8 @@ File: ./logs/other/tests/invalid1b.log
 
 File: ./logs/other/tests/invalid2.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 329
       lines         : 2
@@ -4764,9 +4591,8 @@ File: ./logs/other/tests/invalid2.log
 
 File: ./logs/other/tests/invalid3.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 335
       lines         : 2
@@ -4798,9 +4624,8 @@ File: ./logs/other/tests/invalid3.log
 
 File: ./logs/other/tests/invalid4.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 331
       lines         : 2
@@ -4832,9 +4657,8 @@ File: ./logs/other/tests/invalid4.log
 
 File: ./logs/other/tests/unknown
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 636
       lines         : 4
@@ -4866,9 +4690,8 @@ File: ./logs/other/tests/unknown
 
 File: ./logs/other/tests/zero100.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -4899,9 +4722,8 @@ File: ./logs/other/tests/zero100.log
 
 File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 7519
       lines         : 33
@@ -4933,9 +4755,8 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
 
 File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -4968,7 +4789,6 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
   About:
       filetype       : EVTX
       logmessagetype : evtx entries
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1251407
       Events        : 227
@@ -4980,9 +4800,8 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
 
 File: ./logs/programs/flask/server.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -5016,7 +4835,6 @@ File: ./logs/programs/journal/RHE_91_system.journal
   About:
       filetype       : JOURNAL
       logmessagetype : journal entries
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 7750206
       journal events: 2078
@@ -5031,7 +4849,6 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   About:
       filetype       : JOURNAL
       logmessagetype : journal entries
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 15606
       journal events: 3
@@ -5044,9 +4861,8 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
 
 File: ./logs/programs/pacman/pacman.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 33728
       lines         : 195
@@ -5078,9 +4894,8 @@ File: ./logs/programs/pacman/pacman.log
 
 File: ./logs/programs/proftpd/controls.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1336
       lines         : 6
@@ -5112,9 +4927,8 @@ File: ./logs/programs/proftpd/controls.log
 
 File: ./logs/programs/proftpd/proftpd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4183
       lines         : 19
@@ -5146,9 +4960,8 @@ File: ./logs/programs/proftpd/proftpd.log
 
 File: ./logs/programs/proftpd/xferlog
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 612
       lines         : 3
@@ -5180,9 +4993,8 @@ File: ./logs/programs/proftpd/xferlog
 
 File: ./logs/programs/tomcat/catalina.out
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 4163
       lines         : 21
@@ -5214,9 +5026,8 @@ File: ./logs/programs/tomcat/catalina.out
 
 File: ./logs/programs/tomcat/catalina-access.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 654
       lines         : 2
@@ -5248,9 +5059,8 @@ File: ./logs/programs/tomcat/catalina-access.log
 
 File: ./logs/RancherOS-1.5.8/boot/autologin
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 405
       lines         : 2
@@ -5282,9 +5092,8 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
 
 File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2062
       lines         : 10
@@ -5316,9 +5125,8 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
 
 File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1065
       lines         : 5
@@ -5350,9 +5158,8 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
 
 File: ./logs/RancherOS-1.5.8/boot/init.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4499
       lines         : 21
@@ -5384,9 +5191,8 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
 
 File: ./logs/RancherOS-1.5.8/boot/netconf.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 5341
       lines         : 21
@@ -5418,9 +5224,8 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
 
 File: ./logs/RancherOS-1.5.8/boot/respawn.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4040
       lines         : 21
@@ -5452,9 +5257,8 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
 
 File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3830
       lines         : 21
@@ -5486,9 +5290,8 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
 
 File: ./logs/RancherOS-1.5.8/boot/shutdown.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1936
       lines         : 10
@@ -5520,9 +5323,8 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
 
 File: ./logs/RancherOS-1.5.8/dockerlaunch.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 9552
       lines         : 45
@@ -5554,9 +5356,8 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
 
 File: ./logs/RancherOS-1.5.8/docker.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 16502
       lines         : 66
@@ -5588,9 +5389,8 @@ File: ./logs/RancherOS-1.5.8/docker.log
 
 File: ./logs/RancherOS-1.5.8/messages
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 53220
       lines         : 234
@@ -5623,9 +5423,8 @@ File: ./logs/RancherOS-1.5.8/messages
 
 File: ./logs/RancherOS-1.5.8/syslog
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 2377
       lines         : 10
@@ -5658,9 +5457,8 @@ File: ./logs/RancherOS-1.5.8/syslog
 
 File: ./logs/RancherOS-1.5.8/system-docker.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4643
       lines         : 20
@@ -5692,9 +5490,8 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
 
 File: ./logs/RedHatEnterprise9/audit/audit.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3874
       lines         : 10
@@ -5727,9 +5524,8 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
 
 File: ./logs/RockyLinux9/cron
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 25408
       lines         : 116
@@ -5762,9 +5558,8 @@ File: ./logs/RockyLinux9/cron
 
 File: ./logs/RockyLinux9/dnf.librepo.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 27695
       lines         : 104
@@ -5796,9 +5591,8 @@ File: ./logs/RockyLinux9/dnf.librepo.log
 
 File: ./logs/RockyLinux9/dnf.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 141666
       lines         : 763
@@ -5830,9 +5624,8 @@ File: ./logs/RockyLinux9/dnf.log
 
 File: ./logs/RockyLinux9/dnf.rpm.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6729
       lines         : 39
@@ -5864,9 +5657,8 @@ File: ./logs/RockyLinux9/dnf.rpm.log
 
 File: ./logs/RockyLinux9/hawkey.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4787
       lines         : 28
@@ -5898,9 +5690,8 @@ File: ./logs/RockyLinux9/hawkey.log
 
 File: ./logs/RockyLinux9/messages
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 526088
       lines         : 2432
@@ -5933,9 +5724,8 @@ File: ./logs/RockyLinux9/messages
 
 File: ./logs/RockyLinux9/messages-DropletAgent
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 9336
       lines         : 37
@@ -5968,9 +5758,8 @@ File: ./logs/RockyLinux9/messages-DropletAgent
 
 File: ./logs/RockyLinux9/nginx/access.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 996
       lines         : 4
@@ -6002,9 +5791,8 @@ File: ./logs/RockyLinux9/nginx/access.log
 
 File: ./logs/RockyLinux9/nginx/error.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 683
       lines         : 2
@@ -6036,9 +5824,8 @@ File: ./logs/RockyLinux9/nginx/error.log
 
 File: ./logs/RockyLinux9/secure
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 134064
       lines         : 546
@@ -6071,9 +5858,8 @@ File: ./logs/RockyLinux9/secure
 
 File: ./logs/synology-DS6/apparmor.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3851
       lines         : 19
@@ -6105,9 +5891,8 @@ File: ./logs/synology-DS6/apparmor.log
 
 File: ./logs/synology-DS6/auth.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4276
       lines         : 19
@@ -6139,9 +5924,8 @@ File: ./logs/synology-DS6/auth.log
 
 File: ./logs/synology-DS6/checker.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3820
       lines         : 19
@@ -6173,9 +5957,8 @@ File: ./logs/synology-DS6/checker.log
 
 File: ./logs/synology-DS6/cloudsync/daemon.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1590
       lines         : 7
@@ -6208,9 +5991,8 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
 
 File: ./logs/synology-DS6/datascrubbing.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4515
       lines         : 19
@@ -6242,9 +6024,8 @@ File: ./logs/synology-DS6/datascrubbing.log
 
 File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 136
       lines         : 1
@@ -6276,9 +6057,8 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
 
 File: ./logs/synology-DS6/disk.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4294
       lines         : 19
@@ -6310,9 +6090,8 @@ File: ./logs/synology-DS6/disk.log
 
 File: ./logs/synology-DS6/dmesg
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3817
       lines         : 19
@@ -6344,9 +6123,8 @@ File: ./logs/synology-DS6/dmesg
 
 File: ./logs/synology-DS6/downloadstation.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4296
       lines         : 19
@@ -6378,9 +6156,8 @@ File: ./logs/synology-DS6/downloadstation.log
 
 File: ./logs/synology-DS6/dpkg.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3565
       lines         : 19
@@ -6412,9 +6189,8 @@ File: ./logs/synology-DS6/dpkg.log
 
 File: ./logs/synology-DS6/dpkg_upgrade.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3520
       lines         : 19
@@ -6446,9 +6222,8 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
 
 File: ./logs/synology-DS6/esynoscheduler.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3736
       lines         : 19
@@ -6480,9 +6255,8 @@ File: ./logs/synology-DS6/esynoscheduler.log
 
 File: ./logs/synology-DS6/fsck/root.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 9293
       lines         : 66
@@ -6514,9 +6288,8 @@ File: ./logs/synology-DS6/fsck/root.log
 
 File: ./logs/synology-DS6/ha.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4666
       lines         : 19
@@ -6548,9 +6321,8 @@ File: ./logs/synology-DS6/ha.log
 
 File: ./logs/synology-DS6/iscsi.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4417
       lines         : 19
@@ -6582,9 +6354,8 @@ File: ./logs/synology-DS6/iscsi.log
 
 File: ./logs/synology-DS6/kern.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4373
       lines         : 19
@@ -6616,9 +6387,8 @@ File: ./logs/synology-DS6/kern.log
 
 File: ./logs/synology-DS6/messages
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 5700
       lines         : 19
@@ -6650,9 +6420,8 @@ File: ./logs/synology-DS6/messages
 
 File: ./logs/synology-DS6/opentftp.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3505
       lines         : 21
@@ -6684,9 +6453,8 @@ File: ./logs/synology-DS6/opentftp.log
 
 File: ./logs/synology-DS6/packages/CloudSync.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3710
       lines         : 19
@@ -6718,9 +6486,8 @@ File: ./logs/synology-DS6/packages/CloudSync.log
 
 File: ./logs/synology-DS6/packages/DownloadStation.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3065
       lines         : 19
@@ -6752,9 +6519,8 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
 
 File: ./logs/synology-DS6/packages/FileStation.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3975
       lines         : 19
@@ -6786,9 +6552,8 @@ File: ./logs/synology-DS6/packages/FileStation.log
 
 File: ./logs/synology-DS6/packages/GlacierBackup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3761
       lines         : 19
@@ -6820,9 +6585,8 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
 
 File: ./logs/synology-DS6/packages/HyperBackup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3709
       lines         : 19
@@ -6854,9 +6618,8 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
 
 File: ./logs/synology-DS6/packages/HyperBackupVault.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3579
       lines         : 19
@@ -6888,9 +6651,8 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
 
 File: ./logs/synology-DS6/packages/LogCenter.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3032
       lines         : 19
@@ -6922,9 +6684,8 @@ File: ./logs/synology-DS6/packages/LogCenter.log
 
 File: ./logs/synology-DS6/packages/Node.js_v4.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3848
       lines         : 19
@@ -6956,9 +6717,8 @@ File: ./logs/synology-DS6/packages/Node.js_v4.log
 
 File: ./logs/synology-DS6/packages/Node.js_v8.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4144
       lines         : 19
@@ -6990,9 +6750,8 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
 
 File: ./logs/synology-DS6/packages/StorageAnalyzer.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3160
       lines         : 19
@@ -7024,9 +6783,8 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
 
 File: ./logs/synology-DS6/packages/SurveillanceStation.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3451
       lines         : 19
@@ -7058,9 +6816,8 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
 
 File: ./logs/synology-DS6/packages/SynoFinder.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3945
       lines         : 19
@@ -7092,9 +6849,8 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
 
 File: ./logs/synology-DS6/packages/SynologyApplicationService.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3684
       lines         : 19
@@ -7126,9 +6882,8 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
 
 File: ./logs/synology-DS6/packages/SynologyDrive.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3613
       lines         : 19
@@ -7160,9 +6915,8 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
 
 File: ./logs/synology-DS6/packages/SynologyMoments.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3252
       lines         : 19
@@ -7194,9 +6948,8 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
 
 File: ./logs/synology-DS6/packages/USBCopy.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3695
       lines         : 19
@@ -7228,9 +6981,8 @@ File: ./logs/synology-DS6/packages/USBCopy.log
 
 File: ./logs/synology-DS6/postgresql.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4435
       lines         : 19
@@ -7262,9 +7014,8 @@ File: ./logs/synology-DS6/postgresql.log
 
 File: ./logs/synology-DS6/router.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4413
       lines         : 19
@@ -7296,9 +7047,8 @@ File: ./logs/synology-DS6/router.log
 
 File: ./logs/synology-DS6/samba/log.nmbd
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3172
       lines         : 19
@@ -7330,9 +7080,8 @@ File: ./logs/synology-DS6/samba/log.nmbd
 
 File: ./logs/synology-DS6/samba/log.smbd
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3200
       lines         : 19
@@ -7364,9 +7113,8 @@ File: ./logs/synology-DS6/samba/log.smbd
 
 File: ./logs/synology-DS6/scemd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4458
       lines         : 19
@@ -7398,9 +7146,8 @@ File: ./logs/synology-DS6/scemd.log
 
 File: ./logs/synology-DS6/sfdisk.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3950
       lines         : 19
@@ -7432,9 +7179,8 @@ File: ./logs/synology-DS6/sfdisk.log
 
 File: ./logs/synology-DS6/smart_extend_log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1154
       lines         : 8
@@ -7466,9 +7212,8 @@ File: ./logs/synology-DS6/smart_extend_log
 
 File: ./logs/synology-DS6/smart_quick_log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1154
       lines         : 8
@@ -7500,9 +7245,8 @@ File: ./logs/synology-DS6/smart_quick_log
 
 File: ./logs/synology-DS6/space_operation_error.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4462
       lines         : 19
@@ -7535,9 +7279,8 @@ File: ./logs/synology-DS6/space_operation_error.log
 
 File: ./logs/synology-DS6/surveillance/ssnotification.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4204
       lines         : 19
@@ -7570,9 +7313,8 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
 
 File: ./logs/synology-DS6/surveillance/ssrotate.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4242
       lines         : 19
@@ -7605,9 +7347,8 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
 
 File: ./logs/synology-DS6/surveillance/surveillance.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4174
       lines         : 19
@@ -7640,9 +7381,8 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
 
 File: ./logs/synology-DS6/synobackup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3219
       lines         : 15
@@ -7674,9 +7414,8 @@ File: ./logs/synology-DS6/synobackup.log
 
 File: ./logs/synology-DS6/synocmsclient.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2717
       lines         : 19
@@ -7708,9 +7447,8 @@ File: ./logs/synology-DS6/synocmsclient.log
 
 File: ./logs/synology-DS6/synocontentextractd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 5735
       lines         : 19
@@ -7742,9 +7480,8 @@ File: ./logs/synology-DS6/synocontentextractd.log
 
 File: ./logs/synology-DS6/synocrond-execute.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -7775,9 +7512,8 @@ File: ./logs/synology-DS6/synocrond-execute.log
 
 File: ./logs/synology-DS6/synocrond.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2860
       lines         : 11
@@ -7809,9 +7545,8 @@ File: ./logs/synology-DS6/synocrond.log
 
 File: ./logs/synology-DS6/synofeasibilitycheck.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 5574
       lines         : 19
@@ -7843,9 +7578,8 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
 
 File: ./logs/synology-DS6/synoindex.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2323
       lines         : 8
@@ -7877,9 +7611,8 @@ File: ./logs/synology-DS6/synoindex.log
 
 File: ./logs/synology-DS6/synolog/synobackup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3480
       lines         : 16
@@ -7911,9 +7644,8 @@ File: ./logs/synology-DS6/synolog/synobackup.log
 
 File: ./logs/synology-DS6/synolog/synobackup_server.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4245
       lines         : 19
@@ -7945,9 +7677,8 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
 
 File: ./logs/synology-DS6/synologydrive.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4359
       lines         : 18
@@ -7979,9 +7710,8 @@ File: ./logs/synology-DS6/synologydrive.log
 
 File: ./logs/synology-DS6/synophoto.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4891
       lines         : 19
@@ -8013,9 +7743,8 @@ File: ./logs/synology-DS6/synophoto.log
 
 File: ./logs/synology-DS6/synopkg.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4216
       lines         : 19
@@ -8047,9 +7776,8 @@ File: ./logs/synology-DS6/synopkg.log
 
 File: ./logs/synology-DS6/synopoweroff.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4911
       lines         : 19
@@ -8081,9 +7809,8 @@ File: ./logs/synology-DS6/synopoweroff.log
 
 File: ./logs/synology-DS6/synorelayd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3203
       lines         : 19
@@ -8115,9 +7842,8 @@ File: ./logs/synology-DS6/synorelayd.log
 
 File: ./logs/synology-DS6/synoreport.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3129
       lines         : 19
@@ -8149,9 +7875,8 @@ File: ./logs/synology-DS6/synoreport.log
 
 File: ./logs/synology-DS6/synoscheduler.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3936
       lines         : 18
@@ -8183,9 +7908,8 @@ File: ./logs/synology-DS6/synoscheduler.log
 
 File: ./logs/synology-DS6/synoservice.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4053
       lines         : 19
@@ -8217,9 +7941,8 @@ File: ./logs/synology-DS6/synoservice.log
 
 File: ./logs/synology-DS6/synotifyd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3643
       lines         : 19
@@ -8251,9 +7974,8 @@ File: ./logs/synology-DS6/synotifyd.log
 
 File: ./logs/synology-DS6/synoupdate.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3340
       lines         : 19
@@ -8285,9 +8007,8 @@ File: ./logs/synology-DS6/synoupdate.log
 
 File: ./logs/synology-DS6/syslog.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4335
       lines         : 19
@@ -8319,9 +8040,8 @@ File: ./logs/synology-DS6/syslog.log
 
 File: ./logs/synology-DS6/sysnotify.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 5104
       lines         : 19
@@ -8353,9 +8073,8 @@ File: ./logs/synology-DS6/sysnotify.log
 
 File: ./logs/synology-DS6/upstart/3rdparty-services.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3596
       lines         : 19
@@ -8387,9 +8106,8 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
 
 File: ./logs/synology-DS6/upstart/apparmor.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3173
       lines         : 19
@@ -8421,9 +8139,8 @@ File: ./logs/synology-DS6/upstart/apparmor.log
 
 File: ./logs/synology-DS6/upstart/auto-smallupdate.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1296
       lines         : 8
@@ -8455,9 +8172,8 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
 
 File: ./logs/synology-DS6/upstart/avahi.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3686
       lines         : 19
@@ -8489,9 +8205,8 @@ File: ./logs/synology-DS6/upstart/avahi.log
 
 File: ./logs/synology-DS6/upstart/cgi-keygen.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1159
       lines         : 6
@@ -8523,9 +8238,8 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
 
 File: ./logs/synology-DS6/upstart/crond.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3075
       lines         : 19
@@ -8557,9 +8271,8 @@ File: ./logs/synology-DS6/upstart/crond.log
 
 File: ./logs/synology-DS6/upstart/dbus-session.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 25431
       lines         : 178
@@ -8591,9 +8304,8 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
 
 File: ./logs/synology-DS6/upstart/dbus-system.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3356
       lines         : 19
@@ -8625,9 +8337,8 @@ File: ./logs/synology-DS6/upstart/dbus-system.log
 
 File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3015
       lines         : 12
@@ -8659,9 +8370,8 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
 
 File: ./logs/synology-DS6/upstart/DiskHealthCk.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 414
       lines         : 2
@@ -8693,9 +8403,8 @@ File: ./logs/synology-DS6/upstart/DiskHealthCk.log
 
 File: ./logs/synology-DS6/upstart/dsm-services.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3769
       lines         : 19
@@ -8727,9 +8436,8 @@ File: ./logs/synology-DS6/upstart/dsm-services.log
 
 File: ./logs/synology-DS6/upstart/dsmupdate.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3692
       lines         : 19
@@ -8761,9 +8469,8 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
 
 File: ./logs/synology-DS6/upstart/eaupgrade.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3819
       lines         : 19
@@ -8795,9 +8502,8 @@ File: ./logs/synology-DS6/upstart/eaupgrade.log
 
 File: ./logs/synology-DS6/upstart/findhostd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3400
       lines         : 19
@@ -8829,9 +8535,8 @@ File: ./logs/synology-DS6/upstart/findhostd.log
 
 File: ./logs/synology-DS6/upstart/ftpd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3009
       lines         : 19
@@ -8863,9 +8568,8 @@ File: ./logs/synology-DS6/upstart/ftpd.log
 
 File: ./logs/synology-DS6/upstart/hotplugd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1004
       lines         : 4
@@ -8897,9 +8601,8 @@ File: ./logs/synology-DS6/upstart/hotplugd.log
 
 File: ./logs/synology-DS6/upstart/inetd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2824
       lines         : 19
@@ -8931,9 +8634,8 @@ File: ./logs/synology-DS6/upstart/inetd.log
 
 File: ./logs/synology-DS6/upstart/iptablesTc.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3382
       lines         : 19
@@ -8965,9 +8667,8 @@ File: ./logs/synology-DS6/upstart/iptablesTc.log
 
 File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3343
       lines         : 19
@@ -8999,9 +8700,8 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
 
 File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3202
       lines         : 19
@@ -9033,9 +8733,8 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
 
 File: ./logs/synology-DS6/upstart/is_plugind.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4602
       lines         : 19
@@ -9067,9 +8766,8 @@ File: ./logs/synology-DS6/upstart/is_plugind.log
 
 File: ./logs/synology-DS6/upstart/job-monitor-handler.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3059
       lines         : 19
@@ -9101,9 +8799,8 @@ File: ./logs/synology-DS6/upstart/job-monitor-handler.log
 
 File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4085
       lines         : 19
@@ -9135,9 +8832,8 @@ File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
 
 File: ./logs/synology-DS6/upstart/minissdpd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3139
       lines         : 19
@@ -9169,9 +8865,8 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
 
 File: ./logs/synology-DS6/upstart/mkcert.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3521
       lines         : 19
@@ -9203,9 +8898,8 @@ File: ./logs/synology-DS6/upstart/mkcert.log
 
 File: ./logs/synology-DS6/upstart/mkdhparam.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2056
       lines         : 12
@@ -9237,9 +8931,8 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
 
 File: ./logs/synology-DS6/upstart/netatalk.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2959
       lines         : 19
@@ -9271,9 +8964,8 @@ File: ./logs/synology-DS6/upstart/netatalk.log
 
 File: ./logs/synology-DS6/upstart/network.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3192
       lines         : 19
@@ -9305,9 +8997,8 @@ File: ./logs/synology-DS6/upstart/network.log
 
 File: ./logs/synology-DS6/upstart/nfsd-adapter.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3302
       lines         : 19
@@ -9339,9 +9030,8 @@ File: ./logs/synology-DS6/upstart/nfsd-adapter.log
 
 File: ./logs/synology-DS6/upstart/nginx.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3270
       lines         : 19
@@ -9373,9 +9063,8 @@ File: ./logs/synology-DS6/upstart/nginx.log
 
 File: ./logs/synology-DS6/upstart/nmbd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3205
       lines         : 19
@@ -9407,9 +9096,8 @@ File: ./logs/synology-DS6/upstart/nmbd.log
 
 File: ./logs/synology-DS6/upstart/opentftp.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2860
       lines         : 19
@@ -9441,9 +9129,8 @@ File: ./logs/synology-DS6/upstart/opentftp.log
 
 File: ./logs/synology-DS6/upstart/pgsql-adapter.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3197
       lines         : 19
@@ -9475,9 +9162,8 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
 
 File: ./logs/synology-DS6/upstart/pgsql.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3511
       lines         : 19
@@ -9509,9 +9195,8 @@ File: ./logs/synology-DS6/upstart/pgsql.log
 
 File: ./logs/synology-DS6/upstart/php_timezone_update.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2983
       lines         : 19
@@ -9543,9 +9228,8 @@ File: ./logs/synology-DS6/upstart/php_timezone_update.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3605
       lines         : 19
@@ -9577,9 +9261,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3410
       lines         : 19
@@ -9611,9 +9294,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3600
       lines         : 19
@@ -9645,9 +9327,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3368
       lines         : 19
@@ -9679,9 +9360,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-HyperBackup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3278
       lines         : 19
@@ -9713,9 +9393,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackup.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3375
       lines         : 19
@@ -9747,9 +9426,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3351
       lines         : 19
@@ -9781,9 +9459,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v4.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3237
       lines         : 19
@@ -9815,9 +9492,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v4.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3932
       lines         : 19
@@ -9849,9 +9525,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3298
       lines         : 19
@@ -9883,9 +9558,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3356
       lines         : 19
@@ -9917,9 +9591,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3387
       lines         : 19
@@ -9951,9 +9624,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3341
       lines         : 19
@@ -9985,9 +9657,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3481
       lines         : 19
@@ -10019,9 +9690,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3373
       lines         : 19
@@ -10053,9 +9723,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3354
       lines         : 19
@@ -10087,9 +9756,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
 
 File: ./logs/synology-DS6/upstart/pkgctl-USBCopy.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3574
       lines         : 19
@@ -10121,9 +9789,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-USBCopy.log
 
 File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4251
       lines         : 19
@@ -10155,9 +9822,8 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
 
 File: ./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3433
       lines         : 19
@@ -10189,9 +9855,8 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log
 
 File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2242
       lines         : 14
@@ -10223,9 +9888,8 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_send.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3185
       lines         : 19
@@ -10257,9 +9921,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3145
       lines         : 19
@@ -10291,9 +9954,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3173
       lines         : 19
@@ -10325,9 +9987,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3707
       lines         : 19
@@ -10359,9 +10020,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3715
       lines         : 19
@@ -10393,9 +10053,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-concept.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3643
       lines         : 19
@@ -10427,9 +10086,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-concept.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3772
       lines         : 19
@@ -10461,9 +10119,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3631
       lines         : 19
@@ -10495,9 +10152,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3658
       lines         : 19
@@ -10529,9 +10185,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3726
       lines         : 19
@@ -10563,9 +10218,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3734
       lines         : 19
@@ -10597,9 +10251,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3810
       lines         : 19
@@ -10631,9 +10284,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3696
       lines         : 19
@@ -10665,9 +10317,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumb.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3582
       lines         : 19
@@ -10699,9 +10350,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumb.log
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3829
       lines         : 19
@@ -10733,9 +10383,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log
 
 File: ./logs/synology-DS6/upstart/pkg-synoreport.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4231
       lines         : 19
@@ -10767,9 +10416,8 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
 
 File: ./logs/synology-DS6/upstart/pppoerelay.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3541
       lines         : 19
@@ -10801,9 +10449,8 @@ File: ./logs/synology-DS6/upstart/pppoerelay.log
 
 File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 208
       lines         : 1
@@ -10835,9 +10482,8 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
 
 File: ./logs/synology-DS6/upstart/rc.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3287
       lines         : 19
@@ -10869,9 +10515,8 @@ File: ./logs/synology-DS6/upstart/rc.log
 
 File: ./logs/synology-DS6/upstart/rc-sysinit.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3681
       lines         : 19
@@ -10903,9 +10548,8 @@ File: ./logs/synology-DS6/upstart/rc-sysinit.log
 
 File: ./logs/synology-DS6/upstart/root-file-system.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3069
       lines         : 19
@@ -10937,9 +10581,8 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
 
 File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3287
       lines         : 19
@@ -10971,9 +10614,8 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
 
 File: ./logs/synology-DS6/upstart/s2s_daemon.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3013
       lines         : 19
@@ -11005,9 +10647,8 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
 
 File: ./logs/synology-DS6/upstart/scemd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3395
       lines         : 19
@@ -11039,9 +10680,8 @@ File: ./logs/synology-DS6/upstart/scemd.log
 
 File: ./logs/synology-DS6/upstart/scrubbing-conf-sync.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4028
       lines         : 19
@@ -11073,9 +10713,8 @@ File: ./logs/synology-DS6/upstart/scrubbing-conf-sync.log
 
 File: ./logs/synology-DS6/upstart/smallupdate.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1137
       lines         : 6
@@ -11107,9 +10746,8 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
 
 File: ./logs/synology-DS6/upstart/smbd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3494
       lines         : 19
@@ -11141,9 +10779,8 @@ File: ./logs/synology-DS6/upstart/smbd.log
 
 File: ./logs/synology-DS6/upstart/sshd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2869
       lines         : 19
@@ -11175,9 +10812,8 @@ File: ./logs/synology-DS6/upstart/sshd.log
 
 File: ./logs/synology-DS6/upstart/ssh-sftp.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3071
       lines         : 19
@@ -11209,9 +10845,8 @@ File: ./logs/synology-DS6/upstart/ssh-sftp.log
 
 File: ./logs/synology-DS6/upstart/ssh-shell.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3203
       lines         : 19
@@ -11243,9 +10878,8 @@ File: ./logs/synology-DS6/upstart/ssh-shell.log
 
 File: ./logs/synology-DS6/upstart/syno-auth-check.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3054
       lines         : 19
@@ -11277,9 +10911,8 @@ File: ./logs/synology-DS6/upstart/syno-auth-check.log
 
 File: ./logs/synology-DS6/upstart/synocgid.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3014
       lines         : 19
@@ -11311,9 +10944,8 @@ File: ./logs/synology-DS6/upstart/synocgid.log
 
 File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4142
       lines         : 19
@@ -11345,9 +10977,8 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
 
 File: ./logs/synology-DS6/upstart/synoconfd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3470
       lines         : 19
@@ -11379,9 +11010,8 @@ File: ./logs/synology-DS6/upstart/synoconfd.log
 
 File: ./logs/synology-DS6/upstart/synocrond.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2956
       lines         : 19
@@ -11413,9 +11043,8 @@ File: ./logs/synology-DS6/upstart/synocrond.log
 
 File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3268
       lines         : 19
@@ -11447,9 +11076,8 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
 
 File: ./logs/synology-DS6/upstart/synoindexd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3249
       lines         : 19
@@ -11481,9 +11109,8 @@ File: ./logs/synology-DS6/upstart/synoindexd.log
 
 File: ./logs/synology-DS6/upstart/synologand.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3070
       lines         : 19
@@ -11515,9 +11142,8 @@ File: ./logs/synology-DS6/upstart/synologand.log
 
 File: ./logs/synology-DS6/upstart/synologd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3038
       lines         : 19
@@ -11549,9 +11175,8 @@ File: ./logs/synology-DS6/upstart/synologd.log
 
 File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2575
       lines         : 16
@@ -11583,9 +11208,8 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
 
 File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3061
       lines         : 19
@@ -11617,9 +11241,8 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
 
 File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3062
       lines         : 19
@@ -11651,9 +11274,8 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
 
 File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1469
       lines         : 9
@@ -11685,9 +11307,8 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
 
 File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1105
       lines         : 7
@@ -11719,9 +11340,8 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
 
 File: ./logs/synology-DS6/upstart/synomkflvd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2610
       lines         : 15
@@ -11753,9 +11373,8 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
 
 File: ./logs/synology-DS6/upstart/synomkthumbd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2816
       lines         : 16
@@ -11787,9 +11406,8 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
 
 File: ./logs/synology-DS6/upstart/synomount.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2928
       lines         : 19
@@ -11821,9 +11439,8 @@ File: ./logs/synology-DS6/upstart/synomount.log
 
 File: ./logs/synology-DS6/upstart/syno-move-coredump.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3401
       lines         : 19
@@ -11855,9 +11472,8 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
 
 File: ./logs/synology-DS6/upstart/synonetd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3003
       lines         : 19
@@ -11889,9 +11505,8 @@ File: ./logs/synology-DS6/upstart/synonetd.log
 
 File: ./logs/synology-DS6/upstart/syno-network-check.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3658
       lines         : 19
@@ -11923,9 +11538,8 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
 
 File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3154
       lines         : 19
@@ -11957,9 +11571,8 @@ File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
 
 File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3937
       lines         : 19
@@ -11991,9 +11604,8 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
 
 File: ./logs/synology-DS6/upstart/synoscgi.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4353
       lines         : 19
@@ -12025,9 +11637,8 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
 
 File: ./logs/synology-DS6/upstart/synoscheduler.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3819
       lines         : 19
@@ -12059,9 +11670,8 @@ File: ./logs/synology-DS6/upstart/synoscheduler.log
 
 File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3002
       lines         : 19
@@ -12093,9 +11703,8 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
 
 File: ./logs/synology-DS6/upstart/syno-share-check.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3517
       lines         : 19
@@ -12127,9 +11736,8 @@ File: ./logs/synology-DS6/upstart/syno-share-check.log
 
 File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2493
       lines         : 13
@@ -12161,9 +11769,8 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
 
 File: ./logs/synology-DS6/upstart/synosnmpcd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 335
       lines         : 2
@@ -12195,9 +11802,8 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
 
 File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3079
       lines         : 19
@@ -12229,9 +11835,8 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
 
 File: ./logs/synology-DS6/upstart/synostoraged.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3377
       lines         : 19
@@ -12263,9 +11868,8 @@ File: ./logs/synology-DS6/upstart/synostoraged.log
 
 File: ./logs/synology-DS6/upstart/synovpnclient.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2983
       lines         : 19
@@ -12297,9 +11901,8 @@ File: ./logs/synology-DS6/upstart/synovpnclient.log
 
 File: ./logs/synology-DS6/upstart/synowifid-handler.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3843
       lines         : 19
@@ -12331,9 +11934,8 @@ File: ./logs/synology-DS6/upstart/synowifid-handler.log
 
 File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3057
       lines         : 19
@@ -12365,9 +11967,8 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
 
 File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3328
       lines         : 19
@@ -12399,9 +12000,8 @@ File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
 
 File: ./logs/synology-DS6/upstart/syslog-acc.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3247
       lines         : 19
@@ -12433,9 +12033,8 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
 
 File: ./logs/synology-DS6/upstart/syslog-ng.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3800
       lines         : 19
@@ -12467,9 +12066,8 @@ File: ./logs/synology-DS6/upstart/syslog-ng.log
 
 File: ./logs/synology-DS6/upstart/syslog-notify.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2982
       lines         : 19
@@ -12501,9 +12099,8 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
 
 File: ./logs/synology-DS6/upstart/system-profile-tuning.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3208
       lines         : 19
@@ -12535,9 +12132,8 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
 
 File: ./logs/synology-DS6/upstart/telnetd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2992
       lines         : 19
@@ -12569,9 +12165,8 @@ File: ./logs/synology-DS6/upstart/telnetd.log
 
 File: ./logs/synology-DS6/upstart/umount-root-fs.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3145
       lines         : 19
@@ -12603,9 +12198,8 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
 
 File: ./logs/synology-DS6/upstart/update-apppriv-local.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2858
       lines         : 19
@@ -12637,9 +12231,8 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
 
 File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3110
       lines         : 19
@@ -12671,9 +12264,8 @@ File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
 
 File: ./logs/synology-DS6/upstart/WDidle3Dis.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3298
       lines         : 19
@@ -12705,9 +12297,8 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
 
 File: ./logs/synology-DS6/usbcopyd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3982
       lines         : 19
@@ -12742,7 +12333,6 @@ File: ./logs/Ubuntu16/x86_32/btmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Ubuntu16/x86_32/lastlog
@@ -12750,7 +12340,6 @@ File: ./logs/Ubuntu16/x86_32/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Ubuntu16/x86_32/wtmp
@@ -12758,14 +12347,12 @@ File: ./logs/Ubuntu16/x86_32/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Ubuntu18/apt/history.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1214
       lines         : 5
@@ -12797,9 +12384,8 @@ File: ./logs/Ubuntu18/apt/history.log
 
 File: ./logs/Ubuntu18/apt/term.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3543
       lines         : 18
@@ -12831,9 +12417,8 @@ File: ./logs/Ubuntu18/apt/term.log
 
 File: ./logs/Ubuntu18/cups/access_log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 446
       lines         : 2
@@ -12865,9 +12450,8 @@ File: ./logs/Ubuntu18/cups/access_log
 
 File: ./logs/Ubuntu18/cups/access_log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1315
       lines         : 6
@@ -12899,9 +12483,8 @@ File: ./logs/Ubuntu18/cups/access_log.1
 
 File: ./logs/Ubuntu18/cups/error_log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 231
       lines         : 1
@@ -12933,9 +12516,8 @@ File: ./logs/Ubuntu18/cups/error_log.1
 
 File: ./logs/Ubuntu18/fontconfig.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -12966,9 +12548,8 @@ File: ./logs/Ubuntu18/fontconfig.log
 
 File: ./logs/Ubuntu18/gpu-manager.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -12999,9 +12580,8 @@ File: ./logs/Ubuntu18/gpu-manager.log
 
 File: ./logs/Ubuntu18/gpu-manager-switch.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -13032,9 +12612,8 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
 
 File: ./logs/Ubuntu18/installer/initial-status
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 0
       lines         : 0
@@ -13065,9 +12644,8 @@ File: ./logs/Ubuntu18/installer/initial-status
 
 File: ./logs/Ubuntu18/installer/media-info
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 0
       lines         : 0
@@ -13098,9 +12676,8 @@ File: ./logs/Ubuntu18/installer/media-info
 
 File: ./logs/Ubuntu18/installer/telemetry
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 0
       lines         : 0
@@ -13131,9 +12708,8 @@ File: ./logs/Ubuntu18/installer/telemetry
 
 File: ./logs/Ubuntu18/kern.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3780
       lines         : 19
@@ -13166,9 +12742,8 @@ File: ./logs/Ubuntu18/kern.log.1
 
 File: ./logs/Ubuntu18/nvidia-installer.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2814
       lines         : 18
@@ -13200,9 +12775,8 @@ File: ./logs/Ubuntu18/nvidia-installer.log
 
 File: ./logs/Ubuntu18/prime-offload.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -13233,9 +12807,8 @@ File: ./logs/Ubuntu18/prime-offload.log
 
 File: ./logs/Ubuntu18/prime-supported.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -13266,9 +12839,8 @@ File: ./logs/Ubuntu18/prime-supported.log
 
 File: ./logs/Ubuntu18/samba/log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3127
       lines         : 19
@@ -13300,9 +12872,8 @@ File: ./logs/Ubuntu18/samba/log
 
 File: ./logs/Ubuntu18/samba/log.10.0.0.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3320
       lines         : 19
@@ -13334,9 +12905,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
 
 File: ./logs/Ubuntu18/samba/log.10.0.0.2
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3270
       lines         : 19
@@ -13368,9 +12938,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.2
 
 File: ./logs/Ubuntu18/samba/log.10.0.0.3
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3320
       lines         : 19
@@ -13402,9 +12971,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
 
 File: ./logs/Ubuntu18/samba/log.10.0.0.4
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3320
       lines         : 19
@@ -13436,9 +13004,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
 
 File: ./logs/Ubuntu18/samba/log.10.0.0.5
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3258
       lines         : 19
@@ -13470,9 +13037,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.5
 
 File: ./logs/Ubuntu18/samba/log.10.0.0.6
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3267
       lines         : 19
@@ -13504,9 +13070,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
 
 File: ./logs/Ubuntu18/samba/log.10.0.0.7
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3267
       lines         : 19
@@ -13538,9 +13103,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.7
 
 File: ./logs/Ubuntu18/samba/log.nmbd
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3855
       lines         : 19
@@ -13572,9 +13136,8 @@ File: ./logs/Ubuntu18/samba/log.nmbd
 
 File: ./logs/Ubuntu18/samba/log.nmbd.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3533
       lines         : 19
@@ -13606,9 +13169,8 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
 
 File: ./logs/Ubuntu18/samba/log.nmbd.old
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3865
       lines         : 19
@@ -13640,9 +13202,8 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
 
 File: ./logs/Ubuntu18/samba/log.smbd
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3001
       lines         : 19
@@ -13674,9 +13235,8 @@ File: ./logs/Ubuntu18/samba/log.smbd
 
 File: ./logs/Ubuntu18/samba/log.smbd.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3250
       lines         : 19
@@ -13708,9 +13268,8 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
 
 File: ./logs/Ubuntu18/vmware/hostd-62.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4790
       lines         : 19
@@ -13742,9 +13301,8 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
 
 File: ./logs/Ubuntu18/vmware/hostd.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4790
       lines         : 19
@@ -13776,9 +13334,8 @@ File: ./logs/Ubuntu18/vmware/hostd.log
 
 File: ./logs/Ubuntu18/vmware-installer
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3542
       lines         : 18
@@ -13810,9 +13367,8 @@ File: ./logs/Ubuntu18/vmware-installer
 
 File: ./logs/Ubuntu18/xrdp.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3444
       lines         : 19
@@ -13847,14 +13403,12 @@ File: ./logs/Ubuntu20/x86_64/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 File: ./logs/Ubuntu22/alternatives.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 8119
       lines         : 13
@@ -13886,9 +13440,8 @@ File: ./logs/Ubuntu22/alternatives.log.1
 
 File: ./logs/Ubuntu22/apport.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1079
       lines         : 5
@@ -13920,9 +13473,8 @@ File: ./logs/Ubuntu22/apport.log.1
 
 File: ./logs/Ubuntu22/apt/eipp.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -13953,9 +13505,8 @@ File: ./logs/Ubuntu22/apt/eipp.log
 
 File: ./logs/Ubuntu22/apt/history.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2839
       lines         : 13
@@ -13987,9 +13538,8 @@ File: ./logs/Ubuntu22/apt/history.log
 
 File: ./logs/Ubuntu22/apt/term.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2823
       lines         : 13
@@ -14021,9 +13571,8 @@ File: ./logs/Ubuntu22/apt/term.log
 
 File: ./logs/Ubuntu22/auth.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3037
       lines         : 14
@@ -14056,9 +13605,8 @@ File: ./logs/Ubuntu22/auth.log
 
 File: ./logs/Ubuntu22/auth.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2986
       lines         : 14
@@ -14091,9 +13639,8 @@ File: ./logs/Ubuntu22/auth.log.1
 
 File: ./logs/Ubuntu22/cloud-init.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3010
       lines         : 14
@@ -14125,9 +13672,8 @@ File: ./logs/Ubuntu22/cloud-init.log
 
 File: ./logs/Ubuntu22/cloud-init-output.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2764
       lines         : 13
@@ -14159,9 +13705,8 @@ File: ./logs/Ubuntu22/cloud-init-output.log
 
 File: ./logs/Ubuntu22/dmesg
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 0
       lines         : 0
@@ -14192,9 +13737,8 @@ File: ./logs/Ubuntu22/dmesg
 
 File: ./logs/Ubuntu22/dmesg.0
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 0
       lines         : 0
@@ -14225,9 +13769,8 @@ File: ./logs/Ubuntu22/dmesg.0
 
 File: ./logs/Ubuntu22/dpkg.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2578
       lines         : 14
@@ -14259,9 +13802,8 @@ File: ./logs/Ubuntu22/dpkg.log
 
 File: ./logs/Ubuntu22/dpkg.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2505
       lines         : 14
@@ -14293,9 +13835,8 @@ File: ./logs/Ubuntu22/dpkg.log.1
 
 File: ./logs/Ubuntu22/droplet-agent.update.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -14326,9 +13867,8 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
 
 File: ./logs/Ubuntu22/kern.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4437
       lines         : 14
@@ -14361,9 +13901,8 @@ File: ./logs/Ubuntu22/kern.log
 
 File: ./logs/Ubuntu22/kern.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -14394,9 +13933,8 @@ File: ./logs/Ubuntu22/kern.log.1
 
 File: ./logs/Ubuntu22/syslog
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3040
       lines         : 14
@@ -14429,9 +13967,8 @@ File: ./logs/Ubuntu22/syslog
 
 File: ./logs/Ubuntu22/syslog.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 2812
       lines         : 14
@@ -14468,7 +14005,6 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1517
       entries       : 5
@@ -14496,7 +14032,6 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 21969
       entries       : 76
@@ -14520,9 +14055,8 @@ File: ./logs/Ubuntu22/x86_64/wtmp
 
 File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2280
       lines         : 12
@@ -14554,9 +14088,8 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
 
 File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2659
       lines         : 14
@@ -14588,9 +14121,8 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
 
 File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2983
       lines         : 14
@@ -14622,9 +14154,8 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
 
 File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2812
       lines         : 14
@@ -14656,9 +14187,8 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
 
 File: ./logs/Windows10Pro/CBS/CBS.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 37210
       lines         : 159
@@ -14690,9 +14220,8 @@ File: ./logs/Windows10Pro/CBS/CBS.log
 
 File: ./logs/Windows10Pro/comsetup.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -14723,9 +14252,8 @@ File: ./logs/Windows10Pro/comsetup.log
 
 File: ./logs/Windows10Pro/debug/mrt.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6478
       lines         : 47
@@ -14757,9 +14285,8 @@ File: ./logs/Windows10Pro/debug/mrt.log
 
 File: ./logs/Windows10Pro/DirectX.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -14790,9 +14317,8 @@ File: ./logs/Windows10Pro/DirectX.log
 
 File: ./logs/Windows10Pro/DISM/dism.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 27756
       lines         : 111
@@ -14824,9 +14350,8 @@ File: ./logs/Windows10Pro/DISM/dism.log
 
 File: ./logs/Windows10Pro/DtcInstall.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -14857,9 +14382,8 @@ File: ./logs/Windows10Pro/DtcInstall.log
 
 File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6732
       lines         : 41
@@ -14891,9 +14415,8 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
 
 File: ./logs/Windows10Pro/INF/setupapi.dev.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 8007
       lines         : 41
@@ -14925,9 +14448,8 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
 
 File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 29306
       lines         : 152
@@ -14959,9 +14481,8 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
 
 File: ./logs/Windows10Pro/INF/setupapi.offline.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 4762
       lines         : 26
@@ -14993,9 +14514,8 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
 
 File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 21509
       lines         : 128
@@ -15027,9 +14547,8 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
 
 File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15060,9 +14579,8 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
 
 File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15093,9 +14611,8 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
 
 File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15126,9 +14643,8 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
 
 File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 11361
       lines         : 55
@@ -15160,9 +14676,8 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
 
 File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6379
       lines         : 33
@@ -15194,9 +14709,8 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
 
 File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 14363
       lines         : 74
@@ -15228,9 +14742,8 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
 
 File: ./logs/Windows10Pro/PFRO.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15261,9 +14774,8 @@ File: ./logs/Windows10Pro/PFRO.log
 
 File: ./logs/Windows10Pro/security/logs/sceupgrade.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15294,9 +14806,8 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
 
 File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15327,9 +14838,8 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
 
 File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 269529
       lines         : 1300
@@ -15361,9 +14871,8 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
 
 File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 26913
       lines         : 105
@@ -15395,9 +14904,8 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
 
 File: ./logs/Windows10Pro/System32/NetSetupMig.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15428,9 +14936,8 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
 
 File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 9659
       lines         : 42
@@ -15462,9 +14969,8 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
 
 File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15495,9 +15001,8 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
 
 File: ./logs/Windows11Pro/Temp/cv_debug.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -15529,7 +15034,7 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
   Processing Drops:
 
 File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
-File: ./logs/other/tests/invalid.gz MimeGuess(["application/gzip"]) 
+File: ./logs/other/tests/invalid.gz 
 File: ./logs/other/tests/invalid.tar (other error: failed to read entire block for file "./logs/other/tests/invalid.tar")
 
 Program Summary:

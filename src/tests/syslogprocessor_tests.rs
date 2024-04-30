@@ -18,7 +18,10 @@ use crate::readers::blockreader::{
     BlockSz,
     SummaryBlockReader,
 };
-use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
+use crate::readers::filepreprocessor::{
+    fpath_to_filetype,
+    PathToFiletypeResult,
+};
 use crate::readers::summary::SummaryReaderData;
 use crate::data::datetime::{
     datetime_parse_from_str,
@@ -597,8 +600,14 @@ fn new_SyslogProcessor(
     blocksz: BlockSz,
 ) -> SyslogProcessor {
     let tzo: FixedOffset = *FO_0;
-    let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
     defñ!("SyslogProcessor::new({:?}, {:?}, {:?})", path, blocksz, tzo);
+    let result = fpath_to_filetype(path, true);
+    let filetype = match result {
+        PathToFiletypeResult::Filetype(ft) => ft,
+        PathToFiletypeResult::Archive(_) => {
+            panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
+        }
+    };
     match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {
         Ok(val) => val,
         Err(err) => {

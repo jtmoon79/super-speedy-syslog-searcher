@@ -10,10 +10,11 @@
 #[doc(hidden)]
 use crate::common::{
     Count,
-    FPath,
+    FileTypeArchive,
     FileOffset,
     FileSz,
     FileType,
+    FPath,
 };
 use crate::common::{File, FileMetadata, FileOpenOptions, ResultS3};
 #[cfg(test)]
@@ -38,7 +39,6 @@ use std::path::Path;
 use std::sync::Arc;
 
 use ::lru::LruCache;
-use ::mime_guess::MimeGuess;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -364,22 +364,13 @@ pub struct BlockReader {
     ///
     /// [`self.file_metadata.modified()`]: std::fs::Metadata
     pub(crate) file_metadata_modified: SystemTime,
-    /// The [`MimeGuess::from_path`] result.
-    ///
-    /// [`MimeGuess::from_path`]: https://docs.rs/mime_guess/2.0.4/mime_guess/fn.from_path.html
-    // TODO: rename `mimeguess_` to `mimeguess`
-    mimeguess_: MimeGuess,
     /// Enum that guides file-handling behavior in functions `read`, and `new`.
     filetype: FileType,
-    /// For gzipped files ([FileType::Gz]), otherwise `None`.
-    ///
-    /// [FileType::Gz]: crate::common::FileType
+    /// For gzipped `.gz` files ([FileTypeArchive::Gz]), otherwise `None`.
     gz: Option<GzData>,
-    /// For LZMA xz files ([FileType::Xz]), otherwise `None`.
-    ///
-    /// [FileType::Xz]: crate::common::FileType
+    /// For LZMA xz `.xz` files ([FileTypeArchive::Xz]), otherwise `None`.
     xz: Option<XzData>,
-    /// For files within a `.tar` file (FileType::Tar), otherwise `None`.
+    /// For files within a `.tar` file ([FileTypeArchive::Tar]), otherwise `None`.
     tar: Option<TarData>,
     /// The filesz of uncompressed data, set during `new`.
     /// Users should always call `filesz()`.
@@ -463,7 +454,6 @@ impl fmt::Debug for BlockReader {
         f.debug_struct("BlockReader")
             .field("path", self.path())
             .field("file", &self.file)
-            .field("mimeguess", &self.mimeguess_)
             .field("filesz", &self.filesz())
             .field("blockn", &self.blockn)
             .field("blocksz", &self.blocksz)
@@ -601,9 +591,6 @@ impl BlockReader {
         let path = path.clone();
         let path_std: &Path = Path::new(&path);
 
-        // TODO: Issue #15 pass in `mimeguess`; avoid repeat call of `MimeGuess::from_path`
-        let mimeguess_: MimeGuess = MimeGuess::from_path(path_std);
-
         let mut open_options = FileOpenOptions::new();
         def1o!("open_options.read(true).open({:?})", path);
         let file: File = match open_options
@@ -654,14 +641,21 @@ impl BlockReader {
         let mut read_blocks_put: Count = 0;
 
         match filetype {
-            FileType::File
-            | FileType::FixedStruct{..}
-            | FileType::Unknown
+            FileType::Evtx{ .. } => {
+                panic!("BlockerReader::new FileType::Evtx does not use a BlockReader")
+            },
+            FileType::Journal { .. } => {
+                panic!("BlockerReader::new FileType::Journal does not use a BlockReader")
+            }
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Normal, .. }
             => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
             }
-            FileType::Gz => {
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Gz, .. }
+            => {
                 // TODO: [2023/04] move this large chunk of code into private function
                 blocksz = blocksz_;
                 def1o!("FileGz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
@@ -826,7 +820,89 @@ impl BlockReader {
                 });
                 def1o!("FileGz: created {:?}", gz_opt);
             }
-            FileType::Xz => {
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Tar, .. }
+            => {
+                blocksz = blocksz_;
+                def1o!("FileTar: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
+                filesz_actual = 0;
+                let mut checksum: TarChecksum = 0;
+                let mut mtime: TarMTime = 0;
+                let subpath: &String = subpath_opt.as_ref().unwrap();
+
+                let mut archive: TarHandle = BlockReader::open_tar(path_std)?;
+                let entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
+                    Ok(val) => val,
+                    Err(err) => {
+                        def1x!("FileTar: Err {:?}", err);
+                        return Result::Err(err);
+                    }
+                };
+
+                let mut entry_index: usize = 0;
+                for (index, entry_res) in entry_iter.enumerate() {
+                    entry_index = index;
+                    let entry: tar::Entry<File> = match entry_res {
+                        Ok(val) => val,
+                        Err(_err) => {
+                            def1o!("FileTar: entry Err {:?}", _err);
+                            continue;
+                        }
+                    };
+                    let subpath_cow: Cow<Path> = match entry.path() {
+                        Ok(val) => val,
+                        Err(_err) => {
+                            def1o!("FileTar: entry.path() Err {:?}", _err);
+                            continue;
+                        }
+                    };
+                    let subfpath: FPath = subpath_cow
+                        .to_string_lossy()
+                        .to_string();
+                    if subpath != &subfpath {
+                        def1o!("FileTar: skip {:?}", subfpath);
+                        continue;
+                    }
+                    // found the matching subpath
+                    def1o!("FileTar: found {:?}", subpath);
+                    filesz_actual = match entry.header().size() {
+                        Ok(val) => val,
+                        Err(err) => {
+                            def1x!("FileTar: entry.header().size() Err {:?}", err);
+                            return Result::Err(
+                                err_from_err_path(&err, &path, Some("(FileTar header().size)"))
+                            );
+                        }
+                    };
+                    checksum = match entry.header().cksum() {
+                        Ok(val) => val,
+                        Err(_err) => {
+                            def1o!("FileTar: entry.header().cksum() Err {:?}", _err);
+
+                            0
+                        }
+                    };
+                    mtime = match entry.header().mtime() {
+                        Ok(val) => val,
+                        Err(_err) => {
+                            def1o!("FileTar: entry.header().mtime() Err {:?}", _err);
+
+                            0
+                        }
+                    };
+                    break;
+                }
+
+                tar_opt = Some(TarData {
+                    filesz: filesz_actual,
+                    entry_index,
+                    checksum,
+                    mtime,
+                });
+            }
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Xz, .. }
+            => {
                 // TODO: [2023/04] move this large chunk of code into private function
                 blocksz = blocksz_;
                 def1o!("FileXz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
@@ -1199,7 +1275,6 @@ impl BlockReader {
                 }
 
                 let filesz_uncompressed: FileSz = count_bytes_ as FileSz;
-
                 filesz_actual = filesz_uncompressed;
                 xz_opt = Some(XzData {
                     filesz: filesz_uncompressed,
@@ -1207,94 +1282,17 @@ impl BlockReader {
                 });
                 def1o!("FileXz: created {:?}", xz_opt.as_ref().unwrap());
             }
-            FileType::Tar => {
-                blocksz = blocksz_;
-                def1o!("FileTar: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
-                filesz_actual = 0;
-                let mut checksum: TarChecksum = 0;
-                let mut mtime: TarMTime = 0;
-                let subpath: &String = subpath_opt.as_ref().unwrap();
-
-                let mut archive: TarHandle = BlockReader::open_tar(path_std)?;
-                let entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
-                    Ok(val) => val,
-                    Err(err) => {
-                        def1x!("FileTar: Err {:?}", err);
-                        return Result::Err(err);
-                    }
-                };
-
-                let mut entry_index: usize = 0;
-                for (index, entry_res) in entry_iter.enumerate() {
-                    entry_index = index;
-                    let entry: tar::Entry<File> = match entry_res {
-                        Ok(val) => val,
-                        Err(_err) => {
-                            def1o!("FileTar: entry Err {:?}", _err);
-                            continue;
-                        }
-                    };
-                    let subpath_cow: Cow<Path> = match entry.path() {
-                        Ok(val) => val,
-                        Err(_err) => {
-                            def1o!("FileTar: entry.path() Err {:?}", _err);
-                            continue;
-                        }
-                    };
-                    let subfpath: FPath = subpath_cow
-                        .to_string_lossy()
-                        .to_string();
-                    if subpath != &subfpath {
-                        def1o!("FileTar: skip {:?}", subfpath);
-                        continue;
-                    }
-                    // found the matching subpath
-                    def1o!("FileTar: found {:?}", subpath);
-                    filesz_actual = match entry.header().size() {
-                        Ok(val) => val,
-                        Err(err) => {
-                            def1x!("FileTar: entry.header().size() Err {:?}", err);
-                            return Result::Err(
-                                err_from_err_path(&err, &path, Some("(FileTar header().size)"))
-                            );
-                        }
-                    };
-                    checksum = match entry.header().cksum() {
-                        Ok(val) => val,
-                        Err(_err) => {
-                            def1o!("FileTar: entry.header().cksum() Err {:?}", _err);
-
-                            0
-                        }
-                    };
-                    mtime = match entry.header().mtime() {
-                        Ok(val) => val,
-                        Err(_err) => {
-                            def1o!("FileTar: entry.header().mtime() Err {:?}", _err);
-
-                            0
-                        }
-                    };
-                    break;
-                }
-
-                tar_opt = Some(TarData {
-                    filesz: filesz_actual,
-                    entry_index,
-                    checksum,
-                    mtime,
-                });
-            }
-            FileType::Journal
-            | FileType::Evtx
-            | FileType::TarGz
+            FileType::Unparsable
             => {
-                unimplemented!("BlockReader is not implemented for filetype {:?}", filetype);
+                debug_panic!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path);
+
+                return Result::Err(
+                    Error::new(
+                        ErrorKind::InvalidData,
+                        format!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path),
+                    )
+                );
             }
-            // something is wrong if these are encountered
-            | FileType::Unparsable
-            | FileType::Unset
-            => panic!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path),
         }
 
         // XXX: don't assert on `filesz` vs `filesz_actual` to sanity check them.
@@ -1312,7 +1310,6 @@ impl BlockReader {
             file,
             file_metadata,
             file_metadata_modified,
-            mimeguess_,
             filetype,
             gz: gz_opt,
             xz: xz_opt,
@@ -1349,15 +1346,6 @@ impl BlockReader {
         &self.path_subpath
     }
 
-    /// Return a copy of `self.mimeguess`.
-    // TODO: remove `MimeGuess` from `BlockReader` struct and all other
-    //       Reader structs that use it. Restrict use of `MimeGuess` to
-    //       `file_preprocessor.rs`
-    #[inline(always)]
-    pub const fn mimeguess(&self) -> MimeGuess {
-        self.mimeguess_
-    }
-
     /// Return the file size in bytes.
     ///
     /// For compressed or archived files, returns the original file size
@@ -1373,22 +1361,23 @@ impl BlockReader {
     /// `self.filesz` or `self.filesz_actual` directly.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
-            FileType::File
-            | FileType::FixedStruct{..}
-            | FileType::Unknown
-            => self.filesz,
-            FileType::Gz
-            | FileType::Xz
-            | FileType::Tar
-            => self.filesz_actual,
-            // XXX: cannot use `format!` macros in `const fn`
-            // assumption checks; not a rule "set in stone"
-            FileType::Journal => panic!("BlockReader not used for Journal"),
-            FileType::TarGz => panic!("fileszBlockReader not implemented for TarGz"),
-            FileType::Evtx => panic!("BlockReader not implemented for Evtx"),
-            // something is wrong if these are encountered
-            FileType::Unset => panic!("Unexpected Unset"),
-            FileType::Unparsable => panic!("Unexpected Unparsable"),
+            FileType::Evtx{ archival_type: FileTypeArchive::Normal } => self.filesz,
+            FileType::Evtx{ archival_type: FileTypeArchive::Gz } => self.filesz_actual,
+            FileType::Evtx{ archival_type: FileTypeArchive::Tar } => self.filesz_actual,
+            FileType::Evtx{ archival_type: FileTypeArchive::Xz } => self.filesz_actual,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => self.filesz,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => self.filesz_actual,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => self.filesz_actual,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => self.filesz_actual,
+            FileType::Journal{ archival_type: FileTypeArchive::Normal } => self.filesz,
+            FileType::Journal{ archival_type: FileTypeArchive::Gz } => self.filesz_actual,
+            FileType::Journal{ archival_type: FileTypeArchive::Tar } => self.filesz_actual,
+            FileType::Journal{ archival_type: FileTypeArchive::Xz } => self.filesz_actual,
+            FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => self.filesz,
+            FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => self.filesz_actual,
+            FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => self.filesz_actual,
+            FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => self.filesz_actual,
+            FileType::Unparsable => panic!("BlockerReader::filesz Unexpected Unparsable"),
         }
     }
 
@@ -1425,10 +1414,17 @@ impl BlockReader {
     //       (or a non-meaningful placeholder value).
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
-            FileType::File
-            | FileType::FixedStruct{..}
-            | FileType::Unknown
-            | FileType::Xz => {
+            FileType::Evtx{ .. } => {
+                panic!("BlockerReader::mtime FileType::Evtx does not use a BlockReader")
+            },
+            FileType::Journal { .. } => {
+                panic!("BlockerReader::mtime FileType::Journal does not use a BlockReader")
+            }
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Normal, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Xz, .. }
+            => {
                 defñ!(
                     "{:?}: file_metadata_modified {:?}",
                     self.filetype, self.file_metadata_modified
@@ -1436,7 +1432,9 @@ impl BlockReader {
 
                 self.file_metadata_modified
             }
-            FileType::Gz => {
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Gz, .. }
+            => {
                 let mtime = self
                     .gz
                     .as_ref()
@@ -1457,7 +1455,9 @@ impl BlockReader {
                     self.file_metadata_modified
                 }
             }
-            FileType::Tar => {
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Tar, .. }
+            => {
                 let mtime = self
                     .tar
                     .as_ref()
@@ -1478,14 +1478,7 @@ impl BlockReader {
                     self.file_metadata_modified
                 }
             }
-            // BlockReader not used for these filetypes
-            FileType::Evtx
-            | FileType::Journal
-            | FileType::TarGz
-            => unimplemented!("BlockReader does handle filetype {:?}", self.filetype),
-            // something is wrong if these are encountered
-            FileType::Unset => panic!("Unexpected Unset"),
-            FileType::Unparsable => panic!("Unexpected Unparsable"),
+            FileType::Unparsable => panic!("BlockerReader::mtime unexpected {:?}", FileType::Unparsable),
         }
     }
 
@@ -1659,7 +1652,7 @@ impl BlockReader {
         match self.blocks.get(blockoffset) {
             Some(blockp) => blockp.len(),
             None => {
-                panic!("bad blockoffset {}; path {:?}", blockoffset, self.path)
+                panic!("BlockerReader::blocklen_at_blockoffset bad blockoffset {}; path {:?}", blockoffset, self.path)
             }
         }
     }
@@ -1736,13 +1729,25 @@ impl BlockReader {
     /// `blockoffset` passed to `read_block_File`.
     pub fn streamed_file(&self) -> bool {
         defñ!();
-        matches!(
-            self.filetype,
-            FileType::Gz
-            | FileType::Tar
-            | FileType::TarGz
-            | FileType::Xz
-        )
+        match self.filetype {
+            FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,
+            FileType::Evtx{ archival_type: FileTypeArchive::Tar } => true,
+            FileType::Evtx{ archival_type: FileTypeArchive::Xz } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => true,
+            FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Gz } => true,
+            FileType::Journal{ archival_type: FileTypeArchive::Tar } => true,
+            FileType::Journal{ archival_type: FileTypeArchive::Xz } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => true,
+            FileType::Unparsable => false,
+        }
     }
 
     /// Proactively `drop` the [`Block`] at [`BlockOffset`].
@@ -1879,12 +1884,8 @@ impl BlockReader {
             .blocks_read
             .insert(blockoffset)
         {
-            de_wrn!(
-                "blockreader.blocks_read({}) already had a entry, for file {:?}",
-                blockoffset, self.path
-            );
             debug_panic!(
-                "blockreader.blocks_read({}) already had a entry, for file {:?}",
+                "BlockReader::store_blocks_in_storage blockreader.blocks_read({}) already had a entry, for file {:?}",
                 blockoffset, self.path
             );
         }
@@ -1906,7 +1907,7 @@ impl BlockReader {
         debug_assert!(
             matches!(
                 self.filetype,
-                FileType::File
+                FileType::Text { .. }
                 | FileType::FixedStruct{..}
             ),
             "wrong FileType {:?} for calling read_block_FILE",
@@ -1975,9 +1976,14 @@ impl BlockReader {
         blockoffset: BlockOffset,
     ) -> ResultS3ReadBlock {
         defn!("({})", blockoffset);
-        debug_assert_eq!(
-            self.filetype,
-            FileType::Gz,
+        debug_assert!(
+            matches!(
+                self.filetype,
+                FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+                | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. }
+                | FileType::Journal{ archival_type: FileTypeArchive::Gz }
+                | FileType::Text{ archival_type: FileTypeArchive::Gz, .. }
+            ),
             "wrong FileType {:?} for calling read_block_FileGz",
             self.filetype
         );
@@ -2240,9 +2246,14 @@ impl BlockReader {
         blockoffset: BlockOffset,
     ) -> ResultS3ReadBlock {
         defn!("({})", blockoffset);
-        debug_assert_eq!(
-            self.filetype,
-            FileType::Xz,
+        debug_assert!(
+            matches!(
+                self.filetype,
+                FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+                | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. }
+                | FileType::Journal{ archival_type: FileTypeArchive::Xz }
+                | FileType::Text{ archival_type: FileTypeArchive::Xz, .. }
+            ),
             "wrong FileType {:?} for calling read_block_FileXz",
             self.filetype
         );
@@ -2422,9 +2433,14 @@ impl BlockReader {
         blockoffset: BlockOffset,
     ) -> ResultS3ReadBlock {
         defn!("({})", blockoffset);
-        debug_assert_eq!(
-            self.filetype,
-            FileType::Tar,
+        debug_assert!(
+            matches!(
+                self.filetype,
+                FileType::Evtx{ archival_type: FileTypeArchive::Tar }
+                | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. }
+                | FileType::Journal{ archival_type: FileTypeArchive::Tar }
+                | FileType::Text{ archival_type: FileTypeArchive::Tar, .. }
+            ),
             "wrong FileType {:?} for calling read_block_FileTar",
             self.filetype
         );
@@ -2666,24 +2682,23 @@ impl BlockReader {
         }
 
         match self.filetype {
-            FileType::File
-            | FileType::FixedStruct{..}
-            | FileType::Unknown
-            => self.read_block_File(blockoffset),
-            FileType::Gz => self.read_block_FileGz(blockoffset),
-            FileType::Xz => self.read_block_FileXz(blockoffset),
-            FileType::Tar => self.read_block_FileTar(blockoffset),
-            // these are known to not work with BlockReader
-            | FileType::Evtx
-            | FileType::TarGz
-            | FileType::Journal
-            => panic!(
-                "Unsupported filetype in BlockReader::read_block {:?}; path {:?}",
+            FileType::Evtx{ archival_type: _ } => panic!(
+                "BlockReader::read_block unsupported filetype {:?}; path {:?}",
                 self.filetype, self.path,
             ),
-            // something is wrong if these are encountered
-            | FileType::Unparsable
-            | FileType::Unset
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => self.read_block_File(blockoffset),
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => self.read_block_FileGz(blockoffset),
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => self.read_block_FileTar(blockoffset),
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => self.read_block_FileXz(blockoffset),
+            FileType::Journal{ archival_type: _ } => panic!(
+                "BlockReader::read_block unsupported filetype {:?}; path {:?}",
+                self.filetype, self.path,
+            ),
+            FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => self.read_block_File(blockoffset),
+            FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => self.read_block_FileGz(blockoffset),
+            FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => self.read_block_FileTar(blockoffset),
+            FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => self.read_block_FileXz(blockoffset),
+            FileType::Unparsable
             => panic!(
                 "BlockReader::read_block bad filetype {:?}; path {:?}",
                 self.filetype, self.path,

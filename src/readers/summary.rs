@@ -5,12 +5,13 @@
 #![allow(non_snake_case)]
 
 use crate::common::{
+    debug_panic,
     Count,
     FPath,
     FileType,
+    FileTypeArchive,
     LogMessageType,
 };
-use crate::common::debug_panic;
 use crate::data::datetime::DateTimeLOpt;
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
@@ -104,7 +105,9 @@ pub struct Summary {
     /// the `FPath` of the processed file
     pub path: FPath,
     /// the `FileType` of the processed file
-    pub filetype: FileType,
+    ///
+    /// Wrap in an `Option` to avoid requiring `Default` for `FileType`.
+    pub filetype: Option<FileType>,
     /// the `LogMessageType` of the processed file
     pub logmessagetype: LogMessageType,
     /// Data specific to the particular readers and processors.
@@ -114,6 +117,12 @@ pub struct Summary {
     ///
     /// When `logmessagetype` is [`LogMessageType::FixedStruct*`] then this must be
     /// [`SummaryReaderData::FixedStruct`].
+    ///
+    /// When `logmessagetype` is [`LogMessageType::Evtx`] then this must be
+    /// [`SummaryReaderData::Etvx`].
+    ///
+    /// When `logmessagetype` is [`LogMessageType::Journal`] then this must be
+    /// [`SummaryReaderData::Journal`].
     ///
     /// [`LogMessageType::FixedStruct*`]: crate::common::LogMessageType
     pub readerdata: SummaryReaderData,
@@ -180,7 +189,7 @@ impl Summary {
                 );
                 Summary {
                     path,
-                    filetype,
+                    filetype: Some(filetype),
                     logmessagetype,
                     readerdata,
                     error,
@@ -204,7 +213,7 @@ impl Summary {
                 );
                 Summary {
                     path,
-                    filetype,
+                    filetype: Some(filetype),
                     logmessagetype,
                     readerdata,
                     error,
@@ -248,7 +257,7 @@ impl Summary {
                 );
                 Summary {
                     path,
-                    filetype,
+                    filetype: Some(filetype),
                     logmessagetype,
                     readerdata,
                     error,
@@ -261,7 +270,7 @@ impl Summary {
                 );
                 Summary {
                     path,
-                    filetype,
+                    filetype: Some(filetype),
                     logmessagetype,
                     readerdata,
                     error,
@@ -289,7 +298,7 @@ impl Summary {
 
         Summary {
             path,
-            filetype,
+            filetype: Some(filetype),
             logmessagetype,
             readerdata: SummaryReaderData::Dummy,
             error,
@@ -520,7 +529,7 @@ impl fmt::Debug for Summary {
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
         match &self.readerdata {
-            SummaryReaderData::Dummy => f.debug_struct("").finish(),
+            SummaryReaderData::Dummy => f.debug_struct("Dummy").finish(),
             SummaryReaderData::Syslog(
                 (
                     summaryblockreader,
@@ -530,46 +539,61 @@ impl fmt::Debug for Summary {
                 )
             ) => {
                 match self.filetype {
-                    FileType::File
-                    | FileType::Tar
-                    | FileType::FixedStruct{..}
-                    | FileType::Unknown => f
-                        .debug_struct("")
-                        .field("bytes", &summaryblockreader.blockreader_bytes)
-                        .field("bytes total", &summaryblockreader.blockreader_bytes_total)
-                        .field("lines", &summarylinereader.linereader_lines)
-                        .field("lines stored highest", &summarylinereader.linereader_lines_stored_highest)
-                        .field("syslines", &summarysyslinereader.syslinereader_syslines)
-                        .field("syslines stored highest", &summarysyslinereader.syslinereader_syslines_stored_highest)
-                        .field("blocks", &summaryblockreader.blockreader_blocks)
-                        .field("blocks total", &summaryblockreader.blockreader_blocks_total)
-                        .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)
-                        .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
-                        .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
-                        .finish(),
-                    FileType::Gz
-                    | FileType::Xz => f
-                        .debug_struct("")
-                        .field("bytes", &summaryblockreader.blockreader_bytes)
-                        .field("bytes total", &summaryblockreader.blockreader_bytes_total)
-                        .field("lines", &summarylinereader.linereader_lines)
-                        .field("lines stored highest", &summarylinereader.linereader_lines_stored_highest)
-                        .field("syslines", &summarysyslinereader.syslinereader_syslines)
-                        .field("syslines stored highest", &summarysyslinereader.syslinereader_syslines_stored_highest)
-                        .field("blocks", &summaryblockreader.blockreader_blocks)
-                        .field("blocks total", &summaryblockreader.blockreader_blocks_total)
-                        .field("blocks stored high", &summaryblockreader.blockreader_blocks_highest)
-                        .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
-                        .field("filesz uncompressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz_actual))
-                        .field("filesz compressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
-                        .finish(),
-                    // Summary::default()
-                    FileType::Evtx
-                    | FileType::Journal
-                    | FileType::Unparsable => f.debug_struct("").finish(),
-                    FileType::TarGz
-                    | FileType::Unset =>
-                        unimplemented!("FileType {:?} not implemented for Summary fmt::Debug", self.filetype),
+                    None => {
+                        debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+
+                        f.debug_struct("Unexpected self.filetype=None").finish()
+                    }
+                    Some(filetype_) => {
+                        match filetype_ {
+                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
+                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
+                            | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
+                            | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
+                            => f
+                                .debug_struct("")
+                                .field("bytes", &summaryblockreader.blockreader_bytes)
+                                .field("bytes total", &summaryblockreader.blockreader_bytes_total)
+                                .field("lines", &summarylinereader.linereader_lines)
+                                .field("lines stored highest", &summarylinereader.linereader_lines_stored_highest)
+                                .field("syslines", &summarysyslinereader.syslinereader_syslines)
+                                .field("syslines stored highest", &summarysyslinereader.syslinereader_syslines_stored_highest)
+                                .field("blocks", &summaryblockreader.blockreader_blocks)
+                                .field("blocks total", &summaryblockreader.blockreader_blocks_total)
+                                .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)
+                                .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
+                                .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
+                                .finish(),
+                            FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+                            | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
+                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
+                            | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
+                            | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }
+                            => f
+                                .debug_struct("")
+                                .field("bytes", &summaryblockreader.blockreader_bytes)
+                                .field("bytes total", &summaryblockreader.blockreader_bytes_total)
+                                .field("lines", &summarylinereader.linereader_lines)
+                                .field("lines stored highest", &summarylinereader.linereader_lines_stored_highest)
+                                .field("syslines", &summarysyslinereader.syslinereader_syslines)
+                                .field("syslines stored highest", &summarysyslinereader.syslinereader_syslines_stored_highest)
+                                .field("blocks", &summaryblockreader.blockreader_blocks)
+                                .field("blocks total", &summaryblockreader.blockreader_blocks_total)
+                                .field("blocks stored high", &summaryblockreader.blockreader_blocks_highest)
+                                .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
+                                .field("filesz uncompressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz_actual))
+                                .field("filesz compressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
+                                .finish(),
+                            // Summary::default()
+                            FileType::Evtx{ archival_type: _ }
+                            | FileType::Journal{ archival_type: _ }
+                            | FileType::Unparsable
+                            => f
+                                .debug_struct("Summary::Default")
+                                .finish(),
+                        }
+                    }
                 }
             }
             SummaryReaderData::FixedStruct(
@@ -579,38 +603,71 @@ impl fmt::Debug for Summary {
                 )
             ) => {
                 match self.filetype {
-                    FileType::FixedStruct{..} => f
-                        .debug_struct("")
-                        .field("bytes", &summaryblockreader.blockreader_bytes)
-                        .field("bytes total", &summaryblockreader.blockreader_bytes_total)
-                        .field("entries", &summaryfixedstructreader.fixedstructreader_utmp_entries)
-                        .field("blocks", &summaryblockreader.blockreader_blocks)
-                        .field("blocks total", &summaryblockreader.blockreader_blocks_total)
-                        .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)
-                        .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
-                        .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
-                        .finish(),
-                    ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
+                    None => {
+                        debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+
+                        f.debug_struct("Unexpected self.filetype=None").finish()
+                    }
+                    Some(filetype_) => {
+                        match filetype_ {
+                            FileType::FixedStruct{..} => f
+                                .debug_struct("SummaryReaderData::FixedStruct")
+                                .field("bytes", &summaryblockreader.blockreader_bytes)
+                                .field("bytes total", &summaryblockreader.blockreader_bytes_total)
+                                .field("entries", &summaryfixedstructreader.fixedstructreader_utmp_entries)
+                                .field("blocks", &summaryblockreader.blockreader_blocks)
+                                .field("blocks total", &summaryblockreader.blockreader_blocks_total)
+                                .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)
+                                .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
+                                .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
+                                .finish(),
+                            ft => {
+                                debug_panic!("Unexpected filetype {}; path {:?}", ft, self.path);
+
+                                f.debug_struct("Unexpected filetype").finish()
+                            }
+                        }
+                    }
                 }
             }
             SummaryReaderData::Etvx(summaryevtxreader) => {
                 match self.filetype {
-                    FileType::Evtx => f
-                        .debug_struct("")
-                        .field("evtx events processed", &summaryevtxreader.evtxreader_events_processed)
-                        .field("evtx events accepted", &summaryevtxreader.evtxreader_events_accepted)
-                        .finish(),
-                    ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
+                    None => {
+                        debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+
+                        f.debug_struct("Unexpected self.filetype is None").finish()
+                    }
+                    Some(filetype_) => {
+                        match filetype_ {
+                            FileType::Evtx{..} => f
+                                .debug_struct("")
+                                .field("evtx events processed", &summaryevtxreader.evtxreader_events_processed)
+                                .field("evtx events accepted", &summaryevtxreader.evtxreader_events_accepted)
+                                .finish(),
+                            ft => {
+                                debug_panic!("Unpexected filetype {}; path {:?}", ft, self.path);
+
+                                f.debug_struct("Unexpected filetype").finish()
+                            }
+                        }
+                    }
                 }
             }
             SummaryReaderData::Journal(summaryjournalreader) => {
                 match self.filetype {
-                    FileType::Journal => f
-                        .debug_struct("")
-                        .field("journal events processed", &summaryjournalreader.journalreader_events_processed)
-                        .field("journal events accepted", &summaryjournalreader.journalreader_events_accepted)
-                        .finish(),
-                    ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
+                    None => {
+                        debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+
+                        f.debug_struct("Unexpected self.filetype is None").finish()
+                    }
+                    Some(filetype_) => match filetype_ {
+                        FileType::Journal{..} => f
+                            .debug_struct("")
+                            .field("journal events processed", &summaryjournalreader.journalreader_events_processed)
+                            .field("journal events accepted", &summaryjournalreader.journalreader_events_accepted)
+                            .finish(),
+                        ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
+                    }
                 }
             }
         }

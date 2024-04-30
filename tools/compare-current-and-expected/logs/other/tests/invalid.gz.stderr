@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/other/tests/invalid.gz
   About:
-      filetype       : GZIP
+      filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["application/gzip"])
   Printed:
       bytes         : 0
       lines         : 0
@@ -36,7 +35,7 @@ File: ./logs/other/tests/invalid.gz
   Processing Drops:
   Error: unexpected end of file: unexpected end of file
 
-File: ./logs/other/tests/invalid.gz MimeGuess(["application/gzip"]) 
+File: ./logs/other/tests/invalid.gz 
 
 Program Summary:
 

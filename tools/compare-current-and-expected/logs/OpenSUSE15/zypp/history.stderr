@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/OpenSUSE15/zypp/history
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 7144
       lines         : 39

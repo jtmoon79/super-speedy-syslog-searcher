@@ -14,7 +14,6 @@ use crate::common::{
     Count,
     FileSz,
     FPath,
-    FileType,
     LogMessageType,
 };
 use crate::data::datetime::{
@@ -43,6 +42,7 @@ use crate::readers::journalreader::{
     ForceErrorRangeOpt,
 };
 use crate::tests::common::{
+    FILETYPE_JOURNAL,
     FO_0,
     TS_1,
     NTF_JOURNAL_EMPTY_FPATH,
@@ -488,9 +488,8 @@ fn test_JournalReader_next_summary(
 
     // assert Summary
     let summary_c = journalreader.summary_complete();
-    assert_eq!(summary_c.filetype, FileType::Journal, "summary_c.filetype");
-    assert_eq!(summary_c.logmessagetype, LogMessageType::Journal,
-        "summary_c.logmessagetype");
+    assert_eq!(summary_c.filetype.unwrap(), FILETYPE_JOURNAL, "summary_c.filetype");
+    assert_eq!(summary_c.logmessagetype, LogMessageType::Journal, "summary_c.logmessagetype");
     assert!(summary_c.blockreader().is_none());
     assert_eq!(summary_c.datetime_first(), &datetime_first_accepted);
     assert_eq!(summary_c.datetime_last(), &datetime_last_accepted);

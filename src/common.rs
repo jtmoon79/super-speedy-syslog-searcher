@@ -55,6 +55,19 @@ pub type PathId = usize;
 /// a set of [`PathId`]
 pub type SetPathId = HashSet<PathId>;
 
+#[macro_export]
+macro_rules! debug_panic {
+    ($($arg:tt)*) => (
+        // XXX: use `if cfg!` instead of `#[cfg(...)]` to avoid
+        //      `unreachable_code` warning
+        if cfg!(any(debug_assertions, test))
+        {
+            panic!($($arg)*);
+        }
+    )
+}
+pub use debug_panic;
+
 // --------------------------------------------------
 // custom Results enums for various *Reader functions
 
@@ -508,10 +521,12 @@ impl<E> PartialEq for FileProcessingResult<E> {
 impl<E> Eq for FileProcessingResult<E> {}
 
 /// the various kinds of fixedstruct files, i.e. C-struct records
-// BUG: `Kinded` claims to automatically derive multiple traits but does not
-//      see <https://crates.io/crates/kinded>
-#[derive(Clone, Copy, Debug, Eq, Kinded, PartialEq)]
-pub enum FixedStructFileType {
+// BUG: `Kinded` claims to automatically derive multiple traits but does not.
+//      See claims in <https://crates.io/crates/kinded/0.3.0>
+//      > By default the kind type implements the following traits:
+//      > Debug, Clone, Copy, PartialEq, Eq, Display, FromStr, From<T>, From<&T>.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
+pub enum FileTypeFixedStruct {
     Acct,
     AcctV3,
     Lastlog,
@@ -520,65 +535,164 @@ pub enum FixedStructFileType {
     Utmpx,
 }
 
-/// File types that can be processed by [`SyslogProcessor`]
-/// (and underlying "structs"; [`SyslineReader`], etc.).
-///
-/// [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
-/// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
-// TODO: [2023/04] types Unset, Unparsable, Unknown are confusing to keep around
-//       and make extra work for all match statements.
-//       Can they be removed?
-// BUG: `Kinded` claims to automatically derive multiple traits but does not
-//      see <https://crates.io/crates/kinded>
-#[derive(Clone, Copy, Debug, Eq, Kinded)]
-pub enum FileType {
-    /// an unset value, the default, encountering this value is an error
-    Unset,
-    /// a plain vanilla file, e.g. `file.log`. Presumed to be a "syslog" file
-    /// as the term is loosely used in this project.
-    // TODO: change from `File` to `Syslog`, or maybe `AdhocText`
-    File,
+/// Text file encoding type.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
+pub enum FileTypeTextEncoding {
+    /// UTF8 or ASCII encoding
+    Utf8Ascii,
+    // UTF16 encoding
+    Utf16,
+    // UTF32 encoding
+    Utf32,
+}
+
+impl std::fmt::Display for FileTypeTextEncoding {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter,
+    ) -> std::fmt::Result {
+        match self {
+            FileTypeTextEncoding::Utf8Ascii => write!(f, "UTF8/ASCII"),
+            FileTypeTextEncoding::Utf16 => write!(f, "UTF16"),
+            FileTypeTextEncoding::Utf32 => write!(f, "UTF32"),
+        }
+    }
+}
+
+/// a file's storage format
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
+pub enum FileTypeArchive {
+    Normal,
     /// a compressed gzipped file, e.g. `log.gz`,
     /// (presumed to contain one regular file; see Issue #8)
     Gz,
-    /// a plain file within a `.tar` archive file
+    /// a file within a `.tar` archive file
     Tar,
-    /// a file within a compressed gzipped `.tar` or `.tgz` archive file
-    /// Currently unparsable. See [Issue #14]
-    ///
-    /// This ended up here from overzealous planning. It is not currently used.
-    ///
-    /// [Issue #14]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/14
-    TarGz,
     /// a file compressed "xz'd" file, e.g. `log.xz`
     /// (presumed to contain one regular file; see Issue #11)
     Xz,
-    /// a binary acct/lastlog/lastlogx/utmp/umtpx format file
-    FixedStruct { type_: FixedStructFileType },
+}
+
+impl std::fmt::Display for FileTypeArchive {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter,
+    ) -> std::fmt::Result {
+        match self {
+            FileTypeArchive::Normal => write!(f, "Normal"),
+            FileTypeArchive::Gz => write!(f, "gzip"),
+            FileTypeArchive::Tar => write!(f, "tar"),
+            FileTypeArchive::Xz => write!(f, "xz"),
+        }
+    }
+}
+
+/// A file's major type to distinguish which _Reader_ struct should use it and
+/// how the _Readers_ processes it.
+// TODO: [2023/04] types Unset, Unparsable, Unknown are confusing to keep around
+//       and make extra work for all match statements.
+//       Can they be removed?
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
+pub enum FileType {
     /// a [Windows XML EventLog] file
     ///
     /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
-    Evtx,
+    Evtx { archival_type: FileTypeArchive },
+    /// a binary acct/lastlog/lastlogx/utmp/umtpx format file
+    FixedStruct { archival_type: FileTypeArchive, fixedstruct_type: FileTypeFixedStruct },
     /// a [systemd Journal file]
     ///
     /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
-    Journal,
+    Journal { archival_type: FileTypeArchive },
+    /// a plain vanilla file, e.g. `file.log`. Presumed to be a "syslog" file
+    /// as the term is loosely used in this project.
+    Text { archival_type: FileTypeArchive, encoding_type: FileTypeTextEncoding },
     /// a file type known to be unparsable
-    // TODO: [2024/03] this type is confusing and should be removed.
     Unparsable,
-    /// an unknown file type (catch all)
-    Unknown,
+    // #[default]
+    // Unset
 }
 
-// TRACKING: Deriving `Default` on enums is experimental.
-//           See issue #86985 <https://github.com/rust-lang/rust/issues/86985>
-//           When `Default` is integrated then this `impl Default` can be removed.
-//           Issue #18
-impl Default for FileType {
-    fn default() -> Self {
-        FileType::Unset
-    }
-}
+/*
+
+For copy+pasta convenience:
+
+    FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
+    FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
+    FileType::Evtx{ archival_type: FileTypeArchive::Tar } => false,
+    FileType::Evtx{ archival_type: FileTypeArchive::Xz } => false,
+    FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ } => false,
+    FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ } => false,
+    FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ } => false,
+    FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ } => false,
+    FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
+    FileType::Journal{ archival_type: FileTypeArchive::Gz } => false,
+    FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
+    FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf16 } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf32 } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf16 } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf32 } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf16 } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf32 } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf16 } => false,
+    FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf32 } => false,
+    FileType::Unknown => false,
+    FileType::Unparsable => false,
+    FileType::Unset => false,
+
+    FileType::Evtx{ archival_type: FileTypeArchive::Normal }
+    | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+    | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
+    | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+    | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
+    | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
+    | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
+    | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
+    | FileType::Journal{ archival_type: FileTypeArchive::Normal }
+    | FileType::Journal{ archival_type: FileTypeArchive::Gz }
+    | FileType::Journal{ archival_type: FileTypeArchive::Tar }
+    | FileType::Journal{ archival_type: FileTypeArchive::Xz }
+    | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+    | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf16 }
+    | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf32 }
+    | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+    | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf16 }
+    | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf32 }
+    | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+    | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf16 }
+    | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf32 }
+    | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+    | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf16 }
+    | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf32 }
+    | FileType::Unknown
+    | FileType::Unparsable
+    | FileType::Unset
+
+    FileType::Evtx{ archival_type: FileTypeArchive::Normal }
+    | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+    | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
+    | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+    | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
+    | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
+    | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
+    | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
+    | FileType::Journal{ archival_type: FileTypeArchive::Normal }
+    | FileType::Journal{ archival_type: FileTypeArchive::Gz }
+    | FileType::Journal{ archival_type: FileTypeArchive::Tar }
+    | FileType::Journal{ archival_type: FileTypeArchive::Xz }
+    | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
+    | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
+    | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
+    | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }
+    | FileType::Unknown
+    | FileType::Unparsable
+    | FileType::Unset
+*/
 
 impl std::fmt::Display for FileType {
     fn fmt(
@@ -586,71 +700,126 @@ impl std::fmt::Display for FileType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
-            FileType::Unset => write!(f, "UNSET"),
-            FileType::File => write!(f, "TEXT"),
-            FileType::Gz => write!(f, "GZIP"),
-            FileType::Tar => write!(f, "TAR"),
-            FileType::TarGz => write!(f, "TAR GZIP"),
-            FileType::Xz => write!(f, "XZ"),
-            FileType::FixedStruct{type_:FixedStructFileType::Acct} => write!(f, "ACCT"),
-            FileType::FixedStruct{type_:FixedStructFileType::AcctV3} => write!(f, "ACCT_V3"),
-            FileType::FixedStruct{type_:FixedStructFileType::Lastlog} => write!(f, "LASTLOG"),
-            FileType::FixedStruct{type_:FixedStructFileType::Lastlogx} => write!(f, "LASTLOGX"),
-            FileType::FixedStruct{type_:FixedStructFileType::Utmp} => write!(f, "UTMP/WTMP"),
-            FileType::FixedStruct{type_:FixedStructFileType::Utmpx} => write!(f, "UTMPX/WTMPX"),
-            FileType::Evtx => write!(f, "EVTX"),
-            FileType::Journal => write!(f, "JOURNAL"),
+            FileType::Evtx{ archival_type: _ } => write!(f, "EVTX"),
+            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Acct } => write!(f, "ACCT"),
+            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::AcctV3 } => write!(f, "ACCT_V3"),
+            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Lastlog } => write!(f, "LASTLOG"),
+            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Lastlogx } => write!(f, "LASTLOGX"),
+            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Utmp } => write!(f, "UTMP/WTMP"),
+            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Utmpx } => write!(f, "UTMPX/WTMPX"),
+            FileType::Journal{ archival_type: _ } => write!(f, "JOURNAL"),
+            FileType::Text{ archival_type: _, .. } => write!(f, "TEXT"),
             FileType::Unparsable => write!(f, "UNPARSABLE"),
-            FileType::Unknown => write!(f, "UNKNOWN"),
         }
-    }
-}
-
-impl PartialEq for FileType {
-    fn eq(&self, other: &Self) -> bool {
-        matches!(
-            (self, other),
-            (FileType::Unset, FileType::Unset)
-            | (FileType::File, FileType::File)
-            | (FileType::Gz, FileType::Gz)
-            | (FileType::Tar, FileType::Tar)
-            | (FileType::TarGz, FileType::TarGz)
-            | (FileType::Xz, FileType::Xz)
-            | (FileType::FixedStruct{..}, FileType::FixedStruct{..})
-            | (FileType::Evtx, FileType::Evtx)
-            | (FileType::Journal, FileType::Journal)
-            | (FileType::Unparsable, FileType::Unparsable)
-            | (FileType::Unknown, FileType::Unknown)
-        )
     }
 }
 
 impl FileType {
     /// Returns `true` if this is a compressed file
-    #[inline(always)]
     pub const fn is_compressed(&self) -> bool {
-        matches!(*self, FileType::Gz | FileType::TarGz | FileType::Xz)
+        match self {
+            FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,
+            FileType::Evtx{ archival_type: FileTypeArchive::Tar } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Xz } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ } => true,
+            FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Gz } => true,
+            FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Xz } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ } => true,
+            FileType::Unparsable => false,
+        }
     }
 
     /// Returns `true` if the file is within an archived file
-    #[inline(always)]
     pub const fn is_archived(&self) -> bool {
-        matches!(*self, FileType::Tar | FileType::TarGz)
+        match self {
+            FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Tar } => true,
+            FileType::Evtx{ archival_type: FileTypeArchive::Xz } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Gz } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Tar } => true,
+            FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ } => false,
+            FileType::Unparsable => false,
+        }
     }
 
     /// Returns `true` if the file is processable
-    #[inline(always)]
     pub const fn is_supported(&self) -> bool {
-        matches!(*self,
-            FileType::File
-            | FileType::Gz
-            | FileType::Tar
-            | FileType::Xz
-            | FileType::FixedStruct{..}
-            | FileType::Evtx
-            | FileType::Journal
-            | FileType::Unknown
-        )
+        match self {
+            FileType::Evtx{ .. } => true,
+            FileType::FixedStruct{ .. } => true,
+            FileType::Journal{ .. } => true,
+            FileType::Text{ .. } => true,
+            FileType::Unparsable => false,
+        }
+    }
+
+    /// convert a `FileType` to it's corresponding `LogMessageType`
+    pub fn to_logmessagetype(&self) -> LogMessageType {
+        match self {
+            FileType::Evtx{ .. } => LogMessageType::Evtx,
+            FileType::FixedStruct{ .. } => LogMessageType::FixedStruct,
+            FileType::Journal{ .. } => LogMessageType::Journal,
+            FileType::Text{ .. } => LogMessageType::Sysline,
+            FileType::Unparsable => {
+                debug_panic!("FileType::Unparsable should not be converted to LogMessageType");
+
+                LogMessageType::All
+            },
+        }
+    }
+
+    pub const fn is_evtx (&self) -> bool {
+        match self {
+            FileType::Evtx{ .. } => true,
+            _ => false,
+        }
+    }
+
+    pub const fn is_fixedstruct (&self) -> bool {
+        match self {
+            FileType::FixedStruct{ .. } => true,
+            _ => false,
+        }
+    }
+
+    pub const fn is_journal (&self) -> bool {
+        match self {
+            FileType::Journal{ .. } => true,
+            _ => false,
+        }
+    }
+
+    pub const fn is_text (&self) -> bool {
+        match self {
+            FileType::Text{ .. } => true,
+            _ => false,
+        }
+    }
+
+    pub const fn is_unparsable (&self) -> bool {
+        match self {
+            FileType::Unparsable => true,
+            _ => false,
+        }
     }
 }
 
@@ -660,7 +829,9 @@ impl FileType {
 /// [`LogMessage`]: crate::data::common::LogMessage
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub enum LogMessageType {
-    /// Typical line-oriented log file; a "syslog" file in program parlance.
+    /// Typical line-oriented log file text message. Such a log file may be
+    /// referred to as a "syslog file" in program parlance but that phrase is
+    /// used loosely.
     ///
     /// Relates to a [`Sysline`].
     ///
@@ -704,36 +875,6 @@ impl std::fmt::Display for LogMessageType {
         }
     }
 }
-
-/// convert a [`FileType`] to a [`LogMessageType`]
-pub fn filetype_to_logmessagetype(filetype: FileType) -> LogMessageType {
-    match filetype {
-        FileType::Evtx => LogMessageType::Evtx,
-        FileType::FixedStruct{..} => LogMessageType::FixedStruct,
-        FileType::Journal => LogMessageType::Journal,
-        FileType::File
-        | FileType::Gz
-        | FileType::Tar
-        | FileType::Xz
-        | FileType::Unknown
-        => LogMessageType::Sysline,
-        FileType::TarGz => panic!("unexpected filetype TarGz"),
-        FileType::Unparsable => panic!("unexpected filetype Unparsable"),
-        FileType::Unset => panic!("unexpected filetype Unset"),
-    }
-}
-
-#[macro_export]
-macro_rules! debug_panic {
-    ($($arg:tt)*) => (
-        // use `if cfg!` instead of `#[cfg(...)]` to avoid `unreachable_code` warning
-        if cfg!(any(debug_assertions, test))
-        {
-            panic!($($arg)*);
-        }
-    )
-}
-pub use debug_panic;
 
 // ----------------------
 // Blocks and BlockReader

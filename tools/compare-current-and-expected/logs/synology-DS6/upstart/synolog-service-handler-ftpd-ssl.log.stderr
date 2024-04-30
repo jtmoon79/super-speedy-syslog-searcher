@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2758
       lines         : 19

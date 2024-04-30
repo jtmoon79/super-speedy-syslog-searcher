@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/postgresql.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3561
       lines         : 19

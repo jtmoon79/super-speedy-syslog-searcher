@@ -6,9 +6,11 @@ use crate::common::{
     Count,
     FPath,
     FileOffset,
-    FileType,
     FileSz,
-    FixedStructFileType,
+    FileType,
+    FileTypeArchive,
+    FileTypeFixedStruct,
+    FileTypeTextEncoding,
     Path,
 };
 use crate::data::datetime::{
@@ -32,7 +34,6 @@ use crate::data::fixedstruct::{
     netbsd_x8664,
     openbsd_x86,
 };
-use crate::readers::filepreprocessor::MimeGuess;
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
 use crate::readers::blockreader::{Block, BlockSz, SUBPATH_SEP};
 use crate::debug::helpers::{
@@ -53,20 +54,22 @@ use std::io::Read;
 use ::lazy_static::lazy_static;
 
 
-lazy_static! {
-    // ready-made MimeGuess
-    pub static ref MIMEGUESS_EMPTY: MimeGuess = MimeGuess::from_ext("");
-    pub static ref MIMEGUESS_TXT: MimeGuess = MimeGuess::from_ext("txt");
-    pub static ref MIMEGUESS_LOG: MimeGuess = MimeGuess::from_ext("log");
-    pub static ref MIMEGUESS_GZ: MimeGuess = MimeGuess::from_ext("gz");
-    pub static ref MIMEGUESS_XZ: MimeGuess = MimeGuess::from_ext("xz");
-    pub static ref MIMEGUESS_TAR: MimeGuess = MimeGuess::from_ext("tar");
-    pub static ref MIMEGUESS_TARGZ: MimeGuess = MimeGuess::from_ext("tgz");
-    pub static ref MIMEGUESS_UTMP: MimeGuess = MimeGuess::from_ext("utmp");
-    pub static ref MIMEGUESS_EVTX: MimeGuess = MimeGuess::from_ext("evtx");
-    pub static ref MIMEGUESS_ETL: MimeGuess = MimeGuess::from_ext("etl");
-    pub static ref MIMEGUESS_ZIP: MimeGuess = MimeGuess::from_ext("zip");
+// some handy consts
 
+pub const FILETYPE_EVTX: FileType =
+    FileType::Evtx { archival_type: FileTypeArchive::Normal };
+pub const FILETYPE_JOURNAL: FileType =
+    FileType::Journal { archival_type: FileTypeArchive::Normal };
+pub const FILETYPE_UTF8: FileType =
+    FileType::Text { archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii };
+pub const FILETYPE_UTF8GZ: FileType =
+    FileType::Text { archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii };
+pub const FILETYPE_UTF8TAR: FileType =
+    FileType::Text { archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii };
+pub const FILETYPE_UTF8XZ: FileType =
+    FileType::Text { archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii };
+
+lazy_static! {
     // data from the various forms of the 1 byte, 3 byte, and 8 byte file
     pub static ref BYTES_A: Vec<u8> = vec![b'A'];
     pub static ref BYTES_AB: Vec<u8> = vec![b'A', b'B'];
@@ -173,9 +176,6 @@ lazy_static! {
     pub static ref NTF_LOG_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_LOG_EMPTY.path())
     };
-    pub static ref NTF_LOG_EMPTY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(NTF_LOG_EMPTY.path())
-    };
 
     // empty unknown file with suffix
 
@@ -186,9 +186,6 @@ lazy_static! {
     };
     pub static ref NTF_UNKNOWN_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_UNKNOWN_EMPTY.path())
-    };
-    pub static ref NTF_UNKOWN_EMPTY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(NTF_UNKNOWN_EMPTY.path())
     };
 
     // 1 byte file
@@ -229,7 +226,7 @@ lazy_static! {
     };
 }
 
-pub const NTF_LOG_EMPTY_FILETYPE: FileType = FileType::File;
+pub const NTF_LOG_EMPTY_FILETYPE: FileType = FILETYPE_UTF8;
 
 // ---------
 // gzip data
@@ -258,14 +255,11 @@ lazy_static! {
     pub static ref NTF_GZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_GZ_EMPTY.path())
     };
-    pub static ref NTF_GZ_EMPTY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(NTF_GZ_EMPTY.path())
-    };
     pub static ref NTF_GZ_EMPTY_SYSTEMTIME: SystemTime = seconds_to_systemtime(
         &1_659_160_049
     );
 }
-pub const NTF_GZ_EMPTY_FILETYPE: FileType = FileType::Gz;
+pub const NTF_GZ_EMPTY_FILETYPE: FileType = FILETYPE_UTF8;
 
 /// gzip of a one-byte file using `gzip`:
 ///
@@ -333,11 +327,8 @@ lazy_static! {
     pub static ref NTF_XZ_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_XZ_EMPTY.path())
     };
-    pub static ref NTF_XZ_EMPTY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(NTF_XZ_EMPTY.path())
-    };
 }
-pub const NTF_XZ_EMPTY_FILETYPE: FileType = FileType::Gz;
+pub const NTF_XZ_EMPTY_FILETYPE: FileType = FILETYPE_UTF8GZ;
 
 /// xz of a one-byte file:
 ///
@@ -503,14 +494,9 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_0BYTE_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_0BYTE_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
 
-        MimeGuess::from_path(path)
-    };
 }
-pub const NTF_TAR_0BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_0BYTE_FILEA_FILETYPE: FileType = FILETYPE_UTF8TAR;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1143,17 +1129,11 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_1BYTE_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_1BYTE_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
     pub static ref NTF_TAR_1BYTE_FILEA_SYSTEMTIME: SystemTime = seconds_to_systemtime(
         &1_659_164_896
     );
 }
-pub const NTF_TAR_1BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_1BYTE_FILEA_FILETYPE: FileType = FILETYPE_UTF8TAR;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1304,14 +1284,8 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_OLDGNU_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_3BYTE_OLDGNU_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
 }
-pub const NTF_TAR_3BYTE_OLDGNU_FILEA_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_3BYTE_OLDGNU_FILEA_FILETYPE: FileType = FILETYPE_UTF8TAR;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1522,14 +1496,8 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_PAX_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_3BYTE_PAX_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
 }
-pub const NTF_TAR_3BYTE_PAX_FILEA_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_3BYTE_PAX_FILEA_FILETYPE: FileType = FILETYPE_UTF8TAR;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1680,14 +1648,8 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_USTAR_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_3BYTE_USTAR_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
 }
-pub const NTF_TAR_3BYTE_USTAR_FILEA_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_3BYTE_USTAR_FILEA_FILETYPE: FileType = FILETYPE_UTF8TAR;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1838,14 +1800,8 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_3BYTE_V7_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_3BYTE_V7_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
 }
-pub const NTF_TAR_3BYTE_V7_FILEA_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_3BYTE_V7_FILEA_FILETYPE: FileType = FILETYPE_UTF8TAR;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1998,17 +1954,11 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_8BYTE_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_8BYTE_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
     pub static ref NTF_TAR_8BYTE_FILEA_SYSTEMTIME: SystemTime = seconds_to_systemtime(
         &1_659_730_196
     );
 }
-pub const NTF_TAR_8BYTE_FILEA_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_8BYTE_FILEA_FILETYPE: FileType = FILETYPE_UTF8TAR;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -2038,11 +1988,6 @@ lazy_static! {
     pub static ref NTF_TGZ_8BYTE: NamedTempFile =
         create_temp_file_bytes_with_suffix(&TGZ_8BYTE_DATA, &String::from(TGZ_8BYTE_FILENAME));
     pub static ref NTF_TGZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_TGZ_8BYTE);
-    pub static ref NTF_TGZ_8BYTE_MIMEGUESS: MimeGuess = {
-        let path = fpath_to_path(&NTF_TGZ_8BYTE_FPATH);
-
-        MimeGuess::from_path(path)
-    };
     pub static ref NTF_TGZ_8BYTE_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TGZ_8BYTE_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -2050,15 +1995,9 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TGZ_8BYTE_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TGZ_8BYTE_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
 }
 pub const NTF_TGZ_8BYTE_FILETYPE: FileType = FileType::Unparsable;
-pub const NTF_TGZ_8BYTE_FILEA_FILETYPE: FileType = FileType::TarGz;
+pub const NTF_TGZ_8BYTE_FILEA_FILETYPE: FileType = FileType::Unparsable;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -2260,16 +2199,12 @@ pub const TAR_AB_DATA: [u8; 3072] = [
 ];
 
 lazy_static! {
-    // fileAB.tar
+    /// fileAB.tar
     pub static ref NTF_TAR_AB: NamedTempFile =
         create_temp_file_bytes_with_suffix(&TAR_AB_DATA, &String::from(TAR_AB_FILENAME));
+    /// fileAB.tar
     pub static ref NTF_TAR_AB_FPATH: FPath = ntf_fpath(&NTF_TAR_AB);
-    pub static ref NTF_TAR_AB_MIMEGUESS: MimeGuess = {
-        let path = fpath_to_path(&NTF_TAR_AB_FPATH);
-
-        MimeGuess::from_path(path)
-    };
-    // fileAB.tar|fileA.txt
+    /// fileAB.tar|fileA.txt
     pub static ref NTF_TAR_AB_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_AB_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -2277,13 +2212,7 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_AB_FILEA_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_AB_FILEA_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
-    // fileAB.tar|fileB.txt
+    /// fileAB.tar|fileB.txt
     pub static ref NTF_TAR_AB_FILEB_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_AB_FPATH.clone();
         path_.push(SUBPATH_SEP);
@@ -2291,15 +2220,9 @@ lazy_static! {
 
         path_
     };
-    pub static ref NTF_TAR_AB_FILEB_MIMEGUESS: MimeGuess = {
-        let fpath = FPath::from(TAR_AB_FILEB_FILENAME);
-        let path = fpath_to_path(&fpath);
-
-        MimeGuess::from_path(path)
-    };
 }
-pub const NTF_TAR_AB_FILEA_FILETYPE: FileType = FileType::Tar;
-pub const NTF_TAR_AB_FILEB_FILETYPE: FileType = FileType::Tar;
+pub const NTF_TAR_AB_FILEA_FILETYPE: FileType = FILETYPE_UTF8TAR;
+pub const NTF_TAR_AB_FILEB_FILETYPE: FileType = FILETYPE_UTF8TAR;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -2506,9 +2429,6 @@ lazy_static! {
         );
 
     pub static ref NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH: FPath = ntf_fpath(&NTF_LINUX_X86_LASTLOG_1ENTRY);
-    pub static ref NTF_LINUX_X86_LASTLOG_1ENTRY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(fpath_to_path(&NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH))
-    };
 
     /// datetime of `LINUX_X86_LASTLOG_BUFFER1`
     pub static ref LINUX_X86_LASTLOG_BUFFER1_DT: DateTimeL = {
@@ -2764,9 +2684,6 @@ lazy_static! {
             &String::from(LINUX_X86_UTMPX_1ENTRY_FILENAME)
         );
     pub static ref NTF_LINUX_X86_UTMPX_1ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_1ENTRY);
-    pub static ref NTF_LINUX_X86_UTMPX_1ENTRY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(fpath_to_path(&NTF_LINUX_X86_UTMPX_1ENTRY_FPATH))
-    };
 
     // UTMPX_2ENTRY
 
@@ -2786,9 +2703,6 @@ lazy_static! {
             &String::from(LINUX_X86_UTMPX_2ENTRY_FILENAME)
         );
     pub static ref NTF_LINUX_X86_UTMPX_2ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_2ENTRY);
-    pub static ref NTF_LINUX_X86_UTMPX_2ENTRY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(fpath_to_path(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH))
-    };
 
     // UTMPX_3ENTRY
 
@@ -2806,9 +2720,6 @@ lazy_static! {
             &String::from(LINUX_X86_UTMPX_3ENTRY_FILENAME)
         );
     pub static ref NTF_LINUX_X86_UTMPX_3ENTRY_FPATH: FPath = ntf_fpath(&NTF_UTMPX_3ENTRY);
-    pub static ref NTF_LINUX_X86_UTMPX_3ENTRY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(fpath_to_path(&NTF_LINUX_X86_UTMPX_3ENTRY_FPATH))
-    };
 
     // LINUX_X86_UTMPX_3ENTRY_OOO
     // (out of order)
@@ -2828,9 +2739,6 @@ lazy_static! {
             &String::from(LINUX_X86_UTMPX_3ENTRY_OOO_FILENAME)
         );
     pub static ref NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH: FPath = ntf_fpath(&NTF_LINUX_X86_UTMPX_3ENTRY_OOO);
-    pub static ref NTF_LINUX_X86_UTMPX_3ENTRY_OOO_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(fpath_to_path(&NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH))
-    };
 
     // UTMPX_00
 
@@ -2921,7 +2829,7 @@ lazy_static! {
 }
 
 pub const NTF_LINUX_X86_UTMPX_2ENTRY_FILETYPE: FileType =
-    FileType::FixedStruct{type_:FixedStructFileType::Utmpx};
+    FileType::FixedStruct { archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmpx };
 
 // netbsd_x8632::acct
 
@@ -3254,7 +3162,7 @@ pub const EVTX_NE_STR_PATH_PROJD: &str = "./logs/programs/evtx/NoEvents.evtx";
 
 /*
 
-File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx (EVTX) (evtx entries) MimeGuess([])
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx (EVTX) (evtx entries)
   Summary Printed:
       bytes          321782
       Events         227
@@ -3325,8 +3233,6 @@ lazy_static! {
     pub static ref EVTX_NE_EVENT_COUNT: Count = 0;
     pub static ref EVTX_NE_F: File =
         File::open(fpath_to_path(&EVTX_NE_FPATH)).unwrap();
-    pub static ref EVTX_NE_MIMEGUESS: MimeGuess =
-        MimeGuess::from_path(fpath_to_path(&EVTX_NE_FPATH));
 
     // EVTX_KPNP
 
@@ -3334,8 +3240,6 @@ lazy_static! {
     pub static ref EVTX_KPNP_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_F: File =
         File::open(fpath_to_path(&EVTX_KPNP_FPATH)).unwrap();
-    pub static ref EVTX_KPNP_MIMEGUESS: MimeGuess =
-        MimeGuess::from_path(fpath_to_path(&EVTX_KPNP_FPATH));
     /// Entry 1 datetime
     pub static ref EVTX_KPNP_ENTRY1_DT: DateTimeL =
         ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
@@ -3360,9 +3264,6 @@ lazy_static! {
     pub static ref NTF_JOURNAL_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_JOURNAL_EMPTY.path())
     };
-    pub static ref NTF_JOURNAL_EMPTY_MIMEGUESS: MimeGuess = {
-        MimeGuess::from_path(NTF_JOURNAL_EMPTY.path())
-    };
 
     // .journal file taken from a new Red Hat Enterprise 9.1 system
 
@@ -3370,8 +3271,6 @@ lazy_static! {
         FPath::from("./logs/programs/journal/RHE_91_system.journal");
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH);
-    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_FPATH_MIMEGUESS: MimeGuess =
-        MimeGuess::from_path(&*JOURNAL_FILE_RHE_91_SYSTEM_FPATH);
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EXISTS: bool =
         JOURNAL_FILE_RHE_91_SYSTEM_PATH.exists();
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT: Count = 2081;
@@ -3387,8 +3286,6 @@ lazy_static! {
         FPath::from("./logs/programs/journal/Ubuntu22-user-1000x3.journal");
     pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH);
-    pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH_MIMEGUESS: MimeGuess =
-        MimeGuess::from_path(&*JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH);
     pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_EXISTS: bool =
         JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH.exists();
     pub static ref JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT: Count = 3;

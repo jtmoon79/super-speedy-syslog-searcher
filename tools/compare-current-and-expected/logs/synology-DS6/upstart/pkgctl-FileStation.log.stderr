@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3030
       lines         : 19

@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/samba/log.smbd
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 2326
       lines         : 19

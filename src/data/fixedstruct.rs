@@ -19,7 +19,7 @@ use crate::{de_err, de_wrn, debug_panic};
 use crate::common::{
     FileOffset,
     FileSz,
-    FixedStructFileType,
+    FileTypeFixedStruct,
     max16,
     min16,
 };
@@ -3697,11 +3697,11 @@ impl fmt::Debug for openbsd_x86::utmp {
 pub (crate) type FixedStructTypeSet = HashMap<FixedStructType, Score>;
 
 /// return all possible [`FixedStructType`] types based on the passed `filesz`.
-/// Give a score bonus to matching `FixedStructFileType` types.
-pub(crate) fn filesz_to_types(filesz: FileSz, fixedstructfiletype: &FixedStructFileType)
+/// Give a score bonus to matching `FileTypeFixedStruct` types.
+pub(crate) fn filesz_to_types(filesz: FileSz, file_type_fixed_struct: &FileTypeFixedStruct)
     -> Option<FixedStructTypeSet>
 {
-    defn!("({:?}, {:?})", filesz, fixedstructfiletype);
+    defn!("({:?}, {:?})", filesz, file_type_fixed_struct);
 
     if filesz == 0 {
         defx!("return None; filesz==0");
@@ -3712,10 +3712,10 @@ pub(crate) fn filesz_to_types(filesz: FileSz, fixedstructfiletype: &FixedStructF
 
     const BONUS: Score = 15;
 
-    // if the given `FixedStructFileType` matches the size offset then
+    // if the given `FileTypeFixedStruct` matches the size offset then
     // it gets a bonus score.
-    match fixedstructfiletype {
-        FixedStructFileType::Acct => {
+    match file_type_fixed_struct {
+        FileTypeFixedStruct::Acct => {
             if filesz % linux_x86::ACCT_SZ_FO == 0 {
                 set.insert(FixedStructType::Fs_Linux_x86_Acct, BONUS);
             }
@@ -3723,12 +3723,12 @@ pub(crate) fn filesz_to_types(filesz: FileSz, fixedstructfiletype: &FixedStructF
                 set.insert(FixedStructType::Fs_Netbsd_x8632_Acct, BONUS);
             }
         }
-        FixedStructFileType::AcctV3 => {
+        FileTypeFixedStruct::AcctV3 => {
             if filesz % linux_x86::ACCT_V3_SZ_FO == 0 {
                 set.insert(FixedStructType::Fs_Linux_x86_Acct_v3, BONUS);
             }
         }
-        FixedStructFileType::Lastlog => {
+        FileTypeFixedStruct::Lastlog => {
             if filesz % linux_arm64aarch64::LASTLOG_SZ_FO == 0 {
                 set.insert(FixedStructType::Fs_Linux_Arm64Aarch64_Lastlog, BONUS);
             }
@@ -3742,12 +3742,12 @@ pub(crate) fn filesz_to_types(filesz: FileSz, fixedstructfiletype: &FixedStructF
                 set.insert(FixedStructType::Fs_Openbsd_x86_Lastlog, BONUS);
             }
         }
-        FixedStructFileType::Lastlogx => {
+        FileTypeFixedStruct::Lastlogx => {
             if filesz % netbsd_x8632::LASTLOGX_SZ_FO == 0 {
                 set.insert(FixedStructType::Fs_Netbsd_x8632_Lastlogx, BONUS);
             }
         }
-        FixedStructFileType::Utmp => {
+        FileTypeFixedStruct::Utmp => {
             if filesz % netbsd_x8664::UTMP_SZ_FO == 0 {
                 set.insert(FixedStructType::Fs_Netbsd_x8664_Utmp, BONUS);
             }
@@ -3755,7 +3755,7 @@ pub(crate) fn filesz_to_types(filesz: FileSz, fixedstructfiletype: &FixedStructF
                 set.insert(FixedStructType::Fs_Openbsd_x86_Utmp, BONUS);
             }
         }
-        FixedStructFileType::Utmpx => {
+        FileTypeFixedStruct::Utmpx => {
             if filesz % freebsd_x8664::UTMPX_SZ_FO == 0 {
                 set.insert(FixedStructType::Fs_Freebsd_x8664_Utmpx, BONUS);
             }
@@ -3845,9 +3845,9 @@ pub struct FixedStruct
     /// The `fixedstructtype` determines the runtime dispatching of various
     /// methods specific to the fixed-sized structure type.
     pub fixedstructtype: FixedStructType,
-    /// `fixedstructfiletype` is library-wide type passed in from the caller
+    /// `FileTypeFixedStruct` is library-wide type passed in from the caller
     /// It is used as a hint of the originating file.
-    pub fixedstructfiletype: FixedStructFileType,
+    pub filetypefixedstruct: FileTypeFixedStruct,
     /// The byte offset into the file where the fixed-sized structure data
     /// begins.
     pub fileoffset: FileOffset,
@@ -3929,7 +3929,7 @@ impl Clone for FixedStruct {
         FixedStruct {
             fixedstructptr,
             fixedstructtype: self.fixedstructtype,
-            fixedstructfiletype: self.fixedstructfiletype,
+            filetypefixedstruct: self.filetypefixedstruct,
             fileoffset: self.fileoffset,
             dt: self.dt.clone(),
             tv_pair: self.tv_pair,
@@ -3946,7 +3946,7 @@ impl fmt::Debug for FixedStruct
         f.debug_struct("FixedStruct")
             .field("size", &self.fixedstructptr.size())
             .field("type", &self.fixedstructtype)
-            .field("filetype", &self.fixedstructfiletype)
+            .field("filetype", &self.filetypefixedstruct)
             .field("fileoffset", &self.fileoffset)
             .field("dt", &self.dt)
             .field("tv_pair", &self.tv_pair)
@@ -4603,8 +4603,11 @@ macro_rules! set_buffer_at_or_err_cstrn {
 /// If the index is out of bounds, return `InfoAsBytes::Fail`.
 macro_rules! set_buffer_at_or_err_ut_type {
     ($buffer:ident, $at:ident, $ut_type:expr, $type_:ty, $len:ident) => ({{
-        // sanity check passed number type is 2 bytes or less so `buffer_num` is enough
-        assertcp!(std::mem::size_of::<$type_>() <= 2);
+        #[allow(non_camel_case_types)]
+        {
+            // sanity check passed number type is 2 bytes or less so `buffer_num` is enough
+            assertcp!(std::mem::size_of::<$type_>() <= 2);
+        }
         let mut buffer_num = [0u8; 8];
         match &$ut_type {
             n if &0 <= n && n < &$len => {
@@ -4641,8 +4644,11 @@ macro_rules! set_buffer_at_or_err_ut_type_u16 {
 /// If the index is out of bounds, return `InfoAsBytes::Fail`.
 macro_rules! set_buffer_at_or_err_number {
     ($buffer:ident, $at:ident, $number:expr, $type_:ty) => ({{
-        // sanity check passed number type is 8 bytes or less so `buffer_num` is enough
-        assertcp!(std::mem::size_of::<$type_>() <= 8);
+        #[allow(non_camel_case_types)]
+        {
+            // sanity check passed number type is 8 bytes or less so `buffer_num` is enough
+            assertcp!(std::mem::size_of::<$type_>() <= 8);
+        }
         let mut buffer_num = [0u8; 22];
         // XXX: copy to local variable to avoid packed warning
         let num_val = $number;
@@ -4980,59 +4986,59 @@ impl FixedStruct
         let tv_usec: tv_usec_type;
         let tv_pair: tv_pair_type;
         let fixedstructtype: FixedStructType = fixedstructptr.fixedstruct_type();
-        let fixedstructfiletype: FixedStructFileType;
+        let filetypefixedstruct: FileTypeFixedStruct;
         match fixedstructtype {
             FixedStructType::Fs_Freebsd_x8664_Utmpx => {
-                fixedstructfiletype = FixedStructFileType::Utmpx;
+                filetypefixedstruct = FileTypeFixedStruct::Utmpx;
                 let fixedstructptr: &freebsd_x8664::utmpx = fixedstructptr.as_freebsd_x8664_utmpx();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_tv.tv_sec);
                 tv_usec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_tv.tv_usec);
             }
             FixedStructType::Fs_Linux_Arm64Aarch64_Lastlog => {
-                fixedstructfiletype = FixedStructFileType::Lastlog;
+                filetypefixedstruct = FileTypeFixedStruct::Lastlog;
                 let fixedstructptr: &linux_arm64aarch64::lastlog = fixedstructptr.as_linux_arm64aarch64_lastlog();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ll_time);
                 tv_usec = 0;
             }
             FixedStructType::Fs_Linux_Arm64Aarch64_Utmpx => {
-                fixedstructfiletype = FixedStructFileType::Utmpx;
+                filetypefixedstruct = FileTypeFixedStruct::Utmpx;
                 let fixedstructptr: &linux_arm64aarch64::utmpx = fixedstructptr.as_linux_arm64aarch64_utmpx();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_tv.tv_sec);
                 tv_usec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_tv.tv_usec);
             }
             FixedStructType::Fs_Linux_x86_Acct => {
-                fixedstructfiletype = FixedStructFileType::Acct;
+                filetypefixedstruct = FileTypeFixedStruct::Acct;
                 let fixedstructptr: &linux_x86::acct = fixedstructptr.as_linux_x86_acct();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ac_btime);
                 tv_usec = 0;
             }
             FixedStructType::Fs_Linux_x86_Acct_v3 => {
-                fixedstructfiletype = FixedStructFileType::AcctV3;
+                filetypefixedstruct = FileTypeFixedStruct::AcctV3;
                 let fixedstructptr: &linux_x86::acct_v3 = fixedstructptr.as_linux_x86_acct_v3();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ac_btime);
                 tv_usec = 0;
             }
             FixedStructType::Fs_Linux_x86_Lastlog => {
-                fixedstructfiletype = FixedStructFileType::Lastlog;
+                filetypefixedstruct = FileTypeFixedStruct::Lastlog;
                 let fixedstructptr: &linux_x86::lastlog = fixedstructptr.as_linux_x86_lastlog();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ll_time);
                 tv_usec = 0;
             }
             FixedStructType::Fs_Linux_x86_Utmpx => {
-                fixedstructfiletype = FixedStructFileType::Utmpx;
+                filetypefixedstruct = FileTypeFixedStruct::Utmpx;
                 let fixedstructptr: &linux_x86::utmpx = fixedstructptr.as_linux_x86_utmpx();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_tv.tv_sec);
                 tv_usec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_tv.tv_usec);
             }
             FixedStructType::Fs_Netbsd_x8632_Acct => {
-                fixedstructfiletype = FixedStructFileType::Acct;
+                filetypefixedstruct = FileTypeFixedStruct::Acct;
                 let fixedstructptr: &netbsd_x8632::acct = fixedstructptr.as_netbsd_x8632_acct();
                 let ac_btime = fixedstructptr.ac_btime;
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, ac_btime);
                 tv_usec = 0;
             }
             FixedStructType::Fs_Netbsd_x8632_Lastlogx => {
-                fixedstructfiletype = FixedStructFileType::Lastlogx;
+                filetypefixedstruct = FileTypeFixedStruct::Lastlogx;
                 let fixedstructptr: &netbsd_x8632::lastlogx = fixedstructptr.as_netbsd_x8632_lastlogx();
                 // XXX: copy to local to avoid Issue #82523; #rust-lang/rust/82523
                 let tv_sec_ = fixedstructptr.ll_tv.tv_sec;
@@ -5042,7 +5048,7 @@ impl FixedStruct
                 tv_usec = tv_or_err_tv_sec!(fixedstructptr,  tv_usec_);
             }
             FixedStructType::Fs_Netbsd_x8632_Utmpx => {
-                fixedstructfiletype = FixedStructFileType::Utmpx;
+                filetypefixedstruct = FileTypeFixedStruct::Utmpx;
                 let fixedstructptr: &netbsd_x8632::utmpx = fixedstructptr.as_netbsd_x8632_utmpx();
                 // XXX: copy to local to avoid Issue #82523; #rust-lang/rust/82523
                 let tv_sec_ = fixedstructptr.ut_tv.tv_sec;
@@ -5052,37 +5058,37 @@ impl FixedStruct
                 tv_usec = tv_or_err_tv_sec!(fixedstructptr, tv_usec_);
             }
             FixedStructType::Fs_Netbsd_x8664_Lastlog => {
-                fixedstructfiletype = FixedStructFileType::Lastlog;
+                filetypefixedstruct = FileTypeFixedStruct::Lastlog;
                 let fixedstructptr: &netbsd_x8664::lastlog = fixedstructptr.as_netbsd_x8664_lastlog();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ll_time);
                 tv_usec = 0;
             }
             FixedStructType::Fs_Netbsd_x8664_Lastlogx => {
-                fixedstructfiletype = FixedStructFileType::Lastlogx;
+                filetypefixedstruct = FileTypeFixedStruct::Lastlogx;
                 let fixedstructptr: &netbsd_x8664::lastlogx = fixedstructptr.as_netbsd_x8664_lastlogx();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ll_tv.tv_sec);
                 tv_usec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ll_tv.tv_usec);
             }
             FixedStructType::Fs_Netbsd_x8664_Utmp => {
-                fixedstructfiletype = FixedStructFileType::Utmp;
+                filetypefixedstruct = FileTypeFixedStruct::Utmp;
                 let fixedstructptr: &netbsd_x8664::utmp = fixedstructptr.as_netbsd_x8664_utmp();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_time);
                 tv_usec = 0;
             }
             FixedStructType::Fs_Netbsd_x8664_Utmpx => {
-                fixedstructfiletype = FixedStructFileType::Utmpx;
+                filetypefixedstruct = FileTypeFixedStruct::Utmpx;
                 let fixedstructptr: &netbsd_x8664::utmpx = fixedstructptr.as_netbsd_x8664_utmpx();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_tv.tv_sec);
                 tv_usec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_tv.tv_usec);
             }
             FixedStructType::Fs_Openbsd_x86_Lastlog => {
-                fixedstructfiletype = FixedStructFileType::Lastlog;
+                filetypefixedstruct = FileTypeFixedStruct::Lastlog;
                 let fixedstructptr: &openbsd_x86::lastlog = fixedstructptr.as_openbsd_x86_lastlog();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ll_time);
                 tv_usec = 0;
             }
             FixedStructType::Fs_Openbsd_x86_Utmp => {
-                fixedstructfiletype = FixedStructFileType::Utmp;
+                filetypefixedstruct = FileTypeFixedStruct::Utmp;
                 let fixedstructptr: &openbsd_x86::utmp = fixedstructptr.as_openbsd_x86_utmp();
                 tv_sec = tv_or_err_tv_sec!(fixedstructptr, fixedstructptr.ut_time);
                 tv_usec = 0;
@@ -5096,7 +5102,7 @@ impl FixedStruct
             FixedStruct {
                 fixedstructptr,
                 fixedstructtype,
-                fixedstructfiletype,
+                filetypefixedstruct,
                 fileoffset,
                 dt,
                 tv_pair,

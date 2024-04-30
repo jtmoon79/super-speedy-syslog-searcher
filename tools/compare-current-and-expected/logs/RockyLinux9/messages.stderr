@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/RockyLinux9/messages
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 397192
       lines         : 2432

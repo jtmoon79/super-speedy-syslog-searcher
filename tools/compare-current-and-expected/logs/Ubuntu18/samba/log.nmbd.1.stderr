@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Ubuntu18/samba/log.nmbd.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 2621
       lines         : 19

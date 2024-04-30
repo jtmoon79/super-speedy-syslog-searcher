@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Orbi/var/log/soapclient/soap_agent
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3503
       lines         : 19

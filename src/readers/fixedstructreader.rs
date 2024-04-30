@@ -28,12 +28,11 @@ use crate::{e_err, de_err, de_wrn};
 use crate::common::{
     debug_panic,
     Count,
-    FPath,
     FileOffset,
     FileSz,
     FileType,
-    FixedStructFileType,
-    filetype_to_logmessagetype,
+    FileTypeFixedStruct,
+    FPath,
     ResultS3,
 };
 use crate::data::datetime::{
@@ -73,7 +72,6 @@ use std::collections::{BTreeMap, LinkedList};
 use std::fmt;
 use std::io::{Error, ErrorKind, Result};
 
-use ::mime_guess::MimeGuess;
 use ::more_asserts::{debug_assert_ge, debug_assert_le};
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -203,7 +201,7 @@ pub struct FixedStructReader
 {
     pub(crate) blockreader: BlockReader,
     fixedstruct_type: FixedStructType,
-    fixedstructfiletype: FixedStructFileType,
+    filetype_fixedstruct: FileTypeFixedStruct,
     /// Size of a single [`FixedStruct`] entry.
     fixedstruct_size: usize,
     /// The highest score found during `preprocess_file`.
@@ -300,7 +298,7 @@ impl fmt::Debug for FixedStructReader
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
 pub struct SummaryFixedStructReader {
     pub fixedstructreader_fixedstructtype_opt: Option<FixedStructType>,
-    pub fixedstructreader_fixedstructfiletype_opt: Option<FixedStructFileType>,
+    pub fixedstructreader_filetypefixedstruct_opt: Option<FileTypeFixedStruct>,
     pub fixedstructreader_fixedstruct_size: usize,
     pub fixedstructreader_high_score: Score,
     pub fixedstructreader_utmp_entries: Count,
@@ -353,8 +351,8 @@ impl FixedStructReader
                 return ResultFixedStructReaderNew::FileErrIo(err);
             }
         };
-        let fixedstructfiletype = match filetype {
-            FileType::FixedStruct{type_: fixedstructfiletype_} => fixedstructfiletype_,
+        let filetype_fixedstruct = match filetype {
+            FileType::FixedStruct { archival_type: _, fixedstruct_type: type_ } => type_,
             _ => {
                 debug_panic!("Unexpected FileType: {:?}", filetype);
                 return ResultFixedStructReaderNew::FileErrIo(
@@ -392,7 +390,7 @@ impl FixedStructReader
             high_score,
             list_entries,
         ) = match FixedStructReader::preprocess_fixedstructtype(
-            &mut blockreader, &fixedstructfiletype, false,
+            &mut blockreader, &filetype_fixedstruct, false,
         ) {
             ResultFixedStructReaderScoreFileError::FileOk(
                 fixedstruct_type_, high_score_, list_entries_,
@@ -520,7 +518,7 @@ impl FixedStructReader
         {
             blockreader,
             fixedstruct_type,
-            fixedstructfiletype,
+            filetype_fixedstruct,
             fixedstruct_size: fixedstruct_type.size(),
             high_score,
             tz_offset,
@@ -606,14 +604,6 @@ impl FixedStructReader
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         self.blockreader.path()
-    }
-
-    /// See [`BlockReader::mimeguess`].
-    ///
-    /// [`BlockReader::mimeguess`]: crate::readers::blockreader::BlockReader#method.mimeguess
-    #[inline(always)]
-    pub const fn mimeguess(&self) -> MimeGuess {
-        self.blockreader.mimeguess()
     }
 
     /// See [`BlockReader::mtime`].
@@ -1160,11 +1150,11 @@ impl FixedStructReader
     /// [OpenBSD file `w.c`]: https://github.com/openbsd/src/blob/20248fc4cbb7c0efca41a8aafd40db7747023515/usr.bin/w/w.c
     pub(crate) fn preprocess_fixedstructtype(
         blockreader: &mut BlockReader,
-        fixedstructfiletype: &FixedStructFileType,
+        filetype_fixedstruct: &FileTypeFixedStruct,
         oneblock: bool,
     ) -> ResultFixedStructReaderScoreFileError
     {
-        def1n!("({:?}, oneblock={})", fixedstructfiletype, oneblock);
+        def1n!("({:?}, oneblock={})", filetype_fixedstruct, oneblock);
 
         // short-circuit special case of empty file
         if blockreader.filesz() == 0 {
@@ -1174,7 +1164,7 @@ impl FixedStructReader
 
         let types_to_bonus: FixedStructTypeSet = match filesz_to_types(
             blockreader.filesz(),
-            fixedstructfiletype,
+            filetype_fixedstruct,
         ) {
             Some(set) => set,
             None => {
@@ -1537,7 +1527,7 @@ impl FixedStructReader
     #[allow(non_snake_case)]
     pub fn summary(&self) -> SummaryFixedStructReader {
         let fixedstructreader_fixedstructtype_opt = Some(self.fixedstruct_type());
-        let fixedstructreader_fixedstructfiletype_opt = Some(self.fixedstructfiletype);
+        let fixedstructreader_filetypefixedstruct_opt = Some(self.filetype_fixedstruct);
         let fixedstructreader_high_score: Score = self.high_score;
         let fixedstructreader_utmp_entries: Count = self.entries_processed;
         let fixedstructreader_first_entry_fileoffset: FileOffset = self.first_entry_fileoffset;
@@ -1553,7 +1543,7 @@ impl FixedStructReader
 
         SummaryFixedStructReader {
             fixedstructreader_fixedstructtype_opt,
-            fixedstructreader_fixedstructfiletype_opt,
+            fixedstructreader_filetypefixedstruct_opt,
             fixedstructreader_fixedstruct_size: self.fixedstruct_size(),
             fixedstructreader_high_score,
             fixedstructreader_utmp_entries,
@@ -1576,7 +1566,7 @@ impl FixedStructReader
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
         let filetype = self.filetype();
-        let logmessagetype = filetype_to_logmessagetype(filetype);
+        let logmessagetype = filetype.to_logmessagetype();
         let summaryblockreader = self.blockreader.summary();
         let summaryutmpreader = self.summary();
         let error: Option<String> = self.error.clone();

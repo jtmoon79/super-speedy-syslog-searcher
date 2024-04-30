@@ -6,7 +6,6 @@ File: ./logs/Debian11/armv6l_ARMv6/utmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 

@@ -26,7 +26,10 @@ use crate::readers::blockreader::{
     BlockP,
     BlockSz,
 };
-use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
+use crate::readers::filepreprocessor::{
+    fpath_to_filetype,
+    PathToFiletypeResult,
+};
 use crate::readers::helpers::{fill, randomize};
 use crate::readers::syslinereader::{
     DateTimeParseDatasIndexes,
@@ -115,7 +118,13 @@ fn new_SyslineReader(
     tzo: FixedOffset,
 ) -> SyslineReader {
     stack_offset_set(Some(2));
-    let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
+    let result = fpath_to_filetype(path, true);
+    let filetype = match result {
+        PathToFiletypeResult::Filetype(ft) => ft,
+        PathToFiletypeResult::Archive(_) => {
+            panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
+        }
+    };
     match SyslineReader::new(path.clone(), filetype, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {

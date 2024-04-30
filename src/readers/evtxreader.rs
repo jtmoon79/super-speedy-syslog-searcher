@@ -18,15 +18,13 @@
 //! [Issue #87]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/87
 
 use crate::common::{
+    Count,
     File,
     FileOpenOptions,
-};
-use crate::common::{
-    Count,
     FileSz,
-    FPath,
     FileType,
-    filetype_to_logmessagetype,
+    FileTypeArchive,
+    FPath,
 };
 use crate::data::datetime::{
     DateTimeL,
@@ -506,7 +504,7 @@ impl<'a> EvtxReader {
 
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
-        FileType::Evtx
+        FileType::Evtx { archival_type: FileTypeArchive::Normal }
     }
 
     #[inline(always)]
@@ -583,7 +581,7 @@ impl<'a> EvtxReader {
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
         let filetype = self.filetype();
-        let logmessagetype = filetype_to_logmessagetype(filetype);
+        let logmessagetype = filetype.to_logmessagetype();
         let summaryevtxreader = self.summary();
         let error: Option<String> = self.error.clone();
 

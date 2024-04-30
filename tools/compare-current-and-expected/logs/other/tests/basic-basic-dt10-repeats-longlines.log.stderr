@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 6379
       lines         : 55

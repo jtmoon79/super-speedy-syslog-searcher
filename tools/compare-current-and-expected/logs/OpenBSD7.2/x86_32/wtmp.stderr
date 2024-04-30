@@ -7,7 +7,6 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Utmp
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 871
       entries       : 7

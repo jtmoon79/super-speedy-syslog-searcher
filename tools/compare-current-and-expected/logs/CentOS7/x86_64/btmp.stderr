@@ -6,7 +6,6 @@ File: ./logs/CentOS7/x86_64/btmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 

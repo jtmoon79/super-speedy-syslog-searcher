@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/surveillance/ssrotate.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3577
       lines         : 19

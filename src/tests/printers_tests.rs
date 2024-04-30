@@ -9,7 +9,8 @@
 use crate::common::{
     FileOffset,
     FileType,
-    FixedStructFileType,
+    FileTypeArchive,
+    FileTypeFixedStruct,
     FPath,
 };
 use crate::debug::helpers::{
@@ -26,7 +27,10 @@ use crate::printer::printers::{
 };
 use crate::readers::blockreader::BlockSz;
 use crate::readers::evtxreader::EvtxReader;
-use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
+use crate::readers::filepreprocessor::{
+    fpath_to_filetype,
+    PathToFiletypeResult,
+};
 use crate::readers::fixedstructreader::{
     FixedStructReader,
     ResultFixedStructReaderNew,
@@ -82,7 +86,13 @@ fn new_SyslineReader(
     blocksz: BlockSz,
     tzo: FixedOffset,
 ) -> SyslineReader {
-    let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
+    let result = fpath_to_filetype(path, true);
+    let filetype = match result {
+        PathToFiletypeResult::Filetype(ft) => ft,
+        PathToFiletypeResult::Archive(_) => {
+            panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
+        }
+    };
     match SyslineReader::new(path.clone(), filetype, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {
@@ -202,7 +212,7 @@ fn test_PrinterLogMessage_print_fixedstruct(
     let mut buffer: &mut [u8] = &mut [0; ENTRY_SZ_MAX];
     let mut fixedstructreader = match FixedStructReader::new(
         path.clone(),
-        FileType::FixedStruct{type_: FixedStructFileType::Utmpx},
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmpx },
         ENTRY_SZ_MAX as BlockSz,
         *FO_P8,
         None,

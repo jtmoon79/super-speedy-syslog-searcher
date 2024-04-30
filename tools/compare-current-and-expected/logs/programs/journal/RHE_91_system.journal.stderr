@@ -5,7 +5,6 @@ File: ./logs/programs/journal/RHE_91_system.journal
   About:
       filetype       : JOURNAL
       logmessagetype : journal entries
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 5861466
       journal events: 2078

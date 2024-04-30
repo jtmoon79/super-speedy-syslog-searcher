@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Ubuntu18/cups/access_log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1033
       lines         : 6

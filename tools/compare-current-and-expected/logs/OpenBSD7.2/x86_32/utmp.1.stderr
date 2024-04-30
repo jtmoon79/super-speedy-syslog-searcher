@@ -6,7 +6,6 @@ File: ./logs/OpenBSD7.2/x86_32/utmp.1
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 

@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/programs/tomcat/catalina-access.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 578
       lines         : 2

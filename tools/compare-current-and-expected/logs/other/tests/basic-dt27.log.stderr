@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/other/tests/basic-dt27.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2618
       lines         : 27

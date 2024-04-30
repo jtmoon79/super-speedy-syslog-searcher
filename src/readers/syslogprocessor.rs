@@ -31,7 +31,6 @@ use crate::common::{
     FileSz,
     FileType,
     SYSLOG_SZ_MAX,
-    filetype_to_logmessagetype,
 };
 use crate::data::datetime::{
     dt_after_or_before,
@@ -76,7 +75,6 @@ use std::io::{Error, ErrorKind, Result};
 
 use ::chrono::Datelike;
 use ::lazy_static::lazy_static;
-use ::mime_guess::MimeGuess;
 use ::rangemap::RangeMap;
 use ::si_trace_print::{def1n, def1x, def1ñ, defn, defo, defx, defñ};
 
@@ -257,7 +255,6 @@ impl Debug for SyslogProcessor {
             .field("filter_dt_before_opt", &self.filter_dt_before_opt)
             .field("BO Analysis done?", &self.blockzero_analysis_done)
             .field("filetype", &self.filetype())
-            .field("MimeGuess", &self.mimeguess())
             .field("Reprocessed missing year?", &self.did_process_missing_year())
             .field("Missing Year", &self.missing_year)
             .field("Error?", &self.error)
@@ -510,13 +507,6 @@ impl SyslogProcessor {
     #[allow(dead_code)]
     pub const fn charsz(&self) -> usize {
         self.syslinereader.charsz()
-    }
-
-    /// See [`BlockReader::mimeguess`].
-    ///
-    /// [`BlockReader::mimeguess`]: crate::readers::blockreader::BlockReader#method.mimeguess
-    pub const fn mimeguess(&self) -> MimeGuess {
-        self.syslinereader.mimeguess()
     }
 
     /// See [`BlockReader::mtime`].
@@ -1332,7 +1322,7 @@ impl SyslogProcessor {
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
         let filetype = self.filetype();
-        let logmessagetype = filetype_to_logmessagetype(filetype);
+        let logmessagetype = filetype.to_logmessagetype();
         let summaryblockreader = self.syslinereader.linereader.blockreader.summary();
         let summarylinereader = self.syslinereader.linereader.summary();
         let summarysyslinereader = self.syslinereader.summary();

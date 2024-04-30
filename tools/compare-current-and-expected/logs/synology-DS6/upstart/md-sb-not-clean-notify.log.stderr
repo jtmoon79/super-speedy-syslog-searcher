@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3591
       lines         : 19

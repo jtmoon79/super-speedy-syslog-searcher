@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/OpenSUSE15/YaST2/y2log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 3179
       lines         : 20

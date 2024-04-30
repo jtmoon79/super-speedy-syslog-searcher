@@ -6,194 +6,469 @@
 #![allow(non_camel_case_types)]
 
 use crate::tests::common::{
-    MIMEGUESS_EMPTY,
-    MIMEGUESS_GZ,
-    MIMEGUESS_LOG,
-    MIMEGUESS_TAR,
-    MIMEGUESS_TARGZ,
-    MIMEGUESS_TXT,
-    MIMEGUESS_UTMP,
-    MIMEGUESS_XZ,
-    MIMEGUESS_EVTX,
-    MIMEGUESS_ETL,
-    MIMEGUESS_ZIP,
+    FILETYPE_EVTX,
+    FILETYPE_JOURNAL,
+    FILETYPE_UTF8,
+    FILETYPE_UTF8GZ,
+    FILETYPE_UTF8XZ,
     NTF_GZ_EMPTY,
-    NTF_GZ_EMPTY_FILETYPE,
     NTF_GZ_EMPTY_FPATH,
-    NTF_GZ_EMPTY_MIMEGUESS,
     NTF_LOG_EMPTY,
     NTF_LOG_EMPTY_FILETYPE,
     NTF_LOG_EMPTY_FPATH,
-    NTF_LOG_EMPTY_MIMEGUESS,
     NTF_TAR_1BYTE,
     NTF_TAR_1BYTE_FILEA_FILETYPE,
     NTF_TAR_1BYTE_FILEA_FPATH,
-    NTF_TAR_1BYTE_FILEA_MIMEGUESS,
     NTF_TAR_8BYTE_FILEA_FILETYPE,
     NTF_TAR_8BYTE_FILEA_FPATH,
-    NTF_TAR_8BYTE_FILEA_MIMEGUESS,
     NTF_TAR_8BYTE_FPATH,
     NTF_TAR_AB_FILEA_FILETYPE,
     NTF_TAR_AB_FILEA_FPATH,
-    NTF_TAR_AB_FILEA_MIMEGUESS,
     NTF_TAR_AB_FILEB_FILETYPE,
     NTF_TAR_AB_FILEB_FPATH,
-    NTF_TAR_AB_FILEB_MIMEGUESS,
     NTF_TAR_AB_FPATH,
     NTF_TGZ_8BYTE,
-    NTF_TGZ_8BYTE_FILETYPE,
     NTF_TGZ_8BYTE_FPATH,
-    NTF_TGZ_8BYTE_MIMEGUESS,
 };
-use crate::common::{FPath, FileType, FixedStructFileType, Path};
+use crate::common::{
+    FileType,
+    FileTypeArchive,
+    FileTypeFixedStruct,
+    FileTypeTextEncoding,
+    FPath,
+};
 use crate::readers::filepreprocessor::{
     copy_process_path_result_canonicalize_path,
     fpath_to_filetype,
-    fpath_to_filetype_mimeguess,
-    mimeguess_to_filetype,
+    FileTypeArchiveMultiple,
+    PathToFiletypeResult,
     process_path,
     process_path_tar,
-    MimeGuess,
     ProcessPathResult,
 };
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
 use crate::debug::helpers::{create_files_and_tmpdir, ntf_fpath, NamedTempFile};
 
-use std::str::FromStr;
-
 #[allow(unused_imports)]
 use ::filepath::FilePath; // provide `path` function on `File`
-use ::lazy_static::lazy_static;
-use ::si_trace_print::stack::stack_offset_set;
-use ::si_trace_print::{defn, defo, defx};
+
+use ::si_trace_print::{defn, defo, defx, defñ};
 use ::test_case::test_case;
 
 
-fn test_mimeguess_to_filetype(
-    mimeguess: &MimeGuess,
-    check: FileType,
-) {
-    let filetype: FileType = mimeguess_to_filetype(mimeguess);
-    assert_eq!(check, filetype, "\n  expected FileType::{:?}\n  found FileType::{:?}\n", check, filetype);
-}
-
-#[test]
-fn test_mimeguess_to_filetype_txt() {
-    test_mimeguess_to_filetype(&MIMEGUESS_TXT, FileType::File);
-}
-
-#[test]
-fn test_mimeguess_to_filetype_gz() {
-    test_mimeguess_to_filetype(&MIMEGUESS_GZ, FileType::Gz);
-}
-
-#[test]
-fn test_mimeguess_to_filetype_xz() {
-    test_mimeguess_to_filetype(&MIMEGUESS_XZ, FileType::Xz);
-}
-
-#[test]
-fn test_mimeguess_to_filetype_tar() {
-    test_mimeguess_to_filetype(&MIMEGUESS_TAR, FileType::Tar);
-}
-
-#[test]
-fn test_mimeguess_to_filetype_targz() {
-    test_mimeguess_to_filetype(&MIMEGUESS_TARGZ, FileType::Unparsable);
-}
-
-#[test]
-fn test_mimeguess_to_filetype_utmp() {
-    test_mimeguess_to_filetype(&MIMEGUESS_UTMP, FileType::Unknown);
-}
-
-#[test]
-fn test_mimeguess_to_filetype_evtx() {
-    test_mimeguess_to_filetype(&MIMEGUESS_EVTX, FileType::Unknown);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-#[test_case("log", FileType::File)]
-#[test_case("LOG", FileType::File; "LOG ALLCAPS")]
-#[test_case("log.log", FileType::File)]
-#[test_case("log_media", FileType::File)]
-#[test_case("media_log", FileType::File)]
-#[test_case("MY_LOG", FileType::File)]
-#[test_case("media.log.old", FileType::File)]
-#[test_case("syslog", FileType::File)]
-#[test_case("messages", FileType::File)]
-#[test_case("rhsm.log-20230422", FileType::Unknown)]
-#[test_case("2023.10.26.asl", FileType::Unknown)]
-#[test_case("BB.2024.10.31.G80.asl", FileType::Unknown)]
-#[test_case("a.log", FileType::Unknown)]
-#[test_case("log.a", FileType::File)]
-#[test_case("LOG.B", FileType::File)]
-#[test_case("log.1", FileType::File)]
-#[test_case("log.2", FileType::File)]
-#[test_case("data.gz", FileType::Gz)]
-#[test_case("DATA.GZ", FileType::Gz; "DATA.GZ ALLCAPS")]
-#[test_case("data.gz.old", FileType::Gz)]
-#[test_case("data.gzip", FileType::Gz)]
-#[test_case("data.tgz", FileType::Unparsable)]
-#[test_case("data.tar", FileType::Tar)]
-#[test_case("DATA.TAR", FileType::Tar; "DATA.TAR ALLCAPS")]
-#[test_case("data.tar.old", FileType::Tar)]
-#[test_case("data.tgz.old", FileType::Unparsable)]
-#[test_case("wtmp", FileType::FixedStruct{ type_: FixedStructFileType::Utmp}; "wtmp")]
-#[test_case("WTMP", FileType::FixedStruct{ type_: FixedStructFileType::Utmp}; "WTMP ALLCAPS")]
-#[test_case("btmp", FileType::FixedStruct{ type_: FixedStructFileType::Utmp}; "btmp")]
-#[test_case("utmp", FileType::FixedStruct{ type_: FixedStructFileType::Utmp}; "utmp")]
-#[test_case("UTMP", FileType::FixedStruct{ type_: FixedStructFileType::Utmp}; "UTMP ALLCAPS")]
-#[test_case("UTMP.1", FileType::FixedStruct{ type_: FixedStructFileType::Utmp}; "UTMP.1 ALLCAPS")]
-#[test_case("host.wtmp", FileType::FixedStruct{ type_: FixedStructFileType::Utmp})]
-#[test_case("192.168.1.1.btmp", FileType::FixedStruct{ type_: FixedStructFileType::Utmp})]
-#[test_case("file.utmp", FileType::FixedStruct{type_: FixedStructFileType::Utmp})]
-#[test_case("btmpx", FileType::FixedStruct{ type_: FixedStructFileType::Utmpx}; "btmpx")]
-#[test_case("utmpx", FileType::FixedStruct{ type_: FixedStructFileType::Utmpx}; "utmpx")]
-#[test_case("utmpx.bak", FileType::FixedStruct{ type_: FixedStructFileType::Utmpx}; "utmpx.bak")]
-#[test_case("wtmpx", FileType::FixedStruct{ type_: FixedStructFileType::Utmpx}; "wtmpx")]
-#[test_case("wtmpx.1", FileType::FixedStruct{ type_: FixedStructFileType::Utmpx}; "wtmpx.1")]
-#[test_case("lastlog", FileType::FixedStruct{ type_: FixedStructFileType::Lastlog})]
-#[test_case("lastlog.1", FileType::FixedStruct{ type_: FixedStructFileType::Lastlog})]
-#[test_case("lastlogx", FileType::FixedStruct{ type_: FixedStructFileType::Lastlogx})]
-#[test_case("acct", FileType::FixedStruct{ type_: FixedStructFileType::Acct})]
-#[test_case("acct.2", FileType::FixedStruct{ type_: FixedStructFileType::Acct})]
-#[test_case("acct-20220101", FileType::File)]
-#[test_case("pacct", FileType::FixedStruct{ type_: FixedStructFileType::AcctV3})]
-#[test_case("pacct.1", FileType::FixedStruct{ type_: FixedStructFileType::AcctV3})]
-#[test_case("pacct.20220101", FileType::FixedStruct{ type_: FixedStructFileType::AcctV3})]
-#[test_case("somefile", FileType::File)]
-#[test_case("SOMEFILE", FileType::File; "SOMEFILE ALLCAPS")]
-#[test_case("file.evtx", FileType::Evtx)]
-#[test_case("FILE.EVTX", FileType::Evtx; "FILE.EVTX ALLCAPS")]
-#[test_case("a.journal", FileType::Journal)]
-#[test_case("A.JOURNAL", FileType::Journal; "A.JOURNAL ALLCAPS")]
-#[test_case("user-1000.journal", FileType::Journal)]
-#[test_case("system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal", FileType::Journal)]
-fn test_fpath_to_filetype(
-    name: &str,
-    check: FileType,
-) {
-    stack_offset_set(Some(2));
-    let fpath: FPath = FPath::from(name);
-    let fpath_full: FPath = FPath::from("/var/log/") + fpath.as_str();
-    for path in [&fpath, &fpath_full].iter() {
-        defo!("fpath_to_filetype({:?})", path);
-        let filetype = fpath_to_filetype(path);
-        defo!("fpath_to_filetype returned {:?}", filetype);
-        assert_eq!(check, filetype, "\npath {:?}\nexpected FileType::{:?}\nactual FileType::{:?}\n", path, check, filetype);
+// FileType consts
+const FTTN8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Text {
+        archival_type: FileTypeArchive::Normal,
+        encoding_type: FileTypeTextEncoding::Utf8Ascii,
     }
-}
+);
+const FTTGZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Text {
+        archival_type: FileTypeArchive::Gz,
+        encoding_type: FileTypeTextEncoding::Utf8Ascii,
+    }
+);
+const FTTXZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Text {
+        archival_type: FileTypeArchive::Xz,
+        encoding_type: FileTypeTextEncoding::Utf8Ascii,
+    }
+);
+const FTEVTXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Evtx {
+        archival_type: FileTypeArchive::Normal,
+    }
+);
+const FTJOURNALN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Journal {
+        archival_type: FileTypeArchive::Normal,
+    }
+);
+const FTUNPARSABLE: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Unparsable,
+);
+// PathToFiletypeResult::Archive consts
+const AMTAR: PathToFiletypeResult = PathToFiletypeResult::Archive(
+    FileTypeArchiveMultiple::Tar,
+);
+// FileType::FixedStruct consts
+const FTACCTN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Normal,
+        fixedstruct_type: FileTypeFixedStruct::Acct,
+    }
+);
+const FTACCTV3N: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Normal,
+        fixedstruct_type: FileTypeFixedStruct::AcctV3,
+    }
+);
+const FTLASTLOGN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Normal,
+        fixedstruct_type: FileTypeFixedStruct::Lastlog,
+    }
+);
+const FTLASTLOGXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Normal,
+        fixedstruct_type: FileTypeFixedStruct::Lastlogx,
+    }
+);
+const FTUTMPN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Normal,
+        fixedstruct_type: FileTypeFixedStruct::Utmp,
+    }
+);
+const FTUTMPXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Normal,
+        fixedstruct_type: FileTypeFixedStruct::Utmpx,
+    }
+);
 
-// -------------------------------------------------------------------------------------------------
+// TEXT
+#[test_case("log", FTTN8, true)]
+#[test_case("LOG", FTTN8, true; "LOG ALLCAPS")]
+#[test_case("log.log", FTTN8, true)]
+#[test_case("log_media", FTTN8, true)]
+#[test_case("media_log", FTTN8, true)]
+#[test_case("MY_LOG", FTTN8, true)]
+#[test_case("media.log.old", FTTN8, true)]
+#[test_case("messages", FTTN8, true)]
+#[test_case("MESSAGES", FTTN8, true; "MESSAGES ALLCAPS")]
+#[test_case("pagefile.sys", FTTN8, true)]
+#[test_case("syslog", FTTN8, true)]
+#[test_case("syslog~", FTTN8, true; "syslog_tilde")]
+#[test_case("syslog-", FTTN8, true; "syslog_dash")]
+#[test_case("syslog.3", FTTN8, true)]
+#[test_case("somefile", FTTN8, true)]
+#[test_case("SOMEFILE", FTTN8, true; "SOMEFILE ALLCAPS")]
+#[test_case("output.txt", FTTN8, true)]
+#[test_case("cloud-init.log.out", FTTN8, true)]
+#[test_case("cloud-init.out.log", FTTN8, true)]
+#[test_case("cloud-init-output.log", FTTN8, true)]
+#[test_case("droplet-agent.update.log", FTTN8, true)]
+#[test_case("kern.log", FTTN8, true)]
+#[test_case("KERN.LOG", FTTN8, true; "KERN.LOG ALLCAPS")]
+#[test_case("kern.log.1", FTTN8, true)]
+#[test_case("kern.log.2", FTTN8, true)]
+#[test_case("kern.log.2~", FTTN8, true; "kern.log.2_tilde")]
+#[test_case("rhsm.log-20230422", FTTN8, true)]
+#[test_case("aptitude.4", FTTN8, true)]
+#[test_case("aptitude.~", FTTN8, true; "aptitude_tilde")]
+#[test_case("systemsetup-server-info.log.208", FTTN8, true)]
+#[test_case("a.log", FTTN8, true)]
+#[test_case("log.a", FTTN8, true)]
+#[test_case("LOG.B", FTTN8, true)]
+#[test_case("log.1", FTTN8, true)]
+#[test_case("log.2", FTTN8, true)]
+#[test_case("HOSTNAME.log", FTTN8, true)]
+#[test_case("log.HOSTNAME", FTTN8, true)]
+#[test_case("log.nmbd", FTTN8, true)]
+#[test_case("LOG.NMDB", FTTN8, true; "LOG.NMDB")]
+#[test_case("log.nmbd.1", FTTN8, true)]
+#[test_case("log.nmbd.old", FTTN8, true)]
+#[test_case("null", FTTN8, false)]
+#[test_case("null", FTTN8, true)]
+#[test_case("nul", FTTN8, false)]
+#[test_case("nul", FTTN8, true)]
+#[test_case("soap_agent", FTTN8, true)]
+#[test_case("soap_agent.old", FTTN8, true)]
+#[test_case("soap_agent.old.old", FTTN8, true)]
+#[test_case("2023.10.26.asl", FTTN8, true)]
+#[test_case("-", FTTN8, true; "dash")]
+#[test_case("$", FTTN8, true; "dollar")]
+#[test_case("telemetry", FTTN8, true)]
+#[test_case("initial-status", FTTN8, true)]
+#[test_case("smart_extend_log", FTTN8, true)]
+#[test_case(".disk_daily_info_send_udc_time", FTTN8, true)]
+#[test_case("messages-DropletAgent", FTTN8, true)]
+#[test_case("CC_AA_DD_EE_FF_00-ns", FTTN8, true)]
+#[test_case("CC_AA_DD_EE_FF_00-ns.old", FTTN8, true)]
+#[test_case("CC_AA_DD_EE_FF_00-ns.old.1", FTTN8, true)]
+#[test_case("history", FTTN8, true)]
+#[test_case("fe80::984c:ffff:eeee:eeee.log", FTTN8, true)]
+#[test_case("[fe80::984c:ffff:eeee:eeef].log", FTTN8, true)]
+#[test_case("錄音.log", FTTN8, true)]
+#[test_case("opname.log", FTTN8, true)]
+#[test_case("บันทึก.log", FTTN8, true)]
+#[test_case("innspilling.log", FTTN8, true)]
+#[test_case("Запису.log", FTTN8, true)]
+#[test_case("تسجيل.log", FTTN8, true)]
+#[test_case("grabación.log", FTTN8, true)]
+#[test_case("錄音.檔", FTTN8, true)]
+#[test_case("錄音", FTTN8, true)]
+#[test_case("บันทึก", FTTN8, true)]
+#[test_case("innspilling", FTTN8, true)]
+#[test_case("Запису", FTTN8, true)]
+#[test_case("تسجيل", FTTN8, true)]
+#[test_case("grabación", FTTN8, true)]
+#[test_case("192.168.1.100.log", FTTN8, true)]
+#[test_case("log.192.168.1.100", FTTN8, true)]
+#[test_case("setup.log.full", FTTN8, true)]
+#[test_case("setup.log.full.1", FTTN8, true)]
+#[test_case("setup.log.full.old", FTTN8, true)]
+#[test_case("setup.log.full.old.1", FTTN8, true)]
+#[test_case("setup.log.full.old.2", FTTN8, true)]
+#[test_case("SIH.20230422.034724.362.1.etl", FTTN8, true)]
+//
+// GZ
+//
+#[test_case("syslog.gz", FTTGZ8, true)]
+#[test_case("syslog.9.gz", FTTGZ8, true)]
+#[test_case("SYSLOG.9.GZ", FTTGZ8, true; "SYSLOG.9.GZ")]
+#[test_case("unattended-upgrades-dpkg.log.3.gz", FTTGZ8, true)]
+#[test_case("data.gz", FTTGZ8, true)]
+#[test_case("DATA.GZ", FTTGZ8, true; "DATA.GZ ALLCAPS")]
+#[test_case("data.gz.old", FTTGZ8, true)]
+#[test_case("data.gzip", FTTGZ8, true)]
+#[test_case("log.gz.1", FTTGZ8, true)]
+#[test_case("log.gz.2", FTTGZ8, true)]
+#[test_case("log.gz.99", FTTGZ8, true)]
+#[test_case("192.168.1.100.log.gz", FTTGZ8, true)]
+#[test_case("192.168.1.100.log.gz.1", FTTGZ8, true)]
+#[test_case("192.168.1.100.log.gz.old.1", FTTGZ8, true)]
+//
+// XZ
+//
+#[test_case("eipp.log.xz", FTTXZ8, true)]
+#[test_case("log.evtx.xz", FTTXZ8, true)]
+#[test_case("tar.evtx.xz", FTTXZ8, true)]
+//
+// TAR
+//
+#[test_case("data.tar", AMTAR, true)]
+#[test_case("DATA.TAR", AMTAR, true; "DATA.TAR ALLCAPS")]
+#[test_case("data.tar.old", AMTAR, true)]
+#[test_case("logs.tar", AMTAR, true)]
+#[test_case("LOGS.TAR", AMTAR, true; "LOGS.TAR")]
+#[test_case("log.1.tar", AMTAR, true)]
+#[test_case("LOG.1.TAR", AMTAR, true; "LOG.1.TAR ALLCAPS")]
+#[test_case("tar.tar", AMTAR, true)]
+#[test_case("tgz.tar", AMTAR, true)]
+//
+// FIXEDSTRUCT
+//
+// FixedStruct Utmp
+#[test_case("wtmp", FTUTMPN, true; "wtmp")]
+#[test_case("WTMP", FTUTMPN, true; "WTMP ALLCAPS")]
+#[test_case("btmp", FTUTMPN, true; "btmp")]
+#[test_case("utmp", FTUTMPN, true; "utmp")]
+#[test_case("UTMP", FTUTMPN, true; "UTMP ALLCAPS")]
+#[test_case("UTMP.1", FTUTMPN, true; "UTMP.1 ALLCAPS")]
+// FixedStruct Utmpx
+#[test_case("btmpx", FTUTMPXN, true)]
+#[test_case("utmpx", FTUTMPXN, true)]
+#[test_case("wtmpx", FTUTMPXN, true)]
+#[test_case("wtmpx~",FTUTMPXN, true; "wtmpx_tilde")]
+#[test_case("btmp.1", FTUTMPN, true)]
+#[test_case("utmp.2", FTUTMPN, true)]
+#[test_case("wtmp.1", FTUTMPN, true)]
+#[test_case("WTMP.1", FTUTMPN, true; "WTMP.1 ALLCAPS")]
+#[test_case("host.wtmp", FTUTMPN, true)]
+#[test_case("192.168.1.1.btmp", FTUTMPN, true)]
+#[test_case("file.utmp", FTUTMPN, true)]
+#[test_case("btmpx", FTUTMPXN, true; "btmpx")]
+#[test_case("utmpx", FTUTMPXN, true; "utmpx")]
+#[test_case("utmpx.bak", FTUTMPXN, true; "utmpx.bak")]
+#[test_case("wtmpx", FTUTMPXN, true; "wtmpx")]
+#[test_case("wtmpx.1", FTUTMPXN, true; "wtmpx.1")]
+// FixedStruct Lastlog
+#[test_case("lastlog", FTLASTLOGN, true)]
+#[test_case("lastlogx", FTLASTLOGXN, true)]
+#[test_case("lastlog.1", FTLASTLOGN, true)]
+#[test_case("lastlog.bak", FTLASTLOGN, true)]
+#[test_case("lastlog.2.bak", FTLASTLOGN, true)]
+// FixedStruct Acct
+#[test_case("acct", FTACCTN, true)]
+#[test_case("acct.2", FTACCTN, true)]
+#[test_case("acct-20220101", FTTN8, true)]
+#[test_case("pacct", FTACCTV3N, true)]
+#[test_case("pacct.1", FTACCTV3N, true)]
+#[test_case("pacct.20220101", FTACCTV3N, true)]
+// on FreeBSD 13, there is a log file `utx.log` that is a variable-length utmpx-ish format file
+#[test_case("utx.log", FTTN8, true)]
+#[test_case("utx.log-", FTTN8, true; "utx.log dash")]
+#[test_case("utx.active", FTTN8, true)]
+// File `utx.lastlogin` exists on FreeBSD 13.   
+#[test_case("utx.lastlogin", FTTN8, true)]
+//
+// EVTX
+//
+#[test_case("file.evtx", FTEVTXN, true)]
+#[test_case("FILE.EVTX", FTEVTXN, true; "FILE.EVTX ALLCAPS")]
+#[test_case("file.evtx.1", FTEVTXN, true)]
+//
+// JOURNAL
+//
+#[test_case("a.journal", FTJOURNALN, true)]
+#[test_case("A.JOURNAL", FTJOURNALN, true; "A.JOURNAL ALLCAPS")]
+#[test_case("a.journal~", FTJOURNALN, true; "a.journal tilde")]
+#[test_case("a.journal~.1", FTJOURNALN, true; "a.journal tilde 1")]
+#[test_case("a.journal~.old", FTJOURNALN, true; "a.journal tilde old")]
+#[test_case("A.JOURNAL~", FTJOURNALN, true; "A.JOURNAL ALLCAPS tilde")]
+#[test_case("user-1000.journal", FTJOURNALN, true)]
+#[test_case("user-1000@2feff012228b405bb557ccd80a0ba755-000000005100032b-0006129e5481135e.journal", FTJOURNALN, true)]
+#[test_case("system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal", FTJOURNALN, true)]
+//
+// Unparseable
+//
+#[test_case("data.tgz", FTTN8, true)]
+#[test_case("data.tgz", FTUNPARSABLE, false)]
+#[test_case("data.tgz.old", FTUNPARSABLE, false)]
+#[test_case("data.tgz.old", FTTN8, true)]
+#[test_case("data.tgz.old.1", FTUNPARSABLE, false)]
+#[test_case("data.tgz.old.1", FTTN8, true)]
+#[test_case("lib.dll", FTUNPARSABLE, false)]
+#[test_case("lib.dll", FTTN8, true)]
+#[test_case("log.bz", FTUNPARSABLE, false)]
+#[test_case("log.bz", FTTN8, true)]
+#[test_case("log.bz2", FTUNPARSABLE, false)]
+#[test_case("log.bz2", FTTN8, true)]
+#[test_case("logs.tgz", FTTN8, true)]
+#[test_case("logs.tgz", FTUNPARSABLE, false)]
+#[test_case("log.tgz.99", FTUNPARSABLE, false)]
+#[test_case("log.tgz.99", FTTN8, true)]
+#[test_case("logs.2.zip", FTUNPARSABLE, false)]
+#[test_case("logs.2.zip", FTTN8, true)]
+#[test_case("logs.tgz.99", FTUNPARSABLE, false)]
+#[test_case("logs.tgz.99", FTTN8, true)]
+#[test_case("LOGS.TGZ.99", FTUNPARSABLE, false; "LOGS.TGZ.99 ALLCAPS unparsable")]
+#[test_case("LOGS.TGZ.99", FTTN8, true; "LOGS.TGZ.99 ALLCAPS filetype_utf8")]
+#[test_case("logs.xz.zip", FTUNPARSABLE, false)]
+#[test_case("logs.xz.zip", FTTN8, true)]
+#[test_case("logs.zip", FTUNPARSABLE, false)]
+#[test_case("logs.zip", FTTN8, true)]
+#[test_case("logs.zip.2", FTUNPARSABLE, false)]
+#[test_case("logs.zip.2", FTTN8, true)]
+#[test_case("media.avi", FTUNPARSABLE, false)]
+#[test_case("media.avi", FTTN8, true)]
+#[test_case("media.mp3", FTUNPARSABLE, false)]
+#[test_case("media.mp3", FTTN8, true)]
+#[test_case("media.mp4", FTUNPARSABLE, false)]
+#[test_case("media.mp4", FTTN8, true)]
+#[test_case("pic.jpg", FTUNPARSABLE, false)]
+#[test_case("pic.jpg", FTTN8, true)]
+#[test_case("pic.png", FTUNPARSABLE, false)]
+#[test_case("pic.png", FTTN8, true)]
+#[test_case("prog.exe", FTUNPARSABLE, false)]
+#[test_case("prog.exe", FTTN8, true)]
+#[test_case("-.tgz.99", FTUNPARSABLE, false; "dash tgz 99 Unparsable")]
+#[test_case("-.tgz.99", FTTN8, true; "dash tgz 99 FILETYPE_UTF8")]
+#[test_case("-", FTTN8, true; "dash1 FILETYPE_UTF8")]
+#[test_case("-", FTUNPARSABLE, false; "dash1 Unparsable")]
+#[test_case("--", FTTN8, true; "dash2 FILETYPE_UTF8")]
+#[test_case("--", FTUNPARSABLE, false; "dash2 Unparsable")]
+#[test_case("?", FTTN8, true; "question1 FILETYPE_UTF8")]
+#[test_case("?", FTUNPARSABLE, false; "question1 Unparsable")]
+#[test_case("~", FTTN8, true; "tilde1 FILETYPE_UTF8")]
+#[test_case("~", FTUNPARSABLE, false; "tilde1 Unparsable")]
+#[test_case("~~", FTTN8, true; "tilde2 FILETYPE_UTF8")]
+#[test_case("~~", FTUNPARSABLE, false; "tilde2 Unparsable")]
+// XXX: case `.` is unusual
+//      path.file_name() resolves '/var/log/.' to 'log' which is `FileType::Text``
+//      path.file_name() '.' to '' which is `FileType::Unparsable`
+#[test_case(".", FTUNPARSABLE, false; "dot1 Unparsable")]
+#[test_case(".", FTTN8, true; "dot1 FILETYPE_UTF8")]
+#[test_case("..", FTUNPARSABLE, false; "dot2 Unparsable")]
+#[test_case("..", FTTN8, true; "dot2 FILETYPE_UTF8")]
+#[test_case("...", FTUNPARSABLE, false; "dot3 Unparsable")]
+#[test_case("...", FTTN8, true; "dot3 FILETYPE_UTF8")]
+#[test_case("....", FTUNPARSABLE, false; "dot4 Unparsable")]
+#[test_case("....", FTTN8, true; "dot4 FILETYPE_UTF8")]
+#[test_case(".....", FTUNPARSABLE, false; "dot5 Unparsable")]
+#[test_case(".....", FTTN8, true; "dot5 FILETYPE_UTF8")]
+fn test_fpath_to_filetype(
+    fname: &str,
+    expect_result: PathToFiletypeResult,
+    unparseable_are_text: bool,
+) {
+    let fpath: FPath = FPath::from(fname);
+    defo!("fpath_to_filetype(fpath={:?}, unparseable_are_text={:?})", fpath, unparseable_are_text);
+    let result: PathToFiletypeResult = fpath_to_filetype(&fpath, unparseable_are_text);
+    defo!("fpath_to_filetype returned {:?}", result);
+    let (filetype_expect, filetype_result) = match result {
+        PathToFiletypeResult::Filetype(ftr) => {
+            match expect_result {
+                PathToFiletypeResult::Filetype(fte) => {
+                    (fte, ftr)
+                },
+                PathToFiletypeResult::Archive(_fta) => {
+                    panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
+                },
+            }
+        },
+        PathToFiletypeResult::Archive(_) => {
+            match expect_result {
+                PathToFiletypeResult::Filetype(ft) => {
+                    panic!("Expected FileType::{:?}, got PathToFiletypeResult::Archive", ft);
+                },
+                PathToFiletypeResult::Archive(_fta) => {
+                    defx!();
+                    return;
+                },
+            }
+        }
+    };
+    defo!("filetype {:?}", filetype_result);
+    assert_eq!(
+        filetype_expect, filetype_result,
+        "\npath {:?}\nexpected FileType::{:?}\nactual FileType::{:?}\n",
+        fpath, filetype_expect, filetype_result
+    );
+
+    // test again with leading path `/var/log`
+
+    // handle special case of `"."`
+    if fname == "." {
+        return;
+    }
+    let fpath_full = FPath::from("/var/log/") + fname;
+    defo!("fpath_to_filetype(fpath_full={:?}, unparseable_are_text={:?})", fpath_full, unparseable_are_text);
+    let result = fpath_to_filetype(&fpath_full, unparseable_are_text);
+    defo!("fpath_to_filetype returned {:?}", result);
+    let (filetype_expect, filetype_result) = match result {
+        PathToFiletypeResult::Filetype(ft) => {
+            match expect_result {
+                PathToFiletypeResult::Filetype(fte) => {
+                    (fte, ft)
+                },
+                PathToFiletypeResult::Archive(_fta) => {
+                    panic!("Expected PathToFiletypeResult::Archive, got PathToFiletypeResult::FileType");
+                },
+            }
+        },
+        PathToFiletypeResult::Archive(_) => {
+            match expect_result {
+                PathToFiletypeResult::Filetype(ft) => {
+                    panic!("Expected FileType::{:?}, got PathToFiletypeResult::Archive", ft);
+                },
+                PathToFiletypeResult::Archive(_fta) => {
+                    defx!();
+                    return;
+                },
+            }
+        }
+    };
+    defo!("filetype {:?}", filetype_result);
+    assert_eq!(
+        filetype_expect, filetype_result,
+        "\npath {:?}\nexpected FileType::{:?}\nactual FileType::{:?}\n",
+        fpath_full, filetype_expect, filetype_result
+    );
+}
 
 fn test_process_path_fpath(
     path: &FPath,
-    checks: Vec<ProcessPathResult>,
+    checks: &Vec<ProcessPathResult>,
+    unparseable_are_text: bool,
 ) {
-    defn!("({:?}, …)", path);
-    let results = process_path(path);
+    defn!("({:?}, …, unparseable_are_text={:?})", path, unparseable_are_text);
+    let results = process_path(path, unparseable_are_text);
     for (i, result) in results.iter().enumerate() {
         defo!("result[{}] = {:?}", i, result);
     }
@@ -213,8 +488,8 @@ fn test_process_path_fpath(
     }
     // create copy of `checks` for the same reason as `results_can` above
     let mut checks_can: Vec<ProcessPathResult> = vec![];
-    for check in checks.into_iter() {
-        let check_can = copy_process_path_result_canonicalize_path(check);
+    for check in checks.iter() {
+        let check_can = copy_process_path_result_canonicalize_path(check.clone());
         checks_can.push(check_can);
     }
     for (i, check_can) in checks_can.iter().enumerate() {
@@ -232,7 +507,8 @@ fn test_process_path_fpath(
         );
     }
     // check that each `result` is in the `checks`
-    for result in results_can.iter() {
+    for (i, result) in results_can.iter().enumerate() {
+        defo!("result[{}] = {:?}", i, result);
         assert!(
             checks_can.contains(result),
             "\nprocess_path({:?})\n  the result {:?}\n  is not contained in the checks:\n       {:?}\n",
@@ -246,73 +522,80 @@ fn test_process_path_fpath(
 
 fn test_process_path_ntf(
     ntf: &NamedTempFile,
-    checks: Vec<ProcessPathResult>,
+    checks: &Vec<ProcessPathResult>,
+    unparseable_are_text: bool,
 ) {
-    stack_offset_set(Some(2));
     let path = ntf_fpath(ntf);
-    test_process_path_fpath(&path, checks);
+    test_process_path_fpath(&path, checks, unparseable_are_text);
 }
 
 // test individual files
 
 #[test]
-fn test_process_path_1_log() {
+fn test_process_path_files_log() {
     let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_LOG_EMPTY_FPATH.clone(),
-            *NTF_LOG_EMPTY_MIMEGUESS,
             NTF_LOG_EMPTY_FILETYPE,
         ),
     ];
-    test_process_path_ntf(&NTF_LOG_EMPTY, checks);
+    test_process_path_ntf(&NTF_LOG_EMPTY, &checks, true);
+    test_process_path_ntf(&NTF_LOG_EMPTY, &checks, false);
 }
 
 #[test]
-fn test_process_path_1_gz() {
+fn test_process_path_files_gz() {
     let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_GZ_EMPTY_FPATH.clone(),
-            *NTF_GZ_EMPTY_MIMEGUESS,
-            NTF_GZ_EMPTY_FILETYPE,
+            FILETYPE_UTF8GZ,
         ),
     ];
-    test_process_path_ntf(&NTF_GZ_EMPTY, checks);
+    test_process_path_ntf(&NTF_GZ_EMPTY, &checks, true);
+    test_process_path_ntf(&NTF_GZ_EMPTY, &checks, false);
 }
 
 #[test]
-fn test_process_path_1_tar() {
+fn test_process_path_files_tar() {
     let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TAR_1BYTE_FILEA_FPATH.clone(),
-            *NTF_TAR_1BYTE_FILEA_MIMEGUESS,
             NTF_TAR_1BYTE_FILEA_FILETYPE,
         ),
     ];
-    test_process_path_ntf(&NTF_TAR_1BYTE, checks);
+    test_process_path_ntf(&NTF_TAR_1BYTE, &checks, true);
+    test_process_path_ntf(&NTF_TAR_1BYTE, &checks, false);
 }
 
 #[test]
-fn test_process_path_1_tgz() {
-    // XXX: TarGz is recognized but not supported Issue #14
+fn test_process_path_files_tgz_true() {
     let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TGZ_8BYTE_FPATH.clone(),
-            *NTF_TGZ_8BYTE_MIMEGUESS,
-            NTF_TGZ_8BYTE_FILETYPE,
+            FILETYPE_UTF8,
         ),
     ];
-    test_process_path_ntf(&NTF_TGZ_8BYTE, checks);
+    test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, true);
 }
 
 #[test]
-fn test_process_path_1_not_exist() {
+fn test_process_path_files_not_exist_file() {
     let path: FPath = FPath::from("/THIS/FILE/DOES/NOT/EXIST!");
     let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotExist(path.clone())];
-    test_process_path_fpath(&path, checks);
+    test_process_path_fpath(&path, &checks, true);
+    test_process_path_fpath(&path, &checks, false);
 }
 
 #[test]
-fn test_process_path_1_not_a_file() {
+fn test_process_path_files_not_exist_dir() {
+    let path: FPath = FPath::from("/THIS/DIRECTORY/DOES/NOT/EXIST/");
+    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotExist(path.clone())];
+    test_process_path_fpath(&path, &checks, true);
+    test_process_path_fpath(&path, &checks, false);
+}
+
+#[test]
+fn test_process_path_files_devnull() {
     let fpath: FPath = FPath::from("/dev/null");
     // do not test if path does not exist; avoids failures on unusual platforms
     if !fpath_to_path(&fpath).exists() {
@@ -320,71 +603,106 @@ fn test_process_path_1_not_a_file() {
         return;
     }
     let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
-    test_process_path_fpath(&fpath, checks);
+    test_process_path_fpath(&fpath, &checks, true);
+    test_process_path_fpath(&fpath, &checks, false);
+}
+
+#[test]
+fn test_process_path_files_devzero() {
+    let fpath: FPath = FPath::from("/dev/zero");
+    // do not test if path does not exist; avoids failures on unusual platforms
+    if !fpath_to_path(&fpath).exists() {
+        defo!("Path '{:?}' does not exist, pass test", fpath);
+        return;
+    }
+    let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotAFile(fpath.clone())];
+    test_process_path_fpath(&fpath, &checks, true);
+    test_process_path_fpath(&fpath, &checks, false);
+}
+
+#[test]
+fn test_process_path_files_tgz_false() {
+    let checks: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            NTF_TGZ_8BYTE_FPATH.clone(),
+            FILETYPE_UTF8,
+        ),
+    ];
+    test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, false);
 }
 
 // test directories of files
 
 #[test]
-fn test_process_path_dir1_file1() {
+fn test_process_path_dirs_file1() {
     let filenames = &[FPath::from("file1")];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> =
-        vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_EMPTY, FileType::File)];
+        vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8)];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
 
 #[test]
-fn test_process_path_dir2_file1_txt1() {
+fn test_process_path_dirs_file1_txt1_evtx1_journal1() {
     let filenames = &[
         FPath::from("file1"),
         FPath::from("file2.txt"),
+        FPath::from("file3.evtx"),
+        FPath::from("file4.journal"),
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_EMPTY, FileType::File),
-        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), *MIMEGUESS_TXT, FileType::File),
+        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8),
+        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8),
+        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_EVTX),
+        ProcessPathResult::FileValid(fpaths.get(3).unwrap().clone(), FILETYPE_JOURNAL),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
 
 #[test]
-fn test_process_path_dir3_gz1_tar1_txt1() {
+fn test_process_path_dirs_gz1_tar1_txt1_journal1() {
     let filenames = &[
         FPath::from("file1.gz"),
         FPath::from("file2.tar"),
         FPath::from("file3.txt"),
+        FPath::from("file4.journal"),
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_GZ, FileType::Gz),
+        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8GZ),
         // no .tar file in results
-        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), *MIMEGUESS_TXT, FileType::File),
+        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8),
+        ProcessPathResult::FileValid(fpaths.get(3).unwrap().clone(), FILETYPE_JOURNAL),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
 
 #[test]
-fn test_process_path_dir4_dirA_file1() {
+fn test_process_path_dirs_dirA_fileA1() {
     let filenames = &[FPath::from(
         "dirA/fileA1.txt",
     )];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> =
-        vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_TXT, FileType::File)];
+        vec![ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8)];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
 
 #[test]
-fn test_process_path_dir5_dirABC_files3() {
+fn test_process_path_dirs_dirABC_files3() {
     let filenames = &[
         FPath::from("file1.txt"),
         FPath::from("dirA/fileA1.txt"),
@@ -395,16 +713,17 @@ fn test_process_path_dir5_dirABC_files3() {
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), *MIMEGUESS_TXT, FileType::File),
-        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), *MIMEGUESS_TXT, FileType::File),
-        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), *MIMEGUESS_GZ, FileType::Gz),
+        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8),
+        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8),
+        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8GZ),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
 
 #[test]
-fn test_process_path_dir6_dirABC_files6() {
+fn test_process_path_dirs_dirABC_files6() {
     let filenames = &[
         FPath::from("dirA1/dirA2/fileA12.tar"),
         FPath::from("dirB/fileB1.gz"),
@@ -412,23 +731,58 @@ fn test_process_path_dir6_dirABC_files6() {
         FPath::from("dirB/fileB3.xz.tar"),
         FPath::from("dirB/fileB4.tar.xz"),
         FPath::from("dirC/fileC1.tgz"),
+        FPath::from("dirC/fileC2.journal"),
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
         // fileA12.tar will not be in results
-        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), *MIMEGUESS_GZ, FileType::Gz),
-        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), *MIMEGUESS_XZ, FileType::Xz),
+        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8GZ),
+        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8XZ),
         // fileB3.xz.tar will not be in results
-        ProcessPathResult::FileValid(fpaths.get(4).unwrap().clone(), *MIMEGUESS_XZ, FileType::Xz),
-        ProcessPathResult::FileErrNotSupported(fpaths.get(5).unwrap().clone(), *MIMEGUESS_TARGZ),
+        ProcessPathResult::FileValid(fpaths.get(4).unwrap().clone(), FILETYPE_UTF8XZ),
+        ProcessPathResult::FileErrNotSupported(fpaths.get(5).unwrap().clone()),
+        ProcessPathResult::FileValid(fpaths.get(6).unwrap().clone(), FILETYPE_JOURNAL),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
 
 #[test]
-fn test_process_path_dir7_dirAB_files4() {
+fn test_process_path_dirs_dirAB_files4() {
+    let filenames = &[
+        FPath::from("dirA1/system@f2e8a336aa58640aa39cac58b6ffc7e7-0000000000294e62-0d05dc1215b8e84c.journal"),
+        FPath::from("dirB/picture.bmp"),
+        FPath::from("dirB/picture.png"),
+        FPath::from("dirB/this.crazy.file.name.has.many.extensions.chars.within.the.name"),
+        FPath::from("dirB/fileB.evtx"),
+    ];
+    let (dir, fpaths) = create_files_and_tmpdir(filenames);
+
+    let checks: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL
+        ),
+        ProcessPathResult::FileErrNotSupported(
+            fpaths.get(1).unwrap().clone()
+        ),
+        ProcessPathResult::FileErrNotSupported(
+            fpaths.get(2).unwrap().clone()
+        ),
+        ProcessPathResult::FileValid(
+            fpaths.get(3).unwrap().clone(), FILETYPE_UTF8
+        ),
+        ProcessPathResult::FileValid(
+            fpaths.get(4).unwrap().clone(), FILETYPE_EVTX
+        ),
+    ];
+
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
+}
+
+#[test]
+fn test_process_path_dirs_dirAB_files4_false() {
     let filenames = &[
         FPath::from("dirA1/system@f2e8a336aa58640aa39cac58b6ffc7e7-0000000000294e62-0d05dc1215b8e84c.journal"),
         FPath::from("dirB/picture.bmp"),
@@ -439,43 +793,55 @@ fn test_process_path_dir7_dirAB_files4() {
 
     let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
-            fpaths.get(0).unwrap().clone(), MimeGuess::from_ext("journal"), FileType::Journal
+            fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL
+        ),
+        ProcessPathResult::FileErrNotSupported(
+            fpaths.get(1).unwrap().clone()
+        ),
+        ProcessPathResult::FileErrNotSupported(
+            fpaths.get(2).unwrap().clone()
         ),
         ProcessPathResult::FileValid(
-            fpaths.get(1).unwrap().clone(), MimeGuess::from_ext("bmp"), FileType::File
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(2).unwrap().clone(), MimeGuess::from_ext("png"), FileType::File
-        ),
-        ProcessPathResult::FileValid(
-            fpaths.get(3).unwrap().clone(), *MIMEGUESS_EMPTY, FileType::Unknown
+            fpaths.get(3).unwrap().clone(), FILETYPE_UTF8
         ),
     ];
 
-    test_process_path_fpath(&path_to_fpath(dir.path()), checks);
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
-
-// -------------------------------------------------------------------------------------------------
 
 fn test_process_path_tar(
     path: &FPath,
     checks: &Vec<ProcessPathResult>,
+    unparseable_are_text: bool,
 ) {
-    defn!("test_process_path_tar({:?}, …)", path);
-    let results = process_path_tar(path);
+    defn!("test_process_path_tar({:?}, …, {:?})", path, unparseable_are_text);
+    for check in checks.iter() {
+        defo!("check {:?}", check);
+    }
+    let results = process_path_tar(path, unparseable_are_text);
+    for result in results.iter() {
+        defo!("result {:?}", result);
+    }
+    // basic comparison
+    defo!("There are {} results and {} checks", results.len(), checks.len());
+    assert_eq!(results.len(), checks.len(), "results and checks have different lengths!");
+    // are all `checks` in `results`?
     for check in checks.iter() {
         assert!(
             results.contains(check),
             "\nprocess_path({:?})\n  the check {:?}\n  is not contained in the results:\n       {:?}\n",
             path, check, results,
         );
+        defo!("found check {:?}", check);
     }
+    // are all `results` in `checks`?
     for result in results.iter() {
         assert!(
             checks.contains(result),
             "\nprocess_path({:?})\n  the result {:?}\n  is not contained in the checks:\n       {:?}\n",
-            path, result, checks,
+            path, result, &checks,
         );
+        defo!("found result {:?}", result);
     }
     defx!();
 }
@@ -485,12 +851,12 @@ fn test_process_path_tar_tar1_file1() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TAR_8BYTE_FILEA_FPATH.clone(),
-            *NTF_TAR_8BYTE_FILEA_MIMEGUESS,
             NTF_TAR_8BYTE_FILEA_FILETYPE,
         ),
     ];
-
-    test_process_path_tar(&NTF_TAR_8BYTE_FPATH, &check);
+    defñ!();
+    test_process_path_tar(&NTF_TAR_8BYTE_FPATH, &check, true);
+    test_process_path_tar(&NTF_TAR_8BYTE_FPATH, &check, false);
 }
 
 #[test]
@@ -498,162 +864,14 @@ fn test_process_path_tar_tar1_file2() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TAR_AB_FILEA_FPATH.clone(),
-            *NTF_TAR_AB_FILEA_MIMEGUESS,
             NTF_TAR_AB_FILEA_FILETYPE,
         ),
         ProcessPathResult::FileValid(
             NTF_TAR_AB_FILEB_FPATH.clone(),
-            *NTF_TAR_AB_FILEB_MIMEGUESS,
             NTF_TAR_AB_FILEB_FILETYPE,
         ),
     ];
-
-    test_process_path_tar(&NTF_TAR_AB_FPATH, &check);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-lazy_static! {
-    pub static ref MIMEGUESS_LOG_1: MimeGuess = MimeGuess::from_path(Path::new("test.log"));
-}
-
-/// test `fpath_to_filetype_mimeguess` (and `path_to_filetype_mimeguess`)
-#[test_case("messages", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("MESSAGES", FileType::File, &MIMEGUESS_EMPTY; "MESSAGES ALLCAPS")]
-#[test_case("pagefile.sys", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("syslog", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("syslog~", FileType::File, &MIMEGUESS_EMPTY; "syslog_tilde")]
-#[test_case("syslog-", FileType::File, &MIMEGUESS_EMPTY; "syslog_dash")]
-#[test_case("syslog.3", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("output.txt", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("cloud-init.log.out", FileType::File, &MIMEGUESS_LOG)]
-#[test_case("cloud-init.out.log", FileType::File, &MIMEGUESS_LOG)]
-#[test_case("cloud-init-output.log", FileType::File, &MIMEGUESS_LOG)]
-#[test_case("droplet-agent.update.log", FileType::File, &MIMEGUESS_LOG)]
-#[test_case("kern.log", FileType::File, &MIMEGUESS_LOG)]
-#[test_case("KERN.LOG", FileType::File, &MIMEGUESS_LOG; "KERN.LOG ALLCAPS")]
-#[test_case("kern.log.1", FileType::File, &MIMEGUESS_LOG)]
-#[test_case("kern.log.2", FileType::File, &MIMEGUESS_LOG)]
-#[test_case("kern.log.2~", FileType::File, &MIMEGUESS_LOG; "kern.log.2_tilde")]
-#[test_case("rhsm.log-20230422", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("aptitude.4", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("aptitude.~", FileType::File, &MIMEGUESS_EMPTY; "aptitude_tilde")]
-#[test_case("systemsetup-server-info.log.208", FileType::File, &MIMEGUESS_LOG)]
-#[test_case("syslog.gz", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("syslog.9.gz", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("SYSLOG.9.GZ", FileType::Gz, &MIMEGUESS_GZ; "SYSLOG.9.GZ")]
-#[test_case("logs.tgz", FileType::Unparsable, &MIMEGUESS_TARGZ)]
-#[test_case("unattended-upgrades-dpkg.log.3.gz", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("eipp.log.xz", FileType::Xz, &MIMEGUESS_XZ)]
-#[test_case("logs.tar", FileType::Tar, &MIMEGUESS_TAR)]
-#[test_case("LOGS.TAR", FileType::Tar, &MIMEGUESS_TAR; "LOGS.TAR")]
-#[test_case("log.1.tar", FileType::Tar, &MIMEGUESS_TAR)]
-#[test_case("LOG.1.TAR", FileType::Tar, &MIMEGUESS_TAR; "LOG.1.TAR ALLCAPS")]
-#[test_case("data.tgz.old.1", FileType::Unparsable, &MIMEGUESS_TARGZ)]
-#[test_case("data.tgz.old", FileType::Unparsable, &MIMEGUESS_TARGZ)]
-#[test_case("HOSTNAME.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("log.HOSTNAME", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("log.nmbd", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("LOG.NMDB", FileType::File, &MIMEGUESS_EMPTY; "LOG.NMDB")]
-#[test_case("log.nmbd.1", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("log.nmbd.old", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("log.gz.1", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("log.gz.2", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("log.gz.99", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("log.tgz.99", FileType::Unparsable, &MIMEGUESS_TARGZ)]
-#[test_case("logs.tgz.99", FileType::Unparsable, &MIMEGUESS_TARGZ)]
-#[test_case("LOGS.TGZ.99", FileType::Unparsable, &MIMEGUESS_TARGZ; "LOGS.TGZ.99")]
-#[test_case("-.tgz.99", FileType::Unparsable, &MIMEGUESS_TARGZ)]
-#[test_case("soap_agent", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("soap_agent.old", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("soap_agent.old.old", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("2023.10.26.asl", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("BB.2024.10.31.G80.asl", FileType::Unknown, &MIMEGUESS_EMPTY)]
-#[test_case("telemetry", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("initial-status", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("smart_extend_log", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case(".disk_daily_info_send_udc_time", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("messages-DropletAgent", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("CC_AA_DD_EE_FF_00-ns", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("CC_AA_DD_EE_FF_00-ns.old", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("CC_AA_DD_EE_FF_00-ns.old.1", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("history", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("fe80::984c:ffff:eeee:eeee.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("[fe80::984c:ffff:eeee:eeef].log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("錄音.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("opname.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("บันทึก.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("innspilling.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("Запису.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("تسجيل.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("grabación.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("錄音.檔", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("錄音", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("บันทึก", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("innspilling", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("Запису", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("تسجيل", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("grabación", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("192.168.1.100.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("192.168.1.100.log.gz", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("192.168.1.100.log.gz.1", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("192.168.1.100.log.gz.old.1", FileType::Gz, &MIMEGUESS_GZ)]
-#[test_case("log.192.168.1.100", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("setup.log.full", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("setup.log.full.1", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("setup.log.full.old", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("setup.log.full.old.1", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("setup.log.full.old.2", FileType::File, &MIMEGUESS_TXT)]
-// on FreeBSD 13, there is a log file `utx.log` that is a variable-length utmpx-ish format file
-#[test_case("utx.log", FileType::File, &MIMEGUESS_TXT)]
-#[test_case("utx.log-", FileType::File, &MIMEGUESS_TXT; "utx.log dash")]
-#[test_case("utx.active", FileType::File, &MIMEGUESS_EMPTY)]
-// File `utx.lastlogin` exists on FreeBSD 13.   
-#[test_case("utx.lastlogin", FileType::File, &MIMEGUESS_EMPTY)]
-#[test_case("lastlog", FileType::FixedStruct{ type_: FixedStructFileType::Lastlog }, &MIMEGUESS_EMPTY)]
-#[test_case("lastlog.1", FileType::FixedStruct{ type_: FixedStructFileType::Lastlog }, &MIMEGUESS_EMPTY)]
-#[test_case("lastlog.bak", FileType::FixedStruct{ type_: FixedStructFileType::Lastlog }, &MIMEGUESS_EMPTY)]
-#[test_case("lastlog.2.bak", FileType::FixedStruct{ type_: FixedStructFileType::Lastlog }, &MIMEGUESS_EMPTY)]
-#[test_case("btmp", FileType::FixedStruct{ type_: FixedStructFileType::Utmp }, &MIMEGUESS_EMPTY)]
-#[test_case("utmp", FileType::FixedStruct{ type_: FixedStructFileType::Utmp }, &MIMEGUESS_EMPTY)]
-#[test_case("wtmp", FileType::FixedStruct{ type_: FixedStructFileType::Utmp }, &MIMEGUESS_EMPTY)]
-#[test_case("WTMP", FileType::FixedStruct{ type_: FixedStructFileType::Utmp }, &MIMEGUESS_EMPTY; "WTMP ALLCAPS")]
-#[test_case("btmpx", FileType::FixedStruct{ type_: FixedStructFileType::Utmpx }, &MIMEGUESS_EMPTY)]
-#[test_case("utmpx", FileType::FixedStruct{ type_: FixedStructFileType::Utmpx }, &MIMEGUESS_EMPTY)]
-#[test_case("wtmpx", FileType::FixedStruct{ type_: FixedStructFileType::Utmpx }, &MIMEGUESS_EMPTY)]
-#[test_case("wtmpx~", FileType::File, &MIMEGUESS_EMPTY; "wtmpx_tilde")] // results in `FileType::File` because of the tilde
-#[test_case("btmp.1", FileType::FixedStruct{ type_: FixedStructFileType::Utmp }, &MIMEGUESS_EMPTY)]
-#[test_case("utmp.2", FileType::FixedStruct{ type_: FixedStructFileType::Utmp }, &MIMEGUESS_EMPTY)]
-#[test_case("wtmp.1", FileType::FixedStruct{ type_: FixedStructFileType::Utmp }, &MIMEGUESS_EMPTY)]
-#[test_case("WTMP.1", FileType::FixedStruct{ type_: FixedStructFileType::Utmp }, &MIMEGUESS_EMPTY; "WTMP.1 ALLCAPS")]
-#[test_case("file.evtx", FileType::Evtx, &MIMEGUESS_EVTX)]
-#[test_case("FILE.EVTX", FileType::Evtx, &MIMEGUESS_EVTX; "FILE.EVTX ALLCAPS")]
-#[test_case("file.evtx.1", FileType::Evtx, &MIMEGUESS_EVTX)]
-#[test_case("a.journal", FileType::Journal, &MIMEGUESS_EMPTY)]
-#[test_case("a.journal~", FileType::Journal, &MIMEGUESS_EMPTY; "a.journal tilde")]
-#[test_case("a.journal~.1", FileType::Journal, &MIMEGUESS_EMPTY; "a.journal tilde 1")]
-#[test_case("a.journal~.old", FileType::Journal, &MIMEGUESS_EMPTY; "a.journal tilde old")]
-#[test_case("A.JOURNAL", FileType::Journal, &MIMEGUESS_EMPTY; "A.JOURNAL ALLCAPS")]
-#[test_case("A.JOURNAL~", FileType::Journal, &MIMEGUESS_EMPTY; "A.JOURNAL ALLCAPS tilde")]
-#[test_case("user-1000.journal", FileType::Journal, &MIMEGUESS_EMPTY)]
-#[test_case("user-1000@2feff012228b405bb557ccd80a0ba755-000000005100032b-0006129e5481135e.journal", FileType::Journal, &MIMEGUESS_EMPTY)]
-#[test_case("-", FileType::File, &MIMEGUESS_EMPTY; "dash")]
-#[test_case("$", FileType::File, &MIMEGUESS_EMPTY; "dollar")]
-#[test_case("SIH.20230422.034724.362.1.etl", FileType::Unparsable, &MIMEGUESS_ETL)]
-#[test_case("logs.zip", FileType::Unparsable, &MIMEGUESS_ZIP)]
-fn test_path_to_filetype_mimeguess(
-    path_str: &str,
-    filetype: FileType,
-    mimeguess: &MimeGuess,
-) {
-    defn!("({:?})", path_str);
-    // test the file name and full path
-    let fpath: FPath = FPath::from_str(path_str).unwrap();
-    let fpath_full: FPath = FPath::from_str("/var/log/").unwrap() + fpath.as_str();
-    for fpath_ in [&fpath, &fpath_full].iter() {
-        let (filetype_, mimeguess_) = fpath_to_filetype_mimeguess(fpath_);
-        assert_eq!(filetype, filetype_, "\nfpath {:?}\nExpected {:?}\nActual   {:?}\n", fpath_, filetype, filetype_);
-        assert_eq!(mimeguess, &mimeguess_, "\nfpath {:?}\nExpected {:?}\nActual   {:?}\n", fpath_, mimeguess, mimeguess_);
-    }
-    defx!();
+    defñ!();
+    test_process_path_tar(&NTF_TAR_AB_FPATH, &check, true);
+    test_process_path_tar(&NTF_TAR_AB_FPATH, &check, false);
 }

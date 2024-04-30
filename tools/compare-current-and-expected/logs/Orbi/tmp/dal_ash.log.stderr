@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Orbi/tmp/dal_ash.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1353
       lines         : 9

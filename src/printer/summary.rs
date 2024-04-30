@@ -19,16 +19,16 @@ use ::chrono::{
     Timelike,
 };
 use ::lazy_static::lazy_static;
-use ::mime_guess::MimeGuess;
 use ::si_trace_print::defñ;
 
-use crate::debug_panic;
 use crate::common::{
+    debug_panic,
     Count,
-    FPath,
-    PathId,
     FileType,
+    FileTypeArchive,
+    FPath,
     LogMessageType,
+    PathId,
     SetPathId,
 };
 use crate::data::datetime::{
@@ -45,7 +45,10 @@ use crate::data::evtx::Evtx;
 use crate::data::journal::JournalEntry;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::sysline::SyslineP;
-use crate::debug::printers::e_err;
+use crate::debug::printers::{
+    de_wrn,
+    e_err,
+};
 use crate::readers::blockreader::SummaryBlockReader;
 use crate::readers::filepreprocessor::ProcessPathResult;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
@@ -80,7 +83,6 @@ pub type MapPathIdToModifiedTime = HashMap<PathId, DateTimeLOpt>;
 pub type MapPathIdToFileProcessingResultBlockZero = HashMap<PathId, FileProcessingResultBlockZero>;
 pub type MapPathIdToFileType = HashMap<PathId, FileType>;
 pub type MapPathIdToLogMessageType = HashMap<PathId, LogMessageType>;
-pub type MapPathIdToMimeGuess = HashMap<PathId, MimeGuess>;
 
 lazy_static! {
     pub static ref FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
@@ -725,7 +727,6 @@ pub fn print_summary(
     map_pathid_file_processing_result: MapPathIdToFileProcessingResultBlockZero,
     map_pathid_filetype: MapPathIdToFileType,
     map_pathid_logmessagetype: MapPathIdToLogMessageType,
-    map_pathid_mimeguess: MapPathIdToMimeGuess,
     map_pathid_color: MapPathIdToColor,
     mut map_pathid_summary: MapPathIdSummary,
     mut map_pathid_sumpr: MapPathIdSummaryPrint,
@@ -750,7 +751,6 @@ pub fn print_summary(
         &map_pathid_file_processing_result,
         &map_pathid_filetype,
         &map_pathid_logmessagetype,
-        &map_pathid_mimeguess,
         &map_pathid_color,
         &mut map_pathid_summary,
         &mut map_pathid_sumpr,
@@ -874,7 +874,6 @@ fn print_file_about(
     file_processing_result: Option<&FileProcessingResultBlockZero>,
     filetype: &FileType,
     logmessagetype: &LogMessageType,
-    mimeguess: &MimeGuess,
     summary_opt: &SummaryOpt,
     color: &Color,
     color_choice: &ColorChoice,
@@ -914,10 +913,34 @@ fn print_file_about(
         }
         None => {}
     }
-    eprintln!("{}filetype       : {}", OPT_SUMMARY_PRINT_INDENT2, filetype);
+    eprint!("{}filetype       : {}", OPT_SUMMARY_PRINT_INDENT2, filetype);
     match filetype {
-        FileType::FixedStruct{type_: fixedstructfiletype } => {
-            eprintln!("{}fixedstructtype: {:?}", OPT_SUMMARY_PRINT_INDENT2, fixedstructfiletype);
+        FileType::Text { encoding_type: et, .. } => {
+            eprint!(" {}", et);
+        }
+        _ => {}
+    }
+    match filetype {
+        FileType::Evtx { archival_type: at }
+        | FileType::FixedStruct { archival_type: at, .. }
+        | FileType::Journal { archival_type: at }
+        | FileType::Text { archival_type: at, .. }
+        => {
+            match at {
+                FileTypeArchive::Normal => {}
+                fta => {
+                    eprint!(" ({})", fta);
+                }
+            }
+        }
+        FileType::Unparsable => {
+            debug_panic!("unexpected FileType::Unparsable");
+        }
+    }
+    eprintln!();
+    match filetype {
+        FileType::FixedStruct { archival_type: _, fixedstruct_type: fst } => {
+            eprintln!("{}fixedstructtype: {:?}", OPT_SUMMARY_PRINT_INDENT2, fst);
         }
         _ => {}
     }
@@ -942,7 +965,6 @@ fn print_file_about(
         }
         None => {}
     }
-    eprintln!("{}MIME guess     : {:?}", OPT_SUMMARY_PRINT_INDENT2, mimeguess);
     // print `FileProcessingResult` if it was not okay
     match file_processing_result {
         Some(result) => {
@@ -1223,19 +1245,27 @@ fn print_summary_opt_processed_summaryblockreader(
             return;
         }
     };
-    debug_assert_ne!(summary.filetype, FileType::Evtx);
-    debug_assert_ne!(summary.filetype, FileType::Journal);
-    match summary.filetype {
-        FileType::File
-        | FileType::FixedStruct{..}
-        | FileType::Unknown
+    let filetype: FileType = match summary.filetype {
+        Some(ft) => ft,
+        None => {
+            debug_panic!("summary.filetype is None");
+            return;
+        }
+    };
+    debug_assert!(!filetype.is_evtx());
+    debug_assert!(!filetype.is_journal());
+    match filetype {
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
+        | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
         => {
             eprintln!(
                 "{}file size     : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
             );
         }
-        FileType::Tar => {
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
+        | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
+        => {
             eprintln!(
                 "{}file size archive   : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
@@ -1245,7 +1275,11 @@ fn print_summary_opt_processed_summaryblockreader(
                 indent, summaryblockreader.blockreader_filesz_actual
             );
         }
-        FileType::Gz | FileType::Xz => {
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
+        | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
+        | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
+        | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }
+        => {
             eprintln!(
                 "{}file size compressed  : {1} (0x{1:X}) (bytes)",
                 indent, summaryblockreader.blockreader_filesz
@@ -1255,12 +1289,11 @@ fn print_summary_opt_processed_summaryblockreader(
                 indent, summaryblockreader.blockreader_filesz_actual
             );
         }
-        FileType::TarGz
-        | FileType::Evtx
-        | FileType::Journal
-        | FileType::Unset
+        FileType::Evtx{..}
+        | FileType::Journal{..}
         | FileType::Unparsable
         => {
+            debug_panic!("unexpected filetype {:?}", summary.filetype);
             eprintln!("{}unsupported filetype: {:?}", indent, summary.filetype);
             return;
         }
@@ -1629,18 +1662,27 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     let summary: &Summary = match summary_opt {
         Some(ref summary) => summary,
         None => {
+            de_wrn!("summary_opt is None");
+
             return;
         }
     };
     if summary.readerdata.is_dummy() {
+        de_wrn!("summary.readerdata.is_dummy()");
+
         return;
     }
     // force early return for Evtx or Journal
     // the `EvtxReader` and `JournalReader` do not use `BlockReader`
     match summary.filetype {
-        FileType::Evtx => { return; }
-        FileType::Journal => { return; }
-        _ => {}
+        None => debug_panic!("unexpected None for summary.filetype"),
+        Some(filetype_) => {
+            match filetype_ {
+                FileType::Evtx{..} => { return; }
+                FileType::Journal{..} => { return; }
+                _ => {}
+            }
+        }
     }
     eprintln!("{}Processing Drops:", OPT_SUMMARY_PRINT_INDENT1);
     let wide: usize = summary
@@ -1743,7 +1785,6 @@ fn print_file_summary(
     file_processing_result: Option<&FileProcessingResultBlockZero>,
     filetype: &FileType,
     logmessagetype: &LogMessageType,
-    mimeguess: &MimeGuess,
     summary_opt: &SummaryOpt,
     summary_print_opt: &SummaryPrintedOpt,
     color: &Color,
@@ -1757,7 +1798,6 @@ fn print_file_summary(
         file_processing_result,
         filetype,
         logmessagetype,
-        mimeguess,
         summary_opt,
         color,
         color_choice,
@@ -1800,7 +1840,6 @@ fn print_all_files_summaries(
     map_pathid_file_processing_result: &MapPathIdToFileProcessingResultBlockZero,
     map_pathid_filetype: &MapPathIdToFileType,
     map_pathid_logmessagetype: &MapPathIdToLogMessageType,
-    map_pathid_mimeguess: &MapPathIdToMimeGuess,
     map_pathid_color: &MapPathIdToColor,
     map_pathid_summary: &mut MapPathIdSummary,
     map_pathid_sumpr: &mut MapPathIdSummaryPrint,
@@ -1810,29 +1849,54 @@ fn print_all_files_summaries(
     for (pathid, path) in map_pathid_path.iter() {
         let color: &Color = map_pathid_color
             .get(pathid)
-            .unwrap_or(color_default);
+            .unwrap_or_else(
+                || {
+                    debug_panic!("color not found for PathID {:?} (path {:?})", pathid, path);
+
+                   color_default
+                }
+            );
         let modified_time: &DateTimeLOpt = map_pathid_modified_time.get(pathid)
-            .unwrap_or(&DateTimeLOpt::None);
+            .unwrap_or_else(
+                || {
+                    debug_panic!("modified_time not found for PathID {:?} (path {:?})", pathid, path);
+
+                    &DateTimeLOpt::None
+                }
+            );
         let file_processing_result = map_pathid_file_processing_result.get(pathid);
         let filetype: &FileType = map_pathid_filetype
             .get(pathid)
-            .unwrap_or(&FileType::Unknown);
+            .unwrap_or_else(
+                || {
+                    debug_panic!("filetype not found for PathID {:?} (path {:?})", pathid, path);
+
+                    &FileType::Unparsable
+                }
+            );
         let logmessagetype: &LogMessageType = map_pathid_logmessagetype
             .get(pathid)
-            .unwrap_or(&LogMessageType::Sysline);
-        let mimeguess_default: MimeGuess = MimeGuess::from_ext("");
-        let mimeguess: &MimeGuess = map_pathid_mimeguess
-            .get(pathid)
-            .unwrap_or(&mimeguess_default);
+            .unwrap_or_else(
+                || {
+                    debug_panic!("logmessagetype not found for PathID {:?} (path {:?})", pathid, path);
+
+                    &LogMessageType::Sysline
+                }
+            );
         let summary_opt: SummaryOpt = map_pathid_summary.remove(pathid);
+        if summary_opt.is_none() {
+            debug_panic!("summary_opt is None for PathID {:?} (path {:?})", pathid, path);
+        }
         let summary_print_opt: SummaryPrintedOpt = map_pathid_sumpr.remove(pathid);
+        if summary_print_opt.is_none() {
+            de_wrn!("summary_print_opt is None for PathID {:?} (path {:?})", pathid, path);
+        }
         print_file_summary(
             path,
             modified_time,
             file_processing_result,
             filetype,
             logmessagetype,
-            mimeguess,
             &summary_opt,
             &summary_print_opt,
             color,
@@ -1864,15 +1928,15 @@ fn print_files_processpathresult(
 
     for (_pathid, result) in map_pathid_result.iter() {
         match result {
-            ProcessPathResult::FileValid(path, mimeguess, _filetype) => {
-                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+            ProcessPathResult::FileValid(path, _filetype) => {
+                print_(format!("File: {} ", path), color_choice, color_default);
             }
-            ProcessPathResult::FileErrNoPermissions(path, mimeguess) => {
-                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+            ProcessPathResult::FileErrNoPermissions(path) => {
+                print_(format!("File: {} ", path), color_choice, color_default);
                 print_("(no permissions)".to_string(), color_choice, color_error);
             }
-            ProcessPathResult::FileErrNotSupported(path, mimeguess) => {
-                print_(format!("File: {} {:?} ", path, mimeguess), color_choice, color_default);
+            ProcessPathResult::FileErrNotSupported(path) => {
+                print_(format!("File: {} ", path), color_choice, color_default);
                 print_("(not supported)".to_string(), color_choice, color_error);
             }
             ProcessPathResult::FileErrNotAFile(path) => {

@@ -7,7 +7,6 @@ File: ./logs/CentOS7/x86_64/wtmp
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 724
       entries       : 3

@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/RockyLinux9/nginx/access.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 816
       lines         : 4

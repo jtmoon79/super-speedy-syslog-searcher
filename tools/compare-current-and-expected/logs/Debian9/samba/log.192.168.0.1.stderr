@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Debian9/samba/log.192.168.0.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 292
       lines         : 2

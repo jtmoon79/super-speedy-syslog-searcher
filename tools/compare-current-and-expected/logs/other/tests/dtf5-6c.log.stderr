@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/other/tests/dtf5-6c.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2781
       lines         : 32

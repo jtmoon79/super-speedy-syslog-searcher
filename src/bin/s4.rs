@@ -101,7 +101,6 @@ use ::s4lib::common::{
     FileProcessingResult,
     LogMessageType,
     NLu8a,
-    filetype_to_logmessagetype,
     PathId,
     SetPathId,
 };
@@ -179,7 +178,6 @@ use ::s4lib::printer::summary::{
     MapPathIdToFileProcessingResultBlockZero,
     MapPathIdToFileType,
     MapPathIdToLogMessageType,
-    MapPathIdToMimeGuess,
 };
 
 // --------------------
@@ -1475,7 +1473,7 @@ pub fn main() -> ExitCode {
     let mut processed_paths: ProcessPathResults = ProcessPathResults::with_capacity(paths.len() * 4);
     for path in paths.iter() {
         defo!("path {:?}", path);
-        let ppaths: ProcessPathResults = process_path(path);
+        let ppaths: ProcessPathResults = process_path(path, true);
         for ppresult in ppaths.into_iter() {
             processed_paths.push(ppresult);
         }
@@ -2161,7 +2159,7 @@ fn exec_evtxprocessor(
         tz_offset,
     ) = thread_init_data;
     defn!("{:?}({}): ({:?}, {:?})", _tid, _tname, path, tz_offset);
-    debug_assert!(matches!(filetype, FileType::Evtx));
+    debug_assert!(filetype.is_evtx());
     debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
 
     let mut evtxreader: EvtxReader = match EvtxReader::new(path.clone()) {
@@ -2253,7 +2251,7 @@ fn exec_journalprocessor(
         tz_offset,
     ) = thread_init_data;
     defn!("{:?}({}): ({:?})", _tid, _tname, path);
-    debug_assert!(matches!(filetype, FileType::Journal));
+    debug_assert!(filetype.is_journal());
     debug_assert!(matches!(logmessagespecificdata, LogMessageSpecificData::Journal(_)));
 
     let journal_output: JournalOutput = match logmessagespecificdata {
@@ -2398,10 +2396,19 @@ fn exec_fileprocessor_thread(
 
     match thread_init_data.2 {
         FileType::FixedStruct{..} => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
-        FileType::Evtx => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
-        FileType::Journal => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
-        // allow allow all other file types to be processed as a syslog
-        _ => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Evtx{..} => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Journal{..} => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Text{..} => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
+        _ =>  {
+            debug_panic!(
+                "exec_fileprocessor_thread called with unexpected filetype {:?}",
+                thread_init_data.2
+            );
+            e_err!(
+                "exec_fileprocessor_thread called with unexpected filetype {:?}",
+                thread_init_data.2
+            );
+        }
     }
 }
 
@@ -2501,8 +2508,6 @@ fn processing_loop(
     let mut map_pathid_filetype = MapPathIdToFileType::with_capacity(file_count);
     // map `PathId` to `LogMessageType`
     let mut map_pathid_logmessagetype = MapPathIdToLogMessageType::with_capacity(file_count);
-    // map `PathId` to `MimeGuess`
-    let mut map_pathid_mimeguess = MapPathIdToMimeGuess::with_capacity(file_count);
     let mut paths_total: usize = 0;
 
     for (pathid_counter, processpathresult) in paths_results
@@ -2512,18 +2517,18 @@ fn processing_loop(
         defo!("match {:?}", processpathresult);
         match processpathresult {
             // XXX: use `ref` to avoid "use of partially moved value" error
-            ProcessPathResult::FileValid(ref path, ref mimeguess, ref filetype) => {
+            ProcessPathResult::FileValid(ref path, ref filetype) => {
                 if matches!(filetype, FileType::Unparsable) {
                     // known unparsable file
                     defo!("paths_invalid_results.push(FileErrUnparsable)");
                     map_pathid_results_invalid.insert(
                         pathid_counter,
-                        ProcessPathResult::FileErrNotSupported(path.clone(), *mimeguess),
+                        ProcessPathResult::FileErrNotSupported(path.clone()),
                     );
                     paths_total += 1;
                     continue;
                 }
-                else if matches!(filetype, FileType::Journal) {
+                else if filetype.is_journal() {
                     defo!("load_library_systemd()");
                     match load_library_systemd() {
                         LoadLibraryError::Ok => {}
@@ -2552,9 +2557,8 @@ fn processing_loop(
                 map_pathid_path.insert(pathid_counter, path.clone());
                 map_pathid_filetype.insert(pathid_counter, *filetype);
                 map_pathid_received_fileinfo.insert(pathid_counter, false);
-                let logmessagetype: LogMessageType = filetype_to_logmessagetype(*filetype);
+                let logmessagetype: LogMessageType = filetype.to_logmessagetype();
                 map_pathid_logmessagetype.insert(pathid_counter, logmessagetype);
-                map_pathid_mimeguess.insert(pathid_counter, *mimeguess);
                 map_pathid_results.insert(pathid_counter, processpathresult);
             }
             _ => {
@@ -2568,19 +2572,17 @@ fn processing_loop(
     // shrink to fit
     map_pathid_filetype.shrink_to_fit();
     map_pathid_logmessagetype.shrink_to_fit();
-    map_pathid_mimeguess.shrink_to_fit();
     map_pathid_results.shrink_to_fit();
 
     // rebind to be immutable
     let map_pathid_filetype = map_pathid_filetype;
     let map_pathid_logmessagetype = map_pathid_logmessagetype;
-    let map_pathid_mimeguess = map_pathid_mimeguess;
 
     for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
         match result_invalid {
-            ProcessPathResult::FileErrNoPermissions(path, _) =>
+            ProcessPathResult::FileErrNoPermissions(path) =>
                 e_err!("not enough permissions {:?}", path),
-            ProcessPathResult::FileErrNotSupported(path, _) =>
+            ProcessPathResult::FileErrNotSupported(path) =>
                 e_err!("not a supported file {:?}", path),
             ProcessPathResult::FileErrNotAFile(path) =>
                 e_err!("not a file {:?}", path),
@@ -2637,7 +2639,7 @@ fn processing_loop(
     for (pathid, path) in map_pathid_path.iter() {
         let (filetype, _) = match map_pathid_results.get(pathid) {
             Some(processpathresult) => match processpathresult {
-                ProcessPathResult::FileValid(path, _m, filetype) => (filetype, path),
+                ProcessPathResult::FileValid(_path, filetype) => (filetype, _path),
                 val => {
                     e_err!("unhandled ProcessPathResult {:?}", val);
                     continue;
@@ -2648,7 +2650,7 @@ fn processing_loop(
             }
         };
         let logmessagespecificdata = match filetype {
-            FileType::Journal => LogMessageSpecificData::Journal(journal_output),
+            FileType::Journal{..} => LogMessageSpecificData::Journal(journal_output),
             _ => LogMessageSpecificData::None,
         };
         let thread_data: ThreadInitData = (
@@ -3411,7 +3413,6 @@ fn processing_loop(
             map_pathid_file_processing_result,
             map_pathid_filetype,
             map_pathid_logmessagetype,
-            map_pathid_mimeguess,
             map_pathid_color,
             map_pathid_summary,
             map_pathid_sumpr,

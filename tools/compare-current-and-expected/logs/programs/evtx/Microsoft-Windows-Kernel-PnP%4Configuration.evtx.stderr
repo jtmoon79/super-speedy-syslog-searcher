@@ -5,7 +5,6 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
   About:
       filetype       : EVTX
       logmessagetype : evtx entries
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1159282
       Events        : 227

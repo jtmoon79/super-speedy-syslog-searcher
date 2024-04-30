@@ -6,7 +6,6 @@ File: ./logs/NetBSD9.3/x86_32/utmpx
       filetype       : UTMPX/WTMPX
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      MIME guess     : MimeGuess([])
       Processing Err : No FixedStruct in DateTime Range
 
 

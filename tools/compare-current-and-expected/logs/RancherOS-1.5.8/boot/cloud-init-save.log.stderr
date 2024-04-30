@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1732
       lines         : 10

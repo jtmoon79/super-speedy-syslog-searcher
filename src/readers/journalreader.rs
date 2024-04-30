@@ -139,19 +139,16 @@
 //! [`DT_USES_SOURCE_OVERRIDE`]: DT_USES_SOURCE_OVERRIDE
 
 use crate::de_err;
-
-use crate::common::{
-    File,
-    FileOpenOptions,
-    ResultS3,
-    ResultFind4,
-};
 use crate::common::{
     Count,
+    File,
+    FileOpenOptions,
     FileSz,
-    FPath,
     FileType,
-    filetype_to_logmessagetype,
+    FileTypeArchive,
+    FPath,
+    ResultFind4,
+    ResultS3,
 };
 use crate::data::datetime::{
     FixedOffset,
@@ -2725,7 +2722,7 @@ impl<'a> JournalReader {
 
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
-        FileType::Journal
+        FileType::Journal { archival_type: FileTypeArchive::Normal }
     }
 
     /// File size in bytes
@@ -2922,7 +2919,7 @@ impl<'a> JournalReader {
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
         let filetype = self.filetype();
-        let logmessagetype = filetype_to_logmessagetype(filetype);
+        let logmessagetype = filetype.to_logmessagetype();
         let summaryjournalreader = self.summary();
         let error: Option<String> = self.error.clone();
 

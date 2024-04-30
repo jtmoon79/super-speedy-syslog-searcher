@@ -21,7 +21,10 @@ use crate::tests::common::{
 };
 use crate::common::{Bytes, Count, FPath, FileOffset};
 use crate::readers::blockreader::BlockSz;
-use crate::readers::filepreprocessor::fpath_to_filetype_mimeguess;
+use crate::readers::filepreprocessor::{
+    fpath_to_filetype,
+    PathToFiletypeResult,
+};
 use crate::readers::helpers::randomize;
 use crate::data::line::{LineIndex, LineP, LinePartPtrs};
 use crate::readers::linereader::{
@@ -61,7 +64,13 @@ fn new_LineReader(
     path: &FPath,
     blocksz: BlockSz,
 ) -> LineReader {
-    let (filetype, _mimeguess) = fpath_to_filetype_mimeguess(path);
+    let result = fpath_to_filetype(path, true);
+    let filetype = match result {
+        PathToFiletypeResult::Filetype(ft) => ft,
+        PathToFiletypeResult::Archive(_) => {
+            panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
+        }
+    };
     match LineReader::new(path.clone(), filetype, blocksz) {
         Ok(val) => val,
         Err(err) => {

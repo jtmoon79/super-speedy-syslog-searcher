@@ -28,7 +28,6 @@ use std::io::{Error, Result};
 use std::sync::Arc;
 
 use ::lru::LruCache;
-use ::mime_guess::MimeGuess;
 use ::more_asserts::debug_assert_ge;
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, def1n, def1ñ, def1x, den, deo, dex, deñ};
@@ -279,14 +278,6 @@ impl LineReader {
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         self.blockreader.path()
-    }
-
-    /// See [`BlockReader::mimeguess`].
-    ///
-    /// [`BlockReader::mimeguess`]: crate::readers::blockreader::BlockReader#method.mimeguess
-    #[inline(always)]
-    pub const fn mimeguess(&self) -> MimeGuess {
-        self.blockreader.mimeguess()
     }
 
     /// Enable internal LRU cache used by `find_line`.

@@ -2,7 +2,12 @@
 
 //! Benchmark functions of `crate::readers::syslinereader::SyslineReader`
 
-use ::s4lib::common::{FPath, FileType};
+use ::s4lib::common::{
+    FPath,
+    FileType,
+    FileTypeArchive,
+    FileTypeTextEncoding,
+};
 use ::s4lib::data::datetime::FixedOffset;
 use ::s4lib::readers::blockreader::BlockSz;
 use ::s4lib::readers::syslinereader::SyslineReader;
@@ -29,7 +34,13 @@ fn new_syslinereader(
 #[inline(never)]
 fn syslinereader_baseline_init() {
     let path: FPath = FPath::from("./logs/other/tests/dtf2-2.log");
-    let syslinereader1 = new_syslinereader(path, FileType::File);
+    let syslinereader1 = new_syslinereader(
+        path,
+        FileType::Text {
+            archival_type: FileTypeArchive::Normal,
+            encoding_type: FileTypeTextEncoding::Utf8Ascii,
+        }
+    );
 
     black_box(syslinereader1);
 }

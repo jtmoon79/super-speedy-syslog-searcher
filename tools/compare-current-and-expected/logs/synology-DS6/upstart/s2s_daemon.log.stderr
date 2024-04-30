@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/s2s_daemon.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2291
       lines         : 19

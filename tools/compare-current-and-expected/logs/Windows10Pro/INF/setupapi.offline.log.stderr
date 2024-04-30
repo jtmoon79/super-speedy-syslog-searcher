@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Windows10Pro/INF/setupapi.offline.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 3826
       lines         : 26

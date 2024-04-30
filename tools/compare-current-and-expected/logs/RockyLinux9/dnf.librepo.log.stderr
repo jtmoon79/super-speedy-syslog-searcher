@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/RockyLinux9/dnf.librepo.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 22911
       lines         : 104

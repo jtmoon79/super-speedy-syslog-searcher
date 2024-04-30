@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Ubuntu22/dpkg.log.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 1749
       lines         : 14

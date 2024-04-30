@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Debian9/aptitude.4
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 1815
       lines         : 18

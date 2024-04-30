@@ -9,7 +9,8 @@ use crate::common::{
     Count,
     FileOffset,
     FileType,
-    FixedStructFileType,
+    FileTypeArchive,
+    FileTypeFixedStruct,
     FPath,
 };
 use crate::data::datetime::FixedOffset;
@@ -69,10 +70,14 @@ use ::test_case::test_case;
 // short alias
 const U1SZ: FileOffset = linux_x86::UTMPX_SZ as FileOffset;
 const L1SZ: FileOffset = linux_x86::LASTLOG_SZ as FileOffset;
-
 // short alias
-const UFS: FixedStructFileType = FixedStructFileType::Utmpx;
-const LFS: FixedStructFileType = FixedStructFileType::Lastlog;
+const UFS: FileTypeFixedStruct = FileTypeFixedStruct::Utmpx;
+const LFS: FileTypeFixedStruct = FileTypeFixedStruct::Lastlog;
+
+const FT_UTMPX: FileType = FileType::FixedStruct{
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+};
 
 /// Helper to wrap the match and panic checks
 fn new_FixedStructReader(
@@ -83,7 +88,7 @@ fn new_FixedStructReader(
     stack_offset_set(Some(2));
     match FixedStructReader::new(
         path.clone(),
-        FileType::FixedStruct{ type_: FixedStructFileType::Utmpx },
+        FT_UTMPX,
         blocksz,
         tzo,
         None,
@@ -103,7 +108,7 @@ fn new_FixedStructReader(
 fn test_new_FixedStructReader_1_empty() {
     match FixedStructReader::new(
         NTF_LOG_EMPTY_FPATH.clone(),
-        FileType::FixedStruct{ type_: FixedStructFileType::Utmpx },
+        FT_UTMPX,
         1024,
         *FO_P8,
         None,
@@ -124,7 +129,7 @@ fn test_new_FixedStructReader_1_empty() {
 fn test_new_FixedStructReader_2_bad_noerr() {
     match FixedStructReader::new(
         NTF_NL_1_PATH.clone(),
-        FileType::FixedStruct{ type_: FixedStructFileType::Utmpx },
+        FT_UTMPX,
         1024,
         *FO_P8,
         None,
@@ -256,7 +261,7 @@ const BSZ: BlockSz = 400;
 #[test_case(&NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, LFS, BSZ, 0, FOUND, L1SZ, None; "LASTLOG1 b")]
 fn test_FixedStructReader_process_entry_at(
     path: &FPath,
-    fixedstructfiletype: FixedStructFileType,
+    filetypefixedstruct: FileTypeFixedStruct,
     blocksz: BlockSz,
     fo: FileOffset,
     expect_result: ResultS3FixedStructFind_Test,
@@ -265,7 +270,10 @@ fn test_FixedStructReader_process_entry_at(
 ) {
     let mut fixedstructreader = match FixedStructReader::new(
         path.clone(),
-        FileType::FixedStruct{ type_: fixedstructfiletype },
+        FileType::FixedStruct{
+            archival_type: FileTypeArchive::Normal,
+            fixedstruct_type: filetypefixedstruct,
+        },
         blocksz,
         *FO_0,
         None,
@@ -425,7 +433,7 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
 #[test_case(&NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH, UFS, 0, 0, None, 0, NEWERRNOVALID; "a UTMPX_FF")]
 fn test_FixedStructReader_read_find_entry_at_datetime_filter(
     path: &FPath, // pass to `FixedStructReader::new`
-    fixedstructfiletype: FixedStructFileType, // pass to `FixedStructReader::new`
+    filetypefixedstruct: FileTypeFixedStruct, // pass to `FixedStructReader::new`
     fo: FileOffset, // pass to `process_entry_at`
     seconds: i64, // create this dt_filter with this adjustment from LINUX_X86_UTMPX_BUFFER1_DT
     expect_opt: Option<ResultS3FixedStructFind_Test>, // expected result of `process_entry_at`
@@ -451,7 +459,10 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
     let tzo = *FO_P8;
     let mut fixedstructreader = match FixedStructReader::new(
         path.clone(),
-        FileType::FixedStruct{ type_: fixedstructfiletype },
+        FileType::FixedStruct{
+            archival_type: FileTypeArchive::Normal,
+            fixedstruct_type: filetypefixedstruct,
+        },
         blocksz,
         tzo,
         dt_filter,
@@ -522,7 +533,7 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
 const TYU: FixedStructType = FixedStructType::Fs_Linux_x86_Utmpx;
 
 // short alias
-const FTU: FixedStructFileType = FixedStructFileType::Utmpx;
+const FTU: FileTypeFixedStruct = FileTypeFixedStruct::Utmpx;
 
 /// helper to `test_FixedStructReader_summary`
 const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Count)
@@ -554,7 +565,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(384, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 2,
@@ -576,7 +587,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(3, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 2,
@@ -598,7 +609,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(2, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 2,
@@ -620,7 +631,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(2, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 2,
@@ -642,7 +653,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(1, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 2,
@@ -664,7 +675,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(1, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 2,
@@ -687,7 +698,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(576, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 3,
@@ -709,7 +720,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(4, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 3,
@@ -731,7 +742,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(3, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 3,
@@ -753,7 +764,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(3, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 3,
@@ -775,7 +786,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(2, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 3,
@@ -797,7 +808,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(1, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 144,
         fixedstructreader_utmp_entries: 3,
@@ -820,7 +831,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(576, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 140,
         fixedstructreader_utmp_entries: 3,
@@ -842,7 +853,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(4, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 140,
         fixedstructreader_utmp_entries: 3,
@@ -864,7 +875,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(3, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 140,
         fixedstructreader_utmp_entries: 3,
@@ -886,7 +897,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(3, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 140,
         fixedstructreader_utmp_entries: 3,
@@ -908,7 +919,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(2, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 140,
         fixedstructreader_utmp_entries: 3,
@@ -930,7 +941,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(1, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
-        fixedstructreader_fixedstructfiletype_opt: Some(FTU),
+        fixedstructreader_filetypefixedstruct_opt: Some(FTU),
         fixedstructreader_fixedstruct_size: U1SZ as usize,
         fixedstructreader_high_score: 140,
         fixedstructreader_utmp_entries: 3,
@@ -953,7 +964,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(146, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(FixedStructType::Fs_Linux_x86_Lastlog),
-        fixedstructreader_fixedstructfiletype_opt: Some(FixedStructFileType::Lastlog),
+        fixedstructreader_filetypefixedstruct_opt: Some(FileTypeFixedStruct::Lastlog),
         fixedstructreader_fixedstruct_size: L1SZ as usize,
         fixedstructreader_high_score: 60,
         fixedstructreader_utmp_entries: 1,
@@ -975,7 +986,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(2, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(FixedStructType::Fs_Linux_x86_Lastlog),
-        fixedstructreader_fixedstructfiletype_opt: Some(FixedStructFileType::Lastlog),
+        fixedstructreader_filetypefixedstruct_opt: Some(FileTypeFixedStruct::Lastlog),
         fixedstructreader_fixedstruct_size: L1SZ as usize,
         fixedstructreader_high_score: 60,
         fixedstructreader_utmp_entries: 1,
@@ -997,7 +1008,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(1, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(FixedStructType::Fs_Linux_x86_Lastlog),
-        fixedstructreader_fixedstructfiletype_opt: Some(FixedStructFileType::Lastlog),
+        fixedstructreader_filetypefixedstruct_opt: Some(FileTypeFixedStruct::Lastlog),
         fixedstructreader_fixedstruct_size: L1SZ as usize,
         fixedstructreader_high_score: 60,
         fixedstructreader_utmp_entries: 1,
@@ -1019,7 +1030,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
     SummaryBlockReader_new(1, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(FixedStructType::Fs_Linux_x86_Lastlog),
-        fixedstructreader_fixedstructfiletype_opt: Some(FixedStructFileType::Lastlog),
+        fixedstructreader_filetypefixedstruct_opt: Some(FileTypeFixedStruct::Lastlog),
         fixedstructreader_fixedstruct_size: L1SZ as usize,
         fixedstructreader_high_score: 60,
         fixedstructreader_utmp_entries: 1,
@@ -1106,13 +1117,13 @@ fn test_FixedStructReader_summary(
         ),
         "fixedstructreader_fixedstructtype_opt differs",
     );
-    let _ft = summaryfixedstructreader.fixedstructreader_fixedstructfiletype_opt;
+    let _ft = summaryfixedstructreader.fixedstructreader_filetypefixedstruct_opt;
     assert!(
         matches!(
-            expect_fixedstructreadersummary.fixedstructreader_fixedstructfiletype_opt,
+            expect_fixedstructreadersummary.fixedstructreader_filetypefixedstruct_opt,
             _ft,
         ),
-        "fixedstructreader_fixedstructfiletype_opt differs",
+        "fixedstructreader_filetypefixedstruct_opt differs",
     );
     assert_eq!(
         summaryfixedstructreader.fixedstructreader_fixedstruct_size,
@@ -1194,7 +1205,7 @@ fn test_FixedStructReader_summary(
     );
 }
 
-const FSF_U: FixedStructFileType = FixedStructFileType::Utmpx;
+const FSF_U: FileTypeFixedStruct = FileTypeFixedStruct::Utmpx;
 
 // NTF_LINUX_X86_UTMPX_1ENTRY_FPATH
 #[test_case(&*NTF_LINUX_X86_UTMPX_1ENTRY_FPATH, FSF_U, 0, -5, -4, None, 0, NEWNODT; "a UTMPX_1ENTRY")]
@@ -1236,7 +1247,7 @@ const FSF_U: FixedStructFileType = FixedStructFileType::Utmpx;
 #[test_case(&*NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH, FSF_U, U1SZ * 3, 4, 5, Some(DONE), 0, None; "a LINUX_X86_UTMPX_3ENTRY_OOO")]
 fn test_FixedStructReader_process_entry_at_between_datetime_filters(
     path: &FPath, // pass to `FixedStructReader::new`
-    fixedstructfiletype: FixedStructFileType, // pass to `FixedStructReader::new`
+    filetypefixedstruct: FileTypeFixedStruct, // pass to `FixedStructReader::new`
     fo: FileOffset, // call `process_entry_at` with this file offset
     diff_a: i64, // add this to `LINUX_X86_UTMPX_BUFFER1_DT` to get `dt_filter_a`
     diff_b: i64, // add this to `LINUX_X86_UTMPX_BUFFER1_DT` to get `dt_filter_b`
@@ -1276,7 +1287,10 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
     let mut fixedstructreader = 
         match FixedStructReader::new(
             path.clone(),
-            FileType::FixedStruct{ type_: fixedstructfiletype },
+            FileType::FixedStruct{
+                archival_type: FileTypeArchive::Normal,
+                fixedstruct_type: filetypefixedstruct,
+            },
             BSZ,
             *FO_0,
             dt_filter_a,

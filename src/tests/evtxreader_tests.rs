@@ -6,7 +6,14 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
-use crate::common::{Count, FileSz, FPath, FileType, LogMessageType};
+use crate::common::{
+    Count,
+    FileSz,
+    FileType,
+    FileTypeArchive,
+    FPath,
+    LogMessageType,
+};
 use crate::data::datetime::DateTimeLOpt;
 use crate::data::common::DtBegEndPairOpt;
 use crate::data::evtx::Evtx;
@@ -160,7 +167,10 @@ fn test_EvtxReader_next_summary(
 
     // assert Summary
     let summary_c = evtxreader.summary_complete();
-    assert_eq!(summary_c.filetype, FileType::Evtx, "summary_c.filetype");
+    assert_eq!(
+        summary_c.filetype.unwrap(),
+        FileType::Evtx{ archival_type: FileTypeArchive::Normal },
+        "summary_c.filetype");
     assert_eq!(summary_c.logmessagetype, LogMessageType::Evtx,
         "summary_c.logmessagetype");
     assert!(summary_c.blockreader().is_none());

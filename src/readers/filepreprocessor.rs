@@ -4,31 +4,32 @@
 //! and prepare data needed to create a [`SyslogProcessor`] instance or other
 //! "Reader" instance for file processing.
 //!
-//! This should be the only file that deals with `MimeGuess` type.
-// TODO: [2023/10] make that prior statement true; nothing else uses `MimeGuess`
-//!
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 
-use crate::common::{FPath, FileType, FixedStructFileType};
-use crate::readers::blockreader::SUBPATH_SEP;
-use crate::readers::helpers::{
-    filename_count_extensions,
-    fpath_to_path,
-    path_clone,
-    path_to_fpath,
-    remove_extension,
+use crate::common::{
+    FileType,
+    FileTypeArchive,
+    FileTypeFixedStruct,
+    FileTypeTextEncoding,
+    FPath,
 };
+use crate::debug::printers::de_err;
+use crate::readers::blockreader::SUBPATH_SEP;
+use crate::readers::helpers::path_to_fpath;
+#[cfg(test)]
+use crate::readers::helpers::fpath_to_path;
 
 use std::borrow::Cow;
 use std::ffi::OsStr;
 use std::fs::File;
-use std::path::Path;
+use std::path::{
+    Path,
+    PathBuf,
+};
 #[cfg(test)]
 use std::str::FromStr; // for `String::from_str`
 
 use ::jwalk;
-#[doc(hidden)]
-pub use ::mime_guess::MimeGuess;
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 use ::tar;
@@ -37,22 +38,16 @@ use ::tar;
 // ----------------
 // FilePreProcessor
 
-// TODO: [2022/06/06] a `struct FilePreProcessed` should be implemented
-//       it should hold the `ProcessPathResult`, `MimeGuess`, and other stuff collected
-//       during preprocessing here, and then give that to `SyslogProcessor` which gives it
-//       to `BlockReader`
-//       See Issue #15
-
 /// Initial path processing return type.
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ProcessPathResult {
     /// File can be processed by `s4`
-    FileValid(FPath, MimeGuess, FileType),
+    FileValid(FPath, FileType),
     // TODO: [2022/06] `FileErrNoPermissions` not currently checked until too late
     /// Filesystem permissions do not allow reading the file
-    FileErrNoPermissions(FPath, MimeGuess),
+    FileErrNoPermissions(FPath),
     /// File is a known or unknown type and is not supported
-    FileErrNotSupported(FPath, MimeGuess),
+    FileErrNotSupported(FPath),
     /// Path exists and is not a file
     FileErrNotAFile(FPath),
     /// Path does not exist
@@ -61,6 +56,13 @@ pub enum ProcessPathResult {
     FileErrLoadingLibrary(FPath, &'static str, FileType),
     /// All other errors as described in the second parameter message
     FileErr(FPath, String),
+}
+
+/// a multi-file storage format
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum FileTypeArchiveMultiple {
+    /// a `.tar` archive file
+    Tar,
 }
 
 #[cfg(test)]
@@ -91,17 +93,17 @@ fn canonicalize_fpath(fpath: &FPath) -> FPath {
 /// This function should resolve the first string to the second string.
 pub(crate) fn copy_process_path_result_canonicalize_path(ppr: ProcessPathResult) -> ProcessPathResult {
     match ppr {
-        ProcessPathResult::FileValid(fpath, m, f) => {
+        ProcessPathResult::FileValid(fpath, f) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileValid(fpath_c, m, f);
+            return ProcessPathResult::FileValid(fpath_c, f);
         }
-        ProcessPathResult::FileErrNoPermissions(fpath, m) => {
+        ProcessPathResult::FileErrNoPermissions(fpath) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileErrNoPermissions(fpath_c, m);
+            return ProcessPathResult::FileErrNoPermissions(fpath_c);
         }
-        ProcessPathResult::FileErrNotSupported(fpath, m) => {
+        ProcessPathResult::FileErrNotSupported(fpath) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileErrNotSupported(fpath_c, m);
+            return ProcessPathResult::FileErrNotSupported(fpath_c);
         }
         ProcessPathResult::FileErrNotAFile(fpath) => {
             let fpath_c = canonicalize_fpath(&fpath);
@@ -119,193 +121,71 @@ pub(crate) fn copy_process_path_result_canonicalize_path(ppr: ProcessPathResult)
 
 pub type ProcessPathResults = Vec<ProcessPathResult>;
 
-/// files without file extensions known to be parseable
-const PARSEABLE_FILENAMES_FILE: [&str; 3] = [
-    "messages",
-    "syslog",
-    "kernlog",
-];
-
-/// [acct format] file names.
-///
-/// [acct format]: https://man.netbsd.org/acct.5
-const ACCT_FILENAMES_FILE: [&str; 2] = [
-    // Linux, NetBSD
-    "acct",
-    // Linux acct v3
-    "pacct",
-];
-
-/// [laslog format] file names.
-///
-/// [lastlog format]: https://web.archive.org/web/20231216015325/https://man.freebsd.org/cgi/man.cgi?query=lastlog&sektion=5&manpath=NetBSD+9.3
-const LASTLOG_FILENAMES_FILE: [&str; 1] = [
-    // multiple systems
-    "lastlog",
-];
-
-/// [laslogx format] file names.
-///
-/// [lastlogx format]: https://web.archive.org/web/20231216015325/https://man.freebsd.org/cgi/man.cgi?query=lastlog&sektion=5&manpath=NetBSD+9.3
-const LASTLOGX_FILENAMES_FILE: [&str; 1] = [
-    // NetBSD
-    "lastlogx",
-];
-
-/// [utmpx format] file names.
-///
-/// [utmpx format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#Location
-const UTMP_FILENAMES_FILE: [&str; 3] = [
-    // Linux, HP-UX, FreeBSD, NetBSD, OpenBSD
-    "btmp",
-    "utmp",
-    "wtmp",
-];
-
-
-/// [utmpx format] file names.
-///
-/// [utmpx format]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143772537#Location
-const UTMPX_FILENAMES_FILE: [&str; 3] = [
-    // Solaris, FreeBSD, NetBSD, OpenBSD
-    "btmpx",
-    "utmpx",
-    "wtmpx",
-];
-
-/// [evtx format] file name extensions.
-///
-/// [evtx format]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
-const EVTX_FILENAMES_EXT: [&str; 1] = [
-    "evtx",
-];
-
-/// journal format [file name extensions].
-///
-/// [file name extensions]: https://github.com/systemd/systemd/blob/v249/src/libsystemd/sd-journal/journal-file.c#L3774
-const JOURNAL_FILENAMES_EXT: [&str; 1] = [
-    "journal",
-];
-
-/// Odd strings that are appended to normal files by various programs and
-/// services.
-///
-/// For example, `~` is appended to some .journal files in OpenSUSE Tumbleweed,
-/// e.g. `system.journal~`.
-const EXT_JUNK_APPEND_STR: [&str; 2] = [
-    "~",
-    "-",
-];
-
-/// Map a single [`MimeGuess`] as a [`str`] into a `FileType`.
-///
-/// Mimetype values are in [`mime_types.rs`].
-///
-/// [`MimeGuess`]: https://docs.rs/mime_guess/2.0.4/mime_guess/struct.MimeGuess.html
-/// [`mime_types.rs`]: https://docs.rs/crate/mime_guess/2.0.4/source/src/mime_types.rs
-pub fn mimeguess_to_filetype_str(mimeguess_str: &str) -> FileType {
-    // see https://docs.rs/mime/latest/mime/
-    // see https://docs.rs/mime/latest/src/mime/lib.rs.html
-    // see https://github.com/abonander/mime_guess/blob/f6d36d8531bef9ad86f3ee274f65a1a31ea4d9b4/src/mime_types.rs
-    defñ!("({:?})", mimeguess_str);
-    let lower: String = mimeguess_str.to_lowercase();
-
-    // ::mime::PLAIN.as_str();
-    const PLAIN: &str = "plain";
-    // ::mime::TEXT.as_str();
-    const TEXT: &str = "text";
-    // ::mime::TEXT_PLAIN.to_string().as_str();
-    const TEXT_PLAIN: &str = "text/plain";
-    // ::mime::TEXT_PLAIN_UTF_8.to_string().as_str();
-    const TEXT_PLAIN_UTF8: &str = "text/plain; charset=utf-8";
-    // ::mime::TEXT_STAR.to_string().as_str();
-    const TEXT_STAR: &str = "text/*";
-    // ::mime::UTF_8.as_str();
-    const UTF8_: &str = "utf-8";
-    // see https://www.rfc-editor.org/rfc/rfc6713.html#section-3
-    const APP_GZIP: &str = "application/gzip";
-    // see https://superuser.com/a/901963/167043
-    const APP_XGZIP: &str = "application/x-gzip";
-    const APP_X_XZ: &str = "application/x-xz";
-    const APP_TAR: &str = "application/x-tar";
-    const APP_GTAR: &str = "application/x-gtar";
-    // known unparsable log file types
-    const APP_TARGZ: &str = "application/x-compressed";
-    const APP_ETL: &str = "application/etl";
-    const APP_ZIP: &str = "application/zip";
-    const APP_BZ: &str = "application/x-bzip";
-    const APP_BZ2: &str = "application/x-bzip2";
-
-    match lower.as_str() {
-        PLAIN | TEXT | TEXT_PLAIN | TEXT_PLAIN_UTF8 | TEXT_STAR | UTF8_ => FileType::File,
-        APP_GZIP | APP_XGZIP => FileType::Gz,
-        APP_X_XZ => FileType::Xz,
-        APP_TAR | APP_GTAR => FileType::Tar,
-        // XXX: `.targz` is an odd case because currently it has it's own
-        //      `FileType` but is still not supported.
-        //      This was due to overplanning.
-        //      See Issue #14
-        APP_TARGZ
-        // Support for `.bz` and `.bz2` is Issue #40
-        | APP_BZ
-        | APP_BZ2
-        // Support for `.etl` is Issue #99
-        | APP_ETL
-        // Support for `.zip` is Issue #39
-        | APP_ZIP => FileType::Unparsable,
-        _ => FileType::Unknown,
-    }
+/// returned by `pathbuf_to_filetype`, if `filetype` is set then
+/// it is the `FileType` of the file at `pathbuf`
+/// else an multi-file `archive`` type was encountered and must be processed
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum PathToFiletypeResult {
+    Filetype(FileType),
+    Archive(FileTypeArchiveMultiple),
 }
 
-/// Given multiple [`MimeGuess`] try to map any to a parseable `FileType`.
-/// Attempt to preserve known unparsable files.
-///
-/// [`MimeGuess`]: https://docs.rs/mime_guess/2.0.4/mime_guess/struct.MimeGuess.html
-pub fn mimeguess_to_filetype(mimeguess: &MimeGuess) -> FileType {
-    defn!("mimeguess_to_filetype({:?})", mimeguess);
-    let mut filetype_un: FileType = FileType::Unknown;
-    for mimeguess_ in mimeguess.iter() {
-        deo!("mimeguess_to_filetype: check {:?}", mimeguess_);
-        match mimeguess_to_filetype_str(mimeguess_.as_ref()) {
-            FileType::Unset => {}
-            FileType::Unparsable => {
-                filetype_un = FileType::Unparsable;
+/// Determine the `FileType` of a file based on the `pathbuf` file name.
+pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> PathToFiletypeResult {
+    defn!("({:?}, {:?})", pathbuf, unparseable_are_text);
+
+    const RET_FALLBACK_TEXT: PathToFiletypeResult =
+        PathToFiletypeResult::Filetype(
+            FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                encoding_type: FileTypeTextEncoding::Utf8Ascii
+            });
+    const RET_FALLBACK_UNPARSABLE: PathToFiletypeResult =
+        PathToFiletypeResult::Filetype(FileType::Unparsable);
+
+    defo!("pathbuf {:?}", pathbuf);
+    // trim trailing junk characters from suffix
+    const JUNK_CHARS: &[char] = &['~', '-', ',', '?'];
+    let mut pathbuf_clean: &PathBuf = pathbuf;
+    let fname = pathbuf.file_name().unwrap_or_default().to_str().unwrap_or_default();
+    let pathbuf_ref: PathBuf;
+    if fname.ends_with(JUNK_CHARS) {
+        let fname2 = fname.trim_end_matches(JUNK_CHARS);
+        if fname2.is_empty() {
+            match unparseable_are_text {
+                true => {
+                    defx!("fname.ends_with(JUNK_CHARS) {:?}, return {:?}", fname, RET_FALLBACK_TEXT);
+                    return RET_FALLBACK_TEXT;
+                }
+                false => {
+                    defx!("fname.ends_with(JUNK_CHARS) {:?}, return {:?}", fname, RET_FALLBACK_UNPARSABLE);
+                    return RET_FALLBACK_UNPARSABLE;
+                }
             }
-            val => {
-                defx!("mimeguess_to_filetype: return {:?}", val);
-                return val;
+        }
+        pathbuf_ref = pathbuf.with_file_name(fname2);
+        pathbuf_clean = &pathbuf_ref;
+        defo!("pathbuf_clean {:?}", pathbuf_clean);
+    }
+
+    let file_name: &OsStr = pathbuf_clean
+        .file_name()
+        .unwrap_or_default();
+    defo!("file_name {:?}", file_name);
+
+    if file_name.is_empty() {
+        match unparseable_are_text {
+            true => {
+                defx!("file_name.is_empty() {:?}, return {:?}", file_name, RET_FALLBACK_TEXT);
+                return RET_FALLBACK_TEXT;
+            }
+            false => {
+                defx!("file_name.is_empty() {:?}, return {:?}", file_name, RET_FALLBACK_UNPARSABLE);
+                return RET_FALLBACK_UNPARSABLE;
             }
         }
     }
 
-    defx!("mimeguess_to_filetype: return {:?}", filetype_un);
-
-    filetype_un
-}
-
-/// Helper function to compensates `mimeguess_to_filetype` for some files
-/// not handled by `MimeGuess::from`, like file names without extensions
-/// in the name, e.g. `messages` or `syslog`, or files
-/// with appended extensions, e.g. `samba.log.old`.
-///
-/// Users should call `path_to_filetype_mimeguess` instead of this function.
-///
-/// _Supplementary_ for `fn mimeguess_to_filetype`;
-/// `path_to_filetype` does not replace `mimeguess_to_filetype`!
-/// e.g. calling `path_to_filetype("file.txt")` will return `FileUnknown`.
-/// In other words, `path_to_filetype` is tightly bound to `mimeguess_to_filetype`.
-//
-// TODO: [2023/12/15] have this function call itself as long as there is a
-//       file extension to remove. Change the `path_to_filetype_mimeguess`
-//       to do less file name munging and truly only fallback to Mimeguess
-//       if this function return `Unknown`.
-pub(crate) fn path_to_filetype(path: &Path) -> FileType {
-    defn!("({:?})", path);
-
-    let file_name: &OsStr = path
-        .file_name()
-        .unwrap_or_default();
-    defo!("file_name {:?}", file_name);
     let file_name_string: String = file_name
         .to_str()
         .unwrap_or_default()
@@ -313,497 +193,423 @@ pub(crate) fn path_to_filetype(path: &Path) -> FileType {
     let file_name_s: &str = file_name_string.as_str();
     defo!("file_name_s {:?}", file_name_s);
 
-    if PARSEABLE_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
-        return FileType::File;
+    if file_name_s.is_empty() {
+        match unparseable_are_text {
+            true => {
+                defx!("file_name_s.is_empty() {:?}, return {:?}", file_name_s, RET_FALLBACK_TEXT);
+                return RET_FALLBACK_TEXT;
+            }
+            false => {
+                defx!("file_name_s.is_empty() {:?}, return {:?}", file_name_s, RET_FALLBACK_UNPARSABLE);
+                return RET_FALLBACK_UNPARSABLE;
+            }
+        }
     }
-    defo!("Did not find {:?} in PARSEABLE_FILENAMES_FILE", file_name_s);
 
-    if ACCT_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return FixedStruct; ACCT_FILENAMES_FILE.contains({:?})", file_name_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Acct };
+    // check for special case where symbolic directory name was passed
+    // this probably should never happen but handle it anyway
+    if !file_name_s.is_empty() && file_name_s.chars().all(|c| c == '.') {
+        de_err!("file_name_s {:?} is all '.'", file_name_s);
+        match unparseable_are_text {
+            true => {
+                defx!("file_name_s {:?}, return {:?}", file_name_s, RET_FALLBACK_TEXT);
+                return RET_FALLBACK_TEXT;
+            }
+            false => {
+                defx!("file_name_s {:?}, return {:?}", file_name_s, RET_FALLBACK_UNPARSABLE);
+                return RET_FALLBACK_UNPARSABLE;
+            }
+        }
     }
-    defo!("Did not find {:?} in ACCT_FILENAMES_FILE", file_name_s);
 
-    if LASTLOG_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return Lastlog; LASTLOG_FILENAMES_FILE.contains({:?})", file_name_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlog };
+    match file_name_s {
+        "dmesg"
+        | "history"
+        | "kernellog"
+        | "kernelog"
+        | "kernlog"
+        | "log"
+        | "messages"
+        | "syslog"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Text {
+                    archival_type: FileTypeArchive::Normal,
+                    encoding_type: FileTypeTextEncoding::Utf8Ascii
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "acct"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Acct,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "pacct"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::AcctV3,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "lastlog"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Lastlog,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "lastlogx"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Lastlogx,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "btmp"
+        | "utmp"
+        | "wtmp"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Utmp,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "btmpx"
+        | "utmpx"
+        | "wtmpx"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        _ => {
+            defo!("file_name_s {:?} not matched", file_name_s);
+        }
     }
-    defo!("Did not find {:?} in LASTLOG_FILENAMES_FILE", file_name_s);
 
-    if LASTLOGX_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return Lastlogx; LASTLOGX_FILENAMES_FILE.contains({:?})", file_name_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlogx };
-    }
-    defo!("Did not find {:?} in LASTLOGX_FILENAMES_FILE", file_name_s);
-
-    if UTMP_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return FixedStruct; UTMP_FILENAMES_FILE.contains({:?})", file_name_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Utmp };
-    }
-    defo!("Did not find {:?} in UTMP_FILENAMES_FILE", file_name_s);
-
-    if UTMPX_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return FixedStruct; UTMPX_FILENAMES_FILE.contains({:?})", file_name_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Utmpx };
-    }
-    defo!("Did not find {:?} in UTMPX_FILENAMES_FILE", file_name_s);
-
-    // TRACKING: `Path::file_prefix` WIP https://github.com/rust-lang/rust/issues/86319
-    //let file_prefix: &OsStr = &path.file_prefix().unwrap_or_default();
-    let file_prefix = path
-        .file_stem()
-        .unwrap_or_default();
-    let file_prefix_string: String = file_prefix
-        .to_str()
-        .unwrap_or_default()
-        .to_ascii_lowercase();
-    let file_prefix_s: &str = file_prefix_string.as_str();
-    defo!("file_prefix {:?}", file_prefix_s);
-
-    let file_suffix: &OsStr = path
+    let file_suffix_s: &str = pathbuf_clean
         .extension()
-        .unwrap_or_default();
-    let file_suffix_string: String = file_suffix
-        .to_str()
         .unwrap_or_default()
-        .to_ascii_lowercase();
-    let file_suffix_s = file_suffix_string.as_str();
-    defo!("file_suffix {:?}", file_suffix_s);
+        .to_str()
+        .unwrap_or_default();
+    let file_suffix: String = file_suffix_s.to_ascii_lowercase();
+    defo!("file_suffix {:?}", file_suffix);
 
-    if EVTX_FILENAMES_EXT.contains(&file_suffix_s) {
-        defx!("return Evtx; EVTX_FILENAMES_EXT.contains({:?})", file_suffix_s);
-        return FileType::Evtx;
+    if file_suffix.parse::<i32>().is_ok() {
+        defo!("file_suffix {:?} is a number", file_suffix);
+        // remove the file suffix/extension and call again
+        return pathbuf_to_filetype(&pathbuf_clean.with_extension(""), unparseable_are_text);
     }
 
-    if JOURNAL_FILENAMES_EXT.contains(&file_suffix_s) {
-        defx!("return Journal; JOURNAL_FILENAMES_EXT.contains({:?})", file_suffix_s);
-        return FileType::Journal;
+    match file_suffix.as_str() {
+        "evtx" => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Evtx {
+                    archival_type: FileTypeArchive::Normal,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "journal" => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Journal {
+                    archival_type: FileTypeArchive::Normal,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "gz" | "gzip" => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Text {
+                    archival_type: FileTypeArchive::Gz,
+                    encoding_type: FileTypeTextEncoding::Utf8Ascii
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "tar" => {
+            let ret = PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Tar);
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "xz" | "xzip" => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Text {
+                    archival_type: FileTypeArchive::Xz,
+                    encoding_type: FileTypeTextEncoding::Utf8Ascii
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "log"
+        | "txt"
+        | "text"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Text {
+                    archival_type: FileTypeArchive::Normal,
+                    encoding_type: FileTypeTextEncoding::Utf8Ascii
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "btmp"
+        | "utmp"
+        | "wtmp"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Utmp,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "btmpx"
+        | "utmpx"
+        | "wtmpx"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "lastlog"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Lastlog,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "lastlogx"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Lastlogx,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "acct"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::Acct,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        "pacct"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    fixedstruct_type: FileTypeFixedStruct::AcctV3,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        // known unparseable file extensions/suffixes
+        // covers some common extensions. not exhaustive but still helpful
+        "aac"
+        | "avi"
+        | "bat"
+        | "bmp"
+        | "bz"
+        | "bz2"
+        | "class"
+        | "cmd"
+        | "dll"
+        | "ear"
+        | "exe"
+        | "flac"
+        | "flv"
+        | "gif"
+        | "ico"
+        | "jar"
+        | "java"
+        | "jpeg"
+        | "jpg"
+        | "lib"
+        | "lzma"
+        | "m4b"
+        | "m4p"
+        | "m4r"
+        | "m4v"
+        | "mkv"
+        | "mov"
+        | "mp3"
+        | "mp4"
+        | "msi"
+        | "ogg"
+        | "opus"
+        | "pl"
+        | "png"
+        | "py"
+        | "rb"
+        | "sh"
+        | "so"
+        | "svg"
+        | "tif"
+        | "tiff"
+        | "tgz"
+        | "war"
+        | "wav"
+        | "webm"
+        | "webp"
+        | "wma"
+        | "wmv"
+        | "zip"
+        => {
+            match unparseable_are_text {
+                true => {
+                    defx!("matched file_suffix {:?}; return fallback FileType::Text", file_suffix);
+                    return RET_FALLBACK_TEXT;
+                }
+                false => {
+                    defx!("matched file_suffix {:?}; return FileType::Unparsable", file_suffix);
+                    return RET_FALLBACK_UNPARSABLE;
+                }
+            }
+        }
+        _ => {
+            defo!("file_suffix {:?} not matched", file_suffix);
+        }
     }
 
-    // FreeBSD has a file `utx.lastlogin` which is the resident `utmpx` format
-
-    if LASTLOG_FILENAMES_FILE.contains(&file_prefix_s) {
-        defx!("return Lastlog; LASTLOG_FILENAMES_FILE.contains({:?})", file_prefix_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlog };
+    if !file_suffix.is_empty() {
+        defo!("file_suffix {:?} not empty", file_suffix);
+        // remove the file suffix/extension and call again
+        let ret = pathbuf_to_filetype(
+            &pathbuf_clean.with_extension(""),
+            unparseable_are_text
+        );
+        defx!("return {:?}", ret);
+        return ret;
     }
 
-    if UTMP_FILENAMES_FILE.contains(&file_suffix_s) {
-        defx!("return FixedStruct; UTMP_FILENAMES_FILE.contains({:?})", file_suffix_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Utmp };
-    }
-
-    // FileTgz (returns `Unparsable`)
-    // Known to be unparsable. Someday it should be supported. Issue #14
-
-    // for example `data.tgz`
-    // XXX: this should be handled in `path_to_filetype_mimeguess`
-    if file_suffix_s == "tgz" {
-        defx!("return Unparsable; .tgz");
-        return FileType::Unparsable;
-    }
-
-    // for example `data.tgz.old`
-    if file_prefix_s.ends_with(".tgz") {
-        defx!("return Unparsable; data.tgz");
-        return FileType::Unparsable;
-    }
-
-    // FileGz
-
-    // for example, `media.gz.old`
-    if file_name_s.ends_with(".gz.old") {
-        defx!("return Gz; .gz.old");
-        return FileType::Gz;
-    }
-    // for example, `media.gzip`
-    if file_suffix_s == "gzip" {
-        defx!("return Gz; .gzip");
-        return FileType::Gz;
-    }
-    // for example, `media.gz`
-    // XXX: this should be handled in `path_to_filetype_mimeguess`
-    if file_suffix_s == "gz" {
-        defx!("return Gz; .gz");
-        return FileType::Gz;
-    }
-
-    // FileXz
-
-    // for example, `media.xz.old`
-    if file_name_s.ends_with(".xz.old") {
-        defx!("return Xz; .xz.old");
-        return FileType::Xz;
-    }
-    // for example, `media.xzip`
-    if file_suffix_s == "xzip" {
-        defx!("return Xz; .xzip");
-        return FileType::Xz;
-    }
-    // for example, `media.xz`
-    // XXX: this should be handled in `path_to_filetype_mimeguess`
-    if file_suffix_s == "xz" {
-        defx!("return Xz; .xz");
-        return FileType::Xz;
-    }
-
-    // FileTar
-
-    // for example, `var-log.tar.old`
-    if file_name_s.ends_with(".tar.old") {
-        defx!("return Tar; .tar.old");
-        return FileType::Tar;
-    }
-    // XXX: this should be handled in `path_to_filetype_mimeguess`
-    if file_suffix_s == "tar" {
-        defx!("return Tar; .tar");
-        return FileType::Tar;
-    }
-
-    // File
+    // getting here means there is no suffix/extension in the file name
 
     // for example, `log_media`
-    if file_prefix_s.starts_with("log_") {
-        defx!("return File; log_");
-        return FileType::File;
+    if file_name_s.starts_with("log_") {
+        let ret = PathToFiletypeResult::Filetype(
+            FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                encoding_type: FileTypeTextEncoding::Utf8Ascii
+            }
+        );
+        defx!("starts_with('log_') {:?}; return {:?}", file_name_s, ret);
+        return ret;
     }
     // for example, `media_log`
     if file_name_s.ends_with("_log") {
-        defx!("return File; _log");
-        return FileType::File;
-    }
-    // for example, `media.log.old`
-    if file_name_s.ends_with(".log.old") {
-        defx!("return File; .log.old");
-        return FileType::File;
-    }
-
-    // other misc. file patterns
-
-    // for example, `syslog.2`
-    if file_prefix_s == "syslog" {
-        defx!("return File; syslog.");
-        return FileType::File;
+        let ret = PathToFiletypeResult::Filetype(
+            FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                encoding_type: FileTypeTextEncoding::Utf8Ascii
+            }
+        );
+        defx!("ends_with('_log') {:?}; return {:?}", file_name_s, ret);
+        return ret;
     }
 
-    // for example, `syslog`
-    if file_name_s == "syslog" {
-        defx!("return File; syslog");
-        return FileType::File;
-    }
+    // not sure what the file is so try to process it as a plain text file
 
-    if file_name_s == "kernellog" {
-        defx!("return File; kernellog");
-        return FileType::File;
-    }
+    let ret = PathToFiletypeResult::Filetype(
+        FileType::Text {
+            archival_type: FileTypeArchive::Normal,
+            encoding_type: FileTypeTextEncoding::Utf8Ascii
+        }
+    );
+    defx!("return {:?}", ret);
 
-    if file_name_s == "kernelog" {
-        defx!("return File; kernelog");
-        return FileType::File;
-    }
-
-    // for example, `messages.2`
-    if file_prefix_s == "messages" {
-        defx!("return File; messages.");
-        return FileType::File;
-    }
-
-    // for example, `dmesg.2`
-    if file_prefix_s == "dmesg" {
-        defx!("return File; dmesg.");
-        return FileType::File;
-    }
-
-    // for example, `dmesg`
-    if file_name_s == "dmesg" {
-        defx!("return File; dmesg");
-        return FileType::File;
-    }
-
-    // for example, `log.host` as emitted by samba daemon
-    if file_name_s.starts_with("log.") {
-        defx!("return File; log..");
-        return FileType::File;
-    }
-
-    // for example, `log.log.host`
-    if file_prefix_s == "log" {
-        defx!("return File; log.");
-        return FileType::File;
-    }
-
-    // on cheap embedded systems it may be just named `log`
-    if file_name_s == "log" {
-        defx!("return File; log");
-        return FileType::File;
-    }
-
-    // try known files again but only on the prefix
-
-    if PARSEABLE_FILENAMES_FILE.contains(&file_prefix_s) {
-        defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_prefix_s);
-        return FileType::File;
-    }
-    defo!("Did not find {:?} in PARSEABLE_FILENAMES_FILE", file_prefix_s);
-
-    if ACCT_FILENAMES_FILE.contains(&file_prefix_s) {
-        defx!("return FixedStruct; ACCT_FILENAMES_FILE.contains({:?})", file_prefix_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Acct };
-    }
-    defo!("Did not find {:?} in ACCT_FILENAMES_FILE", file_prefix_s);
-
-    if LASTLOG_FILENAMES_FILE.contains(&file_prefix_s) {
-        defx!("return Lastlog; LASTLOG_FILENAMES_FILE.contains({:?})", file_prefix_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlog };
-    }
-    defo!("Did not find {:?} in LASTLOG_FILENAMES_FILE", file_prefix_s);
-
-    if LASTLOGX_FILENAMES_FILE.contains(&file_prefix_s) {
-        defx!("return Lastlogx; LASTLOGX_FILENAMES_FILE.contains({:?})", file_prefix_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Lastlogx };
-    }
-    defo!("Did not find {:?} in LASTLOGX_FILENAMES_FILE", file_prefix_s);
-
-    if UTMP_FILENAMES_FILE.contains(&file_prefix_s) {
-        defx!("return FixedStruct; UTMP_FILENAMES_FILE.contains({:?})", file_prefix_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Utmp };
-    }
-    defo!("Did not find {:?} in UTMP_FILENAMES_FILE", file_prefix_s);
-
-    if UTMPX_FILENAMES_FILE.contains(&file_prefix_s) {
-        defx!("return FixedStruct; UTMPX_FILENAMES_FILE.contains({:?})", file_prefix_s);
-        return FileType::FixedStruct{ type_: FixedStructFileType::Utmpx };
-    }
-    defo!("Did not find {:?} in UTMPX_FILENAMES_FILE", file_prefix_s);
-
-    // some logs have no extension in the name
-    if path.extension().is_none() {
-        defx!("return File; no path.extension()");
-        return FileType::File;
-    }
-
-    defx!("return Unknown");
-
-    FileType::Unknown
+    ret
 }
 
-/// Wrapper function for `path_to_filetype`
-#[doc(hidden)]
+/// Wrapper function for [`pathbuf_to_filetype`]
+pub fn path_to_filetype(path: &Path, unparseable_are_text: bool) -> PathToFiletypeResult {
+    pathbuf_to_filetype(&PathBuf::from(path), unparseable_are_text)
+}
+
+/// Wrapper function for [`path_to_filetype`]
 #[cfg(test)]
-pub fn fpath_to_filetype(path: &FPath) -> FileType {
-    path_to_filetype(fpath_to_path(path))
+pub fn fpath_to_filetype(path: &FPath, unparseable_are_text: bool) -> PathToFiletypeResult {
+    path_to_filetype(fpath_to_path(path), unparseable_are_text)
 }
 
 /// Is the `FileType` processing implemented by `s4lib`?
 ///
 /// There are plans for future support of differing files.
+// TODO: [2024/04] should use this function, right?
 pub fn processable_filetype(filetype: &FileType) -> bool {
     defñ!("({:?})", filetype);
     match filetype {
-        &FileType::Unknown | &FileType::Unset => false,
-        FileType::File
-        | FileType::Gz
-        | FileType::Tar
-        | FileType::TarGz
-        | FileType::Xz
-        | FileType::FixedStruct{..}
-        | FileType::Evtx
-        | FileType::Journal
-        // `FileType::Unparsable` is not parseable but
-        // but is explicitly recognized as such.
-        | FileType::Unparsable
-        => true,
+        FileType::Evtx{ archival_type: FileTypeArchive::Normal } => true,
+        FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
+        FileType::Evtx{ archival_type: FileTypeArchive::Tar } => false,
+        FileType::Evtx{ archival_type: FileTypeArchive::Xz } => false,
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ } => true,
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ } => false,
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ } => false,
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ } => false,
+        FileType::Journal{ archival_type: FileTypeArchive::Normal } => true,
+        FileType::Journal{ archival_type: FileTypeArchive::Gz } => false,
+        FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
+        FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
+        FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ } => true,
+        FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ } => false,
+        FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ } => false,
+        FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ } => false,
+        FileType::Unparsable => false,
     }
-}
-
-/// Make an effort to determine a file's `FileType`.
-/// Wrapper function to call `mimeguess_to_filetype` and if necessary
-/// `path_to_filetype`.
-/// Users should prefer this function and not those other functions.
-pub fn path_to_filetype_mimeguess(path: &Path) -> (FileType, MimeGuess) {
-    defn!("({:?})", path);
-
-    let file_name: &OsStr = path
-        .file_name()
-        .unwrap_or_default();
-    defo!("file_name {:?}", file_name);
-    let file_name_string: String = file_name
-        .to_str()
-        .unwrap_or_default()
-        .to_ascii_lowercase();
-    let file_name_s: &str = file_name_string.as_str();
-    defo!("file_name_s {:?}", file_name_s);
-
-    // hack, preempt other checks with known special cases
-    if PARSEABLE_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return File; PARSEABLE_FILENAMES_FILE.contains({:?})", file_name_s);
-        return (FileType::File, MimeGuess::from_ext(""));
-    }
-    defo!("Did not find {:?} in PARSEABLE_FILENAMES_FILE", file_name_s);
-
-    if ACCT_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return FixedStruct{{Acct}}; ACCT_FILENAMES_FILE.contains({:?})", file_name_s);
-        return (FileType::FixedStruct{type_: FixedStructFileType::Acct}, MimeGuess::from_ext(""));
-    }
-    defo!("Did not find {:?} in ACCT_FILENAMES_FILE", file_name_s);
-
-    if LASTLOG_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return FixedStruct{{Lastlog}}; LASTLOG_FILENAMES_FILE.contains({:?})", file_name_s);
-        return (FileType::FixedStruct{type_: FixedStructFileType::Lastlog}, MimeGuess::from_ext(""));
-    }
-    defo!("Did not find {:?} in LASTLOG_FILENAMES_FILE", file_name_s);
-
-    if LASTLOGX_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return FixedStruct{{Lastlogx}}; LASTLOGX_FILENAMES_FILE.contains({:?})", file_name_s);
-        return (FileType::FixedStruct{type_: FixedStructFileType::Lastlogx}, MimeGuess::from_ext(""));
-    }
-    defo!("Did not find {:?} in LASTLOGX_FILENAMES_FILE", file_name_s);
-
-    if UTMP_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return FixedStruct{{Utmp}}; UTMP_FILENAMES_FILE.contains({:?})", file_name_s);
-        return (FileType::FixedStruct{type_: FixedStructFileType::Utmp}, MimeGuess::from_ext(""));
-    }
-    defo!("Did not find {:?} in UTMP_FILENAMES_FILE", file_name_s);
-
-    if UTMPX_FILENAMES_FILE.contains(&file_name_s) {
-        defx!("return FixedStruct{{Utmpx}}; UTMPX_FILENAMES_FILE.contains({:?})", file_name_s);
-        return (FileType::FixedStruct{type_: FixedStructFileType::Utmpx}, MimeGuess::from_ext(""));
-    }
-    defo!("Did not find {:?} in UTMPX_FILENAMES_FILE", file_name_s);
-
-    // first, try to determine the mimetype
-    let mut mimeguess: MimeGuess = MimeGuess::from_path(path);
-    deo!("mimeguess {:?}", mimeguess);
-
-    const RM_LIMIT: i32 = 3;
-
-    if mimeguess.is_empty() {
-        // Sometimes syslog files get automatically renamed by appending `.old`
-        // to the filename, or a number, e.g. `file.log.old`, `kern.log.1`.
-        // If so, try MimeGuess without the extra extensions.
-        // However, limit attempts to `RM_LIMIT` as some files could have names
-        // like `this.is.a.long.name.of.a.file.with.dots`.
-        let mut fpath: FPath;
-        let mut path_: &Path = path_clone(path);
-        let mut ext_rm = 0;
-        while mimeguess.is_empty() && filename_count_extensions(path_) != 0 && ext_rm < RM_LIMIT {
-            // some files have junk appended to the filename, e.g. `system.journal~`
-            // so remove the junk characters and try again
-            for junk_end in EXT_JUNK_APPEND_STR.iter() {
-                if path_
-                    .extension()
-                    .unwrap_or(path_.file_name().unwrap_or_default())
-                    .to_str()
-                    .unwrap_or_default()
-                    .ends_with(junk_end)
-                {
-                    defo!("no mimeguess found, try again with removed {:?}", junk_end);
-                    let fpath2 = path_to_fpath(path_).trim_end_matches(junk_end).to_string();
-                    let path2 = fpath_to_path(&fpath2);
-                    mimeguess = MimeGuess::from_path(path2);
-                    defo!("mimeguess {:?}", mimeguess);
-                    if !mimeguess.is_empty() {
-                        break;
-                    }
-                }
-            }
-            if !mimeguess.is_empty() {
-                break;
-            }
-            match remove_extension(path_) {
-                None => {}
-                Some(fpath_rm1ext) => {
-                    defo!("no mimeguess found, try again with removed file extension {:?}", fpath_rm1ext);
-                    fpath = fpath_rm1ext;
-                    path_ = fpath_to_path(&fpath);
-                    mimeguess = MimeGuess::from_path(path_);
-                    defo!("mimeguess {:?}", mimeguess);
-                }
-            }
-            ext_rm += 1;
-        }
-    }
-
-    // second, use the mimetype to determine the file type
-    let mut filetype: FileType = mimeguess_to_filetype(&mimeguess);
-
-    match filetype {
-        FileType::Unknown | FileType::Unset => {
-            // The filetype still could not be determined so try removing
-            // extensions from the name. Sometimes syslog files get
-            // automatically renamed by appending signifiers like `.old`.
-            // Files can have several signifiers like `file.log.old.2`
-            // or characters appended like `file.log~`.
-            // However, limit attempts to `RM_LIMIT` as some files could
-            // have names like `this.is.a.long.name.of.a.file.with.dots`.
-            defo!("filetype '{:?}' is not parseable", filetype);
-            let mut fpath: FPath;
-            let mut path_: &Path = path_clone(path);
-            filetype = path_to_filetype(path_);
-            defo!("filetype {:?}", filetype);
-            let mut ext_rm = 0;
-            while !processable_filetype(&filetype) && filename_count_extensions(path_) != 0 && ext_rm < RM_LIMIT {
-                // some files have junk appended to the filename, e.g. `system.journal~`
-                // so remove the junk characters and try again
-                for junk_end in EXT_JUNK_APPEND_STR.iter() {
-                    if path_
-                        .extension()
-                        .unwrap_or(path_.file_name().unwrap_or_default())
-                        .to_str()
-                        .unwrap_or_default()
-                        .ends_with(junk_end)
-                    {
-                        defo!("no filetype found, try again with removed {:?}", junk_end);
-                        let fpath2 = path_to_fpath(path_).trim_end_matches(junk_end).to_string();
-                        let path2 = fpath_to_path(&fpath2);
-                        filetype = path_to_filetype(path2);
-                        defo!("filetype {:?}", filetype);
-                        if processable_filetype(&filetype) {
-                            break;
-                        }
-                    }
-                }
-                if processable_filetype(&filetype) {
-                    break;
-                }
-                match remove_extension(path_) {
-                    None => {}
-                    Some(fpath_rm1ext) => {
-                        defo!("no filetype found, try again with removed file extension {:?}", fpath_rm1ext);
-                        fpath = fpath_rm1ext;
-                        path_ = fpath_to_path(&fpath);
-                        filetype = path_to_filetype(path_);
-                        defo!("filetype {:?}", filetype);
-                    }
-                }
-                ext_rm += 1;
-            }
-        }
-        FileType::File
-        | FileType::Gz
-        | FileType::Tar
-        | FileType::TarGz
-        | FileType::Xz
-        | FileType::FixedStruct{..}
-        | FileType::Evtx
-        | FileType::Journal
-        | FileType::Unparsable
-        => {},
-    }
-
-    defx!("return ({:?}, {:?})", filetype, mimeguess);
-
-    (filetype, mimeguess)
-}
-
-/// Wrapper function to call `mimeguess_to_filetype` and if necessary
-/// `path_to_filetype`
-#[doc(hidden)]
-#[cfg(test)]
-pub(crate) fn fpath_to_filetype_mimeguess(path: &FPath) -> (FileType, MimeGuess) {
-    let path_: &Path = fpath_to_path(path);
-
-    path_to_filetype_mimeguess(path_)
 }
 
 /// Helper to `process_path_tar`
@@ -818,8 +624,8 @@ fn error_to_string(error: &std::io::Error, path: &FPath) -> String {
 
 /// Return a `ProcessPathResult` for each parseable file within
 /// the `.tar` file at `path`.
-pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
-    defn!("({:?})", path);
+pub fn process_path_tar(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPathResult> {
+    defn!("({:?}, {:?})", path, unparseable_are_text);
 
     let file: File = File::open(path).unwrap();
     let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
@@ -844,11 +650,12 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         };
         let header: &tar::Header = entry.header();
         let etype: tar::EntryType = header.entry_type();
-        deo!("entry.header().entry_type() {:?}", etype);
         // TODO: handle tar types `symlink` and `long_link`, currently they are ignored
         if !etype.is_file() {
+            deo!("entry.header().entry_type() {:?} (IGNORED)", etype);
             continue;
         }
+        deo!("entry.header().entry_type() {:?}", etype);
         let subpath: Cow<Path> = match entry.path() {
             Ok(val) => val,
             Err(err) => {
@@ -862,9 +669,7 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         let subfpath: FPath = subpath
             .to_string_lossy()
             .to_string();
-        let _filetype_subpath: FileType;
-        let mimeguess: MimeGuess;
-        (_filetype_subpath, mimeguess) = path_to_filetype_mimeguess(&subpath);
+        let _filetype_subpath = path_to_filetype(&subpath, unparseable_are_text);
         // path to a file within a .tar file looks like:
         //
         //     "path/file.tar|subpath/subfile"
@@ -879,11 +684,11 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
         // XXX: force filetype to be `Tar` (ignore `_filetype_subpath`). Later an attempt
         //      will be made to parse it.
         //      Chained reads are not supported. See Issue #14
-        deo!("push FileValid({:?}, {:?}, {:?})", fullpath, mimeguess, FileType::Tar);
-        results.push(ProcessPathResult::FileValid(fullpath, mimeguess, FileType::Tar));
+        let filetype_ = FileType::Text { archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii };
+        deo!("push FileValid({:?}, {:?})", fullpath, filetype_);
+        results.push(ProcessPathResult::FileValid(fullpath, filetype_));
     }
-
-    defx!("process_path_tar({:?})", path);
+    defx!("process_path_tar({:?}) {} results", path, results.len());
 
     results
 }
@@ -899,32 +704,53 @@ pub fn process_path_tar(path: &FPath) -> Vec<ProcessPathResult> {
 /// (Relates to Issue #11, Issue #8).
 ///
 /// This behavior assumes a user-passed file path should attempt to be parsed.
-pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
-    defn!("({:?})", path);
+pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPathResult> {
+    defn!("({:?}, {:?})", path, unparseable_are_text);
 
-    let std_path: &Path = Path::new(path);
-    if !std_path.exists() {
-        defx!("return FileErrNotExist({:?})", path);
-        return vec![ProcessPathResult::FileErrNotExist(path.clone())];
-    }
+    let mut std_path: PathBuf = PathBuf::from(path);
 
-    // if passed a path directly to a plain file (or a symlink to a plain file)
-    // and `force` then assume the user wants to force an attempt to process
-    // such a file (even if it's known to be unparsable, e.g. `picture.png`)
-    // so skip call to `parseable_filetype` and treat is as `FileValid`
-    if std_path.is_file() {
-        let filetype: FileType;
-        let mimeguess: MimeGuess;
-        (filetype, mimeguess) = path_to_filetype_mimeguess(std_path);
-        if filetype.is_archived() && filetype.is_supported() {
-            // is_archived
-            defñ!("return process_path_tar({:?})", path);
-            return process_path_tar(path);
+    deo!("std_path {:?}", std_path);
+
+    std_path = match std_path.canonicalize() {
+        Ok(val) => val,
+        Err(err) => {
+            match err.kind() {
+                std::io::ErrorKind::NotFound => {
+                    defx!("return FileErrNotExist({:?})", path);
+                    return vec![ProcessPathResult::FileErrNotExist(path.clone())];
+                }
+                _ => {
+                    let err_string = error_to_string(&err, path);
+                    defx!("return FileErr({:?}, {:?})", path, err_string);
+                    return vec![ProcessPathResult::FileErr(path.clone(), err_string)];
+                }
+            }
         }
-        let paths: Vec<ProcessPathResult> =
-            vec![ProcessPathResult::FileValid(path.clone(), mimeguess, filetype)];
-        defx!("({:?}) {:?}", path, paths);
-        return paths;
+    };
+    deo!("std_path {:?}", std_path);
+
+    if std_path.is_file() {
+        // if passed a path to a file (or a symlink to a plain file)
+        // then assume the user wants to force an attempt to process
+        // such a file (even if it's known to be unparsable, e.g. `picture.png`)
+        // so pass `unparseable_are_text` as `true` so any unknown or unparseable
+        // are treated as `FileType::Text`
+        let result: PathToFiletypeResult = pathbuf_to_filetype(&std_path, true);
+        match result {
+            PathToFiletypeResult::Filetype(filetype) => {
+                debug_assert!(!filetype.is_archived());
+                let paths: Vec<ProcessPathResult> =
+                    vec![ProcessPathResult::FileValid(path.clone(), filetype)];
+                defx!("({:?}) {:?}", path, paths);
+                return paths;
+            }
+            PathToFiletypeResult::Archive(_archive) => {
+                // getting here means `std_path` is a `.tar` file
+                let results = process_path_tar(path, unparseable_are_text);
+                defx!("return process_path_tar({:?}) returned {} results", path, results.len());
+                return results;
+            }
+        }
     }
 
     // getting here means `path` likely refers to a directory
@@ -968,36 +794,37 @@ pub fn process_path(path: &FPath) -> Vec<ProcessPathResult> {
             paths.push(ProcessPathResult::FileErrNotAFile(fpath_entry));
             continue;
         }
-        let filetype: FileType;
-        let mimeguess: MimeGuess;
-        (filetype, mimeguess) = path_to_filetype_mimeguess(std_path_entry);
-        if filetype.is_archived() && filetype.is_supported() {
-            // is_archived
-            defo!("process_path_tar({:?})", std_path_entry);
-            for result in process_path_tar(&fpath_entry).into_iter() {
-                paths.push(result);
+        let result: PathToFiletypeResult = path_to_filetype(std_path_entry, false);
+        defo!("path_to_filetype({:?}) returned {:?}", std_path_entry, result);
+        let filetype: FileType = match result {
+            PathToFiletypeResult::Filetype(filetype) => filetype,
+            PathToFiletypeResult::Archive(_archive) => {
+                // getting here means `std_path_entry` is a `.tar` file
+                let results = process_path_tar(&fpath_entry, unparseable_are_text);
+                for result in results.into_iter() {
+                    paths.push(result);
+                }
+                continue;
             }
-            continue;
-        }
+        };
         match filetype {
-            FileType::TarGz | FileType::Unparsable => {
-                deo!("Path not supported {:?}", std_path_entry);
-                paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry, mimeguess));
-            }
-            FileType::Unset => {
-                eprintln!("ERROR: filetype {:?} for {:?}", filetype, std_path_entry);
-            }
-            | FileType::File
-            | FileType::Gz
-            | FileType::Tar
-            | FileType::Xz
-            | FileType::FixedStruct{..}
-            | FileType::Evtx
-            | FileType::Journal
-            | FileType::Unknown
+            FileType::Evtx{ archival_type: FileTypeArchive::Normal }
+            | FileType::FixedStruct{ archival_type: _, fixedstruct_type: _ }
+            | FileType::Journal{ archival_type: FileTypeArchive::Normal }
+            | FileType::Text{ archival_type: _, encoding_type: _ }
             => {
-                deo!("paths.push(FileValid(({:?}, {:?}, {:?})))", fpath_entry, mimeguess, filetype);
-                paths.push(ProcessPathResult::FileValid(fpath_entry, mimeguess, filetype));
+                deo!("paths.push(FileValid(({:?}, {:?})))", fpath_entry, filetype);
+                paths.push(ProcessPathResult::FileValid(fpath_entry, filetype));
+            }
+            FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+            | FileType::Journal{ archival_type: FileTypeArchive::Gz }
+            | FileType::Journal{ archival_type: FileTypeArchive::Tar }
+            | FileType::Journal{ archival_type: FileTypeArchive::Xz }
+            | FileType::Unparsable => {
+                deo!("Path not supported {:?}", std_path_entry);
+                paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry));
             }
         }
     }

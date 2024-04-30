@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess(["text/plain"])
   Printed:
       bytes         : 2603
       lines         : 19

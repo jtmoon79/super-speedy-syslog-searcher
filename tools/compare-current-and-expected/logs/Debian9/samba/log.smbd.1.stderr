@@ -3,9 +3,8 @@ Files:
 
 File: ./logs/Debian9/samba/log.smbd.1
   About:
-      filetype       : TEXT
+      filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
-      MIME guess     : MimeGuess([])
   Printed:
       bytes         : 277
       lines         : 2
