@@ -2164,8 +2164,6 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
 
 File: ./logs/other/tests/empty.log
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
       Processing Err : FileErrEmpty
 
 File: ./logs/other/tests/basic-basic-dt10-repeats.log
@@ -4426,8 +4424,6 @@ File: ./logs/other/tests/dt-mix1.log
 
 File: ./logs/other/tests/empty.log
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
       Processing Err : FileErrEmpty
 
 File: ./logs/other/tests/empty.log.gz

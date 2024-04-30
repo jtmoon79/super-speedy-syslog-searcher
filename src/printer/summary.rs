@@ -984,7 +984,7 @@ fn print_file_about(
     }
     // print `FileProcessingResultBlockZero` if it was not okay
     if let Some(result) = file_processing_result {
-        if result.is_ok() {
+        if !result.is_ok() {
             eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
             match print_colored_stderr(
                 COLOR_ERROR,

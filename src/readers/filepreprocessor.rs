@@ -127,31 +127,48 @@ pub type ProcessPathResults = Vec<ProcessPathResult>;
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum PathToFiletypeResult {
     Filetype(FileType),
-    Archive(FileTypeArchiveMultiple),
+    Archive(FileTypeArchiveMultiple, FileTypeArchive),
 }
 
 /// Determine the `FileType` of a file based on the `pathbuf` file name.
-pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> PathToFiletypeResult {
-    defn!("({:?}, {:?})", pathbuf, unparseable_are_text);
+fn pathbuf_to_filetype_impl(
+    pathbuf: &PathBuf,
+    unparseable_are_text: bool,
+    filetype_archive: Option<FileTypeArchive>,
+) -> PathToFiletypeResult {
+    defn!("({:?}, {:?}, {:?})", pathbuf, unparseable_are_text, filetype_archive);
 
-    const RET_FALLBACK_TEXT: PathToFiletypeResult =
+    let fta: FileTypeArchive = match filetype_archive {
+        Some(val) => val,
+        None => FileTypeArchive::Normal,
+    };
+
+    #[allow(non_snake_case)]
+    let RET_FALLBACK_TEXT: PathToFiletypeResult =
         PathToFiletypeResult::Filetype(
             FileType::Text {
-                archival_type: FileTypeArchive::Normal,
+                archival_type: fta,
                 encoding_type: FileTypeTextEncoding::Utf8Ascii
             });
     const RET_FALLBACK_UNPARSABLE: PathToFiletypeResult =
         PathToFiletypeResult::Filetype(FileType::Unparsable);
 
-    defo!("pathbuf {:?}", pathbuf);
+    defo!("pathbuf       {:?}", pathbuf);
     // trim trailing junk characters from suffix
-    const JUNK_CHARS: &[char] = &['~', '-', ',', '?'];
+    const JUNK_CHARS: &[char] = &['~', '-', ',', '?', ';'];
     let mut pathbuf_clean: &PathBuf = pathbuf;
-    let fname = pathbuf.file_name().unwrap_or_default().to_str().unwrap_or_default();
-    let pathbuf_ref: PathBuf;
+    let mut file_name: &OsStr = pathbuf_clean
+        .file_name()
+        .unwrap_or_default();
+    defo!("file_name     {:?}", file_name);
+    let fname = file_name.to_str().unwrap_or_default();
+    let mut pathbuf_ref: PathBuf;
     if fname.ends_with(JUNK_CHARS) {
+        defo!("trailing junk characters {:?}", fname);
         let fname2 = fname.trim_end_matches(JUNK_CHARS);
+        defo!("fname2        {:?}", fname2);
         if fname2.is_empty() {
+            // the file name is all junk characters so return a fallback
             match unparseable_are_text {
                 true => {
                     defx!("fname.ends_with(JUNK_CHARS) {:?}, return {:?}", fname, RET_FALLBACK_TEXT);
@@ -166,48 +183,15 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         pathbuf_ref = pathbuf.with_file_name(fname2);
         pathbuf_clean = &pathbuf_ref;
         defo!("pathbuf_clean {:?}", pathbuf_clean);
+        file_name = pathbuf_clean
+            .file_name()
+            .unwrap_or_default();
+        defo!("file_name     {:?}", file_name);
     }
 
-    let file_name: &OsStr = pathbuf_clean
-        .file_name()
-        .unwrap_or_default();
-    defo!("file_name {:?}", file_name);
-
-    if file_name.is_empty() {
-        match unparseable_are_text {
-            true => {
-                defx!("file_name.is_empty() {:?}, return {:?}", file_name, RET_FALLBACK_TEXT);
-                return RET_FALLBACK_TEXT;
-            }
-            false => {
-                defx!("file_name.is_empty() {:?}, return {:?}", file_name, RET_FALLBACK_UNPARSABLE);
-                return RET_FALLBACK_UNPARSABLE;
-            }
-        }
-    }
-
-    let file_name_string: String = file_name
-        .to_str()
-        .unwrap_or_default()
-        .to_ascii_lowercase();
-    let file_name_s: &str = file_name_string.as_str();
-    defo!("file_name_s {:?}", file_name_s);
-
-    if file_name_s.is_empty() {
-        match unparseable_are_text {
-            true => {
-                defx!("file_name_s.is_empty() {:?}, return {:?}", file_name_s, RET_FALLBACK_TEXT);
-                return RET_FALLBACK_TEXT;
-            }
-            false => {
-                defx!("file_name_s.is_empty() {:?}, return {:?}", file_name_s, RET_FALLBACK_UNPARSABLE);
-                return RET_FALLBACK_UNPARSABLE;
-            }
-        }
-    }
-
-    // check for special case where symbolic directory name was passed
-    // this probably should never happen but handle it anyway
+    // check for special case where symbolic directory, `.` or `..`, name was passed
+    // this probably should never get here but handle it anyway
+    let file_name_s = file_name.to_str().unwrap_or_default();
     if !file_name_s.is_empty() && file_name_s.chars().all(|c| c == '.') {
         de_err!("file_name_s {:?} is all '.'", file_name_s);
         match unparseable_are_text {
@@ -222,119 +206,75 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         }
     }
 
-    match file_name_s {
-        "dmesg"
-        | "history"
-        | "kernellog"
-        | "kernelog"
-        | "kernlog"
-        | "log"
-        | "messages"
-        | "syslog"
-        => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::Text {
-                    archival_type: FileTypeArchive::Normal,
-                    encoding_type: FileTypeTextEncoding::Utf8Ascii
+    // trim leading junk characters from file_name
+    const JUNK_CHARS_LEAD: &[char] = &['~', '-', ',', '?', ';', '.'];
+    let fname_ = file_name.to_str().unwrap_or_default();
+    if fname_.starts_with(JUNK_CHARS_LEAD) {
+        defo!("leading junk characters {:?}", fname_);
+        let fname2 = fname_.trim_start_matches(JUNK_CHARS_LEAD);
+        defo!("fname2        {:?}", fname2);
+        if fname2.is_empty() {
+            // the file name is all junk characters so return a fallback
+            match unparseable_are_text {
+                true => {
+                    defx!("fname.starts_with(JUNK_CHARS) {:?}, return {:?}", fname_, RET_FALLBACK_TEXT);
+                    return RET_FALLBACK_TEXT;
                 }
-            );
-            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
-            return ret;
-        }
-        "acct"
-        => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
-                    fixedstruct_type: FileTypeFixedStruct::Acct,
+                false => {
+                    defx!("fname.starts_with(JUNK_CHARS) {:?}, return {:?}", fname_, RET_FALLBACK_UNPARSABLE);
+                    return RET_FALLBACK_UNPARSABLE;
                 }
-            );
-            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
-            return ret;
+            }
         }
-        "pacct"
-        => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
-                    fixedstruct_type: FileTypeFixedStruct::AcctV3,
-                }
-            );
-            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
-            return ret;
-        }
-        "lastlog"
-        => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
-                    fixedstruct_type: FileTypeFixedStruct::Lastlog,
-                }
-            );
-            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
-            return ret;
-        }
-        "lastlogx"
-        => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
-                    fixedstruct_type: FileTypeFixedStruct::Lastlogx,
-                }
-            );
-            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
-            return ret;
-        }
-        "btmp"
-        | "utmp"
-        | "wtmp"
-        => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
-                    fixedstruct_type: FileTypeFixedStruct::Utmp,
-                }
-            );
-            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
-            return ret;
-        }
-        "btmpx"
-        | "utmpx"
-        | "wtmpx"
-        => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
-                    fixedstruct_type: FileTypeFixedStruct::Utmpx,
-                }
-            );
-            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
-            return ret;
-        }
-        _ => {
-            defo!("file_name_s {:?} not matched", file_name_s);
+        if fname2 != pathbuf_clean.extension().unwrap_or_default() {
+            pathbuf_ref = pathbuf.with_file_name(fname2);
+            pathbuf_clean = &pathbuf_ref;
+            defo!("pathbuf_clean {:?}", pathbuf_clean);
+            file_name = pathbuf_clean
+                .file_name()
+                .unwrap_or_default();
+            defo!("file_name     {:?}", file_name);
         }
     }
 
-    let file_suffix_s: &str = pathbuf_clean
+    if file_name.is_empty() {
+        match unparseable_are_text {
+            true => {
+                defx!("file_name.is_empty() {:?}, return {:?}", file_name, RET_FALLBACK_TEXT);
+                return RET_FALLBACK_TEXT;
+            }
+            false => {
+                defx!("file_name.is_empty() {:?}, return {:?}", file_name, RET_FALLBACK_UNPARSABLE);
+                return RET_FALLBACK_UNPARSABLE;
+            }
+        }
+    }
+
+    let file_suffix: String = pathbuf_clean
         .extension()
         .unwrap_or_default()
         .to_str()
-        .unwrap_or_default();
-    let file_suffix: String = file_suffix_s.to_ascii_lowercase();
-    defo!("file_suffix {:?}", file_suffix);
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    defo!("file_suffix   {:?}", file_suffix);
 
     if file_suffix.parse::<i32>().is_ok() {
-        defo!("file_suffix {:?} is a number", file_suffix);
-        // remove the file suffix/extension and call again
-        return pathbuf_to_filetype(&pathbuf_clean.with_extension(""), unparseable_are_text);
+        defo!("file_suffix   {:?} is a number; remove it", file_suffix);
+        // suffix/extension is a number so remove it and call again
+        let ret = pathbuf_to_filetype_impl(
+            &pathbuf.clone().with_extension(""),
+            unparseable_are_text,
+            Some(fta),
+        );
+        defx!("return {:?}", ret);
+        return ret;
     }
 
     match file_suffix.as_str() {
         "evtx" => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::Evtx {
-                    archival_type: FileTypeArchive::Normal,
+                    archival_type: fta,
                 }
             );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
@@ -343,33 +283,38 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         "journal" => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::Journal {
-                    archival_type: FileTypeArchive::Normal,
+                    archival_type: fta,
                 }
             );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
         }
         "gz" | "gzip" => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::Text {
-                    archival_type: FileTypeArchive::Gz,
-                    encoding_type: FileTypeTextEncoding::Utf8Ascii
-                }
+                        // suffix/extension is a number so remove it and call again
+            defo!("file_suffix {:?} is a gzip", file_suffix);
+            let ret = pathbuf_to_filetype_impl(
+                &pathbuf.clone().with_extension(""),
+                unparseable_are_text,
+                Some(FileTypeArchive::Gz),
             );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
         }
         "tar" => {
-            let ret = PathToFiletypeResult::Archive(FileTypeArchiveMultiple::Tar);
+            defo!("file_suffix {:?} is a tar filetype_archive.is_none()", file_suffix);
+            let ret = PathToFiletypeResult::Archive(
+                FileTypeArchiveMultiple::Tar,
+                fta,
+            );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
         }
         "xz" | "xzip" => {
-            let ret = PathToFiletypeResult::Filetype(
-                FileType::Text {
-                    archival_type: FileTypeArchive::Xz,
-                    encoding_type: FileTypeTextEncoding::Utf8Ascii
-                }
+            defo!("file_suffix {:?} is xz", file_suffix);
+            let ret = pathbuf_to_filetype_impl(
+                &pathbuf.clone().with_extension(""),
+                unparseable_are_text,
+                Some(FileTypeArchive::Xz),
             );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
@@ -380,8 +325,8 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::Text {
-                    archival_type: FileTypeArchive::Normal,
-                    encoding_type: FileTypeTextEncoding::Utf8Ascii
+                    archival_type: fta,
+                    encoding_type: FileTypeTextEncoding::Utf8Ascii,
                 }
             );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
@@ -393,7 +338,7 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
+                    archival_type: fta,
                     fixedstruct_type: FileTypeFixedStruct::Utmp,
                 }
             );
@@ -406,7 +351,7 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
+                    archival_type: fta,
                     fixedstruct_type: FileTypeFixedStruct::Utmpx,
                 }
             );
@@ -417,7 +362,7 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
+                    archival_type: fta,
                     fixedstruct_type: FileTypeFixedStruct::Lastlog,
                 }
             );
@@ -428,7 +373,7 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
+                    archival_type: fta,
                     fixedstruct_type: FileTypeFixedStruct::Lastlogx,
                 }
             );
@@ -439,7 +384,7 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
+                    archival_type: fta,
                     fixedstruct_type: FileTypeFixedStruct::Acct,
                 }
             );
@@ -450,7 +395,7 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::FixedStruct {
-                    archival_type: FileTypeArchive::Normal,
+                    archival_type: fta,
                     fixedstruct_type: FileTypeFixedStruct::AcctV3,
                 }
             );
@@ -458,21 +403,33 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
             return ret;
         }
         // known unparseable file extensions/suffixes
-        // covers some common extensions. not exhaustive but still helpful
-        "aac"
+        // covers some common extensions. not at all exhaustive but still helpful
+        "7z"
+        | "a"
+        | "aac"
+        | "aux"
         | "avi"
         | "bat"
+        | "bin"
         | "bmp"
         | "bz"
         | "bz2"
+        | "c"
+        | "cat"
         | "class"
+        | "cpp"
         | "cmd"
+        | "diagpkg"
         | "dll"
         | "ear"
         | "exe"
         | "flac"
         | "flv"
         | "gif"
+        | "h"
+        | "hpp"
+        | "htm"
+        | "html"
         | "ico"
         | "jar"
         | "java"
@@ -489,17 +446,23 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
         | "mp3"
         | "mp4"
         | "msi"
+        | "mui"
+        | "o"
         | "ogg"
         | "opus"
         | "pl"
         | "png"
+        | "ps1"
+        | "psd1"
         | "py"
         | "rb"
         | "sh"
         | "so"
         | "svg"
+        | "sys"
         | "tif"
         | "tiff"
+        | "ttf"
         | "tgz"
         | "war"
         | "wav"
@@ -526,11 +489,12 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
     }
 
     if !file_suffix.is_empty() {
-        defo!("file_suffix {:?} not empty", file_suffix);
+        defo!("file_suffix {:?} not empty; remove it and call again", file_suffix);
         // remove the file suffix/extension and call again
-        let ret = pathbuf_to_filetype(
-            &pathbuf_clean.with_extension(""),
-            unparseable_are_text
+        let ret = pathbuf_to_filetype_impl(
+            &pathbuf.clone().with_extension(""),
+            unparseable_are_text,
+            Some(fta),
         );
         defx!("return {:?}", ret);
         return ret;
@@ -538,11 +502,135 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
 
     // getting here means there is no suffix/extension in the file name
 
+    let file_name_sl: String = file_name
+        .to_str()
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    let file_name_s: &str = file_name_sl.as_str();
+    defo!("file_name_s   {:?}", file_name_s);
+
+    if file_name_s.is_empty() {
+        match unparseable_are_text {
+            true => {
+                defx!("file_name_s.is_empty() {:?}, return {:?}", file_name_s, RET_FALLBACK_TEXT);
+                return RET_FALLBACK_TEXT;
+            }
+            false => {
+                defx!("file_name_s.is_empty() {:?}, return {:?}", file_name_s, RET_FALLBACK_UNPARSABLE);
+                return RET_FALLBACK_UNPARSABLE;
+            }
+        }
+    }
+
+    match file_name_s {
+        "dmesg"
+        | "history"
+        | "kernellog"
+        | "kernelog"
+        | "kernlog"
+        | "log"
+        | "messages"
+        | "syslog"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Text {
+                    archival_type: fta,
+                    encoding_type: FileTypeTextEncoding::Utf8Ascii
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "journal"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Journal {
+                    archival_type: fta,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "acct"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: fta,
+                    fixedstruct_type: FileTypeFixedStruct::Acct,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "pacct"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: fta,
+                    fixedstruct_type: FileTypeFixedStruct::AcctV3,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "lastlog"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: fta,
+                    fixedstruct_type: FileTypeFixedStruct::Lastlog,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "lastlogx"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: fta,
+                    fixedstruct_type: FileTypeFixedStruct::Lastlogx,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "btmp"
+        | "utmp"
+        | "wtmp"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: fta,
+                    fixedstruct_type: FileTypeFixedStruct::Utmp,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        "btmpx"
+        | "utmpx"
+        | "wtmpx"
+        => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::FixedStruct {
+                    archival_type: fta,
+                    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+                }
+            );
+            defx!("matched file_name_s {:?}, return {:?}", file_name_s, ret);
+            return ret;
+        }
+        _ => {
+            defo!("file_name_s   {:?} not matched", file_name_s);
+        }
+    }
+
     // for example, `log_media`
     if file_name_s.starts_with("log_") {
         let ret = PathToFiletypeResult::Filetype(
             FileType::Text {
-                archival_type: FileTypeArchive::Normal,
+                archival_type: fta,
                 encoding_type: FileTypeTextEncoding::Utf8Ascii
             }
         );
@@ -553,7 +641,7 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
     if file_name_s.ends_with("_log") {
         let ret = PathToFiletypeResult::Filetype(
             FileType::Text {
-                archival_type: FileTypeArchive::Normal,
+                archival_type: fta,
                 encoding_type: FileTypeTextEncoding::Utf8Ascii
             }
         );
@@ -565,13 +653,24 @@ pub fn pathbuf_to_filetype(pathbuf: &PathBuf, unparseable_are_text: bool) -> Pat
 
     let ret = PathToFiletypeResult::Filetype(
         FileType::Text {
-            archival_type: FileTypeArchive::Normal,
+            archival_type: fta,
             encoding_type: FileTypeTextEncoding::Utf8Ascii
         }
     );
-    defx!("return {:?}", ret);
+    defx!("not sure what is {:?}; return {:?}", file_name_s, ret);
 
     ret
+}
+
+/// Determine the `FileType` of a file based on the `pathbuf` file name.
+/// Attempt to determine the `FileType::archive_type` of the file.
+///
+/// Wrapper function for [`pathbuf_to_filetype_impl`]
+pub fn pathbuf_to_filetype(
+    pathbuf: &PathBuf,
+    unparseable_are_text: bool,
+) -> PathToFiletypeResult {
+    pathbuf_to_filetype_impl(pathbuf, unparseable_are_text, None)
 }
 
 /// Wrapper function for [`pathbuf_to_filetype`]
@@ -624,8 +723,11 @@ fn error_to_string(error: &std::io::Error, path: &FPath) -> String {
 
 /// Return a `ProcessPathResult` for each parseable file within
 /// the `.tar` file at `path`.
-pub fn process_path_tar(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPathResult> {
-    defn!("({:?}, {:?})", path, unparseable_are_text);
+pub fn process_path_tar(path: &FPath, unparseable_are_text: bool, _filetypearchive: FileTypeArchive) -> Vec<ProcessPathResult> {
+    defn!("({:?}, {:?}, {:?})", path, unparseable_are_text, _filetypearchive);
+
+    // TODO [2024/04/29]
+    //      handle `filetypearchive`; extract the file first and then process it
 
     let file: File = File::open(path).unwrap();
     let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
@@ -748,11 +850,20 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
                 defx!("({:?}) {:?}", path, paths);
                 return paths;
             }
-            PathToFiletypeResult::Archive(_archive) => {
-                // getting here means `std_path` is a `.tar` file
-                let results = process_path_tar(path, unparseable_are_text);
-                defx!("return process_path_tar({:?}) returned {} results", path, results.len());
-                return results;
+            PathToFiletypeResult::Archive(archive, fta) => {
+                match archive {
+                    FileTypeArchiveMultiple::Tar => {
+                        // getting here means `std_path` is a `.tar` file
+                        defo!("std_path is a .tar file {:?}", std_path);
+                        let results = process_path_tar(
+                            path,
+                            unparseable_are_text,
+                            fta,
+                        );
+                        defx!("return process_path_tar({:?}) returned {} results", path, results.len());
+                        return results;
+                    }
+                }
             }
         }
     }
@@ -802,9 +913,19 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
         defo!("path_to_filetype({:?}) returned {:?}", std_path_entry, result);
         let filetype: FileType = match result {
             PathToFiletypeResult::Filetype(filetype) => filetype,
-            PathToFiletypeResult::Archive(_archive) => {
-                // getting here means `std_path_entry` is a `.tar` file
-                let results = process_path_tar(&fpath_entry, unparseable_are_text);
+            PathToFiletypeResult::Archive(archive, fta) => {
+                let results: Vec<ProcessPathResult>;
+                match archive {
+                    FileTypeArchiveMultiple::Tar => {
+                        // getting here means `std_path` is a `.tar` file
+                        defo!("std_path_entry is a .tar file {:?}", std_path_entry);
+                        results = process_path_tar(
+                            &path_to_fpath(std_path_entry),
+                            unparseable_are_text,
+                            fta,
+                        );
+                    }
+                }
                 for result in results.into_iter() {
                     paths.push(result);
                 }

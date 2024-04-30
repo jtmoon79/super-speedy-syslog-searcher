@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/empty.log
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
       Processing Err : FileErrEmpty
 
 
