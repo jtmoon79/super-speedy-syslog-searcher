@@ -913,6 +913,23 @@ fn print_file_about(
         }
         None => {}
     }
+    // if `FileProcessingResultBlockZero::FileErrEmpty` then print the error
+    // and be done printing the summary for this file
+    if let Some(result) = file_processing_result {
+        if matches!(result, FileProcessingResultBlockZero::FileErrEmpty) {
+            eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
+            match print_colored_stderr(
+                COLOR_ERROR,
+                Some(*color_choice),
+                format!("{:?}", result).as_bytes(),
+            ) {
+                Ok(_) => {}
+                Err(e) => e_err!("print_colored_stderr: {:?}", e)
+            }
+            eprintln!();
+            return;
+        }
+    }
     eprint!("{}filetype       : {}", OPT_SUMMARY_PRINT_INDENT2, filetype);
     match filetype {
         FileType::Text { encoding_type: et, .. } => {
@@ -965,36 +982,33 @@ fn print_file_about(
         }
         None => {}
     }
-    // print `FileProcessingResult` if it was not okay
-    match file_processing_result {
-        Some(result) => {
-            if !result.is_ok() {
-                eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
-                match print_colored_stderr(
-                    COLOR_ERROR,
-                    Some(*color_choice),
-                    match result {
-                        // only print ErrorKind here
-                        // later the Error message will be printed
-                        FileProcessingResultBlockZero::FileErrIoPath(err)
-                        | FileProcessingResultBlockZero::FileErrIo(err) =>
-                            format!("{}", err.kind()),
-                        FileProcessingResultBlockZero::FileErrTooSmallS(_) =>
-                            format!("FileErrTooSmall"),
-                        FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange =>
-                            format!("No Syslines in DateTime Range"),
-                        FileProcessingResultBlockZero::FileErrNoFixedStructInDtRange =>
-                            format!("No FixedStruct in DateTime Range"),
-                        _ => format!("{:?}", result),
-                    }.as_bytes()
-                ) {
-                    Ok(_) => {}
-                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
-                }
-                eprintln!();
+    // print `FileProcessingResultBlockZero` if it was not okay
+    if let Some(result) = file_processing_result {
+        if result.is_ok() {
+            eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
+            match print_colored_stderr(
+                COLOR_ERROR,
+                Some(*color_choice),
+                match result {
+                    // only print ErrorKind here
+                    // later the Error message will be printed
+                    FileProcessingResultBlockZero::FileErrIoPath(err)
+                    | FileProcessingResultBlockZero::FileErrIo(err) =>
+                        format!("{}", err.kind()),
+                    FileProcessingResultBlockZero::FileErrTooSmallS(_) =>
+                        format!("FileErrTooSmall"),
+                    FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange =>
+                        format!("No Syslines in DateTime Range"),
+                    FileProcessingResultBlockZero::FileErrNoFixedStructInDtRange =>
+                        format!("No FixedStruct in DateTime Range"),
+                    _ => format!("{:?}", result),
+                }.as_bytes()
+            ) {
+                Ok(_) => {}
+                Err(e) => e_err!("print_colored_stderr: {:?}", e)
             }
+            eprintln!();
         }
-        None => {}
     }
 }
 
