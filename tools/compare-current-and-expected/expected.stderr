@@ -4841,6 +4841,20 @@ File: ./logs/programs/journal/RHE_91_system.journal
       lib. API calls: 62139
       API errors    : 0
 
+File: ./logs/programs/journal/RHE_91_system.journal.gz
+  About:
+      filetype       : JOURNAL (gzip)
+      logmessagetype : journal entries
+      Processing Err : invalid data
+  Error: sd_journal_open_files("./logs/programs/journal/RHE_91_system.journal.gz") returned -74; EBADMSG
+
+File: ./logs/programs/journal/RHE_91_system.journal.xz
+  About:
+      filetype       : JOURNAL (xz)
+      logmessagetype : journal entries
+      Processing Err : invalid data
+  Error: sd_journal_open_files("./logs/programs/journal/RHE_91_system.journal.xz") returned -74; EBADMSG
+
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   About:
       filetype       : JOURNAL
@@ -5051,6 +5065,278 @@ File: ./logs/programs/tomcat/catalina-access.log
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 49,  0.0%, largest skipped 0
       process: regex captures attempted                            : 53
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry1.wtmp
+  About:
+      filetype       : UTMP/WTMP
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      Processing Err : FileErrNoValidFixedStruct
+
+File: ./logs/programs/utmp/host-entry6.wtmp
+  About:
+      filetype       : UTMP/WTMP
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1775
+      entries       : 6
+  Processed:
+      file size     : 2304 (0x900) (bytes)
+      bytes         : 2304 (0x900)
+      bytes total   : 2304 (0x900)
+      block size    : 256 (0x100)
+      blocks        : 9
+      blocks total  : 9
+      entries       : 6
+      entry size    : 384 (bytes)
+      entry hi-score: 135
+      first entry   : @0
+      entry high    : 5
+      peak map size : 6
+      out of order? : 0
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry6.wtmp.bz2
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 228 (0xE4) (bytes)
+      bytes         : 228 (0xE4)
+      bytes total   : 228 (0xE4)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1
+      lines         : 1
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
+      copying: SyslineReader::get_boxptrs()                        : sgl 154, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   8,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 154
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry6.wtmp.gz
+  About:
+      filetype       : UTMP/WTMP (gzip)
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      Processing Err : FileErrNoValidFixedStruct
+
+File: ./logs/programs/utmp/host-entry6.wtmp.lz
+  About:
+      filetype       : UTMP/WTMP
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      Processing Err : FileErrNoValidFixedStruct
+
+File: ./logs/programs/utmp/host-entry6.wtmp.xz
+  About:
+      filetype       : UTMP/WTMP (xz)
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1775
+      entries       : 6
+  Processed:
+      file size compressed  : 220 (0xDC) (bytes)
+      file size uncompressed: 2304 (0x900) (bytes)
+      bytes         : 2304 (0x900)
+      bytes total   : 2304 (0x900)
+      block size    : 256 (0x100)
+      blocks        : 10
+      blocks total  : 9
+      entries       : 6
+      entry size    : 384 (bytes)
+      entry hi-score: 135
+      first entry   : @0
+      entry high    : 5
+      peak map size : 6
+      out of order? : 0
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry6.wtmp.zip
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 366 (0x16E) (bytes)
+      bytes         : 256 (0x100)
+      bytes total   : 366 (0x16E)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 2
+      lines         : 0
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
+      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
+      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
+      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 0
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry6_(pax_b1).wtmp.tar|host-entry6.wtmp
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size archive   : 5120 (0x1400) (bytes)
+      file size unarchived: 2304 (0x900) (bytes)
+      bytes         : 2304 (0x900)
+      bytes total   : 2304 (0x900)
+      block size    : 256 (0x100)
+      blocks        : 9
+      blocks total  : 9
+      lines         : 0
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
+      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
+      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
+      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 0
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar|host-entry6.wtmp
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size archive   : 4096 (0x1000) (bytes)
+      file size unarchived: 2304 (0x900) (bytes)
+      bytes         : 2304 (0x900)
+      bytes total   : 2304 (0x900)
+      block size    : 256 (0x100)
+      blocks        : 9
+      blocks total  : 9
+      lines         : 0
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
+      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
+      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
+      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 0
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size archive   : 5120 (0x1400) (bytes)
+      file size unarchived: 2304 (0x900) (bytes)
+      bytes         : 2304 (0x900)
+      bytes total   : 2304 (0x900)
+      block size    : 256 (0x100)
+      blocks        : 9
+      blocks total  : 9
+      lines         : 0
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
+      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
+      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
+      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 0
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size archive   : 5120 (0x1400) (bytes)
+      file size unarchived: 384 (0x180) (bytes)
+      bytes         : 384 (0x180)
+      bytes total   : 384 (0x180)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2
+      lines         : 1
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit 0, miss 3,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 1, miss 2, 33.3%, put 1
+      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
+      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 2,  0.0%, put 0
+      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 0
   Processing Drops:
 
 File: ./logs/RancherOS-1.5.8/boot/autologin
@@ -15032,22 +15318,24 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
 File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
 File: ./logs/other/tests/invalid.gz 
 File: ./logs/other/tests/invalid.tar (other error: failed to read entire block for file "./logs/other/tests/invalid.tar")
+File: ./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar (other error: failed to read entire block for file "./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar")
+File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (other error: failed to read entire block for file "./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar")
 
 Program Summary:
 
-Paths considered      : 497
-Paths not processed   : 3
-Files processed       : 494
-Files printed         : 401
-Printed bytes         : 11921379
+Paths considered      : 512
+Paths not processed   : 5
+Files processed       : 507
+Files printed         : 403
+Printed bytes         : 11924977
 Printed lines         : 14138
 Printed syslines      : 11700
 Printed evtx events   : 227
-Printed fixedstruct   : 98
+Printed fixedstruct   : 110
 Printed journal events: 2081
 Regex patterns        : 154
 Regex compiled        : 154
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 15096
+Channel Receive ok    : 15134
 Channel Receive err   : 0
