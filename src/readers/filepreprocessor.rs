@@ -719,6 +719,10 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
                     defx!("return FileErrNotExist({:?})", path);
                     return vec![ProcessPathResult::FileErrNotExist(path.clone())];
                 }
+                std::io::ErrorKind::PermissionDenied => {
+                    defx!("return FileErrNoPermissions({:?})", path);
+                    return vec![ProcessPathResult::FileErrNoPermissions(path.clone())];
+                }
                 _ => {
                     let err_string = error_to_string(&err, path);
                     defx!("return FileErr({:?}, {:?})", path, err_string);
