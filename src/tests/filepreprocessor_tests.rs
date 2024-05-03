@@ -90,6 +90,11 @@ const FTJOURNALN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
         archival_type: FileTypeArchive::Normal,
     }
 );
+const FTJOURNALG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Journal {
+        archival_type: FileTypeArchive::Gz,
+    }
+);
 const FTJOURNALX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Journal {
         archival_type: FileTypeArchive::Xz,
@@ -121,6 +126,18 @@ const FTACCTN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 const FTACCTV3N: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::FixedStruct {
         archival_type: FileTypeArchive::Normal,
+        fixedstruct_type: FileTypeFixedStruct::AcctV3,
+    }
+);
+const FTACCTV3G: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Gz,
+        fixedstruct_type: FileTypeFixedStruct::AcctV3,
+    }
+);
+const FTACCTV3X: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Xz,
         fixedstruct_type: FileTypeFixedStruct::AcctV3,
     }
 );
@@ -205,6 +222,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("syslog~", FTTN8, true; "syslog_tilde")]
 #[test_case("syslog-", FTTN8, true; "syslog_dash")]
 #[test_case("syslog.3", FTTN8, true)]
+#[test_case("syslog.3.20240101", FTTN8, true)]
 #[test_case("somefile", FTTN8, true)]
 #[test_case("SOMEFILE", FTTN8, true; "SOMEFILE ALLCAPS")]
 #[test_case("output.txt", FTTN8, true)]
@@ -241,7 +259,14 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("soap_agent.old.old", FTTN8, true)]
 #[test_case("2023.10.26.asl", FTTN8, true)]
 #[test_case("-", FTTN8, true; "dash")]
+#[test_case("-", FTUNPARSABLE, false; "dash false")]
 #[test_case("$", FTTN8, true; "dollar")]
+#[test_case("$", FTTN8, false; "dollar false")]
+#[test_case("$$", FTTN8, true; "dollar dollar")]
+#[test_case("_", FTTN8, true; "underscore")]
+#[test_case("_", FTTN8, false; "underscore false")]
+#[test_case("__", FTTN8, true; "underscore underscore")]
+#[test_case("__", FTTN8, false; "underscore underscore false")]
 #[test_case("telemetry", FTTN8, true)]
 #[test_case("initial-status", FTTN8, true)]
 #[test_case("smart_extend_log", FTTN8, true)]
@@ -262,6 +287,9 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("grabación.log", FTTN8, true)]
 #[test_case("錄音.檔", FTTN8, true)]
 #[test_case("錄音", FTTN8, true)]
+#[test_case("錄音.log", FTTN8, true; "CC dot log")]
+#[test_case("錄音log", FTTN8, true; "CC log")]
+#[test_case("log錄音", FTTN8, true)]
 #[test_case("บันทึก", FTTN8, true)]
 #[test_case("innspilling", FTTN8, true)]
 #[test_case("Запису", FTTN8, true)]
@@ -275,9 +303,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("setup.log.full.old.1", FTTN8, true)]
 #[test_case("setup.log.full.old.2", FTTN8, true)]
 #[test_case("SIH.20230422.034724.362.1.etl", FTTN8, true)]
-//
-// GZ
-//
+// TEXT gz
 #[test_case("syslog.gz", FTTGZ8, true)]
 #[test_case("syslog.9.gz", FTTGZ8, true)]
 #[test_case("SYSLOG.9.GZ", FTTGZ8, true; "SYSLOG.9.GZ")]
@@ -289,33 +315,31 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("log.gz.1", FTTGZ8, true)]
 #[test_case("log.gz.2", FTTGZ8, true)]
 #[test_case("log.gz.99", FTTGZ8, true)]
+#[test_case("log.nmbd.old.gz", FTTGZ8, true)]
 #[test_case("192.168.1.100.log.gz", FTTGZ8, true)]
 #[test_case("192.168.1.100.log.gz.1", FTTGZ8, true)]
 #[test_case("192.168.1.100.log.gz.old.1", FTTGZ8, true)]
-//
-// XZ
-//
+// oddities
+#[test_case("_.gz", FTTGZ8, true)]
+// TEXT xz
+#[test_case("eipp.log.xz", FTTXZ8, true)]
+#[test_case("eipp.xz", FTTXZ8, true)]
+// oddities
 #[test_case("-.xz", FTTXZ8, true; "dash xz")]
 #[test_case("--.xz", FTTXZ8, true; "dash dash xz")]
 #[test_case("~.xz", FTTXZ8, true; "tilde xz")]
 #[test_case("~.xz~", FTTXZ8, true; "tilde xz tilde")]
-#[test_case("eipp.log.xz", FTTXZ8, true)]
-#[test_case("log.evtx.xz", FTEVTXX, true)]
-#[test_case("tar.evtx.xz", FTEVTXX, true)]
-#[test_case("user-1000.journal.xz", FTJOURNALX, true)]
-#[test_case("journal.journal.xz", FTJOURNALX, true)]
-#[test_case(".journal.xz", FTJOURNALX, true; "dot journal dot xz")]
-#[test_case("journal.xz", FTJOURNALX, true)]
-#[test_case("-.journal.xz", FTJOURNALX, true; "dash dot journal dot xz")]
-#[test_case("--.journal.xz", FTJOURNALX, true; "dash dash dot journal dot xz")]
-#[test_case("logs.tar.xz", AMTARX, true)]
+#[test_case("_.xz", FTTXZ8, true)]
+// TEXT tar
+#[test_case("my.logs.tar", AMTARN, true)]
+// oddities
+#[test_case("-.logs.tar", AMTARN, true; "dash dot logs dot tar")]
+#[test_case("-.tar", AMTARN, true; "dash dot tar")]
 //
 // TAR
 //
 #[test_case("data.tar", AMTARN, true)]
-#[test_case("data.tar.xz", AMTARX, true)]
 #[test_case("data.xz.tar", AMTARN, true)]
-#[test_case("data.tar.gz", AMTARG, true)]
 #[test_case("DATA.TAR", AMTARN, true; "DATA.TAR ALLCAPS")]
 #[test_case("data.tar.old", AMTARN, true)]
 #[test_case("logs.tar", AMTARN, true)]
@@ -325,6 +349,11 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("LOG.1.TAR", AMTARN, true; "LOG.1.TAR ALLCAPS")]
 #[test_case("tar.tar", AMTARN, true)]
 #[test_case("tgz.tar", AMTARN, true)]
+#[test_case("_.tar", AMTARN, true)]
+// gz
+#[test_case("data.tar.gz", AMTARG, true)]
+// xz
+#[test_case("data.tar.xz", AMTARX, true)]
 //
 // FIXEDSTRUCT
 //
@@ -352,12 +381,13 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("192.168.1.1.btmp", FTUTMPN, true)]
 #[test_case("file.utmp", FTUTMPN, true)]
 #[test_case("btmpx", FTUTMPXN, true; "btmpx")]
-#[test_case("btmpx.xz", FTUTMPXX, true; "btmpx dot xz")]
-#[test_case("btmpx.gz", FTUTMPXG, true; "btmpx dot gz")]
 #[test_case("utmpx", FTUTMPXN, true; "utmpx")]
 #[test_case("utmpx.bak", FTUTMPXN, true; "utmpx.bak")]
+#[test_case("utmpx.2.bak", FTUTMPXN, true; "utmpx.2.bak")]
 #[test_case("wtmpx", FTUTMPXN, true; "wtmpx")]
 #[test_case("wtmpx.1", FTUTMPXN, true; "wtmpx.1")]
+#[test_case("btmpx.xz", FTUTMPXX, true; "btmpx dot xz")]
+#[test_case("btmpx.gz", FTUTMPXG, true; "btmpx dot gz")]
 // FixedStruct Lastlog
 #[test_case("lastlog", FTLASTLOGN, true)]
 #[test_case("lastlogx", FTLASTLOGXN, true)]
@@ -374,6 +404,9 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("pacct", FTACCTV3N, true)]
 #[test_case("pacct.1", FTACCTV3N, true)]
 #[test_case("pacct.20220101", FTACCTV3N, true)]
+#[test_case("pacct.gz", FTACCTV3G, true)]
+#[test_case("pacct.20220101.gz", FTACCTV3G, true)]
+#[test_case("pacct.xz", FTACCTV3X, true)]
 // on FreeBSD 13, there is a log file `utx.log` that is a variable-length utmpx-ish format file
 #[test_case("utx.log", FTTN8, true)]
 #[test_case("utx.log-", FTTN8, true; "utx.log dash")]
@@ -390,6 +423,10 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("xz.evtx", FTEVTXN, true)]
 #[test_case("tar.evtx", FTEVTXN, true)]
 #[test_case("mp3.evtx", FTEVTXN, true)]
+#[test_case("_.evtx", FTEVTXN, true)]
+// xz
+#[test_case("log.evtx.xz", FTEVTXX, true)]
+#[test_case("tar.evtx.xz", FTEVTXX, true)]
 //
 // JOURNAL
 //
@@ -402,6 +439,20 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("user-1000.journal", FTJOURNALN, true)]
 #[test_case("user-1000@2feff012228b405bb557ccd80a0ba755-000000005100032b-0006129e5481135e.journal", FTJOURNALN, true)]
 #[test_case("system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal", FTJOURNALN, true)]
+// gz
+#[test_case("user-1000.journal.gz", FTJOURNALG, true)]
+#[test_case("journal.journal.gz", FTJOURNALG, true)]
+#[test_case("journal.gz", FTJOURNALG, true)]
+#[test_case("journal.gz.xz", FTJOURNALG, true)] // Issue #14
+// xz
+#[test_case("user-1000.journal.xz", FTJOURNALX, true)]
+#[test_case("journal.journal.xz", FTJOURNALX, true)]
+#[test_case("journal.xz", FTJOURNALX, true)]
+#[test_case("-.journal.xz", FTJOURNALX, true; "dash dot journal dot xz")]
+#[test_case("--.journal.xz", FTJOURNALX, true; "dash dash dot journal dot xz")]
+#[test_case(".journal.xz", FTJOURNALX, true; "dot journal dot xz")]
+#[test_case("system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal.xz", FTJOURNALX, true)]
+#[test_case("journal.xz.gz", FTJOURNALX, true)] // Issue #14
 //
 // Unparseable
 //
@@ -447,6 +498,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("pic.png", FTTN8, true)]
 #[test_case("prog.exe", FTUNPARSABLE, false)]
 #[test_case("prog.exe", FTTN8, true)]
+// oddities
 #[test_case("-.tgz.99", FTUNPARSABLE, false; "dash tgz 99 Unparsable")]
 #[test_case("-.tgz.99", FTTN8, true; "dash tgz 99 FILETYPE_UTF8")]
 #[test_case("-", FTTN8, true; "dash1 FILETYPE_UTF8")]
