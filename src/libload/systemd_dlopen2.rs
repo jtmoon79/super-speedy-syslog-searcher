@@ -239,6 +239,8 @@ lazy_static! {
     /// The `dlopen2::Container` is the how `dlopen2` wraps a shared library
     /// reference handle for the given API, `SdJournalHApi`.
     pub static ref SYSTEMD_JOURNAL_API: RwLock<Option<JournalApiPtr>> = {
+        defñ!("lazy_static! SYSTEMD_JOURNAL_API::new()");
+
         RwLock::new(None)
     };
 
@@ -246,6 +248,8 @@ lazy_static! {
     /// Some(false) means `load_library_systemd()` was called but failed.
     /// Some(true) means `load_library_systemd()` was called and succeeded.
     pub static ref LOAD_LIBRARY_SYSTEMD_OK: RwLock<Option<bool>> = {
+        defñ!("lazy_static! SYSTEMD_JOURNAL_API::new()");
+
         RwLock::new(None)
     };
 }

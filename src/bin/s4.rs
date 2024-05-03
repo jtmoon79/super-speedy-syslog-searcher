@@ -355,6 +355,8 @@ const CGP_DUR_OFFSET_WEEKS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_WEEKS, r">[\
 lazy_static! {
     /// user-passed strings of a duration that is a relative offset.
     static ref REGEX_DUR_OFFSET: Regex = {
+        defñ!("lazy_static! REGEX_DUR_OFFSET::new()");
+
         Regex::new(
             concatcp!(
                 CGP_DUR_OFFSET_TYPE,

@@ -150,6 +150,8 @@ lazy_static! {
     ///
     /// [`Line`]: crate::data::line::Line
     pub static ref BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP: MapBszRangeToCount = {
+        defñ!("lazy_static! BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP::new()");
+
         let mut m = MapBszRangeToCount::new();
         m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX_BSZ}, 1);
         m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ, end: SYSLOG_SZ_MAX_BSZ * 3}, 3);
@@ -163,6 +165,8 @@ lazy_static! {
     ///
     /// [`Sysline`]: crate::data::sysline::Sysline
     pub static ref BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP: MapBszRangeToCount = {
+        defñ!("lazy_static! BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP::new()");
+
         let mut m = MapBszRangeToCount::new();
         m.insert(BszRange{start: 0, end: SYSLOG_SZ_MAX_BSZ}, 1);
         m.insert(BszRange{start: SYSLOG_SZ_MAX_BSZ, end: BlockSz::MAX}, 2);
