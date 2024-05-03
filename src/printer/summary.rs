@@ -13,12 +13,10 @@ use std::str;
 use ::chrono::{
     DateTime,
     Datelike,
-    FixedOffset,
     Local,
     TimeZone,
     Timelike,
 };
-use ::lazy_static::lazy_static;
 use ::si_trace_print::defñ;
 
 use crate::common::{
@@ -26,6 +24,7 @@ use crate::common::{
     Count,
     FileType,
     FileTypeArchive,
+    FIXEDOFFSET0,
     FPath,
     LogMessageType,
     PathId,
@@ -83,10 +82,6 @@ pub type MapPathIdToModifiedTime = HashMap<PathId, DateTimeLOpt>;
 pub type MapPathIdToFileProcessingResultBlockZero = HashMap<PathId, FileProcessingResultBlockZero>;
 pub type MapPathIdToFileType = HashMap<PathId, FileType>;
 pub type MapPathIdToLogMessageType = HashMap<PathId, LogMessageType>;
-
-lazy_static! {
-    pub static ref FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
-}
 
 /// Print the various caching statistics.
 const OPT_SUMMARY_PRINT_CACHE_STATS: bool = true;

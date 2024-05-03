@@ -49,7 +49,6 @@ use ::evtx::{
     EvtxParser,
     ParserSettings,
 };
-use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::more_asserts::{assert_le, debug_assert_ge, debug_assert_le, debug_assert_lt};
 #[allow(unused_imports)]
@@ -88,10 +87,6 @@ pub type TimestampOpt = Option<Timestamp>;
 // TODO: change to a typed `struct EventsKey(...)`
 pub type EventsKey = (Timestamp, usize);
 pub type Events = BTreeMap<EventsKey, Evtx>;
-
-lazy_static! {
-    static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
-}
 
 /// Convert a `evtx` "timestamp" (`DateTime<Utc>`)
 /// to a `s4` "datetime" (`DateTimeL`).

@@ -9,8 +9,9 @@ use std::fmt::Debug;
 #[doc(hidden)]
 pub use std::path::Path;
 
-use kinded::Kinded;
-
+use ::chrono::FixedOffset;
+use ::kinded::Kinded;
+use ::lazy_static::lazy_static;
 
 /// `F`ake `Path` or `F`ile `Path`.
 ///
@@ -67,6 +68,10 @@ macro_rules! debug_panic {
     )
 }
 pub use debug_panic;
+
+lazy_static! {
+    pub static ref FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+}
 
 // --------------------------------------------------
 // custom Results enums for various *Reader functions
