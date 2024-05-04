@@ -7,11 +7,11 @@
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 
 use crate::common::{
+    FPath,
     FileType,
     FileTypeArchive,
     FileTypeFixedStruct,
     FileTypeTextEncoding,
-    FPath,
 };
 use crate::debug::printers::de_err;
 use crate::readers::blockreader::SUBPATH_SEP;
@@ -39,7 +39,7 @@ use ::tar;
 // FilePreProcessor
 
 /// Initial path processing return type.
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq)]
 pub enum ProcessPathResult {
     /// File can be processed by `s4`
     FileValid(FPath, FileType),
@@ -47,7 +47,8 @@ pub enum ProcessPathResult {
     /// Filesystem permissions do not allow reading the file
     FileErrNoPermissions(FPath),
     /// File is a known or unknown type and is not supported
-    FileErrNotSupported(FPath),
+    /// The second optional field is descriptive error
+    FileErrNotSupported(FPath, Option<String>),
     /// Path exists and is not a file
     FileErrNotAFile(FPath),
     /// Path does not exist
@@ -56,6 +57,58 @@ pub enum ProcessPathResult {
     FileErrLoadingLibrary(FPath, &'static str, FileType),
     /// All other errors as described in the second parameter message
     FileErr(FPath, String),
+}
+
+impl PartialEq for ProcessPathResult {
+    /// implemented for comparisons in tests
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (
+                ProcessPathResult::FileValid(fpath1, f1),
+                ProcessPathResult::FileValid(fpath2, f2)
+            ) => {
+                fpath1 == fpath2 && f1 == f2
+            }
+            (
+                ProcessPathResult::FileErrNoPermissions(fpath1),
+                ProcessPathResult::FileErrNoPermissions(fpath2)
+            ) => {
+                fpath1 == fpath2
+            }
+            (
+                ProcessPathResult::FileErrNotSupported(fpath1, _),
+                ProcessPathResult::FileErrNotSupported(fpath2, _)
+            ) => {
+                // ignore the optional message field
+                fpath1 == fpath2
+            }
+            (
+                ProcessPathResult::FileErrNotAFile(fpath1),
+                ProcessPathResult::FileErrNotAFile(fpath2)
+            ) => {
+                fpath1 == fpath2
+            }
+            (
+                ProcessPathResult::FileErrNotExist(fpath1),
+                ProcessPathResult::FileErrNotExist(fpath2)
+            ) => {
+                fpath1 == fpath2
+            }
+            (
+                ProcessPathResult::FileErrLoadingLibrary(fpath1, lib1, f1),
+                ProcessPathResult::FileErrLoadingLibrary(fpath2, lib2, f2)
+            ) => {
+                fpath1 == fpath2 && lib1 == lib2 && f1 == f2
+            }
+            (
+                ProcessPathResult::FileErr(fpath1, msg1),
+                ProcessPathResult::FileErr(fpath2, msg2)
+            ) => {
+                fpath1 == fpath2 && msg1 == msg2
+            }
+            _ => false
+        }
+    }
 }
 
 /// a multi-file storage format
@@ -101,9 +154,9 @@ pub(crate) fn copy_process_path_result_canonicalize_path(ppr: ProcessPathResult)
             let fpath_c = canonicalize_fpath(&fpath);
             return ProcessPathResult::FileErrNoPermissions(fpath_c);
         }
-        ProcessPathResult::FileErrNotSupported(fpath) => {
+        ProcessPathResult::FileErrNotSupported(fpath, message) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileErrNotSupported(fpath_c);
+            return ProcessPathResult::FileErrNotSupported(fpath_c, message);
         }
         ProcessPathResult::FileErrNotAFile(fpath) => {
             let fpath_c = canonicalize_fpath(&fpath);
@@ -723,7 +776,11 @@ fn error_to_string(error: &std::io::Error, path: &FPath) -> String {
 
 /// Return a `ProcessPathResult` for each parseable file within
 /// the `.tar` file at `path`.
-pub fn process_path_tar(path: &FPath, unparseable_are_text: bool, _filetypearchive: FileTypeArchive) -> Vec<ProcessPathResult> {
+pub fn process_path_tar(
+    path: &FPath,
+    unparseable_are_text: bool,
+    _filetypearchive: FileTypeArchive,
+) -> Vec<ProcessPathResult> {
     defn!("({:?}, {:?}, {:?})", path, unparseable_are_text, _filetypearchive);
 
     // TODO [2024/04/29]
@@ -771,7 +828,8 @@ pub fn process_path_tar(path: &FPath, unparseable_are_text: bool, _filetypearchi
         let subfpath: FPath = subpath
             .to_string_lossy()
             .to_string();
-        let _filetype_subpath = path_to_filetype(&subpath, unparseable_are_text);
+        let pathtofileresult = path_to_filetype(&subpath, unparseable_are_text);
+        defo!("pathtofileresult {:?}", pathtofileresult);
         // path to a file within a .tar file looks like:
         //
         //     "path/file.tar|subpath/subfile"
@@ -783,12 +841,109 @@ pub fn process_path_tar(path: &FPath, unparseable_are_text: bool, _filetypearchi
         fullpath.push_str(path.as_str());
         fullpath.push(SUBPATH_SEP);
         fullpath.push_str(subfpath.as_str());
-        // XXX: force filetype to be `Tar` (ignore `_filetype_subpath`). Later an attempt
-        //      will be made to parse it.
-        //      Chained reads are not supported. See Issue #14
-        let filetype_ = FileType::Text { archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii };
-        deo!("push FileValid({:?}, {:?})", fullpath, filetype_);
-        results.push(ProcessPathResult::FileValid(fullpath, filetype_));
+        let result: ProcessPathResult;
+        match pathtofileresult {
+            PathToFiletypeResult::Filetype(filetype) => {
+                match filetype {
+                    // Evtx
+                    FileType::Evtx { archival_type: at @ FileTypeArchive::Gz, .. }
+                    | FileType::Evtx{ archival_type: at @ FileTypeArchive::Xz, .. }
+                    | FileType::Evtx{ archival_type: at @ FileTypeArchive::Tar, .. }
+                    => {
+                        result = ProcessPathResult::FileErrNotSupported(
+                            fullpath,
+                            Some(String::from(
+                                format!("cannot extract {} type from a tar archived file", at)
+                            ))
+                        );
+                    }
+                    FileType::Evtx { archival_type: FileTypeArchive::Normal, .. }
+                    => {
+                        result = ProcessPathResult::FileValid(
+                            fullpath, FileType::Evtx { archival_type: FileTypeArchive::Tar }
+                        );
+                    }
+                    // FixedStruct
+                    FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Gz, .. }
+                    | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Xz, .. }
+                    | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Tar, .. }
+                    => {
+                        result = ProcessPathResult::FileErrNotSupported(
+                            fullpath,
+                            Some(String::from(
+                                format!("cannot extract {} type from a tar archived file", at)
+                            ))
+                        );
+                    }
+                    FileType::FixedStruct { archival_type: FileTypeArchive::Normal, fixedstruct_type: ft }
+                    => {
+                        result = ProcessPathResult::FileValid(
+                            fullpath, FileType::FixedStruct {
+                                archival_type: FileTypeArchive::Tar, fixedstruct_type: ft
+                            }
+                        );
+                    }
+                    // Journal
+                    FileType::Journal { archival_type: at @ FileTypeArchive::Gz }
+                    | FileType::Journal { archival_type: at @ FileTypeArchive::Xz }
+                    | FileType::Journal { archival_type: at @ FileTypeArchive::Tar }
+                    => {
+                        result = ProcessPathResult::FileErrNotSupported(
+                            fullpath,
+                            Some(String::from(
+                                format!("cannot extract {} type from a tar archived file", at)
+                            ))
+                        );
+                    }
+                    FileType::Journal { archival_type: FileTypeArchive::Normal }
+                    => {
+                        result = ProcessPathResult::FileValid(
+                            fullpath, FileType::Journal {
+                                archival_type: FileTypeArchive::Tar,
+                            }
+                        );
+                    }
+                    // Text
+                    FileType::Text { archival_type: at @ FileTypeArchive::Gz, .. }
+                    | FileType::Text { archival_type: at @ FileTypeArchive::Xz, .. }
+                    | FileType::Text { archival_type: at @ FileTypeArchive::Tar, .. }
+                    => {
+                        result = ProcessPathResult::FileErrNotSupported(
+                            fullpath,
+                            Some(String::from(
+                                format!("cannot extract {} type from a tar archived file", at)
+                            ))
+                        );
+                    }
+                    FileType::Text { archival_type: FileTypeArchive::Normal, encoding_type: et }
+                    => {
+                        result = ProcessPathResult::FileValid(
+                            fullpath, FileType::Text {
+                                archival_type: FileTypeArchive::Tar, encoding_type: et
+                            }
+                        );
+                    }
+                    FileType::Unparsable => {
+                        result = ProcessPathResult::FileErrNotSupported(fullpath, None);
+                    }
+                }
+            }
+            PathToFiletypeResult::Archive(..) => {
+                // Issue #14 cannot support nested archives
+                result = ProcessPathResult::FileErrNotSupported(
+                    fullpath,
+                    Some(String::from("nested archives are not supported")),
+                );
+            }
+        }
+        deo!("push {:?}", result);
+        results.push(result);
+    }
+    #[cfg(any(debug_assertions, test))]
+    {
+        for (i, result) in results.iter().enumerate() {
+            defo!("result {} {:?}", i, result);
+        }
     }
     defx!("process_path_tar({:?}) {} results", path, results.len());
 
@@ -941,15 +1096,21 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
                 deo!("paths.push(FileValid(({:?}, {:?})))", fpath_entry, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, filetype));
             }
-            FileType::Evtx{ archival_type: FileTypeArchive::Gz }
-            | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
-            | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
-            | FileType::Journal{ archival_type: FileTypeArchive::Gz }
-            | FileType::Journal{ archival_type: FileTypeArchive::Tar }
-            | FileType::Journal{ archival_type: FileTypeArchive::Xz }
-            | FileType::Unparsable => {
+            ft @ FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+            | ft @ FileType::Evtx{ archival_type: FileTypeArchive::Tar }
+            | ft @ FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+            | ft @ FileType::Journal{ archival_type: FileTypeArchive::Gz }
+            | ft @ FileType::Journal{ archival_type: FileTypeArchive::Tar }
+            | ft @ FileType::Journal{ archival_type: FileTypeArchive::Xz }
+            | ft @ FileType::Unparsable => {
                 deo!("Path not supported {:?}", std_path_entry);
-                paths.push(ProcessPathResult::FileErrNotSupported(fpath_entry));
+                let k = ft.kind().to_string();
+                paths.push(ProcessPathResult::FileErrNotSupported(
+                    fpath_entry,
+                    Some(String::from(
+                        format!("compressed or archived {} are not supported", k)
+                    )),
+                ));
             }
         }
     }

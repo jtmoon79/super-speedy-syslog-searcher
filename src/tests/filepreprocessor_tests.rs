@@ -9,8 +9,8 @@ use crate::tests::common::{
     FILETYPE_EVTX,
     FILETYPE_JOURNAL,
     FILETYPE_UTF8,
-    FILETYPE_UTF8GZ,
-    FILETYPE_UTF8XZ,
+    FILETYPE_UTF8_GZ,
+    FILETYPE_UTF8_XZ,
     NTF_GZ_EMPTY,
     NTF_GZ_EMPTY_FPATH,
     NTF_LOG_EMPTY,
@@ -27,6 +27,23 @@ use crate::tests::common::{
     NTF_TAR_AB_FILEB_FILETYPE,
     NTF_TAR_AB_FILEB_FPATH,
     NTF_TAR_AB_FPATH,
+    NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
+    NTF_TAR_ABCDEFGHI_FILEA_FPATH,
+    NTF_TAR_ABCDEFGHI_FILEB_FILETYPE,
+    NTF_TAR_ABCDEFGHI_FILEB_FPATH,
+    NTF_TAR_ABCDEFGHI_FILEC_FILETYPE,
+    NTF_TAR_ABCDEFGHI_FILEC_FPATH,
+    NTF_TAR_ABCDEFGHI_FILED_FILETYPE,
+    NTF_TAR_ABCDEFGHI_FILED_FPATH,
+    NTF_TAR_ABCDEFGHI_FILEE_FPATH,
+    NTF_TAR_ABCDEFGHI_FILEE_FILETYPE,
+    NTF_TAR_ABCDEFGHI_FILEF_FPATH,
+    NTF_TAR_ABCDEFGHI_FILEF_FILETYPE,
+    NTF_TAR_ABCDEFGHI_FILEG_FPATH,
+    NTF_TAR_ABCDEFGHI_FILEH_FPATH,
+    NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
+    NTF_TAR_ABCDEFGHI_FILEI_FPATH,
+    NTF_TAR_ABCDEFGHI_FPATH,
     NTF_TGZ_8BYTE,
     NTF_TGZ_8BYTE_FPATH,
 };
@@ -183,6 +200,12 @@ const FTUTMPG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
         fixedstruct_type: FileTypeFixedStruct::Utmp,
     }
 );
+const FTUTMPT: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Tar,
+        fixedstruct_type: FileTypeFixedStruct::Utmp,
+    }
+);
 const FTUTMPXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::FixedStruct {
         archival_type: FileTypeArchive::Normal,
@@ -309,6 +332,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("SYSLOG.9.GZ", FTTGZ8, true; "SYSLOG.9.GZ")]
 #[test_case("unattended-upgrades-dpkg.log.3.gz", FTTGZ8, true)]
 #[test_case("data.gz", FTTGZ8, true)]
+#[test_case("data.log.gz", FTTGZ8, true)]
 #[test_case("DATA.GZ", FTTGZ8, true; "DATA.GZ ALLCAPS")]
 #[test_case("data.gz.old", FTTGZ8, true)]
 #[test_case("data.gzip", FTTGZ8, true)]
@@ -364,6 +388,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("utmp", FTUTMPN, true; "utmp")]
 #[test_case("UTMP", FTUTMPN, true; "UTMP ALLCAPS")]
 #[test_case("UTMP.gz", FTUTMPG, true; "UTMP ALLCAPS GZ")]
+#[test_case("UTMP.tar", AMTARN, true; "UTMP ALLCAPS TAR")]
 #[test_case("UTMP.xz", FTUTMP_X, true; "UTMP ALLCAPS XZ")]
 #[test_case("UTMP.1", FTUTMPN, true; "UTMP.1 ALLCAPS")]
 #[test_case("UTMP.1.GZ", FTUTMPG, true; "UTMP.1.GZ")]
@@ -690,7 +715,7 @@ fn test_process_path_files_gz() {
     let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_GZ_EMPTY_FPATH.clone(),
-            FILETYPE_UTF8GZ,
+            FILETYPE_UTF8_GZ,
         ),
     ];
     test_process_path_ntf(&NTF_GZ_EMPTY, &checks, true);
@@ -819,7 +844,7 @@ fn test_process_path_dirs_gz1_tar1_txt1_journal1() {
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
     let checks: Vec<ProcessPathResult> = vec![
-        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8GZ),
+        ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8_GZ),
         // no .tar file in results
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8),
         ProcessPathResult::FileValid(fpaths.get(3).unwrap().clone(), FILETYPE_JOURNAL),
@@ -857,7 +882,7 @@ fn test_process_path_dirs_dirABC_files3() {
     let checks: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(fpaths.get(0).unwrap().clone(), FILETYPE_UTF8),
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8),
-        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8GZ),
+        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8_GZ),
     ];
 
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
@@ -879,11 +904,11 @@ fn test_process_path_dirs_dirABC_files6() {
 
     let checks: Vec<ProcessPathResult> = vec![
         // fileA12.tar will not be in results
-        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8GZ),
-        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8XZ),
+        ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8_GZ),
+        ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_UTF8_XZ),
         // fileB3.xz.tar will not be in results
         // fileB4.tar.xz will not be in results
-        ProcessPathResult::FileErrNotSupported(fpaths.get(5).unwrap().clone()),
+        ProcessPathResult::FileErrNotSupported(fpaths.get(5).unwrap().clone(), None),
         ProcessPathResult::FileValid(fpaths.get(6).unwrap().clone(), FILETYPE_JOURNAL),
     ];
 
@@ -907,10 +932,12 @@ fn test_process_path_dirs_dirAB_files4() {
             fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL
         ),
         ProcessPathResult::FileErrNotSupported(
-            fpaths.get(1).unwrap().clone()
+            fpaths.get(1).unwrap().clone(),
+            None,
         ),
         ProcessPathResult::FileErrNotSupported(
-            fpaths.get(2).unwrap().clone()
+            fpaths.get(2).unwrap().clone(),
+            None,
         ),
         ProcessPathResult::FileValid(
             fpaths.get(3).unwrap().clone(), FILETYPE_UTF8
@@ -938,10 +965,12 @@ fn test_process_path_dirs_dirAB_files4_false() {
             fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL
         ),
         ProcessPathResult::FileErrNotSupported(
-            fpaths.get(1).unwrap().clone()
+            fpaths.get(1).unwrap().clone(),
+            None,
         ),
         ProcessPathResult::FileErrNotSupported(
-            fpaths.get(2).unwrap().clone()
+            fpaths.get(2).unwrap().clone(),
+            None,
         ),
         ProcessPathResult::FileValid(
             fpaths.get(3).unwrap().clone(), FILETYPE_UTF8
@@ -993,7 +1022,7 @@ fn test_process_path_tar(
 }
 
 #[test]
-fn test_process_path_tar_tar1_file1() {
+fn test_process_path_tar_tar1_file_a() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TAR_8BYTE_FILEA_FPATH.clone(),
@@ -1006,7 +1035,7 @@ fn test_process_path_tar_tar1_file1() {
 }
 
 #[test]
-fn test_process_path_tar_tar1_file2() {
+fn test_process_path_tar_tar1_file_ab() {
     let check: Vec<ProcessPathResult> = vec![
         ProcessPathResult::FileValid(
             NTF_TAR_AB_FILEA_FPATH.clone(),
@@ -1020,4 +1049,49 @@ fn test_process_path_tar_tar1_file2() {
     defñ!();
     test_process_path_tar(&NTF_TAR_AB_FPATH, &check, true);
     test_process_path_tar(&NTF_TAR_AB_FPATH, &check, false);
+}
+
+#[test]
+fn test_process_path_tar_tar1_file_abcdef() {
+    let check: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILEA_FPATH.clone(),
+            NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
+        ),
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILEB_FPATH.clone(),
+            NTF_TAR_ABCDEFGHI_FILEB_FILETYPE,
+        ),
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILEC_FPATH.clone(),
+            NTF_TAR_ABCDEFGHI_FILEC_FILETYPE,
+        ),
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILED_FPATH.clone(),
+            NTF_TAR_ABCDEFGHI_FILED_FILETYPE,
+        ),
+        ProcessPathResult::FileErrNotSupported(
+            NTF_TAR_ABCDEFGHI_FILEE_FPATH.clone(),
+            None,
+        ),
+        ProcessPathResult::FileErrNotSupported(
+            NTF_TAR_ABCDEFGHI_FILEF_FPATH.clone(),
+            None,
+        ),
+        ProcessPathResult::FileErrNotSupported(
+            NTF_TAR_ABCDEFGHI_FILEG_FPATH.clone(),
+            None,
+        ),
+        ProcessPathResult::FileErrNotSupported(
+            NTF_TAR_ABCDEFGHI_FILEH_FPATH.clone(),
+            None,
+        ),
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILEI_FPATH.clone(),
+            NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
+        ),
+    ];
+    defñ!();
+    test_process_path_tar(&NTF_TAR_ABCDEFGHI_FPATH, &check, true);
+    test_process_path_tar(&NTF_TAR_ABCDEFGHI_FPATH, &check, false);
 }

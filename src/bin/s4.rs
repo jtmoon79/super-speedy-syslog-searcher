@@ -2525,7 +2525,7 @@ fn processing_loop(
                     defo!("paths_invalid_results.push(FileErrUnparsable)");
                     map_pathid_results_invalid.insert(
                         pathid_counter,
-                        ProcessPathResult::FileErrNotSupported(path.clone()),
+                        ProcessPathResult::FileErrNotSupported(path.clone(), None),
                     );
                     paths_total += 1;
                     continue;
@@ -2584,8 +2584,16 @@ fn processing_loop(
         match result_invalid {
             ProcessPathResult::FileErrNoPermissions(path) =>
                 e_err!("not enough permissions {:?}", path),
-            ProcessPathResult::FileErrNotSupported(path) =>
-                e_err!("not a supported file {:?}", path),
+            ProcessPathResult::FileErrNotSupported(path, message) => {
+                match message {
+                    Some(m) => {
+                        e_err!("not a supported file {:?} {}", path, m);
+                    }
+                    None => {
+                        e_err!("not a supported file {:?}", path);
+                    }
+                }
+            }
             ProcessPathResult::FileErrNotAFile(path) =>
                 e_err!("not a file {:?}", path),
             ProcessPathResult::FileErrNotExist(path) =>

@@ -1944,9 +1944,16 @@ fn print_files_processpathresult(
                 print_(format!("File: {} ", path), color_choice, color_default);
                 print_("(no permissions)".to_string(), color_choice, color_error);
             }
-            ProcessPathResult::FileErrNotSupported(path) => {
+            ProcessPathResult::FileErrNotSupported(path, message) => {
                 print_(format!("File: {} ", path), color_choice, color_default);
-                print_("(not supported)".to_string(), color_choice, color_error);
+                match message {
+                    Some(m) => {
+                        print_(format!("({})", m), color_choice, color_error);
+                    }
+                    None => {
+                        print_("(not supported)".to_string(), color_choice, color_error);
+                    }
+                }
             }
             ProcessPathResult::FileErrNotAFile(path) => {
                 print_(format!("File: {} ", path), color_choice, color_default);
