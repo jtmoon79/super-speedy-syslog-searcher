@@ -71,6 +71,12 @@
 ./logs/Debian11/aarch64_ARM64/utmp-offsets_aarch64_rockchip64_Debian11-Raspbian_GNU_Linux.out.txt|2024-02-17 13:05:09.332043489 -0800
 ./logs/Debian11/aarch64_ARM64/utmp.txt|2024-03-10 14:02:00.143340234 -0700
 ./logs/Debian11/aarch64_ARM64/wtmp|2024-03-10 14:02:02.733347318 -0700
+./logs/Debian11/aarch64_ARM64/wtmp.bz2|2024-03-10 14:02:03 -0700
+./logs/Debian11/aarch64_ARM64/wtmp.gz|2024-03-10 14:02:04 -0700
+./logs/Debian11/aarch64_ARM64/wtmp.lz|2024-03-10 14:02:05 -0700
+./logs/Debian11/aarch64_ARM64/wtmp.tar|2024-03-10 14:02:06 -0700
+./logs/Debian11/aarch64_ARM64/wtmp.xz|2024-03-10 14:02:07 -0700
+./logs/Debian11/aarch64_ARM64/wtmp.zip|2024-03-10 14:02:08 -0700
 ./logs/Debian11/aarch64_ARM64/wtmp.txt|2024-03-10 14:02:05.003300886 -0700
 ./logs/Debian11/aarch64_ARMv6/lastlog|2024-03-10 14:06:20.026900132 -0700
 ./logs/Debian11/aarch64_ARMv6/lastlog.txt|2024-03-10 14:06:20.026900132 -0700
@@ -321,6 +327,69 @@
 ./logs/MacOS12.6/._system.log|2023-10-26 10:09:19 -08:00
 ./logs/MacOS12.6/weekly.out|2023-09-21 14:12:40 -08:00
 ./logs/MacOS12.6/wifi.log|2023-10-26 09:56:37 -08:00
+./logs/MacOS13/gtar_2024-03-24-202208_Mac-1711307523621.diag|2024-03-24 13:22:09.000000000 -0700
+./logs/MacOS13/._gtar_2024-03-24-202208_Mac-1711307523621.diag|2024-03-24 13:22:09.000000000 -0700
+./logs/MacOS13/Library/logs/edgeinstall.log|2024-02-19 15:21:07.000000000 -0800
+./logs/MacOS13/LKDC-setup.log|2024-02-16 01:43:41.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/CoreSimulator/CoreSimulator.com.apple.dt.xcodebuild.log|2024-02-19 14:20:14.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/CoreSimulator/CoreSimulator.log|2024-02-19 22:31:40.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/DiagnosticReports/._SiriSearchFeedback-2024-03-24-191200.diag|2024-03-24 12:12:00.000000000 -0700
+./logs/MacOS13/Users/runner/Logs/DiagnosticReports/SiriSearchFeedback-2024-03-24-191200.diag|2024-03-24 12:12:00.184162500 -0700
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.01.pear|2024-02-19 14:46:59.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.02.pear|2024-02-19 14:47:04.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.03.pear|2024-02-19 14:47:09.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.04.pear|2024-02-19 14:47:14.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.05.pear|2024-02-19 14:47:19.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.06.pear|2024-02-19 14:47:24.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.07.pear|2024-02-19 14:47:29.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.08.pear|2024-02-19 14:47:34.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.09.pear|2024-02-19 14:47:39.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.10.pear|2024-02-19 14:47:44.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.11.pear|2024-02-19 14:47:50.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/php/post_install.12.pear|2024-02-19 14:47:55.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/python@3.11/post_install.01.python3.11|2024-02-19 13:24:44.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/python@3.11/post_install.02.python3.11|2024-02-19 13:24:46.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/python@3.12/post_install.01.python3.12|2024-02-19 13:25:20.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/Homebrew/python@3.12/post_install.02.python3.12|2024-02-19 13:25:22.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/iTunes Migration/iTunes Migration Log [2024-02-19 13.13.45].txt|2024-02-19 13:13:45.000000000 -0800
+./logs/MacOS13/Users/runner/Logs/runner-provisioner.log|2024-03-24 13:21:20.000000000 -0700
+./logs/MacOS13/var/log/anka.log|2024-03-24 16:09:49.102938224 -0700
+./logs/MacOS13/var/log/asl/._2024.03.24.G80.asl|2024-03-24 13:21:20.000000000 -0700
+./logs/MacOS13/var/log/asl/2024.03.24.G80.asl|2024-03-24 13:21:20.174169300 -0700
+./logs/MacOS13/var/log/asl/._BB.2025.02.28.G80.asl|2024-02-19 15:31:54.000000000 -0800
+./logs/MacOS13/var/log/asl/BB.2025.02.28.G80.asl|2024-02-19 15:31:54.122798300 -0800
+./logs/MacOS13/var/log/asl/._BB.2025.03.31.G80.asl|2024-03-24 12:11:50.000000000 -0700
+./logs/MacOS13/var/log/asl/BB.2025.03.31.G80.asl|2024-03-24 12:11:50.350465400 -0700
+./logs/MacOS13/var/log/asl/Logs/aslmanager.20240324T191701+00|2024-03-24 12:17:01.000000000 -0700
+./logs/MacOS13/var/log/asl/._StoreData|2024-03-24 13:21:20.000000000 -0700
+./logs/MacOS13/var/log/asl/StoreData|2024-03-24 13:21:20.174143200 -0700
+./logs/MacOS13/var/log/com.apple.xpc.launchd/launchd.log|2024-03-24 16:15:03.770881281 -0700
+./logs/MacOS13/var/log/com.apple.xpc.launchd/launchd.log.1|2024-03-24 16:16:36.213355258 -0700
+./logs/MacOS13/var/log/com.apple.xpc.launchd/launchd.log.2|2024-03-24 16:17:58.865966846 -0700
+./logs/MacOS13/var/log/daily.out|2024-03-24 12:19:19.000000000 -0700
+./logs/MacOS13/var/log/DiagnosticMessages/._2024.03.24.asl|2024-03-24 13:22:20.000000000 -0700
+./logs/MacOS13/var/log/DiagnosticMessages/2024.03.24.asl|2024-03-24 13:22:20.815768300 -0700
+./logs/MacOS13/var/log/DiagnosticMessages/._StoreData|2024-03-24 13:22:20.000000000 -0700
+./logs/MacOS13/var/log/DiagnosticMessages/StoreData|2024-03-24 13:22:20.815737300 -0700
+./logs/MacOS13/var/log/displaypolicy/displaypolicyd.log|2024-03-24 12:11:44.000000000 -0700
+./logs/MacOS13/var/log/displaypolicyd.stdout.log|2024-02-16 01:43:23.000000000 -0800
+./logs/MacOS13/var/log/displaypolicy/iogdiagnose-last.bin|2024-03-05 07:37:25.000000000 -0800
+./logs/MacOS13/var/log/fsck_apfs_error.log|2024-03-24 12:11:45.000000000 -0700
+./logs/MacOS13/var/log/fsck_apfs.log|2024-03-24 19:11:42.000000000 -0700
+./logs/MacOS13/var/log/fsck_hfs.log|2024-02-19 15:21:28.000000000 -0800
+./logs/MacOS13/var/log/._install.log|2024-03-24 12:22:52.000000000 -0700
+./logs/MacOS13/var/log/install.log|2024-03-24 16:13:41.309125349 -0700
+./logs/MacOS13/var/log/monthly.out|2024-03-24 12:19:35.000000000 -0700
+./logs/MacOS13/var/log/._powermanagement|2024-03-24 12:17:01.000000000 -0700
+./logs/MacOS13/var/log/powermanagement/._2024.03.24.asl|2024-03-24 13:22:18.000000000 -0700
+./logs/MacOS13/var/log/powermanagement/2024.03.24.asl|2024-03-24 13:22:18.500090400 -0700
+./logs/MacOS13/var/log/powermanagement/._StoreData|2024-03-24 13:22:18.000000000 -0700
+./logs/MacOS13/var/log/powermanagement/StoreData|2024-03-24 13:22:18.500068100 -0700
+./logs/MacOS13/var/log/shutdown_monitor.log|2024-03-24 16:10:22.553760279 -0700
+./logs/MacOS13/var/log/._system.log|2024-03-24 13:21:20.000000000 -0700
+./logs/MacOS13/var/log/system.log|2024-03-24 16:11:37.376285770 -0700
+./logs/MacOS13/var/log/weekly.out|2024-03-24 12:19:19.000000000 -0700
+./logs/MacOS13/var/log/wifi.log|2024-03-24 12:11:46.000000000 -0700
 ./logs/MinGW64/pacman.log|2018-05-31 12:22
 ./logs/NetBSD9.3/authlog|2023-10-26 13:54:15 -08:00
 ./logs/NetBSD9.3/authlog.2|2023-11-30 23:49:02.408384150 -0800
@@ -333,6 +402,11 @@
 ./logs/NetBSD9.3/x86_32/acct|2024-03-10 15:29:05.039479947 -0700
 ./logs/NetBSD9.3/x86_32/acct.lastcomm.txt|2024-03-10 15:29:05.089479937 -0700
 ./logs/NetBSD9.3/x86_32/lastlog|2024-03-10 14:14:03.154600687 -0700
+./logs/NetBSD9.3/x86_32/lastlog.bz2|2024-03-10 14:14:04 -0700
+./logs/NetBSD9.3/x86_32/lastlog.gz|2024-03-10 14:14:05 -0700
+./logs/NetBSD9.3/x86_32/lastlog.lz|2024-03-10 14:14:06 -0700
+./logs/NetBSD9.3/x86_32/lastlog.tar|2024-03-10 14:14:07 -0700
+./logs/NetBSD9.3/x86_32/lastlog.xz|2024-03-10 14:14:08 -0700
 ./logs/NetBSD9.3/x86_32/lastlog.lastlogin.txt|2024-03-10 14:14:03.154600687 -0700
 ./logs/NetBSD9.3/x86_32/lastlogx|2024-03-10 14:14:03.154600687 -0700
 ./logs/NetBSD9.3/x86_32/lastlogx.lastlogin.txt|2024-03-10 14:14:03.154600687 -0700
@@ -444,6 +518,23 @@
 ./logs/other/tests/dtf16d.log|2023-08-31 16:01:09 -0400
 ./logs/other/tests/dtf16e.log|2023-08-31 16:01:09 -0400
 ./logs/other/tests/dtf2-2.log|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.bz2|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.gz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.log.bz2|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.log.gz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.log.lz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.log.tar|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.log.xz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.lz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.tar|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.tar.bz2|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.tar.gz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.tar.lz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.tar.xz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2.xz|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).tar|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).xz.tar|2000-01-01 00:00:01
+./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|2000-01-01 00:00:01
 ./logs/other/tests/dtf3-1.log|2000-01-01 00:00:00
 ./logs/other/tests/dtf3-2a.log|2000-01-01 00:00:00.301
 ./logs/other/tests/dtf3-2b.log|2022-09-02 21:45:35.9541789060
@@ -465,7 +556,9 @@
 ./logs/other/tests/dtf5-6c.log|2022-09-02 21:45:35.9541789060
 ./logs/other/tests/dtf6z-1.log|2000-01-01 00:00:05-0400
 ./logs/other/tests/dtf7-20-LEVELS.log|2000-01-01 00:00:20-0400
+./logs/other/tests/dtf7-20-LEVELS.log.bz2|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.gz|2000-01-01 00:00:20 -0400
+./logs/other/tests/dtf7-20-LEVELS.log.lz|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.old|2000-01-01 00:00:20-0400
 ./logs/other/tests/dtf7-20-LEVELS.log.old.gz|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.tar|2000-01-01 00:00:20 -0400
@@ -604,18 +697,23 @@
 ./logs/programs/utmp/1-byte (invalid).wtmp|2023-12-01 22:17:03.070636456 -0800
 ./logs/programs/utmp/1-byte (invalid).wtmpx|2023-12-01 22:17:19.470646642 -0800
 ./logs/programs/utmp/1-byte.wtmp|2023-12-01 22:16:01.718925910 -0800
+./logs/programs/utmp/empty (invalid).wtmp|2024-05-01 10:01:46.239913461 -0700
 ./logs/programs/utmp/host-entry1.wtmp|Feb 24 08:40:27 2023
+./logs/programs/utmp/host-entry1_(all_0x00).wtmp|Feb 24 08:40:27 2023
+./logs/programs/utmp/host-entry1_(all_0xFF).wtmp|Feb 24 08:40:27 2023
 ./logs/programs/utmp/host-entry6.wtmp|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6.wtmp.bz2|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6.wtmp.gz|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6.wtmp.lz|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6.wtmp.xz|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6.wtmp.zip|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6_(pax_b1).wtmp.tar|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar|Feb 24 08:52:26 2023
+./logs/programs/utmp/host-entry6.wtmp.tar|Feb 24 08:52:27 2023
 ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|Feb 24 08:52:26 2023
-./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar|Feb 24 08:52:26 2023
+./logs/programs/utmp/host-entry6_1_(b1_bz).wtmp.tar|Feb 24 08:52:28 2023
+./logs/programs/utmp/host-entry6_1_(b1_bzip2).wtmp.tar|Feb 24 08:52:29 2023
+./logs/programs/utmp/host-entry6_1_(b1_gz).wtmp.tar|Feb 24 08:52:30 2023
+./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.tar|Feb 24 08:52:31 2023
+./logs/programs/utmp/host-entry6_1_(b1_zstd).wtmp.tar|Feb 24 08:52:32 2023
+./logs/programs/utmp/host-entry6.wtmp.bz2|Feb 24 08:52:36 2023
+./logs/programs/utmp/host-entry6.wtmp.gz|Feb 24 08:52:46 2023
+./logs/programs/utmp/host-entry6.wtmp.lz|Feb 24 08:52:56 2023
+./logs/programs/utmp/host-entry6.wtmp.xz|Feb 24 08:53:06 2023
+./logs/programs/utmp/host-entry6.wtmp.zip|Feb 24 08:53:16 2023
 ./logs/RancherOS-1.5.8/boot/autologin|2022-10-10T20:23:36 -00:00
 ./logs/RancherOS-1.5.8/boot/cloud-init-save.log|2022-10-10T20:23:26 -00:00
 ./logs/RancherOS-1.5.8/boot/cloud-init.save.log|2022-10-10T20:23:34Z

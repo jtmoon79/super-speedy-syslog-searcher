@@ -1,0 +1,71 @@
+Fri Feb 16 01:43:38 PST 2024
+creating system keychain entries
+...Generating key pair...
+...creating certificate...
+Serial Number      : 58 1B 0D A0 
+Issuer Name        :
+   Common Name     : com.apple.systemdefault
+   Org             : System Identity
+Subject Name       :
+   Common Name     : com.apple.systemdefault
+   Org             : System Identity
+Cert Sig Algorithm : OID : < 06 09 2A 86 48 86 F7 0D 01 01 0B >
+   alg params      : 05 00 
+Not Before         : 09:43:38 Feb 16, 2024
+Not After          : 09:43:38 Feb 11, 2044
+Pub Key Algorithm  : OID : < 06 09 2A 86 48 86 F7 0D 01 01 01 >
+   alg params      : 05 00 
+Pub key Bytes      : Length 270 bytes : 30 82 01 0A 02 82 01 01 ...
+CSSM Key           :
+   Algorithm       : RSA
+   Key Size        : 2048 bits
+   Key Use         : CSSM_KEYUSE_ENCRYPT CSSM_KEYUSE_VERIFY CSSM_KEYUSE_WRAP 
+Signature          : 256 bytes : 51 0C 7F F1 0B 3D 6E 63 ...
+Extension struct   : OID : < 06 03 55 1D 0F >
+   Critical        : FALSE
+   usage           : DigitalSignature KeyEncipherment DataEncipherment 
+Extension struct   : OID : < 06 03 55 1D 25 >
+   Critical        : FALSE
+   purpose  0      : OID : < 06 09 2A 86 48 86 F7 63 64 04 04 >
+Extension struct   : OID : < 06 03 55 1D 11 >
+   Critical        : FALSE
+   DNSName         : com.apple.systemdefault
+..cert stored in Keychain.
+..identity registered for domain com.apple.systemdefault.
+...Generating key pair...
+...creating certificate...
+Serial Number      : 3E 41 BF D6 
+Issuer Name        :
+   Common Name     : com.apple.kerberos.kdc
+   Org             : System Identity
+Subject Name       :
+   Common Name     : com.apple.kerberos.kdc
+   Org             : System Identity
+Cert Sig Algorithm : OID : < 06 09 2A 86 48 86 F7 0D 01 01 0B >
+   alg params      : 05 00 
+Not Before         : 09:43:40 Feb 16, 2024
+Not After          : 09:43:40 Feb 11, 2044
+Pub Key Algorithm  : OID : < 06 09 2A 86 48 86 F7 0D 01 01 01 >
+   alg params      : 05 00 
+Pub key Bytes      : Length 270 bytes : 30 82 01 0A 02 82 01 01 ...
+CSSM Key           :
+   Algorithm       : RSA
+   Key Size        : 2048 bits
+   Key Use         : CSSM_KEYUSE_ENCRYPT CSSM_KEYUSE_VERIFY CSSM_KEYUSE_WRAP CSSM_KEYUSE_DERIVE 
+Signature          : 256 bytes : 59 63 7F DA 8B CB F2 44 ...
+Extension struct   : OID : < 06 03 55 1D 0F >
+   Critical        : FALSE
+   usage           : DigitalSignature KeyEncipherment 
+Extension struct   : OID : < 06 03 55 1D 25 >
+   Critical        : FALSE
+   purpose  0      : OID : < 06 08 2B 06 01 05 05 07 03 01 >
+   purpose  1      : OID : < 06 07 2B 06 01 05 02 03 05 >
+Extension struct   : OID : < 06 03 55 1D 11 >
+   Critical        : FALSE
+   DNSName         : com.apple.kerberos.kdc
+..cert stored in Keychain.
+..identity registered for domain com.apple.kerberos.kdc.
+added /System/Library/PrivateFrameworks/Heimdal.framework/Helpers/kdc to acl for com.apple.kerberos.kdc
+hod-admin: krb5_kt_start_seq_get: keytab /etc/krb5.keytab access failed: No such file or directory
+Done LKDC setup
+No matching processes were found

@@ -1,0 +1,567 @@
+2024-03-24 20:10:51.817224 (pid/7138 [thermald]) <Notice>: shutting down
+2024-03-24 20:10:51.817227 (pid/7138 [thermald]) <Notice>: cleaning up
+2024-03-24 20:10:51.817232 (system/com.apple.thermald) <Notice>: Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+2024-03-24 20:10:51.817271 (system/com.apple.thermald) <Notice>: internal event: WILL_SPAWN, code = 0
+2024-03-24 20:10:51.817281 (system/com.apple.thermald) <Notice>: service state: spawn scheduled
+2024-03-24 20:10:51.817283 (system/com.apple.thermald) <Notice>: service throttled by 10 seconds
+2024-03-24 20:10:51.817288 (system) <Notice>: removing child: pid/7138
+2024-03-24 20:10:52.030146 (system) <Warning>: denied lookup: name = com.apple.private.corewifi-xpc, flags = 0x8, requestor = bluetoothd[134], error = 159: Sandbox restriction
+2024-03-24 20:11:01.819568 (system/com.apple.thermald) <Notice>: service state: spawning
+2024-03-24 20:11:01.819635 (system/com.apple.thermald) <Notice>: launching: xpc event
+2024-03-24 20:11:01.820447 (system/com.apple.thermald [7139]) <Notice>: xpcproxy spawned with pid 7139
+2024-03-24 20:11:01.820498 (system/com.apple.thermald [7139]) <Notice>: internal event: SPAWNED, code = 0
+2024-03-24 20:11:01.820503 (system/com.apple.thermald [7139]) <Notice>: service state: xpcproxy
+2024-03-24 20:11:01.820508 (system/com.apple.thermald [7139]) <Notice>: deferred event: domain spawn response: 0
+2024-03-24 20:11:01.820514 (system/com.apple.thermald [7139]) <Notice>: internal event: SOURCE_ATTACH, code = 0
+2024-03-24 20:11:01.824196 (system/com.apple.thermald [7139]) <Notice>: service state: running
+2024-03-24 20:11:01.824213 (system/com.apple.thermald [7139]) <Notice>: internal event: INIT, code = 0
+2024-03-24 20:11:01.824219 (system/com.apple.thermald [7139]) <Notice>: Successfully spawned thermald[7139] because xpc event
+2024-03-24 20:11:01.826633 (pid/7139 [thermald]) <Notice>: uncorking exec source upfront
+2024-03-24 20:11:01.826662 (pid/7139 [thermald]) <Notice>: created
+2024-03-24 20:11:01.830593 (system/com.apple.thermald [7139]) <Notice>: exited due to exit(1)
+2024-03-24 20:11:01.830610 (system/com.apple.thermald [7139]) <Notice>: service state: exited
+2024-03-24 20:11:01.830613 (system/com.apple.thermald [7139]) <Notice>: internal event: EXITED, code = 0
+2024-03-24 20:11:01.830615 (system) <Notice>: service inactive: com.apple.thermald
+2024-03-24 20:11:01.830628 (system/com.apple.thermald [7139]) <Notice>: service state: not running
+2024-03-24 20:11:01.830635 (system/com.apple.thermald) <Notice>: Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+2024-03-24 20:11:01.830666 (system/com.apple.thermald) <Notice>: internal event: WILL_SPAWN, code = 0
+2024-03-24 20:11:01.830676 (system/com.apple.thermald) <Notice>: service state: spawn scheduled
+2024-03-24 20:11:01.830678 (system/com.apple.thermald) <Notice>: service throttled by 10 seconds
+2024-03-24 20:11:01.830683 (pid/7139 [thermald]) <Notice>: shutting down
+2024-03-24 20:11:01.830686 (pid/7139 [thermald]) <Notice>: cleaning up
+2024-03-24 20:11:01.830690 (system) <Notice>: removing child: pid/7139
+2024-03-24 20:11:02.777283 (system) <Warning>: denied lookup: name = com.apple.private.corewifi-xpc, flags = 0x8, requestor = bluetoothd[134], error = 159: Sandbox restriction
+2024-03-24 20:11:03.396528 (system/com.veertu.anka.addons.ankaupd) <Notice>: internal event: WILL_SPAWN, code = 0
+2024-03-24 20:11:03.396568 (system/com.veertu.anka.addons.ankaupd) <Notice>: service state: spawn scheduled
+2024-03-24 20:11:03.396572 (system/com.veertu.anka.addons.ankaupd) <Notice>: service state: spawning
+2024-03-24 20:11:03.396597 (system/com.veertu.anka.addons.ankaupd) <Notice>: launching: interval
+2024-03-24 20:11:03.397244 (system/com.veertu.anka.addons.ankaupd [7140]) <Notice>: xpcproxy spawned with pid 7140
+2024-03-24 20:11:03.397300 (system/com.veertu.anka.addons.ankaupd [7140]) <Notice>: internal event: SPAWNED, code = 0
+2024-03-24 20:11:03.397305 (system/com.veertu.anka.addons.ankaupd [7140]) <Notice>: service state: xpcproxy
+2024-03-24 20:11:03.397311 (system/com.veertu.anka.addons.ankaupd [7140]) <Notice>: interval event: domain response: 0
+2024-03-24 20:11:03.397317 (system/com.veertu.anka.addons.ankaupd [7140]) <Notice>: internal event: SOURCE_ATTACH, code = 0
+2024-03-24 20:11:03.401116 (system/com.veertu.anka.addons.ankaupd [7140]) <Notice>: service state: running
+2024-03-24 20:11:03.401133 (system/com.veertu.anka.addons.ankaupd [7140]) <Notice>: internal event: INIT, code = 0
+2024-03-24 20:11:03.401139 (system/com.veertu.anka.addons.ankaupd [7140]) <Notice>: Successfully spawned ankaupd.sh[7140] because interval
+2024-03-24 20:11:03.402305 (pid/7140 [bash]) <Notice>: uncorking exec source upfront
+2024-03-24 20:11:03.402315 (pid/7140 [bash]) <Notice>: created
+2024-03-24 20:11:03.418773 (pid/7144 [diskutil]) <Notice>: uncorking exec source upfront
+2024-03-24 20:11:03.418784 (pid/7144 [diskutil]) <Notice>: created
+2024-03-24 20:11:03.419059 (pid/7144 [diskutil]) <Notice>: uncorking domain
+2024-03-24 20:11:03.419301 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.ColorPickerImageLoader
+2024-03-24 20:11:03.419326 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:11:03.419329 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:11:03.419332 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:11:03.419335 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:11:03.419338 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:11:03.419341 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:11:03.419345 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:11:03.419348 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:11:03.419351 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:11:03.419436 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:11:03.419492 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:11:03.419601 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:11:03.419625 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:11:03.419681 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:11:03.419705 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+2024-03-24 20:11:03.419789 (pid/7144/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.419808 (pid/7144/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service.helper
+2024-03-24 20:11:03.419838 (pid/7144/com.apple.audio.Core-Audio-Driver-Service) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.419841 (pid/7144/com.apple.audio.Core-Audio-Driver-Service) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service
+2024-03-24 20:11:03.419846 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.audio.DriverHelper
+2024-03-24 20:11:03.419856 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.extensionkitservice
+2024-03-24 20:11:03.419972 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.CoreDisplay.XPCService
+2024-03-24 20:11:03.419996 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.CMValidateMovieDataReferenceService
+2024-03-24 20:11:03.420041 (pid/7144/com.apple.audio.AUHostingService.x86-64) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.420045 (pid/7144/com.apple.audio.AUHostingService.x86-64) <Notice>: draining messages from com.apple.audio.AUHostingService.x86-64
+2024-03-24 20:11:03.420070 (pid/7144/com.apple.audio.AUHostingService.arm64e) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.420072 (pid/7144/com.apple.audio.AUHostingService.arm64e) <Notice>: draining messages from com.apple.audio.AUHostingService.arm64e
+2024-03-24 20:11:03.420079 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.audio.CarbonComponentScanner.x86-64
+2024-03-24 20:11:03.420085 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.audio.ComponentTagHelper
+2024-03-24 20:11:03.420088 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.audio.InfoHelper
+2024-03-24 20:11:03.420091 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.audio.SandboxHelper
+2024-03-24 20:11:03.420103 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.internal.DataDetectorsRemoteScanner
+2024-03-24 20:11:03.420162 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder
+2024-03-24 20:11:03.420166 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder.zonto
+2024-03-24 20:11:03.420169 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder
+2024-03-24 20:11:03.420172 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder.zonto
+2024-03-24 20:11:03.420271 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.ColorSyncXPCAgent
+2024-03-24 20:11:03.420362 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.security.XPCAcmeService
+2024-03-24 20:11:03.420474 (pid/7144/com.apple.MTLCompilerService) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.420492 (pid/7144/com.apple.MTLCompilerService) <Notice>: draining messages from com.apple.MTLCompilerService
+2024-03-24 20:11:03.420539 (pid/7144 [diskutil]) <Notice>: Service stub created for com.apple.security.pboxd
+2024-03-24 20:11:03.483269 (pid/7144 [diskutil]) <Notice>: shutting down
+2024-03-24 20:11:03.483287 (pid/7144/com.apple.MTLCompilerService) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.483292 (pid/7144/com.apple.audio.AUHostingService.x86-64) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.483295 (pid/7144/com.apple.audio.AUHostingService.arm64e) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.483298 (pid/7144/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.483301 (pid/7144/com.apple.audio.Core-Audio-Driver-Service) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.483317 (pid/7144 [diskutil]) <Notice>: cleaning up
+2024-03-24 20:11:03.483322 (system) <Notice>: removing child: pid/7144
+2024-03-24 20:11:03.494598 (pid/7148 [diskutil]) <Notice>: uncorking exec source upfront
+2024-03-24 20:11:03.494609 (pid/7148 [diskutil]) <Notice>: created
+2024-03-24 20:11:03.494888 (pid/7148 [diskutil]) <Notice>: uncorking domain
+2024-03-24 20:11:03.495123 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.ColorPickerImageLoader
+2024-03-24 20:11:03.495148 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:11:03.495151 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:11:03.495154 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:11:03.495157 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:11:03.495160 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:11:03.495163 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:11:03.495167 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:11:03.495170 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:11:03.495173 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:11:03.495259 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:11:03.495314 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:11:03.495426 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:11:03.495451 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:11:03.495509 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:11:03.495532 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+2024-03-24 20:11:03.495621 (pid/7148/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.495640 (pid/7148/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service.helper
+2024-03-24 20:11:03.495673 (pid/7148/com.apple.audio.Core-Audio-Driver-Service) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.495677 (pid/7148/com.apple.audio.Core-Audio-Driver-Service) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service
+2024-03-24 20:11:03.495681 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.audio.DriverHelper
+2024-03-24 20:11:03.495692 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.extensionkitservice
+2024-03-24 20:11:03.495808 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.CoreDisplay.XPCService
+2024-03-24 20:11:03.495835 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.CMValidateMovieDataReferenceService
+2024-03-24 20:11:03.495883 (pid/7148/com.apple.audio.AUHostingService.x86-64) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.495887 (pid/7148/com.apple.audio.AUHostingService.x86-64) <Notice>: draining messages from com.apple.audio.AUHostingService.x86-64
+2024-03-24 20:11:03.495916 (pid/7148/com.apple.audio.AUHostingService.arm64e) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.495918 (pid/7148/com.apple.audio.AUHostingService.arm64e) <Notice>: draining messages from com.apple.audio.AUHostingService.arm64e
+2024-03-24 20:11:03.495925 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.audio.CarbonComponentScanner.x86-64
+2024-03-24 20:11:03.495931 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.audio.ComponentTagHelper
+2024-03-24 20:11:03.495935 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.audio.InfoHelper
+2024-03-24 20:11:03.495938 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.audio.SandboxHelper
+2024-03-24 20:11:03.495951 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.internal.DataDetectorsRemoteScanner
+2024-03-24 20:11:03.496008 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder
+2024-03-24 20:11:03.496011 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder.zonto
+2024-03-24 20:11:03.496014 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder
+2024-03-24 20:11:03.496017 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder.zonto
+2024-03-24 20:11:03.496111 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.ColorSyncXPCAgent
+2024-03-24 20:11:03.496203 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.security.XPCAcmeService
+2024-03-24 20:11:03.496319 (pid/7148/com.apple.MTLCompilerService) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.496337 (pid/7148/com.apple.MTLCompilerService) <Notice>: draining messages from com.apple.MTLCompilerService
+2024-03-24 20:11:03.496384 (pid/7148 [diskutil]) <Notice>: Service stub created for com.apple.security.pboxd
+2024-03-24 20:11:03.600626 (pid/7148 [diskutil]) <Notice>: shutting down
+2024-03-24 20:11:03.600646 (pid/7148/com.apple.MTLCompilerService) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.600653 (pid/7148/com.apple.audio.AUHostingService.x86-64) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.600657 (pid/7148/com.apple.audio.AUHostingService.arm64e) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.600661 (pid/7148/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.600665 (pid/7148/com.apple.audio.Core-Audio-Driver-Service) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.600681 (pid/7148 [diskutil]) <Notice>: cleaning up
+2024-03-24 20:11:03.600688 (system) <Notice>: removing child: pid/7148
+2024-03-24 20:11:03.613636 (pid/7153 [diskutil]) <Notice>: uncorking exec source upfront
+2024-03-24 20:11:03.613649 (pid/7153 [diskutil]) <Notice>: created
+2024-03-24 20:11:03.614038 (pid/7153 [diskutil]) <Notice>: uncorking domain
+2024-03-24 20:11:03.614263 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.ColorPickerImageLoader
+2024-03-24 20:11:03.614288 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:11:03.614292 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:11:03.614295 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:11:03.614298 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:11:03.614301 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:11:03.614305 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:11:03.614308 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:11:03.614311 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:11:03.614315 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:11:03.614401 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:11:03.614460 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:11:03.614573 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:11:03.614599 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:11:03.614657 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:11:03.614681 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+2024-03-24 20:11:03.614779 (pid/7153/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.614799 (pid/7153/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service.helper
+2024-03-24 20:11:03.614831 (pid/7153/com.apple.audio.Core-Audio-Driver-Service) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.614834 (pid/7153/com.apple.audio.Core-Audio-Driver-Service) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service
+2024-03-24 20:11:03.614839 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.audio.DriverHelper
+2024-03-24 20:11:03.614851 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.extensionkitservice
+2024-03-24 20:11:03.614970 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.CoreDisplay.XPCService
+2024-03-24 20:11:03.614985 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.CMValidateMovieDataReferenceService
+2024-03-24 20:11:03.615029 (pid/7153/com.apple.audio.AUHostingService.x86-64) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.615033 (pid/7153/com.apple.audio.AUHostingService.x86-64) <Notice>: draining messages from com.apple.audio.AUHostingService.x86-64
+2024-03-24 20:11:03.615059 (pid/7153/com.apple.audio.AUHostingService.arm64e) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.615062 (pid/7153/com.apple.audio.AUHostingService.arm64e) <Notice>: draining messages from com.apple.audio.AUHostingService.arm64e
+2024-03-24 20:11:03.615069 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.audio.CarbonComponentScanner.x86-64
+2024-03-24 20:11:03.615075 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.audio.ComponentTagHelper
+2024-03-24 20:11:03.615078 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.audio.InfoHelper
+2024-03-24 20:11:03.615081 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.audio.SandboxHelper
+2024-03-24 20:11:03.615094 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.internal.DataDetectorsRemoteScanner
+2024-03-24 20:11:03.615155 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder
+2024-03-24 20:11:03.615159 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder.zonto
+2024-03-24 20:11:03.615162 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder
+2024-03-24 20:11:03.615165 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder.zonto
+2024-03-24 20:11:03.615267 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.ColorSyncXPCAgent
+2024-03-24 20:11:03.615366 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.security.XPCAcmeService
+2024-03-24 20:11:03.615468 (pid/7153/com.apple.MTLCompilerService) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.615487 (pid/7153/com.apple.MTLCompilerService) <Notice>: draining messages from com.apple.MTLCompilerService
+2024-03-24 20:11:03.615539 (pid/7153 [diskutil]) <Notice>: Service stub created for com.apple.security.pboxd
+2024-03-24 20:11:03.784177 (pid/7153 [diskutil]) <Notice>: shutting down
+2024-03-24 20:11:03.784202 (pid/7153/com.apple.MTLCompilerService) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.784207 (pid/7153/com.apple.audio.AUHostingService.x86-64) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.784210 (pid/7153/com.apple.audio.AUHostingService.arm64e) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.784213 (pid/7153/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.784216 (pid/7153/com.apple.audio.Core-Audio-Driver-Service) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.784233 (pid/7153 [diskutil]) <Notice>: cleaning up
+2024-03-24 20:11:03.784238 (system) <Notice>: removing child: pid/7153
+2024-03-24 20:11:03.795802 (pid/7158 [diskutil]) <Notice>: uncorking exec source upfront
+2024-03-24 20:11:03.795812 (pid/7158 [diskutil]) <Notice>: created
+2024-03-24 20:11:03.796074 (pid/7158 [diskutil]) <Notice>: uncorking domain
+2024-03-24 20:11:03.796301 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.ColorPickerImageLoader
+2024-03-24 20:11:03.796326 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:11:03.796330 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:11:03.796333 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:11:03.796336 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:11:03.796339 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:11:03.796342 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:11:03.796346 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:11:03.796349 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:11:03.796352 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:11:03.796439 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:11:03.796495 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:11:03.796604 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:11:03.796629 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:11:03.796686 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:11:03.796709 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+2024-03-24 20:11:03.796793 (pid/7158/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.796812 (pid/7158/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service.helper
+2024-03-24 20:11:03.796843 (pid/7158/com.apple.audio.Core-Audio-Driver-Service) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.796846 (pid/7158/com.apple.audio.Core-Audio-Driver-Service) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service
+2024-03-24 20:11:03.796851 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.audio.DriverHelper
+2024-03-24 20:11:03.796862 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.extensionkitservice
+2024-03-24 20:11:03.796980 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.CoreDisplay.XPCService
+2024-03-24 20:11:03.797006 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.CMValidateMovieDataReferenceService
+2024-03-24 20:11:03.797051 (pid/7158/com.apple.audio.AUHostingService.x86-64) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.797055 (pid/7158/com.apple.audio.AUHostingService.x86-64) <Notice>: draining messages from com.apple.audio.AUHostingService.x86-64
+2024-03-24 20:11:03.797081 (pid/7158/com.apple.audio.AUHostingService.arm64e) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.797083 (pid/7158/com.apple.audio.AUHostingService.arm64e) <Notice>: draining messages from com.apple.audio.AUHostingService.arm64e
+2024-03-24 20:11:03.797091 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.audio.CarbonComponentScanner.x86-64
+2024-03-24 20:11:03.797096 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.audio.ComponentTagHelper
+2024-03-24 20:11:03.797099 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.audio.InfoHelper
+2024-03-24 20:11:03.797103 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.audio.SandboxHelper
+2024-03-24 20:11:03.797116 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.internal.DataDetectorsRemoteScanner
+2024-03-24 20:11:03.797173 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder
+2024-03-24 20:11:03.797177 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder.zonto
+2024-03-24 20:11:03.797180 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder
+2024-03-24 20:11:03.797183 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder.zonto
+2024-03-24 20:11:03.797282 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.ColorSyncXPCAgent
+2024-03-24 20:11:03.797380 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.security.XPCAcmeService
+2024-03-24 20:11:03.797496 (pid/7158/com.apple.MTLCompilerService) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.797514 (pid/7158/com.apple.MTLCompilerService) <Notice>: draining messages from com.apple.MTLCompilerService
+2024-03-24 20:11:03.797562 (pid/7158 [diskutil]) <Notice>: Service stub created for com.apple.security.pboxd
+2024-03-24 20:11:03.950417 (pid/7158 [diskutil]) <Notice>: shutting down
+2024-03-24 20:11:03.950436 (pid/7158/com.apple.MTLCompilerService) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.950441 (pid/7158/com.apple.audio.AUHostingService.x86-64) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.950444 (pid/7158/com.apple.audio.AUHostingService.arm64e) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.950447 (pid/7158/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.950450 (pid/7158/com.apple.audio.Core-Audio-Driver-Service) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:03.950468 (pid/7158 [diskutil]) <Notice>: cleaning up
+2024-03-24 20:11:03.950473 (system) <Notice>: removing child: pid/7158
+2024-03-24 20:11:03.961999 (pid/7163 [diskutil]) <Notice>: uncorking exec source upfront
+2024-03-24 20:11:03.962009 (pid/7163 [diskutil]) <Notice>: created
+2024-03-24 20:11:03.962277 (pid/7163 [diskutil]) <Notice>: uncorking domain
+2024-03-24 20:11:03.962511 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.ColorPickerImageLoader
+2024-03-24 20:11:03.962535 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:11:03.962538 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:11:03.962542 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:11:03.962545 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:11:03.962548 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:11:03.962551 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:11:03.962555 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:11:03.962558 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:11:03.962561 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:11:03.962648 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:11:03.962704 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:11:03.962812 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:11:03.962838 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:11:03.962895 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:11:03.962918 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+2024-03-24 20:11:03.963008 (pid/7163/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.963027 (pid/7163/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service.helper
+2024-03-24 20:11:03.963061 (pid/7163/com.apple.audio.Core-Audio-Driver-Service) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.963064 (pid/7163/com.apple.audio.Core-Audio-Driver-Service) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service
+2024-03-24 20:11:03.963068 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.audio.DriverHelper
+2024-03-24 20:11:03.963079 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.extensionkitservice
+2024-03-24 20:11:03.963195 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.CoreDisplay.XPCService
+2024-03-24 20:11:03.963219 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.CMValidateMovieDataReferenceService
+2024-03-24 20:11:03.963267 (pid/7163/com.apple.audio.AUHostingService.x86-64) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.963270 (pid/7163/com.apple.audio.AUHostingService.x86-64) <Notice>: draining messages from com.apple.audio.AUHostingService.x86-64
+2024-03-24 20:11:03.963300 (pid/7163/com.apple.audio.AUHostingService.arm64e) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.963302 (pid/7163/com.apple.audio.AUHostingService.arm64e) <Notice>: draining messages from com.apple.audio.AUHostingService.arm64e
+2024-03-24 20:11:03.963309 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.audio.CarbonComponentScanner.x86-64
+2024-03-24 20:11:03.963315 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.audio.ComponentTagHelper
+2024-03-24 20:11:03.963318 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.audio.InfoHelper
+2024-03-24 20:11:03.963321 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.audio.SandboxHelper
+2024-03-24 20:11:03.963334 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.internal.DataDetectorsRemoteScanner
+2024-03-24 20:11:03.963391 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder
+2024-03-24 20:11:03.963394 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder.zonto
+2024-03-24 20:11:03.963398 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder
+2024-03-24 20:11:03.963401 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder.zonto
+2024-03-24 20:11:03.963495 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.ColorSyncXPCAgent
+2024-03-24 20:11:03.963589 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.security.XPCAcmeService
+2024-03-24 20:11:03.963707 (pid/7163/com.apple.MTLCompilerService) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:03.963724 (pid/7163/com.apple.MTLCompilerService) <Notice>: draining messages from com.apple.MTLCompilerService
+2024-03-24 20:11:03.963771 (pid/7163 [diskutil]) <Notice>: Service stub created for com.apple.security.pboxd
+2024-03-24 20:11:04.060972 (pid/7163 [diskutil]) <Notice>: shutting down
+2024-03-24 20:11:04.060997 (pid/7163/com.apple.MTLCompilerService) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:04.061003 (pid/7163/com.apple.audio.AUHostingService.x86-64) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:04.061006 (pid/7163/com.apple.audio.AUHostingService.arm64e) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:04.061010 (pid/7163/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:04.061012 (pid/7163/com.apple.audio.Core-Audio-Driver-Service) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:11:04.061027 (pid/7163 [diskutil]) <Notice>: cleaning up
+2024-03-24 20:11:04.061032 (system) <Notice>: removing child: pid/7163
+2024-03-24 20:11:04.072515 (pid/7168 [diskutil]) <Notice>: uncorking exec source upfront
+2024-03-24 20:11:04.072525 (pid/7168 [diskutil]) <Notice>: created
+2024-03-24 20:11:04.072808 (pid/7168 [diskutil]) <Notice>: uncorking domain
+2024-03-24 20:11:04.073028 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.ColorPickerImageLoader
+2024-03-24 20:11:04.073053 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:11:04.073056 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:11:04.073060 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:11:04.073063 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:11:04.073066 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:11:04.073069 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:11:04.073072 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:11:04.073076 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:11:04.073078 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:11:04.073165 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:11:04.073222 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:11:04.073331 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:11:04.073357 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:11:04.073416 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:11:04.073440 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+2024-03-24 20:11:04.073543 (pid/7168/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:04.073563 (pid/7168/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service.helper
+2024-03-24 20:11:04.073594 (pid/7168/com.apple.audio.Core-Audio-Driver-Service) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:04.073598 (pid/7168/com.apple.audio.Core-Audio-Driver-Service) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service
+2024-03-24 20:11:04.073602 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.audio.DriverHelper
+2024-03-24 20:11:04.073613 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.extensionkitservice
+2024-03-24 20:11:04.073728 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.CoreDisplay.XPCService
+2024-03-24 20:11:04.073755 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.CMValidateMovieDataReferenceService
+2024-03-24 20:11:04.073800 (pid/7168/com.apple.audio.AUHostingService.x86-64) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:04.073804 (pid/7168/com.apple.audio.AUHostingService.x86-64) <Notice>: draining messages from com.apple.audio.AUHostingService.x86-64
+2024-03-24 20:11:04.073829 (pid/7168/com.apple.audio.AUHostingService.arm64e) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:11:04.073831 (pid/7168/com.apple.audio.AUHostingService.arm64e) <Notice>: draining messages from com.apple.audio.AUHostingService.arm64e
+2024-03-24 20:11:04.073838 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.audio.CarbonComponentScanner.x86-64
+2024-03-24 20:11:04.073844 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.audio.ComponentTagHelper
+2024-03-24 20:11:04.073847 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.audio.InfoHelper
+2024-03-24 20:11:04.073850 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.audio.SandboxHelper
+2024-03-24 20:11:04.073863 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.internal.DataDetectorsRemoteScanner
+2024-03-24 20:11:04.073920 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder
+2024-03-24 20:11:04.073923 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder.zonto
+2024-03-24 20:11:04.073926 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder
+2024-03-24 20:11:04.073929 (pid/7168 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videoencoder.zonto
+
+2024-03-24 20:15:28.905622 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64) <Notice>: internal event: WILL_SPAWN, code = 0
+2024-03-24 20:15:28.905634 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64) <Notice>: service state: spawn scheduled
+2024-03-24 20:15:28.905635 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64) <Notice>: service state: spawning
+2024-03-24 20:15:28.905648 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64) <Notice>: launching: launch job demand
+2024-03-24 20:15:28.905990 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: xpcproxy spawned with pid 7547
+2024-03-24 20:15:28.906014 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: internal event: SPAWNED, code = 0
+2024-03-24 20:15:28.906016 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: service state: xpcproxy
+2024-03-24 20:15:28.906031 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: internal event: SOURCE_ATTACH, code = 0
+2024-03-24 20:15:28.911092 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Warning>: Could not find and/or execute program specified by service: 86: Bad CPU type in executable: /System/Library/PrivateFrameworks/MacinTalk.framework/Versions/A/PlugIns/WardaSynthesizer_arm64.appex/Contents/MacOS/WardaSynthesizer_arm64
+2024-03-24 20:15:28.911108 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Error>: Service could not initialize: posix_spawn(/System/Library/PrivateFrameworks/MacinTalk.framework/Versions/A/PlugIns/WardaSynthesizer_arm64.appex/Contents/MacOS/WardaSynthesizer_arm64) EBADARCH, error 0x6f - Invalid or missing Program/ProgramArguments
+2024-03-24 20:15:28.911111 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Error>: initialization failure: 22G513: xpcproxy + 22544 [1063][E49176DC-2EF1-329E-A6B9-31024C92B62D]: 0x6f
+2024-03-24 20:15:28.911113 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: Service setup event to handle failure and will not launch until it fires.
+2024-03-24 20:15:28.911115 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: draining messages from com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64
+2024-03-24 20:15:28.911119 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: draining messages from com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64.apple-extension-service
+2024-03-24 20:15:28.911123 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Error>: Missing executable detected. Job: 'com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64' Executable: '/System/Library/PrivateFrameworks/MacinTalk.framework/Versions/A/PlugIns/WardaSynthesizer_arm64.appex/Contents/MacOS/WardaSynthesizer_arm64'
+2024-03-24 20:15:28.911124 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: internal event: INIT, code = 111
+2024-03-24 20:15:28.911127 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: job state = spawn failed
+2024-03-24 20:15:28.911336 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Error>: Could not remove job: error = 144: Requestor lacks required entitlement
+2024-03-24 20:15:28.911734 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: xpcproxy exited due to exit(78)
+2024-03-24 20:15:28.911737 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: exited due to exit(78)
+2024-03-24 20:15:28.911757 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: already handled failed init, ignoring
+2024-03-24 20:15:28.911759 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: service state: exited
+2024-03-24 20:15:28.911763 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: internal event: EXITED, code = 0
+2024-03-24 20:15:28.911765 (pid/472 [axassetsd]) <Notice>: service inactive: com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64
+2024-03-24 20:15:28.911767 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: draining messages from com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64
+2024-03-24 20:15:28.911770 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: draining messages from com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64.apple-extension-service
+2024-03-24 20:15:28.911773 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64 [7547]) <Notice>: service state: not running
+2024-03-24 20:15:28.911775 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64) <Notice>: internal event: WILL_SPAWN, code = 0
+2024-03-24 20:15:28.911778 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64) <Notice>: service state: spawn scheduled
+2024-03-24 20:15:28.912426 (pid/472/com.apple.speech.MacinTalkFramework.WardaSynthesizer.arm64) <Notice>: signal service: caller = axassetsd[472], value = 0x9
+2024-03-24 20:15:29.334754 <Notice>: Last log repeated 2 times
+2024-03-24 20:15:29.334688 (pid/472/com.apple.siri.SiriTTSService.synthesizer [7542]) <Notice>: exited due to exit(0)
+2024-03-24 20:15:29.334695 (pid/472/com.apple.siri.SiriTTSService.synthesizer [7542]) <Notice>: service state: exited
+2024-03-24 20:15:29.334701 (pid/472/com.apple.siri.SiriTTSService.synthesizer [7542]) <Notice>: internal event: EXITED, code = 0
+2024-03-24 20:15:29.334705 (pid/472/com.apple.siri.SiriTTSService.synthesizer [7542]) <Notice>: job state = exited
+2024-03-24 20:15:29.334743 (pid/472 [axassetsd]) <Notice>: service inactive: com.apple.siri.SiriTTSService.synthesizer
+2024-03-24 20:15:29.334747 (pid/472/com.apple.siri.SiriTTSService.synthesizer [7542]) <Notice>: service state: not running
+2024-03-24 20:15:29.334754 (pid/7542 [SiriTTSSynthesi]) <Notice>: shutting down
+2024-03-24 20:15:29.334756 (pid/7542 [SiriTTSSynthesi]) <Notice>: removing active service: com.apple.audio.SandboxHelper
+2024-03-24 20:15:29.334786 (pid/7542/com.apple.audio.SandboxHelper [7544]) <Notice>: signaled service: Killed: 9
+2024-03-24 20:15:29.334788 (pid/7542/com.apple.audio.SandboxHelper [7544]) <Notice>: service state: SIGKILLed
+2024-03-24 20:15:29.334790 (pid/7542/com.apple.audio.SandboxHelper [7544]) <Notice>: scheduling cleanup in 3 sec after sending Killed: 9
+2024-03-24 20:15:29.334815 (pid/7542/com.apple.MTLCompilerService) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.334824 (pid/7542/com.apple.audio.AUHostingService.x86-64) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.334828 (pid/7542/com.apple.audio.AUHostingService.arm64e) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.334832 (pid/7542/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.334836 (pid/7542/com.apple.audio.Core-Audio-Driver-Service) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.335458 (pid/7542/com.apple.audio.SandboxHelper [7544]) <Notice>: exited due to SIGKILL | sent by launchd[1] during teardown of process-scoped services after host exited
+2024-03-24 20:15:29.335461 (pid/7542/com.apple.audio.SandboxHelper [7544]) <Notice>: service state: exited
+2024-03-24 20:15:29.335465 (pid/7542/com.apple.audio.SandboxHelper [7544]) <Notice>: internal event: EXITED, code = 0
+2024-03-24 20:15:29.335467 (pid/7542 [SiriTTSSynthesi]) <Notice>: service inactive: com.apple.audio.SandboxHelper
+2024-03-24 20:15:29.335476 (pid/7542/com.apple.audio.SandboxHelper [7544]) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.335478 (pid/7542 [SiriTTSSynthesi]) <Notice>: cleaning up
+2024-03-24 20:15:29.335481 (pid/7542/com.apple.audio.SandboxHelper [7544]) <Notice>: service state: not running
+2024-03-24 20:15:29.335502 (pid/7544 [com.apple.audio]) <Notice>: shutting down
+2024-03-24 20:15:29.335505 (pid/7544/com.apple.MTLCompilerService) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.335510 (pid/7544/com.apple.audio.AUHostingService.x86-64) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.335513 (pid/7544/com.apple.audio.AUHostingService.arm64e) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.335517 (pid/7544/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.335520 (pid/7544/com.apple.audio.Core-Audio-Driver-Service) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:15:29.335533 (pid/7544 [com.apple.audio]) <Notice>: cleaning up
+2024-03-24 20:15:29.335537 (system) <Notice>: removing child: pid/7542
+2024-03-24 20:15:29.335544 (system) <Notice>: removing child: pid/7544
+2024-03-24 20:15:29.335924 <Notice>: Flushed 26 logs [limit: 20]
+2024-03-24 20:15:30.989003 (system) <Warning>: denied lookup: name = com.apple.private.corewifi-xpc, flags = 0x8, requestor = bluetoothd[134], error = 159: Sandbox restriction
+2024-03-24 20:15:32.307910 (system/com.apple.thermald) <Notice>: service state: spawning
+2024-03-24 20:15:32.307963 (system/com.apple.thermald) <Notice>: launching: xpc event
+2024-03-24 20:15:32.308732 (system/com.apple.thermald [7548]) <Notice>: xpcproxy spawned with pid 7548
+2024-03-24 20:15:32.308784 (system/com.apple.thermald [7548]) <Notice>: internal event: SPAWNED, code = 0
+2024-03-24 20:15:32.308806 (system/com.apple.thermald [7548]) <Notice>: service state: xpcproxy
+2024-03-24 20:15:32.308812 (system/com.apple.thermald [7548]) <Notice>: deferred event: domain spawn response: 0
+2024-03-24 20:15:32.308818 (system/com.apple.thermald [7548]) <Notice>: internal event: SOURCE_ATTACH, code = 0
+2024-03-24 20:15:32.312518 (system/com.apple.thermald [7548]) <Notice>: service state: running
+2024-03-24 20:15:32.312537 (system/com.apple.thermald [7548]) <Notice>: internal event: INIT, code = 0
+2024-03-24 20:15:32.312543 (system/com.apple.thermald [7548]) <Notice>: Successfully spawned thermald[7548] because xpc event
+2024-03-24 20:15:32.314901 (pid/7548 [thermald]) <Notice>: uncorking exec source upfront
+2024-03-24 20:15:32.314910 (pid/7548 [thermald]) <Notice>: created
+2024-03-24 20:15:32.318815 (system/com.apple.thermald [7548]) <Notice>: exited due to exit(1)
+2024-03-24 20:15:32.318831 (system/com.apple.thermald [7548]) <Notice>: service state: exited
+2024-03-24 20:15:32.318835 (system/com.apple.thermald [7548]) <Notice>: internal event: EXITED, code = 0
+2024-03-24 20:15:32.318837 (system) <Notice>: service inactive: com.apple.thermald
+2024-03-24 20:15:32.318851 (system/com.apple.thermald [7548]) <Notice>: service state: not running
+2024-03-24 20:15:32.318856 (pid/7548 [thermald]) <Notice>: shutting down
+2024-03-24 20:15:32.318859 (pid/7548 [thermald]) <Notice>: cleaning up
+2024-03-24 20:15:32.318864 (system/com.apple.thermald) <Notice>: Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+2024-03-24 20:15:32.318909 (system/com.apple.thermald) <Notice>: internal event: WILL_SPAWN, code = 0
+2024-03-24 20:15:32.318912 (system/com.apple.thermald) <Notice>: service state: spawn scheduled
+2024-03-24 20:15:32.318914 (system/com.apple.thermald) <Notice>: service throttled by 10 seconds
+2024-03-24 20:15:32.318919 (system) <Notice>: removing child: pid/7548
+
+2024-03-24 20:18:11.248375 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:18:11.248378 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:18:11.248381 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:18:11.248384 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:18:11.248387 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:18:11.248390 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:18:11.248394 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:18:11.248397 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:18:11.248400 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:18:11.248485 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:18:11.248541 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:18:11.248650 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:18:11.248675 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:18:11.248733 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:18:11.248757 (pid/7729 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+
+2024-03-24 20:20:33.965835 (pid/7899/com.apple.MTLCompilerService) <Notice>: draining messages from com.apple.MTLCompilerService
+2024-03-24 20:20:33.965885 (pid/7899 [diskutil]) <Notice>: Service stub created for com.apple.security.pboxd
+2024-03-24 20:20:34.117406 (pid/7899 [diskutil]) <Notice>: shutting down
+2024-03-24 20:20:34.117424 (pid/7899/com.apple.MTLCompilerService) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:20:34.117430 (pid/7899/com.apple.audio.AUHostingService.x86-64) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:20:34.117433 (pid/7899/com.apple.audio.AUHostingService.arm64e) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:20:34.117436 (pid/7899/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:20:34.117439 (pid/7899/com.apple.audio.Core-Audio-Driver-Service) <Notice>: internal event: PETRIFIED, code = 0
+2024-03-24 20:20:34.117456 (pid/7899 [diskutil]) <Notice>: cleaning up
+2024-03-24 20:20:34.117460 (system) <Notice>: removing child: pid/7899
+2024-03-24 20:20:34.129174 (pid/7904 [diskutil]) <Notice>: uncorking exec source upfront
+2024-03-24 20:20:34.129185 (pid/7904 [diskutil]) <Notice>: created
+2024-03-24 20:20:34.129485 (pid/7904 [diskutil]) <Notice>: uncorking domain
+2024-03-24 20:20:34.129703 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.ColorPickerImageLoader
+2024-03-24 20:20:34.129728 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:20:34.129731 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:20:34.129734 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:20:34.129737 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:20:34.129740 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:20:34.129743 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:20:34.129746 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:20:34.129750 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:20:34.129752 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:20:34.129838 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:20:34.129894 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:20:34.130004 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:20:34.130030 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:20:34.130087 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:20:34.130111 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+2024-03-24 20:20:34.130202 (pid/7904/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:20:34.130221 (pid/7904/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service.helper
+2024-03-24 20:20:34.130255 (pid/7904/com.apple.audio.Core-Audio-Driver-Service) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:20:34.130258 (pid/7904/com.apple.audio.Core-Audio-Driver-Service) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service
+2024-03-24 20:20:34.130263 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.audio.DriverHelper
+2024-03-24 20:20:34.130273 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.extensionkitservice
+2024-03-24 20:20:34.130391 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.CoreDisplay.XPCService
+2024-03-24 20:20:34.130417 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.CMValidateMovieDataReferenceService
+2024-03-24 20:20:34.130465 (pid/7904/com.apple.audio.AUHostingService.x86-64) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:20:34.130469 (pid/7904/com.apple.audio.AUHostingService.x86-64) <Notice>: draining messages from com.apple.audio.AUHostingService.x86-64
+2024-03-24 20:20:34.130498 (pid/7904/com.apple.audio.AUHostingService.arm64e) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:20:34.130500 (pid/7904/com.apple.audio.AUHostingService.arm64e) <Notice>: draining messages from com.apple.audio.AUHostingService.arm64e
+2024-03-24 20:20:34.130507 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.audio.CarbonComponentScanner.x86-64
+2024-03-24 20:20:34.130513 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.audio.ComponentTagHelper
+2024-03-24 20:20:34.130516 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.audio.InfoHelper
+2024-03-24 20:20:34.130519 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.audio.SandboxHelper
+2024-03-24 20:20:34.130531 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.internal.DataDetectorsRemoteScanner
+2024-03-24 20:20:34.130589 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder
+2024-03-24 20:20:34.130592 (pid/7904 [diskutil]) <Notice>: Service stub created for com.apple.coremedia.videodecoder.zonto
+
+2024-03-24 20:21:44.840267 (pid/8626 [mdworker_shared]) <Notice>: uncorking exec source upfront
+2024-03-24 20:21:44.840287 (pid/8626 [mdworker_shared]) <Notice>: created
+2024-03-24 20:21:45.020926 (system/com.veertu.anka.addons.ankaupd) <Notice>: internal event: WILL_SPAWN, code = 0
+2024-03-24 20:21:45.020948 (system/com.veertu.anka.addons.ankaupd) <Notice>: service state: spawn scheduled
+2024-03-24 20:21:45.020950 (system/com.veertu.anka.addons.ankaupd) <Notice>: service state: spawning
+2024-03-24 20:21:45.020967 (system/com.veertu.anka.addons.ankaupd) <Notice>: launching: interval
+2024-03-24 20:21:45.022713 (system/com.veertu.anka.addons.ankaupd [8639]) <Notice>: xpcproxy spawned with pid 8639
+2024-03-24 20:21:45.022746 (system/com.veertu.anka.addons.ankaupd [8639]) <Notice>: internal event: SPAWNED, code = 0
+2024-03-24 20:21:45.022750 (system/com.veertu.anka.addons.ankaupd [8639]) <Notice>: service state: xpcproxy
+2024-03-24 20:21:45.022754 (system/com.veertu.anka.addons.ankaupd [8639]) <Notice>: interval event: domain response: 0
+2024-03-24 20:21:45.022759 (system/com.veertu.anka.addons.ankaupd [8639]) <Notice>: internal event: SOURCE_ATTACH, code = 0
+2024-03-24 20:21:45.030643 (system/com.veertu.anka.addons.ankaupd [8639]) <Notice>: service state: running
+2024-03-24 20:21:45.030662 (system/com.veertu.anka.addons.ankaupd [8639]) <Notice>: internal event: INIT, code = 0
+2024-03-24 20:21:45.030670 (system/com.veertu.anka.addons.ankaupd [8639]) <Notice>: Successfully spawned ankaupd.sh[8639] because interval
+2024-03-24 20:21:45.032041 (pid/8639 [bash]) <Notice>: uncorking exec source upfront
+2024-03-24 20:21:45.032053 (pid/8639 [bash]) <Notice>: created
+2024-03-24 20:21:45.068396 (pid/8643 [diskutil]) <Notice>: uncorking exec source upfront
+2024-03-24 20:21:45.068474 (pid/8643 [diskutil]) <Notice>: created
+2024-03-24 20:21:45.068908 (pid/8643 [diskutil]) <Notice>: uncorking domain
+2024-03-24 20:21:45.069272 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.ColorPickerImageLoader
+2024-03-24 20:21:45.069293 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.defaultSyncService
+2024-03-24 20:21:45.069300 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.documentPopoverViewService
+2024-03-24 20:21:45.069310 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.arm64
+2024-03-24 20:21:45.069322 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.LegacyExternalColorPickerService.x86_64
+2024-03-24 20:21:45.069332 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.sandboxedServiceRunner
+2024-03-24 20:21:45.069341 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.WindowSharingControlViewService
+2024-03-24 20:21:45.069349 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.automator.xpc.workflowServiceRunner
+2024-03-24 20:21:45.069356 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.VersionsUIHelper
+2024-03-24 20:21:45.069371 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.appkit.xpc.openAndSavePanelService
+2024-03-24 20:21:45.069458 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.PerfPowerTelemetryClientRegistrationService
+2024-03-24 20:21:45.069515 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.foundation.UserScriptService
+2024-03-24 20:21:45.069642 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.diskimagescontroller
+2024-03-24 20:21:45.069651 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.ImageIOXPCService
+2024-03-24 20:21:45.069717 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.textkit.nsattributedstringagent
+2024-03-24 20:21:45.069746 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.speech.SpeechSynthesisServerXPC
+2024-03-24 20:21:45.069866 (pid/8643/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:21:45.069872 (pid/8643/com.apple.audio.Core-Audio-Driver-Service.helper) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service.helper
+2024-03-24 20:21:45.069926 (pid/8643/com.apple.audio.Core-Audio-Driver-Service) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:21:45.069931 (pid/8643/com.apple.audio.Core-Audio-Driver-Service) <Notice>: draining messages from com.apple.audio.Core-Audio-Driver-Service
+2024-03-24 20:21:45.069939 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.audio.DriverHelper
+2024-03-24 20:21:45.069952 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.extensionkitservice
+2024-03-24 20:21:45.070107 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.CoreDisplay.XPCService
+2024-03-24 20:21:45.070122 (pid/8643 [diskutil]) <Notice>: Service stub created for com.apple.CMValidateMovieDataReferenceService
+2024-03-24 20:21:45.070193 (pid/8643/com.apple.audio.AUHostingService.x86-64) <Notice>: created the implicit endpoint upfront
+2024-03-24 20:21:45.070199 (pid/8643/com.apple.audio.AUHostingService.x86-64) <Notice>: draining messages from com.apple.audio.AUHostingService.x86-64
+2024-03-24 20:21:45.070236 (pid/8643/com.apple.audio.AUHostingService.arm64e) <Notice>: created the implicit endpoint upfront
+
+2024-03-24 20:22:23.212254 (system/com.apple.thermald [9211]) <Notice>: exited due to exit(1)
+2024-03-24 20:22:23.212267 (system/com.apple.thermald [9211]) <Notice>: service state: exited
+2024-03-24 20:22:23.212283 (system/com.apple.thermald [9211]) <Notice>: internal event: EXITED, code = 0
+2024-03-24 20:22:23.212285 (system) <Notice>: service inactive: com.apple.thermald
+2024-03-24 20:22:23.212302 (system/com.apple.thermald [9211]) <Notice>: service state: not running
+2024-03-24 20:22:23.212308 (pid/9211 [thermald]) <Notice>: shutting down
+2024-03-24 20:22:23.212310 (pid/9211 [thermald]) <Notice>: cleaning up
+2024-03-24 20:22:23.212315 (system/com.apple.thermald) <Notice>: Service only ran for 0 seconds. Pushing respawn out by 10 seconds.
+2024-03-24 20:22:23.212364 (system/com.apple.thermald) <Notice>: internal event: WILL_SPAWN, code = 0
+2024-03-24 20:22:23.212376 (system/com.apple.thermald) <Notice>: service state: spawn scheduled
+2024-03-24 20:22:23.212378 (system/com.apple.thermald) <Notice>: service throttled by 10 seconds
+2024-03-24 20:22:23.212383 (system) <Notice>: removing child: pid/9211

@@ -1,0 +1,26 @@
+2024-02-19 22:47:50 +0000
+
+/usr/local/Cellar/php/8.3.3/bin/pear
+update-channels
+
+Updating channel "doc.php.net"
+
+Warning: Undefined variable $php_errormsg in Config.php on line 1029
+PHP Warning:  Undefined variable $php_errormsg in /usr/local/Cellar/php/8.3.3/share/php/pear/PEAR/Config.php on line 1029
+
+Warning: Undefined variable $php_errormsg in /usr/local/Cellar/php/8.3.3/share/php/pear/PEAR/Config.php on line 1029
+Update of Channel "doc.php.net" succeeded
+Updating channel "pear.php.net"
+
+Warning: Undefined variable $php_errormsg in Config.php on line 1029
+PHP Warning:  Undefined variable $php_errormsg in /usr/local/Cellar/php/8.3.3/share/php/pear/PEAR/Config.php on line 1029
+
+Warning: Undefined variable $php_errormsg in /usr/local/Cellar/php/8.3.3/share/php/pear/PEAR/Config.php on line 1029
+Update of Channel "pear.php.net" succeeded
+Updating channel "pecl.php.net"
+
+Warning: Undefined variable $php_errormsg in Config.php on line 1029
+PHP Warning:  Undefined variable $php_errormsg in /usr/local/Cellar/php/8.3.3/share/php/pear/PEAR/Config.php on line 1029
+
+Warning: Undefined variable $php_errormsg in /usr/local/Cellar/php/8.3.3/share/php/pear/PEAR/Config.php on line 1029
+Update of Channel "pecl.php.net" succeeded

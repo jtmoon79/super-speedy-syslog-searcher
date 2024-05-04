@@ -1,0 +1,28 @@
+2024-02-19 21:24:44 +0000
+
+/usr/local/Cellar/python@3.11/3.11.7_1/bin/python3.11
+-Im
+pip
+install
+-v
+--no-deps
+--no-index
+--upgrade
+--isolated
+--target=/usr/local/lib/python3.11/site-packages
+/usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ensurepip/_bundled/setuptools-69.0.2-py3-none-any.whl
+/usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ensurepip/_bundled/pip-23.3.1-py3-none-any.whl
+/usr/local/Cellar/python@3.11/3.11.7_1/libexec/wheel-0.42.0-py3-none-any.whl
+
+WARNING: The directory '/Users/runner/Library/Caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Using pip 23.3.1 from /usr/local/lib/python3.11/site-packages/pip (python 3.11)
+Processing /usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ensurepip/_bundled/setuptools-69.0.2-py3-none-any.whl
+Processing /usr/local/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/ensurepip/_bundled/pip-23.3.1-py3-none-any.whl
+Processing /usr/local/Cellar/python@3.11/3.11.7_1/libexec/wheel-0.42.0-py3-none-any.whl
+Installing collected packages: wheel, setuptools, pip
+  Creating /private/tmp/pip-target-kzxfeq1b/bin
+  changing mode of /private/tmp/pip-target-kzxfeq1b/bin/wheel to 755
+  changing mode of /private/tmp/pip-target-kzxfeq1b/bin/pip to 755
+  changing mode of /private/tmp/pip-target-kzxfeq1b/bin/pip3 to 755
+  changing mode of /private/tmp/pip-target-kzxfeq1b/bin/pip3.11 to 755
+Successfully installed pip-23.3.1 setuptools-69.0.2 wheel-0.42.0

@@ -1,0 +1,281 @@
+Starting service provider configuration
+Done configuring service provider
+[15:35:01] info: Provisioner[0]
+      Provisioner version: 2.0.359.1+f83ed258e46724b307a9ecf8c1c002bbfee20d2f
+[15:35:01] info: Provisioner[0]
+      The system has been up for 38 seconds. Processor Count: 4
+[15:35:01] info: Provisioner[0]
+      E2E/VMStartTime: 2024-03-05T15:34:23.0476540Z; ProvisionerStartTime: 2024-03-05T15:35:01.5326180+00:00
+[15:35:01] info: Provisioner[0]
+      Image provisioning mode
+[15:35:01] info: Provisioner[0]
+      Starting provisioner
+[15:35:02] info: MachineManagement.Provisioning.MachineProvisioner[0]
+      Getting registration data
+[15:35:02] info: Microsoft.AzureDevOps.Provisioner.Framework.Monitoring.MonitoringService[0]
+      Starting the Cpu Process Monitor Monitor with 30 seconds of queueing delay
+[15:35:02] info: MachineManagement.Provisioning.MachineProvisioner[0]
+      Provisioning mode detected, running provisioning for each runtime
+[15:35:02] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.RequestResourceProvider[0]
+      Downloading 3 for request type PoolProvider
+[15:35:02] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.RequestResourceProvider[0]
+      Downloading resource PoolProvider:osx.10.11-x64:2.314.1
+[15:35:03] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.CdnDownloader[884381540]
+      Downloading resource osx.10.11-x64 2.314.1 from https://github.com/actions/runner/releases/download/v2.314.1/actions-runner-osx-x64-2.314.1.tar.gz
+[15:35:10] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.RequestResourceProvider[0]
+      Successfully downloaded resource PoolProvider:osx.10.11-x64:2.314.1
+[15:35:10] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.RequestResourceProvider[0]
+      Downloading resource PoolProvider:osx.10.11-x64:2.313.0
+[15:35:10] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.CdnDownloader[884381540]
+      Downloading resource osx.10.11-x64 2.313.0 from https://github.com/actions/runner/releases/download/v2.313.0/actions-runner-osx-x64-2.313.0.tar.gz
+[15:35:18] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.RequestResourceProvider[0]
+      Successfully downloaded resource PoolProvider:osx.10.11-x64:2.313.0
+[15:35:18] info: Microsoft.AzureDevOps.Mms.Provisioner.Framework.RequestResourceProvider[0]
+      Downloading 3 for request type DevFabric
+[15:35:18] info: MachineManagement.Provisioning.Mac.MacMachineEnvironment[0]
+      Running Factory Provisioning for PoolProvider
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Starting factory script bash /usr/local/opt/runner/settings/factory/factory_test1.sh macos-13
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Starting factory script bash /usr/local/opt/runner/settings/factory/factory_InstallAbuseTools.sh macos-13
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Waiting for factory scripts to complete, timeout is 1200000
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Downloading abuse tools to /usr/local/opt/runner/provisioner/etc
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      --2024-03-05 15:35:18--  https://abusetoolscdn.blob.core.windows.net/binaries/v0.70-macos
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Resolving abusetoolscdn.blob.core.windows.net (abusetoolscdn.blob.core.windows.net)... 20.150.90.4, 52.239.170.164, 52.239.171.4
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Connecting to abusetoolscdn.blob.core.windows.net (abusetoolscdn.blob.core.windows.net)|20.150.90.4|:443... connected.
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      HTTP request sent, awaiting response... 200 OK
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Length: 4863386 (4.6M) [application/octet-stream]
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Saving to: ‘/usr/local/opt/runner/provisioner/etc/tools.zip’
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+           0K .......... .......... .......... .......... ..........  1% 16.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+          50K .......... .......... .......... .......... ..........  2% 37.0M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         100K .......... .......... .......... .......... ..........  3% 63.6M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         150K .......... .......... .......... .......... ..........  4% 74.0M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         200K .......... .......... .......... .......... ..........  5% 57.6M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         250K .......... .......... .......... .......... ..........  6% 70.7M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         300K .......... .......... .......... .......... ..........  7%  120M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         350K .......... .......... .......... .......... ..........  8% 43.6M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         400K .......... .......... .......... .......... ..........  9% 55.3M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         450K .......... .......... .......... .......... .......... 10% 87.8M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         500K .......... .......... .......... .......... .......... 11%  129M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         550K .......... .......... .......... .......... .......... 12% 71.5M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         600K .......... .......... .......... .......... .......... 13%  130M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         650K .......... .......... .......... .......... .......... 14% 69.4M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         700K .......... .......... .......... .......... .......... 15% 33.1M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         750K .......... .......... .......... .......... .......... 16%  181M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         800K .......... .......... .......... .......... .......... 17% 39.5M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         850K .......... .......... .......... .......... .......... 18%  235M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         900K .......... .......... .......... .......... .......... 20%  257M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+         950K .......... .......... .......... .......... .......... 21% 67.3M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1000K .......... .......... .......... .......... .......... 22% 39.1M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1050K .......... .......... .......... .......... .......... 23% 40.9M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1100K .......... .......... .......... .......... .......... 24%  332M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1150K .......... .......... .......... .......... .......... 25%  307M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1200K .......... .......... .......... .......... .......... 26%  126M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1250K .......... .......... .......... .......... .......... 27% 26.4M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1300K .......... .......... .......... .......... .......... 28%  141M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1350K .......... .......... .......... .......... .......... 29% 59.3M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1400K .......... .......... .......... .......... .......... 30%  235M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1450K .......... .......... .......... .......... .......... 31%  249M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1500K .......... .......... .......... .......... .......... 32% 57.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1550K .......... .......... .......... .......... .......... 33%  124M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1600K .......... .......... .......... .......... .......... 34%  381M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1650K .......... .......... .......... .......... .......... 35% 78.9M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1700K .......... .......... .......... .......... .......... 36% 29.6M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1750K .......... .......... .......... .......... .......... 37%  104M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1800K .......... .......... .......... .......... .......... 38% 33.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1850K .......... .......... .......... .......... .......... 40% 47.7M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1900K .......... .......... .......... .......... .......... 41%  307M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        1950K .......... .......... .......... .......... .......... 42% 91.3M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2000K .......... .......... .......... .......... .......... 43%  356M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2050K .......... .......... .......... .......... .......... 44%  223M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2100K .......... .......... .......... .......... .......... 45% 74.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2150K .......... .......... .......... .......... .......... 46%  178M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2200K .......... .......... .......... .......... .......... 47% 37.1M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2250K .......... .......... .......... .......... .......... 48% 58.4M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2300K .......... .......... .......... .......... .......... 49%  199M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2350K .......... .......... .......... .......... .......... 50% 24.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2400K .......... .......... .......... .......... .......... 51%  341M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2450K .......... .......... .......... .......... .......... 52%  341M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2500K .......... .......... .......... .......... .......... 53% 67.8M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2550K .......... .......... .......... .......... .......... 54% 64.8M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2600K .......... .......... .......... .......... .......... 55% 56.4M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2650K .......... .......... .......... .......... .......... 56% 40.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2700K .......... .......... .......... .......... .......... 57%  271M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2750K .......... .......... .......... .......... .......... 58% 53.4M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2800K .......... .......... .......... .......... .......... 60% 54.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2850K .......... .......... .......... .......... .......... 61% 44.3M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2900K .......... .......... .......... .......... .......... 62%  113M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        2950K .......... .......... .......... .......... .......... 63% 55.1M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3000K .......... .......... .......... .......... .......... 64% 29.6M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3050K .......... .......... .......... .......... .......... 65%  257M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3100K .......... .......... .......... .......... .......... 66% 22.6M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3150K .......... .......... .......... .......... .......... 67% 72.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3200K .......... .......... .......... .......... .......... 68% 32.9M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3250K .......... .......... .......... .......... .......... 69% 85.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3300K .......... .......... .......... .......... .......... 70%  256M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3350K .......... .......... .......... .......... .......... 71% 95.9M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3400K .......... .......... .......... .......... .......... 72%  111M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3450K .......... .......... .......... .......... .......... 73% 39.5M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3500K .......... .......... .......... .......... .......... 74%  305M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3550K .......... .......... .......... .......... .......... 75%  149M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3600K .......... .......... .......... .......... .......... 76% 64.9M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3650K .......... .......... .......... .......... .......... 77% 62.7M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3700K .......... .......... .......... .......... .......... 78%  212M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3750K .......... .......... .......... .......... .......... 80%  313M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3800K .......... .......... .......... .......... .......... 81%  138M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3850K .......... .......... .......... .......... .......... 82%  330M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3900K .......... .......... .......... .......... .......... 83% 35.2M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        3950K .......... .......... .......... .......... .......... 84%  291M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4000K .......... .......... .......... .......... .......... 85%  417M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4050K .......... .......... .......... .......... .......... 86% 14.3M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4100K .......... .......... .......... .......... .......... 87% 53.7M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4150K .......... .......... .......... .......... .......... 88%  344M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4200K .......... .......... .......... .......... .......... 89% 43.7M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4250K .......... .......... .......... .......... .......... 90% 71.4M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4300K .......... .......... .......... .......... .......... 91%  379M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4350K .......... .......... .......... .......... .......... 92% 47.4M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4400K .......... .......... .......... .......... .......... 93% 32.3M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4450K .......... .......... .......... .......... .......... 94% 48.8M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4500K .......... .......... .......... .......... .......... 95%  201M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4550K .......... .......... .......... .......... .......... 96%  258M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4600K .......... .......... .......... .......... .......... 97%  267M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4650K .......... .......... .......... .......... .......... 98%  250M 0s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        4700K .......... .......... .......... .......... ......... 100% 59.0M=0.07s
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      2024-03-05 15:35:18 (66.7 MB/s) - ‘/usr/local/opt/runner/provisioner/etc/tools.zip’ saved [4863386/4863386]
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Archive:  /usr/local/opt/runner/provisioner/etc/tools.zip
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+        inflating: /usr/local/opt/runner/provisioner/etc/provjobd  
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Finished installing abuse tools
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Writing provisioner version to imagedata.json
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      The file /Users/runner/imagedata.json has been updated with the provisioner version
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Copy /Users/runner/imagedata.json file to the /Users/runner/runners/2.314.1/.setup_info target
+[15:35:18] info: DistributedTask.MachineProvisioning.MacTaskAgentMachineRuntime[0]
+      Copy /Users/runner/imagedata.json file to the /Users/runner/runners/2.313.0/.setup_info target
+[15:35:18] info: MachineManagement.Provisioning.Mac.MacMachineEnvironment[0]
+      Running Factory Provisioning for DevFabric
+[15:35:18] info: MachineManagement.Provisioning.Mac.MacMachineEnvironment[0]
+      Creating marker file to indicate machine is clean, will be deleted when first request is executed
+[15:35:18] info: MachineManagement.Provisioning.MachineProvisioner[0]
+      Removing provisioning setting
+[15:35:18] info: MachineManagement.Provisioning.Mac.MacMachineEnvironment[0]
+      Waiting for AuthorizationTokenFile to be dropped by Custom Script Extension...
+Starting service provider configuration
+Done configuring service provider
+
+√ Connected to GitHub
+
+Current runner version: '2.314.1'
+2024-03-24 20:21:13Z: Listening for Jobs
+2024-03-24 20:21:20Z: Running job: test Mac OS (macos-13)

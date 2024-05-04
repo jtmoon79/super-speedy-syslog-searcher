@@ -1,0 +1,76 @@
+
+Mon Feb 19 13:10:45 PST 2024
+
+Removing old temporary files:
+
+Removing stale files from /var/rwho:
+
+Disk status:
+Filesystem       Size   Used  Avail Capacity iused      ifree %iused  Mounted on
+/dev/disk1s5s1  300Gi  8.7Gi  283Gi     3%  356810 2969864640    0%   /
+/dev/disk1s2    300Gi  1.9Gi  283Gi     1%     906 2969864640    0%   /System/Volumes/Preboot
+/dev/disk1s4    300Gi  1.0Mi  283Gi     1%       1 2969864640    0%   /System/Volumes/VM
+/dev/disk1s6    300Gi  1.1Mi  283Gi     1%      22 2969864640    0%   /System/Volumes/Update
+/dev/disk1s1    300Gi  4.6Gi  283Gi     2%  138704 2969864640    0%   /System/Volumes/Data
+
+Network interface status:
+Name       Mtu   Network       Address            Ipkts Ierrs    Opkts Oerrs  Coll
+lo0        16384 <Link#1>                           858     0      858     0     0
+lo0        16384 127           localhost            858     -      858     -     -
+lo0        16384 localhost   ::1                    858     -      858     -     -
+lo0        16384 fe80::1%lo0 fe80:1::1              858     -      858     -     -
+gif0*      1280  <Link#2>                             0     0        0     0     0
+stf0*      1280  <Link#3>                             0     0        0     0     0
+XHC7*      0     <Link#4>                             0     0        0     0     0
+en0        1500  <Link#5>    fe:be:c7:f9:81:7e   965269     0    69950     0     0
+en0        1500  fe80::c9a:9 fe80:5::c9a:91f0:   965269     -    69950     -     -
+en0        1500  192.168.64    192.168.64.24     965269     -    69950     -     -
+utun0      1380  <Link#6>                             0     0        2     0     0
+utun0      1380  fe80::63ec: fe80:6::63ec:db3c        0     -        2     -     -
+utun1      2000  <Link#7>                             0     0        2     0     0
+utun1      2000  fe80::9f55: fe80:7::9f55:4e25        0     -        2     -     -
+utun2      1000  <Link#8>                             0     0        2     0     0
+utun2      1000  fe80::ce81: fe80:8::ce81:b1c:        0     -        2     -     -
+
+Local system status:
+13:10  up 8 mins, 1 user, load averages: 2.99 6.27 4.38
+
+-- End of daily output --
+
+Sun Mar 24 19:19:19 UTC 2024
+
+Removing old temporary files:
+
+Removing stale files from /var/rwho:
+
+Disk status:
+Filesystem       Size   Used  Avail Capacity iused      ifree %iused  Mounted on
+/dev/disk1s5s1  300Gi  8.7Gi  154Gi     6%  356810 1609728960    0%   /
+/dev/disk1s2    300Gi  1.9Gi  154Gi     2%     906 1609728960    0%   /System/Volumes/Preboot
+/dev/disk1s4    300Gi  1.0Mi  154Gi     1%       1 1609728960    0%   /System/Volumes/VM
+/dev/disk1s6    300Gi  460Ki  154Gi     1%      19 1609728960    0%   /System/Volumes/Update
+/dev/disk1s1    300Gi  134Gi  154Gi    47% 2689307 1609728960    0%   /System/Volumes/Data
+
+Network interface status:
+Name       Mtu   Network       Address            Ipkts Ierrs    Opkts Oerrs  Coll
+lo0        16384 <Link#1>                           306     0      306     0     0
+lo0        16384 127           localhost            306     -      306     -     -
+lo0        16384 localhost   ::1                    306     -      306     -     -
+lo0        16384 fe80::1%lo0 fe80:1::1              306     -      306     -     -
+gif0*      1280  <Link#2>                             0     0        0     0     0
+stf0*      1280  <Link#3>                             0     0        0     0     0
+XHC7*      0     <Link#4>                             0     0        0     0     0
+en0        1500  <Link#5>    ae:5d:91:ad:53:8a    56011     0    11696     0     0
+en0        1500  fe80::1071: fe80:5::1071:41f8    56011     -    11696     -     -
+en0        1500  192.168.64    192.168.64.24      56011     -    11696     -     -
+utun0      1380  <Link#6>                             0     0        2     0     0
+utun0      1380  fe80::2e6e: fe80:6::2e6e:83a3        0     -        2     -     -
+utun1      2000  <Link#7>                             0     0        2     0     0
+utun1      2000  fe80::f5c:5 fe80:7::f5c:5817:        0     -        2     -     -
+utun2      1000  <Link#8>                             0     0        3     0     0
+utun2      1000  fe80::ce81: fe80:8::ce81:b1c:        0     -        3     -     -
+
+Local system status:
+19:19  up 8 mins, 1 user, load averages: 4.68 5.66 4.22
+
+-- End of daily output --

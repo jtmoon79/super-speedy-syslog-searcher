@@ -1,0 +1,261 @@
+Feb 16 01:43:21 localhost bootlog[0]: BOOT_TIME 1708076601 0
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.install" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/asl" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/system.log" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.authd" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.eventmonitor" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.mail" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.performance" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.iokit.power" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.contacts.ContactsAutocomplete" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.mkb" sharing output destination "/private/var/log/keybagd.log" with ASL Module "com.apple.mkb.internal".
+	Output parameters from ASL Module "com.apple.mkb.internal" override any specified in ASL Module "com.apple.mkb".
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.mkb" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:23 localhost syslogd[58]: Configuration Notice:
+	ASL Module "com.apple.MessageTracer" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:43:24 localhost syslogd[58]: ASL Sender Statistics
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Clearing phase info
+Feb 16 01:43:37 Mac-mini loginwindow[97]: calling progress app remoteObjectProxy
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Creating connection
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Connection = 0x600000b60320, callers = (
+	    "<IASUPCaller: 0x6000038782d0>"
+	)
+Feb 16 01:43:37 Mac-mini loginwindow[97]: version = 2
+Feb 16 01:43:37 Mac-mini loginwindow[97]: isModernOS = 1
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Add phase named "IOKit Boot", progress 14.453125, delayInSeconds 0
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Add phase named "Boot-Time Installation", progress 75.482536, delayInSeconds 0
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Connection = 0x600000b60320, callers = (
+	    "<IASUPCaller: 0x6000038782d0>",
+	    "<IASUPCaller: 0x60000386c960>"
+	)
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f58140: phaseName = "Boot-Time Installation", registering connection
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f58140: phaseName = "Boot-Time Installation" was created
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Add phase named "loginwindow Boot", progress 10.064339, delayInSeconds -1
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Connection = 0x600000b60320, callers = (
+	    "<IASUPCaller: 0x6000038782d0>",
+	    "<IASUPCaller: 0x60000386c960>",
+	    "<IASUPCaller: 0x6000038603c0>"
+	)
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f7d5c0: phaseName = "loginwindow Boot", registering connection
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f7d5c0: phaseName = "loginwindow Boot" was created
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Connection = 0x600000b60320, callers = (
+	    "<IASUPCaller: 0x6000038782d0>",
+	    "<IASUPCaller: 0x60000386c960>",
+	    "<IASUPCaller: 0x6000038603c0>",
+	    "<IASUPCaller: 0x60000386c950>"
+	)
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f58380: phaseName = "IOKit Boot", registering connection
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f58380: phaseName = "IOKit Boot" was created
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f58380: phaseName = "IOKit Boot", show progress UI called
+Feb 16 01:43:37 Mac-mini loginwindow[97]: ISAP: Show progress UI called
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f58380: phaseName = "IOKit Boot" is done
+Feb 16 01:43:37 Mac-mini loginwindow[97]: ISAP: Done with Phase "IOKit Boot"
+Feb 16 01:43:37 Mac-mini loginwindow[97]: client 0x600002f58380: phaseName = "IOKit Boot" is being released
+Feb 16 01:43:37 Mac-mini loginwindow[97]: Releasing Connection
+Feb 16 01:43:44 Mac-mini loginwindow[97]: client 0x600002f58140: phaseName = "Boot-Time Installation" is done
+Feb 16 01:43:44 Mac-mini loginwindow[97]: ISAP: Done with Phase "Boot-Time Installation"
+Feb 16 01:43:44 Mac-mini loginwindow[97]: client 0x600002f58140: phaseName = "Boot-Time Installation" is being released
+Feb 16 01:43:44 Mac-mini loginwindow[97]: Releasing Connection
+Feb 16 01:43:44 Mac-mini loginwindow[97]: client 0x600002f7d5c0: handler = 0x6000034577b0
+Feb 16 01:43:45 Mac-mini loginwindow[97]: USER_PROCESS: 97 console
+Feb 16 01:43:59 Mac-mini loginwindow[97]: client 0x600002f7d5c0: phaseName = "loginwindow Boot" is done
+Feb 16 01:43:59 Mac-mini loginwindow[97]: ISAP: Done with Phase "loginwindow Boot"
+Feb 16 01:43:59 Mac-mini loginwindow[97]: Calling completion handler for 0x600002f7d5c0
+Feb 16 01:43:59 Mac-mini loginwindow[97]: client 0x600002f7d5c0: phaseName = "loginwindow Boot" is already done
+Feb 16 01:43:59 Mac-mini loginwindow[97]: client 0x600002f7d5c0: phaseName = "loginwindow Boot", hide progress UI called
+Feb 16 01:43:59 Mac-mini loginwindow[97]: ISAP: hide progress UI called
+Feb 16 01:43:59 Mac-mini loginwindow[97]: client 0x600002f7d5c0: phaseName = "loginwindow Boot" is being released
+Feb 16 01:43:59 Mac-mini loginwindow[97]: Releasing Connection
+Feb 16 01:44:04 Mac-mini loginwindow[97]: The connection was interrupted, calling interruption handlers
+Feb 16 01:44:05 Mac-mini halt[760]: SHUTDOWN_TIME: 1708076645 205599
+Feb 16 01:44:38 localhost bootlog[0]: BOOT_TIME 1708076678 0
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.install" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/asl" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/system.log" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.authd" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.eventmonitor" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.mail" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.performance" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.iokit.power" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.contacts.ContactsAutocomplete" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.mkb" sharing output destination "/private/var/log/keybagd.log" with ASL Module "com.apple.mkb.internal".
+	Output parameters from ASL Module "com.apple.mkb.internal" override any specified in ASL Module "com.apple.mkb".
+Feb 16 01:44:42 localhost syslogd[103]: Configuration Notice:
+	ASL Module "com.apple.mkb" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+
+Feb 16 01:49:49 Mac-mini loginwindow[143]: Connection = 0x600002678c80, callers = (
+	    "<IASUPCaller: 0x600001574110>",
+	    "<IASUPCaller: 0x60000157c630>",
+	    "<IASUPCaller: 0x60000157c470>"
+	)
+Feb 16 01:49:49 Mac-mini loginwindow[143]: client 0x60000025b500: phaseName = "IOKit Boot", registering connection
+Feb 16 01:49:49 Mac-mini loginwindow[143]: client 0x60000025b500: phaseName = "IOKit Boot" was created
+
+Feb 19 21:18:36 Mac-mini loginwindow[144]: client 0x600000686dc0: phaseName = "IOKit Boot" is being released
+Feb 19 21:18:36 Mac-mini loginwindow[144]: Releasing Connection
+Feb 19 21:18:36 Mac-mini loginwindow[144]: client 0x600000686c40: handler = 0x600001d85ef0
+Feb 19 21:18:37 Mac-mini loginwindow[144]: USER_PROCESS: 144 console
+Feb 19 21:18:40 Mac-mini loginwindow[144]: Calling completion handler for 0x600000686c40
+Feb 19 21:18:40 Mac-mini loginwindow[144]: client 0x600000686c40: phaseName = "loginwindow Boot" is done
+Feb 19 21:18:40 Mac-mini loginwindow[144]: ISAP: Done with Phase "loginwindow Boot"
+Feb 19 21:18:40 Mac-mini loginwindow[144]: client 0x600000686c40: phaseName = "loginwindow Boot", hide progress UI called
+Feb 19 21:18:40 Mac-mini loginwindow[144]: ISAP: hide progress UI called
+Feb 19 21:18:40 Mac-mini loginwindow[144]: client 0x600000686c40: phaseName = "loginwindow Boot" is being released
+Feb 19 21:18:40 Mac-mini loginwindow[144]: Releasing Connection
+Feb 19 21:18:45 Mac-mini loginwindow[144]: The connection was interrupted, calling interruption handlers
+Feb 19 21:19:36 Mac-mini loginwindow[144]: There is still an active connection
+Feb 19 21:20:10 --- last message repeated 1 time ---
+Feb 19 21:28:38 Mac-mini syslogd[107]: ASL Sender Statistics
+Feb 19 21:51:36 Mac-mini syslogd[107]: ASL Sender Statistics
+
+Feb 19 22:41:25 Mac-mini loginwindow[145]: There is still an active connection
+Feb 19 22:41:58 --- last message repeated 1 time ---
+Feb 19 22:50:35 Mac-mini syslogd[107]: ASL Sender Statistics
+Feb 19 23:08:55 Mac-mini syslogd[107]: ASL Sender Statistics
+Feb 19 23:20:37 Mac-mini syslogd[107]: ASL Sender Statistics
+Feb 19 23:31:13 Mac-mini syslogd[107]: ASL Sender Statistics
+Feb 19 23:31:54 Mac-mini halt[47826]: SHUTDOWN_TIME: 1708385514 121317
+Mar  5 15:34:24 localhost bootlog[0]: BOOT_TIME 1709652864 0
+Mar  5 15:34:34 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar  5 15:34:34 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.install" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar  5 15:34:34 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/asl" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Mar  5 15:34:34 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/system.log" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Mar  5 15:34:34 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.authd" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar  5 15:34:34 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.eventmonitor" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar  5 15:34:34 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.mail" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar  5 15:34:34 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.performance" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+
+Mar  5 15:34:48 Mac-mini AMPDeviceDiscoveryAgent[451]: tid:1903 - (null)
+Mar  5 15:34:48 Mac-mini AMPDeviceDiscoveryAgent[451]: tid:1903 - Failed to subscribe for booted OS device notifications.
+Mar  5 15:34:48 Mac-mini AMPDeviceDiscoveryAgent[451]: tid:103 - (null)
+Mar  5 15:34:50 Mac-mini loginwindow[163]: The connection was interrupted, calling interruption handlers
+Mar  5 15:35:41 Mac-1709652898145 loginwindow[163]: There is still an active connection
+Mar  5 15:36:16 --- last message repeated 1 time ---
+Mar  5 15:37:24 Mac-1709652898145 halt[1145]: SHUTDOWN_TIME: 1709653044 886214
+Mar 24 19:11:34 localhost bootlog[0]: BOOT_TIME 1711307494 0
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.install" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/asl" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/system.log" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.authd" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.eventmonitor" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.mail" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.performance" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.iokit.power" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.contacts.ContactsAutocomplete" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.mkb" sharing output destination "/private/var/log/keybagd.log" with ASL Module "com.apple.mkb.internal".
+	Output parameters from ASL Module "com.apple.mkb.internal" override any specified in ASL Module "com.apple.mkb".
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.mkb" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:41 localhost syslogd[107]: Configuration Notice:
+	ASL Module "com.apple.MessageTracer" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Mar 24 19:11:42 localhost syslogd[107]: ASL Sender Statistics
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: Clearing phase info
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: calling progress app remoteObjectProxy
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: Creating connection
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: Connection = 0x600000af06e0, callers = (
+	    "<IASUPCaller: 0x6000039f8a20>"
+	)
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: version = 2
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: isModernOS = 1
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: Add phase named "IOKit Boot", progress 1.000000, delayInSeconds 0
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: Add phase named "loginwindow Boot", progress 99.000000, delayInSeconds -1
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: Connection = 0x600000af06e0, callers = (
+	    "<IASUPCaller: 0x6000039f8a20>",
+	    "<IASUPCaller: 0x6000039fc6c0>"
+	)
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: client 0x600002ee78c0: phaseName = "loginwindow Boot", registering connection
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: client 0x600002ee78c0: phaseName = "loginwindow Boot" was created
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: Connection = 0x600000af06e0, callers = (
+	    "<IASUPCaller: 0x6000039f8a20>",
+	    "<IASUPCaller: 0x6000039fc6c0>",
+	    "<IASUPCaller: 0x6000039fc730>"
+	)
+Mar 24 19:11:49 Mac-1709652898145 loginwindow[165]: client 0x600002ee7a00: phaseName = "IOKit Boot", registering connection

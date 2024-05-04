@@ -1,0 +1,9 @@
+2024-02-19 22:47:09 +0000
+
+/usr/local/Cellar/php/8.3.3/bin/pear
+config-set
+ext_dir
+/usr/local/lib/php/pecl/20230831
+system
+
+config-set succeeded

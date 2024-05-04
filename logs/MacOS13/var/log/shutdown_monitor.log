@@ -1,0 +1,26 @@
+Sampling completed, generating report...
+com.apple.DriverKit-IOUserDockC [213]: Unable to spawn ddt: 2 (No such file or directory)
+com.apple.AppleUserHIDDrivers [215]: Unable to spawn ddt: 2 (No such file or directory)
+com.apple.geod [677]: Unable to spawn ddt: 2 (No such file or directory)
+Saved shutdown report
+
+Sampling completed, generating report...
+diskarbitrationd [99]: Unable to spawn ddt: 2 (No such file or directory)
+warmd [95]: Unable to spawn ddt: 2 (No such file or directory)
+Core Audio Driver (NullAudio.dr [212]: Unable to spawn ddt: 2 (No such file or directory)
+com.apple.DriverKit-IOUserDockC [263]: Unable to spawn ddt: 2 (No such file or directory)
+com.apple.AppleUserHIDDrivers [264]: Unable to spawn ddt: 2 (No such file or directory)
+Saved shutdown report
+
+Sampling completed, generating report...
+diskarbitrationd [99]: Unable to spawn ddt: 2 (No such file or directory)
+warmd [95]: Unable to spawn ddt: 2 (No such file or directory)
+com.apple.DriverKit-IOUserDockC [240]: Unable to spawn ddt: 2 (No such file or directory)
+com.apple.AppleUserHIDDrivers [241]: Unable to spawn ddt: 2 (No such file or directory)
+Saved shutdown report
+
+Sampling completed, generating report...
+diskarbitrationd [103]: Unable to spawn ddt: 2 (No such file or directory)
+com.apple.AppleUserHIDDrivers [226]: Unable to spawn ddt: 2 (No such file or directory)
+com.apple.DriverKit-IOUserDockC [229]: Unable to spawn ddt: 2 (No such file or directory)
+Saved shutdown report

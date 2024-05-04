@@ -1,0 +1,11 @@
+
+Sun Mar 24 19:19:35 UTC 2024
+
+Rotating fax log files:/etc/periodic/monthly/199.rotate-fax: line 13: cd: /var/log/fax: No such file or directory
+
+
+Doing login accounting:
+	total        2.72
+	runner       2.72
+
+-- End of monthly output --

@@ -1,0 +1,922 @@
+Feb 16 09:32:35 localhost opendirectoryd[60]: [session] UID: 0, EUID: 0, GID: 0, EGID: 0, PID: 61, PROC: apsd ODNodeCreateWithNameAndOptions request, SessionID: 00000000-0000-0000-0000-000000000000, Name: /Search, Options: 0x0
+Feb 16 09:32:35 localhost opendirectoryd[60]: [session] ODNodeCreateWithNameAndOptions failed with result 2000
+Feb 16 09:32:35 localhost opendirectoryd[60]: [session] Received a network change notification
+Feb 16 09:32:37 Mac-mini opendirectoryd[60]: [session] UID: 205, EUID: 205, GID: 205, EGID: 205, PID: 65, PROC: locationd ODNodeCreateWithNameAndOptions request, SessionID: 00000000-0000-0000-0000-000000000000, Name: /Local/Default, Options: 0x0
+Feb 16 09:32:37 Mac-mini opendirectoryd[60]: [session] node assigned UUID - 7CD385B1-352E-45B7-8659-ADD52EDEF801
+Feb 16 09:32:37 Mac-mini opendirectoryd[60]: [session] ODNodeCreateWithNameAndOptions completed
+Feb 16 09:32:37 Mac-mini opendirectoryd[60]: [session] UID: 205, EUID: 205, GID: 205, EGID: 205, PID: 65, PROC: locationd ODQueryCreateWithNode request, NodeID: 7CD385B1-352E-45B7-8659-ADD52EDEF801, RecordType(s): dsRecTypeStandard:Users, Attribute: dsAttrTypeStandard:UniqueID, MatchType: GreaterThan, Equality: Number, Value(s): 500, Requested Attributes: dsAttrTypeStandard:GeneratedUID,dsAttrTypeStandard:RecordType,dsAttrTypeStandard:RecordName,dsAttrTypeStandard:AppleMetaRecordName,dsAttrTypeStandard:AppleMetaNodeLocation, Max Results: 2147483647
+Feb 16 09:32:37 Mac-mini opendirectoryd[60]: [session] queuing request to connection - A5090A83-28E7-4502-9F22-E3BF7855FE5C - CFBundle 0x600000550000 </System/Library/OpenDirectory/Modules/PlistFile.bundle> (bundle, loaded)
+Feb 16 09:32:37 Mac-mini opendirectoryd[60]: [session] ODQueryCreateWithNode completed
+Feb 16 09:32:37 Mac-mini opendirectoryd[60]: [session] UID: 205, EUID: 205, GID: 205, EGID: 205, PID: 65, PROC: locationd ODNodeRelease request, NodeID: 7CD385B1-352E-45B7-8659-ADD52EDEF801
+Feb 16 09:32:37 Mac-mini opendirectoryd[60]: [session] ODNodeRelease completed
+
+Feb 16 09:32:41 Mac-mini Installer Progress[58]: Progress app is running…
+Feb 16 09:32:41 Mac-mini launchprogresswindow[148]: ISAP: Show progress UI called
+Feb 16 09:32:41 Mac-mini Installer Progress[58]: Connected processes {
+	    "4A052E07-83FF-4784-A5CD-5F6920DF73F8" =     {
+	        "Phase Name" = "Launch Progress Window";
+	        "Process ID" = 148;
+	        UUID = "4A052E07-83FF-4784-A5CD-5F6920DF73F8";
+	    };
+	}
+Feb 16 09:32:41 Mac-mini Installer Progress[58]: Connected processes {
+	    "4A052E07-83FF-4784-A5CD-5F6920DF73F8" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a55d10>";
+	        "Phase Name" = "Launch Progress Window";
+	        "Process ID" = 148;
+	        UUID = "4A052E07-83FF-4784-A5CD-5F6920DF73F8";
+	    };
+	}
+Feb 16 09:32:41 Mac-mini Installer Progress[58]: IASGetCurrentInstallPhaseList: phases = (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Boot 1";
+	        InstallPhaseActualPercentageKey = 5;
+	        InstallPhasePercentageKey = 5;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Language Chooser";
+	        InstallPhaseActualPercentageKey = 5;
+	        InstallPhasePercentageKey = 5;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "OS Installer";
+	        InstallPhaseActualPercentageKey = 5;
+	        InstallPhasePercentageKey = 5;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "EFI Firmware Update";
+	        InstallPhaseActualPercentageKey = 5;
+	        InstallPhasePercentageKey = 5;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Boot 2";
+	        InstallPhaseActualPercentageKey = 5;
+	        InstallPhasePercentageKey = 5;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Language Chooser 2";
+	        InstallPhaseActualPercentageKey = 5;
+	        InstallPhasePercentageKey = 5;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "OS Installer 2";
+	        InstallPhaseActualPercentageKey = 70;
+	        InstallPhasePercentageKey = 70;
+	    }
+	)
+Feb 16 09:32:41 Mac-mini Installer Progress[58]: IASGetCurrentInstallPhase: Current phase name is "Boot 1"
+Feb 16 09:32:41 Mac-mini Installer Progress[58]: currentPhase = "<IASPPhase: 0x60000194f280: 'Boot 1', percentage 5.0, delay 0>", phases = (
+	    "<IASPPhase: 0x60000194f280: 'Boot 1', percentage 5.0, delay 0>",
+	    "<IASPPhase: 0x60000194f1a0: 'Language Chooser', percentage 5.0, delay 0>",
+	    "<IASPPhase: 0x60000194f220: 'OS Installer', percentage 5.0, delay 0>",
+	    "<IASPPhase: 0x60000194f2a0: 'EFI Firmware Update', percentage 5.0, delay 0>",
+	    "<IASPPhase: 0x60000194f120: 'Boot 2', percentage 5.0, delay 0>",
+	    "<IASPPhase: 0x60000194f100: 'Language Chooser 2', percentage 5.0, delay 0>",
+	    "<IASPPhase: 0x60000194f2c0: 'OS Installer 2', percentage 70.0, delay -1>"
+	)
+
+Feb 16 09:32:54 Mac-mini OSInstaller[160]: EnsureRecoveryBooter: Chosen kernel for pointing to by plist: BootKernelExtensions.kc
+Feb 16 09:32:54 Mac-mini OSInstaller[160]: EnsureRecoveryBooter: Creating boot plist
+Feb 16 09:32:54 Mac-mini OSInstaller[160]: EnsureRecoveryBooter: Wrote boot plist dict={
+	    "Kernel Cache" = "\\00C43BC0-C876-33D5-89AC-6E03433D83DD\\BootKernelExtensions.kc";
+	    "Kernel Flags" = "root-dmg=file:///00C43BC0-C876-33D5-89AC-6E03433D83DD/BaseSystem.dmg";
+	} to dst=/Volumes/Recovery/00C43BC0-C876-33D5-89AC-6E03433D83DD/com.apple.Boot.plist err=0
+Feb 16 09:32:54 Mac-mini OSInstaller[160]: EnsureRecoveryBooter: Copying base system image: Copying SrcFile=/Volumes/Macintosh HD/macOS Install Data/BaseSystem.dmg -->FILE--> IntoDir=/Volumes/Recovery/00C43BC0-C876-33D5-89AC-6E03433D83DD DstName=BaseSystem.dmg
+
+Feb 16 09:42:54 localhost opendirectoryd[64]: [session] /Local/Default nodestate: starting check
+Feb 16 09:42:54 localhost opendirectoryd[64]: [session] /Local/Default service discovery: not needed, no discovery functions
+Feb 16 09:42:54 localhost opendirectoryd[64]: [session] /Local/Default service discovery: successfully completed
+Feb 16 09:42:54 localhost opendirectoryd[64]: [default] Failed to open file <private> [2: No such file or directory]
+Feb 16 09:42:54 localhost opendirectoryd[64]: [session] Node is 10.7 or later
+Feb 16 09:42:54 localhost opendirectoryd[64]: [session] initiating reconnect for B093358C-8324-48E2-81AC-0DDB963C2A2B
+
+2024-02-16 01:43:36-08 Mac-mini softwareupdated[190]: Event handler called with flags: 103
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: BootTimeInstall: Configuring sandbox...
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: BootTimeInstall: Sandbox successfully configured
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: Adding bootinstalld client (loginwindow (pid = 97, uid = 0, path = /System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow, connection remote object interface = <NSXPCInterface: 0x7fe7e0409b70>, exported interface = <NSXPCInterface: 0x7fe7e0408a10>, remote object proxy = <__NSXPCInterfaceProxy_IASBootTimeInstallClientProtocol: 0x7fe7e040a3c0>)), total: 1
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: BootTimeInstall: Client loginwindow[97]: Connected.
+2024-02-16 01:43:37-08 Mac-mini loginwindow[97]: isModernOS = 1
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASGetCurrentInstallPhaseList: phases = (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Boot 1";
+	        InstallPhaseActualPercentageKey = "9.27734375";
+	        InstallPhasePercentageKey = 9;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Language Chooser";
+	        InstallPhaseActualPercentageKey = "90.72265625";
+	        InstallPhasePercentageKey = 91;
+	    }
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASGetCurrentInstallPhase: Current phase name is "Boot 1"
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: currentPhase = "<IASPPhase: 0x6000022d4b80: 'Boot 1', percentage 9.3, delay 0>", phases = (
+	    "<IASPPhase: 0x6000022d4b80: 'Boot 1', percentage 9.3, delay 0>",
+	    "<IASPPhase: 0x6000022d4ba0: 'Language Chooser', percentage 90.7, delay 0>"
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASClearInstallProgress: Clearing Registry
+2024-02-16 01:43:37-08 Mac-mini loginwindow[97]: ISAP: Show progress UI called
+2024-02-16 01:43:37-08 Mac-mini loginwindow[97]: ISAP: Done with Phase "IOKit Boot"
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: currentPhase = "(null)", phases = (
+	    "<IASPPhase: 0x6000022cc960: 'IOKit Boot', percentage 14.5, delay 0>"
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "14.45312";
+	        InstallPhasePercentageKey = 14;
+	    }
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASSetCurrentInstallPhase: Current phase name set to "IOKit Boot"
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: currentPhase = "<IASPPhase: 0x6000022cc960: 'IOKit Boot', percentage 14.5, delay 0>", phases = (
+	    "<IASPPhase: 0x6000022cc960: 'IOKit Boot', percentage 14.5, delay 0>",
+	    "<IASPPhase: 0x6000022cc900: 'Boot-Time Installation', percentage 75.5, delay 0>"
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "14.45312";
+	        InstallPhasePercentageKey = 14;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Boot-Time Installation";
+	        InstallPhaseActualPercentageKey = "75.48254";
+	        InstallPhasePercentageKey = 75;
+	    }
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Connected processes {
+	    "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94" =     {
+	        "Phase Name" = "Boot-Time Installation";
+	        "Process ID" = 97;
+	        UUID = "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94";
+	    };
+	}
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Connected processes {
+	    "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c4460>";
+	        "Phase Name" = "Boot-Time Installation";
+	        "Process ID" = 97;
+	        UUID = "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94";
+	    };
+	}
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: currentPhase = "<IASPPhase: 0x6000022cc960: 'IOKit Boot', percentage 14.5, delay 0>", phases = (
+	    "<IASPPhase: 0x6000022cc960: 'IOKit Boot', percentage 14.5, delay 0>",
+	    "<IASPPhase: 0x6000022cc900: 'Boot-Time Installation', percentage 75.5, delay 0>",
+	    "<IASPPhase: 0x6000022d4bc0: 'loginwindow Boot', percentage 10.1, delay -1>"
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "14.45312";
+	        InstallPhasePercentageKey = 14;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Boot-Time Installation";
+	        InstallPhaseActualPercentageKey = "75.48254";
+	        InstallPhasePercentageKey = 75;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = "10.06434";
+	        InstallPhasePercentageKey = 10;
+	    }
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Connected processes {
+	    "026F81C6-1491-4B74-B90D-F24C08A9F810" =     {
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 97;
+	        UUID = "026F81C6-1491-4B74-B90D-F24C08A9F810";
+	    };
+	    "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c4460>";
+	        "Phase Name" = "Boot-Time Installation";
+	        "Process ID" = 97;
+	        UUID = "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94";
+	    };
+	}
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Connected processes {
+	    "026F81C6-1491-4B74-B90D-F24C08A9F810" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c00f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 97;
+	        UUID = "026F81C6-1491-4B74-B90D-F24C08A9F810";
+	    };
+	    "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c4460>";
+	        "Phase Name" = "Boot-Time Installation";
+	        "Process ID" = 97;
+	        UUID = "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94";
+	    };
+	}
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Connected processes {
+	    "026F81C6-1491-4B74-B90D-F24C08A9F810" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c00f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 97;
+	        UUID = "026F81C6-1491-4B74-B90D-F24C08A9F810";
+	    };
+	    "0EC23E45-4D8F-45AD-9161-BB1E9ACC2967" =     {
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 97;
+	        UUID = "0EC23E45-4D8F-45AD-9161-BB1E9ACC2967";
+	    };
+	    "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c4460>";
+	        "Phase Name" = "Boot-Time Installation";
+	        "Process ID" = 97;
+	        UUID = "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94";
+	    };
+	}
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Connected processes {
+	    "026F81C6-1491-4B74-B90D-F24C08A9F810" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c00f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 97;
+	        UUID = "026F81C6-1491-4B74-B90D-F24C08A9F810";
+	    };
+	    "0EC23E45-4D8F-45AD-9161-BB1E9ACC2967" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001d86e0>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 97;
+	        UUID = "0EC23E45-4D8F-45AD-9161-BB1E9ACC2967";
+	    };
+	    "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c4460>";
+	        "Phase Name" = "Boot-Time Installation";
+	        "Process ID" = 97;
+	        UUID = "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94";
+	    };
+	}
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Progress app is loading…
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Progress app is running…
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASGetCurrentInstallPhaseList: phases = (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "14.453125";
+	        InstallPhasePercentageKey = 14;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Boot-Time Installation";
+	        InstallPhaseActualPercentageKey = "75.48253631591797";
+	        InstallPhasePercentageKey = 75;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = "10.06433868408203";
+	        InstallPhasePercentageKey = 10;
+	    }
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASGetCurrentInstallPhase: Current phase name is "IOKit Boot"
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: currentPhase = "<IASPPhase: 0x6000022da240: 'IOKit Boot', percentage 14.5, delay 0>", phases = (
+	    "<IASPPhase: 0x6000022da240: 'IOKit Boot', percentage 14.5, delay 0>",
+	    "<IASPPhase: 0x6000022d87e0: 'Boot-Time Installation', percentage 75.5, delay 0>",
+	    "<IASPPhase: 0x6000022da280: 'loginwindow Boot', percentage 10.1, delay -1>"
+	)
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Showing Progress UI
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: There are 0 window(s) and 1 display(s), 1 window(s) will be added
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Created a window at {{0, 0}, {1024, 768}}
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Status is ""
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Alternate status is ""
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: JS: checking if 64bit are supported: true
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: JS: Checking CPU features... FPU,VME,DE,PSE,TSC,MSR,PAE,MCE,CX8,APIC,SEP,MTRR,PGE,MCA,CMOV,PAT,PSE36,CLFSH,MMX,FXSR,SSE,SSE2,SS,HTT,PBE,SSE3,PCLMULQDQ,DTES64,DSCPL,VMX,SSSE3,FMA,CX16,TPR,SSE4.1,SSE4.2,x2APIC,MOVBE,POPCNT,AES,VMM,PCID,XSAVE,OSXSAVE,SEGLIM64,AVX1.0,RDRAND,F16C
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: JS: Checking installation: true
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: no background for progress added because:
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]:        and / or NOT booting from EFI loginwindow
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Setting window alpha values to 1.0
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Ordering windows front
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Done with phase = "IOKit Boot"
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: IASSetCurrentInstallPhase: Current phase name set to "Boot-Time Installation"
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Connected processes {
+	    "026F81C6-1491-4B74-B90D-F24C08A9F810" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c00f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 97;
+	        UUID = "026F81C6-1491-4B74-B90D-F24C08A9F810";
+	    };
+	    "0EC23E45-4D8F-45AD-9161-BB1E9ACC2967" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001ccaf0>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 97;
+	        UUID = "0EC23E45-4D8F-45AD-9161-BB1E9ACC2967";
+	    };
+	    "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c4460>";
+	        "Phase Name" = "Boot-Time Installation";
+	        "Process ID" = 97;
+	        UUID = "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94";
+	    };
+	}
+2024-02-16 01:43:37-08 Mac-mini Installer Progress[55]: Connected processes {
+	    "026F81C6-1491-4B74-B90D-F24C08A9F810" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c00f0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 97;
+	        UUID = "026F81C6-1491-4B74-B90D-F24C08A9F810";
+	    };
+	    "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000001c4460>";
+	        "Phase Name" = "Boot-Time Installation";
+	        "Process ID" = 97;
+	        UUID = "4D2F2DE9-6398-43BA-8033-7A2A3BBE4D94";
+	    };
+	}
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: Current Path: /usr/libexec/bootinstalld
+2024-02-16 01:43:37-08 Mac-mini installd[306]: installd: Starting
+2024-02-16 01:43:37-08 Mac-mini installd[306]: installd: uid=0, euid=0
+2024-02-16 01:43:37-08 Mac-mini installd[306]: PackageKit: Adding client PKInstallDaemonClient pid=297, uid=0 (/usr/libexec/bootinstalld)
+2024-02-16 01:43:37-08 Mac-mini bootinstalld[297]: PackageKit: Enqueuing install with client-specified quality of service (user initiated)
+2024-02-16 01:43:37-08 Mac-mini installd[306]: PackageKit: Set reponsibility for install to 297
+2024-02-16 01:43:38-08 Mac-mini softwareupdate_firstrun_tasks[300]: Rebuilding Tag-Cache inside of ProductMetadata.plist.
+2024-02-16 01:43:38-08 Mac-mini installd[306]: PackageKit: Hosted team responsibility for install set to team:(TT9FAWP6V4)
+
+2024-02-16 01:44:49-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "C7509FE0-DD67-4F48-AC70-BE8B533F6456" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002099450>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 141;
+	        UUID = "C7509FE0-DD67-4F48-AC70-BE8B533F6456";
+	    };
+	    "D2D5AAF3-50F5-466B-97E0-3310550408AF" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000020993b0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 141;
+	        UUID = "D2D5AAF3-50F5-466B-97E0-3310550408AF";
+	    };
+	}
+2024-02-16 01:44:49-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "D2D5AAF3-50F5-466B-97E0-3310550408AF" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000020993b0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 141;
+	        UUID = "D2D5AAF3-50F5-466B-97E0-3310550408AF";
+	    };
+	}
+2024-02-16 01:44:51-08 Mac-mini loginwindow[141]: ISAP: Done with Phase "loginwindow Boot"
+2024-02-16 01:44:51-08 Mac-mini Installer Progress[100]: Done with phase = "loginwindow Boot"
+2024-02-16 01:44:51-08 Mac-mini Installer Progress[100]: IASClearInstallProgress: Clearing Registry
+2024-02-16 01:44:52-08 Mac-mini loginwindow[141]: ISAP: hide progress UI called
+2024-02-16 01:44:52-08 Mac-mini Installer Progress[100]: Hiding Progress UI
+2024-02-16 01:44:52-08 Mac-mini Installer Progress[100]: Setting window alpha values to 0.0
+2024-02-16 01:44:52-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "D2D5AAF3-50F5-466B-97E0-3310550408AF" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000020813b0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 141;
+	        UUID = "D2D5AAF3-50F5-466B-97E0-3310550408AF";
+	    };
+	}
+2024-02-16 01:44:52-08 Mac-mini Installer Progress[100]: Connected processes {
+	}
+2024-02-16 01:44:52-08 Mac-mini Installer Progress[100]: Ordering windows out
+2024-02-16 01:44:57-08 Mac-mini Installer Progress[100]: Quitting because there are no phases. There are no connected processes. The UI is not showing.
+2024-02-16 01:44:57-08 Mac-mini Installer Progress[100]: Quitting Progress App
+2024-02-16 01:44:57-08 Mac-mini Installer Progress[100]: Setting window alpha values to 0.0
+2024-02-16 01:45:08-08 Mac-mini SoftwareUpdateNotificationManager[616]: AssertionMgr: Take com.apple.softwareupdate.NotifyAgentAssertion-LoginDone assertion with type BackgroundTask for pid 616, id 0x8154
+2024-02-16 01:45:08-08 Mac-mini SoftwareUpdateNotificationManager[616]: SUOSUAuthenticationManager: Disabling local authentication requirement
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: Adding client SUUpdateServiceClient pid=616, uid=501, installAuth=NO rights=(), transactions=0 (/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager)
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: SUOSNotificationBundleHandler: Should notify? NO (Notification pending=0, bundle exists=0, mdmInitiatedNotificationBundleInstall=0)
+2024-02-16 01:45:08-08 Mac-mini SoftwareUpdateNotificationManager[616]: AssertionMgr: Cancel com.apple.softwareupdate.NotifyAgentAssertion-LoginDone assertion for pid 616, id 0x8154
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: Adding client SUUpdateServiceClient pid=616, uid=501, installAuth=NO rights=(), transactions=0 (/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager)
+2024-02-16 01:45:08-08 Mac-mini SoftwareUpdateNotificationManager[616]: SUOSUShimController: Last scan failed, should re-scan
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: Adding client SUUpdateServiceClient pid=616, uid=501, installAuth=NO rights=(), transactions=0 (/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager)
+2024-02-16 01:45:08-08 Mac-mini SoftwareUpdateNotificationManager[616]: Query for available updates: FINISHED
+2024-02-16 01:45:08-08 Mac-mini SoftwareUpdateNotificationManager[616]: Controller: currentPallasAudience - (null), shouldScan - 1, productKeysInActiveForegroundTransactions - 0, client = 2, shouldScanForClient: 0, foregroundScan: 0
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: SUOSUServiceDaemon: Adding client: SoftwareUpdateNotificationManager (type = sunm, pid = 616, uid = 501, path = /System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager)
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (null)
+2024-02-16 01:45:08-08 Mac-mini SoftwareUpdateNotificationManager[616]: Controller: Received startup notification; no need to set properties b/c updates didn't change
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (null)
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (null)
+2024-02-16 01:45:08-08 Mac-mini SoftwareUpdateNotificationManager[616]: SUOSUShimController: Armed: 0, with mode: 0, date: (null), updates queued for later: (
+	)
+2024-02-16 01:45:08-08 Mac-mini softwareupdated[267]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (null)
+2024-02-16 01:45:19-08 Mac-mini softwareupdate_firstrun_tasks[216]: BuildTagCache: Building tag cache if necessary using catalog host swscan.apple.com
+2024-02-16 01:45:19-08 Mac-mini softwareupdated[267]: Adding client SUUpdateServiceClient pid=216, uid=200, installAuth=NO rights=(), transactions=0 (/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdate_firstrun_tasks)
+2024-02-16 01:45:19-08 Mac-mini softwareupdated[267]: SUScan: Scan for client pid 267 (/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdated)
+2024-02-16 01:45:19-08 Mac-mini softwareupdated[267]: SUScan: Limited scan to build tag cache.
+2024-02-16 01:45:19-08 Mac-mini softwareupdated[267]: Got status 200
+2024-02-16 01:45:19-08 Mac-mini softwareupdated[267]: SUScan: Using catalog https://swscan.apple.com/content/catalogs/others/index-13-12-10.16-10.15-10.14-10.13-10.12-10.11-10.10-10.9-mountainlion-lion-snowleopard-leopard.merged-1.sucatalog.gz
+2024-02-16 01:45:19-08 Mac-mini softwareupdated[267]: Package Authoring: error running installation-check script: TypeError: null is not an object (evaluating 'system.ioregistry.fromPath('IODeviceTree:/rom\@0').version') at x-distribution:///installer-gui-script%5B1%5D/installation-check%5B1%5D/@script
+2024-02-16 01:45:20-08 Mac-mini softwareupdated[267]: JS: 13.6.4
+2024-02-16 01:45:21-08 Mac-mini softwareupdated[267]: PKDistributionHelperController: Connection to the service was invalidated.
+2024-02-16 01:45:21-08 Mac-mini softwareupdated[267]: Failed to get bridge device
+2024-02-16 01:45:21-08 Mac-mini softwareupdated[267]: Failed to get bridge device
+2024-02-16 01:45:25-08 Mac-mini softwareupdated[267]: SUScan: Elapsed scan time = 5.8
+2024-02-16 01:45:25-08 Mac-mini softwareupdated[267]: Completed build of tag cache
+2024-02-16 01:45:25-08 Mac-mini softwareupdate_firstrun_tasks[216]: BuildTagCache:  Finished
+2024-02-16 01:45:25-08 Mac-mini softwareupdate_firstrun_tasks[216]: Exitting, transaction count has reached 0.
+2024-02-16 01:45:25-08 Mac-mini softwareupdated[267]: Removing client SUUpdateServiceClient pid=216, uid=200, installAuth=NO rights=(), transactions=0 (/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdate_firstrun_tasks)
+2024-02-16 01:45:25-08 Mac-mini softwareupdated[267]: SUStatisticsManager: Successfully reported statistics for category 5
+2024-02-16 01:45:58-08 localhost Installer Progress[100]: Progress UI App Starting
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: softwareupdated: Starting with build 13.6.4 (22G513)
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: Initializing SoftwareUpdateMacController (SUMacControllerServer)
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: Initialized SoftwareUpdateMacController (SUMacControllerServer)
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: SUOSUAlarmObserver: Setting alarm event stream handler
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: SUOSUCustomTimeObserver: Setting alarm event stream handler
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: SUOSUAuthenticationManager: Disabling local authentication requirement
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: SUOSUServiceDaemon: Error reading /var/folders/zz/zyxvpxvq6csfxvn_n00000s0000068/C/softwareupdated/com.apple.OSUpdate.SUOSUServiceDaemon.state: Error Domain=NSCocoaErrorDomain Code=260 "The file “com.apple.OSUpdate.SUOSUServiceDaemon.state” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/var/folders/zz/zyxvpxvq6csfxvn_n00000s0000068/C/softwareupdated/com.apple.OSUpdate.SUOSUServiceDaemon.state, NSUnderlyingError=0x7ff12cb05220 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: SUOSUServiceDaemon: Use standard 6 hour auto update interval
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: authorizeWithEmptyAuthorizationForRights: Requesting provided rights: 1
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: /Library/Bundles does not exist - watching for directory creation
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: Previous System Version : 13.6.4 (22G513), Current System Version : 13.6.4 (22G513)
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: Adding client SUUpdateServiceClient pid=211, uid=0, installAuth=NO rights=(), transactions=0 (/usr/libexec/mobileassetd)
+2024-02-16 01:46:01-08 Mac-mini softwareupdated[239]: BackgroundActivity: Activity check-in with Interval 0 
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASGetCurrentInstallPhaseList: Unable to get phases
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASGetCurrentInstallPhase: Unable to get the current phase name
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: currentPhase = "(null)", phases = (null)
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Progress app is loading…
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Progress app is running with no progress set
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Progress app is running…
+2024-02-16 01:46:05-08 Mac-mini bootinstalld[384]: BootTimeInstall: Configuring sandbox...
+2024-02-16 01:46:05-08 Mac-mini bootinstalld[384]: BootTimeInstall: Sandbox successfully configured
+2024-02-16 01:46:05-08 Mac-mini bootinstalld[384]: Adding bootinstalld client (loginwindow (pid = 140, uid = 0, path = /System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow, connection remote object interface = <NSXPCInterface: 0x7fa634209a50>, exported interface = <NSXPCInterface: 0x7fa634208900>, remote object proxy = <__NSXPCInterfaceProxy_IASBootTimeInstallClientProtocol: 0x7fa63420a2a0>)), total: 1
+2024-02-16 01:46:05-08 Mac-mini bootinstalld[384]: BootTimeInstall: Client loginwindow[140]: Connected.
+2024-02-16 01:46:05-08 Mac-mini loginwindow[140]: isModernOS = 1
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASClearInstallProgress: Clearing Registry
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: currentPhase = "(null)", phases = (
+	    "<IASPPhase: 0x6000019920e0: 'IOKit Boot', percentage 10.5, delay 0>"
+	)
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "10.54688";
+	        InstallPhasePercentageKey = 11;
+	    }
+	)
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASSetCurrentInstallPhase: Current phase name set to "IOKit Boot"
+2024-02-16 01:46:05-08 Mac-mini loginwindow[140]: ISAP: Show progress UI called
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: currentPhase = "<IASPPhase: 0x6000019920e0: 'IOKit Boot', percentage 10.5, delay 0>", phases = (
+	    "<IASPPhase: 0x6000019920e0: 'IOKit Boot', percentage 10.5, delay 0>",
+	    "<IASPPhase: 0x600001991ca0: 'loginwindow Boot', percentage 89.5, delay -1>"
+	)
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "10.54688";
+	        InstallPhasePercentageKey = 11;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = "89.45312";
+	        InstallPhasePercentageKey = 89;
+	    }
+	)
+2024-02-16 01:46:05-08 Mac-mini loginwindow[140]: ISAP: Done with Phase "IOKit Boot"
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "3E44A695-0674-4D56-9543-AC5A3CB90F8C" =     {
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 140;
+	        UUID = "3E44A695-0674-4D56-9543-AC5A3CB90F8C";
+	    };
+	}
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "3E44A695-0674-4D56-9543-AC5A3CB90F8C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a81a40>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 140;
+	        UUID = "3E44A695-0674-4D56-9543-AC5A3CB90F8C";
+	    };
+	}
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "0BC46215-EDCB-4F98-B6F7-FB988517B2F7" =     {
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 140;
+	        UUID = "0BC46215-EDCB-4F98-B6F7-FB988517B2F7";
+	    };
+	    "3E44A695-0674-4D56-9543-AC5A3CB90F8C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a81a40>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 140;
+	        UUID = "3E44A695-0674-4D56-9543-AC5A3CB90F8C";
+	    };
+	}
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "0BC46215-EDCB-4F98-B6F7-FB988517B2F7" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a81ae0>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 140;
+	        UUID = "0BC46215-EDCB-4F98-B6F7-FB988517B2F7";
+	    };
+	    "3E44A695-0674-4D56-9543-AC5A3CB90F8C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a81a40>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 140;
+	        UUID = "3E44A695-0674-4D56-9543-AC5A3CB90F8C";
+	    };
+	}
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASGetCurrentInstallPhaseList: phases = (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "10.546875";
+	        InstallPhasePercentageKey = 11;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = "89.453125";
+	        InstallPhasePercentageKey = 89;
+	    }
+	)
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASGetCurrentInstallPhase: Current phase name is "IOKit Boot"
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: currentPhase = "<IASPPhase: 0x60000198bde0: 'IOKit Boot', percentage 10.5, delay 0>", phases = (
+	    "<IASPPhase: 0x60000198bde0: 'IOKit Boot', percentage 10.5, delay 0>",
+	    "<IASPPhase: 0x60000198bf80: 'loginwindow Boot', percentage 89.5, delay -1>"
+	)
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Showing Progress UI
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: There are 0 window(s) and 1 display(s), 1 window(s) will be added
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Created a window at {{0, 0}, {1024, 768}}
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Status is ""
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Alternate status is ""
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: no background for progress added because:
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]:        and / or NOT booting from EFI loginwindow
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Setting window alpha values to 1.0
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Ordering windows front
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Done with phase = "IOKit Boot"
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: IASSetCurrentInstallPhase: Current phase name set to "loginwindow Boot"
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "0BC46215-EDCB-4F98-B6F7-FB988517B2F7" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a81b30>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 140;
+	        UUID = "0BC46215-EDCB-4F98-B6F7-FB988517B2F7";
+	    };
+	    "3E44A695-0674-4D56-9543-AC5A3CB90F8C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a81a40>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 140;
+	        UUID = "3E44A695-0674-4D56-9543-AC5A3CB90F8C";
+	    };
+	}
+2024-02-16 01:46:05-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "3E44A695-0674-4D56-9543-AC5A3CB90F8C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a81a40>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 140;
+	        UUID = "3E44A695-0674-4D56-9543-AC5A3CB90F8C";
+	    };
+	}
+2024-02-16 01:46:08-08 Mac-mini loginwindow[140]: ISAP: Done with Phase "loginwindow Boot"
+2024-02-16 01:46:08-08 Mac-mini Installer Progress[100]: Done with phase = "loginwindow Boot"
+2024-02-16 01:46:08-08 Mac-mini Installer Progress[100]: IASClearInstallProgress: Clearing Registry
+2024-02-16 01:46:08-08 Mac-mini loginwindow[140]: ISAP: hide progress UI called
+2024-02-16 01:46:08-08 Mac-mini Installer Progress[100]: Hiding Progress UI
+2024-02-16 01:46:08-08 Mac-mini Installer Progress[100]: Setting window alpha values to 0.0
+2024-02-16 01:46:08-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "3E44A695-0674-4D56-9543-AC5A3CB90F8C" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003a993b0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 140;
+	        UUID = "3E44A695-0674-4D56-9543-AC5A3CB90F8C";
+	    };
+	}
+2024-02-16 01:46:08-08 Mac-mini Installer Progress[100]: Connected processes {
+	}
+2024-02-16 01:46:09-08 Mac-mini Installer Progress[100]: Ordering windows out
+2024-02-16 01:46:13-08 Mac-mini Installer Progress[100]: Quitting because there are no phases. There are no connected processes. The UI is not showing.
+2024-02-16 01:46:13-08 Mac-mini Installer Progress[100]: Quitting Progress App
+2024-02-16 01:46:13-08 Mac-mini Installer Progress[100]: Setting window alpha values to 0.0
+2024-02-16 01:46:22-08 Mac-mini SoftwareUpdateNotificationManager[616]: AssertionMgr: Take com.apple.softwareupdate.NotifyAgentAssertion-LoginDone assertion with type BackgroundTask for pid 616, id 0x814D
+2024-02-16 01:46:22-08 Mac-mini SoftwareUpdateNotificationManager[616]: SUOSUAuthenticationManager: Disabling local authentication requirement
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: Adding client SUUpdateServiceClient pid=616, uid=501, installAuth=NO rights=(), transactions=0 (/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager)
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: SUOSNotificationBundleHandler: Should notify? NO (Notification pending=0, bundle exists=0, mdmInitiatedNotificationBundleInstall=0)
+2024-02-16 01:46:22-08 Mac-mini SoftwareUpdateNotificationManager[616]: AssertionMgr: Cancel com.apple.softwareupdate.NotifyAgentAssertion-LoginDone assertion for pid 616, id 0x814D
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: Adding client SUUpdateServiceClient pid=616, uid=501, installAuth=NO rights=(), transactions=0 (/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager)
+2024-02-16 01:46:22-08 Mac-mini SoftwareUpdateNotificationManager[616]: SUOSUShimController: Last scan failed, should re-scan
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: Adding client SUUpdateServiceClient pid=616, uid=501, installAuth=NO rights=(), transactions=0 (/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager)
+2024-02-16 01:46:22-08 Mac-mini SoftwareUpdateNotificationManager[616]: Query for available updates: FINISHED
+2024-02-16 01:46:22-08 Mac-mini SoftwareUpdateNotificationManager[616]: Controller: currentPallasAudience - (null), shouldScan - 1, productKeysInActiveForegroundTransactions - 0, client = 2, shouldScanForClient: 0, foregroundScan: 0
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: SUOSUServiceDaemon: Adding client: SoftwareUpdateNotificationManager (type = sunm, pid = 616, uid = 501, path = /System/Library/PrivateFrameworks/SoftwareUpdate.framework/Versions/A/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager)
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (null)
+2024-02-16 01:46:22-08 Mac-mini SoftwareUpdateNotificationManager[616]: Controller: Received startup notification; no need to set properties b/c updates didn't change
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (null)
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (null)
+2024-02-16 01:46:22-08 Mac-mini softwareupdated[239]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (null)
+2024-02-16 01:46:22-08 Mac-mini SoftwareUpdateNotificationManager[616]: SUOSUShimController: Armed: 0, with mode: 0, date: (null), updates queued for later: (
+	)
+2024-02-16 01:47:08-08 localhost Installer Progress[100]: Progress UI App Starting
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: softwareupdated: Starting with build 13.6.4 (22G513)
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: Initializing SoftwareUpdateMacController (SUMacControllerServer)
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: Initialized SoftwareUpdateMacController (SUMacControllerServer)
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: SUOSUAlarmObserver: Setting alarm event stream handler
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: SUOSUCustomTimeObserver: Setting alarm event stream handler
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: SUOSUAuthenticationManager: Disabling local authentication requirement
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: SUOSUServiceDaemon: Error reading /var/folders/zz/zyxvpxvq6csfxvn_n00000s0000068/C/softwareupdated/com.apple.OSUpdate.SUOSUServiceDaemon.state: Error Domain=NSCocoaErrorDomain Code=260 "The file “com.apple.OSUpdate.SUOSUServiceDaemon.state” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/var/folders/zz/zyxvpxvq6csfxvn_n00000s0000068/C/softwareupdated/com.apple.OSUpdate.SUOSUServiceDaemon.state, NSUnderlyingError=0x7fdfa8907c90 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: SUOSUServiceDaemon: Use standard 6 hour auto update interval
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: authorizeWithEmptyAuthorizationForRights: Requesting provided rights: 1
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: /Library/Bundles does not exist - watching for directory creation
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: Previous System Version : 13.6.4 (22G513), Current System Version : 13.6.4 (22G513)
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: Adding client SUUpdateServiceClient pid=210, uid=0, installAuth=NO rights=(), transactions=0 (/usr/libexec/mobileassetd)
+2024-02-16 01:47:11-08 Mac-mini softwareupdated[241]: BackgroundActivity: Activity check-in with Interval 0 
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: IASGetCurrentInstallPhaseList: Unable to get phases
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: IASGetCurrentInstallPhase: Unable to get the current phase name
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: currentPhase = "(null)", phases = (null)
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Progress app is loading…
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Progress app is running with no progress set
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Progress app is running…
+2024-02-16 01:47:15-08 Mac-mini bootinstalld[382]: BootTimeInstall: Configuring sandbox...
+2024-02-16 01:47:15-08 Mac-mini bootinstalld[382]: BootTimeInstall: Sandbox successfully configured
+2024-02-16 01:47:15-08 Mac-mini bootinstalld[382]: Adding bootinstalld client (loginwindow (pid = 141, uid = 0, path = /System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow, connection remote object interface = <NSXPCInterface: 0x7fd19a108da0>, exported interface = <NSXPCInterface: 0x7fd19a107380>, remote object proxy = <__NSXPCInterfaceProxy_IASBootTimeInstallClientProtocol: 0x7fd19a1095f0>)), total: 1
+2024-02-16 01:47:15-08 Mac-mini bootinstalld[382]: BootTimeInstall: Client loginwindow[141]: Connected.
+2024-02-16 01:47:15-08 Mac-mini loginwindow[141]: isModernOS = 1
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: IASClearInstallProgress: Clearing Registry
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: currentPhase = "(null)", phases = (
+	    "<IASPPhase: 0x600001a17b00: 'IOKit Boot', percentage 9.8, delay 0>"
+	)
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "9.765625";
+	        InstallPhasePercentageKey = 10;
+	    }
+	)
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: IASSetCurrentInstallPhase: Current phase name set to "IOKit Boot"
+2024-02-16 01:47:15-08 Mac-mini loginwindow[141]: ISAP: Show progress UI called
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: currentPhase = "<IASPPhase: 0x600001a17b00: 'IOKit Boot', percentage 9.8, delay 0>", phases = (
+	    "<IASPPhase: 0x600001a17b00: 'IOKit Boot', percentage 9.8, delay 0>",
+	    "<IASPPhase: 0x600001a164a0: 'loginwindow Boot', percentage 90.2, delay -1>"
+	)
+2024-02-16 01:47:15-08 Mac-mini loginwindow[141]: ISAP: Done with Phase "IOKit Boot"
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "9.765625";
+	        InstallPhasePercentageKey = 10;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = "90.23438";
+	        InstallPhasePercentageKey = 90;
+	    }
+	)
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "C68CA713-6252-4C1B-A743-B2BE4F9303DF" =     {
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 141;
+	        UUID = "C68CA713-6252-4C1B-A743-B2BE4F9303DF";
+	    };
+	}
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "C68CA713-6252-4C1B-A743-B2BE4F9303DF" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003918d20>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 141;
+	        UUID = "C68CA713-6252-4C1B-A743-B2BE4F9303DF";
+	    };
+	}
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "52A07017-B7CF-44D8-8E00-7AC7AFB27AAA" =     {
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 141;
+	        UUID = "52A07017-B7CF-44D8-8E00-7AC7AFB27AAA";
+	    };
+	    "C68CA713-6252-4C1B-A743-B2BE4F9303DF" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003918d20>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 141;
+	        UUID = "C68CA713-6252-4C1B-A743-B2BE4F9303DF";
+	    };
+	}
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Connected processes {
+	    "52A07017-B7CF-44D8-8E00-7AC7AFB27AAA" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x60000391d360>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 141;
+	        UUID = "52A07017-B7CF-44D8-8E00-7AC7AFB27AAA";
+	    };
+	    "C68CA713-6252-4C1B-A743-B2BE4F9303DF" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600003918d20>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 141;
+	        UUID = "C68CA713-6252-4C1B-A743-B2BE4F9303DF";
+	    };
+	}
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: IASGetCurrentInstallPhaseList: phases = (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = "9.765625";
+	        InstallPhasePercentageKey = 10;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = "90.234375";
+	        InstallPhasePercentageKey = 90;
+	    }
+	)
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: IASGetCurrentInstallPhase: Current phase name is "IOKit Boot"
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: currentPhase = "<IASPPhase: 0x600001a01ca0: 'IOKit Boot', percentage 9.8, delay 0>", phases = (
+	    "<IASPPhase: 0x600001a01ca0: 'IOKit Boot', percentage 9.8, delay 0>",
+	    "<IASPPhase: 0x600001a01d60: 'loginwindow Boot', percentage 90.2, delay -1>"
+	)
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Showing Progress UI
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: There are 0 window(s) and 1 display(s), 1 window(s) will be added
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Created a window at {{0, 0}, {1024, 768}}
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Status is ""
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Alternate status is ""
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: no background for progress added because:
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]:        and / or NOT booting from EFI loginwindow
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Setting window alpha values to 1.0
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Ordering windows front
+2024-02-16 01:47:15-08 Mac-mini Installer Progress[100]: Done with phase = "IOKit Boot"
+
+2024-02-16 01:50:10-08 Mac-mini softwareupdate[643]: SUOSUAuthenticationManager: Disabling local authentication requirement
+2024-02-16 01:50:10-08 Mac-mini softwareupdate[643]: CLI invoked by parent pid 642 (/usr/sbin/sshd) with arguments: (
+	    "/usr/sbin/softwareupdate",
+	    "--history"
+	)
+2024-02-16 01:50:10-08 Mac-mini softwareupdated[309]: Adding client SUUpdateServiceClient pid=643, uid=501, installAuth=NO rights=(), transactions=0 (/usr/sbin/softwareupdate)
+2024-02-16 01:50:10-08 Mac-mini softwareupdate[643]: SUOSUAuthenticationManager: Disabling local authentication requirement
+2024-02-16 01:50:10-08 Mac-mini softwareupdated[309]: SUOSUServiceDaemon: Adding client: softwareupdate (type = generic, pid = 643, uid = 501, path = /usr/sbin/softwareupdate)
+2024-02-16 01:50:10-08 Mac-mini softwareupdated[309]: SUOSUServiceDaemon: availableMobileSoftwareUpdates = (
+	    "<SUOSUProduct: MSU_UPDATE_23D60_patch_14.3.1_major>"
+	)
+2024-02-16 01:50:10-08 Mac-mini softwareupdated[309]: Adding client SUUpdateServiceClient pid=643, uid=501, installAuth=NO rights=(), transactions=0 (/usr/sbin/softwareupdate)
+2024-02-16 01:50:10-08 Mac-mini softwareupdated[309]: Removing client SUUpdateServiceClient pid=643, uid=501, installAuth=NO rights=(), transactions=0 (/usr/sbin/softwareupdate)
+2024-02-16 01:50:10-08 Mac-mini softwareupdated[309]: SUOSUServiceDaemon: Removing client: softwareupdate (type = generic, pid = 643, uid = 501, path = /usr/sbin/softwareupdate)
+2024-02-16 01:50:10-08 Mac-mini softwareupdated[309]: Removing client SUUpdateServiceClient pid=643, uid=501, installAuth=NO rights=(), transactions=0 (/usr/sbin/softwareupdate)
+2024-02-19 13:03:08-08 localhost Installer Progress[102]: Progress UI App Starting
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: softwareupdated: Starting with build 13.6.4 (22G513)
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: Initializing SoftwareUpdateMacController (SUMacControllerServer)
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: Initialized SoftwareUpdateMacController (SUMacControllerServer)
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: SUOSUAlarmObserver: Setting alarm event stream handler
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: SUOSUCustomTimeObserver: Setting alarm event stream handler
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: SUOSUAuthenticationManager: Disabling local authentication requirement
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: SUOSUServiceDaemon: Error reading /var/folders/zz/zyxvpxvq6csfxvn_n00000s0000068/C/softwareupdated/com.apple.OSUpdate.SUOSUServiceDaemon.state: Error Domain=NSCocoaErrorDomain Code=260 "The file “com.apple.OSUpdate.SUOSUServiceDaemon.state” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/var/folders/zz/zyxvpxvq6csfxvn_n00000s0000068/C/softwareupdated/com.apple.OSUpdate.SUOSUServiceDaemon.state, NSUnderlyingError=0x7fe4e40099f0 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: SUOSUServiceDaemon: Use standard 6 hour auto update interval
+2024-02-19 13:03:11-08 Mac-mini softwareupdated[242]: authorizeWithEmptyAuthorizationForRights: Requesting provided rights: 1
+
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: Releasing mount hold on Recovery Volume
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: This Preboot Volume pre-existed and was mounted, so we will leave it mounted
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: This Recovery Volume pre-existed but was not mounted, so we will unmount it
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: Did best-effort unmount of Recovery Volume err=0
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: Not detaching Base System disk image because it was not given
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: Not detaching Diagnostics disk image because it was not given
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: Did best-effort unmount and detach source images as needed to restore previous dmg states
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: MountedVolumesCount=9 List=0x7fc9ab39fcc0={ disk1s5s1 disk1s2 disk1s4 disk1s6 disk1s1 disk3s1 disk5s1 disk7s1 disk9s1 }={ 0x7fc9ab39ee40 0x7fc9ab33dc00 0x7fc9ab39ef20 0x7fc9ab39f0e0 0x7fc9ab39f2c0 0x7fc9ab39f610 0x7fc9ab39f7d0 0x7fc9ab39f9d0 0x7fc9ab39fbd0 }=0x7fc9ab39fd20={ / /System/Volumes/Preboot /System/Volumes/VM /System/Volumes/Update /System/Volumes/Data /Library/Developer/CoreSimulator/Volumes/tvOS_20K67 /Library/Developer/CoreSimulator/Volumes/watchOS_20S75 /Library/Developer/CoreSimulator/Volumes/tvOS_20L494 /Library/Developer/CoreSimulator/Volumes/watchOS_20T253 } err=0
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: Releasing memory
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: Preboot: EnsureRecoveryBooter: Exiting operations
+2024-02-19 22:24:07+00 Mac-mini system_installd[48286]: PackageKit: ensureRecoveryBooter succeeded
+2024-02-19 22:24:07+00 Mac-mini install_monitor[49139]: Re-included: /Applications, /Library, /System, /bin, /private, /sbin, /usr
+2024-02-19 22:24:08+00 Mac-mini system_installd[48286]: PackageKit: releasing backupd
+2024-02-19 22:24:08+00 Mac-mini system_installd[48286]: PackageKit: allow user idle system sleep
+2024-02-19 22:24:08+00 Mac-mini system_installd[48286]: PackageKit: ----- End install -----
+2024-02-19 22:24:08+00 Mac-mini system_installd[48286]: PackageKit: 39.1s elapsed install time
+2024-02-19 22:24:08+00 Mac-mini system_installd[48286]: PackageKit: Cleared responsibility for install from 49137.
+2024-02-19 22:24:08+00 Mac-mini system_installd[48286]: PackageKit: Running idle tasks
+2024-02-19 22:24:08+00 Mac-mini system_installd[48286]: PackageKit: Done with sandbox removals
+2024-02-19 22:24:08+00 Mac-mini xcodebuild[49137]: PackageKit: Registered bundle file:///Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/AppleMobileDeviceHelper.app/ for uid 0
+2024-02-19 22:24:08+00 Mac-mini xcodebuild[49137]: PackageKit: Registered bundle file:///Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/AppleMobileSync.app/ for uid 0
+2024-02-19 22:24:08+00 Mac-mini xcodebuild[49137]: PackageKit: Registered bundle file:///Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/MobileDeviceUpdater.app/ for uid 0
+
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: Set responsibility to pid: 486, responsible_path: /Library/Application Support/Veertu/Anka/addons/ankarund
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: Hosted team responsibility for script set to team:(BMM5U3QVKW)
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: PackageKit: Executing script "postinstall" in /tmp/PKInstallSandbox.i553sy/Scripts/org.python.Python.PythonDocumentation-3.12.HaTIR1
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: PackageKit: Hosted team responsible for script has been cleared.
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: Responsibility set back to self.
+2024-02-19 23:27:05+00 Mac-mini installd[26814]: PackageKit (package_script_service): Preparing to execute script "./postinstall" in /private/tmp/PKInstallSandbox.i553sy/Scripts/org.python.Python.PythonProfileChanges-3.12.eguxzB
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: PackageKit: Preparing to execute script "postinstall" in /tmp/PKInstallSandbox.i553sy/Scripts/org.python.Python.PythonProfileChanges-3.12.eguxzB
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: Set responsibility to pid: 486, responsible_path: /Library/Application Support/Veertu/Anka/addons/ankarund
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: Hosted team responsibility for script set to team:(BMM5U3QVKW)
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: PackageKit: Executing script "postinstall" in /tmp/PKInstallSandbox.i553sy/Scripts/org.python.Python.PythonProfileChanges-3.12.eguxzB
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: ./postinstall: This script will update your shell profile when the 'bin' directory
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: ./postinstall: of python is not early enough of the PATH of your shell.
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: ./postinstall: These changes will be effective only in shell windows that you open
+2024-02-19 23:27:05+00 Mac-mini package_script_service[26817]: ./postinstall: after running this script.
+2024-02-19 23:27:06+00 Mac-mini package_script_service[26817]: ./postinstall: Sorry, I don't know how to patch false shells
+2024-02-19 23:27:06+00 Mac-mini package_script_service[26817]: PackageKit: Hosted team responsible for script has been cleared.
+2024-02-19 23:27:06+00 Mac-mini package_script_service[26817]: Responsibility set back to self.
+2024-02-19 23:27:06+00 Mac-mini installd[26814]: PackageKit (package_script_service): Preparing to execute script "./postinstall" in /private/tmp/PKInstallSandbox.i553sy/Scripts/org.python.Python.PythonInstallPip-3.12.MIVr6E
+2024-02-19 23:27:06+00 Mac-mini package_script_service[26817]: PackageKit: Preparing to execute script "postinstall" in /tmp/PKInstallSandbox.i553sy/Scripts/org.python.Python.PythonInstallPip-3.12.MIVr6E
+2024-02-19 23:27:06+00 Mac-mini package_script_service[26817]: Set responsibility to pid: 486, responsible_path: /Library/Application Support/Veertu/Anka/addons/ankarund
+2024-02-19 23:27:06+00 Mac-mini package_script_service[26817]: Hosted team responsibility for script set to team:(BMM5U3QVKW)
+2024-02-19 23:27:06+00 Mac-mini package_script_service[26817]: PackageKit: Executing script "postinstall" in /tmp/PKInstallSandbox.i553sy/Scripts/org.python.Python.PythonInstallPip-3.12.MIVr6E
+2024-02-19 23:27:09+00 Mac-mini package_script_service[26817]: ./postinstall: Looking in links: /private/tmp/PKInstallSandbox.i553sy/tmp/tmpiwnw1qh2
+2024-02-19 23:27:09+00 Mac-mini package_script_service[26817]: ./postinstall: Processing /private/tmp/PKInstallSandbox.i553sy/tmp/tmpiwnw1qh2/pip-24.0-py3-none-any.whl
+2024-02-19 23:27:09+00 Mac-mini package_script_service[26817]: ./postinstall: Installing collected packages: pip
+2024-02-19 23:27:11+00 Mac-mini package_script_service[26817]: ./postinstall: Successfully installed pip-24.0
+2024-02-19 23:27:11+00 Mac-mini package_script_service[26817]: ./postinstall: WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+2024-02-19 23:27:12+00 Mac-mini package_script_service[26817]: PackageKit: Hosted team responsible for script has been cleared.
+2024-02-19 23:27:12+00 Mac-mini package_script_service[26817]: Responsibility set back to self.
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: PackageKit: Writing receipt for org.python.Python.PythonFramework-3.12 to /
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: PackageKit: Writing receipt for org.python.Python.PythonApplications-3.12 to /
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: PackageKit: Writing receipt for org.python.Python.PythonUnixTools-3.12 to /
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: PackageKit: Writing receipt for org.python.Python.PythonDocumentation-3.12 to /
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: PackageKit: Touched bundle /Library/Frameworks/Python.framework/Versions/3.12/Resources/Python.app
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: PackageKit: Touched bundle /Applications/Python 3.12/Python Launcher.app
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: PackageKit: Touched bundle /Applications/Python 3.12/IDLE.app
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: Installed "Python" ()
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: Successfully wrote install history to /Library/Receipts/InstallHistory.plist
+2024-02-19 23:27:13+00 Mac-mini install_monitor[44700]: Re-included: /Applications, /Library, /System, /bin, /private, /sbin, /usr
+2024-02-19 23:27:13+00 Mac-mini installd[26814]: PackageKit: releasing backupd
+
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: IASGetCurrentInstallPhaseList: phases = (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "IOKit Boot";
+	        InstallPhaseActualPercentageKey = 1;
+	        InstallPhasePercentageKey = 1;
+	    },
+	        {
+	        ConclusionDelay = "-1";
+	        InstallPhase = "loginwindow Boot";
+	        InstallPhaseActualPercentageKey = 99;
+	        InstallPhasePercentageKey = 99;
+	    }
+	)
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: IASGetCurrentInstallPhase: Current phase name is "IOKit Boot"
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: currentPhase = "<IASPPhase: 0x60000002bac0: 'IOKit Boot', percentage 1.0, delay 0>", phases = (
+	    "<IASPPhase: 0x60000002bac0: 'IOKit Boot', percentage 1.0, delay 0>",
+	    "<IASPPhase: 0x60000002bae0: 'loginwindow Boot', percentage 99.0, delay -1>"
+	)
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Showing Progress UI
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: There are 0 window(s) and 1 display(s), 1 window(s) will be added
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Created a window at {{0, 0}, {1920, 1080}}
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Status is ""
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Alternate status is ""
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: no background for progress added because:
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]:        and / or NOT booting from EFI loginwindow
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Setting window alpha values to 1.0
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Ordering windows front
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Done with phase = "IOKit Boot"
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: IASSetCurrentInstallPhase: Current phase name set to "loginwindow Boot"
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Connected processes {
+	    "54943660-A954-4134-9DA9-D5A4E130A043" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002321e50>";
+	        "Phase Name" = "IOKit Boot";
+	        "Process ID" = 163;
+	        UUID = "54943660-A954-4134-9DA9-D5A4E130A043";
+	    };
+	    "B16744FC-352D-42E1-98CB-5250AE063165" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002321bd0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 163;
+	        UUID = "B16744FC-352D-42E1-98CB-5250AE063165";
+	    };
+	}
+2024-03-05 15:34:41+00 Mac-mini Installer Progress[104]: Connected processes {
+	    "B16744FC-352D-42E1-98CB-5250AE063165" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x600002321bd0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 163;
+	        UUID = "B16744FC-352D-42E1-98CB-5250AE063165";
+	    };
+	}
+2024-03-05 15:34:45+00 Mac-mini loginwindow[163]: ISAP: Done with Phase "loginwindow Boot"
+2024-03-05 15:34:45+00 Mac-mini Installer Progress[104]: Done with phase = "loginwindow Boot"
+2024-03-05 15:34:45+00 Mac-mini Installer Progress[104]: IASClearInstallProgress: Clearing Registry
+2024-03-05 15:34:45+00 Mac-mini loginwindow[163]: ISAP: hide progress UI called
+2024-03-05 15:34:45+00 Mac-mini Installer Progress[104]: Hiding Progress UI
+2024-03-05 15:34:45+00 Mac-mini Installer Progress[104]: Setting window alpha values to 0.0
+2024-03-05 15:34:45+00 Mac-mini Installer Progress[104]: Connected processes {
+	    "B16744FC-352D-42E1-98CB-5250AE063165" =     {
+	        CompletionHandlerKey = "<__NSMallocBlock__: 0x6000023343c0>";
+	        "Phase Name" = "loginwindow Boot";
+	        "Process ID" = 163;
+	        UUID = "B16744FC-352D-42E1-98CB-5250AE063165";
+	    };
+	}
+2024-03-05 15:34:45+00 Mac-mini Installer Progress[104]: Connected processes {
+	}
+2024-03-05 15:34:46+00 Mac-mini Installer Progress[104]: Ordering windows out
+2024-03-05 15:34:50+00 Mac-mini Installer Progress[104]: Quitting because there are no phases. There are no connected processes. The UI is not showing.
+2024-03-05 15:34:50+00 Mac-mini Installer Progress[104]: Quitting Progress App
+2024-03-05 15:34:50+00 Mac-mini Installer Progress[104]: Setting window alpha values to 0.0
+
+2024-03-24 19:11:49+00 Mac-1709652898145 Installer Progress[104]: IASGetCurrentInstallPhase: Current phase name is "IOKit Boot"
+2024-03-24 19:11:49+00 Mac-1709652898145 Installer Progress[104]: currentPhase = "<IASPPhase: 0x600000d7e400: 'IOKit Boot', percentage 1.0, delay 0>", phases = (
+	    "<IASPPhase: 0x600000d7e400: 'IOKit Boot', percentage 1.0, delay 0>",
+	    "<IASPPhase: 0x600000d7e460: 'loginwindow Boot', percentage 99.0, delay -1>"
+	)
+2024-03-24 19:11:49+00 Mac-1709652898145 Installer Progress[104]: Showing Progress UI
+2024-03-24 19:11:49+00 Mac-1709652898145 Installer Progress[104]: There are 0 window(s) and 1 display(s), 1 window(s) will be added
+2024-03-24 19:11:49+00 Mac-1709652898145 Installer Progress[104]: Created a window at {{0, 0}, {1920, 1080}}
+2024-03-24 19:11:49+00 Mac-1709652898145 Installer Progress[104]: Status is ""
+2024-03-24 19:11:49+00 Mac-1709652898145 Installer Progress[104]: Alternate status is ""
+
+2024-03-24 19:22:52+00 Mac-1711307523621 softwareupdated[237]: SUOSUServiceDaemon: Removing client: accessoryupdaterd (type = external, pid = 2883, uid = 278, path = /System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/Support/accessoryupdaterd)
+2024-03-24 19:22:52+00 Mac-1711307523621 softwareupdated[237]: SUOSUServiceDaemon: Removing client: UARPUpdaterServiceDisplay (type = external, pid = 2886, uid = 278, path = /System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/XPCServices/UARPUpdaterServiceDisplay.xpc/Contents/MacOS/UARPUpdaterServiceDisplay)
+2024-03-24 19:22:52+00 Mac-1711307523621 softwareupdated[237]: Removing client SUUpdateServiceClient pid=2886, uid=278, installAuth=NO rights=(), transactions=0 (/System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/XPCServices/UARPUpdaterServiceDisplay.xpc/Contents/MacOS/UARPUpdaterServiceDisplay)

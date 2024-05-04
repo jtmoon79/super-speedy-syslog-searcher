@@ -1,0 +1,22 @@
+2024-02-19 23:21:04 [Apple Installer - preinstall] <Info> Edge Preinstall Script Start
+2024-02-19 23:21:04 [Apple Installer - preinstall] <Info> Sending event.
+2024-02-19 23:21:04 [Apple Installer - preinstall] <Info> Channel 4
+2024-02-19 23:21:04 [Apple Installer - preinstall] <Info> Edge Preinstall Script End
+2024-02-19 23:21:04 [Apple Installer - postinstall] <Info> Edge Postinstall Script Start
+2024-02-19 23:21:04 [Apple Installer - postinstall] <Info> We are installing Stable Channel
+2024-02-19 23:21:05 [Apple Installer - postinstall] <Info> Installing EdgeUpdater as system
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Current Active EdgeUpdater version
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> 118.0.2088.86
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Registering browser to updater
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Calling '/Library/Application Support/Microsoft/EdgeUpdater/Current/EdgeUpdater.app/Contents/MacOS/EdgeUpdater --register --app-id=msedge-stable --browser-ecp=/Applications/Microsoft Edge.app --browser-version=121.0.2277.128 --system'
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> 
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> There was an issue in parsing the url by '_.%' delimiter.
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> User data folder does not exist.
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Sending event.
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> 121.0.2277.128
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> com.microsoft.edgemac
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Microsoft Edge
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Channel 4
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Product Type: x64
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Notifying launch services
+2024-02-19 23:21:07 [Apple Installer - postinstall] <Info> Edge Postinstall Script End

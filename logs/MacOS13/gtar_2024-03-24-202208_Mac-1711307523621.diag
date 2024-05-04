@@ -1,0 +1,80 @@
+Date/Time:        2024-03-24 19:11:53.134 +0000
+End time:         2024-03-24 20:22:08.275 +0000
+OS Version:       macOS 13.6.4 (Build 22G513)
+Architecture:     x86_64h
+Report Version:   40
+Incident Identifier: E1235F08-931B-4986-89DA-0817E9E9E145
+
+Data Source:      Microstackshots
+Shared Cache:     7FE9478F-8955-356C-AC51-5C6FFC253B95 slid base address 0x7ff813a57000, slide 0x13a57000
+
+Command:          gtar
+Path:             /usr/local/Cellar/gnu-tar/1.35/bin/gtar
+Resource Coalition ID: 461
+Architecture:     x86_64
+Parent:           UNKNOWN [8142]
+PID:              9015
+
+Event:            disk writes
+Action taken:     none
+Writes:           2147.49 MB of file backed memory dirtied over 4215 seconds (509.47 KB per second average), exceeding limit of 24.86 KB per second over 86400 seconds
+Writes limit:     2147.48 MB
+Limit duration:   86400s
+Writes caused:    2147.49 MB
+Writes duration:  4215s
+Duration:         4215.14s
+Duration Sampled: 6.93s
+Steps:            82 (10.49 MB/step)
+
+Hardware model:   Macmini6,2
+Active cpus:      4
+HW page size:     4096
+VM page size:     4096
+Boot args:        preempt=10
+
+Advisory levels:  Battery -> 3, User -> 2, ThermalPressure -> 0, Combined -> 2
+Free disk space:  151.79 GB/299.68 GB, low space threshold 3072 MB
+Vnodes Available: 12.02% (27694/230400)
+
+Preferred User Language: en-US
+Country Code:     US
+OS Cryptex File Extents: 1
+
+Heaviest stack for the target process:
+  82  start + 1903 (dyld + 25631) [0x7ff813af541f]
+  82  main + 3478 (gtar + 123969) [0x104002441]
+  82  read_and + 958 (gtar + 80995) [0x103ff7c63]
+  82  extract_archive + 937 (gtar + 49868) [0x103ff02cc]
+  82  extract_file + 445 (gtar + 54161) [0x103ff1391]
+  82  blocking_write + 25 (gtar + 95562) [0x103ffb54a]
+  82  full_write + 42 (gtar + 201933) [0x1040154cd]
+  82  write + 10 (libsystem_kernel.dylib + 17146) [0x7ff813e132fa]
+
+
+Powerstats for:   gtar [9015]
+UUID:             72DD87E2-99A2-309D-BD02-264CADE47FA7
+Path:             /usr/local/Cellar/gnu-tar/1.35/bin/gtar
+Resource Coalition ID: 461
+Architecture:     x86_64
+Parent:           UNKNOWN [8142]
+UID:              501
+Footprint:        716 KB -> 892 KB (+176 KB)
+Start time:       2024-03-24 20:22:01.325 +0000
+End time:         2024-03-24 20:22:08.259 +0000
+Num samples:      82 (100%)
+Primary state:    82 samples Non-Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS Utility, Requested Thread QoS Utility, Override Thread QoS Unspecified
+User Activity:    82 samples Idle, 0 samples Active
+Power Source:     0 samples on Battery, 82 samples on AC
+  82  start + 1903 (dyld + 25631) [0x7ff813af541f]
+    82  main + 3478 (gtar + 123969) [0x104002441]
+      82  read_and + 958 (gtar + 80995) [0x103ff7c63]
+        82  extract_archive + 937 (gtar + 49868) [0x103ff02cc]
+          82  extract_file + 445 (gtar + 54161) [0x103ff1391]
+            82  blocking_write + 25 (gtar + 95562) [0x103ffb54a]
+              82  full_write + 42 (gtar + 201933) [0x1040154cd]
+                82  write + 10 (libsystem_kernel.dylib + 17146) [0x7ff813e132fa]
+
+  Binary Images:
+           0x103fe4000 -        0x104043fff  gtar (0)                                  <72DD87E2-99A2-309D-BD02-264CADE47FA7>  /usr/local/Cellar/gnu-tar/1.35/bin/gtar
+        0x7ff813aef000 -     0x7ff813b875ef  dyld (1066.10)                            <8678E5E0-2643-3C19-8D09-B66E9040182C>  /usr/lib/dyld
+        0x7ff813e0f000 -     0x7ff813e48fff  libsystem_kernel.dylib (8796.141.3.703.2) <32A5F9A6-E115-35CA-A4A6-ABEE9EBFC910>  /usr/lib/system/libsystem_kernel.dylib

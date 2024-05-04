@@ -1,0 +1,12 @@
+2024-02-19 21:25:15 +0000
+
+/usr/local/Cellar/python@3.12/3.12.2/bin/python3.12
+-Im
+ensurepip
+
+Looking in links: /private/tmp/tmpxln2uvxt
+Processing /private/tmp/tmpxln2uvxt/pip-24.0-py3-none-any.whl
+Installing collected packages: pip
+  WARNING: The scripts pip3 and pip3.12 are installed in '/usr/local/opt/python@3.12/Frameworks/Python.framework/Versions/3.12/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed pip-24.0

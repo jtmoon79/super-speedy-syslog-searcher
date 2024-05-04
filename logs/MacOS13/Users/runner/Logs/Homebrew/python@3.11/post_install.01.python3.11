@@ -1,0 +1,13 @@
+2024-02-19 21:24:40 +0000
+
+/usr/local/Cellar/python@3.11/3.11.7_1/bin/python3.11
+-Im
+ensurepip
+
+Looking in links: /private/tmp/tmpnnewlrs8
+Processing /private/tmp/tmpnnewlrs8/setuptools-69.0.2-py3-none-any.whl
+Processing /private/tmp/tmpnnewlrs8/pip-23.3.1-py3-none-any.whl
+Installing collected packages: setuptools, pip
+  WARNING: The scripts pip3 and pip3.11 are installed in '/usr/local/opt/python@3.11/Frameworks/Python.framework/Versions/3.11/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed pip-23.3.1 setuptools-69.0.2

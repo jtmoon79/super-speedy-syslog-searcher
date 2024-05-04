@@ -1,0 +1,345 @@
+Feb 19 22:17:16 Mac-mini CoreSimulatorService[48362] <Notice>: com.apple.CoreSimulator.CoreSimulatorService 857.13 starting.
+Feb 19 22:17:17 Mac-mini CoreSimulatorService[48362] <Warning>: Device BEAA83E0-F1CD-4D1F-ACBC-28F6EBEF133C encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:17:17 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 22:17:17 Mac-mini CoreSimulatorService[48362] <Warning>: Device 25FBDFF7-A10A-4581-9745-DCF2136B8541 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:17:17 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 22:17:17 Mac-mini CoreSimulatorService[48362] <Warning>: Device A1AD8383-98A5-40A0-B6AF-3EEDD92319F9 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:17:17 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1
+Feb 19 22:17:17 Mac-mini CoreSimulatorService[48362] <Warning>: Device B793CA07-7C1B-432C-8678-8BE116A011DE encountered in creation state at launch.  The device will be re-created.
+
+Feb 19 22:17:17 Mac-mini CoreSimulatorService[48362] <Warning>: Unable to locate a suitable watch runtime for phone=iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1, wanted watch=(null)
+Feb 19 22:17:17 Mac-mini com.apple.dt.xcodebuild[48360] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 22:17:17 Mac-mini com.apple.dt.xcodebuild[48360] <Warning>: Found duplicate SDKs for iphoneos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 22:17:17 Mac-mini com.apple.dt.xcodebuild[48360] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 22:18:40 Mac-mini CoreSimulatorService[48362] <Warning>: Device 8F66C230-EE2F-4A49-898F-E0EBC37919E8 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:18:40 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for tvOS 16.1 (16.1 - 20K67) - com.apple.CoreSimulator.SimRuntime.tvOS-16-1
+Feb 19 22:18:40 Mac-mini CoreSimulatorService[48362] <Warning>: Device DACE83D9-C132-408D-839A-660A0125C7A0 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:18:40 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for tvOS 16.1 (16.1 - 20K67) - com.apple.CoreSimulator.SimRuntime.tvOS-16-1
+Feb 19 22:18:40 Mac-mini CoreSimulatorService[48362] <Warning>: Device 8C2D07EC-B4F0-47C1-8812-5B33F9FF2E07 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:18:40 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for tvOS 16.1 (16.1 - 20K67) - com.apple.CoreSimulator.SimRuntime.tvOS-16-1
+Feb 19 22:18:40 Mac-mini CoreSimulatorService[48362] <Warning>: Unable to locate a suitable watch runtime for phone=iOS 16.1 (16.1 - 20B72) - com.apple.CoreSimulator.SimRuntime.iOS-16-1, wanted watch=(null)
+Feb 19 22:19:54 Mac-mini CoreSimulatorService[48362] <Warning>: Device C7858656-1A22-424C-966B-1438708E5022 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:19:55 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 22:19:55 Mac-mini CoreSimulatorService[48362] <Warning>: Device 64994B39-6938-44B2-A6B4-A44C82157223 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:19:55 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 22:19:55 Mac-mini CoreSimulatorService[48362] <Warning>: Device 418B967C-9A85-493D-BAC8-582B530C8EDF encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:19:55 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 22:19:55 Mac-mini CoreSimulatorService[48362] <Warning>: Device B142B461-F862-4EB4-9BAE-26C6D8545C6B encountered in creation state at launch.  The device will be re-created.
+
+Feb 19 22:19:55 Mac-mini CoreSimulatorService[48362] <Warning>: Device F5572341-4401-430A-8D1F-31456781B5B3 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:19:55 Mac-mini CoreSimulatorService[48362] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 22:20:00 Mac-mini CoreSimulatorService[48631] <Notice>: com.apple.CoreSimulator.CoreSimulatorService 857.14 starting.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device 656BF521-7962-4FEA-B0C9-922D62487EAF encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini com.apple.dt.xcodebuild[48629] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 22:20:01 Mac-mini com.apple.dt.xcodebuild[48629] <Warning>: Found duplicate SDKs for iphoneos16.2:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 22:20:01 Mac-mini com.apple.dt.xcodebuild[48629] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device 507F696D-5232-4B39-B907-F9F6D09A9B13 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device 85729C4F-C58A-4021-81C1-CDC29AF7326A encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device B938AB78-7C8F-4FD7-9FD9-A05212D4D9AD encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device 6D6E6D23-CC41-49B1-B670-4B319F26FBB6 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device 4CB3AA2D-484D-4A1A-B74B-3E64240FA9C0 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device C08B32BB-13E6-4F7B-9D06-92D016AB8DFA encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device 140E820A-D39F-4F9E-BE57-C0B1B3FDEE4E encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device A13CA411-C40B-4811-AB84-DFBFBFCA150B encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Warning>: Device 4A955DD9-4596-4F26-AB7F-989498D71169 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 16.2 (16.2 - 20C52) - com.apple.CoreSimulator.SimRuntime.iOS-16-2
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 22:20:01 Mac-mini CoreSimulatorService[48631] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 9.1 (9.1 - 20S75) - com.apple.CoreSimulator.SimRuntime.watchOS-9-1
+Feb 19 22:20:14 Mac-mini CoreSimulatorService[48661] <Notice>: com.apple.CoreSimulator.CoreSimulatorService 885.2 starting.
+Feb 19 22:20:25 Mac-mini CoreSimulatorService[48661] <Warning>: Device F69CEAC4-3A56-4ABE-9DC1-9F4597635B9D encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:20:25 Mac-mini com.apple.dt.xcodebuild[48659] <Warning>: Found duplicate SDKs for appletvos16.4:
+	/Applications/Xcode_14.3.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.3.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.4.sdk
+
+Feb 19 22:30:28 Mac-mini CoreSimulatorService[49442] <Warning>: Device 5139BEF5-6945-4708-8154-B6EC1D77E863 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:30:28 Mac-mini CoreSimulatorService[49442] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.0 (10.0 - 21R355) - com.apple.CoreSimulator.SimRuntime.watchOS-10-0
+Feb 19 22:30:29 Mac-mini CoreSimulatorService[49442] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 22:30:29 Mac-mini CoreSimulatorService[49442] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 22:30:29 Mac-mini CoreSimulatorService[49442] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 22:30:29 Mac-mini CoreSimulatorService[49442] <Warning>: Unable to locate a suitable watch runtime for phone=iOS 17.0 (17.0.1 - 21A342) - com.apple.CoreSimulator.SimRuntime.iOS-17-0, wanted watch=(null)
+Feb 19 22:30:29 Mac-mini CoreSimulatorService[49442] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 22:30:29 Mac-mini CoreSimulatorService[49442] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 22:30:29 Mac-mini CoreSimulatorService[49442] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 22:30:29 Mac-mini CoreSimulatorService[49442] <Warning>: Unable to locate a suitable watch runtime for phone=iOS 17.0 (17.0.1 - 21A342) - com.apple.CoreSimulator.SimRuntime.iOS-17-0, wanted watch=(null)
+Feb 19 22:31:01 Mac-mini CoreSimulatorService[50858] <Notice>: com.apple.CoreSimulator.CoreSimulatorService 944.4 starting.
+Feb 19 22:31:02 Mac-mini com.apple.dt.xcodebuild[50734] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.1.app/Contents/Developer.
+Feb 19 22:31:02 Mac-mini CoreSimulatorService[50858] <Warning>: Found duplicate SDKs for appletvos17.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.2.sdk
+Feb 19 22:31:02 Mac-mini CoreSimulatorService[50858] <Warning>: Found duplicate SDKs for iphoneos17.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk
+Feb 19 22:31:02 Mac-mini CoreSimulatorService[50858] <Warning>: Found duplicate SDKs for watchos10.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.2.sdk
+Feb 19 22:31:02 Mac-mini CoreSimulatorService[50858] <Warning>: Unable to locate bundled runtimes: watch=(null) phone=(null)
+Feb 19 22:31:02 Mac-mini com.apple.dt.xcodebuild[50734] <Warning>: Found duplicate SDKs for appletvos17.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.2.sdk
+Feb 19 22:31:02 Mac-mini com.apple.dt.xcodebuild[50734] <Warning>: Found duplicate SDKs for iphoneos17.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk
+Feb 19 22:31:02 Mac-mini com.apple.dt.xcodebuild[50734] <Warning>: Found duplicate SDKs for watchos10.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.2.sdk
+Feb 19 22:34:28 Mac-mini CoreSimulatorService[50858] <Warning>: Device 1DC3582B-C7D5-4401-B97D-50CD10ADF92C encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:35:05 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:35:05 Mac-mini CoreSimulatorService[50858] <Warning>: Device DE4F46E5-425E-4658-956C-6A40D85B7058 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:35:31 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:35:31 Mac-mini CoreSimulatorService[50858] <Warning>: Device 25446FD0-DD90-487F-934B-5C817060A2D3 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:36:00 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:36:00 Mac-mini CoreSimulatorService[50858] <Warning>: Device E637AE23-58EE-4531-9425-0793FEB2800C encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:36:10 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:36:10 Mac-mini CoreSimulatorService[50858] <Warning>: Device D1A79857-5C49-45A2-9249-AF789D5F86F4 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:36:25 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:36:25 Mac-mini CoreSimulatorService[50858] <Warning>: Device F7AE8612-E4C4-43CA-93E0-5B0F05D04A5F encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:36:50 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:36:50 Mac-mini CoreSimulatorService[50858] <Warning>: Device DF126357-9072-4E20-868A-093E06F6AFB1 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:37:17 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:37:17 Mac-mini CoreSimulatorService[50858] <Warning>: Device 56F6FB74-C17B-41E0-AAE0-811D67950F83 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:37:22 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:37:24 Mac-mini CoreSimulatorService[50858] <Warning>: Device 0B994691-D960-4310-AE9E-774FEF95E400 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:37:25 Mac-mini CoreSimulatorService[50858] <Notice>: SIGTERM received. Shutting down all booted devices.
+Feb 19 22:37:25 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:37:25 Mac-mini CoreSimulatorService[50858] <Warning>: Device 7E8AA23E-DC8D-4549-904A-7AEEC1DA5578 encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:37:25 Mac-mini CoreSimulatorService[50858] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:37:25 Mac-mini CoreSimulatorService[52564] <Notice>: com.apple.CoreSimulator.CoreSimulatorService 944.5 starting.
+Feb 19 22:37:26 Mac-mini CoreSimulatorService[52564] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=402 "Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)" UserInfo={NSLocalizedDescription=Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)}
+Feb 19 22:37:26 Mac-mini CoreSimulatorService[52564] <Warning>: Device 27ED23D0-9A19-433F-98D8-0E3F393714AD encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:37:26 Mac-mini com.apple.dt.xcodebuild[52562] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=402 "Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)" UserInfo={NSLocalizedDescription=Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)}
+Feb 19 22:37:26 Mac-mini com.apple.dt.xcodebuild[52562] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.2.app/Contents/Developer.
+Feb 19 22:37:26 Mac-mini com.apple.dt.xcodebuild[52562] <Warning>: Found duplicate SDKs for appletvos17.2:
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.2.sdk
+Feb 19 22:37:26 Mac-mini com.apple.dt.xcodebuild[52562] <Warning>: Found duplicate SDKs for iphoneos17.2:
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk
+Feb 19 22:37:26 Mac-mini com.apple.dt.xcodebuild[52562] <Warning>: Found duplicate SDKs for watchos10.2:
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.2.sdk
+Feb 19 22:37:26 Mac-mini com.apple.dt.xcodebuild[52562] <Warning>: Found duplicate SDKs for xros1.0:
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS1.0.sdk
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS.sdk
+Feb 19 22:37:26 Mac-mini CoreSimulatorService[52564] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:37:26 Mac-mini CoreSimulatorService[52564] <Warning>: Device 787DF5EC-6D73-4CEA-90D2-1C37FD327FAF encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:37:26 Mac-mini CoreSimulatorService[52564] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+Feb 19 22:37:26 Mac-mini CoreSimulatorService[52564] <Warning>: Device 7C2459B6-289D-439A-AF5B-9B8C6E5174EC encountered in creation state at launch.  The device will be re-created.
+Feb 19 22:37:26 Mac-mini CoreSimulatorService[52564] <Notice>: Could not locate default .GlobalPreferences.plist for iOS 17.2 (17.2 - 21C62) - com.apple.CoreSimulator.SimRuntime.iOS-17-2
+
+Feb 19 23:28:33 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 15 (876A11EF-58CC-4157-86B4-AF52AA5871A8, iOS 17.2, Shutdown)
+Feb 19 23:28:33 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:28:33 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:28:33 Mac-mini com.apple.CoreSimulator.simctl[45171] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.0.1.app/Contents/Developer.
+Feb 19 23:28:33 Mac-mini com.apple.CoreSimulator.simctl[45171] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 23:28:33 Mac-mini com.apple.CoreSimulator.simctl[45171] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 23:28:33 Mac-mini com.apple.CoreSimulator.simctl[45171] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 23:28:33 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:28:33 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:28:33 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 15 Pro (2BDAA9E8-50AF-41CB-99DE-C06522D4A098, iOS 17.2, Shutdown)
+Feb 19 23:28:33 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:28:33 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:28:34 Mac-mini com.apple.CoreSimulator.simctl[45176] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.0.1.app/Contents/Developer.
+Feb 19 23:28:34 Mac-mini com.apple.CoreSimulator.simctl[45176] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 23:28:34 Mac-mini com.apple.CoreSimulator.simctl[45176] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 23:28:34 Mac-mini com.apple.CoreSimulator.simctl[45176] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 23:28:34 Mac-mini com.apple.CoreSimulator.simctl[45190] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.0.1.app/Contents/Developer.
+Feb 19 23:28:34 Mac-mini com.apple.CoreSimulator.simctl[45190] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 23:28:34 Mac-mini com.apple.CoreSimulator.simctl[45190] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 23:28:34 Mac-mini com.apple.CoreSimulator.simctl[45190] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45194] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.0.1.app/Contents/Developer.
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45194] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45194] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45194] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 23:28:35 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:28:35 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:28:35 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 15 Plus (1935D0D9-EEE1-45A6-AC98-C995E8E92BDF, iOS 17.2, Shutdown)
+Feb 19 23:28:35 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:28:35 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45199] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.0.1.app/Contents/Developer.
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45199] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45199] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45199] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45205] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.0.1.app/Contents/Developer.
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45205] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45205] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 23:28:35 Mac-mini com.apple.CoreSimulator.simctl[45205] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 23:28:36 Mac-mini com.apple.CoreSimulator.simctl[45210] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.0.1.app/Contents/Developer.
+Feb 19 23:28:36 Mac-mini com.apple.CoreSimulator.simctl[45210] <Warning>: Found duplicate SDKs for appletvos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk
+Feb 19 23:28:36 Mac-mini com.apple.CoreSimulator.simctl[45210] <Warning>: Found duplicate SDKs for iphoneos17.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk
+Feb 19 23:28:36 Mac-mini com.apple.CoreSimulator.simctl[45210] <Warning>: Found duplicate SDKs for watchos10.0:
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.0.sdk
+	/Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+Feb 19 23:28:36 Mac-mini com.apple.CoreSimulator.simctl[45214] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.0.1.app/Contents/Developer.
+
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Warning>: Default device E8931ADF-C668-49CD-9F99-E4006B61DAE2 is no longer in the set.  Using 7E8AA23E-DC8D-4549-904A-7AEEC1DA5578 instead.
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 15 (1DC3582B-C7D5-4401-B97D-50CD10ADF92C, iOS 17.2, Shutdown)
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 14 Pro Max (B317FB08-29C8-4DA4-9E10-FD29FC4091F8, iOS 17.2, Shutdown)
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 14 Pro Max (B317FB08-29C8-4DA4-9E10-FD29FC4091F8, iOS 17.2, Shutdown)
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 14 Pro (C0EAB91D-B2D5-4059-BEA6-7F10BC194519, iOS 17.2, Shutdown)
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 14 Pro (C0EAB91D-B2D5-4059-BEA6-7F10BC194519, iOS 17.2, Shutdown)
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 14 Plus (545DCFDB-2E52-47BE-ACF1-288A35DB0C51, iOS 17.2, Shutdown)
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error looking up host support port: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: CoreSimulatorBridge hostSupportPort is not valid for iPhone 14 Plus (545DCFDB-2E52-47BE-ACF1-288A35DB0C51, iOS 17.2, Shutdown)
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=405 "Unable to lookup in current state: Shutdown" UserInfo={NSLocalizedDescription=Unable to lookup in current state: Shutdown}
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:29:50 Mac-mini CoreSimulatorService[45065] <Notice>: Could not locate default .GlobalPreferences.plist for watchOS 10.2 (10.2 - 21S364) - com.apple.CoreSimulator.SimRuntime.watchOS-10-2
+Feb 19 23:29:50 Mac-mini com.apple.CoreSimulator.simctl[46186] <Warning>: Found duplicate SDKs for appletvos17.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.2.sdk
+Feb 19 23:29:50 Mac-mini com.apple.CoreSimulator.simctl[46186] <Warning>: Found duplicate SDKs for iphoneos17.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk
+Feb 19 23:29:50 Mac-mini com.apple.CoreSimulator.simctl[46186] <Warning>: Found duplicate SDKs for watchos10.2:
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_15.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.2.sdk
+Feb 19 23:29:58 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=402 "Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)" UserInfo={NSLocalizedDescription=Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)}
+Feb 19 23:29:58 Mac-mini com.apple.CoreSimulator.simctl[46201] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=402 "Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)" UserInfo={NSLocalizedDescription=Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)}
+Feb 19 23:29:58 Mac-mini com.apple.CoreSimulator.simctl[46201] <Warning>: Unable to discover any Simulator runtimes. Developer Directory is /Applications/Xcode_15.2.app/Contents/Developer.
+Feb 19 23:29:58 Mac-mini CoreSimulatorService[45065] <Warning>: Found duplicate SDKs for appletvos17.2:
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.2.sdk
+Feb 19 23:29:58 Mac-mini CoreSimulatorService[45065] <Warning>: Found duplicate SDKs for iphoneos17.2:
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk
+Feb 19 23:29:58 Mac-mini CoreSimulatorService[45065] <Warning>: Found duplicate SDKs for watchos10.2:
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.2.sdk
+Feb 19 23:29:58 Mac-mini CoreSimulatorService[45065] <Warning>: Found duplicate SDKs for xros1.0:
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS1.0.sdk
+	/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Developer/SDKs/XROS.sdk
+Feb 19 23:29:59 Mac-mini CoreSimulatorService[45065] <Warning>: Default device 876A11EF-58CC-4157-86B4-AF52AA5871A8 is no longer in the set.  Using 1DC3582B-C7D5-4401-B97D-50CD10ADF92C instead.
+Feb 19 23:29:59 Mac-mini CoreSimulatorService[45065] <Warning>: Default device 876A11EF-58CC-4157-86B4-AF52AA5871A8 is no longer in the set.  Using 1DC3582B-C7D5-4401-B97D-50CD10ADF92C instead.
+Feb 19 23:29:59 Mac-mini CoreSimulatorService[45065] <Warning>: Default device 876A11EF-58CC-4157-86B4-AF52AA5871A8 is no longer in the set.  Using 1DC3582B-C7D5-4401-B97D-50CD10ADF92C instead.
+Feb 19 23:29:59 Mac-mini CoreSimulatorService[45065] <Warning>: Default device 1935D0D9-EEE1-45A6-AC98-C995E8E92BDF is no longer in the set.  Using D1A79857-5C49-45A2-9249-AF789D5F86F4 instead.
+Feb 19 23:29:59 Mac-mini CoreSimulatorService[45065] <Warning>: Default device 1935D0D9-EEE1-45A6-AC98-C995E8E92BDF is no longer in the set.  Using D1A79857-5C49-45A2-9249-AF789D5F86F4 instead.
+Feb 19 23:29:59 Mac-mini CoreSimulatorService[45065] <Warning>: Default device 1935D0D9-EEE1-45A6-AC98-C995E8E92BDF is no longer in the set.  Using D1A79857-5C49-45A2-9249-AF789D5F86F4 instead.
+Feb 19 23:29:59 Mac-mini CoreSimulatorService[45065] <Warning>: Default device 2BDAA9E8-50AF-41CB-99DE-C06522D4A098 is no longer in the set.  Using DE4F46E5-425E-4658-956C-6A40D85B7058 instead.
+Feb 19 23:29:59 Mac-mini CoreSimulatorService[45065] <Warning>: Default device 2BDAA9E8-50AF-41CB-99DE-C06522D4A098 is no longer in the set.  Using DE4F46E5-425E-4658-956C-6A40D85B7058 instead.
+
+Feb 19 23:31:33 Mac-mini com.apple.CoreSimulator.simctl[47697] <Warning>: Found duplicate SDKs for appletvos16.4:
+	/Applications/Xcode_14.3.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.3.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.4.sdk
+Feb 19 23:31:33 Mac-mini com.apple.CoreSimulator.simctl[47697] <Warning>: Found duplicate SDKs for iphoneos16.4:
+	/Applications/Xcode_14.3.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk
+	/Applications/Xcode_14.3.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 23:31:33 Mac-mini com.apple.CoreSimulator.simctl[47697] <Warning>: Found duplicate SDKs for watchos9.4:
+	/Applications/Xcode_14.3.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.3.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.4.sdk
+Feb 19 23:31:33 Mac-mini com.apple.CoreSimulator.simctl[47706] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 23:31:33 Mac-mini com.apple.CoreSimulator.simctl[47706] <Warning>: Found duplicate SDKs for iphoneos16.2:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.2.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 23:31:33 Mac-mini com.apple.CoreSimulator.simctl[47706] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.2.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 23:31:34 Mac-mini com.apple.CoreSimulator.simctl[47715] <Warning>: Found duplicate SDKs for appletvos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS16.1.sdk
+Feb 19 23:31:34 Mac-mini com.apple.CoreSimulator.simctl[47715] <Warning>: Found duplicate SDKs for iphoneos16.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+Feb 19 23:31:34 Mac-mini com.apple.CoreSimulator.simctl[47715] <Warning>: Found duplicate SDKs for watchos9.1:
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk
+	/Applications/Xcode_14.1.app/Contents/Developer/Platforms/WatchOS.platform/Developer/SDKs/WatchOS9.1.sdk
+Feb 19 23:31:40 Mac-mini CoreSimulatorService[45065] <Error>: Error Domain=com.apple.CoreSimulator.SimError Code=402 "Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)" UserInfo={NSLocalizedDescription=Unable to determine supported architectures for device type (/Applications/Xcode_15.2.app/Contents/Developer/Platforms/XROS.platform/Library/Developer/CoreSimulator/Profiles/DeviceTypes/Apple Vision Pro.simdevicetype/Contents/Resources/profile.plist)}
