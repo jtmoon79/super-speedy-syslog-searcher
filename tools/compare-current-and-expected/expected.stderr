@@ -3123,6 +3123,404 @@ File: ./logs/other/tests/dtf2-2.log
       process: regex captures attempted                            : 80
   Processing Drops:
 
+File: ./logs/other/tests/dtf2-2.bz2
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 74 (0x4A) (bytes)
+      bytes         : 74 (0x4A)
+      bytes total   : 74 (0x4A)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 2
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 308, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   8, miss   8, 50.0%, largest skipped 46
+      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss 146, 50.0%, largest skipped 46
+      process: regex captures attempted                            : 154
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 393
+      lines         : 3
+      syslines      : 2
+  Processed:
+      file size archive   : 3072 (0xC00) (bytes)
+      file size unarchived: 60 (0x3C) (bytes)
+      bytes         : 60 (0x3C)
+      bytes total   : 60 (0x3C)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.gz
+  About:
+      filetype       : TEXT UTF8/ASCII (gzip)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 393
+      lines         : 3
+      syslines      : 2
+  Processed:
+      file size compressed  : 64 (0x40) (bytes)
+      file size uncompressed: 60 (0x3C) (bytes)
+      bytes         : 60 (0x3C)
+      bytes total   : 60 (0x3C)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.log.bz2
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 74 (0x4A) (bytes)
+      bytes         : 74 (0x4A)
+      bytes total   : 74 (0x4A)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 2
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 308, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   8, miss   8, 50.0%, largest skipped 46
+      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss 146, 50.0%, largest skipped 46
+      process: regex captures attempted                            : 154
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.log.gz
+  About:
+      filetype       : TEXT UTF8/ASCII (gzip)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 393
+      lines         : 3
+      syslines      : 2
+  Processed:
+      file size compressed  : 64 (0x40) (bytes)
+      file size uncompressed: 60 (0x3C) (bytes)
+      bytes         : 60 (0x3C)
+      bytes total   : 60 (0x3C)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.log.lz
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 67 (0x43) (bytes)
+      bytes         : 67 (0x43)
+      bytes total   : 67 (0x43)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 1
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
+      copying: SyslineReader::get_boxptrs()                        : sgl 154, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   8, miss   0, 100.0%, largest skipped 66
+      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 66
+      process: regex captures attempted                            : 0
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 393
+      lines         : 3
+      syslines      : 2
+  Processed:
+      file size archive   : 2048 (0x800) (bytes)
+      file size unarchived: 60 (0x3C) (bytes)
+      bytes         : 60 (0x3C)
+      bytes total   : 60 (0x3C)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.log.xz
+  About:
+      filetype       : TEXT UTF8/ASCII (xz)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 393
+      lines         : 3
+      syslines      : 2
+  Processed:
+      file size compressed  : 96 (0x60) (bytes)
+      file size uncompressed: 60 (0x3C) (bytes)
+      bytes         : 60 (0x3C)
+      bytes total   : 60 (0x3C)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.lz
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 67 (0x43) (bytes)
+      bytes         : 67 (0x43)
+      bytes total   : 67 (0x43)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 1
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
+      copying: SyslineReader::get_boxptrs()                        : sgl 154, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   8, miss   0, 100.0%, largest skipped 66
+      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 66
+      process: regex captures attempted                            : 0
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 393
+      lines         : 3
+      syslines      : 2
+  Processed:
+      file size archive   : 2048 (0x800) (bytes)
+      file size unarchived: 60 (0x3C) (bytes)
+      bytes         : 60 (0x3C)
+      bytes total   : 60 (0x3C)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.tar.bz2
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 148 (0x94) (bytes)
+      bytes         : 148 (0x94)
+      bytes total   : 148 (0x94)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 4
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
+      copying: SyslineReader::get_boxptrs()                        : sgl 462, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  16, miss   8, 66.7%, largest skipped 99
+      optimize:SyslineReader::ezcheck12d2                          : hit 147, miss 291, 33.6%, largest skipped 19
+      process: regex captures attempted                            : 299
+  Processing Drops:
+
+File: ./logs/other/tests/dtf2-2.xz
+  About:
+      filetype       : TEXT UTF8/ASCII (xz)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 393
+      lines         : 3
+      syslines      : 2
+  Processed:
+      file size compressed  : 96 (0x60) (bytes)
+      file size uncompressed: 60 (0x3C) (bytes)
+      bytes         : 60 (0x3C)
+      bytes total   : 60 (0x3C)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
+  Processing Drops:
+
 File: ./logs/other/tests/dtf3-1.log
   About:
       filetype       : TEXT UTF8/ASCII
@@ -15185,6 +15583,12 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       process: regex captures attempted                            : 215
   Processing Drops:
 
+File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
+File: ./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
+File: ./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).xz.tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
+File: ./logs/other/tests/dtf2-2.tar.gz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.gz")
+File: ./logs/other/tests/dtf2-2.tar.lz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.lz")
+File: ./logs/other/tests/dtf2-2.tar.xz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.xz")
 File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz (cannot extract gzip type from a tar archived file)
 File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
 File: ./logs/other/tests/invalid.gz 
@@ -15196,13 +15600,13 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
-Paths considered      : 512
-Paths not processed   : 8
-Files processed       : 504
-Files printed         : 404
-Printed bytes         : 11926776
-Printed lines         : 14138
-Printed syslines      : 11700
+Paths considered      : 530
+Paths not processed   : 14
+Files processed       : 516
+Files printed         : 411
+Printed bytes         : 11929583
+Printed lines         : 14159
+Printed syslines      : 11714
 Printed evtx events   : 227
 Printed fixedstruct   : 116
 Printed journal events: 2081
@@ -15210,5 +15614,5 @@ Regex patterns        : 154
 Regex compiled        : 154
 Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 15134
+Channel Receive ok    : 15172
 Channel Receive err   : 0
