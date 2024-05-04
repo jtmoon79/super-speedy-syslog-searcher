@@ -15,7 +15,7 @@ File: ./logs/other/tests/basic-dt-u.log
       bytes total   : 1268 (0x4F4)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 54
       syslines      : 27
       syslines high : 22

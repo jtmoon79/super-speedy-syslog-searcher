@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       bytes total   : 2133 (0x855)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19

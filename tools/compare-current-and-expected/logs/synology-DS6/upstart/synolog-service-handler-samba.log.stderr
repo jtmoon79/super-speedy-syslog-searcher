@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       bytes total   : 470 (0x1D6)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 9
       syslines      : 9
       syslines high : 9

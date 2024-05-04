@@ -15,7 +15,7 @@ File: ./logs/cygwin/setup.log
       bytes total   : 6124 (0x17EC)
       block size    : 256 (0x100)
       blocks        : 24
-      blocks total  : 24
+      blocks total  : 24 (6144 bytes)
       lines         : 77
       syslines      : 76
       syslines high : 13

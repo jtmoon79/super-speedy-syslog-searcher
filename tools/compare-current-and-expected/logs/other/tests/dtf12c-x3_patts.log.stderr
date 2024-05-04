@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
       bytes total   : 450 (0x1C2)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 12
       syslines      : 8
       syslines high : 8

@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/kern.log
       bytes total   : 2264 (0x8D8)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9

@@ -15,7 +15,7 @@ File: ./logs/Debian9/apt/term.log
       bytes total   : 17422 (0x440E)
       block size    : 256 (0x100)
       blocks        : 69
-      blocks total  : 69
+      blocks total  : 69 (17664 bytes)
       lines         : 292
       syslines      : 7
       syslines high : 5

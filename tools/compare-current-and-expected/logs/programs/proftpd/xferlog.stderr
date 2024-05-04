@@ -15,7 +15,7 @@ File: ./logs/programs/proftpd/xferlog
       bytes total   : 279 (0x117)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 3
       syslines      : 3
       syslines high : 3

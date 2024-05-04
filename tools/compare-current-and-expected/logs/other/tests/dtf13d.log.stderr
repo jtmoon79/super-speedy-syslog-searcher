@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf13d.log
       bytes total   : 222 (0xDE)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 3
       syslines      : 3
       syslines high : 3

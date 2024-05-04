@@ -15,7 +15,7 @@ File: ./logs/Debian11/messages
       bytes total   : 3258 (0xCBA)
       block size    : 256 (0x100)
       blocks        : 13
-      blocks total  : 13
+      blocks total  : 13 (3328 bytes)
       lines         : 21
       syslines      : 20
       syslines high : 20

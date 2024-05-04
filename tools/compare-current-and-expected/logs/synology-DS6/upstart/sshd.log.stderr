@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/sshd.log
       bytes total   : 760 (0x2F8)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 19
       syslines      : 6
       syslines high : 6

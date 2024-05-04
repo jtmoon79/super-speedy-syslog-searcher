@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       bytes total   : 813 (0x32D)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 7
       syslines      : 7
       syslines high : 7

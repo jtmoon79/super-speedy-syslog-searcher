@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
       bytes total   : 932 (0x3A4)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 6
       syslines      : 0
       syslines high : 0

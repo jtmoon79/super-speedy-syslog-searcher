@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       bytes total   : 1380 (0x564)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 14

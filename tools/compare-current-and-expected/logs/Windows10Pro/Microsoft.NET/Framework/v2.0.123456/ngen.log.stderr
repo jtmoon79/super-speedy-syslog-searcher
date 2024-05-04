@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
       bytes total   : 674 (0x2A2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0

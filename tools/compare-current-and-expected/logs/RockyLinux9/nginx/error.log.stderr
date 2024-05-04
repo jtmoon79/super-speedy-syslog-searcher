@@ -15,7 +15,7 @@ File: ./logs/RockyLinux9/nginx/error.log
       bytes total   : 461 (0x1CD)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2

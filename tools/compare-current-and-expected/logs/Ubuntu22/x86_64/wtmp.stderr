@@ -16,7 +16,7 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       bytes total   : 35712 (0x8B80)
       block size    : 256 (0x100)
       blocks        : 131
-      blocks total  : 140
+      blocks total  : 140 (35840 bytes)
       entries       : 76
       entry size    : 384 (bytes)
       entry hi-score: 125

@@ -16,7 +16,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
       bytes total   : 8208 (0x2010)
       block size    : 256 (0x100)
       blocks        : 29
-      blocks total  : 33
+      blocks total  : 33 (8448 bytes)
       entries       : 7
       entry size    : 304 (bytes)
       entry hi-score: 96

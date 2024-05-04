@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       bytes total   : 1051 (0x41B)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 7
       syslines high : 7

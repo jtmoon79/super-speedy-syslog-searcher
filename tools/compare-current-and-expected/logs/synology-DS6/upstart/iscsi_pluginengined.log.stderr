@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       bytes total   : 1234 (0x4D2)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 17
       syslines high : 13

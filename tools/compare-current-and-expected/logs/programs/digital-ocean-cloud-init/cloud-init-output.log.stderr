@@ -15,7 +15,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       bytes total   : 6502 (0x1966)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 26
+      blocks total  : 26 (6656 bytes)
       lines         : 2
       syslines      : 0
       syslines high : 0

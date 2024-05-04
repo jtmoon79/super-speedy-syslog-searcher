@@ -15,7 +15,7 @@ File: ./logs/MinGW64/pacman.log
       bytes total   : 5699 (0x1643)
       block size    : 256 (0x100)
       blocks        : 23
-      blocks total  : 23
+      blocks total  : 23 (5888 bytes)
       lines         : 102
       syslines      : 102
       syslines high : 15

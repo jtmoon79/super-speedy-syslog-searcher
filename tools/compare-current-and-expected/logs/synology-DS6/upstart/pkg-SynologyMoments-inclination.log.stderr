@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
       bytes total   : 1617 (0x651)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12

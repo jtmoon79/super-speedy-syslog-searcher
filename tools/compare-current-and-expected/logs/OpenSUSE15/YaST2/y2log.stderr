@@ -15,7 +15,7 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       bytes total   : 1979 (0x7BB)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 10

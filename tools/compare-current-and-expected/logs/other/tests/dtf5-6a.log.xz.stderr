@@ -16,7 +16,7 @@ File: ./logs/other/tests/dtf5-6a.log.xz
       bytes total   : 194 (0xC2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6

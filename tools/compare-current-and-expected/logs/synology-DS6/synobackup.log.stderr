@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/synobackup.log
       bytes total   : 1554 (0x612)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 15
       syslines      : 14
       syslines high : 10

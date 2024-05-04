@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
       bytes total   : 1050 (0x41A)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 13
       syslines      : 13
       syslines high : 12

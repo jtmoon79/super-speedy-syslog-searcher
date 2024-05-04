@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       bytes total   : 1105 (0x451)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 14
       syslines      : 14
       syslines high : 12

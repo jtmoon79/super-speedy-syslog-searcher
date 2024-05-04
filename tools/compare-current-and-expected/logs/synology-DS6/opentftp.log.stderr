@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/opentftp.log
       bytes total   : 1174 (0x496)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 21
       syslines      : 21
       syslines high : 17

@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       bytes total   : 1431 (0x597)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 1
       syslines high : 1

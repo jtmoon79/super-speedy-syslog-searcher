@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/vmware-installer
       bytes total   : 1544 (0x608)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 18
       syslines      : 18
       syslines high : 14

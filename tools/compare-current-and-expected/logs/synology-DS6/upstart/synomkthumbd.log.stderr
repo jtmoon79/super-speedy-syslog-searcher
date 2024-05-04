@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
       bytes total   : 1040 (0x410)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 16
       syslines      : 16
       syslines high : 14

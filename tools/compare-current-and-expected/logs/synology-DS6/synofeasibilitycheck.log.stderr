@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
       bytes total   : 3465 (0xD89)
       block size    : 256 (0x100)
       blocks        : 14
-      blocks total  : 14
+      blocks total  : 14 (3584 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 7

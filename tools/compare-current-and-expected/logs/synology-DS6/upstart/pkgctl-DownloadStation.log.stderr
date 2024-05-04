@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
       bytes total   : 1301 (0x515)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14

@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       bytes total   : 12586 (0x312A)
       block size    : 256 (0x100)
       blocks        : 50
-      blocks total  : 50
+      blocks total  : 50 (12800 bytes)
       lines         : 161
       syslines      : 9
       syslines high : 5

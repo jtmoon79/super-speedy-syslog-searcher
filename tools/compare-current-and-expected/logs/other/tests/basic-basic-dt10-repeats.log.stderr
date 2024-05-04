@@ -15,7 +15,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
       bytes total   : 1210 (0x4BA)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 55
       syslines      : 55
       syslines high : 37

@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       bytes total   : 839 (0x347)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 38
       syslines      : 42
       syslines high : 37

@@ -16,7 +16,7 @@ File: ./logs/CentOS7/x86_64/wtmp
       bytes total   : 25728 (0x6480)
       block size    : 256 (0x100)
       blocks        : 70
-      blocks total  : 101
+      blocks total  : 101 (25856 bytes)
       entries       : 3
       entry size    : 384 (bytes)
       entry hi-score: 145

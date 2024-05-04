@@ -15,7 +15,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       bytes total   : 510 (0x1FE)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5

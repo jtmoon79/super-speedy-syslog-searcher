@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       bytes total   : 1575 (0x627)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 5
       syslines high : 5

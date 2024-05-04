@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf5-3-r-n.log
       bytes total   : 199 (0xC7)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 3
       syslines high : 3

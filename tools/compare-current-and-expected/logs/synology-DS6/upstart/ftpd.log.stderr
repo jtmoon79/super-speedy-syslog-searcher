@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/ftpd.log
       bytes total   : 900 (0x384)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 18

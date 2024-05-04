@@ -15,7 +15,7 @@ File: ./logs/Debian9/kern.log
       bytes total   : 1619 (0x653)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19

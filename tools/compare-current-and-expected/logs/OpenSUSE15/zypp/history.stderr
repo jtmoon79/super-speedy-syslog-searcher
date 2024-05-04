@@ -15,7 +15,7 @@ File: ./logs/OpenSUSE15/zypp/history
       bytes total   : 4765 (0x129D)
       block size    : 256 (0x100)
       blocks        : 19
-      blocks total  : 19
+      blocks total  : 19 (4864 bytes)
       lines         : 39
       syslines      : 19
       syslines high : 7

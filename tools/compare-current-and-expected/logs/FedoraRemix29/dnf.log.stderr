@@ -15,7 +15,7 @@ File: ./logs/FedoraRemix29/dnf.log
       bytes total   : 36635 (0x8F1B)
       block size    : 256 (0x100)
       blocks        : 144
-      blocks total  : 144
+      blocks total  : 144 (36864 bytes)
       lines         : 476
       syslines      : 226
       syslines high : 13

@@ -15,7 +15,7 @@ File: ./logs/other/tests/unknown
       bytes total   : 192 (0xC0)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 4
       syslines      : 4
       syslines high : 4

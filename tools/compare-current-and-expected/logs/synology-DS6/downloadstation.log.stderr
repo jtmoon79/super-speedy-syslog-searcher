@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/downloadstation.log
       bytes total   : 2187 (0x88B)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9

@@ -15,7 +15,7 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       bytes total   : 1499 (0x5DB)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 21
       syslines      : 18
       syslines high : 11

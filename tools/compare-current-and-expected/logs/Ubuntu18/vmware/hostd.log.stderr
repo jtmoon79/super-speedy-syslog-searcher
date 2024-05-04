@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       bytes total   : 2681 (0xA79)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8

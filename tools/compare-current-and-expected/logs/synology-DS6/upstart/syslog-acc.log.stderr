@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       bytes total   : 1138 (0x472)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 5
       syslines high : 5

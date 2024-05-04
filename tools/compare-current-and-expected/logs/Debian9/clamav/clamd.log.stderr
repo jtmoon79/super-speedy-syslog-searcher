@@ -15,7 +15,7 @@ File: ./logs/Debian9/clamav/clamd.log
       bytes total   : 570 (0x23A)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 8
       syslines      : 8
       syslines high : 8

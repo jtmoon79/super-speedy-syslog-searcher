@@ -15,7 +15,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       bytes total   : 3010 (0xBC2)
       block size    : 256 (0x100)
       blocks        : 12
-      blocks total  : 12
+      blocks total  : 12 (3072 bytes)
       lines         : 21
       syslines      : 18
       syslines high : 9

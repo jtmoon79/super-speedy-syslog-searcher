@@ -15,7 +15,7 @@ File: ./logs/Debian9/samba/log.nmbd.old
       bytes total   : 1783 (0x6F7)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 6
       syslines high : 5

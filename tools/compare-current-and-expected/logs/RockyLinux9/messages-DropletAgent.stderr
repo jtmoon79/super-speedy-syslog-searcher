@@ -15,7 +15,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       bytes total   : 5229 (0x146D)
       block size    : 256 (0x100)
       blocks        : 21
-      blocks total  : 21
+      blocks total  : 21 (5376 bytes)
       lines         : 37
       syslines      : 37
       syslines high : 37

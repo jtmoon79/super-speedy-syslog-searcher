@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       bytes total   : 2353 (0x931)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 21
       syslines high : 19

@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       bytes total   : 328 (0x148)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 7
       syslines      : 7
       syslines high : 7

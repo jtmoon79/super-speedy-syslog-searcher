@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/sysnotify.log
       bytes total   : 2995 (0xBB3)
       block size    : 256 (0x100)
       blocks        : 12
-      blocks total  : 12
+      blocks total  : 12 (3072 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 7

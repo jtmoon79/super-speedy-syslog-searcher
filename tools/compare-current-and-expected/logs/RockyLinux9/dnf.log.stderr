@@ -15,7 +15,7 @@ File: ./logs/RockyLinux9/dnf.log
       bytes total   : 56973 (0xDE8D)
       block size    : 256 (0x100)
       blocks        : 223
-      blocks total  : 223
+      blocks total  : 223 (57088 bytes)
       lines         : 763
       syslines      : 677
       syslines high : 13

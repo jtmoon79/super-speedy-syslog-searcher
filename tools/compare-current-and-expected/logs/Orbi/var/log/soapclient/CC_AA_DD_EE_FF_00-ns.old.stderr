@@ -15,7 +15,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
       bytes total   : 1864 (0x748)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 17
       syslines high : 10

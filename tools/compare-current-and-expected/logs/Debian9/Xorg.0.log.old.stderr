@@ -15,7 +15,7 @@ File: ./logs/Debian9/Xorg.0.log.old
       bytes total   : 1250 (0x4E2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 4
       syslines      : 0
       syslines high : 0

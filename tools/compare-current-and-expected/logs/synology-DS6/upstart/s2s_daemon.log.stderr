@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
       bytes total   : 904 (0x388)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19

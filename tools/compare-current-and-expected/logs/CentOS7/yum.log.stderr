@@ -15,7 +15,7 @@ File: ./logs/CentOS7/yum.log
       bytes total   : 8586 (0x218A)
       block size    : 256 (0x100)
       blocks        : 34
-      blocks total  : 34
+      blocks total  : 34 (8704 bytes)
       lines         : 145
       syslines      : 146
       syslines high : 142

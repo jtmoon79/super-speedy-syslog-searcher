@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/synoscheduler.log
       bytes total   : 1938 (0x792)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 18
       syslines      : 18
       syslines high : 10

@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
       bytes total   : 1701 (0x6A5)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11

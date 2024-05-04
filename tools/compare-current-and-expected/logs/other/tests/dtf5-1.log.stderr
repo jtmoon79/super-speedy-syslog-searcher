@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf5-1.log
       bytes total   : 28 (0x1C)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 1
       syslines high : 1

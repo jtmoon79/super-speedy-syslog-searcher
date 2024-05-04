@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       bytes total   : 25 (0x19)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 1
       syslines high : 1

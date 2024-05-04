@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       bytes total   : 1197 (0x4AD)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 23
       syslines      : 22
       syslines high : 20

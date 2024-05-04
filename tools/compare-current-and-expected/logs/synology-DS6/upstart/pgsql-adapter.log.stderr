@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
       bytes total   : 1088 (0x440)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13

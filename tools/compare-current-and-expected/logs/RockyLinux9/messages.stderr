@@ -15,7 +15,7 @@ File: ./logs/RockyLinux9/messages
       bytes total   : 256136 (0x3E888)
       block size    : 256 (0x100)
       blocks        : 1001
-      blocks total  : 1001
+      blocks total  : 1001 (256256 bytes)
       lines         : 2432
       syslines      : 2432
       syslines high : 2432

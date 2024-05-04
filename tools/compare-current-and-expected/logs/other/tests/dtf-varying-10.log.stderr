@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf-varying-10.log
       bytes total   : 296 (0x128)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 10
       syslines      : 4
       syslines high : 4

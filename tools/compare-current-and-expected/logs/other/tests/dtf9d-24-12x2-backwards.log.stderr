@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       bytes total   : 526 (0x20E)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 24
       syslines      : 45
       syslines high : 23

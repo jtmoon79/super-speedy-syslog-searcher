@@ -15,7 +15,7 @@ File: ./logs/programs/proftpd/proftpd.log
       bytes total   : 2074 (0x81A)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10

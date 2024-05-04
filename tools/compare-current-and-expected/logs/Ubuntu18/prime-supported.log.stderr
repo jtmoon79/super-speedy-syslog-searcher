@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/prime-supported.log
       bytes total   : 30 (0x1E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0

@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       bytes total   : 883 (0x373)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 15
       syslines high : 15

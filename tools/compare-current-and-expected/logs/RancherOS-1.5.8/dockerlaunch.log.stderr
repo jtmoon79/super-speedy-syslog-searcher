@@ -15,7 +15,7 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
       bytes total   : 4557 (0x11CD)
       block size    : 256 (0x100)
       blocks        : 18
-      blocks total  : 18
+      blocks total  : 18 (4608 bytes)
       lines         : 45
       syslines      : 45
       syslines high : 9

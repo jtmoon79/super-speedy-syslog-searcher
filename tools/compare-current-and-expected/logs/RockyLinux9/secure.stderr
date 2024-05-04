@@ -15,7 +15,7 @@ File: ./logs/RockyLinux9/secure
       bytes total   : 73458 (0x11EF2)
       block size    : 256 (0x100)
       blocks        : 287
-      blocks total  : 287
+      blocks total  : 287 (73472 bytes)
       lines         : 546
       syslines      : 546
       syslines high : 545

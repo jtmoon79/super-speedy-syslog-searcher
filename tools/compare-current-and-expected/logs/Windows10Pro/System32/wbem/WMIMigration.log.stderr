@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       bytes total   : 4997 (0x1385)
       block size    : 256 (0x100)
       blocks        : 20
-      blocks total  : 20
+      blocks total  : 20 (5120 bytes)
       lines         : 42
       syslines      : 40
       syslines high : 9

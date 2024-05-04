@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       bytes total   : 1491 (0x5D3)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16

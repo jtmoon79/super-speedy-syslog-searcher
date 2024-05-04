@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
       bytes total   : 1178 (0x49A)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15

@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
       bytes total   : 90920 (0x16328)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 356
+      blocks total  : 356 (91136 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0

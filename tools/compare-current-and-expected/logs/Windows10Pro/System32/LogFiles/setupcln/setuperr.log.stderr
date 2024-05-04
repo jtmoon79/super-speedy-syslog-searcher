@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       bytes total   : 15258 (0x3B9A)
       block size    : 256 (0x100)
       blocks        : 60
-      blocks total  : 60
+      blocks total  : 60 (15360 bytes)
       lines         : 105
       syslines      : 105
       syslines high : 7

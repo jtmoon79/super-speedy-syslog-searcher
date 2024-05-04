@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf11-A.log
       bytes total   : 480 (0x1E0)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 13
       syslines      : 13
       syslines high : 13

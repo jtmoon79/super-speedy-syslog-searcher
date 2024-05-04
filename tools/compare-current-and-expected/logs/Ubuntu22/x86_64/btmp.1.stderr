@@ -16,7 +16,7 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       bytes total   : 2304 (0x900)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       entries       : 5
       entry size    : 384 (bytes)
       entry hi-score: 126

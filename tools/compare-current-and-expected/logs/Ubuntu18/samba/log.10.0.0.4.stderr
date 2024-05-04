@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
       bytes total   : 1211 (0x4BB)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 8

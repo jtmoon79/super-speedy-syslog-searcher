@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/synopoweroff.log
       bytes total   : 2802 (0xAF2)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8

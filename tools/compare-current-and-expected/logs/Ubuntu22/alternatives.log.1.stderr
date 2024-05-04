@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/alternatives.log.1
       bytes total   : 6676 (0x1A14)
       block size    : 256 (0x100)
       blocks        : 27
-      blocks total  : 27
+      blocks total  : 27 (6912 bytes)
       lines         : 13
       syslines      : 13
       syslines high : 7

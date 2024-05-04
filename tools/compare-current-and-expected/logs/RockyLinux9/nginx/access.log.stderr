@@ -15,7 +15,7 @@ File: ./logs/RockyLinux9/nginx/access.log
       bytes total   : 552 (0x228)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 4
       syslines      : 4
       syslines high : 4

@@ -15,7 +15,7 @@ File: ./logs/Orbi/tmp/xagent.log
       bytes total   : 1595 (0x63B)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11

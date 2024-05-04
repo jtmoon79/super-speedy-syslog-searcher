@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/synocontentextractd.log
       bytes total   : 3626 (0xE2A)
       block size    : 256 (0x100)
       blocks        : 15
-      blocks total  : 15
+      blocks total  : 15 (3840 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 6

@@ -15,7 +15,7 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       bytes total   : 183 (0xB7)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2

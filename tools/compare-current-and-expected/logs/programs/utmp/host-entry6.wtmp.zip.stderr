@@ -15,7 +15,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip
       bytes total   : 366 (0x16E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0

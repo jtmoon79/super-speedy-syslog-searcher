@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       bytes total   : 1427 (0x593)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 49
       syslines      : 5
       syslines high : 5

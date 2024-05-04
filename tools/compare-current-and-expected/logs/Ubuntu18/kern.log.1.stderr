@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/kern.log.1
       bytes total   : 1671 (0x687)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19

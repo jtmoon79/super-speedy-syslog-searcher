@@ -15,7 +15,7 @@ File: ./logs/Debian9/samba/log.192.168.0.2
       bytes total   : 159 (0x9F)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1

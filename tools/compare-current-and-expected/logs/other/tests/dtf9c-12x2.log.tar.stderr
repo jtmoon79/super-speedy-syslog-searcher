@@ -16,7 +16,7 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       bytes total   : 431 (0x1AF)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 25
       syslines      : 25
       syslines high : 23

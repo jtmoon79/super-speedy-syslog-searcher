@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       bytes total   : 295 (0x127)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 8
       syslines      : 5
       syslines high : 4

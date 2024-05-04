@@ -15,7 +15,7 @@ File: ./logs/Debian11/dpkg.log
       bytes total   : 3060 (0xBF4)
       block size    : 256 (0x100)
       blocks        : 12
-      blocks total  : 12
+      blocks total  : 12 (3072 bytes)
       lines         : 49
       syslines      : 48
       syslines high : 15

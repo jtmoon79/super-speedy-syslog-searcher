@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
       bytes total   : 1258 (0x4EA)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 14
       syslines      : 14
       syslines high : 11

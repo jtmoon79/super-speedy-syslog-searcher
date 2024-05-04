@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       bytes total   : 688 (0x2B0)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 14
       syslines      : 4
       syslines high : 4

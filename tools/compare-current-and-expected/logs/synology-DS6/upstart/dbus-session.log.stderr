@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       bytes total   : 5673 (0x1629)
       block size    : 256 (0x100)
       blocks        : 23
-      blocks total  : 23
+      blocks total  : 23 (5888 bytes)
       lines         : 178
       syslines      : 3
       syslines high : 3

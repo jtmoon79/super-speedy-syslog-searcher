@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/messages
       bytes total   : 3591 (0xE07)
       block size    : 256 (0x100)
       blocks        : 15
-      blocks total  : 15
+      blocks total  : 15 (3840 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 7

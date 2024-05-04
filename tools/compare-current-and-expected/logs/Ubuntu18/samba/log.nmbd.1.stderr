@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
       bytes total   : 1424 (0x590)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 7
       syslines high : 7

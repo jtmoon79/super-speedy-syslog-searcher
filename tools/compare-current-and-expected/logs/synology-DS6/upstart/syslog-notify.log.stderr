@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
       bytes total   : 873 (0x369)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 16
       syslines high : 16

@@ -15,7 +15,7 @@ File: ./logs/programs/pacman/pacman.log
       bytes total   : 12083 (0x2F33)
       block size    : 256 (0x100)
       blocks        : 48
-      blocks total  : 48
+      blocks total  : 48 (12288 bytes)
       lines         : 195
       syslines      : 195
       syslines high : 14

@@ -15,7 +15,7 @@ File: ./logs/Debian11/kern.log
       bytes total   : 3430 (0xD66)
       block size    : 256 (0x100)
       blocks        : 14
-      blocks total  : 14
+      blocks total  : 14 (3584 bytes)
       lines         : 21
       syslines      : 20
       syslines high : 20

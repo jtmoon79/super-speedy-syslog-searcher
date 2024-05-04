@@ -15,7 +15,7 @@ File: ./logs/Debian9/aptitude.4
       bytes total   : 834 (0x342)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 1
       syslines high : 1

@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
       bytes total   : 3486 (0xD9E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 14
+      blocks total  : 14 (3584 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0

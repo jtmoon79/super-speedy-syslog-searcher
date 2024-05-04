@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       bytes total   : 19561 (0x4C69)
       block size    : 256 (0x100)
       blocks        : 77
-      blocks total  : 77
+      blocks total  : 77 (19712 bytes)
       lines         : 159
       syslines      : 152
       syslines high : 10

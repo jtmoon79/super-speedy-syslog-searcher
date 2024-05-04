@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf6z-1.log
       bytes total   : 189 (0xBD)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5

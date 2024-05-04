@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/disk.log
       bytes total   : 2185 (0x889)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9

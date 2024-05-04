@@ -15,7 +15,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       bytes total   : 3171 (0xC63)
       block size    : 256 (0x100)
       blocks        : 13
-      blocks total  : 13
+      blocks total  : 13 (3328 bytes)
       lines         : 27
       syslines      : 27
       syslines high : 9

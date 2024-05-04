@@ -15,7 +15,7 @@ File: ./logs/Debian9/messages.log
       bytes total   : 153 (0x99)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 2
       syslines high : 1

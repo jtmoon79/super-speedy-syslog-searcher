@@ -15,7 +15,7 @@ File: ./logs/RancherOS-1.5.8/messages
       bytes total   : 27246 (0x6A6E)
       block size    : 256 (0x100)
       blocks        : 107
-      blocks total  : 107
+      blocks total  : 107 (27392 bytes)
       lines         : 234
       syslines      : 231
       syslines high : 231

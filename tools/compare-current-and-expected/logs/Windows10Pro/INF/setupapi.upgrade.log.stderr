@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       bytes total   : 7330 (0x1CA2)
       block size    : 256 (0x100)
       blocks        : 29
-      blocks total  : 29
+      blocks total  : 29 (7424 bytes)
       lines         : 129
       syslines      : 5
       syslines high : 5

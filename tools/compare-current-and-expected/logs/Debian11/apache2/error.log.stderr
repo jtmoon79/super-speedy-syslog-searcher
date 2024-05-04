@@ -15,7 +15,7 @@ File: ./logs/Debian11/apache2/error.log
       bytes total   : 693 (0x2B5)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5

@@ -17,7 +17,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
       bytes total   : 2304 (0x900)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       entries       : 6
       entry size    : 384 (bytes)
       entry hi-score: 135

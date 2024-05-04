@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/apt/history.log
       bytes total   : 1397 (0x575)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 5
       syslines high : 5

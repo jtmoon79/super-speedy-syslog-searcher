@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
       bytes total   : 2035 (0x7F3)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10

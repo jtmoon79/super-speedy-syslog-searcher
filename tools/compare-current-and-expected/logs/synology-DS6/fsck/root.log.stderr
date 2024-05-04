@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/fsck/root.log
       bytes total   : 1967 (0x7AF)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 66
       syslines      : 3
       syslines high : 3

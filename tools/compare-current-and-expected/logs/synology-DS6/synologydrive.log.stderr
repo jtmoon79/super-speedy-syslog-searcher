@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/synologydrive.log
       bytes total   : 2361 (0x939)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 18
       syslines      : 17
       syslines high : 9

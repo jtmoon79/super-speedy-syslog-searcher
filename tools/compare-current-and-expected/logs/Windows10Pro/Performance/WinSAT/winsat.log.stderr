@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       bytes total   : 6149 (0x1805)
       block size    : 256 (0x100)
       blocks        : 25
-      blocks total  : 25
+      blocks total  : 25 (6400 bytes)
       lines         : 74
       syslines      : 3
       syslines high : 3

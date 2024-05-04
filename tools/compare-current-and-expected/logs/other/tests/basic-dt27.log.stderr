@@ -15,7 +15,7 @@ File: ./logs/other/tests/basic-dt27.log
       bytes total   : 890 (0x37A)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 27
       syslines      : 27
       syslines high : 27

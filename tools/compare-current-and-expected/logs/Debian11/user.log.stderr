@@ -15,7 +15,7 @@ File: ./logs/Debian11/user.log
       bytes total   : 3138 (0xC42)
       block size    : 256 (0x100)
       blocks        : 13
-      blocks total  : 13
+      blocks total  : 13 (3328 bytes)
       lines         : 25
       syslines      : 26
       syslines high : 25

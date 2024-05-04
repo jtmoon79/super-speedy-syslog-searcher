@@ -15,7 +15,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       bytes total   : 125229 (0x1E92D)
       block size    : 256 (0x100)
       blocks        : 490
-      blocks total  : 490
+      blocks total  : 490 (125440 bytes)
       lines         : 1300
       syslines      : 1205
       syslines high : 11

@@ -15,7 +15,7 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       bytes total   : 4922 (0x133A)
       block size    : 256 (0x100)
       blocks        : 20
-      blocks total  : 20
+      blocks total  : 20 (5120 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19

@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       bytes total   : 1683 (0x693)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 12
       syslines      : 12
       syslines high : 8

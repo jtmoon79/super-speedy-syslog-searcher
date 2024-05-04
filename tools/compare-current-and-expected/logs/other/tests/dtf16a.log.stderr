@@ -15,7 +15,7 @@ File: ./logs/other/tests/dtf16a.log
       bytes total   : 214 (0xD6)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1

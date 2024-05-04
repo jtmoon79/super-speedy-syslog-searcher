@@ -16,7 +16,7 @@ File: ./logs/other/tests/invalid.gz
       bytes total   : 172247372 (0xA44494C)
       block size    : 256 (0x100)
       blocks        : 0
-      blocks total  : 672842
+      blocks total  : 672842 (172247552 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0

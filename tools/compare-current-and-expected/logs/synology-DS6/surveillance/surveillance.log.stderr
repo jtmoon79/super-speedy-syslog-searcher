@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
       bytes total   : 2065 (0x811)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19

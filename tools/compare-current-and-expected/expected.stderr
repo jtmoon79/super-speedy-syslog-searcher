@@ -37,7 +37,7 @@ File: ./logs/CentOS7/x86_64/wtmp
       bytes total   : 25728 (0x6480)
       block size    : 256 (0x100)
       blocks        : 70
-      blocks total  : 101
+      blocks total  : 101 (25856 bytes)
       entries       : 3
       entry size    : 384 (bytes)
       entry hi-score: 145
@@ -77,7 +77,7 @@ File: ./logs/CentOS7/yum.log
       bytes total   : 8586 (0x218A)
       block size    : 256 (0x100)
       blocks        : 34
-      blocks total  : 34
+      blocks total  : 34 (8704 bytes)
       lines         : 145
       syslines      : 146
       syslines high : 142
@@ -111,7 +111,7 @@ File: ./logs/cygwin/setup.log
       bytes total   : 6124 (0x17EC)
       block size    : 256 (0x100)
       blocks        : 24
-      blocks total  : 24
+      blocks total  : 24 (6144 bytes)
       lines         : 77
       syslines      : 76
       syslines high : 13
@@ -144,7 +144,7 @@ File: ./logs/cygwin/setup.log.full
       bytes total   : 4075 (0xFEB)
       block size    : 256 (0x100)
       blocks        : 16
-      blocks total  : 16
+      blocks total  : 16 (4096 bytes)
       lines         : 77
       syslines      : 12
       syslines high : 11
@@ -268,7 +268,7 @@ File: ./logs/Debian11/alternatives.log
       bytes total   : 4222 (0x107E)
       block size    : 256 (0x100)
       blocks        : 17
-      blocks total  : 17
+      blocks total  : 17 (4352 bytes)
       lines         : 15
       syslines      : 15
       syslines high : 8
@@ -301,7 +301,7 @@ File: ./logs/Debian11/apache2/access.log
       bytes total   : 734 (0x2DE)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5
@@ -334,7 +334,7 @@ File: ./logs/Debian11/apache2/error.log
       bytes total   : 693 (0x2B5)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5
@@ -367,7 +367,7 @@ File: ./logs/Debian11/dpkg.log
       bytes total   : 3060 (0xBF4)
       block size    : 256 (0x100)
       blocks        : 12
-      blocks total  : 12
+      blocks total  : 12 (3072 bytes)
       lines         : 49
       syslines      : 48
       syslines high : 15
@@ -400,7 +400,7 @@ File: ./logs/Debian11/kern.log
       bytes total   : 3430 (0xD66)
       block size    : 256 (0x100)
       blocks        : 14
-      blocks total  : 14
+      blocks total  : 14 (3584 bytes)
       lines         : 21
       syslines      : 20
       syslines high : 20
@@ -434,7 +434,7 @@ File: ./logs/Debian11/messages
       bytes total   : 3258 (0xCBA)
       block size    : 256 (0x100)
       blocks        : 13
-      blocks total  : 13
+      blocks total  : 13 (3328 bytes)
       lines         : 21
       syslines      : 20
       syslines high : 20
@@ -468,7 +468,7 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       bytes total   : 596 (0x254)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5
@@ -501,7 +501,7 @@ File: ./logs/Debian11/user.log
       bytes total   : 3138 (0xC42)
       block size    : 256 (0x100)
       blocks        : 13
-      blocks total  : 13
+      blocks total  : 13 (3328 bytes)
       lines         : 25
       syslines      : 26
       syslines high : 25
@@ -535,7 +535,7 @@ File: ./logs/Debian9/alternatives.log
       bytes total   : 2763 (0xACB)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 19
       syslines      : 14
       syslines high : 7
@@ -568,7 +568,7 @@ File: ./logs/Debian9/apport.log.1
       bytes total   : 745 (0x2E9)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -601,7 +601,7 @@ File: ./logs/Debian9/apt/eipp.log
       bytes total   : 374 (0x176)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 12
       syslines      : 0
       syslines high : 0
@@ -633,7 +633,7 @@ File: ./logs/Debian9/apt/history.log
       bytes total   : 298 (0x12A)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 10
       syslines      : 4
       syslines high : 4
@@ -666,7 +666,7 @@ File: ./logs/Debian9/aptitude.4
       bytes total   : 834 (0x342)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 1
       syslines high : 1
@@ -699,7 +699,7 @@ File: ./logs/Debian9/apt/term.log
       bytes total   : 17422 (0x440E)
       block size    : 256 (0x100)
       blocks        : 69
-      blocks total  : 69
+      blocks total  : 69 (17664 bytes)
       lines         : 292
       syslines      : 7
       syslines high : 5
@@ -732,7 +732,7 @@ File: ./logs/Debian9/auth.log
       bytes total   : 1752 (0x6D8)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19
@@ -766,7 +766,7 @@ File: ./logs/Debian9/boot.log
       bytes total   : 1106 (0x452)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 4
       syslines      : 0
       syslines high : 0
@@ -798,7 +798,7 @@ File: ./logs/Debian9/clamav/clamd.log
       bytes total   : 570 (0x23A)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 8
       syslines      : 8
       syslines high : 8
@@ -831,7 +831,7 @@ File: ./logs/Debian9/dpkg.log.1
       bytes total   : 1095 (0x447)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -864,7 +864,7 @@ File: ./logs/Debian9/kern.log
       bytes total   : 1619 (0x653)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19
@@ -898,7 +898,7 @@ File: ./logs/Debian9/messages.log
       bytes total   : 153 (0x99)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 2
       syslines high : 1
@@ -932,7 +932,7 @@ File: ./logs/Debian9/nginx/access.log
       bytes total   : 4237 (0x108D)
       block size    : 256 (0x100)
       blocks        : 17
-      blocks total  : 17
+      blocks total  : 17 (4352 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 6
@@ -965,7 +965,7 @@ File: ./logs/Debian9/nginx/access.log.1
       bytes total   : 4237 (0x108D)
       block size    : 256 (0x100)
       blocks        : 17
-      blocks total  : 17
+      blocks total  : 17 (4352 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 6
@@ -998,7 +998,7 @@ File: ./logs/Debian9/nginx/error.log
       bytes total   : 3990 (0xF96)
       block size    : 256 (0x100)
       blocks        : 16
-      blocks total  : 16
+      blocks total  : 16 (4096 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 6
@@ -1031,7 +1031,7 @@ File: ./logs/Debian9/nginx/error.log.1
       bytes total   : 3990 (0xF96)
       block size    : 256 (0x100)
       blocks        : 16
-      blocks total  : 16
+      blocks total  : 16 (4096 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 6
@@ -1064,7 +1064,7 @@ File: ./logs/Debian9/samba/log.192.168.0.1
       bytes total   : 158 (0x9E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -1097,7 +1097,7 @@ File: ./logs/Debian9/samba/log.192.168.0.2
       bytes total   : 159 (0x9F)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -1130,7 +1130,7 @@ File: ./logs/Debian9/samba/log.host1
       bytes total   : 159 (0x9F)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -1163,7 +1163,7 @@ File: ./logs/Debian9/samba/log.host2
       bytes total   : 158 (0x9E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -1196,7 +1196,7 @@ File: ./logs/Debian9/samba/log.nmbd
       bytes total   : 226 (0xE2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 3
       syslines      : 1
       syslines high : 1
@@ -1229,7 +1229,7 @@ File: ./logs/Debian9/samba/log.nmbd.1
       bytes total   : 1783 (0x6F7)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 6
       syslines high : 5
@@ -1262,7 +1262,7 @@ File: ./logs/Debian9/samba/log.nmbd.old
       bytes total   : 1783 (0x6F7)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 6
       syslines high : 5
@@ -1295,7 +1295,7 @@ File: ./logs/Debian9/samba/log.smbd.1
       bytes total   : 153 (0x99)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -1328,7 +1328,7 @@ File: ./logs/Debian9/syslog
       bytes total   : 1849 (0x739)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -1362,7 +1362,7 @@ File: ./logs/Debian9/user.log.1
       bytes total   : 364 (0x16C)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 3
       syslines      : 4
       syslines high : 3
@@ -1396,7 +1396,7 @@ File: ./logs/Debian9/Xorg.0.log
       bytes total   : 1249 (0x4E1)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 4
       syslines      : 0
       syslines high : 0
@@ -1428,7 +1428,7 @@ File: ./logs/Debian9/Xorg.0.log.old
       bytes total   : 1250 (0x4E2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 4
       syslines      : 0
       syslines high : 0
@@ -1460,7 +1460,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       bytes total   : 3171 (0xC63)
       block size    : 256 (0x100)
       blocks        : 13
-      blocks total  : 13
+      blocks total  : 13 (3328 bytes)
       lines         : 27
       syslines      : 27
       syslines high : 9
@@ -1493,7 +1493,7 @@ File: ./logs/FedoraRemix29/dnf.log
       bytes total   : 36635 (0x8F1B)
       block size    : 256 (0x100)
       blocks        : 144
-      blocks total  : 144
+      blocks total  : 144 (36864 bytes)
       lines         : 476
       syslines      : 226
       syslines high : 13
@@ -1526,7 +1526,7 @@ File: ./logs/FedoraRemix29/hawkeye.log
       bytes total   : 3467 (0xD8B)
       block size    : 256 (0x100)
       blocks        : 14
-      blocks total  : 14
+      blocks total  : 14 (3584 bytes)
       lines         : 37
       syslines      : 37
       syslines high : 36
@@ -1560,7 +1560,7 @@ File: ./logs/MinGW64/pacman.log
       bytes total   : 5699 (0x1643)
       block size    : 256 (0x100)
       blocks        : 23
-      blocks total  : 23
+      blocks total  : 23 (5888 bytes)
       lines         : 102
       syslines      : 102
       syslines high : 15
@@ -1706,7 +1706,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       bytes total   : 5776 (0x1690)
       block size    : 256 (0x100)
       blocks        : 21
-      blocks total  : 23
+      blocks total  : 23 (5888 bytes)
       entries       : 7
       entry size    : 304 (bytes)
       entry hi-score: 96
@@ -1733,7 +1733,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
       bytes total   : 8208 (0x2010)
       block size    : 256 (0x100)
       blocks        : 29
-      blocks total  : 33
+      blocks total  : 33 (8448 bytes)
       entries       : 7
       entry size    : 304 (bytes)
       entry hi-score: 96
@@ -1780,7 +1780,7 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       bytes total   : 1979 (0x7BB)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 10
@@ -1813,7 +1813,7 @@ File: ./logs/OpenSUSE15/zypper.log
       bytes total   : 2765 (0xACD)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -1846,7 +1846,7 @@ File: ./logs/OpenSUSE15/zypp/history
       bytes total   : 4765 (0x129D)
       block size    : 256 (0x100)
       blocks        : 19
-      blocks total  : 19
+      blocks total  : 19 (4864 bytes)
       lines         : 39
       syslines      : 19
       syslines high : 7
@@ -1879,7 +1879,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       bytes total   : 643 (0x283)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 9
       syslines      : 8
       syslines high : 8
@@ -1912,7 +1912,7 @@ File: ./logs/Orbi/tmp/dal_ash.log
       bytes total   : 831 (0x33F)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 9
       syslines      : 8
       syslines high : 8
@@ -1945,7 +1945,7 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
       bytes total   : 1159 (0x487)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -1978,7 +1978,7 @@ File: ./logs/Orbi/tmp/UpAgent.log
       bytes total   : 1865 (0x749)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 10
@@ -2011,7 +2011,7 @@ File: ./logs/Orbi/tmp/xagent.log
       bytes total   : 1595 (0x63B)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -2044,7 +2044,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       bytes total   : 1864 (0x748)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 17
       syslines high : 10
@@ -2077,7 +2077,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
       bytes total   : 1864 (0x748)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 17
       syslines high : 10
@@ -2110,7 +2110,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
       bytes total   : 2135 (0x857)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -2143,7 +2143,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
       bytes total   : 2033 (0x7F1)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -2180,7 +2180,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
       bytes total   : 1210 (0x4BA)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 55
       syslines      : 55
       syslines high : 37
@@ -2213,7 +2213,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
       bytes total   : 1539 (0x603)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 55
       syslines      : 55
       syslines high : 32
@@ -2246,7 +2246,7 @@ File: ./logs/other/tests/basic-basic-dt20.log
       bytes total   : 399 (0x18F)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 20
@@ -2279,7 +2279,7 @@ File: ./logs/other/tests/basic-dt1.log
       bytes total   : 20 (0x14)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 1
       syslines high : 1
@@ -2312,7 +2312,7 @@ File: ./logs/other/tests/basic-dt27.log
       bytes total   : 890 (0x37A)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 27
       syslines      : 27
       syslines high : 27
@@ -2345,7 +2345,7 @@ File: ./logs/other/tests/basic-dt2b.log
       bytes total   : 43 (0x2B)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 4
       syslines      : 2
       syslines high : 2
@@ -2378,7 +2378,7 @@ File: ./logs/other/tests/basic-dt2.log
       bytes total   : 40 (0x28)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -2411,7 +2411,7 @@ File: ./logs/other/tests/basic-dt6.log
       bytes total   : 134 (0x86)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -2444,7 +2444,7 @@ File: ./logs/other/tests/basic-dt-u.log
       bytes total   : 1268 (0x4F4)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 54
       syslines      : 27
       syslines high : 22
@@ -2477,7 +2477,7 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
       bytes total   : 631 (0x277)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 64
       syslines      : 10
       syslines high : 10
@@ -2510,7 +2510,7 @@ File: ./logs/other/tests/dtf10-10a.log
       bytes total   : 298 (0x12A)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 8
       syslines      : 8
       syslines high : 8
@@ -2543,7 +2543,7 @@ File: ./logs/other/tests/dtf10-10b.log
       bytes total   : 398 (0x18E)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 13
       syslines      : 8
       syslines high : 8
@@ -2576,7 +2576,7 @@ File: ./logs/other/tests/dtf11-A.log
       bytes total   : 480 (0x1E0)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 13
       syslines      : 13
       syslines high : 13
@@ -2609,7 +2609,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       bytes total   : 295 (0x127)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 8
       syslines      : 5
       syslines high : 4
@@ -2642,7 +2642,7 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
       bytes total   : 295 (0x127)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 8
       syslines      : 5
       syslines high : 4
@@ -2675,7 +2675,7 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
       bytes total   : 450 (0x1C2)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 12
       syslines      : 8
       syslines high : 8
@@ -2708,7 +2708,7 @@ File: ./logs/other/tests/dtf13a.log
       bytes total   : 231 (0xE7)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 3
       syslines      : 3
       syslines high : 3
@@ -2741,7 +2741,7 @@ File: ./logs/other/tests/dtf13b.log
       bytes total   : 228 (0xE4)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 3
       syslines      : 3
       syslines high : 3
@@ -2774,7 +2774,7 @@ File: ./logs/other/tests/dtf13c.log
       bytes total   : 231 (0xE7)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 3
       syslines      : 3
       syslines high : 3
@@ -2807,7 +2807,7 @@ File: ./logs/other/tests/dtf13d.log
       bytes total   : 222 (0xDE)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 3
       syslines      : 3
       syslines high : 3
@@ -2840,7 +2840,7 @@ File: ./logs/other/tests/dtf14a.log
       bytes total   : 250 (0xFA)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -2873,7 +2873,7 @@ File: ./logs/other/tests/dtf15a.log
       bytes total   : 214 (0xD6)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -2906,7 +2906,7 @@ File: ./logs/other/tests/dtf15b.log
       bytes total   : 220 (0xDC)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -2939,7 +2939,7 @@ File: ./logs/other/tests/dtf16a.log
       bytes total   : 214 (0xD6)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -2972,7 +2972,7 @@ File: ./logs/other/tests/dtf16b.log
       bytes total   : 220 (0xDC)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -3005,7 +3005,7 @@ File: ./logs/other/tests/dtf16c.log
       bytes total   : 223 (0xDF)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -3038,7 +3038,7 @@ File: ./logs/other/tests/dtf16d.log
       bytes total   : 223 (0xDF)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -3071,7 +3071,7 @@ File: ./logs/other/tests/dtf16e.log
       bytes total   : 214 (0xD6)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -3104,7 +3104,7 @@ File: ./logs/other/tests/dtf2-2.log
       bytes total   : 60 (0x3C)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 3
       syslines      : 2
       syslines high : 2
@@ -3137,7 +3137,7 @@ File: ./logs/other/tests/dtf3-1.log
       bytes total   : 29 (0x1D)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 1
       syslines high : 1
@@ -3170,7 +3170,7 @@ File: ./logs/other/tests/dtf3-2a.log
       bytes total   : 68 (0x44)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -3203,7 +3203,7 @@ File: ./logs/other/tests/dtf3-2b.log
       bytes total   : 71 (0x47)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 4
       syslines      : 2
       syslines high : 2
@@ -3236,7 +3236,7 @@ File: ./logs/other/tests/dtf4-2a.log
       bytes total   : 82 (0x52)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -3269,7 +3269,7 @@ File: ./logs/other/tests/dtf4-2b.log
       bytes total   : 84 (0x54)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 3
       syslines      : 2
       syslines high : 2
@@ -3302,7 +3302,7 @@ File: ./logs/other/tests/dtf5-1.log
       bytes total   : 28 (0x1C)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 1
       syslines high : 1
@@ -3335,7 +3335,7 @@ File: ./logs/other/tests/dtf5-2a.log
       bytes total   : 60 (0x3C)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -3368,7 +3368,7 @@ File: ./logs/other/tests/dtf5-2b.log
       bytes total   : 63 (0x3F)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 4
       syslines      : 2
       syslines high : 2
@@ -3401,7 +3401,7 @@ File: ./logs/other/tests/dtf5-2c.log
       bytes total   : 66 (0x42)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 2
       syslines high : 2
@@ -3434,7 +3434,7 @@ File: ./logs/other/tests/dtf5-3-LF-CR.log
       bytes total   : 189 (0xBD)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 4
       syslines      : 2
       syslines high : 2
@@ -3467,7 +3467,7 @@ File: ./logs/other/tests/dtf5-3-r-n.log
       bytes total   : 199 (0xC7)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 3
       syslines high : 3
@@ -3500,7 +3500,7 @@ File: ./logs/other/tests/dtf5-6a.log
       bytes total   : 194 (0xC2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -3533,7 +3533,7 @@ File: ./logs/other/tests/dtf5-6a.log.1
       bytes total   : 194 (0xC2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -3567,7 +3567,7 @@ File: ./logs/other/tests/dtf5-6a.log.gz
       bytes total   : 194 (0xC2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -3586,39 +3586,6 @@ File: ./logs/other/tests/dtf5-6a.log.gz
       process: regex captures attempted                            : 84
   Processing Drops:
 
-File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size archive   : 10240 (0x2800) (bytes)
-      file size unarchived: 89 (0x59) (bytes)
-      bytes         : 89 (0x59)
-      bytes total   : 89 (0x59)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1
-      lines         : 1
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 154, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   1, miss   7, 12.5%, largest skipped 21
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 145,  0.7%, largest skipped 19
-      process: regex captures attempted                            : 152
-  Processing Drops:
-
 File: ./logs/other/tests/dtf5-6a.log.old
   About:
       filetype       : TEXT UTF8/ASCII
@@ -3633,7 +3600,7 @@ File: ./logs/other/tests/dtf5-6a.log.old
       bytes total   : 194 (0xC2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -3667,7 +3634,7 @@ File: ./logs/other/tests/dtf5-6a.log.xz
       bytes total   : 194 (0xC2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -3700,7 +3667,7 @@ File: ./logs/other/tests/dtf5-6b.log
       bytes total   : 249 (0xF9)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 12
       syslines      : 6
       syslines high : 6
@@ -3733,7 +3700,7 @@ File: ./logs/other/tests/dtf5-6c.log
       bytes total   : 829 (0x33D)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 32
       syslines      : 11
       syslines high : 11
@@ -3766,7 +3733,7 @@ File: ./logs/other/tests/dtf6z-1.log
       bytes total   : 189 (0xBD)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5
@@ -3799,7 +3766,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
       bytes total   : 1260 (0x4EC)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 15
@@ -3833,7 +3800,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
       bytes total   : 1260 (0x4EC)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 15
@@ -3866,7 +3833,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old
       bytes total   : 1260 (0x4EC)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 15
@@ -3900,7 +3867,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
       bytes total   : 1260 (0x4EC)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 15
@@ -3934,7 +3901,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVEL
       bytes total   : 1260 (0x4EC)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 15
@@ -3968,7 +3935,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
       bytes total   : 1260 (0x4EC)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 15
@@ -4001,7 +3968,7 @@ File: ./logs/other/tests/dtf7-5-LEVELS.log
       bytes total   : 272 (0x110)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5
@@ -4034,7 +4001,7 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       bytes total   : 1380 (0x564)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 20
       syslines      : 20
       syslines high : 14
@@ -4067,7 +4034,7 @@ File: ./logs/other/tests/dtf9a-2.log
       bytes total   : 478 (0x1DE)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -4101,7 +4068,7 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
       bytes total   : 3486 (0xD9E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 14
+      blocks total  : 14 (3584 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -4133,7 +4100,7 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
       bytes total   : 3486 (0xD9E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 14
+      blocks total  : 14 (3584 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -4166,7 +4133,7 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       bytes total   : 431 (0x1AF)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 25
       syslines      : 25
       syslines high : 23
@@ -4200,7 +4167,7 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       bytes total   : 431 (0x1AF)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 25
       syslines      : 25
       syslines high : 23
@@ -4234,7 +4201,7 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       bytes total   : 839 (0x347)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 38
       syslines      : 42
       syslines high : 37
@@ -4268,7 +4235,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       bytes total   : 526 (0x20E)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 24
       syslines      : 45
       syslines high : 23
@@ -4302,7 +4269,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       bytes total   : 527 (0x20F)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 25
       syslines      : 25
       syslines high : 23
@@ -4336,7 +4303,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       bytes total   : 1197 (0x4AD)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 23
       syslines      : 22
       syslines high : 20
@@ -4370,7 +4337,7 @@ File: ./logs/other/tests/dtf-varying-10.log
       bytes total   : 296 (0x128)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 10
       syslines      : 4
       syslines high : 4
@@ -4403,7 +4370,7 @@ File: ./logs/other/tests/dt-mix1.log
       bytes total   : 420 (0x1A4)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 21
       syslines      : 10
       syslines high : 10
@@ -4455,7 +4422,7 @@ File: ./logs/other/tests/invalid.gz
       bytes total   : 172247372 (0xA44494C)
       block size    : 256 (0x100)
       blocks        : 0
-      blocks total  : 672842
+      blocks total  : 672842 (172247552 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -4502,7 +4469,7 @@ File: ./logs/other/tests/invalid1a.log
       bytes total   : 1 (0x1)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -4534,7 +4501,7 @@ File: ./logs/other/tests/invalid1b.log
       bytes total   : 2 (0x2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -4566,7 +4533,7 @@ File: ./logs/other/tests/invalid2.log
       bytes total   : 107 (0x6B)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -4599,7 +4566,7 @@ File: ./logs/other/tests/invalid3.log
       bytes total   : 113 (0x71)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -4632,7 +4599,7 @@ File: ./logs/other/tests/invalid4.log
       bytes total   : 109 (0x6D)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -4665,7 +4632,7 @@ File: ./logs/other/tests/unknown
       bytes total   : 192 (0xC0)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 4
       syslines      : 4
       syslines high : 4
@@ -4698,7 +4665,7 @@ File: ./logs/other/tests/zero100.log
       bytes total   : 100 (0x64)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -4730,7 +4697,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       bytes total   : 3856 (0xF10)
       block size    : 256 (0x100)
       blocks        : 16
-      blocks total  : 16
+      blocks total  : 16 (4096 bytes)
       lines         : 33
       syslines      : 30
       syslines high : 9
@@ -4763,7 +4730,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       bytes total   : 6502 (0x1966)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 26
+      blocks total  : 26 (6656 bytes)
       lines         : 2
       syslines      : 0
       syslines high : 0
@@ -4808,7 +4775,7 @@ File: ./logs/programs/flask/server.log
       bytes total   : 240 (0xF0)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -4883,7 +4850,7 @@ File: ./logs/programs/pacman/pacman.log
       bytes total   : 12083 (0x2F33)
       block size    : 256 (0x100)
       blocks        : 48
-      blocks total  : 48
+      blocks total  : 48 (12288 bytes)
       lines         : 195
       syslines      : 195
       syslines high : 14
@@ -4916,7 +4883,7 @@ File: ./logs/programs/proftpd/controls.log
       bytes total   : 670 (0x29E)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -4949,7 +4916,7 @@ File: ./logs/programs/proftpd/proftpd.log
       bytes total   : 2074 (0x81A)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -4982,7 +4949,7 @@ File: ./logs/programs/proftpd/xferlog
       bytes total   : 279 (0x117)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 3
       syslines      : 3
       syslines high : 3
@@ -5015,7 +4982,7 @@ File: ./logs/programs/tomcat/catalina.out
       bytes total   : 1832 (0x728)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 21
       syslines      : 7
       syslines high : 7
@@ -5048,7 +5015,7 @@ File: ./logs/programs/tomcat/catalina-access.log
       bytes total   : 432 (0x1B0)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -5089,7 +5056,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp
       bytes total   : 2304 (0x900)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       entries       : 6
       entry size    : 384 (bytes)
       entry hi-score: 135
@@ -5115,7 +5082,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.bz2
       bytes total   : 228 (0xE4)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -5163,7 +5130,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
       bytes total   : 2304 (0x900)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       entries       : 6
       entry size    : 384 (bytes)
       entry hi-score: 135
@@ -5189,73 +5156,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip
       bytes total   : 366 (0x16E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 2
-      lines         : 0
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
-  Processing Drops:
-
-File: ./logs/programs/utmp/host-entry6_(pax_b1).wtmp.tar|host-entry6.wtmp
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size archive   : 5120 (0x1400) (bytes)
-      file size unarchived: 2304 (0x900) (bytes)
-      bytes         : 2304 (0x900)
-      bytes total   : 2304 (0x900)
-      block size    : 256 (0x100)
-      blocks        : 9
-      blocks total  : 9
-      lines         : 0
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
-  Processing Drops:
-
-File: ./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar|host-entry6.wtmp
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 2304 (0x900) (bytes)
-      bytes         : 2304 (0x900)
-      bytes total   : 2304 (0x900)
-      block size    : 256 (0x100)
-      blocks        : 9
-      blocks total  : 9
+      blocks total  : 2 (512 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -5275,12 +5176,13 @@ File: ./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar|host-entry6.wtmp
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
   About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
+      filetype       : UTMP/WTMP (tar)
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
+      bytes         : 1775
+      entries       : 6
   Processed:
       file size archive   : 5120 (0x1400) (bytes)
       file size unarchived: 2304 (0x900) (bytes)
@@ -5288,56 +5190,24 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
       bytes total   : 2304 (0x900)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
-      lines         : 0
-      syslines      : 0
-      syslines high : 0
+      blocks total  : 9 (2304 bytes)
+      entries       : 6
+      entry size    : 384 (bytes)
+      entry hi-score: 135
+      first entry   : @0
+      entry high    : 5
+      peak map size : 6
+      out of order? : 0
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
   About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size archive   : 5120 (0x1400) (bytes)
-      file size unarchived: 384 (0x180) (bytes)
-      bytes         : 384 (0x180)
-      bytes total   : 384 (0x180)
-      block size    : 256 (0x100)
-      blocks        : 2
-      blocks total  : 2
-      lines         : 1
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 1, miss 2, 33.3%, put 1
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 2,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
-  Processing Drops:
+      filetype       : UTMP/WTMP (tar)
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      Processing Err : FileErrNoValidFixedStruct
 
 File: ./logs/RancherOS-1.5.8/boot/autologin
   About:
@@ -5353,7 +5223,7 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       bytes total   : 183 (0xB7)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -5386,7 +5256,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       bytes total   : 952 (0x3B8)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 10
       syslines      : 8
       syslines high : 8
@@ -5419,7 +5289,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       bytes total   : 510 (0x1FE)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5
@@ -5452,7 +5322,7 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
       bytes total   : 2168 (0x878)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 21
       syslines      : 18
       syslines high : 12
@@ -5485,7 +5355,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       bytes total   : 3010 (0xBC2)
       block size    : 256 (0x100)
       blocks        : 12
-      blocks total  : 12
+      blocks total  : 12 (3072 bytes)
       lines         : 21
       syslines      : 18
       syslines high : 9
@@ -5518,7 +5388,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       bytes total   : 1709 (0x6AD)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 21
       syslines      : 20
       syslines high : 13
@@ -5551,7 +5421,7 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       bytes total   : 1499 (0x5DB)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 21
       syslines      : 18
       syslines high : 11
@@ -5584,7 +5454,7 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       bytes total   : 826 (0x33A)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 10
       syslines      : 10
       syslines high : 10
@@ -5617,7 +5487,7 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
       bytes total   : 4557 (0x11CD)
       block size    : 256 (0x100)
       blocks        : 18
-      blocks total  : 18
+      blocks total  : 18 (4608 bytes)
       lines         : 45
       syslines      : 45
       syslines high : 9
@@ -5650,7 +5520,7 @@ File: ./logs/RancherOS-1.5.8/docker.log
       bytes total   : 9256 (0x2428)
       block size    : 256 (0x100)
       blocks        : 37
-      blocks total  : 37
+      blocks total  : 37 (9472 bytes)
       lines         : 67
       syslines      : 66
       syslines high : 8
@@ -5683,7 +5553,7 @@ File: ./logs/RancherOS-1.5.8/messages
       bytes total   : 27246 (0x6A6E)
       block size    : 256 (0x100)
       blocks        : 107
-      blocks total  : 107
+      blocks total  : 107 (27392 bytes)
       lines         : 234
       syslines      : 231
       syslines high : 231
@@ -5717,7 +5587,7 @@ File: ./logs/RancherOS-1.5.8/syslog
       bytes total   : 1267 (0x4F3)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 10
       syslines      : 11
       syslines high : 10
@@ -5751,7 +5621,7 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       bytes total   : 2501 (0x9C5)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 21
       syslines      : 1
       syslines high : 1
@@ -5784,7 +5654,7 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       bytes total   : 4922 (0x133A)
       block size    : 256 (0x100)
       blocks        : 20
-      blocks total  : 20
+      blocks total  : 20 (5120 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -5818,7 +5688,7 @@ File: ./logs/RockyLinux9/cron
       bytes total   : 12532 (0x30F4)
       block size    : 256 (0x100)
       blocks        : 49
-      blocks total  : 49
+      blocks total  : 49 (12544 bytes)
       lines         : 116
       syslines      : 117
       syslines high : 116
@@ -5852,7 +5722,7 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       bytes total   : 16151 (0x3F17)
       block size    : 256 (0x100)
       blocks        : 64
-      blocks total  : 64
+      blocks total  : 64 (16384 bytes)
       lines         : 104
       syslines      : 104
       syslines high : 8
@@ -5885,7 +5755,7 @@ File: ./logs/RockyLinux9/dnf.log
       bytes total   : 56973 (0xDE8D)
       block size    : 256 (0x100)
       blocks        : 223
-      blocks total  : 223
+      blocks total  : 223 (57088 bytes)
       lines         : 763
       syslines      : 677
       syslines high : 13
@@ -5918,7 +5788,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       bytes total   : 2400 (0x960)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 39
       syslines      : 36
       syslines high : 12
@@ -5951,7 +5821,7 @@ File: ./logs/RockyLinux9/hawkey.log
       bytes total   : 1679 (0x68F)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 28
       syslines      : 28
       syslines high : 15
@@ -5984,7 +5854,7 @@ File: ./logs/RockyLinux9/messages
       bytes total   : 256136 (0x3E888)
       block size    : 256 (0x100)
       blocks        : 1001
-      blocks total  : 1001
+      blocks total  : 1001 (256256 bytes)
       lines         : 2432
       syslines      : 2432
       syslines high : 2432
@@ -6018,7 +5888,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       bytes total   : 5229 (0x146D)
       block size    : 256 (0x100)
       blocks        : 21
-      blocks total  : 21
+      blocks total  : 21 (5376 bytes)
       lines         : 37
       syslines      : 37
       syslines high : 37
@@ -6052,7 +5922,7 @@ File: ./logs/RockyLinux9/nginx/access.log
       bytes total   : 552 (0x228)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 4
       syslines      : 4
       syslines high : 4
@@ -6085,7 +5955,7 @@ File: ./logs/RockyLinux9/nginx/error.log
       bytes total   : 461 (0x1CD)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -6118,7 +5988,7 @@ File: ./logs/RockyLinux9/secure
       bytes total   : 73458 (0x11EF2)
       block size    : 256 (0x100)
       blocks        : 287
-      blocks total  : 287
+      blocks total  : 287 (73472 bytes)
       lines         : 546
       syslines      : 546
       syslines high : 545
@@ -6152,7 +6022,7 @@ File: ./logs/synology-DS6/apparmor.log
       bytes total   : 1742 (0x6CE)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -6185,7 +6055,7 @@ File: ./logs/synology-DS6/auth.log
       bytes total   : 2167 (0x877)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -6218,7 +6088,7 @@ File: ./logs/synology-DS6/checker.log
       bytes total   : 1711 (0x6AF)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -6251,7 +6121,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       bytes total   : 813 (0x32D)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 7
       syslines      : 7
       syslines high : 7
@@ -6285,7 +6155,7 @@ File: ./logs/synology-DS6/datascrubbing.log
       bytes total   : 2406 (0x966)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8
@@ -6318,7 +6188,7 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       bytes total   : 25 (0x19)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 1
       syslines high : 1
@@ -6351,7 +6221,7 @@ File: ./logs/synology-DS6/disk.log
       bytes total   : 2185 (0x889)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -6384,7 +6254,7 @@ File: ./logs/synology-DS6/dmesg
       bytes total   : 1708 (0x6AC)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -6417,7 +6287,7 @@ File: ./logs/synology-DS6/downloadstation.log
       bytes total   : 2187 (0x88B)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -6450,7 +6320,7 @@ File: ./logs/synology-DS6/dpkg.log
       bytes total   : 1456 (0x5B0)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13
@@ -6483,7 +6353,7 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
       bytes total   : 1411 (0x583)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 5
       syslines high : 5
@@ -6516,7 +6386,7 @@ File: ./logs/synology-DS6/esynoscheduler.log
       bytes total   : 1627 (0x65B)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 3
       syslines high : 3
@@ -6549,7 +6419,7 @@ File: ./logs/synology-DS6/fsck/root.log
       bytes total   : 1967 (0x7AF)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 66
       syslines      : 3
       syslines high : 3
@@ -6582,7 +6452,7 @@ File: ./logs/synology-DS6/ha.log
       bytes total   : 2557 (0x9FD)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8
@@ -6615,7 +6485,7 @@ File: ./logs/synology-DS6/iscsi.log
       bytes total   : 2308 (0x904)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -6648,7 +6518,7 @@ File: ./logs/synology-DS6/kern.log
       bytes total   : 2264 (0x8D8)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -6681,7 +6551,7 @@ File: ./logs/synology-DS6/messages
       bytes total   : 3591 (0xE07)
       block size    : 256 (0x100)
       blocks        : 15
-      blocks total  : 15
+      blocks total  : 15 (3840 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 7
@@ -6714,7 +6584,7 @@ File: ./logs/synology-DS6/opentftp.log
       bytes total   : 1174 (0x496)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 21
       syslines      : 21
       syslines high : 17
@@ -6747,7 +6617,7 @@ File: ./logs/synology-DS6/packages/CloudSync.log
       bytes total   : 1601 (0x641)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -6780,7 +6650,7 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       bytes total   : 956 (0x3BC)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 1
       syslines high : 1
@@ -6813,7 +6683,7 @@ File: ./logs/synology-DS6/packages/FileStation.log
       bytes total   : 1866 (0x74A)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -6846,7 +6716,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       bytes total   : 1652 (0x674)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 3
       syslines high : 3
@@ -6879,7 +6749,7 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
       bytes total   : 1600 (0x640)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 16
       syslines high : 9
@@ -6912,7 +6782,7 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
       bytes total   : 1470 (0x5BE)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 8
@@ -6945,7 +6815,7 @@ File: ./logs/synology-DS6/packages/LogCenter.log
       bytes total   : 923 (0x39B)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 5
       syslines high : 5
@@ -6978,7 +6848,7 @@ File: ./logs/synology-DS6/packages/Node.js_v4.log
       bytes total   : 1739 (0x6CB)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -7011,7 +6881,7 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
       bytes total   : 2035 (0x7F3)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -7044,7 +6914,7 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       bytes total   : 1051 (0x41B)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 7
       syslines high : 7
@@ -7077,7 +6947,7 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
       bytes total   : 1342 (0x53E)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 3
       syslines high : 3
@@ -7110,7 +6980,7 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
       bytes total   : 1836 (0x72C)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -7143,7 +7013,7 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       bytes total   : 1575 (0x627)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 5
       syslines high : 5
@@ -7176,7 +7046,7 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       bytes total   : 1504 (0x5E0)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 13
       syslines high : 9
@@ -7209,7 +7079,7 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
       bytes total   : 1143 (0x477)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 3
       syslines high : 3
@@ -7242,7 +7112,7 @@ File: ./logs/synology-DS6/packages/USBCopy.log
       bytes total   : 1586 (0x632)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -7275,7 +7145,7 @@ File: ./logs/synology-DS6/postgresql.log
       bytes total   : 2326 (0x916)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -7308,7 +7178,7 @@ File: ./logs/synology-DS6/router.log
       bytes total   : 2304 (0x900)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -7341,7 +7211,7 @@ File: ./logs/synology-DS6/samba/log.nmbd
       bytes total   : 1063 (0x427)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 8
       syslines high : 8
@@ -7374,7 +7244,7 @@ File: ./logs/synology-DS6/samba/log.smbd
       bytes total   : 1091 (0x443)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 8
       syslines high : 8
@@ -7407,7 +7277,7 @@ File: ./logs/synology-DS6/scemd.log
       bytes total   : 2349 (0x92D)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8
@@ -7440,7 +7310,7 @@ File: ./logs/synology-DS6/sfdisk.log
       bytes total   : 1841 (0x731)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -7473,7 +7343,7 @@ File: ./logs/synology-DS6/smart_extend_log
       bytes total   : 266 (0x10A)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 8
       syslines      : 4
       syslines high : 4
@@ -7506,7 +7376,7 @@ File: ./logs/synology-DS6/smart_quick_log
       bytes total   : 266 (0x10A)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 8
       syslines      : 4
       syslines high : 4
@@ -7539,7 +7409,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       bytes total   : 2353 (0x931)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 21
       syslines high : 19
@@ -7573,7 +7443,7 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
       bytes total   : 2095 (0x82F)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19
@@ -7607,7 +7477,7 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       bytes total   : 2133 (0x855)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19
@@ -7641,7 +7511,7 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
       bytes total   : 2065 (0x811)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19
@@ -7675,7 +7545,7 @@ File: ./logs/synology-DS6/synobackup.log
       bytes total   : 1554 (0x612)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 15
       syslines      : 14
       syslines high : 10
@@ -7708,7 +7578,7 @@ File: ./logs/synology-DS6/synocmsclient.log
       bytes total   : 608 (0x260)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 19
       syslines      : 11
       syslines high : 11
@@ -7741,7 +7611,7 @@ File: ./logs/synology-DS6/synocontentextractd.log
       bytes total   : 3626 (0xE2A)
       block size    : 256 (0x100)
       blocks        : 15
-      blocks total  : 15
+      blocks total  : 15 (3840 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 6
@@ -7774,7 +7644,7 @@ File: ./logs/synology-DS6/synocrond-execute.log
       bytes total   : 2453 (0x995)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -7806,7 +7676,7 @@ File: ./logs/synology-DS6/synocrond.log
       bytes total   : 1639 (0x667)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 11
       syslines      : 11
       syslines high : 8
@@ -7839,7 +7709,7 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
       bytes total   : 3465 (0xD89)
       block size    : 256 (0x100)
       blocks        : 14
-      blocks total  : 14
+      blocks total  : 14 (3584 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 7
@@ -7872,7 +7742,7 @@ File: ./logs/synology-DS6/synoindex.log
       bytes total   : 1435 (0x59B)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 8
       syslines      : 8
       syslines high : 7
@@ -7905,7 +7775,7 @@ File: ./logs/synology-DS6/synolog/synobackup.log
       bytes total   : 1704 (0x6A8)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 16
       syslines      : 15
       syslines high : 10
@@ -7938,7 +7808,7 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
       bytes total   : 2136 (0x858)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -7971,7 +7841,7 @@ File: ./logs/synology-DS6/synologydrive.log
       bytes total   : 2361 (0x939)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 18
       syslines      : 17
       syslines high : 9
@@ -8004,7 +7874,7 @@ File: ./logs/synology-DS6/synophoto.log
       bytes total   : 2782 (0xADE)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8
@@ -8037,7 +7907,7 @@ File: ./logs/synology-DS6/synopkg.log
       bytes total   : 2107 (0x83B)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 6
@@ -8070,7 +7940,7 @@ File: ./logs/synology-DS6/synopoweroff.log
       bytes total   : 2802 (0xAF2)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8
@@ -8103,7 +7973,7 @@ File: ./logs/synology-DS6/synorelayd.log
       bytes total   : 1094 (0x446)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -8136,7 +8006,7 @@ File: ./logs/synology-DS6/synoreport.log
       bytes total   : 1020 (0x3FC)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -8169,7 +8039,7 @@ File: ./logs/synology-DS6/synoscheduler.log
       bytes total   : 1938 (0x792)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 18
       syslines      : 18
       syslines high : 10
@@ -8202,7 +8072,7 @@ File: ./logs/synology-DS6/synoservice.log
       bytes total   : 1944 (0x798)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -8235,7 +8105,7 @@ File: ./logs/synology-DS6/synotifyd.log
       bytes total   : 1534 (0x5FE)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -8268,7 +8138,7 @@ File: ./logs/synology-DS6/synoupdate.log
       bytes total   : 1231 (0x4CF)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -8301,7 +8171,7 @@ File: ./logs/synology-DS6/syslog.log
       bytes total   : 2226 (0x8B2)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -8334,7 +8204,7 @@ File: ./logs/synology-DS6/sysnotify.log
       bytes total   : 2995 (0xBB3)
       block size    : 256 (0x100)
       blocks        : 12
-      blocks total  : 12
+      blocks total  : 12 (3072 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 7
@@ -8367,7 +8237,7 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
       bytes total   : 1487 (0x5CF)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13
@@ -8400,7 +8270,7 @@ File: ./logs/synology-DS6/upstart/apparmor.log
       bytes total   : 1064 (0x428)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -8433,7 +8303,7 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       bytes total   : 408 (0x198)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 8
       syslines      : 8
       syslines high : 8
@@ -8466,7 +8336,7 @@ File: ./logs/synology-DS6/upstart/avahi.log
       bytes total   : 1577 (0x629)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -8499,7 +8369,7 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
       bytes total   : 493 (0x1ED)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 6
       syslines      : 5
       syslines high : 5
@@ -8532,7 +8402,7 @@ File: ./logs/synology-DS6/upstart/crond.log
       bytes total   : 966 (0x3C6)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 18
@@ -8565,7 +8435,7 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       bytes total   : 5673 (0x1629)
       block size    : 256 (0x100)
       blocks        : 23
-      blocks total  : 23
+      blocks total  : 23 (5888 bytes)
       lines         : 178
       syslines      : 3
       syslines high : 3
@@ -8598,7 +8468,7 @@ File: ./logs/synology-DS6/upstart/dbus-system.log
       bytes total   : 1247 (0x4DF)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -8631,7 +8501,7 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       bytes total   : 1683 (0x693)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 12
       syslines      : 12
       syslines high : 8
@@ -8664,7 +8534,7 @@ File: ./logs/synology-DS6/upstart/DiskHealthCk.log
       bytes total   : 192 (0xC0)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -8697,7 +8567,7 @@ File: ./logs/synology-DS6/upstart/dsm-services.log
       bytes total   : 1660 (0x67C)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -8730,7 +8600,7 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
       bytes total   : 1583 (0x62F)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13
@@ -8763,7 +8633,7 @@ File: ./logs/synology-DS6/upstart/eaupgrade.log
       bytes total   : 1710 (0x6AE)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -8796,7 +8666,7 @@ File: ./logs/synology-DS6/upstart/findhostd.log
       bytes total   : 1291 (0x50B)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 14
@@ -8829,7 +8699,7 @@ File: ./logs/synology-DS6/upstart/ftpd.log
       bytes total   : 900 (0x384)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 18
@@ -8862,7 +8732,7 @@ File: ./logs/synology-DS6/upstart/hotplugd.log
       bytes total   : 560 (0x230)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 4
       syslines      : 4
       syslines high : 4
@@ -8895,7 +8765,7 @@ File: ./logs/synology-DS6/upstart/inetd.log
       bytes total   : 715 (0x2CB)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 19
       syslines      : 11
       syslines high : 11
@@ -8928,7 +8798,7 @@ File: ./logs/synology-DS6/upstart/iptablesTc.log
       bytes total   : 1273 (0x4F9)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -8961,7 +8831,7 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       bytes total   : 1234 (0x4D2)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 17
       syslines high : 13
@@ -8994,7 +8864,7 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
       bytes total   : 1093 (0x445)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -9027,7 +8897,7 @@ File: ./logs/synology-DS6/upstart/is_plugind.log
       bytes total   : 2493 (0x9BD)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8
@@ -9060,7 +8930,7 @@ File: ./logs/synology-DS6/upstart/job-monitor-handler.log
       bytes total   : 950 (0x3B6)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 18
@@ -9093,7 +8963,7 @@ File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
       bytes total   : 1976 (0x7B8)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -9126,7 +8996,7 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
       bytes total   : 1030 (0x406)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 16
@@ -9159,7 +9029,7 @@ File: ./logs/synology-DS6/upstart/mkcert.log
       bytes total   : 1412 (0x584)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 15
       syslines high : 10
@@ -9192,7 +9062,7 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
       bytes total   : 724 (0x2D4)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 12
       syslines      : 8
       syslines high : 8
@@ -9225,7 +9095,7 @@ File: ./logs/synology-DS6/upstart/netatalk.log
       bytes total   : 850 (0x352)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 17
       syslines high : 17
@@ -9258,7 +9128,7 @@ File: ./logs/synology-DS6/upstart/network.log
       bytes total   : 1083 (0x43B)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 7
       syslines high : 7
@@ -9291,7 +9161,7 @@ File: ./logs/synology-DS6/upstart/nfsd-adapter.log
       bytes total   : 1193 (0x4A9)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -9324,7 +9194,7 @@ File: ./logs/synology-DS6/upstart/nginx.log
       bytes total   : 1161 (0x489)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -9357,7 +9227,7 @@ File: ./logs/synology-DS6/upstart/nmbd.log
       bytes total   : 1096 (0x448)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -9390,7 +9260,7 @@ File: ./logs/synology-DS6/upstart/opentftp.log
       bytes total   : 751 (0x2EF)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -9423,7 +9293,7 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
       bytes total   : 1088 (0x440)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13
@@ -9456,7 +9326,7 @@ File: ./logs/synology-DS6/upstart/pgsql.log
       bytes total   : 1402 (0x57A)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 15
       syslines high : 11
@@ -9489,7 +9359,7 @@ File: ./logs/synology-DS6/upstart/php_timezone_update.log
       bytes total   : 874 (0x36A)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -9522,7 +9392,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
       bytes total   : 1496 (0x5D8)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -9555,7 +9425,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
       bytes total   : 1301 (0x515)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -9588,7 +9458,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       bytes total   : 1491 (0x5D3)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -9621,7 +9491,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
       bytes total   : 1259 (0x4EB)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -9654,7 +9524,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackup.log
       bytes total   : 1169 (0x491)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -9687,7 +9557,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       bytes total   : 1266 (0x4F2)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -9720,7 +9590,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
       bytes total   : 1242 (0x4DA)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -9753,7 +9623,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v4.log
       bytes total   : 1128 (0x468)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -9786,7 +9656,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       bytes total   : 1823 (0x71F)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13
@@ -9819,7 +9689,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
       bytes total   : 1189 (0x4A5)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -9852,7 +9722,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
       bytes total   : 1247 (0x4DF)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -9885,7 +9755,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
       bytes total   : 1278 (0x4FE)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -9918,7 +9788,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
       bytes total   : 1232 (0x4D0)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -9951,7 +9821,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       bytes total   : 1372 (0x55C)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13
@@ -9984,7 +9854,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
       bytes total   : 1264 (0x4F0)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -10017,7 +9887,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
       bytes total   : 1245 (0x4DD)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -10050,7 +9920,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-USBCopy.log
       bytes total   : 1465 (0x5B9)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10083,7 +9953,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
       bytes total   : 2142 (0x85E)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 10
@@ -10116,7 +9986,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log
       bytes total   : 1324 (0x52C)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13
@@ -10149,7 +10019,7 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       bytes total   : 688 (0x2B0)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 14
       syslines      : 4
       syslines high : 4
@@ -10182,7 +10052,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
       bytes total   : 1076 (0x434)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -10215,7 +10085,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
       bytes total   : 1036 (0x40C)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 17
@@ -10248,7 +10118,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer
       bytes total   : 1064 (0x428)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -10281,7 +10151,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
       bytes total   : 1598 (0x63E)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10314,7 +10184,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
       bytes total   : 1606 (0x646)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10347,7 +10217,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-concept.log
       bytes total   : 1534 (0x5FE)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10380,7 +10250,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log
       bytes total   : 1663 (0x67F)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -10413,7 +10283,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
       bytes total   : 1522 (0x5F2)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10446,7 +10316,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
       bytes total   : 1549 (0x60D)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10479,7 +10349,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
       bytes total   : 1617 (0x651)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10512,7 +10382,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
       bytes total   : 1625 (0x659)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -10545,7 +10415,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
       bytes total   : 1701 (0x6A5)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -10578,7 +10448,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
       bytes total   : 1587 (0x633)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10611,7 +10481,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumb.log
       bytes total   : 1473 (0x5C1)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10644,7 +10514,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log
       bytes total   : 1720 (0x6B8)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -10677,7 +10547,7 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
       bytes total   : 2122 (0x84A)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 9
@@ -10710,7 +10580,7 @@ File: ./logs/synology-DS6/upstart/pppoerelay.log
       bytes total   : 1432 (0x598)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10743,7 +10613,7 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       bytes total   : 97 (0x61)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 1
       syslines high : 1
@@ -10776,7 +10646,7 @@ File: ./logs/synology-DS6/upstart/rc.log
       bytes total   : 1178 (0x49A)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 16
       syslines high : 14
@@ -10809,7 +10679,7 @@ File: ./logs/synology-DS6/upstart/rc-sysinit.log
       bytes total   : 1572 (0x624)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -10842,7 +10712,7 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
       bytes total   : 960 (0x3C0)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 1
       syslines high : 1
@@ -10875,7 +10745,7 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
       bytes total   : 1178 (0x49A)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -10908,7 +10778,7 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
       bytes total   : 904 (0x388)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -10941,7 +10811,7 @@ File: ./logs/synology-DS6/upstart/scemd.log
       bytes total   : 1286 (0x506)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -10974,7 +10844,7 @@ File: ./logs/synology-DS6/upstart/scrubbing-conf-sync.log
       bytes total   : 1919 (0x77F)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -11007,7 +10877,7 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
       bytes total   : 471 (0x1D7)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -11040,7 +10910,7 @@ File: ./logs/synology-DS6/upstart/smbd.log
       bytes total   : 1385 (0x569)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 16
       syslines high : 11
@@ -11073,7 +10943,7 @@ File: ./logs/synology-DS6/upstart/sshd.log
       bytes total   : 760 (0x2F8)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 19
       syslines      : 6
       syslines high : 6
@@ -11106,7 +10976,7 @@ File: ./logs/synology-DS6/upstart/ssh-sftp.log
       bytes total   : 962 (0x3C2)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 18
@@ -11139,7 +11009,7 @@ File: ./logs/synology-DS6/upstart/ssh-shell.log
       bytes total   : 1094 (0x446)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -11172,7 +11042,7 @@ File: ./logs/synology-DS6/upstart/syno-auth-check.log
       bytes total   : 945 (0x3B1)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 18
@@ -11205,7 +11075,7 @@ File: ./logs/synology-DS6/upstart/synocgid.log
       bytes total   : 905 (0x389)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -11238,7 +11108,7 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
       bytes total   : 2033 (0x7F1)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -11271,7 +11141,7 @@ File: ./logs/synology-DS6/upstart/synoconfd.log
       bytes total   : 1361 (0x551)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 13
@@ -11304,7 +11174,7 @@ File: ./logs/synology-DS6/upstart/synocrond.log
       bytes total   : 847 (0x34F)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -11337,7 +11207,7 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
       bytes total   : 1159 (0x487)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -11370,7 +11240,7 @@ File: ./logs/synology-DS6/upstart/synoindexd.log
       bytes total   : 1140 (0x474)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 15
@@ -11403,7 +11273,7 @@ File: ./logs/synology-DS6/upstart/synologand.log
       bytes total   : 961 (0x3C1)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 17
@@ -11436,7 +11306,7 @@ File: ./logs/synology-DS6/upstart/synologd.log
       bytes total   : 929 (0x3A1)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 18
@@ -11469,7 +11339,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       bytes total   : 799 (0x31F)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 16
       syslines      : 16
       syslines high : 16
@@ -11502,7 +11372,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
       bytes total   : 952 (0x3B8)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 18
@@ -11535,7 +11405,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
       bytes total   : 953 (0x3B9)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 18
@@ -11568,7 +11438,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       bytes total   : 470 (0x1D6)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 9
       syslines      : 9
       syslines high : 9
@@ -11601,7 +11471,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       bytes total   : 328 (0x148)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 7
       syslines      : 7
       syslines high : 7
@@ -11634,7 +11504,7 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       bytes total   : 945 (0x3B1)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 15
       syslines      : 15
       syslines high : 15
@@ -11667,7 +11537,7 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
       bytes total   : 1040 (0x410)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 16
       syslines      : 16
       syslines high : 14
@@ -11700,7 +11570,7 @@ File: ./logs/synology-DS6/upstart/synomount.log
       bytes total   : 819 (0x333)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 18
@@ -11733,7 +11603,7 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
       bytes total   : 1292 (0x50C)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -11766,7 +11636,7 @@ File: ./logs/synology-DS6/upstart/synonetd.log
       bytes total   : 894 (0x37E)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 18
@@ -11799,7 +11669,7 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
       bytes total   : 1549 (0x60D)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 15
       syslines high : 9
@@ -11832,7 +11702,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
       bytes total   : 1045 (0x415)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -11865,7 +11735,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
       bytes total   : 1828 (0x724)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -11898,7 +11768,7 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
       bytes total   : 2244 (0x8C4)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 9
@@ -11931,7 +11801,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler.log
       bytes total   : 1710 (0x6AE)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -11964,7 +11834,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       bytes total   : 893 (0x37D)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -11997,7 +11867,7 @@ File: ./logs/synology-DS6/upstart/syno-share-check.log
       bytes total   : 1408 (0x580)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 16
       syslines high : 11
@@ -12030,7 +11900,7 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
       bytes total   : 1050 (0x41A)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 13
       syslines      : 13
       syslines high : 12
@@ -12063,7 +11933,7 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
       bytes total   : 113 (0x71)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 1
       syslines high : 1
@@ -12096,7 +11966,7 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
       bytes total   : 970 (0x3CA)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 17
@@ -12129,7 +11999,7 @@ File: ./logs/synology-DS6/upstart/synostoraged.log
       bytes total   : 1268 (0x4F4)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -12162,7 +12032,7 @@ File: ./logs/synology-DS6/upstart/synovpnclient.log
       bytes total   : 874 (0x36A)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 19
@@ -12195,7 +12065,7 @@ File: ./logs/synology-DS6/upstart/synowifid-handler.log
       bytes total   : 1734 (0x6C6)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -12228,7 +12098,7 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
       bytes total   : 948 (0x3B4)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 2
       syslines high : 2
@@ -12261,7 +12131,7 @@ File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
       bytes total   : 1219 (0x4C3)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 14
@@ -12294,7 +12164,7 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       bytes total   : 1138 (0x472)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 5
       syslines high : 5
@@ -12327,7 +12197,7 @@ File: ./logs/synology-DS6/upstart/syslog-ng.log
       bytes total   : 1691 (0x69B)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 11
@@ -12360,7 +12230,7 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
       bytes total   : 873 (0x369)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 16
       syslines high : 16
@@ -12393,7 +12263,7 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
       bytes total   : 1099 (0x44B)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 16
@@ -12426,7 +12296,7 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       bytes total   : 883 (0x373)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 15
       syslines high : 15
@@ -12459,7 +12329,7 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
       bytes total   : 1036 (0x40C)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 17
@@ -12492,7 +12362,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       bytes total   : 749 (0x2ED)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 19
       syslines      : 11
       syslines high : 11
@@ -12525,7 +12395,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
       bytes total   : 1001 (0x3E9)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 16
@@ -12558,7 +12428,7 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
       bytes total   : 1189 (0x4A5)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 18
       syslines high : 14
@@ -12591,7 +12461,7 @@ File: ./logs/synology-DS6/usbcopyd.log
       bytes total   : 1873 (0x751)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10
@@ -12645,7 +12515,7 @@ File: ./logs/Ubuntu18/apt/history.log
       bytes total   : 660 (0x294)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 6
       syslines      : 2
       syslines high : 2
@@ -12678,7 +12548,7 @@ File: ./logs/Ubuntu18/apt/term.log
       bytes total   : 1546 (0x60A)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 1
       syslines high : 1
@@ -12711,7 +12581,7 @@ File: ./logs/Ubuntu18/cups/access_log
       bytes total   : 224 (0xE0)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 2
       syslines      : 2
       syslines high : 2
@@ -12744,7 +12614,7 @@ File: ./logs/Ubuntu18/cups/access_log.1
       bytes total   : 649 (0x289)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 6
       syslines      : 6
       syslines high : 6
@@ -12777,7 +12647,7 @@ File: ./logs/Ubuntu18/cups/error_log.1
       bytes total   : 120 (0x78)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 1
       syslines high : 1
@@ -12810,7 +12680,7 @@ File: ./logs/Ubuntu18/fontconfig.log
       bytes total   : 1557 (0x615)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 3
       syslines      : 0
       syslines high : 0
@@ -12842,7 +12712,7 @@ File: ./logs/Ubuntu18/gpu-manager.log
       bytes total   : 672 (0x2A0)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 4
       syslines      : 0
       syslines high : 0
@@ -12874,7 +12744,7 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
       bytes total   : 679 (0x2A7)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 4
       syslines      : 0
       syslines high : 0
@@ -12906,7 +12776,7 @@ File: ./logs/Ubuntu18/installer/initial-status
       bytes total   : 860 (0x35C)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 9
       syslines      : 0
       syslines high : 0
@@ -12938,7 +12808,7 @@ File: ./logs/Ubuntu18/installer/media-info
       bytes total   : 62 (0x3E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -12970,7 +12840,7 @@ File: ./logs/Ubuntu18/installer/telemetry
       bytes total   : 424 (0x1A8)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -13002,7 +12872,7 @@ File: ./logs/Ubuntu18/kern.log.1
       bytes total   : 1671 (0x687)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 20
       syslines high : 19
@@ -13036,7 +12906,7 @@ File: ./logs/Ubuntu18/nvidia-installer.log
       bytes total   : 874 (0x36A)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 1
       syslines high : 1
@@ -13069,7 +12939,7 @@ File: ./logs/Ubuntu18/prime-offload.log
       bytes total   : 55 (0x37)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -13101,7 +12971,7 @@ File: ./logs/Ubuntu18/prime-supported.log
       bytes total   : 30 (0x1E)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1
+      blocks total  : 1 (256 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -13133,7 +13003,7 @@ File: ./logs/Ubuntu18/samba/log
       bytes total   : 1018 (0x3FA)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 6
       syslines high : 6
@@ -13166,7 +13036,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
       bytes total   : 1211 (0x4BB)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 8
@@ -13199,7 +13069,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.2
       bytes total   : 1161 (0x489)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 9
@@ -13232,7 +13102,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
       bytes total   : 1211 (0x4BB)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 8
@@ -13265,7 +13135,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
       bytes total   : 1211 (0x4BB)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 8
@@ -13298,7 +13168,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.5
       bytes total   : 1149 (0x47D)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 9
@@ -13331,7 +13201,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
       bytes total   : 1158 (0x486)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 9
@@ -13364,7 +13234,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.7
       bytes total   : 1158 (0x486)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 9
@@ -13397,7 +13267,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd
       bytes total   : 1746 (0x6D2)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 7
@@ -13430,7 +13300,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
       bytes total   : 1424 (0x590)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 7
       syslines high : 7
@@ -13463,7 +13333,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
       bytes total   : 1756 (0x6DC)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 19
       syslines      : 10
       syslines high : 7
@@ -13496,7 +13366,7 @@ File: ./logs/Ubuntu18/samba/log.smbd
       bytes total   : 892 (0x37C)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 19
       syslines      : 4
       syslines high : 4
@@ -13529,7 +13399,7 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
       bytes total   : 1141 (0x475)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 19
       syslines      : 7
       syslines high : 7
@@ -13562,7 +13432,7 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
       bytes total   : 2681 (0xA79)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8
@@ -13595,7 +13465,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       bytes total   : 2681 (0xA79)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8
@@ -13628,7 +13498,7 @@ File: ./logs/Ubuntu18/vmware-installer
       bytes total   : 1544 (0x608)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 18
       syslines      : 18
       syslines high : 14
@@ -13661,7 +13531,7 @@ File: ./logs/Ubuntu18/xrdp.log
       bytes total   : 1335 (0x537)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 12
@@ -13701,7 +13571,7 @@ File: ./logs/Ubuntu22/alternatives.log.1
       bytes total   : 6676 (0x1A14)
       block size    : 256 (0x100)
       blocks        : 27
-      blocks total  : 27
+      blocks total  : 27 (6912 bytes)
       lines         : 13
       syslines      : 13
       syslines high : 7
@@ -13734,7 +13604,7 @@ File: ./logs/Ubuntu22/apport.log.1
       bytes total   : 524 (0x20C)
       block size    : 256 (0x100)
       blocks        : 3
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 5
       syslines      : 5
       syslines high : 5
@@ -13767,7 +13637,7 @@ File: ./logs/Ubuntu22/apt/eipp.log
       bytes total   : 266 (0x10A)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 13
       syslines      : 0
       syslines high : 0
@@ -13799,7 +13669,7 @@ File: ./logs/Ubuntu22/apt/history.log
       bytes total   : 1397 (0x575)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 5
       syslines high : 5
@@ -13832,7 +13702,7 @@ File: ./logs/Ubuntu22/apt/term.log
       bytes total   : 1381 (0x565)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 1
       syslines high : 1
@@ -13865,7 +13735,7 @@ File: ./logs/Ubuntu22/auth.log
       bytes total   : 1483 (0x5CB)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 15
       syslines high : 14
@@ -13899,7 +13769,7 @@ File: ./logs/Ubuntu22/auth.log.1
       bytes total   : 1432 (0x598)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 15
       syslines high : 14
@@ -13933,7 +13803,7 @@ File: ./logs/Ubuntu22/cloud-init.log
       bytes total   : 1456 (0x5B0)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 14
       syslines high : 10
@@ -13966,7 +13836,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       bytes total   : 1431 (0x597)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 1
       syslines high : 1
@@ -13999,7 +13869,7 @@ File: ./logs/Ubuntu22/dmesg
       bytes total   : 1162 (0x48A)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -14031,7 +13901,7 @@ File: ./logs/Ubuntu22/dmesg.0
       bytes total   : 1161 (0x489)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -14063,7 +13933,7 @@ File: ./logs/Ubuntu22/dpkg.log
       bytes total   : 1024 (0x400)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 14
       syslines      : 14
       syslines high : 13
@@ -14096,7 +13966,7 @@ File: ./logs/Ubuntu22/dpkg.log.1
       bytes total   : 951 (0x3B7)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 14
       syslines      : 14
       syslines high : 14
@@ -14129,7 +13999,7 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
       bytes total   : 932 (0x3A4)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 6
       syslines      : 0
       syslines high : 0
@@ -14161,7 +14031,7 @@ File: ./logs/Ubuntu22/kern.log
       bytes total   : 2883 (0xB43)
       block size    : 256 (0x100)
       blocks        : 12
-      blocks total  : 12
+      blocks total  : 12 (3072 bytes)
       lines         : 14
       syslines      : 15
       syslines high : 14
@@ -14195,7 +14065,7 @@ File: ./logs/Ubuntu22/kern.log.1
       bytes total   : 1484 (0x5CC)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -14227,7 +14097,7 @@ File: ./logs/Ubuntu22/syslog
       bytes total   : 1486 (0x5CE)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 15
       syslines high : 14
@@ -14261,7 +14131,7 @@ File: ./logs/Ubuntu22/syslog.1
       bytes total   : 1258 (0x4EA)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 14
       syslines      : 15
       syslines high : 14
@@ -14296,7 +14166,7 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       bytes total   : 2304 (0x900)
       block size    : 256 (0x100)
       blocks        : 9
-      blocks total  : 9
+      blocks total  : 9 (2304 bytes)
       entries       : 5
       entry size    : 384 (bytes)
       entry hi-score: 126
@@ -14323,7 +14193,7 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       bytes total   : 35712 (0x8B80)
       block size    : 256 (0x100)
       blocks        : 131
-      blocks total  : 140
+      blocks total  : 140 (35840 bytes)
       entries       : 76
       entry size    : 384 (bytes)
       entry hi-score: 125
@@ -14349,7 +14219,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
       bytes total   : 948 (0x3B4)
       block size    : 256 (0x100)
       blocks        : 4
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 12
       syslines      : 12
       syslines high : 12
@@ -14382,7 +14252,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       bytes total   : 1105 (0x451)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 14
       syslines      : 14
       syslines high : 12
@@ -14415,7 +14285,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
       bytes total   : 1429 (0x595)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 14
       syslines      : 1
       syslines high : 1
@@ -14448,7 +14318,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
       bytes total   : 1258 (0x4EA)
       block size    : 256 (0x100)
       blocks        : 5
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 14
       syslines      : 14
       syslines high : 11
@@ -14481,7 +14351,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       bytes total   : 19561 (0x4C69)
       block size    : 256 (0x100)
       blocks        : 77
-      blocks total  : 77
+      blocks total  : 77 (19712 bytes)
       lines         : 159
       syslines      : 152
       syslines high : 10
@@ -14514,7 +14384,7 @@ File: ./logs/Windows10Pro/comsetup.log
       bytes total   : 761 (0x2F9)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 2
       syslines      : 0
       syslines high : 0
@@ -14546,7 +14416,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       bytes total   : 1427 (0x593)
       block size    : 256 (0x100)
       blocks        : 6
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 49
       syslines      : 5
       syslines high : 5
@@ -14579,7 +14449,7 @@ File: ./logs/Windows10Pro/DirectX.log
       bytes total   : 2745 (0xAB9)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 2
       syslines      : 0
       syslines high : 0
@@ -14611,7 +14481,7 @@ File: ./logs/Windows10Pro/DISM/dism.log
       bytes total   : 15435 (0x3C4B)
       block size    : 256 (0x100)
       blocks        : 61
-      blocks total  : 61
+      blocks total  : 61 (15616 bytes)
       lines         : 111
       syslines      : 94
       syslines high : 7
@@ -14644,7 +14514,7 @@ File: ./logs/Windows10Pro/DtcInstall.log
       bytes total   : 770 (0x302)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 4
+      blocks total  : 4 (1024 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -14676,7 +14546,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       bytes total   : 2335 (0x91F)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 50
       syslines      : 4
       syslines high : 4
@@ -14709,7 +14579,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       bytes total   : 3610 (0xE1A)
       block size    : 256 (0x100)
       blocks        : 15
-      blocks total  : 15
+      blocks total  : 15 (3840 bytes)
       lines         : 50
       syslines      : 2
       syslines high : 2
@@ -14742,7 +14612,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       bytes total   : 12586 (0x312A)
       block size    : 256 (0x100)
       blocks        : 50
-      blocks total  : 50
+      blocks total  : 50 (12800 bytes)
       lines         : 161
       syslines      : 9
       syslines high : 5
@@ -14775,7 +14645,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       bytes total   : 1919 (0x77F)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 27
       syslines      : 6
       syslines high : 5
@@ -14808,7 +14678,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       bytes total   : 7330 (0x1CA2)
       block size    : 256 (0x100)
       blocks        : 29
-      blocks total  : 29
+      blocks total  : 29 (7424 bytes)
       lines         : 129
       syslines      : 5
       syslines high : 5
@@ -14841,7 +14711,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
       bytes total   : 674 (0x2A2)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -14873,7 +14743,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
       bytes total   : 332426 (0x5128A)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 1299
+      blocks total  : 1299 (332544 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -14905,7 +14775,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
       bytes total   : 18434 (0x4802)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 73
+      blocks total  : 73 (18688 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -14937,7 +14807,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       bytes total   : 5256 (0x1488)
       block size    : 256 (0x100)
       blocks        : 21
-      blocks total  : 21
+      blocks total  : 21 (5376 bytes)
       lines         : 55
       syslines      : 35
       syslines high : 9
@@ -14970,7 +14840,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       bytes total   : 2716 (0xA9C)
       block size    : 256 (0x100)
       blocks        : 11
-      blocks total  : 11
+      blocks total  : 11 (2816 bytes)
       lines         : 33
       syslines      : 15
       syslines high : 10
@@ -15003,7 +14873,7 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       bytes total   : 6149 (0x1805)
       block size    : 256 (0x100)
       blocks        : 25
-      blocks total  : 25
+      blocks total  : 25 (6400 bytes)
       lines         : 74
       syslines      : 3
       syslines high : 3
@@ -15036,7 +14906,7 @@ File: ./logs/Windows10Pro/PFRO.log
       bytes total   : 22346 (0x574A)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 88
+      blocks total  : 88 (22528 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0
@@ -15068,7 +14938,7 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
       bytes total   : 12932 (0x3284)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 51
+      blocks total  : 51 (13056 bytes)
       lines         : 3
       syslines      : 0
       syslines high : 0
@@ -15100,7 +14970,7 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
       bytes total   : 90920 (0x16328)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 356
+      blocks total  : 356 (91136 bytes)
       lines         : 0
       syslines      : 0
       syslines high : 0
@@ -15132,7 +15002,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       bytes total   : 125229 (0x1E92D)
       block size    : 256 (0x100)
       blocks        : 490
-      blocks total  : 490
+      blocks total  : 490 (125440 bytes)
       lines         : 1300
       syslines      : 1205
       syslines high : 11
@@ -15165,7 +15035,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       bytes total   : 15258 (0x3B9A)
       block size    : 256 (0x100)
       blocks        : 60
-      blocks total  : 60
+      blocks total  : 60 (15360 bytes)
       lines         : 105
       syslines      : 105
       syslines high : 7
@@ -15198,7 +15068,7 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
       bytes total   : 1373 (0x55D)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 6
+      blocks total  : 6 (1536 bytes)
       lines         : 4
       syslines      : 0
       syslines high : 0
@@ -15230,7 +15100,7 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       bytes total   : 4997 (0x1385)
       block size    : 256 (0x100)
       blocks        : 20
-      blocks total  : 20
+      blocks total  : 20 (5120 bytes)
       lines         : 42
       syslines      : 40
       syslines high : 9
@@ -15263,7 +15133,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       bytes total   : 118786 (0x1D002)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 465
+      blocks total  : 465 (119040 bytes)
       lines         : 3
       syslines      : 0
       syslines high : 0
@@ -15295,7 +15165,7 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       bytes total   : 11632 (0x2D70)
       block size    : 256 (0x100)
       blocks        : 46
-      blocks total  : 46
+      blocks total  : 46 (11776 bytes)
       lines         : 96
       syslines      : 97
       syslines high : 96
@@ -15315,23 +15185,26 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       process: regex captures attempted                            : 215
   Processing Drops:
 
+File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz (cannot extract gzip type from a tar archived file)
 File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
 File: ./logs/other/tests/invalid.gz 
 File: ./logs/other/tests/invalid.tar (other error: failed to read entire block for file "./logs/other/tests/invalid.tar")
-File: ./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar (other error: failed to read entire block for file "./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar")
-File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (other error: failed to read entire block for file "./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar")
+File: ./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar (does not exist)
+File: ./logs/programs/utmp/host-entry6_(pax_b1).wtmp.tar (does not exist)
+File: ./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar (does not exist)
+File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
 Paths considered      : 512
-Paths not processed   : 5
-Files processed       : 507
-Files printed         : 403
-Printed bytes         : 11924977
+Paths not processed   : 8
+Files processed       : 504
+Files printed         : 404
+Printed bytes         : 11926776
 Printed lines         : 14138
 Printed syslines      : 11700
 Printed evtx events   : 227
-Printed fixedstruct   : 110
+Printed fixedstruct   : 116
 Printed journal events: 2081
 Regex patterns        : 154
 Regex compiled        : 154

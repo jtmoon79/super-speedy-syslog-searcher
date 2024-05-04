@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/datascrubbing.log
       bytes total   : 2406 (0x966)
       block size    : 256 (0x100)
       blocks        : 10
-      blocks total  : 10
+      blocks total  : 10 (2560 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 8

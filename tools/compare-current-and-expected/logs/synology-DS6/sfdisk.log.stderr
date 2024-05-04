@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/sfdisk.log
       bytes total   : 1841 (0x731)
       block size    : 256 (0x100)
       blocks        : 8
-      blocks total  : 8
+      blocks total  : 8 (2048 bytes)
       lines         : 19
       syslines      : 19
       syslines high : 10

@@ -15,7 +15,7 @@ File: ./logs/other/tests/dt-mix1.log
       bytes total   : 420 (0x1A4)
       block size    : 256 (0x100)
       blocks        : 2
-      blocks total  : 2
+      blocks total  : 2 (512 bytes)
       lines         : 21
       syslines      : 10
       syslines high : 10

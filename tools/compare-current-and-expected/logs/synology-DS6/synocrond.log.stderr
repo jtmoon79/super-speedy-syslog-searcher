@@ -15,7 +15,7 @@ File: ./logs/synology-DS6/synocrond.log
       bytes total   : 1639 (0x667)
       block size    : 256 (0x100)
       blocks        : 7
-      blocks total  : 7
+      blocks total  : 7 (1792 bytes)
       lines         : 11
       syslines      : 11
       syslines high : 8

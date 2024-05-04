@@ -15,7 +15,7 @@ File: ./logs/Ubuntu22/dmesg.0
       bytes total   : 1161 (0x489)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 5
+      blocks total  : 5 (1280 bytes)
       lines         : 1
       syslines      : 0
       syslines high : 0

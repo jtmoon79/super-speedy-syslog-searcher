@@ -15,7 +15,7 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
       bytes total   : 679 (0x2A7)
       block size    : 256 (0x100)
       blocks        : 1
-      blocks total  : 3
+      blocks total  : 3 (768 bytes)
       lines         : 4
       syslines      : 0
       syslines high : 0
