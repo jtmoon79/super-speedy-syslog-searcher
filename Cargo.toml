@@ -20,6 +20,7 @@ version = "0.6.71"
 edition = "2021"
 # `rust-version` (MSRV) should match ./github/workflows/rust.yml:rust_msrv:msrv and ./README.md
 rust-version = "1.67.1"
+default-run = "s4"
 # Do not set metadata fields `documentation` or `homepage` unless using
 # non-standard websites.
 # See <https://rust-lang.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata>
