@@ -567,14 +567,17 @@ impl std::fmt::Display for FileTypeTextEncoding {
 /// a file's storage format
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
 pub enum FileTypeArchive {
+    /// An normal file, not explicitly compressed or archived
     Normal,
-    /// a compressed gzipped file, e.g. `log.gz`,
-    /// (presumed to contain one regular file; see Issue #8)
+    /// a compressed gzipped file, e.g. `log.gz`
+    ///
+    /// Presumed to contain one regular file; see Issue #8
     Gz,
     /// a file within a `.tar` archive file
     Tar,
     /// a file compressed "xz'd" file, e.g. `log.xz`
-    /// (presumed to contain one regular file; see Issue #11)
+    ///
+    /// Presumed to contain one regular file; see Issue #11
     Xz,
 }
 
@@ -705,15 +708,15 @@ impl std::fmt::Display for FileType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
-            FileType::Evtx{ archival_type: _ } => write!(f, "EVTX"),
-            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Acct } => write!(f, "ACCT"),
-            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::AcctV3 } => write!(f, "ACCT_V3"),
-            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Lastlog } => write!(f, "LASTLOG"),
-            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Lastlogx } => write!(f, "LASTLOGX"),
-            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Utmp } => write!(f, "UTMP/WTMP"),
-            FileType::FixedStruct{ archival_type: _, fixedstruct_type:FileTypeFixedStruct::Utmpx } => write!(f, "UTMPX/WTMPX"),
-            FileType::Journal{ archival_type: _ } => write!(f, "JOURNAL"),
-            FileType::Text{ archival_type: _, .. } => write!(f, "TEXT"),
+            FileType::Evtx{ .. } => write!(f, "EVTX"),
+            FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Acct, .. } => write!(f, "ACCT"),
+            FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::AcctV3, .. } => write!(f, "ACCT_V3"),
+            FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Lastlog, .. } => write!(f, "LASTLOG"),
+            FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Lastlogx, .. } => write!(f, "LASTLOGX"),
+            FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Utmp, .. } => write!(f, "UTMP/WTMP"),
+            FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Utmpx, .. } => write!(f, "UTMPX/WTMPX"),
+            FileType::Journal{ .. } => write!(f, "JOURNAL"),
+            FileType::Text{ .. } => write!(f, "TEXT"),
             FileType::Unparsable => write!(f, "UNPARSABLE"),
         }
     }
@@ -727,18 +730,18 @@ impl FileType {
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Tar } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Xz } => true,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ } => false,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ } => true,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ } => false,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Gz } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => true,
-            FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ } => false,
-            FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ } => true,
-            FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ } => false,
-            FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => true,
             FileType::Unparsable => false,
         }
     }
@@ -750,18 +753,18 @@ impl FileType {
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Xz } => false,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ } => false,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ } => false,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ } => true,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Gz } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
-            FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ } => false,
-            FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ } => false,
-            FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ } => true,
-            FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Normal, ..} => false,
+            FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => false,
             FileType::Unparsable => false,
         }
     }
