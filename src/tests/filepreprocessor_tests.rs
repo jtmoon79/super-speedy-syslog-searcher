@@ -36,9 +36,7 @@ use crate::tests::common::{
     NTF_TAR_ABCDEFGHI_FILED_FILETYPE,
     NTF_TAR_ABCDEFGHI_FILED_FPATH,
     NTF_TAR_ABCDEFGHI_FILEE_FPATH,
-    NTF_TAR_ABCDEFGHI_FILEE_FILETYPE,
     NTF_TAR_ABCDEFGHI_FILEF_FPATH,
-    NTF_TAR_ABCDEFGHI_FILEF_FILETYPE,
     NTF_TAR_ABCDEFGHI_FILEG_FPATH,
     NTF_TAR_ABCDEFGHI_FILEH_FPATH,
     NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
@@ -200,12 +198,6 @@ const FTUTMPG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
         fixedstruct_type: FileTypeFixedStruct::Utmp,
     }
 );
-const FTUTMPT: PathToFiletypeResult = PathToFiletypeResult::Filetype(
-    FileType::FixedStruct {
-        archival_type: FileTypeArchive::Tar,
-        fixedstruct_type: FileTypeFixedStruct::Utmp,
-    }
-);
 const FTUTMPXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::FixedStruct {
         archival_type: FileTypeArchive::Normal,
@@ -224,7 +216,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
         fixedstruct_type: FileTypeFixedStruct::Utmpx,
     }
 );
-
 
 // TEXT
 #[test_case("log", FTTN8, true)]
