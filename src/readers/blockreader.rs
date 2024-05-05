@@ -572,8 +572,9 @@ impl BlockReader {
                         path
                     );
                     return Result::Err(Error::new(
-                        // TODO: use `ErrorKind::InvalidFilename` when it is stable
-                        ErrorKind::NotFound,
+                        // TODO: TRACKING: use `ErrorKind::InvalidFilename` when it is stable
+                        //       <https://github.com/rust-lang/rust/issues/86442>
+                        ErrorKind::InvalidInput,
                         format!(
                             "Given Filetype {:?} but failed to find delimiter {:?} in {:?}",
                             filetype, SUBPATH_SEP, path
