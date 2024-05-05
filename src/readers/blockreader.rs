@@ -62,6 +62,9 @@ use ::si_trace_print::{
     def1o,
     def1x,
     def1ñ,
+    def2n,
+    def2o,
+    def2x,
     defn,
     defo,
     defx,
@@ -390,6 +393,8 @@ pub struct BlockReader {
     /// Standard `Block` size in bytes. All `Block`s are this size except the
     /// last `Block` which may this size or smaller (and not zero).
     pub(crate) blocksz: BlockSz,
+    /// last requested `blockoffset` in `fn read_block()` and `fn new()`.
+    read_block_last: BlockOffset,
     /// `Count` of bytes stored by the `BlockReader`.
     ///
     /// May not match `self.blocks.iter().map(|x| sum += x.len()); sum` as
@@ -640,6 +645,7 @@ impl BlockReader {
         let mut xz_opt: Option<XzData> = None;
         let mut tar_opt: Option<TarData> = None;
         let mut read_blocks_put: Count = 0;
+        let mut read_block_last: BlockOffset = 0;
 
         match filetype {
             FileType::Evtx{ .. } => {
@@ -1319,6 +1325,7 @@ impl BlockReader {
             filesz_actual,
             blockn,
             blocksz,
+            read_block_last,
             count_bytes_,
             blocks,
             blocks_read,
@@ -2599,6 +2606,18 @@ impl BlockReader {
             "({0}): blockreader.read_block({0}) (fileoffset {1} (0x{1:08X})), blocksz {2} (0x{2:08X}), filesz {3} (0x{3:08X})",
             blockoffset, self.file_offset_at_block_offset_self(blockoffset), self.blocksz, self.filesz(),
         );
+        if self.read_block_last > blockoffset && self.is_streamed_file() {
+            // TODO: [2024/05] after Issue #283 is resolved then this should
+            //       become a debug_panic
+            de_wrn!(
+                "read_block_last {} is greater than passed blockoffset {} for a is_streamed_file {:?}",
+                self.read_block_last,
+                blockoffset,
+                self.path,
+            );
+        }
+        self.read_block_last = blockoffset;
+
         if blockoffset > self.blockoffset_last() {
             defx!("({}) is past blockoffset_last {}; return Done", blockoffset, self.blockoffset_last());
             return ResultS3ReadBlock::Done;
