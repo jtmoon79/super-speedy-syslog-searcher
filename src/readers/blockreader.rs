@@ -1082,10 +1082,23 @@ impl BlockReader {
                         );
                     }
                 };
-                let mut reader = (&file_xz).take(6 + 2 + 4 + 1 + 1);
+                // XXX: not sure if a Take handler is really necessary
+                // XXX: not sure if 1024 is correct amount but it seems like enough plus a large
+                //      margin
+                let mut reader: Take<&File> = (&file_xz).take(1024);
 
-                // stream header magic bytes
+                /*
+                    2.1.1. Stream Header
+
+                        +---+---+---+---+---+---+-------+------+--+--+--+--+
+                        |  Header Magic Bytes   | Stream Flags |   CRC32   |
+                        +---+---+---+---+---+---+-------+------+--+--+--+--+
+                 */
+                // Stream Header is 12 bytes
+
+                // stream header 6 magic bytes
                 let mut buffer_: [u8; 6] = [0; 6];
+                def1o!("FileXz: reader.read_exact({})", buffer_.len());
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {}
                     Err(err) => {
@@ -1127,8 +1140,20 @@ impl BlockReader {
                     );
                 }
 
-                // stream header flags
+                /*
+
+                    2.1.1.2. Stream Flags
+
+                    The first byte of Stream Flags is always a null byte. In the
+                    future, this byte may be used to indicate a new Stream version
+                    or other Stream properties.
+
+                    The second byte of Stream Flags is a bit field
+                 */
+
+                // stream header flags 2 bytes
                 let mut buffer_: [u8; 2] = [0; 2];
+                def1o!("FileXz: reader.read_exact({})", buffer_.len());
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {}
                     Err(err) => {
@@ -1143,27 +1168,115 @@ impl BlockReader {
                     }
                 }
                 def1o!("FileXz: buffer {:?}", buffer_);
-                let _flags: u16 = u16::from_le_bytes(buffer_);
-                def1o!("FileXz: stream header flags 0b{0:016b}", _flags);
+                let stream_header_flags: u16 = u16::from_le_bytes(buffer_);
+                def1o!("FileXz: stream header flags 0b{0:016b}", stream_header_flags);
+                let stream_header_flag_null: u8 = buffer_[0];
+                let stream_header_flag_check_type: u8 = buffer_[1];
+                def1o!("FileXz: stream_header_flag_null 0x{0:02X} 0b{0:08b}", stream_header_flag_null);
+                def1o!("FileXz: stream_header_flag_check_type 0x{0:02X} 0b{0:08b}", stream_header_flag_check_type);
 
-                // stream header CRC32
+                /*
+                    The second byte of Stream Flags is a bit field:
+
+                    Bit(s)  Mask  Description
+                    0-3    0x0F  Type of Check (see Section 3.4):
+                                ID    Size      Check name
+                                0x00   0 bytes  None
+                                0x01   4 bytes  CRC32
+                                0x02   4 bytes  (Reserved)
+                                0x03   4 bytes  (Reserved)
+                                0x04   8 bytes  CRC64
+                                0x05   8 bytes  (Reserved)
+                                0x06   8 bytes  (Reserved)
+                                0x07  16 bytes  (Reserved)
+                                0x08  16 bytes  (Reserved)
+                                0x09  16 bytes  (Reserved)
+                                0x0A  32 bytes  SHA-256
+                                0x0B  32 bytes  (Reserved)
+                                0x0C  32 bytes  (Reserved)
+                                0x0D  64 bytes  (Reserved)
+                                0x0E  64 bytes  (Reserved)
+                                0x0F  64 bytes  (Reserved)
+                    4-7    0xF0  Reserved for future use; MUST be zero for now.
+                 */
+                 if stream_header_flag_check_type & 0xF0 != 0 {
+                    def1x!("FileXz: return Err(InvalidData)");
+                    return Result::Err(
+                        Error::new(
+                            ErrorKind::InvalidData,
+                            format!(
+                                "xz stream header flag check type 0x{:02X} has reserved bits set for {:?}",
+                                stream_header_flag_check_type, path
+                            ),
+                        )
+                    );
+                }
+                let _check_size: usize = match stream_header_flag_check_type {
+                    0x00 => {
+                        def1o!("FileXz: stream_header_flag_check_type 0x00 (None)");
+
+                        0
+                    }
+                    0x01 => {
+                        def1o!("FileXz: stream_header_flag_check_type 0x01 (CRC32)");
+
+                        4
+                    }
+                    0x04 => {
+                        def1o!("FileXz: stream_header_flag_check_type 0x04 (CRC64)");
+
+                        8
+                    }
+                    0x0A => {
+                        def1o!("FileXz: stream_header_flag_check_type 0x0A (SHA-256)");
+
+                        32
+                    }
+                    _ => {
+                        def1o!("FileXz: stream_header_flag_check_type 0x{:02X} (unknown)", stream_header_flag_check_type);
+
+                        0
+                    }
+                };
+
                 let mut buffer_: [u8; 4] = [0; 4];
+                def1o!("FileXz: reader.read_exact({})", buffer_.len());
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {}
                     Err(err) => {
-                        def1x!("FileXz: return D {:?}", err);
+                        def1x!("FileXz: return G {:?}", err);
                         return Err(
-                            err_from_err_path(&err, &path, Some("(FileXz CRC32)"))
+                            err_from_err_path(&err, &path, Some("(FileXz CRC32 Check)"))
                         );
                     }
                 }
-                def1o!("FileXz: buffer {:?}", buffer_);
-                let _crc32: u32 = u32::from_le_bytes(buffer_);
-                def1o!("FileXz: stream header CRC32 {0:} (0x{0:08X}) (0b{0:032b})", _crc32);
-                // TODO: check the CRC32?
+                let _stream_header_crc32: u32 = u32::from_le_bytes(buffer_);
+                def1o!(
+                    "FileXz: stream header CRC32 {0:} (0x{0:08X}) (0b{0:032b})",
+                    _stream_header_crc32,
+                );
 
-                // block #0 block header size
-                let mut buffer_: [u8; 1] = [0; 1];
+                /*
+
+                3.1. Block Header
+
+                        +-------------------+-------------+=================+
+                        | Block Header Size | Block Flags | Compressed Size |
+                        +-------------------+-------------+=================+
+
+                             +===================+======================+
+                        ---> | Uncompressed Size | List of Filter Flags |
+                             +===================+======================+
+
+                             +================+--+--+--+--+
+                        ---> | Header Padding |   CRC32   |
+                             +================+--+--+--+--+
+                 */
+
+                // block #0 block header size 1 byte
+                // block #0 block header flags 1 byte
+                let mut buffer_: [u8; 2] = [0; 2];
+                def1o!("FileXz: reader.read_exact({})", buffer_.len());
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {}
                     Err(err) => {
@@ -1174,25 +1287,133 @@ impl BlockReader {
                     }
                 }
                 def1o!("FileXz: buffer {:?}", buffer_);
-                let _bhsz: u8 = buffer_[0];
-                def1o!("FileXz: block #0 block header size {0:} (0x{0:02X})", _bhsz);
-
-                // block #0 block header flags
-                let mut buffer_: [u8; 1] = [0; 1];
-                match reader.read_exact(&mut buffer_) {
-                    Ok(_) => {}
-                    Err(err) => {
-                        def1x!("FileXz: return F {:?}", err);
-                        return Err(
-                            err_from_err_path(&err, &path, Some("(FileXz Block #0 Header Flags)"))
-                        );
-                    }
+                let block0_encoded_header_size: u8 = buffer_[0];
+                def1o!("FileXz: block #0 block header encoded_header_size {0:} (0x{0:02X})", block0_encoded_header_size);
+                let block0_real_header_size: usize = (block0_encoded_header_size as usize + 1) * 4;
+                def1o!("FileXz: block #0 block header real_header_size {0:} (0x{0:04X})", block0_real_header_size);
+                const REAL_HEADER_SIZE_MAX: usize = 1024;
+                if block0_real_header_size > REAL_HEADER_SIZE_MAX {
+                    def1o!(
+                        "block0_real_header_size {} > REAL_HEADER_SIZE_MAX {}",
+                        block0_real_header_size, REAL_HEADER_SIZE_MAX
+                    );
+                    de_wrn!(
+                        "block0_real_header_size {} > REAL_HEADER_SIZE_MAX {}",
+                        block0_real_header_size, REAL_HEADER_SIZE_MAX
+                    );
                 }
-                def1o!("FileXz: buffer {:?}", buffer_);
-                let _bhflags: u8 = buffer_[0];
-                def1o!("FileXz: block #0 block header flags {0:} (0x{0:02X}) (0b{0:08b})", _bhflags);
+
+                /*
+                    The Block Flags field is a bit field:
+
+                        Bit(s)  Mask  Description
+                         0-1    0x03  Number of filters (1-4)
+                         2-5    0x3C  Reserved for future use; MUST be zero for now.
+                          6     0x40  The Compressed Size field is present.
+                          7     0x80  The Uncompressed Size field is present.
+                 */
+
+                let block0_flags: u8 = buffer_[1];
+                def1o!("FileXz: block #0 block header flags {0:} (0x{0:02X}) (0b{0:08b})", block0_flags);
+
+                let block0_flag_number_filters = (block0_flags & 0b00000011) as usize;
+                let block0_flag_reserved = (block0_flags & 0b00111100) >> 2;
+                let block0_flag_compressed_size = (block0_flags & 0b01000000) != 0;
+                let block0_flag_uncompressed_size = (block0_flags & 0b10000000) != 0;
+
+                def1o!("FileXz: block0_flag_number_filters {}", block0_flag_number_filters);
+                def1o!("FileXz: block0_flag_reserved {}", block0_flag_reserved);
+                def1o!("FileXz: block0_flag_compressed_size {}", block0_flag_compressed_size);
+                def1o!("FileXz: block0_flag_uncompressed_size {}", block0_flag_uncompressed_size);
+
+                if !block0_flag_uncompressed_size {
+                    let _msg = format!(
+                        "xz file does not have Uncompressed Size field for {:?}",
+                        path
+                    );
+                    def1o!("xz file does not have Uncompressed Size field for {:?}", path);
+                    de_wrn!("xz file does not have Uncompressed Size field for {:?}", path);
+                }
+
+                #[allow(non_camel_case_types)]
+                type uint64_t = u64;
+
+                fn read_multibyte_integer(reader: &mut Take<&File>) -> Option<uint64_t> {
+                    /*
+                    Multibyte integers of static length, such as CRC values,
+                    are stored in little endian byte order (least significant
+                    byte first).
+
+                    When smaller values are more likely than bigger values (for
+                    example file sizes), multibyte integers are encoded in a
+                    variable-length representation:
+                    - Numbers in the range [0, 127] are copied as is, and take
+                        one byte of space.
+                    - Bigger numbers will occupy two or more bytes. All but the
+                        last byte of the multibyte representation have the highest
+                        (eighth) bit set.
+
+                    For now, the value of the variable-length integers is limited
+                    to 63 bits, which limits the encoded size of the integer to
+                    nine bytes. These limits may be increased in the future if
+                    needed.
+                     */
+                    def2n!();
+
+                    const SIZE_MAX: uint64_t = 9;
+                    let mut buffer_: [u8; 1] = [0b10000000; 1];
+                    let mut num: uint64_t = 0;
+                    let mut i: uint64_t = 0;
+                    while buffer_[0] & 0b10000000 != 0 {
+                        // read one byte
+                        def1o!("FileXz: reader.read_exact({}) {}", buffer_.len(), i);
+                        match reader.read_exact(&mut buffer_) {
+                            Ok(_) => {}
+                            Err(err) => {
+                                def2x!("return I None {:?}", err);
+                                return None;
+                            }
+                        }
+                        let b = buffer_[0];
+                        def2o!("buffer {0:?} (0x{0:02X}) (0b{0:08b})", b);
+
+                        if i >= SIZE_MAX || b == 0 || b & 0b10000000 != 0 {
+                            break;
+                        }
+
+                        num |= ((b & 0b01111111) << (i * 7)) as uint64_t;
+                        def2o!("num {0} (0x{0:08X})", num);
+                        i += 1;
+                    }
+
+                    def2x!("read_multibyte_integer {0:?} (0x{0:08X}) among {1} bytes", num, i);
+                    return Some(num);
+                }
+
+                if block0_flag_compressed_size {
+                    let block0_compressed_size: uint64_t = match read_multibyte_integer(&mut reader) {
+                        Some(val) => val,
+                        None => {
+                            de_wrn!("FileXz: read_multibyte_integer returned None for Compressed Size");
+
+                            0
+                        }
+                    };
+                    def1o!("FileXz: block0_compressed_size {}", block0_compressed_size);
+                }
+
+                let block0_uncompressed_size: uint64_t = match read_multibyte_integer(&mut reader) {
+                    Some(val) => val,
+                    None => {
+                        de_wrn!("FileXz: read_multibyte_integer returned None for Uncompressed Size");
+
+                        0
+                    }
+                };
+                def1o!("FileXz: block0_uncompressed_size {}", block0_uncompressed_size);
 
                 // reset Seek pointer
+                def1o!("FileXz: file_xz.seek(SeekFrom::Start(0))");
                 match file_xz.seek(SeekFrom::Start(0)) {
                     Ok(_) => {}
                     Err(err) => {
@@ -1203,12 +1424,9 @@ impl BlockReader {
                     }
                 }
 
-                let mut bufreader: BufReaderXz = BufReaderXz::new(file_xz);
-
                 // TODO: Issue #12
-                //       This is a hack!
-                //       Read the entire xz file into blocks in one loop!
-                //       Extracting the size from the header is really tedious
+                // HACK: Read the entire xz file into memory.
+                //       Extracting the size from the header is difficult
                 //       (I haven't implemented it). So the file size is only known from
                 //       decompressing the entire file here (and counting the bytes returned).
                 //       The `self.filesz_actual` must be set before exiting this function `new`,
@@ -1217,15 +1435,22 @@ impl BlockReader {
                 //       The `lzma_rs` crate does not provide file size for xz files.
                 //       Putting this hack here until the implementation of reading the
                 //       header/blocks of the underlying .xz file
+                // TODO: cannot read the file in chunks, `xz_decompress` does not accept
+                //       `Options` with `memset`.
+                //       See <https://github.com/gendx/lzma-rs/issues/110>
+                let mut bufreader: BufReaderXz = BufReaderXz::new(file_xz);
+                let mut buffer = Vec::<u8>::with_capacity(blocksz as usize);
+                let mut count_bytes_: usize = 0;
+                let mut _count_xz_decompress: usize = 0;
                 #[allow(clippy::never_loop)]
                 loop {
-                    let mut buffer = Block::new();
                     def1o!(
                         "FileXz: xz_decompress({:?}, buffer (len {}, capacity {}))",
                         bufreader,
                         buffer.len(),
                         buffer.capacity()
                     );
+                    _count_xz_decompress += 1;
                     // XXX: xz_decompress may resize the passed `buffer`
                     match lzma_rs::xz_decompress(&mut bufreader, &mut buffer) {
                         Ok(_) => {
@@ -1243,6 +1468,11 @@ impl BlockReader {
                                         def1o!("FileXz: xz_decompress Error UnexpectedEof, break!");
                                         break;
                                     }
+                                    return Err(
+                                        err_from_err_path(
+                                            ioerr, &path, Some("xz_decompress failed")
+                                        )
+                                    );
                                 }
                                 _err => {
                                     def1o!("FileXz: err {:?}", _err);
@@ -1271,15 +1501,16 @@ impl BlockReader {
                         block.extend_from_slice(&buffer[a..b]);
                         let blockp: BlockP = BlockP::new(block);
                         if let Some(bp_) = blocks.insert(blockoffset, blockp.clone()) {
-                            e_wrn!("blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}, path {:?}", blockoffset, blockp, bp_, path_std);
+                            debug_panic!("blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}, path {:?}", blockoffset, blockp, bp_, path_std);
                         }
                         read_blocks_put += 1;
-                        count_bytes_ += (*blockp).len() as Count;
+                        count_bytes_ += (*blockp).len();
                         blocks_read.insert(blockoffset);
                         blockoffset += 1;
                     }
-                    break;
                 }
+                def1o!("FileXz: count_bytes_ {}", count_bytes_);
+                def1o!("FileXz: _count_xz_decompress {}", _count_xz_decompress);
 
                 let filesz_uncompressed: FileSz = count_bytes_ as FileSz;
                 filesz_actual = filesz_uncompressed;
