@@ -2547,7 +2547,7 @@ impl SyslineReader {
         //       as broad filters (like this) versus meant as instance values.
         dt_filter: &DateTimeLOpt,
     ) -> ResultS3SyslineFind {
-        defn!("(SyslineReader@{:p}, {}, {:?})", self, fileoffset, dt_filter);
+        defn!("(SyslineReader, {}, {:?})", fileoffset, dt_filter);
         let filesz: FileSz = self.filesz();
         let fo_end: FileOffset = filesz as FileOffset;
         let mut try_fo: FileOffset = fileoffset;
