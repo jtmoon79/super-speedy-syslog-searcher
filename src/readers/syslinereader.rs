@@ -241,6 +241,9 @@ pub struct SyslineReader {
     tz_offset_string: String,
     /// Enable or disable the internal LRU cache for `find_sysline()`.
     find_sysline_lru_cache_enabled: bool,
+    /// The last requested `FileOffset` in `find_sysline()`.
+    /// For debbuging purposes.
+    fileoffset_last: FileOffset,
     /// Internal [LRU cache] for `find_sysline()`.
     /// Maintained in function `SyslineReader::find_sysline`.
     ///
@@ -510,6 +513,7 @@ impl SyslineReader {
             tz_offset,
             tz_offset_string: tz_offset.to_string(),
             find_sysline_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
+            fileoffset_last: 0,
             find_sysline_lru_cache: SyslinesLRUCache::new(
                 std::num::NonZeroUsize::new(SyslineReader::FIND_SYSLINE_LRU_CACHE_SZ).unwrap(),
             ),
@@ -2233,6 +2237,15 @@ impl SyslineReader {
         year_opt: &Option<Year>,
     ) -> ResultS3SyslineFind {
         defn!("({}, {:?})", fileoffset, year_opt);
+
+        if self.fileoffset_last > fileoffset && self.is_streamed_file() {
+            // TODO: [2024/05] after Issue #283 is resolved then this should
+            //       become a debug_panic
+            de_wrn!(
+                "fileoffset {} > {} fileoffset_last for a streamed file {:?}",
+                fileoffset, self.fileoffset_last, self.path(),
+            );
+        }
 
         if let Some(result) = self.check_store(fileoffset) {
             defx!("({}): return {:?}", fileoffset, result);
