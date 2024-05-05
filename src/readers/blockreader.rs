@@ -1496,19 +1496,19 @@ impl BlockReader {
     /// Return nearest preceding `BlockOffset` for given `FileOffset`.
     #[inline(always)]
     pub const fn block_offset_at_file_offset(
-        file_offset: FileOffset,
+        fileoffset: FileOffset,
         blocksz: BlockSz,
     ) -> BlockOffset {
-        (file_offset / blocksz) as BlockOffset
+        (fileoffset / blocksz) as BlockOffset
     }
 
     /// Return nearest preceding `BlockOffset` for given `FileOffset`.
     #[inline(always)]
     const fn block_offset_at_file_offset_self(
         &self,
-        file_offset: FileOffset,
+        fileoffset: FileOffset,
     ) -> BlockOffset {
-        BlockReader::block_offset_at_file_offset(file_offset, self.blocksz)
+        BlockReader::block_offset_at_file_offset(fileoffset, self.blocksz)
     }
 
     /// See [BlockReader::file_offset_at_block_offset].
@@ -1516,19 +1516,19 @@ impl BlockReader {
     /// [BlockReader::file_offset_at_block_offset]: crate::readers::blockreader::BlockReader#method.file_offset_at_block_offset
     #[inline(always)]
     pub const fn file_offset_at_block_offset(
-        block_offset: BlockOffset,
+        blockoffset: BlockOffset,
         blocksz: BlockSz,
     ) -> FileOffset {
-        (block_offset * blocksz) as BlockOffset
+        (blockoffset * blocksz) as BlockOffset
     }
 
     /// Return `FileOffset` (byte offset) at given `BlockOffset`.
     #[inline(always)]
     pub const fn file_offset_at_block_offset_self(
         &self,
-        block_offset: BlockOffset,
+        blockoffset: BlockOffset,
     ) -> FileOffset {
-        (block_offset * self.blocksz) as BlockOffset
+        (blockoffset * self.blocksz) as BlockOffset
     }
 
     /// Return `FileOffset` (byte offset) at `BlockOffset` + `BlockIndex`.
@@ -1550,12 +1550,12 @@ impl BlockReader {
     /// corresponds to the passed `FileOffset`.
     #[inline(always)]
     pub const fn block_index_at_file_offset(
-        file_offset: FileOffset,
+        fileoffset: FileOffset,
         blocksz: BlockSz,
     ) -> BlockIndex {
-        (file_offset
+        (fileoffset
             - BlockReader::file_offset_at_block_offset(
-                BlockReader::block_offset_at_file_offset(file_offset, blocksz),
+                BlockReader::block_offset_at_file_offset(fileoffset, blocksz),
                 blocksz,
             )) as BlockIndex
     }
@@ -1565,9 +1565,9 @@ impl BlockReader {
     #[inline(always)]
     pub const fn block_index_at_file_offset_self(
         &self,
-        file_offset: FileOffset,
+        fileoffset: FileOffset,
     ) -> BlockIndex {
-        BlockReader::block_index_at_file_offset(file_offset, self.blocksz)
+        BlockReader::block_index_at_file_offset(fileoffset, self.blocksz)
     }
 
     /// Return `Count` of [`Block`s] in a file.
