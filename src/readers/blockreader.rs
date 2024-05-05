@@ -1966,8 +1966,7 @@ impl BlockReader {
     ///
     /// If `false` then no presumptions are made about the value of
     /// `blockoffset` passed to `read_block_File`.
-    pub fn streamed_file(&self) -> bool {
-        defñ!();
+    pub const fn is_streamed_file(&self) -> bool {
         match self.filetype {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,

@@ -644,6 +644,13 @@ impl SyslineReader {
             .blockoffset_last()
     }
 
+    /// See [`BlockReader::is_streamed_file`].
+    ///
+    /// [`BlockReader::is_streamed_file`]: crate::readers::blockreader::BlockReader#method.is_streamed_file
+    pub const fn is_streamed_file(&self) -> bool {
+        self.linereader.blockreader.is_streamed_file()
+    }
+
     /// See [`LineReader::charsz`].
     ///
     /// [`LineReader::charsz`]: crate::readers::linereader::LineReader#method.charsz
@@ -2467,7 +2474,7 @@ impl SyslineReader {
         dt_filter: &DateTimeLOpt,
     ) -> ResultS3SyslineFind {
         defn!("(SyslineReader@{:p}, {}, {:?})", self, fileoffset, dt_filter);
-        if self.linereader.blockreader.streamed_file() {
+        if self.linereader.blockreader.is_streamed_file() {
             self.find_sysline_at_datetime_filter_linear_search(fileoffset, dt_filter)
         } else {
             self.find_sysline_at_datetime_filter_binary_search(fileoffset, dt_filter)
