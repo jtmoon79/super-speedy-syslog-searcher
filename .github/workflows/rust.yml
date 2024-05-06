@@ -24,7 +24,7 @@ env:
   RUST_BACKTRACE: 1
   # default rust version
   # should match first value in matrix.msrv
-  MSRV_UPLOAD: "1.67.1"
+  MSRV_UPLOAD: "1.70.0"
   # rust version for llvm_cov job
   # should be equal or greater than $MSRV_UPLOAD
   VERSION_LLVM_COV: "1.70.0"
@@ -79,11 +79,10 @@ jobs:
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
         msrv: [
-          "1.67.1",
-          "1.68.0",
           "1.70.0",
           "1.72.0",
           "1.76.0",
+          "1.78.0",
         ]
     runs-on: ${{ matrix.os }}
     steps:
