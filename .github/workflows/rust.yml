@@ -210,6 +210,11 @@ jobs:
           # https://doc.rust-lang.org/nightly/rustc/platform-support.html
           # listings should follow the same order
           #
+          # test each locally by running:
+          #    cargo install cross
+          #    rustup target add $TARGET
+          #    cross check --lib --bins --target $TARGET
+          #
           # XXX: some targets fail to missing a specific glibc required by
           #      libserde_derive, the error message reads:
           #         version `GLIBC_2.25' not found (required by /target/debug/deps/libserde_derive-917db958580e9b6d.so)
@@ -225,29 +230,32 @@ jobs:
           - i686-unknown-linux-gnu
           - x86_64-pc-windows-gnu
           - x86_64-pc-windows-msvc
-          # - x86_64-unknown-linux-gnu  # version `GLIBC_2.25' not found
+          - x86_64-unknown-linux-gnu
           # Tier 2 with host tools
           # - aarch64-pc-windows-msvc  # version `GLIBC_2.25' not found
           - aarch64-unknown-linux-musl
-          # - arm-unknown-linux-gnueabi  # version `GLIBC_2.25' not found
+          - arm-unknown-linux-gnueabi
           - arm-unknown-linux-gnueabihf
-          # - armv7-unknown-linux-gnueabihf  # version `GLIBC_2.25' not found
-          # - loongarch64-unknown-linux-gnu  # toolchain 1.67.1 does not support ...
-          # - powerpc-unknown-linux-gnu  # version `GLIBC_2.25' not found
-          # - powerpc64-unknown-linux-gnu  # version `GLIBC_2.25' not found
+          - armv7-unknown-linux-gnueabihf
+          # XXX: error: component 'rust-std' for target 'loongarch64-unknown-linux-gnu' is unavailable for download for channel '1.70.0'
+          # - loongarch64-unknown-linux-gnu
+          - powerpc-unknown-linux-gnu
+          - powerpc64-unknown-linux-gnu
           # - powerpc64le-unknown-linux-gnu  # version `GLIBC_2.25' not found
           - riscv64gc-unknown-linux-gnu
-          # - sparc64-unknown-linux-gnu # version `GLIBC_2.29' not found
+          # - sparc64-unknown-linuxs-gnu # version `GLIBC_2.29' not found
           # - s390x-unknown-linux-gnu  # version `GLIBC_2.25' not found
-          # - x86_64-unknown-freebsd  # version `GLIBC_2.25' not found
-          # - x86_64-unknown-illumos  # fails due to uapi; see Issue #171
+          - x86_64-unknown-freebsd
+          - x86_64-unknown-illumos
           - x86_64-unknown-linux-musl
-          # - x86_64-unknown-netbsd  # version `GLIBC_2.25' not found
+          - x86_64-unknown-netbsd
           # Tier 2 without host tools
           # (just a few chosen)
+          - aarch64-linux-android
+          - i686-linux-android
+          - x86_64-pc-solaris
           - x86_64-sun-solaris
           - x86_64-linux-android
-          - aarch64-linux-android
           # - wasm32-unknown-emscripten
           # - wasm32-unknown-unknown
           # - wasm32-wasi  # error: could not compile `dlopen2`
@@ -258,6 +266,7 @@ jobs:
           # - i686-unknown-openbsd  # toolchain 1.67.1 does not support ...
           # - x86_64-unknown-dragonfly  # toolchain 1.67.1 does not support ...
           # - x86_64-unknown-openbsd  # toolchain 1.67.1 does not support ...
+          - x86_64-uwp-windows-msvc
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
