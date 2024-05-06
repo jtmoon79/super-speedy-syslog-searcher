@@ -776,7 +776,7 @@ impl SyslineReader {
         let syslinep: &SyslineP = match self.syslines.get(&fileoffset) {
             Some(val) => val,
             None => {
-                eprintln!("ERROR: in print, self.syslines.get({}) returned None", fileoffset);
+                e_err!("in print, self.syslines.get({}) returned None", fileoffset);
                 return;
             }
         };
@@ -1744,7 +1744,7 @@ impl SyslineReader {
         debug_assert_gt!(
             fo,
             &(*syslinep).fileoffset_end(),
-            "fo {} ≯ {} syslinep.fileoffset_end()",
+            "debug_assert_gt_fo_syslineend check failed: fo {} ≯ {} syslinep.fileoffset_end()",
             fo,
             (*syslinep).fileoffset_end(),
         );
@@ -2782,7 +2782,7 @@ impl SyslineReader {
                 syslinep = match (syslinep_compare, syslinep_next_compare) {
                     (_, Result_Filter_DateTime1::Pass) | (Result_Filter_DateTime1::Pass, _) => {
                         defo!("unexpected Result_Filter_DateTime1::Pass");
-                        eprintln!("ERROR: unexpected Result_Filter_DateTime1::Pass result");
+                        e_err!("unexpected Result_Filter_DateTime1::Pass result");
                         break;
                     }
                     (Result_Filter_DateTime1::OccursBefore, Result_Filter_DateTime1::OccursBefore) => {
@@ -2799,8 +2799,8 @@ impl SyslineReader {
                     }
                     _ => {
                         defo!("unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple");
-                        eprintln!(
-                            "ERROR: unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple"
+                        e_err!(
+                            "unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple"
                         );
                         break;
                     }
@@ -2966,9 +2966,9 @@ impl SyslineReader {
                     }
                     Result_Filter_DateTime2::BeforeRange => {
                         defo!("sysline_pass_filters(…) returned BeforeRange;");
-                        eprintln!("ERROR: sysline_pass_filters(Sysline@{:p}, {:?}, {:?}) returned BeforeRange, however the prior call to find_sysline_at_datetime_filter({}, {:?}) returned Found; this is unexpected.",
-                                  syslinep, dt_filter_after, dt_filter_before,
-                                  fileoffset, dt_filter_after
+                        e_err!(
+                            "sysline_pass_filters(Sysline, {:?}, {:?}) returned BeforeRange, however the prior call to find_sysline_at_datetime_filter({}, {:?}) returned Found; this is unexpected.",
+                            dt_filter_after, dt_filter_before, fileoffset, dt_filter_after
                         );
                         defx!("return ResultS3SyslineFind::Done (not sure what to do here)");
                         return ResultS3SyslineFind::Done;
