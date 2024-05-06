@@ -148,6 +148,7 @@ if [[ "${COLUMNS+x}" ]]; then
     width=$(($COLUMNS * 2))
 fi
 
+total_diff_stdout=true
 # compare total stdout
 if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     ret=1
@@ -160,6 +161,7 @@ if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     echo
     echo -e "Do you need to run \e[1mcompare-current-and-expected-update.sh\e[0m ?"
     echo
+    total_diff_stdout=false
 else
     echo
     echo "Output of stdout are the same. (ʘ‿ʘ)"
@@ -167,6 +169,7 @@ else
 fi
 
 # compare total stderr
+total_diff_stderr=true
 if ! "${DIFF}" --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
     ret=1
     echo "Output of stderr is not the same. (ಠ_ಠ)"
@@ -177,6 +180,7 @@ if ! "${DIFF}" --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
         "${DIFF}" --text -y --width=${width} --suppress-common-lines "${CURRENT_ERR}" "${EXPECT_ERR}") || true
     ) | head -n 100 | indent
     echo
+    total_diff_stderr=false
 else
     echo
     echo "Output of stderr are the same. (ʘ‿ʘ)"
@@ -188,8 +192,12 @@ echo "Comparing ${LOGS_COUNT} individual files:"
 # compare individual files
 tmp1=$(mktemp -t "tmp.s4.compare-current-and-expected_stdout_XXXXX")
 tmp2=$(mktemp -t "tmp.s4.compare-current-and-expected_stderr_XXXXX")
-declare -i diff_log=0
-declare -i same_log=0
+declare -i diff_log_stdout=0
+declare -a diff_file_stdout=0
+declare -i same_log_stdout=0
+declare -i diff_log_stderr=0
+declare -a diff_file_stderr=0
+declare -i same_log_stderr=0
 while read -r log_file; do
     if [[ "${log_file}" = '' ]] || [[ "${log_file:0:1}" = '#' ]]; then
         continue
@@ -205,7 +213,8 @@ while read -r log_file; do
 
     # compare stdout per file
     if ! "${DIFF}" --text --brief "${log_file_stdout}" "${tmp1}" &>/dev/null; then
-        diff_log+=1
+        diff_log_stdout+=1
+        diff_file_stdout+=("${log_file}")
         ret=1
         echo >&2
         echo "    Different stdout ${log_file_stdout}" >&2
@@ -217,12 +226,13 @@ while read -r log_file; do
         echo >&2
         tmp1=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
     else
-        same_log+=1
+        same_log_stdout+=1
         echo -n '.' >&2
     fi
     # compare stderr per file
     if ! "${DIFF}" --text --brief "${log_file_stderr}" "${tmp2}" &>/dev/null; then
-        diff_log+=1
+        diff_log_stderr+=1
+        diff_file_stderr+=("${log_file}")
         ret=1
         echo >&2
         echo "    Different stderr ${log_file_stderr}" >&2
@@ -234,15 +244,35 @@ while read -r log_file; do
         echo >&2
         tmp2=$(mktemp -t "tmp.s4.compare-current-and-expected_XXXXX")
     else
-        same_log+=1
+        same_log_stderr+=1
         echo -n '.' >&2
     fi
 done < "${LOGS}"
 
 echo
-echo "Outputs of ${same_log} individual comparisons are the same. (ʘ‿ʘ)"
-if [[ ${diff_log} -gt 0 ]]; then
-    echo "Outputs of ${diff_log} individual comparisons were not the same. (ಠ_ಠ)"
+echo "Outputs of ${same_log_stdout} individual stdout comparisons are the same. (ʘ‿ʘ)"
+if [[ ${diff_log_stdout} -gt 0 ]]; then
+    echo "Outputs of ${diff_log_stdout} individual stdout comparisons were not the same. (ಠ_ಠ)"
+    for log in "${diff_file_stdout[@]}"; do
+        echo "    ${log}"
+    done
+fi
+echo "Outputs of ${same_log_stderr} individual stderr comparisons are the same. (ʘ‿ʘ)"
+if [[ ${diff_log_stderr} -gt 0 ]]; then
+    echo "Outputs of ${diff_log_stderr} individual stderr comparisons were not the same. (ಠ_ಠ)"
+    for log in "${diff_file_stderr[@]}"; do
+        echo "    ${log}"
+    done
+fi
+if ${total_diff_stdout}; then
+    echo "Total stdout outputs are the same. (ʘ‿ʘ)"
+else
+    echo "Total stdout outputs are not the same. (ಠ_ಠ)"
+fi
+if ${total_diff_stderr}; then
+    echo "Total stderr outputs are the same. (ʘ‿ʘ)"
+else
+    echo "Total stderr outputs are not the same. (ಠ_ಠ)"
 fi
 echo
 
