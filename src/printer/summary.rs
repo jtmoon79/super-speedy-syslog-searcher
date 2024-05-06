@@ -1313,6 +1313,8 @@ fn print_summary_opt_processed_summaryblockreader(
     //       tracking in `BlockReader`.
     //       i.e. bytes read from storage.
     eprintln!("{}bytes         : {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes);
+    // TODO: [2024/05/05] `bytes total` repeats `file size` printed
+    //       above. Remove it entirely.
     eprintln!("{}bytes total   : {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes_total);
     eprintln!("{}block size    : {1} (0x{1:X})", indent, summaryblockreader.blockreader_blocksz);
     eprintln!("{}blocks        : {}", indent, summaryblockreader.blockreader_blocks);
