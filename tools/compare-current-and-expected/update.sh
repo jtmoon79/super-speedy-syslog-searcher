@@ -17,6 +17,8 @@ cd "$(dirname "${0}")/../.."
 HERE="./tools/compare-current-and-expected"
 source "${HERE}/common.sh"
 
+./tools/log-files-time-update.sh
+
 # verify s4 can run
 (set -x; "${PROGRAM}" --version)
 echo >&2
