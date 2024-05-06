@@ -573,6 +573,8 @@ pub enum FileTypeArchive {
     ///
     /// Presumed to contain one regular file; see Issue #8
     Gz,
+    /// a compressed LZIP file, e.g. `log.lzma`
+    Lz4,
     /// a file within a `.tar` archive file
     Tar,
     /// a file compressed "xz'd" file, e.g. `log.xz`
@@ -589,6 +591,7 @@ impl std::fmt::Display for FileTypeArchive {
         match self {
             FileTypeArchive::Normal => write!(f, "Normal"),
             FileTypeArchive::Gz => write!(f, "gzip"),
+            FileTypeArchive::Lz4 => write!(f, "lz4"),
             FileTypeArchive::Tar => write!(f, "tar"),
             FileTypeArchive::Xz => write!(f, "xz"),
         }
@@ -728,18 +731,22 @@ impl FileType {
         match self {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,
+            FileType::Evtx{ archival_type: FileTypeArchive::Lz4 } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Tar } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Xz } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => true,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Gz } => true,
+            FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => true,
             FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => true,
+            FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => true,
             FileType::Unparsable => false,
@@ -751,18 +758,22 @@ impl FileType {
         match self {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Lz4 } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Xz } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Gz } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
             FileType::Text{ archival_type: FileTypeArchive::Normal, ..} => false,
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => false,
             FileType::Unparsable => false,

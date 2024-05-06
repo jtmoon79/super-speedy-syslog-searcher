@@ -353,6 +353,16 @@ fn pathbuf_to_filetype_impl(
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
         }
+        "lz4" => {
+            defo!("file_suffix {:?} is lzma4", file_suffix);
+            let ret = pathbuf_to_filetype_impl(
+                &pathbuf.clone().with_extension(""),
+                unparseable_are_text,
+                Some(FileTypeArchive::Lz4),
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
         "tar" => {
             defo!("file_suffix {:?} is a tar filetype_archive.is_none()", file_suffix);
             let ret = PathToFiletypeResult::Archive(
@@ -489,7 +499,6 @@ fn pathbuf_to_filetype_impl(
         | "jpeg"
         | "jpg"
         | "lib"
-        | "lzma"
         | "m4b"
         | "m4p"
         | "m4r"
@@ -847,6 +856,7 @@ pub fn process_path_tar(
                 match filetype {
                     // Evtx
                     FileType::Evtx { archival_type: at @ FileTypeArchive::Gz, .. }
+                    | FileType::Evtx { archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::Evtx{ archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::Evtx{ archival_type: at @ FileTypeArchive::Tar, .. }
                     => {
@@ -865,6 +875,7 @@ pub fn process_path_tar(
                     }
                     // FixedStruct
                     FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Gz, .. }
+                    | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Tar, .. }
                     => {
@@ -885,6 +896,7 @@ pub fn process_path_tar(
                     }
                     // Journal
                     FileType::Journal { archival_type: at @ FileTypeArchive::Gz }
+                    | FileType::Journal { archival_type: at @ FileTypeArchive::Lz4 }
                     | FileType::Journal { archival_type: at @ FileTypeArchive::Xz }
                     | FileType::Journal { archival_type: at @ FileTypeArchive::Tar }
                     => {
@@ -905,6 +917,7 @@ pub fn process_path_tar(
                     }
                     // Text
                     FileType::Text { archival_type: at @ FileTypeArchive::Gz, .. }
+                    | FileType::Text { archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::Text { archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::Text { archival_type: at @ FileTypeArchive::Tar, .. }
                     => {
@@ -1097,9 +1110,11 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
                 paths.push(ProcessPathResult::FileValid(fpath_entry, filetype));
             }
             ft @ FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+            | ft @ FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
             | ft @ FileType::Evtx{ archival_type: FileTypeArchive::Tar }
             | ft @ FileType::Evtx{ archival_type: FileTypeArchive::Xz }
             | ft @ FileType::Journal{ archival_type: FileTypeArchive::Gz }
+            | ft @ FileType::Journal{ archival_type: FileTypeArchive::Lz4 }
             | ft @ FileType::Journal{ archival_type: FileTypeArchive::Tar }
             | ft @ FileType::Journal{ archival_type: FileTypeArchive::Xz }
             | ft @ FileType::Unparsable => {

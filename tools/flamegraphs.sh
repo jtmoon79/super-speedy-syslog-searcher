@@ -30,6 +30,9 @@ export OUT="${DIROUT}/flamegraph-syslog.svg"
 export OUT="${DIROUT}/flamegraph-syslog-gz.svg"
 "${SCRIPT}" './logs/other/tests/gen-1000-3-foobar.log.gz'
 
+export OUT="${DIROUT}/flamegraph-syslog-lz4.svg"
+"${SCRIPT}" './logs/other/tests/gen-1000-3-foobar.log.lz4'
+
 export OUT="${DIROUT}/flamegraph-syslog-xz.svg"
 "${SCRIPT}" './logs/other/tests/gen-1000-3-foobar.log.xz'
 
