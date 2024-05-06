@@ -466,6 +466,26 @@ jobs:
           ${env:NEXTEST_TEST_THREADS}="num-cpus"
           cargo.exe nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
 
+  job_flamegraph:
+    # check that `flamegraph.sh` runs
+    name: flamegraph check
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v4
+      - uses: moonrepo/setup-rust@v1
+        with:
+          channel: ${{ env.MSRV_UPLOAD }}
+      - name: nextest (all)
+        shell: bash
+        run: |
+          set -eux
+          apt install -y linux-tools-generic
+          cargo install flamegraph
+          export OUT="./flamegraph-help.svg"
+          ./tools/flamegraph.sh --help
+
   job_doc_publish:
     # this job downloads and builds dependency crates
     name: doc, publish
