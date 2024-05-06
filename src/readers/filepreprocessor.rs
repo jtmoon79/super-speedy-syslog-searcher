@@ -746,33 +746,6 @@ pub fn fpath_to_filetype(path: &FPath, unparseable_are_text: bool) -> PathToFile
     path_to_filetype(fpath_to_path(path), unparseable_are_text)
 }
 
-/// Is the `FileType` processing implemented by `s4lib`?
-///
-/// There are plans for future support of differing files.
-// TODO: [2024/04] should use this function, right?
-pub fn processable_filetype(filetype: &FileType) -> bool {
-    defñ!("({:?})", filetype);
-    match filetype {
-        FileType::Evtx{ archival_type: FileTypeArchive::Normal } => true,
-        FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
-        FileType::Evtx{ archival_type: FileTypeArchive::Tar } => false,
-        FileType::Evtx{ archival_type: FileTypeArchive::Xz } => false,
-        FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ } => true,
-        FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ } => false,
-        FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ } => false,
-        FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ } => false,
-        FileType::Journal{ archival_type: FileTypeArchive::Normal } => true,
-        FileType::Journal{ archival_type: FileTypeArchive::Gz } => false,
-        FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
-        FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
-        FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ } => true,
-        FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ } => false,
-        FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ } => false,
-        FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ } => false,
-        FileType::Unparsable => false,
-    }
-}
-
 /// Helper to `process_path_tar`
 fn error_to_string(error: &std::io::Error, path: &FPath) -> String {
     String::from(
