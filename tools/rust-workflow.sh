@@ -30,7 +30,7 @@ cargo clean
 cargo msrv verify  # cargo install cargo-msrv
 cargo build
 cargo build --release
-cargo test --all-targets
+cargo nextest run --all-targets
 cargo check --all-targets
 cargo check --all-targets --release
 cargo clippy --no-deps --all-targets --all-features
