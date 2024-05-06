@@ -28,6 +28,9 @@ env:
   # rust version for llvm_cov job
   # should be equal or greater than $MSRV_UPLOAD
   VERSION_LLVM_COV: "1.70.0"
+  # version of flamegraph which is often using latest rust
+  # so a specific version must be installed for the current MSRV
+  FLAMEGRAPH_VERSION: "0.6.5"
   # run options for debug
   S4_ARGSD: --blocksz 0x2 -s
   # run options for release
@@ -466,6 +469,28 @@ jobs:
           cargo.exe nextest --version
           ${env:NEXTEST_TEST_THREADS}="num-cpus"
           cargo.exe nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
+
+  job_flamegraph:
+    # check that `flamegraph.sh` runs
+    name: flamegraph
+    needs: [job_rust_release_channel, job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v4
+      - uses: moonrepo/setup-rust@v1
+        with:
+          channel: ${{ env.MSRV_UPLOAD }}
+      - name: flamegraph.sh
+        shell: bash
+        run: |
+          set -eux
+          sudo -- apt-get install -y linux-tools-generic
+          cargo install flamegraph --version=${FLAMEGRAPH_VERSION} --locked
+          export OUT="./flamegraph-dtf2-2.svg"
+          export FREQ=5000
+          ./tools/flamegraph.sh ./logs/other/tests/dtf2-2.log
+          ls -l "${OUT}"
 
   job_doc_publish:
     # this job downloads and builds dependency crates
