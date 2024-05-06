@@ -404,6 +404,11 @@ const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z";
 /// `--help` _afterword_ message.
 const CLI_HELP_AFTER: &str = concatcp!(
     "\
+Given a file path, the file will be processed based on a best guess of the file
+name. If the format is not guessed then it will be parsed as a UTF8 text file.
+If a file path is a directory then file names that have well known non-log file
+extensions will be skipped.
+
 DateTime Filters may be strftime specifier patterns:
     \"",
     CLI_FILTER_PATTERNS[0].0,
@@ -486,6 +491,9 @@ https://docs.rs/chrono/latest/chrono/format/strftime/
 DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
+
+Further background and examples are at the project website:
+https://github.com/jtmoon79/super-speedy-syslog-searcher/
 
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose

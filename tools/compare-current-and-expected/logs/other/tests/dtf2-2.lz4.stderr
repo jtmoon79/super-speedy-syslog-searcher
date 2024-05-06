@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/other/tests/dtf2-2.lz4
+  About:
+      filetype       : TEXT UTF8/ASCII (lz4)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 240
+      lines         : 3
+      syslines      : 2
+  Processed:
+      file size compressed  : 63 (0x3F) (bytes)
+      file size uncompressed: 60 (0x3C) (bytes)
+      bytes         : 120 (0x78)
+      bytes total   : 60 (0x3C)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered      : 1
+Paths not processed   : 0
+Files processed       : 1
+Files printed         : 1
+Printed bytes         : 248
+Printed lines         : 3
+Printed syslines      : 2
+Printed evtx events   : 0
+Printed fixedstruct   : 0
+Printed journal events: 0
+Regex patterns        : 154
+Regex compiled        : 79
+Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok    : 4
+Channel Receive err   : 0

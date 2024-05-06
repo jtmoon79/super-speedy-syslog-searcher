@@ -95,6 +95,16 @@ const FTEVTXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
         archival_type: FileTypeArchive::Normal,
     }
 );
+const FTEVTXG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Evtx {
+        archival_type: FileTypeArchive::Gz,
+    }
+);
+const FTEVTXL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Evtx {
+        archival_type: FileTypeArchive::Lz4,
+    }
+);
 const FTEVTXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Evtx {
         archival_type: FileTypeArchive::Xz,
@@ -108,6 +118,11 @@ const FTJOURNALN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 const FTJOURNALG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Journal {
         archival_type: FileTypeArchive::Gz,
+    }
+);
+const FTJOURNALL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Journal {
+        archival_type: FileTypeArchive::Lz4,
     }
 );
 const FTJOURNALX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
@@ -195,6 +210,12 @@ const FTUTMP_X: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 const FTUTMPG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::FixedStruct {
         archival_type: FileTypeArchive::Gz,
+        fixedstruct_type: FileTypeFixedStruct::Utmp,
+    }
+);
+const FTUTMPL4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Lz4,
         fixedstruct_type: FileTypeFixedStruct::Utmp,
     }
 );
@@ -378,12 +399,14 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("btmp", FTUTMPN, true; "btmp")]
 #[test_case("utmp", FTUTMPN, true; "utmp")]
 #[test_case("UTMP", FTUTMPN, true; "UTMP ALLCAPS")]
+#[test_case("UTMP.1", FTUTMPN, true; "UTMP.1 ALLCAPS")]
+
 #[test_case("UTMP.gz", FTUTMPG, true; "UTMP ALLCAPS GZ")]
 #[test_case("UTMP.tar", AMTARN, true; "UTMP ALLCAPS TAR")]
 #[test_case("UTMP.xz", FTUTMP_X, true; "UTMP ALLCAPS XZ")]
-#[test_case("UTMP.1", FTUTMPN, true; "UTMP.1 ALLCAPS")]
 #[test_case("UTMP.1.GZ", FTUTMPG, true; "UTMP.1.GZ")]
 #[test_case("UTMP.1.XZ", FTUTMP_X, true; "UTMP.1.XZ")]
+#[test_case("UTMP.2.lz4", FTUTMPL4, true)]
 // FixedStruct Utmpx
 #[test_case("btmpx", FTUTMPXN, true)]
 #[test_case("utmpx", FTUTMPXN, true)]
@@ -440,6 +463,10 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("tar.evtx", FTEVTXN, true)]
 #[test_case("mp3.evtx", FTEVTXN, true)]
 #[test_case("_.evtx", FTEVTXN, true)]
+// gz
+#[test_case("log.evtx.gz", FTEVTXG, true)]
+// lz4
+#[test_case("log.evtx.lz4", FTEVTXL4, true)]
 // xz
 #[test_case("log.evtx.xz", FTEVTXX, true)]
 #[test_case("tar.evtx.xz", FTEVTXX, true)]
@@ -460,6 +487,8 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("journal.journal.gz", FTJOURNALG, true)]
 #[test_case("journal.gz", FTJOURNALG, true)]
 #[test_case("journal.gz.xz", FTJOURNALG, true)] // Issue #14
+// lz4
+#[test_case("user-1000.journal.lz4", FTJOURNALL4, true)]
 // xz
 #[test_case("user-1000.journal.xz", FTJOURNALX, true)]
 #[test_case("journal.journal.xz", FTJOURNALX, true)]
@@ -515,6 +544,12 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("prog.exe", FTUNPARSABLE, false)]
 #[test_case("prog.exe", FTTN8, true)]
 // oddities
+#[test_case("gz", FTTN8, true)]
+#[test_case("gz", FTTN8, false)]
+#[test_case("lz4", FTTN8, true)]
+#[test_case("lz4", FTTN8, false)]
+#[test_case("xz", FTTN8, true)]
+#[test_case("xz", FTTN8, false)]
 #[test_case("-.tgz.99", FTUNPARSABLE, false; "dash tgz 99 Unparsable")]
 #[test_case("-.tgz.99", FTTN8, true; "dash tgz 99 FILETYPE_UTF8")]
 #[test_case("-", FTTN8, true; "dash1 FILETYPE_UTF8")]

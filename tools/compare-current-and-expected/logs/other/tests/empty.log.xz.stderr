@@ -6,7 +6,7 @@ File: ./logs/other/tests/empty.log.xz
       filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
       Processing Err : unexpected end of file
-  Error: failed to fill whole buffer (FileXz stream header magic bytes) file "./logs/other/tests/empty.log.xz"
+  Error: failed to fill whole buffer (missing XZ stream header magic bytes) file "./logs/other/tests/empty.log.xz"
 
 
 Program Summary:

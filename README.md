@@ -31,7 +31,7 @@ formats, including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
-`s4` can read compressed logs (`.gz`, `.xz`), or archived logs (`.tar`).<sup><a href="#f3">\[3\]</a></sup>
+`s4` can read compressed logs (`.gz`, `.lz4`, `.xz`), or archived logs (`.tar`).<sup><a href="#f3">\[3\]</a></sup>
 
 The first goal of `s4` is speedy searching and printing.
 
@@ -466,11 +466,13 @@ See the real-world example rationale in the section below,
 
 ### Hacks
 
+- Entire `.lz4` files are read once before processing ([Issue #293])
 - Entire `.xz` files are read into memory before printing ([Issue #12])
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
 - Entire [user accounting record files are read into memory] before printing
 
 [user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
+[Issue #293]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/293
 
 <br/>
 
@@ -550,13 +552,13 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 
 #### Archive Formats Supported
 
-|Program        |`.gz`     |`.bz`/`.bz2` |`.xz`   |`.tar`|`.zip`|
-|-              |-         |-            |-       |-     |-     |
-|`grep \| sort` |☐ `zgrep`|☐ `bzip2`    |☐ `xz` |✗     |✗     |
-|`s4`           |✔        |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/40)|✔      |✔     |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39)|
-|`logmerger`    |✔        |✗            |✗      |✗     |✗     |
-|`tl`           |✔        |✔            |✗      |✗     |✗     |
-|`logdissect.py`|✔        |✗            |✗      |✗     |✗     |
+|Program        |`.gz`     |`.lz4`   |`.bz`/`.bz2` |`.xz`   |`.tar`|`.zip`|
+|-              |-         |-        |-            |-       |-     |-     |
+|`grep \| sort` |☐ `zgrep`|☐ `lz4`|☐ `bzip2`    |☐ `xz` |✗     |✗     |
+|`s4`           |✔        |✔        |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/40)|✔      |✔     |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39)|
+|`logmerger`    |✔        |✗        |✗            |✗      |✗     |✗     |
+|`tl`           |✔        |✗        |✔            |✗      |✗     |✗     |
+|`logdissect.py`|✔        |✗        |✗            |✗      |✗     |✗     |
 
 ---
 

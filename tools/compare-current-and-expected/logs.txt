@@ -131,9 +131,11 @@
 ./logs/other/tests/dtf2-2.log.bz2
 ./logs/other/tests/dtf2-2.log.gz
 ./logs/other/tests/dtf2-2.log.lz
+./logs/other/tests/dtf2-2.log.lz4
 ./logs/other/tests/dtf2-2.log.tar
 ./logs/other/tests/dtf2-2.log.xz
 ./logs/other/tests/dtf2-2.lz
+./logs/other/tests/dtf2-2.lz4
 ./logs/other/tests/dtf2-2.tar
 ./logs/other/tests/dtf2-2.tar.bz2
 ./logs/other/tests/dtf2-2.tar.gz
@@ -214,6 +216,7 @@
 ./logs/programs/utmp/host-entry6.wtmp.bz2
 ./logs/programs/utmp/host-entry6.wtmp.gz
 ./logs/programs/utmp/host-entry6.wtmp.lz
+./logs/programs/utmp/host-entry6.wtmp.lz4
 ./logs/programs/utmp/host-entry6.wtmp.xz
 ./logs/programs/utmp/host-entry6.wtmp.zip
 ./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar

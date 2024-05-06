@@ -702,7 +702,7 @@ impl SyslineReader {
             }
         }
         let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
-        defñ!("dtpd line {:?}", dtpd._line_num);
+        defñ!("dtpd line {:?} return {}", dtpd._line_num, dtpd.dtfs.has_year());
 
         dtpd.dtfs.has_year()
     }
@@ -2846,34 +2846,43 @@ impl SyslineReader {
         defn!("(SyslineReader@{:p}, {}, {:?})", self, fileoffset, dt_filter);
         let mut fo_cursor: FileOffset = fileoffset;
 
-        defo!("self.find_sysline({})", fo_cursor);
-        match self.find_sysline(fo_cursor) {
-            ResultS3SyslineFind::Found((fo, syslinep)) => {
-                defo!("self.find_sysline({}) returned Found", fo_cursor);
-                match SyslineReader::sysline_dt_after_or_before(&syslinep, dt_filter) {
-                    Result_Filter_DateTime1::Pass
-                    | Result_Filter_DateTime1::OccursAtOrAfter => {
-                        SyslineReader::debug_assert_gt_fo_syslineend(&fo, &syslinep);
-                        defx!("return ResultS3SyslineFind::Found(({}, @{:p}))", fo_cursor, &syslinep);
-                        return ResultS3SyslineFind::Found((fo_cursor, syslinep));
-                    }
-                    Result_Filter_DateTime1::OccursBefore => {
-                        // advance the "cursor"
-                        defo!("advance fo_cursor from {} to {}", fo_cursor, fo);
-                        debug_assert_gt!(fo, fo_cursor, "fo_cursor not advancing");
-                        fo_cursor = fo;
+        loop {
+            defo!("self.find_sysline({})", fo_cursor);
+            match self.find_sysline(fo_cursor) {
+                ResultS3SyslineFind::Found((fo, syslinep)) => {
+                    defo!(
+                        "self.find_sysline({}) returned Found({}, SyslineP @[{}..{}])",
+                        fo_cursor, fo, (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(),
+                    );
+                    match SyslineReader::sysline_dt_after_or_before(&syslinep, dt_filter) {
+                        _r @ Result_Filter_DateTime1::Pass
+                        | _r @ Result_Filter_DateTime1::OccursAtOrAfter
+                        => {
+                            defo!("sysline_dt_after_or_before returned {:?}", _r);
+                            SyslineReader::debug_assert_gt_fo_syslineend(&fo, &syslinep);
+                            defx!("return ResultS3SyslineFind::Found(({}, @{:p}))", fo_cursor, &syslinep);
+                            return ResultS3SyslineFind::Found((fo, syslinep));
+                        }
+                        _r @ Result_Filter_DateTime1::OccursBefore
+                        => {
+                            defo!("sysline_dt_after_or_before returned {:?}", _r);
+                            // advance the "cursor"
+                            defo!("advance fo_cursor from {} to {}", fo_cursor, fo);
+                            debug_assert_gt!(fo, fo_cursor, "fo_cursor not advancing");
+                            fo_cursor = fo;
+                        }
                     }
                 }
-                return ResultS3SyslineFind::Found((fo_cursor, syslinep))
-            }
-            ResultS3SyslineFind::Done => {
-                defo!("self.find_sysline({}) returned Done", fo_cursor);
-            }
-            ResultS3SyslineFind::Err(err) => {
-                defo!("self.find_sysline({}) returned Err({})", fo_cursor, err,);
-                de_err!("{}", err);
-                defx!("return ResultS3SyslineFind::Err");
-                return ResultS3SyslineFind::Err(err)
+                ResultS3SyslineFind::Done => {
+                    defo!("self.find_sysline({}) returned Done", fo_cursor);
+                    break;
+                }
+                ResultS3SyslineFind::Err(err) => {
+                    defo!("self.find_sysline({}) returned Err({})", fo_cursor, err,);
+                    de_err!("{}", err);
+                    defx!("return ResultS3SyslineFind::Err");
+                    return ResultS3SyslineFind::Err(err)
+                }
             }
         }
 
@@ -2938,9 +2947,16 @@ impl SyslineReader {
     ) -> ResultS3SyslineFind {
         defn!("({}, {:?}, {:?})", fileoffset, dt_filter_after, dt_filter_before);
 
-        match self.find_sysline_at_datetime_filter_binary_search(fileoffset, dt_filter_after) {
+        let result: ResultS3SyslineFind;
+        if self.is_streamed_file() {
+            result = self.find_sysline_at_datetime_filter_linear_search(fileoffset, dt_filter_after);
+        } else {
+            result = self.find_sysline_at_datetime_filter_binary_search(fileoffset, dt_filter_after);
+        }
+        defo!("returned {:?}", result);
+
+        match result {
             ResultS3SyslineFind::Found((fo, syslinep)) => {
-                defo!("returned ResultS3SyslineFind::Found(({}, {:?}))", fo, syslinep);
                 match Self::sysline_pass_filters(&syslinep, dt_filter_after, dt_filter_before) {
                     Result_Filter_DateTime2::InRange => {
                         defo!("sysline_pass_filters(…) returned InRange;");

@@ -76,6 +76,8 @@ pub const FILETYPE_UTF8: FileType =
     FileType::Text { archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii };
 pub const FILETYPE_UTF8_GZ: FileType =
     FileType::Text { archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii };
+pub const FILETYPE_UTF8_LZ4: FileType =
+    FileType::Text { archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf8Ascii };
 pub const FILETYPE_UTF8_TAR: FileType =
     FileType::Text { archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii };
 pub const FILETYPE_UTF8_XZ: FileType =
@@ -362,7 +364,6 @@ lazy_static! {
     pub static ref NTF_XZ_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_XZ_1BYTE_FPATH);
 }
 
-///
 /// xz of an 8 byte file:
 ///
 ///     $ echo -n 'ABCDEFGH' > file8
@@ -381,6 +382,55 @@ lazy_static! {
         create_temp_file_bytes_with_suffix(&XZ_8BYTE_DATA, &String::from("-8byte.xz"));
     pub static ref NTF_XZ_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_XZ);
     pub static ref NTF_XZ_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_XZ_8BYTE_FPATH);
+}
+
+/// lz4 of an empty file using `lz4c`
+///
+///     $ echo -n > empty
+///     $ lz4c -k9v empty
+///     $ ./tools/hexdump.py empty.lz4
+///
+pub const LZ4_EMPTY_DATA: [u8; 15] = [
+    0x04, 0x22, 0x4d, 0x18, 0x64, 0x40, 0xa7, 0x00,
+    0x00, 0x00, 0x00, 0x05, 0x5d, 0xcc, 0x02,
+];
+
+lazy_static! {
+    /// an empty file, lz4 compressed
+    pub static ref NTF_LZ4_EMPTY: NamedTempFile = {
+        create_temp_file_bytes_with_suffix(
+            &LZ4_EMPTY_DATA, &String::from("-empty.lz4")
+        )
+    };
+    pub static ref NTF_LZ4_EMPTY_PATH: &'static Path = {
+        fpath_to_path(&NTF_LZ4_EMPTY_FPATH)
+    };
+    pub static ref NTF_LZ4_EMPTY_FPATH: FPath = {
+        path_to_fpath(NTF_LZ4_EMPTY.path())
+    };
+    pub static ref NTF_LZ4_EMPTY_SYSTEMTIME: SystemTime = seconds_to_systemtime(
+        &0
+    );
+}
+
+/// lz4 of an 8 byte file:
+///
+///     $ echo -n 'ABCDEFGH' > file8
+///     $ lz4c -k9v file8
+///     $ ./tools/hexdump.py file8.lz4
+///
+pub const LZ4_8BYTE_DATA: [u8; 27] = [
+    0x04, 0x22, 0x4d, 0x18, 0x64, 0x40, 0xa7, 0x08,
+    0x00, 0x00, 0x80, 0x41, 0x42, 0x43, 0x44, 0x45,
+    0x46, 0x47, 0x48, 0x00, 0x00, 0x00, 0x00, 0x19,
+    0x05, 0x57, 0x63,
+];
+
+lazy_static! {
+    pub static ref NTF_8BYTE_LZ4: NamedTempFile =
+        create_temp_file_bytes_with_suffix(&LZ4_8BYTE_DATA, &String::from("-8byte.lz4"));
+    pub static ref NTF_LZ4_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_LZ4);
+    pub static ref NTF_LZ4_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_LZ4_8BYTE_FPATH);
 }
 
 // --------
