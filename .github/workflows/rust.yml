@@ -132,31 +132,10 @@ jobs:
           echo 'Built target `'"${df}"'` using rust `'"${{ matrix.msrv }}"'` on ' \
                '`'"${{ matrix.os }}"'`' >> ${GITHUB_STEP_SUMMARY}
 
-  job_rust_release_channel:
-    # this job downloads and builds dependency crates
-    name: build release channel ${{ matrix.rust_version }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        rust_version: ["stable", "beta"]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ matrix.rust_version }}
-      - name: Build using rust ${{ matrix.rust_version }}
-        run: |
-          set -eux
-          cargo --version
-          cargo build
-          cargo build --release
-          ./target/release/s4 --help
-
   job_build_debug_release:
     # this job downloads and builds dependency crates
     name: build debug and release, upload
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       # build & upload debug
@@ -205,7 +184,7 @@ jobs:
 
   job_cross_targets:
     name: cross ${{ matrix.target }} on ubuntu-22.04
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     strategy:
       matrix:
         target:
@@ -286,7 +265,7 @@ jobs:
 
   job_cross_targets_macos:
     name: cross ${{ matrix.target }} on macos-13
-    needs: [job_rust_release_channel, job_rust_msrv_os, job_cross_targets]
+    needs: [job_rust_msrv_os, job_cross_targets]
     strategy:
       matrix:
         target:
@@ -330,7 +309,7 @@ jobs:
   job_check:
     # this job downloads and builds dependency crates
     name: check
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -351,7 +330,7 @@ jobs:
   job_clippy:
     # this job downloads and builds dependency crates
     name: clippy
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -371,7 +350,7 @@ jobs:
   job_bench:
     # this job downloads and builds dependency crates
     name: bench
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -389,7 +368,7 @@ jobs:
   job_test_linux:
     # this job downloads and builds dependency crates
     name: test linux
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -434,7 +413,7 @@ jobs:
 
   job_test_macos:
     name: test Mac OS
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: macos-latest
     steps:
       - name: git checkout
@@ -453,7 +432,7 @@ jobs:
 
   job_test_windows:
     name: test Windows
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: windows-latest
     steps:
       - name: git checkout
@@ -473,7 +452,7 @@ jobs:
   job_flamegraph:
     # check that `flamegraph.sh` runs
     name: flamegraph
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -495,7 +474,7 @@ jobs:
   job_doc_publish:
     # this job downloads and builds dependency crates
     name: doc, publish
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -513,7 +492,7 @@ jobs:
   job_yamllint:
     # this job installs Python PIP packages
     name: yamllint
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
@@ -544,7 +523,7 @@ jobs:
 
   job_codecov_validate:
     name: codecov validate
-    needs: [job_rust_release_channel, job_rust_msrv_os]
+    needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
