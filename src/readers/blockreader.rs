@@ -864,6 +864,7 @@ impl BlockReader {
                 //      So read the entire file to get the size.
                 //      This is very inefficient and but it avoids OOM errors.
                 //      See <https://github.com/PSeitz/lz4_flex/issues/159>
+                //      See Issue #293
                 let mut lz4_decoder: Lz4FrameReader = Lz4FrameReader::new(bufreader);
                 let mut filesz_uncompressed: FileSz = 0;
                 const BUF_SZ: usize = 16384;
