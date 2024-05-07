@@ -46,6 +46,8 @@ The first goal of `s4` is speedy searching and printing.
 - [About](#about)
   - [Why `s4`?](#why-s4)
   - [Features](#features)
+    - [File name guessing](#file-name-guessing)
+    - [Directory walks](#directory-walks)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
 - [More](#more)
@@ -286,6 +288,12 @@ Options:
   -V, --version
           Print version
 
+Given a file path, the file format will be processed based on a best guess of
+the file name.
+If the file format is not guessed then it will be treated as a UTF8 text file.
+Given a directory path, found file names that have well-known non-log file name
+extensions will be skipped.
+
 DateTime Filters may be strftime specifier patterns:
     "%Y%m%dT%H%M%S*"
     "%Y-%m-%d %H:%M:%S*"
@@ -342,6 +350,9 @@ https://docs.rs/chrono/latest/chrono/format/strftime/
 DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
+
+Further background and examples are at the project website:
+https://github.com/jtmoon79/super-speedy-syslog-searcher/
 
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
@@ -424,6 +435,28 @@ See the real-world example rationale in the section below,
 [systemd journal]: https://systemd.io/JOURNAL_FILE_FORMAT/
 [`journalctl`]: https://www.man7.org/linux/man-pages/man1/journalctl.1.html
 [`./logs/`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/logs
+
+#### File name guessing
+
+Given a file path, `s4` will attempt to parse it. The type of file must be in
+the name.
+Guesses are made about files with non-standard names.
+For example, standard file name `utmp` will always be treated as a `utmp` record
+file. But non-standard name `log.utmp.1` is guessed to be a `utmp` record file.
+Similar guesses are applied to `lastlog`, `wtmp`, `acct`, `pacct`,
+`journal`, and `evtx` files.
+When combined with compression or archive file name extensions,
+e.g. `.gz`, `.lz4`, `.xz`, or `.tar`, then `s4` makes a best attempt at
+guessing the compression or archive type, and the file within the archive.
+When a file type cannot be guessed then it is treated as a UTF8 text log file.
+
+#### Directory walks
+
+Given a directory path, `s4` will walk the directory and all subdirectories and
+follow symbolic links and cross file system paths.
+`s4` will ignore files with extensions that are known to be non-log files.
+For example, files with extensions `.dll`, `.mp3`, `.png`, or `.so`, are
+unlikely to be log files and so are not processed.
 
 ### Limitations
 

@@ -404,9 +404,10 @@ const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z";
 /// `--help` _afterword_ message.
 const CLI_HELP_AFTER: &str = concatcp!(
     "\
-Given a file path, the file will be processed based on a best guess of the file
-name. If the format is not guessed then it will be parsed as a UTF8 text file.
-If a file path is a directory then file names that have well known non-log file
+Given a file path, the file format will be processed based on a best guess of
+the file name.
+If the file format is not guessed then it will be treated as a UTF8 text file.
+Given a directory path, found file names that have well-known non-log file name
 extensions will be skipped.
 
 DateTime Filters may be strftime specifier patterns:
