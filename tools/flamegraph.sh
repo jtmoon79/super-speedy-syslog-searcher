@@ -80,6 +80,8 @@ FREQ=${FREQ-3000}
         -- --version
 )
 rm -f -- perf.data perf.data.old "${OUT}"
+FLAMEGRAPH_VERSION=$(cargo flamegraph --version)
+RUST_VERSION_SHORT=$(rustc --version | cut -f1,2 -d' ')
 
 NOTES=$("${PROGRAM}" --version)
 if GITLOG_HASH1=$(git log -n1 --pretty=format:%h 2>/dev/null); then
@@ -115,7 +117,7 @@ else
                )
 fi
 
-NOTES+="; -freq ${FREQ}; created $(date +%Y%m%dT%H%M%S%z)"
+NOTES+="; -freq ${FREQ}; created $(date +%Y%m%dT%H%M%S%z); ${FLAMEGRAPH_VERSION}; ${RUST_VERSION_SHORT}"
 
 function html_sed_escape() {
     # escape for HTML and for sed
@@ -141,7 +143,7 @@ cargo flamegraph \
     --deterministic \
     --output "${OUT}" \
     --bin "${BIN}" \
-    --notes "${NOTES_ESCAPED}" \
+    --notes "foo<br/>bar<br/>${NOTES_ESCAPED}" \
     --root \
     --ignore-status \
     --no-inline \
@@ -159,9 +161,13 @@ cargo flamegraph \
 BIN_ESCAPED=$(html_sed_escape "${BIN}")
 ARGS_ESCAPED=$(html_sed_escape "${args[*]}")
 
-sed -i -Ee 's/(<text id="title" .*>)Flame Graph(<\/text>)/\1Flame Graph: '"${NOTES_ESCAPED}"'<br\/>; '"${BIN_ESCAPED}"' '"${ARGS_ESCAPED}"'\2/' -- "${OUT}"
+sed -i -Ee 's/(<text id="title" .*>)Flame Graph(<\/text>)/\1Flame Graph: '"${NOTES_ESCAPED}"'<br\/>; command: '"${BIN_ESCAPED}"' '"${ARGS_ESCAPED}"'\2/' -- "${OUT}"
+# the title is now a long string so make the font smaller
+sed -i -Ee 's/<text id="title" /<text id="title" style="font-size:small" /' --  "${OUT}"
 
 if which xmllint &>/dev/null; then
     # the generated .svg file is a few huge lines so make it git-friendly (more lines more often)
     xmllint --format --recover --output "${OUT}" "${OUT}"
+else
+    echo "xmllint not found; skip formatting of ${OUT}" >&2
 fi
