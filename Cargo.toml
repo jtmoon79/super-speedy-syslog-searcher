@@ -43,7 +43,7 @@ bstr = "1.9.1"
 chrono = "0.4.38"
 clap = { version = "=4.2.1", features = ["derive"] }
 const_format = { version = "0.2.31", features = ["assertcp"] }
-crossbeam-channel = "0.5.12"
+crossbeam-channel = "0.5.13"
 dlopen2 = "0.7"
 encoding_rs = "0.8.34"
 evtx = { version = "0.8.2", features = ["multithreading"] }
