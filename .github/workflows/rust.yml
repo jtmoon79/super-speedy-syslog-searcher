@@ -285,7 +285,9 @@ jobs:
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
-          bins: cross
+          # XXX: build older `cargo-platform` to prevent error noted
+          #      https://github.com/moonrepo/setup-rust/issues/20
+          bins: cargo-platform@0.1.7, cross
           targets: ${{ matrix.target }}
       - run: |
           set -eux
