@@ -77,6 +77,7 @@
 
 pub mod blockreader;
 pub mod evtxreader;
+pub mod filedecompressor;
 pub mod filepreprocessor;
 pub mod helpers;
 pub mod journalreader;

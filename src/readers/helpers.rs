@@ -2,13 +2,20 @@
 
 //! Miscellaneous helper "readers" functions.
 
-use crate::common::FPath;
+use crate::common::{FileSz, FPath};
 #[cfg(test)]
 use crate::common::FileOffset;
 
 use std::ffi::CStr;
 use std;
 
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 
 /// Return the basename of an `FPath`.
 pub fn basename(path: &FPath) -> FPath {
@@ -31,6 +38,41 @@ pub fn fpath_to_path(path: &FPath) -> &std::path::Path {
 /// Helper function for a non-obvious technique.
 pub fn path_clone(path: &std::path::Path) -> &std::path::Path {
     std::path::Path::new(path.as_os_str())
+}
+
+/// return the size of the file
+pub fn path_filesz(path: &std::path::Path) -> Option<FileSz> {
+    defn!("({:?})", path);
+    let metadata = match std::fs::metadata(path) {
+        Ok(val) => val,
+        Err(_err) => {
+            defx!("error {}, return None", _err);
+            return None;
+        }
+    };
+    let len: FileSz = metadata.len();
+    defx!("return {}", len);
+
+    Some(len)
+}
+
+/// wrapper for call to `path_filesz`
+#[macro_export]
+macro_rules! path_filesz_or_return_err {
+    ($path: expr) => ({{
+        match path_filesz($path) {
+            Some(val) => val,
+            None => {
+                defx!("path_filesz() returned None for {:?}", $path);
+                return Err(
+                    Error::new(
+                        ErrorKind::Other,
+                        format!("path_filesz() returned None for {:?}", $path)
+                    )
+                );
+            }
+        }
+    }})
 }
 
 /// Count instances of a particular `c` in `s`.

@@ -5,6 +5,7 @@
 use std::collections::HashSet;
 #[doc(hidden)]
 pub use std::fs::File;
+use std::io::{Error, Result};
 use std::fmt::Debug;
 #[doc(hidden)]
 pub use std::path::Path;
@@ -598,6 +599,14 @@ impl std::fmt::Display for FileTypeArchive {
     }
 }
 
+impl FileTypeArchive {
+    /// Returns `true` if this is a `Tar`
+    #[inline(always)]
+    pub const fn is_tar(&self) -> bool {
+        matches!(*self, FileTypeArchive::Tar)
+    }
+}
+
 /// A file's major type to distinguish which _Reader_ struct should use it and
 /// how the _Readers_ processes it.
 // TODO: [2023/04] types Unset, Unparsable, Unknown are confusing to keep around
@@ -792,7 +801,7 @@ impl FileType {
     }
 
     /// convert a `FileType` to it's corresponding `LogMessageType`
-    pub fn to_logmessagetype(&self) -> LogMessageType {
+    pub const fn to_logmessagetype(&self) -> LogMessageType {
         match self {
             FileType::Evtx{ .. } => LogMessageType::Evtx,
             FileType::FixedStruct{ .. } => LogMessageType::FixedStruct,
@@ -802,6 +811,21 @@ impl FileType {
                 debug_panic!("FileType::Unparsable should not be converted to LogMessageType");
 
                 LogMessageType::All
+            },
+        }
+    }
+
+    /// convert a `FileType` to it's inner `FileTypeArchive`
+    pub const fn to_filetypearchive(&self) -> FileTypeArchive {
+        match self {
+            FileType::Evtx{ archival_type } => *archival_type,
+            FileType::FixedStruct{ archival_type, .. } => *archival_type,
+            FileType::Journal{ archival_type } => *archival_type,
+            FileType::Text{ archival_type, .. } => *archival_type,
+            FileType::Unparsable => {
+                debug_panic!("FileType::Unparsable should not be converted to FileTypeArchive");
+
+                FileTypeArchive::Normal
             },
         }
     }
@@ -928,6 +952,32 @@ pub const NLu8a: [u8; 1] = [NLu8];
 ///
 /// According to <https://stackoverflow.com/a/41822232/471376>.
 pub const SYSLOG_SZ_MAX: usize = 8096;
+
+/// Create a `Error` with an error string that includes the file path.
+pub fn err_from_err_path(error: &Error, fpath: &FPath, mesg: Option<&str>) -> Error
+{
+    match mesg {
+        Some(s) => Error::new(
+            error.kind(),
+            format!(
+                "{} {} file {:?}", error, s, fpath
+            )
+        ),
+        None => Error::new(
+            error.kind(),
+            format!(
+                "{} file {:?}", error, fpath
+            )
+        )
+    }
+}
+
+/// Helper to `BlockReadeer::new`; create a `Result::Err` with an error
+/// string that includes the file path
+pub fn err_from_err_path_result<T>(error: &Error, fpath: &FPath, mesg: Option<&str>) -> Result<T>
+{
+    Result::Err(err_from_err_path(error, fpath, mesg))
+}
 
 // TRACKING: Tracking Issue for comparing values in const items <https://github.com/rust-lang/rust/issues/92391>
 //pub const MAX_SZ: usize = core::cmp::max(linux_x86::UTMPX_SZ, openbsd_x86::UTMPX_SZ);

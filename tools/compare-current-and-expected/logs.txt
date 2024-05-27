@@ -200,10 +200,15 @@
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.lz4
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.xz
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar
 ./logs/programs/flask/server.log
 ./logs/programs/journal/RHE_91_system.journal
 ./logs/programs/journal/RHE_91_system.journal.gz
 ./logs/programs/journal/RHE_91_system.journal.xz
+./logs/programs/journal/RHE_91_system.tar
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal
 ./logs/programs/pacman/pacman.log
 ./logs/programs/proftpd/controls.log

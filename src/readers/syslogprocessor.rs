@@ -1325,6 +1325,7 @@ impl SyslogProcessor {
     /// [`Summary`]: crate::readers::summary::Summary
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
+        let path_ntf = None;
         let filetype = self.filetype();
         let logmessagetype = filetype.to_logmessagetype();
         let summaryblockreader = self.syslinereader.linereader.blockreader.summary();
@@ -1335,6 +1336,7 @@ impl SyslogProcessor {
 
         Summary::new(
             path,
+            path_ntf,
             filetype,
             logmessagetype,
             Some(summaryblockreader),

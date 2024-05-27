@@ -1565,6 +1565,7 @@ impl FixedStructReader
     /// [`Summary`]: crate::readers::summary::Summary
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
+        let path_ntf = None;
         let filetype = self.filetype();
         let logmessagetype = filetype.to_logmessagetype();
         let summaryblockreader = self.blockreader.summary();
@@ -1573,6 +1574,7 @@ impl FixedStructReader
 
         Summary::new(
             path,
+            path_ntf,
             filetype,
             logmessagetype,
             Some(summaryblockreader),

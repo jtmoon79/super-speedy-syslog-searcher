@@ -2169,11 +2169,14 @@ fn exec_evtxprocessor(
         filter_dt_before_opt,
         tz_offset,
     ) = thread_init_data;
-    defn!("{:?}({}): ({:?}, {:?})", _tid, _tname, path, tz_offset);
+    defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
     debug_assert!(filetype.is_evtx());
     debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
 
-    let mut evtxreader: EvtxReader = match EvtxReader::new(path.clone()) {
+    let mut evtxreader: EvtxReader = match EvtxReader::new(
+        path.clone(),
+        filetype,
+    ) {
         Ok(val) => val,
         Err(err) => {
             let err_string = err.to_string();
@@ -2278,6 +2281,7 @@ fn exec_journalprocessor(
         path.clone(),
         journal_output,
         tz_offset,
+        filetype,
     ) {
         Ok(val) => val,
         Err(err) => {

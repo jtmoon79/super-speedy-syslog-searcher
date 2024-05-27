@@ -126,6 +126,10 @@ pub struct Summary {
     ///
     /// [`LogMessageType::FixedStruct*`]: crate::common::LogMessageType
     pub readerdata: SummaryReaderData,
+    /// path to [`NamedTempFile`]
+    ///
+    /// [`NamedTempFile`]: tempfile::NamedTempFile
+    pub path_ntf: Option<FPath>,
     /// The first encountered [`Error`], if any, as a `String`.
     ///
     /// Annoyingly, cannot [Clone or Copy `Error`].
@@ -141,6 +145,7 @@ impl Summary {
     #[allow(clippy::too_many_arguments)]
     pub fn new(
         path: FPath,
+        path_ntf: Option<FPath>,
         filetype: FileType,
         logmessagetype: LogMessageType,
         summaryblockreader_opt: Option<SummaryBlockReader>,
@@ -192,6 +197,7 @@ impl Summary {
                     filetype: Some(filetype),
                     logmessagetype,
                     readerdata,
+                    path_ntf,
                     error,
                 }
             }
@@ -216,6 +222,7 @@ impl Summary {
                     filetype: Some(filetype),
                     logmessagetype,
                     readerdata,
+                    path_ntf,
                     error,
                 }
             }
@@ -260,6 +267,7 @@ impl Summary {
                     filetype: Some(filetype),
                     logmessagetype,
                     readerdata,
+                    path_ntf,
                     error,
                 }
             }
@@ -273,6 +281,7 @@ impl Summary {
                     filetype: Some(filetype),
                     logmessagetype,
                     readerdata,
+                    path_ntf,
                     error,
                 }
             }

@@ -65,6 +65,8 @@ const NTF5_DATA_LINE4: &str = "[20200113-11:13:59] [DEBUG] Certification complet
 const NTF5_DATA: &str =
     concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
+const FT_EVTX_NORM: FileType = FileType::Evtx { archival_type: FileTypeArchive::Normal };
+
 lazy_static! {
     static ref NTF5: NamedTempFile = create_temp_file(NTF5_DATA);
     static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
@@ -278,7 +280,10 @@ fn test_PrinterLogMessage_print_evtx(
         prepend_offset,
     );
 
-    let mut er = EvtxReader::new(EVTX_KPNP_FPATH.clone()).unwrap();
+    let mut er = EvtxReader::new(
+        EVTX_KPNP_FPATH.clone(),
+        FT_EVTX_NORM,
+    ).unwrap();
     let mut prints: usize = 0;
     er.analyze(&None, &None);
     while let Some(evtx) = er.next() {

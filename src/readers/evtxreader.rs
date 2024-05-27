@@ -20,10 +20,10 @@
 use crate::common::{
     Count,
     File,
+    FileMetadata,
     FileOpenOptions,
     FileSz,
     FileType,
-    FileTypeArchive,
     FPath,
 };
 use crate::data::datetime::{
@@ -34,6 +34,8 @@ use crate::data::datetime::{
     SystemTime,
 };
 use crate::data::evtx::Evtx;
+use crate::readers::filedecompressor::decompress_to_ntf;
+use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::Summary;
 
 use std::collections::BTreeMap;
@@ -70,6 +72,7 @@ use ::si_trace_print::{
     pfn,
     pfx,
 };
+use ::tempfile::NamedTempFile;
 
 
 // ----------
@@ -211,6 +214,8 @@ pub struct EvtxReader {
     ///
     /// [`FPath`]: crate::common::FPath
     path: FPath,
+    /// If necessary, the extracted evtx file as a temporary file.
+    named_temp_file: Option<NamedTempFile>,
     /// `Count` of [`Evtx`s] processed.
     ///
     /// [`Evtx`s]: crate::data::evtx::Evtx
@@ -244,6 +249,8 @@ pub struct EvtxReader {
     ///
     /// [`Timestamp`]: Timestamp
     pub(super) ts_last_accepted: TimestampOpt,
+    /// File Type
+    filetype: FileType,
     /// File Size of the file being read in bytes.
     filesz: FileSz,
     /// file Last Modified time from file-system metadata
@@ -307,44 +314,77 @@ impl<'a> EvtxReader {
     /// `*Readers::new()`
     pub fn new(
         path: FPath,
+        filetype: FileType,
     ) -> Result<EvtxReader> {
-        def1n!("({:?})", path);
+        def1n!("({:?}, {:?})", path, filetype);
 
-        // get the file size according to the file metadata
         let path_std: &Path = Path::new(&path);
+        let named_temp_file: Option<NamedTempFile>;
+        let mtime_opt: Option<SystemTime>;
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(
+            &path_std, &filetype
+        ) {
+            Ok(ntf_mtime) => {
+                match ntf_mtime {
+                    Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
+                    None => (None, None),
+                }
+            }
+            Err(err) => {
+                def1x!(
+                    "decompress_to_ntf({:?}, {:?}) Error, return {:?}",
+                    path, filetype, err,
+                );
+                return Err(err);
+            },
+        };
+        def1o!("named_temp_file {:?}", named_temp_file);
+        def1o!("mtime_opt {:?}", mtime_opt);
+        let mtime: SystemTime = match mtime_opt {
+            Some(mt) => mt,
+            None => {
+                def1o!("mtime_opt None, using SystemTime::UNIX_EPOCH");
+
+                SystemTime::UNIX_EPOCH
+            }
+        };
+
+        let path_actual: &Path = match named_temp_file {
+            Some(ref ntf) => ntf.path(),
+            None => path_std,
+        };
+        def1o!("path_actual {:?}", path_actual);
         let mut open_options = FileOpenOptions::new();
-        def1o!("open_options.read(true).open({:?})", path);
+        def1o!("open_options.read(true).open({:?})", path_actual);
         let file: File = match open_options
             .read(true)
-            .open(path_std)
+            .open(path_actual)
         {
-            Ok(val) => val,
-            Err(err) => {
+            Result::Ok(val) => val,
+            Result::Err(err) => {
                 def1x!("return {:?}", err);
                 return Err(err);
             }
         };
-        let metadata = match file.metadata() {
+        let metadata: FileMetadata = match file.metadata() {
             Result::Ok(val) => val,
             Result::Err(err) => {
-                defx!("return {:?}", err);
-                eprintln!("ERROR: File::metadata() path {:?} {}", path_std, err);
+                def1x!("return {:?}", err);
                 return Err(err);
             }
         };
         let filesz: FileSz = metadata.len() as FileSz;
-        let mtime: SystemTime = metadata.modified().unwrap_or(
-            SystemTime::now()
-        );
+        def1o!("filesz {:?}", filesz);
 
         // create the EvtxParser
         let settings = ParserSettings::default().num_threads(0);
-        let evtxparser: EvtxParser<File> = match EvtxParser::from_path(&path) {
+        def1o!("EvtxParser::from_path({:?})", path_actual);
+        let evtxparser: EvtxParser<File> = match EvtxParser::from_path(&path_actual) {
             Ok(evtxparser) => evtxparser.with_configuration(settings),
             Err(err) => {
                 return Err(Error::new(
                     ErrorKind::Other,
-                    format!("EvtxParser::from_path({:?}): {}", path, err),
+                    format!("EvtxParser::from_path({:?}): {}", path_actual, err),
                 ));
             }
         };
@@ -356,12 +396,14 @@ impl<'a> EvtxReader {
                 evtxparser,
                 events: Events::new(),
                 path,
+                named_temp_file,
                 events_processed: 0,
                 events_accepted: 0,
                 ts_first_processed: TimestampOpt::None,
                 ts_last_processed: TimestampOpt::None,
                 ts_first_accepted: TimestampOpt::None,
                 ts_last_accepted: TimestampOpt::None,
+                filetype,
                 filesz,
                 mtime,
                 out_of_order: 0,
@@ -499,7 +541,7 @@ impl<'a> EvtxReader {
 
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
-        FileType::Evtx { archival_type: FileTypeArchive::Normal }
+        self.filetype
     }
 
     #[inline(always)]
@@ -575,6 +617,10 @@ impl<'a> EvtxReader {
     /// [`Summary`]: crate::readers::summary::Summary
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
+        let path_ntf: Option<FPath> = match &self.named_temp_file {
+            Some(ntf) => Some(path_to_fpath(ntf.path())),
+            None => None,
+        };
         let filetype = self.filetype();
         let logmessagetype = filetype.to_logmessagetype();
         let summaryevtxreader = self.summary();
@@ -582,6 +628,7 @@ impl<'a> EvtxReader {
 
         Summary::new(
             path,
+            path_ntf,
             filetype,
             logmessagetype,
             None,

@@ -27,6 +27,22 @@ use crate::tests::common::{
     EVTX_KPNP_ENTRY227_DT,
     EVTX_KPNP_EVENT_COUNT,
     EVTX_KPNP_DATA1_S,
+    EVTX_KPNP_GZ_FPATH,
+    EVTX_KPNP_GZ_ENTRY1_DT,
+    EVTX_KPNP_GZ_ENTRY227_DT,
+    EVTX_KPNP_GZ_EVENT_COUNT,
+    EVTX_KPNP_LZ4_FPATH,
+    EVTX_KPNP_LZ4_ENTRY1_DT,
+    EVTX_KPNP_LZ4_ENTRY227_DT,
+    EVTX_KPNP_LZ4_EVENT_COUNT,
+    EVTX_KPNP_TAR_FPATH,
+    EVTX_KPNP_TAR_ENTRY1_DT,
+    EVTX_KPNP_TAR_ENTRY227_DT,
+    EVTX_KPNP_TAR_EVENT_COUNT,
+    EVTX_KPNP_XZ_FPATH,
+    EVTX_KPNP_XZ_ENTRY1_DT,
+    EVTX_KPNP_XZ_ENTRY227_DT,
+    EVTX_KPNP_XZ_EVENT_COUNT,
 };
 
 use ::criterion::black_box;
@@ -57,6 +73,22 @@ lazy_static! {
     );
 }
 
+const FT_NORM: FileType = FileType::Evtx {
+    archival_type: FileTypeArchive::Normal,
+};
+const FT_GZ: FileType = FileType::Evtx {
+    archival_type: FileTypeArchive::Gz,
+};
+const FT_LZ4: FileType = FileType::Evtx {
+    archival_type: FileTypeArchive::Lz4,
+};
+const FT_TAR: FileType = FileType::Evtx {
+    archival_type: FileTypeArchive::Tar,
+};
+const FT_XZ: FileType = FileType::Evtx {
+    archival_type: FileTypeArchive::Xz,
+};
+
 /// test creating a new `EvtxReader`
 #[test_case(&EVTX_NE_FPATH, true)]
 #[test_case(&EVTX_KPNP_FPATH, true)]
@@ -65,6 +97,7 @@ lazy_static! {
 fn test_EvtxReader_new(path: &FPath, ok: bool) {
     match EvtxReader::new(
         path.clone(),
+        FT_NORM,
     ) {
         Ok(_) => {
             assert!(ok, "EvtxReader::new({:?}) should have failed", path);
@@ -78,7 +111,10 @@ fn test_EvtxReader_new(path: &FPath, ok: bool) {
 #[test_case(&EVTX_NE_FPATH)]
 #[test_case(&EVTX_KPNP_FPATH)]
 fn test_mtime(path: &FPath) {
-    let er1 = EvtxReader::new(path.clone()).unwrap();
+    let er1 = EvtxReader::new(
+        path.clone(),
+        FT_NORM,
+    ).unwrap();
     // merely run the function
     _ = er1.mtime();
 }
@@ -92,6 +128,7 @@ fn test_EvtxReader_summary_empty(
 ) {
     let evtxreader = EvtxReader::new(
         path.clone(),
+        FT_NORM,
     ).unwrap();
     _ = evtxreader.summary();
     _ = evtxreader.summary_complete();
@@ -101,6 +138,7 @@ fn test_EvtxReader_summary_empty(
 /// `EvtxReader::summary` and `EvtxReader::summary_complete`
 #[test_case(
     &EVTX_NE_FPATH,
+    FT_NORM,
     0,
     0,
     69632,
@@ -108,10 +146,12 @@ fn test_EvtxReader_summary_empty(
     None,
     None,
     None,
-    None
+    None;
+    "no events"
 )]
 #[test_case(
     &EVTX_KPNP_FPATH,
+    FT_NORM,
     *EVTX_KPNP_EVENT_COUNT,
     *EVTX_KPNP_EVENT_COUNT,
     1052672,
@@ -119,10 +159,64 @@ fn test_EvtxReader_summary_empty(
     Some(*EVTX_KPNP_ENTRY1_DT),
     Some(*EVTX_KPNP_ENTRY227_DT),
     Some(*EVTX_KPNP_ENTRY1_DT),
-    Some(*EVTX_KPNP_ENTRY227_DT)
+    Some(*EVTX_KPNP_ENTRY227_DT);
+    ".evtx"
+)]
+#[test_case(
+    &EVTX_KPNP_GZ_FPATH,
+    FT_GZ,
+    *EVTX_KPNP_GZ_EVENT_COUNT,
+    *EVTX_KPNP_GZ_EVENT_COUNT,
+    1052672,
+    1,
+    Some(*EVTX_KPNP_GZ_ENTRY1_DT),
+    Some(*EVTX_KPNP_GZ_ENTRY227_DT),
+    Some(*EVTX_KPNP_GZ_ENTRY1_DT),
+    Some(*EVTX_KPNP_GZ_ENTRY227_DT);
+    ".evtx.gz"
+)]
+#[test_case(
+    &EVTX_KPNP_LZ4_FPATH,
+    FT_LZ4,
+    *EVTX_KPNP_LZ4_EVENT_COUNT,
+    *EVTX_KPNP_LZ4_EVENT_COUNT,
+    1052672,
+    1,
+    Some(*EVTX_KPNP_LZ4_ENTRY1_DT),
+    Some(*EVTX_KPNP_LZ4_ENTRY227_DT),
+    Some(*EVTX_KPNP_LZ4_ENTRY1_DT),
+    Some(*EVTX_KPNP_LZ4_ENTRY227_DT);
+    ".evtx.lz4"
+)]
+#[test_case(
+    &EVTX_KPNP_TAR_FPATH,
+    FT_TAR,
+    *EVTX_KPNP_TAR_EVENT_COUNT,
+    *EVTX_KPNP_TAR_EVENT_COUNT,
+    1052672,
+    1,
+    Some(*EVTX_KPNP_TAR_ENTRY1_DT),
+    Some(*EVTX_KPNP_TAR_ENTRY227_DT),
+    Some(*EVTX_KPNP_TAR_ENTRY1_DT),
+    Some(*EVTX_KPNP_TAR_ENTRY227_DT);
+    ".tar"
+)]
+#[test_case(
+    &EVTX_KPNP_XZ_FPATH,
+    FT_XZ,
+    *EVTX_KPNP_XZ_EVENT_COUNT,
+    *EVTX_KPNP_XZ_EVENT_COUNT,
+    1052672,
+    1,
+    Some(*EVTX_KPNP_XZ_ENTRY1_DT),
+    Some(*EVTX_KPNP_XZ_ENTRY227_DT),
+    Some(*EVTX_KPNP_XZ_ENTRY1_DT),
+    Some(*EVTX_KPNP_XZ_ENTRY227_DT);
+    ".evtx.xz"
 )]
 fn test_EvtxReader_next_summary(
     path: &FPath,
+    filetype: FileType,
     events_processed: Count,
     events_accepted: Count,
     filesz: FileSz,
@@ -132,8 +226,26 @@ fn test_EvtxReader_next_summary(
     datetime_first_processed: DateTimeLOpt,
     datetime_last_processed: DateTimeLOpt,
 ) {
+    match filetype {
+        FileType::Evtx { archival_type } => {
+            match archival_type {
+                // XXX: forces error if new FileTypeArchive is added
+                FileTypeArchive::Normal
+                | FileTypeArchive::Gz
+                | FileTypeArchive::Lz4
+                | FileTypeArchive::Tar
+                | FileTypeArchive::Xz
+                => {}
+            }
+        }
+        _ => {
+            panic!("filetype should be FileType::Evtx");
+        }
+    }
+
     let mut evtxreader = EvtxReader::new(
         path.clone(),
+        filetype,
     ).unwrap();
     evtxreader.analyze(&None, &None);
     while let Some(evtx_) = evtxreader.next() {
@@ -167,10 +279,7 @@ fn test_EvtxReader_next_summary(
 
     // assert Summary
     let summary_c = evtxreader.summary_complete();
-    assert_eq!(
-        summary_c.filetype.unwrap(),
-        FileType::Evtx{ archival_type: FileTypeArchive::Normal },
-        "summary_c.filetype");
+    assert!(summary_c.filetype.unwrap().is_evtx(), "summary_c.filetype");
     assert_eq!(summary_c.logmessagetype, LogMessageType::Evtx,
         "summary_c.logmessagetype");
     assert!(summary_c.blockreader().is_none());
