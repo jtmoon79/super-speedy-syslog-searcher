@@ -3,6 +3,8 @@ Files:
 
 File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
   About:
+      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
+      modified time  : 2022-10-04 21:22:35 +08:00 (2022-10-04 13:22:35 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
@@ -37,19 +39,19 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
 
 Program Summary:
 
-Paths considered      : 1
-Paths not processed   : 0
-Files processed       : 1
-Files printed         : 1
-Printed bytes         : 2763
-Printed lines         : 14
-Printed syslines      : 1
-Printed evtx events   : 0
-Printed fixedstruct   : 0
-Printed journal events: 0
-Regex patterns        : 154
-Regex compiled        : 25
-Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 3
-Channel Receive err   : 0
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 2763
+Printed lines          : 14
+Printed syslines       : 1
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 154
+Regex patterns compiled: 25
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 3
+Channel Receive err    : 0

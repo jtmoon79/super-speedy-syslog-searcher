@@ -94,16 +94,19 @@ const OPT_SUMMARY_PRINT_INDENT1: &str = "  ";
 const OPT_SUMMARY_PRINT_INDENT2: &str = "      ";
 const OPT_SUMMARY_PRINT_INDENT3: &str = "                   ";
 
+const DATETIMEFMT: &str = "%Y-%m-%d %H:%M:%S %:z";
+
 /// print the passed `DateTimeL` as UTC with dimmed color
 fn print_datetime_utc_dimmed(
     dt: &DateTimeL,
     color_choice_opt: Option<ColorChoice>,
 ) {
     let dt_utc = dt.with_timezone(&*FIXEDOFFSET0);
+    let dt_utc_s = dt_utc.format(DATETIMEFMT);
     match print_colored_stderr(
         COLOR_DIMMED,
         color_choice_opt,
-        format!("({})", dt_utc).as_bytes()
+        format!("({})", dt_utc_s).as_bytes()
     ) {
         Err(e) => {
             eprintln!("\nERROR: print_colored_stderr {:?}", e);
@@ -112,6 +115,29 @@ fn print_datetime_utc_dimmed(
         Ok(_) => {}
     }
 }
+
+/// print the passed `DateTimeL` as-is and with UTC dimmed color
+fn print_datetime_asis_utc_dimmed(
+    dt: &DateTimeL,
+    color_choice_opt: Option<ColorChoice>,
+) {
+    let dt_s = dt.format(DATETIMEFMT);
+    eprint!("{} ", dt_s);
+    let dt_utc = dt.with_timezone(&*FIXEDOFFSET0);
+    let dt_utc_s = dt_utc.format(DATETIMEFMT);
+    match print_colored_stderr(
+        COLOR_DIMMED,
+        color_choice_opt,
+        format!("({})", dt_utc_s).as_bytes()
+    ) {
+        Err(e) => {
+            eprintln!("\nERROR: print_colored_stderr {:?}", e);
+            return;
+        }
+        Ok(_) => {}
+    }
+}
+
 
 /// Statistics about the main processing thread's printing activity.
 /// Used with CLI option `--summary`.
@@ -392,8 +418,8 @@ impl SummaryPrinted {
                 } else {
                     match self.dt_first {
                         Some(dt) => {
-                            eprint!("{}datetime first: {:?} ", indent2, dt);
-                            print_datetime_utc_dimmed(&dt, color_choice_opt);
+                            eprint!("{}datetime first: ", indent2);
+                            print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                             eprintln!();
                         },
                         None => {}
@@ -413,8 +439,8 @@ impl SummaryPrinted {
                 } else {
                     match self.dt_last {
                         Some(dt) => {
-                            eprint!("{}datetime last : {:?} ", indent2, dt);
-                            print_datetime_utc_dimmed(&dt, color_choice_opt);
+                            eprint!("{}datetime last : ", indent2);
+                            print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                             eprintln!();
                         }
                         None => {}
@@ -430,16 +456,16 @@ impl SummaryPrinted {
                 eprintln!("{}Events        : {}", indent2, self.evtxentries);
                 match summaryevtxreader.evtxreader_datetime_first_accepted {
                     Some(dt) => {
-                        eprint!("{}datetime first: {:?} ", indent2, dt);
-                        print_datetime_utc_dimmed(&dt, color_choice_opt);
+                        eprint!("{}datetime first: ", indent2);
+                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                         eprintln!();
                     }
                     None => {}
                 }
                 match summaryevtxreader.evtxreader_datetime_last_accepted {
                     Some(dt) => {
-                        eprint!("{}datetime last : {:?} ", indent2, dt);
-                        print_datetime_utc_dimmed(&dt, color_choice_opt);
+                        eprint!("{}datetime last : ", indent2);
+                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                         eprintln!();
                     }
                     None => {}
@@ -454,16 +480,16 @@ impl SummaryPrinted {
                 eprintln!("{}journal events: {}", indent2, self.journalentries);
                 match summaryjournalreader.journalreader_datetime_first_accepted {
                     Some(dt) => {
-                        eprint!("{}datetime first: {:?} ", indent2, dt);
-                        print_datetime_utc_dimmed(&dt, color_choice_opt);
+                        eprint!("{}datetime first: ", indent2);
+                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                         eprintln!();
                     }
                     None => {}
                 }
                 match summaryjournalreader.journalreader_datetime_last_accepted {
                     Some(dt) => {
-                        eprint!("{}datetime last : {:?} ", indent2, dt);
-                        print_datetime_utc_dimmed(&dt, color_choice_opt);
+                        eprint!("{}datetime last : ", indent2);
+                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                         eprintln!();
                     }
                     None => {}
@@ -766,57 +792,61 @@ pub fn print_summary(
 
     // here is the final printed summary of the all files
     eprintln!("Program Summary:\n");
-    eprintln!("Paths considered      : {}", paths_total);
-    eprintln!("Paths not processed   : {}", map_pathid_results_invalid.len());
-    eprintln!("Files processed       : {}", map_pathid_results.len());
-    eprintln!("Files printed         : {}", paths_printed_logmessages.len());
-    eprintln!("Printed bytes         : {}", summaryprinted.bytes);
-    eprintln!("Printed lines         : {}", summaryprinted.lines);
-    eprintln!("Printed syslines      : {}", summaryprinted.syslines);
-    eprintln!("Printed evtx events   : {}", summaryprinted.evtxentries);
+    eprintln!("Paths considered       : {}", paths_total);
+    eprintln!("Paths not processed    : {}", map_pathid_results_invalid.len());
+    eprintln!("Files processed        : {}", map_pathid_results.len());
+    eprintln!("Files printed          : {}", paths_printed_logmessages.len());
+    eprintln!("Printed bytes          : {}", summaryprinted.bytes);
+    eprintln!("Printed lines          : {}", summaryprinted.lines);
+    eprintln!("Printed syslines       : {}", summaryprinted.syslines);
+    eprintln!("Printed evtx events    : {}", summaryprinted.evtxentries);
     // TODO: [2023/03/26] eprint count of EVTX files "out of order".
-    eprintln!("Printed fixedstruct   : {}", summaryprinted.fixedstructentries);
+    eprintln!("Printed fixedstruct    : {}", summaryprinted.fixedstructentries);
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
-    eprintln!("Printed journal events: {}", summaryprinted.journalentries);
+    eprintln!("Printed journal events : {}", summaryprinted.journalentries);
     let count: isize = match DateTimeParseDatasCompiledCount.read() {
         Ok(count) => *count as isize,
         // XXX: hacky hint that the count is not available
         Err(_) => -1,
     };
-    eprintln!("Regex patterns        : {}", DATETIME_PARSE_DATAS_LEN);
-    eprintln!("Regex compiled        : {}", count);
+    eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN);
+    eprintln!("Regex patterns compiled: {}", count);
 
-    eprint!("Datetime filter -a    :");
+    eprint!("Datetime filter -a     :");
     match filter_dt_after_opt {
         Some(dt) => {
-            eprint!(" {:?} ", dt);
+            let dt_s = dt.format(DATETIMEFMT);
+            eprint!(" {} ", dt_s);
             print_datetime_utc_dimmed(dt, Some(color_choice));
             eprintln!();
         }
         None => eprintln!(),
     }
-    eprint!("Datetime printed first:");
+    eprint!("Datetime printed first :");
     match summaryprinted.dt_first {
         Some(dt) => {
-            eprint!(" {:?} ", dt);
+            let dt_s = dt.format(DATETIMEFMT);
+            eprint!(" {} ", dt_s);
             print_datetime_utc_dimmed(&dt, Some(color_choice));
             eprintln!();
         }
         None => eprintln!(),
     }
-    eprint!("Datetime printed last :");
+    eprint!("Datetime printed last  :");
     match summaryprinted.dt_last {
         Some(dt) => {
-            eprint!(" {:?} ", dt);
+            let dt_s = dt.format(DATETIMEFMT);
+            eprint!(" {} ", dt_s);
             print_datetime_utc_dimmed(&dt, Some(color_choice));
             eprintln!();
         }
         None => eprintln!(),
     }
-    eprint!("Datetime filter -b    :");
+    eprint!("Datetime filter -b     :");
     match filter_dt_before_opt {
         Some(dt) => {
-            eprint!(" {:?} ", dt);
+            let dt_s = dt.format(DATETIMEFMT);
+            eprint!(" {} ", dt_s);
             print_datetime_utc_dimmed(&dt, Some(color_choice));
             eprintln!();
         }
@@ -833,10 +863,8 @@ pub fn print_summary(
             local_now.second(),
         )
         .unwrap();
-    // BUG: local time prints with middle "T", UTC prints with midle space " "
-    //      e.g. 
-    //           Datetime Now          : 2024-02-07T22:33:50-08:00 (2024-02-08 06:33:50 +00:00)
-    eprint!("Datetime Now          : {:?} ", local_now);
+    let local_now_s = local_now.format(DATETIMEFMT);
+    eprint!("Datetime Now           : {} ", local_now_s);
     // print UTC now without fractional, and with numeric offset `-00:00`
     // instead of `Z`
     let utc_now = Utc
@@ -853,8 +881,8 @@ pub fn print_summary(
     print_datetime_utc_dimmed(&utc_now, Some(color_choice));
     eprintln!();
     // print basic stats about the channel
-    eprintln!("Channel Receive ok    : {}", chan_recv_ok);
-    eprintln!("Channel Receive err   : {}", chan_recv_err);
+    eprintln!("Channel Receive ok     : {}", chan_recv_ok);
+    eprintln!("Channel Receive err    : {}", chan_recv_err);
 }
 
 // TODO: [2023/04/05] move printing of `file size` from per-file "Processed:"
@@ -890,8 +918,7 @@ fn print_file_about(
         Ok(pathb) => match pathb.to_str() {
             Some(s) => {
                 if s != path.as_str() {
-                    eprint!("{}realpath       : ", OPT_SUMMARY_PRINT_INDENT2);
-                    write_stderr(s.as_bytes());
+                    eprint!("{}real path      : {}", OPT_SUMMARY_PRINT_INDENT2, s);
                     eprintln!();
                 }
             }
@@ -902,8 +929,8 @@ fn print_file_about(
     // print other facts
     match modified_time {
         Some(dt) => {
-            eprint!("{}Modified Time  : {:?} ", OPT_SUMMARY_PRINT_INDENT2, dt);
-            print_datetime_utc_dimmed(&dt, Some(*color_choice));
+            eprint!("{}modified time  : ", OPT_SUMMARY_PRINT_INDENT2);
+            print_datetime_asis_utc_dimmed(dt, Some(*color_choice));
             eprintln!();
         }
         None => {}
@@ -1112,16 +1139,16 @@ fn print_summary_opt_processed(
             }
             match summaryevtxreader.evtxreader_datetime_first_processed {
                 Some(dt) => {
-                    eprint!("{}datetime first     : {:?} ", indent2, dt);
-                    print_datetime_utc_dimmed(&dt, Some(*color_choice));
+                    eprint!("{}datetime first     : ", indent2);
+                    print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                     eprintln!();
                 }
                 None => {}
             }
             match summaryevtxreader.evtxreader_datetime_last_processed {
                 Some(dt) => {
-                    eprint!("{}datetime last      : {:?} ", indent2, dt);
-                    print_datetime_utc_dimmed(&dt, Some(*color_choice));
+                    eprint!("{}datetime last      : ", indent2);
+                    print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                     eprintln!();
                 }
                 None => {}
@@ -1174,16 +1201,16 @@ fn print_summary_opt_processed(
             }
             match summaryjournalreader.journalreader_datetime_first_processed {
                 Some(dt) => {
-                    eprint!("{}datetime first: {:?} ",indent2, dt);
-                    print_datetime_utc_dimmed(&dt, Some(*color_choice));
+                    eprint!("{}datetime first: ",indent2);
+                    print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                     eprintln!();
                 }
                 None => {}
             }
             match summaryjournalreader.journalreader_datetime_last_processed {
                 Some(dt) => {
-                    eprint!("{}datetime last : {:?} ", indent2, dt);
-                    print_datetime_utc_dimmed(&dt, Some(*color_choice));
+                    eprint!("{}datetime last : ", indent2);
+                    print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                     eprintln!();
                 }
                 None => {}
@@ -1194,11 +1221,11 @@ fn print_summary_opt_processed(
     // print datetime first and last
     match (summary.datetime_first(), summary.datetime_last()) {
         (Some(dt_first), Some(dt_last)) => {
-            eprint!("{}datetime first: {:?} ", indent2, dt_first);
-            print_datetime_utc_dimmed(&dt_first, Some(*color_choice));
+            eprint!("{}datetime first: ", indent2);
+            print_datetime_asis_utc_dimmed(&dt_first, Some(*color_choice));
             eprintln!();
-            eprint!("{}datetime last : {:?} ", indent2, dt_last);
-            print_datetime_utc_dimmed(&dt_last, Some(*color_choice));
+            eprint!("{}datetime last : ", indent2);
+            print_datetime_asis_utc_dimmed(&dt_last, Some(*color_choice));
             eprintln!();
         }
         (None, Some(_)) | (Some(_), None) =>

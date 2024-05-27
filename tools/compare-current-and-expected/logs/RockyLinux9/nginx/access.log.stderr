@@ -3,6 +3,8 @@ Files:
 
 File: ./logs/RockyLinux9/nginx/access.log
   About:
+      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/RockyLinux9/nginx/access.log
+      modified time  : 2022-10-09 06:27:55 +08:00 (2022-10-08 22:27:55 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
@@ -37,19 +39,19 @@ File: ./logs/RockyLinux9/nginx/access.log
 
 Program Summary:
 
-Paths considered      : 1
-Paths not processed   : 0
-Files processed       : 1
-Files printed         : 1
-Printed bytes         : 833
-Printed lines         : 4
-Printed syslines      : 4
-Printed evtx events   : 0
-Printed fixedstruct   : 0
-Printed journal events: 0
-Regex patterns        : 154
-Regex compiled        : 47
-Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 6
-Channel Receive err   : 0
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 833
+Printed lines          : 4
+Printed syslines       : 4
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 154
+Regex patterns compiled: 47
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 6
+Channel Receive err    : 0

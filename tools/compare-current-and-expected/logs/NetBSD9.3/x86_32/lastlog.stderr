@@ -3,6 +3,7 @@ Files:
 
 File: ./logs/NetBSD9.3/x86_32/lastlog
   About:
+      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/NetBSD9.3/x86_32/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
@@ -11,19 +12,19 @@ File: ./logs/NetBSD9.3/x86_32/lastlog
 
 Program Summary:
 
-Paths considered      : 1
-Paths not processed   : 0
-Files processed       : 1
-Files printed         : 0
-Printed bytes         : 0
-Printed lines         : 0
-Printed syslines      : 0
-Printed evtx events   : 0
-Printed fixedstruct   : 0
-Printed journal events: 0
-Regex patterns        : 154
-Regex compiled        : 0
-Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 2
-Channel Receive err   : 0
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 0
+Printed bytes          : 0
+Printed lines          : 0
+Printed syslines       : 0
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 154
+Regex patterns compiled: 0
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 2
+Channel Receive err    : 0

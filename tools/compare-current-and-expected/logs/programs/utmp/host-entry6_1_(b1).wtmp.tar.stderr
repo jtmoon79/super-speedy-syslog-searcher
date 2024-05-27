@@ -3,6 +3,7 @@ Files:
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
   About:
+      modified time  : 2023-02-25 00:52:26 +08:00 (2023-02-24 16:52:26 +00:00)
       filetype       : UTMP/WTMP (tar)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
@@ -39,19 +40,19 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
 
 Program Summary:
 
-Paths considered      : 2
-Paths not processed   : 0
-Files processed       : 2
-Files printed         : 1
-Printed bytes         : 1709
-Printed lines         : 0
-Printed syslines      : 0
-Printed evtx events   : 0
-Printed fixedstruct   : 6
-Printed journal events: 0
-Regex patterns        : 154
-Regex compiled        : 0
-Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 10
-Channel Receive err   : 0
+Paths considered       : 2
+Paths not processed    : 0
+Files processed        : 2
+Files printed          : 1
+Printed bytes          : 1709
+Printed lines          : 0
+Printed syslines       : 0
+Printed evtx events    : 0
+Printed fixedstruct    : 6
+Printed journal events : 0
+Regex patterns known   : 154
+Regex patterns compiled: 0
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 10
+Channel Receive err    : 0

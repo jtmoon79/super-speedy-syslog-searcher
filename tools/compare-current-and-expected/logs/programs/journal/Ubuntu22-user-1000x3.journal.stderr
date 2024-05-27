@@ -3,6 +3,8 @@ Files:
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   About:
+      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/programs/journal/Ubuntu22-user-1000x3.journal
+      modified time  : 1970-01-01 08:00:00 +08:00 (1970-01-01 00:00:00 +00:00)
       filetype       : JOURNAL
       logmessagetype : journal entries
   Printed:
@@ -18,19 +20,19 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
 
 Program Summary:
 
-Paths considered      : 1
-Paths not processed   : 0
-Files processed       : 1
-Files printed         : 1
-Printed bytes         : 12538
-Printed lines         : 0
-Printed syslines      : 0
-Printed evtx events   : 0
-Printed fixedstruct   : 0
-Printed journal events: 3
-Regex patterns        : 154
-Regex compiled        : 0
-Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 5
-Channel Receive err   : 0
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 12538
+Printed lines          : 0
+Printed syslines       : 0
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 3
+Regex patterns known   : 154
+Regex patterns compiled: 0
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 5
+Channel Receive err    : 0

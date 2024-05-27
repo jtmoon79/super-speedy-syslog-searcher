@@ -3,6 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
   About:
+      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/synowstransfer-adapter.log
+      modified time  : 2019-11-15 13:05:53 +08:00 (2019-11-15 05:05:53 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
@@ -37,19 +39,19 @@ File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
 
 Program Summary:
 
-Paths considered      : 1
-Paths not processed   : 0
-Files processed       : 1
-Files printed         : 1
-Printed bytes         : 2910
-Printed lines         : 19
-Printed syslines      : 19
-Printed evtx events   : 0
-Printed fixedstruct   : 0
-Printed journal events: 0
-Regex patterns        : 154
-Regex compiled        : 75
-Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 21
-Channel Receive err   : 0
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 2910
+Printed lines          : 19
+Printed syslines       : 19
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 154
+Regex patterns compiled: 75
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 21
+Channel Receive err    : 0

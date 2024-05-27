@@ -3,6 +3,8 @@ Files:
 
 File: ./logs/OpenSUSE15/YaST2/y2log
   About:
+      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/OpenSUSE15/YaST2/y2log
+      modified time  : 2019-09-17 22:08:12 +08:00 (2019-09-17 14:08:12 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
@@ -37,19 +39,19 @@ File: ./logs/OpenSUSE15/YaST2/y2log
 
 Program Summary:
 
-Paths considered      : 1
-Paths not processed   : 0
-Files processed       : 1
-Files printed         : 1
-Printed bytes         : 3260
-Printed lines         : 20
-Printed syslines      : 20
-Printed evtx events   : 0
-Printed fixedstruct   : 0
-Printed journal events: 0
-Regex patterns        : 154
-Regex compiled        : 79
-Datetime filter -a    : 1999-03-03T00:00:00+00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b    : 2023-04-10T22:10:32+00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok    : 22
-Channel Receive err   : 0
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 3260
+Printed lines          : 20
+Printed syslines       : 20
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 154
+Regex patterns compiled: 79
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 22
+Channel Receive err    : 0
