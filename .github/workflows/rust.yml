@@ -282,13 +282,12 @@ jobs:
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          # XXX: build older `cargo-platform` to prevent error noted
-          #      https://github.com/moonrepo/setup-rust/issues/20
-          bins: cargo-platform@0.1.7, cross
-          targets: ${{ matrix.target }}
+      # XXX: use `Swatinem/rust-cache@v2` not `moonrepo/setup-rust@v1`
+      #      due to https://github.com/moonrepo/setup-rust/issues/20
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - run: rustup target add ${{ matrix.target }}
+      - run: cargo install cross --locked
+      - uses: Swatinem/rust-cache@v2
       - run: |
           set -eux
           uname -a
