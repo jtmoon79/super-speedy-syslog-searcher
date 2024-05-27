@@ -518,6 +518,8 @@
 ./logs/other/tests/dtf16c.log|2023-08-31 20:01:09Z
 ./logs/other/tests/dtf16d.log|2023-08-31 16:01:09 -0400
 ./logs/other/tests/dtf16e.log|2023-08-31 16:01:09 -0400
+./logs/other/tests/dtf17.log|2023-09-22 15:05:02 -0800
+./logs/other/tests/dtf18.log|2023-09-22 15:05:02 -0800
 ./logs/other/tests/dtf2-2.log|2000-01-01 00:00:01
 ./logs/other/tests/dtf2-2.bz2|2000-01-01 00:00:01
 ./logs/other/tests/dtf2-2.gz|2000-01-01 00:00:01
@@ -560,6 +562,29 @@
 ./logs/other/tests/dtf5-6b.log|2022-09-02 21:45:35.9541789060
 ./logs/other/tests/dtf5-6c.log|2022-09-02 21:45:35.9541789060
 ./logs/other/tests/dtf6z-1.log|2000-01-01 00:00:05-0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z|2000-01-01 00:01:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip|2000-01-01 00:02:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip|2000-01-01 00:03:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip|2000-01-01 00:04:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip|2000-01-01 00:05:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip|2000-01-01 00:06:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|2000-01-01 00:07:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|2000-01-01 00:08:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|2000-01-01 00:09:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z|2000-01-01 00:10:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9, store all times).7z|2000-01-01 00:11:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z|2000-01-01 00:12:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip|2000-01-01 00:13:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|2000-01-01 00:14:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|2000-01-01 00:15:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|2000-01-01 00:16:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z|2000-01-01 00:17:20 -0400
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|2000-01-01 00:18:20 -0400
+./logs/other/tests/empty.7z|2000-01-01 12:34:32 -0800
+./logs/other/tests/empty.log.bz2|2000-01-01 12:34:32 -0800
+./logs/other/tests/empty.log.tar|2000-01-01 12:34:35 -0800
+./logs/other/tests/empty.log.zip|2000-01-01 12:34:32 -0800
+./logs/other/tests/empty.zip|2000-01-01 12:34:32 -0800
 ./logs/other/tests/dtf7-20-LEVELS.log|2000-01-01 00:00:20-0400
 ./logs/other/tests/dtf7-20-LEVELS.log.bz2|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.gz|2000-01-01 00:00:20 -0400
