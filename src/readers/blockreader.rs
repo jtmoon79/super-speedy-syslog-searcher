@@ -3,6 +3,9 @@
 
 //! Implements [`Block`s] and [`BlockReader`], the driver of reading bytes
 //! from a file.
+//! The `BlockReader` handles reading bytes from various sources including
+//! decompressing files (e.g. `.gz`, `.xz`) and reading files within
+//! archives (e.g. `.tar`).
 //!
 //! [`Block`s]: crate::readers::blockreader::Block
 //! [`BlockReader`]: crate::readers::blockreader::BlockReader
@@ -313,7 +316,7 @@ pub struct TarData {
 /// A `BlockReader` reads a file in [`BlockSz`] byte-sized [`Block`s]. It
 /// interfaces with the filesystem. It handles reading from specialized
 /// storage files like
-/// compressed files (`.gz`, `.xz`) and archive files (`.tar`).
+/// compressed files (e.g. `.gz`, `.xz`) and archive files (e.g `.tar`).
 /// `BlockReader` handles the run-time in-memory storage the `Block`s of data
 /// it reads.
 ///
