@@ -24,6 +24,14 @@ declare -a files_nodate=()
 declare -a files_noexist=()
 declare -A files_touchfailed=()
 
+if echo "$(uname -o)" | grep --quiet -Fe 'Darwin'; then
+    echo "Running on MacOS" >&2
+    is_macos=true
+else
+    echo "Not running on MacOS" >&2
+    is_macos=false
+fi
+
 #
 # for each file in listing, set the filesystem datetime attributes using `touch`
 #
@@ -51,14 +59,21 @@ while read -r file_date; do
         continue
     fi
     (
-        set -x
-        touch --no-create --date="${date}" -- "${file}"
+        if ${is_macos}; then
+            # touch on MacOS https://ss64.com/mac/touch.html
+            set -x
+            touch -c -d "${date}" "${file}"
+        else
+            set -x
+            touch --no-create --date="${date}" "${file}"
+        fi
     ) || {
         files_touchfailed[${file}]=${date}
         continue
     }
     # print --full-time so developer can visually verify
-    ls --full-time -- "${file}"
+    # XXX: fails on MacOS
+    ls --full-time "${file}"
 done <<< $(cat "${times_listing}")
 
 #
@@ -90,7 +105,6 @@ if [[ "${#files_nodate[@]}" -gt 0 ]]; then
 fi
 for file in "${files_nodate[@]}"; do
     echo -e "\e[1m\e[31m'${file}'\e[0m" >&2
-    #tail -n 15 -- "${file}"
     echo
 done
 
@@ -109,7 +123,12 @@ while read -r file_actual; do
             echo -e "Files found on filesystem but not found in listing '${times_listing}'\n" >&2
             banner=true
         fi
-        file_time=$(stat --format='%y' -- "${file_actual}")
+        if ${is_macos}; then
+            # stat on MacOS https://ss64.com/mac/stat.html
+            file_time=$(stat -f '%m' "${file_actual}")
+        else
+            file_time=$(stat --format='%y' -- "${file_actual}")
+        fi
         echo -e "\e[1m\e[93m${file_actual}|${file_time}\e[0m" >&2
     fi
 done <<< $(find ./logs/ -type f | sort)
