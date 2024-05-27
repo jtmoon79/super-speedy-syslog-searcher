@@ -4900,14 +4900,14 @@ macro_rules! score_fixedstruct_ac_flags {
     }};
 }
 
-/// Datetime 2000-01-01 00:00:00 is a reasonable past datetime to expect for
+/// Datetime _2000-01-01 00:00:00_ is a reasonable past datetime to expect for
 /// FixedStruct files.
 /// Helper to [`score_fixedstruct_time_range`].
 ///
 /// **TODO:** when were utmp/lastlog/etc. structs first introduced?
 const EPOCH_SECOND_LOW: tv_sec_type = 946684800;
 
-/// Datetime 2038-01-19 03:14:06 is a reasonable high datetime to expect for
+/// Datetime _2038-01-19 03:14:06_ is a reasonable high datetime to expect for
 /// FixedStruct files.
 /// Helper to [`score_fixedstruct_time_range`].
 const EPOCH_SECOND_HIGH: tv_sec_type = 2147483647;
