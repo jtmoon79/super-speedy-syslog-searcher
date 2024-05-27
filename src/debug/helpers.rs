@@ -5,10 +5,8 @@
 use crate::common::FPath;
 use crate::readers::helpers::path_to_fpath;
 
-use std::fs::create_dir;
-use std::fs::File;
+use std::fs::{create_dir, File, set_permissions};
 use std::path::PathBuf;
-
 use std::io::ErrorKind;
 #[allow(unused_imports)] // XXX: clippy wrongly marks `Write` as unused
 use std::io::Write; // for `NamedTempFile.write_all`
@@ -286,4 +284,39 @@ pub fn create_files_and_tmpdir(filenames: &[FPath]) -> (TempDir, Vec<FPath>) {
     defx!();
 
     (tmpdir, files)
+}
+
+/// Create a temp file with no read or write permissions.
+///
+/// Currently only for Unix. It appears there is no cross-platform method to
+/// _remove_ file permission allowances, i.e. remove the "read" permission.
+/// See <https://doc.rust-lang.org/nightly/std/fs/struct.Permissions.html>
+#[cfg(target_family = "unix")]
+pub fn create_temp_file_no_permissions(suffix: &str) -> NamedTempFile {
+    #[allow(unused_imports)]
+    use std::os::unix::fs::PermissionsExt;
+
+    let mut prefix: String = String::from(STR_TEMPFILE_PREFIX);
+    prefix.push_str("no_permissions-");
+    let ntf = create_temp_file_with_name(
+        "sample data",
+        Some(&prefix),
+        Some(&String::from(suffix)),
+    );
+    let path = ntf.path();
+    let perm = std::fs::Permissions::from_mode(0o000);
+    match set_permissions(path, perm) {
+        Ok(_) => {}
+        Err(err) => {
+            panic!("failed to set_permissions {:?} {}", path, err);
+        }
+    }
+
+    ntf
+}
+
+/// non-Unix platform stub.
+#[cfg(not(target_family = "unix"))]
+pub fn create_temp_file_no_permissions() -> NamedTempFile {
+    unimplemented!("create_temp_file_no_permissions should only run on a Unix");
 }

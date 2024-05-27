@@ -27,6 +27,7 @@ use crate::data::journal::{
     EpochMicroseconds,
     EpochMicrosecondsOpt,
 };
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::libload::systemd_dlopen2::{
     LoadLibraryError,
     load_library_systemd,
@@ -263,9 +264,7 @@ fn test_JournalReader_new_(path: &FPath, ok: bool) {
         path.clone(),
         JournalOutput::Short,
         *FO_0,
-        FileType::Journal {
-            archival_type: FileTypeArchive::Normal,
-        },
+        FT_NORM,
     ) {
         Ok(_) => {
             assert!(ok, "JournalReader::new({:?}) should have failed", path);
@@ -275,6 +274,28 @@ fn test_JournalReader_new_(path: &FPath, ok: bool) {
         }
     }
     defx!();
+}
+
+#[cfg(target_family = "unix")]
+#[test]
+fn test_new_JournalReader_no_file_permissions() {
+    let ntf = create_temp_file_no_permissions(".journal");
+    let path = ntf.path();
+    let fpath = path_to_fpath(path);
+    match JournalReader::new(
+        fpath.clone(),
+        JournalOutput::Short,
+        *FO_0,
+        FT_NORM,
+    ) {
+        Ok(_) => {
+            panic!("no permissions to read {:?}", path);
+        }
+        Err(err) => {
+            defo!("no permissions to read {:?}", path);
+            defo!("error (expected): {}", err);
+        }
+    }
 }
 
 /// test the output of the first entry returned by `JournalReader::next()`

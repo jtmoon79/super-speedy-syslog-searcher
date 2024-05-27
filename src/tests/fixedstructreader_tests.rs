@@ -20,11 +20,13 @@ use crate::data::fixedstruct::{
     ENTRY_SZ_MAX,
     linux_x86,
 };
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::blockreader::{
     BlockOffset,
     BlockSz,
     SummaryBlockReader,
 };
+use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::readers::fixedstructreader::{
     FixedStructReader,
@@ -140,6 +142,33 @@ fn test_new_FixedStructReader_2_bad_noerr() {
             panic!(
                 "expected FileErrTooSmall for empty file NTF_NL_1_PATH, got {:?}",
                 result
+            );
+        }
+    }
+}
+
+#[cfg(target_family = "unix")]
+#[test]
+fn test_new_FixedStructReader_no_file_permissions() {
+    let ntf = create_temp_file_no_permissions(".utmp");
+    let path = ntf.path();
+    let fpath = path_to_fpath(path);
+    match FixedStructReader::new(
+        fpath.clone(),
+        FT_UTMPX,
+        1024,
+        *FO_P8,
+        None,
+        None,
+    ) {
+        ResultFixedStructReaderNewError::FileErrIo(err) => {
+            defo!("no permissions to read {:?}", path);
+            defo!("error (expected): {}", err);
+        }
+        result => {
+            panic!(
+                "expected FileErrIo for no permissions to read {:?}, got {:?}",
+                path, result
             );
         }
     }

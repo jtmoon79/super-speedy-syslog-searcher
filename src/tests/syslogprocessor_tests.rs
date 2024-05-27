@@ -6,23 +6,6 @@
 #![allow(non_camel_case_types)]
 
 use crate::common::{Count, FPath, FileOffset};
-use crate::data::sysline::SyslineP;
-use crate::data::datetime::ymdhms0;
-use crate::debug::helpers::{
-    create_temp_file,
-    create_temp_file_data,
-    ntf_fpath,
-    NamedTempFile,
-};
-use crate::readers::blockreader::{
-    BlockSz,
-    SummaryBlockReader,
-};
-use crate::readers::filepreprocessor::{
-    fpath_to_filetype,
-    PathToFiletypeResult,
-};
-use crate::readers::summary::SummaryReaderData;
 use crate::data::datetime::{
     datetime_parse_from_str,
     DateTimeL,
@@ -32,7 +15,26 @@ use crate::data::datetime::{
     FixedOffset,
     SystemTime,
     seconds_to_systemtime,
+    ymdhms0,
 };
+use crate::data::sysline::SyslineP;
+use crate::debug::helpers::{
+    create_temp_file,
+    create_temp_file_data,
+    create_temp_file_no_permissions,
+    ntf_fpath,
+    NamedTempFile,
+};
+use crate::readers::blockreader::{
+    BlockSz,
+    SummaryBlockReader,
+};
+use crate::readers::helpers::path_to_fpath;
+use crate::readers::filepreprocessor::{
+    fpath_to_filetype,
+    PathToFiletypeResult,
+};
+use crate::readers::summary::SummaryReaderData;
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::syslinereader::{
     DateTimePatternCounts,
@@ -48,6 +50,7 @@ use crate::readers::syslogprocessor::{
 use crate::tests::common::{
     eprint_file,
     eprint_file_blocks,
+    FILETYPE_UTF8,
     FO_0,
     NTF_GZ_EMPTY_FPATH,
     NTF_LOG_EMPTY_FPATH,
@@ -628,6 +631,30 @@ fn test_SyslogProcessor_new_empty() {
 #[should_panic]
 fn test_SyslogProcessor_new_bad_path_panics() {
     new_SyslogProcessor(&FPath::from("/THIS/PATH/DOES///EXIST!!!!!"), SZ);
+}
+
+#[cfg(target_family = "unix")]
+#[test]
+fn test_new_SyslogProcessor_no_file_permissions() {
+    let ntf = create_temp_file_no_permissions(".log");
+    let path = ntf.path();
+    let fpath = path_to_fpath(path);
+    match SyslogProcessor::new(
+        fpath.clone(),
+        FILETYPE_UTF8,
+        1024,
+        *FO_0,
+        None,
+        None,
+    ) {
+        Ok(_) => {
+            panic!("no permissions to read {:?}", path);
+        }
+        Err(err) => {
+            defo!("no permissions to read {:?}", path);
+            defo!("error (expected): {}", err);
+        }
+    }
 }
 
 // -------------------------------------------------------------------------------------------------

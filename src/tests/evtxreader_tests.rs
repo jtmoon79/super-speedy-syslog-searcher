@@ -17,6 +17,8 @@ use crate::common::{
 use crate::data::datetime::DateTimeLOpt;
 use crate::data::common::DtBegEndPairOpt;
 use crate::data::evtx::Evtx;
+use crate::debug::helpers::create_temp_file_no_permissions;
+use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::readers::evtxreader::EvtxReader;
 use crate::tests::common::{
@@ -104,6 +106,26 @@ fn test_EvtxReader_new(path: &FPath, ok: bool) {
         }
         Err(_err) => {
             assert!(!ok, "EvtxReader::new({:?}) should have succeeded", path);
+        }
+    }
+}
+
+#[cfg(target_family = "unix")]
+#[test]
+fn test_new_EvtxReader_no_file_permissions() {
+    let ntf = create_temp_file_no_permissions(".evtx");
+    let path = ntf.path();
+    let fpath = path_to_fpath(path);
+    match EvtxReader::new(
+        fpath.clone(),
+        FT_NORM,
+    ) {
+        Ok(_) => {
+            panic!("no permissions to read {:?}", path);
+        }
+        Err(err) => {
+            defo!("no permissions to read {:?}", path);
+            defo!("error (expected): {}", err);
         }
     }
 }

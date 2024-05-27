@@ -28,10 +28,12 @@ use crate::readers::blockreader::{
     ResultReadDataToBuffer,
     SummaryBlockReader,
 };
+use crate::readers::helpers::path_to_fpath;
 #[allow(unused_imports)]
 use crate::debug::helpers::{
     create_temp_file,
     create_temp_file_bytes_with_suffix,
+    create_temp_file_no_permissions,
     create_temp_file_with_name_exact,
     create_temp_file_with_suffix,
     ntf_fpath,
@@ -168,6 +170,23 @@ fn test_new_BlockReader_6_Lz4_bad_path_panics() {
         FILETYPE_UTF8_LZ4,
         1024
     );
+}
+
+#[cfg(target_family = "unix")]
+#[test]
+fn test_new_BlockReader_no_file_permissions() {
+    let ntf = create_temp_file_no_permissions(".txt");
+    let path = ntf.path();
+    let fpath = path_to_fpath(path);
+    match BlockReader::new(fpath.clone(), FILETYPE_UTF8, 1024) {
+        Ok(_) => {
+            panic!("no permissions to read {:?}", path);
+        }
+        Err(err) => {
+            defo!("no permissions to read {:?}", path);
+            defo!("error (expected): {}", err);
+        }
+    }
 }
 
 const BSZ: BlockSz = 64;

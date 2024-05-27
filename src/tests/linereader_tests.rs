@@ -11,6 +11,7 @@
 use crate::tests::common::{
     eprint_file,
     fill,
+    FILETYPE_UTF8,
     NTF_NL_1_PATH,
     NTF_NL_2_PATH,
     NTF_NL_3_PATH,
@@ -20,7 +21,9 @@ use crate::tests::common::{
     NTF_SYSLINE_2_PATH,
 };
 use crate::common::{Bytes, Count, FPath, FileOffset};
+use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::blockreader::BlockSz;
+use crate::readers::helpers::path_to_fpath;
 use crate::readers::filepreprocessor::{
     fpath_to_filetype,
     PathToFiletypeResult,
@@ -88,6 +91,27 @@ fn test_new_LineReader_1() {
 #[should_panic]
 fn test_new_LineReader_2_bad_path_panics() {
     new_LineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024);
+}
+
+#[cfg(target_family = "unix")]
+#[test]
+fn test_new_LineReader_no_file_permissions() {
+    let ntf = create_temp_file_no_permissions(".log");
+    let path = ntf.path();
+    let fpath = path_to_fpath(path);
+    match LineReader::new(
+        fpath.clone(),
+        FILETYPE_UTF8,
+        1024,
+    ) {
+        Ok(_) => {
+            panic!("no permissions to read {:?}", path);
+        }
+        Err(err) => {
+            defo!("no permissions to read {:?}", path);
+            defo!("error (expected): {}", err);
+        }
+    }
 }
 
 #[test_case(&NTF_NL_1_PATH)]
