@@ -34,8 +34,8 @@ use crate::readers::filepreprocessor::{
     fpath_to_filetype,
     PathToFiletypeResult,
 };
-use crate::readers::summary::SummaryReaderData;
 use crate::readers::linereader::SummaryLineReader;
+use crate::readers::summary::SummaryReaderData;
 use crate::readers::syslinereader::{
     DateTimePatternCounts,
     SummarySyslineReader,
