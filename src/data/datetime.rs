@@ -1917,6 +1917,7 @@ pub const RP_RFC2822_DATE: &RegexPattern = "(date|Date|DATE):";
 
 /// All named timezone abbreviations, maps all chrono strftime `%Z` values
 /// (e.g. `"EDT"`) to equivalent `%:z` value (e.g. `"-04:00"`).
+/// Crate `chrono` does not parse named timezone. This mapping bridges that gap.
 ///
 /// _Super Speedy Syslog Searcher_ attempts to be more lenient than chrono
 /// about matching named abbreviated timezones, e.g. `"EDT"`.
@@ -2523,7 +2524,7 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 154;
 ///
 /// A drawback of this specific-to-general approach:
 /// during [`SyslineReader`] initial reading stage,
-/// it will try *all* the patterns (from index 0 of
+/// it may try *all* the patterns (from index 0 of
 /// `DATETIME_PARSE_DATAS` to wherever it finds a match).
 /// So if a file has a datetime pattern that matches the last entry in
 /// `DATETIME_PARSE_DATAS` then the `SyslineReader` will try *all*
@@ -2532,8 +2533,8 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 154;
 /// [`dt_patterns_analysis`] for the last time, then only one `DateTimeParseInstr`
 /// is tried for each `Line`.
 /// But until `dt_patterns_analysis` is called, there will be many missed
-/// matches, and regular expression matching uses a large amount of compute
-/// and time resources.
+/// matches. Regular expression creation and matching uses a large amount of
+/// compute and time resources.
 ///
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 /// [`dt_patterns_analysis`]: crate::readers::syslinereader::SyslineReader#method.dt_patterns_analysis
@@ -5111,7 +5112,6 @@ lazy_static! {
 /// `pattern`, e.g. `value` is `"2022-01-01T02:03:04"`
 /// but pattern is `"    %Y-%d-%mT%H:%M:%S"`.
 /// Else return `false`.
-///
 /// Workaround for chrono
 /// [Issue #660](https://github.com/chronotope/chrono/issues/660).
 #[allow(non_snake_case)]
@@ -7849,6 +7849,7 @@ pub fn slice_contains_X_2(
 }
 
 /// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
+/// Hack efficiency helper.
 #[inline(always)]
 #[allow(non_snake_case)]
 pub fn slice_contains_D2(

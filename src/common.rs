@@ -57,6 +57,7 @@ pub type PathId = usize;
 /// a set of [`PathId`]
 pub type SetPathId = HashSet<PathId>;
 
+/// panics in debug builds, otherwise a no-op
 #[macro_export]
 macro_rules! debug_panic {
     ($($arg:tt)*) => (

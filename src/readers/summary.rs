@@ -42,16 +42,14 @@ use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 // -------
 // Summary
 
+/// Panic if the argument is `None` in debug builds.
 #[macro_export]
 macro_rules! debug_assert_none {
     ($($arg:expr),+) => {
         $(
-            #[cfg(debug_assertions)]
+            if cfg!(debug_assertions)
             {
-                match $arg {
-                    None => {}
-                    Some(..) => panic!("'{}' is not None", stringify!($arg))
-                }
+                assert!(($arg).is_none(), "'{}' is not None", stringify!($arg));
             }
         )+
     };
