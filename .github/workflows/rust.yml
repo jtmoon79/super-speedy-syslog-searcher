@@ -427,7 +427,7 @@ jobs:
 
   job_test_macos:
     name: test Mac OS
-    needs: [job_rust_msrv_os]
+    #needs: [job_rust_msrv_os]
     runs-on: macos-latest
     steps:
       - name: git checkout
