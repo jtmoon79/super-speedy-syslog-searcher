@@ -259,6 +259,7 @@ jobs:
           targets: ${{ matrix.target }}
       - run: |
           set -eux
+          uname -a
           rustup show
           cross --version
           cross check --lib --bins --target ${{ matrix.target }}
@@ -286,6 +287,7 @@ jobs:
           targets: ${{ matrix.target }}
       - run: |
           set -eux
+          uname -a
           rustup show
           cross --version
           cross check --lib --bins --target ${{ matrix.target }}
@@ -381,6 +383,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          uname -a
           sudo apt update || true
           (find / -xdev \
                   \( -type f -o -type l \) \
@@ -391,6 +394,14 @@ jobs:
                   \( -type f -o -type l \) \
                   -name 'libsystemd*' 2>/dev/null || true) \
               | sort
+      - name: set log file filesystem Modified Times
+        shell: bash
+        run: |
+          set -eux
+          bash --version
+          grep --version
+          chmod -v +x ./tools/log-files-time-update.sh
+          ./tools/log-files-time-update.sh
       - name: test (limited)
         # sanity check tests requiring libsystemd can run
         shell: bash
@@ -407,6 +418,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          bash --version
           cargo nextest --version
           export NEXTEST_TEST_THREADS="num-cpus"
           cargo nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
@@ -422,6 +434,9 @@ jobs:
         with:
           channel: ${{ env.MSRV_UPLOAD }}
           bins: cargo-nextest
+      # XXX: MacOS tools do not support `touch` arguments run in
+      #      `./tools/log-files-time-update.sh`. So just skip that.
+      #      See https://stackoverflow.com/q/78540977/471376
       - name: nextest (all)
         shell: bash
         run: |
@@ -441,6 +456,15 @@ jobs:
         with:
           channel: ${{ env.MSRV_UPLOAD }}
           bins: cargo-nextest
+      - name: set log file filesystem Modified Times
+        shell: bash
+        run: |
+          set -eux
+          uname -a
+          bash --version
+          grep --version
+          chmod -v +x ./tools/log-files-time-update.sh
+          ./tools/log-files-time-update.sh
       - name: nextest (all)
         shell: powershell
         run: |
@@ -544,10 +568,12 @@ jobs:
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
-      - name: set log file filesystem Modified Time
+      - name: set log file filesystem Modified Times
         shell: bash
         run: |
           set -eux
+          bash --version
+          grep --version
           chmod -v +x ./tools/log-files-time-update.sh
           ./tools/log-files-time-update.sh
       - name: Install libsystemd
@@ -672,6 +698,14 @@ jobs:
           set -eux
           sudo apt update || true
           sudo apt install --yes libsystemd0
+      - name: set log file filesystem Modified Times
+        shell: bash
+        run: |
+          set -eux
+          bash --version
+          grep --version
+          chmod -v +x ./tools/log-files-time-update.sh
+          ./tools/log-files-time-update.sh
       - name: run llvm-cov
         shell: bash
         run: |
