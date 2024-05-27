@@ -204,7 +204,7 @@ s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ```lang-text
 Speedily search and merge log messages by datetime.
 DateTime filters may be passed to narrow the search.
-It aims to be very fast.
+s4 aims to be very fast.
 
 Usage: s4 [OPTIONS] <PATHS>...
 
