@@ -1,7 +1,7 @@
 # file listing, used by log-files-time-update.sh
 #     find ./logs/ -type f -printf '%p|%TY-%Tm-%Td %TH:%TM:%TS -08:00\n'
 #file/path|datetime
-./logs/Alpine3.17/utmp-offsets-x86_64.out.txt|2023-12-15 14:34:48.273228668 -0800
+./logs/Alpine3.17/utmp-offsets-x86_64.out.txt|2023-12-15T14:34:48.273-0800
 ./logs/Android9/data/system/batterystats-daily.xml|2024-03-16 05:51:12.688280700 -0700
 ./logs/Android9/data/system/dropbox/SYSTEM_BOOT@1710619136729.txt|2024-03-16 12:58:56.728027900 -0700
 ./logs/Android9/data/system/dropbox/event_data@1710619152120.txt|2024-03-16 12:59:12.119984200 -0700
