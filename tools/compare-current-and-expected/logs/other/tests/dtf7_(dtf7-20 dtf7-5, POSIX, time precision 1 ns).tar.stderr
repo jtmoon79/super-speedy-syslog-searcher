@@ -1,0 +1,90 @@
+
+Files:
+
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 3700
+      lines         : 20
+      syslines      : 20
+  Processed:
+      file size archive   : 4096 (0x1000) (bytes)
+      file size unarchived: 1260 (0x4EC) (bytes)
+      bytes         : 1260 (0x4EC)
+      bytes total   : 1260 (0x4EC)
+      block size    : 256 (0x100)
+      blocks        : 5
+      blocks total  : 5 (1280 bytes)
+      lines         : 20
+      syslines      : 20
+      syslines high : 15
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
+      copying: SyslineReader::get_boxptrs()                        : sgl 144, dbl    4, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   6,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 148
+  Processing Drops:
+
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log
+  About:
+      filetype       : TEXT UTF8/ASCII (tar)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 882
+      lines         : 5
+      syslines      : 5
+  Processed:
+      file size archive   : 4096 (0x1000) (bytes)
+      file size unarchived: 272 (0x110) (bytes)
+      bytes         : 272 (0x110)
+      bytes total   : 272 (0x110)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      lines         : 5
+      syslines      : 5
+      syslines high : 5
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
+      copying: SyslineReader::get_boxptrs()                        : sgl 132, dbl    1, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   6,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 127,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 133
+  Processing Drops:
+
+
+Program Summary:
+
+Paths considered       : 2
+Paths not processed    : 0
+Files processed        : 2
+Files printed          : 2
+Printed bytes          : 4684
+Printed lines          : 25
+Printed syslines       : 25
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 154
+Regex patterns compiled: 129
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 29
+Channel Receive err    : 0
