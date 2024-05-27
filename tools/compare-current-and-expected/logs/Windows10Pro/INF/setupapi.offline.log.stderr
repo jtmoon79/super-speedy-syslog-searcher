@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/INF/setupapi.offline.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/INF/setupapi.offline.log
-      modified time  : 2020-05-28 03:07:06 +08:00 (2020-05-27 19:07:06 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

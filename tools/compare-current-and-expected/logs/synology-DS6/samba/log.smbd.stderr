@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/samba/log.smbd
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/samba/log.smbd
-      modified time  : 2016-12-06 13:16:10 +08:00 (2016-12-06 05:16:10 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

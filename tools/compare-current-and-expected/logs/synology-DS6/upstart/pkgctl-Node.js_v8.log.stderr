@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
-      modified time  : 2019-11-17 06:56:41 +08:00 (2019-11-16 22:56:41 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

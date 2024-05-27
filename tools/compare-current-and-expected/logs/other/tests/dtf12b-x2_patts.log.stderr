@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf12b-x2_patts.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf12b-x2_patts.log
-      modified time  : 2022-01-31 07:30:08 +08:00 (2022-01-30 23:30:08 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

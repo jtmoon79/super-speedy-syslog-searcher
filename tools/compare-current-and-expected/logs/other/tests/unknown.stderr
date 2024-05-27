@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/unknown
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/unknown
-      modified time  : 2021-05-10 10:43:19 +08:00 (2021-05-10 02:43:19 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

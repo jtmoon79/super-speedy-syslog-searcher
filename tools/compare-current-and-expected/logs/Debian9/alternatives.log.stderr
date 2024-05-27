@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/alternatives.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/alternatives.log
-      modified time  : 2020-02-04 05:57:14 +08:00 (2020-02-03 21:57:14 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

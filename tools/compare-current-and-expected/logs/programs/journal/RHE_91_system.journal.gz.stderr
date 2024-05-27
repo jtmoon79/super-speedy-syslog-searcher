@@ -3,9 +3,6 @@ Files:
 
 File: ./logs/programs/journal/RHE_91_system.journal.gz
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/programs/journal/RHE_91_system.journal.gz
-      temporary path : /tmp/s4-b95NjS.journal
-      modified time  : 2023-04-11 06:10:34 +08:00 (2023-04-10 22:10:34 +00:00)
       filetype       : JOURNAL (gzip)
       logmessagetype : journal entries
   Printed:

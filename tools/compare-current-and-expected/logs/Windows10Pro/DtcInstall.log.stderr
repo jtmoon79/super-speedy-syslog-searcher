@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/DtcInstall.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/DtcInstall.log
-      modified time  : 2019-12-08 01:17:35 +08:00 (2019-12-07 17:17:35 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

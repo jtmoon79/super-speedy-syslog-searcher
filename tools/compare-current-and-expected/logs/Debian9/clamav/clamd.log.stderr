@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/clamav/clamd.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/clamav/clamd.log
-      modified time  : 2019-10-05 04:21:37 +08:00 (2019-10-04 20:21:37 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

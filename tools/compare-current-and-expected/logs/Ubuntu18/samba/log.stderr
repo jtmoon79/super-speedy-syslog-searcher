@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu18/samba/log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu18/samba/log
-      modified time  : 2020-03-06 04:16:46 +08:00 (2020-03-05 20:16:46 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

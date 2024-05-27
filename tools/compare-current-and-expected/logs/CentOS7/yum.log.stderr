@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/CentOS7/yum.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/CentOS7/yum.log
-      modified time  : 2022-01-22 05:29:39 +08:00 (2022-01-21 21:29:39 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

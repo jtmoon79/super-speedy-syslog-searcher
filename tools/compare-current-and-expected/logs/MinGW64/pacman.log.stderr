@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/MinGW64/pacman.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/MinGW64/pacman.log
-      modified time  : 2018-06-01 03:22:00 +08:00 (2018-05-31 19:22:00 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

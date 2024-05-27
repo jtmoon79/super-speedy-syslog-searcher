@@ -15,7 +15,6 @@
 //!
 //! ### Sorting
 //!
-//!
 //! ~~`JournalReader` does "pigeon-hole" sorting of log messages by datetime. This
 //! differs from `journalctl` which does not attempt any log mesasage sorting
 //! beyond what `libsytemd` does.~~ Currently overridden by hardcoded
@@ -143,6 +142,7 @@ use crate::common::{
     Count,
     File,
     FileOpenOptions,
+    FileMetadata,
     FileSz,
     FileType,
     FileTypeArchive,
@@ -171,11 +171,13 @@ use crate::data::journal::{
     realtime_or_source_realtime_timestamp_to_datetimel,
     DT_USES_SOURCE_OVERRIDE,
 };
+use crate::readers::filedecompressor::decompress_to_ntf;
+use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::Summary;
 
 use std::collections::{BTreeMap, HashMap};
-use std::fmt;
 use std::ffi::{CStr, CString};
+use std::fmt;
 use std::io::{Error, ErrorKind, Result};
 use std::mem;
 #[cfg(test)]
@@ -224,6 +226,7 @@ use ::si_trace_print::{
     pfx,
 };
 use ::lazy_static::lazy_static;
+use ::tempfile::NamedTempFile;
 
 use crate::bindings::sd_journal_h::{
     sd_id128,
@@ -893,6 +896,8 @@ pub struct JournalReader {
     ///
     /// [`FPath`]: crate::common::FPath
     path: FPath,
+    /// If necessary, the extracted journal file as a temporary file.
+    named_temp_file: Option<NamedTempFile>,
     /// The [`JournalOutput`] for the file being read.
     /// Derived from `journalctl --output` options.
     journal_output: JournalOutput,
@@ -965,7 +970,7 @@ impl<'a> fmt::Debug for JournalReader {
 //       `SummaryJournalReader` in `JournalReader` and update directly.
 #[allow(non_snake_case)]
 #[derive(Clone, Default, Eq, PartialEq, Debug)]
-pub struct SummaryJournalReader{
+pub struct SummaryJournalReader {
     /// Returned by `sd_journal_enumerate_data`.
     pub journalreader_events_processed: Count,
     /// Acceptable to datetime filters and sent to main thread for printing.
@@ -994,40 +999,75 @@ impl<'a> JournalReader {
     /// Create a new `JournalReader`.
     ///
     /// NOTE: should not attempt any file reads here,
-    /// similar to other `*Readers::new()`
+    /// similar to other `*Readers::new()` unless the file is compressed
+    /// or archived.
     pub fn new(
         path: FPath,
         journal_output: JournalOutput,
         fixed_offset: FixedOffset,
+        file_type: FileType,
     ) -> Result<JournalReader> {
-        def1n!("({:?})", path);
+        def1n!("({:?}, {:?}, {:?})", path, fixed_offset, file_type);
 
         // get the file size according to the file metadata
         let path_std: &Path = Path::new(&path);
         let mut open_options = FileOpenOptions::new();
-        def1o!("open_options.read(true).open({:?})", path);
+        let named_temp_file: Option<NamedTempFile>;
+        let mtime_opt: Option<SystemTime>;
+
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(
+            &path_std, &file_type
+        ) {
+            Ok(ntf_mtime) => {
+                match ntf_mtime {
+                    Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
+                    None => (None, None),
+                }
+            }
+            Err(err) => {
+                def1x!(
+                    "decompress_to_ntf({:?}, {:?}) Error, return {:?}",
+                    path, file_type, err,
+                );
+                return Err(err);
+            },
+        };
+        def1o!("named_temp_file {:?}", named_temp_file);
+        def1o!("mtime_opt {:?}", mtime_opt);
+        let mtime: SystemTime = match mtime_opt {
+            Some(mt) => mt,
+            None => {
+                def1o!("mtime_opt None, using SystemTime::UNIX_EPOCH");
+
+                SystemTime::UNIX_EPOCH
+            }
+        };
+
+        let path_actual: &Path = match named_temp_file {
+            Some(ref ntf) => ntf.path(),
+            None => path_std,
+        };
+        def1o!("path_actual {:?}", path_actual);
+        def1o!("open_options.read(true).open({:?})", path_actual);
         let file: File = match open_options
             .read(true)
-            .open(path_std)
+            .open(path_actual)
         {
             Result::Ok(val) => val,
             Result::Err(err) => {
-                defx!("return {:?}", err);
+                def1x!("return {:?}", err);
                 return Err(err);
             }
         };
-        let metadata = match file.metadata() {
+        let metadata: FileMetadata = match file.metadata() {
             Result::Ok(val) => val,
             Result::Err(err) => {
-                defx!("return {:?}", err);
-                eprintln!("ERROR: File::metadata() path {:?} {}", path_std, err);
+                def1x!("return {:?}", err);
                 return Err(err);
             }
         };
         let filesz: FileSz = metadata.len() as FileSz;
-        let mtime: SystemTime = metadata.modified().unwrap_or(
-            SystemTime::now()
-        );
+        def1o!("filesz {:?}", filesz);
 
         // create the `JournalFile` file descriptor handle
         let mut journal_handle: Box<sd_journal> = Box::new(
@@ -1035,7 +1075,18 @@ impl<'a> JournalReader {
                 _unused: [0; 0],
             });
         def1o!("journal_handle @{:p}", journal_handle.as_ref());
-        let path_cs: CString = CString::new(path_std.to_str().unwrap()).unwrap();
+        let path_cs: CString = match named_temp_file {
+            Some(ref ntf) => {
+                let fpath: FPath = path_to_fpath(ntf.path());
+                def1o!("fpath {:?}", fpath);
+                CString::new(fpath.as_str()).unwrap()
+            }
+            None => {
+                CString::new(path_std.to_str().unwrap()).unwrap()
+            }
+        };
+        def1o!("path_cs {:?}", path_cs);
+
         let mut journal_handle_ptr: *mut sd_journal = journal_handle.as_mut();
         def1o!("*journal_handle @{:?}", journal_handle_ptr);
         let journal_api_ptr = journal_api();
@@ -1073,6 +1124,7 @@ impl<'a> JournalReader {
                 next_fill_buffer_index: 0,
                 next_fill_buffer_loop: true,
                 path,
+                named_temp_file,
                 journal_output,
                 fixed_offset,
                 events_processed: 0,
@@ -2918,6 +2970,10 @@ impl<'a> JournalReader {
     /// [`Summary`]: crate::readers::summary::Summary
     pub fn summary_complete(&self) -> Summary {
         let path = self.path().clone();
+        let path_ntf: Option<FPath> = match &self.named_temp_file {
+            Some(ntf) => Some(path_to_fpath(ntf.path())),
+            None => None,
+        };
         let filetype = self.filetype();
         let logmessagetype = filetype.to_logmessagetype();
         let summaryjournalreader = self.summary();
@@ -2925,6 +2981,7 @@ impl<'a> JournalReader {
 
         Summary::new(
             path,
+            path_ntf,
             filetype,
             logmessagetype,
             None,

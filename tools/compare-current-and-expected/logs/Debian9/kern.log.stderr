@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/kern.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/kern.log
-      modified time  : 2022-03-07 09:55:23 +08:00 (2022-03-07 01:55:23 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

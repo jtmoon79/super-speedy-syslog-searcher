@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf10-10a.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf10-10a.log
-      modified time  : 2022-06-28 05:51:17 +08:00 (2022-06-27 21:51:17 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

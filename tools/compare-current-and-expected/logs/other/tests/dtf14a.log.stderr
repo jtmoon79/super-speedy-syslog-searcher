@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf14a.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf14a.log
-      modified time  : 2023-09-01 04:01:11 +08:00 (2023-08-31 20:01:11 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

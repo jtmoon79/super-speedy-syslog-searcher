@@ -926,6 +926,18 @@ fn print_file_about(
         },
         Err(_) => {}
     }
+    match summary_opt {
+        Some(summary) => {
+            match &summary.path_ntf {
+                Some(path_ntf) => {
+                    eprint!("{}temporary path : {}", OPT_SUMMARY_PRINT_INDENT2, path_ntf);
+                    eprintln!();
+                }
+                None => {}
+            }
+        }
+        None => {}
+    }
     // print other facts
     match modified_time {
         Some(dt) => {

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/programs/digital-ocean-cloud-init/cloud-init.log
-      modified time  : 2022-10-08 14:22:57 +08:00 (2022-10-08 06:22:57 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

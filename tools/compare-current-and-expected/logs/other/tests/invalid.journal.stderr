@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/other/tests/invalid.journal
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/invalid.journal
       filetype       : JOURNAL
       logmessagetype : journal entries
       Processing Err : other error

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/samba/log.host1
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/samba/log.host1
-      modified time  : 2019-04-22 11:41:11 +08:00 (2019-04-22 03:41:11 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

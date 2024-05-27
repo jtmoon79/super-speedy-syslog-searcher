@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synocrond.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/synocrond.log
-      modified time  : 2019-08-19 12:24:43 +08:00 (2019-08-19 04:24:43 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

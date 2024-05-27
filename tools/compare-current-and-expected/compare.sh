@@ -152,9 +152,9 @@ total_diff_stdout=true
 # compare total stdout
 if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     ret=1
-    echo "Output of stdout are not the same. (ಠ_ಠ)"
+    echo "Output of total stdout are not the same. (ಠ_ಠ)"
     echo
-    echo "Difference Preview of stdout:"
+    echo "Difference Preview of total stdout:"
     set +o pipefail
     ((set -x; "${DIFF}" --text -y --width=${width} --suppress-common-lines "${CURRENT_OUT}" "${EXPECT_OUT}") || true) | head -n 200 | indent
     echo
@@ -164,7 +164,7 @@ if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     total_diff_stdout=false
 else
     echo
-    echo "Output of stdout are the same. (ʘ‿ʘ)"
+    echo "Output of total stdout are the same. (ʘ‿ʘ)"
     echo
 fi
 
@@ -172,9 +172,9 @@ fi
 total_diff_stderr=true
 if ! "${DIFF}" --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
     ret=1
-    echo "Output of stderr is not the same. (ಠ_ಠ)"
+    echo "Output of total stderr is not the same. (ಠ_ಠ)"
     echo
-    echo "Difference Preview of stderr:"
+    echo "Difference Preview of total stderr:"
     set +o pipefail
     ((set +e; set -x;
         "${DIFF}" --text -y --width=${width} --suppress-common-lines "${CURRENT_ERR}" "${EXPECT_ERR}") || true
@@ -183,7 +183,7 @@ if ! "${DIFF}" --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
     total_diff_stderr=false
 else
     echo
-    echo "Output of stderr are the same. (ʘ‿ʘ)"
+    echo "Output of total stderr are the same. (ʘ‿ʘ)"
     echo
 fi
 
@@ -281,8 +281,6 @@ rm -f "${tmp1}" "${tmp2}"
 if [[ ${ret} -ne 0 ]]; then
     echo
     echo -e "Do you need to run \e[1m$(dirname "${0}")/update.sh\e[0m ?"
-    echo
-    echo -e "Remember to run \e[1m$(dirname "${0}"/..)/log-files-time-update.sh\e[0m before that!"
 fi
 
 exit ${ret}

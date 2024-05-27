@@ -103,7 +103,7 @@ pub fn create_temp_file_with_name_rlen(
     {
         Ok(val) => val,
         Err(err) => {
-            panic!("tempfile::Builder::new()..tempfile() return Err {}", err);
+            panic!("tempfile::Builder::new().tempfile() return Err {}", err);
         }
     };
     match ntf.write_all(data) {

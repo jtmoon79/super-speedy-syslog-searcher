@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/other/tests/invalid.xz
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/invalid.xz
       filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
       Processing Err : invalid data

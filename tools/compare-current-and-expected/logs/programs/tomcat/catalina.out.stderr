@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/programs/tomcat/catalina.out
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/programs/tomcat/catalina.out
-      modified time  : 2023-02-09 04:12:48 +08:00 (2023-02-08 20:12:48 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

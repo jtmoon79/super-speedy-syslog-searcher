@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/FedoraRemix29/dnf.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/FedoraRemix29/dnf.log
-      modified time  : 2019-06-16 22:11:21 +08:00 (2019-06-16 14:11:21 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

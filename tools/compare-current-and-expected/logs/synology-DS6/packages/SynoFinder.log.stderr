@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/packages/SynoFinder.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/packages/SynoFinder.log
-      modified time  : 2019-06-24 12:12:29 +08:00 (2019-06-24 04:12:29 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

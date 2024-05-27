@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/synoindexcheckindexbit.log
-      modified time  : 2018-10-26 03:26:20 +08:00 (2018-10-25 19:26:20 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

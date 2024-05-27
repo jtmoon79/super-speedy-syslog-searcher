@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/pkgctl-FileStation.log
-      modified time  : 2017-09-18 00:57:03 +08:00 (2017-09-17 16:57:03 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

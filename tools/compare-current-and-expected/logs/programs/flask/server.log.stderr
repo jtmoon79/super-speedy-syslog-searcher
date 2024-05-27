@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/programs/flask/server.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/programs/flask/server.log
-      modified time  : 2024-03-23 06:11:55 +08:00 (2024-03-22 22:11:55 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

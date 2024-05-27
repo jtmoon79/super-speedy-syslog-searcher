@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/Debian11/aarch64_ARMv6/wtmp
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian11/aarch64_ARMv6/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

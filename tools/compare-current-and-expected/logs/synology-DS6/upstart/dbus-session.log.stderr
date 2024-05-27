@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/dbus-session.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/dbus-session.log
-      modified time  : 2020-03-08 04:25:46 +08:00 (2020-03-07 20:25:46 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

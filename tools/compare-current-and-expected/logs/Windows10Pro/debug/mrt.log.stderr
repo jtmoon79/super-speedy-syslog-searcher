@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/debug/mrt.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/debug/mrt.log
-      modified time  : 2021-01-13 16:47:49 +08:00 (2021-01-13 08:47:49 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/synolog-service-handler-sftp.log
-      modified time  : 2016-12-09 10:56:19 +08:00 (2016-12-09 02:56:19 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

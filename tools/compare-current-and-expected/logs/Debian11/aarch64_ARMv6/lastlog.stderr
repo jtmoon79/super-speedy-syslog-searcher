@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/Debian11/aarch64_ARMv6/lastlog
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian11/aarch64_ARMv6/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

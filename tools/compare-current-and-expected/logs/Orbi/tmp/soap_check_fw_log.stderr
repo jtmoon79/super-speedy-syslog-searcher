@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Orbi/tmp/soap_check_fw_log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Orbi/tmp/soap_check_fw_log
-      modified time  : 2022-04-05 16:35:39 +08:00 (2022-04-05 08:35:39 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

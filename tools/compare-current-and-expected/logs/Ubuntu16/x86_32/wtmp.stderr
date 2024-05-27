@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/Ubuntu16/x86_32/wtmp
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu16/x86_32/wtmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

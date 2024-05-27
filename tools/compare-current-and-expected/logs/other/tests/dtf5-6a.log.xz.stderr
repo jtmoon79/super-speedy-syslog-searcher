@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf5-6a.log.xz
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf5-6a.log.xz
-      modified time  : 2000-01-01 16:00:05 +08:00 (2000-01-01 08:00:05 +00:00)
       filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
   Printed:

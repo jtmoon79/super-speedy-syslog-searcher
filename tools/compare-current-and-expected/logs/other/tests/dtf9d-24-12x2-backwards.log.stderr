@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf9d-24-12x2-backwards.log
-      modified time  : 2022-01-01 17:00:00 +08:00 (2022-01-01 09:00:00 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

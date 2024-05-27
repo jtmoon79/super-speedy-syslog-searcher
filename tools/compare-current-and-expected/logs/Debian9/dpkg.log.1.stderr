@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/dpkg.log.1
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/dpkg.log.1
-      modified time  : 2020-02-26 00:42:06 +08:00 (2020-02-25 16:42:06 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

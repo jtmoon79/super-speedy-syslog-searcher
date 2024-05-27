@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/CentOS9/x86_64/btmp
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/CentOS9/x86_64/btmp
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

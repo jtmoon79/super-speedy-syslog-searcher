@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu22/cloud-init.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu22/cloud-init.log
-      modified time  : 2022-08-01 10:12:53 +08:00 (2022-08-01 02:12:53 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

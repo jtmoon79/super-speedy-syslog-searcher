@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf9d-24-12x2-leapday.log
-      modified time  : 2022-09-03 12:45:35 +08:00 (2022-09-03 04:45:35 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

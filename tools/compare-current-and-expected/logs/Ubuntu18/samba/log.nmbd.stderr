@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu18/samba/log.nmbd
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu18/samba/log.nmbd
-      modified time  : 2020-03-16 13:17:17 +08:00 (2020-03-16 05:17:17 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

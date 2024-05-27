@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/nginx/access.log.1
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/nginx/access.log.1
-      modified time  : 2022-03-05 03:00:44 +08:00 (2022-03-04 19:00:44 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

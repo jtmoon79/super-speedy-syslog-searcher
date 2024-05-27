@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/space_operation_error.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/space_operation_error.log
-      modified time  : 2018-01-25 15:24:08 +08:00 (2018-01-25 07:24:08 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

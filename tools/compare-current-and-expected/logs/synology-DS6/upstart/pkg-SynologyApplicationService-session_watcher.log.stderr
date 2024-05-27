@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher.log
-      modified time  : 2020-03-07 12:09:23 +08:00 (2020-03-07 04:09:23 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu22/auth.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu22/auth.log
-      modified time  : 2022-10-04 13:15:45 +08:00 (2022-10-04 05:15:45 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

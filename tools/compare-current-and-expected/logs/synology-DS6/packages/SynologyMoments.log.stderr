@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/packages/SynologyMoments.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/packages/SynologyMoments.log
-      modified time  : 2019-06-24 16:53:25 +08:00 (2019-06-24 08:53:25 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

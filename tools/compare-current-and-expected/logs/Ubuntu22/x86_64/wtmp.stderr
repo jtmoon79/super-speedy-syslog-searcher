@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu22/x86_64/wtmp
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu22/x86_64/wtmp
-      modified time  : 2024-03-11 05:21:33 +08:00 (2024-03-10 21:21:33 +00:00)
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

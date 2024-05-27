@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu22/dmesg.0
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu22/dmesg.0
-      modified time  : 2022-09-01 16:34:42 +08:00 (2022-09-01 08:34:42 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
   About:
-      modified time  : 2023-02-25 00:52:26 +08:00 (2023-02-24 16:52:26 +00:00)
       filetype       : UTMP/WTMP (tar)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

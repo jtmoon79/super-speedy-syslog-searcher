@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/netatalk.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/netatalk.log
-      modified time  : 2016-12-09 10:55:31 +08:00 (2016-12-09 02:55:31 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

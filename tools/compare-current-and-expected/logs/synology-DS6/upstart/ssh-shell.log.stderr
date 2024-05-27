@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/ssh-shell.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/ssh-shell.log
-      modified time  : 2017-01-25 15:21:38 +08:00 (2017-01-25 07:21:38 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

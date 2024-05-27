@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/Ubuntu16/x86_32/lastlog
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu16/x86_32/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

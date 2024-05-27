@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf11-A.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf11-A.log
-      modified time  : 2000-12-31 16:00:00 +08:00 (2000-12-31 08:00:00 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

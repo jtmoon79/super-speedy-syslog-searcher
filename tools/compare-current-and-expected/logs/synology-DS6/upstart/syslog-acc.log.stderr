@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/syslog-acc.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/syslog-acc.log
-      modified time  : 2019-10-20 10:02:43 +08:00 (2019-10-20 02:02:43 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

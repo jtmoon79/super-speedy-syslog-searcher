@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/samba/log.smbd.1
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/samba/log.smbd.1
-      modified time  : 2020-03-06 04:16:44 +08:00 (2020-03-05 20:16:44 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

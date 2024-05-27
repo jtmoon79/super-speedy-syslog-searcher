@@ -50,7 +50,9 @@ use crate::debug::printers::{
 
 use std::fs::File;
 use std::io::Read;
+use std::time::Duration;
 
+use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
 
 
@@ -3478,12 +3480,21 @@ pub const LINUX_X86_UTMPX_3ENTRY_FILESZ: FileSz = (
     + LINUX_X86_UTMPX_BUFFER2.len()
     + LINUX_X86_UTMPX_BUFFER3.len()
 ) as FileSz;
+pub const LINUX_X86_UTMPX_3ENTRY_FILETYPE: FileType = FileType::FixedStruct {
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+};
+
 pub const LINUX_X86_UTMPX_3ENTRY_OOO_FILENAME: &str = "linux_x86_utmpx_3entry_ooo.utmp";
 pub const LINUX_X86_UTMPX_3ENTRY_OOO_FILESZ: FileSz = (
     LINUX_X86_UTMPX_BUFFER3.len()
     + LINUX_X86_UTMPX_BUFFER2.len()
     + LINUX_X86_UTMPX_BUFFER1.len()
 ) as FileSz;
+pub const LINUX_X86_UTMPX_3ENTRY_OOO_FILETYPE: FileType = FileType::FixedStruct {
+    archival_type: FileTypeArchive::Normal,
+    fixedstruct_type: FileTypeFixedStruct::Utmpx,
+};
 
 pub const LINUX_X86_UTMPX_00_ENTRY_FILENAME: &str = "linux_x86_utmpx_00_entry.utmp";
 pub const LINUX_X86_UTMPX_00_ENTRY_FILESZ: FileSz = LINUX_X86_UTMPX_BUFFER_00.len() as FileSz;
@@ -4012,7 +4023,13 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx (EVT
 
 pub const EVTX_KPNP_STR_PATH: &str = "../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx";
 pub const EVTX_KPNP_DATA: &[u8] = include_bytes!("../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx");
+pub const EVTX_KPNP_FILESZ: FileSz = 1052672;
 pub const EVTX_KPNP_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx";
+pub const EVTX_KPNP_GZ_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz";
+pub const EVTX_KPNP_LZ4_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.lz4";
+pub const EVTX_KPNP_TAR_STR_PATH_PROJD: &str =
+    concatcp!("./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar", SUBPATH_SEP, "Microsoft-Windows-Kernel-PnP%4Configuration.evtx");
+pub const EVTX_KPNP_XZ_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.xz";
 /// the first Event in the file
 pub const EVTX_KPNP_DATA1_S: &str = r#"
 <?xml version="1.0" encoding="utf-8"?>
@@ -4078,6 +4095,75 @@ lazy_static! {
     /// Entry last datetime
     pub static ref EVTX_KPNP_ENTRY227_DT: DateTimeL =
         ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+
+    // EVTX_KPNP gz
+
+    pub static ref EVTX_KPNP_GZ_FPATH: FPath = FPath::from(EVTX_KPNP_GZ_STR_PATH_PROJD);
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref EVTX_KPNP_GZ_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980))
+    };
+    pub static ref EVTX_KPNP_GZ_EVENT_COUNT: Count = 227;
+    pub static ref EVTX_KPNP_GZ_F: File =
+        File::open(fpath_to_path(&EVTX_KPNP_GZ_FPATH)).unwrap();
+    /// Entry 1 datetime
+    pub static ref EVTX_KPNP_GZ_ENTRY1_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    /// Entry last datetime
+    pub static ref EVTX_KPNP_GZ_ENTRY227_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+
+    // EVTX_KPNP lz4
+
+    pub static ref EVTX_KPNP_LZ4_FPATH: FPath = FPath::from(EVTX_KPNP_LZ4_STR_PATH_PROJD);
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref EVTX_KPNP_LZ4_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678708380))
+    };
+    pub static ref EVTX_KPNP_LZ4_EVENT_COUNT: Count = 227;
+    pub static ref EVTX_KPNP_LZ4_F: File =
+        File::open(fpath_to_path(&EVTX_KPNP_LZ4_FPATH)).unwrap();
+    /// Entry 1 datetime
+    pub static ref EVTX_KPNP_LZ4_ENTRY1_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    /// Entry last datetime
+    pub static ref EVTX_KPNP_LZ4_ENTRY227_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+
+    // EVTX_KPNP tar
+
+    pub static ref EVTX_KPNP_TAR_FPATH: FPath = FPath::from(EVTX_KPNP_TAR_STR_PATH_PROJD);
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref EVTX_KPNP_TAR_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980))
+    };
+    pub static ref EVTX_KPNP_TAR_EVENT_COUNT: Count = 227;
+    pub static ref EVTX_KPNP_TAR_F: File =
+        File::open(fpath_to_path(&EVTX_KPNP_TAR_FPATH)).unwrap();
+    /// Entry 1 datetime
+    pub static ref EVTX_KPNP_TAR_ENTRY1_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    /// Entry last datetime
+    pub static ref EVTX_KPNP_TAR_ENTRY227_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+
+    // EVTX_KPNP xz
+
+    pub static ref EVTX_KPNP_XZ_FPATH: FPath = FPath::from(EVTX_KPNP_XZ_STR_PATH_PROJD);
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref EVTX_KPNP_XZ_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678794840))
+    };
+    pub static ref EVTX_KPNP_XZ_EVENT_COUNT: Count = 227;
+    pub static ref EVTX_KPNP_XZ_F: File =
+        File::open(fpath_to_path(&EVTX_KPNP_XZ_FPATH)).unwrap();
+    /// Entry 1 datetime
+    pub static ref EVTX_KPNP_XZ_ENTRY1_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    /// Entry last datetime
+    pub static ref EVTX_KPNP_XZ_ENTRY227_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -4085,6 +4171,8 @@ lazy_static! {
 // Journal data
 
 pub const SYSTEMD_NOT_AVAILABLE: bool = cfg!(target_os = "windows") || cfg!(target_os = "macos");
+
+pub const JOURNAL_FILE_RHE_91_SYSTEM_FILESZ: FileSz = 4644864;
 
 lazy_static! {
 
@@ -4101,6 +4189,10 @@ lazy_static! {
 
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_FPATH: FPath =
         FPath::from("./logs/programs/journal/RHE_91_system.journal");
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655))
+    };
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH);
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_EXISTS: bool =
@@ -4110,6 +4202,88 @@ lazy_static! {
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT: DateTimeL =
         ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+
+    // .journal file taken from a new Red Hat Enterprise 9.1 system gz
+
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH: FPath =
+        FPath::from("./logs/programs/journal/RHE_91_system.journal.gz");
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634))
+    };
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH: &'static Path =
+        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_EXISTS: bool =
+        JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH.exists();
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT: Count = 2081;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_FILESZ: FileSz = 4644864;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+
+    // .journal file taken from a new Red Hat Enterprise 9.1 system tar
+
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_FPATH: FPath =
+        FPath::from(
+            concatcp!(
+                "./logs/programs/journal/RHE_91_system.tar",
+                SUBPATH_SEP,
+                "RHE_91_system.journal"
+            )
+        );
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634))
+    };
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_PATH: &'static Path =
+        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_TAR_FPATH);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_EXISTS: bool =
+        JOURNAL_FILE_RHE_91_SYSTEM_TAR_PATH.exists();
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_EVENT_COUNT: Count = 2081;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_EVENT_FILESZ: FileSz = 4644864;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_ENTRY_FIRST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_ENTRY_LAST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+
+    // .journal file taken from a new Red Hat Enterprise 9.1 system xz
+
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH: FPath =
+        FPath::from("./logs/programs/journal/RHE_91_system.journal.lz4");
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655))
+    };
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH: &'static Path =
+        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EXISTS: bool =
+        JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH.exists();
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT: Count = 2081;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_FILESZ: FileSz = 4644864;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+
+    // .journal file taken from a new Red Hat Enterprise 9.1 system xz
+
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_FPATH: FPath =
+        FPath::from("./logs/programs/journal/RHE_91_system.journal.xz");
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681164774))
+    };
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH: &'static Path =
+        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_XZ_FPATH);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_EXISTS: bool =
+        JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH.exists();
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT: Count = 2081;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_FILESZ: FileSz = 4644864;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT: DateTimeL =
         ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
 
     // .journal file taken from an Ubuntu 22 system

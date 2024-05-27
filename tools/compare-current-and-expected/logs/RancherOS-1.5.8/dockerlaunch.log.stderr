@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/RancherOS-1.5.8/dockerlaunch.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/RancherOS-1.5.8/dockerlaunch.log
-      modified time  : 2022-10-10 05:31:43 +08:00 (2022-10-09 21:31:43 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

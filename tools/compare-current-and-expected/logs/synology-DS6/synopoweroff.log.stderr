@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/synopoweroff.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/synopoweroff.log
-      modified time  : 2017-03-10 04:55:01 +08:00 (2017-03-09 20:55:01 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

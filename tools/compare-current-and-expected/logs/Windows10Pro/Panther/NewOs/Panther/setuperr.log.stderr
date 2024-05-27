@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
-      modified time  : 2022-10-14 20:56:47 +08:00 (2022-10-14 12:56:47 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

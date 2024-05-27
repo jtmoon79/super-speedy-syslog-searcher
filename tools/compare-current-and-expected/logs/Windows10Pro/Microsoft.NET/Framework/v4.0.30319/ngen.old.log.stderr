@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
-      modified time  : 2022-09-16 05:13:22 +08:00 (2022-09-15 21:13:22 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

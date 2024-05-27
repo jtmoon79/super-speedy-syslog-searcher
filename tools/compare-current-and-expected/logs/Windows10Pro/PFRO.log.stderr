@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/PFRO.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/PFRO.log
-      modified time  : 2022-09-15 13:00:28 +08:00 (2022-09-15 05:00:28 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

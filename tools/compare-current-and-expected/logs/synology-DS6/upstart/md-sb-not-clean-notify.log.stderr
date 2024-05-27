@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/md-sb-not-clean-notify.log
-      modified time  : 2019-11-17 06:59:16 +08:00 (2019-11-16 22:59:16 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

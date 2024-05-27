@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/synoservice.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/synoservice.log
-      modified time  : 2020-02-12 18:44:29 +08:00 (2020-02-12 10:44:29 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

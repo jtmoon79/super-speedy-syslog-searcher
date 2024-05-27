@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/RockyLinux9/messages-DropletAgent
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/RockyLinux9/messages-DropletAgent
-      modified time  : 2022-10-08 14:22:55 +08:00 (2022-10-08 06:22:55 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

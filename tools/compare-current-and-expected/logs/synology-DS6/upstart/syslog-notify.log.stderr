@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/syslog-notify.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/syslog-notify.log
-      modified time  : 2017-01-03 17:35:42 +08:00 (2017-01-03 09:35:42 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

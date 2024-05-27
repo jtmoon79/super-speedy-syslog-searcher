@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/downloadstation.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/downloadstation.log
-      modified time  : 2019-09-01 06:00:08 +08:00 (2019-08-31 22:00:08 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

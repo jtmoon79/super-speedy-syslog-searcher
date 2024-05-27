@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/messages
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/messages
-      modified time  : 2020-03-09 05:25:59 +08:00 (2020-03-08 21:25:59 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

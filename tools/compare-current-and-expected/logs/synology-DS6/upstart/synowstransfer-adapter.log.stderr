@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/synowstransfer-adapter.log
-      modified time  : 2019-11-15 13:05:53 +08:00 (2019-11-15 05:05:53 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

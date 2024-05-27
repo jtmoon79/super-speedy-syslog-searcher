@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/ssh-sftp.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/ssh-sftp.log
-      modified time  : 2016-12-09 10:57:05 +08:00 (2016-12-09 02:57:05 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

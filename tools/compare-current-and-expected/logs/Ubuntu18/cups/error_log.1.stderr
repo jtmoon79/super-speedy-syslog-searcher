@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu18/cups/error_log.1
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu18/cups/error_log.1
-      modified time  : 2019-08-09 15:09:01 +08:00 (2019-08-09 07:09:01 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

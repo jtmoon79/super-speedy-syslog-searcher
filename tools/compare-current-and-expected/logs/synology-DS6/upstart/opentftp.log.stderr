@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/opentftp.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/opentftp.log
-      modified time  : 2017-03-06 05:27:10 +08:00 (2017-03-05 21:27:10 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

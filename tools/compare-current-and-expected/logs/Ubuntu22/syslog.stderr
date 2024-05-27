@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu22/syslog
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu22/syslog
-      modified time  : 2022-10-04 12:48:26 +08:00 (2022-10-04 04:48:26 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

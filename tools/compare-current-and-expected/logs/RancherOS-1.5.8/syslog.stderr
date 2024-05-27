@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/RancherOS-1.5.8/syslog
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/RancherOS-1.5.8/syslog
-      modified time  : 2022-10-11 04:31:24 +08:00 (2022-10-10 20:31:24 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

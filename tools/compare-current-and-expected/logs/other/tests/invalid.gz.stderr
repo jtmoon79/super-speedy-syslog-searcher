@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/invalid.gz
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/invalid.gz
-      modified time  : 2023-11-01 15:00:00 +08:00 (2023-11-01 07:00:00 +00:00)
       filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
   Printed:

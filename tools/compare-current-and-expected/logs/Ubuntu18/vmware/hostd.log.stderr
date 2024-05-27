@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu18/vmware/hostd.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu18/vmware/hostd.log
-      modified time  : 2019-07-27 01:40:29 +08:00 (2019-07-26 17:40:29 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

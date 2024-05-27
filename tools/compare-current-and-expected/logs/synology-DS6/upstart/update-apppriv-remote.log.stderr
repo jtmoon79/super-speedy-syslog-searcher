@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/update-apppriv-remote.log
-      modified time  : 2018-08-02 05:16:41 +08:00 (2018-08-01 21:16:41 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

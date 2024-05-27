@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
-      modified time  : 2019-10-20 10:03:44 +08:00 (2019-10-20 02:03:44 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

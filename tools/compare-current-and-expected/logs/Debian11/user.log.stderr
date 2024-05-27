@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian11/user.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian11/user.log
-      modified time  : 2022-10-11 15:02:36 +08:00 (2022-10-11 07:02:36 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

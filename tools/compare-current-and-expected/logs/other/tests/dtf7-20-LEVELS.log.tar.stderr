@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVELS.log
   About:
-      modified time  : 2022-06-20 18:53:00 +08:00 (2022-06-20 10:53:00 +00:00)
       filetype       : TEXT UTF8/ASCII (tar)
       logmessagetype : syslog lines
   Printed:

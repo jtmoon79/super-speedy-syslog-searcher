@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/OpenBSD7.2/x86_32/lastlog.1
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/OpenBSD7.2/x86_32/lastlog.1
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

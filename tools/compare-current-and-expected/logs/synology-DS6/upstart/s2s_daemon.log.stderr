@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/s2s_daemon.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/s2s_daemon.log
-      modified time  : 2017-01-09 05:35:55 +08:00 (2017-01-08 21:35:55 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

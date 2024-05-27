@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
-      modified time  : 2017-01-18 13:57:12 +08:00 (2017-01-18 05:57:12 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

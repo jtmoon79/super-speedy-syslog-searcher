@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf5-6a.log.gz
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf5-6a.log.gz
-      modified time  : 2022-03-25 13:19:46 +08:00 (2022-03-25 05:19:46 +00:00)
       filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
   Printed:

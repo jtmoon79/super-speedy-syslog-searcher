@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/programs/utmp/host-entry6.wtmp.lz4
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/programs/utmp/host-entry6.wtmp.lz4
       filetype       : UTMP/WTMP (lz4)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synologand.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/synologand.log
-      modified time  : 2018-10-16 05:09:07 +08:00 (2018-10-15 21:09:07 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

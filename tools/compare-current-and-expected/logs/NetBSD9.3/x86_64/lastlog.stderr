@@ -3,7 +3,6 @@ Files:
 
 File: ./logs/NetBSD9.3/x86_64/lastlog
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/NetBSD9.3/x86_64/lastlog
       filetype       : LASTLOG
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

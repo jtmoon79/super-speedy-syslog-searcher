@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/system-profile-tuning.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/system-profile-tuning.log
-      modified time  : 2019-02-12 08:44:40 +08:00 (2019-02-12 00:44:40 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
-      modified time  : 2022-10-13 04:26:20 +08:00 (2022-10-12 20:26:20 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

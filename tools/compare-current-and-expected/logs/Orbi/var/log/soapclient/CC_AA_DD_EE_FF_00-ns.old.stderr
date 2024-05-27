@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
-      modified time  : 2022-05-11 04:24:56 +08:00 (2022-05-10 20:24:56 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

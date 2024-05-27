@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/packages/USBCopy.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/packages/USBCopy.log
-      modified time  : 2019-09-01 14:18:14 +08:00 (2019-09-01 06:18:14 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/aptitude.4
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/aptitude.4
-      modified time  : 2019-09-13 13:23:40 +08:00 (2019-09-13 05:23:40 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

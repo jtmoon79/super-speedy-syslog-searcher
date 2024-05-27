@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/cloudsync/daemon.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/cloudsync/daemon.log
-      modified time  : 2018-02-10 13:25:06 +08:00 (2018-02-10 05:25:06 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

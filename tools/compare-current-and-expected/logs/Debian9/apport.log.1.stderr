@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/apport.log.1
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/apport.log.1
-      modified time  : 2020-02-20 16:59:59 +08:00 (2020-02-20 08:59:59 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

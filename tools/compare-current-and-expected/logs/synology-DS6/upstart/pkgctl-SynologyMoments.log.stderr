@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
-      modified time  : 2019-01-26 19:37:28 +08:00 (2019-01-26 11:37:28 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

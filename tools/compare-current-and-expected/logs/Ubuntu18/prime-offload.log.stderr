@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Ubuntu18/prime-offload.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Ubuntu18/prime-offload.log
-      modified time  : 2020-02-27 05:43:41 +08:00 (2020-02-26 21:43:41 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/3rdparty-services.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/3rdparty-services.log
-      modified time  : 2017-01-09 05:36:05 +08:00 (2017-01-08 21:36:05 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

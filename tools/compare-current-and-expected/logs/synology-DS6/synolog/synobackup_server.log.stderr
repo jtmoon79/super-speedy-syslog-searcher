@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/synolog/synobackup_server.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/synolog/synobackup_server.log
-      modified time  : 2018-12-29 19:02:49 +08:00 (2018-12-29 11:02:49 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

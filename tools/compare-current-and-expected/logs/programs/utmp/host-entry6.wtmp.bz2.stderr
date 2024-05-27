@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/programs/utmp/host-entry6.wtmp.bz2
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/programs/utmp/host-entry6.wtmp.bz2
-      modified time  : 2023-02-25 00:52:36 +08:00 (2023-02-24 16:52:36 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

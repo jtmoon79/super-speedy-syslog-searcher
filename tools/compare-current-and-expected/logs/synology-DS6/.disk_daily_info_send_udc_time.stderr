@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/.disk_daily_info_send_udc_time
-      modified time  : 2019-06-21 15:12:32 +08:00 (2019-06-21 07:12:32 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

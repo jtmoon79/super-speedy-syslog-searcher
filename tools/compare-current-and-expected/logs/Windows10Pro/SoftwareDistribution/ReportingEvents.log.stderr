@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
-      modified time  : 2022-10-13 00:26:48 +08:00 (2022-10-12 16:26:48 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

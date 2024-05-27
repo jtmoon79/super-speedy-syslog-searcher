@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/auth.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/auth.log
-      modified time  : 2020-02-24 14:44:37 +08:00 (2020-02-24 06:44:37 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

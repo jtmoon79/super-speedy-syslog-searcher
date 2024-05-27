@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/ha.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/ha.log
-      modified time  : 2017-06-19 16:22:07 +08:00 (2017-06-19 08:22:07 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

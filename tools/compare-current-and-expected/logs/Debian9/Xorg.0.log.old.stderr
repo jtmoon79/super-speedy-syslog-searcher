@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Debian9/Xorg.0.log.old
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Debian9/Xorg.0.log.old
-      modified time  : 2020-02-18 04:48:39 +08:00 (2020-02-17 20:48:39 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

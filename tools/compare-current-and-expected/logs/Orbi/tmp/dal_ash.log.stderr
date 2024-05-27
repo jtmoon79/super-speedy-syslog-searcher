@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Orbi/tmp/dal_ash.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Orbi/tmp/dal_ash.log
-      modified time  : 2022-05-11 08:20:40 +08:00 (2022-05-11 00:20:40 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

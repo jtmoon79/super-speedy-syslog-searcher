@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/pkgctl-OAuthService.log
-      modified time  : 2019-09-01 05:21:58 +08:00 (2019-08-31 21:21:58 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

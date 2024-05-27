@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/programs/proftpd/proftpd.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/programs/proftpd/proftpd.log
-      modified time  : 2020-10-04 02:26:13 +08:00 (2020-10-03 18:26:13 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

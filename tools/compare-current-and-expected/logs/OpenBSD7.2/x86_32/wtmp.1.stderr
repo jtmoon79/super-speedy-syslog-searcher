@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/OpenBSD7.2/x86_32/wtmp.1
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/OpenBSD7.2/x86_32/wtmp.1
-      modified time  : 2024-03-11 05:16:32 +08:00 (2024-03-10 21:16:32 +00:00)
       filetype       : UTMP/WTMP
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)

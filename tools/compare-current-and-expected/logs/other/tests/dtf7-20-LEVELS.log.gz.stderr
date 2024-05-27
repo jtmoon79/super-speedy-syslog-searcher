@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/dtf7-20-LEVELS.log.gz
-      modified time  : 2022-06-21 11:18:37 +08:00 (2022-06-21 03:18:37 +00:00)
       filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
   Printed:

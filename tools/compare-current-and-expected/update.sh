@@ -111,4 +111,4 @@ done < "${LOGS}"
 
 echo >&2
 
-echo -e "Now run \e[1m$(dirname "${0}")/compare.sh\e[0m." >&2
+echo -e "Now run \e[1m$(dirname "${0}")/compare.sh\e[0m" >&2

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/syslog.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/syslog.log
-      modified time  : 2016-12-06 13:39:31 +08:00 (2016-12-06 05:39:31 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

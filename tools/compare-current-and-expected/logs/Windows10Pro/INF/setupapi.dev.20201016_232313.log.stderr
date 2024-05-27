@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
-      modified time  : 2020-10-17 03:30:05 +08:00 (2020-10-16 19:30:05 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
-      modified time  : 2017-10-20 01:21:14 +08:00 (2017-10-19 17:21:14 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

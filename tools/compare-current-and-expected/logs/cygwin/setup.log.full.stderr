@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/cygwin/setup.log.full
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/cygwin/setup.log.full
-      modified time  : 2022-03-24 05:38:51 +08:00 (2022-03-23 21:38:51 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

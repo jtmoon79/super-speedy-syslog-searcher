@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/synotifyd.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/synotifyd.log
-      modified time  : 2019-01-03 16:05:36 +08:00 (2019-01-03 08:05:36 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

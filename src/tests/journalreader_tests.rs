@@ -13,6 +13,8 @@ use std::path::Path;
 use crate::common::{
     Count,
     FileSz,
+    FileType,
+    FileTypeArchive,
     FPath,
     LogMessageType,
 };
@@ -52,6 +54,21 @@ use crate::tests::common::{
     JOURNAL_FILE_RHE_91_SYSTEM_EVENT_FILESZ,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_FILESZ,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_FILESZ,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_FILESZ,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORT,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTPRECISE,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISO,
@@ -81,6 +98,19 @@ use ::si_trace_print::{
     defñ,
 };
 
+
+const FT_NORM: FileType = FileType::Journal {
+    archival_type: FileTypeArchive::Normal,
+};
+const FT_GZ: FileType = FileType::Journal {
+    archival_type: FileTypeArchive::Gz,
+};
+const FT_LZ4: FileType = FileType::Journal {
+    archival_type: FileTypeArchive::Lz4,
+};
+const FT_XZ: FileType = FileType::Journal {
+    archival_type: FileTypeArchive::Xz,
+};
 
 #[test_case(
     *TS_1,
@@ -200,6 +230,9 @@ fn test_mtime(path: &FPath) {
         path.clone(),
         JournalOutput::Short,
         *FO_0,
+        FileType::Journal {
+            archival_type: FileTypeArchive::Normal,
+        },
     ).unwrap();
     // merely run the function
     _ = jr1.mtime();
@@ -230,6 +263,9 @@ fn test_JournalReader_new_(path: &FPath, ok: bool) {
         path.clone(),
         JournalOutput::Short,
         *FO_0,
+        FileType::Journal {
+            archival_type: FileTypeArchive::Normal,
+        },
     ) {
         Ok(_) => {
             assert!(ok, "JournalReader::new({:?}) should have failed", path);
@@ -318,6 +354,9 @@ fn test_JournalReader_entry1_output(
         fpath,
         journal_output,
         *FO_0,
+        FileType::Journal {
+            archival_type: FileTypeArchive::Normal,
+        },
     ).unwrap();
     match journalreader.analyze(&None) {
         Ok(_) => {}
@@ -351,6 +390,7 @@ fn test_JournalReader_entry1_output(
 #[test_case(
     &*JOURNAL_FILE_RHE_91_SYSTEM_PATH,
     *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_FILESZ,
+    FT_NORM,
     *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
     *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
     Some(*JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT),
@@ -363,8 +403,54 @@ fn test_JournalReader_entry1_output(
     "RHE91"
 )]
 #[test_case(
+    &*JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH,
+    *JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_FILESZ,
+    FT_GZ,
+    *JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT,
+    *JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT,
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT),
+    55099,
+    0,
+    ForceErrorRangeOpt::None;
+    "RHE91 GZ"
+)]
+#[test_case(
+    &*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH,
+    *JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_FILESZ,
+    FT_LZ4,
+    *JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT,
+    *JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT,
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT),
+    55099,
+    0,
+    ForceErrorRangeOpt::None;
+    "RHE91 LZ4"
+)]
+#[test_case(
+    &*JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH,
+    *JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_FILESZ,
+    FT_XZ,
+    *JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT,
+    *JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT,
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT),
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT),
+    55099,
+    0,
+    ForceErrorRangeOpt::None;
+    "RHE91 XZ"
+)]
+#[test_case(
     &*JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ,
+    FT_NORM,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
@@ -379,6 +465,7 @@ fn test_JournalReader_entry1_output(
 #[test_case(
     &*JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ,
+    FT_NORM,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
@@ -393,6 +480,7 @@ fn test_JournalReader_entry1_output(
 #[test_case(
     &*JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ,
+    FT_NORM,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     *JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
     Some(*JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT),
@@ -407,6 +495,7 @@ fn test_JournalReader_entry1_output(
 fn test_JournalReader_next_summary(
     path: &Path,
     filesz: FileSz,
+    filetype: FileType,
     events_processed: Count,
     events_accepted: Count,
     datetime_first_accepted: DateTimeLOpt,
@@ -421,6 +510,21 @@ fn test_JournalReader_next_summary(
         defñ!("skip");
         return;
     }
+    // XXX: placed here to cuase error when new `FileTypeArchive` is added
+    match filetype {
+        FileType::Journal { archival_type } => {
+            match archival_type {
+                FileTypeArchive::Normal => {}
+                FileTypeArchive::Gz => {}
+                FileTypeArchive::Lz4 => {}
+                FileTypeArchive::Tar => {}
+                FileTypeArchive::Xz => {}
+            }
+        }
+        _ => {
+            panic!("filetype should be FileType::Journal");
+        }
+    }
     assert!(matches!(load_library_systemd(), LoadLibraryError::Ok));
     let fpath = path_to_fpath(path);
     let fpath2 = fpath.clone();
@@ -428,6 +532,7 @@ fn test_JournalReader_next_summary(
         fpath,
         JournalOutput::Short,
         *FO_0,
+        filetype,
     ).unwrap();
     match journalreader.analyze(&None) {
         Ok(_) => {}

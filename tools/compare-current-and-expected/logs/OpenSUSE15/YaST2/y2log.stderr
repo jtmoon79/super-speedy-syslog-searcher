@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/OpenSUSE15/YaST2/y2log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/OpenSUSE15/YaST2/y2log
-      modified time  : 2019-09-17 22:08:12 +08:00 (2019-09-17 14:08:12 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

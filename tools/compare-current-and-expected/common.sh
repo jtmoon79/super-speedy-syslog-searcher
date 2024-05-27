@@ -55,6 +55,7 @@ function stderr_clean () {
     # - remove the printing of `Modified Time` as it may vary based on the
     #   filesystem.
     # - remove the realpath as it varies depending on the repo. path.
+    # - remove the temporary path as it always varies.
     # - remove warnings as they are printed in an unpredictable order
     # - remove `streaming: `, `blocks high:`, `lines high:`, `caching:` from the
     #   "streaming" summary. Explained in Issue #213
@@ -75,7 +76,10 @@ function stderr_clean () {
         -e '/^Datetime printed first[ ]*:.*$/d' \
         -e '/^Datetime printed last[ ]*:.*$/d' \
         -e '/^[ ]+Modified Time [ ]*:.*$/d' \
+        -e '/^[ ]+modified time [ ]*:.*$/d' \
         -e '/^[ ]+realpath .*$/d' \
+        -e '/^[ ]+real path .*$/d' \
+        -e '/^[ ]+temporary path .*$/d' \
         -e '/^[ ]+streaming: .*$/d' \
         -e '/^[ ]+caching: BlockReader::read_block.*$/d' \
         -e '/^[ ]+storage: BlockReader::read_block.*$/d' \

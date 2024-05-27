@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/synology-DS6/surveillance/ssrotate.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/synology-DS6/surveillance/ssrotate.log
-      modified time  : 2022-09-19 07:29:42 +08:00 (2022-09-18 23:29:42 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:

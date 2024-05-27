@@ -3,8 +3,6 @@ Files:
 
 File: ./logs/other/tests/invalid1a.log
   About:
-      real path      : /home/ulug/Projects-Here/super-speedy-syslog-searcher/logs/other/tests/invalid1a.log
-      modified time  : 2022-09-03 12:45:36 +08:00 (2022-09-03 04:45:36 +00:00)
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
