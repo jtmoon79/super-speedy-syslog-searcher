@@ -472,16 +472,16 @@ do not have a timezone offset.
 --prepend-tz affects what is pre-printed before each printed log message line.
 
 --separator accepts backslash escape sequences:
-    ""#, unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES2, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES3, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES4, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES5, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES6, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES7, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES8, "\",\
- \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, r#"",
+    ""#, unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\", \
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\", \
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES2, "\", \
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES3, "\", \
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES4, "\", \
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES5, "\", \
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES6, "\", \
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES7, "\", \
+ \"", unescape::BACKSLASH_ESCAPE_SEQUENCES8, "\", \
+  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, r#""
 
 Resolved values of "--dt-after" and "--dt-before" can be reviewed in
 the "--summary" output.
@@ -549,10 +549,10 @@ struct CLI_Args {
     dt_before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
-    /// For example, log message "_\[20200102T120000\] Starting service_" has a
+    /// For example, log message "[20200102T120000] Starting service" has a
     /// datetime substring "20200102T120000".
-    /// The datetime substring does not have a timezone offset
-    /// so the TZ_OFFSET value would be used.
+    /// That datetime substring does not have a timezone offset
+    /// so this TZ_OFFSET value would be used.
     /// Example values, "+12", "-0800", "+02:00", or "EDT".
     /// To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
     /// If not passed then the local system timezone offset is used.
@@ -666,7 +666,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     /// An extra separator string between printed log messages.
     /// Per log message not per line of text.
     /// Accepts a basic set of backslash escape sequences,
-    /// e.g. "\0" for the null character.
+    /// e.g. "\0" for the null character, "\t" for tab, etc.
     #[clap(
         long = "separator",
         required = false,

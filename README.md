@@ -224,10 +224,10 @@ Options:
           For example, "2020-01-03T23:00:00.321-05:30" or "@+1d+11h"
   -t, --tz-offset <TZ_OFFSET>
           Default timezone offset for datetimes without a timezone.
-          For example, log message "_\[20200102T120000\] Starting service_" has a
+          For example, log message "[20200102T120000] Starting service" has a
           datetime substring "20200102T120000".
-          The datetime substring does not have a timezone offset
-          so the TZ_OFFSET value would be used.
+          That datetime substring does not have a timezone offset
+          so this TZ_OFFSET value would be used.
           Example values, "+12", "-0800", "+02:00", or "EDT".
           To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
           If not passed then the local system timezone offset is used.
@@ -263,7 +263,7 @@ Options:
           An extra separator string between printed log messages.
           Per log message not per line of text.
           Accepts a basic set of backslash escape sequences,
-          e.g. "\0" for the null character.
+          e.g. "\0" for the null character, "\t" for tab, etc.
       --journal-output <JOURNAL_OUTPUT>
           The format for .journal file log messages.
           Matches journalctl --output options.
@@ -339,7 +339,7 @@ do not have a timezone offset.
 --prepend-tz affects what is pre-printed before each printed log message line.
 
 --separator accepts backslash escape sequences:
-    "\0","\a","\b","\e","\f","\n","\r","\\","\t","\v",
+    "\0", "\a", "\b", "\e", "\f", "\n", "\r", "\\", "\t", "\v"
 
 Resolved values of "--dt-after" and "--dt-before" can be reviewed in
 the "--summary" output.
