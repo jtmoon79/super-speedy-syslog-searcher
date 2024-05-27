@@ -437,7 +437,7 @@ jobs:
           channel: ${{ env.MSRV_UPLOAD }}
           bins: cargo-nextest
       # XXX: MacOS tools do not support `touch` arguments run in
-      #      `./tools/log-files-time-update.sh`. So just skip that.
+      #      `./tools/log-files-time-update.sh`. So skip running `log-files-time-update.sh`
       #      See https://stackoverflow.com/q/78540977/471376
       - name: nextest (all)
         shell: bash
@@ -494,8 +494,12 @@ jobs:
           cargo install flamegraph --version=${FLAMEGRAPH_VERSION} --locked
           export OUT="./flamegraph-dtf2-2.svg"
           export FREQ=5000
-          ./tools/flamegraph.sh ./logs/other/tests/dtf2-2.log
+          # XXX: ignore failure of flamegraph.sh
+          set +e
+          sudo -E -- ./tools/flamegraph.sh ./logs/other/tests/dtf2-2.log
           ls -l "${OUT}"
+          # XXX: force success
+          true
 
   job_doc_publish:
     # this job downloads and builds dependency crates
