@@ -516,7 +516,7 @@ unlikely to be log files and so are not processed.
 
 An overview of features of varying log mergers including GNU tools.
 
-- GNU _`grep`_ piped to GNU _`sort`_
+- GNU `grep` piped to GNU `sort`
 - _Super Speedy Syslog Searcher_; `s4`
 - [_logmerger_](https://github.com/ptmcg/logmerger); `logmerger`
 - [_Toolong_](https://github.com/Textualize/toolong); `tl`
@@ -551,7 +551,7 @@ An overview of features of varying log mergers including GNU tools.
 |Program                   |RFC 2822|RFC 3164|RFC 3339|RFC 5424|ISO 8601|
 |-                         |-       |-       |-       |-       |-       |
 |`grep \| sort`            |✗      |‼        |!       |!       |!       |
-|`s4`                      |✔      |✔       |✔       |✔      |<a href="#formal-datetimes">⬤</a>|
+|`s4`                      |✔      |✔       |✔       |✔      |✔       |
 |`logmerger`               |✗      |✗       |!       |!       |◒       |
 |`tl`                      |✗      |✗       |✔       |✔      |✔       |
 
@@ -630,7 +630,12 @@ Building on Linux requires:
 - `rust` _minimal_ or more
 - `gcc` (which should install `cc`, `libc`, and `libc-headers`)
 
+Building on Windows requires _Visual Studio Code_. [`rustup-init.exe`] will
+install the necessary tools.
+
 From the git cloned project directory run `cargo build`.
+
+[`rustup-init.exe`]: https://rustup.rs/
 
 ### Parsing `.journal` files
 
@@ -669,7 +674,7 @@ See [docs section _Definitions of data_] for more project definitions.
 
 A "log message" is a single log entry for any type of logging scheme;
 an entry in a utmpx file, an entry in a systemd journal, an entry in a
-Windows Event Log, a formal syslog message, or an ad-hoc log message.
+Windows Event Log, a formal RFC 5424 syslog message, or an ad-hoc log message.
 
 ---
 
