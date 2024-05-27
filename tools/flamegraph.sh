@@ -43,9 +43,12 @@ fi
 export PERF
 
 (
+    export PAGER=cat
     set -x
     cargo flamegraph --version
     "${PERF}" --version
+    "${PERF}" list || true
+    "${PERF}" --help record
 )
 
 declare -r PROGRAM=${PROGRAM-./target/flamegraph/s4}
@@ -56,7 +59,7 @@ export CARGO_PROFILE_RELEASE_DEBUG=true
 #export RUSTC_LINKER=$(which clang)
 export RUST_BACKTRACE=1
 
-OUT="${OUT-flamegraph.svg}"
+OUT=${OUT-flamegraph.svg}
 
 # Sampling frequency.
 # This is higher than default 997, hopefully it does not cause CPU/IO overload
@@ -65,7 +68,7 @@ FREQ=${FREQ-3000}
 
 (
     set -x
-    # verify flamegraph can run the binary (just prints the version)
+    # verify flamegraph can run the binary (s4 only prints it's version)
     cargo flamegraph \
         --verbose \
         --flamechart \
