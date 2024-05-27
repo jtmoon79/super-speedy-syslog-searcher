@@ -12,18 +12,18 @@
 //!
 //! The term "syslog" within code context is used refers to a file
 //! where a text-encoded message has some parsesable datetimestamp. It includes
-//! but it not limited to an [RFC 5424] compliant message.
+//! but is not limited to an [RFC 5424] compliant message.
 //!
-//! The term "log message" is for any type log message, including
+//! The term "_log message_" is for any type of log message, including
 //! ad-hoc log messages, formal syslog RFC 5424 messages, fixedstruct entries
 //! (acct/lastlog/lastlogx/utmp/utmpx/wtmp/wtmpx), systemd journal messages,
 //! evtx entries, and other types of log messages.
 //!
 //! ## Overview of modules
 //!
-//! Broadly, there are definietions of data, under the [`data`] module, and
+//! Broadly, there are definitions of data, under the [`data`] module, and
 //! there
-//! are Readers, under [`readers`] module. Note that the "Reader"s do not
+//! are Readers, under [`readers`] module. Note that the “Reader”s do not
 //! implement the Rust `Read` trait; it is merely a general phrase. These are
 //! where this tool's specific features are implemented.
 //! <br/>

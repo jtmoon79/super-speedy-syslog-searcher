@@ -4,6 +4,9 @@
 //! [`Blocks`], [`Line`]s, [`Sysline`]s, [`FixedStruct`], [`Evtx`],
 //! and [`JournalEntry`]s.
 //!
+//! The sub-module [`datetime`] defines regular expressions and functions for
+//! parsing datetimes substrings from ad-hoc text log messages ("syslogs").
+//!
 //! ## Definitions of data
 //!
 //! ### Sysline
