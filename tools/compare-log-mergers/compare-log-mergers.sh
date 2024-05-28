@@ -11,6 +11,11 @@ fi
 
 cd "$(dirname "${0}")/../.."
 
+(
+    set -x
+    git log -n1 --oneline -1
+)
+
 # use full path to Unix tools
 time=$(which time)
 (set -x; $time --version) | head -n1
