@@ -616,8 +616,8 @@ This informal runtime comparison used GNU `time` running on Ubuntu 22 on WSL2.
 
 - `grep` 3.7, `sort` 8.32
 - `s4` 0.6.71
-- `logmerger` 0.8.0 on Python 3.10.12
-- `tl` 1.4.0 on Python 3.10.12
+- `logmerger` 0.9.0 on Python 3.10.12
+- `tl` 1.5.0 on Python 3.10.12
 
 See directory [compare-log-mergers] and results in [`compare-log-mergers.txt`].
 

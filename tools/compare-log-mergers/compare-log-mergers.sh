@@ -24,6 +24,23 @@ PYTHON=${PYTHON-$(
 )}
 (set -x; "${PYTHON}" --version) | head -n1
 
+if [[ -z "${VIRTUAL_ENV-}" ]]; then
+    echo "ERROR: must run within a Python virtual environment" >&2
+    exit 1
+fi
+# make sure packages are installed to expected versions
+# XXX: these versions should match that described in the `README.md`
+for package in \
+    'logmerger==0.9.0' \
+    'toolong==1.5.0' \
+    'logdissect==3.1.1' \
+ ; do
+    (
+        set -x
+        "${PYTHON}" -m pip install --upgrade --force --quiet "${package}"
+    )
+done
+
 declare -a files=(
     './tools/compare-log-mergers/gen-5000-1-faces.log'
     './tools/compare-log-mergers/gen-2500-1-faces.log'
@@ -172,7 +189,7 @@ echo
     $time -p -- \
         "${PROGRAM_TL}" \
         --merge \
-        --output-merge="${tmp1}" \
+        --output-merge "${tmp1}" \
         "${files[@]}" \
 )
 echo
