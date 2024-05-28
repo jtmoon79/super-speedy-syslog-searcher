@@ -23,15 +23,15 @@ File: ./logs/Debian11/alternatives.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  31,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  16, miss  17, 48.5%, put  15
-      copying: SyslineReader::get_boxptrs()                        : sgl 138, dbl    7, mult   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 142, dbl    7, mult   2
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  16,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  16,  0.0%, put  15
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  16,  0.0%, put  15
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  15, miss  15, 50.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   6,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   1, miss   9, 10.0%, largest skipped 18
       optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 140,  0.7%, largest skipped 19
-      process: regex captures attempted                            : 146
+      process: regex captures attempted                            : 149
   Processing Drops:
 
 
@@ -47,8 +47,8 @@ Printed syslines       : 15
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 154
-Regex patterns compiled: 132
+Regex patterns known   : 158
+Regex patterns compiled: 135
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 17

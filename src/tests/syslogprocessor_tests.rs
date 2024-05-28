@@ -1188,6 +1188,7 @@ fn test_SyslogProcessor_summary_empty(
         syslinereader_patterns: DateTimePatternCounts::from([(33, 1), (78, 4)]),
         syslinereader_datetime_first: Some(ymdhms0(1972, 1, 1, 1, 0, 11)),
         syslinereader_datetime_last: Some(ymdhms0(2000, 5, 15, 5, 0, 55)),
+        syslinereader_out_of_order: 0,
         syslinereader_find_sysline_lru_cache_hit: 0,
         syslinereader_find_sysline_lru_cache_miss: 6,
         syslinereader_find_sysline_lru_cache_put: 6,

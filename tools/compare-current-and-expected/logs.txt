@@ -107,6 +107,7 @@
 ./logs/other/tests/dtf10-10a.log
 ./logs/other/tests/dtf10-10b.log
 ./logs/other/tests/dtf11-A.log
+./logs/other/tests/dtf11-A-outoforder.log
 ./logs/other/tests/dtf12a-x2_patts.log
 ./logs/other/tests/dtf12b-x2_patts.log
 ./logs/other/tests/dtf12c-x3_patts.log

@@ -57,6 +57,7 @@ use crate::readers::filepreprocessor::{
 use crate::readers::helpers::{fill, randomize};
 use crate::readers::syslinereader::{
     DateTimeParseDatasIndexes,
+    FindStrategy,
     ResultS3SyslineFind,
     SyslineReader,
     SummarySyslineReader,
@@ -84,6 +85,9 @@ use crate::tests::common::{
     NTF_SYSLINE_2_PATH,
     NTF_SYSLINE_2_SYSLINE1_DT,
     NTF_SYSLINE_2_SYSLINE2_DT,
+    NTF_SYSLINE_2_OOO_PATH,
+    NTF_SYSLINE_2_OOO_SYSLINE1_DT,
+    NTF_SYSLINE_2_OOO_SYSLINE2_DT,
     NTF_TAR_0BYTE_FILEA_FPATH,
     NTF_TAR_1BYTE_FILEA_FPATH,
     NTF_TAR_1BYTE_FPATH,
@@ -5537,7 +5541,7 @@ fn test_ezcheck_slice(
     *FO_0,
     true,
     None,
-	None,
+    None,
     0,
     0,
     0,
@@ -5549,6 +5553,7 @@ fn test_ezcheck_slice(
     0,
     None,
     None,
+    0,
     0,
     1,
     1,
@@ -5556,13 +5561,13 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    308,
+    316,
     0,
     0,
     0,
     0,
     0,
-    16,
+    24,
     0,
     7,
     292,
@@ -5576,7 +5581,7 @@ fn test_ezcheck_slice(
     *FO_0,
     true,
     None,
-	None,
+    None,
     0,
     0,
     0,
@@ -5588,6 +5593,7 @@ fn test_ezcheck_slice(
     0,
     None,
     None,
+    0,
     0,
     1,
     1,
@@ -5595,13 +5601,13 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    308,
+    316,
     0,
     0,
     0,
     0,
     0,
-    16,
+    24,
     0,
     7,
     292,
@@ -5615,7 +5621,7 @@ fn test_ezcheck_slice(
     *FO_0,
     true,
     None,
-	None,
+    None,
     0,
     0,
     0,
@@ -5627,6 +5633,7 @@ fn test_ezcheck_slice(
     0,
     None,
     None,
+    0,
     0,
     1,
     1,
@@ -5634,13 +5641,13 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    308,
+    316,
     0,
     0,
     0,
     0,
     0,
-    16,
+    24,
     0,
     7,
     292,
@@ -5654,7 +5661,7 @@ fn test_ezcheck_slice(
     *FO_0,
     true,
     None,
-	None,
+    None,
     0,
     0,
     1,
@@ -5666,6 +5673,7 @@ fn test_ezcheck_slice(
     1,
     Some(*NTF_SYSLINE_1_SYSLINE1_DT),
     Some(*NTF_SYSLINE_1_SYSLINE1_DT),
+    0,
     0,
     2,
     2,
@@ -5693,7 +5701,7 @@ fn test_ezcheck_slice(
     *FO_0,
     false,
     None,
-	None,
+    None,
     0,
     0,
     1,
@@ -5705,6 +5713,7 @@ fn test_ezcheck_slice(
     1,
     Some(*NTF_SYSLINE_1_SYSLINE1_DT),
     Some(*NTF_SYSLINE_1_SYSLINE1_DT),
+    0,
     0,
     0,
     0,
@@ -5732,7 +5741,7 @@ fn test_ezcheck_slice(
     *FO_0,
     true,
     None,
-	None,
+    None,
     0,
     0,
     2,
@@ -5744,6 +5753,7 @@ fn test_ezcheck_slice(
     2,
     Some(*NTF_SYSLINE_2_SYSLINE1_DT),
     Some(*NTF_SYSLINE_2_SYSLINE2_DT),
+    0,
     0,
     3,
     3,
@@ -5765,6 +5775,46 @@ fn test_ezcheck_slice(
     0;
     "NTF_SYSLINE_2_PATH"
 )]
+#[test_case(
+    &*NTF_SYSLINE_2_OOO_PATH,
+    0x8,
+    *FO_0,
+    true,
+    None,
+    None,
+    0,
+    0,
+    2,
+    2,
+    0,
+    3,
+    0,
+    3,
+    2,
+    Some(*NTF_SYSLINE_2_OOO_SYSLINE1_DT),
+    Some(*NTF_SYSLINE_2_OOO_SYSLINE2_DT),
+    1,
+    0,
+    3,
+    3,
+    1,
+    2,
+    0,
+    77,
+    0,
+    0,
+    77,
+    0,
+    0,
+    0,
+    0,
+    4,
+    0,
+    0,
+    73,
+    0;
+    "NTF_SYSLINE_2_OOO_PATH"
+)]
 // TODO: [2024/03/10] copy design of similar function
 //       `fixedstructreader_tests.rs:test_FixedStructReader_summary`
 fn test_syslinereadersummary(
@@ -5785,6 +5835,7 @@ fn test_syslinereadersummary(
     syslinereader_syslines_by_range_put: Count,
     syslinereader_datetime_first: DateTimeLOpt,
     syslinereader_datetime_last: DateTimeLOpt,
+    syslinereader_out_of_order: Count,
     syslinereader_find_sysline_lru_cache_hit: Count,
     syslinereader_find_sysline_lru_cache_miss: Count,
     syslinereader_find_sysline_lru_cache_put: Count,
@@ -5814,14 +5865,28 @@ fn test_syslinereadersummary(
         slr.LRU_cache_disable();
     }
     let mut fo: FileOffset = 0;
-    loop {
+    let mut search_more = true;
+    let result1 = slr.find_sysline_between_datetime_filters(fo, &dt_filter_after, &dt_filter_before);;
+    match result1 {
+        ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+            fo = fo_;
+        }
+        ResultS3SyslineFind::Done => {
+            search_more = false;
+        }
+        ResultS3SyslineFind::Err(err) => {
+            panic!("During test unexpected result Error {}", err);
+        }
+    }
+    slr.find_strategy = FindStrategy::Linear;
+    while search_more {
         let result = slr.find_sysline_between_datetime_filters(fo, &dt_filter_after, &dt_filter_before);
         match result {
             ResultS3SyslineFind::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
             ResultS3SyslineFind::Done => {
-                break;
+                search_more = false;
             }
             ResultS3SyslineFind::Err(err) => {
                 panic!("During test unexpected result Error {}", err);
@@ -5842,6 +5907,7 @@ fn test_syslinereadersummary(
     syslinereader_syslines_by_range_put: {} {},
     syslinereader_datetime_first: {:?} {:?},
     syslinereader_datetime_last: {:?} {:?},
+    syslinereader_out_of_order: {} {},
     syslinereader_find_sysline_lru_cache_hit: {} {},
     syslinereader_find_sysline_lru_cache_miss: {} {},
     syslinereader_find_sysline_lru_cache_put: {} {},
@@ -5873,6 +5939,7 @@ fn test_syslinereadersummary(
         syslinereader_syslines_by_range_put, summary.syslinereader_syslines_by_range_put,
         syslinereader_datetime_first, summary.syslinereader_datetime_first,
         syslinereader_datetime_last, summary.syslinereader_datetime_last,
+        syslinereader_out_of_order, summary.syslinereader_out_of_order,
         syslinereader_find_sysline_lru_cache_hit, summary.syslinereader_find_sysline_lru_cache_hit,
         syslinereader_find_sysline_lru_cache_miss, summary.syslinereader_find_sysline_lru_cache_miss,
         syslinereader_find_sysline_lru_cache_put, summary.syslinereader_find_sysline_lru_cache_put,
@@ -5949,98 +6016,103 @@ fn test_syslinereadersummary(
         "syslinereader_datetime_last 11"
     );
     assert_eq!(
+        syslinereader_out_of_order,
+        summary.syslinereader_out_of_order,
+        "syslinereader_out_of_order 12"
+    );
+    assert_eq!(
         syslinereader_find_sysline_lru_cache_hit,
         summary.syslinereader_find_sysline_lru_cache_hit,
-        "syslinereader_find_sysline_lru_cache_hit 12"
+        "syslinereader_find_sysline_lru_cache_hit 13"
     );
     assert_eq!(
         syslinereader_find_sysline_lru_cache_miss,
         summary.syslinereader_find_sysline_lru_cache_miss,
-        "syslinereader_find_sysline_lru_cache_miss 13"
+        "syslinereader_find_sysline_lru_cache_miss 14"
     );
     assert_eq!(
         syslinereader_find_sysline_lru_cache_put,
         summary.syslinereader_find_sysline_lru_cache_put,
-        "syslinereader_find_sysline_lru_cache_put 14"
+        "syslinereader_find_sysline_lru_cache_put 15"
     );
     assert_eq!(
         syslinereader_parse_datetime_in_line_lru_cache_hit,
         summary.syslinereader_parse_datetime_in_line_lru_cache_hit,
-        "syslinereader_parse_datetime_in_line_lru_cache_hit 15"
+        "syslinereader_parse_datetime_in_line_lru_cache_hit 16"
     );
     assert_eq!(
         syslinereader_parse_datetime_in_line_lru_cache_miss,
         summary.syslinereader_parse_datetime_in_line_lru_cache_miss,
-        "syslinereader_parse_datetime_in_line_lru_cache_miss 16"
+        "syslinereader_parse_datetime_in_line_lru_cache_miss 17"
     );
     assert_eq!(
         syslinereader_parse_datetime_in_line_lru_cache_put,
         summary.syslinereader_parse_datetime_in_line_lru_cache_put,
-        "syslinereader_parse_datetime_in_line_lru_cache_put 17"
+        "syslinereader_parse_datetime_in_line_lru_cache_put 18"
     );
     assert_eq!(
         syslinereader_regex_captures_attempted,
         summary.syslinereader_regex_captures_attempted,
-        "syslinereader_regex_captures_attempted 18"
+        "syslinereader_regex_captures_attempted 19"
     );
     assert_eq!(
         syslinereader_get_boxptrs_singleptr,
         summary.syslinereader_get_boxptrs_singleptr,
-        "syslinereader_get_boxptrs_singleptr 19"
+        "syslinereader_get_boxptrs_singleptr 20"
     );
     assert_eq!(
         syslinereader_get_boxptrs_doubleptr,
         summary.syslinereader_get_boxptrs_doubleptr,
-        "syslinereader_get_boxptrs_doubleptr 20"
+        "syslinereader_get_boxptrs_doubleptr 21"
     );
     assert_eq!(
         syslinereader_get_boxptrs_multiptr,
         summary.syslinereader_get_boxptrs_multiptr,
-        "syslinereader_get_boxptrs_multiptr 21"
+        "syslinereader_get_boxptrs_multiptr 22"
     );
     assert_eq!(
         syslinereader_ezcheck12_hit,
         summary.syslinereader_ezcheck12_hit,
-        "syslinereader_ezcheck12_hit 22"
+        "syslinereader_ezcheck12_hit 23"
     );
     assert_eq!(
         syslinereader_ezcheck12_miss,
         summary.syslinereader_ezcheck12_miss,
-        "syslinereader_ezcheck12_miss 23"
+        "syslinereader_ezcheck12_miss 24"
     );
     assert_eq!(
         syslinereader_ezcheck12_hit_max,
         summary.syslinereader_ezcheck12_hit_max,
-        "syslinereader_ezcheck12_hit_max 24"
+        "syslinereader_ezcheck12_hit_max 25"
     );
     assert_eq!(
         syslinereader_ezcheckd2_hit,
         summary.syslinereader_ezcheckd2_hit,
-        "syslinereader_ezcheckd2_hit 25"
+        "syslinereader_ezcheckd2_hit 26"
     );
     assert_eq!(
         syslinereader_ezcheckd2_miss,
         summary.syslinereader_ezcheckd2_miss,
-        "syslinereader_ezcheckd2_miss 26"
+        "syslinereader_ezcheckd2_miss 27"
     );
     assert_eq!(
         syslinereader_ezcheckd2_hit_max,
         summary.syslinereader_ezcheckd2_hit_max,
-        "syslinereader_ezcheckd2_hit_max 27"
+        "syslinereader_ezcheckd2_hit_max 28"
     );
     assert_eq!(
         syslinereader_ezcheck12d2_hit,
         summary.syslinereader_ezcheck12d2_hit,
-        "syslinereader_ezcheck12d2_hit 28"
+        "syslinereader_ezcheck12d2_hit 29"
     );
     assert_eq!(
         syslinereader_ezcheck12d2_miss,
         summary.syslinereader_ezcheck12d2_miss,
-        "syslinereader_ezcheck12d2_miss 29"
+        "syslinereader_ezcheck12d2_miss 30"
     );
     assert_eq!(
         syslinereader_ezcheck12d2_hit_max,
         summary.syslinereader_ezcheck12d2_hit_max,
-        "syslinereader_ezcheck12d2_hit_max 30"
+        "syslinereader_ezcheck12d2_hit_max 31"
     );
 }

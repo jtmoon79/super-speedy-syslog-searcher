@@ -23,15 +23,15 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   17, miss   96, 15.0%
       caching: LineReader::find_line() LRU cache                   : hit    5, miss   64,  7.2%, put   62
-      copying: SyslineReader::get_boxptrs()                        : sgl 1397, dbl     8, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1433, dbl     8, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    5,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    5,  0.0%, put    4
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    5,  0.0%, put    4
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    4, miss   62,  6.1%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   41, miss   29, 58.6%, largest skipped 52
+      optimize:SyslineReader::ezcheckd2                            : hit   64, miss   42, 60.4%, largest skipped 52
       optimize:SyslineReader::ezcheck12d2                          : hit  608, miss  727, 45.5%, largest skipped 83
-      process: regex captures attempted                            : 756
+      process: regex captures attempted                            : 769
   Processing Drops:
 
 
@@ -47,8 +47,8 @@ Printed syslines       : 4
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 154
-Regex patterns compiled: 154
+Regex patterns known   : 158
+Regex patterns compiled: 158
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 6

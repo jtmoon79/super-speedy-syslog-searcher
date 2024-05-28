@@ -1095,6 +1095,23 @@ fn print_summary_opt_processed(
                 "{}syslines high : {}",
                 indent2, summarysyslinereader.syslinereader_syslines_stored_highest
             );
+            eprint!(
+                "{}out of order  : ",
+                indent2,
+            );
+            if summarysyslinereader.syslinereader_out_of_order == 0 {
+                eprintln!("{}", summarysyslinereader.syslinereader_out_of_order);
+            } else {
+                let data = format!("{}", summarysyslinereader.syslinereader_out_of_order);
+                match print_colored_stderr(
+                    COLOR_ERROR,
+                    Some(*color_choice),
+                    data.as_bytes(),
+                ) {
+                    Ok(_) => eprintln!(),
+                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
+                }
+            }
         }
         SummaryReaderData::FixedStruct((
             _summaryblockreader,

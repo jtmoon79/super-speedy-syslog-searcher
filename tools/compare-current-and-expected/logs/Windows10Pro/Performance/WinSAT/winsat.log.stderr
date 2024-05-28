@@ -17,21 +17,21 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       blocks        : 25
       blocks total  : 25 (6400 bytes)
       lines         : 74
-      syslines      : 3
+      syslines      : 4
       syslines high : 3
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   5, miss 144,  3.4%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss  76,  6.2%, put  74
-      copying: SyslineReader::get_boxptrs()                        : sgl 257, dbl   24, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  75,  3.8%, put   0
+      caching: LineReader::find_line() LRU cache                   : hit   7, miss  76,  8.4%, put  74
+      copying: SyslineReader::get_boxptrs()                        : sgl 205, dbl   24, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   4
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   5,  0.0%, put   4
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  77,  3.8%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 269,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 281
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 216,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 229
   Processing Drops:
 
 
@@ -47,8 +47,8 @@ Printed syslines       : 3
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 154
-Regex patterns compiled: 154
+Regex patterns known   : 158
+Regex patterns compiled: 100
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 5

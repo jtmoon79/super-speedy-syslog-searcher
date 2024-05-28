@@ -121,6 +121,17 @@ pub type ResultParseDateTime = Result<FindDateTimeData>;
 #[cfg(test)]
 pub type SetDroppedSyslines = HashSet<FileOffset>;
 
+/// Current search strategy for a `SyslineReader` for finding a syslog line
+/// at or after a given datetime.
+#[derive(Debug, Eq, PartialEq)]
+pub enum FindStrategy {
+    /// search from the beginning of the file to the end.
+    Linear,
+    /// search from the beginning of the file and jumping to different
+    /// locations in the file in a _binary search_ manner.
+    Binary,
+}
+
 // -------------
 // SyslineReader
 
@@ -197,7 +208,6 @@ pub struct SyslineReader {
     /// Intended for `--summary`.
     ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    // TODO: [2022/07/27] cost-savings: save the ref
     // TODO: [2023/03/22] change behavior to be "first printed" instead of "first processed"
     pub(super) dt_first: DateTimeLOpt,
     pub(super) dt_first_prev: DateTimeLOpt,
@@ -207,10 +217,15 @@ pub struct SyslineReader {
     /// Intended for `--summary`.
     ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    // TODO: [2022/07/27] cost-savings: save the ref
     // TODO: [2023/03/22] change behavior to be "last printed" instead of "last processed"
     pub(super) dt_last: DateTimeLOpt,
     pub(super) dt_last_prev: DateTimeLOpt,
+    /// Count of log messages found to be out of order.
+    out_of_order: Count,
+    /// Interior tracking of current search strategy.
+    ///
+    /// Should only be set in stage-processing functions `process_*`.
+    pub(crate) find_strategy: FindStrategy,
     /// `Count`s found patterns stored in `dt_patterns`.
     /// "mirrors" the global [`DATETIME_PARSE_DATAS`].
     /// Keys are indexes into `DATETIME_PARSE_DATAS`,
@@ -400,6 +415,8 @@ pub struct SummarySyslineReader {
     pub syslinereader_datetime_first: DateTimeLOpt,
     /// datetime latest seen (not necessarily reflective of entire file)
     pub syslinereader_datetime_last: DateTimeLOpt,
+    /// count of log messages out of order
+    pub syslinereader_out_of_order: Count,
     /// `SyslineReader::find_sysline`
     pub syslinereader_find_sysline_lru_cache_hit: Count,
     /// `SyslineReader::find_sysline`
@@ -508,6 +525,8 @@ impl SyslineReader {
             dt_first_prev: None,
             dt_last: None,
             dt_last_prev: None,
+            out_of_order: 0,
+            find_strategy: FindStrategy::Binary,
             dt_patterns_counts,
             dt_patterns_indexes,
             tz_offset,
@@ -1380,15 +1399,33 @@ impl SyslineReader {
 
     /// Update the two statistic `DateTimeL` of
     /// `self.dt_first` and `self.dt_last`.
-    // TODO: [2024/04] track log messages not in chronological order, similar to
-    //       tracking done in `FixedStructReader::entries_out_of_order` and
-    //       `EvtxReader::out_of_order`
-    //       Print the result in the `--summary` output.
     fn dt_first_last_update(
         &mut self,
         datetime: &DateTimeL,
     ) {
-        defñ!("({:?})", datetime);
+        defn!("({:?})", datetime);
+
+        defo!("find_strategy {:?}", self.find_strategy);
+        match self.find_strategy {
+            // if `FindStrategy::Binary` then the owning `SyslogProocessor`
+            // is still in a binary search stage
+            FindStrategy::Binary => {
+                defx!("return early; (FindStrategy::Binary)");
+                return;
+            }
+            FindStrategy::Linear => {}
+        }
+
+        defo!(
+            "dt_first={:?}, dt_first_prev={:?}",
+            self.dt_first, self.dt_first_prev,
+        );
+        defo!(
+            "dt_last={:?}, dt_last_prev={:?}",
+            self.dt_last, self.dt_last_prev,
+        );
+        let mut is_out_of_order: bool = false;
+
         // TODO: the `dt_first` and `dt_last` are only for `--summary`,
         //       no need to always copy datetimes.
         //       Would be good to only run this when `if self.do_summary {...}`
@@ -1397,23 +1434,35 @@ impl SyslineReader {
                 if &dt_first_ > datetime {
                     self.dt_first_prev = self.dt_first;
                     self.dt_first = Some(*datetime);
+                } else if self.dt_first_prev.is_some() {
+                    self.out_of_order += 1;
+                    is_out_of_order = true;
+                    defo!("out_of_order={} (dt_first)", self.out_of_order);
                 }
             }
             None => {
                 self.dt_first = Some(*datetime);
             }
         }
+        defo!("dt_first={:?}", self.dt_first.unwrap());
+
         match self.dt_last {
             Some(dt_last_) => {
                 if &dt_last_ < datetime {
                     self.dt_last_prev = self.dt_last;
                     self.dt_last = Some(*datetime);
+                } else if !is_out_of_order {
+                    self.out_of_order += 1;
+                    defo!("out_of_order={} (dt_last)", self.out_of_order);
                 }
             }
             None => {
                 self.dt_last = Some(*datetime);
             }
         }
+        defo!("dt_last={:?}", self.dt_last.unwrap());
+
+        defx!();
     }
 
     /// current count of `DateTimeParseInstrs` that have been used as tracked
@@ -2239,9 +2288,7 @@ impl SyslineReader {
         defn!("({}, {:?})", fileoffset, year_opt);
 
         if self.fileoffset_last > fileoffset && self.is_streamed_file() {
-            // TODO: [2024/05] after Issue #283 is resolved then this should
-            //       become a debug_panic
-            de_wrn!(
+            debug_panic!(
                 "fileoffset {} > {} fileoffset_last for a streamed file {:?}",
                 fileoffset, self.fileoffset_last, self.path(),
             );
@@ -2948,7 +2995,7 @@ impl SyslineReader {
         defn!("({}, {:?}, {:?})", fileoffset, dt_filter_after, dt_filter_before);
 
         let result: ResultS3SyslineFind;
-        if self.is_streamed_file() {
+        if self.find_strategy == FindStrategy::Linear || self.is_streamed_file() {
             result = self.find_sysline_at_datetime_filter_linear_search(fileoffset, dt_filter_after);
         } else {
             result = self.find_sysline_at_datetime_filter_binary_search(fileoffset, dt_filter_after);
@@ -3058,6 +3105,7 @@ impl SyslineReader {
         let syslinereader_ezcheck12d2_hit_max = self.ezcheck12d2_hit_max;
         let syslinereader_datetime_first = self.dt_first;
         let syslinereader_datetime_last = self.dt_last;
+        let syslinereader_out_of_order = self.out_of_order;
 
         SummarySyslineReader {
             syslinereader_syslines,
@@ -3068,6 +3116,9 @@ impl SyslineReader {
             syslinereader_syslines_by_range_miss,
             syslinereader_syslines_by_range_put,
             syslinereader_patterns,
+            syslinereader_datetime_first,
+            syslinereader_datetime_last,
+            syslinereader_out_of_order,
             syslinereader_find_sysline_lru_cache_hit,
             syslinereader_find_sysline_lru_cache_miss,
             syslinereader_find_sysline_lru_cache_put,
@@ -3089,8 +3140,6 @@ impl SyslineReader {
             syslinereader_ezcheck12d2_hit,
             syslinereader_ezcheck12d2_miss,
             syslinereader_ezcheck12d2_hit_max,
-            syslinereader_datetime_first,
-            syslinereader_datetime_last,
         }
     }
 }

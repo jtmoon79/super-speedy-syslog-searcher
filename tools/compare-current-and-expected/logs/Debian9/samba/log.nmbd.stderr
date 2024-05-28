@@ -23,13 +23,13 @@ File: ./logs/Debian9/samba/log.nmbd
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 314, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 322, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   6, miss  10, 37.5%, largest skipped 63
+      optimize:SyslineReader::ezcheckd2                            : hit  14, miss  10, 58.3%, largest skipped 63
       optimize:SyslineReader::ezcheck12d2                          : hit  10, miss 288,  3.4%, largest skipped 29
       process: regex captures attempted                            : 298
   Processing Drops:
@@ -47,7 +47,7 @@ Printed syslines       : 1
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 154
+Regex patterns known   : 158
 Regex patterns compiled: 151
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)

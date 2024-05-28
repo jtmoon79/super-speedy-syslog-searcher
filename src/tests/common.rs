@@ -231,14 +231,22 @@ lazy_static! {
         "2000-01-02T03:04:05+00:00 VERBOSE: sysline #1\n2000-01-02T03:04:06+00:00 DEBUG: sysline #2\n";
     pub static ref NTF_SYSLINE_2: NamedTempFile = create_temp_log(*NTF_SYSLINE_2_DATA);
     pub static ref NTF_SYSLINE_2_PATH: FPath = ntf_fpath(&NTF_SYSLINE_2);
-    pub static ref NTF_SYSLINE_2_SYSLINE1_DT: DateTimeL = {
-        ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 5)
-    };
-    pub static ref NTF_SYSLINE_2_SYSLINE2_DT: DateTimeL = {
-        ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 6)
-    };
+    pub static ref NTF_SYSLINE_2_SYSLINE1_DT: DateTimeL = ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 5);
+    pub static ref NTF_SYSLINE_2_SYSLINE2_DT: DateTimeL = ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 6);
     pub static ref NTF_SYSLINE_2_SZ: FileSz = {
         (*NTF_SYSLINE_2_DATA).as_bytes().len() as FileSz
+    };
+
+    // 2 sysline file out of order
+
+    pub static ref NTF_SYSLINE_2_OOO_DATA: &'static str =
+        "2000-01-02T03:04:06+00:00 VERBOSE: sysline #1\n2000-01-02T03:04:05+00:00 DEBUG: sysline #2 out or order!\n";
+    pub static ref NTF_SYSLINE_2_OOO: NamedTempFile = create_temp_log(*NTF_SYSLINE_2_OOO_DATA);
+    pub static ref NTF_SYSLINE_2_OOO_PATH: FPath = ntf_fpath(&NTF_SYSLINE_2_OOO);
+    pub static ref NTF_SYSLINE_2_OOO_SYSLINE1_DT: DateTimeL = ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 5);
+    pub static ref NTF_SYSLINE_2_OOO_SYSLINE2_DT: DateTimeL = ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 6);
+    pub static ref NTF_SYSLINE_2_OOO_SZ: FileSz = {
+        (*NTF_SYSLINE_2_OOO_DATA).as_bytes().len() as FileSz
     };
 }
 

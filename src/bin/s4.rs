@@ -1762,6 +1762,8 @@ fn exec_syslogprocessor(
     let mut sent_is_last: bool = false; // sanity check sending of `is_last`
     let mut fo1: FileOffset = 0;
     let search_more: bool;
+    // this is the first search for a sysline within the datetime filters
+    // it uses a binary find strategy
     let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(0);
     match result {
         ResultS3SyslineFind::Found((fo, syslinep)) => {
@@ -1820,6 +1822,7 @@ fn exec_syslogprocessor(
     // start stage 3 - find all proceeding syslines acceptable to the passed filters
     syslogproc.process_stage3_stream_syslines();
     // the majority of sysline processing for this file occurs in this loop
+    // the remaining `find_` are linear strategy searches
     let mut syslinep_last_opt: Option<SyslineP> = None;
     loop {
         // TODO: [2022/06/20] see note about refactoring `find` functions so

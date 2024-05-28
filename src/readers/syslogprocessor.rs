@@ -64,6 +64,7 @@ pub use crate::readers::linereader::ResultS3LineFind;
 pub use crate::readers::syslinereader::{
     DateTimePatternCounts,
     ResultS3SyslineFind,
+    FindStrategy,
     SummarySyslineReader,
     SyslineReader,
 };
@@ -937,6 +938,8 @@ impl SyslogProcessor {
         {
             defo!("!dt_pattern_has_year()");
             let mtime: SystemTime = self.mtime();
+            self.syslinereader.find_strategy = FindStrategy::Linear;
+            defo!("find_strategy {:?}", self.syslinereader.find_strategy);
             match self.process_missing_year(mtime, filter_dt_after_opt) {
                 FileProcessingResultBlockZero::FileOk => {}
                 result => {
@@ -944,6 +947,8 @@ impl SyslogProcessor {
                     return result;
                 }
             }
+            self.syslinereader.find_strategy = FindStrategy::Binary;
+            defo!("find_strategy {:?}", self.syslinereader.find_strategy);
         }
 
         defx!();
@@ -960,9 +965,13 @@ impl SyslogProcessor {
     /// [streaming]: ProcessingStage#variant.Stage3StreamSyslines
     /// [`find_sysline`]: self::SyslogProcessor#method.find_sysline
     pub fn process_stage3_stream_syslines(&mut self) -> FileProcessingResultBlockZero {
-        defñ!();
+        defn!();
         self.assert_stage(ProcessingStage::Stage2FindDt);
         self.processingstage = ProcessingStage::Stage3StreamSyslines;
+        self.syslinereader.find_strategy = FindStrategy::Linear;
+        defo!("find_strategy {:?}", self.syslinereader.find_strategy);
+
+        defx!();
 
         FileProcessingResultBlockZero::FileOk
     }

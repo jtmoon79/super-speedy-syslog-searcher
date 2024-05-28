@@ -503,6 +503,7 @@
 ./logs/other/tests/dtf10-10a.log|2022-06-28 01:51:17+0400
 ./logs/other/tests/dtf10-10b.log|2021-06-28 01:51:17.3098147370
 ./logs/other/tests/dtf11-A.log|2000-12-31 00:00:00.3864301130
+./logs/other/tests/dtf11-A-outoforder.log|2000-12-31 00:00:01
 ./logs/other/tests/dtf12a-x2_patts.log|Jan 31 2022 00:00:07 +0030
 ./logs/other/tests/dtf12b-x2_patts.log|Jan 31 2022 00:00:08 +0030
 ./logs/other/tests/dtf12c-x3_patts.log|Jan 12 2022 00:00:12 +0030
@@ -594,6 +595,7 @@
 ./logs/other/tests/dtf7-20-LEVELS.log.tar|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.xz|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-5-LEVELS.log|2000-01-01 00:00:05-0400
+./logs/other/tests/dtf7-5-LEVELS-outoforder.log|2000-01-01 00:00:05-0400
 ./logs/other/tests/dtf8-20-LEVELS.log|2000-01-01 00:00:20.9541789060
 ./logs/other/tests/dtf9a-2.log|2022-07-17 00:00:12.3331789060
 ./logs/other/tests/dtf9b-12-leapday.log|2002-12-12 12:00:00-0300
