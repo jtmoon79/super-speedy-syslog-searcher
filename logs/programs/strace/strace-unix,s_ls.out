@@ -1,0 +1,79 @@
+1716854990 execve("/usr/bin/ls", ["ls"], 0x7ffee2def3b8 /* 41 vars */) = 0
+1716854990 brk(NULL)                    = 0x560d2f251000
+1716854990 arch_prctl(0x3001 /* ARCH_??? */, 0x7ffdc1593450) = -1 EINVAL (Invalid argument)
+1716854990 mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fa2ceb8f000
+1716854990 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+1716854990 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+1716854990 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=48263, ...}, AT_EMPTY_PATH) = 0
+1716854990 mmap(NULL, 48263, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fa2ceb83000
+1716854990 close(3)                     = 0
+1716854990 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+1716854990 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+1716854990 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=166280, ...}, AT_EMPTY_PATH) = 0
+1716854990 mmap(NULL, 177672, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fa2ceb57000
+1716854990 mprotect(0x7fa2ceb5d000, 139264, PROT_NONE) = 0
+1716854990 mmap(0x7fa2ceb5d000, 106496, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6000) = 0x7fa2ceb5d000
+1716854990 mmap(0x7fa2ceb77000, 28672, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x20000) = 0x7fa2ceb77000
+1716854990 mmap(0x7fa2ceb7f000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x27000) = 0x7fa2ceb7f000
+1716854990 mmap(0x7fa2ceb81000, 5640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fa2ceb81000
+1716854990 close(3)                     = 0
+1716854990 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+1716854990 read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+1716854990 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+1716854990 pread64(3, "\4\0\0\0 \0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0"..., 48, 848) = 48
+1716854990 pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\226 \25\252\235\23<l\274\3731\3540\5\226\327"..., 68, 896) = 68
+1716854990 newfstatat(3, "", {st_mode=S_IFREG|0755, st_size=2220400, ...}, AT_EMPTY_PATH) = 0
+1716854990 pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+1716854990 mmap(NULL, 2264656, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fa2ce92e000
+1716854990 mprotect(0x7fa2ce956000, 2023424, PROT_NONE) = 0
+1716854990 mmap(0x7fa2ce956000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7fa2ce956000
+1716854990 mmap(0x7fa2ceaeb000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x7fa2ceaeb000
+1716854990 mmap(0x7fa2ceb44000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x215000) = 0x7fa2ceb44000
+1716854990 mmap(0x7fa2ceb4a000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fa2ceb4a000
+1716854990 close(3)                     = 0
+1716854990 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpcre2-8.so.0", O_RDONLY|O_CLOEXEC) = 3
+1716854990 read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+1716854990 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=613064, ...}, AT_EMPTY_PATH) = 0
+1716854990 mmap(NULL, 615184, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fa2ce897000
+1716854990 mmap(0x7fa2ce899000, 438272, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x7fa2ce899000
+1716854990 mmap(0x7fa2ce904000, 163840, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6d000) = 0x7fa2ce904000
+1716854990 mmap(0x7fa2ce92c000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x94000) = 0x7fa2ce92c000
+1716854990 close(3)                     = 0
+1716854990 mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fa2ce894000
+1716854990 arch_prctl(ARCH_SET_FS, 0x7fa2ce894800) = 0
+1716854990 set_tid_address(0x7fa2ce894ad0) = 817156
+1716854990 set_robust_list(0x7fa2ce894ae0, 24) = 0
+1716854990 rseq(0x7fa2ce8951a0, 0x20, 0, 0x53053053) = 0
+1716854990 mprotect(0x7fa2ceb44000, 16384, PROT_READ) = 0
+1716854990 mprotect(0x7fa2ce92c000, 4096, PROT_READ) = 0
+1716854990 mprotect(0x7fa2ceb7f000, 4096, PROT_READ) = 0
+1716854990 mprotect(0x560d2f197000, 8192, PROT_READ) = 0
+1716854990 mprotect(0x7fa2cebc9000, 8192, PROT_READ) = 0
+1716854990 prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+1716854990 munmap(0x7fa2ceb83000, 48263) = 0
+1716854990 statfs("/sys/fs/selinux", 0x7ffdc1593490) = -1 ENOENT (No such file or directory)
+1716854990 statfs("/selinux", 0x7ffdc1593490) = -1 ENOENT (No such file or directory)
+1716854990 getrandom("\xfe\xd5\x77\xce\x59\x77\x8e\x51", 8, GRND_NONBLOCK) = 8
+1716854990 brk(NULL)                    = 0x560d2f251000
+1716854990 brk(0x560d2f272000)          = 0x560d2f272000
+1716854990 openat(AT_FDCWD, "/proc/filesystems", O_RDONLY|O_CLOEXEC) = 3
+1716854990 newfstatat(3, "", {st_mode=S_IFREG|0444, st_size=0, ...}, AT_EMPTY_PATH) = 0
+1716854990 read(3, "nodev\tsysfs\nnodev\ttmpfs\nnodev\tbd"..., 1024) = 478
+1716854990 read(3, "", 1024)            = 0
+1716854990 close(3)                     = 0
+1716854990 access("/etc/selinux/config", F_OK) = -1 ENOENT (No such file or directory)
+1716854990 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+1716854990 newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=3386656, ...}, AT_EMPTY_PATH) = 0
+1716854990 mmap(NULL, 3386656, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fa2ce559000
+1716854990 close(3)                     = 0
+1716854990 ioctl(1, TCGETS, 0x7ffdc15933c0) = -1 ENOTTY (Inappropriate ioctl for device)
+1716854990 ioctl(1, TIOCGWINSZ, 0x7ffdc15934b0) = -1 ENOTTY (Inappropriate ioctl for device)
+1716854990 openat(AT_FDCWD, ".", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+1716854990 newfstatat(3, "", {st_mode=S_IFDIR|0755, st_size=4096, ...}, AT_EMPTY_PATH) = 0
+1716854990 getdents64(3, 0x560d2f2579f0 /* 2 entries */, 32768) = 48
+1716854990 getdents64(3, 0x560d2f2579f0 /* 0 entries */, 32768) = 0
+1716854990 close(3)                     = 0
+1716854990 close(1)                     = 0
+1716854990 close(2)                     = 0
+1716854990 exit_group(0)                = ?
+1716854990 +++ exited with 0 +++

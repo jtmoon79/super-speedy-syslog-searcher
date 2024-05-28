@@ -22,13 +22,13 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 462, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  24, miss   0, 100.0%, largest skipped 90
+      optimize:SyslineReader::ezcheckd2                            : hit  36, miss   0, 100.0%, largest skipped 90
       optimize:SyslineReader::ezcheck12d2                          : hit 300, miss 138, 68.5%, largest skipped 90
       process: regex captures attempted                            : 138
   Processing Drops:
@@ -46,7 +46,7 @@ Printed syslines       : 0
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 154
+Regex patterns known   : 158
 Regex patterns compiled: 138
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)

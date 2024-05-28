@@ -23,13 +23,13 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss  21, 22.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 706, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 722, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  23,  4.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  32, miss   4, 88.9%, largest skipped 64
+      optimize:SyslineReader::ezcheckd2                            : hit  48, miss   4, 92.3%, largest skipped 64
       optimize:SyslineReader::ezcheck12d2                          : hit 602, miss  71, 89.5%, largest skipped 64
       process: regex captures attempted                            : 75
   Processing Drops:
@@ -47,7 +47,7 @@ Printed syslines       : 1
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 154
+Regex patterns known   : 158
 Regex patterns compiled: 75
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
