@@ -25,7 +25,7 @@ Datetime filters may be passed to narrow the search to a datetime range.
 
 `s4` can read standardized log message formats like RFC 3164 and RFC 5424
 ("syslog"),
-Red Hat Audit logs, and can read many non-standardized ad-hoc log message
+Red Hat Audit logs, strace, and can read many non-standardized ad-hoc log message
 formats, including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
@@ -405,6 +405,8 @@ See the real-world example rationale in the section below,
     - [The Syslog Protocol (RFC 5424)]<br/>e.g. _2020-01-01T22:00:00-08:00 message…_
     - [ISO 8601]<br/>e.g. _2020-01-01T22:00:00-08:00 message…_, _20200101T220000-0800 message…_, etc. <sup><a href="#f1">\[1\]</a></sup>
   - [Red Hat Audit Log] files
+  - [strace] output files, options `-ttt` or --timestamps` options
+    i.e. Unix epoch plus optional milliseconds, microseconds, or nanoseconds
   - binary user accounting records files
     ([`acct`, `pacct`], [`lastlog`], [`utmp`, `utmpx`])
     from multiple Operating Systems and CPU architectures
@@ -431,6 +433,7 @@ See the real-world example rationale in the section below,
 [The Syslog Protocol (RFC 5424)]: https://www.rfc-editor.org/rfc/rfc5424#section-6.2.3
 [ISO 8601]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles
 [Red Hat Audit Log]: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security_guide/sec-understanding_audit_log_files
+[strace]: https://www.man7.org/linux/man-pages/man1/strace.1.html
 [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
 [systemd journal]: https://systemd.io/JOURNAL_FILE_FORMAT/
 [`journalctl`]: https://www.man7.org/linux/man-pages/man1/journalctl.1.html
@@ -573,12 +576,12 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 
 #### Other Log or File Formats Supported
 
-|Program        |Ad-hoc text formats|Red Hat Audit Log|journal|`acct`/`lastlog`/`utmp`|`.evtx`|`.pcap`/`.pcapng`|`.jsonl`|
-|-              |-                  |-                |-      |-                      |-      |-                |-       |
-|`grep \| sort` |‼                  |!                |✗      |✗                     |✗      |✗               |✗       |
-|`s4`           |✔                  |✔               |✔      |✔                     |✔      |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/255)|✔ |
-|`logmerger`    |‼                  |‼                |✗      |✗                     |✗      |✔               |✗       |
-|`tl`           |✗                  |✗               |✗      |✗                     |✗      |✗               |✔       |
+|Program        |Ad-hoc text formats|Red Hat Audit Log|journal|`acct`/`lastlog`/`utmp`|`.evtx`|`.pcap`/`.pcapng`|`.jsonl`|strace|
+|-              |-                  |-                |-      |-                      |-      |-                |-       |-     |
+|`grep \| sort` |‼                  |!                |✗      |✗                     |✗      |✗               |✗       |✔     |
+|`s4`           |✔                  |✔               |✔      |✔                     |✔      |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/255)|✔ |✔     |
+|`logmerger`    |‼                  |‼                |✗      |✗                     |✗      |✔               |✗       |✔     |
+|`tl`           |✗                  |✗               |✗      |✗                     |✗      |✗               |✔       |✗     |
 
 ---
 

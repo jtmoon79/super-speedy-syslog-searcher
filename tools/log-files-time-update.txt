@@ -732,6 +732,12 @@
 ./logs/programs/proftpd/controls.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/proftpd.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/xferlog|2020-10-03 11:26:13
+./logs/programs/strace/strace-nikttt_ls.out|2024-05-27 17:32:00.793030709 -0700
+./logs/programs/strace/strace-ttt_ls.out|2024-05-27 17:09:21.664939227 -0700
+./logs/programs/strace/strace-unix,ms_ls.out|2024-05-27 17:09:56.914220618 -0700
+./logs/programs/strace/strace-unix,ns_ls.out|2024-05-27 17:10:10.374039608 -0700
+./logs/programs/strace/strace-unix,s_ls.out|2024-05-27 17:09:50.014248085 -0700
+./logs/programs/strace/strace-unix,us_ls.out|2024-05-27 17:10:05.784019955 -0700
 ./logs/programs/tomcat/catalina-access.log|2023-02-14 14:30:22 +0000
 ./logs/programs/tomcat/catalina.out|08-Feb-2023 12:12:48
 ./logs/programs/utmp/1-byte (invalid).utmp|2023-12-01 22:17:14.010644917 -0800

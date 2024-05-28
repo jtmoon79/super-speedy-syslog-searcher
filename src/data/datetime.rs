@@ -1222,6 +1222,9 @@ const DTP_bdHMSY: &DateTimePattern_str = "%Y%m%dT%H%M%S%:z";
 /// `%b` value transformed to `%m` value,
 /// `%:z` filled by [`captures_to_buffer_bytes`]
 const DTP_bdHMSYf: &DateTimePattern_str = "%Y%m%dT%H%M%S.%f%:z";
+
+/// `%s` value
+const DTP_s: &DateTimePattern_str = "%sT";
 /// `%s.%f` value
 const DTP_sf: &DateTimePattern_str = "%sT.%f";
 
@@ -1656,6 +1659,18 @@ const DTFSS_YmdHM: DTFSSet = DTFSSet {
     pattern: DTP_mdHMYZc,
 };
 
+const DTFSS_s: DTFSSet = DTFSSet {
+    year: DTFS_Year::_none,
+    month: DTFS_Month::_none,
+    day: DTFS_Day::_none,
+    hour: DTFS_Hour::_none,
+    minute: DTFS_Minute::_none,
+    second: DTFS_Second::_none,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_none,
+    epoch: DTFS_Epoch::s,
+    pattern: DTP_s,
+};
 const DTFSS_sf: DTFSSet = DTFSSet {
     year: DTFS_Year::_none,
     month: DTFS_Month::_none,
@@ -1817,6 +1832,10 @@ pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345][[:digit:]]|60
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{1,9})";
 /// Like [`CGP_FRACTIONAL`] but only matches 3 digits, `%3f`.
 pub const CGP_FRACTIONAL3: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{3})";
+/// Like [`CGP_FRACTIONAL`] but only matches 6 digits, `%6f`.
+pub const CGP_FRACTIONAL6: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{6})";
+/// Like [`CGP_FRACTIONAL`] but only matches 9 digits, `%9f`.
+pub const CGP_FRACTIONAL9: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{9})";
 /// Regex capture group pattern for dmesg uptime fractional seconds in logs
 //pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9}\.[[:digit:]]{3,9})";
 /// Regex capture group pattern for Unix epoch in seconds
@@ -2471,6 +2490,8 @@ const RP_BLANK12q: &RegexPattern = r"([[:blank:]]{1,2})?";
 const RP_BLANKS: &RegexPattern = "[[:blank:]]+";
 /// [`RegexPattern`] blanks?
 const RP_BLANKSq: &RegexPattern = "[[:blank:]]*";
+/// [`RegexPattern`] _not_ blank
+const RP_BLANK_NO: &RegexPattern = "[^[:blank:]]";
 /// [`RegexPattern`] anything plus
 const RP_ANYp: &RegexPattern = ".+";
 /// [`RegexPattern`] left-side brackets
@@ -2492,7 +2513,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<OnceCell<DateTimeRegex>>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 154;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 158;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -4267,7 +4288,51 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-
+    // ---------------------------------------------------------------------------------------------
+    //
+    // strace formats
+    //
+    //                1         2
+    //      012345678901234567890
+    //      $ strace -ttt ls
+    //      1716853121.780157 execve("/usr/bin/ls", ["ls"], 0x7ffe4c501508 /* 41 vars */) = 0
+    //
+    // strace `--timestamp=unix,ms'
+    DTPD!(
+        concatcp!("^", CGP_EPOCH, "[.,]", CGP_FRACTIONAL3, RP_BLANK, RP_BLANK_NO),
+        DTFSS_sf, 0, 23, CGN_EPOCH, CGN_FRACTIONAL,
+        &[
+            (0, 14, (O_L, 2024, 5, 27, 23, 38, 41, 780000000), r#"1716853121.780 execve("/usr/bin/ls", ["ls"], 0x7ffe4c501508 /* 41 vars */) = 0"#),
+        ],
+        line!(),
+    ),
+    // strace `--timestamp=unix,ns' or `-ttt`
+    DTPD!(
+        concatcp!("^", CGP_EPOCH, "[.,]", CGP_FRACTIONAL6, RP_BLANK, RP_BLANK_NO),
+        DTFSS_sf, 0, 26, CGN_EPOCH, CGN_FRACTIONAL,
+        &[
+            (0, 17, (O_L, 2024, 5, 27, 23, 38, 41, 780157000), r#"1716853121.780157 execve("/usr/bin/ls", ["ls"], 0x7ffe4c501508 /* 41 vars */) = 0"#),
+        ],
+        line!(),
+    ),
+    // strace `--timestamp=unix,ns'
+    DTPD!(
+        concatcp!("^", CGP_EPOCH, "[.,]", CGP_FRACTIONAL9, RP_BLANK, RP_BLANK_NO),
+        DTFSS_sf, 0, 29, CGN_EPOCH, CGN_FRACTIONAL,
+        &[
+            (0, 20, (O_L, 2024, 5, 27, 23, 38, 41, 780157012), r#"1716853121.780157012 execve("/usr/bin/ls", ["ls"], 0x7ffe4c501508 /* 41 vars */) = 0"#),
+        ],
+        line!(),
+    ),
+    // strace `--timestamp=unix' or `--timestamp=unix,s'
+    DTPD!(
+        concatcp!("^", CGP_EPOCH, RP_BLANK, RP_BLANK_NO),
+        DTFSS_s, 0, 19, CGN_EPOCH, CGN_EPOCH,
+        &[
+            (0, 10, (O_L, 2024, 5, 27, 23, 38, 41, 0), r#"1716853121 execve("/usr/bin/ls", ["ls"], 0x7ffe4c501508 /* 41 vars */) = 0"#),
+        ],
+        line!(),
+    ),
     // ---------------------------------------------------------------------------------------------
     //
     // Windows 10 ReportingEvents.log format, example with offset:
