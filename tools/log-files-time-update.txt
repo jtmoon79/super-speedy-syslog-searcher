@@ -663,8 +663,27 @@
 ./logs/other/tests/RFC3164-a.log|2022-10-03 22:31:19.0361113360
 ./logs/other/tests/RFC3164-b.log|2022-10-02 23:00:03.0300338180
 ./logs/other/tests/RFC3339-a.log|2022-10-04 21:35:07.9193506520
-./logs/other/tests/simple1.log|2022-09-02 21:45:36.0501770530
-./logs/other/tests/simple2.log|2022-09-02 21:45:36.0501770530
+./logs/other/tests/simple-10.log|2024-05-27 23:40:56.903750354 -0700
+./logs/other/tests/simple-10s.log|2024-05-27 23:42:03.936221652 -0700
+./logs/other/tests/simple-11.log|2024-05-27 23:41:02.814556148 -0700
+./logs/other/tests/simple-11s_b.log|2024-05-27 23:42:18.166306376 -0700
+./logs/other/tests/simple-11s.log|2024-05-27 23:42:08.946409174 -0700
+./logs/other/tests/simple-12.log|2024-05-27 23:41:09.704578156 -0700
+./logs/other/tests/simple-13.log|2024-05-27 23:41:17.954602079 -0700
+./logs/other/tests/simple-14.log|2024-05-27 23:41:26.944627968 -0700
+./logs/other/tests/simple-14s_b.log|2024-05-27 23:42:32.097048965 -0700
+./logs/other/tests/simple-14s_.log|2024-05-27 23:42:49.457025094 -0700
+./logs/other/tests/simple-15.log|2024-05-27 23:41:32.844962782 -0700
+./logs/other/tests/simple-16.log|2024-05-27 23:41:37.194971000 -0700
+./logs/other/tests/simple-1.log|2024-05-27 23:39:42.262250835 -0700
+./logs/other/tests/simple-2.log|2024-05-27 23:39:51.872274092 -0700
+./logs/other/tests/simple-3.log|2024-05-27 23:39:57.092263307 -0700
+./logs/other/tests/simple-4.log|2024-05-27 23:40:15.353011728 -0700
+./logs/other/tests/simple-5.log|2024-05-27 23:40:21.983047041 -0700
+./logs/other/tests/simple-6.log|2024-05-27 23:40:28.293076016 -0700
+./logs/other/tests/simple-7.log|2024-05-27 23:40:34.103698441 -0700
+./logs/other/tests/simple-8.log|2024-05-27 23:40:40.783722969 -0700
+./logs/other/tests/simple-9.log|2024-05-27 23:40:50.833750754 -0700
 ./logs/other/tests/syslog.1.log|2020/03/05 12:21:13.308
 ./logs/other/tests/test0-nlx1.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/test0-nlx1_Win.log|2022-09-02 21:45:36.0501770530
