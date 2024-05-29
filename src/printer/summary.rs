@@ -1990,6 +1990,16 @@ fn print_files_processpathresult(
             ProcessPathResult::FileValid(path, _filetype) => {
                 print_(format!("File: {} ", path), color_choice, color_default);
             }
+            ProcessPathResult::FileErrEmpty(path, filetype) => {
+                print_(format!("File: {} ", path), color_choice, color_default);
+                print_("(empty file)".to_string(), color_choice, color_error);
+                print_(format!(" {}", filetype), color_choice, color_default);
+            }
+            ProcessPathResult::FileErrTooSmall(path, filetype, len) => {
+                print_(format!("File: {} ", path), color_choice, color_default);
+                print_("(too small)".to_string(), color_choice, color_error);
+                print_(format!(" ({} bytes) {}", len, filetype), color_choice, color_default);
+            }
             ProcessPathResult::FileErrNoPermissions(path) => {
                 print_(format!("File: {} ", path), color_choice, color_default);
                 print_("(no permissions)".to_string(), color_choice, color_error);

@@ -93,6 +93,7 @@ use ::unicode_width;
 // `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
 use ::s4lib::debug_panic;
 use ::s4lib::common::{
+    FILE_TOO_SMALL_SZ,
     Count,
     FPath,
     FPaths,
@@ -145,7 +146,7 @@ use ::s4lib::readers::fixedstructreader::{
     ResultFixedStructReaderNew,
     ResultS3FixedStructFind,
 };
-use ::s4lib::readers::helpers::basename;
+use ::s4lib::readers::helpers::{basename, fpath_to_path};
 use ::s4lib::readers::summary::{
     Summary,
     SummaryOpt,
@@ -2543,7 +2544,16 @@ fn processing_loop(
                     paths_total += 1;
                     continue;
                 }
-                else if filetype.is_journal() {
+                // XXX: do an early check for easy to dismiss files
+                //      this is a performance optimization for processing large
+                //      numbers of files, as it avoids spawning a thread for each
+                //      file.
+                //      Mild slow down as it does an additional filesystem lookup by
+                //      requesting the path's metadata.
+                //      One project design principle is to avoid filesystem reads where possible,
+                //      so this is a small violation of that but worth it.
+                //      Relates to Issue #270
+                if filetype.is_journal() {
                     defo!("load_library_systemd()");
                     match load_library_systemd() {
                         LoadLibraryError::Ok => {}
@@ -2567,6 +2577,39 @@ fn processing_loop(
                             continue;
                         }
                     }
+                }
+                let path_std = fpath_to_path(&path);
+                let matadata = match path_std.metadata() {
+                    Ok(metadata) => metadata,
+                    Err(err) => {
+                        e_err!("path.metadata() failed; {}", err);
+                        defo!("paths_invalid_results.push(FileErrIoPath)");
+                        map_pathid_results_invalid.insert(
+                            pathid_counter,
+                            ProcessPathResult::FileErr(path.clone(), err.to_string()),
+                        );
+                        paths_total += 1;
+                        continue;
+                    }
+                };
+                let flen = matadata.len();
+                if flen == 0 {
+                    defo!("paths_invalid_results.push(FileErrEmpty)");
+                    map_pathid_results_invalid.insert(
+                        pathid_counter,
+                        ProcessPathResult::FileErrEmpty(path.clone(), *filetype),
+                    );
+                    paths_total += 1;
+                    continue;
+                }
+                else if flen <= FILE_TOO_SMALL_SZ {
+                    defo!("paths_invalid_results.push(FileErrTooSmall)");
+                    map_pathid_results_invalid.insert(
+                        pathid_counter,
+                        ProcessPathResult::FileErrTooSmall(path.clone(), *filetype, flen),
+                    );
+                    paths_total += 1;
+                    continue;
                 }
                 defo!("map_pathid_results.push({:?})", path);
                 map_pathid_path.insert(pathid_counter, path.clone());
@@ -2595,6 +2638,12 @@ fn processing_loop(
 
     for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
         match result_invalid {
+            ProcessPathResult::FileErrEmpty(path, _filetype) => {
+                e_err!("file is empty {:?}", path);
+            }
+            ProcessPathResult::FileErrTooSmall(path, _filetype, len) => {
+                e_err!("file is {} bytes which is too small {:?}", len, path);
+            }
             ProcessPathResult::FileErrNoPermissions(path) =>
                 e_err!("not enough permissions {:?}", path),
             ProcessPathResult::FileErrNotSupported(path, message) => {

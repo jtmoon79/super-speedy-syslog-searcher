@@ -404,6 +404,9 @@ where
     }
 }
 
+/// A file size in bytes equal or less is too small and will not be processed
+pub const FILE_TOO_SMALL_SZ: FileSz = 5;
+
 /// Enum return value for various [filepreprocessor] functions.
 ///
 /// [filepreprocessor]: crate::readers::filepreprocessor

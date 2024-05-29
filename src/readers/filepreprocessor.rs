@@ -8,6 +8,7 @@
 
 use crate::common::{
     FPath,
+    FileSz,
     FileType,
     FileTypeArchive,
     FileTypeFixedStruct,
@@ -16,7 +17,7 @@ use crate::common::{
 use crate::debug::printers::de_err;
 use crate::readers::blockreader::SUBPATH_SEP;
 use crate::readers::helpers::path_to_fpath;
-#[cfg(test)]
+#[cfg(any(debug_assertions, test))]
 use crate::readers::helpers::fpath_to_path;
 
 use std::borrow::Cow;
@@ -43,6 +44,8 @@ use ::tar;
 pub enum ProcessPathResult {
     /// File can be processed by `s4`
     FileValid(FPath, FileType),
+    FileErrEmpty(FPath, FileType),
+    FileErrTooSmall(FPath, FileType, FileSz),
     // TODO: [2022/06] `FileErrNoPermissions` not currently checked until too late
     /// Filesystem permissions do not allow reading the file
     FileErrNoPermissions(FPath),
@@ -768,7 +771,24 @@ pub fn process_path_tar(
     // TODO [2024/04/29]
     //      handle `filetypearchive`; extract the file first and then process it
 
+    // debug runtime checks
+    #[cfg(all(debug_assertions,not(test)))]
+    {
+        defo!("debug_assertions");
+        let std_path = fpath_to_path(path);
+        if !std_path.exists() {
+            panic!("path does not exist: {:?}", std_path);
+        }
+        if !std_path.is_file() {
+            panic!("path is not a file: {:?}", std_path);
+        }
+        if !std_path.extension().unwrap_or_default().to_str().unwrap_or_default().eq("tar") {
+            panic!("path does not end in \".tar\": {:?}", std_path);
+        }
+    }
+
     let file: File = File::open(path).unwrap();
+    defo!("tar::Archive::<File>::new({:?})", path);
     let mut archive: tar::Archive<File> = tar::Archive::<File>::new(file);
     let entry_iter: tar::Entries<File> = match archive.entries() {
         Ok(val) => val,
@@ -779,7 +799,7 @@ pub fn process_path_tar(
         }
     };
     let mut results = Vec::<ProcessPathResult>::new();
-    for entry_res in entry_iter {
+    for (_i, entry_res) in entry_iter.enumerate() {
         let entry: tar::Entry<File> = match entry_res {
             Ok(val) => val,
             Err(err) => {
@@ -789,6 +809,7 @@ pub fn process_path_tar(
                 continue;
             }
         };
+        defo!("entry {:2}, size {:4}, {:?}", _i, entry.size(), entry.path().unwrap_or_default());
         let header: &tar::Header = entry.header();
         let etype: tar::EntryType = header.entry_type();
         // TODO: handle tar types `symlink` and `long_link`, currently they are ignored
