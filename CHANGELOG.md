@@ -225,7 +225,7 @@ Helpful `git log` command for generating changelog entries:
 
 ## 0.6.72
 
-_Released 2024-05-27_
+_Released 2024-05-28_
 
 _MSRV 1.70.0_
 
