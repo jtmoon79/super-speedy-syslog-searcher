@@ -633,8 +633,6 @@ pub enum FileType {
     Text { archival_type: FileTypeArchive, encoding_type: FileTypeTextEncoding },
     /// a file type known to be unparsable
     Unparsable,
-    // #[default]
-    // Unset
 }
 
 /*
@@ -665,9 +663,7 @@ For copy+pasta convenience:
     FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
     FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf16 } => false,
     FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf32 } => false,
-    FileType::Unknown => false,
     FileType::Unparsable => false,
-    FileType::Unset => false,
 
     FileType::Evtx{ archival_type: FileTypeArchive::Normal }
     | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
@@ -693,9 +689,7 @@ For copy+pasta convenience:
     | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
     | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf16 }
     | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf32 }
-    | FileType::Unknown
     | FileType::Unparsable
-    | FileType::Unset
 
     FileType::Evtx{ archival_type: FileTypeArchive::Normal }
     | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
@@ -713,9 +707,7 @@ For copy+pasta convenience:
     | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
     | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
     | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }
-    | FileType::Unknown
     | FileType::Unparsable
-    | FileType::Unset
 */
 
 impl std::fmt::Display for FileType {
