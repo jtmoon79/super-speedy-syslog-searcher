@@ -25,14 +25,14 @@ Datetime filters may be passed to narrow the search to a datetime range.
 
 `s4` can read standardized log message formats like RFC 3164 and RFC 5424
 ("syslog"),
-Red Hat Audit logs, strace, and can read many non-standardized ad-hoc log message
-formats, including multi-line log messages.
+Red Hat Audit logs, strace output, and can read many non-standardized ad-hoc log
+message formats, including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
-`s4` can read compressed logs (`.gz`, `.lz4`, `.xz`), or archived logs (`.tar`).<sup><a href="#f3">\[3\]</a></sup>
+`s4` can read logs that are compressed (`.gz`, `.lz4`, `.xz`), or archived logs (`.tar`).
 
-The first goal of `s4` is speedy searching and printing.
+`s4` aims to be very fast.
 
 ---
 
@@ -405,7 +405,7 @@ See the real-world example rationale in the section below,
     - [The Syslog Protocol (RFC 5424)]<br/>e.g. _2020-01-01T22:00:00-08:00 message…_
     - [ISO 8601]<br/>e.g. _2020-01-01T22:00:00-08:00 message…_, _20200101T220000-0800 message…_, etc. <sup><a href="#f1">\[1\]</a></sup>
   - [Red Hat Audit Log] files
-  - [strace] output files, options `-ttt` or --timestamps` options
+  - [strace] output files with options `-ttt` or `--timestamps`,
     i.e. Unix epoch plus optional milliseconds, microseconds, or nanoseconds
   - binary user accounting records files
     ([`acct`, `pacct`], [`lastlog`], [`utmp`, `utmpx`])
@@ -415,7 +415,7 @@ See the real-world example rationale in the section below,
   - many varying text log messages with ad-hoc datetime formats
   - multi-line log messages
 - Inspects `.tar` archive files for parseable log files <sup><a href="#f2">\[2\]</a></sup>
-- Inspects `.gz` and `.xz` compressed files for parseable log files <sup><a href="#f3">\[3\]</a></sup>
+- Can process `.gz`, `.lz4`, or `.xz` containing log files.
 - Tested against "in the wild" log files from varying sources
   (see project path [`./logs/`])
 - Prepends datetime and file paths, for easy programmatic parsing or
@@ -442,16 +442,26 @@ See the real-world example rationale in the section below,
 #### File name guessing
 
 Given a file path, `s4` will attempt to parse it. The type of file must be in
-the name.
-Guesses are made about files with non-standard names.
+the name. Guesses are made about files with non-standard names.
+
 For example, standard file name `utmp` will always be treated as a `utmp` record
 file. But non-standard name `log.utmp.1` is guessed to be a `utmp` record file.
 Similar guesses are applied to `lastlog`, `wtmp`, `acct`, `pacct`,
 `journal`, and `evtx` files.
 When combined with compression or archive file name extensions,
-e.g. `.gz`, `.lz4`, `.xz`, or `.tar`, then `s4` makes a best attempt at
-guessing the compression or archive type, and the file within the archive.
+e.g. `.gz`, `.lz4`, or `.xz`, then `s4` makes a best attempt at
+guessing the compression or archive type and the file within the archive based
+on the name.
+For example, `user.journal.gz` is guessed to be a systemd journal file within a
+gzip compressed file. However, if that same file is named something unusual like
+`user.systemd-journal.gz` then it is guessed to be a text log file within a gzip
+compressed file.
+
 When a file type cannot be guessed then it is treated as a UTF8 text log file.
+For example, a file name just `unknown` is not any obvious type so it is attempted
+to be parsed as a UTF8 ad-hoc text log file.
+
+`tar` files are inspected for parseable files.<sup><a href="#f2">\[2\]</a></sup>
 
 #### Directory walks
 
@@ -460,6 +470,10 @@ follow symbolic links and cross file system paths.
 `s4` will ignore files with extensions that are known to be non-log files.
 For example, files with extensions `.dll`, `.mp3`, `.png`, or `.so`, are
 unlikely to be log files and so are not processed.
+
+So given a file `/tmp/file.mp3`, an  invocation of `s4 /tmp` will not attempt
+to process `file.mp3`. An invocation of `s4 /tmp/file.mp3` will attempt to
+process `file.mp3`. It will be treated as a UTF8 text log file.
 
 ### Limitations
 
@@ -470,8 +484,7 @@ unlikely to be log files and so are not processed.
   ([Issue #11])
 - Cannot process `.zip` archives ([Issue #39])
 - <span id="f1"><sup>\[1\]</sup></span> ISO 8601
-  - ISO 8601 forms recognized
-  (using [ISO descriptive format])
+  - ISO 8601 forms recognized (using [ISO descriptive format])
     - `YYYY-MM-DDThh:mm:ss`
     - `YYYY-MM-DDThhmmss`
     - `YYYYMMDDThhmmss`
@@ -481,10 +494,9 @@ unlikely to be log files and so are not processed.
     - [_Ordinal dates_], i.e. "day of the year", format `YYYY-DDD`, e.g. `"2022-321"`
     - [_Week dates_], i.e. "week-numbering year", format `YYYY-Www-D`, e.g. `"2022-W25-1"`
     - times [without minutes and seconds] (i.e. only `hh`)
-- <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within other
-  archive files or compressed files ([Issue #14])<br/>
-  e.g. cannot process `logs.tar.xz`
-- <span id="f3"><sup>\[3\]</sup></span> Can only process compressed text log files; does not process compressed `.journal` files ([Issue #284]), `.evtx` files, or accounting records like `wtmp` ([Issue #285])
+- <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within
+  other archive files or compressed files ([Issue #14])<br/>
+  e.g. cannot process `logs.tar.xz`, nor file `log.gz` within `logs.tar`
 
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
 [Issue #11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11
@@ -492,8 +504,6 @@ unlikely to be log files and so are not processed.
 [Issue #12]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12
 [Issue #39]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39
 [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
-[Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
-[Issue #285]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/285
 [ISO descriptive format]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates
 [_Ordinal dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates
 [_Week dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates
@@ -505,8 +515,10 @@ unlikely to be log files and so are not processed.
 - Entire `.xz` files are read into memory before printing ([Issue #12])
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
 - Entire [user accounting record files are read into memory] before printing
+- Compressed `.journal` and `.evtx` files are extracted to a temporary file ([Issue #284])
 
 [user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
+[Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
 [Issue #293]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/293
 
 <br/>
