@@ -6,7 +6,7 @@ Speedily search and merge log messages by datetime.
 * Must update parameters `branch=` and `version=` per release; replace the version
 -->
 
-[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.6.72?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.6.72/Cargo.toml#L15)
+[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.6.72?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.6.72/Cargo.toml#L19)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
 [![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.6.72?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.6.72/)
 
