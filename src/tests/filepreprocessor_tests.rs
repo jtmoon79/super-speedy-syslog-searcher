@@ -7,7 +7,13 @@
 
 use crate::tests::common::{
     FILETYPE_EVTX,
+    FILETYPE_EVTX_GZ,
+    FILETYPE_EVTX_LZ4,
+    FILETYPE_EVTX_XZ,
     FILETYPE_JOURNAL,
+    FILETYPE_JOURNAL_GZ,
+    FILETYPE_JOURNAL_LZ4,
+    FILETYPE_JOURNAL_XZ,
     FILETYPE_UTF8,
     FILETYPE_UTF8_GZ,
     FILETYPE_UTF8_XZ,
@@ -27,6 +33,7 @@ use crate::tests::common::{
     NTF_TAR_AB_FILEB_FILETYPE,
     NTF_TAR_AB_FILEB_FPATH,
     NTF_TAR_AB_FPATH,
+    NTF_TAR_ABCDEFGHI,
     NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
     NTF_TAR_ABCDEFGHI_FILEA_FPATH,
     NTF_TAR_ABCDEFGHI_FILEB_FILETYPE,
@@ -62,7 +69,14 @@ use crate::readers::filepreprocessor::{
     ProcessPathResult,
 };
 use crate::readers::helpers::{fpath_to_path, path_to_fpath};
-use crate::debug::helpers::{create_files_and_tmpdir, ntf_fpath, NamedTempFile};
+use crate::debug::helpers::{
+    create_files_and_tmpdir,
+    create_temp_dir,
+    ntf_fpath,
+    NamedTempFile,
+};
+
+use std::fs::copy;
 
 #[allow(unused_imports)]
 use ::filepath::FilePath; // provide `path` function on `File`
@@ -691,12 +705,17 @@ fn test_process_path_fpath(
     // check that each `check` is in the `results`
     for (i, check) in checks_can.iter().enumerate() {
         defo!("check[{}] = {:?}", i, check);
+        let mut results_can_s: String = String::from("[\n");
+        for (i, result_can) in results_can.iter().enumerate() {
+            results_can_s.push_str(&format!("    [{}] {:?}\n", i, result_can));
+        };
+        results_can_s.push_str("  ]");
         assert!(
             results_can.contains(check),
-            "\nprocess_path({:?})\n  the check {:?}\n  is not contained in the results:\n       {:?}\n",
+            "\nprocess_path({:?})\n  the check {:?}\n  is not contained in the results:\n  {}\n",
             path,
             check,
-            results_can,
+            results_can_s,
         );
     }
     // check that each `result` is in the `checks`
@@ -1006,6 +1025,63 @@ fn test_process_path_dirs_dirAB_files4_false() {
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
 }
 
+#[test]
+fn test_process_path_evtx_gz_lz4_xz() {
+    let filenames = &[
+        FPath::from("dirA/user.evtx"),
+        FPath::from("dirA/user.evtx.gz"),
+        FPath::from("dirA/user.evtx.lz4"),
+        FPath::from("dirA/user.evtx.xz"),
+    ];
+    let (dir, fpaths) = create_files_and_tmpdir(filenames);
+
+    let checks: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            fpaths.get(0).unwrap().clone(), FILETYPE_EVTX,
+        ),
+        ProcessPathResult::FileValid(
+            fpaths.get(1).unwrap().clone(), FILETYPE_EVTX_GZ,
+        ),
+        ProcessPathResult::FileValid(
+            fpaths.get(2).unwrap().clone(), FILETYPE_EVTX_LZ4,
+        ),
+        ProcessPathResult::FileValid(
+            fpaths.get(3).unwrap().clone(), FILETYPE_EVTX_XZ,
+        ),
+    ];
+
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
+}
+
+#[test]
+
+fn test_process_path_journal_gz_lz4_xz() {
+    let filenames = &[
+        FPath::from("dirA/user.journal"),
+        FPath::from("dirA/user.journal.gz"),
+        FPath::from("dirA/user.journal.lz4"),
+        FPath::from("dirA/user.journal.xz"),
+    ];
+    let (dir, fpaths) = create_files_and_tmpdir(filenames);
+
+    let checks: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            fpaths.get(0).unwrap().clone(), FILETYPE_JOURNAL,
+        ),
+        ProcessPathResult::FileValid(
+            fpaths.get(1).unwrap().clone(), FILETYPE_JOURNAL_GZ,
+        ),
+        ProcessPathResult::FileValid(
+            fpaths.get(2).unwrap().clone(), FILETYPE_JOURNAL_LZ4,
+        ),
+        ProcessPathResult::FileValid(
+            fpaths.get(3).unwrap().clone(), FILETYPE_JOURNAL_XZ,
+        ),
+    ];
+
+    test_process_path_fpath(&path_to_fpath(dir.path()), &checks, false);
+}
+
 fn test_process_path_tar(
     path: &FPath,
     checks: &Vec<ProcessPathResult>,
@@ -1078,40 +1154,49 @@ fn test_process_path_tar_tar1_file_ab() {
 }
 
 #[test]
-fn test_process_path_tar_tar1_file_abcdef() {
+fn test_process_path_tar_tar1_file_abcdefghi() {
     let check: Vec<ProcessPathResult> = vec![
+        // fileABCDEFGHI.tar|fileA.evtx
         ProcessPathResult::FileValid(
             NTF_TAR_ABCDEFGHI_FILEA_FPATH.clone(),
             NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
         ),
+        // fileABCDEFGHI.tar|fileB.journal
         ProcessPathResult::FileValid(
             NTF_TAR_ABCDEFGHI_FILEB_FPATH.clone(),
             NTF_TAR_ABCDEFGHI_FILEB_FILETYPE,
         ),
+        // fileABCDEFGHI.tar|fileC.utmp
         ProcessPathResult::FileValid(
             NTF_TAR_ABCDEFGHI_FILEC_FPATH.clone(),
             NTF_TAR_ABCDEFGHI_FILEC_FILETYPE,
         ),
+        // fileABCDEFGHI.tar|fileD.txt
         ProcessPathResult::FileValid(
             NTF_TAR_ABCDEFGHI_FILED_FPATH.clone(),
             NTF_TAR_ABCDEFGHI_FILED_FILETYPE,
         ),
+        // fileABCDEFGHI.tar|fileE.evtx.gz
         ProcessPathResult::FileErrNotSupported(
             NTF_TAR_ABCDEFGHI_FILEE_FPATH.clone(),
             None,
         ),
+        // fileABCDEFGHI.tar|fileF.journal.xz
         ProcessPathResult::FileErrNotSupported(
             NTF_TAR_ABCDEFGHI_FILEF_FPATH.clone(),
             None,
         ),
+        // fileABCDEFGHI.tar|fileG.txt.xz
         ProcessPathResult::FileErrNotSupported(
             NTF_TAR_ABCDEFGHI_FILEG_FPATH.clone(),
             None,
         ),
+        // fileABCDEFGHI.tar|fileH.txt.tar
         ProcessPathResult::FileErrNotSupported(
             NTF_TAR_ABCDEFGHI_FILEH_FPATH.clone(),
             None,
         ),
+        // fileABCDEFGHI.tar|fileI
         ProcessPathResult::FileValid(
             NTF_TAR_ABCDEFGHI_FILEI_FPATH.clone(),
             NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
@@ -1120,4 +1205,85 @@ fn test_process_path_tar_tar1_file_abcdef() {
     defñ!();
     test_process_path_tar(&NTF_TAR_ABCDEFGHI_FPATH, &check, true);
     test_process_path_tar(&NTF_TAR_ABCDEFGHI_FPATH, &check, false);
+}
+
+
+#[test]
+fn test_process_path_tar_dir_tar1_file_abcdefghi() {
+    defn!();
+
+    // need to copy the tar file to a temporary directory
+    // and then replace the `NTF_TAR_ABCDEFGHI_FILE*_FPATH` variables
+    // with the new temporary directory
+    // the tar file `NTF_TAR_ABCDEFGHI_FPATH` will be at `/tmp/ntf-abcdefghi.tar` and the preceding
+    // path needs to include to the temporary directory,
+    // e.g. `/tmp/tmp.dir.1Baer3/ntf-abcdefghi.tar`
+    // and each "subpath" needs to go from `/tmp/ntf-abcdefghi.tar|fileA` to
+    // path `/tmp/tmp.dir.1Baer3/ntf-abcdefghi.tar|fileA`
+
+    defo!("NTF_TAR_ABCDEFGHI {:?}", (&*NTF_TAR_ABCDEFGHI).path());
+    let replace1 = (&*NTF_TAR_ABCDEFGHI).path().parent().unwrap();
+    let replace1_fpath = path_to_fpath(replace1);
+    defo!("replace1          {:?}", replace1_fpath);
+    let tmpdir = create_temp_dir();
+    defo!("tmpdir            {:?}", tmpdir.path());
+    let tmpdir_fpath = &path_to_fpath(tmpdir.path());
+    let dest = tmpdir.path().join((&*NTF_TAR_ABCDEFGHI).path().file_name().unwrap_or_default());
+    defo!("dest              {:?}", dest);
+    match copy((&*NTF_TAR_ABCDEFGHI).path(), dest) {
+        Ok(_) => {},
+        Err(e) => {
+            panic!("Failed to copy {:?} to {:?}: {}", &*NTF_TAR_ABCDEFGHI.path(), tmpdir.path(), e);
+        },
+    }
+
+    let check: Vec<ProcessPathResult> = vec![
+        // fileABCDEFGHI.tar|fileA.evtx
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILEA_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
+        ),
+        // fileABCDEFGHI.tar|fileB.journal
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILEB_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEB_FILETYPE,
+        ),
+        // fileABCDEFGHI.tar|fileC.utmp
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILEC_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEC_FILETYPE,
+        ),
+        // fileABCDEFGHI.tar|fileD.txt
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILED_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILED_FILETYPE,
+        ),
+        // fileABCDEFGHI.tar|fileE.evtx.gz
+        ProcessPathResult::FileErrNotSupported(
+            NTF_TAR_ABCDEFGHI_FILEE_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            None,
+        ),
+        // fileABCDEFGHI.tar|fileF.journal.xz
+        ProcessPathResult::FileErrNotSupported(
+            NTF_TAR_ABCDEFGHI_FILEF_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            None,
+        ),
+        // fileABCDEFGHI.tar|fileG.txt.xz
+        ProcessPathResult::FileErrNotSupported(
+            NTF_TAR_ABCDEFGHI_FILEG_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            None,
+        ),
+        // fileABCDEFGHI.tar|fileH.txt.tar
+        ProcessPathResult::FileErrNotSupported(
+            NTF_TAR_ABCDEFGHI_FILEH_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            None,
+        ),
+        // fileABCDEFGHI.tar|fileI
+        ProcessPathResult::FileValid(
+            NTF_TAR_ABCDEFGHI_FILEI_FPATH.clone().replacen(&replace1_fpath, tmpdir_fpath, 1),
+            NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
+        ),
+    ];
+
+    test_process_path_fpath(tmpdir_fpath, &check, true);
 }

@@ -60,20 +60,28 @@ use ::lazy_static::lazy_static;
 
 pub const FILETYPE_EVTX: FileType =
     FileType::Evtx { archival_type: FileTypeArchive::Normal };
-pub const FILETYPE_EVTX_T: FileType =
-    FileType::Evtx { archival_type: FileTypeArchive::Tar };
 pub const FILETYPE_EVTX_GZ: FileType =
     FileType::Evtx { archival_type: FileTypeArchive::Gz };
+pub const FILETYPE_EVTX_LZ4: FileType =
+    FileType::Evtx { archival_type: FileTypeArchive::Lz4 };
+pub const FILETYPE_EVTX_TAR: FileType =
+    FileType::Evtx { archival_type: FileTypeArchive::Tar };
+pub const FILETYPE_EVTX_XZ: FileType =
+    FileType::Evtx { archival_type: FileTypeArchive::Xz };
 pub const FILETYPE_JOURNAL: FileType =
     FileType::Journal { archival_type: FileTypeArchive::Normal };
-pub const FILETYPE_JOURNAL_T: FileType =
+pub const FILETYPE_JOURNAL_GZ: FileType =
+    FileType::Journal { archival_type: FileTypeArchive::Gz };
+pub const FILETYPE_JOURNAL_LZ4: FileType =
+    FileType::Journal { archival_type: FileTypeArchive::Lz4 };
+pub const FILETYPE_JOURNAL_TAR: FileType =
     FileType::Journal { archival_type: FileTypeArchive::Tar };
 pub const FILETYPE_JOURNAL_XZ: FileType =
     FileType::Journal { archival_type: FileTypeArchive::Xz };
 pub const FILETYPE_UTMP: FileType =
-    FileType::FixedStruct { archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmp};
-pub const FILETYPE_UTMP_T: FileType =
-    FileType::FixedStruct { archival_type: FileTypeArchive::Tar, fixedstruct_type: FileTypeFixedStruct::Utmp};
+    FileType::FixedStruct { archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmp };
+pub const FILETYPE_UTMP_TAR: FileType =
+    FileType::FixedStruct { archival_type: FileTypeArchive::Tar, fixedstruct_type: FileTypeFixedStruct::Utmp };
 pub const FILETYPE_UTF8: FileType =
     FileType::Text { archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii };
 pub const FILETYPE_UTF8_GZ: FileType =
@@ -2969,12 +2977,12 @@ pub const TAR_ABCDEFGHI_DATA: [u8; 10240] = [
 
 lazy_static! {
     /// fileABCDEFGHI.tar
-    pub static ref NTF_TAR_ABCDEF: NamedTempFile =
+    pub static ref NTF_TAR_ABCDEFGHI: NamedTempFile =
         create_temp_file_bytes_with_suffix(
             &TAR_ABCDEFGHI_DATA, &String::from(TAR_ABCDEFGHI_FILENAME)
         );
     /// fileABCDEFGHI.tar
-    pub static ref NTF_TAR_ABCDEFGHI_FPATH: FPath = ntf_fpath(&NTF_TAR_ABCDEF);
+    pub static ref NTF_TAR_ABCDEFGHI_FPATH: FPath = ntf_fpath(&NTF_TAR_ABCDEFGHI);
     /// fileABCDEFGHI.tar|fileA.evtx
     pub static ref NTF_TAR_ABCDEFGHI_FILEA_FPATH: FPath = {
         let mut path_: FPath = NTF_TAR_ABCDEFGHI_FPATH.clone();
@@ -3048,9 +3056,10 @@ lazy_static! {
         path_
     };
 }
-pub const NTF_TAR_ABCDEFGHI_FILEA_FILETYPE: FileType = FILETYPE_EVTX_T;
-pub const NTF_TAR_ABCDEFGHI_FILEB_FILETYPE: FileType = FILETYPE_JOURNAL_T;
-pub const NTF_TAR_ABCDEFGHI_FILEC_FILETYPE: FileType = FILETYPE_UTMP_T;
+
+pub const NTF_TAR_ABCDEFGHI_FILEA_FILETYPE: FileType = FILETYPE_EVTX_TAR;
+pub const NTF_TAR_ABCDEFGHI_FILEB_FILETYPE: FileType = FILETYPE_JOURNAL_TAR;
+pub const NTF_TAR_ABCDEFGHI_FILEC_FILETYPE: FileType = FILETYPE_UTMP_TAR;
 pub const NTF_TAR_ABCDEFGHI_FILED_FILETYPE: FileType = FILETYPE_UTF8_TAR;
 pub const NTF_TAR_ABCDEFGHI_FILEE_FILETYPE: FileType = FILETYPE_EVTX_GZ;
 pub const NTF_TAR_ABCDEFGHI_FILEF_FILETYPE: FileType = FILETYPE_JOURNAL_XZ;

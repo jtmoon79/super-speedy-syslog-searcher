@@ -164,6 +164,7 @@
 ./logs/other/tests/dtf6z-1.log
 ./logs/other/tests/dtf7-20-LEVELS.log
 ./logs/other/tests/dtf7-20-LEVELS.log.gz
+./logs/other/tests/dtf7-20-LEVELS.log.lz
 ./logs/other/tests/dtf7-20-LEVELS.log.old
 ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
 ./logs/other/tests/dtf7-20-LEVELS.log.tar
@@ -225,6 +226,7 @@
 ./logs/programs/flask/server.log
 ./logs/programs/journal/RHE_91_system.journal
 ./logs/programs/journal/RHE_91_system.journal.gz
+./logs/programs/journal/RHE_91_system.journal.lz4
 ./logs/programs/journal/RHE_91_system.journal.xz
 ./logs/programs/journal/RHE_91_system.tar
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal

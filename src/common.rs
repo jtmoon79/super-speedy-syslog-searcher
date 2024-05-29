@@ -860,6 +860,23 @@ impl FileType {
             _ => false,
         }
     }
+
+    pub const fn archival_type (&self) -> FileTypeArchive {
+        match self {
+            FileType::Evtx{ archival_type } => *archival_type,
+            FileType::FixedStruct{ archival_type, .. } => *archival_type,
+            FileType::Journal{ archival_type } => *archival_type,
+            FileType::Text{ archival_type, .. } => *archival_type,
+            FileType::Unparsable => FileTypeArchive::Normal,
+        }
+    }
+
+    pub const fn encoding_type (&self) -> Option<FileTypeTextEncoding> {
+        match self {
+            FileType::Text{ encoding_type, .. } => Some(*encoding_type),
+            _ => None,
+        }
+    }
 }
 
 /// The type of message sent from file processing thread to the main printing

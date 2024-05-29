@@ -29,7 +29,7 @@ File: ./logs/CentOS7/x86_64/wtmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 997
+      bytes         : 886
       entries       : 3
   Processed:
       file size     : 25728 (0x6480) (bytes)
@@ -68,7 +68,7 @@ File: ./logs/CentOS7/yum.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 30046
+      bytes         : 24681
       lines         : 145
       syslines      : 142
   Processed:
@@ -102,7 +102,7 @@ File: ./logs/cygwin/setup.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 17520
+      bytes         : 14671
       lines         : 77
       syslines      : 76
   Processed:
@@ -135,7 +135,7 @@ File: ./logs/cygwin/setup.log.full
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 15471
+      bytes         : 12622
       lines         : 77
       syslines      : 12
   Processed:
@@ -259,7 +259,7 @@ File: ./logs/Debian11/alternatives.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6442
+      bytes         : 5887
       lines         : 15
       syslines      : 15
   Processed:
@@ -292,7 +292,7 @@ File: ./logs/Debian11/apache2/access.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1474
+      bytes         : 1289
       lines         : 5
       syslines      : 5
   Processed:
@@ -325,7 +325,7 @@ File: ./logs/Debian11/apache2/error.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1433
+      bytes         : 1248
       lines         : 5
       syslines      : 5
   Processed:
@@ -358,7 +358,7 @@ File: ./logs/Debian11/dpkg.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 10312
+      bytes         : 8499
       lines         : 49
       syslines      : 48
   Processed:
@@ -391,7 +391,7 @@ File: ./logs/Debian11/kern.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6538
+      bytes         : 5761
       lines         : 21
       syslines      : 20
   Processed:
@@ -425,7 +425,7 @@ File: ./logs/Debian11/messages
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6366
+      bytes         : 5589
       lines         : 21
       syslines      : 20
   Processed:
@@ -459,7 +459,7 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1336
+      bytes         : 1151
       lines         : 5
       syslines      : 5
   Processed:
@@ -492,7 +492,7 @@ File: ./logs/Debian11/user.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6838
+      bytes         : 5913
       lines         : 25
       syslines      : 25
   Processed:
@@ -526,7 +526,7 @@ File: ./logs/Debian9/alternatives.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5575
+      bytes         : 4872
       lines         : 19
       syslines      : 14
   Processed:
@@ -559,7 +559,7 @@ File: ./logs/Debian9/apport.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1633
+      bytes         : 1411
       lines         : 6
       syslines      : 6
   Processed:
@@ -624,7 +624,7 @@ File: ./logs/Debian9/apt/history.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1629
+      bytes         : 1296
       lines         : 9
       syslines      : 4
   Processed:
@@ -657,7 +657,7 @@ File: ./logs/Debian9/aptitude.4
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3471
+      bytes         : 2805
       lines         : 18
       syslines      : 1
   Processed:
@@ -690,7 +690,7 @@ File: ./logs/Debian9/apt/term.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 60638
+      bytes         : 49834
       lines         : 292
       syslines      : 7
   Processed:
@@ -723,7 +723,7 @@ File: ./logs/Debian9/auth.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4564
+      bytes         : 3861
       lines         : 19
       syslines      : 19
   Processed:
@@ -789,7 +789,7 @@ File: ./logs/Debian9/clamav/clamd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1754
+      bytes         : 1458
       lines         : 8
       syslines      : 8
   Processed:
@@ -822,7 +822,7 @@ File: ./logs/Debian9/dpkg.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3907
+      bytes         : 3204
       lines         : 19
       syslines      : 19
   Processed:
@@ -855,7 +855,7 @@ File: ./logs/Debian9/kern.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4431
+      bytes         : 3728
       lines         : 19
       syslines      : 19
   Processed:
@@ -889,7 +889,7 @@ File: ./logs/Debian9/messages.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 301
+      bytes         : 264
       lines         : 1
       syslines      : 1
   Processed:
@@ -923,7 +923,7 @@ File: ./logs/Debian9/nginx/access.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 7049
+      bytes         : 6346
       lines         : 19
       syslines      : 19
   Processed:
@@ -956,7 +956,7 @@ File: ./logs/Debian9/nginx/access.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 7049
+      bytes         : 6346
       lines         : 19
       syslines      : 19
   Processed:
@@ -989,7 +989,7 @@ File: ./logs/Debian9/nginx/error.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6802
+      bytes         : 6099
       lines         : 19
       syslines      : 19
   Processed:
@@ -1022,7 +1022,7 @@ File: ./logs/Debian9/nginx/error.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6802
+      bytes         : 6099
       lines         : 19
       syslines      : 19
   Processed:
@@ -1055,7 +1055,7 @@ File: ./logs/Debian9/samba/log.192.168.0.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 454
+      bytes         : 380
       lines         : 2
       syslines      : 1
   Processed:
@@ -1088,7 +1088,7 @@ File: ./logs/Debian9/samba/log.192.168.0.2
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 455
+      bytes         : 381
       lines         : 2
       syslines      : 1
   Processed:
@@ -1121,7 +1121,7 @@ File: ./logs/Debian9/samba/log.host1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 455
+      bytes         : 381
       lines         : 2
       syslines      : 1
   Processed:
@@ -1154,7 +1154,7 @@ File: ./logs/Debian9/samba/log.host2
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 454
+      bytes         : 380
       lines         : 2
       syslines      : 1
   Processed:
@@ -1187,7 +1187,7 @@ File: ./logs/Debian9/samba/log.nmbd
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 670
+      bytes         : 559
       lines         : 3
       syslines      : 1
   Processed:
@@ -1220,7 +1220,7 @@ File: ./logs/Debian9/samba/log.nmbd.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4362
+      bytes         : 3696
       lines         : 18
       syslines      : 6
   Processed:
@@ -1253,7 +1253,7 @@ File: ./logs/Debian9/samba/log.nmbd.old
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4362
+      bytes         : 3696
       lines         : 18
       syslines      : 6
   Processed:
@@ -1286,7 +1286,7 @@ File: ./logs/Debian9/samba/log.smbd.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 449
+      bytes         : 375
       lines         : 2
       syslines      : 1
   Processed:
@@ -1319,7 +1319,7 @@ File: ./logs/Debian9/syslog
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4661
+      bytes         : 3958
       lines         : 19
       syslines      : 19
   Processed:
@@ -1353,7 +1353,7 @@ File: ./logs/Debian9/user.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 808
+      bytes         : 697
       lines         : 3
       syslines      : 3
   Processed:
@@ -1451,7 +1451,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 7167
+      bytes         : 6168
       lines         : 27
       syslines      : 27
   Processed:
@@ -1484,7 +1484,7 @@ File: ./logs/FedoraRemix29/dnf.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 107083
+      bytes         : 89471
       lines         : 476
       syslines      : 226
   Processed:
@@ -1517,7 +1517,7 @@ File: ./logs/FedoraRemix29/hawkeye.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 8943
+      bytes         : 7574
       lines         : 37
       syslines      : 36
   Processed:
@@ -1551,7 +1551,7 @@ File: ./logs/MinGW64/pacman.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 20795
+      bytes         : 17021
       lines         : 102
       syslines      : 102
   Processed:
@@ -1698,7 +1698,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Utmp
   Printed:
-      bytes         : 1487
+      bytes         : 1228
       entries       : 7
   Processed:
       file size     : 5776 (0x1690) (bytes)
@@ -1725,7 +1725,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Utmp
   Printed:
-      bytes         : 1487
+      bytes         : 1228
       entries       : 7
   Processed:
       file size     : 8208 (0x2010) (bytes)
@@ -1771,7 +1771,7 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4939
+      bytes         : 4199
       lines         : 20
       syslines      : 20
   Processed:
@@ -1804,7 +1804,7 @@ File: ./logs/OpenSUSE15/zypper.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5577
+      bytes         : 4874
       lines         : 19
       syslines      : 19
   Processed:
@@ -1837,7 +1837,7 @@ File: ./logs/OpenSUSE15/zypp/history
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 10537
+      bytes         : 9094
       lines         : 39
       syslines      : 19
   Processed:
@@ -1870,7 +1870,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1975
+      bytes         : 1642
       lines         : 9
       syslines      : 8
   Processed:
@@ -1903,7 +1903,7 @@ File: ./logs/Orbi/tmp/dal_ash.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2163
+      bytes         : 1830
       lines         : 9
       syslines      : 8
   Processed:
@@ -1936,7 +1936,7 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3971
+      bytes         : 3268
       lines         : 19
       syslines      : 19
   Processed:
@@ -1969,7 +1969,7 @@ File: ./logs/Orbi/tmp/UpAgent.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4677
+      bytes         : 3974
       lines         : 19
       syslines      : 18
   Processed:
@@ -2002,7 +2002,7 @@ File: ./logs/Orbi/tmp/xagent.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4407
+      bytes         : 3704
       lines         : 19
       syslines      : 19
   Processed:
@@ -2035,7 +2035,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4676
+      bytes         : 3973
       lines         : 19
       syslines      : 17
   Processed:
@@ -2068,7 +2068,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4676
+      bytes         : 3973
       lines         : 19
       syslines      : 17
   Processed:
@@ -2101,7 +2101,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4947
+      bytes         : 4244
       lines         : 19
       syslines      : 19
   Processed:
@@ -2134,7 +2134,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4845
+      bytes         : 4142
       lines         : 19
       syslines      : 19
   Processed:
@@ -2162,16 +2162,12 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
       process: regex captures attempted                            : 155
   Processing Drops:
 
-File: ./logs/other/tests/empty.log
-  About:
-      Processing Err : FileErrEmpty
-
 File: ./logs/other/tests/basic-basic-dt10-repeats.log
   About:
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 9350
+      bytes         : 7315
       lines         : 55
       syslines      : 55
   Processed:
@@ -2204,7 +2200,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 9679
+      bytes         : 7644
       lines         : 55
       syslines      : 55
   Processed:
@@ -2237,7 +2233,7 @@ File: ./logs/other/tests/basic-basic-dt20.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3359
+      bytes         : 2619
       lines         : 20
       syslines      : 20
   Processed:
@@ -2270,7 +2266,7 @@ File: ./logs/other/tests/basic-dt1.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 168
+      bytes         : 131
       lines         : 1
       syslines      : 1
   Processed:
@@ -2303,7 +2299,7 @@ File: ./logs/other/tests/basic-dt27.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4886
+      bytes         : 3887
       lines         : 27
       syslines      : 27
   Processed:
@@ -2336,7 +2332,7 @@ File: ./logs/other/tests/basic-dt2b.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 635
+      bytes         : 487
       lines         : 4
       syslines      : 2
   Processed:
@@ -2369,7 +2365,7 @@ File: ./logs/other/tests/basic-dt2.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 336
+      bytes         : 262
       lines         : 2
       syslines      : 2
   Processed:
@@ -2402,7 +2398,7 @@ File: ./logs/other/tests/basic-dt6.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1022
+      bytes         : 800
       lines         : 6
       syslines      : 6
   Processed:
@@ -2435,7 +2431,7 @@ File: ./logs/other/tests/basic-dt-u.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 9260
+      bytes         : 7262
       lines         : 54
       syslines      : 27
   Processed:
@@ -2468,7 +2464,7 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 10103
+      bytes         : 7735
       lines         : 64
       syslines      : 10
   Processed:
@@ -2501,7 +2497,7 @@ File: ./logs/other/tests/dtf10-10a.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1482
+      bytes         : 1186
       lines         : 8
       syslines      : 8
   Processed:
@@ -2534,7 +2530,7 @@ File: ./logs/other/tests/dtf10-10b.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2322
+      bytes         : 1841
       lines         : 13
       syslines      : 8
   Processed:
@@ -2567,7 +2563,7 @@ File: ./logs/other/tests/dtf11-A.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2404
+      bytes         : 1923
       lines         : 13
       syslines      : 13
   Processed:
@@ -2600,7 +2596,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1479
+      bytes         : 1183
       lines         : 8
       syslines      : 4
   Processed:
@@ -2633,7 +2629,7 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1301
+      bytes         : 1042
       lines         : 7
       syslines      : 4
   Processed:
@@ -2666,7 +2662,7 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2226
+      bytes         : 1782
       lines         : 12
       syslines      : 8
   Processed:
@@ -2699,7 +2695,7 @@ File: ./logs/other/tests/dtf13a.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 675
+      bytes         : 564
       lines         : 3
       syslines      : 3
   Processed:
@@ -2732,7 +2728,7 @@ File: ./logs/other/tests/dtf13b.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 672
+      bytes         : 561
       lines         : 3
       syslines      : 3
   Processed:
@@ -2765,7 +2761,7 @@ File: ./logs/other/tests/dtf13c.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 675
+      bytes         : 564
       lines         : 3
       syslines      : 3
   Processed:
@@ -2798,7 +2794,7 @@ File: ./logs/other/tests/dtf13d.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 666
+      bytes         : 555
       lines         : 3
       syslines      : 3
   Processed:
@@ -3095,7 +3091,7 @@ File: ./logs/other/tests/dtf2-2.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 504
+      bytes         : 393
       lines         : 3
       syslines      : 2
   Processed:
@@ -3155,46 +3151,12 @@ File: ./logs/other/tests/dtf2-2.bz2
       process: regex captures attempted                            : 158
   Processing Drops:
 
-File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 504
-      lines         : 3
-      syslines      : 2
-  Processed:
-      file size archive   : 3072 (0xC00) (bytes)
-      file size unarchived: 60 (0x3C) (bytes)
-      bytes         : 60 (0x3C)
-      bytes total   : 60 (0x3C)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 3
-      syslines      : 2
-      syslines high : 2
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
-      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
-      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 80
-  Processing Drops:
-
 File: ./logs/other/tests/dtf2-2.gz
   About:
       filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 504
+      bytes         : 393
       lines         : 3
       syslines      : 2
   Processed:
@@ -3260,7 +3222,7 @@ File: ./logs/other/tests/dtf2-2.log.gz
       filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 504
+      bytes         : 393
       lines         : 3
       syslines      : 2
   Processed:
@@ -3326,7 +3288,7 @@ File: ./logs/other/tests/dtf2-2.log.lz4
       filetype       : TEXT UTF8/ASCII (lz4)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 504
+      bytes         : 393
       lines         : 3
       syslines      : 2
   Processed:
@@ -3355,46 +3317,12 @@ File: ./logs/other/tests/dtf2-2.log.lz4
       process: regex captures attempted                            : 80
   Processing Drops:
 
-File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 504
-      lines         : 3
-      syslines      : 2
-  Processed:
-      file size archive   : 2048 (0x800) (bytes)
-      file size unarchived: 60 (0x3C) (bytes)
-      bytes         : 60 (0x3C)
-      bytes total   : 60 (0x3C)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 3
-      syslines      : 2
-      syslines high : 2
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
-      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
-      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 80
-  Processing Drops:
-
 File: ./logs/other/tests/dtf2-2.log.xz
   About:
       filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 504
+      bytes         : 393
       lines         : 3
       syslines      : 2
   Processed:
@@ -3460,47 +3388,13 @@ File: ./logs/other/tests/dtf2-2.lz4
       filetype       : TEXT UTF8/ASCII (lz4)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 504
+      bytes         : 393
       lines         : 3
       syslines      : 2
   Processed:
       file size compressed  : 63 (0x3F) (bytes)
       file size uncompressed: 60 (0x3C) (bytes)
       bytes         : 120 (0x78)
-      bytes total   : 60 (0x3C)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 3
-      syslines      : 2
-      syslines high : 2
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
-      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
-      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 80
-  Processing Drops:
-
-File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 504
-      lines         : 3
-      syslines      : 2
-  Processed:
-      file size archive   : 2048 (0x800) (bytes)
-      file size unarchived: 60 (0x3C) (bytes)
-      bytes         : 60 (0x3C)
       bytes total   : 60 (0x3C)
       block size    : 256 (0x100)
       blocks        : 1
@@ -3560,7 +3454,7 @@ File: ./logs/other/tests/dtf2-2.xz
       filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 504
+      bytes         : 393
       lines         : 3
       syslines      : 2
   Processed:
@@ -3594,7 +3488,7 @@ File: ./logs/other/tests/dtf3-1.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 177
+      bytes         : 140
       lines         : 1
       syslines      : 1
   Processed:
@@ -3627,7 +3521,7 @@ File: ./logs/other/tests/dtf3-2a.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 364
+      bytes         : 290
       lines         : 2
       syslines      : 2
   Processed:
@@ -3660,7 +3554,7 @@ File: ./logs/other/tests/dtf3-2b.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 663
+      bytes         : 515
       lines         : 4
       syslines      : 2
   Processed:
@@ -3693,7 +3587,7 @@ File: ./logs/other/tests/dtf4-2a.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 378
+      bytes         : 304
       lines         : 2
       syslines      : 2
   Processed:
@@ -3726,7 +3620,7 @@ File: ./logs/other/tests/dtf4-2b.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 528
+      bytes         : 417
       lines         : 3
       syslines      : 2
   Processed:
@@ -3759,7 +3653,7 @@ File: ./logs/other/tests/dtf5-1.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 176
+      bytes         : 139
       lines         : 1
       syslines      : 1
   Processed:
@@ -3792,7 +3686,7 @@ File: ./logs/other/tests/dtf5-2a.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 356
+      bytes         : 282
       lines         : 2
       syslines      : 2
   Processed:
@@ -3825,7 +3719,7 @@ File: ./logs/other/tests/dtf5-2b.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 655
+      bytes         : 507
       lines         : 4
       syslines      : 2
   Processed:
@@ -3858,7 +3752,7 @@ File: ./logs/other/tests/dtf5-2c.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 954
+      bytes         : 732
       lines         : 6
       syslines      : 2
   Processed:
@@ -3891,7 +3785,7 @@ File: ./logs/other/tests/dtf5-3-LF-CR.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 781
+      bytes         : 633
       lines         : 4
       syslines      : 2
   Processed:
@@ -3924,7 +3818,7 @@ File: ./logs/other/tests/dtf5-3-r-n.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1087
+      bytes         : 865
       lines         : 6
       syslines      : 3
   Processed:
@@ -3957,7 +3851,7 @@ File: ./logs/other/tests/dtf5-6a.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1082
+      bytes         : 860
       lines         : 6
       syslines      : 6
   Processed:
@@ -3990,7 +3884,7 @@ File: ./logs/other/tests/dtf5-6a.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1082
+      bytes         : 860
       lines         : 6
       syslines      : 6
   Processed:
@@ -4023,7 +3917,7 @@ File: ./logs/other/tests/dtf5-6a.log.gz
       filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1082
+      bytes         : 860
       lines         : 6
       syslines      : 6
   Processed:
@@ -4057,7 +3951,7 @@ File: ./logs/other/tests/dtf5-6a.log.old
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1082
+      bytes         : 860
       lines         : 6
       syslines      : 6
   Processed:
@@ -4090,7 +3984,7 @@ File: ./logs/other/tests/dtf5-6a.log.xz
       filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1082
+      bytes         : 860
       lines         : 6
       syslines      : 6
   Processed:
@@ -4124,7 +4018,7 @@ File: ./logs/other/tests/dtf5-6b.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2025
+      bytes         : 1581
       lines         : 12
       syslines      : 6
   Processed:
@@ -4157,7 +4051,7 @@ File: ./logs/other/tests/dtf5-6c.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5565
+      bytes         : 4381
       lines         : 32
       syslines      : 11
   Processed:
@@ -4190,7 +4084,7 @@ File: ./logs/other/tests/dtf6z-1.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 929
+      bytes         : 744
       lines         : 5
       syslines      : 5
   Processed:
@@ -4223,7 +4117,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4220
+      bytes         : 3480
       lines         : 20
       syslines      : 20
   Processed:
@@ -4256,7 +4150,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
       filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4220
+      bytes         : 3480
       lines         : 20
       syslines      : 20
   Processed:
@@ -4285,12 +4179,44 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
       process: regex captures attempted                            : 152
   Processing Drops:
 
+File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 249 (0xF9) (bytes)
+      bytes         : 249 (0xF9)
+      bytes total   : 249 (0xF9)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      lines         : 2
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  12, miss  12, 50.0%, largest skipped 196
+      optimize:SyslineReader::ezcheck12d2                          : hit   8, miss 284,  2.7%, largest skipped 29
+      process: regex captures attempted                            : 296
+  Processing Drops:
+
 File: ./logs/other/tests/dtf7-20-LEVELS.log.old
   About:
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4220
+      bytes         : 3480
       lines         : 20
       syslines      : 20
   Processed:
@@ -4323,7 +4249,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
       filetype       : TEXT UTF8/ASCII (gzip)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4220
+      bytes         : 3480
       lines         : 20
       syslines      : 20
   Processed:
@@ -4352,46 +4278,12 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
       process: regex captures attempted                            : 152
   Processing Drops:
 
-File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 4220
-      lines         : 20
-      syslines      : 20
-  Processed:
-      file size archive   : 10240 (0x2800) (bytes)
-      file size unarchived: 1260 (0x4EC) (bytes)
-      bytes         : 1260 (0x4EC)
-      bytes total   : 1260 (0x4EC)
-      block size    : 256 (0x100)
-      blocks        : 5
-      blocks total  : 5 (1280 bytes)
-      lines         : 20
-      syslines      : 20
-      syslines high : 15
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 148, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 152
-  Processing Drops:
-
 File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
   About:
       filetype       : TEXT UTF8/ASCII (xz)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4220
+      bytes         : 3480
       lines         : 20
       syslines      : 20
   Processed:
@@ -4425,7 +4317,7 @@ File: ./logs/other/tests/dtf7-5-LEVELS.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1012
+      bytes         : 827
       lines         : 5
       syslines      : 5
   Processed:
@@ -4645,210 +4537,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip
       process: regex captures attempted                            : 154
   Processing Drops:
 
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 4220
-      lines         : 20
-      syslines      : 20
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 1260 (0x4EC) (bytes)
-      bytes         : 1260 (0x4EC)
-      bytes total   : 1260 (0x4EC)
-      block size    : 256 (0x100)
-      blocks        : 5
-      blocks total  : 5 (1280 bytes)
-      lines         : 20
-      syslines      : 20
-      syslines high : 15
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 148, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 152
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 1012
-      lines         : 5
-      syslines      : 5
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 272 (0x110) (bytes)
-      bytes         : 272 (0x110)
-      bytes total   : 272 (0x110)
-      block size    : 256 (0x100)
-      blocks        : 2
-      blocks total  : 2 (512 bytes)
-      lines         : 5
-      syslines      : 5
-      syslines high : 5
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 136, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 127,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 137
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 4220
-      lines         : 20
-      syslines      : 20
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 1260 (0x4EC) (bytes)
-      bytes         : 1260 (0x4EC)
-      bytes total   : 1260 (0x4EC)
-      block size    : 256 (0x100)
-      blocks        : 5
-      blocks total  : 5 (1280 bytes)
-      lines         : 20
-      syslines      : 20
-      syslines high : 15
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 148, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 152
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 1012
-      lines         : 5
-      syslines      : 5
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 272 (0x110) (bytes)
-      bytes         : 272 (0x110)
-      bytes total   : 272 (0x110)
-      block size    : 256 (0x100)
-      blocks        : 2
-      blocks total  : 2 (512 bytes)
-      lines         : 5
-      syslines      : 5
-      syslines high : 5
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 136, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 127,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 137
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 4220
-      lines         : 20
-      syslines      : 20
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 1260 (0x4EC) (bytes)
-      bytes         : 1260 (0x4EC)
-      bytes total   : 1260 (0x4EC)
-      block size    : 256 (0x100)
-      blocks        : 5
-      blocks total  : 5 (1280 bytes)
-      lines         : 20
-      syslines      : 20
-      syslines high : 15
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 148, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 152
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-5-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 1012
-      lines         : 5
-      syslines      : 5
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 272 (0x110) (bytes)
-      bytes         : 272 (0x110)
-      bytes total   : 272 (0x110)
-      block size    : 256 (0x100)
-      blocks        : 2
-      blocks total  : 2 (512 bytes)
-      lines         : 5
-      syslines      : 5
-      syslines high : 5
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 136, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 127,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 137
-  Processing Drops:
-
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z
   About:
       filetype       : TEXT UTF8/ASCII
@@ -4977,210 +4665,6 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip
       process: regex captures attempted                            : 154
   Processing Drops:
 
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 4220
-      lines         : 20
-      syslines      : 20
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 1260 (0x4EC) (bytes)
-      bytes         : 1260 (0x4EC)
-      bytes total   : 1260 (0x4EC)
-      block size    : 256 (0x100)
-      blocks        : 5
-      blocks total  : 5 (1280 bytes)
-      lines         : 20
-      syslines      : 20
-      syslines high : 15
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 148, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 152
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 1012
-      lines         : 5
-      syslines      : 5
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 272 (0x110) (bytes)
-      bytes         : 272 (0x110)
-      bytes total   : 272 (0x110)
-      block size    : 256 (0x100)
-      blocks        : 2
-      blocks total  : 2 (512 bytes)
-      lines         : 5
-      syslines      : 5
-      syslines high : 5
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 136, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 127,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 137
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 4220
-      lines         : 20
-      syslines      : 20
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 1260 (0x4EC) (bytes)
-      bytes         : 1260 (0x4EC)
-      bytes total   : 1260 (0x4EC)
-      block size    : 256 (0x100)
-      blocks        : 5
-      blocks total  : 5 (1280 bytes)
-      lines         : 20
-      syslines      : 20
-      syslines high : 15
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 148, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 152
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 1012
-      lines         : 5
-      syslines      : 5
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 272 (0x110) (bytes)
-      bytes         : 272 (0x110)
-      bytes total   : 272 (0x110)
-      block size    : 256 (0x100)
-      blocks        : 2
-      blocks total  : 2 (512 bytes)
-      lines         : 5
-      syslines      : 5
-      syslines high : 5
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 136, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 127,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 137
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 4220
-      lines         : 20
-      syslines      : 20
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 1260 (0x4EC) (bytes)
-      bytes         : 1260 (0x4EC)
-      bytes total   : 1260 (0x4EC)
-      block size    : 256 (0x100)
-      blocks        : 5
-      blocks total  : 5 (1280 bytes)
-      lines         : 20
-      syslines      : 20
-      syslines high : 15
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 148, dbl    4, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 152
-  Processing Drops:
-
-File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-5-LEVELS.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 1012
-      lines         : 5
-      syslines      : 5
-  Processed:
-      file size archive   : 4096 (0x1000) (bytes)
-      file size unarchived: 272 (0x110) (bytes)
-      bytes         : 272 (0x110)
-      bytes total   : 272 (0x110)
-      block size    : 256 (0x100)
-      blocks        : 2
-      blocks total  : 2 (512 bytes)
-      lines         : 5
-      syslines      : 5
-      syslines high : 5
-  Parsers:
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 136, dbl    1, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 127,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 137
-  Processing Drops:
-
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
   About:
       filetype       : TEXT UTF8/ASCII
@@ -5250,7 +4734,7 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4340
+      bytes         : 3600
       lines         : 20
       syslines      : 20
   Processed:
@@ -5283,7 +4767,7 @@ File: ./logs/other/tests/dtf9a-2.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 774
+      bytes         : 700
       lines         : 2
       syslines      : 2
   Processed:
@@ -5376,47 +4860,12 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
       process: regex captures attempted                            : 0
   Processing Drops:
 
-File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
-  About:
-      filetype       : TEXT UTF8/ASCII (tar)
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 4131
-      lines         : 25
-      syslines      : 23
-  Processed:
-      file size archive   : 10240 (0x2800) (bytes)
-      file size unarchived: 431 (0x1AF) (bytes)
-      bytes         : 431 (0x1AF)
-      bytes total   : 431 (0x1AF)
-      block size    : 256 (0x100)
-      blocks        : 2
-      blocks total  : 2 (512 bytes)
-      lines         : 25
-      syslines      : 25
-      syslines high : 23
-  Parsers:
-                   datetime format missing year; estimated year of last sysline 2011
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 23, miss 51, 31.1%
-      caching: LineReader::find_line() LRU cache                   : hit  4, miss 51,  7.3%, put 50
-      copying: SyslineReader::get_boxptrs()                        : sgl 61, dbl   1, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 25,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 23, miss 25, 47.9%, put 25
-      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 48,  0.0%, put 48
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 22, miss 31, 41.5%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss 32,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 30,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 62
-  Processing Drops:
-
 File: ./logs/other/tests/dtf9c-23-12x2.log
   About:
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4131
+      bytes         : 3206
       lines         : 25
       syslines      : 23
   Processed:
@@ -5450,7 +4899,7 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6463
+      bytes         : 5057
       lines         : 38
       syslines      : 37
   Processed:
@@ -5484,7 +4933,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4078
+      bytes         : 3190
       lines         : 24
       syslines      : 23
   Processed:
@@ -5518,7 +4967,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4227
+      bytes         : 3302
       lines         : 25
       syslines      : 23
   Processed:
@@ -5552,7 +5001,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2726
+      bytes         : 2134
       lines         : 16
       syslines      : 16
   Processed:
@@ -5586,7 +5035,7 @@ File: ./logs/other/tests/dtf-varying-10.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1776
+      bytes         : 1406
       lines         : 10
       syslines      : 4
   Processed:
@@ -5619,7 +5068,7 @@ File: ./logs/other/tests/dt-mix1.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3528
+      bytes         : 2751
       lines         : 21
       syslines      : 10
   Processed:
@@ -5646,24 +5095,6 @@ File: ./logs/other/tests/dt-mix1.log
       optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 95,  0.0%, largest skipped 0
       process: regex captures attempted                            : 99
   Processing Drops:
-
-File: ./logs/other/tests/empty.log
-  About:
-      Processing Err : FileErrEmpty
-
-File: ./logs/other/tests/empty.log.gz
-  About:
-      filetype       : TEXT UTF8/ASCII (gzip)
-      logmessagetype : syslog lines
-      Processing Err : invalid data
-  Error: gzip file size 0 is too small for "./logs/other/tests/empty.log.gz"
-
-File: ./logs/other/tests/empty.log.xz
-  About:
-      filetype       : TEXT UTF8/ASCII (xz)
-      logmessagetype : syslog lines
-      Processing Err : unexpected end of file
-  Error: failed to fill whole buffer (missing XZ stream header magic bytes) file "./logs/other/tests/empty.log.xz"
 
 File: ./logs/other/tests/invalid.gz
   About:
@@ -5713,76 +5144,12 @@ File: ./logs/other/tests/invalid.xz
       Processing Err : invalid data
   Error: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
 
-File: ./logs/other/tests/invalid1a.log
-  About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size     : 1 (0x1) (bytes)
-      bytes         : 1 (0x1)
-      bytes total   : 1 (0x1)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 0
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 0,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 0,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 0,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 0,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
-  Processing Drops:
-
-File: ./logs/other/tests/invalid1b.log
-  About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size     : 2 (0x2) (bytes)
-      bytes         : 2 (0x2)
-      bytes total   : 2 (0x2)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 0
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 0,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 0,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 0,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 0,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
-  Processing Drops:
-
 File: ./logs/other/tests/invalid2.log
   About:
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 403
+      bytes         : 329
       lines         : 2
       syslines      : 2
   Processed:
@@ -5815,7 +5182,7 @@ File: ./logs/other/tests/invalid3.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 409
+      bytes         : 335
       lines         : 2
       syslines      : 2
   Processed:
@@ -5848,7 +5215,7 @@ File: ./logs/other/tests/invalid4.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 405
+      bytes         : 331
       lines         : 2
       syslines      : 2
   Processed:
@@ -5881,7 +5248,7 @@ File: ./logs/other/tests/unknown
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 784
+      bytes         : 636
       lines         : 4
       syslines      : 4
   Processed:
@@ -5946,7 +5313,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 8740
+      bytes         : 7519
       lines         : 33
       syslines      : 30
   Processed:
@@ -6011,7 +5378,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
       filetype       : EVTX
       logmessagetype : evtx entries
   Printed:
-      bytes         : 1561282
+      bytes         : 1251407
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -6024,7 +5391,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
       filetype       : EVTX (gzip)
       logmessagetype : evtx entries
   Printed:
-      bytes         : 1561282
+      bytes         : 1251407
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -6037,7 +5404,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.lz4
       filetype       : EVTX (lz4)
       logmessagetype : evtx entries
   Printed:
-      bytes         : 1561282
+      bytes         : 1251407
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -6050,20 +5417,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.xz
       filetype       : EVTX (xz)
       logmessagetype : evtx entries
   Printed:
-      bytes         : 1561282
-      Events        : 227
-  Processed:
-      file size          : 1052672 (0x101000) (bytes)
-      Events processed   : 227
-      Events accepted    : 227
-      Events out of order: 1
-
-File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Microsoft-Windows-Kernel-PnP%4Configuration.evtx
-  About:
-      filetype       : EVTX (tar)
-      logmessagetype : evtx entries
-  Printed:
-      bytes         : 1561282
+      bytes         : 1251407
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -6109,7 +5463,7 @@ File: ./logs/programs/journal/RHE_91_system.journal
       filetype       : JOURNAL
       logmessagetype : journal entries
   Printed:
-      bytes         : 9746874
+      bytes         : 7750206
       journal events: 2078
   Processed:
       file size     : 4644864 (0x46E000) (bytes)
@@ -6123,7 +5477,21 @@ File: ./logs/programs/journal/RHE_91_system.journal.gz
       filetype       : JOURNAL (gzip)
       logmessagetype : journal entries
   Printed:
-      bytes         : 9746874
+      bytes         : 7750206
+      journal events: 2078
+  Processed:
+      file size     : 4644864 (0x46E000) (bytes)
+      journal events: 2079
+      out of order  : 0
+      lib. API calls: 62139
+      API errors    : 0
+
+File: ./logs/programs/journal/RHE_91_system.journal.lz4
+  About:
+      filetype       : JOURNAL (lz4)
+      logmessagetype : journal entries
+  Printed:
+      bytes         : 7750206
       journal events: 2078
   Processed:
       file size     : 4644864 (0x46E000) (bytes)
@@ -6137,21 +5505,7 @@ File: ./logs/programs/journal/RHE_91_system.journal.xz
       filetype       : JOURNAL (xz)
       logmessagetype : journal entries
   Printed:
-      bytes         : 9746874
-      journal events: 2078
-  Processed:
-      file size     : 4644864 (0x46E000) (bytes)
-      journal events: 2079
-      out of order  : 0
-      lib. API calls: 62139
-      API errors    : 0
-
-File: ./logs/programs/journal/RHE_91_system.tar|RHE_91_system.journal
-  About:
-      filetype       : JOURNAL (tar)
-      logmessagetype : journal entries
-  Printed:
-      bytes         : 9746874
+      bytes         : 7750206
       journal events: 2078
   Processed:
       file size     : 4644864 (0x46E000) (bytes)
@@ -6165,7 +5519,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
       filetype       : JOURNAL
       logmessagetype : journal entries
   Printed:
-      bytes         : 19676
+      bytes         : 15606
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -6179,7 +5533,7 @@ File: ./logs/programs/pacman/pacman.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 40943
+      bytes         : 33728
       lines         : 195
       syslines      : 195
   Processed:
@@ -6212,7 +5566,7 @@ File: ./logs/programs/proftpd/controls.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1558
+      bytes         : 1336
       lines         : 6
       syslines      : 6
   Processed:
@@ -6245,7 +5599,7 @@ File: ./logs/programs/proftpd/proftpd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4886
+      bytes         : 4183
       lines         : 19
       syslines      : 19
   Processed:
@@ -6278,7 +5632,7 @@ File: ./logs/programs/proftpd/xferlog
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 723
+      bytes         : 612
       lines         : 3
       syslines      : 3
   Processed:
@@ -6311,7 +5665,7 @@ File: ./logs/programs/tomcat/catalina.out
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4940
+      bytes         : 4163
       lines         : 21
       syslines      : 7
   Processed:
@@ -6344,7 +5698,7 @@ File: ./logs/programs/tomcat/catalina-access.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 728
+      bytes         : 654
       lines         : 2
       syslines      : 2
   Processed:
@@ -6386,7 +5740,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 1997
+      bytes         : 1775
       entries       : 6
   Processed:
       file size     : 2304 (0x900) (bytes)
@@ -6466,7 +5820,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 1997
+      bytes         : 1775
       entries       : 6
   Processed:
       file size compressed  : 220 (0xDC) (bytes)
@@ -6519,47 +5873,12 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip
       process: regex captures attempted                            : 0
   Processing Drops:
 
-File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
-  About:
-      filetype       : UTMP/WTMP (tar)
-      fixedstructtype: Utmp
-      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      fixedstructtype: Fs_Linux_x86_Utmpx
-  Printed:
-      bytes         : 1997
-      entries       : 6
-  Processed:
-      file size archive   : 5120 (0x1400) (bytes)
-      file size unarchived: 2304 (0x900) (bytes)
-      bytes         : 2304 (0x900)
-      bytes total   : 2304 (0x900)
-      block size    : 256 (0x100)
-      blocks        : 9
-      blocks total  : 9 (2304 bytes)
-      entries       : 6
-      entry size    : 384 (bytes)
-      entry hi-score: 135
-      first entry   : @0
-      entry high    : 5
-      peak map size : 6
-      out of order? : 0
-  Processing Stores:
-      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
-  Processing Drops:
-
-File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
-  About:
-      filetype       : UTMP/WTMP (tar)
-      fixedstructtype: Utmp
-      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : FileErrNoValidFixedStruct
-
 File: ./logs/RancherOS-1.5.8/boot/autologin
   About:
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 479
+      bytes         : 405
       lines         : 2
       syslines      : 2
   Processed:
@@ -6592,7 +5911,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2432
+      bytes         : 2062
       lines         : 10
       syslines      : 8
   Processed:
@@ -6625,7 +5944,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1250
+      bytes         : 1065
       lines         : 5
       syslines      : 5
   Processed:
@@ -6658,7 +5977,7 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5276
+      bytes         : 4499
       lines         : 21
       syslines      : 18
   Processed:
@@ -6691,7 +6010,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6118
+      bytes         : 5341
       lines         : 21
       syslines      : 18
   Processed:
@@ -6724,7 +6043,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4817
+      bytes         : 4040
       lines         : 21
       syslines      : 20
   Processed:
@@ -6757,7 +6076,7 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4607
+      bytes         : 3830
       lines         : 21
       syslines      : 18
   Processed:
@@ -6790,7 +6109,7 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2306
+      bytes         : 1936
       lines         : 10
       syslines      : 10
   Processed:
@@ -6823,7 +6142,7 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 11217
+      bytes         : 9552
       lines         : 45
       syslines      : 45
   Processed:
@@ -6856,7 +6175,7 @@ File: ./logs/RancherOS-1.5.8/docker.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 18944
+      bytes         : 16502
       lines         : 66
       syslines      : 66
   Processed:
@@ -6889,7 +6208,7 @@ File: ./logs/RancherOS-1.5.8/messages
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 61878
+      bytes         : 53220
       lines         : 234
       syslines      : 231
   Processed:
@@ -6923,7 +6242,7 @@ File: ./logs/RancherOS-1.5.8/syslog
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2747
+      bytes         : 2377
       lines         : 10
       syslines      : 10
   Processed:
@@ -6957,7 +6276,7 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5383
+      bytes         : 4643
       lines         : 20
       syslines      : 1
   Processed:
@@ -6990,7 +6309,7 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4244
+      bytes         : 3874
       lines         : 10
       syslines      : 10
   Processed:
@@ -7024,7 +6343,7 @@ File: ./logs/RockyLinux9/cron
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 29700
+      bytes         : 25408
       lines         : 116
       syslines      : 116
   Processed:
@@ -7058,7 +6377,7 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 31543
+      bytes         : 27695
       lines         : 104
       syslines      : 104
   Processed:
@@ -7091,7 +6410,7 @@ File: ./logs/RockyLinux9/dnf.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 169897
+      bytes         : 141666
       lines         : 763
       syslines      : 677
   Processed:
@@ -7124,7 +6443,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 8172
+      bytes         : 6729
       lines         : 39
       syslines      : 36
   Processed:
@@ -7157,7 +6476,7 @@ File: ./logs/RockyLinux9/hawkey.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5823
+      bytes         : 4787
       lines         : 28
       syslines      : 28
   Processed:
@@ -7190,7 +6509,7 @@ File: ./logs/RockyLinux9/messages
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 616072
+      bytes         : 526088
       lines         : 2432
       syslines      : 2432
   Processed:
@@ -7224,7 +6543,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 10705
+      bytes         : 9336
       lines         : 37
       syslines      : 37
   Processed:
@@ -7258,7 +6577,7 @@ File: ./logs/RockyLinux9/nginx/access.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1144
+      bytes         : 996
       lines         : 4
       syslines      : 4
   Processed:
@@ -7291,7 +6610,7 @@ File: ./logs/RockyLinux9/nginx/error.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 757
+      bytes         : 683
       lines         : 2
       syslines      : 2
   Processed:
@@ -7324,7 +6643,7 @@ File: ./logs/RockyLinux9/secure
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 154266
+      bytes         : 134064
       lines         : 546
       syslines      : 545
   Processed:
@@ -7358,7 +6677,7 @@ File: ./logs/synology-DS6/apparmor.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4554
+      bytes         : 3851
       lines         : 19
       syslines      : 19
   Processed:
@@ -7391,7 +6710,7 @@ File: ./logs/synology-DS6/auth.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4979
+      bytes         : 4276
       lines         : 19
       syslines      : 19
   Processed:
@@ -7424,7 +6743,7 @@ File: ./logs/synology-DS6/checker.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4523
+      bytes         : 3820
       lines         : 19
       syslines      : 19
   Processed:
@@ -7457,7 +6776,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1849
+      bytes         : 1590
       lines         : 7
       syslines      : 7
   Processed:
@@ -7491,7 +6810,7 @@ File: ./logs/synology-DS6/datascrubbing.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5218
+      bytes         : 4515
       lines         : 19
       syslines      : 19
   Processed:
@@ -7524,7 +6843,7 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 173
+      bytes         : 136
       lines         : 1
       syslines      : 1
   Processed:
@@ -7557,7 +6876,7 @@ File: ./logs/synology-DS6/disk.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4997
+      bytes         : 4294
       lines         : 19
       syslines      : 19
   Processed:
@@ -7590,7 +6909,7 @@ File: ./logs/synology-DS6/dmesg
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4520
+      bytes         : 3817
       lines         : 19
       syslines      : 19
   Processed:
@@ -7623,7 +6942,7 @@ File: ./logs/synology-DS6/downloadstation.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4999
+      bytes         : 4296
       lines         : 19
       syslines      : 19
   Processed:
@@ -7656,7 +6975,7 @@ File: ./logs/synology-DS6/dpkg.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4268
+      bytes         : 3565
       lines         : 19
       syslines      : 19
   Processed:
@@ -7689,7 +7008,7 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4223
+      bytes         : 3520
       lines         : 19
       syslines      : 5
   Processed:
@@ -7722,7 +7041,7 @@ File: ./logs/synology-DS6/esynoscheduler.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4439
+      bytes         : 3736
       lines         : 19
       syslines      : 3
   Processed:
@@ -7755,7 +7074,7 @@ File: ./logs/synology-DS6/fsck/root.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 11735
+      bytes         : 9293
       lines         : 66
       syslines      : 3
   Processed:
@@ -7788,7 +7107,7 @@ File: ./logs/synology-DS6/ha.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5369
+      bytes         : 4666
       lines         : 19
       syslines      : 19
   Processed:
@@ -7821,7 +7140,7 @@ File: ./logs/synology-DS6/iscsi.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5120
+      bytes         : 4417
       lines         : 19
       syslines      : 19
   Processed:
@@ -7854,7 +7173,7 @@ File: ./logs/synology-DS6/kern.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5076
+      bytes         : 4373
       lines         : 19
       syslines      : 19
   Processed:
@@ -7887,7 +7206,7 @@ File: ./logs/synology-DS6/messages
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6403
+      bytes         : 5700
       lines         : 19
       syslines      : 19
   Processed:
@@ -7920,7 +7239,7 @@ File: ./logs/synology-DS6/opentftp.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4282
+      bytes         : 3505
       lines         : 21
       syslines      : 21
   Processed:
@@ -7953,7 +7272,7 @@ File: ./logs/synology-DS6/packages/CloudSync.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4413
+      bytes         : 3710
       lines         : 19
       syslines      : 19
   Processed:
@@ -7986,7 +7305,7 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3768
+      bytes         : 3065
       lines         : 19
       syslines      : 1
   Processed:
@@ -8019,7 +7338,7 @@ File: ./logs/synology-DS6/packages/FileStation.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4678
+      bytes         : 3975
       lines         : 19
       syslines      : 19
   Processed:
@@ -8052,7 +7371,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4464
+      bytes         : 3761
       lines         : 19
       syslines      : 3
   Processed:
@@ -8085,7 +7404,7 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4412
+      bytes         : 3709
       lines         : 19
       syslines      : 16
   Processed:
@@ -8118,7 +7437,7 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4282
+      bytes         : 3579
       lines         : 19
       syslines      : 10
   Processed:
@@ -8151,7 +7470,7 @@ File: ./logs/synology-DS6/packages/LogCenter.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3735
+      bytes         : 3032
       lines         : 19
       syslines      : 5
   Processed:
@@ -8184,7 +7503,7 @@ File: ./logs/synology-DS6/packages/Node.js_v4.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4551
+      bytes         : 3848
       lines         : 19
       syslines      : 19
   Processed:
@@ -8217,7 +7536,7 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4847
+      bytes         : 4144
       lines         : 19
       syslines      : 19
   Processed:
@@ -8250,7 +7569,7 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3863
+      bytes         : 3160
       lines         : 19
       syslines      : 7
   Processed:
@@ -8283,7 +7602,7 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4154
+      bytes         : 3451
       lines         : 19
       syslines      : 3
   Processed:
@@ -8316,7 +7635,7 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4648
+      bytes         : 3945
       lines         : 19
       syslines      : 19
   Processed:
@@ -8349,7 +7668,7 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4387
+      bytes         : 3684
       lines         : 19
       syslines      : 5
   Processed:
@@ -8382,7 +7701,7 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4316
+      bytes         : 3613
       lines         : 19
       syslines      : 13
   Processed:
@@ -8415,7 +7734,7 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3955
+      bytes         : 3252
       lines         : 19
       syslines      : 3
   Processed:
@@ -8448,7 +7767,7 @@ File: ./logs/synology-DS6/packages/USBCopy.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4398
+      bytes         : 3695
       lines         : 19
       syslines      : 19
   Processed:
@@ -8481,7 +7800,7 @@ File: ./logs/synology-DS6/postgresql.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5138
+      bytes         : 4435
       lines         : 19
       syslines      : 19
   Processed:
@@ -8514,7 +7833,7 @@ File: ./logs/synology-DS6/router.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5116
+      bytes         : 4413
       lines         : 19
       syslines      : 19
   Processed:
@@ -8547,7 +7866,7 @@ File: ./logs/synology-DS6/samba/log.nmbd
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3875
+      bytes         : 3172
       lines         : 19
       syslines      : 8
   Processed:
@@ -8580,7 +7899,7 @@ File: ./logs/synology-DS6/samba/log.smbd
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3903
+      bytes         : 3200
       lines         : 19
       syslines      : 8
   Processed:
@@ -8613,7 +7932,7 @@ File: ./logs/synology-DS6/scemd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5161
+      bytes         : 4458
       lines         : 19
       syslines      : 19
   Processed:
@@ -8646,7 +7965,7 @@ File: ./logs/synology-DS6/sfdisk.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4653
+      bytes         : 3950
       lines         : 19
       syslines      : 19
   Processed:
@@ -8679,7 +7998,7 @@ File: ./logs/synology-DS6/smart_extend_log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1450
+      bytes         : 1154
       lines         : 8
       syslines      : 4
   Processed:
@@ -8712,7 +8031,7 @@ File: ./logs/synology-DS6/smart_quick_log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1450
+      bytes         : 1154
       lines         : 8
       syslines      : 4
   Processed:
@@ -8745,7 +8064,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5165
+      bytes         : 4462
       lines         : 19
       syslines      : 19
   Processed:
@@ -8779,7 +8098,7 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4907
+      bytes         : 4204
       lines         : 19
       syslines      : 19
   Processed:
@@ -8813,7 +8132,7 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4945
+      bytes         : 4242
       lines         : 19
       syslines      : 19
   Processed:
@@ -8847,7 +8166,7 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4877
+      bytes         : 4174
       lines         : 19
       syslines      : 19
   Processed:
@@ -8881,7 +8200,7 @@ File: ./logs/synology-DS6/synobackup.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3774
+      bytes         : 3219
       lines         : 15
       syslines      : 14
   Processed:
@@ -8914,7 +8233,7 @@ File: ./logs/synology-DS6/synocmsclient.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3420
+      bytes         : 2717
       lines         : 19
       syslines      : 11
   Processed:
@@ -8947,7 +8266,7 @@ File: ./logs/synology-DS6/synocontentextractd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6438
+      bytes         : 5735
       lines         : 19
       syslines      : 19
   Processed:
@@ -9012,7 +8331,7 @@ File: ./logs/synology-DS6/synocrond.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3267
+      bytes         : 2860
       lines         : 11
       syslines      : 11
   Processed:
@@ -9045,7 +8364,7 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 6277
+      bytes         : 5574
       lines         : 19
       syslines      : 19
   Processed:
@@ -9078,7 +8397,7 @@ File: ./logs/synology-DS6/synoindex.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2619
+      bytes         : 2323
       lines         : 8
       syslines      : 8
   Processed:
@@ -9111,7 +8430,7 @@ File: ./logs/synology-DS6/synolog/synobackup.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4072
+      bytes         : 3480
       lines         : 16
       syslines      : 15
   Processed:
@@ -9144,7 +8463,7 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4948
+      bytes         : 4245
       lines         : 19
       syslines      : 19
   Processed:
@@ -9177,7 +8496,7 @@ File: ./logs/synology-DS6/synologydrive.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5025
+      bytes         : 4359
       lines         : 18
       syslines      : 17
   Processed:
@@ -9210,7 +8529,7 @@ File: ./logs/synology-DS6/synophoto.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5594
+      bytes         : 4891
       lines         : 19
       syslines      : 19
   Processed:
@@ -9243,7 +8562,7 @@ File: ./logs/synology-DS6/synopkg.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4919
+      bytes         : 4216
       lines         : 19
       syslines      : 10
   Processed:
@@ -9276,7 +8595,7 @@ File: ./logs/synology-DS6/synopoweroff.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5614
+      bytes         : 4911
       lines         : 19
       syslines      : 19
   Processed:
@@ -9309,7 +8628,7 @@ File: ./logs/synology-DS6/synorelayd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3906
+      bytes         : 3203
       lines         : 19
       syslines      : 19
   Processed:
@@ -9342,7 +8661,7 @@ File: ./logs/synology-DS6/synoreport.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3832
+      bytes         : 3129
       lines         : 19
       syslines      : 19
   Processed:
@@ -9375,7 +8694,7 @@ File: ./logs/synology-DS6/synoscheduler.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4602
+      bytes         : 3936
       lines         : 18
       syslines      : 18
   Processed:
@@ -9408,7 +8727,7 @@ File: ./logs/synology-DS6/synoservice.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4756
+      bytes         : 4053
       lines         : 19
       syslines      : 19
   Processed:
@@ -9441,7 +8760,7 @@ File: ./logs/synology-DS6/synotifyd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4346
+      bytes         : 3643
       lines         : 19
       syslines      : 19
   Processed:
@@ -9474,7 +8793,7 @@ File: ./logs/synology-DS6/synoupdate.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4043
+      bytes         : 3340
       lines         : 19
       syslines      : 19
   Processed:
@@ -9507,7 +8826,7 @@ File: ./logs/synology-DS6/syslog.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5038
+      bytes         : 4335
       lines         : 19
       syslines      : 19
   Processed:
@@ -9540,7 +8859,7 @@ File: ./logs/synology-DS6/sysnotify.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5807
+      bytes         : 5104
       lines         : 19
       syslines      : 19
   Processed:
@@ -9573,7 +8892,7 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4299
+      bytes         : 3596
       lines         : 19
       syslines      : 19
   Processed:
@@ -9606,7 +8925,7 @@ File: ./logs/synology-DS6/upstart/apparmor.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3876
+      bytes         : 3173
       lines         : 19
       syslines      : 19
   Processed:
@@ -9639,7 +8958,7 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1592
+      bytes         : 1296
       lines         : 8
       syslines      : 8
   Processed:
@@ -9672,7 +8991,7 @@ File: ./logs/synology-DS6/upstart/avahi.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4389
+      bytes         : 3686
       lines         : 19
       syslines      : 19
   Processed:
@@ -9705,7 +9024,7 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1381
+      bytes         : 1159
       lines         : 6
       syslines      : 5
   Processed:
@@ -9738,7 +9057,7 @@ File: ./logs/synology-DS6/upstart/crond.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3778
+      bytes         : 3075
       lines         : 19
       syslines      : 19
   Processed:
@@ -9771,7 +9090,7 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 32017
+      bytes         : 25431
       lines         : 178
       syslines      : 3
   Processed:
@@ -9804,7 +9123,7 @@ File: ./logs/synology-DS6/upstart/dbus-system.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4059
+      bytes         : 3356
       lines         : 19
       syslines      : 19
   Processed:
@@ -9837,7 +9156,7 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3459
+      bytes         : 3015
       lines         : 12
       syslines      : 12
   Processed:
@@ -9870,7 +9189,7 @@ File: ./logs/synology-DS6/upstart/DiskHealthCk.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 488
+      bytes         : 414
       lines         : 2
       syslines      : 2
   Processed:
@@ -9903,7 +9222,7 @@ File: ./logs/synology-DS6/upstart/dsm-services.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4472
+      bytes         : 3769
       lines         : 19
       syslines      : 19
   Processed:
@@ -9936,7 +9255,7 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4395
+      bytes         : 3692
       lines         : 19
       syslines      : 19
   Processed:
@@ -9969,7 +9288,7 @@ File: ./logs/synology-DS6/upstart/eaupgrade.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4522
+      bytes         : 3819
       lines         : 19
       syslines      : 19
   Processed:
@@ -10002,7 +9321,7 @@ File: ./logs/synology-DS6/upstart/findhostd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4103
+      bytes         : 3400
       lines         : 19
       syslines      : 18
   Processed:
@@ -10035,7 +9354,7 @@ File: ./logs/synology-DS6/upstart/ftpd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3712
+      bytes         : 3009
       lines         : 19
       syslines      : 18
   Processed:
@@ -10068,7 +9387,7 @@ File: ./logs/synology-DS6/upstart/hotplugd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1152
+      bytes         : 1004
       lines         : 4
       syslines      : 4
   Processed:
@@ -10101,7 +9420,7 @@ File: ./logs/synology-DS6/upstart/inetd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3527
+      bytes         : 2824
       lines         : 19
       syslines      : 11
   Processed:
@@ -10134,7 +9453,7 @@ File: ./logs/synology-DS6/upstart/iptablesTc.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4085
+      bytes         : 3382
       lines         : 19
       syslines      : 19
   Processed:
@@ -10167,7 +9486,7 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4046
+      bytes         : 3343
       lines         : 19
       syslines      : 17
   Processed:
@@ -10200,7 +9519,7 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3905
+      bytes         : 3202
       lines         : 19
       syslines      : 19
   Processed:
@@ -10233,7 +9552,7 @@ File: ./logs/synology-DS6/upstart/is_plugind.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5305
+      bytes         : 4602
       lines         : 19
       syslines      : 19
   Processed:
@@ -10266,7 +9585,7 @@ File: ./logs/synology-DS6/upstart/job-monitor-handler.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3762
+      bytes         : 3059
       lines         : 19
       syslines      : 19
   Processed:
@@ -10299,7 +9618,7 @@ File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4788
+      bytes         : 4085
       lines         : 19
       syslines      : 19
   Processed:
@@ -10332,7 +9651,7 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3842
+      bytes         : 3139
       lines         : 19
       syslines      : 18
   Processed:
@@ -10365,7 +9684,7 @@ File: ./logs/synology-DS6/upstart/mkcert.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4224
+      bytes         : 3521
       lines         : 19
       syslines      : 15
   Processed:
@@ -10398,7 +9717,7 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2500
+      bytes         : 2056
       lines         : 12
       syslines      : 8
   Processed:
@@ -10431,7 +9750,7 @@ File: ./logs/synology-DS6/upstart/netatalk.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3662
+      bytes         : 2959
       lines         : 19
       syslines      : 17
   Processed:
@@ -10464,7 +9783,7 @@ File: ./logs/synology-DS6/upstart/network.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3895
+      bytes         : 3192
       lines         : 19
       syslines      : 7
   Processed:
@@ -10497,7 +9816,7 @@ File: ./logs/synology-DS6/upstart/nfsd-adapter.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4005
+      bytes         : 3302
       lines         : 19
       syslines      : 19
   Processed:
@@ -10530,7 +9849,7 @@ File: ./logs/synology-DS6/upstart/nginx.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3973
+      bytes         : 3270
       lines         : 19
       syslines      : 19
   Processed:
@@ -10563,7 +9882,7 @@ File: ./logs/synology-DS6/upstart/nmbd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3908
+      bytes         : 3205
       lines         : 19
       syslines      : 19
   Processed:
@@ -10596,7 +9915,7 @@ File: ./logs/synology-DS6/upstart/opentftp.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3563
+      bytes         : 2860
       lines         : 19
       syslines      : 19
   Processed:
@@ -10629,7 +9948,7 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3900
+      bytes         : 3197
       lines         : 19
       syslines      : 19
   Processed:
@@ -10662,7 +9981,7 @@ File: ./logs/synology-DS6/upstart/pgsql.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4214
+      bytes         : 3511
       lines         : 19
       syslines      : 15
   Processed:
@@ -10695,7 +10014,7 @@ File: ./logs/synology-DS6/upstart/php_timezone_update.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3686
+      bytes         : 2983
       lines         : 19
       syslines      : 19
   Processed:
@@ -10728,7 +10047,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4308
+      bytes         : 3605
       lines         : 19
       syslines      : 19
   Processed:
@@ -10761,7 +10080,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4113
+      bytes         : 3410
       lines         : 19
       syslines      : 19
   Processed:
@@ -10794,7 +10113,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4303
+      bytes         : 3600
       lines         : 19
       syslines      : 19
   Processed:
@@ -10827,7 +10146,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4071
+      bytes         : 3368
       lines         : 19
       syslines      : 19
   Processed:
@@ -10860,7 +10179,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackup.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3981
+      bytes         : 3278
       lines         : 19
       syslines      : 19
   Processed:
@@ -10893,7 +10212,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4078
+      bytes         : 3375
       lines         : 19
       syslines      : 19
   Processed:
@@ -10926,7 +10245,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4054
+      bytes         : 3351
       lines         : 19
       syslines      : 19
   Processed:
@@ -10959,7 +10278,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v4.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3940
+      bytes         : 3237
       lines         : 19
       syslines      : 19
   Processed:
@@ -10992,7 +10311,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4635
+      bytes         : 3932
       lines         : 19
       syslines      : 19
   Processed:
@@ -11025,7 +10344,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4001
+      bytes         : 3298
       lines         : 19
       syslines      : 19
   Processed:
@@ -11058,7 +10377,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4059
+      bytes         : 3356
       lines         : 19
       syslines      : 19
   Processed:
@@ -11091,7 +10410,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4090
+      bytes         : 3387
       lines         : 19
       syslines      : 19
   Processed:
@@ -11124,7 +10443,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4044
+      bytes         : 3341
       lines         : 19
       syslines      : 19
   Processed:
@@ -11157,7 +10476,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4184
+      bytes         : 3481
       lines         : 19
       syslines      : 19
   Processed:
@@ -11190,7 +10509,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4076
+      bytes         : 3373
       lines         : 19
       syslines      : 19
   Processed:
@@ -11223,7 +10542,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4057
+      bytes         : 3354
       lines         : 19
       syslines      : 19
   Processed:
@@ -11256,7 +10575,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-USBCopy.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4277
+      bytes         : 3574
       lines         : 19
       syslines      : 19
   Processed:
@@ -11289,7 +10608,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4954
+      bytes         : 4251
       lines         : 19
       syslines      : 18
   Processed:
@@ -11322,7 +10641,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4136
+      bytes         : 3433
       lines         : 19
       syslines      : 19
   Processed:
@@ -11355,7 +10674,7 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2760
+      bytes         : 2242
       lines         : 14
       syslines      : 4
   Processed:
@@ -11388,7 +10707,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3888
+      bytes         : 3185
       lines         : 19
       syslines      : 19
   Processed:
@@ -11421,7 +10740,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3848
+      bytes         : 3145
       lines         : 19
       syslines      : 19
   Processed:
@@ -11454,7 +10773,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3876
+      bytes         : 3173
       lines         : 19
       syslines      : 19
   Processed:
@@ -11487,7 +10806,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4410
+      bytes         : 3707
       lines         : 19
       syslines      : 19
   Processed:
@@ -11520,7 +10839,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4418
+      bytes         : 3715
       lines         : 19
       syslines      : 19
   Processed:
@@ -11553,7 +10872,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-concept.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4346
+      bytes         : 3643
       lines         : 19
       syslines      : 19
   Processed:
@@ -11586,7 +10905,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4475
+      bytes         : 3772
       lines         : 19
       syslines      : 19
   Processed:
@@ -11619,7 +10938,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4334
+      bytes         : 3631
       lines         : 19
       syslines      : 19
   Processed:
@@ -11652,7 +10971,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4361
+      bytes         : 3658
       lines         : 19
       syslines      : 19
   Processed:
@@ -11685,7 +11004,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4429
+      bytes         : 3726
       lines         : 19
       syslines      : 19
   Processed:
@@ -11718,7 +11037,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4437
+      bytes         : 3734
       lines         : 19
       syslines      : 19
   Processed:
@@ -11751,7 +11070,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4513
+      bytes         : 3810
       lines         : 19
       syslines      : 19
   Processed:
@@ -11784,7 +11103,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4399
+      bytes         : 3696
       lines         : 19
       syslines      : 19
   Processed:
@@ -11817,7 +11136,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumb.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4285
+      bytes         : 3582
       lines         : 19
       syslines      : 19
   Processed:
@@ -11850,7 +11169,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4532
+      bytes         : 3829
       lines         : 19
       syslines      : 19
   Processed:
@@ -11883,7 +11202,7 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4934
+      bytes         : 4231
       lines         : 19
       syslines      : 19
   Processed:
@@ -11916,7 +11235,7 @@ File: ./logs/synology-DS6/upstart/pppoerelay.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4244
+      bytes         : 3541
       lines         : 19
       syslines      : 19
   Processed:
@@ -11949,7 +11268,7 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 245
+      bytes         : 208
       lines         : 1
       syslines      : 1
   Processed:
@@ -11982,7 +11301,7 @@ File: ./logs/synology-DS6/upstart/rc.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3990
+      bytes         : 3287
       lines         : 19
       syslines      : 16
   Processed:
@@ -12015,7 +11334,7 @@ File: ./logs/synology-DS6/upstart/rc-sysinit.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4384
+      bytes         : 3681
       lines         : 19
       syslines      : 19
   Processed:
@@ -12048,7 +11367,7 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3772
+      bytes         : 3069
       lines         : 19
       syslines      : 1
   Processed:
@@ -12081,7 +11400,7 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3990
+      bytes         : 3287
       lines         : 19
       syslines      : 19
   Processed:
@@ -12114,7 +11433,7 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3716
+      bytes         : 3013
       lines         : 19
       syslines      : 19
   Processed:
@@ -12147,7 +11466,7 @@ File: ./logs/synology-DS6/upstart/scemd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4098
+      bytes         : 3395
       lines         : 19
       syslines      : 19
   Processed:
@@ -12180,7 +11499,7 @@ File: ./logs/synology-DS6/upstart/scrubbing-conf-sync.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4731
+      bytes         : 4028
       lines         : 19
       syslines      : 19
   Processed:
@@ -12213,7 +11532,7 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1359
+      bytes         : 1137
       lines         : 6
       syslines      : 6
   Processed:
@@ -12246,7 +11565,7 @@ File: ./logs/synology-DS6/upstart/smbd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4197
+      bytes         : 3494
       lines         : 19
       syslines      : 16
   Processed:
@@ -12279,7 +11598,7 @@ File: ./logs/synology-DS6/upstart/sshd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3572
+      bytes         : 2869
       lines         : 19
       syslines      : 6
   Processed:
@@ -12312,7 +11631,7 @@ File: ./logs/synology-DS6/upstart/ssh-sftp.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3774
+      bytes         : 3071
       lines         : 19
       syslines      : 19
   Processed:
@@ -12345,7 +11664,7 @@ File: ./logs/synology-DS6/upstart/ssh-shell.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3906
+      bytes         : 3203
       lines         : 19
       syslines      : 19
   Processed:
@@ -12378,7 +11697,7 @@ File: ./logs/synology-DS6/upstart/syno-auth-check.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3757
+      bytes         : 3054
       lines         : 19
       syslines      : 19
   Processed:
@@ -12411,7 +11730,7 @@ File: ./logs/synology-DS6/upstart/synocgid.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3717
+      bytes         : 3014
       lines         : 19
       syslines      : 19
   Processed:
@@ -12444,7 +11763,7 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4845
+      bytes         : 4142
       lines         : 19
       syslines      : 19
   Processed:
@@ -12477,7 +11796,7 @@ File: ./logs/synology-DS6/upstart/synoconfd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4173
+      bytes         : 3470
       lines         : 19
       syslines      : 19
   Processed:
@@ -12510,7 +11829,7 @@ File: ./logs/synology-DS6/upstart/synocrond.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3659
+      bytes         : 2956
       lines         : 19
       syslines      : 19
   Processed:
@@ -12543,7 +11862,7 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3971
+      bytes         : 3268
       lines         : 19
       syslines      : 19
   Processed:
@@ -12576,7 +11895,7 @@ File: ./logs/synology-DS6/upstart/synoindexd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3952
+      bytes         : 3249
       lines         : 19
       syslines      : 19
   Processed:
@@ -12609,7 +11928,7 @@ File: ./logs/synology-DS6/upstart/synologand.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3773
+      bytes         : 3070
       lines         : 19
       syslines      : 19
   Processed:
@@ -12642,7 +11961,7 @@ File: ./logs/synology-DS6/upstart/synologd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3741
+      bytes         : 3038
       lines         : 19
       syslines      : 19
   Processed:
@@ -12675,7 +11994,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3167
+      bytes         : 2575
       lines         : 16
       syslines      : 16
   Processed:
@@ -12708,7 +12027,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3764
+      bytes         : 3061
       lines         : 19
       syslines      : 19
   Processed:
@@ -12741,7 +12060,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3765
+      bytes         : 3062
       lines         : 19
       syslines      : 19
   Processed:
@@ -12774,7 +12093,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1802
+      bytes         : 1469
       lines         : 9
       syslines      : 9
   Processed:
@@ -12807,7 +12126,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1364
+      bytes         : 1105
       lines         : 7
       syslines      : 7
   Processed:
@@ -12840,7 +12159,7 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3165
+      bytes         : 2610
       lines         : 15
       syslines      : 15
   Processed:
@@ -12873,7 +12192,7 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3408
+      bytes         : 2816
       lines         : 16
       syslines      : 16
   Processed:
@@ -12906,7 +12225,7 @@ File: ./logs/synology-DS6/upstart/synomount.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3631
+      bytes         : 2928
       lines         : 19
       syslines      : 18
   Processed:
@@ -12939,7 +12258,7 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4104
+      bytes         : 3401
       lines         : 19
       syslines      : 19
   Processed:
@@ -12972,7 +12291,7 @@ File: ./logs/synology-DS6/upstart/synonetd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3706
+      bytes         : 3003
       lines         : 19
       syslines      : 18
   Processed:
@@ -13005,7 +12324,7 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4361
+      bytes         : 3658
       lines         : 19
       syslines      : 15
   Processed:
@@ -13038,7 +12357,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3857
+      bytes         : 3154
       lines         : 19
       syslines      : 19
   Processed:
@@ -13071,7 +12390,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4640
+      bytes         : 3937
       lines         : 19
       syslines      : 19
   Processed:
@@ -13104,7 +12423,7 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5056
+      bytes         : 4353
       lines         : 19
       syslines      : 18
   Processed:
@@ -13137,7 +12456,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4522
+      bytes         : 3819
       lines         : 19
       syslines      : 19
   Processed:
@@ -13170,7 +12489,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3705
+      bytes         : 3002
       lines         : 19
       syslines      : 19
   Processed:
@@ -13203,7 +12522,7 @@ File: ./logs/synology-DS6/upstart/syno-share-check.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4220
+      bytes         : 3517
       lines         : 19
       syslines      : 16
   Processed:
@@ -13236,7 +12555,7 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2974
+      bytes         : 2493
       lines         : 13
       syslines      : 13
   Processed:
@@ -13269,7 +12588,7 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 409
+      bytes         : 335
       lines         : 2
       syslines      : 1
   Processed:
@@ -13302,7 +12621,7 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3782
+      bytes         : 3079
       lines         : 19
       syslines      : 19
   Processed:
@@ -13335,7 +12654,7 @@ File: ./logs/synology-DS6/upstart/synostoraged.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4080
+      bytes         : 3377
       lines         : 19
       syslines      : 19
   Processed:
@@ -13368,7 +12687,7 @@ File: ./logs/synology-DS6/upstart/synovpnclient.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3686
+      bytes         : 2983
       lines         : 19
       syslines      : 19
   Processed:
@@ -13401,7 +12720,7 @@ File: ./logs/synology-DS6/upstart/synowifid-handler.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4546
+      bytes         : 3843
       lines         : 19
       syslines      : 19
   Processed:
@@ -13434,7 +12753,7 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3760
+      bytes         : 3057
       lines         : 19
       syslines      : 2
   Processed:
@@ -13467,7 +12786,7 @@ File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4031
+      bytes         : 3328
       lines         : 19
       syslines      : 19
   Processed:
@@ -13500,7 +12819,7 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3950
+      bytes         : 3247
       lines         : 19
       syslines      : 5
   Processed:
@@ -13533,7 +12852,7 @@ File: ./logs/synology-DS6/upstart/syslog-ng.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4503
+      bytes         : 3800
       lines         : 19
       syslines      : 19
   Processed:
@@ -13566,7 +12885,7 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3685
+      bytes         : 2982
       lines         : 19
       syslines      : 16
   Processed:
@@ -13599,7 +12918,7 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3911
+      bytes         : 3208
       lines         : 19
       syslines      : 19
   Processed:
@@ -13632,7 +12951,7 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3695
+      bytes         : 2992
       lines         : 19
       syslines      : 15
   Processed:
@@ -13665,7 +12984,7 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3848
+      bytes         : 3145
       lines         : 19
       syslines      : 19
   Processed:
@@ -13698,7 +13017,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3561
+      bytes         : 2858
       lines         : 19
       syslines      : 11
   Processed:
@@ -13731,7 +13050,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3813
+      bytes         : 3110
       lines         : 19
       syslines      : 18
   Processed:
@@ -13764,7 +13083,7 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4001
+      bytes         : 3298
       lines         : 19
       syslines      : 18
   Processed:
@@ -13797,7 +13116,7 @@ File: ./logs/synology-DS6/usbcopyd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4685
+      bytes         : 3982
       lines         : 19
       syslines      : 19
   Processed:
@@ -13851,7 +13170,7 @@ File: ./logs/Ubuntu18/apt/history.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1399
+      bytes         : 1214
       lines         : 5
       syslines      : 2
   Processed:
@@ -13884,7 +13203,7 @@ File: ./logs/Ubuntu18/apt/term.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4209
+      bytes         : 3543
       lines         : 18
       syslines      : 1
   Processed:
@@ -13917,7 +13236,7 @@ File: ./logs/Ubuntu18/cups/access_log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 520
+      bytes         : 446
       lines         : 2
       syslines      : 2
   Processed:
@@ -13950,7 +13269,7 @@ File: ./logs/Ubuntu18/cups/access_log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1537
+      bytes         : 1315
       lines         : 6
       syslines      : 6
   Processed:
@@ -13983,7 +13302,7 @@ File: ./logs/Ubuntu18/cups/error_log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 268
+      bytes         : 231
       lines         : 1
       syslines      : 1
   Processed:
@@ -14208,7 +13527,7 @@ File: ./logs/Ubuntu18/kern.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4483
+      bytes         : 3780
       lines         : 19
       syslines      : 19
   Processed:
@@ -14242,7 +13561,7 @@ File: ./logs/Ubuntu18/nvidia-installer.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3480
+      bytes         : 2814
       lines         : 18
       syslines      : 1
   Processed:
@@ -14339,7 +13658,7 @@ File: ./logs/Ubuntu18/samba/log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3830
+      bytes         : 3127
       lines         : 19
       syslines      : 6
   Processed:
@@ -14372,7 +13691,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4023
+      bytes         : 3320
       lines         : 19
       syslines      : 10
   Processed:
@@ -14405,7 +13724,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.2
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3973
+      bytes         : 3270
       lines         : 19
       syslines      : 10
   Processed:
@@ -14438,7 +13757,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4023
+      bytes         : 3320
       lines         : 19
       syslines      : 10
   Processed:
@@ -14471,7 +13790,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4023
+      bytes         : 3320
       lines         : 19
       syslines      : 10
   Processed:
@@ -14504,7 +13823,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.5
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3961
+      bytes         : 3258
       lines         : 19
       syslines      : 10
   Processed:
@@ -14537,7 +13856,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3970
+      bytes         : 3267
       lines         : 19
       syslines      : 10
   Processed:
@@ -14570,7 +13889,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.7
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3970
+      bytes         : 3267
       lines         : 19
       syslines      : 10
   Processed:
@@ -14603,7 +13922,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4558
+      bytes         : 3855
       lines         : 19
       syslines      : 10
   Processed:
@@ -14636,7 +13955,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4236
+      bytes         : 3533
       lines         : 19
       syslines      : 7
   Processed:
@@ -14669,7 +13988,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4568
+      bytes         : 3865
       lines         : 19
       syslines      : 10
   Processed:
@@ -14702,7 +14021,7 @@ File: ./logs/Ubuntu18/samba/log.smbd
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3704
+      bytes         : 3001
       lines         : 19
       syslines      : 4
   Processed:
@@ -14735,7 +14054,7 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3953
+      bytes         : 3250
       lines         : 19
       syslines      : 7
   Processed:
@@ -14768,7 +14087,7 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5493
+      bytes         : 4790
       lines         : 19
       syslines      : 19
   Processed:
@@ -14801,7 +14120,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5493
+      bytes         : 4790
       lines         : 19
       syslines      : 19
   Processed:
@@ -14834,7 +14153,7 @@ File: ./logs/Ubuntu18/vmware-installer
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4208
+      bytes         : 3542
       lines         : 18
       syslines      : 18
   Processed:
@@ -14867,7 +14186,7 @@ File: ./logs/Ubuntu18/xrdp.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4147
+      bytes         : 3444
       lines         : 19
       syslines      : 19
   Processed:
@@ -14907,7 +14226,7 @@ File: ./logs/Ubuntu22/alternatives.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 8600
+      bytes         : 8119
       lines         : 13
       syslines      : 13
   Processed:
@@ -14940,7 +14259,7 @@ File: ./logs/Ubuntu22/apport.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 1264
+      bytes         : 1079
       lines         : 5
       syslines      : 5
   Processed:
@@ -15005,7 +14324,7 @@ File: ./logs/Ubuntu22/apt/history.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3320
+      bytes         : 2839
       lines         : 13
       syslines      : 5
   Processed:
@@ -15038,7 +14357,7 @@ File: ./logs/Ubuntu22/apt/term.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3304
+      bytes         : 2823
       lines         : 13
       syslines      : 1
   Processed:
@@ -15071,7 +14390,7 @@ File: ./logs/Ubuntu22/auth.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3555
+      bytes         : 3037
       lines         : 14
       syslines      : 14
   Processed:
@@ -15105,7 +14424,7 @@ File: ./logs/Ubuntu22/auth.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3504
+      bytes         : 2986
       lines         : 14
       syslines      : 14
   Processed:
@@ -15139,7 +14458,7 @@ File: ./logs/Ubuntu22/cloud-init.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3528
+      bytes         : 3010
       lines         : 14
       syslines      : 14
   Processed:
@@ -15172,7 +14491,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3245
+      bytes         : 2764
       lines         : 13
       syslines      : 1
   Processed:
@@ -15269,7 +14588,7 @@ File: ./logs/Ubuntu22/dpkg.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3096
+      bytes         : 2578
       lines         : 14
       syslines      : 14
   Processed:
@@ -15302,7 +14621,7 @@ File: ./logs/Ubuntu22/dpkg.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3023
+      bytes         : 2505
       lines         : 14
       syslines      : 14
   Processed:
@@ -15367,7 +14686,7 @@ File: ./logs/Ubuntu22/kern.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4955
+      bytes         : 4437
       lines         : 14
       syslines      : 14
   Processed:
@@ -15433,7 +14752,7 @@ File: ./logs/Ubuntu22/syslog
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3558
+      bytes         : 3040
       lines         : 14
       syslines      : 14
   Processed:
@@ -15467,7 +14786,7 @@ File: ./logs/Ubuntu22/syslog.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3330
+      bytes         : 2812
       lines         : 14
       syslines      : 14
   Processed:
@@ -15503,7 +14822,7 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 1702
+      bytes         : 1517
       entries       : 5
   Processed:
       file size     : 2304 (0x900) (bytes)
@@ -15530,7 +14849,7 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 24781
+      bytes         : 21969
       entries       : 76
   Processed:
       file size     : 35712 (0x8B80) (bytes)
@@ -15555,7 +14874,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 2724
+      bytes         : 2280
       lines         : 12
       syslines      : 12
   Processed:
@@ -15588,7 +14907,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3177
+      bytes         : 2659
       lines         : 14
       syslines      : 14
   Processed:
@@ -15621,7 +14940,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3501
+      bytes         : 2983
       lines         : 14
       syslines      : 1
   Processed:
@@ -15654,7 +14973,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3330
+      bytes         : 2812
       lines         : 14
       syslines      : 14
   Processed:
@@ -15687,7 +15006,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 43093
+      bytes         : 37210
       lines         : 159
       syslines      : 152
   Processed:
@@ -15752,7 +15071,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 8217
+      bytes         : 6478
       lines         : 47
       syslines      : 5
   Processed:
@@ -15817,7 +15136,7 @@ File: ./logs/Windows10Pro/DISM/dism.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 31863
+      bytes         : 27756
       lines         : 111
       syslines      : 94
   Processed:
@@ -15882,7 +15201,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 8249
+      bytes         : 6732
       lines         : 41
       syslines      : 4
   Processed:
@@ -15915,7 +15234,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 9524
+      bytes         : 8007
       lines         : 41
       syslines      : 2
   Processed:
@@ -15948,7 +15267,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 34930
+      bytes         : 29306
       lines         : 152
       syslines      : 9
   Processed:
@@ -15981,7 +15300,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 5724
+      bytes         : 4762
       lines         : 26
       syslines      : 6
   Processed:
@@ -16014,7 +15333,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 26245
+      bytes         : 21509
       lines         : 128
       syslines      : 5
   Processed:
@@ -16143,7 +15462,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 13396
+      bytes         : 11361
       lines         : 55
       syslines      : 35
   Processed:
@@ -16176,7 +15495,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 7600
+      bytes         : 6379
       lines         : 33
       syslines      : 15
   Processed:
@@ -16209,7 +15528,7 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 17101
+      bytes         : 14363
       lines         : 74
       syslines      : 3
   Processed:
@@ -16338,7 +15657,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 317629
+      bytes         : 269529
       lines         : 1300
       syslines      : 1205
   Processed:
@@ -16371,7 +15690,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 30798
+      bytes         : 26913
       lines         : 105
       syslines      : 105
   Processed:
@@ -16436,7 +15755,7 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 11213
+      bytes         : 9659
       lines         : 42
       syslines      : 40
   Processed:
@@ -16530,36 +15849,63 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       process: regex captures attempted                            : 219
   Processing Drops:
 
+File: ./logs/other/tests/empty.log (empty file) TEXT
 File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
+File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log (No such file or directory (os error 2))
 File: ./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
 File: ./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).xz.tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
+File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log (No such file or directory (os error 2))
 File: ./logs/other/tests/dtf2-2.tar.gz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.gz")
 File: ./logs/other/tests/dtf2-2.tar.lz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.lz")
 File: ./logs/other/tests/dtf2-2.tar.xz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.xz")
 File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz (cannot extract gzip type from a tar archived file)
+File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-5-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-5-LEVELS.log (No such file or directory (os error 2))
+File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log (No such file or directory (os error 2))
 File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
+File: ./logs/other/tests/empty.log (empty file) TEXT
+File: ./logs/other/tests/empty.log.gz (empty file) TEXT
+File: ./logs/other/tests/empty.log.xz (empty file) TEXT
 File: ./logs/other/tests/invalid.gz 
 File: ./logs/other/tests/invalid.tar (other error: failed to read entire block for file "./logs/other/tests/invalid.tar")
+File: ./logs/other/tests/invalid1a.log (too small) (1 bytes) TEXT
+File: ./logs/other/tests/invalid1b.log (too small) (2 bytes) TEXT
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Microsoft-Windows-Kernel-PnP%4Configuration.evtx (No such file or directory (os error 2))
+File: ./logs/programs/journal/RHE_91_system.tar|RHE_91_system.journal (No such file or directory (os error 2))
 File: ./logs/programs/utmp/host-entry6_(b1_xz).wtmp.xz.tar (does not exist)
 File: ./logs/programs/utmp/host-entry6_(pax_b1).wtmp.tar (does not exist)
 File: ./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar (does not exist)
+File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp (No such file or directory (os error 2))
+File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp (No such file or directory (os error 2))
 File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
-Paths considered       : 562
-Paths not processed    : 14
-Files processed        : 548
-Files printed          : 432
-Printed bytes          : 50315717
-Printed lines          : 14315
-Printed syslines       : 11868
-Printed evtx events    : 1135
-Printed fixedstruct    : 116
+Paths considered       : 564
+Paths not processed    : 41
+Files processed        : 523
+Files printed          : 413
+Printed bytes          : 38953023
+Printed lines          : 14111
+Printed syslines       : 11669
+Printed evtx events    : 908
+Printed fixedstruct    : 110
 Printed journal events : 8315
 Regex patterns known   : 158
 Regex patterns compiled: 158
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok     : 22532
+Channel Receive ok     : 22050
 Channel Receive err    : 0

@@ -1096,29 +1096,56 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
         };
         match filetype {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal }
-            | FileType::FixedStruct{ archival_type: _, fixedstruct_type: _ }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, fixedstruct_type: _ }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
             | FileType::Journal{ archival_type: FileTypeArchive::Normal }
-            | FileType::Text{ archival_type: _, encoding_type: _ }
+            | FileType::Journal{ archival_type: FileTypeArchive::Gz }
+            | FileType::Journal{ archival_type: FileTypeArchive::Lz4 }
+            | FileType::Journal{ archival_type: FileTypeArchive::Tar }
+            | FileType::Journal{ archival_type: FileTypeArchive::Xz }
+            | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+            | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+            | FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+            | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+            | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
             => {
                 deo!("paths.push(FileValid(({:?}, {:?})))", fpath_entry, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, filetype));
             }
-            ft @ FileType::Evtx{ archival_type: FileTypeArchive::Gz }
-            | ft @ FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
-            | ft @ FileType::Evtx{ archival_type: FileTypeArchive::Tar }
-            | ft @ FileType::Evtx{ archival_type: FileTypeArchive::Xz }
-            | ft @ FileType::Journal{ archival_type: FileTypeArchive::Gz }
-            | ft @ FileType::Journal{ archival_type: FileTypeArchive::Lz4 }
-            | ft @ FileType::Journal{ archival_type: FileTypeArchive::Tar }
-            | ft @ FileType::Journal{ archival_type: FileTypeArchive::Xz }
-            | ft @ FileType::Unparsable => {
-                deo!("Path not supported {:?}", std_path_entry);
-                let k = ft.kind().to_string();
+            ft @ FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf16 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf32 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf16 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf32 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf16 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf32 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf16 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf32 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf16 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf32 }
+            => {
+                let et: String = match ft.encoding_type() {
+                    Some(e) => e.to_string(),
+                    None => String::from(""),
+                };
+                deo!("Text encoding {} not supported {:?}", et, std_path_entry);
                 paths.push(ProcessPathResult::FileErrNotSupported(
                     fpath_entry,
-                    Some(String::from(
-                        format!("compressed or archived {} are not supported", k)
-                    )),
+                    Some(format!("Encoding {}", et)),
+                ));
+            }
+            FileType::Unparsable
+            => {
+                deo!("Path not a log file {:?}", std_path_entry);
+                paths.push(ProcessPathResult::FileErrNotSupported(
+                    fpath_entry,
+                    None,
                 ));
             }
         }
