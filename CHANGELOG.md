@@ -233,13 +233,16 @@ _MSRV 1.70.0_
 
 ### New
 
+- (BIN) s4.rs check for FileEmpty FileTooSmall sooner [Issue #270] ([2160556])
 - (BIN) s4.rs -h README.md describe file name guessing, directory filter ([a7d3a39])
+- (LIB) src/ allow processing journal, evtx that are compressed, arch [Issue #291] [Issue #284] ([f2e5b4d])
 - (LIB) src/ add strace output datetime pattern ([13f1ef4])
 - (LIB) datetime.rs match cv_debug.log [Issue #260] ([132a18a])
 - (LIB) journal,evtx tempfile when gz,lz4,tar,xz [Issue #284] ([cea1c6f])
 - (LIB) src support lz4, refactor processing linear syslogs [Issue #128] [Issue #201] [Issue #283] [Issue #291] ([a223eeb])
 - (LIB) blockreader.rs syslinereader.rs add is_streamed_file() [Issue #182] [Issue #283] ([8a6af55])
 - (LIB) filepreprocessor.rs use jwalk for WalkDir ([219e2cf])
+- (PROJECT) add logs simple-*log ([b5dd71e])
 
 ### Changes
 
@@ -1977,6 +1980,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [2030a73]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2030a7392e792e00727f80f9a2d83257b851f519
 [210f01c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/210f01c36f0e7b8415ae595fbda857cff44277fb
 [2157861]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2157861027eff2cade51aa950a6a4300e86a1e50
+[2160556]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2160556dd15491acfa5e13d9de69a8db4af224d5
 [21745ee]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/21745ee99eb04a4204164825ca5c50e6f8b34fee
 [219e2cf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/219e2cfcf9124054da2d34732a1290387daa4344
 [22980ab]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/22980abf582aa61c5e4c9ce94d8298997fb5bbbc
@@ -2374,6 +2378,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [b550573]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b5505730100a9780877eb3e1cb4d280f02845863
 [b55341e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b55341ecd717344211bd79557f56f7fecaad2479
 [b5d4d91]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b5d4d91779599bae9fc15d78c5e3db3f4a43f18b
+[b5dd71e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b5dd71e8e19bc0094fa253ef1345a12996ced46d
 [b63e848]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b63e84804022258362d0238f7a5a7b199da524f8
 [b6d359f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b6d359fe3efb94ba8f85c7eaa1788665c392021d
 [b715be5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b715be5564b434b10e566aba23a1737860ccc37f
@@ -2550,6 +2555,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [f1baa4d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f1baa4d5f07e31c179c983a0b855cbc240903859
 [f2199b3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f2199b30ca34e9d46d1e51436b2cfba7c9b2f64c
 [f271285]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f271285d727e9aee05398bd101cf64628ff9e008
+[f2e5b4d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f2e5b4d1afb28d371ada56f0f4d206e67fb9b644
 [f32d765]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f32d7650d306ec4a5b0c6686dd7461f6323f6f12
 [f355964]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f355964d7b4c6bcc0d5cd726df4ff360f2adac23
 [f363682]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f363682cfb202a8fcfaf591c0db5f6fbbd472fa1
