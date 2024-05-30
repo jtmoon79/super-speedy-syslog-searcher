@@ -71,12 +71,32 @@
 ./logs/other/tests/dtf5-6a.log.xz
 ./logs/other/tests/dtf6z-1.log
 ./logs/other/tests/dtf7-20-LEVELS.log
+./logs/other/tests/dtf7-20-LEVELS.log.bz2
 ./logs/other/tests/dtf7-20-LEVELS.log.gz
 ./logs/other/tests/dtf7-20-LEVELS.log.old
 ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
 ./logs/other/tests/dtf7-20-LEVELS.log.tar
 ./logs/other/tests/dtf7-20-LEVELS.log.xz
+./logs/other/tests/dtf7-20-LEVELS.log.lz
 ./logs/other/tests/dtf7-5-LEVELS.log
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9, store all times).7z
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
+./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip
 ./logs/other/tests/dtf8-20-LEVELS.log
 ./logs/other/tests/dtf9a-2.log
 ./logs/other/tests/dtf9b-12-leapday.log
@@ -102,14 +122,75 @@
 ./logs/other/tests/invalid2.log
 ./logs/other/tests/invalid3.log
 ./logs/other/tests/invalid4.log
+./logs/other/tests/simple-10.log
+./logs/other/tests/simple-10s.log
+./logs/other/tests/simple-11.log
+./logs/other/tests/simple-11s_b.log
+./logs/other/tests/simple-11s.log
+./logs/other/tests/simple-12.log
+./logs/other/tests/simple-13.log
+./logs/other/tests/simple-14.log
+./logs/other/tests/simple-14s_b.log
+./logs/other/tests/simple-14s_.log
+./logs/other/tests/simple-15.log
+./logs/other/tests/simple-16.log
+./logs/other/tests/simple-1.log
+./logs/other/tests/simple-1.log.gz
+./logs/other/tests/simple-1.log.lz4
+./logs/other/tests/simple-1.log.xz
+./logs/other/tests/simple-2_3.log.tar
+./logs/other/tests/simple-2.log
+./logs/other/tests/simple-3.log
+./logs/other/tests/simple-4.log
+./logs/other/tests/simple-5.log
+./logs/other/tests/simple-6.log
+./logs/other/tests/simple-7.log
+./logs/other/tests/simple-8.log
+./logs/other/tests/simple-9.log
+./logs/other/tests/syslog.1.log
 ./logs/other/tests/unknown
 ./logs/other/tests/zero100.log
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.bz2
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.lz4
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.xz
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.zip
+./logs/programs/evtx/NoEvents.evtx
 ./logs/programs/journal/RHE_91_system.journal
+./logs/programs/journal/RHE_91_system.journal.bz2
+./logs/programs/journal/RHE_91_system.journal.gz
+./logs/programs/journal/RHE_91_system.journal.lz4
+./logs/programs/journal/RHE_91_system.journal.xz
+./logs/programs/journal/RHE_91_system.tar
+./logs/programs/journal/RHE_91_system.zip
+./logs/programs/journal/Ubuntu22-user-1000.journal
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal
+./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
+./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
+./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
+./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
+./logs/programs/journal/Ubuntu22-user-1000x3.tar
 ./logs/programs/proftpd/proftpd.log
+./logs/programs/utmp/empty (invalid).wtmp
+./logs/programs/utmp/host-entry1_(all_0x00).wtmp
+./logs/programs/utmp/host-entry1_(all_0xFF).wtmp
 ./logs/programs/utmp/host-entry1.wtmp
+./logs/programs/utmp/host-entry6_1_(b1_bzip2).wtmp.tar
+./logs/programs/utmp/host-entry6_1_(b1_bz).wtmp.tar
+./logs/programs/utmp/host-entry6_1_(b1_gz).wtmp.tar
+./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar
+./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.tar
+./logs/programs/utmp/host-entry6_1_(b1_zstd).wtmp.tar
 ./logs/programs/utmp/host-entry6.wtmp
+./logs/programs/utmp/host-entry6.wtmp.bz2
+./logs/programs/utmp/host-entry6.wtmp.gz
+./logs/programs/utmp/host-entry6.wtmp.lz
+./logs/programs/utmp/host-entry6.wtmp.lz4
+./logs/programs/utmp/host-entry6.wtmp.tar
+./logs/programs/utmp/host-entry6.wtmp.xz
+./logs/programs/utmp/host-entry6.wtmp.zip
 ./logs/RancherOS-1.5.8/boot/autologin
 ./logs/RedHatEnterprise9/audit/audit.log
 ./logs/RockyLinux9/messages
