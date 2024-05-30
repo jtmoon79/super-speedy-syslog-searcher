@@ -260,10 +260,6 @@ pub struct XzData {
     pub bufreader: BufReaderXz,
 }
 
-// TODO: Issue #7
-//       it is not impossible for paths to have '|', use '\0' instead
-//       is even less likely to be in a path. Use ':' when printing paths.
-
 /// Separator `char` symbol for a filesystem path and subpath within a
 /// compressed file or an archive file. Used by an [`FPath`].
 ///
@@ -271,6 +267,10 @@ pub struct XzData {
 /// e.g. `log.xz:syslog`
 ///
 /// [`FPath`]: crate::common::FPath
+// TODO: move this to common.rs
+// TODO: Issue #7
+//       it is not impossible for paths to have '|', use '\0' instead
+//       is even less likely to be in a path. Use ':' when printing paths.
 pub const SUBPATH_SEP: char = '|';
 
 /// crate `tar` handle for a plain `File`.
