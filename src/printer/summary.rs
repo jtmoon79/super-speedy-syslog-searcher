@@ -19,6 +19,7 @@ use ::chrono::{
 };
 use ::si_trace_print::defñ;
 
+use crate::de_err;
 use crate::common::{
     debug_panic,
     Count,
@@ -48,7 +49,10 @@ use crate::debug::printers::{
     de_wrn,
     e_err,
 };
-use crate::readers::blockreader::SummaryBlockReader;
+use crate::readers::blockreader::{
+    SUBPATH_SEP,
+    SummaryBlockReader,
+};
 use crate::readers::filepreprocessor::ProcessPathResult;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::linereader::SummaryLineReader;
@@ -912,9 +916,15 @@ fn print_file_about(
         Err(e) => e_err!("print_colored_stderr: {:?}", e)
     }
     eprintln!("\n{}About:", OPT_SUMMARY_PRINT_INDENT1);
-    // if symlink or relative path then print target
     // XXX: experimentation revealed std::fs::Metadata::is_symlink to be unreliable on WSL Ubuntu
-    match std::fs::canonicalize(path) {
+    let mut path2: &str = path.as_str();
+    let mut subpath: &str = "";
+    if filetype.is_archived() && path.contains(SUBPATH_SEP) {
+        // only canonicalize the first part of the path,
+        // e.g. `"path/to/file.tar"` from `"path/to/file.tar|inner/file.txt"`
+        (path2, subpath) = path2.split_once(SUBPATH_SEP).unwrap_or((path.as_str(), ""));
+    }
+    match std::fs::canonicalize(path2) {
         Ok(pathb) => match pathb.to_str() {
             Some(s) => {
                 if s != path.as_str() {
@@ -924,7 +934,13 @@ fn print_file_about(
             }
             None => {}
         },
-        Err(_) => {}
+        Err(_err) => {
+            de_err!("canonicalize failed for {:?}; {}", path2, _err);
+        }
+    }
+    if !subpath.is_empty() {
+        eprint!("{}archive subpath: {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
+        eprintln!();
     }
     match summary_opt {
         Some(summary) => {
