@@ -2544,15 +2544,6 @@ fn processing_loop(
                     paths_total += 1;
                     continue;
                 }
-                // XXX: do an early check for easy to dismiss files
-                //      this is a performance optimization for processing large
-                //      numbers of files, as it avoids spawning a thread for each
-                //      file.
-                //      Mild slow down as it does an additional filesystem lookup by
-                //      requesting the path's metadata.
-                //      One project design principle is to avoid filesystem reads where possible,
-                //      so this is a small violation of that but worth it.
-                //      Relates to Issue #270
                 if filetype.is_journal() {
                     defo!("load_library_systemd()");
                     match load_library_systemd() {
@@ -2578,38 +2569,49 @@ fn processing_loop(
                         }
                     }
                 }
-                let path_std = fpath_to_path(&path);
-                let matadata = match path_std.metadata() {
-                    Ok(metadata) => metadata,
-                    Err(err) => {
-                        e_err!("path.metadata() failed; {}", err);
-                        defo!("paths_invalid_results.push(FileErrIoPath)");
+                // XXX: do an early check for easy to dismiss files
+                //      this is a performance optimization for processing large
+                //      numbers of files, as it avoids spawning a thread for each
+                //      file.
+                //      Mild slow down as it does an additional filesystem lookup by
+                //      requesting the path's metadata.
+                //      One project design principle is to avoid filesystem reads where possible,
+                //      so this is a small violation of that but worth it.
+                //      Relates to Issue #270
+                if ! filetype.is_archived() {
+                    let path_std = fpath_to_path(&path);
+                    let matadata = match path_std.metadata() {
+                        Ok(metadata) => metadata,
+                        Err(err) => {
+                            e_err!("path.metadata() failed; {}", err);
+                            defo!("paths_invalid_results.push(FileErrIoPath)");
+                            map_pathid_results_invalid.insert(
+                                pathid_counter,
+                                ProcessPathResult::FileErr(path.clone(), err.to_string()),
+                            );
+                            paths_total += 1;
+                            continue;
+                        }
+                    };
+                    let flen = matadata.len();
+                    if flen == 0 {
+                        defo!("paths_invalid_results.push(FileErrEmpty)");
                         map_pathid_results_invalid.insert(
                             pathid_counter,
-                            ProcessPathResult::FileErr(path.clone(), err.to_string()),
+                            ProcessPathResult::FileErrEmpty(path.clone(), *filetype),
                         );
                         paths_total += 1;
                         continue;
                     }
-                };
-                let flen = matadata.len();
-                if flen == 0 {
-                    defo!("paths_invalid_results.push(FileErrEmpty)");
-                    map_pathid_results_invalid.insert(
-                        pathid_counter,
-                        ProcessPathResult::FileErrEmpty(path.clone(), *filetype),
-                    );
-                    paths_total += 1;
-                    continue;
-                }
-                else if flen <= FILE_TOO_SMALL_SZ {
-                    defo!("paths_invalid_results.push(FileErrTooSmall)");
-                    map_pathid_results_invalid.insert(
-                        pathid_counter,
-                        ProcessPathResult::FileErrTooSmall(path.clone(), *filetype, flen),
-                    );
-                    paths_total += 1;
-                    continue;
+                    else if flen <= FILE_TOO_SMALL_SZ {
+                        defo!("paths_invalid_results.push(FileErrTooSmall)");
+                        map_pathid_results_invalid.insert(
+                            pathid_counter,
+                            ProcessPathResult::FileErrTooSmall(path.clone(), *filetype, flen),
+                        );
+                        paths_total += 1;
+                        continue;
+                    }
                 }
                 defo!("map_pathid_results.push({:?})", path);
                 map_pathid_path.insert(pathid_counter, path.clone());
