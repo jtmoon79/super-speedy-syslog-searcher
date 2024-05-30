@@ -1034,14 +1034,6 @@ impl<'a> JournalReader {
         };
         def1o!("named_temp_file {:?}", named_temp_file);
         def1o!("mtime_opt {:?}", mtime_opt);
-        let mtime: SystemTime = match mtime_opt {
-            Some(mt) => mt,
-            None => {
-                def1o!("mtime_opt None, using SystemTime::UNIX_EPOCH");
-
-                SystemTime::UNIX_EPOCH
-            }
-        };
 
         let path_actual: &Path = match named_temp_file {
             Some(ref ntf) => ntf.path(),
@@ -1068,6 +1060,20 @@ impl<'a> JournalReader {
         };
         let filesz: FileSz = metadata.len() as FileSz;
         def1o!("filesz {:?}", filesz);
+
+        let mtime: SystemTime = match mtime_opt {
+            Some(val) => val,
+            None => {
+                match metadata.modified() {
+                    Result::Ok(val) => val,
+                    Result::Err(_err) => {
+                        de_err!("metadata.modified() failed {}", _err);
+                        SystemTime::UNIX_EPOCH
+                    },
+                }
+            }
+        };
+        def1o!("mtime {:?}", mtime);
 
         // create the `JournalFile` file descriptor handle
         let mut journal_handle: Box<sd_journal> = Box::new(
