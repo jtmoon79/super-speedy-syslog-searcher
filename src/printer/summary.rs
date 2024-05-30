@@ -767,8 +767,15 @@ pub fn print_summary(
     chan_recv_ok: Count,
     chan_recv_err: Count,
 ) {
-    eprintln!();
-    eprintln!("Files:");
+    // reset the text color to default
+    match print_colored_stderr(
+        color_default,
+        Some(color_choice),
+        "".as_bytes()
+    ) {
+        Ok(_) => {}
+        Err(_e) => de_err!("\nERROR: print_colored_stderr {:?}", _e),
+    }
     // print details about all the valid files
     print_all_files_summaries(
         &map_pathid_path,
@@ -782,9 +789,6 @@ pub fn print_summary(
         &color_choice,
         &color_default,
     );
-    if !map_pathid_path.is_empty(){
-        eprintln!();
-    }
     // print a short note about the invalid files
     print_files_processpathresult(
         &map_pathid_results_invalid,
@@ -792,7 +796,6 @@ pub fn print_summary(
         &color_default,
         &COLOR_ERROR,
     );
-    eprintln!();
 
     // here is the final printed summary of the all files
     eprintln!("Program Summary:\n");
@@ -1921,6 +1924,10 @@ fn print_all_files_summaries(
     color_choice: &ColorChoice,
     color_default: &Color,
 ) {
+    if map_pathid_path.is_empty() {
+        return;
+    }
+    eprintln!("\nFiles:");
     for (pathid, path) in map_pathid_path.iter() {
         let color: &Color = map_pathid_color
             .get(pathid)
@@ -1978,6 +1985,7 @@ fn print_all_files_summaries(
             color_choice,
         );
     }
+    eprintln!();
 }
 
 /// Printing for CLI option `--summary`; print an entry for invalid files.
@@ -1989,6 +1997,9 @@ fn print_files_processpathresult(
     color_default: &Color,
     color_error: &Color,
 ) {
+    if map_pathid_result.is_empty() {
+        return;
+    }
     // local helper
     fn print_(
         buffer: String,
@@ -2050,4 +2061,5 @@ fn print_files_processpathresult(
         }
         eprintln!();
     }
+    eprintln!();
 }
