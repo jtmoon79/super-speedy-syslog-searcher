@@ -30,6 +30,7 @@ cargo clean
 cargo msrv verify  # cargo install cargo-msrv
 cargo build
 cargo build --release
+./tools/log-files-time-update.sh
 cargo nextest run --all-targets
 cargo check --all-targets
 cargo check --all-targets --release
