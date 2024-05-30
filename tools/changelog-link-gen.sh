@@ -34,7 +34,7 @@ while read -r hash_long; do
         continue
     }
     sed -i -Ee "s|\(\[${hash_long}\]\)|([${hash_short}])|" -- "${tmp_CHANGELOG}"
-done < <(grep -oEe '\(\[[[:xdigit:]]{40}\]\)' -- "${tmp_CHANGELOG}" | grep -oEe '[[:xdigit:]]+')
+done < <(grep -oEe '\(\[[[:xdigit:]]{40}\]\)|\(\[[[:xdigit:]]{6,8}\]\)' -- "${tmp_CHANGELOG}" | grep -oEe '[[:xdigit:]]+')
 
 # replace dependabot pull-request PR link notation
 #
@@ -109,7 +109,7 @@ grep -oEe '\[[[:alnum:]\._]+\.\.[[:alnum:]\._]+\]' -- "${tmp_CHANGELOG}" \
 while read -r hash_short; do
     hash_long=$(git log -n1 '--pretty=%H' "${hash_short}") || continue
     echo "[${hash_short}]: ${URL_PROJECT}/commit/${hash_long}" >> "${tmp_links}"
-done < <(grep -oEe '\(\[[[:xdigit:]]{6,7}\]\)' -- "${tmp_CHANGELOG}" | grep -oEe '[[:xdigit:]]+' | sort | uniq)
+done < <(grep -oEe '\(\[[[:xdigit:]]{6,8}\]\)' -- "${tmp_CHANGELOG}" | grep -oEe '[[:xdigit:]]+' | sort | uniq)
 
 # append links
 cat "${tmp_links}" >> "${tmp_CHANGELOG}"
