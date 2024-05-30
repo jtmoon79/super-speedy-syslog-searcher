@@ -12,7 +12,7 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 <!-- Table of Contents updated by "Markdown All In One" extension for Visual Studio Code -->
 
 - [Unreleased](#unreleased)
-- [0.6.72](#0672)
+- [0.7.72](#0772)
   - [New](#new)
   - [Changes](#changes)
   - [Fixes](#fixes)
@@ -223,13 +223,13 @@ Helpful `git log` command for generating changelog entries:
 
 ---
 
-## 0.6.72
+## 0.7.72
 
 _Released 2024-05-28_
 
 _MSRV 1.70.0_
 
-[0.6.71..0.6.72]
+[0.6.71..0.7.72]
 
 ### New
 
