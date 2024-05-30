@@ -791,6 +791,18 @@ fn test_process_path_files_tgz_true() {
 }
 
 #[test]
+fn test_process_path_file_nonparseable() {
+    // TODO: pass in `file.dll`
+    let checks: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            NTF_TGZ_8BYTE_FPATH.clone(),
+            FILETYPE_UTF8,
+        ),
+    ];
+    test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, true);
+}
+
+#[test]
 fn test_process_path_files_not_exist_file() {
     let path: FPath = FPath::from("/THIS/FILE/DOES/NOT/EXIST!");
     let checks: Vec<ProcessPathResult> = vec![ProcessPathResult::FileErrNotExist(path.clone())];
@@ -843,6 +855,18 @@ fn test_process_path_files_tgz_false() {
     test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, false);
 }
 
+#[test]
+fn test_process_path_files_dll_false() {
+
+    let checks: Vec<ProcessPathResult> = vec![
+        ProcessPathResult::FileValid(
+            NTF_TGZ_8BYTE_FPATH.clone(),
+            FILETYPE_UTF8,
+        ),
+    ];
+    test_process_path_ntf(&NTF_TGZ_8BYTE, &checks, false);
+}
+
 // test directories of files
 
 #[test]
@@ -864,6 +888,7 @@ fn test_process_path_dirs_file1_txt1_evtx1_journal1() {
         FPath::from("file2.txt"),
         FPath::from("file3.evtx"),
         FPath::from("file4.journal"),
+        FPath::from("file5.dll"),
     ];
     let (dir, fpaths) = create_files_and_tmpdir(filenames);
 
@@ -872,6 +897,7 @@ fn test_process_path_dirs_file1_txt1_evtx1_journal1() {
         ProcessPathResult::FileValid(fpaths.get(1).unwrap().clone(), FILETYPE_UTF8),
         ProcessPathResult::FileValid(fpaths.get(2).unwrap().clone(), FILETYPE_EVTX),
         ProcessPathResult::FileValid(fpaths.get(3).unwrap().clone(), FILETYPE_JOURNAL),
+        ProcessPathResult::FileErrNotSupported(fpaths.get(4).unwrap().clone(), None),
     ];
 
     test_process_path_fpath(&path_to_fpath(dir.path()), &checks, true);
@@ -1201,6 +1227,7 @@ fn test_process_path_tar_tar1_file_abcdefghi() {
             NTF_TAR_ABCDEFGHI_FILEI_FPATH.clone(),
             NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
         ),
+        // TODO: add known ignored file; `fileJ.dll`
     ];
     defñ!();
     test_process_path_tar(&NTF_TAR_ABCDEFGHI_FPATH, &check, true);

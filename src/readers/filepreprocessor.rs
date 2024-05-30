@@ -827,6 +827,15 @@ pub fn process_path_tar(
                 continue;
             }
         };
+        if entry.size() == 0 {
+            defo!("entry.size() is 0; skip");
+            let subfpath: FPath =
+                path.clone()
+                + &String::from(SUBPATH_SEP)
+                + subpath.to_string_lossy().as_ref();
+            results.push(ProcessPathResult::FileErrEmpty(subfpath, FileType::Unparsable));
+            continue;
+        }
         // first get the `FileType` of the subpath
         let subfpath: FPath = subpath
             .to_string_lossy()
