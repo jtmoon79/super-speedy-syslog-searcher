@@ -225,7 +225,7 @@ Helpful `git log` command for generating changelog entries:
 
 ## 0.7.72
 
-_Released 2024-05-28_
+_Released 2024-05-30_
 
 _MSRV 1.70.0_
 
@@ -280,7 +280,6 @@ _MSRV 1.70.0_
 - (DOCS) README opening paragraph... again! ([81959bd])
 - (DOCS) README tweak opening paragraph ([ee9d6c0])
 - (DOCS) README shield downloads highlight 'Downloads all time' ([518514e])
-- (LIB) bump version 0.6.72 ([a64be8e])
 - (LIB) blockreader.rs add read_block_last [Issue #283] ([6d89273])
 - (LIB) blockreader.rs attempt to parse more of the XZ header [Issue #12] [Issue #283] ([5750cf3])
 - (LIB) blockreader.rs NFC comment note Issue #293 [Issue #293] ([4236304])
@@ -305,6 +304,8 @@ _MSRV 1.70.0_
 - (LIB) dependabot: bump itertools from 0.12.1 to 0.13.0 [(#296)] ([c2a2fc7])
 - (LIB) dependabot: bump libc from 0.2.153 to 0.2.154 [(#292)] ([b63e848])
 - (LIB) dependabot: bump unicode-width from 0.1.11 to 0.1.12 [(#290)] ([a2ebe40])
+- (PROJECT) bump version 0.6.72 ([a64be8e])
+- (PROJECT) bump version 0.7.72, overwrites 0.6.62 ([8d6eed86])
 - (PROJECT) .gitignore .virtualenv/ ([43d4cca])
 - (PROJECT) add archive tars of wtmp and journal ([c622174])
 - (PROJECT) add log files dtf7_\* empty\* many variations ([fb82255])
@@ -1911,7 +1912,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [0.6.68..0.6.69]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.68..0.6.69
 [0.6.69..0.6.70]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.69..0.6.70
 [0.6.70..0.6.71]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.70..0.6.71
-[0.6.71..0.6.72]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.71..0.6.72
+[0.6.71..0.7.72]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.6.71..0.7.72
 [00171bb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/00171bbdf238fd9c1ba6d89fa29a730318332d7e
 [001f0c3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/001f0c3db2c5751a35946f572aca6bf07c9efcaf
 [0021f05]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0021f0576d0d629c72028443f2a266f957e5b084
