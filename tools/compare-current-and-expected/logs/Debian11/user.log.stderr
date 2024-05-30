@@ -53,3 +53,5 @@ Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 27
 Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0

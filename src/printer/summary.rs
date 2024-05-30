@@ -9,6 +9,7 @@
 use std::collections::{BTreeMap, HashMap};
 use std::fmt;
 use std::str;
+use std::time::Instant;
 
 use ::chrono::{
     DateTime,
@@ -766,7 +767,11 @@ pub fn print_summary(
     utc_now: &DateTime<Utc>,
     chan_recv_ok: Count,
     chan_recv_err: Count,
+    start_time: Instant,
+    thread_count: usize,
+    thread_err_count: usize,
 ) {
+    let finish_time = Instant::now();
     // reset the text color to default
     match print_colored_stderr(
         color_default,
@@ -890,6 +895,19 @@ pub fn print_summary(
     // print basic stats about the channel
     eprintln!("Channel Receive ok     : {}", chan_recv_ok);
     eprintln!("Channel Receive err    : {}", chan_recv_err);
+    eprintln!("Threads Spawned        : {}", thread_count);
+    eprintln!("Thread Spawn errors    : {}", thread_err_count);
+    let run_time = finish_time.checked_duration_since(start_time);
+    let run_time_w_summary = Instant::now().checked_duration_since(start_time);
+    match (run_time, run_time_w_summary) {
+        (Some(rt), Some(rts)) => {
+            eprintln!("Program Run Time       : {} (seconds) (including this summary {})",
+                rt.as_secs_f64(), rts.as_secs_f64());
+        }
+        _ => {
+            eprintln!("Program Run Time       : unknown");
+        }
+    }
 }
 
 // TODO: [2023/04/05] move printing of `file size` from per-file "Processed:"

@@ -60,6 +60,7 @@ use std::io::Error;
 use std::process::ExitCode;
 use std::str;
 use std::thread;
+use std::time::Instant;
 
 use ::chrono::{
     DateTime,
@@ -1458,6 +1459,7 @@ fn cli_process_args() -> (
 /// Start function `processing_loop`.
 /// Determine a process return code.
 pub fn main() -> ExitCode {
+    let start_time = Instant::now();
     if cfg!(debug_assertions) {
         stack_offset_set(Some(0));
     }
@@ -1506,6 +1508,7 @@ pub fn main() -> ExitCode {
         log_message_separator,
         journal_output,
         cli_opt_summary,
+        start_time,
     );
 
     let exitcode = if ret {
@@ -2467,6 +2470,7 @@ fn processing_loop(
     log_message_separator: String,
     journal_output: JournalOutput,
     cli_opt_summary: bool,
+    start_time: Instant,
 ) -> bool {
     defn!(
         "({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?})",
@@ -2708,6 +2712,8 @@ fn processing_loop(
     }
     // XXX: probably a no-op
     map_pathid_color.shrink_to_fit();
+    let mut thread_count: usize = 0;
+    let mut thread_err_count: usize = 0;
 
     for (pathid, path) in map_pathid_path.iter() {
         let (filetype, _) = match map_pathid_results.get(pathid) {
@@ -2744,8 +2750,11 @@ fn processing_loop(
             .name(basename_.clone())
             .spawn(move || exec_fileprocessor_thread(chan_send_dt, thread_data))
         {
-            Ok(_joinhandle) => {}
+            Ok(_joinhandle) => {
+                thread_count += 1;
+            }
             Err(err) => {
+                thread_err_count += 1;
                 e_err!("thread.name({:?}).spawn() pathid {} failed {:?}", basename_, pathid, err);
                 map_pathid_chanrecvdatum.remove(pathid);
                 map_pathid_color.remove(pathid);
@@ -2784,6 +2793,9 @@ fn processing_loop(
             &*UTC_NOW,
             0,
             0,
+            start_time,
+            thread_count,
+            thread_err_count,
         );
         return false;
     }
@@ -3516,6 +3528,9 @@ fn processing_loop(
             &*UTC_NOW,
             chan_recv_ok,
             chan_recv_err,
+            start_time,
+            thread_count,
+            thread_err_count,
         );
     }
 

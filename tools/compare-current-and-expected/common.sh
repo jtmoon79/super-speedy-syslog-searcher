@@ -85,6 +85,7 @@ function stderr_clean () {
         -e '/^[ ]+storage: BlockReader::read_block.*$/d' \
         -e '/^[ ]+blocks high[ ]+: .*$/d' \
         -e '/^[ ]+lines high[ ]+: .*$/d' \
+        -e '/^Program Run Time[ ]+: .*$/d' \
         -e '/^ERROR: .*$/d' \
         -e '/.*DateTimeParseInstr:.*/d' \
         "${1}"
