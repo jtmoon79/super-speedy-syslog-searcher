@@ -803,9 +803,9 @@ pub fn process_path_tar(
         let entry: tar::Entry<File> = match entry_res {
             Ok(val) => val,
             Err(err) => {
-                defo!("entry Err {:?}", err);
+                defo!("entry Err {:?}; skip", err);
                 let err_string = error_to_string(&err, path);
-                results.push(ProcessPathResult::FileErr(path.clone(), err_string ));
+                results.push(ProcessPathResult::FileErr(path.clone(), err_string));
                 continue;
             }
         };
@@ -814,14 +814,14 @@ pub fn process_path_tar(
         let etype: tar::EntryType = header.entry_type();
         // TODO: handle tar types `symlink` and `long_link`, currently they are ignored
         if !etype.is_file() {
-            defo!("entry.header().entry_type() {:?} (IGNORED)", etype);
+            defo!("entry.header().entry_type() {:?}; skip", etype);
             continue;
         }
         defo!("entry.header().entry_type() {:?}", etype);
         let subpath: Cow<Path> = match entry.path() {
             Ok(val) => val,
             Err(err) => {
-                defo!("entry.path() Err {:?}", err);
+                defo!("entry.path() Err {:?}; skip", err);
                 let err_string = error_to_string(&err, path);
                 results.push(ProcessPathResult::FileErr(path.clone(), err_string ));
                 continue;
