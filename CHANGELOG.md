@@ -235,10 +235,13 @@ _MSRV 1.70.0_
 
 - (BIN) s4.rs check for FileEmpty FileTooSmall sooner [Issue #270] ([2160556])
 - (BIN) s4.rs -h README.md describe file name guessing, directory filter ([a7d3a39])
+- (BIN) s4.rs summary includes run time, threads spawned, thread errors ([c3a4d2a8])
+- (BIN) summary.rs print canonical path for archived files ([962de8e3])
 - (LIB) src/ allow processing journal, evtx that are compressed, arch [Issue #291] [Issue #284] ([f2e5b4d])
 - (LIB) src/ add strace output datetime pattern ([13f1ef4])
 - (LIB) datetime.rs match cv_debug.log [Issue #260] ([132a18a])
 - (LIB) journal,evtx tempfile when gz,lz4,tar,xz [Issue #284] ([cea1c6f])
+- (LIB) evtx,journal,readers.rs Modifed Time always Unix Epoch [Issue #284] ([6947cb9f])
 - (LIB) src support lz4, refactor processing linear syslogs [Issue #128] [Issue #201] [Issue #283] [Issue #291] ([a223eeb])
 - (LIB) blockreader.rs syslinereader.rs add is_streamed_file() [Issue #182] [Issue #283] ([8a6af55])
 - (LIB) filepreprocessor.rs use jwalk for WalkDir ([219e2cf])
@@ -281,6 +284,7 @@ _MSRV 1.70.0_
 - (LIB) blockreader.rs add read_block_last [Issue #283] ([6d89273])
 - (LIB) blockreader.rs attempt to parse more of the XZ header [Issue #12] [Issue #283] ([5750cf3])
 - (LIB) blockreader.rs NFC comment note Issue #293 [Issue #293] ([4236304])
+- (LIB) filepreprocessor.rs handle empty archive file sooner, add tests ([8265bff2])
 - (LIB) filepreprocessor_tests.rs NFC prefer macro e_err! ([a8d5902])
 - (LIB) syslinereader.rs add file_offset_last [Issue #283] ([f5d9f89])
 - (LIB) refactor `enum FileType` and file type guesstimating, remove Mimeguess [Issue #15] [Issue #257] [Issue #285] ([6eff5c5])
@@ -321,10 +325,14 @@ _MSRV 1.70.0_
 - (TOOLS) compare-log-mergers.sh note git commit ([a8a89bd])
 - (TOOLS) flamegraphs.sh add flamegraph-syslog-no-matches.svg ([b8a8ea7])
 - (TOOLS) flamegraphs.sh bump FREQ, echo more ([6f4a255])
+- (TOOLS) rust-workflow call log-files-time-update.sh ([3d962df8])
+- (TOOLS) compare-debug-release add more files ([d3313e4c])
+- (TOOLS) compare-current-and-expected/update.sh, add various empty and small logs ([54b7d896])
 
 ### Fixes
 
 - (BIN) s4.rs minor --help fixes ([aeed87f])
+- (BIN) summary.rs fix summary first line printed in wrong color ([6eb17c7c])
 - (BIN) summary.rs datetime consistent printing ([d4060a9])
 - (DOCS) src/ various docstring fixes and tweaks ([8e46d08])
 - (DOCS) README fix typo in link ([dc17064])
