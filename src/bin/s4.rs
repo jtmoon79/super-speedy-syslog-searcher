@@ -2640,11 +2640,11 @@ fn processing_loop(
 
     for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
         match result_invalid {
-            ProcessPathResult::FileErrEmpty(path, _filetype) => {
-                e_err!("file is empty {:?}", path);
+            ProcessPathResult::FileErrEmpty(_path, _filetype) => {
+                // behave like Unix tools; do not print errors about empty files
             }
-            ProcessPathResult::FileErrTooSmall(path, _filetype, len) => {
-                e_err!("file is {} bytes which is too small {:?}", len, path);
+            ProcessPathResult::FileErrTooSmall(_path, _filetype, _len) => {
+                // behave like Unix tools; do not print errors about small files
             }
             ProcessPathResult::FileErrNoPermissions(path) =>
                 e_err!("not enough permissions {:?}", path),
