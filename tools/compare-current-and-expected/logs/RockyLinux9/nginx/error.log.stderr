@@ -34,7 +34,6 @@ File: ./logs/RockyLinux9/nginx/error.log
       process: regex captures attempted                            : 80
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

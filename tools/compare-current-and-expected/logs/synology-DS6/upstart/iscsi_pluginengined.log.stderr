@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       process: regex captures attempted                            : 91
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

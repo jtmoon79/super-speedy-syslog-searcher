@@ -8,7 +8,6 @@ File: ./logs/other/tests/invalid.journal
       Processing Err : other error
   Error: sd_journal_open_files("./logs/other/tests/invalid.journal") returned -61; ENODATA
 
-
 Program Summary:
 
 Paths considered       : 1

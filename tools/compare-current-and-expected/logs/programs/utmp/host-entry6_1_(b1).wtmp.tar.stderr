@@ -1,2 +1,58 @@
-Summary:
-Paths total 2, files not processed 2, files processed 0
+
+Files:
+
+File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
+  About:
+      archive subpath: host-entry6.wtmp
+      filetype       : UTMP/WTMP (tar)
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1685
+      entries       : 6
+  Processed:
+      file size archive   : 5120 (0x1400) (bytes)
+      file size unarchived: 2304 (0x900) (bytes)
+      bytes         : 2304 (0x900)
+      bytes total   : 2304 (0x900)
+      block size    : 256 (0x100)
+      blocks        : 9
+      blocks total  : 9 (2304 bytes)
+      entries       : 6
+      entry size    : 384 (bytes)
+      entry hi-score: 135
+      first entry   : @0
+      entry high    : 5
+      peak map size : 6
+      out of order? : 0
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
+  Processing Drops:
+
+File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
+  About:
+      archive subpath: host-entry1.wtmp
+      filetype       : UTMP/WTMP (tar)
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      Processing Err : FileErrNoValidFixedStruct
+
+Program Summary:
+
+Paths considered       : 2
+Paths not processed    : 0
+Files processed        : 2
+Files printed          : 1
+Printed bytes          : 1709
+Printed lines          : 0
+Printed syslines       : 0
+Printed evtx events    : 0
+Printed fixedstruct    : 6
+Printed journal events : 0
+Regex patterns known   : 158
+Regex patterns compiled: 0
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 10
+Channel Receive err    : 0

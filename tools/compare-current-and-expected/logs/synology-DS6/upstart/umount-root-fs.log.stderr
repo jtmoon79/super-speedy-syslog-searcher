@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
       process: regex captures attempted                            : 98
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

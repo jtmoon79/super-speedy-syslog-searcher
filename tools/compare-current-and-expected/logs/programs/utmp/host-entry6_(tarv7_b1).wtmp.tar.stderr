@@ -1,2 +1,20 @@
-Summary:
-Paths total 1, files not processed 1, files processed 0
+File: ./logs/programs/utmp/host-entry6_(tarv7_b1).wtmp.tar (does not exist)
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 1
+Files processed        : 0
+Files printed          : 0
+Printed bytes          : 0
+Printed lines          : 0
+Printed syslines       : 0
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 158
+Regex patterns compiled: 0
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 0
+Channel Receive err    : 0

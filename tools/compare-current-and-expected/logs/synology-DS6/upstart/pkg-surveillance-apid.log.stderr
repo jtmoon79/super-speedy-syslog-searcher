@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       process: regex captures attempted                            : 84
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

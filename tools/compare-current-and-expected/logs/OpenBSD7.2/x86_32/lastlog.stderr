@@ -8,7 +8,6 @@ File: ./logs/OpenBSD7.2/x86_32/lastlog
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : No FixedStruct in DateTime Range
 
-
 Program Summary:
 
 Paths considered       : 1

@@ -34,7 +34,6 @@ File: ./logs/Ubuntu18/cups/access_log
       process: regex captures attempted                            : 48
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

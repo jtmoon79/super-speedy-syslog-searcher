@@ -34,7 +34,6 @@ File: ./logs/programs/proftpd/xferlog
       process: regex captures attempted                            : 90
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

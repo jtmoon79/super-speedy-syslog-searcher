@@ -28,7 +28,6 @@ File: ./logs/CentOS7/x86_64/wtmp
       storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

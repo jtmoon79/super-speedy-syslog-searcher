@@ -34,7 +34,6 @@ File: ./logs/Debian9/nginx/error.log
       process: regex captures attempted                            : 97
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

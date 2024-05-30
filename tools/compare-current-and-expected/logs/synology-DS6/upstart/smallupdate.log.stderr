@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
       process: regex captures attempted                            : 80
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

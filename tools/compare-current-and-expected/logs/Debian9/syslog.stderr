@@ -35,7 +35,6 @@ File: ./logs/Debian9/syslog
       process: regex captures attempted                            : 53
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

@@ -34,7 +34,6 @@ File: ./logs/Debian9/clamav/clamd.log
       process: regex captures attempted                            : 95
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/inetd.log
       process: regex captures attempted                            : 85
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

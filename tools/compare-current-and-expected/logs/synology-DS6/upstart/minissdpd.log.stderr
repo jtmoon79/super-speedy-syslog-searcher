@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
       process: regex captures attempted                            : 92
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

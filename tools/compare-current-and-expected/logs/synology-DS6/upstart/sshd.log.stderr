@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/sshd.log
       process: regex captures attempted                            : 83
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

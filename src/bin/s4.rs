@@ -164,7 +164,6 @@ use ::s4lib::printer::printers::{
     COLOR_DEFAULT,
 };
 use ::s4lib::printer::summary::{
-    print_summary_opt_printed,
     print_summary,
     summary_update,
     SummaryPrinted,

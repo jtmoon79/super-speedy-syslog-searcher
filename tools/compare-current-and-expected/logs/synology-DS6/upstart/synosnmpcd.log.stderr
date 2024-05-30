@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
       process: regex captures attempted                            : 75
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

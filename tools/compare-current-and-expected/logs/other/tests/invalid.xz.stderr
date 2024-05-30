@@ -8,7 +8,6 @@ File: ./logs/other/tests/invalid.xz
       Processing Err : invalid data
   Error: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
 
-
 Program Summary:
 
 Paths considered       : 1

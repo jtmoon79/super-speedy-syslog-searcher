@@ -34,7 +34,6 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
       process: regex captures attempted                            : 155
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

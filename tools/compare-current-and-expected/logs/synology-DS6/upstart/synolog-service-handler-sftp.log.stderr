@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       process: regex captures attempted                            : 81
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

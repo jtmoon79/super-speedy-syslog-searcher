@@ -500,6 +500,7 @@
 ./logs/other/tests/basic-dt6.log|2000-01-01 00:00:05.9541789060
 ./logs/other/tests/basic-dt-u.log|2022-09-02 21:45:35.9541789060
 ./logs/other/tests/basic-dt-u-mixnl.log|2022-09-02 21:45:35.9541789060
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|2024-05-29 20:53:08 -0700
 ./logs/other/tests/dtf10-10a.log|2022-06-28 01:51:17+0400
 ./logs/other/tests/dtf10-10b.log|2021-06-28 01:51:17.3098147370
 ./logs/other/tests/dtf11-A.log|2000-12-31 00:00:00.3864301130
@@ -663,27 +664,31 @@
 ./logs/other/tests/RFC3164-a.log|2022-10-03 22:31:19.0361113360
 ./logs/other/tests/RFC3164-b.log|2022-10-02 23:00:03.0300338180
 ./logs/other/tests/RFC3339-a.log|2022-10-04 21:35:07.9193506520
-./logs/other/tests/simple-10.log|2024-05-27 23:40:56.903750354 -0700
-./logs/other/tests/simple-10s.log|2024-05-27 23:42:03.936221652 -0700
-./logs/other/tests/simple-11.log|2024-05-27 23:41:02.814556148 -0700
-./logs/other/tests/simple-11s_b.log|2024-05-27 23:42:18.166306376 -0700
-./logs/other/tests/simple-11s.log|2024-05-27 23:42:08.946409174 -0700
-./logs/other/tests/simple-12.log|2024-05-27 23:41:09.704578156 -0700
-./logs/other/tests/simple-13.log|2024-05-27 23:41:17.954602079 -0700
-./logs/other/tests/simple-14.log|2024-05-27 23:41:26.944627968 -0700
-./logs/other/tests/simple-14s_b.log|2024-05-27 23:42:32.097048965 -0700
-./logs/other/tests/simple-14s_.log|2024-05-27 23:42:49.457025094 -0700
-./logs/other/tests/simple-15.log|2024-05-27 23:41:32.844962782 -0700
-./logs/other/tests/simple-16.log|2024-05-27 23:41:37.194971000 -0700
-./logs/other/tests/simple-1.log|2024-05-27 23:39:42.262250835 -0700
-./logs/other/tests/simple-2.log|2024-05-27 23:39:51.872274092 -0700
-./logs/other/tests/simple-3.log|2024-05-27 23:39:57.092263307 -0700
-./logs/other/tests/simple-4.log|2024-05-27 23:40:15.353011728 -0700
-./logs/other/tests/simple-5.log|2024-05-27 23:40:21.983047041 -0700
-./logs/other/tests/simple-6.log|2024-05-27 23:40:28.293076016 -0700
-./logs/other/tests/simple-7.log|2024-05-27 23:40:34.103698441 -0700
-./logs/other/tests/simple-8.log|2024-05-27 23:40:40.783722969 -0700
-./logs/other/tests/simple-9.log|2024-05-27 23:40:50.833750754 -0700
+./logs/other/tests/simple-10.log|2024-05-27 23:40:57 -0700
+./logs/other/tests/simple-10s.log|2024-05-27 23:42:04 -0700
+./logs/other/tests/simple-11.log|2024-05-27 23:41:03 -0700
+./logs/other/tests/simple-11s_b.log|2024-05-27 23:42:19 -0700
+./logs/other/tests/simple-11s.log|2024-05-27 23:42:09 -0700
+./logs/other/tests/simple-12.log|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-13.log|2024-05-27 23:41:18 -0700
+./logs/other/tests/simple-14.log|2024-05-27 23:41:27 -0700
+./logs/other/tests/simple-14s_b.log|2024-05-27 23:42:33 -0700
+./logs/other/tests/simple-14s_.log|2024-05-27 23:42:50 -0700
+./logs/other/tests/simple-15.log|2024-05-27 23:41:33 -0700
+./logs/other/tests/simple-16.log|2024-05-27 23:41:38 -0700
+./logs/other/tests/simple-1.log|2024-05-27 23:39:43 -0700
+./logs/other/tests/simple-1.log.gz|2024-05-27 23:39:43-0700
+./logs/other/tests/simple-1.log.lz4|2024-05-27 23:39:42 -0700
+./logs/other/tests/simple-1.log.xz|2024-05-27 23:39:43 -0700
+./logs/other/tests/simple-2_3.log.tar|2024-05-27 23:39:52 -0700
+./logs/other/tests/simple-2.log|2024-05-27 23:39:52 -0700
+./logs/other/tests/simple-3.log|2024-05-27 23:39:58 -0700
+./logs/other/tests/simple-4.log|2024-05-27 23:40:16 -0700
+./logs/other/tests/simple-5.log|2024-05-27 23:40:22 -0700
+./logs/other/tests/simple-6.log|2024-05-27 23:40:29 -0700
+./logs/other/tests/simple-7.log|2024-05-27 23:40:35 -0700
+./logs/other/tests/simple-8.log|2024-05-27 23:40:41 -0700
+./logs/other/tests/simple-9.log|2024-05-27 23:40:51 -0700
 ./logs/other/tests/syslog.1.log|2020/03/05 12:21:13.308
 ./logs/other/tests/test0-nlx1.log|2022-09-02 21:45:36.0501770530
 ./logs/other/tests/test0-nlx1_Win.log|2022-09-02 21:45:36.0501770530
@@ -743,6 +748,11 @@
 ./logs/programs/journal/RHE_91_system.zip|2023-04-16 16:56:56.000000000 -0700
 ./logs/programs/journal/Ubuntu22-user-1000.journal|2023-03-31T23:44:33
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal|2023-04-02T00:07:01-0700
+./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2|2023-04-02 00:07:02 -0700
+./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz|2023-04-03 00:07:03 -0700
+./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4|2023-04-04 00:07:04 -0700
+./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz|2023-04-05 00:07:05 -0700
+./logs/programs/journal/Ubuntu22-user-1000x3.tar|2023-04-06 00:07:06 -0700
 ./logs/programs/Microsoft IIS/example.log|2020-03-01T23:58:11
 ./logs/programs/Microsoft IIS/w3c.log|2015-01-01T19:12:42
 ./logs/programs/ntp/loopstats|2023-01-11T03:03:48.822Z

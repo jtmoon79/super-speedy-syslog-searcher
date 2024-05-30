@@ -28,7 +28,6 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
       storage: FixedStructReader::find_entry()                     : hit  5, miss  2, 71.4%
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

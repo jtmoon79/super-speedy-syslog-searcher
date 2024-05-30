@@ -33,7 +33,6 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       process: regex captures attempted                            : 316
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

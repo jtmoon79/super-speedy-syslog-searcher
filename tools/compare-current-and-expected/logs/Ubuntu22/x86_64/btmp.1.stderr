@@ -28,7 +28,6 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

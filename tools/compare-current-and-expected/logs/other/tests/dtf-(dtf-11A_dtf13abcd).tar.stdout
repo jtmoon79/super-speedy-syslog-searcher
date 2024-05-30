@@ -1,0 +1,50 @@
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf11-A]a
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000131T160000.000000000┋2000-02-01 00:00:00 [dtf11-A]ab
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000229T160000.000000000┋2000-03-01 00:00:00 [dtf11-A]abc
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000331T160000.000000000┋2000-04-01 00:00:00 [dtf11-A]abcd
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000430T160000.000000000┋2000-05-01 00:00:00 [dtf11-A]abcde
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000531T160000.000000000┋2000-06-01 00:00:00 [dtf11-A]abcdef
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000630T160000.000000000┋2000-07-01 00:00:00 [dtf11-A]abcdefg
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000731T160000.000000000┋2000-08-01 00:00:00 [dtf11-A]abcdefgh
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000831T160000.000000000┋2000-09-01 00:00:00 [dtf11-A]abcdefghi
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20000930T160000.000000000┋2000-10-01 00:00:00 [dtf11-A]abcdefghij
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20001031T160000.000000000┋2000-11-01 00:00:00 [dtf11-A]abcdefghijk
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20001130T160000.000000000┋2000-12-01 00:00:00 [dtf11-A]abcdefghijkl
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log┋20001230T160000.000000000┋2000-12-31 00:00:00 [dtf11-A]abcdefghijklm⇳
+
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.log ┋20210509T194318.616000000┋2021-05-09T19:43:18,616 ZULU [2021-05-09 02:43:18] [INFO] [foobar.py] hello
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.log ┋20210509T194318.616000000┋20210509T194318.616-00:00 [2021-05-09 02:43:18] [INFO] [foobar.py] hello
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.log ┋20210509T194318.616300000┋2021-05-09T19:43:18,6163UTC [2021-05-09 02:43:18] [INFO] [foobar.py] hello
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.log ┋20210509T194318.626322200┋2021-05-09T19:43:18.6263222Z [2021-05-09 02:43:18] [INFO] [foobar.py] hello
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.log ┋20210509T194318.627322200┋2021-05-09T19:43:18.6273222Z [2021-05-09 02:43:18] [DEBUG] [foobar.py] doodle
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.log ┋20210509T194318.628322200┋2021-05-09T19:43:18.6283222Z [2021-05-09 02:43:18] [INFO] [foobar.py] goodbye⇳
+
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.log ┋20210509T194318.637000000┋2021-05-09T19:43:18,637 ZULU [2021-05-09 02:43:18] [DEBUG] [foobar.py] doodle
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.log ┋20210509T194318.637000000┋20210509T194318.637-00:00 [2021-05-09 02:43:18] [DEBUG] [foobar.py] doodle
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.log ┋20210509T194318.637300000┋2021-05-09T19:43:18,6373UTC [2021-05-09 02:43:18] [DEBUG] [foobar.py] doodle
+⇳
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.log ┋20210509T194318.638000000┋2021-05-09T19:43:18,638 ZULU [2021-05-09 02:43:18] [INFO] [foobar.py] goodbye⇳
+
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.log ┋20210509T194318.638000000┋20210509T194318.638-00:00 [2021-05-09 02:43:18] [INFO] [foobar.py] goodbye⇳
+
+./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.log ┋20210509T194318.638300000┋2021-05-09T19:43:18,6383UTC [2021-05-09 02:43:18] [INFO] [foobar.py] goodbye⇳
+

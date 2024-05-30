@@ -34,7 +34,6 @@ File: ./logs/programs/tomcat/catalina-access.log
       process: regex captures attempted                            : 53
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

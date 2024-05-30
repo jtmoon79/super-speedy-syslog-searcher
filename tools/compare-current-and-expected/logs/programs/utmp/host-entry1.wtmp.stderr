@@ -8,7 +8,6 @@ File: ./logs/programs/utmp/host-entry1.wtmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : FileErrNoValidFixedStruct
 
-
 Program Summary:
 
 Paths considered       : 1

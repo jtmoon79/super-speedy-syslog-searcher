@@ -8,7 +8,6 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : No FixedStruct in DateTime Range
 
-
 Program Summary:
 
 Paths considered       : 1

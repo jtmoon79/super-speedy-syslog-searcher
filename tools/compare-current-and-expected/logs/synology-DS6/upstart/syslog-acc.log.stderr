@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       process: regex captures attempted                            : 567
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

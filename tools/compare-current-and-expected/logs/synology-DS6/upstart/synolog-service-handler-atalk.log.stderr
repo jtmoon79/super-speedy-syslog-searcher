@@ -34,7 +34,6 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       process: regex captures attempted                            : 90
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1

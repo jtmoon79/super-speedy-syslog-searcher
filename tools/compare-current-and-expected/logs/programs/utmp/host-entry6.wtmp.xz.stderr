@@ -29,7 +29,6 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
 
-
 Program Summary:
 
 Paths considered       : 1
