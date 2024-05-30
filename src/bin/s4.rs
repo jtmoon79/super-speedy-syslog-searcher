@@ -2755,19 +2755,36 @@ fn processing_loop(
         }
     }
 
+    let color_default = COLOR_DEFAULT;
+
     if map_pathid_chanrecvdatum.is_empty() {
         // No threads were created. This can happen if user passes only paths
-        // that do not exist. Print summary (optional) and return.
+        // that do not exist.
         if !cli_opt_summary {
             return false;
         }
-        eprintln!("Summary:");
-        print_summary_opt_printed(&None, &None, &color_choice);
-        eprintln!(
-            "Paths total {}, files not processed {}, files processed {}",
+        print_summary(
+            map_pathid_results,
+            map_pathid_results_invalid,
+            map_pathid_path,
+            map_pathid_modified_time,
+            map_pathid_file_processing_result,
+            map_pathid_filetype,
+            map_pathid_logmessagetype,
+            map_pathid_color,
+            map_pathid_summary,
+            MapPathIdSummaryPrint::new(),
+            color_choice,
+            color_default,
             paths_total,
-            map_pathid_results_invalid.len(),
-            map_pathid_results.len(),
+            SetPathId::with_capacity(0),
+            SummaryPrinted::default(),
+            filter_dt_after_opt,
+            filter_dt_before_opt,
+            &*LOCAL_NOW,
+            &*UTC_NOW,
+            0,
+            0,
         );
         return false;
     }
@@ -2858,7 +2875,6 @@ fn processing_loop(
     // the `SummaryPrinted` tallying the entire process (tallies each received
     // LogMessage).
     let mut summaryprinted: SummaryPrinted = SummaryPrinted::default();
-    let color_default = COLOR_DEFAULT;
 
     // mapping PathId to colors for printing.
     let mut map_pathid_printer = MapPathIdToPrinterLogMessage::with_capacity(file_count);
