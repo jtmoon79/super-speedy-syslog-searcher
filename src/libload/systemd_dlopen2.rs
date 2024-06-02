@@ -315,6 +315,33 @@ impl fmt::Debug for LoadLibraryError {
     }
 }
 
+impl LoadLibraryError {
+    /// Return `true` if the library was successfully loaded.
+    pub fn is_ok(&self) -> bool {
+        match self {
+            LoadLibraryError::Ok => true,
+            _ => false,
+        }
+    }
+
+    /// Return `true` if the library failed to load.
+    pub fn is_err(&self) -> bool {
+        match self {
+            LoadLibraryError::Err(_) => true,
+            _ => false,
+        }
+    }
+
+    /// Return `true` if a previous attempt to load the library failed.
+    pub fn is_prev_err(&self) -> bool {
+        match self {
+            LoadLibraryError::PrevErr => true,
+            _ => false,
+        }
+    }
+
+}
+
 /// Wrapper to set the global static variables.
 fn set_systemd_journal_api(container: JournalApiContainer) {
     defñ!();

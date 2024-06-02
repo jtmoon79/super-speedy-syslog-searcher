@@ -20,10 +20,12 @@ use crate::debug::helpers::{
 };
 use crate::data::datetime::FixedOffset;
 use crate::data::fixedstruct::ENTRY_SZ_MAX;
+use crate::libload::systemd_dlopen2::load_library_systemd;
 use crate::printer::printers::{
     Color,
     ColorChoice,
     PrinterLogMessage,
+    PrinterLogMessageResult,
 };
 use crate::readers::blockreader::BlockSz;
 use crate::readers::evtxreader::EvtxReader;
@@ -36,6 +38,11 @@ use crate::readers::fixedstructreader::{
     ResultFixedStructReaderNew,
     ResultS3FixedStructFind,
 };
+use crate::readers::journalreader::{
+    JournalOutput,
+    JournalReader,
+    ResultNext,
+};
 use crate::readers::syslinereader::{ResultS3SyslineFind, SyslineReader};
 use crate::tests::common::{
     FO_0,
@@ -44,6 +51,8 @@ use crate::tests::common::{
     NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
     EVTX_KPNP_FPATH,
     EVTX_KPNP_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
 };
 
 use ::const_format::concatcp;
@@ -184,16 +193,16 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
 
 const FILEU: &str = "foo.utmp";
 
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, None, None, None; "u_a")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, None, None; "u_b")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, None; "u_c")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), None, None; "u_d")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, Some(DATE), None; "u_e")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, Some(*FO_P8); "u_f")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), Some(DATE), None; "u_g")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "u_h")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, Some(DATE), Some(*FO_P8); "u_i")]
-#[test_case(&*NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, 1, CCN, CLR, None, Some(DATE), Some(*FO_P8); "l_i")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, None, None, None; "a")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, None, None; "b")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, None; "c")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), None, None; "d")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, Some(DATE), None; "e")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, Some(*FO_P8); "f")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), Some(DATE), None; "g")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "h")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, Some(DATE), Some(*FO_P8); "i")]
+#[test_case(&*NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, 1, CCN, CLR, None, Some(DATE), Some(*FO_P8); "j")]
 fn test_PrinterLogMessage_print_fixedstruct(
     path: &FPath,
     print_count_expect: usize,
@@ -256,15 +265,15 @@ fn test_PrinterLogMessage_print_fixedstruct(
     );
 }
 
-#[test_case(CCA, CLR, None, None, None; "u_a")]
-#[test_case(CCU, CLR, None, None, None; "u_b")]
-#[test_case(CCN, CLR, None, None, None; "u_c")]
-#[test_case(CCA, CLR, Some(FILEU), None, None; "u_d")]
-#[test_case(CCU, CLR, None, Some(DATE), None; "u_e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8); "u_f")]
-#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None; "u_g")]
-#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "u_h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8); "u_i")]
+#[test_case(CCA, CLR, None, None, None; "a")]
+#[test_case(CCU, CLR, None, None, None; "b")]
+#[test_case(CCN, CLR, None, None, None; "c")]
+#[test_case(CCA, CLR, Some(FILEU), None, None; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None; "e")]
+#[test_case(CCN, CLR, None, None, Some(*FO_P8); "f")]
+#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None; "g")]
+#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8); "i")]
 fn test_PrinterLogMessage_print_evtx(
     colorchoice: ColorChoice,
     color: Color,
@@ -299,4 +308,84 @@ fn test_PrinterLogMessage_print_evtx(
     let expect_prints: usize = *EVTX_KPNP_EVENT_COUNT as usize;
     assert_eq!(prints, expect_prints,
         "Expected {} prints, got {}", expect_prints, prints);
+}
+
+const FILEJ: &str = "foo.JOURNAL";
+
+#[test_case(CCA, CLR, None, None, None, JournalOutput::Short, 197149; "a")]
+#[test_case(CCU, CLR, None, None, None, JournalOutput::ShortPrecise, 211716; "b")]
+#[test_case(CCN, CLR, None, None, None, JournalOutput::ShortIso, 205473; "c")]
+#[test_case(CCA, CLR, Some(FILEJ), None, None, JournalOutput::ShortIsoPrecise, 253424; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None, JournalOutput::ShortFull, 259699; "e")]
+#[test_case(CCN, CLR, None, None, Some(*FO_P8), JournalOutput::ShortMonotonic, 195068; "f")]
+#[test_case(CCA, CLR, Some(FILEJ), Some(DATE), None, JournalOutput::ShortUnix, 255625; "g")]
+#[test_case(CCU, CLR, Some(FILEJ), Some(DATE), Some(*FO_P8), JournalOutput::Verbose, 3234685; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Export, 2574170; "i")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Cat, 154102; "j")]
+fn test_PrinterLogMessage_print_journal(
+    colorchoice: ColorChoice,
+    color: Color,
+    prepend_file: Option<&str>,
+    prepend_date: Option<&str>,
+    prepend_offset: Option<FixedOffset>,
+    journal_output: JournalOutput,
+    expected_printed_bytes: usize,
+) {
+    if !cfg!(target_os = "linux") {
+        return;
+    }
+    load_library_systemd().is_ok();
+    let mut plm = new_PrinterLogMessage(
+        colorchoice,
+        color,
+        prepend_file,
+        prepend_date,
+        prepend_offset,
+    );
+
+    let mut jr: JournalReader = JournalReader::new(
+        (*JOURNAL_FILE_RHE_91_SYSTEM_FPATH).clone(),
+        journal_output,
+        *FO_0,
+        FileType::Journal{ archival_type: FileTypeArchive::Normal },
+    ).unwrap();
+    let mut prints: usize = 0;
+    let mut printed_bytes: usize = 0;
+    assert!(jr.analyze(&None).is_ok());
+    loop {
+        match jr.next(&None) {
+            ResultNext::Done => {
+                break;
+            }
+            ResultNext::Err(err) => {
+                panic!("ERROR: jr.next() returned Err({})", err);
+            }
+            ResultNext::ErrIgnore(err) => {
+                panic!("ERROR: jr.next() returned ErrIgnore({})", err);
+            }
+            ResultNext::Found(journal_entry) => {
+                match plm.print_journalentry(&journal_entry) {
+                    PrinterLogMessageResult::Ok(printed) => {
+                        prints += 1;
+                        printed_bytes += printed;
+                    }
+                    _ => {
+                        panic!(
+                            "ERROR: plm.print_journalentry({:?}) returned ResultNext::Done",
+                            journal_entry,
+                        );
+                    }
+                }
+            }
+        }
+    }
+    let expect_prints: usize = *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT as usize;
+    assert_eq!(
+        prints, expect_prints,
+        "Expected {} prints, got {}", expect_prints, prints,
+    );
+    assert_eq!(
+        printed_bytes, expected_printed_bytes,
+        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+    );
 }
