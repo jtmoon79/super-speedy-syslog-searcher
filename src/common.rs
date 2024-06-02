@@ -578,7 +578,7 @@ pub enum FileTypeArchive {
     ///
     /// Presumed to contain one regular file; see Issue #8
     Gz,
-    /// a compressed LZIP file, e.g. `log.lzma`
+    /// a compressed LZMA4 file, e.g. `log.lz4`
     Lz4,
     /// a file within a `.tar` archive file
     Tar,
