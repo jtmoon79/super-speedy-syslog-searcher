@@ -47,8 +47,6 @@ export PERF
     set -x
     cargo flamegraph --version
     "${PERF}" --version
-    "${PERF}" list || true
-    "${PERF}" --help record
 )
 
 declare -r PROGRAM=${PROGRAM-./target/flamegraph/s4}
@@ -172,5 +170,5 @@ if which xmllint &>/dev/null; then
     # the generated .svg file is a few huge lines so make it git-friendly (more lines more often)
     xmllint --format --recover --output "${OUT}" "${OUT}"
 else
-    echo "xmllint not found; skip formatting of ${OUT}" >&2
+    echo "WARNING: xmllint not found; skip formatting of ${OUT}" >&2
 fi
