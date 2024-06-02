@@ -2652,7 +2652,12 @@ fn processing_loop(
             ProcessPathResult::FileErrNoPermissions(path) =>
                 e_err!("not enough permissions {:?}", path),
             ProcessPathResult::FileErrNotSupported(_path, _message) => {
-                // behave like Unix tools; do not print errors about small files
+                // behave like Unix tools; do not print errors about unsupported files
+                // TODO: this should distinguish between files passed directly and those
+                //       found via directory walk
+                //       Files passed directly that are not supported should be printed (though
+                //       currently such files are treated as Text Utf8 files, this different
+                //       part of code should not make such presumptions).
             }
             ProcessPathResult::FileErrNotAFile(path) =>
                 e_err!("not a file {:?}", path),
