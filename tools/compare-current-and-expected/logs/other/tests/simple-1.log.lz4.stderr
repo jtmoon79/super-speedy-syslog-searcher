@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/simple-1.log.lz4
   About:
-      filetype       : TEXT UTF8/ASCII (lz4)
+      filetype       : TEXT UTF8/ASCII (LZMA4)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0

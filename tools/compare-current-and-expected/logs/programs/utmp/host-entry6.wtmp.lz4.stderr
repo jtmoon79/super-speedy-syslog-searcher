@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/programs/utmp/host-entry6.wtmp.lz4
   About:
-      filetype       : UTMP/WTMP (lz4)
+      filetype       : UTMP/WTMP (LZMA4)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : FileErrNoValidFixedStruct

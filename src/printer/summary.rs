@@ -1360,9 +1360,11 @@ fn print_summary_opt_processed_summaryblockreader(
                 indent, summaryblockreader.blockreader_filesz_actual
             );
         }
-        FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
+        FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, fixedstruct_type: _ }
+        | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
         | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, fixedstruct_type: _ }
         | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
+        | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: _ }
         | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
         | FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: _ }
         | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }

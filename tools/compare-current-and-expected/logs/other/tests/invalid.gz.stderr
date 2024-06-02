@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/invalid.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0

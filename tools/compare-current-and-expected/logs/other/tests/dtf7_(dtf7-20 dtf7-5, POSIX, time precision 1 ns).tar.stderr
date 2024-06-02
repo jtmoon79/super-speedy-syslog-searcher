@@ -4,7 +4,7 @@ Files:
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log
   About:
       archive subpath: dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 3700
@@ -39,7 +39,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log
   About:
       archive subpath: dtf7-5-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 882

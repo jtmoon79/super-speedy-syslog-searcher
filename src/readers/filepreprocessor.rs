@@ -327,6 +327,16 @@ fn pathbuf_to_filetype_impl(
     }
 
     match file_suffix.as_str() {
+        "bz2" => {
+            defo!("file_suffix {:?} is a bz2", file_suffix);
+            let ret = pathbuf_to_filetype_impl(
+                &pathbuf.clone().with_extension(""),
+                unparseable_are_text,
+                Some(FileTypeArchive::Bz2),
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
         "evtx" => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::Evtx {
@@ -346,7 +356,6 @@ fn pathbuf_to_filetype_impl(
             return ret;
         }
         "gz" | "gzip" => {
-                        // suffix/extension is a number so remove it and call again
             defo!("file_suffix {:?} is a gzip", file_suffix);
             let ret = pathbuf_to_filetype_impl(
                 &pathbuf.clone().with_extension(""),
@@ -479,7 +488,6 @@ fn pathbuf_to_filetype_impl(
         | "bin"
         | "bmp"
         | "bz"
-        | "bz2"
         | "c"
         | "cat"
         | "class"
@@ -858,7 +866,8 @@ pub fn process_path_tar(
             PathToFiletypeResult::Filetype(filetype) => {
                 match filetype {
                     // Evtx
-                    FileType::Evtx { archival_type: at @ FileTypeArchive::Gz, .. }
+                    FileType::Evtx { archival_type: at @ FileTypeArchive::Bz2, .. }
+                    | FileType::Evtx { archival_type: at @ FileTypeArchive::Gz, .. }
                     | FileType::Evtx { archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::Evtx{ archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::Evtx{ archival_type: at @ FileTypeArchive::Tar, .. }
@@ -877,7 +886,8 @@ pub fn process_path_tar(
                         );
                     }
                     // FixedStruct
-                    FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Gz, .. }
+                    FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Bz2, .. }
+                    | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Gz, .. }
                     | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::FixedStruct{ archival_type: at @ FileTypeArchive::Tar, .. }
@@ -898,7 +908,8 @@ pub fn process_path_tar(
                         );
                     }
                     // Journal
-                    FileType::Journal { archival_type: at @ FileTypeArchive::Gz }
+                    FileType::Journal { archival_type: at @ FileTypeArchive::Bz2 }
+                    | FileType::Journal { archival_type: at @ FileTypeArchive::Gz }
                     | FileType::Journal { archival_type: at @ FileTypeArchive::Lz4 }
                     | FileType::Journal { archival_type: at @ FileTypeArchive::Xz }
                     | FileType::Journal { archival_type: at @ FileTypeArchive::Tar }
@@ -919,7 +930,8 @@ pub fn process_path_tar(
                         );
                     }
                     // Text
-                    FileType::Text { archival_type: at @ FileTypeArchive::Gz, .. }
+                    FileType::Text { archival_type: at @ FileTypeArchive::Bz2, .. }
+                    | FileType::Text { archival_type: at @ FileTypeArchive::Gz, .. }
                     | FileType::Text { archival_type: at @ FileTypeArchive::Lz4, .. }
                     | FileType::Text { archival_type: at @ FileTypeArchive::Xz, .. }
                     | FileType::Text { archival_type: at @ FileTypeArchive::Tar, .. }
@@ -1105,21 +1117,25 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
         };
         match filetype {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Bz2 }
             | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
             | FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
             | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
             | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
             | FileType::Journal{ archival_type: FileTypeArchive::Normal }
+            | FileType::Journal{ archival_type: FileTypeArchive::Bz2 }
             | FileType::Journal{ archival_type: FileTypeArchive::Gz }
             | FileType::Journal{ archival_type: FileTypeArchive::Lz4 }
             | FileType::Journal{ archival_type: FileTypeArchive::Tar }
             | FileType::Journal{ archival_type: FileTypeArchive::Xz }
             | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+            | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: FileTypeTextEncoding::Utf8Ascii }
             | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
             | FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf8Ascii }
             | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii }
@@ -1130,6 +1146,8 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
             }
             ft @ FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf16 }
             | ft @ FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf32 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: FileTypeTextEncoding::Utf16 }
+            | ft @ FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: FileTypeTextEncoding::Utf32 }
             | ft @ FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf16 }
             | ft @ FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf32 }
             | ft @ FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf16 }

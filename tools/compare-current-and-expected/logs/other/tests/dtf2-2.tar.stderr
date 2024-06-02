@@ -4,7 +4,7 @@ Files:
 File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
   About:
       archive subpath: dtf2-2.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 273

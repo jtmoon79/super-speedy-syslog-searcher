@@ -49,6 +49,7 @@ use crate::tests::common::{
     BYTES_CD,
     BYTES_EFGH,
     FILETYPE_UTF8,
+    FILETYPE_UTF8_BZ2,
     FILETYPE_UTF8_GZ,
     FILETYPE_UTF8_LZ4,
     FILETYPE_UTF8_TAR,
@@ -58,6 +59,12 @@ use crate::tests::common::{
     NTF_8BYTE_FPATH,
     NTF_SYSLINE_2_PATH,
     NTF_SYSLINE_2_SZ,
+    NTF_BZ2_1BYTE_FPATH,
+    NTF_BZ2_1BYTE_SYSTEMTIME,
+    NTF_BZ2_8BYTE_FPATH,
+    NTF_BZ2_8BYTE_SYSTEMTIME,
+    NTF_BZ2_EMPTY_FPATH,
+    NTF_BZ2_EMPTY_SYSTEMTIME,
     NTF_GZ_1BYTE_FPATH,
     NTF_GZ_1BYTE_SYSTEMTIME,
     NTF_GZ_8BYTE_FPATH,
@@ -195,7 +202,9 @@ const BSZ: BlockSz = 64;
 #[test_case(&NTF_SYSLINE_2_PATH, FILETYPE_UTF8, BSZ, Some(*NTF_SYSLINE_2_SZ - BSZ), 1, *NTF_SYSLINE_2_SZ)]
 #[test_case(&NTF_1BYTE_FPATH, FILETYPE_UTF8, 1, None, 0, 1)]
 #[test_case(&NTF_8BYTE_FPATH, FILETYPE_UTF8, 8, None, 0, 8)]
+#[test_case(&NTF_BZ2_1BYTE_FPATH, FILETYPE_UTF8_BZ2, 1, None, 0, 1)]
 #[test_case(&NTF_GZ_1BYTE_FPATH, FILETYPE_UTF8_GZ, 1, None, 0, 1)]
+#[test_case(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 8, None, 0, 8)]
 #[test_case(&NTF_GZ_8BYTE_FPATH, FILETYPE_UTF8_GZ, 8, None, 0, 8)]
 #[test_case(&NTF_LZ4_8BYTE_FPATH, FILETYPE_UTF8_LZ4, 8, None, 0, 8)]
 #[test_case(&NTF_XZ_1BYTE_FPATH, FILETYPE_UTF8_XZ, 1, None, 0, 1)]
@@ -402,6 +411,132 @@ fn test_new_read_block_basic10_34_Done_34() {
     checks.insert(34, (vec![b'0', b'4'], FOUND));
     test_BlockReader(&NTF_BASIC_10_FPATH, FILETYPE_UTF8, 2, &offsets, &checks);
 }
+
+// -------------------------------------------------------------------------------------------------
+
+// reading bz2 file tests
+
+#[test]
+fn test_new_read_block_bz2_0bytes_bsz2() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (vec![], DONE));
+    test_BlockReader(&NTF_BZ2_EMPTY_FPATH, FILETYPE_UTF8_BZ2, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_new_read_block_bz2_1bytes_bsz2() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (vec![b'A'], FOUND));
+    checks.insert(1, (vec![], DONE));
+    test_BlockReader(&NTF_BZ2_1BYTE_FPATH, FILETYPE_UTF8_BZ2, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_new_read_block_bz2_8bytes_0_bsz2_0_0() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_new_read_block_bz2_8bytes_0_bsz2_1_0() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_new_read_block_bz2_8bytes_0_1_bsz2() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_new_read_block_bz2_8bytes_0_1_0_bsz2() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 2, &offsets, &checks);
+}
+
+#[should_panic] // see Issue #201
+#[test]
+fn test_new_read_block_bz2_8bytes_0_1_0_bsz2_panic() {
+    let offsets: Vec<BlockOffset> = vec![0, 1];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 2, &offsets, &checks);
+}
+
+#[should_panic] // see Issue #201
+#[test]
+fn test_new_read_block_bz2_8bytes_1_0_bsz2_panic() {
+    let offsets: Vec<BlockOffset> = vec![1, 0];
+    let mut checks = Checks::new();
+    checks.insert(1, (BYTES_CD.clone(), FOUND));
+    checks.insert(0, (BYTES_AB.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 2, &offsets, &checks);
+}
+
+#[test]
+fn test_new_read_block_bz2_8bytes_bsz4() {
+    let offsets: Vec<BlockOffset> = vec![];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_ABCD.clone(), FOUND));
+    checks.insert(1, (BYTES_EFGH.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 4, &offsets, &checks);
+}
+
+#[test]
+fn test_new_read_block_bz2_8bytes_0_bsz4() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_ABCD.clone(), FOUND));
+    checks.insert(1, (BYTES_EFGH.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 4, &offsets, &checks);
+}
+
+#[should_panic] // see Issue #201
+#[test]
+fn test_new_read_block_bz2_8bytes_0_1_bsz4() {
+    let offsets: Vec<BlockOffset> = vec![0, 1];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_ABCD.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 4, &offsets, &checks);
+}
+
+#[should_panic] // see Issue #201
+#[test]
+fn test_new_read_block_bz2_8bytes_0_1_Done_bsz4() {
+    let offsets: Vec<BlockOffset> = vec![0, 1];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_ABCD.clone(), FOUND));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 4, &offsets, &checks);
+}
+
+#[test]
+fn test_new_read_block_bz2_8bytes_0_bsz16() {
+    let offsets: Vec<BlockOffset> = vec![0];
+    let mut checks = Checks::new();
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(1, (vec![], DONE));
+    checks.insert(0, (BYTES_ABCDEFGH.clone(), FOUND));
+    checks.insert(1, (vec![], DONE));
+    test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 16, &offsets, &checks);
+}
+
 
 // -------------------------------------------------------------------------------------------------
 

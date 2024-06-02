@@ -4,7 +4,7 @@ Files:
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log
   About:
       archive subpath: ./logs/other/tests/dtf11-A.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1884
@@ -39,7 +39,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.log
   About:
       archive subpath: ./logs/other/tests/dtf13a.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 555
@@ -74,7 +74,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.log
   About:
       archive subpath: ./logs/other/tests/dtf13b.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 552
@@ -109,7 +109,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.log
   About:
       archive subpath: ./logs/other/tests/dtf13c.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 555
@@ -144,7 +144,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.log
   About:
       archive subpath: ./logs/other/tests/dtf13d.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 546

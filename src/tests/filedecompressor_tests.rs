@@ -15,6 +15,8 @@ use crate::tests::common::{
     // evtx
     EVTX_KPNP_FILESZ,
     EVTX_KPNP_FPATH,
+    EVTX_KPNP_BZ2_FPATH,
+    EVTX_KPNP_BZ2_MTIME,
     EVTX_KPNP_GZ_FPATH,
     EVTX_KPNP_GZ_MTIME,
     EVTX_KPNP_LZ4_FPATH,
@@ -26,6 +28,8 @@ use crate::tests::common::{
     // journal
     JOURNAL_FILE_RHE_91_SYSTEM_FILESZ,
     JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME,
     JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH,
     JOURNAL_FILE_RHE_91_SYSTEM_GZ_MTIME,
     JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH,
@@ -37,6 +41,7 @@ use crate::tests::common::{
     // text
     NTF_LOG_EMPTY_FPATH,
     NTF_NL_1_PATH,
+    NTF_BZ2_EMPTY_FPATH,
     NTF_GZ_EMPTY_FPATH,
     NTF_LZ4_8BYTE_FPATH,
     NTF_TAR_1BYTE_FILEA_FPATH,
@@ -50,6 +55,13 @@ use ::test_case::test_case;
 
 
 // evtx files
+#[test_case(
+    &EVTX_KPNP_BZ2_FPATH,
+    FileType::Evtx{ archival_type: FileTypeArchive::Bz2 },
+    Some(*EVTX_KPNP_BZ2_MTIME),
+    EVTX_KPNP_FILESZ;
+    "evtx.bz2"
+)]
 #[test_case(
     &EVTX_KPNP_GZ_FPATH,
     FileType::Evtx{ archival_type: FileTypeArchive::Gz },
@@ -79,6 +91,13 @@ use ::test_case::test_case;
     "evtx.xz"
 )]
 // journal files
+#[test_case(
+    &JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH,
+    FileType::Journal { archival_type: FileTypeArchive::Bz2 },
+    Some(*JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME),
+    JOURNAL_FILE_RHE_91_SYSTEM_FILESZ;
+    "journal.bz2"
+)]
 #[test_case(
     &JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH,
     FileType::Journal { archival_type: FileTypeArchive::Gz },
@@ -125,6 +144,7 @@ fn test_decompress_to_ntf_ok_some(
         => {
             match archival_type {
                 FileTypeArchive::Normal
+                | FileTypeArchive::Bz2
                 | FileTypeArchive::Gz
                 | FileTypeArchive::Lz4
                 | FileTypeArchive::Tar
@@ -189,6 +209,7 @@ fn test_decompress_to_ntf_ok_none(
         => {
             match archival_type {
                 FileTypeArchive::Normal
+                | FileTypeArchive::Bz2
                 | FileTypeArchive::Gz
                 | FileTypeArchive::Lz4
                 | FileTypeArchive::Tar
@@ -211,6 +232,10 @@ const FT_TEXT: FileType = FileType::Text {
     archival_type: FileTypeArchive::Normal,
     encoding_type: FileTypeTextEncoding::Utf8Ascii,
 };
+const FT_TEXT_BZ2: FileType = FileType::Text {
+    archival_type: FileTypeArchive::Bz2,
+    encoding_type: FileTypeTextEncoding::Utf8Ascii,
+};
 const FT_TEXT_GZ: FileType = FileType::Text {
     archival_type: FileTypeArchive::Gz,
     encoding_type: FileTypeTextEncoding::Utf8Ascii,
@@ -230,6 +255,7 @@ const FT_TEXT_XZ: FileType = FileType::Text {
 
 // text files
 #[test_case(&*NTF_NL_1_PATH, FT_TEXT => panics)]
+#[test_case(&*NTF_BZ2_EMPTY_FPATH, FT_TEXT_BZ2 => panics)]
 #[test_case(&*NTF_GZ_EMPTY_FPATH, FT_TEXT_GZ => panics)]
 #[test_case(&*NTF_LZ4_8BYTE_FPATH, FT_TEXT_LZ4 => panics)]
 #[test_case(&*NTF_TAR_1BYTE_FILEA_FPATH, FT_TEXT_TAR => panics)]
@@ -249,6 +275,7 @@ fn test_decompress_to_ntf_panic(fpath: &FPath, filetype: FileType) {
         => {
             match archival_type {
                 FileTypeArchive::Normal
+                | FileTypeArchive::Bz2
                 | FileTypeArchive::Gz
                 | FileTypeArchive::Lz4
                 | FileTypeArchive::Tar

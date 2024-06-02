@@ -43,6 +43,7 @@ use std::io::{BufReader, Error, ErrorKind, Result, Seek, SeekFrom, Take};
 use std::path::Path;
 use std::sync::Arc;
 
+use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
 use ::lru::LruCache;
 #[allow(unused_imports)]
 use ::more_asserts::{
@@ -206,6 +207,16 @@ pub const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
 /// Default [`Block`] Size in bytes.
 pub const BLOCKSZ_DEF: usize = 0xFFFF;
 
+/// Data and readers for a bzip2 `.bz2` file, used by [`Bz2DecoderReader`].
+///
+/// <https://github.com/dsnet/compress/blob/39efe44ab707ffd2c1ef32cc7dbebfe584718686/doc/bzip2-format.pdf>
+pub struct Bz2Data {
+    /// size of file uncompressed
+    pub filesz: FileSz,
+    /// calls to `read` use this
+    pub decoder:  Bz2DecoderReader<File>,
+}
+
 /// Data and readers for a gzip `.gz` file, used by [`BlockReader`].
 #[derive(Debug)]
 pub struct GzData {
@@ -365,6 +376,8 @@ pub struct BlockReader {
     pub(crate) file_metadata_modified: SystemTime,
     /// Enum that guides file-handling behavior in functions `read`, and `new`.
     filetype: FileType,
+    /// For bzipped `.bz2` files ([FileTypeArchive::Bz2]), otherwise `None`.
+    bz2: Option<Bz2Data>,
     /// For gzipped `.gz` files ([FileTypeArchive::Gz]), otherwise `None`.
     gz: Option<GzData>,
     /// For LZ4 compressed files ([FileTypeArchive::Lz4]), otherwise `None`.
@@ -635,6 +648,8 @@ impl BlockReader {
                 format!("Path is a directory {:?}", path),
             ));
         }
+
+        let mut bz2_opt: Option<Bz2Data> = None;
         let mut gz_opt: Option<GzData> = None;
         let mut lz_opt: Option<Lz4Data> = None;
         let mut xz_opt: Option<XzData> = None;
@@ -653,6 +668,106 @@ impl BlockReader {
             => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
+            }
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Bz2, .. }
+            => {
+                blocksz = blocksz_;
+                def1o!("Bz2");
+
+                // bzip2 file structure:
+                //      https://github.com/dsnet/compress/blob/39efe44ab707ffd2c1ef32cc7dbebfe584718686/doc/bzip2-format.pdf
+                //
+                // StreamHeader := HeaderMagic Version Level
+                //
+                // The stream header is guaranteed to be byte-aligned, and its values can be read as regular bytes from the
+                // underlying stream. The HeaderMagic is the 2 byte string: []byte{'B', 'Z'}, or also the value 0x425a
+                // when read as a 16-bit integer. The Version is always the byte 'h', or also the value 0x68 when read as
+                // an 8-bit integer. The BZip1 format used a version byte of '0'; that format is deprecated and is not
+                // discussed in this document.
+                //
+                // The Level is a single byte between the values of '1' and '9', inclusively. This ASCII character, when
+                // parsed as an integer and multiplied by , determines the size of the buffer used in the BWT stage.
+                //
+                // Thus, level '1' uses a byte buffer, while level '9' uses a byte buffer. When encoding,
+                // the RLE1 stage must be careful that it is still able to encode the count byte if the trailing 4 bytes in the
+                // buffer are duplicates. Since this determines the buffer size of the BWT stage, it is entirely possible for a
+                // stream block to decompress to more bytes than the buffer size due to the RLE1 stage
+
+                // sanity check file size
+                // size of `empty.bz2` is 14 bytes
+                if filesz < 12 {
+                    def1x!("Bz2: return Err(InvalidData)");
+                    return Result::Err(
+                        Error::new(
+                            ErrorKind::InvalidData,
+                            format!("bzip2 file size {:?} is too small for {:?}", filesz, path),
+                        )
+                    );
+                }
+
+                let file_handle2: File = match open_options
+                    .read(true)
+                    .open(path_std)
+                {
+                    Ok(val) => val,
+                    Err(err) => {
+                        def1x!("return {:?}", err);
+                        return err_from_err_path_result::<BlockReader>(&err, &path, None);
+                    }
+                };
+                def1o!("Bz2: file_handle2 {:?}", file_handle2);
+                let mut bz2_decoder = Bz2DecoderReader::new(file_handle2);
+
+                // XXX: the size of the BZ2 data is only known after decompression
+                //      See Issue #XXX
+                let mut filesz_uncompressed: FileSz = 0;
+                const BUF_SZ: usize = 16384;
+                let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
+                let mut _loop_count: usize = 0;
+                loop {
+                    def1o!("Bz2: {:3} bz2_decoder.read(buf size {})", _loop_count, BUF_SZ);
+                    match bz2_decoder.read(&mut buf) {
+                        Ok(sz) => {
+                            if sz == 0 {
+                                break;
+                            }
+                            count_bytes_read += sz as Count;
+                            def1o!("Bz2: count_bytes_read={}", count_bytes_read);
+                            filesz_uncompressed += sz as FileSz;
+                        }
+                        Err(err) => {
+                            def1x!("Bz2: bz2_decoder.read() Error, return {:?}", err);
+                            return Err(
+                                Error::new(
+                                    ErrorKind::InvalidData,
+                                    format!("bz2_decoder.read({}) {}", BUF_SZ, err),
+                                )
+                            );
+                        }
+                    }
+                    _loop_count += 1;
+                }
+                def1o!("Bz2: filesz_uncompressed {}", filesz_uncompressed);
+                filesz_actual = filesz_uncompressed;
+
+                let file_handle3: File = match open_options
+                    .read(true)
+                    .open(path_std)
+                {
+                    Ok(val) => val,
+                    Err(err) => {
+                        def1x!("return {:?}", err);
+                        return err_from_err_path_result::<BlockReader>(&err, &path, None);
+                    }
+                };
+                def1o!("Bz2: file_handle3 {:?}", file_handle3);
+
+                bz2_opt = Some(Bz2Data {
+                    filesz: filesz_uncompressed,
+                    decoder: Bz2DecoderReader::new(file_handle3),
+                });
+                def1o!("Bz2: created bz2_opt");
             }
             FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. }
             | FileType::Text{ archival_type: FileTypeArchive::Gz, .. }
@@ -1626,6 +1741,7 @@ impl BlockReader {
             file_metadata,
             file_metadata_modified,
             filetype,
+            bz2: bz2_opt,
             gz: gz_opt,
             lz: lz_opt,
             xz: xz_opt,
@@ -1679,21 +1795,25 @@ impl BlockReader {
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => self.filesz,
+            FileType::Evtx{ archival_type: FileTypeArchive::Bz2 } => self.filesz_actual,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => self.filesz_actual,
             FileType::Evtx{ archival_type: FileTypeArchive::Lz4 } => self.filesz_actual,
             FileType::Evtx{ archival_type: FileTypeArchive::Tar } => self.filesz_actual,
             FileType::Evtx{ archival_type: FileTypeArchive::Xz } => self.filesz_actual,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => self.filesz,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. } => self.filesz_actual,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => self.filesz_actual,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => self.filesz_actual,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => self.filesz_actual,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => self.filesz_actual,
             FileType::Journal{ archival_type: FileTypeArchive::Normal } => self.filesz,
+            FileType::Journal{ archival_type: FileTypeArchive::Bz2 } => self.filesz,
             FileType::Journal{ archival_type: FileTypeArchive::Gz } => self.filesz_actual,
             FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => self.filesz_actual,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => self.filesz_actual,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => self.filesz_actual,
             FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => self.filesz,
+            FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => self.filesz_actual,
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => self.filesz_actual,
             FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => self.filesz_actual,
             FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => self.filesz_actual,
@@ -1742,9 +1862,11 @@ impl BlockReader {
                 panic!("BlockerReader::mtime FileType::Journal does not use a BlockReader")
             }
             FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. }
+            | FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. }
             | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. }
             | FileType::Text{ archival_type: FileTypeArchive::Normal, .. }
+            | FileType::Text{ archival_type: FileTypeArchive::Bz2, .. }
             | FileType::Text{ archival_type: FileTypeArchive::Lz4, .. }
             | FileType::Text{ archival_type: FileTypeArchive::Xz, .. }
             => {
@@ -2053,21 +2175,25 @@ impl BlockReader {
     pub const fn is_streamed_file(&self) -> bool {
         match self.filetype {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Bz2 } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Lz4 } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Xz } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Bz2 } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Gz } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => true,
             FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => true,
@@ -2279,6 +2405,207 @@ impl BlockReader {
         defx!("({}): return Found", blockoffset);
 
         ResultS3ReadBlock::Found(blockp)
+    }
+
+    /// Read a block of data from storage for a compressed gzip file
+    /// ([`FileTypeArchive::Bz2`]).
+    /// `blockoffset` refers to the uncompressed version of the file.
+    ///
+    /// Called from `read_block`.
+    #[allow(non_snake_case)]
+    fn read_block_FileBz2(
+        &mut self,
+        blockoffset: BlockOffset,
+    ) -> ResultS3ReadBlock {
+        defn!("({})", blockoffset);
+        debug_assert!(
+            matches!(
+                self.filetype,
+                FileType::Evtx{ archival_type: FileTypeArchive::Bz2 }
+                | FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. }
+                | FileType::Journal{ archival_type: FileTypeArchive::Bz2 }
+                | FileType::Text{ archival_type: FileTypeArchive::Bz2, .. }
+            ),
+            "wrong FileType {:?} for calling read_block_FileBz2",
+            self.filetype
+        );
+
+        // handle special case immediately
+        if self.filesz_actual == 0 {
+            defx!("filesz 0; return Done");
+            return ResultS3ReadBlock::Done;
+        }
+
+        let blockoffset_last: BlockOffset = self.blockoffset_last();
+        let mut bo_at: BlockOffset = match self.blocks_read.iter().max() {
+            Some(bo_) => *bo_,
+            None => 0,
+        };
+        let mut bo_at_old: BlockOffset = bo_at;
+
+        while bo_at <= blockoffset {
+            // check `self.blocks_read` (not `self.blocks`) if the Block at `blockoffset`
+            // was *ever* read.
+            // TODO: [2024/06/02] add another stat tracker for lookups in `self.blocks_read`
+            if self
+                .blocks_read
+                .contains(&bo_at)
+            {
+                self.read_blocks_hit += 1;
+                if bo_at == blockoffset {
+                    defx!("({}): return Found", blockoffset);
+                    // XXX: this will panic if the key+value in `self.blocks` was dropped
+                    //      which could happen if streaming stage occurs too soon
+                    let blockp: BlockP = self
+                        .blocks
+                        .get_mut(&bo_at)
+                        .unwrap()
+                        .clone();
+                    self.store_block_in_LRU_cache(bo_at, &blockp);
+                    return ResultS3ReadBlock::Found(blockp);
+                }
+                bo_at += 1;
+                continue;
+            } else {
+                defo!(
+                    "({}): blocks_read.contains({}) missed (does not contain key)",
+                    blockoffset, bo_at,
+                );
+                debug_assert!(
+                    !self
+                        .blocks
+                        .contains_key(&bo_at),
+                    "blocks has element {} not in blocks_read",
+                    bo_at
+                );
+                self.read_blocks_miss += 1;
+            }
+
+            let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
+            let reader = match self.bz2 {
+                Some(ref mut bz2) => &mut bz2.decoder,
+                None => {
+                    return ResultS3ReadBlock::Err(
+                        Error::new(
+                            ErrorKind::InvalidData,
+                            format!(
+                                "Bz2DecoderReader not initialized for file {:?}",
+                                self.path
+                            )
+                        )
+                    );
+                }
+            };
+            let mut block = Block::with_capacity(blocksz_u);
+            defo!("Bz2DecoderReader.read((capacity {}))", block.capacity());
+            // `resize` will force `block` to have a length of `blocksz_u`
+            // otherwise `as_mut_slice` is a zero-length slice
+            block.resize(blocksz_u, 0);
+            match reader.read(&mut block.as_mut_slice()) {
+                Ok(size) => {
+                    defo!(
+                        "({}): Bz2DecoderReader.read((capacity {})) returned Ok({:?}), blocksz {}",
+                        blockoffset,
+                        block.capacity(),
+                        size,
+                        blocksz_u,
+                    );
+                    self.count_bytes_read += size as Count;
+                    defo!("({}): count_bytes_read={}", blockoffset, self.count_bytes_read);
+                }
+                Err(err) => {
+                    de_err!(
+                        "Bz2DecoderReader.read(&block (capacity {})) error {} for file {:?}",
+                        self.blocksz,
+                        err,
+                        self.path,
+                    );
+                    defx!("({}): return Err({})", blockoffset, err);
+                    return err_from_err_path_results3(
+                        &err,
+                        self.path(),
+                        Some("(Bz2DecoderReader.read(…) failed)"),
+                    );
+                }
+            }
+
+            // sanity check: check returned Block is expected number of bytes
+            let blocklen_sz: BlockSz = block.len() as BlockSz;
+            defo!(
+                "({}): block.len() {}, blocksz {}, blockoffset at {}",
+                blockoffset,
+                blocklen_sz,
+                self.blocksz,
+                bo_at
+            );
+            if block.is_empty() {
+                let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                return ResultS3ReadBlock::Err(
+                    Error::new(
+                        ErrorKind::UnexpectedEof,
+                        format!(
+                            "Bz2DecoderReader.read() read zero bytes from block {} (at byte {}), requested {} bytes. filesz {}, filesz uncompressed {} (according to gzip header), last block {}; file {:?}",
+                            bo_at, byte_at, blocksz_u, self.filesz, self.filesz_actual, blockoffset_last, self.path,
+                        )
+                    )
+                );
+            } else if bo_at == blockoffset_last {
+                // last block, is blocksz correct?
+                if blocklen_sz > self.blocksz {
+                    let byte_at = self.file_offset_at_block_offset_self(bo_at);
+                    return ResultS3ReadBlock::Err(
+                        Error::new(
+                            ErrorKind::InvalidData,
+                            format!(
+                                "Bz2DecoderReader.read() read {} bytes for last block {} (at byte {}) which is larger than block size {} bytes; file {:?}",
+                                blocklen_sz, bo_at, byte_at, self.blocksz, self.path,
+                            )
+                        )
+                    );
+                }
+            } else if blocklen_sz != self.blocksz {
+                // not last block, is blocksz correct?
+                let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
+                return ResultS3ReadBlock::Err(
+                    Error::new(
+                        ErrorKind::InvalidData,
+                        format!(
+                            "Bz2DecoderReader.read() read {} bytes for block {} expected to read {} bytes (block size), inflate stopped at byte {}. block last {}, filesz {}, filesz uncompressed {} (according to gzip header); file {:?}",
+                            blocklen_sz, bo_at, self.blocksz, byte_at, blockoffset_last, self.filesz, self.filesz_actual, self.path,
+                        )
+                    )
+                );
+            }
+
+            // store decompressed block
+            let blockp = BlockP::new(block);
+            self.store_block_in_storage(bo_at, &blockp);
+            self.store_block_in_LRU_cache(bo_at, &blockp);
+
+            // This file must be streamed i.e. Blocks are read in sequential
+            // order. So drop old blocks so RAM usage is not O(n).
+            // Since the Blocks dropped here were first read then dropped
+            // within this function then no other entity has stored
+            // a cloned `BlockP` pointer; the Block is certain to be
+            // destroyed here.
+            // In other words, it is presumed the caller will never call
+            // `read_block_FileBz2` with a `blockoffset` value less than the
+            // value passed here (if that happened then runtime would be
+            // O(n²).
+            if BlockReader::READ_BLOCK_LOOKBACK_DROP && bo_at_old < bo_at {
+                self.drop_block(bo_at_old);
+            }
+            if bo_at == blockoffset {
+                defx!("({}): return Found", blockoffset);
+                return ResultS3ReadBlock::Found(blockp);
+            }
+            bo_at_old = bo_at;
+            bo_at += 1;
+        } // while bo_at <= blockoffset
+
+        defx!("({}): return Done", blockoffset);
+
+        ResultS3ReadBlock::Done
     }
 
     /// Read a block of data from storage for a compressed gzip file
@@ -3243,6 +3570,7 @@ impl BlockReader {
                 self.filetype, self.path,
             ),
             FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => self.read_block_File(blockoffset),
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. } => self.read_block_FileBz2(blockoffset),
             FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => self.read_block_FileGz(blockoffset),
             FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => self.read_block_FileLz4(blockoffset),
             FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => self.read_block_FileTar(blockoffset),
@@ -3252,6 +3580,7 @@ impl BlockReader {
                 self.filetype, self.path,
             ),
             FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => self.read_block_File(blockoffset),
+            FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => self.read_block_FileBz2(blockoffset),
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => self.read_block_FileGz(blockoffset),
             FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => self.read_block_FileLz4(blockoffset),
             FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => self.read_block_FileTar(blockoffset),

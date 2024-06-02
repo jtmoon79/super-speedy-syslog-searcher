@@ -2196,35 +2196,7 @@ File: ./logs/other/tests/empty.7z
 
 File: ./logs/other/tests/empty.log.bz2
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size     : 14 (0xE) (bytes)
-      bytes         : 14 (0xE)
-      bytes total   : 14 (0xE)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 1
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 13
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 13
-      process: regex captures attempted                            : 0
-  Processing Drops:
+      Processing Err : FileErrEmpty
 
 File: ./logs/other/tests/empty.log.zip
   About:
@@ -2623,7 +2595,7 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.log
   About:
       archive subpath: ./logs/other/tests/dtf11-A.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 2404
@@ -2658,7 +2630,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.log
   About:
       archive subpath: ./logs/other/tests/dtf13a.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 675
@@ -2693,7 +2665,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.log
   About:
       archive subpath: ./logs/other/tests/dtf13b.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 672
@@ -2728,7 +2700,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.log
   About:
       archive subpath: ./logs/other/tests/dtf13c.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 675
@@ -2763,7 +2735,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
 File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.log
   About:
       archive subpath: ./logs/other/tests/dtf13d.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 666
@@ -3424,40 +3396,42 @@ File: ./logs/other/tests/dtf2-2.log
 
 File: ./logs/other/tests/dtf2-2.bz2
   About:
-      filetype       : TEXT UTF8/ASCII
+      filetype       : TEXT UTF8/ASCII (BZIP2)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
+      bytes         : 504
+      lines         : 3
+      syslines      : 2
   Processed:
-      file size     : 74 (0x4A) (bytes)
-      bytes         : 74 (0x4A)
-      bytes total   : 74 (0x4A)
+      file size compressed  : 74 (0x4A) (bytes)
+      file size uncompressed: 60 (0x3C) (bytes)
+      bytes         : 120 (0x78)
+      bytes total   : 60 (0x3C)
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 0
-      syslines high : 0
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  12, miss  12, 50.0%, largest skipped 46
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss 146, 50.0%, largest skipped 46
-      process: regex captures attempted                            : 158
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
   Processing Drops:
 
 File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
   About:
       archive subpath: dtf2-2.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -3491,7 +3465,7 @@ File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
 
 File: ./logs/other/tests/dtf2-2.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -3525,39 +3499,41 @@ File: ./logs/other/tests/dtf2-2.gz
 
 File: ./logs/other/tests/dtf2-2.log.bz2
   About:
-      filetype       : TEXT UTF8/ASCII
+      filetype       : TEXT UTF8/ASCII (BZIP2)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
+      bytes         : 504
+      lines         : 3
+      syslines      : 2
   Processed:
-      file size     : 74 (0x4A) (bytes)
-      bytes         : 74 (0x4A)
-      bytes total   : 74 (0x4A)
+      file size compressed  : 74 (0x4A) (bytes)
+      file size uncompressed: 60 (0x3C) (bytes)
+      bytes         : 120 (0x78)
+      bytes total   : 60 (0x3C)
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 0
-      syslines high : 0
+      lines         : 3
+      syslines      : 2
+      syslines high : 2
+  Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  12, miss  12, 50.0%, largest skipped 46
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss 146, 50.0%, largest skipped 46
-      process: regex captures attempted                            : 158
+      storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 80
   Processing Drops:
 
 File: ./logs/other/tests/dtf2-2.log.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -3623,7 +3599,7 @@ File: ./logs/other/tests/dtf2-2.log.lz
 
 File: ./logs/other/tests/dtf2-2.log.lz4
   About:
-      filetype       : TEXT UTF8/ASCII (lz4)
+      filetype       : TEXT UTF8/ASCII (LZMA4)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -3658,7 +3634,7 @@ File: ./logs/other/tests/dtf2-2.log.lz4
 File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log
   About:
       archive subpath: dtf2-2.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -3692,7 +3668,7 @@ File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log
 
 File: ./logs/other/tests/dtf2-2.log.xz
   About:
-      filetype       : TEXT UTF8/ASCII (xz)
+      filetype       : TEXT UTF8/ASCII (XZ)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -3758,7 +3734,7 @@ File: ./logs/other/tests/dtf2-2.lz
 
 File: ./logs/other/tests/dtf2-2.lz4
   About:
-      filetype       : TEXT UTF8/ASCII (lz4)
+      filetype       : TEXT UTF8/ASCII (LZMA4)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -3793,7 +3769,7 @@ File: ./logs/other/tests/dtf2-2.lz4
 File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
   About:
       archive subpath: dtf2-2.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -3825,41 +3801,9 @@ File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
       process: regex captures attempted                            : 80
   Processing Drops:
 
-File: ./logs/other/tests/dtf2-2.tar.bz2
-  About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size     : 148 (0x94) (bytes)
-      bytes         : 148 (0x94)
-      bytes total   : 148 (0x94)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 4
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  24, miss  12, 66.7%, largest skipped 99
-      optimize:SyslineReader::ezcheck12d2                          : hit 147, miss 291, 33.6%, largest skipped 19
-      process: regex captures attempted                            : 303
-  Processing Drops:
-
 File: ./logs/other/tests/dtf2-2.xz
   About:
-      filetype       : TEXT UTF8/ASCII (xz)
+      filetype       : TEXT UTF8/ASCII (XZ)
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
@@ -4322,7 +4266,7 @@ File: ./logs/other/tests/dtf5-6a.log.1
 
 File: ./logs/other/tests/dtf5-6a.log.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1082
@@ -4389,7 +4333,7 @@ File: ./logs/other/tests/dtf5-6a.log.old
 
 File: ./logs/other/tests/dtf5-6a.log.xz
   About:
-      filetype       : TEXT UTF8/ASCII (xz)
+      filetype       : TEXT UTF8/ASCII (XZ)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1082
@@ -4555,7 +4499,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -4654,7 +4598,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -4689,7 +4633,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
 File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVELS.log
   About:
       archive subpath: ./logs/other/tests/dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -4723,7 +4667,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVEL
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
   About:
-      filetype       : TEXT UTF8/ASCII (xz)
+      filetype       : TEXT UTF8/ASCII (XZ)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -4983,7 +4927,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log
   About:
       archive subpath: dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -5018,7 +4962,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-5-LEVELS.log
   About:
       archive subpath: dtf7-5-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
@@ -5053,7 +4997,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-20-LEVELS.log
   About:
       archive subpath: dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -5088,7 +5032,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf7-5-LEVELS.log
   About:
       archive subpath: dtf7-5-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
@@ -5123,7 +5067,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-20-LEVELS.log
   About:
       archive subpath: dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -5158,7 +5102,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-5-LEVELS.log
   About:
       archive subpath: dtf7-5-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
@@ -5321,7 +5265,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log
   About:
       archive subpath: dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -5356,7 +5300,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log
   About:
       archive subpath: dtf7-5-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
@@ -5391,7 +5335,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-20-LEVELS.log
   About:
       archive subpath: dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -5426,7 +5370,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|dtf7-5-LEVELS.log
   About:
       archive subpath: dtf7-5-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
@@ -5461,7 +5405,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-20-LEVELS.log
   About:
       archive subpath: dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
@@ -5496,7 +5440,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dtf7-5-LEVELS.log
   About:
       archive subpath: dtf7-5-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
@@ -5726,7 +5670,7 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
 File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
   About:
       archive subpath: dtf9c-12x2.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 4131
@@ -5997,7 +5941,7 @@ File: ./logs/other/tests/dt-mix1.log
 
 File: ./logs/other/tests/invalid.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
@@ -6038,7 +5982,7 @@ File: ./logs/other/tests/invalid.journal
 
 File: ./logs/other/tests/invalid.xz
   About:
-      filetype       : TEXT UTF8/ASCII (xz)
+      filetype       : TEXT UTF8/ASCII (XZ)
       logmessagetype : syslog lines
       Processing Err : invalid data
   Error: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"
@@ -6536,7 +6480,7 @@ File: ./logs/other/tests/simple-16.log
 
 File: ./logs/other/tests/simple-1.log.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
@@ -6569,7 +6513,7 @@ File: ./logs/other/tests/simple-1.log.gz
 
 File: ./logs/other/tests/simple-1.log.lz4
   About:
-      filetype       : TEXT UTF8/ASCII (lz4)
+      filetype       : TEXT UTF8/ASCII (LZMA4)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
@@ -6602,7 +6546,7 @@ File: ./logs/other/tests/simple-1.log.lz4
 
 File: ./logs/other/tests/simple-1.log.xz
   About:
-      filetype       : TEXT UTF8/ASCII (xz)
+      filetype       : TEXT UTF8/ASCII (XZ)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
@@ -6636,7 +6580,7 @@ File: ./logs/other/tests/simple-1.log.xz
 File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
   About:
       archive subpath: simple-2.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
@@ -6670,7 +6614,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
 File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
   About:
       archive subpath: simple-3.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
@@ -6974,7 +6918,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
   About:
-      filetype       : EVTX (gzip)
+      filetype       : EVTX (GZIP)
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
@@ -6988,7 +6932,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Microsoft-Windows-Kernel-PnP%4Configuration.evtx
   About:
       archive subpath: Microsoft-Windows-Kernel-PnP%4Configuration.evtx
-      filetype       : EVTX (tar)
+      filetype       : EVTX (TAR)
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
@@ -7048,39 +6992,21 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
+      filetype       : JOURNAL (BZIP2)
+      logmessagetype : journal entries
   Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
+      bytes         : 19676
+      journal events: 3
   Processed:
-      file size     : 4199 (0x1067) (bytes)
-      bytes         : 256 (0x100)
-      bytes total   : 4199 (0x1067)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 17 (4352 bytes)
-      lines         : 0
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0
-      copying: SyslineReader::get_boxptrs()                        : sgl 0, dbl  0, mult 0
-      storage: SyslineReader::find_sysline() syslines              : hit 0, miss 1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::find_sysline() LRU cache             : hit 0, miss 1,  0.0%, put 0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 0, miss 1,  0.0%, put 0
-      optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
-  Processing Drops:
+      file size     : 8388608 (0x800000) (bytes)
+      journal events: 3
+      out of order  : 0
+      lib. API calls: 122
+      API errors    : 0
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
   About:
-      filetype       : JOURNAL (gzip)
+      filetype       : JOURNAL (GZIP)
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
@@ -7094,7 +7020,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
   About:
-      filetype       : JOURNAL (lz4)
+      filetype       : JOURNAL (LZMA4)
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
@@ -7108,7 +7034,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
   About:
-      filetype       : JOURNAL (xz)
+      filetype       : JOURNAL (XZ)
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
@@ -7123,7 +7049,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.journal
   About:
       archive subpath: Ubuntu22-user-1000x3.journal
-      filetype       : JOURNAL (tar)
+      filetype       : JOURNAL (TAR)
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
@@ -7369,39 +7295,14 @@ File: ./logs/programs/utmp/host-entry6.wtmp
 
 File: ./logs/programs/utmp/host-entry6.wtmp.bz2
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size     : 228 (0xE4) (bytes)
-      bytes         : 228 (0xE4)
-      bytes total   : 228 (0xE4)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 1
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
-  Processing Drops:
+      filetype       : UTMP/WTMP (BZIP2)
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      Processing Err : FileErrNoValidFixedStruct
 
 File: ./logs/programs/utmp/host-entry6.wtmp.gz
   About:
-      filetype       : UTMP/WTMP (gzip)
+      filetype       : UTMP/WTMP (GZIP)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : FileErrNoValidFixedStruct
@@ -7415,14 +7316,14 @@ File: ./logs/programs/utmp/host-entry6.wtmp.lz
 
 File: ./logs/programs/utmp/host-entry6.wtmp.lz4
   About:
-      filetype       : UTMP/WTMP (lz4)
+      filetype       : UTMP/WTMP (LZMA4)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : FileErrNoValidFixedStruct
 
 File: ./logs/programs/utmp/host-entry6.wtmp.xz
   About:
-      filetype       : UTMP/WTMP (xz)
+      filetype       : UTMP/WTMP (XZ)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
@@ -7483,7 +7384,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
   About:
       archive subpath: host-entry6.wtmp
-      filetype       : UTMP/WTMP (tar)
+      filetype       : UTMP/WTMP (TAR)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
@@ -7512,7 +7413,7 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
   About:
       archive subpath: host-entry1.wtmp
-      filetype       : UTMP/WTMP (tar)
+      filetype       : UTMP/WTMP (TAR)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : FileErrNoValidFixedStruct
@@ -17497,13 +17398,14 @@ File: ./logs/other/tests/empty.log (empty file) TEXT
 File: ./logs/other/tests/empty.log.gz (empty file) TEXT
 File: ./logs/other/tests/empty.log.tar|empty.log (empty file) UNPARSABLE
 File: ./logs/other/tests/empty.log.xz (empty file) TEXT
-File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
-File: ./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
-File: ./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).xz.tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
+File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract XZ type from a tar archived file)
+File: ./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract XZ type from a tar archived file)
+File: ./logs/other/tests/dtf2-2_(contains_dtf2-2_xz).xz.tar|dtf2-2.log.xz (cannot extract XZ type from a tar archived file)
+File: ./logs/other/tests/dtf2-2.tar.bz2 (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.bz2")
 File: ./logs/other/tests/dtf2-2.tar.gz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.gz")
 File: ./logs/other/tests/dtf2-2.tar.lz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.lz")
 File: ./logs/other/tests/dtf2-2.tar.xz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.xz")
-File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz (cannot extract gzip type from a tar archived file)
+File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz (cannot extract GZIP type from a tar archived file)
 File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
 File: ./logs/other/tests/empty.log (empty file) TEXT
 File: ./logs/other/tests/empty.log.gz (empty file) TEXT
@@ -17525,20 +17427,20 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 Program Summary:
 
 Paths considered       : 600
-Paths not processed    : 28
-Files processed        : 572
-Files printed          : 439
-Printed bytes          : 8255211
-Printed lines          : 14344
-Printed syslines       : 11897
+Paths not processed    : 29
+Files processed        : 571
+Files printed          : 442
+Printed bytes          : 8275923
+Printed lines          : 14350
+Printed syslines       : 11901
 Printed evtx events    : 681
 Printed fixedstruct    : 116
-Printed journal events : 15
+Printed journal events : 18
 Regex patterns known   : 158
 Regex patterns compiled: 158
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok     : 13855
+Channel Receive ok     : 13860
 Channel Receive err    : 0
-Threads Spawned        : 573
+Threads Spawned        : 572
 Thread Spawn errors    : 0

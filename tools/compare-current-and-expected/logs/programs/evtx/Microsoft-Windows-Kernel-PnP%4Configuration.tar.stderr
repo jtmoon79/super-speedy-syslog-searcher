@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Microsoft-Windows-Kernel-PnP%4Configuration.evtx
   About:
       archive subpath: Microsoft-Windows-Kernel-PnP%4Configuration.evtx
-      filetype       : EVTX (tar)
+      filetype       : EVTX (TAR)
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282

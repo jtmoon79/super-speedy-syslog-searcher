@@ -3,35 +3,10 @@ Files:
 
 File: ./logs/programs/utmp/host-entry6.wtmp.bz2
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size     : 228 (0xE4) (bytes)
-      bytes         : 228 (0xE4)
-      bytes total   : 228 (0xE4)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 1
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
-  Processing Drops:
+      filetype       : UTMP/WTMP (BZIP2)
+      fixedstructtype: Utmp
+      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      Processing Err : FileErrNoValidFixedStruct
 
 Program Summary:
 
@@ -46,7 +21,7 @@ Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Regex patterns known   : 158
-Regex patterns compiled: 158
+Regex patterns compiled: 0
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 2

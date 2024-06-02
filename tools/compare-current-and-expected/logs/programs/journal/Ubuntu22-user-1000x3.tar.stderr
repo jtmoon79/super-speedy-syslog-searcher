@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.journal
   About:
       archive subpath: Ubuntu22-user-1000x3.journal
-      filetype       : JOURNAL (tar)
+      filetype       : JOURNAL (TAR)
       logmessagetype : journal entries
   Printed:
       bytes         : 15276

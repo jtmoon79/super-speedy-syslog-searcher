@@ -84,6 +84,8 @@ pub const FILETYPE_UTMP_TAR: FileType =
     FileType::FixedStruct { archival_type: FileTypeArchive::Tar, fixedstruct_type: FileTypeFixedStruct::Utmp };
 pub const FILETYPE_UTF8: FileType =
     FileType::Text { archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii };
+pub const FILETYPE_UTF8_BZ2: FileType =
+    FileType::Text { archival_type: FileTypeArchive::Bz2, encoding_type: FileTypeTextEncoding::Utf8Ascii };
 pub const FILETYPE_UTF8_GZ: FileType =
     FileType::Text { archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii };
 pub const FILETYPE_UTF8_LZ4: FileType =
@@ -251,6 +253,84 @@ lazy_static! {
 }
 
 pub const NTF_LOG_EMPTY_FILETYPE: FileType = FILETYPE_UTF8;
+
+// ---------
+// bzip2 data
+
+/// bzip2 of an empty file using `bzip2`
+///
+///     $ echo -n > empty
+///     $ bzip2 empty
+///     $ ./tools/hexdump.py empty.bz2
+///
+pub const BZ2_EMPTY_DATA: [u8; 14] = [
+    0x42, 0x5a, 0x68, 0x39, 0x17, 0x72, 0x45, 0x38,
+    0x50, 0x90, 0x00, 0x00, 0x00, 0x00,
+];
+
+lazy_static! {
+    /// an empty file, gzipped
+    pub static ref NTF_BZ2_EMPTY: NamedTempFile = {
+        create_temp_file_bytes_with_suffix(
+            &BZ2_EMPTY_DATA, &String::from("-empty.bz2")
+        )
+    };
+    pub static ref NTF_BZ2_EMPTY_PATH: &'static Path = {
+        fpath_to_path(&NTF_BZ2_EMPTY_FPATH)
+    };
+    pub static ref NTF_BZ2_EMPTY_FPATH: FPath = {
+        path_to_fpath(NTF_BZ2_EMPTY.path())
+    };
+    pub static ref NTF_BZ2_EMPTY_SYSTEMTIME: SystemTime = seconds_to_systemtime(
+        &1_659_160_049
+    );
+}
+pub const NTF_BZ2_EMPTY_FILETYPE: FileType = FILETYPE_UTF8;
+
+/// bzip2 of a one-byte file using `bzip2`:
+///
+///     $ echo -n 'A' > fileA
+///     $ bzip2 fileA
+///     $ ./tools/hexdump.py fileA.bz2
+///
+pub const BZ2_1BYTE_DATA: [u8; 37] = [
+    0x42, 0x5a, 0x68, 0x39, 0x31, 0x41, 0x59, 0x26,
+    0x53, 0x59, 0x81, 0xb0, 0x2d, 0x8b, 0x00, 0x00,
+    0x00, 0x04, 0x00, 0x20, 0x00, 0x20, 0x00, 0x21,
+    0x18, 0x46, 0x82, 0xee, 0x48, 0xa7, 0x0a, 0x12,
+    0x10, 0x36, 0x05, 0xb1, 0x60,
+];
+
+lazy_static! {
+    pub static ref NTF_1BYTE_BZ2: NamedTempFile =
+        create_temp_file_bytes_with_suffix(&BZ2_1BYTE_DATA, &String::from("-one-byte.bz2"));
+    pub static ref NTF_BZ2_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE_BZ2);
+    pub static ref NTF_BZ2_1BYTE_PATH: &'static Path = fpath_to_path(&NTF_BZ2_1BYTE_FPATH);
+    pub static ref NTF_BZ2_1BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_160_178);
+}
+
+/// bzip2 of a eight byte file using `bzip2`:
+///
+///     $ echo -n 'ABCDEFGH' > fileA
+///     $ bzip2 fileA
+///     $ ./tools/hexdump.py fileA.bz2
+///
+pub const BZ2_8BYTE_DATA: [u8; 44] = [
+    0x42, 0x5a, 0x68, 0x39, 0x31, 0x41, 0x59, 0x26,
+    0x53, 0x59, 0xc5, 0x2b, 0x92, 0xce, 0x00, 0x00,
+    0x00, 0x04, 0x00, 0x3f, 0xc0, 0x20, 0x00, 0x31,
+    0x0c, 0x08, 0x19, 0x1a, 0x69, 0x93, 0x35, 0x73,
+    0xf9, 0x45, 0xdc, 0x91, 0x4e, 0x14, 0x24, 0x31,
+    0x4a, 0xe4, 0xb3, 0x80,
+];
+
+lazy_static! {
+    pub static ref NTF_8BYTE_BZ2: NamedTempFile =
+        create_temp_file_bytes_with_suffix(&BZ2_8BYTE_DATA, &String::from("-eight-byte.bz2"));
+    pub static ref NTF_BZ2_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE_BZ2);
+    pub static ref NTF_BZ2_8BYTE_PATH: &'static Path = fpath_to_path(&NTF_BZ2_8BYTE_FPATH);
+    pub static ref NTF_BZ2_8BYTE_SYSTEMTIME: SystemTime = seconds_to_systemtime(&1_659_322_953);
+}
 
 // ---------
 // gzip data
@@ -4034,6 +4114,7 @@ pub const EVTX_KPNP_STR_PATH: &str = "../../logs/programs/evtx/Microsoft-Windows
 pub const EVTX_KPNP_DATA: &[u8] = include_bytes!("../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx");
 pub const EVTX_KPNP_FILESZ: FileSz = 1052672;
 pub const EVTX_KPNP_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx";
+pub const EVTX_KPNP_BZ2_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.bz2";
 pub const EVTX_KPNP_GZ_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz";
 pub const EVTX_KPNP_LZ4_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.lz4";
 pub const EVTX_KPNP_TAR_STR_PATH_PROJD: &str =
@@ -4094,8 +4175,8 @@ lazy_static! {
 
     // EVTX_KPNP
 
-    pub static ref EVTX_KPNP_FPATH: FPath = FPath::from(EVTX_KPNP_STR_PATH_PROJD);
     pub static ref EVTX_KPNP_EVENT_COUNT: Count = 227;
+    pub static ref EVTX_KPNP_FPATH: FPath = FPath::from(EVTX_KPNP_STR_PATH_PROJD);
     pub static ref EVTX_KPNP_F: File =
         File::open(fpath_to_path(&EVTX_KPNP_FPATH)).unwrap();
     /// Entry 1 datetime
@@ -4104,6 +4185,21 @@ lazy_static! {
     /// Entry last datetime
     pub static ref EVTX_KPNP_ENTRY227_DT: DateTimeL =
         ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+
+    // EVTX_KPNP bz2
+
+    pub static ref EVTX_KPNP_BZ2_FPATH: FPath = FPath::from(EVTX_KPNP_BZ2_STR_PATH_PROJD);
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref EVTX_KPNP_BZ2_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678535460))
+    };
+    pub static ref EVTX_KPNP_BZ2_EVENT_COUNT: Count = 227;
+    pub static ref EVTX_KPNP_BZ2_F: File =
+        File::open(fpath_to_path(&EVTX_KPNP_BZ2_FPATH)).unwrap();
+    /// Entry 1 datetime
+    pub static ref EVTX_KPNP_BZ2_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
+    /// Entry last datetime
+    pub static ref EVTX_KPNP_BZ2_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
 
     // EVTX_KPNP gz
 
@@ -4116,11 +4212,9 @@ lazy_static! {
     pub static ref EVTX_KPNP_GZ_F: File =
         File::open(fpath_to_path(&EVTX_KPNP_GZ_FPATH)).unwrap();
     /// Entry 1 datetime
-    pub static ref EVTX_KPNP_GZ_ENTRY1_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    pub static ref EVTX_KPNP_GZ_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
     /// Entry last datetime
-    pub static ref EVTX_KPNP_GZ_ENTRY227_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+    pub static ref EVTX_KPNP_GZ_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
 
     // EVTX_KPNP lz4
 
@@ -4133,11 +4227,9 @@ lazy_static! {
     pub static ref EVTX_KPNP_LZ4_F: File =
         File::open(fpath_to_path(&EVTX_KPNP_LZ4_FPATH)).unwrap();
     /// Entry 1 datetime
-    pub static ref EVTX_KPNP_LZ4_ENTRY1_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    pub static ref EVTX_KPNP_LZ4_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
     /// Entry last datetime
-    pub static ref EVTX_KPNP_LZ4_ENTRY227_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+    pub static ref EVTX_KPNP_LZ4_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
 
     // EVTX_KPNP tar
 
@@ -4150,11 +4242,9 @@ lazy_static! {
     pub static ref EVTX_KPNP_TAR_F: File =
         File::open(fpath_to_path(&EVTX_KPNP_TAR_FPATH)).unwrap();
     /// Entry 1 datetime
-    pub static ref EVTX_KPNP_TAR_ENTRY1_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    pub static ref EVTX_KPNP_TAR_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
     /// Entry last datetime
-    pub static ref EVTX_KPNP_TAR_ENTRY227_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+    pub static ref EVTX_KPNP_TAR_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
 
     // EVTX_KPNP xz
 
@@ -4167,11 +4257,9 @@ lazy_static! {
     pub static ref EVTX_KPNP_XZ_F: File =
         File::open(fpath_to_path(&EVTX_KPNP_XZ_FPATH)).unwrap();
     /// Entry 1 datetime
-    pub static ref EVTX_KPNP_XZ_ENTRY1_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+    pub static ref EVTX_KPNP_XZ_ENTRY1_DT: DateTimeL = *EVTX_KPNP_ENTRY1_DT;
     /// Entry last datetime
-    pub static ref EVTX_KPNP_XZ_ENTRY227_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+    pub static ref EVTX_KPNP_XZ_ENTRY227_DT: DateTimeL = *EVTX_KPNP_ENTRY227_DT;
 
 }
 
@@ -4211,6 +4299,25 @@ lazy_static! {
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT: DateTimeL =
         ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
+
+    // .journal file taken from a new Red Hat Enterprise 9.1 system gz
+
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH: FPath =
+        FPath::from("./logs/programs/journal/RHE_91_system.journal.bz2");
+    /// set by `./tools/log-files-time-update.sh`
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681254655))
+    };
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_PATH: &'static Path =
+        fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EXISTS: bool =
+        JOURNAL_FILE_RHE_91_SYSTEM_BZ2_PATH.exists();
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EVENT_COUNT: Count = 2081;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_EVENT_FILESZ: FileSz = 4644864;
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_ENTRY_FIRST_DT: DateTimeL =
+        ymdhmsm(&FO_0, 2023, 4, 10, 20, 56, 30, 138000);
+    pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_ENTRY_LAST_DT: DateTimeL =
         ymdhmsm(&FO_0, 2023, 4, 10, 22, 10, 32, 863768);
 
     // .journal file taken from a new Red Hat Enterprise 9.1 system gz

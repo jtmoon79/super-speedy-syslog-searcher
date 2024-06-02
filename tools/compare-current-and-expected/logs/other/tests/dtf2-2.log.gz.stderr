@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/dtf2-2.log.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 249

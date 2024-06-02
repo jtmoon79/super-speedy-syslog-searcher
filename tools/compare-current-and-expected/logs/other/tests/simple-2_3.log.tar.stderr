@@ -4,7 +4,7 @@ Files:
 File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
   About:
       archive subpath: simple-2.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
@@ -38,7 +38,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
 File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
   About:
       archive subpath: simple-3.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0

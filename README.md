@@ -30,7 +30,7 @@ message formats, including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
-`s4` can read logs that are compressed (`.gz`, `.lz4`, `.xz`), or archived logs (`.tar`).
+`s4` can read logs that are compressed (`.bz2`, `.gz`, `.lz4`, `.xz`), or archived logs (`.tar`).
 
 `s4` aims to be very fast.
 
@@ -415,7 +415,7 @@ See the real-world example rationale in the section below,
   - many varying text log messages with ad-hoc datetime formats
   - multi-line log messages
 - Inspects `.tar` archive files for parseable log files <sup><a href="#f2">\[2\]</a></sup>
-- Can process `.gz`, `.lz4`, or `.xz` containing log files.
+- Can process `.bz2`, `.gz`, `.lz4`, or `.xz` containing log files.
 - Tested against "in the wild" log files from varying sources
   (see project path [`./logs/`])
 - Prepends datetime and file paths, for easy programmatic parsing or
@@ -449,7 +449,7 @@ file. But non-standard name `log.utmp.1` is guessed to be a `utmp` record file.
 Similar guesses are applied to `lastlog`, `wtmp`, `acct`, `pacct`,
 `journal`, and `evtx` files.
 When combined with compression or archive file name extensions,
-e.g. `.gz`, `.lz4`, or `.xz`, then `s4` makes a best attempt at
+e.g. `.bz2`, `.gz`, `.lz4`, or `.xz`, then `s4` makes a best attempt at
 guessing the compression or archive type and the file within the archive based
 on the name.
 For example, `user.journal.gz` is guessed to be a systemd journal file within a
@@ -511,6 +511,7 @@ process `file.mp3`. It will be treated as a UTF8 text log file.
 
 ### Hacks
 
+- Entire `.bz2` files are read once before processing ([Issue #300])
 - Entire `.lz4` files are read once before processing ([Issue #293])
 - Entire `.xz` files are read into memory before printing ([Issue #12])
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
@@ -599,13 +600,13 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 
 #### Archive Formats Supported
 
-|Program        |`.gz`     |`.lz4`   |`.bz`/`.bz2` |`.xz`   |`.tar`|`.zip`|
-|-              |-         |-        |-            |-       |-     |-     |
-|`grep \| sort` |☐ `zgrep`|☐ `lz4`|☐ `bzip2`    |☐ `xz` |✗     |✗     |
-|`s4`           |✔        |✔        |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/40)|✔      |✔     |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39)|
-|`logmerger`    |✔        |✗        |✗            |✗      |✗     |✗     |
-|`tl`           |✔        |✗        |✔            |✗      |✗     |✗     |
-|`logdissect.py`|✔        |✗        |✗            |✗      |✗     |✗     |
+|Program        |`.gz`     |`.lz4`   |`.bz`    |`.bz2`       |`.xz`   |`.tar`|`.zip`|
+|-              |-         |-        |-        |-            |-       |-     |-     |
+|`grep \| sort` |☐ `zgrep`|☐ `lz4`  |☐ `bzip`|☐ `bzip2`    |☐ `xz` |✗     |✗     |
+|`s4`           |✔        |✔        |✗        |✔            |✔      |✔     |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39)|
+|`logmerger`    |✔        |✗        |✗        |✗            |✗      |✗     |✗     |
+|`tl`           |✔        |✗        |✔        |✔            |✗      |✗     |✗     |
+|`logdissect.py`|✔        |✗        |✗        |✗            |✗      |✗     |✗     |
 
 ---
 

@@ -574,6 +574,10 @@ impl std::fmt::Display for FileTypeTextEncoding {
 pub enum FileTypeArchive {
     /// An normal file, not explicitly compressed or archived
     Normal,
+    /// a compressed bzip2 file, e.g. `log.bz2`
+    ///
+    /// Presumed to contain one regular file
+    Bz2,
     /// a compressed gzipped file, e.g. `log.gz`
     ///
     /// Presumed to contain one regular file; see Issue #8
@@ -595,10 +599,11 @@ impl std::fmt::Display for FileTypeArchive {
     ) -> std::fmt::Result {
         match self {
             FileTypeArchive::Normal => write!(f, "Normal"),
-            FileTypeArchive::Gz => write!(f, "gzip"),
-            FileTypeArchive::Lz4 => write!(f, "lz4"),
-            FileTypeArchive::Tar => write!(f, "tar"),
-            FileTypeArchive::Xz => write!(f, "xz"),
+            FileTypeArchive::Bz2 => write!(f, "BZIP2"),
+            FileTypeArchive::Gz => write!(f, "GZIP"),
+            FileTypeArchive::Lz4 => write!(f, "LZMA4"),
+            FileTypeArchive::Tar => write!(f, "TAR"),
+            FileTypeArchive::Xz => write!(f, "XZ"),
         }
     }
 }
@@ -735,21 +740,25 @@ impl FileType {
     pub const fn is_compressed(&self) -> bool {
         match self {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Bz2 } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Lz4 } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Tar } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Xz } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Bz2 } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Gz } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => true,
             FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => false,
@@ -762,21 +771,25 @@ impl FileType {
     pub const fn is_archived(&self) -> bool {
         match self {
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Evtx{ archival_type: FileTypeArchive::Bz2 } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Lz4 } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Xz } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => false,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => true,
             FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Journal{ archival_type: FileTypeArchive::Bz2 } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Gz } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
             FileType::Text{ archival_type: FileTypeArchive::Normal, ..} => false,
+            FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => true,

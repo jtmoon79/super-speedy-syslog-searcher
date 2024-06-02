@@ -572,11 +572,14 @@ impl fmt::Debug for Summary {
                                 .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
                                 .finish(),
                             FileType::Evtx{ archival_type: FileTypeArchive::Gz }
+                            | FileType::Evtx{ archival_type: FileTypeArchive::Bz2 }
                             | FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
                             | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
+                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, fixedstruct_type: _ }
                             | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
                             | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, fixedstruct_type: _ }
                             | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
+                            | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: _ }
                             | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
                             | FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: _ }
                             | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }

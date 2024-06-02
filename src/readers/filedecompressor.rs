@@ -30,6 +30,7 @@ use crate::readers::helpers::{
     path_filesz,
 };
 
+use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
 // `flate2` is for gzip files.
 use ::flate2::read::GzDecoder;
 use ::flate2::GzHeader;
@@ -83,6 +84,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
 {
     defn!("({:?}, file_type={:?})", path_std, file_type);
     const BUF_SZ: usize = 65536;
+    let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
     let mut mtime_opt: Option<SystemTime> = None;
     let suffix: &str;
     let file_type_archive: &FileTypeArchive = match file_type {
@@ -124,7 +126,8 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
             defx!("FileTypeArchive::Normal; return Ok(None)");
             return Ok(None);
         },
-        FileTypeArchive::Gz
+        FileTypeArchive::Bz2
+        | FileTypeArchive::Gz
         | FileTypeArchive::Lz4
         | FileTypeArchive::Tar
         | FileTypeArchive::Xz
@@ -175,6 +178,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
     let file_compressed_metadata: FileMetadata;
     match file_type_archive {
         FileTypeArchive::Normal
+        | FileTypeArchive::Bz2
         | FileTypeArchive::Gz
         | FileTypeArchive::Lz4
         | FileTypeArchive::Xz
@@ -335,7 +339,6 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
             };
             let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
             defo!("Tar: bufwriter {:?}", bufwriter);
-            let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
             let mut bytes_written: usize = 0;
             loop {
                 match entry.read(&mut buf) {
@@ -401,6 +404,44 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                 )
             )
         },
+        FileTypeArchive::Bz2
+        => {
+            let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
+            defo!("bufwriter {:?}", bufwriter);
+            let mut bz2_decoder: Bz2DecoderReader<File> = Bz2DecoderReader::new(file_compressed);
+            defo!("bz2_decoder");
+            let mut _filesz_uncompressed: FileSz = 0;
+
+            let mut _loop_count: usize = 0;
+            loop {
+                defo!("{:3} bz2_decoder.read(buf size {})", _loop_count, BUF_SZ);
+                let bytes_read: usize = match bz2_decoder.read(&mut buf) {
+                    Ok(sz) => sz,
+                    Err(err) => {
+                        defx!("bz2_decoder.read() Error, return {:?}", err);
+                        return err_from_err_path_result_dtn!(
+                            &err, &fpath, Some("bz2_decoder.read() failed")
+                        );
+                    }
+                };
+                if bytes_read == 0 {
+                    break;
+                }
+                defo!("{:3} bufwriter.write_all(buf size {})", _loop_count, bytes_read);
+                match bufwriter.write_all(&buf[..bytes_read]) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        defx!("bufwriter.write_all() Error, return {:?}", err);
+                        return err_from_err_path_result_dtn!(
+                            &err, &fpath, Some("bufwriter.write_all() failed")
+                        );
+                    }
+                }
+                _filesz_uncompressed += bytes_read as FileSz;
+                _loop_count += 1;
+            }
+            defo!("_filesz_uncompressed {}", _filesz_uncompressed);
+        }
         FileTypeArchive::Gz
         => {
             // TODO: [2024/05] most code in this block repeats code in
@@ -458,7 +499,6 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
 
             let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
             defo!("bufwriter {:?}", bufwriter);
-            let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
             let mut _bytes_read_total: usize = 0;
             defo!("GzDecoder start");
             loop {
@@ -505,7 +545,6 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
             defo!("lz4_decoder {:?}", lz4_decoder);
             let mut _filesz_uncompressed: FileSz = 0;
             
-            let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
             let mut _loop_count: usize = 0;
             loop {
                 defo!("{:3} lz4_decoder.read(buf size {})", _loop_count, BUF_SZ);
@@ -588,7 +627,8 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
             match file_compressed_metadata.modified() {
                 Result::Ok(systemtime) => {
                     match file_type.to_filetypearchive() {
-                        FileTypeArchive::Gz
+                        FileTypeArchive::Bz2
+                        | FileTypeArchive::Gz
                         | FileTypeArchive::Lz4
                         | FileTypeArchive::Xz
                         => {

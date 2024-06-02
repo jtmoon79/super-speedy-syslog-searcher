@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/invalid.xz
   About:
-      filetype       : TEXT UTF8/ASCII (xz)
+      filetype       : TEXT UTF8/ASCII (XZ)
       logmessagetype : syslog lines
       Processing Err : invalid data
   Error: failed to find XZ stream header magic bytes for "./logs/other/tests/invalid.xz"

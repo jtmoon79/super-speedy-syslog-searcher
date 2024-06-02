@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
   About:
-      filetype       : TEXT UTF8/ASCII (gzip)
+      filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
       bytes         : 2680

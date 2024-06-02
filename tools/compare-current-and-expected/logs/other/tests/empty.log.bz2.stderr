@@ -3,35 +3,7 @@ Files:
 
 File: ./logs/other/tests/empty.log.bz2
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
-  Printed:
-      bytes         : 0
-      lines         : 0
-      syslines      : 0
-  Processed:
-      file size     : 14 (0xE) (bytes)
-      bytes         : 14 (0xE)
-      bytes total   : 14 (0xE)
-      block size    : 256 (0x100)
-      blocks        : 1
-      blocks total  : 1 (256 bytes)
-      lines         : 1
-      syslines      : 0
-      syslines high : 0
-  Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 13
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 13
-      process: regex captures attempted                            : 0
-  Processing Drops:
+      Processing Err : FileErrEmpty
 
 Program Summary:
 

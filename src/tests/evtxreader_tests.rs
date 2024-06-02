@@ -253,6 +253,7 @@ fn test_EvtxReader_next_summary(
             match archival_type {
                 // XXX: forces error if new FileTypeArchive is added
                 FileTypeArchive::Normal
+                | FileTypeArchive::Bz2
                 | FileTypeArchive::Gz
                 | FileTypeArchive::Lz4
                 | FileTypeArchive::Tar

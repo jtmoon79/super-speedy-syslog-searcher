@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
   About:
-      filetype       : EVTX (gzip)
+      filetype       : EVTX (GZIP)
       logmessagetype : evtx entries
   Printed:
       bytes         : 1184407

@@ -3,7 +3,7 @@ Files:
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
   About:
-      filetype       : JOURNAL (xz)
+      filetype       : JOURNAL (XZ)
       logmessagetype : journal entries
   Printed:
       bytes         : 12856

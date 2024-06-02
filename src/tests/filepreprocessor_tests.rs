@@ -92,6 +92,12 @@ const FTTN8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
         encoding_type: FileTypeTextEncoding::Utf8Ascii,
     }
 );
+const FTTB8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Text {
+        archival_type: FileTypeArchive::Bz2,
+        encoding_type: FileTypeTextEncoding::Utf8Ascii,
+    }
+);
 const FTTGZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Text {
         archival_type: FileTypeArchive::Gz,
@@ -107,6 +113,11 @@ const FTTXZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 const FTEVTXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Evtx {
         archival_type: FileTypeArchive::Normal,
+    }
+);
+const FTEVTXB: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Evtx {
+        archival_type: FileTypeArchive::Bz2,
     }
 );
 const FTEVTXG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
@@ -127,6 +138,11 @@ const FTEVTXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 const FTJOURNALN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Journal {
         archival_type: FileTypeArchive::Normal,
+    }
+);
+const FTJOURNALB: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Journal {
+        archival_type: FileTypeArchive::Bz2,
     }
 );
 const FTJOURNALG: PathToFiletypeResult = PathToFiletypeResult::Filetype(
@@ -152,13 +168,17 @@ const AMTARN: PathToFiletypeResult = PathToFiletypeResult::Archive(
     FileTypeArchiveMultiple::Tar,
     FileTypeArchive::Normal,
 );
-const AMTARX: PathToFiletypeResult = PathToFiletypeResult::Archive(
+const AMTARB: PathToFiletypeResult = PathToFiletypeResult::Archive(
     FileTypeArchiveMultiple::Tar,
-    FileTypeArchive::Xz,
+    FileTypeArchive::Bz2,
 );
 const AMTARG: PathToFiletypeResult = PathToFiletypeResult::Archive(
     FileTypeArchiveMultiple::Tar,
     FileTypeArchive::Gz,
+);
+const AMTARX: PathToFiletypeResult = PathToFiletypeResult::Archive(
+    FileTypeArchiveMultiple::Tar,
+    FileTypeArchive::Xz,
 );
 // FileType::FixedStruct consts
 const FTACCTN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
@@ -170,6 +190,12 @@ const FTACCTN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 const FTACCTV3N: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::FixedStruct {
         archival_type: FileTypeArchive::Normal,
+        fixedstruct_type: FileTypeFixedStruct::AcctV3,
+    }
+);
+const FTACCTV3B: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::FixedStruct {
+        archival_type: FileTypeArchive::Bz2,
         fixedstruct_type: FileTypeFixedStruct::AcctV3,
     }
 );
@@ -352,6 +378,21 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("setup.log.full.old.1", FTTN8, true)]
 #[test_case("setup.log.full.old.2", FTTN8, true)]
 #[test_case("SIH.20230422.034724.362.1.etl", FTTN8, true)]
+// TEXT bz2
+#[test_case("syslog.bz2", FTTB8, true)]
+#[test_case("syslog.1.bz2", FTTB8, true)]
+#[test_case("unattended-upgrades-dpkg.log.3.bz2", FTTB8, true)]
+#[test_case("data.bz2", FTTB8, true)]
+#[test_case("data.log.bz2", FTTB8, true)]
+#[test_case("DATA.BZ2", FTTB8, true; "DATA.BZ2 ALLCAPS")]
+#[test_case("data.bz2.old", FTTB8, true)]
+#[test_case("log.bz2.1", FTTB8, true)]
+#[test_case("log.bz2.2", FTTB8, true)]
+#[test_case("log.bz2.99", FTTB8, true)]
+#[test_case("log.nmbd.old.bz2", FTTB8, true)]
+#[test_case("192.168.1.100.log.bz2", FTTB8, true)]
+#[test_case("192.168.1.100.log.bz2.1", FTTB8, true)]
+#[test_case("192.168.1.100.log.bz2.old.1", FTTB8, true)]
 // TEXT gz
 #[test_case("syslog.gz", FTTGZ8, true)]
 #[test_case("syslog.9.gz", FTTGZ8, true)]
@@ -400,6 +441,8 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("tar.tar", AMTARN, true)]
 #[test_case("tgz.tar", AMTARN, true)]
 #[test_case("_.tar", AMTARN, true)]
+// bz2
+#[test_case("data.tar.bz2", AMTARB, true)]
 // gz
 #[test_case("data.tar.gz", AMTARG, true)]
 // xz
@@ -457,6 +500,7 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("pacct", FTACCTV3N, true)]
 #[test_case("pacct.1", FTACCTV3N, true)]
 #[test_case("pacct.20220101", FTACCTV3N, true)]
+#[test_case("pacct.bz2", FTACCTV3B, true)]
 #[test_case("pacct.gz", FTACCTV3G, true)]
 #[test_case("pacct.20220101.gz", FTACCTV3G, true)]
 #[test_case("pacct.xz", FTACCTV3X, true)]
@@ -478,6 +522,8 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("mp3.evtx", FTEVTXN, true)]
 #[test_case("_.evtx", FTEVTXN, true)]
 // gz
+#[test_case("log.evtx.bz2", FTEVTXB, true)]
+// gz
 #[test_case("log.evtx.gz", FTEVTXG, true)]
 // lz4
 #[test_case("log.evtx.lz4", FTEVTXL4, true)]
@@ -496,6 +542,8 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("user-1000.journal", FTJOURNALN, true)]
 #[test_case("user-1000@2feff012228b405bb557ccd80a0ba755-000000005100032b-0006129e5481135e.journal", FTJOURNALN, true)]
 #[test_case("system@a8b80590f2654a95aed5c11b3c9e3c48-0000000000000001-0005f6f737b6b0e0.journal", FTJOURNALN, true)]
+// bz2
+#[test_case("user-1000.journal.BZ2", FTJOURNALB, true)]
 // gz
 #[test_case("user-1000.journal.gz", FTJOURNALG, true)]
 #[test_case("journal.journal.gz", FTJOURNALG, true)]
@@ -525,8 +573,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("lib.dll", FTTN8, true)]
 #[test_case("log.bz", FTUNPARSABLE, false)]
 #[test_case("log.bz", FTTN8, true)]
-#[test_case("log.bz2", FTUNPARSABLE, false)]
-#[test_case("log.bz2", FTTN8, true)]
 #[test_case("logs.tgz", FTTN8, true)]
 #[test_case("logs.tgz", FTUNPARSABLE, false)]
 #[test_case("log.tgz.99", FTUNPARSABLE, false)]
@@ -558,6 +604,8 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("prog.exe", FTUNPARSABLE, false)]
 #[test_case("prog.exe", FTTN8, true)]
 // oddities
+#[test_case("bz2", FTTN8, true)]
+#[test_case("bz2", FTTN8, false)]
 #[test_case("gz", FTTN8, true)]
 #[test_case("gz", FTTN8, false)]
 #[test_case("lz4", FTTN8, true)]

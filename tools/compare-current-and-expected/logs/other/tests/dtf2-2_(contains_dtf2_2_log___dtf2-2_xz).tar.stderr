@@ -4,7 +4,7 @@ Files:
 File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
   About:
       archive subpath: dtf2-2.log
-      filetype       : TEXT UTF8/ASCII (tar)
+      filetype       : TEXT UTF8/ASCII (TAR)
       logmessagetype : syslog lines
   Printed:
       bytes         : 375
@@ -36,7 +36,7 @@ File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
       process: regex captures attempted                            : 80
   Processing Drops:
 
-File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract xz type from a tar archived file)
+File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log.xz (cannot extract XZ type from a tar archived file)
 
 Program Summary:
 

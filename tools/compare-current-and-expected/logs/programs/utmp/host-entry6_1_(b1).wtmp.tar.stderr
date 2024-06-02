@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
   About:
       archive subpath: host-entry6.wtmp
-      filetype       : UTMP/WTMP (tar)
+      filetype       : UTMP/WTMP (TAR)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
@@ -33,7 +33,7 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
 File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry1.wtmp
   About:
       archive subpath: host-entry1.wtmp
-      filetype       : UTMP/WTMP (tar)
+      filetype       : UTMP/WTMP (TAR)
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : FileErrNoValidFixedStruct

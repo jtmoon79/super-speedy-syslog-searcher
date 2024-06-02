@@ -536,6 +536,7 @@ fn test_JournalReader_next_summary(
         FileType::Journal { archival_type } => {
             match archival_type {
                 FileTypeArchive::Normal => {}
+                FileTypeArchive::Bz2 => {}
                 FileTypeArchive::Gz => {}
                 FileTypeArchive::Lz4 => {}
                 FileTypeArchive::Tar => {}
