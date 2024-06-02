@@ -2651,15 +2651,8 @@ fn processing_loop(
             }
             ProcessPathResult::FileErrNoPermissions(path) =>
                 e_err!("not enough permissions {:?}", path),
-            ProcessPathResult::FileErrNotSupported(path, message) => {
-                match message {
-                    Some(m) => {
-                        e_err!("not a supported file {:?} {}", path, m);
-                    }
-                    None => {
-                        e_err!("not a supported file {:?}", path);
-                    }
-                }
+            ProcessPathResult::FileErrNotSupported(_path, _message) => {
+                // behave like Unix tools; do not print errors about small files
             }
             ProcessPathResult::FileErrNotAFile(path) =>
                 e_err!("not a file {:?}", path),
