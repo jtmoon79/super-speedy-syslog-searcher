@@ -178,6 +178,7 @@
 ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
 ./logs/other/tests/dtf7-20-LEVELS.log.tar
 ./logs/other/tests/dtf7-20-LEVELS.log.xz
+./logs/other/tests/dtf7-20-LEVELS-outoforder.log
 ./logs/other/tests/dtf7-5-LEVELS.log
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip

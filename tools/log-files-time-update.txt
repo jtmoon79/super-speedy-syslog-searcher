@@ -581,6 +581,7 @@
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|2000-01-01 00:16:20 -0400
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z|2000-01-01 00:17:20 -0400
 ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip|2000-01-01 00:18:20 -0400
+./logs/other/tests/dtf7-20-LEVELS-outoforder.log|2000-01-01 00:00:20 -0400
 ./logs/other/tests/empty.7z|2000-01-01 12:34:32 -0800
 ./logs/other/tests/empty.log.bz2|2000-01-01 12:34:32 -0800
 ./logs/other/tests/empty.log.tar|2000-01-01 12:34:35 -0800

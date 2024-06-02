@@ -1,0 +1,56 @@
+
+Files:
+
+File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 2869
+      lines         : 20
+      syslines      : 20
+  Processed:
+      file size     : 1289 (0x509) (bytes)
+      bytes         : 1289 (0x509)
+      bytes total   : 1289 (0x509)
+      block size    : 256 (0x100)
+      blocks        : 6
+      blocks total  : 6 (1536 bytes)
+      lines         : 20
+      syslines      : 20
+      syslines high : 15
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
+      copying: SyslineReader::get_boxptrs()                        : sgl 147, dbl    5, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
+      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 152
+  Processing Drops:
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 2949
+Printed lines          : 20
+Printed syslines       : 20
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 158
+Regex patterns compiled: 133
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 22
+Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0
