@@ -699,6 +699,9 @@ Windows Event Log, a formal RFC 5424 syslog message, or an ad-hoc log message.
 In practice, most log file formats are an ad-hoc format. And among formally
 defined log formats, there are many variations. The result is merging varying
 log messages by datetime is prohibitively tedious.
+If an engineer is investigating a problem that is symptomatic among many log
+files then the engineer must "hunt and peck" among those many log files.
+Log files can not be merged for a single coherent view.
 
 The following real-world example log files are available in project directory
 `./logs`.
@@ -925,6 +928,7 @@ Attempting to merge log messages by their natural sort mechanism,
 a datetime stamp, is difficult to impossible.
 
 Hence the need for _Super Speedy Syslog Searcher_! 🦸
+`s4` merges varying log files into a single coherent datetime-sorted log.
 
 [logs access attempts in an ad-hoc format]: https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#setting-up-the-access-log
 
