@@ -40,6 +40,7 @@ exclude = [
 
 [dependencies]
 bstr = "1.9.1"
+bzip2-rs = "0.1.2"
 chrono = "0.4.38"
 clap = { version = "=4.2.1", features = ["derive"] }
 const_format = { version = "0.2.31", features = ["assertcp"] }

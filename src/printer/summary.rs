@@ -901,7 +901,7 @@ pub fn print_summary(
     let run_time_w_summary = Instant::now().checked_duration_since(start_time);
     match (run_time, run_time_w_summary) {
         (Some(rt), Some(rts)) => {
-            eprintln!("Program Run Time       : {} (seconds) (including this summary {})",
+            eprintln!("Program Run Time       : {:.3} (seconds) (including this summary {:.3})",
                 rt.as_secs_f64(), rts.as_secs_f64());
         }
         _ => {
