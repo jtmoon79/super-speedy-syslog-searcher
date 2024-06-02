@@ -646,8 +646,8 @@ Building on Linux requires:
 - `rust` _minimal_ or more
 - `gcc` (which should install `cc`, `libc`, and `libc-headers`)
 
-Building on Windows requires _Visual Studio Code_. [`rustup-init.exe`] will
-install the necessary tools.
+Building on Windows requires _Visual Studio_.
+[`rustup-init.exe`] will help install the necessary tools.
 
 From the git cloned project directory run `cargo build`.
 
