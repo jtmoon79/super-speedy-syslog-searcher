@@ -2665,8 +2665,8 @@ fn processing_loop(
                 e_err!("path does not exist {:?}", path),
             ProcessPathResult::FileErrLoadingLibrary(path, libname, ft) =>
                 e_err!("failed to load library {:?} for {:?} {:?}", libname, ft, path),
-            ProcessPathResult::FileErr(_path, message) =>
-                e_err!("{}", message),
+            ProcessPathResult::FileErr(path, message) =>
+                e_err!("{} for {:?}", message, path),
             ProcessPathResult::FileValid(..) => {}
         }
     }
