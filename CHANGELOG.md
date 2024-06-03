@@ -250,7 +250,9 @@ _MSRV 1.70.0_
 - (DOCS) CHANGELOG fix missing links for long short hashes ([3a500a4a])
 - (DOCS) README.md add badge CHANGELOG ([e8ae1ae5])
 - (DOCS) src/ update docstrings printer/ filedecompressor.rs ([6ab5a2a5])
+- (LIB) blockreader.rs larger buf for BZ2 LZ4 data extract ([b76c05d3])
 - (PROJECT) add log dtf7-20-LEVELS-outoforder.log ([801ab5c8])
+- (TOOLS) flamegraphs.sh use log gen-1000-3-foobar.log.bz2, journal.bz2 ([af851e2d])
 - (TOOLS) flamegraphs.sh simplify to a for loop ([46d58621])
 - (TOOLS) flamegraph.sh rm perf help ([4b115c29])
 
@@ -2425,6 +2427,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [aee27e45]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/aee27e45bc52c5a6839a66266d03a304d2608351
 [aeed87f6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/aeed87f64b21581afb83924035cd22fd98d3dddc
 [af468519]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/af46851919ced5582dd8d6c5b236edd3ac078061
+[af851e2d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/af851e2dfe1dc6a42824df5fe7bf5083a01eefd0
 [af93d662]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/af93d662852bbed6a3c13ca4f54ae4a63af56c20
 [afc0dab5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/afc0dab53064bef4aec0f5181e25b8f96e0169f4
 [b03da488]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b03da48883f07bd1e089f080dc4bc6fa9cfc8578
@@ -2450,6 +2453,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [b6d359fe]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b6d359fe3efb94ba8f85c7eaa1788665c392021d
 [b715be55]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b715be5564b434b10e566aba23a1737860ccc37f
 [b723fed8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b723fed816b98dc1bfa9484909c53a8078a1335d
+[b76c05d3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b76c05d3bd5dd062408b55a1b4202c4ef5aeda90
 [b7a25d09]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b7a25d0905f7aa8426eb97ada89a516620d81e77
 [b875e10f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b875e10f8792292446465e8855b7dbb7048d4c4a
 [b8989f3f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b8989f3f0e848138b6de90b81b2c774e775a015d
