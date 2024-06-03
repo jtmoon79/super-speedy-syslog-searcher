@@ -9,6 +9,11 @@ if [[ ${#} -ne 0 ]]; then
     exit 1
 fi
 
+if ! [[ "${VIRTUAL_ENV-}" ]]; then
+    echo "ERROR: must run within a Python virtual environment" >&2
+    exit 1
+fi
+
 cd "$(dirname "${0}")/../.."
 
 (
