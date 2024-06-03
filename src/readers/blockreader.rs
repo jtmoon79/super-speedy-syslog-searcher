@@ -722,7 +722,7 @@ impl BlockReader {
                 // XXX: the size of the BZ2 data is only known after decompression
                 //      See Issue #XXX
                 let mut filesz_uncompressed: FileSz = 0;
-                const BUF_SZ: usize = 16384;
+                const BUF_SZ: usize = 32786;
                 let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
                 let mut _loop_count: usize = 0;
                 loop {
@@ -965,7 +965,7 @@ impl BlockReader {
                 //      See Issue #293
                 let mut lz4_decoder: Lz4FrameReader = Lz4FrameReader::new(bufreader);
                 let mut filesz_uncompressed: FileSz = 0;
-                const BUF_SZ: usize = 16384;
+                const BUF_SZ: usize = 32786;
                 let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
                 let mut _loop_count: usize = 0;
                 loop {
