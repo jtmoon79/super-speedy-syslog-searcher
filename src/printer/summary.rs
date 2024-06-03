@@ -1,10 +1,9 @@
-// summary.rs
+// src/printer/summary.rs
+
+//! CLI option `--summary` printing functions.
+//! Only used by `s4.rs`.
 
 #![allow(non_camel_case_types)]
-
-/// CLI option `--summary` printing functions
-///
-/// Only used by `s4.rs`
 
 use std::collections::{BTreeMap, HashMap};
 use std::fmt;

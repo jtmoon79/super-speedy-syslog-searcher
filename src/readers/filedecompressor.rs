@@ -1,4 +1,6 @@
-// filedecompressor.rs
+// src/readers/filedecompressor.rs
+
+//! The `filedecompressor` module is for decompressing files to temporary files.
 
 use std::borrow::Cow;
 use std::io::{BufReader, BufWriter, Error, ErrorKind, Read, Result, Write};
