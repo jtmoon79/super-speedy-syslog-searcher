@@ -2,9 +2,11 @@
 
 //! The `filedecompressor` module is for decompressing files to temporary files.
 
-use std::borrow::Cow;
+use std::borrow::{BorrowMut, Cow};
+use std::collections::LinkedList;
 use std::io::{BufReader, BufWriter, Error, ErrorKind, Read, Result, Write};
 use std::path::Path;
+use std::sync::RwLock;
 use std::time::SystemTime;
 
 use crate::{debug_panic, e_wrn, path_filesz_or_return_err};
@@ -36,6 +38,7 @@ use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
 // `flate2` is for gzip files.
 use ::flate2::read::GzDecoder;
 use ::flate2::GzHeader;
+use ::lazy_static::lazy_static;
 // `lz4_flex` is for lz4 files.
 use ::lz4_flex;
 // `lzma_rs` is for xz files.
@@ -75,6 +78,19 @@ macro_rules! err_from_err_path_result_dtn {
     ($error: expr, $fpath: expr, $mesg: expr) => ({{
         err_from_err_path_result::<DecompressToNtfValue>($error, $fpath, $mesg)
     }})
+}
+
+type ListFPaths = LinkedList<FPath>;
+
+lazy_static! {
+    /// Global list of named temporary files created by the program.
+    /// This is used by a signal handler run in the main thread to remove the
+    /// temporary files during an unexpected exit.
+    pub static ref NAMED_TEMP_FILES: RwLock<ListFPaths> = {
+        defñ!("lazy_static! NAMED_TEMP_FILES");
+
+        RwLock::new(ListFPaths::new())
+    };
 }
 
 /// helper function to decompress a `path_std` to a temporary file.
@@ -155,6 +171,26 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
     };
     let path_ntf = ntf.path();
     defo!("path_ntf {:?}", path_ntf);
+    let fpath_ntf = path_to_fpath(path_ntf);
+
+    defo!("NAMED_TEMP_FILES.lock()");
+    match (&*NAMED_TEMP_FILES).write() {
+        Ok(ref mut ntfs) => {
+            let ntfs_mut: &mut ListFPaths = ntfs.borrow_mut();
+            defo!("NAMED_TEMP_FILES.push({:?}) {}", fpath_ntf, ntfs_mut.len());
+            ntfs_mut.push_back(fpath_ntf);
+        }
+        Err(err) => {
+            let ioerr = Error::new(
+                ErrorKind::Other,
+                format!("NAMED_TEMP_FILES.lock() failed: {:?}", err)
+            );
+            defx!("NAMED_TEMP_FILES.lock() failed, return {:?}", err);
+            return err_from_err_path_result_dtn!(
+                &ioerr, &fpath, Some("NAMED_TEMP_FILES.lock() failed")
+            );
+        }
+    }
 
     let mut open_options = FileOpenOptions::new();
 

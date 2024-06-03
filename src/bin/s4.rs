@@ -62,6 +62,7 @@ use std::str;
 use std::thread;
 use std::time::Instant;
 
+use ::anyhow;
 use ::chrono::{
     DateTime,
     Datelike,
@@ -137,6 +138,7 @@ use ::s4lib::readers::journalreader::{
     JournalReader,
     ResultNext,
 };
+use ::s4lib::readers::filedecompressor::NAMED_TEMP_FILES;
 use ::s4lib::readers::filepreprocessor::{
     process_path,
     ProcessPathResult,
@@ -186,6 +188,9 @@ use ::s4lib::printer::summary::{
 
 /// user-passed signifier that file paths were passed on STDIN
 const PATHS_ON_STDIN: &str = "-";
+
+/// general error exit value
+const EXIT_ERR: i32 = 1;
 
 lazy_static! {
     /// for user-passed strings of a duration that will be offset from the
@@ -723,6 +728,25 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     summary: bool,
 }
 
+/// wrapper for checking `EARLY_EXIT`, returns if necessary
+macro_rules! exit_early_check {
+    () => {
+        match EXIT_EARLY.read() {
+            Ok(exit_early) => {
+                if *exit_early {
+                    defx!("EXIT_EARLY.read() true; return false");
+                    return false;
+                }
+            }
+            Err(err) => {
+                e_err!("EXIT_EARLY.read() failed: {:?}", err);
+                defx!("return false");
+                return false;
+            }
+        }
+    }
+}
+
 /// `clap` argument processor for `--blocksz`.
 /// This implementation, as opposed to clap built-in number parsing, allows more
 /// flexibility for how the user may pass a number
@@ -917,7 +941,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                 }
                 Err(err) => {
                     e_err!("Unable to parse seconds from {:?} {}", match_.as_str(), err);
-                    std::process::exit(1);
+                    std::process::exit(EXIT_ERR);
                 }
             }
         }
@@ -935,7 +959,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                 }
                 Err(err) => {
                     e_err!("Unable to parse minutes from {:?} {}", match_.as_str(), err);
-                    std::process::exit(1);
+                    std::process::exit(EXIT_ERR);
                 }
             }
         }
@@ -953,7 +977,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                 }
                 Err(err) => {
                     e_err!("Unable to parse hours from {:?} {}", match_.as_str(), err);
-                    std::process::exit(1);
+                    std::process::exit(EXIT_ERR);
                 }
             }
         }
@@ -971,7 +995,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                 }
                 Err(err) => {
                     e_err!("Unable to parse days from {:?} {}", match_.as_str(), err);
-                    std::process::exit(1);
+                    std::process::exit(EXIT_ERR);
                 }
             }
         }
@@ -989,7 +1013,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
                 }
                 Err(err) => {
                     e_err!("Unable to parse weeks from {:?} {}", match_.as_str(), err);
-                    std::process::exit(1);
+                    std::process::exit(EXIT_ERR);
                 }
             }
         }
@@ -1067,7 +1091,7 @@ fn string_to_rel_offset_datetime(
                 }
                 None => {
                     e_err!("passed relative offset to other datetime {:?}, but other datetime was not set", val);
-                    std::process::exit(1);
+                    std::process::exit(EXIT_ERR);
                 }
             }
         }
@@ -1179,7 +1203,7 @@ fn process_dt_exit(
         None => {
             // user-passed string was not parseable
             e_err!("Unable to parse a datetime from {:?}", dts_opt.as_ref().unwrap_or(&String::from("")));
-            std::process::exit(1);
+            std::process::exit(EXIT_ERR);
         }
     }
 }
@@ -1274,7 +1298,7 @@ fn cli_process_args() -> (
         Ok(val) => val,
         Err(err) => {
             e_err!("{}", err);
-            std::process::exit(1);
+            std::process::exit(EXIT_ERR);
         }
     };
     defo!("blocksz {:?}", blocksz);
@@ -1332,7 +1356,7 @@ fn cli_process_args() -> (
     match (string_wdhms_to_duration(args_dt_after_s), string_wdhms_to_duration(args_dt_before_s)) {
         (Some((_, DUR_OFFSET_TYPE::Other)), Some((_, DUR_OFFSET_TYPE::Other))) => {
             e_err!("cannot pass both --dt-after and --dt-before as relative to the other");
-            std::process::exit(1);
+            std::process::exit(EXIT_ERR);
         }
         (Some((_, DUR_OFFSET_TYPE::Other)), _) => {
             // special-case: process `-b` value then process `-a` value
@@ -1356,7 +1380,7 @@ fn cli_process_args() -> (
         (Some(dta), Some(dtb)) => {
             if dta > dtb {
                 e_err!("Datetime --dt-after ({}) is after Datetime --dt-before ({})", dta, dtb);
-                std::process::exit(1);
+                std::process::exit(EXIT_ERR);
             }
         }
         _ => {}
@@ -1374,7 +1398,7 @@ fn cli_process_args() -> (
         Ok(val) => val,
         Err(err) => {
             e_err!("{:?}", err);
-            std::process::exit(1);
+            std::process::exit(EXIT_ERR);
         }
     };
 
@@ -1403,7 +1427,7 @@ fn cli_process_args() -> (
             }
             None => {
                 e_err!("Unable to parse --prepend-tz argument");
-                std::process::exit(1);
+                std::process::exit(EXIT_ERR);
             }
         }
     } else if args.prepend_utc {
@@ -1519,6 +1543,81 @@ pub fn main() -> ExitCode {
     defx!("exitcode {:?}", exitcode);
 
     exitcode
+}
+
+use std::sync::RwLock;
+lazy_static! {
+    /// mapping of PathId to received data. Most important collection for function
+    /// `processing_loop`.
+    /// Must be lazy static (global) so that is may be called from the
+    /// `ctrlc::set_handler` signal handler.
+    // XXX: there's a few imperfect uses that read then read-again with presumption
+    //      `MAP_PATHID_CHANRECVDATUM` was not written to in-between. In the rare
+    //      case that occurs, it should not be a problem.
+    static ref MAP_PATHID_CHANRECVDATUM: RwLock<MapPathIdChanRecvDatum> = {
+        defñ!("lazy_static! map_pathid_chanrecvdatum");
+
+        RwLock::new(MapPathIdChanRecvDatum::new())
+    };
+    /// flag to signal to main thread should return ASAP.
+    /// Polled by function `processing_loop`.
+    static ref EXIT_EARLY: RwLock<bool> = {
+        defñ!("lazy_static! exit_early");
+
+        RwLock::new(false)
+    };
+}
+
+/// set a process signal handler
+pub fn set_signal_handler() -> anyhow::Result<(), ctrlc::Error> {
+    defn!();
+
+    // define the signal handler
+    ctrlc::set_handler(move || {
+        defn!();
+        // XXX: could also use libc::pthread_kill ?
+
+        // drop all receiver channels causing the receiver to close
+        // the corresponding sender side will get an error on it's next `send`
+        let mut map_pathid_chanrecvdatum = MAP_PATHID_CHANRECVDATUM.write().unwrap();
+        defo!("map_pathid_chanrecvdatum.clear() {} entries", (*map_pathid_chanrecvdatum).len());
+        (*map_pathid_chanrecvdatum).clear();
+
+        // remove the named temporary files
+        // (the entire reason this complex signal handler had to be implemented)
+        let named_temp_files = match (&*NAMED_TEMP_FILES).write() {
+            Ok(val) => val,
+            Err(_err) => {
+                de_err!("NAMED_TEMP_FILES.write().unwrap() failed {}", _err);
+                std::process::exit(EXIT_ERR);
+            }
+        };
+        for fpath in named_temp_files.iter() {
+            defo!("remove_file({:?})", fpath);
+            match std::fs::remove_file(fpath) {
+                Ok(_) => {}
+                Err(_err) => {
+                    de_err!("remove_file({:?}) failed {}", fpath, _err);
+                }
+            }
+        }
+
+        // signal the `processing_loop` to return early
+        match EXIT_EARLY.write() {
+            Ok(mut exit_early) => {
+                *exit_early = true;
+            }
+            Err(_err) => {
+                de_err!("EXIT_EARLY.write().unwrap() failed {}", _err);
+            }
+        }
+
+        defx!();
+    })?;
+
+    defx!();
+
+    Ok(())
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -2671,6 +2770,18 @@ fn processing_loop(
         }
     }
 
+    if !map_pathid_path.is_empty() {
+        // there may be threads to process (and possible NamedTemporaryFiles to create)
+        // so set up signal handling
+        match set_signal_handler() {
+            Ok(_) => {}
+            Err(err) => {
+                e_err!("set_signal_handler() failed: {:?}", err);
+                return false;
+            }
+        }
+    }
+
     // preprint the prepended name or path (if user requested it)
     type MapPathIdToPrependName = HashMap<PathId, String>;
 
@@ -2686,9 +2797,6 @@ fn processing_loop(
 
     // pre-created mapping for calls to `select.recv` and `select.select`
     type MapIndexToPathId = HashMap<usize, PathId>;
-    // mapping of PathId to received data. Most important collection for the remainder
-    // of this function.
-    let mut map_pathid_chanrecvdatum = MapPathIdChanRecvDatum::new();
     // mapping PathId to colors for printing.
     let mut map_pathid_color = MapPathIdToColor::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
@@ -2712,6 +2820,9 @@ fn processing_loop(
     map_pathid_color.shrink_to_fit();
     let mut thread_count: usize = 0;
     let mut thread_err_count: usize = 0;
+
+    // very unlikely to be `true` already but check anyway before starting threads
+    exit_early_check!();
 
     for (pathid, path) in map_pathid_path.iter() {
         let (filetype, _) = match map_pathid_results.get(pathid) {
@@ -2740,9 +2851,10 @@ fn processing_loop(
             *filter_dt_before_opt,
             tz_offset,
         );
-        let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) = crossbeam_channel::bounded(CHANNEL_CAPACITY);
+        let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) =
+            crossbeam_channel::bounded(CHANNEL_CAPACITY);
         defo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
-        map_pathid_chanrecvdatum.insert(*pathid, chan_recv_dt);
+        MAP_PATHID_CHANRECVDATUM.write().unwrap().insert(*pathid, chan_recv_dt);
         let basename_: FPath = basename(path);
         match thread::Builder::new()
             .name(basename_.clone())
@@ -2754,7 +2866,7 @@ fn processing_loop(
             Err(err) => {
                 thread_err_count += 1;
                 e_err!("thread.name({:?}).spawn() pathid {} failed {:?}", basename_, pathid, err);
-                map_pathid_chanrecvdatum.remove(pathid);
+                MAP_PATHID_CHANRECVDATUM.write().unwrap().remove(pathid);
                 map_pathid_color.remove(pathid);
                 continue;
             }
@@ -2763,7 +2875,7 @@ fn processing_loop(
 
     let color_default = COLOR_DEFAULT;
 
-    if map_pathid_chanrecvdatum.is_empty() {
+    if MAP_PATHID_CHANRECVDATUM.read().unwrap().is_empty() {
         // No threads were created. This can happen if user passes only paths
         // that do not exist.
         if !cli_opt_summary {
@@ -2828,11 +2940,13 @@ fn processing_loop(
             select.recv(pathid_chan.1);
         }
         if map_index_pathid.is_empty() {
-            // no channels to receive from
+            // no channels to receive from.
             // this can occur if a file processing thread exits improperly
-            // (panics or other early returns without ever sending a `ChanDatum`)
-            e_err!(
-                "BUG: Did not load any recv operations for select.select(). Overzealous filter? possible channels count {}, filter {:?}",
+            // or
+            // the interrupt handler has been triggered and it has cleared
+            // `MAP_PATHID_CHANRECVDATUM`
+            de_wrn!(
+                "Did not load any recv operations for select.select(). Overzealous filter? possible channels count {}, filter {:?}",
                 pathid_chans.len(),
                 filter_
             );
@@ -2916,6 +3030,8 @@ fn processing_loop(
     loop {
         disconnect.clear();
 
+        exit_early_check!();
+
         #[cfg(debug_assertions)]
         {
             defo!("map_pathid_datum.len() {}", map_pathid_datum.len());
@@ -2925,8 +3041,8 @@ fn processing_loop(
                     .unwrap();
                 defo!("map_pathid_datum: thread {} {} has data", _path, pathid);
             }
-            defo!("map_pathid_chanrecvdatum.len() {}", map_pathid_chanrecvdatum.len());
-            for (pathid, _chanrdatum) in map_pathid_chanrecvdatum.iter() {
+            defo!("map_pathid_chanrecvdatum.len() {}", MAP_PATHID_CHANRECVDATUM.read().unwrap().len());
+            for (pathid, _chanrdatum) in MAP_PATHID_CHANRECVDATUM.read().unwrap().iter() {
                 let _path: &FPath = map_pathid_path
                     .get(pathid)
                     .unwrap();
@@ -2939,7 +3055,7 @@ fn processing_loop(
             }
         }
 
-        if map_pathid_chanrecvdatum.len() != map_pathid_datum.len()
+        if MAP_PATHID_CHANRECVDATUM.read().unwrap().len() != map_pathid_datum.len()
             || ! map_pathid_received_fileinfo.is_empty()
         {
             // IF…
@@ -2959,19 +3075,15 @@ fn processing_loop(
             let result: RecvResult4;
             // here is the wait on the channels (file processing threads)
             (pathid, result) = match recv_many_chan(
-                &map_pathid_chanrecvdatum,
+                &MAP_PATHID_CHANRECVDATUM.read().unwrap(),
                 &mut index_select,
                 &set_pathid,
             ) {
                 Some(val) => val,
                 None => {
-                    // BUG: if `recv_many_chan` returns `None` and this does a `continue`
-                    //      then it will loop forever
-                    //      But if it `break`s then the entire process will shutdown
-                    //      and prematurely end remaining valid processing threads.
-                    //      All processing threads need to return something but this main thread
-                    //      should better handle `None` and not be brittle.
-                    e_err!("BUG: recv_many_chan returned None which is unexpected");
+                    // this occurs during an interrupt, after the interupt handler has
+                    // cleared `MAP_PATHID_CHANRECVDATUM`
+                    de_wrn!("recv_many_chan returned None which is unexpected");
                     break;
                 }
             };
@@ -3129,7 +3241,7 @@ fn processing_loop(
 
             #[cfg(debug_assertions)]
             {
-                for (_i, (_k, _v)) in map_pathid_chanrecvdatum
+                for (_i, (_k, _v)) in MAP_PATHID_CHANRECVDATUM.read().unwrap()
                     .iter()
                     .enumerate()
                 {
@@ -3451,6 +3563,7 @@ fn processing_loop(
         } // else (datetime available)
 
         // remove channels (and keys) that are marked disconnected
+        let mut map_pathid_chanrecvdatum = MAP_PATHID_CHANRECVDATUM.write().unwrap();
         for pathid in disconnect.iter() {
             defo!("C disconnect channel: map_pathid_chanrecvdatum.remove({:?});", pathid);
             map_pathid_chanrecvdatum.remove(pathid);
@@ -3480,6 +3593,9 @@ fn processing_loop(
             error_count += 1;
         }
     }
+
+    // check again before writing the final summary
+    exit_early_check!();
 
     if cli_opt_summary {
         // some errors may occur later in processing, e.g. File Permissions errors,
