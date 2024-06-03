@@ -20,12 +20,14 @@ export FREQ=8000
 for FLAMGRAPHOUT_S4FILE in \
     "${DIROUT}/flamegraph-evtx.svg|./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx" \
     "${DIROUT}/flamegraph-journal.svg|./logs/programs/journal/RHE_91_system.journal" \
+    "${DIROUT}/flamegraph-journal-bz2.svg|./logs/programs/journal/RHE_91_system.journal.bz2" \
     "${DIROUT}/flamegraph-journal-gz.svg|./logs/programs/journal/RHE_91_system.journal.gz" \
     "${DIROUT}/flamegraph-journal-lz4.svg|./logs/programs/journal/RHE_91_system.journal.lz4" \
     "${DIROUT}/flamegraph-journal-xz.svg|./logs/programs/journal/RHE_91_system.journal.xz" \
     "${DIROUT}/flamegraph-journal-tar.svg|./logs/programs/journal/RHE_91_system.tar" \
     "${DIROUT}/flamegraph-syslog-no-matches.svg|./logs/other/tests/numbers3.log" \
     "${DIROUT}/flamegraph-syslog.svg|./logs/other/tests/gen-99999-1-Motley_Crue.log" \
+    "${DIROUT}/flamegraph-syslog-bz2.svg|./logs/other/tests/gen-1000-3-foobar.log.bz2" \
     "${DIROUT}/flamegraph-syslog-gz.svg|./logs/other/tests/gen-1000-3-foobar.log.gz" \
     "${DIROUT}/flamegraph-syslog-lz4.svg|./logs/other/tests/gen-1000-3-foobar.log.lz4" \
     "${DIROUT}/flamegraph-syslog-xz.svg|./logs/other/tests/gen-1000-3-foobar.log.xz" \

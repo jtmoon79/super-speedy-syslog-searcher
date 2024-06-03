@@ -615,10 +615,11 @@
 ./logs/other/tests/empty.log.xz|2000-01-01 12:34:34
 ./logs/other/tests/empty.tar|2000-01-01 12:34:35
 ./logs/other/tests/gen-1000-3-foobar.log|2000-01-01 08:16:39.9661786750
-./logs/other/tests/gen-1000-3-foobar.log.gz|2000-01-01 08:16:39
-./logs/other/tests/gen-1000-3-foobar.log.lz4|2000-01-01 08:16:39
-./logs/other/tests/gen-1000-3-foobar.log.tar|2000-01-01 08:16:39
-./logs/other/tests/gen-1000-3-foobar.log.xz|2000-01-01 08:16:39
+./logs/other/tests/gen-1000-3-foobar.log.bz2|2000-01-01 08:16:40
+./logs/other/tests/gen-1000-3-foobar.log.gz|2000-01-01 08:16:40
+./logs/other/tests/gen-1000-3-foobar.log.lz4|2000-01-01 08:16:40
+./logs/other/tests/gen-1000-3-foobar.log.tar|2000-01-01 08:16:40
+./logs/other/tests/gen-1000-3-foobar.log.xz|2000-01-01 08:16:40
 ./logs/other/tests/gen-100-10-BRAAAP.log|2000-01-01 08:01:39.9581788290
 ./logs/other/tests/gen-100-10-FOOBAR.log|2000-01-01 08:01:39.4541747290
 ./logs/other/tests/gen-100-10-.......log|2000-01-01 08:01:39
