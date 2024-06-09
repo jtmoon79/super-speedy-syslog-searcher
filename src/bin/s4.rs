@@ -901,6 +901,12 @@ fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
 fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)> {
     defn!("({:?})", val);
 
+    if val.is_empty() {
+        // take the early exit to avoid building regex `REGEX_DUR_OFFSET` (expensive operation)
+        defx!("is_empty; return None");
+        return None;
+    }
+
     let mut duration_offset_type: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Now;
     let mut duration_addsub: DUR_OFFSET_ADDSUB = DUR_OFFSET_ADDSUB::Add;
     let mut seconds: i64 = 0;
