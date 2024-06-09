@@ -109,6 +109,8 @@ arraystring = "0.3.0"
 criterion = "0.5.1"
 filepath = "0.1.2"
 filetime = "0.2.23"
+# XXX: `flamegraph` fails to build, MSRV 1.74
+# flamegraph = "0.6.5"
 jetscii = "0.5.3"
 memchr = "2.7.2"
 test-case = "3.3.1"
@@ -120,13 +122,24 @@ test-case = "3.3.1"
 codegen-units = 1
 panic = "abort"
 strip = true
+lto = true
 
 [profile.flamegraph]
-# XXX: requires manual install of `flamegraph`
-#      not added to `dev-dependencies` due to MSRV 1.70.0
 inherits = "release"
 codegen-units = 16
+debuginfo = 2
+lto = false
 panic = "unwind"
+split-debuginfo = "unpacked"
+strip = false
+
+[profile.valgrind]
+inherits = "release"
+codegen-units = 16
+debuginfo = 2
+lto = false
+panic = "abort"
+split-debuginfo = "unpacked"
 strip = false
 
 # other helpful development tools

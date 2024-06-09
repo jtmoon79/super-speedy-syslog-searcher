@@ -30,7 +30,12 @@ if ! which flamegraph.pl &>/dev/null; then
     exit 1
 fi
 
-declare -r BIN=./target/release/s4
+echo -e "Requires building with \e[1m-g\e[0m
+    RUSTFLAGS=-g cargo build --profile valgrind
+" >&2
+sleep 1
+
+declare -r BIN=./target/valgrind/s4
 declare -r BIN_TARGET=s4
 NOTES=$("${BIN}" --version | head -n1)
 declare -r OUT=heaptrack.${BIN_TARGET}.data

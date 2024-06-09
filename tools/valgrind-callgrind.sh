@@ -12,6 +12,8 @@
 # User may set environment variable $PROGRAM.
 # Passed arguments are passed to $PROGRAM and override default arguments.
 #
+# build the program with `--profile valgrind`
+#
 
 set -euo pipefail
 
@@ -31,29 +33,59 @@ if ! callgrind=$(which callgrind_annotate); then
     exit 1
 fi
 
-declare -r PROGRAM=${PROGRAM-./target/release/s4}
+declare -r PROGRAM=${PROGRAM-./target/valgrind/s4}
+
+if [[ ! -x "${PROGRAM}" ]]; then
+    echo "PROGRAM does not exist '${PROGRAM}'" >&2
+    echo "build with:" >&2
+    echo "     RUSTFLAGS=-g cargo build --profile valgrind" >&2
+    exit 1
+fi
+
+if [[ ! -r gprof2dot.py ]]; then
+    echo "Unable to find gprof2dot.py" >&2
+    echo "run:" >&2
+    echo "wget 'https://raw.githubusercontent.com/jrfonseca/gprof2dot/2024.06.06/gprof2dot.py'" >&2
+    exit 1
+fi
 
 (set -x; uname -a)
 (set -x; git log -n1 --format='%h %D')
 (set -x; "${PROGRAM}" --version)
+(set -x; dot -V)
 (set -x; "${valgrind}" --version) | head -n1
+if "${valgrind}" --version | grep -qFe '3.18'; then
+    echo "ERROR: valgrind 3.18 is known to have issues with rust
+     see https://nnethercote.github.io/2022/01/05/rust-and-valgrind.html
+     section 'Missing inline stack frames'
+
+Compile the latest valgrind:
+1. download from https://valgrind.org/downloads/current.html
+2. untar
+3. cd valgrind
+4. ./configure --prefix=/usr/local
+5. make
+6. sudo make install
+" >&2
+    exit 1
+fi
 (set -x; "${callgrind}" --version) || true  # --version causes process return code 255
+
 
 echo
 
 declare -a args=(
-    -z 0xFFFF
     -a 20000101T000000
     -b 20000101T080000
-    ./logs/other/tests/gen-100-10-......
-    ./logs/other/tests/gen-100-10-BRAAAP.log
-    ./logs/other/tests/gen-100-10-FOOBAR.log
-    ./logs/other/tests/gen-100-10-______.log
-    ./logs/other/tests/gen-100-10-skullcrossbones.log
-    ./logs/other/tests/gen-100-4-happyface.log
+    # ./logs/other/tests/gen-100-10-......
+    # ./logs/other/tests/gen-100-10-BRAAAP.log
+    # ./logs/other/tests/gen-100-10-FOOBAR.log
+    # ./logs/other/tests/gen-100-10-______.log
+    # ./logs/other/tests/gen-100-10-skullcrossbones.log
+    # ./logs/other/tests/gen-100-4-happyface.log
     ./logs/other/tests/gen-1000-3-foobar.log
-    ./logs/other/tests/gen-200-1-jajaja.log
-    ./logs/other/tests/gen-400-4-shamrock.log
+    # ./logs/other/tests/gen-200-1-jajaja.log
+    # ./logs/other/tests/gen-400-4-shamrock.log
 )
 
 if [[ ${#} -ge 1 ]]; then
@@ -64,8 +96,13 @@ if [[ ${#} -ge 1 ]]; then
     done
 fi
 
-OUT=./callgrind.out
-rm -f "${OUT}"
+OUT=${OUT-./callgrind}
+OUTOUT="${OUT}.out"
+OUTDOT="${OUT}.dot"
+OUTPNG="${OUT}.png"
+OUTSVG="${OUT}.svg"
+
+rm -f "${OUTOUT}" "${OUTDOT}" "${OUTPNG}"
 
 set -x
 
@@ -74,15 +111,23 @@ set -x
     --collect-bus=yes \
     --collect-systime=yes \
     `#--separate-threads=yes` \
-    --callgrind-out-file="${OUT}" \
+    --callgrind-out-file="${OUTOUT}" \
     -- \
     "${PROGRAM}" \
         "${args[@]}" \
     >/dev/null
 
-exec \
-    "${callgrind}" \
+python gprof2dot.py \
+    --format=callgrind \
+    --output="${OUTDOT}" \
+    "${OUTOUT}"
+
+dot -T png "${OUTDOT}" -o "${OUTPNG}"
+
+dot -T svg "${OUTDOT}" -o "${OUTSVG}"
+
+"${callgrind}" \
     --tree=both \
     --show-percs=yes \
     $(find ./src -xdev -type d -exec echo -n '--include={} ' \;) \
-    "${OUT}"
+    "${OUTOUT}"
