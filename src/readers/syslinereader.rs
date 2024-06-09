@@ -1049,6 +1049,9 @@ impl SyslineReader {
     /// any EZCHECK12 or EZCHECKD2, e.g. `true` means the `slice_` can be
     /// bypass further DTPD processing.
     ///
+    /// EZCHECKs are preliminary fast and low-resource checks of the `slice_`
+    /// to see if further processing, which is high-resource, is necessary.
+    ///
     /// Helper to `find_datetime_in_line`.
     #[inline(always)]
     #[allow(clippy::too_many_arguments)]
@@ -1082,12 +1085,13 @@ impl SyslineReader {
 
         match (dtpd.dtfs.has_year4(), dtpd.dtfs.has_d2()) {
             (true, false) => {
-                // hack efficiency improvement; presumes all found years will
-                // have a '1' or a '2' in them. So if no '1' or '2' is found
+                // hack efficiency improvement: EZCHECK12 presumes all found
+                // years will have a '1' or a '2' in them.
+                // So if no '1' or '2' is found
                 // then a datetime substring is not in the `slice_`.
                 // Only applicable to ASCII/UTF-8 encoded text files.
                 // Regular expression matching is very expensive according to
-                // `tools/flamegraph.sh`. Skip where possible.
+                // `tools/flamegraph.sh` so this ezcheck skip that possible.
                 if !slice_contains_X_2(
                     &slice_[min(*ezcheck12_min, slice_.len())..],
                     EZCHECK12
@@ -1108,13 +1112,13 @@ impl SyslineReader {
                 }
             }
             (false, true) => {
-                // hack efficiency improvement; presumes a datetime substring
-                // will have two consecutive digit chars in it. So if there
-                // no two consecutive digits then a datetime substring is not
-                // in the `slice_`.
+                // hack efficiency improvement: EZCHECKD2 presumes a datetime
+                // substring will have two consecutive digit chars in it.
+                // So if there no two consecutive digits then a datetime
+                // substring is not in the `slice_`.
                 // Only applicable to ASCII/UTF-8 encoded text files.
                 // Regular expression matching is very expensive according to
-                // `tools/flamegraph.sh`. Skip where possible.
+                // `tools/flamegraph.sh` so skip it where possible.
                 if !slice_contains_D2(
                     &slice_[min(*ezcheckd2_min, slice_.len())..]
                 ) {
@@ -1134,8 +1138,8 @@ impl SyslineReader {
                 }
             }
             (true, true) => {
-                // hack efficiency improvement;
-                // combines both prior hack efficient improvements into
+                // hack efficiency improvement: EZCHECK12 EZCHECKD2
+                // combines both prior hack efficiency improvements into
                 // one function call
                 if !slice_contains_12_D2(
                     &slice_[min(*ezcheck12d2_min, slice_.len())..]
@@ -1336,6 +1340,7 @@ impl SyslineReader {
                     ezcheck12d2_hit_max,
                 )
             {
+                // ezcheck passed; skip further processing
                 continue;
             }
 

@@ -77,6 +77,7 @@ use ::phf::Map as PhfMap;
 use ::regex::bytes::Regex;
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::stringzilla;
 use ::unroll::unroll_for_loops;
 
 
@@ -7793,7 +7794,7 @@ const fn slice_contains_99_2(
 /// Loop unrolled implementation of `slice.contains` for a byte slice and a
 /// hardcoded array. Uses crate [`unroll`].
 ///
-/// Hardcoded implementation for [`u8`] slices up to 69 length. Runs very fast.
+/// Hardcoded implementation for [`u8`] slices up to 99 length. Runs very fast.
 /// Supports arbitrary length.
 ///
 /// [`unroll`]: https://docs.rs/unroll/0.1.5/unroll/index.html
@@ -7804,7 +7805,7 @@ const fn slice_contains_99_2(
 //
 #[inline(always)]
 #[allow(non_snake_case)]
-pub fn slice_contains_X_2(
+pub fn slice_contains_X_2_unroll(
     slice_: &[u8],
     search: &[u8; 2],
 ) -> bool {
@@ -7913,11 +7914,37 @@ pub fn slice_contains_X_2(
    }
 }
 
+/// Stringzilla implementation of `slice.contains` for a byte slice and a
+/// hardcoded array. Uses crate [`stringzilla`].
+///
+/// [`stringzilla`]: https://crates.io/crates/stringzilla
+#[inline(always)]
+#[allow(non_snake_case)]
+pub fn slice_contains_X_2_stringzilla(
+    slice_: &[u8],
+    search: &[u8; 2],
+) -> bool {
+    match stringzilla::sz::find_char_from(slice_, search) {
+        Some(_) => true,
+        None => false,
+    }
+}
+
+/// Wrapper to call the preferred `slice_contains_X_2` function.
+#[inline(always)]
+#[allow(non_snake_case)]
+pub fn slice_contains_X_2(
+    slice_: &[u8],
+    search: &[u8; 2],
+) -> bool {
+    slice_contains_X_2_stringzilla(slice_, search)
+}
+
 /// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
 /// Hack efficiency helper.
 #[inline(always)]
 #[allow(non_snake_case)]
-pub fn slice_contains_D2(
+pub fn slice_contains_D2_custom(
     slice_: &[u8],
 ) -> bool {
     let mut byte_last_d: bool = false;
@@ -7945,6 +7972,47 @@ pub fn slice_contains_D2(
     false
 }
 
+/// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
+/// Hack efficiency helper.
+#[inline(always)]
+#[allow(non_snake_case)]
+pub fn slice_contains_D2_stringzilla(
+    slice_: &[u8],
+) -> bool {
+    // "a1"
+    //  01
+
+    let mut atn: usize = 0;
+    let mut lastn: isize = -1;
+    loop {
+        match stringzilla::sz::find_char_from(
+            &slice_[atn..],
+            b"0123456789",
+        ) {
+            Some(n) => {
+                if lastn != -1 && atn + n == ((lastn + 1) as usize) {
+                    return true;
+                }
+                lastn = (atn + n) as isize;
+                atn = atn + n + 1;
+            }
+            None => break,
+        }
+    }
+
+    false
+}
+
+/// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
+/// Hack efficiency helper.
+#[inline(always)]
+#[allow(non_snake_case)]
+pub fn slice_contains_D2(
+    slice_: &[u8],
+) -> bool {
+    slice_contains_D2_stringzilla(slice_)
+}
+
 /// Combination of prior functions `slice_contains_X_2` and
 /// `slice_contains_D2`.
 ///
@@ -7953,6 +8021,7 @@ pub fn slice_contains_D2(
 /// - Returns `true` if `slice_` contains `'1'` or `'2'` (as UTF8 bytes).
 /// - Returns `true` if `slice_` contains two consecutive "digit" chars
 ///   (as UTF8 bytes).
+
 #[inline(always)]
 #[allow(non_snake_case)]
 pub (crate) fn slice_contains_12_D2(
