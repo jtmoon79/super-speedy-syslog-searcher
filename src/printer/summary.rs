@@ -914,7 +914,7 @@ pub fn print_summary(
 //       confusing about what was actually read from storage (implies the
 //       entire file was read, which is not true in most cases).
 
-/// Print the file About section (multiple lines).
+/// Print the file _About_ section (multiple lines).
 fn print_file_about(
     path: &FPath,
     modified_time: &DateTimeLOpt,
@@ -1409,10 +1409,8 @@ fn print_summary_opt_processed_summaryblockreader(
     );
 }
 
-/// Print the (optional) [`&SummaryPrinted`] (one line) printed section for
+/// Print the (optional) `SummaryPrinted` (one line) printed section for
 /// one file.
-///
-/// [`&SummaryPrinted`]: self::SummaryPrinted
 pub fn print_summary_opt_printed(
     summary_print_opt: &SummaryPrintedOpt,
     summary_opt: &SummaryOpt,
@@ -1538,6 +1536,7 @@ fn print_cache_stats_summarylinereader(
     );
 }
 
+/// Print information about caching and optimizations for `SummarySyslineReader`.
 fn print_cache_stats_summarysyslinereader(
     summarysyslinereader: &SummarySyslineReader,
     indent: &str,
@@ -1660,6 +1659,7 @@ fn print_cache_stats_summarysyslinereader(
     );
 }
 
+/// Print information about caching and optimizations for `SummaryFixedStructReader`.
 fn print_cache_stats_summaryfixedstructreader(
     summaryfixedstructreader: &SummaryFixedStructReader,
     indent: &str,
@@ -1680,10 +1680,8 @@ fn print_cache_stats_summaryfixedstructreader(
     );
 }
 
-/// Print the various (optional) [`Summary`] caching and storage statistics
+/// Print the various (optional) `Summary` caching and storage statistics
 /// (multiple lines).
-///
-/// [`Summary`]: s4lib::readers::summary::Summary
 fn print_cache_stats(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
     if summary_opt.is_none() {
         return;
@@ -1751,10 +1749,8 @@ fn print_cache_stats(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
     }
 }
 
-/// Print the (optional) various [`Summary`] drop error statistics
+/// Print the (optional) various `Summary` drop error statistics
 /// (multiple lines).
-///
-/// [`Summary`]: s4lib::readers::summary::Summary
 fn print_drop_stats(summary_opt: &SummaryOpt) {
     let summary: &Summary = match summary_opt {
         Some(ref summary) => summary,
@@ -1870,11 +1866,8 @@ fn print_error_summary(
     }
 }
 
-/// For one file, print the [`Summary`] and [`SummaryPrinted`]
+/// For one file, print the (optional) `Summary` and (optional) `SummaryPrinted`
 /// (multiple lines).
-///
-/// [`Summary`]: s4lib::readers::summary::Summary
-/// [`SummaryPrinted`]: self::SummaryPrinted
 #[allow(clippy::too_many_arguments)]
 fn print_file_summary(
     path: &FPath,
@@ -1927,9 +1920,6 @@ fn print_file_summary(
 /// [`Summary`] and [`SummaryPrinted`].
 ///
 /// Helper function to function `processing_loop`.
-///
-/// [`Summary`]: s4lib::readers::summary::Summary
-/// [`SummaryPrinted`]: self::SummaryPrinted
 #[allow(clippy::too_many_arguments)]
 fn print_all_files_summaries(
     map_pathid_path: &MapPathIdToFPath,
@@ -2007,7 +1997,8 @@ fn print_all_files_summaries(
     eprintln!();
 }
 
-/// Printing for CLI option `--summary`; print an entry for invalid files.
+/// Printing for CLI option `--summary`; print an entry for invalid files
+/// (one line).
 ///
 /// Helper function to function `processing_loop`.
 fn print_files_processpathresult(

@@ -235,7 +235,7 @@ pub struct SyslineReader {
     /// "fallback timezone" offset will not change within one syslog file,
     /// whereas a "fallback year" may change per sysline.
     ///
-    /// [`FixedOffset`]: https://docs.rs/chrono/0.4.22/chrono/offset/struct.FixedOffset.html
+    /// [`FixedOffset`]: https://docs.rs/chrono/0.4.38/chrono/offset/struct.FixedOffset.html
     tz_offset: FixedOffset,
     /// precompute `tz_offset` as a `String`
     tz_offset_string: String,

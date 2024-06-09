@@ -986,7 +986,6 @@ impl fmt::Debug for DTFSSet<'_> {
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 /// [`PrinterLogMessage`]: crate::printer::printers::PrinterLogMessage
 /// [`Line`]: crate::data::line::Line
-/// [`DTPD!`]: DTPD!
 #[derive(Hash)]
 pub struct DateTimeParseInstr<'a> {
     /// Regex pattern for [`captures`].
@@ -1126,29 +1125,21 @@ impl fmt::Debug for DateTimeParseInstr<'_> {
 
 impl DateTimeParseInstr<'_> {
     /// wrapper to [`DTFSSet::has_year`]
-    ///
-    /// [`DTFSSet::has_year`]: crate::data::datetime::DTFSSet#method.has_year
     pub const fn has_year(&self) -> bool {
         self.dtfs.has_year()
     }
 
     /// wrapper to [`DTFSSet::has_year4`]
-    ///
-    /// [`DTFSSet::has_year4`]: crate::data::datetime::DTFSSet#method.has_year4
     pub const fn has_year4(&self) -> bool {
         self.dtfs.has_year4()
     }
 
     /// wrapper to [`DTFSSet::has_tz`]
-    ///
-    /// [`DTFSSet::has_tz`]: DTFSSet#method.has_tz
     pub const fn has_tz(&self) -> bool {
         self.dtfs.has_tz()
     }
 
     /// wrapper to [`DTFSSet::has_d2`]
-    ///
-    /// [`DTFSSet::has_d2`]: crate::data::datetime::DTFSSet#method.has_d2
     pub const fn has_d2(&self) -> bool {
         self.dtfs.has_d2()
     }
@@ -1159,6 +1150,8 @@ impl DateTimeParseInstr<'_> {
 // TODO: [2022/10/08] refactor for consistent naming of  `DTP_*` variables:
 //       put 'Y' in front, so it matches
 //       strftime specifier ordering within the value.
+//       e.g one is named `DTP_YmdHMSz` and starts with `%Y`, another is named
+//       `DTP_mdHMYZc` and also starts with `%Y`.
 //       e.g. variable `DTP_BdHMSYz` has value `"%Y%m%dT%H%M%S%z"`, the `%Y`
 //       is in front, so the variable should match the ordering, `DTP_YBdHMSz`.
 //       a few less human brain cycles to grok the var.
@@ -5404,8 +5397,6 @@ pub fn datetime_parse_from_str(
 }
 
 /// Call [`datetime_parse_from_str`] with a `pattern` containing a timezone.
-///
-/// [`datetime_parse_from_str`]: datetime_parse_from_str
 pub fn datetime_parse_from_str_w_tz(
     data: &str,
     pattern: &DateTimePattern_str,
@@ -5426,11 +5417,11 @@ pub fn datetime_parse_from_str_w_tz(
 /// - datetime
 ///
 /// [`Line`]: crate::data::line::Line
-/// [`regex::Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
+/// [`regex::Captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html
 // TODO: change to a typed `struct CapturedDtData(...)`
 pub type CapturedDtData = (LineIndex, LineIndex, DateTimeL);
 
-/// Macro helper to `captures_to_buffer_bytes`.
+/// Macro helper to [`captures_to_buffer_bytes`].
 macro_rules! copy_capturegroup_to_buffer {
     (
         $name:ident,
@@ -5458,7 +5449,7 @@ macro_rules! copy_capturegroup_to_buffer {
     };
 }
 
-/// Macro helper to `captures_to_buffer_bytes`.
+/// Macro helper to [`captures_to_buffer_bytes`].
 macro_rules! copy_slice_to_buffer {
     (
         $u8_slice:expr,
@@ -5474,7 +5465,7 @@ macro_rules! copy_slice_to_buffer {
     };
 }
 
-/// Macro helper to `captures_to_buffer_bytes`.
+/// Macro helper to [`captures_to_buffer_bytes`].
 macro_rules! copy_u8_to_buffer {
     (
         $u8_:expr,
@@ -5679,9 +5670,9 @@ fn month_bB_to_month_m_bytes(
 ///
 /// This bridges the crate `regex` regular expression pattern strings,
 /// [`DateTimeParseInstr::regex_pattern`], to crate `chrono` strftime strings,
-/// [`DateTimeParseInstr::dt_pattern`].
+/// [`DateTimeParseInstr::dtfs`].
 ///
-/// Directly relates to datetime format `dt_pattern` values in
+/// Directly relates to datetime format `dtfs` values in
 /// [`DATETIME_PARSE_DATAS`] which use `DTFSS_YmdHMS`, etc.
 ///
 /// Transforms `%B` acceptable value to `%m` acceptable value.
@@ -6199,8 +6190,6 @@ pub fn bytes_to_regex_to_datetime(
 // DateTime comparisons
 
 /// Describe the result of comparing one [`DateTimeL`] to one DateTime Filter.
-///
-/// [`DateTimeL`]: crate::data::datetime::DateTimeL
 #[allow(non_camel_case_types)]
 #[derive(Debug, Eq, PartialEq)]
 pub enum Result_Filter_DateTime1 {
@@ -6228,8 +6217,6 @@ impl Result_Filter_DateTime1 {
 
 /// Describe the result of comparing one [`DateTimeL`] to two DateTime Filters
 /// `(after, before)`.
-///
-/// [`DateTimeL`]: crate::data::datetime::DateTimeL
 #[allow(non_camel_case_types)]
 #[derive(Debug, Eq, PartialEq)]
 pub enum Result_Filter_DateTime2 {
@@ -6258,10 +6245,6 @@ impl Result_Filter_DateTime2 {
 /// If `dt` is at or after `dt_filter` then return [`OccursAtOrAfter`]<br/>
 /// If `dt` is before `dt_filter` then return [`OccursBefore`]<br/>
 /// Else return [`Pass`] (including if `dt_filter` is `None`)
-///
-/// [`OccursAtOrAfter`]: crate::data::datetime::Result_Filter_DateTime1
-/// [`OccursBefore`]: crate::data::datetime::Result_Filter_DateTime1
-/// [`Pass`]: crate::data::datetime::Result_Filter_DateTime1
 pub fn dt_after_or_before(
     dt: &DateTimeL,
     dt_filter: &DateTimeLOpt,
@@ -7781,7 +7764,8 @@ const fn slice_contains_99_2(
 }
 
 /// Loop unrolled implementation of `slice.contains` for a byte slice and a
-/// hardcoded array. Uses crate [`unroll`].
+/// hardcoded array.
+/// Uses crate [`unroll`].
 ///
 /// Hardcoded implementation for [`u8`] slices up to 99 length. Runs very fast.
 /// Supports arbitrary length.
@@ -7904,7 +7888,8 @@ pub fn slice_contains_X_2_unroll(
 }
 
 /// Stringzilla implementation of `slice.contains` for a byte slice and a
-/// hardcoded array. Uses crate [`stringzilla`].
+/// hardcoded array.
+/// Uses crate [`stringzilla`].
 ///
 /// [`stringzilla`]: https://crates.io/crates/stringzilla
 #[inline(always)]
@@ -7930,6 +7915,7 @@ pub fn slice_contains_X_2(
 }
 
 /// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
+/// Custom implementation.
 /// Hack efficiency helper.
 #[inline(always)]
 #[allow(non_snake_case)]
@@ -7962,6 +7948,7 @@ pub fn slice_contains_D2_custom(
 }
 
 /// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
+/// Stringzilla implementation.
 /// Hack efficiency helper.
 #[inline(always)]
 #[allow(non_snake_case)]
@@ -8010,7 +7997,6 @@ pub fn slice_contains_D2(
 /// - Returns `true` if `slice_` contains `'1'` or `'2'` (as UTF8 bytes).
 /// - Returns `true` if `slice_` contains two consecutive "digit" chars
 ///   (as UTF8 bytes).
-
 #[inline(always)]
 #[allow(non_snake_case)]
 pub (crate) fn slice_contains_12_D2(

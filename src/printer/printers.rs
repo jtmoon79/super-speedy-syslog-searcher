@@ -38,30 +38,22 @@ use ::si_trace_print::printers::debug_print_guard;
 // ---------------------
 // globals and constants
 
-/// [`Color`] for printing prepended data like datetime, file name, etc.
-///
-/// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
+/// `Color` for printing prepended data like datetime, file name, etc.
 pub const COLOR_DEFAULT: Color = Color::White;
 
-/// [`Color`] for printing prepended data like datetime, file name, etc.
-///
-/// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
+/// `Color` for printing prepended data like datetime, file name, etc.
 pub const COLOR_DIMMED: Color = Color::Rgb(0xC0, 0xC0, 0xC0);
 
-/// [`Color`] for printing some user-facing error messages.
-///
-/// [`Color`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
+/// `Color` for printing some user-facing error messages.
 pub const COLOR_ERROR: Color = Color::Red;
 
 const CHARSZ: usize = 1;
 
-/// A preselection of [`Color`s] for printing syslines.
+/// A preselection of `Color`s for printing syslines.
 /// Chosen for a dark background console.
 ///
 /// A decent reference for RGB colors is
 /// <https://www.rapidtables.com/web/color/RGB_Color.html>.
-///
-/// [`Color`s]: https://docs.rs/termcolor/1.1.3/termcolor/enum.Color.html
 //
 // TODO: It is presumptious to assume a dark background console. Would be good
 //       to react to the console (is it light or dark?) and adjust at run-time.
@@ -242,7 +234,7 @@ macro_rules! print_color_line {
     }};
 }
 
-// XXX: this marco was originally a `fn -> PrinterLogMessageResult` but due to mutable and immutable borrow
+// XXX: this macro was originally a `fn -> PrinterLogMessageResult` but due to mutable and immutable borrow
 //      error, it would not compile. So this macro is a decent workaround.
 //
 /// Macro helper to print a single line in color and highlight the datetime
@@ -368,9 +360,7 @@ macro_rules! print_color_line_highlight_dt {
     }};
 }
 
-/// Aliased [`Result`] returned by various [`PrinterLogMessage`] functions.
-///
-/// [`Result`]: std::io::Result
+/// Aliased `Result` returned by various [`PrinterLogMessage`] functions.
 pub type PrinterLogMessageResult = Result<usize>;
 
 impl PrinterLogMessage {
@@ -425,7 +415,7 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`SyslineP`] based on `PrinterLogMessage` settings.
+    /// Prints the [`SyslineP`] based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
     ///
@@ -450,7 +440,7 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`FixedStruct`] based on `PrinterLogMessage` settings.
+    /// Prints the [`FixedStruct`] based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
     ///
@@ -475,7 +465,7 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`Evtx`] based on `PrinterLogMessage` settings.
+    /// Prints the [`Evtx`] based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
     ///
@@ -499,7 +489,7 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`JournalEntry`] based on `PrinterLogMessage` settings.
+    /// Prints the [`JournalEntry`] based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
     ///

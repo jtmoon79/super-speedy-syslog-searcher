@@ -2,7 +2,6 @@
 
 //! Implement [`Evtx`] for [`EvtxRecord`].
 //!
-//! [`Evtx`]: self::Evtx
 //! [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
 
 #[doc(hidden)]
@@ -52,7 +51,6 @@ pub type EvtxRS = SerializedEvtxRecord<String>;
 /// Type alias for [`Result`] of [`EvtxRS`].
 ///
 /// [`Result`]: std::result::Result
-/// [`EvtxRS`]: self::EvtxRS
 pub type ResultEvtxRS = std::result::Result<EvtxRS, EvtxError>;
 
 const TIMECREATED_BEG_SUBSTR: &str = "<TimeCreated SystemTime=\"";
@@ -94,7 +92,6 @@ const TIMECREATED_END_SUBCHAR: char = '\"';
 /// </Event>
 /// ```
 ///
-/// [`Evtx`]: self::Evtx
 /// [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
 /// [`evtx`]: https://docs.rs/evtx/0.8.1/evtx/index.html
 /// [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log

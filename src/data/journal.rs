@@ -108,8 +108,6 @@ pub type MonotonicMicrosecondsOpt = Option<MonotonicMicroseconds>;
 /// if it is present, otherwise it uses `__REALTIME_TIMESTAMP`.
 /// This notes which was used to create the `DateTimeL` returned by
 /// [`JournalEntry::dt()`].
-///
-/// [`dt()`]: JournalEntry#method.dt
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
 pub enum DtUsesSource {
     /// field `_SOURCE_REALTIME_TIMESTAMP` was used

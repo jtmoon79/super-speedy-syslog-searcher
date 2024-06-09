@@ -1,9 +1,6 @@
 // src/data/line.rs
 
 //! Implement [`Line`] and underlying [`LinePart`] structs.
-//!
-//! [`Line`]: crate::data::line::Line
-//! [`LinePart`]: crate::data::line::LinePart
 
 #![allow(non_camel_case_types)]
 
@@ -36,14 +33,12 @@ use ::more_asserts::{
 /// A `Line` may span multiple [`Block`s]. One `LinePart` refers to bytes
 /// within the same `Block`.
 ///
-/// [`LinePart`]: self::LinePart
 /// [`Block`s]: crate::readers::blockreader::Block
 pub type LineParts = Vec<LinePart>;
 
 /// A sequence to track one or more [`LineP`] that make up a [`Sysline`].
 ///
 /// [`Sysline`]: crate::data::sysline::Sysline
-/// [`LineP`]: self::LineP
 pub type Lines = Vec<LineP>;
 
 /// A byte offset into a [`Line`]
@@ -55,7 +50,6 @@ pub type LineIndex = usize;
 /// Half-open [`Range`] of [`LineIndex`].
 ///
 /// [`Range`]: std::ops::Range
-/// [`LineIndex`]: self::LineIndex
 pub type RangeLineIndex = std::ops::Range<LineIndex>;
 
 /// Thread-safe [Atomic Reference Counting pointer] to a
@@ -663,8 +657,6 @@ impl Line {
     /// [`Vec`].
     ///
     /// Only for testing.
-    ///
-    /// [`Vec`]: std::vec::Vec
     #[doc(hidden)]
     #[cfg(any(debug_assertions, test))]
     pub fn get_slices(self: &Line) -> Slices {
@@ -705,9 +697,6 @@ impl Line {
     /// access to some underlying slice(s) of a `Line` while hiding
     /// complexities of crossing `Block` boundaries (and not being lazy and
     /// copying lots of bytes around).
-    ///
-    /// [`Box`]: std::boxed
-    /// [`Vec`]: std::vec::Vec
     pub fn get_boxptrs(
         self: &Line,
         mut a: LineIndex,

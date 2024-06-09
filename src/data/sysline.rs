@@ -157,9 +157,7 @@ impl Sysline {
         self.dt - (*(*otherp).dt())
     }
 
-    /// Append the passed [`LineP`] to `self.lines`.
-    ///
-    /// [LineP]: crate::data::line::LineP
+    /// Append the passed `LineP` to `self.lines`.
     pub fn push(
         &mut self,
         linep: LineP,
@@ -321,10 +319,10 @@ impl Sysline {
     //       https://bes.github.io/blog/rust-strings
     //
     // TODO: remove this
+    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    // TODO fix this non_snake_case (use correct snake_case)
     fn impl_to_String_raw(
         self: &Sysline,
         raw: bool,
@@ -347,10 +345,10 @@ impl Sysline {
     /// `Sysline` to `String`.
     ///
     /// inefficient; only for debugging or testing
+    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    // TODO fix this non_snake_case (use correct snake_case)
     pub fn to_String(self: &Sysline) -> String {
         // get capacity needed
         let mut sz: usize = 0;
@@ -378,10 +376,10 @@ impl Sysline {
     /// and/or formatting characters.
     ///
     /// inefficient; only for debugging or testing
+    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    // TODO fix this non_snake_case (use correct snake_case)
     pub fn to_String_noraw(self: &Sysline) -> String {
         self.impl_to_String_raw(false)
     }
@@ -393,7 +391,5 @@ impl Sysline {
 pub type SyslineP = Arc<Sysline>;
 
 /// Optional [`Arc`] pointer to a [`Sysline`].
-///
-/// [`Arc`]: std::sync::Arc
 #[allow(non_camel_case_types)]
 pub type SyslineP_Opt = Option<Arc<Sysline>>;
