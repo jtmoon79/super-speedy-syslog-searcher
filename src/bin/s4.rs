@@ -493,6 +493,11 @@ do not have a timezone offset.
 Resolved values of "--dt-after" and "--dt-before" can be reviewed in
 the "--summary" output.
 
+s4 uses file naming to determine the file type.
+
+s4 can process files compressed and named .bz2, .gz, .lz4, .xz, and files
+archived within a .tar file.
+
 DateTime strftime specifiers are described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
 
