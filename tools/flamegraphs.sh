@@ -25,6 +25,7 @@ for FLAMGRAPHOUT_S4FILE in \
     "${DIROUT}/flamegraph-journal-lz4.svg|./logs/programs/journal/RHE_91_system.journal.lz4" \
     "${DIROUT}/flamegraph-journal-xz.svg|./logs/programs/journal/RHE_91_system.journal.xz" \
     "${DIROUT}/flamegraph-journal-tar.svg|./logs/programs/journal/RHE_91_system.tar" \
+    "${DIROUT}/flamegraph-syslog-empty.svg|./logs/other/tests/empty.log" \
     "${DIROUT}/flamegraph-syslog-no-matches.svg|./logs/other/tests/numbers3.log" \
     "${DIROUT}/flamegraph-syslog.svg|./logs/other/tests/gen-99999-1-Motley_Crue.log" \
     "${DIROUT}/flamegraph-syslog-bz2.svg|./logs/other/tests/gen-1000-3-foobar.log.bz2" \
