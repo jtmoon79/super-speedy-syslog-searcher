@@ -100,13 +100,13 @@ pub type DateTimePattern_string = String;
 
 /// Regular expression formatting pattern, passed to [`regex::bytes::Regex`].
 ///
-/// [`regex::bytes::Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html
+/// [`regex::bytes::Regex`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html
 pub type DateTimeRegex_str = str;
 
 /// Regular expression capture group name, used within the regular expression and
 /// for later retrieval via [`regex::captures.name`].
 ///
-/// [`regex::captures.name`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html#method.name
+/// [`regex::captures.name`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html#method.name
 pub type CaptureGroupName = str;
 
 /// Regular expression capture group pattern, used within a [`RegexPattern`].
@@ -114,7 +114,7 @@ pub type CaptureGroupPattern = str;
 
 /// A regular expression, passed to [`regex::bytes::Regex::captures`].
 ///
-/// [`regex::bytes::Regex::captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
+/// [`regex::bytes::Regex::captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html#method.captures
 pub type RegexPattern = str;
 
 /// The regular expression "class" used here, specifically for matching datetime substrings
@@ -991,7 +991,7 @@ impl fmt::Debug for DTFSSet<'_> {
 pub struct DateTimeParseInstr<'a> {
     /// Regex pattern for [`captures`].
     ///
-    /// [`captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
+    /// [`captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html#method.captures
     pub regex_pattern: &'a DateTimeRegex_str,
     /// In what `strftime` form are the regex `regex_pattern` capture groups?
     pub dtfs: DTFSSet<'a>,
@@ -1007,7 +1007,7 @@ pub struct DateTimeParseInstr<'a> {
     /// performance.
     ///
     /// [`Line`]: crate::data::line::Line
-    /// [`Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
+    /// [`Regex`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html#method.captures
     pub range_regex: RangeLineIndex,
     /// Capture named group first (left-most) position in `regex_pattern`.
     pub cgn_first: &'a CaptureGroupName,
@@ -5134,7 +5134,7 @@ lazy_static! {
     /// `DATETIME_PARSE_DATAS` array but `DATETIME_PARSE_DATAS_REGEX_VEC`
     /// maps to the compiled `Regex`.
     ///
-    /// [`Regex`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html
+    /// [`Regex`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html
     // TODO: cost-savings: each compiled regex requires ≈133,000 Bytes on the heap according
     //       to `./tools/valgrind-massif.sh`. This is a lot of memory.
     //       An easy way to reduce baseline heap-use is drop the unused ones.
