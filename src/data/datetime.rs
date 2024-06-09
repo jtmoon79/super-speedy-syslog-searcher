@@ -26,14 +26,11 @@
 //! [`DATETIME_PARSE_DATAS`]: self::DATETIME_PARSE_DATAS
 //! [`Line`]: crate::data::line::Line
 //! [`Sysline`]: crate::data::sysline::Sysline
-//! [`DateTime`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html
-//! [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
-//! [`NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
-//! [`strftime`]: https://docs.rs/chrono/0.4.22/chrono/format/strftime/index.html
-//! [`DateTimeParseInstr`]: crate::data::datetime::DateTimeParseInstr
-//! [Regular Expression syntax]: https://docs.rs/regex/1.6.0/regex/index.html#syntax
-//! [`bytes_to_regex_to_datetime`]: crate::data::datetime::bytes_to_regex_to_datetime
-//! [`captures_to_buffer_bytes`]: crate::data::datetime::captures_to_buffer_bytes
+//! [`DateTime`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html
+//! [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
+//! [`NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
+//! [`strftime`]: https://docs.rs/chrono/0.4.38/chrono/format/strftime/index.html
+//! [Regular Expression syntax]: https://docs.rs/regex/1.10.5/regex/index.html#syntax
 
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
@@ -93,10 +90,9 @@ pub type Year = i32;
 /// Specific `const` instances of `DateTimePattern_str` are hardcoded in
 /// [`captures_to_buffer_bytes`].
 ///
-/// [`strftime`]: https://docs.rs/chrono/0.4.22/chrono/format/strftime/index.html
-/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
-/// [`NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
-/// [`captures_to_buffer_bytes`]: captures_to_buffer_bytes
+/// [`strftime`]: https://docs.rs/chrono/0.4.38/chrono/format/strftime/index.html
+/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
+/// [`NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
 pub type DateTimePattern_str = str;
 
 /// Analogous to [`DateTimePattern_str`], but for `String` instances.
@@ -127,7 +123,7 @@ pub type DateTimeRegex = Regex;
 
 /// A chrono [`DateTime`] type used in _s4lib_.
 ///
-/// [`DateTime`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html
+/// [`DateTime`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html
 // TODO: rename to `DateTimeS4`
 pub type DateTimeL = DateTime<FixedOffset>;
 pub type DateTimeLOpt = Option<DateTimeL>;
@@ -441,7 +437,7 @@ pub(crate) const DUMMY_ARGS: ymdhmsn_args = (0, 1972, 1, 1, 0, 0, 0, 123456789);
 
 /*
 selective copy of chrono `strftime` specifier reference table
-copied from https://docs.rs/chrono/0.4.22/chrono/format/strftime/index.html
+copied from https://docs.rs/chrono/0.4.38/chrono/format/strftime/index.html
 
 DATE SPECIFIERS:
 
@@ -650,10 +646,8 @@ pub enum DTFS_Epoch {
 /// Given the following code for capturing and enumerating some named capture
 /// groups:
 /// ```rust
-/// extern crate regex;
-/// use regex::Regex;
-/// extern crate chrono;
-/// use chrono::{
+/// use ::regex::Regex;
+/// use ::chrono::{
 ///   NaiveDateTime,
 ///   NaiveDate,
 /// };
@@ -756,11 +750,11 @@ pub enum DTFS_Epoch {
 /// Each `DTFSSet` is checked for internal consistency within test
 /// `test_DATETIME_PARSE_DATAS_builtin` (as much as reasonably possible).
 ///
-/// [`named capture groups`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
-/// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
-/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
-/// [`NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
-/// [`strftime`]: https://docs.rs/chrono/0.4.22/chrono/format/strftime/index.html
+/// [`named capture groups`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html
+/// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
+/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
+/// [`NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
+/// [`strftime`]: https://docs.rs/chrono/0.4.38/chrono/format/strftime/index.html
 /// [(Rust Playground)]: https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=00460112beb2a6d078d6bbba72557574
 #[derive(Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub struct DTFSSet<'a> {
@@ -782,8 +776,8 @@ pub struct DTFSSet<'a> {
     ///
     /// Tested in test `test_DATETIME_PARSE_DATAS_builtin`.
     ///
-    /// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
-    /// [`chrono::NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/naive/struct.NaiveDate.html#method.parse_from_str
+    /// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
+    /// [`chrono::NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/naive/struct.NaiveDate.html#method.parse_from_str
     pub pattern: &'a DateTimePattern_str,
 }
 
@@ -985,12 +979,10 @@ impl fmt::Debug for DTFSSet<'_> {
 /// array `DateTimeParseInstr._test_cases`. It checks that
 /// a `DateTime` instance is returned, and does a few other checks.
 ///
-/// [`regex::Regex.captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
-/// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
-/// [`chrono::NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
-/// [chrono `strftime`]: https://docs.rs/chrono/0.4.22/chrono/format/strftime/index.html
-/// [`pub const DATETIME_PARSE_DATAS`]: DATETIME_PARSE_DATAS
-/// [`DTFSSet`]: DTFSSet
+/// [`regex::Regex.captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html
+/// [`chrono::DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
+/// [`chrono::NaiveDateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/naive/struct.NaiveDateTime.html#method.parse_from_str
+/// [chrono `strftime`]: https://docs.rs/chrono/0.4.38/chrono/format/strftime/index.html
 /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
 /// [`PrinterLogMessage`]: crate::printer::printers::PrinterLogMessage
 /// [`Line`]: crate::data::line::Line
@@ -1982,7 +1974,7 @@ pub const RP_RFC2822_DATE: &RegexPattern = "(date|Date|DATE):";
 ///
 /// [Issue #59]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/59
 /// [_List of time zone abbreviations_]: https://en.wikipedia.org/w/index.php?title=List_of_time_zone_abbreviations&oldid=1106679802
-/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/format/strftime/#fn7
+/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/format/strftime/#fn7
 pub static MAP_TZZ_TO_TZz: PhfMap<&'static str, &'static str> = phf_map! {
         // uppercase
         "ACDT" => "+10:30",
@@ -5315,7 +5307,7 @@ pub fn u8_to_str(data: &[u8]) -> Option<&str> {
 /// - `has_tz`, the `pattern` has a timezone (`%Z`, `%z`, etc.)?
 /// - `tz_offset` fallback timezone offset when `!has_tz`
 ///
-/// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E
+/// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E
 pub fn datetime_parse_from_str(
     data: &str,
     pattern: &DateTimePattern_str,
@@ -5699,10 +5691,8 @@ fn month_bB_to_month_m_bytes(
 /// Transforms timezone offset inidicator MINUS SIGN `−` (U+2212) into
 /// HYPHEN-MINUS `-` (U+2D), e.g `−0700` becomes `-0700`.
 ///
-/// [`Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Captures.html
-/// [`DateTimeParseInstr::regex_pattern`]: crate::data::datetime::DateTimeParseInstr::regex_pattern
-/// [`DateTimeParseInstr::dt_pattern`]: crate::data::datetime::DateTimeParseInstr::dt_pattern
-/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#method.parse_from_str
+/// [`Captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html
+/// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
 // TODO: allow returning an `Error` instead of `panic!`
 #[inline(always)]
 pub(crate) fn captures_to_buffer_bytes(
@@ -6045,9 +6035,8 @@ pub(crate) fn captures_to_buffer_bytes(
 /// [`Option<DateTime<FixedOffset>>`] instance. Uses matching and pattern
 /// information hardcoded in [`DATETIME_PARSE_DATAS`].
 ///
-/// [`DATETIME_PARSE_DATAS`]: [DATETIME_PARSE_DATAS]
-/// [`regex::Captures`]: https://docs.rs/regex/1.6.0/regex/bytes/struct.Regex.html#method.captures
-/// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.22/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E
+/// [`regex::Captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html#method.captures
+/// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E
 pub fn bytes_to_regex_to_datetime(
     data: &[u8],
     index: &DateTimeParseInstrsIndex,
@@ -6386,7 +6375,7 @@ pub fn datetime_with_year(
 
 /// Convert passed [`SystemTime`] to [`DateTimeL`] with passed [`FixedOffset`].
 ///
-/// [`FixedOffset`]: https://docs.rs/chrono/0.4.22/chrono/offset/struct.FixedOffset.html
+/// [`FixedOffset`]: https://docs.rs/chrono/0.4.38/chrono/offset/struct.FixedOffset.html
 /// [`SystemTime`]: std::time::SystemTime
 pub fn systemtime_to_datetime(
     fixedoffset: &FixedOffset,
