@@ -527,6 +527,7 @@ process `file.mp3`. It will be treated as a UTF8 text log file.
 [user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
 [Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
 [Issue #293]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/293
+[Issue #300]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/300
 
 <br/>
 
@@ -638,9 +639,8 @@ This informal runtime comparison used GNU `time` running on Ubuntu 22 on WSL2.
 - `logmerger` 0.9.0 on Python 3.10.12
 - `tl` 1.5.0 on Python 3.10.12
 
-See directory [compare-log-mergers] and results in [`compare-log-mergers.txt`].
+See directory results in [`compare-log-mergers.txt`].
 
-[compare-log-mergers]: ./tools/compare-log-mergers/
 [`compare-log-mergers.txt`]: ./releases/0.7.73/compare-log-mergers.txt
 
 ---
