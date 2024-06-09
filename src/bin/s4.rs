@@ -228,6 +228,7 @@ enum CLI_Color_Choice {
 ///
 /// [`DateTimeParseInstr`]: s4lib::data::datetime::DateTimeParseInstr
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
+#[allow(non_camel_case_types)]
 type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool, bool);
 
 const CLI_FILTER_PATTERNS_COUNT: usize = 76;
