@@ -9,49 +9,64 @@ use ::jetscii::bytes;
 use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
 use ::lazy_static::lazy_static;
 
-use s4lib::data::datetime::slice_contains_X_2;
+use s4lib::data::datetime::{
+    slice_contains_D2_custom,
+    slice_contains_D2_stringzilla,
+    slice_contains_X_2_stringzilla,
+    slice_contains_X_2_unroll,
+};
 
 lazy_static! {
-    pub static ref B70: &'static [u8; 70] = b"\
-0_23456789112345678921234567893123456789412345678951234567896123456789";
+    /// search this slice for a 2 byte "needle"
+    pub static ref B100: &'static [u8; 100] = b"\
+a_c_e_f_h_1_k_l_n_p_r_t_v_x_z_3ABCDEFGHI412345678951234567896123456789712345678981234567899123456789";
+    /// for D2 search, has D2 `"34"`
+    pub static ref D2_200_HAS_D2: &'static [u8; 136] = b"\
+0abcdefghijklmnopqrstuvwxyz1ABCDEFGHIJKLMNOPQRSTUVWXYZ2abcdefghijklmnopqrstuvwxyz34BCDEFGHIJKLMNOPQRSTUVWXYZ4abcdefghijklmnopqrstuvwxyz5";
+    /// for D2 search, no D2
+    pub static ref D2_200_NO_D2: &'static [u8; 136] = b"\
+0abcdefghijklmnopqrstuvwxyz1ABCDEFGHIJKLMNOPQRSTUVWXYZ2abcdefghijklmnopqrstuvwxyz3ABCDEFGHIJKLMNOPQRSTUVWXYZ4abcdefghijklmnopqrstuvwxyz5";
 }
 
-// data present in B70
+/// "needle" in B100
 const SEARCH12: &[u8; 2] = b"12";
-// data not present in B70
+/// "needle" not in B100
 const SEARCHXY: &[u8; 2] = b"XY";
 
 #[inline(never)]
-fn B70_baseline() {
-    let slice_ = &B70[0..];
+fn X_2_baseline() {
+    let slice_ = &B100[0..];
     black_box(slice_);
+    assert!(true);
 }
 
 #[inline(never)]
-fn custom1_found() {
-    let slice_ = &B70[0..];
+fn X_2_custom1_slice_iter_found() {
+    let slice_ = &B100[0..];
     black_box(slice_);
     for c in slice_.iter() {
         if c == &SEARCH12[0] || c == &SEARCH12[1] {
             return;
         }
     }
+    assert!(false);
 }
 
 #[inline(never)]
-fn custom1_notfound() {
-    let slice_ = &B70[0..];
+fn X_2_custom1_slice_iter_notfound() {
+    let slice_ = &B100[0..];
     black_box(slice_);
     for c in slice_.iter() {
         if c == &SEARCHXY[0] || c == &SEARCHXY[1] {
             return;
         }
     }
+    assert!(true);
 }
 
 #[inline(never)]
-fn custom2_found() {
-    let slice_ = &B70[0..];
+fn X_2_custom2_slice_iter_found() {
+    let slice_ = &B100[0..];
     black_box(slice_);
     for c in slice_.iter() {
         for s in SEARCH12.iter() {
@@ -60,11 +75,12 @@ fn custom2_found() {
             }
         }
     }
+    assert!(false);
 }
 
 #[inline(never)]
-fn custom2_notfound() {
-    let slice_ = &B70[0..];
+fn X_2_custom2_slice_iter_notfound() {
+    let slice_ = &B100[0..];
     black_box(slice_);
     for c in slice_.iter() {
         for s in SEARCHXY.iter() {
@@ -73,70 +89,122 @@ fn custom2_notfound() {
             }
         }
     }
+    assert!(true);
 }
 
 #[inline(never)]
-fn custom3_found() {
-    let slice_ = &B70[0..];
+fn X_2_custom3_contains_found() {
+    let slice_ = &B100[0..];
     black_box(slice_);
-    if slice_.contains(&SEARCH12[0]) || slice_.contains(&SEARCH12[1]) {
-        return;
-    }
+    assert!(slice_.contains(&SEARCH12[0]) || slice_.contains(&SEARCH12[1]));
 }
 
 #[inline(never)]
-fn custom3_notfound() {
-    let slice_ = &B70[0..];
+fn X_2_custom3_contains_notfound() {
+    let slice_ = &B100[0..];
     black_box(slice_);
-    if slice_.contains(&SEARCHXY[0]) || slice_.contains(&SEARCHXY[1]) {
-        return;
-    }
+    assert!(!(slice_.contains(&SEARCHXY[0]) || slice_.contains(&SEARCHXY[1])));
 }
 
 #[inline(never)]
-fn custom4_found_slice_contains_X_2() {
-    let slice_ = &B70[0..];
+fn X_2_custom4_jetscii_found() {
+    let slice_ = &B100[0..];
     black_box(slice_);
-    slice_contains_X_2(slice_, &SEARCH12);
+    assert!(bytes!(SEARCH12[0], SEARCH12[1]).find(&slice_).is_some());
 }
 
 #[inline(never)]
-fn custom4_notfound_slice_contains_X_2() {
-    let slice_ = &B70[0..];
+fn X_2_custom4_jetscii_notfound() {
+    let slice_ = &B100[0..];
     black_box(slice_);
-    slice_contains_X_2(slice_, &SEARCHXY);
+    assert!(!bytes!(SEARCHXY[0], SEARCHXY[1]).find(&slice_).is_some());
 }
 
 #[inline(never)]
-fn custom5_found_jetscii() {
-    let slice_ = &B70[0..];
+fn X_2_custom5_slice_contains_X_2_unroll_found() {
+    let slice_ = &B100[0..];
     black_box(slice_);
-    bytes!(SEARCH12[0], SEARCH12[1]).find(&slice_);
+    assert!(slice_contains_X_2_unroll(slice_, &SEARCH12));
 }
 
 #[inline(never)]
-fn custom5_notfound_jetscii() {
-    let slice_ = &B70[0..];
+fn X_2_custom5_slice_contains_X_2_unroll_notfound() {
+    let slice_ = &B100[0..];
     black_box(slice_);
-    bytes!(SEARCHXY[0], SEARCHXY[1]).find(&slice_);
+    assert!(!slice_contains_X_2_unroll(slice_, &SEARCHXY));
+}
+
+#[inline(never)]
+fn X_2_custom6_stringzilla_found() {
+    let slice_ = &B100[0..];
+    black_box(slice_);
+    assert!(slice_contains_X_2_stringzilla(slice_, &SEARCH12));
+}
+
+#[inline(never)]
+fn X_2_custom6_stringzilla_notfound() {
+    let slice_ = &B100[0..];
+    black_box(slice_);
+    assert!(!slice_contains_X_2_stringzilla(slice_, &SEARCHXY));
+}
+
+#[inline(never)]
+fn D2_baseline() {
+    let slice_ = &B100[0..];
+    black_box(slice_);
+    assert!(true);
+}
+
+#[inline(never)]
+fn D2_slice_contains_D2_custom() {
+    let slice_ = &D2_200_HAS_D2[0..];
+    black_box(slice_);
+    assert!(slice_contains_D2_custom(slice_));
+}
+
+#[inline(never)]
+fn D2_slice_contains_D2_custom_not() {
+    let slice_ = &D2_200_NO_D2[0..];
+    black_box(slice_);
+    assert!(!slice_contains_D2_custom(slice_));
+}
+
+#[inline(never)]
+fn D2_slice_contains_D2_stringzilla() {
+    let slice_ = &D2_200_HAS_D2[0..];
+    black_box(slice_);
+    assert!(slice_contains_D2_stringzilla(slice_));
+}
+
+#[inline(never)]
+fn D2_slice_contains_D2_stringzilla_not() {
+    let slice_ = &D2_200_NO_D2[0..];
+    black_box(slice_);
+    assert!(!slice_contains_D2_stringzilla(slice_));
 }
 
 // criterion runners
 
 fn criterion_benchmark(c: &mut Criterion) {
     let mut bg = c.benchmark_group("slice_contains");
-    bg.bench_function("B70_baseline", |b| b.iter(B70_baseline));
-    //bg.bench_function("B70_slice_contains_found1", |b| b.iter(slice_contains_found1));
-    bg.bench_function("custom1_found", |b| b.iter(custom1_found));
-    bg.bench_function("custom1_notfound", |b| b.iter(custom1_notfound));
-    bg.bench_function("custom2_found", |b| b.iter(custom2_found));
-    bg.bench_function("custom2_notfound", |b| b.iter(custom2_notfound));
-    bg.bench_function("custom3_found", |b| b.iter(custom3_found));
-    bg.bench_function("custom3_notfound", |b| b.iter(custom3_notfound));
-    bg.bench_function("custom4_found_slice_contains_X_2", |b| b.iter(custom4_found_slice_contains_X_2));
-    bg.bench_function("custom4_notfound_slice_contains_X_2", |b| b.iter(custom4_notfound_slice_contains_X_2));
-    bg.bench_function("custom5_found_jetscii", |b| b.iter(custom5_found_jetscii));
-    bg.bench_function("custom5_notfound_jetscii", |b| b.iter(custom5_notfound_jetscii));
+    bg.bench_function("X_2_baseline", |b| b.iter(X_2_baseline));
+    bg.bench_function("X_2_custom1_slice_iter_found", |b| b.iter(X_2_custom1_slice_iter_found));
+    bg.bench_function("X_2_custom1_slice_iter_notfound", |b| b.iter(X_2_custom1_slice_iter_notfound));
+    bg.bench_function("X_2_custom2_slice_iter_found", |b| b.iter(X_2_custom2_slice_iter_found));
+    bg.bench_function("X_2_custom2_slice_iter_notfound", |b| b.iter(X_2_custom2_slice_iter_notfound));
+    bg.bench_function("X_2_custom3_contains_found", |b| b.iter(X_2_custom3_contains_found));
+    bg.bench_function("X_2_custom3_contains_notfound", |b| b.iter(X_2_custom3_contains_notfound));
+    bg.bench_function("X_2_custom4_jetscii_found", |b| b.iter(X_2_custom4_jetscii_found));
+    bg.bench_function("X_2_custom4_jetscii_notfound", |b| b.iter(X_2_custom4_jetscii_notfound));
+    bg.bench_function("X_2_custom5_slice_contains_X_2_unroll_found", |b| b.iter(X_2_custom5_slice_contains_X_2_unroll_found));
+    bg.bench_function("X_2_custom5_slice_contains_X_2_unroll_notfound", |b| b.iter(X_2_custom5_slice_contains_X_2_unroll_notfound));
+    bg.bench_function("X_2_custom6_stringzilla_found", |b| b.iter(X_2_custom6_stringzilla_found));
+    bg.bench_function("X_2_custom6_stringzilla_notfound", |b| b.iter(X_2_custom6_stringzilla_notfound));
+    bg.bench_function("D2_baseline", |b| b.iter(D2_baseline));
+    bg.bench_function("D2_slice_contains_D2_custom", |b| b.iter(D2_slice_contains_D2_custom));
+    bg.bench_function("D2_slice_contains_D2_custom_not", |b| b.iter(D2_slice_contains_D2_custom_not));
+    bg.bench_function("D2_slice_contains_D2_stringzilla", |b| b.iter(D2_slice_contains_D2_stringzilla));
+    bg.bench_function("D2_slice_contains_D2_stringzilla_not", |b| b.iter(D2_slice_contains_D2_stringzilla_not));
 }
 
 criterion_group!(benches, criterion_benchmark);
