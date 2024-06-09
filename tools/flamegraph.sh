@@ -164,7 +164,7 @@ ARGS_ESCAPED=$(html_sed_escape "${args[*]}")
 
 sed -i -Ee 's/(<text id="title" .*>)Flame Graph(<\/text>)/\1Flame Graph: '"${NOTES_ESCAPED}"'<br\/>; command: '"${BIN_ESCAPED}"' '"${ARGS_ESCAPED}"'\2/' -- "${OUT}"
 # the title is now a long string so make the font smaller
-sed -i -Ee 's/<text id="title" /<text id="title" style="font-size:small" /' --  "${OUT}"
+sed -i -Ee 's/<text id="title" /<text id="title" style="font-size:xx-small" /' --  "${OUT}"
 
 if which xmllint &>/dev/null; then
     # the generated .svg file is a few huge lines so make it git-friendly (more lines more often)
