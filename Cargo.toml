@@ -75,7 +75,7 @@ rand = "0.8.5"
 rangemap = "1.5.1"
 regex = "1.10.5"
 si_trace_print = "0.3.12"
-stringzilla = "3.8.4"
+stringzilla = { version = "3.8.4", optional = true }
 tar = "0.4.40"
 tempfile = "3.10.1"
 termcolor = "1.1.3"
@@ -109,11 +109,15 @@ arraystring = "0.3.0"
 criterion = "0.5.1"
 filepath = "0.1.2"
 filetime = "0.2.23"
-# XXX: `flamegraph` fails to build, MSRV 1.74
+# XXX: `flamegraph` fails to build, MSRV 1.74; must be manually installed
 # flamegraph = "0.6.5"
 jetscii = "0.5.3"
 memchr = "2.7.2"
 test-case = "3.3.1"
+
+[features]
+# to run benchmark using `stringzilla` pass `--features bench_stringzilla`
+bench_stringzilla = ["dep:stringzilla"]
 
 # release build optimizations
 # from https://github.com/johnthagen/min-sized-rust

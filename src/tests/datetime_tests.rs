@@ -66,12 +66,15 @@ use crate::data::datetime::{
     RP_RB,
     DTP_ALL,
     slice_contains_X_2,
-    slice_contains_X_2_stringzilla,
     slice_contains_X_2_unroll,
     slice_contains_D2,
     slice_contains_D2_custom,
-    slice_contains_D2_stringzilla,
     slice_contains_12_D2,
+};
+#[cfg(feature = "bench_stringzilla")]
+use crate::data::datetime::{
+    slice_contains_X_2_stringzilla,
+    slice_contains_D2_stringzilla,
 };
 use crate::debug::printers::buffer_to_String_noraw;
 
@@ -1267,8 +1270,11 @@ fn test_slice_contains_X_2(data: &[u8], search: &[u8; 2], expect: bool) {
     eprintln!("test_slice_contains_X_2({:?}, {:?})", data.as_bstr(), search);
     let actual = slice_contains_X_2_unroll(data, search);
     assert_eq!(expect, actual, "slice_contains_X_2_unroll");
-    let actual = slice_contains_X_2_stringzilla(data, search);
-    assert_eq!(expect, actual, "slice_contains_X_2_stringzilla");
+    #[cfg(feature = "bench_stringzilla")]
+    {
+        let actual = slice_contains_X_2_stringzilla(data, search);
+        assert_eq!(expect, actual, "slice_contains_X_2_stringzilla");
+    }
     let actual = slice_contains_X_2(data, search);
     assert_eq!(expect, actual, "slice_contains_X_2");
 }
@@ -1302,8 +1308,11 @@ fn test_slice_contains_D2(data: &[u8], expect: bool) {
     eprintln!("test_slice_contains_D2(data={:?}, expect={:?})", data.as_bstr(), expect);
     let actual = slice_contains_D2_custom(data);
     assert_eq!(expect, actual, "slice_contains_D2_custom");
-    let actual = slice_contains_D2_stringzilla(data);
-    assert_eq!(expect, actual, "slice_contains_D2_stringzilla");
+    #[cfg(feature = "bench_stringzilla")]
+    {
+        let actual = slice_contains_D2_stringzilla(data);
+        assert_eq!(expect, actual, "slice_contains_D2_stringzilla");
+    }
     let actual = slice_contains_D2(data);
     assert_eq!(expect, actual, "slice_contains_D2");
 }

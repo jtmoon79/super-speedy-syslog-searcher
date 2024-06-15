@@ -11,9 +11,12 @@ use ::lazy_static::lazy_static;
 
 use s4lib::data::datetime::{
     slice_contains_D2_custom,
+    slice_contains_X_2_unroll,
+};
+#[cfg(feature = "bench_stringzilla")]
+use s4lib::data::datetime::{
     slice_contains_D2_stringzilla,
     slice_contains_X_2_stringzilla,
-    slice_contains_X_2_unroll,
 };
 
 lazy_static! {
@@ -135,6 +138,7 @@ fn X_2_custom5_slice_contains_X_2_unroll_notfound() {
 }
 
 #[inline(never)]
+#[cfg(feature = "bench_stringzilla")]
 fn X_2_custom6_stringzilla_found() {
     let slice_ = &B100[0..];
     black_box(slice_);
@@ -142,6 +146,7 @@ fn X_2_custom6_stringzilla_found() {
 }
 
 #[inline(never)]
+#[cfg(feature = "bench_stringzilla")]
 fn X_2_custom6_stringzilla_notfound() {
     let slice_ = &B100[0..];
     black_box(slice_);
@@ -170,6 +175,7 @@ fn D2_slice_contains_D2_custom_not() {
 }
 
 #[inline(never)]
+#[cfg(feature = "bench_stringzilla")]
 fn D2_slice_contains_D2_stringzilla() {
     let slice_ = &D2_200_HAS_D2[0..];
     black_box(slice_);
@@ -177,6 +183,7 @@ fn D2_slice_contains_D2_stringzilla() {
 }
 
 #[inline(never)]
+#[cfg(feature = "bench_stringzilla")]
 fn D2_slice_contains_D2_stringzilla_not() {
     let slice_ = &D2_200_NO_D2[0..];
     black_box(slice_);
@@ -198,13 +205,19 @@ fn criterion_benchmark(c: &mut Criterion) {
     bg.bench_function("X_2_custom4_jetscii_notfound", |b| b.iter(X_2_custom4_jetscii_notfound));
     bg.bench_function("X_2_custom5_slice_contains_X_2_unroll_found", |b| b.iter(X_2_custom5_slice_contains_X_2_unroll_found));
     bg.bench_function("X_2_custom5_slice_contains_X_2_unroll_notfound", |b| b.iter(X_2_custom5_slice_contains_X_2_unroll_notfound));
-    bg.bench_function("X_2_custom6_stringzilla_found", |b| b.iter(X_2_custom6_stringzilla_found));
-    bg.bench_function("X_2_custom6_stringzilla_notfound", |b| b.iter(X_2_custom6_stringzilla_notfound));
+    #[cfg(feature = "bench_stringzilla")]
+    {
+        bg.bench_function("X_2_custom6_stringzilla_found", |b| b.iter(X_2_custom6_stringzilla_found));
+        bg.bench_function("X_2_custom6_stringzilla_notfound", |b| b.iter(X_2_custom6_stringzilla_notfound));
+    }
     bg.bench_function("D2_baseline", |b| b.iter(D2_baseline));
     bg.bench_function("D2_slice_contains_D2_custom", |b| b.iter(D2_slice_contains_D2_custom));
     bg.bench_function("D2_slice_contains_D2_custom_not", |b| b.iter(D2_slice_contains_D2_custom_not));
-    bg.bench_function("D2_slice_contains_D2_stringzilla", |b| b.iter(D2_slice_contains_D2_stringzilla));
-    bg.bench_function("D2_slice_contains_D2_stringzilla_not", |b| b.iter(D2_slice_contains_D2_stringzilla_not));
+    #[cfg(feature = "bench_stringzilla")]
+    {
+        bg.bench_function("D2_slice_contains_D2_stringzilla", |b| b.iter(D2_slice_contains_D2_stringzilla));
+        bg.bench_function("D2_slice_contains_D2_stringzilla_not", |b| b.iter(D2_slice_contains_D2_stringzilla_not));
+    }
 }
 
 criterion_group!(benches, criterion_benchmark);

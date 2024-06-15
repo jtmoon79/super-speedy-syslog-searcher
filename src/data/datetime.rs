@@ -74,6 +74,7 @@ use ::phf::Map as PhfMap;
 use ::regex::bytes::Regex;
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+#[cfg(feature = "bench_stringzilla")]
 use ::stringzilla;
 use ::unroll::unroll_for_loops;
 
@@ -7894,6 +7895,7 @@ pub fn slice_contains_X_2_unroll(
 /// [`stringzilla`]: https://crates.io/crates/stringzilla
 #[inline(always)]
 #[allow(non_snake_case)]
+#[cfg(feature = "bench_stringzilla")]
 pub fn slice_contains_X_2_stringzilla(
     slice_: &[u8],
     search: &[u8; 2],
@@ -7911,7 +7913,7 @@ pub fn slice_contains_X_2(
     slice_: &[u8],
     search: &[u8; 2],
 ) -> bool {
-    slice_contains_X_2_stringzilla(slice_, search)
+    slice_contains_X_2_unroll(slice_, search)
 }
 
 /// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
@@ -7952,6 +7954,7 @@ pub fn slice_contains_D2_custom(
 /// Hack efficiency helper.
 #[inline(always)]
 #[allow(non_snake_case)]
+#[cfg(feature = "bench_stringzilla")]
 pub fn slice_contains_D2_stringzilla(
     slice_: &[u8],
 ) -> bool {
@@ -7986,7 +7989,7 @@ pub fn slice_contains_D2_stringzilla(
 pub fn slice_contains_D2(
     slice_: &[u8],
 ) -> bool {
-    slice_contains_D2_stringzilla(slice_)
+    slice_contains_D2_custom(slice_)
 }
 
 /// Combination of prior functions `slice_contains_X_2` and
