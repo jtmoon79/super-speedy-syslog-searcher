@@ -59,6 +59,7 @@ use std::io::BufRead; // for stdin::lock().lines()
 use std::io::Error;
 use std::process::ExitCode;
 use std::str;
+use std::sync::RwLock;
 use std::thread;
 use std::time::Instant;
 
@@ -1557,7 +1558,6 @@ pub fn main() -> ExitCode {
     exitcode
 }
 
-use std::sync::RwLock;
 lazy_static! {
     /// mapping of PathId to received data. Most important collection for function
     /// `processing_loop`.
