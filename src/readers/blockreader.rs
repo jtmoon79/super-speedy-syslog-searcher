@@ -232,6 +232,7 @@ pub struct GzData {
     /// From <https://datatracker.ietf.org/doc/html/rfc1952#page-7>
     ///
     /// > MTIME (Modification TIME)
+    /// >
     /// > This gives the most recent modification time of the original
     /// > file being compressed.  The time is in Unix format, i.e.,
     /// > seconds since 00:00:00 GMT, Jan.  1, 1970.  (Note that this
@@ -274,14 +275,14 @@ pub struct XzData {
 /// Separator `char` symbol for a filesystem path and subpath within a
 /// compressed file or an archive file. Used by an [`FPath`].
 ///
-/// e.g. `path/logs.tar:logs/syslog`<br/>
-/// e.g. `log.xz:syslog`
+/// e.g. `path/logs.tar|logs/syslog`<br/>
+/// e.g. `log.xz|syslog`
 ///
 /// [`FPath`]: crate::common::FPath
 // TODO: move this to common.rs
 // TODO: Issue #7
 //       it is not impossible for paths to have '|', use '\0' instead
-//       is even less likely to be in a path. Use ':' when printing paths.
+//       is even less likely to be in a path. Use '|' when printing paths.
 pub const SUBPATH_SEP: char = '|';
 
 /// crate `tar` handle for a plain `File`.
@@ -2586,12 +2587,13 @@ impl BlockReader {
             // order. So drop old blocks so RAM usage is not O(n).
             // Since the Blocks dropped here were first read then dropped
             // within this function then no other entity has stored
-            // a cloned `BlockP` pointer; the Block is certain to be
+            // a cloned `BlockP` pointer 🤞; the Block is certain to be
             // destroyed here.
             // In other words, it is presumed the caller will never call
             // `read_block_FileBz2` with a `blockoffset` value less than the
             // value passed here (if that happened then runtime would be
             // O(n²).
+            // See Issue #182
             if BlockReader::READ_BLOCK_LOOKBACK_DROP && bo_at_old < bo_at {
                 self.drop_block(bo_at_old);
             }
@@ -2867,12 +2869,13 @@ impl BlockReader {
             // order. So drop old blocks so RAM usage is not O(n).
             // Since the Blocks dropped here were first read then dropped
             // within this function then no other entity has stored
-            // a cloned `BlockP` pointer; the Block is certain to be
+            // a cloned `BlockP` pointer 🤞; the Block is certain to be
             // destroyed here.
             // In other words, it is presumed the caller will never call
             // `read_block_FileGz` with a `blockoffset` value less than the
             // value passed here (if that happened then runtime would be
             // O(n²).
+            // See Issue #182
             if BlockReader::READ_BLOCK_LOOKBACK_DROP && bo_at_old < bo_at {
                 self.drop_block(bo_at_old);
             }
@@ -2883,6 +2886,7 @@ impl BlockReader {
             bo_at_old = bo_at;
             bo_at += 1;
         } // while bo_at <= blockoffset
+
         defx!("({}): return Done", blockoffset);
 
         ResultS3ReadBlock::Done
@@ -3069,12 +3073,13 @@ impl BlockReader {
             // order. So drop old blocks so RAM usage is not O(n).
             // Since the Blocks dropped here were first read then dropped
             // within this function then no other entity has stored
-            // a cloned `BlockP` pointer; the Block is certain to be
+            // a cloned `BlockP` pointer 🤞; the Block is certain to be
             // destroyed here.
             // In other words, it is presumed the caller will never call
             // `read_block_FileLz4` with a `blockoffset` value less than the
             // value passed here (if that happened then runtime would be
             // O(n²).
+            // See Issue #182
             if BlockReader::READ_BLOCK_LOOKBACK_DROP && bo_at_old < bo_at {
                 self.drop_block(bo_at_old);
             }
@@ -3085,6 +3090,7 @@ impl BlockReader {
             bo_at_old = bo_at;
             bo_at += 1;
         } // while bo_at <= blockoffset
+
         defx!("({}): return Done", blockoffset);
 
         ResultS3ReadBlock::Done
