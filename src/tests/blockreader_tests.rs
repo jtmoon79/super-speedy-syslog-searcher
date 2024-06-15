@@ -267,10 +267,12 @@ fn test_BlockReader(
     checks: &Checks,
 ) {
     defn!("({:?}, {})", path, blocksz);
+    defo!("new_BlockReader({:?}, {}, {})", path, filetype, blocksz);
     let mut br1 = new_BlockReader(path, filetype, blocksz);
 
     for offset in offsets.iter() {
         {
+            defo!("read_block({})", offset);
             let blockp = br1.read_block(*offset);
             match blockp {
                 ResultS3ReadBlock::Found(_val) => {
@@ -288,7 +290,10 @@ fn test_BlockReader(
 
     for (offset, (block_expect, results3)) in checks.iter() {
         // get the block data before calling `read_block`
-        defo!("get_block({})", offset);
+        defo!(
+            "check: read_block({}); expect block.len {}, result {:?}",
+            offset, block_expect.len(), results3,
+        );
         match br1.read_block(*offset) {
             ResultS3ReadBlock::Found(_) => {
                 assert!(results3.is_found(), "Got ResultS3::Found, Expected {:?}", results3);
