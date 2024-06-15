@@ -42,13 +42,6 @@ if [[ ! -x "${PROGRAM}" ]]; then
     exit 1
 fi
 
-if [[ ! -r gprof2dot.py ]]; then
-    echo "Unable to find gprof2dot.py" >&2
-    echo "run:" >&2
-    echo "wget 'https://raw.githubusercontent.com/jrfonseca/gprof2dot/2024.06.06/gprof2dot.py'" >&2
-    exit 1
-fi
-
 (set -x; uname -a)
 (set -x; git log -n1 --format='%h %D')
 (set -x; "${PROGRAM}" --version)
@@ -70,7 +63,12 @@ Compile the latest valgrind:
     exit 1
 fi
 (set -x; "${callgrind}" --version) || true  # --version causes process return code 255
-
+(set -x; gprof2dott --help &>/dev/null) || {
+    echo "gprof2dot not found in PATH" >&2
+    echo "install:" >&2
+    echo "    pip install -r tools/requirements.txt" >&2
+    exit 1
+}
 
 echo
 
@@ -117,7 +115,7 @@ set -x
         "${args[@]}" \
     >/dev/null
 
-python gprof2dot.py \
+gprof2dot \
     --format=callgrind \
     --output="${OUTDOT}" \
     "${OUTOUT}"
