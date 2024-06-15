@@ -44,7 +44,7 @@ set -x
 # ignore `target` directories in bindgen/ and the root
 "${Zz}" a -spf -ssc -bb1 -bt -stl -snl -tzip -- "${ZIPFILE}" \
     ./benches/ \
-    $(find ./bindgen/ \
+    $(find ./subprojects/bindgen/ \
         -mindepth 1 -maxdepth 1 \
         -not -name 'target') \
     ./Cargo.toml \

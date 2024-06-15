@@ -39,9 +39,8 @@ exec \
     --recursive \
     --archive \
     --copy-links \
-    --exclude '/bindgen/target/' \
+    --exclude 'subprojects/bindgen/target/' \
     ./benches \
-    ./bindgen \
     ./Cargo.toml \
     ./Cargo.lock \
     ./CHANGELOG.md \
@@ -59,5 +58,6 @@ exec \
     ./README.md \
     ./rustfmt.toml \
     ./src \
+    ./subprojects \
     ./tools \
     "${TARGET}" \
