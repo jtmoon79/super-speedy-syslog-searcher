@@ -63,7 +63,7 @@ Compile the latest valgrind:
     exit 1
 fi
 (set -x; "${callgrind}" --version) || true  # --version causes process return code 255
-(set -x; gprof2dott --help &>/dev/null) || {
+(set -x; gprof2dot --help &>/dev/null) || {
     echo "gprof2dot not found in PATH" >&2
     echo "install:" >&2
     echo "    pip install -r tools/requirements.txt" >&2
@@ -94,7 +94,9 @@ if [[ ${#} -ge 1 ]]; then
     done
 fi
 
-OUT=${OUT-./callgrind}
+set -x
+DIROUT=${DIROUT-.}
+OUT=${DIROUT}/callgrind
 OUTOUT="${OUT}.out"
 OUTDOT="${OUT}.dot"
 OUTPNG="${OUT}.png"

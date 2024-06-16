@@ -40,15 +40,15 @@ echo
 # default s4 arguments
 declare -a args=(
     --color=never
-    ./logs/other/tests/gen-1000-3-foobar.log
-    ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
+    #./logs/other/tests/gen-1000-3-foobar.log
+    #./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
     ./logs/other/tests/gen-99999-1-Motley_Crue.log
-    ./logs/other/tests/gen-99999-1-Motley_Crue.log
-    ./logs/other/tests/gen-400-4-shamrock.log
-    ./logs/other/tests/gen-100-4-happyface.log
-    ./logs/other/tests/gen-200-1-jajaja.log
-    ./logs/other/tests/gen-100-10-BRAAAP.log
-    ./logs/other/tests/gen-100-10-FOOBAR.log
+    #./logs/other/tests/gen-99999-1-Motley_Crue.log
+    #./logs/other/tests/gen-400-4-shamrock.log
+    #./logs/other/tests/gen-100-4-happyface.log
+    #./logs/other/tests/gen-200-1-jajaja.log
+    #./logs/other/tests/gen-100-10-BRAAAP.log
+    #./logs/other/tests/gen-100-10-FOOBAR.log
 )
 
 if [[ ${#} -ge 1 ]]; then
@@ -59,7 +59,7 @@ if [[ ${#} -ge 1 ]]; then
     done
 fi
 
-OUT=./massif.out
+OUT=${DIROUT-.}/massif.out
 rm -f "${OUT}"
 
 COLS_=$(($(tput cols) - 10))
