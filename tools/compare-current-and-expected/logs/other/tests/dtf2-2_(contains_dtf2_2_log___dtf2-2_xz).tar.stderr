@@ -8,6 +8,7 @@ File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 375
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -45,6 +46,7 @@ Paths not processed    : 1
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 383
+Printed flushes        : 4
 Printed lines          : 3
 Printed syslines       : 2
 Printed evtx events    : 0

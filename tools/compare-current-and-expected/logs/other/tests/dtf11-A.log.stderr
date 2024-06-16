@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf11-A.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1273
+      flushes       : 13
       lines         : 13
       syslines      : 13
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1326
+Printed flushes        : 27
 Printed lines          : 13
 Printed syslines       : 13
 Printed evtx events    : 0

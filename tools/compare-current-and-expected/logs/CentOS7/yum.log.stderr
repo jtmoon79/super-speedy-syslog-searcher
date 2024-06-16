@@ -7,6 +7,7 @@ File: ./logs/CentOS7/yum.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 16271
+      flushes       : 142
       lines         : 145
       syslines      : 142
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 16840
+Printed flushes        : 285
 Printed lines          : 145
 Printed syslines       : 142
 Printed evtx events    : 0

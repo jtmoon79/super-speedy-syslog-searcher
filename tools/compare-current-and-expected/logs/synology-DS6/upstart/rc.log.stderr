@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/rc.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2413
+      flushes       : 16
       lines         : 19
       syslines      : 16
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2477
+Printed flushes        : 32
 Printed lines          : 19
 Printed syslines       : 16
 Printed evtx events    : 0

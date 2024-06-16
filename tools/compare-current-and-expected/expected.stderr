@@ -30,6 +30,7 @@ File: ./logs/CentOS7/x86_64/wtmp
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 997
+      flushes       : 3
       entries       : 3
   Processed:
       file size     : 25728 (0x6480) (bytes)
@@ -69,6 +70,7 @@ File: ./logs/CentOS7/yum.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 30046
+      flushes       : 142
       lines         : 145
       syslines      : 142
   Processed:
@@ -103,6 +105,7 @@ File: ./logs/cygwin/setup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 17520
+      flushes       : 76
       lines         : 77
       syslines      : 76
   Processed:
@@ -136,6 +139,7 @@ File: ./logs/cygwin/setup.log.full
       logmessagetype : syslog lines
   Printed:
       bytes         : 15471
+      flushes       : 13
       lines         : 77
       syslines      : 12
   Processed:
@@ -260,6 +264,7 @@ File: ./logs/Debian11/alternatives.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6442
+      flushes       : 15
       lines         : 15
       syslines      : 15
   Processed:
@@ -293,6 +298,7 @@ File: ./logs/Debian11/apache2/access.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1474
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -326,6 +332,7 @@ File: ./logs/Debian11/apache2/error.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1433
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -359,6 +366,7 @@ File: ./logs/Debian11/dpkg.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 10312
+      flushes       : 48
       lines         : 49
       syslines      : 48
   Processed:
@@ -392,6 +400,7 @@ File: ./logs/Debian11/kern.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6538
+      flushes       : 20
       lines         : 21
       syslines      : 20
   Processed:
@@ -426,6 +435,7 @@ File: ./logs/Debian11/messages
       logmessagetype : syslog lines
   Printed:
       bytes         : 6366
+      flushes       : 20
       lines         : 21
       syslines      : 20
   Processed:
@@ -460,6 +470,7 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1336
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -493,6 +504,7 @@ File: ./logs/Debian11/user.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6838
+      flushes       : 25
       lines         : 25
       syslines      : 25
   Processed:
@@ -527,6 +539,7 @@ File: ./logs/Debian9/alternatives.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5575
+      flushes       : 14
       lines         : 19
       syslines      : 14
   Processed:
@@ -560,6 +573,7 @@ File: ./logs/Debian9/apport.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 1633
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -593,6 +607,7 @@ File: ./logs/Debian9/apt/eipp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -625,6 +640,7 @@ File: ./logs/Debian9/apt/history.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1629
+      flushes       : 4
       lines         : 9
       syslines      : 4
   Processed:
@@ -658,6 +674,7 @@ File: ./logs/Debian9/aptitude.4
       logmessagetype : syslog lines
   Printed:
       bytes         : 3471
+      flushes       : 1
       lines         : 18
       syslines      : 1
   Processed:
@@ -691,6 +708,7 @@ File: ./logs/Debian9/apt/term.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 60638
+      flushes       : 12
       lines         : 292
       syslines      : 7
   Processed:
@@ -724,6 +742,7 @@ File: ./logs/Debian9/auth.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4564
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -758,6 +777,7 @@ File: ./logs/Debian9/boot.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -790,6 +810,7 @@ File: ./logs/Debian9/clamav/clamd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1754
+      flushes       : 8
       lines         : 8
       syslines      : 8
   Processed:
@@ -823,6 +844,7 @@ File: ./logs/Debian9/dpkg.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 3907
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -856,6 +878,7 @@ File: ./logs/Debian9/kern.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4431
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -890,6 +913,7 @@ File: ./logs/Debian9/messages.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 301
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -924,6 +948,7 @@ File: ./logs/Debian9/nginx/access.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 7049
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -957,6 +982,7 @@ File: ./logs/Debian9/nginx/access.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 7049
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -990,6 +1016,7 @@ File: ./logs/Debian9/nginx/error.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6802
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -1023,6 +1050,7 @@ File: ./logs/Debian9/nginx/error.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 6802
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -1056,6 +1084,7 @@ File: ./logs/Debian9/samba/log.192.168.0.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 454
+      flushes       : 1
       lines         : 2
       syslines      : 1
   Processed:
@@ -1089,6 +1118,7 @@ File: ./logs/Debian9/samba/log.192.168.0.2
       logmessagetype : syslog lines
   Printed:
       bytes         : 455
+      flushes       : 1
       lines         : 2
       syslines      : 1
   Processed:
@@ -1122,6 +1152,7 @@ File: ./logs/Debian9/samba/log.host1
       logmessagetype : syslog lines
   Printed:
       bytes         : 455
+      flushes       : 1
       lines         : 2
       syslines      : 1
   Processed:
@@ -1155,6 +1186,7 @@ File: ./logs/Debian9/samba/log.host2
       logmessagetype : syslog lines
   Printed:
       bytes         : 454
+      flushes       : 1
       lines         : 2
       syslines      : 1
   Processed:
@@ -1188,6 +1220,7 @@ File: ./logs/Debian9/samba/log.nmbd
       logmessagetype : syslog lines
   Printed:
       bytes         : 670
+      flushes       : 1
       lines         : 3
       syslines      : 1
   Processed:
@@ -1221,6 +1254,7 @@ File: ./logs/Debian9/samba/log.nmbd.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 4362
+      flushes       : 6
       lines         : 18
       syslines      : 6
   Processed:
@@ -1254,6 +1288,7 @@ File: ./logs/Debian9/samba/log.nmbd.old
       logmessagetype : syslog lines
   Printed:
       bytes         : 4362
+      flushes       : 6
       lines         : 18
       syslines      : 6
   Processed:
@@ -1287,6 +1322,7 @@ File: ./logs/Debian9/samba/log.smbd.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 449
+      flushes       : 1
       lines         : 2
       syslines      : 1
   Processed:
@@ -1320,6 +1356,7 @@ File: ./logs/Debian9/syslog
       logmessagetype : syslog lines
   Printed:
       bytes         : 4661
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -1354,6 +1391,7 @@ File: ./logs/Debian9/user.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 808
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -1388,6 +1426,7 @@ File: ./logs/Debian9/Xorg.0.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -1420,6 +1459,7 @@ File: ./logs/Debian9/Xorg.0.log.old
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -1452,6 +1492,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 7167
+      flushes       : 27
       lines         : 27
       syslines      : 27
   Processed:
@@ -1485,6 +1526,7 @@ File: ./logs/FedoraRemix29/dnf.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 107083
+      flushes       : 231
       lines         : 476
       syslines      : 226
   Processed:
@@ -1518,6 +1560,7 @@ File: ./logs/FedoraRemix29/hawkeye.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 8943
+      flushes       : 36
       lines         : 37
       syslines      : 36
   Processed:
@@ -1552,6 +1595,7 @@ File: ./logs/MinGW64/pacman.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 20795
+      flushes       : 102
       lines         : 102
       syslines      : 102
   Processed:
@@ -1699,6 +1743,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       fixedstructtype: Fs_Openbsd_x86_Utmp
   Printed:
       bytes         : 1487
+      flushes       : 7
       entries       : 7
   Processed:
       file size     : 5776 (0x1690) (bytes)
@@ -1726,6 +1771,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
       fixedstructtype: Fs_Openbsd_x86_Utmp
   Printed:
       bytes         : 1487
+      flushes       : 7
       entries       : 7
   Processed:
       file size     : 8208 (0x2010) (bytes)
@@ -1772,6 +1818,7 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4939
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -1805,6 +1852,7 @@ File: ./logs/OpenSUSE15/zypper.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5577
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -1838,6 +1886,7 @@ File: ./logs/OpenSUSE15/zypp/history
       logmessagetype : syslog lines
   Printed:
       bytes         : 10537
+      flushes       : 19
       lines         : 39
       syslines      : 19
   Processed:
@@ -1871,6 +1920,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1975
+      flushes       : 8
       lines         : 9
       syslines      : 8
   Processed:
@@ -1904,6 +1954,7 @@ File: ./logs/Orbi/tmp/dal_ash.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2163
+      flushes       : 8
       lines         : 9
       syslines      : 8
   Processed:
@@ -1937,6 +1988,7 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3971
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -1970,6 +2022,7 @@ File: ./logs/Orbi/tmp/UpAgent.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4677
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -2003,6 +2056,7 @@ File: ./logs/Orbi/tmp/xagent.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4407
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -2036,6 +2090,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       logmessagetype : syslog lines
   Printed:
       bytes         : 4676
+      flushes       : 17
       lines         : 19
       syslines      : 17
   Processed:
@@ -2069,6 +2124,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
       logmessagetype : syslog lines
   Printed:
       bytes         : 4676
+      flushes       : 17
       lines         : 19
       syslines      : 17
   Processed:
@@ -2102,6 +2158,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
       logmessagetype : syslog lines
   Printed:
       bytes         : 4947
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -2135,6 +2192,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
       logmessagetype : syslog lines
   Printed:
       bytes         : 4845
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -2168,6 +2226,7 @@ File: ./logs/other/tests/empty.7z
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -2204,6 +2263,7 @@ File: ./logs/other/tests/empty.log.zip
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -2236,6 +2296,7 @@ File: ./logs/other/tests/empty.zip
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -2268,6 +2329,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 9350
+      flushes       : 55
       lines         : 55
       syslines      : 55
   Processed:
@@ -2301,6 +2363,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 9679
+      flushes       : 55
       lines         : 55
       syslines      : 55
   Processed:
@@ -2334,6 +2397,7 @@ File: ./logs/other/tests/basic-basic-dt20.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3359
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -2367,6 +2431,7 @@ File: ./logs/other/tests/basic-dt1.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 168
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -2400,6 +2465,7 @@ File: ./logs/other/tests/basic-dt27.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4886
+      flushes       : 27
       lines         : 27
       syslines      : 27
   Processed:
@@ -2433,6 +2499,7 @@ File: ./logs/other/tests/basic-dt2b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 635
+      flushes       : 2
       lines         : 4
       syslines      : 2
   Processed:
@@ -2466,6 +2533,7 @@ File: ./logs/other/tests/basic-dt2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 336
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -2499,6 +2567,7 @@ File: ./logs/other/tests/basic-dt6.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1022
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -2532,6 +2601,7 @@ File: ./logs/other/tests/basic-dt-u.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 9260
+      flushes       : 27
       lines         : 54
       syslines      : 27
   Processed:
@@ -2565,6 +2635,7 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 10103
+      flushes       : 10
       lines         : 64
       syslines      : 10
   Processed:
@@ -2599,6 +2670,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       logmessagetype : syslog lines
   Printed:
       bytes         : 2404
+      flushes       : 13
       lines         : 13
       syslines      : 13
   Processed:
@@ -2634,6 +2706,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       logmessagetype : syslog lines
   Printed:
       bytes         : 675
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -2669,6 +2742,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       logmessagetype : syslog lines
   Printed:
       bytes         : 672
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -2704,6 +2778,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       logmessagetype : syslog lines
   Printed:
       bytes         : 675
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -2739,6 +2814,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       logmessagetype : syslog lines
   Printed:
       bytes         : 666
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -2773,6 +2849,7 @@ File: ./logs/other/tests/dtf10-10a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1482
+      flushes       : 8
       lines         : 8
       syslines      : 8
   Processed:
@@ -2806,6 +2883,7 @@ File: ./logs/other/tests/dtf10-10b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2322
+      flushes       : 8
       lines         : 13
       syslines      : 8
   Processed:
@@ -2839,6 +2917,7 @@ File: ./logs/other/tests/dtf11-A.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2404
+      flushes       : 13
       lines         : 13
       syslines      : 13
   Processed:
@@ -2872,6 +2951,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1479
+      flushes       : 4
       lines         : 8
       syslines      : 4
   Processed:
@@ -2905,6 +2985,7 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1301
+      flushes       : 4
       lines         : 7
       syslines      : 4
   Processed:
@@ -2938,6 +3019,7 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2226
+      flushes       : 8
       lines         : 12
       syslines      : 8
   Processed:
@@ -2971,6 +3053,7 @@ File: ./logs/other/tests/dtf13a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 675
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -3004,6 +3087,7 @@ File: ./logs/other/tests/dtf13b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 672
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -3037,6 +3121,7 @@ File: ./logs/other/tests/dtf13c.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 675
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -3070,6 +3155,7 @@ File: ./logs/other/tests/dtf13d.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 666
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -3103,6 +3189,7 @@ File: ./logs/other/tests/dtf14a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3136,6 +3223,7 @@ File: ./logs/other/tests/dtf15a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3169,6 +3257,7 @@ File: ./logs/other/tests/dtf15b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3202,6 +3291,7 @@ File: ./logs/other/tests/dtf16a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3235,6 +3325,7 @@ File: ./logs/other/tests/dtf16b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3268,6 +3359,7 @@ File: ./logs/other/tests/dtf16c.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3301,6 +3393,7 @@ File: ./logs/other/tests/dtf16d.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3334,6 +3427,7 @@ File: ./logs/other/tests/dtf16e.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3367,6 +3461,7 @@ File: ./logs/other/tests/dtf2-2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3400,6 +3495,7 @@ File: ./logs/other/tests/dtf2-2.bz2
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3435,6 +3531,7 @@ File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3469,6 +3566,7 @@ File: ./logs/other/tests/dtf2-2.gz
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3503,6 +3601,7 @@ File: ./logs/other/tests/dtf2-2.log.bz2
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3537,6 +3636,7 @@ File: ./logs/other/tests/dtf2-2.log.gz
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3571,6 +3671,7 @@ File: ./logs/other/tests/dtf2-2.log.lz
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3603,6 +3704,7 @@ File: ./logs/other/tests/dtf2-2.log.lz4
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3638,6 +3740,7 @@ File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3672,6 +3775,7 @@ File: ./logs/other/tests/dtf2-2.log.xz
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3706,6 +3810,7 @@ File: ./logs/other/tests/dtf2-2.lz
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -3738,6 +3843,7 @@ File: ./logs/other/tests/dtf2-2.lz4
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3773,6 +3879,7 @@ File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3807,6 +3914,7 @@ File: ./logs/other/tests/dtf2-2.xz
       logmessagetype : syslog lines
   Printed:
       bytes         : 504
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -3841,6 +3949,7 @@ File: ./logs/other/tests/dtf3-1.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 177
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -3874,6 +3983,7 @@ File: ./logs/other/tests/dtf3-2a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 364
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -3907,6 +4017,7 @@ File: ./logs/other/tests/dtf3-2b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 663
+      flushes       : 2
       lines         : 4
       syslines      : 2
   Processed:
@@ -3940,6 +4051,7 @@ File: ./logs/other/tests/dtf4-2a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 378
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -3973,6 +4085,7 @@ File: ./logs/other/tests/dtf4-2b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 528
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -4006,6 +4119,7 @@ File: ./logs/other/tests/dtf5-1.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 176
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -4039,6 +4153,7 @@ File: ./logs/other/tests/dtf5-2a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 356
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -4072,6 +4187,7 @@ File: ./logs/other/tests/dtf5-2b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 655
+      flushes       : 2
       lines         : 4
       syslines      : 2
   Processed:
@@ -4105,6 +4221,7 @@ File: ./logs/other/tests/dtf5-2c.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 954
+      flushes       : 2
       lines         : 6
       syslines      : 2
   Processed:
@@ -4138,6 +4255,7 @@ File: ./logs/other/tests/dtf5-3-LF-CR.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 781
+      flushes       : 2
       lines         : 4
       syslines      : 2
   Processed:
@@ -4171,6 +4289,7 @@ File: ./logs/other/tests/dtf5-3-r-n.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1087
+      flushes       : 3
       lines         : 6
       syslines      : 3
   Processed:
@@ -4204,6 +4323,7 @@ File: ./logs/other/tests/dtf5-6a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1082
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -4237,6 +4357,7 @@ File: ./logs/other/tests/dtf5-6a.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 1082
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -4270,6 +4391,7 @@ File: ./logs/other/tests/dtf5-6a.log.gz
       logmessagetype : syslog lines
   Printed:
       bytes         : 1082
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -4304,6 +4426,7 @@ File: ./logs/other/tests/dtf5-6a.log.old
       logmessagetype : syslog lines
   Printed:
       bytes         : 1082
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -4337,6 +4460,7 @@ File: ./logs/other/tests/dtf5-6a.log.xz
       logmessagetype : syslog lines
   Printed:
       bytes         : 1082
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -4371,6 +4495,7 @@ File: ./logs/other/tests/dtf5-6b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2025
+      flushes       : 6
       lines         : 12
       syslines      : 6
   Processed:
@@ -4404,6 +4529,7 @@ File: ./logs/other/tests/dtf5-6c.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5565
+      flushes       : 11
       lines         : 32
       syslines      : 11
   Processed:
@@ -4437,6 +4563,7 @@ File: ./logs/other/tests/dtf6z-1.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 929
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -4470,6 +4597,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -4503,6 +4631,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -4537,6 +4666,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -4569,6 +4699,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -4602,6 +4733,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -4637,6 +4769,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVEL
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -4671,6 +4804,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -4705,6 +4839,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4249
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -4738,6 +4873,7 @@ File: ./logs/other/tests/dtf7-5-LEVELS.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -4771,6 +4907,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -4803,6 +4940,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -4835,6 +4973,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -4867,6 +5006,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -4899,6 +5039,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zi
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -4931,6 +5072,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -4964,6 +5106,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -4999,6 +5142,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -5034,6 +5178,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -5069,6 +5214,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -5104,6 +5250,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -5139,6 +5286,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -5173,6 +5321,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -5205,6 +5354,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9, store all times).7z
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -5237,6 +5387,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -5269,6 +5420,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -5302,6 +5454,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -5337,6 +5490,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -5372,6 +5526,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -5407,6 +5562,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -5442,6 +5598,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -5477,6 +5634,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
       logmessagetype : syslog lines
   Printed:
       bytes         : 1012
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -5511,6 +5669,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -5543,6 +5702,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -5575,6 +5735,7 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4340
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -5608,6 +5769,7 @@ File: ./logs/other/tests/dtf9a-2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 774
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -5642,6 +5804,7 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -5674,6 +5837,7 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -5707,6 +5871,7 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4131
+      flushes       : 23
       lines         : 25
       syslines      : 23
   Processed:
@@ -5742,6 +5907,7 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4131
+      flushes       : 23
       lines         : 25
       syslines      : 23
   Processed:
@@ -5776,6 +5942,7 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6463
+      flushes       : 37
       lines         : 38
       syslines      : 37
   Processed:
@@ -5810,6 +5977,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4078
+      flushes       : 23
       lines         : 24
       syslines      : 23
   Processed:
@@ -5844,6 +6012,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4227
+      flushes       : 23
       lines         : 25
       syslines      : 23
   Processed:
@@ -5878,6 +6047,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2726
+      flushes       : 16
       lines         : 16
       syslines      : 16
   Processed:
@@ -5912,6 +6082,7 @@ File: ./logs/other/tests/dtf-varying-10.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1776
+      flushes       : 4
       lines         : 10
       syslines      : 4
   Processed:
@@ -5945,6 +6116,7 @@ File: ./logs/other/tests/dt-mix1.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3528
+      flushes       : 10
       lines         : 21
       syslines      : 10
   Processed:
@@ -5978,6 +6150,7 @@ File: ./logs/other/tests/invalid.gz
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6026,6 +6199,7 @@ File: ./logs/other/tests/invalid2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 403
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -6059,6 +6233,7 @@ File: ./logs/other/tests/invalid3.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 409
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -6092,6 +6267,7 @@ File: ./logs/other/tests/invalid4.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 405
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -6125,6 +6301,7 @@ File: ./logs/other/tests/simple-10.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6157,6 +6334,7 @@ File: ./logs/other/tests/simple-10s.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6189,6 +6367,7 @@ File: ./logs/other/tests/simple-11.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6221,6 +6400,7 @@ File: ./logs/other/tests/simple-11s_b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6255,6 +6435,7 @@ File: ./logs/other/tests/simple-11s.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6287,6 +6468,7 @@ File: ./logs/other/tests/simple-12.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 160
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -6320,6 +6502,7 @@ File: ./logs/other/tests/simple-13.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6352,6 +6535,7 @@ File: ./logs/other/tests/simple-14.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 162
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -6385,6 +6569,7 @@ File: ./logs/other/tests/simple-14s_b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6419,6 +6604,7 @@ File: ./logs/other/tests/simple-14s_.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6451,6 +6637,7 @@ File: ./logs/other/tests/simple-15.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 163
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -6484,6 +6671,7 @@ File: ./logs/other/tests/simple-16.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 164
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -6517,6 +6705,7 @@ File: ./logs/other/tests/simple-1.log.gz
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6550,6 +6739,7 @@ File: ./logs/other/tests/simple-1.log.lz4
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6583,6 +6773,7 @@ File: ./logs/other/tests/simple-1.log.xz
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6617,6 +6808,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6651,6 +6843,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6684,6 +6877,7 @@ File: ./logs/other/tests/simple-6.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6716,6 +6910,7 @@ File: ./logs/other/tests/simple-7.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6748,6 +6943,7 @@ File: ./logs/other/tests/simple-8.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6780,6 +6976,7 @@ File: ./logs/other/tests/simple-9.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6812,6 +7009,7 @@ File: ./logs/other/tests/unknown
       logmessagetype : syslog lines
   Printed:
       bytes         : 784
+      flushes       : 4
       lines         : 4
       syslines      : 4
   Processed:
@@ -6845,6 +7043,7 @@ File: ./logs/other/tests/zero100.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6877,6 +7076,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 8740
+      flushes       : 30
       lines         : 33
       syslines      : 30
   Processed:
@@ -6910,6 +7110,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -6942,6 +7143,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
+      flushes       : 227
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -6955,6 +7157,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
+      flushes       : 227
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -6969,6 +7172,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Micro
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
+      flushes       : 227
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -6982,6 +7186,7 @@ File: ./logs/programs/flask/server.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -7015,6 +7220,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
+      flushes       : 3
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7029,6 +7235,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
+      flushes       : 3
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7043,6 +7250,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
+      flushes       : 3
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7057,6 +7265,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
+      flushes       : 3
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7071,6 +7280,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
+      flushes       : 3
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7086,6 +7296,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
+      flushes       : 3
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7100,6 +7311,7 @@ File: ./logs/programs/pacman/pacman.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 40943
+      flushes       : 195
       lines         : 195
       syslines      : 195
   Processed:
@@ -7133,6 +7345,7 @@ File: ./logs/programs/proftpd/controls.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1558
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -7166,6 +7379,7 @@ File: ./logs/programs/proftpd/proftpd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4886
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -7199,6 +7413,7 @@ File: ./logs/programs/proftpd/xferlog
       logmessagetype : syslog lines
   Printed:
       bytes         : 723
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -7232,6 +7447,7 @@ File: ./logs/programs/tomcat/catalina.out
       logmessagetype : syslog lines
   Printed:
       bytes         : 4940
+      flushes       : 7
       lines         : 21
       syslines      : 7
   Processed:
@@ -7265,6 +7481,7 @@ File: ./logs/programs/tomcat/catalina-access.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 728
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -7307,6 +7524,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 1997
+      flushes       : 6
       entries       : 6
   Processed:
       file size     : 2304 (0x900) (bytes)
@@ -7362,6 +7580,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 1997
+      flushes       : 6
       entries       : 6
   Processed:
       file size compressed  : 220 (0xDC) (bytes)
@@ -7388,6 +7607,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -7423,6 +7643,7 @@ File: ./logs/programs/utmp/host-entry6_1_(b1).wtmp.tar|host-entry6.wtmp
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 1997
+      flushes       : 6
       entries       : 6
   Processed:
       file size archive   : 5120 (0x1400) (bytes)
@@ -7457,6 +7678,7 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       logmessagetype : syslog lines
   Printed:
       bytes         : 479
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -7490,6 +7712,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2432
+      flushes       : 8
       lines         : 10
       syslines      : 8
   Processed:
@@ -7523,6 +7746,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1250
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -7556,6 +7780,7 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5276
+      flushes       : 18
       lines         : 21
       syslines      : 18
   Processed:
@@ -7589,6 +7814,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6118
+      flushes       : 18
       lines         : 21
       syslines      : 18
   Processed:
@@ -7622,6 +7848,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4817
+      flushes       : 20
       lines         : 21
       syslines      : 20
   Processed:
@@ -7655,6 +7882,7 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4607
+      flushes       : 18
       lines         : 21
       syslines      : 18
   Processed:
@@ -7688,6 +7916,7 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2306
+      flushes       : 10
       lines         : 10
       syslines      : 10
   Processed:
@@ -7721,6 +7950,7 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 11217
+      flushes       : 45
       lines         : 45
       syslines      : 45
   Processed:
@@ -7754,6 +7984,7 @@ File: ./logs/RancherOS-1.5.8/docker.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 18944
+      flushes       : 66
       lines         : 66
       syslines      : 66
   Processed:
@@ -7787,6 +8018,7 @@ File: ./logs/RancherOS-1.5.8/messages
       logmessagetype : syslog lines
   Printed:
       bytes         : 61878
+      flushes       : 231
       lines         : 234
       syslines      : 231
   Processed:
@@ -7821,6 +8053,7 @@ File: ./logs/RancherOS-1.5.8/syslog
       logmessagetype : syslog lines
   Printed:
       bytes         : 2747
+      flushes       : 10
       lines         : 10
       syslines      : 10
   Processed:
@@ -7855,6 +8088,7 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5383
+      flushes       : 1
       lines         : 20
       syslines      : 1
   Processed:
@@ -7888,6 +8122,7 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4244
+      flushes       : 10
       lines         : 10
       syslines      : 10
   Processed:
@@ -7922,6 +8157,7 @@ File: ./logs/RockyLinux9/cron
       logmessagetype : syslog lines
   Printed:
       bytes         : 29700
+      flushes       : 116
       lines         : 116
       syslines      : 116
   Processed:
@@ -7956,6 +8192,7 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 31543
+      flushes       : 104
       lines         : 104
       syslines      : 104
   Processed:
@@ -7989,6 +8226,7 @@ File: ./logs/RockyLinux9/dnf.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 169897
+      flushes       : 677
       lines         : 763
       syslines      : 677
   Processed:
@@ -8022,6 +8260,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 8172
+      flushes       : 36
       lines         : 39
       syslines      : 36
   Processed:
@@ -8055,6 +8294,7 @@ File: ./logs/RockyLinux9/hawkey.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5823
+      flushes       : 28
       lines         : 28
       syslines      : 28
   Processed:
@@ -8088,6 +8328,7 @@ File: ./logs/RockyLinux9/messages
       logmessagetype : syslog lines
   Printed:
       bytes         : 616072
+      flushes       : 2432
       lines         : 2432
       syslines      : 2432
   Processed:
@@ -8122,6 +8363,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       logmessagetype : syslog lines
   Printed:
       bytes         : 10705
+      flushes       : 37
       lines         : 37
       syslines      : 37
   Processed:
@@ -8156,6 +8398,7 @@ File: ./logs/RockyLinux9/nginx/access.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1144
+      flushes       : 4
       lines         : 4
       syslines      : 4
   Processed:
@@ -8189,6 +8432,7 @@ File: ./logs/RockyLinux9/nginx/error.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 757
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -8222,6 +8466,7 @@ File: ./logs/RockyLinux9/secure
       logmessagetype : syslog lines
   Printed:
       bytes         : 154266
+      flushes       : 545
       lines         : 546
       syslines      : 545
   Processed:
@@ -8256,6 +8501,7 @@ File: ./logs/synology-DS6/apparmor.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4554
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8289,6 +8535,7 @@ File: ./logs/synology-DS6/auth.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4979
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8322,6 +8569,7 @@ File: ./logs/synology-DS6/checker.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4523
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8355,6 +8603,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1849
+      flushes       : 7
       lines         : 7
       syslines      : 7
   Processed:
@@ -8389,6 +8638,7 @@ File: ./logs/synology-DS6/datascrubbing.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5218
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8422,6 +8672,7 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       logmessagetype : syslog lines
   Printed:
       bytes         : 173
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -8455,6 +8706,7 @@ File: ./logs/synology-DS6/disk.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4997
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8488,6 +8740,7 @@ File: ./logs/synology-DS6/dmesg
       logmessagetype : syslog lines
   Printed:
       bytes         : 4520
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8521,6 +8774,7 @@ File: ./logs/synology-DS6/downloadstation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4999
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8554,6 +8808,7 @@ File: ./logs/synology-DS6/dpkg.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4268
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8587,6 +8842,7 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4223
+      flushes       : 5
       lines         : 19
       syslines      : 5
   Processed:
@@ -8620,6 +8876,7 @@ File: ./logs/synology-DS6/esynoscheduler.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4439
+      flushes       : 3
       lines         : 19
       syslines      : 3
   Processed:
@@ -8653,6 +8910,7 @@ File: ./logs/synology-DS6/fsck/root.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 11735
+      flushes       : 3
       lines         : 66
       syslines      : 3
   Processed:
@@ -8686,6 +8944,7 @@ File: ./logs/synology-DS6/ha.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5369
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8719,6 +8978,7 @@ File: ./logs/synology-DS6/iscsi.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5120
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8752,6 +9012,7 @@ File: ./logs/synology-DS6/kern.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5076
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8785,6 +9046,7 @@ File: ./logs/synology-DS6/messages
       logmessagetype : syslog lines
   Printed:
       bytes         : 6403
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8818,6 +9080,7 @@ File: ./logs/synology-DS6/opentftp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4282
+      flushes       : 21
       lines         : 21
       syslines      : 21
   Processed:
@@ -8851,6 +9114,7 @@ File: ./logs/synology-DS6/packages/CloudSync.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4413
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8884,6 +9148,7 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3768
+      flushes       : 1
       lines         : 19
       syslines      : 1
   Processed:
@@ -8917,6 +9182,7 @@ File: ./logs/synology-DS6/packages/FileStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4678
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -8950,6 +9216,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4464
+      flushes       : 3
       lines         : 19
       syslines      : 3
   Processed:
@@ -8983,6 +9250,7 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4412
+      flushes       : 16
       lines         : 19
       syslines      : 16
   Processed:
@@ -9016,6 +9284,7 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4282
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -9049,6 +9318,7 @@ File: ./logs/synology-DS6/packages/LogCenter.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3735
+      flushes       : 5
       lines         : 19
       syslines      : 5
   Processed:
@@ -9082,6 +9352,7 @@ File: ./logs/synology-DS6/packages/Node.js_v4.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4551
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9115,6 +9386,7 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4847
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9148,6 +9420,7 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3863
+      flushes       : 7
       lines         : 19
       syslines      : 7
   Processed:
@@ -9181,6 +9454,7 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4154
+      flushes       : 3
       lines         : 19
       syslines      : 3
   Processed:
@@ -9214,6 +9488,7 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4648
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9247,6 +9522,7 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4387
+      flushes       : 5
       lines         : 19
       syslines      : 5
   Processed:
@@ -9280,6 +9556,7 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4316
+      flushes       : 13
       lines         : 19
       syslines      : 13
   Processed:
@@ -9313,6 +9590,7 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3955
+      flushes       : 3
       lines         : 19
       syslines      : 3
   Processed:
@@ -9346,6 +9624,7 @@ File: ./logs/synology-DS6/packages/USBCopy.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4398
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9379,6 +9658,7 @@ File: ./logs/synology-DS6/postgresql.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5138
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9412,6 +9692,7 @@ File: ./logs/synology-DS6/router.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5116
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9445,6 +9726,7 @@ File: ./logs/synology-DS6/samba/log.nmbd
       logmessagetype : syslog lines
   Printed:
       bytes         : 3875
+      flushes       : 8
       lines         : 19
       syslines      : 8
   Processed:
@@ -9478,6 +9760,7 @@ File: ./logs/synology-DS6/samba/log.smbd
       logmessagetype : syslog lines
   Printed:
       bytes         : 3903
+      flushes       : 8
       lines         : 19
       syslines      : 8
   Processed:
@@ -9511,6 +9794,7 @@ File: ./logs/synology-DS6/scemd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5161
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9544,6 +9828,7 @@ File: ./logs/synology-DS6/sfdisk.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4653
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9577,6 +9862,7 @@ File: ./logs/synology-DS6/smart_extend_log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1450
+      flushes       : 4
       lines         : 8
       syslines      : 4
   Processed:
@@ -9610,6 +9896,7 @@ File: ./logs/synology-DS6/smart_quick_log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1450
+      flushes       : 4
       lines         : 8
       syslines      : 4
   Processed:
@@ -9643,6 +9930,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5165
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9677,6 +9965,7 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4907
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9711,6 +10000,7 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4945
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9745,6 +10035,7 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4877
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9779,6 +10070,7 @@ File: ./logs/synology-DS6/synobackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3774
+      flushes       : 14
       lines         : 15
       syslines      : 14
   Processed:
@@ -9812,6 +10104,7 @@ File: ./logs/synology-DS6/synocmsclient.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3420
+      flushes       : 11
       lines         : 19
       syslines      : 11
   Processed:
@@ -9845,6 +10138,7 @@ File: ./logs/synology-DS6/synocontentextractd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6438
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9878,6 +10172,7 @@ File: ./logs/synology-DS6/synocrond-execute.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -9910,6 +10205,7 @@ File: ./logs/synology-DS6/synocrond.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3267
+      flushes       : 11
       lines         : 11
       syslines      : 11
   Processed:
@@ -9943,6 +10239,7 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6277
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -9976,6 +10273,7 @@ File: ./logs/synology-DS6/synoindex.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2619
+      flushes       : 8
       lines         : 8
       syslines      : 8
   Processed:
@@ -10009,6 +10307,7 @@ File: ./logs/synology-DS6/synolog/synobackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4072
+      flushes       : 15
       lines         : 16
       syslines      : 15
   Processed:
@@ -10042,6 +10341,7 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4948
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10075,6 +10375,7 @@ File: ./logs/synology-DS6/synologydrive.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5025
+      flushes       : 17
       lines         : 18
       syslines      : 17
   Processed:
@@ -10108,6 +10409,7 @@ File: ./logs/synology-DS6/synophoto.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5594
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10141,6 +10443,7 @@ File: ./logs/synology-DS6/synopkg.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4919
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -10174,6 +10477,7 @@ File: ./logs/synology-DS6/synopoweroff.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5614
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10207,6 +10511,7 @@ File: ./logs/synology-DS6/synorelayd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3906
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10240,6 +10545,7 @@ File: ./logs/synology-DS6/synoreport.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3832
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10273,6 +10579,7 @@ File: ./logs/synology-DS6/synoscheduler.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4602
+      flushes       : 18
       lines         : 18
       syslines      : 18
   Processed:
@@ -10306,6 +10613,7 @@ File: ./logs/synology-DS6/synoservice.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4756
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10339,6 +10647,7 @@ File: ./logs/synology-DS6/synotifyd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4346
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10372,6 +10681,7 @@ File: ./logs/synology-DS6/synoupdate.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4043
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10405,6 +10715,7 @@ File: ./logs/synology-DS6/syslog.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5038
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10438,6 +10749,7 @@ File: ./logs/synology-DS6/sysnotify.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5807
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10471,6 +10783,7 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4299
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10504,6 +10817,7 @@ File: ./logs/synology-DS6/upstart/apparmor.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3876
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10537,6 +10851,7 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1592
+      flushes       : 8
       lines         : 8
       syslines      : 8
   Processed:
@@ -10570,6 +10885,7 @@ File: ./logs/synology-DS6/upstart/avahi.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4389
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10603,6 +10919,7 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1381
+      flushes       : 5
       lines         : 6
       syslines      : 5
   Processed:
@@ -10636,6 +10953,7 @@ File: ./logs/synology-DS6/upstart/crond.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3778
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10669,6 +10987,7 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 32017
+      flushes       : 5
       lines         : 178
       syslines      : 3
   Processed:
@@ -10702,6 +11021,7 @@ File: ./logs/synology-DS6/upstart/dbus-system.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4059
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10735,6 +11055,7 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3459
+      flushes       : 12
       lines         : 12
       syslines      : 12
   Processed:
@@ -10768,6 +11089,7 @@ File: ./logs/synology-DS6/upstart/DiskHealthCk.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 488
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -10801,6 +11123,7 @@ File: ./logs/synology-DS6/upstart/dsm-services.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4472
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10834,6 +11157,7 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4395
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10867,6 +11191,7 @@ File: ./logs/synology-DS6/upstart/eaupgrade.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4522
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -10900,6 +11225,7 @@ File: ./logs/synology-DS6/upstart/findhostd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4103
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -10933,6 +11259,7 @@ File: ./logs/synology-DS6/upstart/ftpd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3712
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -10966,6 +11293,7 @@ File: ./logs/synology-DS6/upstart/hotplugd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1152
+      flushes       : 4
       lines         : 4
       syslines      : 4
   Processed:
@@ -10999,6 +11327,7 @@ File: ./logs/synology-DS6/upstart/inetd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3527
+      flushes       : 11
       lines         : 19
       syslines      : 11
   Processed:
@@ -11032,6 +11361,7 @@ File: ./logs/synology-DS6/upstart/iptablesTc.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4085
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11065,6 +11395,7 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4046
+      flushes       : 17
       lines         : 19
       syslines      : 17
   Processed:
@@ -11098,6 +11429,7 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3905
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11131,6 +11463,7 @@ File: ./logs/synology-DS6/upstart/is_plugind.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5305
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11164,6 +11497,7 @@ File: ./logs/synology-DS6/upstart/job-monitor-handler.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3762
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11197,6 +11531,7 @@ File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4788
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11230,6 +11565,7 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3842
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -11263,6 +11599,7 @@ File: ./logs/synology-DS6/upstart/mkcert.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4224
+      flushes       : 15
       lines         : 19
       syslines      : 15
   Processed:
@@ -11296,6 +11633,7 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2500
+      flushes       : 8
       lines         : 12
       syslines      : 8
   Processed:
@@ -11329,6 +11667,7 @@ File: ./logs/synology-DS6/upstart/netatalk.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3662
+      flushes       : 17
       lines         : 19
       syslines      : 17
   Processed:
@@ -11362,6 +11701,7 @@ File: ./logs/synology-DS6/upstart/network.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3895
+      flushes       : 7
       lines         : 19
       syslines      : 7
   Processed:
@@ -11395,6 +11735,7 @@ File: ./logs/synology-DS6/upstart/nfsd-adapter.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4005
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11428,6 +11769,7 @@ File: ./logs/synology-DS6/upstart/nginx.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3973
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11461,6 +11803,7 @@ File: ./logs/synology-DS6/upstart/nmbd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3908
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11494,6 +11837,7 @@ File: ./logs/synology-DS6/upstart/opentftp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3563
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11527,6 +11871,7 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3900
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11560,6 +11905,7 @@ File: ./logs/synology-DS6/upstart/pgsql.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4214
+      flushes       : 15
       lines         : 19
       syslines      : 15
   Processed:
@@ -11593,6 +11939,7 @@ File: ./logs/synology-DS6/upstart/php_timezone_update.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3686
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11626,6 +11973,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4308
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11659,6 +12007,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4113
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11692,6 +12041,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4303
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11725,6 +12075,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4071
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11758,6 +12109,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3981
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11791,6 +12143,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4078
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11824,6 +12177,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4054
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11857,6 +12211,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v4.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3940
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11890,6 +12245,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4635
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11923,6 +12279,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4001
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11956,6 +12313,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4059
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -11989,6 +12347,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4090
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12022,6 +12381,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4044
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12055,6 +12415,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4184
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12088,6 +12449,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4076
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12121,6 +12483,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4057
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12154,6 +12517,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-USBCopy.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4277
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12187,6 +12551,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4954
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -12220,6 +12585,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4136
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12253,6 +12619,7 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2760
+      flushes       : 4
       lines         : 14
       syslines      : 4
   Processed:
@@ -12286,6 +12653,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
       logmessagetype : syslog lines
   Printed:
       bytes         : 3888
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12319,6 +12687,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
       logmessagetype : syslog lines
   Printed:
       bytes         : 3848
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12352,6 +12721,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer
       logmessagetype : syslog lines
   Printed:
       bytes         : 3876
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12385,6 +12755,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4410
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12418,6 +12789,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4418
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12451,6 +12823,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-concept.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4346
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12484,6 +12857,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4475
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12517,6 +12891,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4334
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12550,6 +12925,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4361
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12583,6 +12959,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4429
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12616,6 +12993,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4437
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12649,6 +13027,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4513
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12682,6 +13061,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4399
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12715,6 +13095,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumb.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4285
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12748,6 +13129,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4532
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12781,6 +13163,7 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4934
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12814,6 +13197,7 @@ File: ./logs/synology-DS6/upstart/pppoerelay.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4244
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12847,6 +13231,7 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 245
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -12880,6 +13265,7 @@ File: ./logs/synology-DS6/upstart/rc.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3990
+      flushes       : 16
       lines         : 19
       syslines      : 16
   Processed:
@@ -12913,6 +13299,7 @@ File: ./logs/synology-DS6/upstart/rc-sysinit.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4384
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -12946,6 +13333,7 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3772
+      flushes       : 1
       lines         : 19
       syslines      : 1
   Processed:
@@ -12979,6 +13367,7 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3990
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13012,6 +13401,7 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3716
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13045,6 +13435,7 @@ File: ./logs/synology-DS6/upstart/scemd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4098
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13078,6 +13469,7 @@ File: ./logs/synology-DS6/upstart/scrubbing-conf-sync.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4731
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13111,6 +13503,7 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1359
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -13144,6 +13537,7 @@ File: ./logs/synology-DS6/upstart/smbd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4197
+      flushes       : 16
       lines         : 19
       syslines      : 16
   Processed:
@@ -13177,6 +13571,7 @@ File: ./logs/synology-DS6/upstart/sshd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3572
+      flushes       : 6
       lines         : 19
       syslines      : 6
   Processed:
@@ -13210,6 +13605,7 @@ File: ./logs/synology-DS6/upstart/ssh-sftp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3774
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13243,6 +13639,7 @@ File: ./logs/synology-DS6/upstart/ssh-shell.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3906
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13276,6 +13673,7 @@ File: ./logs/synology-DS6/upstart/syno-auth-check.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3757
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13309,6 +13707,7 @@ File: ./logs/synology-DS6/upstart/synocgid.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3717
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13342,6 +13741,7 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4845
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13375,6 +13775,7 @@ File: ./logs/synology-DS6/upstart/synoconfd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4173
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13408,6 +13809,7 @@ File: ./logs/synology-DS6/upstart/synocrond.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3659
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13441,6 +13843,7 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3971
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13474,6 +13877,7 @@ File: ./logs/synology-DS6/upstart/synoindexd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3952
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13507,6 +13911,7 @@ File: ./logs/synology-DS6/upstart/synologand.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3773
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13540,6 +13945,7 @@ File: ./logs/synology-DS6/upstart/synologd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3741
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13573,6 +13979,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3167
+      flushes       : 16
       lines         : 16
       syslines      : 16
   Processed:
@@ -13606,6 +14013,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3764
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13639,6 +14047,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3765
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13672,6 +14081,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1802
+      flushes       : 9
       lines         : 9
       syslines      : 9
   Processed:
@@ -13705,6 +14115,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1364
+      flushes       : 7
       lines         : 7
       syslines      : 7
   Processed:
@@ -13738,6 +14149,7 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3165
+      flushes       : 15
       lines         : 15
       syslines      : 15
   Processed:
@@ -13771,6 +14183,7 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3408
+      flushes       : 16
       lines         : 16
       syslines      : 16
   Processed:
@@ -13804,6 +14217,7 @@ File: ./logs/synology-DS6/upstart/synomount.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3631
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -13837,6 +14251,7 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4104
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13870,6 +14285,7 @@ File: ./logs/synology-DS6/upstart/synonetd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3706
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -13903,6 +14319,7 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4361
+      flushes       : 15
       lines         : 19
       syslines      : 15
   Processed:
@@ -13936,6 +14353,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3857
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -13969,6 +14387,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4640
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14002,6 +14421,7 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5056
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -14035,6 +14455,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4522
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14068,6 +14489,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3705
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14101,6 +14523,7 @@ File: ./logs/synology-DS6/upstart/syno-share-check.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4220
+      flushes       : 16
       lines         : 19
       syslines      : 16
   Processed:
@@ -14134,6 +14557,7 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2974
+      flushes       : 13
       lines         : 13
       syslines      : 13
   Processed:
@@ -14167,6 +14591,7 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 409
+      flushes       : 1
       lines         : 2
       syslines      : 1
   Processed:
@@ -14200,6 +14625,7 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3782
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14233,6 +14659,7 @@ File: ./logs/synology-DS6/upstart/synostoraged.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4080
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14266,6 +14693,7 @@ File: ./logs/synology-DS6/upstart/synovpnclient.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3686
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14299,6 +14727,7 @@ File: ./logs/synology-DS6/upstart/synowifid-handler.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4546
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14332,6 +14761,7 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3760
+      flushes       : 2
       lines         : 19
       syslines      : 2
   Processed:
@@ -14365,6 +14795,7 @@ File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4031
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14398,6 +14829,7 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3950
+      flushes       : 5
       lines         : 19
       syslines      : 5
   Processed:
@@ -14431,6 +14863,7 @@ File: ./logs/synology-DS6/upstart/syslog-ng.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4503
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14464,6 +14897,7 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3685
+      flushes       : 16
       lines         : 19
       syslines      : 16
   Processed:
@@ -14497,6 +14931,7 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3911
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14530,6 +14965,7 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3695
+      flushes       : 15
       lines         : 19
       syslines      : 15
   Processed:
@@ -14563,6 +14999,7 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3848
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14596,6 +15033,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3561
+      flushes       : 11
       lines         : 19
       syslines      : 11
   Processed:
@@ -14629,6 +15067,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3813
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -14662,6 +15101,7 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4001
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -14695,6 +15135,7 @@ File: ./logs/synology-DS6/usbcopyd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4685
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -14749,6 +15190,7 @@ File: ./logs/Ubuntu18/apt/history.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1399
+      flushes       : 2
       lines         : 5
       syslines      : 2
   Processed:
@@ -14782,6 +15224,7 @@ File: ./logs/Ubuntu18/apt/term.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4209
+      flushes       : 1
       lines         : 18
       syslines      : 1
   Processed:
@@ -14815,6 +15258,7 @@ File: ./logs/Ubuntu18/cups/access_log
       logmessagetype : syslog lines
   Printed:
       bytes         : 520
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -14848,6 +15292,7 @@ File: ./logs/Ubuntu18/cups/access_log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 1537
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -14881,6 +15326,7 @@ File: ./logs/Ubuntu18/cups/error_log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 268
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -14914,6 +15360,7 @@ File: ./logs/Ubuntu18/fontconfig.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -14946,6 +15393,7 @@ File: ./logs/Ubuntu18/gpu-manager.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -14978,6 +15426,7 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -15010,6 +15459,7 @@ File: ./logs/Ubuntu18/installer/initial-status
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -15042,6 +15492,7 @@ File: ./logs/Ubuntu18/installer/media-info
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -15074,6 +15525,7 @@ File: ./logs/Ubuntu18/installer/telemetry
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -15106,6 +15558,7 @@ File: ./logs/Ubuntu18/kern.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 4483
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -15140,6 +15593,7 @@ File: ./logs/Ubuntu18/nvidia-installer.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3480
+      flushes       : 1
       lines         : 18
       syslines      : 1
   Processed:
@@ -15173,6 +15627,7 @@ File: ./logs/Ubuntu18/prime-offload.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -15205,6 +15660,7 @@ File: ./logs/Ubuntu18/prime-supported.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -15237,6 +15693,7 @@ File: ./logs/Ubuntu18/samba/log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3830
+      flushes       : 6
       lines         : 19
       syslines      : 6
   Processed:
@@ -15270,6 +15727,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 4023
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15303,6 +15761,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.2
       logmessagetype : syslog lines
   Printed:
       bytes         : 3973
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15336,6 +15795,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
       logmessagetype : syslog lines
   Printed:
       bytes         : 4023
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15369,6 +15829,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
       logmessagetype : syslog lines
   Printed:
       bytes         : 4023
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15402,6 +15863,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.5
       logmessagetype : syslog lines
   Printed:
       bytes         : 3961
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15435,6 +15897,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
       logmessagetype : syslog lines
   Printed:
       bytes         : 3970
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15468,6 +15931,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.7
       logmessagetype : syslog lines
   Printed:
       bytes         : 3970
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15501,6 +15965,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd
       logmessagetype : syslog lines
   Printed:
       bytes         : 4558
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15534,6 +15999,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 4236
+      flushes       : 7
       lines         : 19
       syslines      : 7
   Processed:
@@ -15567,6 +16033,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
       logmessagetype : syslog lines
   Printed:
       bytes         : 4568
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -15600,6 +16067,7 @@ File: ./logs/Ubuntu18/samba/log.smbd
       logmessagetype : syslog lines
   Printed:
       bytes         : 3704
+      flushes       : 4
       lines         : 19
       syslines      : 4
   Processed:
@@ -15633,6 +16101,7 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 3953
+      flushes       : 7
       lines         : 19
       syslines      : 7
   Processed:
@@ -15666,6 +16135,7 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5493
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -15699,6 +16169,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5493
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -15732,6 +16203,7 @@ File: ./logs/Ubuntu18/vmware-installer
       logmessagetype : syslog lines
   Printed:
       bytes         : 4208
+      flushes       : 18
       lines         : 18
       syslines      : 18
   Processed:
@@ -15765,6 +16237,7 @@ File: ./logs/Ubuntu18/xrdp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4147
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -15805,6 +16278,7 @@ File: ./logs/Ubuntu22/alternatives.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 8600
+      flushes       : 13
       lines         : 13
       syslines      : 13
   Processed:
@@ -15838,6 +16312,7 @@ File: ./logs/Ubuntu22/apport.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 1264
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -15871,6 +16346,7 @@ File: ./logs/Ubuntu22/apt/eipp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -15903,6 +16379,7 @@ File: ./logs/Ubuntu22/apt/history.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3320
+      flushes       : 5
       lines         : 13
       syslines      : 5
   Processed:
@@ -15936,6 +16413,7 @@ File: ./logs/Ubuntu22/apt/term.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3304
+      flushes       : 1
       lines         : 13
       syslines      : 1
   Processed:
@@ -15969,6 +16447,7 @@ File: ./logs/Ubuntu22/auth.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3555
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16003,6 +16482,7 @@ File: ./logs/Ubuntu22/auth.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 3504
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16037,6 +16517,7 @@ File: ./logs/Ubuntu22/cloud-init.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3528
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16070,6 +16551,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3245
+      flushes       : 1
       lines         : 13
       syslines      : 1
   Processed:
@@ -16103,6 +16585,7 @@ File: ./logs/Ubuntu22/dmesg
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -16135,6 +16618,7 @@ File: ./logs/Ubuntu22/dmesg.0
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -16167,6 +16651,7 @@ File: ./logs/Ubuntu22/dpkg.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3096
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16200,6 +16685,7 @@ File: ./logs/Ubuntu22/dpkg.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 3023
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16233,6 +16719,7 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -16265,6 +16752,7 @@ File: ./logs/Ubuntu22/kern.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4955
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16299,6 +16787,7 @@ File: ./logs/Ubuntu22/kern.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -16331,6 +16820,7 @@ File: ./logs/Ubuntu22/syslog
       logmessagetype : syslog lines
   Printed:
       bytes         : 3558
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16365,6 +16855,7 @@ File: ./logs/Ubuntu22/syslog.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 3330
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16401,6 +16892,7 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 1702
+      flushes       : 5
       entries       : 5
   Processed:
       file size     : 2304 (0x900) (bytes)
@@ -16428,6 +16920,7 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 24781
+      flushes       : 76
       entries       : 76
   Processed:
       file size     : 35712 (0x8B80) (bytes)
@@ -16453,6 +16946,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2724
+      flushes       : 12
       lines         : 12
       syslines      : 12
   Processed:
@@ -16486,6 +16980,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 3177
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16519,6 +17014,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3501
+      flushes       : 1
       lines         : 14
       syslines      : 1
   Processed:
@@ -16552,6 +17048,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3330
+      flushes       : 14
       lines         : 14
       syslines      : 14
   Processed:
@@ -16585,6 +17082,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 43093
+      flushes       : 152
       lines         : 159
       syslines      : 152
   Processed:
@@ -16618,6 +17116,7 @@ File: ./logs/Windows10Pro/comsetup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -16650,6 +17149,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 8217
+      flushes       : 5
       lines         : 47
       syslines      : 5
   Processed:
@@ -16683,6 +17183,7 @@ File: ./logs/Windows10Pro/DirectX.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -16715,6 +17216,7 @@ File: ./logs/Windows10Pro/DISM/dism.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 31863
+      flushes       : 94
       lines         : 111
       syslines      : 94
   Processed:
@@ -16748,6 +17250,7 @@ File: ./logs/Windows10Pro/DtcInstall.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -16780,6 +17283,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 8249
+      flushes       : 4
       lines         : 41
       syslines      : 4
   Processed:
@@ -16813,6 +17317,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 9524
+      flushes       : 3
       lines         : 41
       syslines      : 2
   Processed:
@@ -16846,6 +17351,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 34930
+      flushes       : 12
       lines         : 152
       syslines      : 9
   Processed:
@@ -16879,6 +17385,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5724
+      flushes       : 6
       lines         : 26
       syslines      : 6
   Processed:
@@ -16912,6 +17419,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 26245
+      flushes       : 7
       lines         : 128
       syslines      : 5
   Processed:
@@ -16945,6 +17453,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -16977,6 +17486,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -17009,6 +17519,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -17041,6 +17552,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 13396
+      flushes       : 35
       lines         : 55
       syslines      : 35
   Processed:
@@ -17074,6 +17586,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 7600
+      flushes       : 15
       lines         : 33
       syslines      : 15
   Processed:
@@ -17107,6 +17620,7 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 17101
+      flushes       : 3
       lines         : 74
       syslines      : 3
   Processed:
@@ -17140,6 +17654,7 @@ File: ./logs/Windows10Pro/PFRO.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -17172,6 +17687,7 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -17204,6 +17720,7 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -17236,6 +17753,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 317629
+      flushes       : 1205
       lines         : 1300
       syslines      : 1205
   Processed:
@@ -17269,6 +17787,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 30798
+      flushes       : 105
       lines         : 105
       syslines      : 105
   Processed:
@@ -17302,6 +17821,7 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -17334,6 +17854,7 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 11213
+      flushes       : 40
       lines         : 42
       syslines      : 40
   Processed:
@@ -17367,6 +17888,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -17399,6 +17921,7 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -17464,6 +17987,7 @@ Paths not processed    : 29
 Files processed        : 572
 Files printed          : 443
 Printed bytes          : 8280252
+Printed flushes        : 25610
 Printed lines          : 14370
 Printed syslines       : 11921
 Printed evtx events    : 681

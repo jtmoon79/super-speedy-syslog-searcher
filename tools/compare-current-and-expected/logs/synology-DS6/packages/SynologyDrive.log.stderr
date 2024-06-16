@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2967
+      flushes       : 13
       lines         : 19
       syslines      : 13
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3019
+Printed flushes        : 26
 Printed lines          : 19
 Printed syslines       : 13
 Printed evtx events    : 0

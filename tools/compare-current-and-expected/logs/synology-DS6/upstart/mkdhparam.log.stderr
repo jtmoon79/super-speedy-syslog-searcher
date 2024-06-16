@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1588
+      flushes       : 8
       lines         : 12
       syslines      : 8
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1620
+Printed flushes        : 16
 Printed lines          : 12
 Printed syslines       : 8
 Printed evtx events    : 0

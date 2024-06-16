@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2620
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2701
+Printed flushes        : 41
 Printed lines          : 20
 Printed syslines       : 20
 Printed evtx events    : 0

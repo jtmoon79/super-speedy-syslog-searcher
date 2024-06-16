@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2457
+      flushes       : 1
       lines         : 19
       syslines      : 1
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2461
+Printed flushes        : 2
 Printed lines          : 19
 Printed syslines       : 1
 Printed evtx events    : 0

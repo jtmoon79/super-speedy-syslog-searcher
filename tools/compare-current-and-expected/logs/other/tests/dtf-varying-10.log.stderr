@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf-varying-10.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 976
+      flushes       : 4
       lines         : 10
       syslines      : 4
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 993
+Printed flushes        : 9
 Printed lines          : 10
 Printed syslines       : 4
 Printed evtx events    : 0

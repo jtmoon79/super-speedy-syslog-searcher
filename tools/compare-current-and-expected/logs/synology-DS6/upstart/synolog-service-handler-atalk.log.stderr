@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2271
+      flushes       : 16
       lines         : 16
       syslines      : 16
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2335
+Printed flushes        : 32
 Printed lines          : 16
 Printed syslines       : 16
 Printed evtx events    : 0

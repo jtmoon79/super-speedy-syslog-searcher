@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3385
+      flushes       : 37
       lines         : 38
       syslines      : 37
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3533
+Printed flushes        : 74
 Printed lines          : 38
 Printed syslines       : 37
 Printed evtx events    : 0

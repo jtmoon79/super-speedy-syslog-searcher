@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2552
+      flushes       : 7
       lines         : 19
       syslines      : 7
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2580
+Printed flushes        : 14
 Printed lines          : 19
 Printed syslines       : 7
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 900
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 921
+Printed flushes        : 11
 Printed lines          : 5
 Printed syslines       : 5
 Printed evtx events    : 0

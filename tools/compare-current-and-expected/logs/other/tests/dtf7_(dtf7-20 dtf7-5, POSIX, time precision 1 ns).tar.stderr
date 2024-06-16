@@ -8,6 +8,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       logmessagetype : syslog lines
   Printed:
       bytes         : 3700
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -43,6 +44,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       logmessagetype : syslog lines
   Printed:
       bytes         : 882
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -78,6 +80,7 @@ Paths not processed    : 0
 Files processed        : 2
 Files printed          : 2
 Printed bytes          : 4684
+Printed flushes        : 52
 Printed lines          : 25
 Printed syslines       : 25
 Printed evtx events    : 0

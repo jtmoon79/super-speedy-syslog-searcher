@@ -7,6 +7,7 @@ File: ./logs/programs/pacman/pacman.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 24563
+      flushes       : 195
       lines         : 195
       syslines      : 195
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 25344
+Printed flushes        : 391
 Printed lines          : 195
 Printed syslines       : 195
 Printed evtx events    : 0

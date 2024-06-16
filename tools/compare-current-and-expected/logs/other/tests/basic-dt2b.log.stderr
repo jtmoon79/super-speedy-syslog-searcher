@@ -7,6 +7,7 @@ File: ./logs/other/tests/basic-dt2b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 299
+      flushes       : 2
       lines         : 4
       syslines      : 2
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 308
+Printed flushes        : 5
 Printed lines          : 4
 Printed syslines       : 2
 Printed evtx events    : 0

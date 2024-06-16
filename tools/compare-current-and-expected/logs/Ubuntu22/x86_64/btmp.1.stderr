@@ -9,6 +9,7 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 1262
+      flushes       : 5
       entries       : 5
   Processed:
       file size     : 2304 (0x900) (bytes)
@@ -35,6 +36,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1282
+Printed flushes        : 10
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 0

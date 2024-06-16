@@ -7,6 +7,7 @@ File: ./logs/Debian11/user.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4513
+      flushes       : 25
       lines         : 25
       syslines      : 25
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 4613
+Printed flushes        : 50
 Printed lines          : 25
 Printed syslines       : 25
 Printed evtx events    : 0

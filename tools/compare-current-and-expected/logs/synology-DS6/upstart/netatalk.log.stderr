@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/netatalk.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2199
+      flushes       : 17
       lines         : 19
       syslines      : 17
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2267
+Printed flushes        : 34
 Printed lines          : 19
 Printed syslines       : 17
 Printed evtx events    : 0

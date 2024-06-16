@@ -7,6 +7,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       logmessagetype : syslog lines
   Printed:
       bytes         : 7856
+      flushes       : 37
       lines         : 37
       syslines      : 37
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 8004
+Printed flushes        : 74
 Printed lines          : 37
 Printed syslines       : 37
 Printed evtx events    : 0

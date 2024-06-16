@@ -8,6 +8,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       logmessagetype : syslog lines
   Printed:
       bytes         : 1884
+      flushes       : 13
       lines         : 13
       syslines      : 13
   Processed:
@@ -43,6 +44,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       logmessagetype : syslog lines
   Printed:
       bytes         : 555
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -78,6 +80,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       logmessagetype : syslog lines
   Printed:
       bytes         : 552
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -113,6 +116,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       logmessagetype : syslog lines
   Printed:
       bytes         : 555
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -148,6 +152,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       logmessagetype : syslog lines
   Printed:
       bytes         : 546
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -183,6 +188,7 @@ Paths not processed    : 0
 Files processed        : 5
 Files printed          : 5
 Printed bytes          : 4197
+Printed flushes        : 55
 Printed lines          : 25
 Printed syslines       : 25
 Printed evtx events    : 0

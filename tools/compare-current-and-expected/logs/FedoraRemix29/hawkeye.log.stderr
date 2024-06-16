@@ -7,6 +7,7 @@ File: ./logs/FedoraRemix29/hawkeye.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5798
+      flushes       : 36
       lines         : 37
       syslines      : 36
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5943
+Printed flushes        : 73
 Printed lines          : 37
 Printed syslines       : 36
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/RockyLinux9/cron
       logmessagetype : syslog lines
   Printed:
       bytes         : 18796
+      flushes       : 116
       lines         : 116
       syslines      : 116
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 19261
+Printed flushes        : 233
 Printed lines          : 116
 Printed syslines       : 116
 Printed evtx events    : 0

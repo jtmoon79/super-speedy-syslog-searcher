@@ -7,6 +7,7 @@ File: ./logs/Ubuntu18/vmware-installer
       logmessagetype : syslog lines
   Printed:
       bytes         : 2678
+      flushes       : 18
       lines         : 18
       syslines      : 18
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2750
+Printed flushes        : 36
 Printed lines          : 18
 Printed syslines       : 18
 Printed evtx events    : 0

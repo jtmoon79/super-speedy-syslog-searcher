@@ -7,6 +7,7 @@ File: ./logs/other/tests/simple-6.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 0
+      flushes       : 0
       lines         : 0
       syslines      : 0
   Processed:
@@ -40,6 +41,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 0
 Printed bytes          : 0
+Printed flushes        : 0
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 0

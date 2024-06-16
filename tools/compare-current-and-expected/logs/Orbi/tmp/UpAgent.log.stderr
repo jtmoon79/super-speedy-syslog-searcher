@@ -7,6 +7,7 @@ File: ./logs/Orbi/tmp/UpAgent.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2967
+      flushes       : 18
       lines         : 19
       syslines      : 18
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3039
+Printed flushes        : 36
 Printed lines          : 19
 Printed syslines       : 18
 Printed evtx events    : 0

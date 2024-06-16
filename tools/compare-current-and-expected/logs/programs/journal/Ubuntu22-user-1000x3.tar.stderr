@@ -8,6 +8,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
       logmessagetype : journal entries
   Printed:
       bytes         : 15276
+      flushes       : 3
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -23,6 +24,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 15288
+Printed flushes        : 6
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 0

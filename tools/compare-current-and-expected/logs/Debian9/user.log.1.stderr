@@ -7,6 +7,7 @@ File: ./logs/Debian9/user.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 532
+      flushes       : 3
       lines         : 3
       syslines      : 3
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 544
+Printed flushes        : 6
 Printed lines          : 3
 Printed syslines       : 3
 Printed evtx events    : 0

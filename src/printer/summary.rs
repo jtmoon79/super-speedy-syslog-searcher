@@ -149,6 +149,8 @@ fn print_datetime_asis_utc_dimmed(
 pub struct SummaryPrinted {
     /// count of bytes printed
     pub bytes: Count,
+    /// count of stdout.flush calls
+    pub flushed: Count,
     /// underlying `LogMessageType`
     pub logmessagetype: LogMessageType,
     /// count of `Lines` printed
@@ -175,6 +177,7 @@ impl fmt::Debug for SummaryPrinted {
     ) -> fmt::Result {
         f.debug_struct("Printed:")
             .field("bytes", &self.bytes)
+            .field("flushes", &self.flushed)
             .field("lines", &self.lines)
             .field("syslines", &self.syslines)
             .field(
@@ -209,11 +212,11 @@ impl fmt::Debug for SummaryPrinted {
     }
 }
 
-// TODO: move `SummaryPrinted` into `printer/summary.rs`
 impl SummaryPrinted {
     pub fn new(logmessagetype: LogMessageType) -> SummaryPrinted {
         SummaryPrinted {
             bytes: 0,
+            flushed: 0,
             logmessagetype,
             lines: 0,
             syslines: 0,
@@ -331,6 +334,7 @@ impl SummaryPrinted {
                 } else {
                     eprintln!("{}", self.bytes);
                 }
+                eprintln!("{}flushes       : {}", indent2, self.flushed);
 
                 if summarylinereader_opt.is_some() {
                     eprint!("{}lines         : ", indent2);
@@ -457,6 +461,7 @@ impl SummaryPrinted {
         match summaryevtxreader_opt {
             Some(summaryevtxreader) => {
                 eprintln!("{}bytes         : {}", indent2, self.bytes);
+                eprintln!("{}flushes       : {}", indent2, self.flushed);
                 eprintln!("{}Events        : {}", indent2, self.evtxentries);
                 match summaryevtxreader.evtxreader_datetime_first_accepted {
                     Some(dt) => {
@@ -481,6 +486,7 @@ impl SummaryPrinted {
         match summaryjournalreader_opt {
             Some(summaryjournalreader) => {
                 eprintln!("{}bytes         : {}", indent2, self.bytes);
+                eprintln!("{}flushes       : {}", indent2, self.flushed);
                 eprintln!("{}journal events: {}", indent2, self.journalentries);
                 match summaryjournalreader.journalreader_datetime_first_accepted {
                     Some(dt) => {
@@ -535,6 +541,7 @@ impl SummaryPrinted {
         &mut self,
         syslinep: &SyslineP,
         printed: Count,
+        flushed: Count,
     ) {
         defñ!();
         debug_assert!(matches!(self.logmessagetype,
@@ -542,6 +549,7 @@ impl SummaryPrinted {
         self.syslines += 1;
         self.lines += (*syslinep).count_lines();
         self.bytes += printed;
+        self.flushed += flushed;
         self.summaryprint_update_dt((*syslinep).dt());
     }
 
@@ -550,14 +558,17 @@ impl SummaryPrinted {
         &mut self,
         entry: &FixedStruct,
         printed: Count,
+        flushed: Count,
     )
     {
         defñ!();
         debug_assert!(matches!(self.logmessagetype,
             LogMessageType::FixedStruct | LogMessageType::All),
             "Unexpected LogMessageType {:?}", self.logmessagetype);
+        debug_assert!(!matches!(self.logmessagetype, LogMessageType::All));
         self.fixedstructentries += 1;
         self.bytes += printed;
+        self.flushed += flushed;
         self.summaryprint_update_dt(entry.dt());
     }
 
@@ -566,12 +577,15 @@ impl SummaryPrinted {
         &mut self,
         evtx: &Evtx,
         printed: Count,
+        flushed: Count,
     ) {
         defñ!();
         debug_assert!(matches!(self.logmessagetype,
             LogMessageType::Evtx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
+        debug_assert!(!matches!(self.logmessagetype, LogMessageType::All));
         self.evtxentries += 1;
         self.bytes += printed;
+        self.flushed += flushed;
         self.summaryprint_update_dt(evtx.dt());
     }
 
@@ -579,12 +593,15 @@ impl SummaryPrinted {
         &mut self,
         journalentry: &JournalEntry,
         printed: Count,
+        flushed: Count,
     ) {
         defñ!();
         debug_assert!(matches!(self.logmessagetype,
             LogMessageType::Journal | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
+        debug_assert!(!matches!(self.logmessagetype, LogMessageType::All));
         self.journalentries += 1;
         self.bytes += printed;
+        self.flushed += flushed;
         self.summaryprint_update_dt(journalentry.dt());
     }
 
@@ -593,20 +610,24 @@ impl SummaryPrinted {
         &mut self,
         logmessage: &LogMessage,
         printed: Count,
+        flushed: Count,
     ) {
-        defñ!();
+        defñ!(
+            "(logmessage={:?}, printed={}, flushed={}) self.logmessagetype={:?}",
+            logmessage, printed, flushed, self.logmessagetype,
+        );
         match logmessage {
             LogMessage::Sysline(syslinep) => {
-                self.summaryprint_update_sysline(syslinep, printed);
+                self.summaryprint_update_sysline(syslinep, printed, flushed);
             }
             LogMessage::FixedStruct(entry) => {
-                self.summaryprint_update_fixedstruct(entry, printed);
+                self.summaryprint_update_fixedstruct(entry, printed, flushed);
             }
             LogMessage::Evtx(evtx) => {
-                self.summaryprint_update_evtx(evtx, printed);
+                self.summaryprint_update_evtx(evtx, printed, flushed);
             }
             LogMessage::Journal(journalentry) => {
-                self.summaryprint_update_journalentry(journalentry, printed);
+                self.summaryprint_update_journalentry(journalentry, printed, flushed);
             }
         };
     }
@@ -619,15 +640,16 @@ impl SummaryPrinted {
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
+        flushed: Count,
     ) {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_sysline(syslinep, printed);
+                sp.summaryprint_update_sysline(syslinep, printed, flushed);
             }
             None => {
                 let mut sp = SummaryPrinted::new(LogMessageType::Sysline);
-                sp.summaryprint_update_sysline(syslinep, printed);
+                sp.summaryprint_update_sysline(syslinep, printed, flushed);
                 map_.insert(*pathid, sp);
             }
         };
@@ -641,16 +663,17 @@ impl SummaryPrinted {
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
+        flushed: Count,
     )
     {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_fixedstruct(fixedstruct, printed);
+                sp.summaryprint_update_fixedstruct(fixedstruct, printed, flushed);
             }
             None => {
                 let mut sp = SummaryPrinted::new(LogMessageType::FixedStruct);
-                sp.summaryprint_update_fixedstruct(fixedstruct, printed);
+                sp.summaryprint_update_fixedstruct(fixedstruct, printed, flushed);
                 map_.insert(*pathid, sp);
             }
         };
@@ -664,15 +687,16 @@ impl SummaryPrinted {
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
+        flushed: Count,
     ) {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_evtx(evtx, printed);
+                sp.summaryprint_update_evtx(evtx, printed, flushed);
             }
             None => {
                 let mut sp = SummaryPrinted::new(LogMessageType::Evtx);
-                sp.summaryprint_update_evtx(evtx, printed);
+                sp.summaryprint_update_evtx(evtx, printed, flushed);
                 map_.insert(*pathid, sp);
             }
         };
@@ -686,15 +710,16 @@ impl SummaryPrinted {
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
+        flushed: Count,
     ) {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
-                sp.summaryprint_update_journalentry(journalentry, printed);
+                sp.summaryprint_update_journalentry(journalentry, printed, flushed);
             }
             None => {
                 let mut sp = SummaryPrinted::new(LogMessageType::Journal);
-                sp.summaryprint_update_journalentry(journalentry, printed);
+                sp.summaryprint_update_journalentry(journalentry, printed, flushed);
                 map_.insert(*pathid, sp);
             }
         };
@@ -708,20 +733,21 @@ impl SummaryPrinted {
         pathid: &PathId,
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
+        flushed: Count,
     ) {
         defñ!();
         match logmessage {
             LogMessage::Evtx(evtx) => {
-                Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed)
+                Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed, flushed)
             }
             LogMessage::FixedStruct(entry) => {
-                Self::summaryprint_map_update_fixedstruct(entry, pathid, map_, printed)
+                Self::summaryprint_map_update_fixedstruct(entry, pathid, map_, printed, flushed)
             }
             LogMessage::Journal(journalentry) => {
-                Self::summaryprint_map_update_journalentry(journalentry, pathid, map_, printed)
+                Self::summaryprint_map_update_journalentry(journalentry, pathid, map_, printed, flushed)
             }
             LogMessage::Sysline(syslinep) => {
-                Self::summaryprint_map_update_sysline(syslinep, pathid, map_, printed)
+                Self::summaryprint_map_update_sysline(syslinep, pathid, map_, printed, flushed)
             }
         }
     }
@@ -808,6 +834,7 @@ pub fn print_summary(
     eprintln!("Files processed        : {}", map_pathid_results.len());
     eprintln!("Files printed          : {}", paths_printed_logmessages.len());
     eprintln!("Printed bytes          : {}", summaryprinted.bytes);
+    eprintln!("Printed flushes        : {}", summaryprinted.flushed);
     eprintln!("Printed lines          : {}", summaryprinted.lines);
     eprintln!("Printed syslines       : {}", summaryprinted.syslines);
     eprintln!("Printed evtx events    : {}", summaryprinted.evtxentries);

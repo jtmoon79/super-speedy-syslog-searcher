@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf2-2.xz
       logmessagetype : syslog lines
   Printed:
       bytes         : 237
+      flushes       : 2
       lines         : 3
       syslines      : 2
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 245
+Printed flushes        : 4
 Printed lines          : 3
 Printed syslines       : 2
 Printed evtx events    : 0

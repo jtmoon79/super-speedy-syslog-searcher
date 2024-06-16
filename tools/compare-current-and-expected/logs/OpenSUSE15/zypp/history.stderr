@@ -7,6 +7,7 @@ File: ./logs/OpenSUSE15/zypp/history
       logmessagetype : syslog lines
   Printed:
       bytes         : 7144
+      flushes       : 19
       lines         : 39
       syslines      : 19
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 7220
+Printed flushes        : 38
 Printed lines          : 39
 Printed syslines       : 19
 Printed evtx events    : 0

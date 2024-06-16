@@ -7,6 +7,7 @@ File: ./logs/MinGW64/pacman.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 11411
+      flushes       : 102
       lines         : 102
       syslines      : 102
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 11819
+Printed flushes        : 204
 Printed lines          : 102
 Printed syslines       : 102
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 6694
+      flushes       : 30
       lines         : 33
       syslines      : 30
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 6815
+Printed flushes        : 61
 Printed lines          : 33
 Printed syslines       : 30
 Printed evtx events    : 0

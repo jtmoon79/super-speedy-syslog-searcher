@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1310
+      flushes       : 7
       lines         : 7
       syslines      : 7
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1338
+Printed flushes        : 14
 Printed lines          : 7
 Printed syslines       : 7
 Printed evtx events    : 0

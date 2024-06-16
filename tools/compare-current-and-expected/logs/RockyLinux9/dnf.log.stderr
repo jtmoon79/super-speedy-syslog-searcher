@@ -7,6 +7,7 @@ File: ./logs/RockyLinux9/dnf.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 100464
+      flushes       : 677
       lines         : 763
       syslines      : 677
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 103173
+Printed flushes        : 1355
 Printed lines          : 763
 Printed syslines       : 677
 Printed evtx events    : 0

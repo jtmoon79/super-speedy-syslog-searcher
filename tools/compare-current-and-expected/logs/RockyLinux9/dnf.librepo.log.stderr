@@ -7,6 +7,7 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 22911
+      flushes       : 104
       lines         : 104
       syslines      : 104
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 23328
+Printed flushes        : 209
 Printed lines          : 104
 Printed syslines       : 104
 Printed evtx events    : 0

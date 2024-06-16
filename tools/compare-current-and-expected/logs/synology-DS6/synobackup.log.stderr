@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/synobackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2529
+      flushes       : 14
       lines         : 15
       syslines      : 14
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2585
+Printed flushes        : 28
 Printed lines          : 15
 Printed syslines       : 14
 Printed evtx events    : 0

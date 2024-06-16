@@ -7,6 +7,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
       logmessagetype : syslog lines
   Printed:
       bytes         : 2446
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2486
+Printed flushes        : 20
 Printed lines          : 19
 Printed syslines       : 10
 Printed evtx events    : 0

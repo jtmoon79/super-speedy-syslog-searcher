@@ -7,6 +7,7 @@ File: ./logs/Debian11/dpkg.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5755
+      flushes       : 48
       lines         : 49
       syslines      : 48
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5947
+Printed flushes        : 96
 Printed lines          : 49
 Printed syslines       : 48
 Printed evtx events    : 0

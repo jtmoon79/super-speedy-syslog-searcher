@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/DISM/dism.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 22539
+      flushes       : 94
       lines         : 111
       syslines      : 94
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 22915
+Printed flushes        : 188
 Printed lines          : 111
 Printed syslines       : 94
 Printed evtx events    : 0

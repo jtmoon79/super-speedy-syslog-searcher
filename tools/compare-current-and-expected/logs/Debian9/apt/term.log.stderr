@@ -7,6 +7,7 @@ File: ./logs/Debian9/apt/term.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 34358
+      flushes       : 10
       lines         : 292
       syslines      : 7
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 34386
+Printed flushes        : 17
 Printed lines          : 292
 Printed syslines       : 7
 Printed evtx events    : 0

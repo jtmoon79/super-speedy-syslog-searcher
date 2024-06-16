@@ -7,6 +7,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       logmessagetype : syslog lines
   Printed:
       bytes         : 3422
+      flushes       : 17
       lines         : 19
       syslines      : 17
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3490
+Printed flushes        : 34
 Printed lines          : 19
 Printed syslines       : 17
 Printed evtx events    : 0

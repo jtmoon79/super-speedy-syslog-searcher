@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf10-10b.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1217
+      flushes       : 8
       lines         : 13
       syslines      : 8
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1250
+Printed flushes        : 17
 Printed lines          : 13
 Printed syslines       : 8
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 16901
+      flushes       : 6
       lines         : 128
       syslines      : 5
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 16922
+Printed flushes        : 12
 Printed lines          : 128
 Printed syslines       : 5
 Printed evtx events    : 0

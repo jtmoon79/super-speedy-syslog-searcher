@@ -7,6 +7,7 @@ File: ./logs/RockyLinux9/hawkey.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3359
+      flushes       : 28
       lines         : 28
       syslines      : 28
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3472
+Printed flushes        : 57
 Printed lines          : 28
 Printed syslines       : 28
 Printed evtx events    : 0

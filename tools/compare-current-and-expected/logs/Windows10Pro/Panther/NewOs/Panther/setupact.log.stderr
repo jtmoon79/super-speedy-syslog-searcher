@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 9931
+      flushes       : 35
       lines         : 55
       syslines      : 35
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 10072
+Printed flushes        : 71
 Printed lines          : 55
 Printed syslines       : 35
 Printed evtx events    : 0

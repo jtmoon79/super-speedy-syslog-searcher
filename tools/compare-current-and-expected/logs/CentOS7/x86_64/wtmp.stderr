@@ -9,6 +9,7 @@ File: ./logs/CentOS7/x86_64/wtmp
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 724
+      flushes       : 3
       entries       : 3
   Processed:
       file size     : 25728 (0x6480) (bytes)
@@ -35,6 +36,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 736
+Printed flushes        : 6
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 0

@@ -9,6 +9,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.xz
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 1535
+      flushes       : 6
       entries       : 6
   Processed:
       file size compressed  : 220 (0xDC) (bytes)
@@ -36,6 +37,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1559
+Printed flushes        : 12
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 0

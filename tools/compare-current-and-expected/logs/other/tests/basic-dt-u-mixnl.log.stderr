@@ -7,6 +7,7 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5111
+      flushes       : 10
       lines         : 64
       syslines      : 10
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5152
+Printed flushes        : 21
 Printed lines          : 64
 Printed syslines       : 10
 Printed evtx events    : 0

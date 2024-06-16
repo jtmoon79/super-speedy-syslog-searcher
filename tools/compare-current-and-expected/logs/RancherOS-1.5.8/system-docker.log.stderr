@@ -7,6 +7,7 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3843
+      flushes       : 1
       lines         : 20
       syslines      : 1
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3848
+Printed flushes        : 3
 Printed lines          : 20
 Printed syslines       : 1
 Printed evtx events    : 0

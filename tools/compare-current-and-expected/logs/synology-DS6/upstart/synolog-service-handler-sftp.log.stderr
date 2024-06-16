@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 965
+      flushes       : 7
       lines         : 7
       syslines      : 7
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 993
+Printed flushes        : 14
 Printed lines          : 7
 Printed syslines       : 7
 Printed evtx events    : 0

@@ -9,6 +9,7 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       fixedstructtype: Fs_Openbsd_x86_Utmp
   Printed:
       bytes         : 871
+      flushes       : 7
       entries       : 7
   Processed:
       file size     : 5776 (0x1690) (bytes)
@@ -35,6 +36,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 899
+Printed flushes        : 14
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 0

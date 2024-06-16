@@ -7,6 +7,7 @@ File: ./logs/Ubuntu18/kern.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 2754
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2830
+Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
 Printed evtx events    : 0

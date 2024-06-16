@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2326
+      flushes       : 11
       lines         : 19
       syslines      : 11
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2370
+Printed flushes        : 22
 Printed lines          : 19
 Printed syslines       : 11
 Printed evtx events    : 0

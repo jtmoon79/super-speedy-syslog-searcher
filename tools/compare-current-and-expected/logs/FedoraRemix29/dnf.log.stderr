@@ -7,6 +7,7 @@ File: ./logs/FedoraRemix29/dnf.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 64719
+      flushes       : 229
       lines         : 476
       syslines      : 226
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 65624
+Printed flushes        : 456
 Printed lines          : 476
 Printed syslines       : 226
 Printed evtx events    : 0

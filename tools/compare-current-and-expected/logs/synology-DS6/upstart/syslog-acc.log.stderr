@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2525
+      flushes       : 5
       lines         : 19
       syslines      : 5
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2545
+Printed flushes        : 10
 Printed lines          : 19
 Printed syslines       : 5
 Printed evtx events    : 0

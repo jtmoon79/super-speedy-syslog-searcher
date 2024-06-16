@@ -7,6 +7,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
       logmessagetype : syslog lines
   Printed:
       bytes         : 2991
+      flushes       : 10
       lines         : 19
       syslines      : 10
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3031
+Printed flushes        : 20
 Printed lines          : 19
 Printed syslines       : 10
 Printed evtx events    : 0

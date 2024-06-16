@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 176
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 180
+Printed flushes        : 2
 Printed lines          : 1
 Printed syslines       : 1
 Printed evtx events    : 0

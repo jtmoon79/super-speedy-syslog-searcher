@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3653
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3729
+Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
 Printed evtx events    : 0

@@ -8,6 +8,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Micro
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
+      flushes       : 227
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -22,6 +23,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1562190
+Printed flushes        : 454
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 227

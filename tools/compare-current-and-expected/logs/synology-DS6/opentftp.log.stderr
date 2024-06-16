@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/opentftp.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2497
+      flushes       : 21
       lines         : 21
       syslines      : 21
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2582
+Printed flushes        : 43
 Printed lines          : 21
 Printed syslines       : 21
 Printed evtx events    : 0

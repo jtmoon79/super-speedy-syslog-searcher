@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 24708
+      flushes       : 105
       lines         : 105
       syslines      : 105
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 25128
+Printed flushes        : 210
 Printed lines          : 105
 Printed syslines       : 105
 Printed evtx events    : 0

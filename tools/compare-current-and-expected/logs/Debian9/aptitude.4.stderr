@@ -7,6 +7,7 @@ File: ./logs/Debian9/aptitude.4
       logmessagetype : syslog lines
   Printed:
       bytes         : 1815
+      flushes       : 1
       lines         : 18
       syslines      : 1
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1819
+Printed flushes        : 2
 Printed lines          : 18
 Printed syslines       : 1
 Printed evtx events    : 0

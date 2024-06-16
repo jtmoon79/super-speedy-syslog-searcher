@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf5-2c.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 432
+      flushes       : 2
       lines         : 6
       syslines      : 2
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 441
+Printed flushes        : 5
 Printed lines          : 6
 Printed syslines       : 2
 Printed evtx events    : 0

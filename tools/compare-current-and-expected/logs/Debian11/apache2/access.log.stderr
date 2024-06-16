@@ -7,6 +7,7 @@ File: ./logs/Debian11/apache2/access.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1059
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1080
+Printed flushes        : 11
 Printed lines          : 5
 Printed syslines       : 5
 Printed evtx events    : 0

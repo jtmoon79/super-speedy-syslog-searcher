@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/synocrond.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2343
+      flushes       : 11
       lines         : 11
       syslines      : 11
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2387
+Printed flushes        : 22
 Printed lines          : 11
 Printed syslines       : 11
 Printed evtx events    : 0

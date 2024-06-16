@@ -7,6 +7,7 @@ File: ./logs/Ubuntu22/apt/history.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2202
+      flushes       : 5
       lines         : 13
       syslines      : 5
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2222
+Printed flushes        : 10
 Printed lines          : 13
 Printed syslines       : 5
 Printed evtx events    : 0

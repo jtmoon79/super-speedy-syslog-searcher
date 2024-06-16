@@ -3443,8 +3443,12 @@ fn processing_loop(
                 LogMessage::Evtx(evtx) => {
                     defo!("A3.3 printing Evtx PathId: {:?}", pathid);
                     let mut printed: Count = 0;
+                    let mut flushed: Count = 0;
                     match printer.print_evtx(evtx) {
-                        Ok(printed_) => printed = printed_ as Count,
+                        Ok((printed_, flushed_)) => {
+                            printed = printed_ as Count;
+                            flushed = flushed_ as Count;
+                        }
                         Err(_err) => {
                             // Only print a printing error once and only for debug builds.
                             if !has_print_err {
@@ -3460,21 +3464,30 @@ fn processing_loop(
                         write_stdout(sepb);
                         if cli_opt_summary {
                             summaryprinted.bytes += sepb.len() as Count;
+                            summaryprinted.flushed += 1;
                         }
                     }
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_evtx(evtx, pathid, &mut map_pathid_sumpr, printed);
+                        SummaryPrinted::summaryprint_map_update_evtx(
+                            evtx, pathid, &mut map_pathid_sumpr, printed, flushed,
+                        );
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_evtx(evtx, printed);
+                        summaryprinted.summaryprint_update_evtx(
+                            evtx, printed, flushed,
+                        );
                     }
                 }
                 LogMessage::FixedStruct(entry) => {
                     defo!("A3.2 printing FixedStruct PathId: {:?}", pathid);
                     let mut printed: Count = 0;
+                    let mut flushed: Count = 0;
                     match printer.print_fixedstruct(entry, &mut buffer_utmp) {
-                        Ok(printed_) => printed = printed_ as Count,
+                        Ok((printed_, flushed_)) => {
+                            printed = printed_ as Count;
+                            flushed = flushed_ as Count;
+                        }
                         Err(_err) => {
                             // Only print a printing error once and only for debug builds.
                             if !has_print_err {
@@ -3490,21 +3503,30 @@ fn processing_loop(
                         write_stdout(sepb);
                         if cli_opt_summary {
                             summaryprinted.bytes += sepb.len() as Count;
+                            summaryprinted.flushed += 1;
                         }
                     }
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_fixedstruct(entry, pathid, &mut map_pathid_sumpr, printed);
+                        SummaryPrinted::summaryprint_map_update_fixedstruct(
+                            entry, pathid, &mut map_pathid_sumpr, printed, flushed,
+                        );
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_fixedstruct(entry, printed);
+                        summaryprinted.summaryprint_update_fixedstruct(
+                            entry, printed, flushed,
+                        );
                     }
                 }
                 LogMessage::Journal(journalentry) => {
                     defo!("A3.4 printing JournalEntry PathId: {:?}", pathid);
                     let mut printed: Count = 0;
+                    let mut flushed: Count = 0;
                     match printer.print_journalentry(journalentry) {
-                        Ok(printed_) => printed = printed_ as Count,
+                        Ok((printed_, flushed_)) => {
+                            printed = printed_ as Count;
+                            flushed = flushed_ as Count;
+                        }
                         Err(_err) => {
                             // Only print a printing error once and only for debug builds.
                             if !has_print_err {
@@ -3520,14 +3542,19 @@ fn processing_loop(
                         write_stdout(sepb);
                         if cli_opt_summary {
                             summaryprinted.bytes += sepb.len() as Count;
+                            summaryprinted.flushed += 1;
                         }
                     }
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_journalentry(journalentry, pathid, &mut map_pathid_sumpr, printed);
+                        SummaryPrinted::summaryprint_map_update_journalentry(
+                            journalentry, pathid, &mut map_pathid_sumpr, printed, flushed,
+                        );
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_journalentry(journalentry, printed);
+                        summaryprinted.summaryprint_update_journalentry(
+                            journalentry, printed, flushed,
+                        );
                     }
                 }
                 LogMessage::Sysline(syslinep) => {
@@ -3535,11 +3562,15 @@ fn processing_loop(
                         "A3.1 printing SyslineP @[{}, {}] PathId: {:?}",
                         syslinep.fileoffset_begin(),
                         syslinep.fileoffset_end(),
-                        pathid
+                        pathid,
                     );
                     let mut printed: Count = 0;
+                    let mut flushed: Count = 0;
                     match printer.print_sysline(syslinep) {
-                        Ok(printed_) => printed = printed_ as Count,
+                        Ok((printed_, flushed_)) => {
+                            printed = printed_ as Count;
+                            flushed = flushed_ as Count;
+                        },
                         Err(_err) => {
                             // Only print a printing error once and only for debug builds.
                             if !has_print_err {
@@ -3555,6 +3586,7 @@ fn processing_loop(
                         write_stdout(sepb);
                         if cli_opt_summary {
                             summaryprinted.bytes += sepb.len() as Count;
+                            summaryprinted.flushed += 1;
                         }
                     }
                     // If a file's last char is not a '\n' then the next printed sysline
@@ -3567,15 +3599,19 @@ fn processing_loop(
                     if is_last && !(*syslinep).ends_with_newline() {
                         write_stdout(&NLu8a);
                         if cli_opt_summary {
-                            summaryprinted.bytes += 1;
+                            summaryprinted.bytes += NLu8a.len() as Count;
+                            summaryprinted.flushed += 1;
                         }
                     }
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
-                        SummaryPrinted::summaryprint_map_update_sysline(syslinep, pathid, &mut map_pathid_sumpr, printed);
+                        SummaryPrinted::summaryprint_map_update_sysline(
+                            syslinep, pathid, &mut map_pathid_sumpr, printed, flushed,
+                        );
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_sysline(syslinep, printed);
+                        summaryprinted.summaryprint_update_sysline(syslinep, printed, flushed);
+
                     }
                 }
             }

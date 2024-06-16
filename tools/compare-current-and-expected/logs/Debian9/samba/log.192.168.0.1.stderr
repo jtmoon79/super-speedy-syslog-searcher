@@ -7,6 +7,7 @@ File: ./logs/Debian9/samba/log.192.168.0.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 292
+      flushes       : 1
       lines         : 2
       syslines      : 1
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 296
+Printed flushes        : 2
 Printed lines          : 2
 Printed syslines       : 1
 Printed evtx events    : 0

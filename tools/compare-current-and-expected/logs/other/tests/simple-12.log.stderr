@@ -7,6 +7,7 @@ File: ./logs/other/tests/simple-12.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 75
+      flushes       : 1
       lines         : 1
       syslines      : 1
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 80
+Printed flushes        : 3
 Printed lines          : 1
 Printed syslines       : 1
 Printed evtx events    : 0

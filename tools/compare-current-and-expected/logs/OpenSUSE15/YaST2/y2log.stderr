@@ -7,6 +7,7 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3179
+      flushes       : 20
       lines         : 20
       syslines      : 20
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3260
+Printed flushes        : 41
 Printed lines          : 20
 Printed syslines       : 20
 Printed evtx events    : 0

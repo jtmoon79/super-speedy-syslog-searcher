@@ -7,6 +7,7 @@ File: ./logs/RockyLinux9/messages
       logmessagetype : syslog lines
   Printed:
       bytes         : 397192
+      flushes       : 2432
       lines         : 2432
       syslines      : 2432
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 406921
+Printed flushes        : 4865
 Printed lines          : 2432
 Printed syslines       : 2432
 Printed evtx events    : 0

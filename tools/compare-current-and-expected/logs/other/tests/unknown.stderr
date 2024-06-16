@@ -7,6 +7,7 @@ File: ./logs/other/tests/unknown
       logmessagetype : syslog lines
   Printed:
       bytes         : 420
+      flushes       : 4
       lines         : 4
       syslines      : 4
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 437
+Printed flushes        : 9
 Printed lines          : 4
 Printed syslines       : 4
 Printed evtx events    : 0

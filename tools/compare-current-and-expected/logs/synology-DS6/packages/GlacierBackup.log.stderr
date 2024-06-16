@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3115
+      flushes       : 3
       lines         : 19
       syslines      : 3
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3127
+Printed flushes        : 6
 Printed lines          : 19
 Printed syslines       : 3
 Printed evtx events    : 0

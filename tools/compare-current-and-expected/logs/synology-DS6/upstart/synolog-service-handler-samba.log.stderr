@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1298
+      flushes       : 9
       lines         : 9
       syslines      : 9
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1334
+Printed flushes        : 18
 Printed lines          : 9
 Printed syslines       : 9
 Printed evtx events    : 0

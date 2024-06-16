@@ -7,6 +7,7 @@ File: ./logs/Ubuntu22/apport.log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 819
+      flushes       : 5
       lines         : 5
       syslines      : 5
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 839
+Printed flushes        : 10
 Printed lines          : 5
 Printed syslines       : 5
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf5-6a.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 560
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 585
+Printed flushes        : 13
 Printed lines          : 6
 Printed syslines       : 6
 Printed evtx events    : 0

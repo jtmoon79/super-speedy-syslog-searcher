@@ -7,6 +7,7 @@ File: ./logs/Ubuntu18/cups/access_log.1
       logmessagetype : syslog lines
   Printed:
       bytes         : 1033
+      flushes       : 6
       lines         : 6
       syslines      : 6
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1057
+Printed flushes        : 12
 Printed lines          : 6
 Printed syslines       : 6
 Printed evtx events    : 0

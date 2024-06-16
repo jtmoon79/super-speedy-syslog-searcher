@@ -7,6 +7,7 @@ File: ./logs/cygwin/setup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 10282
+      flushes       : 76
       lines         : 77
       syslines      : 76
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 10586
+Printed flushes        : 152
 Printed lines          : 77
 Printed syslines       : 76
 Printed evtx events    : 0

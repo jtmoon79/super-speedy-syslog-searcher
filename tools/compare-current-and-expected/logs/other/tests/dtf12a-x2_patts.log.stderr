@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 847
+      flushes       : 4
       lines         : 8
       syslines      : 4
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 864
+Printed flushes        : 9
 Printed lines          : 8
 Printed syslines       : 4
 Printed evtx events    : 0

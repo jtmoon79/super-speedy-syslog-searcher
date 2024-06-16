@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 242229
+      flushes       : 1205
       lines         : 1300
       syslines      : 1205
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 247049
+Printed flushes        : 2410
 Printed lines          : 1300
 Printed syslines       : 1205
 Printed evtx events    : 0

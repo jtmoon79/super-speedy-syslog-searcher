@@ -7,6 +7,7 @@ File: ./logs/Debian11/alternatives.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5167
+      flushes       : 15
       lines         : 15
       syslines      : 15
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5228
+Printed flushes        : 31
 Printed lines          : 15
 Printed syslines       : 15
 Printed evtx events    : 0

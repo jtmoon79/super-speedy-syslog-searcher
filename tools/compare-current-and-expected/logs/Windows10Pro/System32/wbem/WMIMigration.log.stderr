@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 8399
+      flushes       : 40
       lines         : 42
       syslines      : 40
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 8560
+Printed flushes        : 81
 Printed lines          : 42
 Printed syslines       : 40
 Printed evtx events    : 0

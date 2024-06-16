@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2631
+      flushes       : 12
       lines         : 12
       syslines      : 12
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2679
+Printed flushes        : 24
 Printed lines          : 12
 Printed syslines       : 12
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
       logmessagetype : journal entries
   Printed:
       bytes         : 12966
+      flushes       : 3
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -22,6 +23,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 12978
+Printed flushes        : 6
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 0

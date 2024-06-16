@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3591
+      flushes       : 19
       lines         : 19
       syslines      : 19
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3667
+Printed flushes        : 38
 Printed lines          : 19
 Printed syslines       : 19
 Printed evtx events    : 0

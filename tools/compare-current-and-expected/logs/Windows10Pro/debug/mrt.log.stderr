@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4269
+      flushes       : 5
       lines         : 47
       syslines      : 5
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 4290
+Printed flushes        : 11
 Printed lines          : 47
 Printed syslines       : 5
 Printed evtx events    : 0

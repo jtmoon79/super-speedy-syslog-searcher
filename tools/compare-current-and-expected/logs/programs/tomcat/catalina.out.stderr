@@ -7,6 +7,7 @@ File: ./logs/programs/tomcat/catalina.out
       logmessagetype : syslog lines
   Printed:
       bytes         : 3218
+      flushes       : 7
       lines         : 21
       syslines      : 7
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3246
+Printed flushes        : 14
 Printed lines          : 21
 Printed syslines       : 7
 Printed evtx events    : 0

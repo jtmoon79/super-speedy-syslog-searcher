@@ -7,6 +7,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1237
+      flushes       : 8
       lines         : 9
       syslines      : 8
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1269
+Printed flushes        : 16
 Printed lines          : 9
 Printed syslines       : 8
 Printed evtx events    : 0

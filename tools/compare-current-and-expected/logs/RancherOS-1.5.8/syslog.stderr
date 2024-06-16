@@ -7,6 +7,7 @@ File: ./logs/RancherOS-1.5.8/syslog
       logmessagetype : syslog lines
   Printed:
       bytes         : 1867
+      flushes       : 10
       lines         : 10
       syslines      : 10
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1908
+Printed flushes        : 21
 Printed lines          : 10
 Printed syslines       : 10
 Printed evtx events    : 0

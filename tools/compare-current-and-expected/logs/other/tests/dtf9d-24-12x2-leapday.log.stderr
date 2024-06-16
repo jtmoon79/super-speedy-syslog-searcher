@@ -7,6 +7,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2402
+      flushes       : 23
       lines         : 25
       syslines      : 23
   Processed:
@@ -42,6 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2494
+Printed flushes        : 46
 Printed lines          : 25
 Printed syslines       : 23
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4980
+      flushes       : 27
       lines         : 27
       syslines      : 27
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5089
+Printed flushes        : 55
 Printed lines          : 27
 Printed syslines       : 27
 Printed evtx events    : 0

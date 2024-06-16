@@ -7,6 +7,7 @@ File: ./logs/Ubuntu18/apt/history.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 969
+      flushes       : 2
       lines         : 5
       syslines      : 2
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 977
+Printed flushes        : 4
 Printed lines          : 5
 Printed syslines       : 2
 Printed evtx events    : 0

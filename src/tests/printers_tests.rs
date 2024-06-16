@@ -139,21 +139,25 @@ const CLR: Color = Color::Green;
 const FILEN: &str = "foo.log";
 const DATE: &str = "20000101T000000";
 
-#[test_case(CCA, CLR, None, None, None; "a")]
-#[test_case(CCU, CLR, None, None, None; "b")]
-#[test_case(CCN, CLR, None, None, None; "c")]
-#[test_case(CCA, CLR, Some(FILEN), None, None; "d")]
-#[test_case(CCU, CLR, None, Some(DATE), None; "e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8); "f")]
-#[test_case(CCA, CLR, Some(FILEN), Some(DATE), None; "g")]
-#[test_case(CCU, CLR, Some(FILEN), Some(DATE), Some(*FO_P8); "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8); "i")]
+#[test_case(CCA, CLR, None, None, None, 333, 37; "a")]
+#[test_case(CCU, CLR, None, None, None, 333, 37; "b")]
+#[test_case(CCN, CLR, None, None, None, 333, 5; "c")]
+#[test_case(CCA, CLR, Some(FILEN), None, None, 382, 49; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None, 438, 49; "e")]
+#[test_case(CCN, CLR, None, None, Some(*FO_P8), 333, 5; "f")]
+#[test_case(CCA, CLR, Some(FILEN), Some(DATE), None, 487, 49; "g")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), 438, 5; "h")]
+#[test_case(CCA, CLR, Some(FILEN), Some(DATE), Some(*FO_P8), 487, 49; "i")]
+#[test_case(CCU, CLR, Some(FILEN), Some(DATE), Some(*FO_P8), 487, 49; "j")]
+#[test_case(CCN, CLR, Some(FILEN), Some(DATE), Some(*FO_P8), 487, 5; "k")]
 fn test_PrinterLogMessage_print_sysline_NTF5(
     colorchoice: ColorChoice,
     color: Color,
     prepend_file: Option<&str>,
     prepend_date: Option<&str>,
     prepend_offset: Option<FixedOffset>,
+    expected_printed_bytes: usize,
+    expected_flushed: usize,
 ) {
     let mut plm = new_PrinterLogMessage(
         colorchoice,
@@ -166,14 +170,18 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
     let mut fo: FileOffset = 0;
     let mut slr = new_SyslineReader(&NTF5_PATH, 1024, *FO_P8);
     let mut prints: usize = 0;
+    let mut printed_bytes: usize = 0;
+    let mut printed_flushed: usize = 0;
     loop {
         let result = slr.find_sysline(fo);
         match result {
             ResultS3SyslineFind::Found((fo_, syslinep)) => {
                 fo = fo_;
                 match plm.print_sysline(&syslinep) {
-                    Ok(_) => {
+                    Ok((bytes_, flushed_)) => {
                         prints += 1;
+                        printed_bytes += bytes_;
+                        printed_flushed += flushed_;
                     }
                     Err(err) => {
                         panic!("ERROR: plm.print_sysline({:?}) returned Err({})", fo_, err);
@@ -188,21 +196,30 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
             }
         }
     }
+    eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
     assert_eq!(prints, 5, "Expected 5 prints, got {}", prints);
+    assert_eq!(
+        printed_bytes, expected_printed_bytes,
+        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+    );
+    assert_eq!(
+        printed_flushed, expected_flushed,
+        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
+    );
 }
 
 const FILEU: &str = "foo.utmp";
 
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, None, None, None; "a")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, None, None; "b")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, None; "c")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), None, None; "d")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, Some(DATE), None; "e")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, Some(*FO_P8); "f")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), Some(DATE), None; "g")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "h")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, Some(DATE), Some(*FO_P8); "i")]
-#[test_case(&*NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, 1, CCN, CLR, None, Some(DATE), Some(*FO_P8); "j")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, None, None, None, 378, 14; "a")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, None, None, 378, 14; "b")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, None, 378, 2; "c")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), None, None, 394, 17; "d")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, Some(DATE), None, 408, 17; "e")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, Some(*FO_P8), 378, 2; "f")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), Some(DATE), None, 424, 17; "g")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8), 424, 17; "h")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, Some(DATE), Some(*FO_P8), 408, 2; "i")]
+#[test_case(&*NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, 1, CCN, CLR, None, Some(DATE), Some(*FO_P8), 71, 1; "j")]
 fn test_PrinterLogMessage_print_fixedstruct(
     path: &FPath,
     print_count_expect: usize,
@@ -211,6 +228,8 @@ fn test_PrinterLogMessage_print_fixedstruct(
     prepend_file: Option<&str>,
     prepend_date: Option<&str>,
     prepend_offset: Option<FixedOffset>,
+    expected_printed_bytes: usize,
+    expected_flushed: usize,
 ) {
     let mut plm: PrinterLogMessage = new_PrinterLogMessage(
         colorchoice,
@@ -234,6 +253,8 @@ fn test_PrinterLogMessage_print_fixedstruct(
     };
     let mut fo: FileOffset = fixedstructreader.fileoffset_first().unwrap();
     let mut prints: usize = 0;
+    let mut printed_bytes: usize = 0;
+    let mut printed_flushed: usize = 0;
     loop {
         let (fo_next, fs) = match fixedstructreader.process_entry_at(fo, &mut buffer) {
             ResultS3FixedStructFind::Found((fo_, fixedstruct_)) => {
@@ -250,36 +271,48 @@ fn test_PrinterLogMessage_print_fixedstruct(
         };
         fo = fo_next;
         match plm.print_fixedstruct(&fs, buffer) {
-            Ok(_) => {
+            Ok((bytes_, flushed_)) => {
                 prints += 1;
+                printed_bytes += bytes_;
+                printed_flushed += flushed_;
             }
             Err(err) => {
                 panic!("ERROR: plm.print_fixedstruct({:?}, …) returned Err({})", fs, err);
             }
         }
     }
-
+    eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
     assert_eq!(
         prints, print_count_expect, "Expected {} prints, got {}",
         print_count_expect, prints,
     );
+    assert_eq!(
+        printed_bytes, expected_printed_bytes,
+        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+    );
+    assert_eq!(
+        printed_flushed, expected_flushed,
+        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
+    );
 }
 
-#[test_case(CCA, CLR, None, None, None; "a")]
-#[test_case(CCU, CLR, None, None, None; "b")]
-#[test_case(CCN, CLR, None, None, None; "c")]
-#[test_case(CCA, CLR, Some(FILEU), None, None; "d")]
-#[test_case(CCU, CLR, None, Some(DATE), None; "e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8); "f")]
-#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None; "g")]
-#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8); "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8); "i")]
+#[test_case(CCA, CLR, None, None, None, 321782, 1589; "a")]
+#[test_case(CCU, CLR, None, None, None, 321782, 1589; "b")]
+#[test_case(CCN, CLR, None, None, None, 321782, 227; "c")]
+#[test_case(CCA, CLR, Some(FILEU), None, None, 388782, 34408; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None, 447407, 34408; "e")]
+#[test_case(CCN, CLR, None, None, Some(*FO_P8), 321782, 227; "f")]
+#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None, 514407, 34408; "g")]
+#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8), 514407, 34408; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), 447407, 227; "i")]
 fn test_PrinterLogMessage_print_evtx(
     colorchoice: ColorChoice,
     color: Color,
     prepend_file: Option<&str>,
     prepend_date: Option<&str>,
     prepend_offset: Option<FixedOffset>,
+    expected_printed_bytes: usize,
+    expected_flushed: usize,
 ) {
     let mut plm = new_PrinterLogMessage(
         colorchoice,
@@ -294,34 +327,47 @@ fn test_PrinterLogMessage_print_evtx(
         FT_EVTX_NORM,
     ).unwrap();
     let mut prints: usize = 0;
+    let mut printed_bytes: usize = 0;
+    let mut printed_flushed: usize = 0;
     er.analyze(&None, &None);
     while let Some(evtx) = er.next() {
         match plm.print_evtx(&evtx) {
-            Ok(_) => {
+            Ok((bytes_, flushed_)) => {
                 prints += 1;
+                printed_bytes += bytes_;
+                printed_flushed += flushed_;
             }
             Err(err) => {
                 panic!("ERROR: plm.print_evtx({:?}) returned Err({})", evtx, err);
             }
         }
     }
+    eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
     let expect_prints: usize = *EVTX_KPNP_EVENT_COUNT as usize;
     assert_eq!(prints, expect_prints,
         "Expected {} prints, got {}", expect_prints, prints);
+    assert_eq!(
+        printed_bytes, expected_printed_bytes,
+        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+    );
+    assert_eq!(
+        printed_flushed, expected_flushed,
+        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
+    );
 }
 
 const FILEJ: &str = "foo.JOURNAL";
 
-#[test_case(CCA, CLR, None, None, None, JournalOutput::Short, 197149; "a")]
-#[test_case(CCU, CLR, None, None, None, JournalOutput::ShortPrecise, 211716; "b")]
-#[test_case(CCN, CLR, None, None, None, JournalOutput::ShortIso, 205473; "c")]
-#[test_case(CCA, CLR, Some(FILEJ), None, None, JournalOutput::ShortIsoPrecise, 253424; "d")]
-#[test_case(CCU, CLR, None, Some(DATE), None, JournalOutput::ShortFull, 259699; "e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8), JournalOutput::ShortMonotonic, 195068; "f")]
-#[test_case(CCA, CLR, Some(FILEJ), Some(DATE), None, JournalOutput::ShortUnix, 255625; "g")]
-#[test_case(CCU, CLR, Some(FILEJ), Some(DATE), Some(*FO_P8), JournalOutput::Verbose, 3234685; "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Export, 2574170; "i")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Cat, 154102; "j")]
+#[test_case(CCA, CLR, None, None, None, JournalOutput::Short, 197149, 12486; "a")]
+#[test_case(CCU, CLR, None, None, None, JournalOutput::ShortPrecise, 211716, 12486; "b")]
+#[test_case(CCN, CLR, None, None, None, JournalOutput::ShortIso, 205473, 2081; "c")]
+#[test_case(CCA, CLR, Some(FILEJ), None, None, JournalOutput::ShortIsoPrecise, 253424, 14599; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None, JournalOutput::ShortFull, 259699, 14599; "e")]
+#[test_case(CCN, CLR, None, None, Some(*FO_P8), JournalOutput::ShortMonotonic, 195068, 2081; "f")]
+#[test_case(CCA, CLR, Some(FILEJ), Some(DATE), None, JournalOutput::ShortUnix, 255625, 14599; "g")]
+#[test_case(CCU, CLR, Some(FILEJ), Some(DATE), Some(*FO_P8), JournalOutput::Verbose, 3234685, 205839; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Export, 2574170, 2081; "i")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Cat, 154102, 2081; "j")]
 fn test_PrinterLogMessage_print_journal(
     colorchoice: ColorChoice,
     color: Color,
@@ -330,6 +376,7 @@ fn test_PrinterLogMessage_print_journal(
     prepend_offset: Option<FixedOffset>,
     journal_output: JournalOutput,
     expected_printed_bytes: usize,
+    expected_flushed: usize,
 ) {
     if !cfg!(target_os = "linux") {
         return;
@@ -351,6 +398,7 @@ fn test_PrinterLogMessage_print_journal(
     ).unwrap();
     let mut prints: usize = 0;
     let mut printed_bytes: usize = 0;
+    let mut printed_flushed: usize = 0;
     assert!(jr.analyze(&None).is_ok());
     loop {
         match jr.next(&None) {
@@ -365,9 +413,10 @@ fn test_PrinterLogMessage_print_journal(
             }
             ResultNext::Found(journal_entry) => {
                 match plm.print_journalentry(&journal_entry) {
-                    PrinterLogMessageResult::Ok(printed) => {
+                    PrinterLogMessageResult::Ok((printed, flushed)) => {
                         prints += 1;
                         printed_bytes += printed;
+                        printed_flushed += flushed;
                     }
                     _ => {
                         panic!(
@@ -379,6 +428,7 @@ fn test_PrinterLogMessage_print_journal(
             }
         }
     }
+    eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
     let expect_prints: usize = *JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT as usize;
     assert_eq!(
         prints, expect_prints,
@@ -388,4 +438,10 @@ fn test_PrinterLogMessage_print_journal(
         printed_bytes, expected_printed_bytes,
         "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
     );
+    assert_eq!(
+        printed_flushed, expected_flushed,
+        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
+    );
+}
+
 }

@@ -7,6 +7,7 @@ File: ./logs/programs/tomcat/catalina-access.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 578
+      flushes       : 2
       lines         : 2
       syslines      : 2
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 586
+Printed flushes        : 4
 Printed lines          : 2
 Printed syslines       : 2
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4480
+      flushes       : 18
       lines         : 21
       syslines      : 18
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 4553
+Printed flushes        : 37
 Printed lines          : 21
 Printed syslines       : 18
 Printed evtx events    : 0

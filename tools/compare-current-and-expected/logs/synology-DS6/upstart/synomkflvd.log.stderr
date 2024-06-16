@@ -7,6 +7,7 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2040
+      flushes       : 15
       lines         : 15
       syslines      : 15
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2100
+Printed flushes        : 30
 Printed lines          : 15
 Printed syslines       : 15
 Printed evtx events    : 0

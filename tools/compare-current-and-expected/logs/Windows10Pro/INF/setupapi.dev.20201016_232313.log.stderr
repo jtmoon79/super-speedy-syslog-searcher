@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5748
+      flushes       : 4
       lines         : 41
       syslines      : 4
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5765
+Printed flushes        : 9
 Printed lines          : 41
 Printed syslines       : 4
 Printed evtx events    : 0

@@ -7,6 +7,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3826
+      flushes       : 6
       lines         : 26
       syslines      : 6
   Processed:
@@ -41,6 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3851
+Printed flushes        : 13
 Printed lines          : 26
 Printed syslines       : 6
 Printed evtx events    : 0
