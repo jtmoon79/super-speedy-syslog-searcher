@@ -806,7 +806,7 @@ pub fn print_summary(
         "".as_bytes()
     ) {
         Ok(_) => {}
-        Err(_e) => de_err!("\nERROR: print_colored_stderr {:?}", _e),
+        Err(_e) => de!("\nERROR: print_colored_stderr {:?}", _e),
     }
     // print details about all the valid files
     print_all_files_summaries(
