@@ -2,8 +2,7 @@
 
 [package]
 name = "super_speedy_syslog_searcher"
-# The `description` should roughly match the first three paragraph sentences
-# in `README.md`
+# The `description` should roughly match the first three paragraph sentences in `README.md`
 description = "Speedily search and merge log messages by datetime. DateTime filters may be passed to narrow the search. s4 aims to be very fast."
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 authors = ["James Thomas Moon"]
@@ -58,8 +57,6 @@ kinded = "0.3.0"
 lazy_static = "1.4.0"
 lru = "0.12.3"
 lzma-rs = "0.3.0"
-# Crate `lzma-rs` is the only pure rust crate.
-# Other crates interface to liblzma which not ideal.
 lz4_flex = "0.11"
 memchr = { version = "2.7.2", optional = true }
 memoffset = "0.9.1"
