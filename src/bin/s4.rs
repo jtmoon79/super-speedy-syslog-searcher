@@ -54,6 +54,18 @@
 
 #![allow(non_camel_case_types)]
 
+// first setup the custom global allocator
+#[cfg(not(target_env = "msvc"))]
+use tikv_jemallocator::Jemalloc;
+#[cfg(not(target_env = "msvc"))]
+#[global_allocator]
+static GLOBAL: Jemalloc = Jemalloc;
+#[cfg(target_env = "msvc")]
+use mimalloc::MiMalloc;
+#[cfg(target_env = "msvc")]
+#[global_allocator]
+static GLOBAL: MiMalloc = MiMalloc;
+
 use std::collections::{BTreeMap, HashMap};
 use std::io::BufRead; // for stdin::lock().lines()
 use std::io::Error;
