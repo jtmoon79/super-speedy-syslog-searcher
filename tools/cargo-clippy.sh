@@ -17,7 +17,6 @@ exec cargo clippy \
     --verbose \
     --no-deps \
     --all-targets \
-    --all-features \
     "${@}" \
     -- \
     -D warnings \

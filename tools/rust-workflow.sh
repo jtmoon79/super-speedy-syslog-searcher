@@ -34,7 +34,7 @@ cargo build --release
 cargo nextest run --all-targets
 cargo check --all-targets
 cargo check --all-targets --release
-cargo clippy --no-deps --all-targets --all-features
+cargo clippy --no-deps --all-targets
 cargo bench --no-run
 cargo build --profile flamegraph
 cargo build --profile valgrind

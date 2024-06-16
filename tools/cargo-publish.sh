@@ -23,6 +23,5 @@ cargo --version
 exec cargo publish \
     --verbose \
     --locked \
-    --all-features \
     ${arg_dry_run} \
     "${@}" \

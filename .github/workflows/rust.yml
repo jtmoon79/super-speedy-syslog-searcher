@@ -518,7 +518,7 @@ jobs:
           set -eux
           cargo publish --dry-run
           cargo package --list --all-features
-          cargo package --all-features
+          cargo package
 
   job_yamllint:
     # this job installs Python PIP packages

@@ -52,6 +52,7 @@ encoding_rs = "0.8.34"
 evtx = { version = "0.8.2", features = ["multithreading"] }
 flate2 = "1.0.30"
 itertools = "0.13.0"
+jetscii = { version = "0.5.3", optional = true }
 jwalk = "0.8.1"
 kinded = "0.3.0"
 lazy_static = "1.4.0"
@@ -60,6 +61,7 @@ lzma-rs = "0.3.0"
 # Crate `lzma-rs` is the only pure rust crate.
 # Other crates interface to liblzma which not ideal.
 lz4_flex = "0.11"
+memchr = { version = "2.7.2", optional = true }
 memoffset = "0.9.1"
 mime_guess = "2.0.4"
 min-max = "0.1.8"
@@ -111,12 +113,12 @@ filepath = "0.1.2"
 filetime = "0.2.23"
 # XXX: `flamegraph` fails to build, MSRV 1.74; must be manually installed
 # flamegraph = "0.6.5"
-jetscii = "0.5.3"
-memchr = "2.7.2"
 test-case = "3.3.1"
 
 [features]
-# to run benchmark using `stringzilla` pass `--features bench_stringzilla`
+# to run more benchmarks pass `--features bench_*`
+bench_jetscii = ["dep:jetscii"]
+bench_memchr = ["dep:memchr"]
 bench_stringzilla = ["dep:stringzilla"]
 
 # release build optimizations

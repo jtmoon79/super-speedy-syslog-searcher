@@ -71,6 +71,13 @@ use crate::data::datetime::{
     slice_contains_D2_custom,
     slice_contains_12_D2,
 };
+#[cfg(feature = "bench_jetscii")]
+use crate::data::datetime::{
+    slice_contains_X_2_jetscii,
+    slice_contains_D2_jetscii,
+};
+#[cfg(feature = "bench_memchr")]
+use crate::data::datetime::slice_contains_X_2_memchr;
 #[cfg(feature = "bench_stringzilla")]
 use crate::data::datetime::{
     slice_contains_X_2_stringzilla,
@@ -1270,6 +1277,16 @@ fn test_slice_contains_X_2(data: &[u8], search: &[u8; 2], expect: bool) {
     eprintln!("test_slice_contains_X_2({:?}, {:?})", data.as_bstr(), search);
     let actual = slice_contains_X_2_unroll(data, search);
     assert_eq!(expect, actual, "slice_contains_X_2_unroll");
+    #[cfg(feature = "bench_jetscii")]
+    {
+        let actual = slice_contains_X_2_jetscii(data, search);
+        assert_eq!(expect, actual, "slice_contains_X_2_jetscii");
+    }
+    #[cfg(feature = "bench_memchr")]
+    {
+        let actual = slice_contains_X_2_memchr(data, search);
+        assert_eq!(expect, actual, "slice_contains_X_2_memchr");
+    }
     #[cfg(feature = "bench_stringzilla")]
     {
         let actual = slice_contains_X_2_stringzilla(data, search);
@@ -1308,6 +1325,11 @@ fn test_slice_contains_D2(data: &[u8], expect: bool) {
     eprintln!("test_slice_contains_D2(data={:?}, expect={:?})", data.as_bstr(), expect);
     let actual = slice_contains_D2_custom(data);
     assert_eq!(expect, actual, "slice_contains_D2_custom");
+    #[cfg(feature = "bench_jetscii")]
+    {
+        let actual = slice_contains_D2_jetscii(data);
+        assert_eq!(expect, actual, "slice_contains_D2_jetscii");
+    }
     #[cfg(feature = "bench_stringzilla")]
     {
         let actual = slice_contains_D2_stringzilla(data);

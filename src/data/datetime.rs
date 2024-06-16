@@ -66,7 +66,11 @@ pub use ::chrono::{
     Utc,
 };
 use ::const_format::concatcp;
+#[cfg(feature = "bench_jetscii")]
+use ::jetscii;
 use ::lazy_static::lazy_static;
+#[cfg(feature = "bench_memchr")]
+use ::memchr;
 use ::more_asserts::{debug_assert_ge, debug_assert_le, debug_assert_lt};
 use ::once_cell::sync::OnceCell;
 use ::phf::phf_map;
@@ -7751,7 +7755,6 @@ const fn slice_contains_98_2(
 }
 #[inline(always)]
 #[unroll_for_loops]
-
 const fn slice_contains_99_2(
     slice_: &[u8; 99],
     search: &[u8; 2],
@@ -7768,7 +7771,9 @@ const fn slice_contains_99_2(
 /// hardcoded array.
 /// Uses crate [`unroll`].
 ///
-/// Hardcoded implementation for [`u8`] slices up to 99 length. Runs very fast.
+/// Hardcoded implementation for [`u8`] slices up to 99 length. Runs very fast according
+/// to benches in `src/benches/slice_contains.rs`.
+///
 /// Supports arbitrary length.
 ///
 /// [`unroll`]: https://docs.rs/unroll/0.1.5/unroll/index.html
@@ -7882,10 +7887,42 @@ pub fn slice_contains_X_2_unroll(
         97 => slice_contains_97_2(<&[u8; 97]>::try_from(slice_).unwrap(), search),
         98 => slice_contains_98_2(<&[u8; 98]>::try_from(slice_).unwrap(), search),
         99 => slice_contains_99_2(<&[u8; 99]>::try_from(slice_).unwrap(), search),
-        _ => slice_
-            .iter()
-            .any(|&c| c == search[0] || c == search[1]),
+        _ => {
+            // fallback to `slice_.contains`
+            // surprisingly good performance according to benches in `bench_slice_contains`
+            slice_.contains(&search[0]) || slice_.contains(&search[1])
+        }
    }
+}
+
+/// `jetscii` implementation of `slice.contains` for a byte slice and a
+/// hardcoded array.
+#[inline(always)]
+#[allow(non_snake_case)]
+#[cfg(feature = "bench_jetscii")]
+pub fn slice_contains_X_2_jetscii(
+    slice_: &[u8],
+    search: &[u8; 2],
+) -> bool {
+    match jetscii::bytes!(search[0], search[1]).find(&slice_) {
+        Some(_) => true,
+        None => false,
+    }
+}
+
+/// `memchr` implementation of `slice.contains` for a byte slice and a
+/// hardcoded array.
+#[inline(always)]
+#[allow(non_snake_case)]
+#[cfg(feature = "bench_memchr")]
+pub fn slice_contains_X_2_memchr(
+    slice_: &[u8],
+    search: &[u8; 2],
+) -> bool {
+    match memchr::memchr2(search[0], search[1], slice_) {
+        Some(_) => true,
+        None => false,
+    }
 }
 
 /// Stringzilla implementation of `slice.contains` for a byte slice and a
@@ -7950,6 +7987,36 @@ pub fn slice_contains_D2_custom(
 }
 
 /// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
+/// jetscii implementation.
+/// Hack efficiency helper.
+#[inline(always)]
+#[allow(non_snake_case)]
+#[cfg(feature = "bench_jetscii")]
+pub fn slice_contains_D2_jetscii(
+    slice_: &[u8],
+) -> bool {
+    let mut atn: usize = 0;
+    let mut lastn: isize = -1;
+    let bytes_ = jetscii::bytes!(b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9');
+    loop {
+        match bytes_.find(
+            &slice_[atn..]
+        ) {
+            Some(n) => {
+                if lastn != -1 && atn + n == ((lastn + 1) as usize) {
+                    return true;
+                }
+                lastn = (atn + n) as isize;
+                atn = atn + n + 1;
+            }
+            None => break,
+        }
+    }
+
+    false
+}
+
+/// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
 /// Stringzilla implementation.
 /// Hack efficiency helper.
 #[inline(always)]
@@ -7958,9 +8025,6 @@ pub fn slice_contains_D2_custom(
 pub fn slice_contains_D2_stringzilla(
     slice_: &[u8],
 ) -> bool {
-    // "a1"
-    //  01
-
     let mut atn: usize = 0;
     let mut lastn: isize = -1;
     loop {

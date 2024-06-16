@@ -24,9 +24,7 @@ use ::arraystring;
 use ::bstr::ByteSlice; // adds method `to_bstr` on some built-ins
 use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
 use ::encoding_rs;
-//use ::jetscii::bytes;
 use ::lazy_static::lazy_static;
-//use ::memchr;
 
 type Bytes = Vec<u8>;
 
@@ -433,29 +431,6 @@ fn dutf8_arraystring__CacheString_from_utf8() {
     }
     assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
 }
-
-/*
-#[inline(never)]
-fn dutf8_jetscii() {
-    // use jetscii::Bytes
-    let mut count: u32 = 0;
-    for data in Datas.iter() {
-        let data_slice = data.as_slice();
-        let bytes_ = match bytes!(data_slice) {
-            Ok(val) => val,
-            Err(_) => {
-                continue;  // invalid UTF8 or too large size
-            }
-        };
-        let s1 = bytes_.to_string();
-        black_box(s1);
-        count += 1;
-    };
-    assert_eq!(count, COUNT_VALID_UTF8_IN_DATAS, "FAILED TO CATCH INVALID UTF8");
-}
-*/
-
-// TODO: try https://docs.rs/memchr/latest/memchr/fn.memchr.html
 
 /*
 // using crate bstr
