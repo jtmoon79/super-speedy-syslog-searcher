@@ -17,7 +17,7 @@ use ::chrono::{
     TimeZone,
     Timelike,
 };
-use ::si_trace_print::defñ;
+use ::si_trace_print::{de, defñ};
 
 use crate::de_err;
 use crate::common::{
