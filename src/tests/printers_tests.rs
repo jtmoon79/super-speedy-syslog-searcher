@@ -7,18 +7,25 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 use crate::common::{
+    AllocatorChosen,
     FileOffset,
     FileType,
     FileTypeArchive,
     FileTypeFixedStruct,
     FPath,
+    LogMessageType,
+    SetPathId,
 };
 use crate::debug::helpers::{
     create_temp_file,
     ntf_fpath,
     NamedTempFile,
 };
-use crate::data::datetime::FixedOffset;
+use crate::data::datetime::{
+    FixedOffset,
+    Local,
+    Utc,
+};
 use crate::data::fixedstruct::ENTRY_SZ_MAX;
 use crate::libload::systemd_dlopen2::load_library_systemd;
 use crate::printer::printers::{
@@ -26,6 +33,20 @@ use crate::printer::printers::{
     ColorChoice,
     PrinterLogMessage,
     PrinterLogMessageResult,
+};
+use crate::printer::summary::{
+    MapPathIdToProcessPathResult,
+    MapPathIdToProcessPathResultOrdered,
+    MapPathIdToFPath,
+    MapPathIdToModifiedTime,
+    MapPathIdToFileProcessingResultBlockZero,
+    MapPathIdToFileType,
+    MapPathIdToLogMessageType,
+    MapPathIdToColor,
+    MapPathIdSummary,
+    MapPathIdSummaryPrint,
+    SummaryPrinted,
+    print_summary,
 };
 use crate::readers::blockreader::BlockSz;
 use crate::readers::evtxreader::EvtxReader;
@@ -444,4 +465,35 @@ fn test_PrinterLogMessage_print_journal(
     );
 }
 
+#[test]
+fn test_print_summary_empty() {
+    let utc_ = Utc::now();
+    let local_ = Local::now();
+    print_summary(
+        MapPathIdToProcessPathResult::new(),
+        MapPathIdToProcessPathResultOrdered::new(),
+        MapPathIdToFPath::new(),
+        MapPathIdToModifiedTime::new(),
+        MapPathIdToFileProcessingResultBlockZero::new(),
+        MapPathIdToFileType::new(),
+        MapPathIdToLogMessageType::new(),
+        MapPathIdToColor::new(),
+        MapPathIdSummary::new(),
+        MapPathIdSummaryPrint::new(),
+        ColorChoice::Always,
+        Color::Black,
+        0,
+        SetPathId::new(),
+        SummaryPrinted::new(LogMessageType::All),
+        &None,
+        &None,
+        &local_,
+        &utc_,
+        0,
+        0,
+        std::time::Instant::now(),
+        1,
+        0,
+        AllocatorChosen::System,
+    );
 }
