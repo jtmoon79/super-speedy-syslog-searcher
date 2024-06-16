@@ -18001,3 +18001,4 @@ Channel Receive ok     : 13882
 Channel Receive err    : 0
 Threads Spawned        : 573
 Thread Spawn errors    : 0
+Allocator Chosen       : Jemalloc

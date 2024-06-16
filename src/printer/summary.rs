@@ -21,6 +21,7 @@ use ::si_trace_print::defñ;
 
 use crate::de_err;
 use crate::common::{
+    AllocatorChosen,
     debug_panic,
     Count,
     FileType,
@@ -795,6 +796,7 @@ pub fn print_summary(
     start_time: Instant,
     thread_count: usize,
     thread_err_count: usize,
+    allocator_chosen: AllocatorChosen,
 ) {
     let finish_time = Instant::now();
     // reset the text color to default
@@ -934,6 +936,7 @@ pub fn print_summary(
             eprintln!("Program Run Time       : unknown");
         }
     }
+    eprintln!("Allocator Chosen       : {}", allocator_chosen);
 }
 
 // TODO: [2023/04/05] move printing of `file size` from per-file "Processed:"

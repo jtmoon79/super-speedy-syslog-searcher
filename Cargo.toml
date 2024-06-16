@@ -83,9 +83,9 @@ unroll = "0.1.5"
 walkdir = "2.5.0"
 utf8_iter = "1.0.4"
 # allocators
-[target.'cfg(target_env = "msvc")'.dependencies]
+[target.'cfg(all(target_env = "msvc",target_os = "windows"))'.dependencies]
 mimalloc = "0.1.42"
-[target.'cfg(not(target_env = "msvc"))'.dependencies]
+[target.'cfg(all(not(target_env = "msvc"),target_os = "linux"))'.dependencies]
 tikv-jemallocator = "0.5"
 
 [lib]

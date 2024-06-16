@@ -54,17 +54,29 @@
 
 #![allow(non_camel_case_types)]
 
+use ::s4lib::common::AllocatorChosen;
+
 // first setup the custom global allocator
-#[cfg(not(target_env = "msvc"))]
+// allocator: Linux
+#[cfg(all(not(target_env = "msvc"), target_os = "linux"))]
 use tikv_jemallocator::Jemalloc;
-#[cfg(not(target_env = "msvc"))]
+#[cfg(all(not(target_env = "msvc"), target_os = "linux"))]
 #[global_allocator]
 static GLOBAL: Jemalloc = Jemalloc;
-#[cfg(target_env = "msvc")]
+#[cfg(all(not(target_env = "msvc"), target_os = "linux"))]
+const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Jemalloc;
+// allocator: Windows
+#[cfg(all(target_env = "msvc", target_os = "windows"))]
 use mimalloc::MiMalloc;
-#[cfg(target_env = "msvc")]
+#[cfg(all(target_env = "msvc", target_os = "windows"))]
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
+#[cfg(all(target_env = "msvc", target_os = "windows"))]
+const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::MiMalloc;
+// allocator: Illumos uses the system allocator
+#[cfg(not(any(all(not(target_env = "msvc"), target_os = "linux"),all(target_env = "msvc", target_os = "windows"))))]
+const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
+
 
 use std::collections::{BTreeMap, HashMap};
 use std::io::BufRead; // for stdin::lock().lines()
@@ -2930,6 +2942,7 @@ fn processing_loop(
             start_time,
             thread_count,
             thread_err_count,
+            ALLOCATOR_CHOSEN,
         );
         return false;
     }
@@ -3705,6 +3718,7 @@ fn processing_loop(
             start_time,
             thread_count,
             thread_err_count,
+            ALLOCATOR_CHOSEN,
         );
     }
 
