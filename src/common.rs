@@ -57,6 +57,26 @@ pub type PathId = usize;
 /// a set of [`PathId`]
 pub type SetPathId = HashSet<PathId>;
 
+/// signifier of which allocator was chosen
+pub enum AllocatorChosen {
+    System = 1,
+    Jemalloc = 2,
+    MiMalloc = 3,
+}
+
+impl std::fmt::Display for AllocatorChosen {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter,
+    ) -> std::fmt::Result {
+        match self {
+            AllocatorChosen::System => write!(f, "System"),
+            AllocatorChosen::Jemalloc => write!(f, "Jemalloc"),
+            AllocatorChosen::MiMalloc => write!(f, "MiMalloc"),
+        }
+    }
+}
+
 /// panics in debug builds, otherwise a no-op
 #[macro_export]
 macro_rules! debug_panic {

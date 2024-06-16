@@ -36,3 +36,4 @@ Channel Receive ok     : 229
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
+Allocator Chosen       : Jemalloc
