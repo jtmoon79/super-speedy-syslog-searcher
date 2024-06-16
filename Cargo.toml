@@ -138,7 +138,7 @@ lto = true
 [profile.flamegraph]
 inherits = "release"
 codegen-units = 16
-debuginfo = 2
+debug = 2
 lto = false
 panic = "unwind"
 split-debuginfo = "unpacked"
@@ -147,7 +147,7 @@ strip = false
 [profile.valgrind]
 inherits = "release"
 codegen-units = 16
-debuginfo = 2
+debug = 2
 lto = false
 panic = "abort"
 split-debuginfo = "unpacked"
