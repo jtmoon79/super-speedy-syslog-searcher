@@ -45,6 +45,7 @@ cargo publish --dry-run --allow-dirty
 ./tools/compare-current-and-expected/compare.sh
 ./tools/compare-debug-release.sh
 ./tools/compare-grep-sort.sh
+mlc ./README.md
 
 for TARGET in \
     aarch64-unknown-linux-gnu \
