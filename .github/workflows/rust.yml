@@ -499,7 +499,7 @@ jobs:
         run: |
           Set-PSDebug -Trace 1
           cargo.exe nextest --version
-          ${env:NEXTEST_TEST_THREADS}="num-cpus"
+          ${env:NEXTEST_TEST_THREADS}="2"
           cargo.exe nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_flamegraph:
