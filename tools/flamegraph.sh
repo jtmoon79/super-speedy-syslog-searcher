@@ -3,6 +3,10 @@
 # Run `cargo flamegraph` with preferred options.
 # Creates a CPU flamegraph of the program run.
 #
+# build the program with:
+#
+#     RUSTFLAGS=-g cargo build --profile flamegraph
+#
 # install:
 #   apt install -y linux-perf linux-tools-generic
 #   cargo install flamegraph
@@ -50,12 +54,22 @@ export PERF
 )
 
 declare -r PROGRAM=${PROGRAM-./target/flamegraph/s4}
+if [[ ! -x "${PROGRAM}" ]]; then
+    echo "PROGRAM does not exist or is not executable '${PROGRAM}'" >&2
+    echo "build with:" >&2
+    echo "    RUSTFLAGS=-g cargo build --profile flamegraph" >&2
+    exit 1
+fi
+if ! "${PROGRAM}" --version &>/dev/null; then
+    echo "PROGRAM failed to run '${PROGRAM}'" >&2
+    exit 1
+fi
 declare -r BIN=${BIN-s4}
 
 export CARGO_PROFILE_RELEASE_DEBUG=true
-#export RUSTFLAGS="-Clink-arg=-fuse-ld=lld -Clink-arg=-Wl,--no-rosegment"
-#export RUSTC_LINKER=$(which clang)
+export RUSTFLAGS=-g
 export RUST_BACKTRACE=1
+#export RUSTC_LINKER=$(which clang)
 
 OUT=${OUT-flamegraph.svg}
 
