@@ -588,6 +588,16 @@ jobs:
       - name: Run codecov-validate.sh
         run: ./tools/codecov-validate.sh -v
 
+  job_markup_link_checker:
+    name: markup link checker
+    needs: [job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Markup Link Checker (mlc)
+        uses: becheran/mlc@v0.17.1
+        with:
+          args: ./README.md -T 1000
+
   job_runs:
     # all of these steps need the s4 binary and the git-committed logs
     # with modified filesystem datetime
