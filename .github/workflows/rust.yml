@@ -209,10 +209,10 @@ jobs:
           # Tier 1
           - aarch64-unknown-linux-gnu
           - i686-pc-windows-gnu
-          - i686-pc-windows-msvc
+          # - i686-pc-windows-msvc # in job_cross_targets_windows
           - i686-unknown-linux-gnu
           - x86_64-pc-windows-gnu
-          - x86_64-pc-windows-msvc
+          # - x86_64-pc-windows-msvc # in job_cross_targets_windows
           - x86_64-unknown-linux-gnu
           # Tier 2 with host tools
           # - aarch64-pc-windows-msvc  # version `GLIBC_2.25' not found
@@ -251,7 +251,6 @@ jobs:
           - mips64-unknown-linux-gnuabi64
           # - x86_64-unknown-dragonfly  # toolchain 1.67.1 does not support ...
           # - x86_64-unknown-openbsd  # toolchain 1.67.1 does not support ...
-          # - x86_64-uwp-windows-msvc  # error: component 'rust-std' for target 'x86_64-uwp-windows-msvc' is unavailable for download for channel '1.70.0'
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -295,6 +294,33 @@ jobs:
           rustup show
           cross --version
           cross check --lib --bins --target ${{ matrix.target }}
+
+  job_cross_targets_windows:
+    name: cross ${{ matrix.target }} on windows
+    needs: [job_rust_msrv_os, job_cross_targets_macos]
+    strategy:
+      matrix:
+        target:
+          # Tier 1
+          - i686-pc-windows-msvc
+          - x86_64-pc-windows-msvc
+          # Tier 3
+          - x86_64-uwp-windows-msvc
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: moonrepo/setup-rust@v1
+        with:
+          channel: ${{ env.MSRV_UPLOAD }}
+          bins: cross, cargo-cache
+          targets: ${{ matrix.target }}
+      - name: cross check
+        shell: powershell
+        run: |
+          Set-PSDebug -Trace 1
+          rustup.exe show
+          cross.exe --version
+          cross.exe check --lib --bins --target ${{ matrix.target }}
 
   # job_test_wasm:
   #  runs-on: ubuntu-latest
