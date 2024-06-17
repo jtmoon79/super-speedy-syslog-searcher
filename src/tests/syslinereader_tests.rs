@@ -3697,7 +3697,6 @@ fn impl_test_SyslineReader_find_sysline(
     let mut check_i: usize = 0;
     loop {
         let result = slr.find_sysline(fo1);
-        //let done = result.is_done() || result.is_eof();
         let done = result.is_done();
         match result {
             ResultS3SyslineFind::Found((fo, slp)) => {
@@ -3716,7 +3715,7 @@ fn impl_test_SyslineReader_find_sysline(
                     continue;
                 }
                 defo!(
-                    "find_sysline({}); check {} expect ({:?}, {:?})",
+                    "find_sysline({}); check {} expect\n({:?}, {:?})",
                     fo1,
                     check_i,
                     checks[check_i].1,
@@ -3766,19 +3765,19 @@ fn impl_test_SyslineReader_find_sysline(
 
 const test_data_file_A1_dt6: &str = "\
 2000-01-01 00:00:00
-2000-01-01 00:00:01a
-2000-01-01 00:00:02ab
-2000-01-01 00:00:03abc
-2000-01-01 00:00:04abcd
-2000-01-01 00:00:05abcde";
+2000-01-01 00:00:01 a
+2000-01-01 00:00:02 ab
+2000-01-01 00:00:03 abc
+2000-01-01 00:00:04 abcd
+2000-01-01 00:00:05 abcde";
 
 const test_data_file_A1_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("2000-01-01 00:00:00\n", 20),
-    ("2000-01-01 00:00:01a\n", 41),
-    ("2000-01-01 00:00:02ab\n", 63),
-    ("2000-01-01 00:00:03abc\n", 86),
-    ("2000-01-01 00:00:04abcd\n", 110),
-    ("2000-01-01 00:00:05abcde", 134),
+    ("2000-01-01 00:00:01 a\n", 42),
+    ("2000-01-01 00:00:02 ab\n", 65),
+    ("2000-01-01 00:00:03 abc\n", 89),
+    ("2000-01-01 00:00:04 abcd\n", 114),
+    ("2000-01-01 00:00:05 abcde", 139),
 ];
 
 lazy_static! {
@@ -3819,7 +3818,7 @@ fn test_find_sysline_A1_dt6_128_3_() {
 #[test]
 fn test_find_sysline_A1_dt6_128_4_() {
     let checks = TestSyslineReaderChecks::from(&test_data_file_A1_dt6_checks[4..]);
-    impl_test_SyslineReader_find_sysline(&NTF_A1_path, 128, 86, &checks);
+    impl_test_SyslineReader_find_sysline(&NTF_A1_path, 128, 89, &checks);
 }
 
 #[test]
@@ -4274,20 +4273,20 @@ fn test_find_sysline_B_dt0_3() {
 // -------------------------------------------------------------------------------------------------
 
 const test_data_file_C_dt6: &str = "\
-[DEBUG] 2000-01-01 00:00:00
-[DEBUG] 2000-01-01 00:00:01a
-[DEBUG] 2000-01-01 00:00:02ab
-[DEBUG] 2000-01-01 00:00:03abc
-[DEBUG] 2000-01-01 00:00:04abcd
-[DEBUG] 2000-01-01 00:00:05abcde";
+[DEBUG] 2000-01-01 00:00:00|
+[DEBUG] 2000-01-01 00:00:01|a
+[DEBUG] 2000-01-01 00:00:02|ab
+[DEBUG] 2000-01-01 00:00:03|abc
+[DEBUG] 2000-01-01 00:00:04|abcd
+[DEBUG] 2000-01-01 00:00:05|abcde";
 
 const test_data_file_C_dt6_checks: [TestSyslineReaderCheck; 6] = [
-    ("[DEBUG] 2000-01-01 00:00:00\n", 28),
-    ("[DEBUG] 2000-01-01 00:00:01a\n", 57),
-    ("[DEBUG] 2000-01-01 00:00:02ab\n", 87),
-    ("[DEBUG] 2000-01-01 00:00:03abc\n", 118),
-    ("[DEBUG] 2000-01-01 00:00:04abcd\n", 150),
-    ("[DEBUG] 2000-01-01 00:00:05abcde", 182),
+    ("[DEBUG] 2000-01-01 00:00:00|\n", 29),
+    ("[DEBUG] 2000-01-01 00:00:01|a\n", 59),
+    ("[DEBUG] 2000-01-01 00:00:02|ab\n", 90),
+    ("[DEBUG] 2000-01-01 00:00:03|abc\n", 122),
+    ("[DEBUG] 2000-01-01 00:00:04|abcd\n", 155),
+    ("[DEBUG] 2000-01-01 00:00:05|abcde", 188),
 ];
 
 lazy_static! {
@@ -4308,14 +4307,8 @@ fn test_find_sysline_C_dt6_3() {
 }
 
 #[test]
-fn test_find_sysline_C_dt6_27() {
+fn test_find_sysline_C_dt6_28() {
     let checks = TestSyslineReaderChecks::from(test_data_file_C_dt6_checks);
-    impl_test_SyslineReader_find_sysline(&test_SyslineReader_C_ntf_path, 128, 27, &checks);
-}
-
-#[test]
-fn test_find_sysline_C_dt6_28_1__() {
-    let checks = TestSyslineReaderChecks::from(&test_data_file_C_dt6_checks[1..]);
     impl_test_SyslineReader_find_sysline(&test_SyslineReader_C_ntf_path, 128, 28, &checks);
 }
 
@@ -4323,6 +4316,12 @@ fn test_find_sysline_C_dt6_28_1__() {
 fn test_find_sysline_C_dt6_29_1__() {
     let checks = TestSyslineReaderChecks::from(&test_data_file_C_dt6_checks[1..]);
     impl_test_SyslineReader_find_sysline(&test_SyslineReader_C_ntf_path, 128, 29, &checks);
+}
+
+#[test]
+fn test_find_sysline_C_dt6_30_1__() {
+    let checks = TestSyslineReaderChecks::from(&test_data_file_C_dt6_checks[1..]);
+    impl_test_SyslineReader_find_sysline(&test_SyslineReader_C_ntf_path, 128, 30, &checks);
 }
 
 #[test]
