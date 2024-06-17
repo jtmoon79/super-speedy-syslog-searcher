@@ -90,6 +90,13 @@ Assuming [rust is installed], run
 cargo install --locked super_speedy_syslog_searcher
 ```
 
+Some Linux platforms will require installing `make` to compile `jemalloc`.
+
+Windows OS (`target_os="windows"`) with `target_env="msvc"` require `lib.exe`
+to commpile `mimalloc`.
+
+Check your rust compilation target settings with command `rustc --print cfg`.
+
 [rust is installed]: https://www.rust-lang.org/tools/install
 
 ### Run `s4`
