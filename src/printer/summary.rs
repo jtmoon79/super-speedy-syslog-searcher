@@ -546,8 +546,10 @@ impl SummaryPrinted {
         flushed: Count,
     ) {
         defñ!();
-        debug_assert!(matches!(self.logmessagetype,
-            LogMessageType::Sysline | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
+        debug_assert!(
+            matches!(self.logmessagetype, LogMessageType::Sysline | LogMessageType::All),
+            "Unexpected LogMessageType {:?}", self.logmessagetype,
+        );
         self.syslines += 1;
         self.lines += (*syslinep).count_lines();
         self.bytes += printed;
@@ -564,10 +566,10 @@ impl SummaryPrinted {
     )
     {
         defñ!();
-        debug_assert!(matches!(self.logmessagetype,
-            LogMessageType::FixedStruct | LogMessageType::All),
-            "Unexpected LogMessageType {:?}", self.logmessagetype);
-        debug_assert!(!matches!(self.logmessagetype, LogMessageType::All));
+        debug_assert!(
+            matches!(self.logmessagetype, LogMessageType::FixedStruct | LogMessageType::All),
+            "Unexpected LogMessageType {:?}", self.logmessagetype,
+        );
         self.fixedstructentries += 1;
         self.bytes += printed;
         self.flushed += flushed;
@@ -582,9 +584,10 @@ impl SummaryPrinted {
         flushed: Count,
     ) {
         defñ!();
-        debug_assert!(matches!(self.logmessagetype,
-            LogMessageType::Evtx | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
-        debug_assert!(!matches!(self.logmessagetype, LogMessageType::All));
+        debug_assert!(
+            matches!(self.logmessagetype, LogMessageType::Evtx | LogMessageType::All),
+            "Unexpected LogMessageType {:?}", self.logmessagetype,
+        );
         self.evtxentries += 1;
         self.bytes += printed;
         self.flushed += flushed;
@@ -598,9 +601,10 @@ impl SummaryPrinted {
         flushed: Count,
     ) {
         defñ!();
-        debug_assert!(matches!(self.logmessagetype,
-            LogMessageType::Journal | LogMessageType::All), "Unexpected LogMessageType {:?}", self.logmessagetype);
-        debug_assert!(!matches!(self.logmessagetype, LogMessageType::All));
+        debug_assert!(
+            matches!(self.logmessagetype, LogMessageType::Journal | LogMessageType::All),
+            "Unexpected LogMessageType {:?}", self.logmessagetype,
+        );
         self.journalentries += 1;
         self.bytes += printed;
         self.flushed += flushed;
