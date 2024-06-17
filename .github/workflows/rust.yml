@@ -103,8 +103,8 @@ jobs:
           set -eux
           cargo --version
           rustc --print cfg
-          cargo build --verbose
-          cargo build --release
+          cargo build --locked --verbose
+          cargo build --locked --release
           ./target/release/s4 --help
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'windows-latest' && matrix.msrv == env.MSRV_UPLOAD }}
@@ -150,7 +150,7 @@ jobs:
         run: |
           set -eux
           cargo --version
-          cargo build --verbose
+          cargo build --locked --verbose
           cp -av ./target/debug/s4 ./s4_debug
       - name: Upload debug binary for test
         uses: actions/upload-artifact@v4
@@ -163,7 +163,7 @@ jobs:
         run: |
           set -eux
           cargo --version
-          cargo build --release --verbose
+          cargo build --locked --release --verbose
           cp -av ./target/release/s4 ./s4_release
       - name: Upload release binary for test
         uses: actions/upload-artifact@v4
@@ -264,7 +264,7 @@ jobs:
           uname -a
           rustup show
           cross --version
-          cross check --lib --bins --target ${{ matrix.target }}
+          cross check --locked --lib --bins --target ${{ matrix.target }}
 
   job_cross_targets_macos:
     name: cross ${{ matrix.target }} on macos-13
@@ -293,7 +293,7 @@ jobs:
           uname -a
           rustup show
           cross --version
-          cross check --lib --bins --target ${{ matrix.target }}
+          cross check --locked --lib --bins --target ${{ matrix.target }}
 
   job_cross_targets_windows:
     name: cross ${{ matrix.target }} on windows
@@ -319,7 +319,7 @@ jobs:
           Set-PSDebug -Trace 1
           rustup.exe show
           cross.exe --version
-          cross.exe check --lib --bins --target ${{ matrix.target }}
+          cross.exe check --locked --lib --bins --target ${{ matrix.target }}
 
   # job_test_wasm:
   #  runs-on: ubuntu-latest
@@ -355,8 +355,8 @@ jobs:
         run: |
           set -eux
           cargo --version
-          cargo check --all-targets
-          cargo check --all-targets --release
+          cargo check --locked --all-targets
+          cargo check --locked --all-targets --release
 
   job_clippy:
     # this job downloads and builds dependency crates
@@ -376,7 +376,7 @@ jobs:
           set -eux
           cargo --version
           cargo clippy --version
-          cargo clippy --no-deps --verbose --all-targets --all-features
+          cargo clippy --locked --no-deps --verbose --all-targets --all-features
 
   job_bench:
     # this job downloads and builds dependency crates
@@ -394,7 +394,7 @@ jobs:
         run: |
           set -eux
           cargo --version
-          cargo bench --no-run
+          cargo bench --locked --no-run
 
   job_test_linux:
     # this job downloads and builds dependency crates
@@ -442,7 +442,7 @@ jobs:
                   -name 'libsystemd*' 2>/dev/null || true) \
               | sort
           # run tests that use libsystemd
-          cargo test journalreader_tests
+          cargo test --locked journalreader_tests
       - name: nextest (all)
         shell: bash
         run: |
@@ -450,7 +450,7 @@ jobs:
           bash --version
           cargo nextest --version
           export NEXTEST_TEST_THREADS="num-cpus"
-          cargo nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
+          cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_macos:
     name: test Mac OS
@@ -472,7 +472,7 @@ jobs:
           set -eux
           cargo nextest --version
           export NEXTEST_TEST_THREADS="num-cpus"
-          cargo nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
+          cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_windows:
     name: test Windows
@@ -500,7 +500,7 @@ jobs:
           Set-PSDebug -Trace 1
           cargo.exe nextest --version
           ${env:NEXTEST_TEST_THREADS}="num-cpus"
-          cargo.exe nextest run --bin s4 --lib --no-fail-fast --final-status-level=fail
+          cargo.exe nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_flamegraph:
     # check that `flamegraph.sh` runs
@@ -518,7 +518,7 @@ jobs:
         run: |
           set -eux
           sudo -- apt-get install -y linux-tools-generic
-          cargo install flamegraph --version=${FLAMEGRAPH_VERSION} --locked
+          cargo install --locked flamegraph --version=${FLAMEGRAPH_VERSION}
           export OUT="./flamegraph-dtf2-2.svg"
           export FREQ=5000
           # XXX: ignore failure of flamegraph.sh
@@ -542,9 +542,9 @@ jobs:
         shell: bash
         run: |
           set -eux
-          cargo publish --dry-run
+          cargo publish --locked --dry-run
           cargo package --list --all-features
-          cargo package
+          cargo package --locked
 
   job_yamllint:
     # this job installs Python PIP packages
@@ -981,7 +981,7 @@ jobs:
           chmod -v +x ./tools/cargo-llvm-cov-run.sh
           cargo llvm-cov --version
           cargo llvm-cov show-env
-          cargo llvm-cov --lcov --output-path "${COVERALLS_FILE}" &>/dev/null
+          cargo llvm-cov --locked --lcov --output-path "${COVERALLS_FILE}" &>/dev/null
           ls -l "${COVERALLS_FILE}"
       - name: upload coveralls
         uses: coverallsapp/github-action@v2
