@@ -68,6 +68,7 @@ env:
     ./logs/standards/RFC-5424-6dot-0700.log
     ./logs/standards/Unix-ms.log
     ./logs/standards/W3C-DTF.log
+
 jobs:
 
   job_rust_msrv_os:
@@ -303,8 +304,6 @@ jobs:
           # Tier 1
           - i686-pc-windows-msvc
           - x86_64-pc-windows-msvc
-          # Tier 3
-          - x86_64-uwp-windows-msvc
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -313,6 +312,7 @@ jobs:
           channel: ${{ env.MSRV_UPLOAD }}
           bins: cross, cargo-cache
           targets: ${{ matrix.target }}
+      - run: rustup target add ${{ matrix.target }}
       - name: cross check
         shell: powershell
         run: |
