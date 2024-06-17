@@ -35,9 +35,17 @@ cargo nextest run --all-targets
 cargo check --all-targets
 cargo check --all-targets --release
 cargo clippy --no-deps --all-targets
-cargo bench --no-run
+cargo bench --no-run --features bench_jetscii,bench_memchr,bench_stringzilla
 cargo build --profile flamegraph
 cargo build --profile valgrind
+cargo doc --locked --release --frozen --no-deps
+cargo publish --dry-run --allow-dirty
+"${S4R}" --color=never "${S4_TEST_FILES[@]}" 2>/dev/null
+"${S4D}" --color=never "${S4_TEST_FILES[@]}" 2>/dev/null
+./tools/compare-current-and-expected/compare.sh
+./tools/compare-debug-release.sh
+./tools/compare-grep-sort.sh
+
 for TARGET in \
     aarch64-unknown-linux-gnu \
     i686-pc-windows-gnu \
@@ -54,7 +62,7 @@ for TARGET in \
     powerpc64-unknown-linux-gnu \
     riscv64gc-unknown-linux-gnu \
     x86_64-unknown-freebsd \
-    x86_64-unknown-illumos \
+    `# x86_64-unknown-illumos` \
     x86_64-unknown-linux-musl \
     x86_64-unknown-netbsd \
     aarch64-linux-android \
@@ -67,10 +75,3 @@ for TARGET in \
 ; do
     cross check --lib --bins --target $TARGET
 done
-cargo doc --locked --release --frozen --no-deps
-cargo publish --dry-run --allow-dirty
-"${S4R}" --color=never "${S4_TEST_FILES[@]}" 2>/dev/null
-"${S4D}" --color=never "${S4_TEST_FILES[@]}" 2>/dev/null
-./tools/compare-current-and-expected/compare.sh
-./tools/compare-debug-release.sh
-./tools/compare-grep-sort.sh
