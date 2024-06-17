@@ -17,6 +17,7 @@ use ::chrono::{
     TimeZone,
     Timelike,
 };
+use ::current_platform::CURRENT_PLATFORM;
 use ::si_trace_print::{de, defñ};
 
 use crate::de_err;
@@ -936,7 +937,8 @@ pub fn print_summary(
             eprintln!("Program Run Time       : unknown");
         }
     }
-    eprintln!("Allocator Chosen       : {}", allocator_chosen);
+    eprintln!("Platform               : {}", CURRENT_PLATFORM);
+    eprintln!("Allocator              : {}", allocator_chosen);
 }
 
 // TODO: [2023/04/05] move printing of `file size` from per-file "Processed:"
