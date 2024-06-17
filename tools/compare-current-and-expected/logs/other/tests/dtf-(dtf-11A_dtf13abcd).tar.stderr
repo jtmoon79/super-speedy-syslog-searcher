@@ -202,4 +202,5 @@ Channel Receive ok     : 35
 Channel Receive err    : 0
 Threads Spawned        : 5
 Thread Spawn errors    : 0
-Allocator Chosen       : Jemalloc
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : Jemalloc

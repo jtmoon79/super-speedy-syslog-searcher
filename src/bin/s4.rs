@@ -73,7 +73,7 @@ use mimalloc::MiMalloc;
 static GLOBAL: MiMalloc = MiMalloc;
 #[cfg(all(target_env = "msvc", target_os = "windows"))]
 const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::MiMalloc;
-// allocator: Illumos uses the system allocator
+// allocator: other
 #[cfg(not(any(all(not(target_env = "msvc"), target_os = "linux"),all(target_env = "msvc", target_os = "windows"))))]
 const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
 
