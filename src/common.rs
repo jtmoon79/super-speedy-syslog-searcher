@@ -61,7 +61,7 @@ pub type SetPathId = HashSet<PathId>;
 pub enum AllocatorChosen {
     System = 1,
     Jemalloc = 2,
-    MiMalloc = 3,
+    Mimalloc = 3,
 }
 
 impl std::fmt::Display for AllocatorChosen {
@@ -70,9 +70,9 @@ impl std::fmt::Display for AllocatorChosen {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
-            AllocatorChosen::System => write!(f, "System"),
-            AllocatorChosen::Jemalloc => write!(f, "Jemalloc"),
-            AllocatorChosen::MiMalloc => write!(f, "MiMalloc"),
+            AllocatorChosen::System => write!(f, "system"),
+            AllocatorChosen::Jemalloc => write!(f, "jemalloc"),
+            AllocatorChosen::Mimalloc => write!(f, "mimalloc"),
         }
     }
 }

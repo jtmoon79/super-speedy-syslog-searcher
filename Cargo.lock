@@ -3223,6 +3223,7 @@ dependencies = [
  "bstr",
  "bzip2-rs",
  "cargo-msrv",
+ "cfg-if",
  "chrono",
  "clap 4.2.1",
  "const_format",

@@ -54,29 +54,26 @@
 
 #![allow(non_camel_case_types)]
 
+// first setup the custom global allocator
 use ::s4lib::common::AllocatorChosen;
 
-// first setup the custom global allocator
-// allocator: Linux
-#[cfg(all(not(target_env = "msvc"), target_os = "linux"))]
-use tikv_jemallocator::Jemalloc;
-#[cfg(all(not(target_env = "msvc"), target_os = "linux"))]
-#[global_allocator]
-static GLOBAL: Jemalloc = Jemalloc;
-#[cfg(all(not(target_env = "msvc"), target_os = "linux"))]
-const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Jemalloc;
-// allocator: Windows
-#[cfg(all(target_env = "msvc", target_os = "windows"))]
-use mimalloc::MiMalloc;
-#[cfg(all(target_env = "msvc", target_os = "windows"))]
-#[global_allocator]
-static GLOBAL: MiMalloc = MiMalloc;
-#[cfg(all(target_env = "msvc", target_os = "windows"))]
-const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::MiMalloc;
-// allocator: other
-#[cfg(not(any(all(not(target_env = "msvc"), target_os = "linux"),all(target_env = "msvc", target_os = "windows"))))]
-const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
-
+cfg_if::cfg_if! {
+    if #[cfg(feature = "jemalloc")] {
+        use ::tikv_jemallocator::Jemalloc;
+        #[global_allocator]
+        static GLOBAL: Jemalloc = Jemalloc;
+        const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Jemalloc;
+    }
+    else if #[cfg(feature = "mimalloc")] {
+        use ::mimalloc::MiMalloc;
+        #[global_allocator]
+        static GLOBAL: MiMalloc = MiMalloc;
+        const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Mimalloc;
+    }
+    else {
+        const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
+    }
+}
 
 use std::collections::{BTreeMap, HashMap};
 use std::io::BufRead; // for stdin::lock().lines()

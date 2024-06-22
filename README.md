@@ -42,6 +42,12 @@ systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
 <!---toc start--->
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
+    - [feature `jemalloc`](#feature-jemalloc)
+      - [Alpine](#alpine)
+      - [Debian and Ubuntu](#debian-and-ubuntu)
+      - [OpenSUSE](#opensuse)
+      - [Red Hat and CentOS](#red-hat-and-centos)
+    - [feature `mimalloc`](#feature-mimalloc)
   - [Run `s4`](#run-s4)
   - [`--help`](#--help)
 - [About](#about)
@@ -90,14 +96,65 @@ Assuming [rust is installed], run
 cargo install --locked super_speedy_syslog_searcher
 ```
 
-Some Linux platforms will require installing `make` to compile `jemalloc`.
-
-Windows OS (`target_os="windows"`) with `target_env="msvc"` require `lib.exe`
-to commpile `mimalloc`.
-
-Check your rust compilation target settings with command `rustc --print cfg`.
+A C compiler is required.
 
 [rust is installed]: https://www.rust-lang.org/tools/install
+
+#### feature `jemalloc`
+
+```lang-text
+cargo install --locked super_speedy_syslog_searcher --features jemalloc
+```
+
+Compiling [`jemalloc`] requires installing `make`.
+
+This feature has only been tested on Linux.
+
+[`jemalloc`]: http://jemalloc.net/
+
+##### Alpine
+
+```lang-text
+apk add gcc make musl-dev
+```
+
+##### Debian and Ubuntu
+
+```lang-text
+apt install gcc make libc6-dev
+```
+
+or
+
+```lang-text
+apt install build-essential
+```
+
+##### OpenSUSE
+
+```lang-text
+zypper install gcc glibc-devel make
+```
+
+##### Red Hat and CentOS
+
+```lang-text
+yum install gcc glibc-devel make
+```
+
+#### feature `mimalloc`
+
+```lang-text
+cargo install --locked super_speedy_syslog_searcher --features mimalloc
+```
+
+Compiling [`mimalloc`] requires `lib.exe` which is part of Visual Studio Build Tools.
+Instructions for installing Visual Studio Build Tools are at [rustup.rs](https://rustup.rs/).
+
+This feature has only been tested on Windows with `target_env="msvc"`.
+Check your rust compilation target settings with command `rustc --print cfg`.
+
+[`mimalloc`]: https://microsoft.github.io/mimalloc/bench.html
 
 ### Run `s4`
 
