@@ -648,6 +648,7 @@
 ./logs/other/tests/gen-100-4-happyface.log|2000-01-01 00:01:39
 ./logs/other/tests/gen-1-faces.log|2000-01-01 08:00:00
 ./logs/other/tests/gen-200-1-jajaja.log|2000-01-01T08:03:21
+./logs/other/tests/gen-200-2-no-2.log|2000-01-01T00:03:21
 ./logs/other/tests/gen-200-2-yes-2.log|2000-01-01T00:03:21
 ./logs/other/tests/gen-20-1-faces.log|2000-01-01 00:00:21
 ./logs/other/tests/gen-20-1-☺☻.log|2000-01-01 00:00:20
