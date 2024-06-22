@@ -1830,7 +1830,14 @@ pub const CGP_FRACTIONAL9: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{9
 /// Regex capture group pattern for dmesg uptime fractional seconds in logs
 //pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9}\.[[:digit:]]{3,9})";
 /// Regex capture group pattern for Unix epoch in seconds
-pub const CGP_EPOCH: &CaptureGroupPattern = r"(?P<epoch>[[:digit:]]{1,12})";
+/// limited to datetimes from year 2000 and afterward.
+/// Low numbers are likely to be errant matches, e.g. random string "55"
+/// is most likely not meant to signify an epoch datetime.
+///
+/// Datetime _2000-01-01 00:00:00_, value `946684800`, is a reasonable past datetime limit.
+///
+/// Datetime _2038-01-19 03:14:06_, value `2147483647`, is a reasonable high datetime limit.
+pub const CGP_EPOCH: &CaptureGroupPattern = r"(?P<epoch>9[[:digit:]]{8}|[12][[:digit:]]{9})";
 
 /// for testing
 #[doc(hidden)]
