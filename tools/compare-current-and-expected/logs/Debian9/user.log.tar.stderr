@@ -1,0 +1,63 @@
+
+Files:
+
+File: ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1
+  About:
+      archive subpath: ./logs/Debian9/user.log.1
+      filetype       : TEXT UTF8/ASCII (TAR)
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 616
+      flushes       : 3
+      lines         : 3
+      syslines      : 3
+  Processed:
+      file size archive   : 3072 (0xC00) (bytes)
+      file size unarchived: 364 (0x16C) (bytes)
+      bytes         : 364 (0x16C)
+      bytes total   : 364 (0x16C)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      lines         : 3
+      syslines      : 4
+      syslines high : 3
+  Parsers:
+                   datetime format missing year; estimated year of last sysline 2022
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  1, miss  7, 12.5%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  7, 22.2%, put  6
+      copying: SyslineReader::get_boxptrs()                        : sgl 38, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  4,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  3, miss  4, 42.9%, put  4
+      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  7,  0.0%, put  7
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  8,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 30,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 38
+  Processing Drops:
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 628
+Printed flushes        : 6
+Printed lines          : 3
+Printed syslines       : 3
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 172
+Regex patterns compiled: 34
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 5
+Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : Jemalloc

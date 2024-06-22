@@ -152,7 +152,20 @@
 ./logs/Debian9/samba/log.nmbd.old|2020/03/06 17:42:26
 ./logs/Debian9/samba/log.smbd.1|2020/03/05 12:16:44
 ./logs/Debian9/syslog|2022-03-06 06:37:37
-./logs/Debian9/user.log.1|2022-02-06 03:17:39
+./logs/Debian9/user.log.1|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.1.bz2|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.1.gz|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.1.lz|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.1.lz4|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.1.lzo|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.1.xz|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.1.zst|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.tar|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.tar.gz|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.tar.lz|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.tar.lzo|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.tar.xz|2022-02-06 03:17:39 -0800
+./logs/Debian9/user.log.zip|2022-02-06 03:17:40 -0800
 ./logs/Debian9/Xorg.0.log|2020-02-19 13:48:43 -0800
 ./logs/Debian9/Xorg.0.log.old|2020-02-17 12:48:39 -0800
 ./logs/FedoraRemix29/dnf.librepo.log|2019-06-16T14:09:37-00:00
