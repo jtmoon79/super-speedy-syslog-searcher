@@ -1187,6 +1187,7 @@
 ./logs/Windows10Pro/System32/NetSetupMig.log|12:21:00
 ./logs/Windows10Pro/System32/wbem/WMIMigration.log|2020/05/27 12:25:43.088
 ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log|2021/05/01 21:39:34.643
+./logs/Windows11Pro/setupact.log|2023-02-21 07:23:53 -0700
 ./logs/Windows11Pro/Logs/SIH/SIH.20230422.034724.362.1.etl|2023-04-23 14:46:45.000000000 -0700
 ./logs/Windows11Pro/Local/AcSdkInsLog/MainSDKPluginSetup.log|2023-02-21 06:35:16.898
 ./logs/Windows11Pro/Local/Docker/log/vm/acpid.log|2024-03-21T21:46:33.321077701Z

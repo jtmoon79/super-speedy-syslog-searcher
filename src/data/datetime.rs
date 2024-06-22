@@ -2519,7 +2519,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<OnceCell<DateTimeRegex>>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 172;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 173;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -3567,6 +3567,21 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (19, 42, (O_L, 2022, 10, 11, 0, 10, 26, 110000000), r#"192.168.0.172 - - {11/oct/2022 00:10:26.11 } "GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (15, 37, (O_L, 2022, 10, 11, 0, 10, 26, 100000000), r#"192.168.0.172	<11-oct-2022 00:10:26.1        >	"GET / HTTP/1.0" 200 3343 "-" "Lynx/2.9.0dev.10 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/3.7.1""#),
             (17, 47, (O_L, 2020, 3, 7, 6, 30, 43, 123456789), r#"192.168.0.8 - - [07/Mar/2020:06:30:43.123456789] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72""#),
+        ],
+        line!(),
+    ),
+    // prior patterns with numeric month, no timezone
+    //
+    // from file `./logs/Windows11Pro/setupact.log`
+    //
+    //      [02/21/2023 07:07.05.259] WudfCoInstaller: ReadWdfSection: Checking WdfSection [Basic_Install.Wdf]
+    //
+    DTPD!(
+        concatcp!(RP_LB, CGP_MONTHm, D_Dq, CGP_DAYde, D_Dq, CGP_YEAR, RP_BLANKS, CGP_HOUR, D_T, CGP_MINUTE, r"[:\.]?", CGP_SECOND, D_SF, CGP_FRACTIONAL, RP_RB),
+        DTFSS_YmdHMSf, 0, 300, CGN_MONTH, CGN_FRACTIONAL,
+        &[
+            (1, 24, (O_L, 2023, 2, 21, 7, 7, 5, 262000000), "[02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs.\n\n"),
+            (18, 41, (O_L, 2023, 2, 21, 7, 7, 5, 263000000), "WudfCoInstaller: [02/21/2023 07:07.05.263] ImpersonationLevel set to 2\n\n"),
         ],
         line!(),
     ),
