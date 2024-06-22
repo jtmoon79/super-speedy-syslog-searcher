@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # hardcoded time comparison of GNU grep + sort, `s4`, `logmerger`
+#
 
 set -eu
 
