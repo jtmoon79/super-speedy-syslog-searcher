@@ -1,0 +1,61 @@
+
+Files:
+
+File: ./logs/FreeBSD13.1/devd.log
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 1714
+      flushes       : 105
+      lines         : 19
+      syslines      : 9
+  Processed:
+      file size     : 612 (0x264) (bytes)
+      bytes         : 612 (0x264)
+      bytes total   : 612 (0x264)
+      block size    : 256 (0x100)
+      blocks        : 3
+      blocks total  : 3 (768 bytes)
+      lines         : 19
+      syslines      : 10
+      syslines high : 9
+  Parsers:
+                   datetime format missing year; estimated year of last sysline 2023
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  17, miss  40, 29.8%
+      caching: LineReader::find_line() LRU cache                   : hit   2, miss  40,  4.8%, put  39
+      copying: SyslineReader::get_boxptrs()                        : sgl 234, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   9, miss  10, 47.4%, put  10
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  19,  0.0%, put  19
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   8, miss  32, 20.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  30, miss  14, 68.2%, largest skipped 8
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss  30, 84.2%, largest skipped 8
+      process: regex captures attempted                            : 44
+  Processing Drops:
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 1750
+Printed flushes        : 114
+Printed lines          : 19
+Printed syslines       : 9
+Printed evtx events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Regex patterns known   : 172
+Regex patterns compiled: 34
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Channel Receive ok     : 11
+Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

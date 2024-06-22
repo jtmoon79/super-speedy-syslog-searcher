@@ -72,6 +72,7 @@
 ./logs/FedoraRemix29/dnf.librepo.log
 ./logs/FedoraRemix29/dnf.log
 ./logs/FedoraRemix29/hawkeye.log
+./logs/FreeBSD13.1/devd.log
 ./logs/MinGW64/pacman.log
 ./logs/NetBSD9.3/x86_32/lastlog
 ./logs/NetBSD9.3/x86_32/lastlogx

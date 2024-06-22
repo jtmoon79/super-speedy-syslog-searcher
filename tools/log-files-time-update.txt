@@ -178,7 +178,7 @@
 ./logs/FreeBSD13.1/cron|2023-10-26 10:45:01 -08:00
 ./logs/FreeBSD13.1/daemon.log|2023-03-18 07:18:12
 ./logs/FreeBSD13.1/debug.log|2023-03-17 20:09:14 -08:00
-./logs/FreeBSD13.1/devd.log|2023-03-15 15:15:21 -08:00
+./logs/FreeBSD13.1/devd.log|2023-03-17 15:15:21 -08:00
 ./logs/FreeBSD13.1/dmesg.today|2024-03-10 14:11:19.721717207 -0700
 ./logs/FreeBSD13.1/dmesg.yesterday|2024-03-10 14:11:19.721717207 -0700
 ./logs/FreeBSD13.1/lpd-errs|2023-03-15 15:15:21 -08:00
