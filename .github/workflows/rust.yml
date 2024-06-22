@@ -538,11 +538,12 @@ jobs:
           set -eux
           sudo -- apt-get install -y linux-tools-generic
           cargo install --locked flamegraph --version=${FLAMEGRAPH_VERSION}
+          RUSTFLAGS=-g cargo build --profile flamegraph
           export OUT="./flamegraph-dtf2-2.svg"
-          export FREQ=5000
+          export FREQ=1000
           # XXX: ignore failure of flamegraph.sh
           set +e
-          sudo -E -- ./tools/flamegraph.sh ./logs/other/tests/dtf2-2.log
+          sudo -E --preserve-env=PATH -- ./tools/flamegraph.sh ./logs/other/tests/dtf2-2.log
           ls -l "${OUT}"
           # XXX: force success
           true
