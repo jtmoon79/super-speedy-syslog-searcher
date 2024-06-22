@@ -1071,6 +1071,7 @@
 ./logs/Ubuntu16/installer/status|2024-02-16 16:07:41.958286968 -0800
 ./logs/Ubuntu16/installer/syslog|2024-03-10 21:31:37.901401076 -0700
 ./logs/Ubuntu16/kern.log|2023-12-15 00:59:17.523310187 -0800
+./logs/Ubuntu16/kern.log.2.gz|2024-03-21 23:37:01.000000000 -0700
 ./logs/Ubuntu16/vboxpostinstall.log|2023-12-15 17:22:20.505727354 -0800
 ./logs/Ubuntu16/x86_32/btmp|2024-03-10 14:19:14.211287833 -0700
 ./logs/Ubuntu16/x86_32/btmp.utmpdump.txt|2024-03-10 14:19:14.211287833 -0700
