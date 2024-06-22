@@ -46,3 +46,10 @@ sed -i -e "s|$(realpath .)|.|g" "${DIROUT}/massif.txt"
         --features bench_jetscii,bench_memchr,bench_stringzilla \
             &> "${DIROUT}/cargo-bench.txt"
 )
+
+(
+    set -x
+    cargo build --release --features mimalloc
+    ./tools/compare-grep-sort.sh &> "${DIROUT}/compare-grep-sort.txt"
+    ./tools/compare-log-mergers/compare-log-mergers.sh &> "${DIROUT}/compare-log-mergers.txt"
+)
