@@ -5555,7 +5555,7 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    316,
+    344,
     0,
     0,
     0,
@@ -5564,7 +5564,7 @@ fn test_ezcheck_slice(
     24,
     0,
     7,
-    292,
+    320,
     0,
     7;
     "NTF_GZ_8BYTE_FPATH"
@@ -5594,7 +5594,7 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    316,
+    344,
     0,
     0,
     0,
@@ -5603,7 +5603,7 @@ fn test_ezcheck_slice(
     24,
     0,
     7,
-    292,
+    320,
     0,
     7;
     "NTF_LZ4_8BYTE_FPATH"
@@ -5633,7 +5633,7 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    316,
+    344,
     0,
     0,
     0,
@@ -5642,7 +5642,7 @@ fn test_ezcheck_slice(
     24,
     0,
     7,
-    292,
+    320,
     0,
     7;
     "NTF_XZ_8BYTE_FPATH"
