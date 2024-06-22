@@ -29,11 +29,14 @@ grep=$(which grep)
 sort=$(which sort)
 (set -x; $sort --version) | head -n1
 time=$(which time)
+grep_sort_name="$(basename "$grep")+$(basename "$sort")"
 (set -x; $time --version) | head -n1
+if which hyperfine &>/dev/null; then
+    hyperfine=$(which hyperfine)
+    (set -x; hyperfine --version)
+fi
 
 echo
-
-TIME_FORMAT='real %e s, Max RSS %M KB, %P %%CPU, (%x)'
 
 do_keep=false
 if [[ "${1-}" = "--keep" ]]; then
@@ -45,10 +48,13 @@ tmp1=$(mktemp -t "compare-s4_s4_XXXXX")
 tmp1b=$(mktemp -t "compare-s4-sorted_s4_XXXXX")
 tmp2=$(mktemp -t "compare-s4_grep_XXXXX")
 tmp2b=$(mktemp -t "compare-s4-sorted_grep_XXXXX")
+md1=$(mktemp -t "compare-s4_s4_XXXXX.md")
+md2=$(mktemp -t "compare-s4_s4_XXXXX.md")
+md3=${OUT-.}/compare-s4_grep_sort.md
 
 function exit_() {
     if ! ${do_keep}; then
-        rm -f "${tmp1}" "${tmp2}" "${tmp1b}" "${tmp2b}"
+        rm -f "${tmp1}" "${tmp2}" "${tmp1b}" "${tmp2b}" "${md1}" "${md2}"
     fi
 }
 
@@ -64,6 +70,10 @@ if [[ -z "${FILES-}" ]]; then
         ./logs/other/tests/gen-100-10-skullcrossbones.log
         ./logs/other/tests/gen-100-4-happyface.log
         ./logs/other/tests/gen-1000-3-foobar.log
+        # XXX: it would be great to also compare a compressed file
+        #      using `zgrep`. However, `zgrep` has different results
+        #      than `grep`. (did I find a bug in zgrep?)
+        #./logs/other/tests/gen-1000-3-foobar.log.gz
         ./logs/other/tests/gen-200-1-jajaja.log
         ./logs/other/tests/gen-400-4-shamrock.log
         ./logs/other/tests/gen-99999-1-Motley_Crue.log
@@ -93,11 +103,6 @@ for ff in "${FILES[@]}"; do
     fi
 done
 
-# force reading of FILES from disk (twice!) to allow any possible caching,
-# hopefully there's a little less difference in the two timed processes
-cat "${FILES[@]}" > /dev/null
-cat "${FILES[@]}" > /dev/null
-
 # search for datetimes between ...
 declare -r AFTER_DT=${AFTER_DT-'20000101T080000'}
 declare -r BEFORE_DT=${BEFORE_DT-'20000101T085959.999999'}
@@ -106,13 +111,56 @@ declare -r regex_dt='^20000101T08[[:digit:]]{4}'
 # declare s4 args once
 declare -ar s4_args=(
     -a "${AFTER_DT}" -b "${BEFORE_DT}"
-    --color never
+    "--color=never"
+)
+# declare grep args once
+declare -ar grep_args=(
+    "--color=never"
+    --text
 )
 
-# run both programs, time the runs
+# run both programs using hyperfine
+
+if [[ -n "${hyperfine-}" ]]; then
+    (
+        # force reading of FILES from disk to allow any possible caching,
+        cat "${FILES[@]}" &> /dev/null
+        set -x
+        $hyperfine --style=basic --export-markdown ${md1} -N -n "s4" \
+            -- \
+            "${PROGRAM} ${s4_args[*]} ${FILES[*]}"
+    )
+
+    echo
+
+    # search for datetimes between $AFTER_DT $BEFORE_DT
+    # using decently constrained regexp to match meaning
+    (
+        # force reading of FILES from disk to allow any possible caching,
+        cat "${FILES[@]}" &> /dev/null
+        set -x
+        $hyperfine --style=basic --export-markdown ${md2} --shell sh -n "${grep_sort_name}" \
+            -- \
+            "$grep -hEe '${regex_dt}' ${FILES[*]} | $sort -t ' ' -k 1 -s"
+    )
+
+    (
+        cat "${md1}"
+        cat "${md2}" | tail -n1
+    ) | column -t -s '|' -o '|' > "${md3}"
+
+    (set -x; cat "${md3}")
+
+    if which glow &>/dev/null; then
+        glow "${md3}"
+    fi
+fi
+
+# run both programs using time
+
+TIME_FORMAT='real %e s, Max RSS %M KB, %P %%CPU, (%x)'
 
 (
-    #export RUST_BACKTRACE=1
     set -x
     $time --format="${TIME_FORMAT}" \
         "${@}" \
@@ -132,21 +180,22 @@ echo
     $time --format="${TIME_FORMAT}" \
         "${@}" \
         -- \
-        bash -c "\
-$grep -hEe '${regex_dt}' -- \
+        sh -c "\
+$grep ${grep_args[*]} -hEe '${regex_dt}' -- \
 ${FILES[*]} \
 | $sort -t ' ' -k 1 -s \
 >/dev/null"
 )
 
 # run both programs again, save output for comparison
+# this determines the exit code of the script
 
 "${PROGRAM}" \
     "${s4_args[@]}" \
     "${FILES[@]}" \
     > "${tmp1}"
 
-$grep -hEe "${regex_dt}" -- \
+$grep ${grep_args[*]} -hEe "${regex_dt}" -- \
     "${FILES[@]}" \
     | $sort -t ' ' -k 1 -s \
     > "${tmp2}"
@@ -166,7 +215,7 @@ echo "  Byte Count ${s4_bc}"
 # grep|sort line count byte count
 gs_lc=$(wc -l < "${tmp2}")
 gs_bc=$(wc -c < "${tmp2}")
-echo "'grep | sort' output file"
+echo "'${grep_sort_name}' output file"
 echo "  Line Count ${gs_lc}"
 echo "  Byte Count ${gs_bc}"
 
@@ -190,9 +239,9 @@ if [[ ${s4_lc} -ne ${gs_lc} ]] || [[ ${s4_bc} -ne ${gs_bc} ]]; then
     (
         (
             set -x;
-            "${DIFF}" -y --width=${COLUMNS-120} --suppress-common-lines "${tmp1b}" "${tmp2b}"
+            "${DIFF}" --text -y --width=${COLUMNS-120} --suppress-common-lines "${tmp1b}" "${tmp2b}"
         ) || true
-    ) | head -n 20
+    ) | head -n 40
     echo
     if ! ${do_keep}; then
         echo "Pass --keep to keep the temporary files for further analysis"
