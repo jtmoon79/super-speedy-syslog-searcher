@@ -611,33 +611,6 @@ impl SummaryPrinted {
         self.summaryprint_update_dt(journalentry.dt());
     }
 
-    /// Update a `SummaryPrinted` with information from a printed `LogMessage`.
-    pub fn _summaryprint_update(
-        &mut self,
-        logmessage: &LogMessage,
-        printed: Count,
-        flushed: Count,
-    ) {
-        defñ!(
-            "(logmessage={:?}, printed={}, flushed={}) self.logmessagetype={:?}",
-            logmessage, printed, flushed, self.logmessagetype,
-        );
-        match logmessage {
-            LogMessage::Sysline(syslinep) => {
-                self.summaryprint_update_sysline(syslinep, printed, flushed);
-            }
-            LogMessage::FixedStruct(entry) => {
-                self.summaryprint_update_fixedstruct(entry, printed, flushed);
-            }
-            LogMessage::Evtx(evtx) => {
-                self.summaryprint_update_evtx(evtx, printed, flushed);
-            }
-            LogMessage::Journal(journalentry) => {
-                self.summaryprint_update_journalentry(journalentry, printed, flushed);
-            }
-        };
-    }
-
     /// Update a mapping of `PathId` to `SummaryPrinted` for a `Sysline`.
     ///
     /// Helper function to function `processing_loop`.
