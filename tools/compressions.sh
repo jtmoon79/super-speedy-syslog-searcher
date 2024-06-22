@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 #
 # compress the passed file with the various compression and archive tools.
+#
 
 set -euo pipefail
 
 if [[ $# -lt 1 ]]; then
-    echo "Usage: ${0} <file>" >&2
+    echo "Usage: ${0} <file> [...]" >&2
     exit 1
 fi
 
