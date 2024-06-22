@@ -3337,7 +3337,7 @@ impl BlockReader {
                 .as_ref()
                 .unwrap()
                 .entry_index;
-            defx!("index {:?}", index);
+            defo!("index {:?}", index);
             let mut entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
                 Ok(val) => val,
                 Err(err) => {
@@ -3375,14 +3375,18 @@ impl BlockReader {
             return ResultS3ReadBlock::Done;
         }
 
-        // read all blocks from file `entry`
+        // read *all* blocks from file `entry`
+        // XXX: reading all file blocks in one function call is O(n) memory usage
+        //      See Issue #13, Issue #182
         let mut bo_at: BlockOffset = 0;
         let blockoffset_last: BlockOffset = self.blockoffset_last();
         while bo_at <= blockoffset_last {
             defo!("loop bo_at={}", bo_at);
             let cap: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
-            defo!("cap={}", cap);
-            let mut block: Block = vec![0; cap];
+            defo!("Vec::with_capacity(cap={})", cap);
+            let mut block: Block = Block::with_capacity(cap);
+            // forcibly resize `block` so `read_exact` will write to it
+            block.resize(cap, 0);
             defo!("read_exact(&block (capacity {})); bo_at {}", cap, bo_at);
             match entry.read_exact(block.as_mut_slice()) {
                 Ok(_) => {}
@@ -3426,32 +3430,21 @@ impl BlockReader {
                 );
             }
 
+            // store decompressed block
             let blockp: BlockP = BlockP::new(block);
             self.store_block_in_storage(bo_at, &blockp);
+            self.store_block_in_LRU_cache(bo_at, &blockp);
+
+            // XXX: this is where the `Block`s should be dropped, similar to other
+            //      `read_block_File*` functions.
+            //      Due to Issue #13, this is not possible.
+
             bo_at += 1;
-        }
-        // all blocks have been read...
+        } // while bo_at <= blockoffset
 
-        // return only the block requested
-        let blockp: BlockP = match self.blocks.get(&blockoffset) {
-            Some(blockp_) => blockp_.clone(),
-            None => {
-                defx!("self.blocks.get({}), returned None, return Err(UnexpectedEof)", blockoffset);
-                return ResultS3ReadBlock::Err(
-                    Error::new(
-                        ErrorKind::UnexpectedEof,
-                        format!(
-                                "read_block_FileTar: self.blocks.get({}) returned None for file {:?}",
-                                blockoffset, self.path
-                        ),
-                    )
-                );
-            }
-        };
+        defx!("({}): return Done", blockoffset);
 
-        defx!("({}): return Found", blockoffset);
-
-        ResultS3ReadBlock::Found(blockp)
+        ResultS3ReadBlock::Done
     }
 
     /// Read a `Block` of data of max size `self.blocksz` from the file.
