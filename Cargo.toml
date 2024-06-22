@@ -120,7 +120,7 @@ filetime = "0.2.23"
 test-case = "3.3.1"
 
 [features]
-# to run more benchmarks pass `--features bench_*`
+# to run more benchmarks pass `--features bench_*` to `cargo bench`
 bench_jetscii = ["dep:jetscii"]
 bench_memchr = ["dep:memchr"]
 bench_stringzilla = ["dep:stringzilla"]

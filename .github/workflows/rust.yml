@@ -413,7 +413,7 @@ jobs:
         run: |
           set -eux
           cargo --version
-          cargo bench --locked --no-run
+          cargo bench --locked --no-run --features bench_jetscii,bench_memchr,bench_stringzilla
 
   job_test_linux:
     # this job downloads and builds dependency crates
