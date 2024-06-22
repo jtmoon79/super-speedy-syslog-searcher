@@ -2693,6 +2693,7 @@ impl BlockReader {
             // BUG: large block sizes are more likely to fail `.read`
             //      so do many smaller reads of a size that succeeds more often
             //      in ad-hoc experiments, this size was found to succeed most often
+            // TODO: [2024/06] good experiment for coz profiler; adjusting `READSZ`
             const READSZ: usize = 1024;
             // bytes to read in last `.read()`
             let readsz_last: usize = blocksz_u % READSZ;
