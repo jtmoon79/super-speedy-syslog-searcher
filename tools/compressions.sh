@@ -199,6 +199,7 @@ tar_out=''
 for file in "${@}"; do
     tar_out="${tar_out}_$(basename -- "${file%.*}")"
     echo "tar_out='${tar_out}'"
+    touch_file=${file}
 done
 tar_out="${tar_out#_}"
 echo "tar_out='${tar_out}'"
@@ -211,7 +212,20 @@ tar_xz_out=${tar_out}.xz
 for tar in "${tar_out}" "${tar_gz_out}" "${tar_lz_out}" "${tar_lzo_out}" "${tar_xz_out}"; do
     (
         set -x
-        tar --create -a -b1 --preserve-permissions --totals --record-size=512 --acls --xattrs -vv "--file=${tar}" -- "${@}"
+        tar --create \
+            --auto-compress \
+            -b1 \
+            --preserve-permissions --xattrs \
+            --numeric-owner \
+            --verify \
+            --totals \
+            --record-size=512 \
+            --acls \
+            -vv \
+            "--file=${tar}" \
+            -- \
+            "${@}"
+        touch "${tar}" --reference="${touch_file}"
     )
     echo
 done
