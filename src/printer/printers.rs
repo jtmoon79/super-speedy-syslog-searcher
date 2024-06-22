@@ -340,11 +340,14 @@ macro_rules! buffer_write_or_return {
     }}
 }
 
-/// Macro that sets output color. Only sets color if it has changed.
+/// Macro that sets output color only if the color has changed since the last
+/// call to this macro.
 /// Flushes at end.
 ///
+/// `$color_spec_last` tracks that last call to this macro. It helps avoid
+/// unnecessary calls to `set_color`.
 /// Unnecessary changes to `set_color` may cause errant formatting bytes to
-/// print to the terminal. It also is a performance hit.
+/// print to the terminal. It is also a performance hit.
 macro_rules! setcolor_or_return {
     ($stdout:expr, $buffer:expr, $color_spec:expr, $color_spec_last:expr, $printed:expr, $flushed:expr) => {{
         buffer_flush_or_return!($stdout, $buffer, $printed, $flushed);
@@ -569,11 +572,9 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`SyslineP`] based on [`PrinterLogMessage`] settings.
+    /// Print a `SyslineP` based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
-    ///
-    /// [`SyslineP`]: crate::data::sysline::SyslineP
     #[inline(always)]
     pub fn print_sysline(
         &mut self,
@@ -594,11 +595,9 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`FixedStruct`] based on [`PrinterLogMessage`] settings.
+    /// Print a `FixedStruct` based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
     #[inline(always)]
     pub fn print_fixedstruct(
         &mut self,
@@ -619,11 +618,9 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`Evtx`] based on [`PrinterLogMessage`] settings.
+    /// Print a `Evtx` based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
-    ///
-    /// [`Evtx`]: crate::data::evtx::Evtx
     #[inline(always)]
     pub fn print_evtx(
         &mut self,
@@ -643,11 +640,9 @@ impl PrinterLogMessage {
         }
     }
 
-    /// Prints the [`JournalEntry`] based on [`PrinterLogMessage`] settings.
+    /// Print a `JournalEntry` based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
-    ///
-    /// [`JournalEntry`]: crate::data::journal::JournalEntry
     #[inline(always)]
     pub fn print_journalentry(
         &mut self,
@@ -669,7 +664,7 @@ impl PrinterLogMessage {
 
     /// Helper function to transform [`sysline.dt`] to a `String`.
     ///
-    /// [`sysline.dt`]: crate::data::sysline::Sysline
+    /// [`sysline.dt`]: crate::data::sysline::Sysline#method.dt
     #[inline(always)]
     fn datetime_to_string_sysline(
         &self,
@@ -775,9 +770,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Sysline`] without anything special.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// Print a `Sysline` without anything special.
     fn print_sysline_(
         &mut self,
         syslinep: &SyslineP,
@@ -807,9 +800,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Sysline`] with prepended datetime.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// Print a `Sysline` with prepended datetime.
     fn print_sysline_prependdate(
         &mut self,
         syslinep: &SyslineP,
@@ -842,20 +833,12 @@ impl PrinterLogMessage {
                 }
             }
         }
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// print a [`Sysline`] with prepended filename.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// Print a `Sysline` with prepended filename.
     fn print_sysline_prependfile(
         &mut self,
         syslinep: &SyslineP,
@@ -879,20 +862,12 @@ impl PrinterLogMessage {
                 }
             }
         }
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Sysline`] with prepended filename and datetime.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// Print a `Sysline` with prepended filename and datetime.
     fn print_sysline_prependfile_prependdate(
         &mut self,
         syslinep: &SyslineP,
@@ -920,20 +895,12 @@ impl PrinterLogMessage {
                 }
             }
         }
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Prints [`Sysline`] in color.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// Print a `Sysline` in color.
     fn print_sysline_color(
         &mut self,
         syslinep: &SyslineP,
@@ -960,9 +927,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Sysline`] in color and prepended datetime.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// Print a `Sysline` in color and prepended datetime.
     fn print_sysline_prependdate_color(
         &mut self,
         syslinep: &SyslineP,
@@ -994,9 +959,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Prints [`Sysline`] in color and prepended filename.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// Print a `Sysline` in color and prepended filename.
     fn print_sysline_prependfile_color(
         &mut self,
         syslinep: &SyslineP,
@@ -1031,9 +994,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Sysline`] in color and prepended filename and datetime.
-    ///
-    /// [`Sysline`]: crate::data::sysline::Sysline
+    /// Print a `SyslineP` in color and prepended filename and datetime.
     fn print_sysline_prependfile_prependdate_color(
         &mut self,
         syslinep: &SyslineP,
@@ -1075,9 +1036,7 @@ impl PrinterLogMessage {
     //       and `print_journalentry_*` are nearly identical, and could be
     //       be turned into generic functions.
 
-    /// Print a [`FixedStruct`] without anything special.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    /// Print a `FixedStruct` without anything special.
     fn print_fixedstruct_(
         &mut self,
         fixedstruct: &FixedStruct,
@@ -1094,19 +1053,11 @@ impl PrinterLogMessage {
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, &buffer[..at], printed, flushed);
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`FixedStruct`] with prepended datetime.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    /// Print a `FixedStruct` with prepended datetime.
     fn print_fixedstruct_prependdate(
         &mut self,
         fixedstruct: &FixedStruct,
@@ -1129,19 +1080,11 @@ impl PrinterLogMessage {
         buffer_write_or_return!(stdout_lock, self.buffer, dtb, printed, flushed);
         buffer_write_or_return!(stdout_lock, self.buffer, &buffer[..at], printed, flushed);
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// prints [`FixedStruct`] with prepended filename.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    /// Print a `FixedStruct` with prepended filename.
     fn print_fixedstruct_prependfile(
         &mut self,
         fixedstruct: &FixedStruct,
@@ -1166,19 +1109,11 @@ impl PrinterLogMessage {
         buffer_write_or_return!(stdout_lock, self.buffer, prepend_file, printed, flushed);
         buffer_write_or_return!(stdout_lock, self.buffer, &buffer[..at], printed, flushed);
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`FixedStruct`] with prepended filename and datetime.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    /// Print a `FixedStruct` with prepended filename and datetime.
     fn print_fixedstruct_prependfile_prependdate(
         &mut self,
         fixedstruct: &FixedStruct,
@@ -1208,19 +1143,11 @@ impl PrinterLogMessage {
         buffer_write_or_return!(stdout_lock, self.buffer, prepend_file, printed, flushed);
         buffer_write_or_return!(stdout_lock, self.buffer, &buffer[..at], printed, flushed);
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Prints [`FixedStruct`] in color.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    /// Print a `FixedStruct` in color.
     fn print_fixedstruct_color(
         &mut self,
         fixedstruct: &FixedStruct,
@@ -1261,9 +1188,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`FixedStruct`] in color and prepended datetime.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    /// Print a `FixedStruct` in color and prepended datetime.
     fn print_fixedstruct_prependdate_color(
         &mut self,
         fixedstruct: &FixedStruct,
@@ -1311,9 +1236,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Prints [`FixedStruct`] in color and prepended filename.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    /// Print a `FixedStruct` in color and prepended filename.
     fn print_fixedstruct_prependfile_color(
         &mut self,
         fixedstruct: &FixedStruct,
@@ -1364,9 +1287,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`FixedStruct`] in color and prepended filename and datetime.
-    ///
-    /// [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
+    /// Print a `FixedStruct` in color and prepended filename and datetime.
     fn print_fixedstruct_prependfile_prependdate_color(
         &mut self,
         fixedstruct: &FixedStruct,
@@ -1419,10 +1340,8 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Evtx`] without anything special. Optimized for this simple
+    /// Print a `Evtx` without anything special. Optimized for this simple
     /// common case.
-    ///
-    /// [`Evtx`]: crate::data::evtx::Evtx
     fn print_evtx_(
         &mut self,
         evtx: &Evtx,
@@ -1432,20 +1351,12 @@ impl PrinterLogMessage {
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, evtx.as_bytes(), printed, flushed);
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Evtx`] with prepended file and/or datetime.
-    ///
-    /// [`Evtx`]: crate::data::evtx::Evtx
+    /// Print a `Evtx` with prepended file and/or datetime.
     fn print_evtx_prepend(
         &mut self,
         evtx: &Evtx,
@@ -1491,19 +1402,11 @@ impl PrinterLogMessage {
             buffer_write_or_return!(stdout_lock, self.buffer, line, printed, flushed);
         }
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Prints [`Evtx`] in color. Optimized for this simple common case.
-    ///
-    /// [`Evtx`]: crate::data::evtx::Evtx
+    /// Print a `Evtx` in color. Optimized for this simple common case.
     fn print_evtx_color(
         &mut self,
         evtx: &Evtx,
@@ -1537,9 +1440,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Evtx`] in color and prepended filename and/or datetime.
-    ///
-    /// [`Evtx`]: crate::data::evtx::Evtx
+    /// Print a `Evtx` in color and prepended filename and/or datetime.
     fn print_evtx_prepend_color(
         &mut self,
         evtx: &Evtx,
@@ -1616,10 +1517,8 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`JournalEntry`] without anything special. Optimized for this simple
+    /// Print a `JournalEntry` without anything special. Optimized for this simple
     /// common case. May or may not flush.
-    ///
-    /// [`Evtx`]: crate::data::evtx::Evtx
     fn print_journalentry_(
         &mut self,
         journalentry: &JournalEntry,
@@ -1629,20 +1528,12 @@ impl PrinterLogMessage {
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, journalentry.as_bytes(), printed, flushed);
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`JournalEntry`] with prepended file and/or datetime.
-    ///
-    /// [`JournalEntry`]: crate::data::journalentry::JournalEntry
+    /// Print a `JournalEntry` with prepended file and/or datetime.
     fn print_journalentry_prepend(
         &mut self,
         journalentry: &JournalEntry,
@@ -1688,19 +1579,11 @@ impl PrinterLogMessage {
             buffer_write_or_return!(stdout_lock, self.buffer, line, printed, flushed);
         }
         buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
-        /*
-        if let Result::Err(err) = stdout_lock.flush() {
-            return PrinterLogMessageResult::Err(err);
-        }
-        flushed += 1;
-        */
 
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Prints [`JournalEntry`] in color. Optimized for this simple common case.
-    ///
-    /// [`JournalEntry`]: crate::data::journalentry::JournalEntry
+    /// Print a `JournalEntry` in color. Optimized for this simple common case.
     fn print_journalentry_color(
         &mut self,
         journalentry: &JournalEntry,
@@ -1735,9 +1618,7 @@ impl PrinterLogMessage {
         PrinterLogMessageResult::Ok((printed, flushed))
     }
 
-    /// Print a [`Evtx`] in color and prepended filename and/or datetime.
-    ///
-    /// [`Evtx`]: crate::data::evtx::Evtx
+    /// Print a `JournalEntry` in color and prepended filename and/or datetime.
     fn print_journalentry_prepend_color(
         &mut self,
         journalentry: &JournalEntry,
