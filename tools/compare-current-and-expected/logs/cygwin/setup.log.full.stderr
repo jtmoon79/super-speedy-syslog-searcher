@@ -7,7 +7,7 @@ File: ./logs/cygwin/setup.log.full
       logmessagetype : syslog lines
   Printed:
       bytes         : 8618
-      flushes       : 12
+      flushes       : 14
       lines         : 77
       syslines      : 12
   Processed:
@@ -42,7 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 8666
-Printed flushes        : 24
+Printed flushes        : 26
 Printed lines          : 77
 Printed syslines       : 12
 Printed evtx events    : 0
@@ -57,4 +57,4 @@ Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
-Allocator              : Jemalloc
+Allocator              : system

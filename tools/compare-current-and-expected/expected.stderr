@@ -139,7 +139,7 @@ File: ./logs/cygwin/setup.log.full
       logmessagetype : syslog lines
   Printed:
       bytes         : 15471
-      flushes       : 13
+      flushes       : 18
       lines         : 77
       syslines      : 12
   Processed:
@@ -674,7 +674,7 @@ File: ./logs/Debian9/aptitude.4
       logmessagetype : syslog lines
   Printed:
       bytes         : 3471
-      flushes       : 1
+      flushes       : 2
       lines         : 18
       syslines      : 1
   Processed:
@@ -708,7 +708,7 @@ File: ./logs/Debian9/apt/term.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 60638
-      flushes       : 12
+      flushes       : 35
       lines         : 292
       syslines      : 7
   Processed:
@@ -1839,7 +1839,7 @@ File: ./logs/FedoraRemix29/dnf.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 107083
-      flushes       : 231
+      flushes       : 250
       lines         : 476
       syslines      : 226
   Processed:
@@ -1900,6 +1900,41 @@ File: ./logs/FedoraRemix29/hawkeye.log
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  48,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 143,  0.0%, largest skipped 0
       process: regex captures attempted                            : 191
+  Processing Drops:
+
+File: ./logs/FreeBSD13.1/devd.log
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 3424
+      flushes       : 9
+      lines         : 19
+      syslines      : 9
+  Processed:
+      file size     : 612 (0x264) (bytes)
+      bytes         : 612 (0x264)
+      bytes total   : 612 (0x264)
+      block size    : 256 (0x100)
+      blocks        : 3
+      blocks total  : 3 (768 bytes)
+      lines         : 19
+      syslines      : 10
+      syslines high : 9
+  Parsers:
+                   datetime format missing year; estimated year of last sysline 2023
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  17, miss  40, 29.8%
+      caching: LineReader::find_line() LRU cache                   : hit   2, miss  40,  4.8%, put  39
+      copying: SyslineReader::get_boxptrs()                        : sgl 234, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   9, miss  10, 47.4%, put  10
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  19,  0.0%, put  19
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   8, miss  32, 20.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  30, miss  14, 68.2%, largest skipped 8
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss  30, 84.2%, largest skipped 8
+      process: regex captures attempted                            : 44
   Processing Drops:
 
 File: ./logs/MinGW64/pacman.log
@@ -7456,7 +7491,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
-      flushes       : 227
+      flushes       : 905
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -7470,7 +7505,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
-      flushes       : 227
+      flushes       : 905
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -7485,7 +7520,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Micro
       logmessagetype : evtx entries
   Printed:
       bytes         : 1561282
-      flushes       : 227
+      flushes       : 905
       Events        : 227
   Processed:
       file size          : 1052672 (0x101000) (bytes)
@@ -7533,7 +7568,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
-      flushes       : 3
+      flushes       : 11
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7548,7 +7583,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
-      flushes       : 3
+      flushes       : 11
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7563,7 +7598,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
-      flushes       : 3
+      flushes       : 11
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7578,7 +7613,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
-      flushes       : 3
+      flushes       : 11
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7593,7 +7628,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
-      flushes       : 3
+      flushes       : 11
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7609,7 +7644,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.tar|Ubuntu22-user-1000x3.jour
       logmessagetype : journal entries
   Printed:
       bytes         : 19676
-      flushes       : 3
+      flushes       : 11
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -7760,7 +7795,7 @@ File: ./logs/programs/tomcat/catalina.out
       logmessagetype : syslog lines
   Printed:
       bytes         : 4940
-      flushes       : 7
+      flushes       : 8
       lines         : 21
       syslines      : 7
   Processed:
@@ -8401,7 +8436,7 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5383
-      flushes       : 1
+      flushes       : 3
       lines         : 20
       syslines      : 1
   Processed:
@@ -8539,7 +8574,7 @@ File: ./logs/RockyLinux9/dnf.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 169897
-      flushes       : 677
+      flushes       : 683
       lines         : 763
       syslines      : 677
   Processed:
@@ -8641,7 +8676,7 @@ File: ./logs/RockyLinux9/messages
       logmessagetype : syslog lines
   Printed:
       bytes         : 616072
-      flushes       : 2432
+      flushes       : 2433
       lines         : 2432
       syslines      : 2432
   Processed:
@@ -9189,7 +9224,7 @@ File: ./logs/synology-DS6/esynoscheduler.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4439
-      flushes       : 3
+      flushes       : 4
       lines         : 19
       syslines      : 3
   Processed:
@@ -9223,7 +9258,7 @@ File: ./logs/synology-DS6/fsck/root.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 11735
-      flushes       : 3
+      flushes       : 6
       lines         : 66
       syslines      : 3
   Processed:
@@ -9461,7 +9496,7 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3768
-      flushes       : 1
+      flushes       : 2
       lines         : 19
       syslines      : 1
   Processed:
@@ -9529,7 +9564,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4464
-      flushes       : 3
+      flushes       : 4
       lines         : 19
       syslines      : 3
   Processed:
@@ -9767,7 +9802,7 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4154
-      flushes       : 3
+      flushes       : 4
       lines         : 19
       syslines      : 3
   Processed:
@@ -9903,7 +9938,7 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3955
-      flushes       : 3
+      flushes       : 4
       lines         : 19
       syslines      : 3
   Processed:
@@ -11300,7 +11335,7 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 32017
-      flushes       : 5
+      flushes       : 17
       lines         : 178
       syslines      : 3
   Processed:
@@ -13646,7 +13681,7 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3772
-      flushes       : 1
+      flushes       : 2
       lines         : 19
       syslines      : 1
   Processed:
@@ -13884,7 +13919,7 @@ File: ./logs/synology-DS6/upstart/sshd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3572
-      flushes       : 6
+      flushes       : 7
       lines         : 19
       syslines      : 6
   Processed:
@@ -15537,7 +15572,7 @@ File: ./logs/Ubuntu18/apt/term.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 4209
-      flushes       : 1
+      flushes       : 3
       lines         : 18
       syslines      : 1
   Processed:
@@ -15906,7 +15941,7 @@ File: ./logs/Ubuntu18/nvidia-installer.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3480
-      flushes       : 1
+      flushes       : 2
       lines         : 18
       syslines      : 1
   Processed:
@@ -16380,7 +16415,7 @@ File: ./logs/Ubuntu18/samba/log.smbd
       logmessagetype : syslog lines
   Printed:
       bytes         : 3704
-      flushes       : 4
+      flushes       : 5
       lines         : 19
       syslines      : 4
   Processed:
@@ -16726,7 +16761,7 @@ File: ./logs/Ubuntu22/apt/term.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3304
-      flushes       : 1
+      flushes       : 2
       lines         : 13
       syslines      : 1
   Processed:
@@ -16864,7 +16899,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3245
-      flushes       : 1
+      flushes       : 2
       lines         : 13
       syslines      : 1
   Processed:
@@ -16898,7 +16933,7 @@ File: ./logs/Ubuntu22/dmesg
       logmessagetype : syslog lines
   Printed:
       bytes         : 3234
-      flushes       : 1
+      flushes       : 2
       lines         : 14
       syslines      : 1
   Processed:
@@ -16932,7 +16967,7 @@ File: ./logs/Ubuntu22/dmesg.0
       logmessagetype : syslog lines
   Printed:
       bytes         : 3233
-      flushes       : 1
+      flushes       : 2
       lines         : 14
       syslines      : 1
   Processed:
@@ -17329,7 +17364,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3501
-      flushes       : 1
+      flushes       : 2
       lines         : 14
       syslines      : 1
   Processed:
@@ -17598,7 +17633,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 8249
-      flushes       : 4
+      flushes       : 7
       lines         : 41
       syslines      : 4
   Processed:
@@ -17632,7 +17667,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 9524
-      flushes       : 3
+      flushes       : 6
       lines         : 41
       syslines      : 2
   Processed:
@@ -17666,7 +17701,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 34930
-      flushes       : 12
+      flushes       : 22
       lines         : 152
       syslines      : 9
   Processed:
@@ -17734,7 +17769,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 26245
-      flushes       : 7
+      flushes       : 16
       lines         : 128
       syslines      : 5
   Processed:
@@ -17867,7 +17902,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 13396
-      flushes       : 35
+      flushes       : 36
       lines         : 55
       syslines      : 35
   Processed:
@@ -17901,7 +17936,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 7600
-      flushes       : 15
+      flushes       : 16
       lines         : 33
       syslines      : 15
   Processed:
@@ -17935,7 +17970,7 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 17101
-      flushes       : 3
+      flushes       : 9
       lines         : 74
       syslines      : 3
   Processed:
@@ -18301,14 +18336,14 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
-Paths considered       : 614
+Paths considered       : 615
 Paths not processed    : 33
-Files processed        : 581
-Files printed          : 447
-Printed bytes          : 8288367
-Printed flushes        : 25626
-Printed lines          : 14404
-Printed syslines       : 11929
+Files processed        : 582
+Files printed          : 448
+Printed bytes          : 8291827
+Printed flushes        : 27848
+Printed lines          : 14423
+Printed syslines       : 11938
 Printed evtx events    : 681
 Printed fixedstruct    : 116
 Printed journal events : 18
@@ -18316,9 +18351,9 @@ Regex patterns known   : 172
 Regex patterns compiled: 172
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok     : 13908
+Channel Receive ok     : 13919
 Channel Receive err    : 0
-Threads Spawned        : 582
+Threads Spawned        : 583
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
-Allocator              : Jemalloc
+Allocator              : system

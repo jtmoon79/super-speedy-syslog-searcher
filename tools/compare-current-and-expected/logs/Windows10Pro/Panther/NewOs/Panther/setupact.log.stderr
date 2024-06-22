@@ -7,7 +7,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 9931
-      flushes       : 35
+      flushes       : 36
       lines         : 55
       syslines      : 35
   Processed:
@@ -42,7 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 10072
-Printed flushes        : 71
+Printed flushes        : 72
 Printed lines          : 55
 Printed syslines       : 35
 Printed evtx events    : 0
@@ -57,4 +57,4 @@ Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
-Allocator              : Jemalloc
+Allocator              : system

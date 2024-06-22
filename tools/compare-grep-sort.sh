@@ -63,6 +63,7 @@ trap exit_ EXIT
 if [[ -z "${FILES-}" ]]; then
     # default files to compare
     declare -a FILES=(
+        ./logs/other/tests/gen-100-1-no.log
         ./logs/other/tests/gen-100-10-.......log
         ./logs/other/tests/gen-100-10-BRAAAP.log
         ./logs/other/tests/gen-100-10-FOOBAR.log

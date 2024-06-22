@@ -7,7 +7,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 5521
-      flushes       : 15
+      flushes       : 16
       lines         : 33
       syslines      : 15
   Processed:
@@ -42,7 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 5582
-Printed flushes        : 31
+Printed flushes        : 32
 Printed lines          : 33
 Printed syslines       : 15
 Printed evtx events    : 0
@@ -57,4 +57,4 @@ Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
-Allocator              : Jemalloc
+Allocator              : system

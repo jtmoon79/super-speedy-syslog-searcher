@@ -7,7 +7,7 @@ File: ./logs/FreeBSD13.1/devd.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 1714
-      flushes       : 105
+      flushes       : 9
       lines         : 19
       syslines      : 9
   Processed:
@@ -43,7 +43,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 1750
-Printed flushes        : 114
+Printed flushes        : 18
 Printed lines          : 19
 Printed syslines       : 9
 Printed evtx events    : 0

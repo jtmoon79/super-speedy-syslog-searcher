@@ -7,7 +7,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 2205
-      flushes       : 1
+      flushes       : 2
       lines         : 13
       syslines      : 1
   Processed:
@@ -42,7 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 2209
-Printed flushes        : 2
+Printed flushes        : 3
 Printed lines          : 13
 Printed syslines       : 1
 Printed evtx events    : 0
@@ -57,4 +57,4 @@ Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
-Allocator              : Jemalloc
+Allocator              : system

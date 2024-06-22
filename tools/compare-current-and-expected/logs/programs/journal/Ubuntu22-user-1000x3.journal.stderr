@@ -7,7 +7,7 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
       logmessagetype : journal entries
   Printed:
       bytes         : 12526
-      flushes       : 3
+      flushes       : 8
       journal events: 3
   Processed:
       file size     : 8388608 (0x800000) (bytes)
@@ -23,7 +23,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 12538
-Printed flushes        : 6
+Printed flushes        : 11
 Printed lines          : 0
 Printed syslines       : 0
 Printed evtx events    : 0
@@ -38,4 +38,4 @@ Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
-Allocator              : Jemalloc
+Allocator              : system

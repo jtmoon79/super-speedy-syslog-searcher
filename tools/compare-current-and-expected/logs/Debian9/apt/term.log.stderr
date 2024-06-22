@@ -7,7 +7,7 @@ File: ./logs/Debian9/apt/term.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 34358
-      flushes       : 10
+      flushes       : 21
       lines         : 292
       syslines      : 7
   Processed:
@@ -42,7 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 34386
-Printed flushes        : 17
+Printed flushes        : 28
 Printed lines          : 292
 Printed syslines       : 7
 Printed evtx events    : 0
@@ -57,4 +57,4 @@ Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
-Allocator              : Jemalloc
+Allocator              : system

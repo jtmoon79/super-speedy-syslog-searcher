@@ -7,7 +7,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       logmessagetype : syslog lines
   Printed:
       bytes         : 3115
-      flushes       : 3
+      flushes       : 4
       lines         : 19
       syslines      : 3
   Processed:
@@ -42,7 +42,7 @@ Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
 Printed bytes          : 3127
-Printed flushes        : 6
+Printed flushes        : 7
 Printed lines          : 19
 Printed syslines       : 3
 Printed evtx events    : 0
@@ -57,4 +57,4 @@ Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
-Allocator              : Jemalloc
+Allocator              : system
