@@ -82,6 +82,7 @@ use std::process::ExitCode;
 use std::str;
 use std::sync::RwLock;
 use std::thread;
+use std::thread_local;
 use std::time::Instant;
 
 use ::anyhow;
@@ -214,14 +215,36 @@ const PATHS_ON_STDIN: &str = "-";
 /// general error exit value
 const EXIT_ERR: i32 = 1;
 
-lazy_static! {
+thread_local! {
     /// for user-passed strings of a duration that will be offset from the
     /// current datetime.
-    static ref UTC_NOW: DateTime<Utc> = Utc::now();
-    static ref LOCAL_NOW: DateTime<Local> = DateTime::from(UTC_NOW.clone());
-    static ref LOCAL_NOW_OFFSET: FixedOffset = *LOCAL_NOW.offset();
-    static ref LOCAL_NOW_OFFSET_STR: String = LOCAL_NOW_OFFSET.to_string();
-    pub static ref FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+    static UTC_NOW: DateTime<Utc> = {
+        defo!("thread_local! UTC_NOW::new()");
+
+        Utc::now()
+    };
+    static LOCAL_NOW: DateTime<Local> = {
+        defo!("thread_local! LOCAL_NOW::new()");
+
+        UTC_NOW.with(|utc_now| {
+            DateTime::from(utc_now.with_timezone(&Local))
+        })
+    };
+    static LOCAL_NOW_OFFSET: FixedOffset = {
+        defo!("thread_local! LOCAL_NOW_OFFSET::new()");
+
+        LOCAL_NOW.with(|local_now| *local_now.offset())
+    };
+    static LOCAL_NOW_OFFSET_STR: String = {
+        defo!("thread_local! LOCAL_NOW_OFFSET_STR::new()");
+
+        LOCAL_NOW_OFFSET.with(|local_now_offset| local_now_offset.to_string())
+    };
+    pub static FIXEDOFFSET0: FixedOffset = {
+        defo!("thread_local! FIXEDOFFSET0::new()");
+
+        FixedOffset::east_opt(0).unwrap()
+    }
 }
 
 /// CLI enum that maps to [`termcolor::ColorChoice`].
@@ -381,10 +404,10 @@ const CGP_DUR_OFFSET_HOURS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_HOURS, r">[\
 const CGP_DUR_OFFSET_DAYS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_DAYS, r">[\d]+d)");
 const CGP_DUR_OFFSET_WEEKS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_WEEKS, r">[\d]+w)");
 
-lazy_static! {
+thread_local! {
     /// user-passed strings of a duration that is a relative offset.
-    static ref REGEX_DUR_OFFSET: Regex = {
-        defñ!("lazy_static! REGEX_DUR_OFFSET::new()");
+    static REGEX_DUR_OFFSET: Regex = {
+        defñ!("thread_local! REGEX_DUR_OFFSET::new()");
 
         Regex::new(
             concatcp!(
@@ -598,7 +621,7 @@ struct CLI_Args {
         long,
         verbatim_doc_comment,
         value_parser = cli_process_tz_offset,
-        default_value_t=*LOCAL_NOW_OFFSET,
+        default_value_t=LOCAL_NOW_OFFSET.with(|lno| *lno),
     )]
     tz_offset: FixedOffset,
 
@@ -940,7 +963,9 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
     let mut days: i64 = 0;
     let mut weeks: i64 = 0;
 
-    let captures = match REGEX_DUR_OFFSET.captures(val.as_str()) {
+    let captures: regex::Captures = match REGEX_DUR_OFFSET.with(|re|
+        re.captures(val.as_str())
+    ) {
         Some(caps) => caps,
         None => {
             defx!("REGEX_DUR_OFFSET.captures(…) None");
@@ -1390,6 +1415,7 @@ fn cli_process_args() -> (
     // if both are relative to the other then print error message and exit
     // if `-a` is relative to `-b` then process `-b` first
     // else process `-a` then `-b`
+    let utc_now = UTC_NOW.with(|utc_now| *utc_now);
     match (string_wdhms_to_duration(args_dt_after_s), string_wdhms_to_duration(args_dt_before_s)) {
         (Some((_, DUR_OFFSET_TYPE::Other)), Some((_, DUR_OFFSET_TYPE::Other))) => {
             e_err!("cannot pass both --dt-after and --dt-before as relative to the other");
@@ -1398,16 +1424,16 @@ fn cli_process_args() -> (
         (Some((_, DUR_OFFSET_TYPE::Other)), _) => {
             // special-case: process `-b` value then process `-a` value
             // e.g. `-a "@+1d" -b "20010203"`
-            filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &None, &UTC_NOW);
+            filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &None, &utc_now);
             defo!("filter_dt_before {:?}", filter_dt_before);
-            filter_dt_after = process_dt_exit(&args.dt_after, &tz_offset, &filter_dt_before, &UTC_NOW);
+            filter_dt_after = process_dt_exit(&args.dt_after, &tz_offset, &filter_dt_before, &utc_now);
             defo!("filter_dt_after {:?}", filter_dt_after);
         }
         _ => {
             // normal case: process `-a` value then process `-b` value
-            filter_dt_after = process_dt_exit(&args.dt_after, &tz_offset, &None, &UTC_NOW);
+            filter_dt_after = process_dt_exit(&args.dt_after, &tz_offset, &None, &utc_now);
             defo!("filter_dt_after {:?}", filter_dt_after);
-            filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &filter_dt_after, &UTC_NOW);
+            filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &filter_dt_after, &utc_now);
             defo!("filter_dt_before {:?}", filter_dt_before);
         }
     }
@@ -1468,17 +1494,17 @@ fn cli_process_args() -> (
             }
         }
     } else if args.prepend_utc {
-        cli_opt_prepend_offset = *FIXEDOFFSET0;
+        cli_opt_prepend_offset = FIXEDOFFSET0.with(|fo0| *fo0);
         if prepend_dt_format.is_none() {
             prepend_dt_format = Some(String::from(CLI_OPT_PREPEND_FMT));
         }
     } else if args.prepend_local {
-        cli_opt_prepend_offset = *LOCAL_NOW_OFFSET;
+        cli_opt_prepend_offset = LOCAL_NOW_OFFSET.with(|lno| *lno);
         if prepend_dt_format.is_none() {
             prepend_dt_format = Some(String::from(CLI_OPT_PREPEND_FMT));
         }
     } else {
-        cli_opt_prepend_offset = *LOCAL_NOW_OFFSET;
+        cli_opt_prepend_offset = LOCAL_NOW_OFFSET.with(|lno| *lno);
     }
     defo!("prepend_dt_format {:?}", prepend_dt_format);
 
@@ -2935,8 +2961,8 @@ fn processing_loop(
             SummaryPrinted::default(),
             filter_dt_after_opt,
             filter_dt_before_opt,
-            &*LOCAL_NOW,
-            &*UTC_NOW,
+            &LOCAL_NOW.with(|local_now| *local_now),
+            &UTC_NOW.with(|utc_now| *utc_now),
             0,
             0,
             start_time,
@@ -3711,8 +3737,8 @@ fn processing_loop(
             summaryprinted,
             filter_dt_after_opt,
             filter_dt_before_opt,
-            &*LOCAL_NOW,
-            &*UTC_NOW,
+            &LOCAL_NOW.with(|local_now| *local_now),
+            &UTC_NOW.with(|utc_now| *utc_now),
             chan_recv_ok,
             chan_recv_err,
             start_time,
@@ -3753,6 +3779,14 @@ mod tests {
     };
     use test_case::test_case;
     use super::*;
+
+    lazy_static! {
+        static ref FIXEDOFFSET0: FixedOffset = {
+            defo!("lazy_static! FIXEDOFFSET0::new()");
+
+            FixedOffset::east_opt(0).unwrap()
+        };
+    }
 
     #[test_case("500", true)]
     #[test_case("0x2", true)]
@@ -3935,9 +3969,9 @@ mod tests {
     ) {
         eprintln!(
             "test_process_dt: process_dt({:?}, {:?}, &None, UTC_NOW: {:?})",
-            dts, tz_offset, &*UTC_NOW,
+            dts, tz_offset, UTC_NOW.with(|utc_now| *utc_now),
         );
-        let dt = process_dt(&dts, &tz_offset, &None, &UTC_NOW);
+        let dt = process_dt(&dts, &tz_offset, &None, &UTC_NOW.with(|utc_now| *utc_now));
         eprintln!("test_process_dt: process_dt returned {:?}", dt);
         assert_eq!(dt, expect);
     }
@@ -3976,7 +4010,11 @@ mod tests {
         dt_other: DateTimeL,
         expect: DateTimeLOpt,
     ) {
-        let dt = process_dt(&dts, &tz_offset, &Some(dt_other), &UTC_NOW);
+        let dt = process_dt(
+            &dts, &tz_offset,
+            &Some(dt_other),
+            &UTC_NOW.with(|utc_now| *utc_now),
+        );
         assert_eq!(dt, expect);
     }
 
