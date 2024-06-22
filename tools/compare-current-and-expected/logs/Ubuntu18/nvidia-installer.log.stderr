@@ -24,15 +24,15 @@ File: ./logs/Ubuntu18/nvidia-installer.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   4, miss  35, 10.3%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 792, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 848, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  26,  3.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  40, miss  18, 69.0%, largest skipped 76
-      optimize:SyslineReader::ezcheck12d2                          : hit 453, miss 284, 61.5%, largest skipped 232
-      process: regex captures attempted                            : 302
+      optimize:SyslineReader::ezcheck12d2                          : hit 495, miss 298, 62.4%, largest skipped 232
+      process: regex captures attempted                            : 316
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 1
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 158
-Regex patterns compiled: 156
+Regex patterns known   : 172
+Regex patterns compiled: 170
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 3

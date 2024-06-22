@@ -24,15 +24,15 @@ File: ./logs/synology-DS6/fsck/root.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   6, miss 127,  4.5%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  68, 11.7%, put  66
-      copying: SyslineReader::get_boxptrs()                        : sgl 821, dbl    7, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 877, dbl    7, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  71,  4.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss  46, 20.7%, largest skipped 57
-      optimize:SyslineReader::ezcheck12d2                          : hit 167, miss 603, 21.7%, largest skipped 57
-      process: regex captures attempted                            : 649
+      optimize:SyslineReader::ezcheck12d2                          : hit 181, miss 645, 21.9%, largest skipped 57
+      process: regex captures attempted                            : 691
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 3
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 158
-Regex patterns compiled: 158
+Regex patterns known   : 172
+Regex patterns compiled: 172
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 5

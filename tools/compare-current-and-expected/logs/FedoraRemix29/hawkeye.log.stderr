@@ -25,15 +25,15 @@ File: ./logs/FedoraRemix29/hawkeye.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  35, miss  75, 31.8%
       caching: LineReader::find_line() LRU cache                   : hit   2, miss  75,  2.6%, put  74
-      copying: SyslineReader::get_boxptrs()                        : sgl 184, dbl    6, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 185, dbl    6, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  37,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  36, miss  37, 49.3%, put  37
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  73,  0.0%, put  73
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  35, miss  40, 46.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  48,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 190
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 143,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 191
   Processing Drops:
 
 Program Summary:
@@ -49,8 +49,8 @@ Printed syslines       : 36
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 158
-Regex patterns compiled: 153
+Regex patterns known   : 172
+Regex patterns compiled: 154
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 38

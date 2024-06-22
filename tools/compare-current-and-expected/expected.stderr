@@ -623,15 +623,15 @@ File: ./logs/Debian9/apt/eipp.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    1, miss   24,  4.0%
       caching: LineReader::find_line() LRU cache                   : hit    1, miss   13,  7.1%, put   12
-      copying: SyslineReader::get_boxptrs()                        : sgl 1738, dbl     0, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1892, dbl     0, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    0, miss   13,  0.0%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  120, miss   12, 90.9%, largest skipped 23
-      optimize:SyslineReader::ezcheck12d2                          : hit 1168, miss  438, 72.7%, largest skipped 20
-      process: regex captures attempted                            : 450
+      optimize:SyslineReader::ezcheck12d2                          : hit 1280, miss  480, 72.7%, largest skipped 20
+      process: regex captures attempted                            : 492
   Processing Drops:
 
 File: ./logs/Debian9/apt/history.log
@@ -657,15 +657,15 @@ File: ./logs/Debian9/apt/history.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  17, 10.5%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss  11, 26.7%, put  10
-      copying: SyslineReader::get_boxptrs()                        : sgl 365, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 393, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   4
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   4, 20.0%, put   4
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  10, 23.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  24, miss   4, 85.7%, largest skipped 68
-      optimize:SyslineReader::ezcheck12d2                          : hit 149, miss 189, 44.1%, largest skipped 33
-      process: regex captures attempted                            : 193
+      optimize:SyslineReader::ezcheck12d2                          : hit 163, miss 203, 44.5%, largest skipped 33
+      process: regex captures attempted                            : 207
   Processing Drops:
 
 File: ./logs/Debian9/aptitude.4
@@ -691,15 +691,15 @@ File: ./logs/Debian9/aptitude.4
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  37,  5.1%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 682, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 738, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  26,  3.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  36, miss  16, 69.2%, largest skipped 69
-      optimize:SyslineReader::ezcheck12d2                          : hit 446, miss 186, 70.6%, largest skipped 69
-      process: regex captures attempted                            : 202
+      optimize:SyslineReader::ezcheck12d2                          : hit 488, miss 200, 70.9%, largest skipped 69
+      process: regex captures attempted                            : 216
   Processing Drops:
 
 File: ./logs/Debian9/apt/term.log
@@ -725,15 +725,15 @@ File: ./logs/Debian9/apt/term.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   13, miss  581,  2.2%
       caching: LineReader::find_line() LRU cache                   : hit    7, miss  303,  2.3%, put  301
-      copying: SyslineReader::get_boxptrs()                        : sgl 1538, dbl    37, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1645, dbl    42, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    8,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    8,  0.0%, put    7
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    8,  0.0%, put    7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    7, miss  300,  2.3%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   42, miss   56, 42.9%, largest skipped 24
-      optimize:SyslineReader::ezcheck12d2                          : hit  323, miss 1154, 21.9%, largest skipped 39
-      process: regex captures attempted                            : 1210
+      optimize:SyslineReader::ezcheck12d2                          : hit  349, miss 1240, 22.0%, largest skipped 49
+      process: regex captures attempted                            : 1296
   Processing Drops:
 
 File: ./logs/Debian9/auth.log
@@ -793,15 +793,15 @@ File: ./logs/Debian9/boot.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 632, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 688, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  48,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 584,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 632
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 640,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 688
   Processing Drops:
 
 File: ./logs/Debian9/clamav/clamd.log
@@ -1101,14 +1101,14 @@ File: ./logs/Debian9/samba/log.192.168.0.1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 164, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 70
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   6, 96.1%, largest skipped 70
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   6, 96.4%, largest skipped 70
       process: regex captures attempted                            : 6
   Processing Drops:
 
@@ -1135,14 +1135,14 @@ File: ./logs/Debian9/samba/log.192.168.0.2
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 164, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 70
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   6, 96.1%, largest skipped 70
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   6, 96.4%, largest skipped 70
       process: regex captures attempted                            : 6
   Processing Drops:
 
@@ -1169,14 +1169,14 @@ File: ./logs/Debian9/samba/log.host1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 164, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 70
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   6, 96.1%, largest skipped 70
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   6, 96.4%, largest skipped 70
       process: regex captures attempted                            : 6
   Processing Drops:
 
@@ -1203,14 +1203,14 @@ File: ./logs/Debian9/samba/log.host2
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 164, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 70
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   6, 96.1%, largest skipped 70
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   6, 96.4%, largest skipped 70
       process: regex captures attempted                            : 6
   Processing Drops:
 
@@ -1237,15 +1237,15 @@ File: ./logs/Debian9/samba/log.nmbd
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 322, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 350, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  14, miss  10, 58.3%, largest skipped 63
-      optimize:SyslineReader::ezcheck12d2                          : hit  10, miss 288,  3.4%, largest skipped 29
-      process: regex captures attempted                            : 298
+      optimize:SyslineReader::ezcheck12d2                          : hit  10, miss 316,  3.1%, largest skipped 29
+      process: regex captures attempted                            : 326
   Processing Drops:
 
 File: ./logs/Debian9/samba/log.nmbd.1
@@ -1271,15 +1271,15 @@ File: ./logs/Debian9/samba/log.nmbd.1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 180, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 194, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  21, 22.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   5, miss   7, 41.7%, largest skipped 28
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 169,  1.2%, largest skipped 24
-      process: regex captures attempted                            : 176
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 183,  1.1%, largest skipped 24
+      process: regex captures attempted                            : 190
   Processing Drops:
 
 File: ./logs/Debian9/samba/log.nmbd.old
@@ -1305,15 +1305,15 @@ File: ./logs/Debian9/samba/log.nmbd.old
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 180, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 194, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  21, 22.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   5, miss   7, 41.7%, largest skipped 28
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 169,  1.2%, largest skipped 24
-      process: regex captures attempted                            : 176
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 183,  1.1%, largest skipped 24
+      process: regex captures attempted                            : 190
   Processing Drops:
 
 File: ./logs/Debian9/samba/log.smbd.1
@@ -1339,14 +1339,14 @@ File: ./logs/Debian9/samba/log.smbd.1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 164, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 74
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   6, 96.1%, largest skipped 74
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   6, 96.4%, largest skipped 74
       process: regex captures attempted                            : 6
   Processing Drops:
 
@@ -1442,15 +1442,15 @@ File: ./logs/Debian9/Xorg.0.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 632, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 688, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   1, miss  47,  2.1%, largest skipped 18
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 584,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 631
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 640,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 687
   Processing Drops:
 
 File: ./logs/Debian9/Xorg.0.log.old
@@ -1475,15 +1475,15 @@ File: ./logs/Debian9/Xorg.0.log.old
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 632, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 688, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   1, miss  47,  2.1%, largest skipped 18
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 584,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 631
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 640,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 687
   Processing Drops:
 
 File: ./logs/FedoraRemix29/dnf.librepo.log
@@ -1578,15 +1578,15 @@ File: ./logs/FedoraRemix29/hawkeye.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  35, miss  75, 31.8%
       caching: LineReader::find_line() LRU cache                   : hit   2, miss  75,  2.6%, put  74
-      copying: SyslineReader::get_boxptrs()                        : sgl 184, dbl    6, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 185, dbl    6, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  37,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  36, miss  37, 49.3%, put  37
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  73,  0.0%, put  73
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  35, miss  40, 46.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  48,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 190
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 143,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 191
   Processing Drops:
 
 File: ./logs/MinGW64/pacman.log
@@ -2242,15 +2242,15 @@ File: ./logs/other/tests/empty.7z
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 632, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 688, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  48, miss   0, 100.0%, largest skipped 69
-      optimize:SyslineReader::ezcheck12d2                          : hit 438, miss 146, 75.0%, largest skipped 69
-      process: regex captures attempted                            : 146
+      optimize:SyslineReader::ezcheck12d2                          : hit 480, miss 160, 75.0%, largest skipped 69
+      process: regex captures attempted                            : 160
   Processing Drops:
 
 File: ./logs/other/tests/empty.log.bz2
@@ -2279,14 +2279,14 @@ File: ./logs/other/tests/empty.log.zip
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  36, miss   0, 100.0%, largest skipped 56
-      optimize:SyslineReader::ezcheck12d2                          : hit 438, miss   0, 100.0%, largest skipped 56
+      optimize:SyslineReader::ezcheck12d2                          : hit 480, miss   0, 100.0%, largest skipped 56
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -2312,14 +2312,14 @@ File: ./logs/other/tests/empty.zip
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  36, miss   0, 100.0%, largest skipped 56
-      optimize:SyslineReader::ezcheck12d2                          : hit 438, miss   0, 100.0%, largest skipped 56
+      optimize:SyslineReader::ezcheck12d2                          : hit 480, miss   0, 100.0%, largest skipped 56
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -3687,14 +3687,14 @@ File: ./logs/other/tests/dtf2-2.log.lz
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 54
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 54
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 54
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -3826,14 +3826,14 @@ File: ./logs/other/tests/dtf2-2.lz
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 54
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 54
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 54
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -4272,14 +4272,14 @@ File: ./logs/other/tests/dtf5-3-LF-CR.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   2, miss   5, 28.6%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 239, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 253, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   2, 33.3%, put   2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss   4, 20.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   4, 75.0%, largest skipped 29
-      optimize:SyslineReader::ezcheck12d2                          : hit 147, miss  76, 65.9%, largest skipped 29
+      optimize:SyslineReader::ezcheck12d2                          : hit 161, miss  76, 67.9%, largest skipped 29
       process: regex captures attempted                            : 80
   Processing Drops:
 
@@ -4306,14 +4306,14 @@ File: ./logs/other/tests/dtf5-3-r-n.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  11,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   3, miss   7, 30.0%, put   6
-      copying: SyslineReader::get_boxptrs()                        : sgl 241, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 255, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   3,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   3,  0.0%, put   3
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   3, 25.0%, put   3
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss   6, 25.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   4, 75.0%, largest skipped 26
-      optimize:SyslineReader::ezcheck12d2                          : hit 148, miss  77, 65.8%, largest skipped 49
+      optimize:SyslineReader::ezcheck12d2                          : hit 162, miss  77, 67.8%, largest skipped 49
       process: regex captures attempted                            : 81
   Processing Drops:
 
@@ -4682,15 +4682,15 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 344, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss  12, 50.0%, largest skipped 196
-      optimize:SyslineReader::ezcheck12d2                          : hit   8, miss 284,  2.7%, largest skipped 29
-      process: regex captures attempted                            : 296
+      optimize:SyslineReader::ezcheck12d2                          : hit   8, miss 312,  2.5%, largest skipped 29
+      process: regex captures attempted                            : 324
   Processing Drops:
 
 File: ./logs/other/tests/dtf7-20-LEVELS.log.old
@@ -4923,15 +4923,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   7, miss   5, 58.3%, largest skipped 34
-      optimize:SyslineReader::ezcheck12d2                          : hit   8, miss 138,  5.5%, largest skipped 29
-      process: regex captures attempted                            : 143
+      optimize:SyslineReader::ezcheck12d2                          : hit   8, miss 152,  5.0%, largest skipped 29
+      process: regex captures attempted                            : 157
   Processing Drops:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip
@@ -4956,15 +4956,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 344, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  15, miss   9, 62.5%, largest skipped 22
-      optimize:SyslineReader::ezcheck12d2                          : hit 147, miss 145, 50.3%, largest skipped 19
-      process: regex captures attempted                            : 154
+      optimize:SyslineReader::ezcheck12d2                          : hit 161, miss 159, 50.3%, largest skipped 19
+      process: regex captures attempted                            : 168
   Processing Drops:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip
@@ -4989,15 +4989,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  27, miss   9, 75.0%, largest skipped 55
-      optimize:SyslineReader::ezcheck12d2                          : hit 293, miss 145, 66.9%, largest skipped 55
-      process: regex captures attempted                            : 154
+      optimize:SyslineReader::ezcheck12d2                          : hit 321, miss 159, 66.9%, largest skipped 55
+      process: regex captures attempted                            : 168
   Processing Drops:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns).zip
@@ -5022,15 +5022,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  27, miss   9, 75.0%, largest skipped 55
-      optimize:SyslineReader::ezcheck12d2                          : hit 293, miss 145, 66.9%, largest skipped 55
-      process: regex captures attempted                            : 154
+      optimize:SyslineReader::ezcheck12d2                          : hit 321, miss 159, 66.9%, largest skipped 55
+      process: regex captures attempted                            : 168
   Processing Drops:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zip
@@ -5055,15 +5055,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zi
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  27, miss   9, 75.0%, largest skipped 55
-      optimize:SyslineReader::ezcheck12d2                          : hit 293, miss 145, 66.9%, largest skipped 55
-      process: regex captures attempted                            : 154
+      optimize:SyslineReader::ezcheck12d2                          : hit 321, miss 159, 66.9%, largest skipped 55
+      process: regex captures attempted                            : 168
   Processing Drops:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip
@@ -5088,15 +5088,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  27, miss   9, 75.0%, largest skipped 55
-      optimize:SyslineReader::ezcheck12d2                          : hit 293, miss 145, 66.9%, largest skipped 55
-      process: regex captures attempted                            : 154
+      optimize:SyslineReader::ezcheck12d2                          : hit 321, miss 159, 66.9%, largest skipped 55
+      process: regex captures attempted                            : 168
   Processing Drops:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|dtf7-20-LEVELS.log
@@ -5337,14 +5337,14 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 67
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 67
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 67
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -5370,14 +5370,14 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9, store all times).7z
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 67
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 67
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 67
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -5403,14 +5403,14 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 61
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 61
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 61
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -5436,15 +5436,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 344, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  15, miss   9, 62.5%, largest skipped 22
-      optimize:SyslineReader::ezcheck12d2                          : hit 147, miss 145, 50.3%, largest skipped 19
-      process: regex captures attempted                            : 154
+      optimize:SyslineReader::ezcheck12d2                          : hit 161, miss 159, 50.3%, largest skipped 19
+      process: regex captures attempted                            : 168
   Processing Drops:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log
@@ -5685,14 +5685,14 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 57
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 57
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 57
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -5718,14 +5718,14 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 10
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 10
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 10
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -6317,15 +6317,15 @@ File: ./logs/other/tests/simple-10.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/other/tests/simple-10s.log
@@ -6350,15 +6350,15 @@ File: ./logs/other/tests/simple-10s.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/other/tests/simple-11.log
@@ -6383,15 +6383,15 @@ File: ./logs/other/tests/simple-11.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/other/tests/simple-11s_b.log
@@ -6451,15 +6451,15 @@ File: ./logs/other/tests/simple-11s.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/other/tests/simple-12.log
@@ -6518,15 +6518,15 @@ File: ./logs/other/tests/simple-13.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/other/tests/simple-14.log
@@ -6620,15 +6620,15 @@ File: ./logs/other/tests/simple-14s_.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/other/tests/simple-15.log
@@ -6959,15 +6959,15 @@ File: ./logs/other/tests/simple-8.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/other/tests/simple-9.log
@@ -6992,15 +6992,15 @@ File: ./logs/other/tests/simple-9.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/other/tests/unknown
@@ -7126,15 +7126,15 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 344, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  24,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 292,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 316
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 320,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 344
   Processing Drops:
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
@@ -8001,15 +8001,15 @@ File: ./logs/RancherOS-1.5.8/docker.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 135,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  69, miss  69, 50.0%, put  67
-      copying: SyslineReader::get_boxptrs()                        : sgl 321, dbl   35, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 335, dbl   35, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  67,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  67,  0.0%, put  66
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  67,  0.0%, put  66
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  66, miss  69, 48.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   4, miss  18, 18.2%, largest skipped 25
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 332,  0.6%, largest skipped 24
-      process: regex captures attempted                            : 350
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 346,  0.6%, largest skipped 24
+      process: regex captures attempted                            : 364
   Processing Drops:
 
 File: ./logs/RancherOS-1.5.8/messages
@@ -8105,14 +8105,14 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  42,  2.3%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss  23, 14.8%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 305, dbl    9, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 319, dbl    9, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  23,  4.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss  10, 54.5%, largest skipped 77
-      optimize:SyslineReader::ezcheck12d2                          : hit 148, miss 144, 50.7%, largest skipped 77
+      optimize:SyslineReader::ezcheck12d2                          : hit 162, miss 144, 52.9%, largest skipped 77
       process: regex captures attempted                            : 154
   Processing Drops:
 
@@ -8893,15 +8893,15 @@ File: ./logs/synology-DS6/esynoscheduler.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss  21, 22.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 412, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 440, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  21, 12.5%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss  16, 42.9%, largest skipped 17
-      optimize:SyslineReader::ezcheck12d2                          : hit 149, miss 237, 38.6%, largest skipped 17
-      process: regex captures attempted                            : 253
+      optimize:SyslineReader::ezcheck12d2                          : hit 163, miss 251, 39.4%, largest skipped 17
+      process: regex captures attempted                            : 267
   Processing Drops:
 
 File: ./logs/synology-DS6/fsck/root.log
@@ -8927,15 +8927,15 @@ File: ./logs/synology-DS6/fsck/root.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   6, miss 127,  4.5%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  68, 11.7%, put  66
-      copying: SyslineReader::get_boxptrs()                        : sgl 821, dbl    7, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 877, dbl    7, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  71,  4.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss  46, 20.7%, largest skipped 57
-      optimize:SyslineReader::ezcheck12d2                          : hit 167, miss 603, 21.7%, largest skipped 57
-      process: regex captures attempted                            : 649
+      optimize:SyslineReader::ezcheck12d2                          : hit 181, miss 645, 21.9%, largest skipped 57
+      process: regex captures attempted                            : 691
   Processing Drops:
 
 File: ./logs/synology-DS6/ha.log
@@ -9165,14 +9165,14 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   3, miss  21, 12.5%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 253, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 267, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  20,  4.8%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   4, 75.0%, largest skipped 103
-      optimize:SyslineReader::ezcheck12d2                          : hit 163, miss  76, 68.2%, largest skipped 103
+      optimize:SyslineReader::ezcheck12d2                          : hit 177, miss  76, 70.0%, largest skipped 103
       process: regex captures attempted                            : 80
   Processing Drops:
 
@@ -9301,15 +9301,15 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 251, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 265, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   8, miss   8, 50.0%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit  36, miss 202, 15.1%, largest skipped 49
-      process: regex captures attempted                            : 210
+      optimize:SyslineReader::ezcheck12d2                          : hit  35, miss 217, 13.9%, largest skipped 49
+      process: regex captures attempted                            : 225
   Processing Drops:
 
 File: ./logs/synology-DS6/packages/LogCenter.log
@@ -9335,14 +9335,14 @@ File: ./logs/synology-DS6/packages/LogCenter.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  21, 32.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 726, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 782, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  23, 17.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  48, miss   4, 92.3%, largest skipped 35
-      optimize:SyslineReader::ezcheck12d2                          : hit 598, miss  79, 88.3%, largest skipped 40
+      optimize:SyslineReader::ezcheck12d2                          : hit 654, miss  79, 89.2%, largest skipped 40
       process: regex captures attempted                            : 83
   Processing Drops:
 
@@ -9437,15 +9437,15 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   4, miss  33, 10.8%
       caching: LineReader::find_line() LRU cache                   : hit   7, miss  20, 25.9%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 246, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 260, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   7,  0.0%, put   7
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   7, 12.5%, put   7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  19, 24.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  16,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   4, miss 230,  1.7%, largest skipped 49
-      process: regex captures attempted                            : 246
+      optimize:SyslineReader::ezcheck12d2                          : hit   4, miss 244,  1.6%, largest skipped 49
+      process: regex captures attempted                            : 260
   Processing Drops:
 
 File: ./logs/synology-DS6/packages/SurveillanceStation.log
@@ -9471,15 +9471,15 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  21, 32.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 723, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 779, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  25, 10.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  32, miss  20, 61.5%, largest skipped 43
-      optimize:SyslineReader::ezcheck12d2                          : hit 304, miss 369, 45.2%, largest skipped 49
-      process: regex captures attempted                            : 389
+      optimize:SyslineReader::ezcheck12d2                          : hit 332, miss 397, 45.5%, largest skipped 49
+      process: regex captures attempted                            : 417
   Processing Drops:
 
 File: ./logs/synology-DS6/packages/SynoFinder.log
@@ -9539,15 +9539,15 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   7, miss  21, 25.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 251, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 265, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  20, 20.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   9, miss   7, 56.2%, largest skipped 63
-      optimize:SyslineReader::ezcheck12d2                          : hit  91, miss 148, 38.1%, largest skipped 64
-      process: regex captures attempted                            : 155
+      optimize:SyslineReader::ezcheck12d2                          : hit  92, miss 161, 36.4%, largest skipped 64
+      process: regex captures attempted                            : 168
   Processing Drops:
 
 File: ./logs/synology-DS6/packages/SynologyDrive.log
@@ -9573,15 +9573,15 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  13, miss  20, 39.4%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 250, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 264, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  13,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  13,  0.0%, put  13
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  13,  7.1%, put  13
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  12, miss  19, 38.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   8, miss   8, 50.0%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit  53, miss 185, 22.3%, largest skipped 45
-      process: regex captures attempted                            : 193
+      optimize:SyslineReader::ezcheck12d2                          : hit  52, miss 200, 20.6%, largest skipped 45
+      process: regex captures attempted                            : 208
   Processing Drops:
 
 File: ./logs/synology-DS6/packages/SynologyMoments.log
@@ -9607,15 +9607,15 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss  21, 22.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 411, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 439, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  21, 12.5%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  16, miss  12, 57.1%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit 150, miss 235, 39.0%, largest skipped 49
-      process: regex captures attempted                            : 247
+      optimize:SyslineReader::ezcheck12d2                          : hit 150, miss 263, 36.3%, largest skipped 49
+      process: regex captures attempted                            : 275
   Processing Drops:
 
 File: ./logs/synology-DS6/packages/USBCopy.log
@@ -9743,15 +9743,15 @@ File: ./logs/synology-DS6/samba/log.nmbd
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   8, miss  20, 28.6%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 465, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 493, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   8,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   8,  0.0%, put   8
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   8, 11.1%, put   8
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  19, 26.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss  22, 35.3%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit  57, miss 378, 13.1%, largest skipped 52
-      process: regex captures attempted                            : 400
+      optimize:SyslineReader::ezcheck12d2                          : hit  56, miss 407, 12.1%, largest skipped 52
+      process: regex captures attempted                            : 429
   Processing Drops:
 
 File: ./logs/synology-DS6/samba/log.smbd
@@ -9777,15 +9777,15 @@ File: ./logs/synology-DS6/samba/log.smbd
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   8, miss  20, 28.6%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 465, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 493, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   8,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   8,  0.0%, put   8
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   8, 11.1%, put   8
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  19, 26.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  13, miss  21, 38.2%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit  56, miss 379, 12.9%, largest skipped 52
-      process: regex captures attempted                            : 400
+      optimize:SyslineReader::ezcheck12d2                          : hit  55, miss 408, 11.9%, largest skipped 52
+      process: regex captures attempted                            : 429
   Processing Drops:
 
 File: ./logs/synology-DS6/scemd.log
@@ -9879,15 +9879,15 @@ File: ./logs/synology-DS6/smart_extend_log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss   9, 30.8%, put   8
-      copying: SyslineReader::get_boxptrs()                        : sgl 300, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 314, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   4
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   4, 20.0%, put   4
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss   8, 27.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  15, miss   7, 68.2%, largest skipped 26
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 277,  0.7%, largest skipped 19
-      process: regex captures attempted                            : 284
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 291,  0.7%, largest skipped 19
+      process: regex captures attempted                            : 298
   Processing Drops:
 
 File: ./logs/synology-DS6/smart_quick_log
@@ -9913,15 +9913,15 @@ File: ./logs/synology-DS6/smart_quick_log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss   9, 30.8%, put   8
-      copying: SyslineReader::get_boxptrs()                        : sgl 300, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 314, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   4
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   4, 20.0%, put   4
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss   8, 27.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  22,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 279,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 301
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 293,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 315
   Processing Drops:
 
 File: ./logs/synology-DS6/space_operation_error.log
@@ -10188,15 +10188,15 @@ File: ./logs/synology-DS6/synocrond-execute.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/synology-DS6/synocrond.log
@@ -10460,15 +10460,15 @@ File: ./logs/synology-DS6/synopkg.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 252, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 266, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  10, miss   6, 62.5%, largest skipped 99
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 236,  0.8%, largest skipped 24
-      process: regex captures attempted                            : 242
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 250,  0.8%, largest skipped 24
+      process: regex captures attempted                            : 256
   Processing Drops:
 
 File: ./logs/synology-DS6/synopoweroff.log
@@ -10936,15 +10936,15 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  11,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   5, miss   7, 41.7%, put   6
-      copying: SyslineReader::get_boxptrs()                        : sgl 237, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 251, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   6, 40.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   5, miss  11, 31.2%, largest skipped 28
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 219,  0.9%, largest skipped 24
-      process: regex captures attempted                            : 230
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 233,  0.9%, largest skipped 24
+      process: regex captures attempted                            : 244
   Processing Drops:
 
 File: ./logs/synology-DS6/upstart/crond.log
@@ -11004,15 +11004,15 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 357,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss 180,  3.2%, put 178
-      copying: SyslineReader::get_boxptrs()                        : sgl 545, dbl   21, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 573, dbl   21, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss 180,  1.6%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  24, miss   4, 85.7%, largest skipped 90
-      optimize:SyslineReader::ezcheck12d2                          : hit 278, miss 260, 51.7%, largest skipped 64
-      process: regex captures attempted                            : 264
+      optimize:SyslineReader::ezcheck12d2                          : hit 278, miss 288, 49.1%, largest skipped 64
+      process: regex captures attempted                            : 292
   Processing Drops:
 
 File: ./logs/synology-DS6/upstart/dbus-system.log
@@ -11412,14 +11412,14 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  17, miss  20, 45.9%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 248, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 262, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  17,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  17,  0.0%, put  17
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  17,  5.6%, put  17
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  16, miss  19, 45.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   4, 75.0%, largest skipped 40
-      optimize:SyslineReader::ezcheck12d2                          : hit 147, miss  87, 62.8%, largest skipped 40
+      optimize:SyslineReader::ezcheck12d2                          : hit 161, miss  87, 64.9%, largest skipped 40
       process: regex captures attempted                            : 91
   Processing Drops:
 
@@ -13350,14 +13350,14 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss  21, 22.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 722, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 778, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  23,  4.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  48, miss   4, 92.3%, largest skipped 64
-      optimize:SyslineReader::ezcheck12d2                          : hit 602, miss  71, 89.5%, largest skipped 64
+      optimize:SyslineReader::ezcheck12d2                          : hit 658, miss  71, 90.3%, largest skipped 64
       process: regex captures attempted                            : 75
   Processing Drops:
 
@@ -14608,14 +14608,14 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 233, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 247, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   4, 75.0%, largest skipped 49
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss  71, 67.3%, largest skipped 49
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss  71, 69.3%, largest skipped 49
       process: regex captures attempted                            : 75
   Processing Drops:
 
@@ -14778,15 +14778,15 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss  21, 22.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 564, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 606, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   3,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   3,  0.0%, put   2
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss  22,  8.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  32, miss   8, 80.0%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit 303, miss 223, 57.6%, largest skipped 49
-      process: regex captures attempted                            : 231
+      optimize:SyslineReader::ezcheck12d2                          : hit 331, miss 237, 58.3%, largest skipped 49
+      process: regex captures attempted                            : 245
   Processing Drops:
 
 File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
@@ -14846,15 +14846,15 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 565, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 607, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  22, 18.5%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  40,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 527,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 567
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 569,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 609
   Processing Drops:
 
 File: ./logs/synology-DS6/upstart/syslog-ng.log
@@ -15207,15 +15207,15 @@ File: ./logs/Ubuntu18/apt/history.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  12,  7.7%
       caching: LineReader::find_line() LRU cache                   : hit   7, miss   8, 46.7%, put   6
-      copying: SyslineReader::get_boxptrs()                        : sgl 365, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 393, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   3,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   3,  0.0%, put   2
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   2, miss  10, 16.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  13, miss  15, 46.4%, largest skipped 30
-      optimize:SyslineReader::ezcheck12d2                          : hit 147, miss 190, 43.6%, largest skipped 30
-      process: regex captures attempted                            : 205
+      optimize:SyslineReader::ezcheck12d2                          : hit 161, miss 204, 44.1%, largest skipped 30
+      process: regex captures attempted                            : 219
   Processing Drops:
 
 File: ./logs/Ubuntu18/apt/term.log
@@ -15241,15 +15241,15 @@ File: ./logs/Ubuntu18/apt/term.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  38,  2.6%
       caching: LineReader::find_line() LRU cache                   : hit   5, miss  21, 19.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 198, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 212, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  22,  4.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   2, 85.7%, largest skipped 58
-      optimize:SyslineReader::ezcheck12d2                          : hit 154, miss  32, 82.8%, largest skipped 58
-      process: regex captures attempted                            : 34
+      optimize:SyslineReader::ezcheck12d2                          : hit 167, miss  33, 83.5%, largest skipped 58
+      process: regex captures attempted                            : 35
   Processing Drops:
 
 File: ./logs/Ubuntu18/cups/access_log
@@ -15376,15 +15376,15 @@ File: ./logs/Ubuntu18/fontconfig.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  14, miss  22, 38.9%, largest skipped 68
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss 292, 33.3%, largest skipped 68
-      process: regex captures attempted                            : 314
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss 320, 33.3%, largest skipped 68
+      process: regex captures attempted                            : 342
   Processing Drops:
 
 File: ./logs/Ubuntu18/gpu-manager.log
@@ -15409,14 +15409,14 @@ File: ./logs/Ubuntu18/gpu-manager.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 632, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 688, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  48, miss   0, 100.0%, largest skipped 60
-      optimize:SyslineReader::ezcheck12d2                          : hit 584, miss   0, 100.0%, largest skipped 60
+      optimize:SyslineReader::ezcheck12d2                          : hit 640, miss   0, 100.0%, largest skipped 60
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -15442,14 +15442,14 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 632, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 688, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  48, miss   0, 100.0%, largest skipped 60
-      optimize:SyslineReader::ezcheck12d2                          : hit 584, miss   0, 100.0%, largest skipped 60
+      optimize:SyslineReader::ezcheck12d2                          : hit 640, miss   0, 100.0%, largest skipped 60
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -15475,15 +15475,15 @@ File: ./logs/Ubuntu18/installer/initial-status
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    0, miss   19,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit    1, miss   10,  9.1%, put    9
-      copying: SyslineReader::get_boxptrs()                        : sgl 1422, dbl     0, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1548, dbl     0, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    0, miss   10,  0.0%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   84, miss   24, 77.8%, largest skipped 69
-      optimize:SyslineReader::ezcheck12d2                          : hit 1022, miss  292, 77.8%, largest skipped 69
-      process: regex captures attempted                            : 316
+      optimize:SyslineReader::ezcheck12d2                          : hit 1120, miss  320, 77.8%, largest skipped 69
+      process: regex captures attempted                            : 344
   Processing Drops:
 
 File: ./logs/Ubuntu18/installer/media-info
@@ -15508,15 +15508,15 @@ File: ./logs/Ubuntu18/installer/media-info
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/Ubuntu18/installer/telemetry
@@ -15610,15 +15610,15 @@ File: ./logs/Ubuntu18/nvidia-installer.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   4, miss  35, 10.3%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 792, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 848, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  26,  3.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  40, miss  18, 69.0%, largest skipped 76
-      optimize:SyslineReader::ezcheck12d2                          : hit 453, miss 284, 61.5%, largest skipped 232
-      process: regex captures attempted                            : 302
+      optimize:SyslineReader::ezcheck12d2                          : hit 495, miss 298, 62.4%, largest skipped 232
+      process: regex captures attempted                            : 316
   Processing Drops:
 
 File: ./logs/Ubuntu18/prime-offload.log
@@ -15643,14 +15643,14 @@ File: ./logs/Ubuntu18/prime-offload.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 54
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 54
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 54
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -15676,14 +15676,14 @@ File: ./logs/Ubuntu18/prime-supported.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   1,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 29
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss   0, 100.0%, largest skipped 29
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss   0, 100.0%, largest skipped 29
       process: regex captures attempted                            : 0
   Processing Drops:
 
@@ -15710,14 +15710,14 @@ File: ./logs/Ubuntu18/samba/log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss  20, 23.1%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 192, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   6
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   6, 14.3%, put   6
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  19, 20.8%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 31
-      optimize:SyslineReader::ezcheck12d2                          : hit 156, miss  13, 92.3%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 170, miss  13, 92.9%, largest skipped 39
       process: regex captures attempted                            : 13
   Processing Drops:
 
@@ -15744,14 +15744,14 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 192, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 152, miss  17, 89.9%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 166, miss  17, 90.7%, largest skipped 39
       process: regex captures attempted                            : 17
   Processing Drops:
 
@@ -15778,14 +15778,14 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.2
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 179, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 193, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 151, miss  18, 89.3%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 165, miss  18, 90.2%, largest skipped 39
       process: regex captures attempted                            : 18
   Processing Drops:
 
@@ -15812,14 +15812,14 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 192, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 152, miss  17, 89.9%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 166, miss  17, 90.7%, largest skipped 39
       process: regex captures attempted                            : 17
   Processing Drops:
 
@@ -15846,14 +15846,14 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 192, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 152, miss  17, 89.9%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 166, miss  17, 90.7%, largest skipped 39
       process: regex captures attempted                            : 17
   Processing Drops:
 
@@ -15880,14 +15880,14 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.5
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 192, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 150, miss  19, 88.8%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 164, miss  19, 89.6%, largest skipped 39
       process: regex captures attempted                            : 19
   Processing Drops:
 
@@ -15914,14 +15914,14 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 179, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 193, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 148, miss  21, 87.6%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 162, miss  21, 88.5%, largest skipped 39
       process: regex captures attempted                            : 21
   Processing Drops:
 
@@ -15948,14 +15948,14 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.7
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  20, 33.3%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 179, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 193, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 148, miss  21, 87.6%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 162, miss  21, 88.5%, largest skipped 39
       process: regex captures attempted                            : 21
   Processing Drops:
 
@@ -15982,15 +15982,15 @@ File: ./logs/Ubuntu18/samba/log.nmbd
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  12, miss  21, 36.4%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 180, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 194, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  11,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  11,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  11,  0.0%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  10, miss  20, 33.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   9, miss   3, 75.0%, largest skipped 63
-      optimize:SyslineReader::ezcheck12d2                          : hit  86, miss  84, 50.6%, largest skipped 64
-      process: regex captures attempted                            : 87
+      optimize:SyslineReader::ezcheck12d2                          : hit  87, miss  97, 47.3%, largest skipped 64
+      process: regex captures attempted                            : 100
   Processing Drops:
 
 File: ./logs/Ubuntu18/samba/log.nmbd.1
@@ -16016,15 +16016,15 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 180, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 194, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   8,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   8,  0.0%, put   7
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   8,  0.0%, put   7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   7, miss  20, 25.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   9, miss   3, 75.0%, largest skipped 63
-      optimize:SyslineReader::ezcheck12d2                          : hit  84, miss  86, 49.4%, largest skipped 64
-      process: regex captures attempted                            : 89
+      optimize:SyslineReader::ezcheck12d2                          : hit  85, miss  99, 46.2%, largest skipped 64
+      process: regex captures attempted                            : 102
   Processing Drops:
 
 File: ./logs/Ubuntu18/samba/log.nmbd.old
@@ -16050,15 +16050,15 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  12, miss  21, 36.4%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 180, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 194, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  11,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  11,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  11,  0.0%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  10, miss  20, 33.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   9, miss   3, 75.0%, largest skipped 63
-      optimize:SyslineReader::ezcheck12d2                          : hit  86, miss  84, 50.6%, largest skipped 64
-      process: regex captures attempted                            : 87
+      optimize:SyslineReader::ezcheck12d2                          : hit  87, miss  97, 47.3%, largest skipped 64
+      process: regex captures attempted                            : 100
   Processing Drops:
 
 File: ./logs/Ubuntu18/samba/log.smbd
@@ -16084,14 +16084,14 @@ File: ./logs/Ubuntu18/samba/log.smbd
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss  20, 16.7%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 192, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   4
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   4, 20.0%, put   4
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  19, 13.6%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 35
-      optimize:SyslineReader::ezcheck12d2                          : hit 158, miss  11, 93.5%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit 172, miss  11, 94.0%, largest skipped 39
       process: regex captures attempted                            : 11
   Processing Drops:
 
@@ -16118,14 +16118,14 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   7, miss  20, 25.9%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 180, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 194, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   7,  0.0%, put   7
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   7, 12.5%, put   7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  19, 24.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 74
-      optimize:SyslineReader::ezcheck12d2                          : hit 156, miss  13, 92.3%, largest skipped 74
+      optimize:SyslineReader::ezcheck12d2                          : hit 170, miss  13, 92.9%, largest skipped 74
       process: regex captures attempted                            : 13
   Processing Drops:
 
@@ -16362,15 +16362,15 @@ File: ./logs/Ubuntu22/apt/eipp.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    1, miss   26,  3.7%
       caching: LineReader::find_line() LRU cache                   : hit    1, miss   14,  6.7%, put   13
-      copying: SyslineReader::get_boxptrs()                        : sgl 1896, dbl     0, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 2064, dbl     0, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    0, miss   14,  0.0%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   76, miss   68, 52.8%, largest skipped 22
-      optimize:SyslineReader::ezcheck12d2                          : hit  731, miss 1021, 41.7%, largest skipped 19
-      process: regex captures attempted                            : 1089
+      optimize:SyslineReader::ezcheck12d2                          : hit  801, miss 1119, 41.7%, largest skipped 19
+      process: regex captures attempted                            : 1187
   Processing Drops:
 
 File: ./logs/Ubuntu22/apt/history.log
@@ -16396,14 +16396,14 @@ File: ./logs/Ubuntu22/apt/history.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   3, miss  26, 10.3%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  16, 36.0%, put  14
-      copying: SyslineReader::get_boxptrs()                        : sgl 213, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 227, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  17, 22.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   4, 75.0%, largest skipped 40
-      optimize:SyslineReader::ezcheck12d2                          : hit 149, miss  48, 75.6%, largest skipped 40
+      optimize:SyslineReader::ezcheck12d2                          : hit 163, miss  48, 77.3%, largest skipped 40
       process: regex captures attempted                            : 52
   Processing Drops:
 
@@ -16430,14 +16430,14 @@ File: ./logs/Ubuntu22/apt/term.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  1, miss 28,  3.4%
       caching: LineReader::find_line() LRU cache                   : hit  4, miss 16, 20.0%, put 14
-      copying: SyslineReader::get_boxptrs()                        : sgl 36, dbl   1, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 35, dbl   2, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  1
       caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  2,  0.0%, put  1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss 16,  5.9%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  2,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  1, miss 34,  2.9%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit  1, miss 34,  2.9%, largest skipped 49
       process: regex captures attempted                            : 36
   Processing Drops:
 
@@ -16568,15 +16568,15 @@ File: ./logs/Ubuntu22/cloud-init-output.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  29,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss  16, 20.0%, put  14
-      copying: SyslineReader::get_boxptrs()                        : sgl 244, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 258, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  16,  5.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  16,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   4, miss 226,  1.7%, largest skipped 49
-      process: regex captures attempted                            : 242
+      optimize:SyslineReader::ezcheck12d2                          : hit   4, miss 240,  1.6%, largest skipped 49
+      process: regex captures attempted                            : 256
   Processing Drops:
 
 File: ./logs/Ubuntu22/dmesg
@@ -16584,32 +16584,33 @@ File: ./logs/Ubuntu22/dmesg
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
+      bytes         : 3234
+      flushes       : 1
+      lines         : 14
+      syslines      : 1
   Processed:
       file size     : 1162 (0x48A) (bytes)
-      bytes         : 256 (0x100)
+      bytes         : 1162 (0x48A)
       bytes total   : 1162 (0x48A)
       block size    : 256 (0x100)
-      blocks        : 1
+      blocks        : 5
       blocks total  : 5 (1280 bytes)
-      lines         : 1
-      syslines      : 0
-      syslines high : 0
+      lines         : 14
+      syslines      : 1
+      syslines high : 1
+  Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss  29,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   2, miss  16, 11.1%, put  14
+      copying: SyslineReader::get_boxptrs()                        : sgl 168, dbl    4, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  14,  6.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  11,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 161,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/Ubuntu22/dmesg.0
@@ -16617,32 +16618,33 @@ File: ./logs/Ubuntu22/dmesg.0
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
+      bytes         : 3233
+      flushes       : 1
+      lines         : 14
+      syslines      : 1
   Processed:
       file size     : 1161 (0x489) (bytes)
-      bytes         : 256 (0x100)
+      bytes         : 1161 (0x489)
       bytes total   : 1161 (0x489)
       block size    : 256 (0x100)
-      blocks        : 1
+      blocks        : 5
       blocks total  : 5 (1280 bytes)
-      lines         : 1
-      syslines      : 0
-      syslines high : 0
+      lines         : 14
+      syslines      : 1
+      syslines high : 1
+  Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss  29,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   2, miss  16, 11.1%, put  14
+      copying: SyslineReader::get_boxptrs()                        : sgl 168, dbl    4, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  14,  6.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  11,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 161,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/Ubuntu22/dpkg.log
@@ -16733,17 +16735,17 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
       syslines      : 0
       syslines high : 0
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  13,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   7, 12.5%, put   6
-      copying: SyslineReader::get_boxptrs()                        : sgl 948, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   7,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  60, miss  12, 83.3%, largest skipped 77
-      optimize:SyslineReader::ezcheck12d2                          : hit 584, miss 292, 66.7%, largest skipped 77
-      process: regex captures attempted                            : 304
+      storage: LineReader::find_line() lines                       : hit    0, miss   13,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit    1, miss    7, 12.5%, put    6
+      copying: SyslineReader::get_boxptrs()                        : sgl 1032, dbl     0, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss    1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    0
+      caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    1,  0.0%, put    0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    0, miss    7,  0.0%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   60, miss   12, 83.3%, largest skipped 77
+      optimize:SyslineReader::ezcheck12d2                          : hit  640, miss  320, 66.7%, largest skipped 77
+      process: regex captures attempted                            : 332
   Processing Drops:
 
 File: ./logs/Ubuntu22/kern.log
@@ -17031,14 +17033,14 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 29,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  2, miss 16, 11.1%, put 14
-      copying: SyslineReader::get_boxptrs()                        : sgl 37, dbl   1, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 36, dbl   2, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  1
       caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  2,  0.0%, put  1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss 14,  6.7%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  2,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  1, miss 35,  2.8%, largest skipped 39
+      optimize:SyslineReader::ezcheck12d2                          : hit  1, miss 35,  2.8%, largest skipped 49
       process: regex captures attempted                            : 37
   Processing Drops:
 
@@ -17132,15 +17134,15 @@ File: ./logs/Windows10Pro/comsetup.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 344, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  24,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 292,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 316
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 320,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 344
   Processing Drops:
 
 File: ./logs/Windows10Pro/debug/mrt.log
@@ -17166,15 +17168,15 @@ File: ./logs/Windows10Pro/debug/mrt.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  12, miss  87, 12.1%
       caching: LineReader::find_line() LRU cache                   : hit  12, miss  51, 19.0%, put  49
-      copying: SyslineReader::get_boxptrs()                        : sgl 691, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 747, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  55,  8.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  20, miss  30, 40.0%, largest skipped 87
-      optimize:SyslineReader::ezcheck12d2                          : hit 235, miss 410, 36.4%, largest skipped 87
-      process: regex captures attempted                            : 440
+      optimize:SyslineReader::ezcheck12d2                          : hit 249, miss 452, 35.5%, largest skipped 87
+      process: regex captures attempted                            : 482
   Processing Drops:
 
 File: ./logs/Windows10Pro/DirectX.log
@@ -17199,15 +17201,15 @@ File: ./logs/Windows10Pro/DirectX.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 344, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  24,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 292,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 316
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 320,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 344
   Processing Drops:
 
 File: ./logs/Windows10Pro/DISM/dism.log
@@ -17266,15 +17268,15 @@ File: ./logs/Windows10Pro/DtcInstall.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 172
   Processing Drops:
 
 File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
@@ -17300,15 +17302,15 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   17, miss   96, 15.0%
       caching: LineReader::find_line() LRU cache                   : hit    5, miss   64,  7.2%, put   62
-      copying: SyslineReader::get_boxptrs()                        : sgl 1433, dbl     8, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1545, dbl     8, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    5,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    5,  0.0%, put    4
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    5,  0.0%, put    4
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    4, miss   62,  6.1%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   64, miss   42, 60.4%, largest skipped 52
-      optimize:SyslineReader::ezcheck12d2                          : hit  608, miss  727, 45.5%, largest skipped 83
-      process: regex captures attempted                            : 769
+      optimize:SyslineReader::ezcheck12d2                          : hit  664, miss  783, 45.9%, largest skipped 83
+      process: regex captures attempted                            : 825
   Processing Drops:
 
 File: ./logs/Windows10Pro/INF/setupapi.dev.log
@@ -17334,15 +17336,15 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   15, miss   98, 13.3%
       caching: LineReader::find_line() LRU cache                   : hit    3, miss   64,  4.5%, put   62
-      copying: SyslineReader::get_boxptrs()                        : sgl 1429, dbl    14, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1541, dbl    14, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    3,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    3,  0.0%, put    2
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    3,  0.0%, put    2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    2, miss   62,  3.1%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   64, miss   42, 60.4%, largest skipped 31
-      optimize:SyslineReader::ezcheck12d2                          : hit  593, miss  744, 44.4%, largest skipped 54
-      process: regex captures attempted                            : 786
+      optimize:SyslineReader::ezcheck12d2                          : hit  649, miss  800, 44.8%, largest skipped 54
+      process: regex captures attempted                            : 842
   Processing Drops:
 
 File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
@@ -17368,15 +17370,15 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   23, miss  312,  6.9%
       caching: LineReader::find_line() LRU cache                   : hit   10, miss  175,  5.4%, put  173
-      copying: SyslineReader::get_boxptrs()                        : sgl 1497, dbl    49, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1609, dbl    49, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss   10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss   10,  0.0%, put    9
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss   10,  0.0%, put    9
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    9, miss  173,  4.9%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   63, miss   43, 59.4%, largest skipped 42
-      optimize:SyslineReader::ezcheck12d2                          : hit  763, miss  677, 53.0%, largest skipped 94
-      process: regex captures attempted                            : 720
+      optimize:SyslineReader::ezcheck12d2                          : hit  833, miss  719, 53.7%, largest skipped 94
+      process: regex captures attempted                            : 762
   Processing Drops:
 
 File: ./logs/Windows10Pro/INF/setupapi.offline.log
@@ -17402,15 +17404,15 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   3, miss  52,  5.5%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  29, 25.6%, put  27
-      copying: SyslineReader::get_boxptrs()                        : sgl 465, dbl    7, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 493, dbl    7, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  30, 16.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  15, miss  19, 44.1%, largest skipped 42
-      optimize:SyslineReader::ezcheck12d2                          : hit 154, miss 284, 35.2%, largest skipped 44
-      process: regex captures attempted                            : 303
+      optimize:SyslineReader::ezcheck12d2                          : hit 168, miss 298, 36.1%, largest skipped 44
+      process: regex captures attempted                            : 317
   Processing Drops:
 
 File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
@@ -17436,15 +17438,15 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   3, miss 256,  1.2%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss 131,  6.4%, put 129
-      copying: SyslineReader::get_boxptrs()                        : sgl 546, dbl   28, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 574, dbl   28, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss 132,  3.6%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  19, miss  15, 55.9%, largest skipped 29
-      optimize:SyslineReader::ezcheck12d2                          : hit 228, miss 312, 42.2%, largest skipped 112
-      process: regex captures attempted                            : 327
+      optimize:SyslineReader::ezcheck12d2                          : hit 242, miss 326, 42.6%, largest skipped 112
+      process: regex captures attempted                            : 341
   Processing Drops:
 
 File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
@@ -17469,15 +17471,15 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 226
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 146
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 160
   Processing Drops:
 
 File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
@@ -17502,15 +17504,15 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  10, miss   2, 83.3%, largest skipped 99
-      optimize:SyslineReader::ezcheck12d2                          : hit  77, miss  69, 52.7%, largest skipped 64
-      process: regex captures attempted                            : 71
+      optimize:SyslineReader::ezcheck12d2                          : hit  78, miss  82, 48.8%, largest skipped 64
+      process: regex captures attempted                            : 84
   Processing Drops:
 
 File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
@@ -17535,15 +17537,15 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  10, miss   2, 83.3%, largest skipped 99
-      optimize:SyslineReader::ezcheck12d2                          : hit  77, miss  69, 52.7%, largest skipped 64
-      process: regex captures attempted                            : 71
+      optimize:SyslineReader::ezcheck12d2                          : hit  78, miss  82, 48.8%, largest skipped 64
+      process: regex captures attempted                            : 84
   Processing Drops:
 
 File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
@@ -17631,21 +17633,21 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       blocks        : 25
       blocks total  : 25 (6400 bytes)
       lines         : 74
-      syslines      : 4
+      syslines      : 3
       syslines high : 3
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   5, miss 144,  3.4%
-      caching: LineReader::find_line() LRU cache                   : hit   7, miss  76,  8.4%, put  74
-      copying: SyslineReader::get_boxptrs()                        : sgl 205, dbl   24, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   4
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   5,  0.0%, put   4
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  77,  3.8%, put   0
+      caching: LineReader::find_line() LRU cache                   : hit   5, miss  76,  6.2%, put  74
+      copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl   24, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   4,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   4,  0.0%, put   3
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   4,  0.0%, put   3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   3, miss  75,  3.8%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 216,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 229
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  16,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 283,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 299
   Processing Drops:
 
 File: ./logs/Windows10Pro/PFRO.log
@@ -17670,15 +17672,15 @@ File: ./logs/Windows10Pro/PFRO.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 172, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   0, 100.0%, largest skipped 202
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 146
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 160,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 160
   Processing Drops:
 
 File: ./logs/Windows10Pro/security/logs/sceupgrade.log
@@ -17703,15 +17705,15 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  36, miss   0, 100.0%, largest skipped 90
-      optimize:SyslineReader::ezcheck12d2                          : hit 300, miss 138, 68.5%, largest skipped 90
-      process: regex captures attempted                            : 138
+      optimize:SyslineReader::ezcheck12d2                          : hit 328, miss 152, 68.3%, largest skipped 90
+      process: regex captures attempted                            : 152
   Processing Drops:
 
 File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
@@ -17837,15 +17839,15 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 632, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 688, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  48,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 584,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 632
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 640,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 688
   Processing Drops:
 
 File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
@@ -17904,15 +17906,15 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3
-      copying: SyslineReader::get_boxptrs()                        : sgl 474, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   4,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  36, miss   0, 100.0%, largest skipped 112
-      optimize:SyslineReader::ezcheck12d2                          : hit 148, miss 290, 33.8%, largest skipped 37
-      process: regex captures attempted                            : 290
+      optimize:SyslineReader::ezcheck12d2                          : hit 162, miss 318, 33.8%, largest skipped 37
+      process: regex captures attempted                            : 318
   Processing Drops:
 
 File: ./logs/Windows11Pro/Temp/cv_debug.log
@@ -17950,6 +17952,19 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       process: regex captures attempted                            : 219
   Processing Drops:
 
+File: #./logs/Debian9/user.log.1.bz2 (does not exist)
+File: #./logs/Debian9/user.log.1.gz (does not exist)
+File: #./logs/Debian9/user.log.1.lz (does not exist)
+File: #./logs/Debian9/user.log.1.lz4 (does not exist)
+File: #./logs/Debian9/user.log.1.lzo (does not exist)
+File: #./logs/Debian9/user.log.1.xz (does not exist)
+File: #./logs/Debian9/user.log.1.zst (does not exist)
+File: #./logs/Debian9/user.log.tar (does not exist)
+File: #./logs/Debian9/user.log.tar.gz (does not exist)
+File: #./logs/Debian9/user.log.tar.lz (does not exist)
+File: #./logs/Debian9/user.log.tar.lzo (does not exist)
+File: #./logs/Debian9/user.log.tar.xz (does not exist)
+File: #./logs/Debian9/user.log.zip (does not exist)
 File: ./logs/other/tests/empty.log (empty file) TEXT
 File: ./logs/other/tests/empty.log.gz (empty file) TEXT
 File: ./logs/other/tests/empty.log.tar|empty.log (empty file) UNPARSABLE
@@ -17982,22 +17997,22 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
-Paths considered       : 601
-Paths not processed    : 29
+Paths considered       : 614
+Paths not processed    : 42
 Files processed        : 572
-Files printed          : 443
-Printed bytes          : 8280252
-Printed flushes        : 25610
-Printed lines          : 14370
-Printed syslines       : 11921
+Files printed          : 445
+Printed bytes          : 8286727
+Printed flushes        : 25614
+Printed lines          : 14398
+Printed syslines       : 11923
 Printed evtx events    : 681
 Printed fixedstruct    : 116
 Printed journal events : 18
-Regex patterns known   : 158
-Regex patterns compiled: 158
+Regex patterns known   : 172
+Regex patterns compiled: 172
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok     : 13882
+Channel Receive ok     : 13884
 Channel Receive err    : 0
 Threads Spawned        : 573
 Thread Spawn errors    : 0

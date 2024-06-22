@@ -1896,12 +1896,17 @@ pub(crate) const CGP_TZZ: &CaptureGroupPattern = "(?P<tz>\
 ACDT|ACST|ACT|ACWST|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHADT|CHAST|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PETT|PET|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UTC|UT|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WITA|WIT|WST|YAKT|YEKT|ZULU|Z|\
 acdt|acst|act|acwst|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|ast|awst|azost|azot|azt|biot|bit|bnt|bot|brst|brt|bst|btt|cat|cct|cdt|cest|cet|chadt|chast|chost|chot|chst|chut|cist|ckt|clst|clt|cost|cot|cst|ct|cvt|cwst|cxt|davt|ddut|dft|easst|east|eat|ect|edt|eest|eet|egst|egt|est|et|fet|fjt|fkst|fkt|fnt|galt|gamt|get|gft|gilt|git|gmt|gst|gyt|haec|hdt|hkt|hmt|hovst|hovt|hst|ict|idlw|idt|iot|irdt|irkt|irst|ist|jst|kalt|kgt|kost|krat|kst|lhst|lint|magt|mart|mawt|mdt|mest|met|mht|mist|mit|mmt|msk|mst|mut|mvt|myt|nct|ndt|nft|novt|npt|nst|nt|nut|nzdt|nzst|omst|orat|pdt|pett|pet|pgt|phot|phst|pht|pkt|pmdt|pmst|pont|pst|pwt|pyst|pyt|ret|rott|sakt|samt|sast|sbt|sct|sdt|sgt|slst|sret|srt|sst|syot|taht|tft|tha|tjt|tkt|tlt|tmt|tot|trt|tvt|ulast|ulat|utc|ut|uyst|uyt|uzt|vet|vlat|volt|vost|vut|wakt|wast|wat|west|wet|wgst|wgt|wib|wita|wit|wst|yakt|yekt|zulu|z\
 )";
+/// same as `CGP_TZZ` but only uppercase
+pub(crate) const CGP_TZZ_U: &CaptureGroupPattern = "(?P<tz>\
+ACDT|ACST|ACT|ACWST|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHADT|CHAST|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PETT|PET|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UTC|UT|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WITA|WIT|WST|YAKT|YEKT|ZULU|Z\
+)";
+
 
 /// for testing
 #[doc(hidden)]
 #[cfg(test)]
 pub(crate) const CGP_TZ_ALL: &[&CaptureGroupPattern] = &[
-    CGP_TZz, CGP_TZzc, CGP_TZzp, CGP_TZZ,
+    CGP_TZz, CGP_TZzc, CGP_TZzp, CGP_TZZ, CGP_TZZ_U,
 ];
 
 /// no alphabetic or line end, helper to `CGP_TZZ`
@@ -2514,7 +2519,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<OnceCell<DateTimeRegex>>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 158;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 172;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -2907,8 +2912,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Log ended: 2022-07-14  06:49:02
     //
     DTPD!(
-        concatcp!("^((log|Log|LOG) (started|Started|STARTED|ended|Ended|ENDED))[:]?", RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, "(T|[[:blank:]]+)", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND),
-        DTFSS_YmdHMS, 0, 40, CGN_YEAR, CGN_SECOND,
+        concatcp!("^((log|Log|LOG) (started|Started|STARTED|ended|Ended|ENDED))", RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, "(T|[[:blank:]]+)", CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
+        DTFSS_YmdHMS, 0, 50, CGN_YEAR, CGN_SECOND,
         &[
             (13, 33, (O_L, 2022, 7, 14, 6, 48, 58, 0), "Log started: 2022-07-14  06:48:58\n(Reading database …"),
             (13, 32, (O_L, 2022, 7, 14, 6, 48, 58, 0), "Log started: 2022-07-14 06:48:58 Reading database ..."),
@@ -4299,6 +4304,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      1716853121.780157 execve("/usr/bin/ls", ["ls"], 0x7ffe4c501508 /* 41 vars */) = 0
     //
     // strace `--timestamp=unix,ms'
+    // TODO: move this clump of patterns down in importance as these can
+    //       match too many other things
     DTPD!(
         concatcp!("^", CGP_EPOCH, "[.,]", CGP_FRACTIONAL3, RP_BLANK, RP_BLANK_NO),
         DTFSS_sf, 0, 23, CGN_EPOCH, CGN_FRACTIONAL,
@@ -4975,13 +4982,22 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // ---------------------------------------------------------------------------------------------
     //
-    // file `FedoraRemix29/hawkeye.log` (with variations)
+    // file `FedoraRemix29/hawkeye.log` (with many variations)
     //
     //                1         2         3         4
     //      01234567890123456789012345678901234567890
     //      INFO Jun-16 14:09:58 === Started libdnf-0.31.0 ===
     //      DEBUG Jun-16 14:09:58 fetching rpmdb
     //
+    DTPD!(
+        concatcp!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZZ_U, RP_NOALNUM),
+        DTFSS_BdHMSYZ, 0, 64, CGN_MONTH, CGN_TZ,
+        &[
+            (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 PDT === Started libdnf-0.31.0 ==="),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 PDT fetching rpmdb"),
+        ],
+        line!(),
+    ),
     DTPD!(
         concatcp!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
         DTFSS_BdHMSYzc, 0, 64, CGN_MONTH, CGN_TZ,
@@ -5029,46 +5045,177 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    // same pattern without specifying leading RP_LEVELS, e.g. `DEBUG `
+    // same pattern as prior without specifying leading RP_LEVELS, e.g. `DEBUG`, with leading day of week
+    // XXX: These next four patterns capture day of week which is redundant with numeric day of month.
+    //      The next next four patterns do the same but without the day of week.
+    //      The motivation for capturing day of week is purely for better decoration when color printing is enabled.
+    //      Though capturing day of week does give a little more assurance of the matched substring.
+    //      But regexs are expensive so these are of questionable value.
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZZ_U, RP_NOALNUM),
+        DTFSS_BdHMSYZ, 0, 400, CGN_DAYa, CGN_TZ,
+        &[
+            (5, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Fri Jun-16 14:09:58 2000 PDT === Started libdnf-0.31.0 ==="),
+            (6, 34, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 2000 PDT fetching rpmdb"),
+            (6, 34, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 2000 PDT"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
+        DTFSS_BdHMSYzc, 0, 400, CGN_DAYa, CGN_TZ,
+        &[
+            (5, 36, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Fri Jun-16 14:09:58 2000 -07:00 === Started libdnf-0.31.0 ==="),
+            (6, 37, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 2000 -07:00 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZz, RP_NOALNUM),
+        DTFSS_BdHMSYz, 0, 400, CGN_DAYa, CGN_TZ,
+        &[
+            (5, 35, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Fri Jun-16 14:09:58 2000 -0700 === Started libdnf-0.31.0 ==="),
+            (6, 36, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 2000 -0700 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzp, RP_NOALNUM),
+        DTFSS_BdHMSYzp, 0, 400, CGN_DAYa, CGN_TZ,
+        &[
+            (5, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Fri Jun-16 14:09:58 2000 -07 === Started libdnf-0.31.0 ==="),
+            (6, 34, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 2000 -07 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    // same pattern as prior swapped year and timezone
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ_U, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSYZ, 0, 400, CGN_DAYa, CGN_YEAR,
+        &[
+            (5, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Fri Jun-16 14:09:58 PDT 2000 === Started libdnf-0.31.0 ==="),
+            (6, 34, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 PDT 2000 fetching rpmdb"),
+            (6, 34, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 PDT 2000"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzc, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSYzc, 0, 400, CGN_DAYa, CGN_YEAR,
+        &[
+            (5, 36, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Fri Jun-16 14:09:58 -07:00 2000 === Started libdnf-0.31.0 ==="),
+            (6, 37, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 -07:00 2000 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZz, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSYz, 0, 400, CGN_DAYa, CGN_YEAR,
+        &[
+            (5, 35, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Fri Jun-16 14:09:58 -0700 2000 === Started libdnf-0.31.0 ==="),
+            (6, 36, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 -0700 2000 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzp, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSYzp, 0, 400, CGN_DAYa, CGN_YEAR,
+        &[
+            (5, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Fri Jun-16 14:09:58 -07 2000 === Started libdnf-0.31.0 ==="),
+            (6, 34, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Fri Jun 16 14:09:58 -07 2000 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    // same pattern as prior without leading day of week
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZZ_U, RP_NOALNUM),
+        DTFSS_BdHMSYZ, 0, 400, CGN_MONTH, CGN_TZ,
+        &[
+            (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Jun-16 14:09:58 2000 PDT === Started libdnf-0.31.0 ==="),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Jun 16 14:09:58 2000 PDT fetching rpmdb"),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Jun 16 14:09:58 2000 PDT"),
+        ],
+        line!(),
+    ),
     DTPD!(
         concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
-        DTFSS_BdHMSYzc, 0, 128, CGN_MONTH, CGN_TZ,
+        DTFSS_BdHMSYzc, 0, 400, CGN_MONTH, CGN_TZ,
         &[
-            (5, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -07:00 === Started libdnf-0.31.0 ==="),
-            (6, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -07:00 fetching rpmdb"),
+            (5, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Jun-16 14:09:58 2000 -07:00 === Started libdnf-0.31.0 ==="),
+            (6, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Jun 16 14:09:58 2000 -07:00 fetching rpmdb"),
         ],
         line!(),
     ),
     DTPD!(
         concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZz, RP_NOALNUM),
-        DTFSS_BdHMSYz, 0, 128, CGN_MONTH, CGN_TZ,
+        DTFSS_BdHMSYz, 0, 400, CGN_MONTH, CGN_TZ,
         &[
-            (5, 31, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -0700 === Started libdnf-0.31.0 ==="),
-            (6, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -0700 fetching rpmdb"),
+            (5, 31, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Jun-16 14:09:58 2000 -0700 === Started libdnf-0.31.0 ==="),
+            (6, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Jun 16 14:09:58 2000 -0700 fetching rpmdb"),
         ],
         line!(),
     ),
     DTPD!(
         concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzp, RP_NOALNUM),
-        DTFSS_BdHMSYzp, 0, 128, CGN_MONTH, CGN_TZ,
+        DTFSS_BdHMSYzp, 0, 400, CGN_MONTH, CGN_TZ,
         &[
-            (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 -07 === Started libdnf-0.31.0 ==="),
-            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 -07 fetching rpmdb"),
+            (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Jun-16 14:09:58 2000 -07 === Started libdnf-0.31.0 ==="),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Jun 16 14:09:58 2000 -07 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    // same pattern as prior but swapped year and timezone
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ_U, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSYZ, 0, 400, CGN_MONTH, CGN_YEAR,
+        &[
+            (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "____ Jun-16 14:09:58 PDT 2000 === Started libdnf-0.31.0 ==="),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Jun 16 14:09:58 PDT 2000 fetching rpmdb"),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "_____ Jun 16 14:09:58 PDT 2000\n"),
         ],
         line!(),
     ),
     DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzc, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSYzc, 0, 400, CGN_MONTH, CGN_YEAR,
+        &[
+            (5, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 -07:00 2000 === Started libdnf-0.31.0 ==="),
+            (6, 33, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 -07:00 2000 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZz, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSYz, 0, 400, CGN_MONTH, CGN_YEAR,
+        &[
+            (5, 31, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 -0700 2000 === Started libdnf-0.31.0 ==="),
+            (6, 32, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 -0700 2000 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    DTPD!(
+        concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzp, RP_BLANK, CGP_YEAR, RP_NOALNUM),
+        DTFSS_BdHMSYzp, 0, 400, CGN_MONTH, CGN_YEAR,
+        &[
+            (5, 29, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 -07 2000 === Started libdnf-0.31.0 ==="),
+            (6, 30, (O_M7, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 -07 2000 fetching rpmdb"),
+        ],
+        line!(),
+    ),
+    // same pattern as prior without timezone
+    DTPD!(
         concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_NOALNUM),
-        DTFSS_BdHMSY, 0, 128, CGN_MONTH, CGN_YEAR,
+        DTFSS_BdHMSY, 0, 400, CGN_MONTH, CGN_YEAR,
         &[
             (5, 25, (O_L, 2000, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 2000 === Started libdnf-0.31.0 ==="),
             (6, 26, (O_L, 2000, 6, 16, 14, 9, 58, 0), "DEBUG Jun 16 14:09:58 2000 fetching rpmdb"),
         ],
         line!(),
     ),
+    // same pattern as prior without timezone or year
     DTPD!(
         concatcp!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
-        DTFSS_BdHMS, 0, 128, CGN_MONTH, CGN_SECOND,
+        DTFSS_BdHMS, 0, 400, CGN_MONTH, CGN_SECOND,
         &[
             (5, 20, (O_L, YD, 6, 16, 14, 9, 58, 0), "INFO Jun-16 14:09:58 === Started libdnf-0.31.0 ==="),
             (6, 21, (O_L, YD, 6, 16, 14, 9, 58, 0), "DEBUG Jun-16 14:09:58 fetching rpmdb"),

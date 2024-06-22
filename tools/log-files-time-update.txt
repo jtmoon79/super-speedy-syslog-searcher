@@ -521,6 +521,7 @@
 ./logs/other/tests/dtf16e.log|2023-08-31 16:01:09 -0400
 ./logs/other/tests/dtf17.log|2023-09-22 15:05:02 -0800
 ./logs/other/tests/dtf18.log|2023-09-22 15:05:02 -0800
+./logs/other/tests/dtf19.log|2024-06-20 22:56:39.908507528 -0700
 ./logs/other/tests/dtf2-2.log|2000-01-01 00:00:01
 ./logs/other/tests/dtf2-2.bz2|2000-01-01 00:00:01
 ./logs/other/tests/dtf2-2.gz|2000-01-01 00:00:01

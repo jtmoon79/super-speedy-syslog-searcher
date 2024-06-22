@@ -24,14 +24,14 @@ File: ./logs/Ubuntu22/apt/history.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   3, miss  26, 10.3%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  16, 36.0%, put  14
-      copying: SyslineReader::get_boxptrs()                        : sgl 213, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 227, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  17, 22.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   4, 75.0%, largest skipped 40
-      optimize:SyslineReader::ezcheck12d2                          : hit 149, miss  48, 75.6%, largest skipped 40
+      optimize:SyslineReader::ezcheck12d2                          : hit 163, miss  48, 77.3%, largest skipped 40
       process: regex captures attempted                            : 52
   Processing Drops:
 
@@ -48,7 +48,7 @@ Printed syslines       : 5
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 158
+Regex patterns known   : 172
 Regex patterns compiled: 45
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)

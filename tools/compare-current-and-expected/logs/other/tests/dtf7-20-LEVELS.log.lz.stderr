@@ -23,15 +23,15 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 316, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 344, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss  12, 50.0%, largest skipped 196
-      optimize:SyslineReader::ezcheck12d2                          : hit   8, miss 284,  2.7%, largest skipped 29
-      process: regex captures attempted                            : 296
+      optimize:SyslineReader::ezcheck12d2                          : hit   8, miss 312,  2.5%, largest skipped 29
+      process: regex captures attempted                            : 324
   Processing Drops:
 
 Program Summary:
@@ -47,8 +47,8 @@ Printed syslines       : 0
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 158
-Regex patterns compiled: 158
+Regex patterns known   : 172
+Regex patterns compiled: 172
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 2

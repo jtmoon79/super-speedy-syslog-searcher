@@ -24,14 +24,14 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 233, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 247, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  12, miss   4, 75.0%, largest skipped 49
-      optimize:SyslineReader::ezcheck12d2                          : hit 146, miss  71, 67.3%, largest skipped 49
+      optimize:SyslineReader::ezcheck12d2                          : hit 160, miss  71, 69.3%, largest skipped 49
       process: regex captures attempted                            : 75
   Processing Drops:
 
@@ -48,7 +48,7 @@ Printed syslines       : 1
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 158
+Regex patterns known   : 172
 Regex patterns compiled: 75
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
