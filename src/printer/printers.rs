@@ -7,6 +7,7 @@
 //!
 //! [`PrinterLogMessage`]: self::PrinterLogMessage
 
+use crate::debug_panic;
 use crate::common::NLu8;
 use crate::data::datetime::{DateTimeL, FixedOffset, DateTimePattern_string};
 use crate::data::evtx::Evtx;
@@ -182,7 +183,7 @@ pub struct PrinterLogMessage {
 pub type PrinterLogMessageResult = Result<(usize, usize)>;
 
 const BUFFER_USE: bool = true;
-const BUFFER_CAP: usize = 8092;
+const BUFFER_CAP: usize = 2056;
 
 /// Flushes. Sets `error_ret` if there is an error.
 macro_rules! buffer_flush_or_seterr {
@@ -194,7 +195,9 @@ macro_rules! buffer_flush_or_seterr {
                     $buffer.clear();
                     match $stdout.flush() {
                         Ok(_) => {}
-                        Err(_) => {}
+                        Err(err) => {
+                            $error_ret = Some(err);
+                        }
                     }
                     $flushed += 1;
                 }
@@ -210,18 +213,16 @@ macro_rules! buffer_flush_or_seterr {
                         $buffer.len(),
                         err
                     );
-                    match $stdout.flush() {
-                        Ok(_) => {}
-                        Err(_) => {}
-                    }
                     $error_ret = Some(err);
+                    _ = $stdout.flush();
+                    $flushed += 1;
                 }
             }
         }
     }}
 }
 
-/// Flushes. Returns upon Err.
+/// Flushes `PrinterLogMessage.buffer`. Returns upon Err.
 macro_rules! buffer_flush_or_return {
     ($stdout:expr, $buffer:expr, $printed:expr, $flushed:expr) => {{
         let mut error_ret: Option<Error> = None;
@@ -233,7 +234,7 @@ macro_rules! buffer_flush_or_return {
     }}
 }
 
-/// Flushes. No returns. No statistics updates. Ignores errors.
+/// Flushes `PrinterLogMessage.buffer`. No returns. No statistics updates. Ignores errors.
 /// Only for some error-in-progress cases.
 macro_rules! buffer_flush_nostats {
     ($stdout:expr, $buffer:expr) => {{
@@ -244,97 +245,120 @@ macro_rules! buffer_flush_nostats {
     }}
 }
 
-/// Macro to write to given stdout. If there is an error then
-/// `return PrinterLogMessageResult::Err`.
-/// Does not force flush, may flush.
+/// Macro to write `$slice_` to `PrinterLogMessage.buffer`.
+/// If there is an error then `return PrinterLogMessageResult::Err`.
+/// May or may not flush `PrinterLogMessage.buffer`.
 macro_rules! buffer_write_or_return {
     ($stdout:expr, $buffer:expr, $slice_:expr, $printed:expr, $flushed:expr) => {{
         let mut error_ret: Option<Error> = None;
-        let len: usize = $buffer.len();
-        let slice_len: usize = $slice_.len();
-        let cap: usize = $buffer.capacity();
-        let remain: usize = cap - len;
-        if slice_len <= remain && BUFFER_USE {
-            // remaining capacity in the buffer; only copy the slice
-            $buffer.extend_from_slice($slice_);
-        } else {
-            // buffer is full, write it
-            match $stdout.write_all($buffer.as_slice()) {
+        if ! BUFFER_USE {
+            match $stdout.write_all($slice_) {
                 Ok(_) => {
-                    $printed += $buffer.len();
-                    $flushed += 1;
-                    $buffer.clear();
+                    $printed += $slice_.len();
                 }
                 Err(err) => {
-                    // XXX: this will print when this program stdout is truncated, like when piping
-                    //      to `head`, e.g. `s4 file.log | head`
-                    //          Broken pipe (os error 32)
                     de_err!(
                         "{}.write({}@{:p}) (len {})) error {}",
                         stringify!($stdout),
-                        stringify!($buffer),
-                        &$buffer,
-                        $buffer.len(),
+                        stringify!($slice_),
+                        &$slice_,
+                        $slice_.len(),
                         err
                     );
-                    $buffer.clear();
-                    match $stdout.flush() {
-                        Ok(_) => {}
-                        Err(_) => {}
-                    }
-                    $flushed += 1;
                     error_ret = Some(err);
                 }
             }
-            match error_ret {
-                Some(_) => {
-                    // there was an error; skip another chance to write
-                    // but copy the slice even though it'll very likely
-                    // never get written (because a printing error *should*
-                    // cause the printing thread to return early)
-                    $buffer.extend_from_slice($slice_);
-                },
-                None => {
-                    // no error occurred from `write_all`.
-                    // if slice is larger than buffer capacity then write the slice
-                    // else copy the slice to buffer
-                    if $slice_.len() > cap {
-                        match $stdout.write_all($slice_) {
-                            Ok(_) => {
-                                $printed += $slice_.len();
-                            }
-                            Err(err) => {
-                                de_err!(
-                                    "{}.write({}@{:p}) (len {})) error {}",
-                                    stringify!($stdout),
-                                    stringify!($slice_),
-                                    &$slice_,
-                                    $slice_.len(),
-                                    err
-                                );
-                                error_ret = Some(err);
-                            }
-                        }
-                        match $stdout.flush() {
-                            Ok(_) => {}
-                            Err(err) => {
-                                match error_ret {
-                                    Some(_) => {}
-                                    None => {
-                                        error_ret = Some(err);
-                                    }
-                                }
-                            }
-                        }
-                        $flushed += 1;
-                    } else {
-                        $buffer.extend_from_slice($slice_);
-                    }
+            if let Err(err) = $stdout.flush() {
+                if let None = error_ret {
+                    error_ret = Some(err);
                 }
             }
+            $flushed += 1;
             match error_ret {
                 Some(err) => return PrinterLogMessageResult::Err(err),
                 None => {}
+            }
+        } else {
+            let len: usize = $buffer.len();
+            let slice_len: usize = $slice_.len();
+            let cap: usize = $buffer.capacity();
+            let remain: usize = cap - len;
+            if slice_len <= remain {
+                // remaining capacity in the buffer; only copy the slice
+                $buffer.extend_from_slice($slice_);
+            } else {
+                // buffer is full, write it
+                match $stdout.write_all($buffer.as_slice()) {
+                    Ok(_) => {
+                        $printed += $buffer.len();
+                        $flushed += 1;
+                        $buffer.clear();
+                    }
+                    Err(err) => {
+                        // XXX: this will print when this program stdout is truncated, like when piping
+                        //      to `head`, e.g. `s4 file.log | head`
+                        //          Broken pipe (os error 32)
+                        de_err!(
+                            "{}.write({}@{:p}) (len {})) error {}",
+                            stringify!($stdout),
+                            stringify!($buffer),
+                            &$buffer,
+                            $buffer.len(),
+                            err
+                        );
+                        $buffer.clear();
+                        match $stdout.flush() {
+                            Ok(_) => {}
+                            Err(_) => {}
+                        }
+                        $flushed += 1;
+                        error_ret = Some(err);
+                    }
+                }
+                match error_ret {
+                    Some(_) => {
+                        // there was an error; skip another chance to write
+                        // but copy the slice even though it'll very likely
+                        // never get written (because a printing error *should*
+                        // cause the printing thread to return early)
+                        $buffer.extend_from_slice($slice_);
+                    },
+                    None => {
+                        // no error occurred from `write_all`.
+                        // if slice is larger than buffer capacity then write the slice
+                        // else copy the slice to buffer
+                        if $slice_.len() > cap {
+                            match $stdout.write_all($slice_) {
+                                Ok(_) => {
+                                    $printed += $slice_.len();
+                                }
+                                Err(err) => {
+                                    de_err!(
+                                        "{}.write({}@{:p}) (len {})) error {}",
+                                        stringify!($stdout),
+                                        stringify!($slice_),
+                                        &$slice_,
+                                        $slice_.len(),
+                                        err
+                                    );
+                                    error_ret = Some(err);
+                                }
+                            }
+                            if let Err(err) = $stdout.flush() {
+                                if let None = error_ret {
+                                        error_ret = Some(err);
+                                }
+                            }
+                            $flushed += 1;
+                        } else {
+                            $buffer.extend_from_slice($slice_);
+                        }
+                    }
+                }
+                match error_ret {
+                    Some(err) => return PrinterLogMessageResult::Err(err),
+                    None => {}
+                }
             }
         }
     }}
@@ -353,13 +377,13 @@ macro_rules! setcolor_or_return {
         buffer_flush_or_return!($stdout, $buffer, $printed, $flushed);
         // set color if it has changed else skip the expensive call
         if $color_spec != $color_spec_last {
-            // `set_color` eventually calls `write_all`
-            // which does not flush
-            // except on some platforms (Windows) termcolor may explicitly call flush
+            // `set_color` eventually calls `write_all` which does not flush
+            // (except on some platforms (Windows) termcolor may explicitly call flush)
             if let Err(err) = $stdout.set_color(&$color_spec) {
                 de_err!("{}.set_color({:?}) returned error {}", stringify!($stdout), $color_spec, err);
                 return PrinterLogMessageResult::Err(err);
             };
+            // ... so call flush
             if let Result::Err(err) = $stdout.flush() {
                 return PrinterLogMessageResult::Err(err);
             }
@@ -371,7 +395,7 @@ macro_rules! setcolor_or_return {
 
 // XXX: this was a `fn -> PrinterLogMessageResult` but due to mutable and immutable error, it would not compile.
 //      So a macro is a decent workaround.
-/// Macro helper to print a single line in color.
+/// Macro helper to print a single line in color. Uses `PrinterLogMessage.buffer`.
 /// Flushes at end.
 macro_rules! print_color_line {
     ($stdout_color:expr, $buffer:expr, $linep:expr, $printed:expr, $flushed:expr) => {{
@@ -387,7 +411,7 @@ macro_rules! print_color_line {
 //      error, it would not compile. So this macro is a decent workaround.
 //
 /// Macro helper to print a single line in color and highlight the datetime
-/// within the line.
+/// within the line. Uses `PrinterLogMessage.buffer`.
 /// Flushes at end.
 macro_rules! print_color_line_highlight_dt {
     ($self:expr, $buffer:expr, $linep:expr, $dt_beg:expr, $dt_end:expr, $printed:expr, $flushed:expr) => {{
@@ -568,7 +592,7 @@ impl PrinterLogMessage {
             prepend_date_format: prepend_date_format_,
             prepend_date_offset,
             color_spec_last,
-            buffer: Vec::<u8>::with_capacity(BUFFER_CAP),
+            buffer: Vec::<u8>::with_capacity(if BUFFER_USE { BUFFER_CAP } else  { 0 }),
         }
     }
 
@@ -809,13 +833,6 @@ impl PrinterLogMessage {
 
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        // LAST WORKING HERE 20240616T012614
-        //      adding flushed Count to every call
-        //      add a compile-time switch to enable/disable buffering
-        //      then compare the flamegraphs;
-        //      - flamegraph with the buffering disabled
-        //      - flamegraph with buffering enabled
-        //      also note the count of Flushes in the Summary
         let dt_string: String = self.datetime_to_string_sysline(syslinep);
         let dtb: &[u8] = dt_string.as_bytes();
         let mut stdout_lock = self.stdout.lock();
@@ -1512,6 +1529,7 @@ impl PrinterLogMessage {
             }
             at += line.len();
         }
+        setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
         black_box(&stdout_lock);
 
         PrinterLogMessageResult::Ok((printed, flushed))
@@ -1625,6 +1643,10 @@ impl PrinterLogMessage {
         do_prependfile: bool,
         do_prependdate: bool,
     ) -> PrinterLogMessageResult {
+        debug_assert!(
+            do_prependfile || do_prependdate,
+            "do_prependfile and do_prependdate are both false, expected at least one to be true"
+        );
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         let prepend_file: &[u8] = match do_prependfile {
@@ -1660,12 +1682,23 @@ impl PrinterLogMessage {
                 continue;
             }
             let len = line.len();
-            setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
-            if do_prependfile {
-                buffer_write_or_return!(self.stdout_color, self.buffer, prepend_file, printed, flushed);
-            }
-            if do_prependdate {
-                buffer_write_or_return!(self.stdout_color, self.buffer, prepend_date, printed, flushed);
+            match (do_prependfile, do_prependdate) {
+                (true, true) => {
+                    setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
+                    buffer_write_or_return!(self.stdout_color, self.buffer, prepend_file, printed, flushed);
+                    buffer_write_or_return!(self.stdout_color, self.buffer, prepend_date, printed, flushed);
+                }
+                (true, false) => {
+                    setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
+                    buffer_write_or_return!(self.stdout_color, self.buffer, prepend_file, printed, flushed);
+                }
+                (false, true) => {
+                    setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
+                    buffer_write_or_return!(self.stdout_color, self.buffer, prepend_date, printed, flushed);
+                }
+                (false, false) => {
+                    debug_panic!("do_prependfile and do_prependdate are both false, expected at least one to be true");
+                }
             }
             buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
             match (at <= beg, end < at + len) {
@@ -1688,6 +1721,7 @@ impl PrinterLogMessage {
             }
             at += line.len();
         }
+        setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
 
         black_box(&stdout_lock);
 

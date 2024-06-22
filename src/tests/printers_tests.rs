@@ -2,7 +2,7 @@
 
 //! tests for [`src/printer/printers.rs`]
 //!
-//! [`src/printer/printers.rs`]: ../../printer/printers.rs
+//! [`src/printer/printers.rs`]: crate::printer::printers
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
@@ -299,12 +299,12 @@ fn test_PrinterLogMessage_print_fixedstruct(
 #[test_case(CCA, CLR, None, None, None, 321782, 1589; "a")]
 #[test_case(CCU, CLR, None, None, None, 321782, 1589; "b")]
 #[test_case(CCN, CLR, None, None, None, 321782, 227; "c")]
-#[test_case(CCA, CLR, Some(FILEU), None, None, 388782, 34408; "d")]
-#[test_case(CCU, CLR, None, Some(DATE), None, 447407, 34408; "e")]
+#[test_case(CCA, CLR, Some(FILEU), None, None, 388782, 34409; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None, 447407, 34409; "e")]
 #[test_case(CCN, CLR, None, None, Some(*FO_P8), 321782, 227; "f")]
-#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None, 514407, 34408; "g")]
-#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8), 514407, 34408; "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), 447407, 227; "i")]
+#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None, 514407, 34409; "g")]
+#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8), 514407, 34409; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), 447407, 339; "i")]
 fn test_PrinterLogMessage_print_evtx(
     colorchoice: ColorChoice,
     color: Color,
@@ -361,12 +361,12 @@ const FILEJ: &str = "foo.JOURNAL";
 #[test_case(CCA, CLR, None, None, None, JournalOutput::Short, 197149, 12486; "a")]
 #[test_case(CCU, CLR, None, None, None, JournalOutput::ShortPrecise, 211716, 12486; "b")]
 #[test_case(CCN, CLR, None, None, None, JournalOutput::ShortIso, 205473, 2081; "c")]
-#[test_case(CCA, CLR, Some(FILEJ), None, None, JournalOutput::ShortIsoPrecise, 253424, 14599; "d")]
-#[test_case(CCU, CLR, None, Some(DATE), None, JournalOutput::ShortFull, 259699, 14599; "e")]
+#[test_case(CCA, CLR, Some(FILEJ), None, None, JournalOutput::ShortIsoPrecise, 253424, 14600; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None, JournalOutput::ShortFull, 259699, 14600; "e")]
 #[test_case(CCN, CLR, None, None, Some(*FO_P8), JournalOutput::ShortMonotonic, 195068, 2081; "f")]
-#[test_case(CCA, CLR, Some(FILEJ), Some(DATE), None, JournalOutput::ShortUnix, 255625, 14599; "g")]
-#[test_case(CCU, CLR, Some(FILEJ), Some(DATE), Some(*FO_P8), JournalOutput::Verbose, 3234685, 205839; "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Export, 2574170, 2081; "i")]
+#[test_case(CCA, CLR, Some(FILEJ), Some(DATE), None, JournalOutput::ShortUnix, 255625, 14600; "g")]
+#[test_case(CCU, CLR, Some(FILEJ), Some(DATE), Some(*FO_P8), JournalOutput::Verbose, 3234685, 205840; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Export, 2574170, 2085; "i")]
 #[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Cat, 154102, 2081; "j")]
 fn test_PrinterLogMessage_print_journal(
     colorchoice: ColorChoice,
