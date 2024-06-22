@@ -113,6 +113,9 @@
 ./logs/other/tests/empty.log.gz
 ./logs/other/tests/empty.log.xz
 ./logs/other/tests/empty.tar
+./logs/other/tests/gen-200-1-jajaja.log
+./logs/other/tests/gen-100-1-no.log
+./logs/other/tests/gen-200-2-no-2.log
 ./logs/other/tests/invalid1a.log
 ./logs/other/tests/invalid1b.log
 ./logs/other/tests/invalid.gz
