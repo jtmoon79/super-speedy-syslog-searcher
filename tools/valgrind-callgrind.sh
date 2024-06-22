@@ -94,7 +94,6 @@ if [[ ${#} -ge 1 ]]; then
     done
 fi
 
-set -x
 DIROUT=${DIROUT-.}
 OUT=${DIROUT}/callgrind
 OUTOUT="${OUT}.out"
@@ -102,7 +101,7 @@ OUTDOT="${OUT}.dot"
 OUTPNG="${OUT}.png"
 OUTSVG="${OUT}.svg"
 
-rm -f "${OUTOUT}" "${OUTDOT}" "${OUTPNG}"
+rm -f -- "${OUTOUT}" "${OUTDOT}" "${OUTPNG}" "${OUTSVG}"
 
 set -x
 
