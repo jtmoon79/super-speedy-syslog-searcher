@@ -1,0 +1,3 @@
+# .mlc.toml 
+ignore-links = ["https://docs.rs/super_speedy_syslog_searcher/*"]
+throttle = 2000
