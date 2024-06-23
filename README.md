@@ -700,22 +700,14 @@ A comparison of merging three large log files running on Ubuntu 22 on WSL2.
 - 2500 line log file, 1078842 bytes (≈1.0 MB), with high-plane unicode
 - 5000 line log file, 2158138 bytes (≈2.1 MB), with high-plane unicode
 
-Using `hyperfine`
+Using `hyperfine` and GNU `time` to measure Max RSS.
 
-| Command               | Mean [ms]   | Min [ms] | Max [ms] |
-|:---                   |---:         |---:      |---:      |
-| `grep+sort`           | 42.9 ± 0.9  | 41.8     | 46.9     |
-| `s4`                  | 44.0 ± 4.0  | 35.6     | 51.9     |
-| `logmerger`           | 730.8 ± 6.4 | 719.1    | 738.7    |
-
-Using GNU `time`
-
-|Program       |real|user|sys |Max RSS [KB]|
-|:---          |---:|---:|---:|---:        |
-|`grep \| sort`|0.04|0.02|0.01|2532        |
-|`s4`          |0.04|0.02|0.05|74948       |
-|`logmerger`   |0.71|0.69|0.02|56444       |
-|`tl`          |1.13|0.49|0.04|50768       |
+| Command               | Mean [ms]   | Min [ms] | Max [ms] |Max RSS [KB]|
+|:---                   |---:         |---:      |---:      |---:        |
+| `grep+sort`           | 42.9 ± 0.9  | 41.8     | 46.9     |2532        |
+| `s4`                  | 44.0 ± 4.0  | 35.6     | 51.9     |74948       |
+| `logmerger`           | 730.8 ± 6.4 | 719.1    | 738.7    |56444       |
+|`tl`                   |             |          |          |50768       |
 
 Programs tested:
 
@@ -723,8 +715,8 @@ Programs tested:
 - `s4` 0.7.74
 - `logmerger` 0.9.0 on Python 3.10.12
 - `tl` 1.5.0 on Python 3.10.12
-- GNU `time` 1.9
 - `hyperfine` 1.11.0
+- GNU `time` 1.9
 
 See directory results in [`compare-log-mergers.txt`].
 
