@@ -42,7 +42,7 @@ systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
 <!-- toc start -->
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
-    - [allocator `jemalloc` or `mimalloc`](#allocator-jemalloc-or-mimalloc)
+    - [allocator `mimalloc` or `jemalloc`](#allocator-mimalloc-or-jemalloc)
       - [Alpine](#alpine)
       - [Debian and Ubuntu](#debian-and-ubuntu)
       - [OpenSUSE](#opensuse)
@@ -100,31 +100,40 @@ A C compiler is required.
 
 [rust is installed]: https://www.rust-lang.org/tools/install
 
-#### allocator `jemalloc` or `mimalloc`
+#### allocator `mimalloc` or `jemalloc`
 
-The default alloctor is the System allocator. This makes default installs
-more likely to succeed.
+The default alloctor is the System allocator.
 
-Allocator [`mimalloc`] appears to be the fastest. But [`jemalloc`] is also very
-good.
+Allocator [`mimalloc`] is feature `mimalloc` and allocator [`jemalloc`] is feature `jemalloc`.
+Allocator `mimalloc` [is the fastest according to `mimalloc` project benchmarks].
+`jemalloc` is also very good.
 
-```lang-text
-cargo install --locked super_speedy_syslog_searcher --features jemalloc
-```
+<br/>
+
+`mimalloc`
 
 ```lang-text
 cargo install --locked super_speedy_syslog_searcher --features mimalloc
 ```
 
-Compiling `jemalloc` and `mimalloc` requires installing `make`.
+<br/>
 
-[`jemalloc`]: http://jemalloc.net/
-[`mimalloc`]: https://microsoft.github.io/mimalloc/bench.html
+`jemalloc`
+
+```lang-text
+cargo install --locked super_speedy_syslog_searcher --features jemalloc
+```
 
 <br/>
 
-Here are the extra steps for installing `jemalloc` and `mimalloc` on various
-Operating Systems.
+[`jemalloc`]: http://jemalloc.net/
+[`mimalloc`]: https://microsoft.github.io/mimalloc/bench.html
+[is the fastest according to `mimalloc` project benchmarks]: https://github.com/microsoft/mimalloc#Performance
+
+<br/>
+
+Here are the packages for building `super_speedy_syslog_searcher` with `jemalloc` or `mimalloc`
+on various Operating Systems.
 
 ##### Alpine
 
@@ -158,9 +167,8 @@ yum install gcc glibc-devel make
 
 ##### feature `mimalloc` on Windows
 
-Compiling `mimalloc` on Windows requires `lib.exe` which is part of Visual
-Studio Build Tools.
-Instructions for installing Visual Studio Build Tools are at [rustup.rs].
+Compiling `mimalloc` on Windows requires `lib.exe` which is part of _Visual Studio Build Tools_.
+Instructions at [rustup.rs].
 
 [rustup.rs]: https://rustup.rs/
 
@@ -728,17 +736,9 @@ See directory results in [`compare-log-mergers.txt`].
 
 ### Building locally
 
-Building on Linux requires:
+See section [_Install `super_speedy_syslog_searcher`_].
 
-- `rust` _minimal_ or more
-- `gcc` (which should install `cc`, `libc`, and `libc-headers`)
-
-Building on Windows requires _Visual Studio_.
-[`rustup-init.exe`] will help install the necessary tools.
-
-From the git cloned project directory run `cargo build`.
-
-[`rustup-init.exe`]: https://rustup.rs/
+[_Install `super_speedy_syslog_searcher`_]: #install-super_speedy_syslog_searcher
 
 ### Parsing `.journal` files
 
