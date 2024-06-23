@@ -50,7 +50,7 @@ tmp2=$(mktemp -t "compare-s4_grep_XXXXX")
 tmp2b=$(mktemp -t "compare-s4-sorted_grep_XXXXX")
 md1=$(mktemp -t "compare-s4_s4_XXXXX.md")
 md2=$(mktemp -t "compare-s4_s4_XXXXX.md")
-md3=${OUT-.}/compare-s4_grep_sort.md
+mdfinal=${DIROUT-.}/compare-s4_grep_sort.md
 
 function exit_() {
     if ! ${do_keep}; then
@@ -147,13 +147,14 @@ if [[ -n "${hyperfine-}" ]]; then
 
     (
         cat "${md1}"
-        cat "${md2}" | tail -n1
-    ) | column -t -s '|' -o '|' > "${md3}"
+        cat "${md2}" | tail -n +3
+        cat "${md3}" | tail -n +3
+    ) | column -t -s '|' -o '|' > "${mdfinal}"
 
-    (set -x; cat "${md3}")
+    (set -x; cat "${mdfinal}")
 
     if which glow &>/dev/null; then
-        glow "${md3}"
+        glow "${mdfinal}"
     fi
 fi
 
