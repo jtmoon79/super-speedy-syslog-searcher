@@ -179,6 +179,8 @@ PROGRAM_LM=${PROGRAM_LM-logmerger}
 echo "${PS4}logmerger --version"
 "${PYTHON}" -m pip list | grep -Fe 'logmerger'
 
+# TODO: precompile logmerger
+
 echo
 
 (
@@ -236,6 +238,8 @@ echo
 # wc -l "${tmp1}"
 
 # TooLong
+
+# TODO: precompile TooLong
 
 echo_line
 
