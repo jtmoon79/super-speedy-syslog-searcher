@@ -60,7 +60,7 @@ lazy_static = "1.4.0"
 lru = "0.12.3"
 lzma-rs = "0.3.0"
 lz4_flex = "0.11"
-memchr = { version = "2.7.2", optional = true }
+memchr = "2.7.2"
 memoffset = "0.9.1"
 mime_guess = "2.0.4"
 min-max = "0.1.8"
@@ -122,7 +122,7 @@ test-case = "3.3.1"
 [features]
 # to run more benchmarks pass `--features bench_*` to `cargo bench`
 bench_jetscii = ["dep:jetscii"]
-bench_memchr = ["dep:memchr"]
+bench_memchr = []
 bench_stringzilla = ["dep:stringzilla"]
 jemalloc = ["dep:tikv-jemallocator"]
 mimalloc = ["dep:mimalloc"]

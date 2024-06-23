@@ -69,7 +69,6 @@ use ::const_format::concatcp;
 #[cfg(feature = "bench_jetscii")]
 use ::jetscii;
 use ::lazy_static::lazy_static;
-#[cfg(feature = "bench_memchr")]
 use ::memchr;
 use ::more_asserts::{debug_assert_ge, debug_assert_le, debug_assert_lt};
 use ::once_cell::sync::OnceCell;
@@ -7940,16 +7939,17 @@ const fn slice_contains_99_2(
     false
 }
 
-/// Loop unrolled implementation of `slice.contains` for a byte slice and a
-/// hardcoded array.
+/// Loop unrolled implementation of [`slice.contains`].
+/// Returns `true` if any byte in `search` is found in `slice_`.
 /// Uses crate [`unroll`].
 ///
-/// Hardcoded implementation for [`u8`] slices up to 99 length. Runs very fast according
-/// to benches in `src/benches/slice_contains.rs`.
+/// Hardcoded implementation for [`u8`] slices up to 99 length. Falls back to
+/// using `slice.contains` for slices longer than 99.
 ///
-/// Supports arbitrary length.
+/// Runs very fast according to benches in `src/benches/slice_contains.rs`.
 ///
 /// [`unroll`]: https://docs.rs/unroll/0.1.5/unroll/index.html
+/// [`slice.contains`]: https://doc.rust-lang.org/std/primitive.slice.html#method.contains
 //
 // slice index values for the `DTPD!` declarations can be reviewed with:
 //
@@ -8087,7 +8087,6 @@ pub fn slice_contains_X_2_jetscii(
 /// hardcoded array.
 #[inline(always)]
 #[allow(non_snake_case)]
-#[cfg(feature = "bench_memchr")]
 pub fn slice_contains_X_2_memchr(
     slice_: &[u8],
     search: &[u8; 2],
@@ -8123,7 +8122,7 @@ pub fn slice_contains_X_2(
     slice_: &[u8],
     search: &[u8; 2],
 ) -> bool {
-    slice_contains_X_2_unroll(slice_, search)
+    slice_contains_X_2_memchr(slice_, search)
 }
 
 /// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
@@ -8219,6 +8218,7 @@ pub fn slice_contains_D2_stringzilla(
     false
 }
 
+/// Wrapper to call the preferred `slice_contains_D2` function.
 /// Returns `true` if `slice_` contains consecutive "digit" chars (as UTF8 bytes).
 /// Hack efficiency helper.
 #[inline(always)]

@@ -17,7 +17,6 @@ use s4lib::data::datetime::{
     slice_contains_D2_jetscii,
     slice_contains_X_2_jetscii,
 };
-#[cfg(feature = "bench_memchr")]
 use s4lib::data::datetime::{
     slice_contains_X_2_memchr,
 };
