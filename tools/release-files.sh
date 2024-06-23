@@ -38,10 +38,11 @@ sed -i -e "s|$(hostname)|host|g" "${DIROUT}/massif.txt"
     #      see https://github.com/rust-lang/cargo/issues/9012
     export CARGO_TERM_COLOR=never
     set -x
-    cargo bench --no-run
+    cargo bench --locked --features bench_jetscii,bench_memchr,bench_stringzilla --no-run
     # require gnuplot to be installed
     gnuplot --version
     cargo bench \
+        --locked \
         --benches \
         --quiet \
         --color=never \
