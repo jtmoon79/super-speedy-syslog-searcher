@@ -1,44 +1,109 @@
 + git log -n1 --oneline -1
-732f8e65 (BIN) rm src/bin/mod.rs
+3af9e554 (HEAD -> main, origin/main, origin/HEAD) (TOOLS) fix undeclared $md3
 + /usr/bin/time --version
 time (GNU Time) UNKNOWN
 + python --version
 Python 3.10.12
-+ python -m pip install --upgrade --force --quiet logmerger==0.9.0
-+ python -m pip install --upgrade --force --quiet toolong==1.5.0
-+ python -m pip install --upgrade --force --quiet logdissect==3.1.1
++ hyperfine --version
+hyperfine 1.18.0
++ python -m pip install --upgrade --no-python-version-warning --disable-pip-version-check --force --quiet logmerger==0.9.0
++ python -m pip install --upgrade --no-python-version-warning --disable-pip-version-check --force --quiet toolong==1.5.0
++ python -m pip install --upgrade --no-python-version-warning --disable-pip-version-check --force --quiet logdissect==3.1.1
 ----------------------------------------
 + /usr/bin/grep --version
 grep (GNU grep) 3.7
 + /usr/bin/sort --version
 sort (GNU coreutils) 8.32
 
-+ /usr/bin/time -p -- bash -c '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > '\''/tmp/compare-log-mergers_9FPgS.out'\'''
-real 0.04
-user 0.02
-sys 0.01
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_lnxc3.md --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > /dev/null'
+Benchmark 1: grep+sort
+  Time (mean ± σ):      40.8 ms ±   0.4 ms    [User: 33.3 ms, System: 2.8 ms]
+  Range (min … max):    40.1 ms …  42.0 ms    71 runs
 
-4403 /tmp/compare-log-mergers_9FPgS.out
++ /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- /usr/bin/grep -hEe '^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)' -- ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
++ /usr/bin/sort -t ' ' -k 1 -s
+real 0.01 s, Max RSS 2656 KB, 37% %CPU, (0)
+
+4403 /tmp/compare-log-mergers_vD66y.out
+
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `grep+sort` | 40.8 ± 0.4 | 40.1 | 42.0 | 1.00 |
+
 ----------------------------------------
 + ./target/release/s4 --version
 super_speedy_syslog_searcher 0.7.74
 
-+ /usr/bin/time -p -- ./target/release/s4 -a 2000-01-01T00:20:00 -b 2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
-real 0.04
-user 0.02
-sys 0.05
++ cargo clean --quiet
++ cargo build --quiet --release
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_qTdPv.md -N -n 's4 (system)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
+Benchmark 1: s4 (system)
+  Time (mean ± σ):      38.3 ms ±   1.9 ms    [User: 35.5 ms, System: 23.7 ms]
+  Range (min … max):    35.0 ms …  48.7 ms    78 runs
 
-4403 /tmp/compare-log-mergers_9FPgS.out
++ /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- ./target/release/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
+real 0.05 s, Max RSS 48184 KB, 171% %CPU, (0)
+
+4403 /tmp/compare-log-mergers_vD66y.out
+
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `s4 (system)` | 38.3 ± 1.9 | 35.0 | 48.7 | 1.00 |
+
++ cargo clean --quiet
++ cargo build --quiet --release --features=mimalloc
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_7sYIg.md -N -n 's4 (mimalloc)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
+Benchmark 1: s4 (mimalloc)
+  Time (mean ± σ):      28.4 ms ±   2.2 ms    [User: 26.6 ms, System: 16.2 ms]
+  Range (min … max):    26.0 ms …  43.9 ms    105 runs
+
+  Warning: Statistical outliers were detected. Consider re-running this benchmark on a quiet system without any interferences from other programs. It might help to use the '--warmup' or '--prepare' options.
+
++ /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- ./target/release/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
+real 0.04 s, Max RSS 77344 KB, 172% %CPU, (0)
+
+4403 /tmp/compare-log-mergers_vD66y.out
+
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `s4 (mimalloc)` | 28.4 ± 2.2 | 26.0 | 43.9 | 1.00 |
+
++ cargo clean --quiet
++ cargo build --quiet --release --features=jemalloc
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_2AwDx.md -N -n 's4 (jemalloc))' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
+Benchmark 1: s4 (jemalloc))
+  Time (mean ± σ):      35.1 ms ±   2.8 ms    [User: 28.6 ms, System: 23.4 ms]
+  Range (min … max):    32.4 ms …  52.3 ms    86 runs
+
+  Warning: Statistical outliers were detected. Consider re-running this benchmark on a quiet system without any interferences from other programs. It might help to use the '--warmup' or '--prepare' options.
+
++ /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- ./target/release/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
+real 0.05 s, Max RSS 70832 KB, 172% %CPU, (0)
+
+4403 /tmp/compare-log-mergers_vD66y.out
+
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `s4 (jemalloc))` | 35.1 ± 2.8 | 32.4 | 52.3 | 1.00 |
+
 ----------------------------------------
 + logmerger --version
 logmerger         0.9.0
 
-+ /usr/bin/time -p -- logmerger --inline --output=- --start 2000-01-01T00:20:00 --end 2000-01-01T00:50:00 ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
-real 0.71
-user 0.69
-sys 0.02
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_MstZl.md --shell sh -n logmerger -- ''\''logmerger'\'' --inline --output=- --start '\''2000-01-01T00:20:00'\'' --end '\''2000-01-01T00:50:00'\'' ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
+Benchmark 1: logmerger
+  Time (mean ± σ):     729.2 ms ±  11.8 ms    [User: 693.3 ms, System: 32.0 ms]
+  Range (min … max):   710.2 ms … 749.0 ms    10 runs
 
-4908 /tmp/compare-log-mergers_9FPgS.out
++ /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- logmerger --inline --output=- --start 2000-01-01T00:20:00 --end 2000-01-01T00:50:00 ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
+real 0.72 s, Max RSS 56140 KB, 98% %CPU, (0)
+
+4908 /tmp/compare-log-mergers_vD66y.out
+
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `logmerger` | 729.2 ± 11.8 | 710.2 | 749.0 | 1.00 |
+
 ----------------------------------------
 + logdissect --version
 logdissect 3.1.1
@@ -49,8 +114,25 @@ TODO: figure out how to use logdissect. I'm unable to get it to match on ANY fil
 + tl --version
 tl, version 1.5.0
 
-+ /usr/bin/time -p -- tl --merge --output-merge /tmp/compare-log-mergers_KIpHF.out ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
-real 1.13
-user 0.49
-sys 0.04
++ /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- tl --merge --output-merge /tmp/compare-log-mergers_vD66y.out ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log
+real 3.26 s, Max RSS 53324 KB, 15% %CPU, (0)
 
+10003 /tmp/compare-log-mergers_vD66y.out
+
++ cat ./compare-log_mergers.md
+| Command          | Mean [ms]    | Min [ms] | Max [ms] | Relative |
+|:---              |---:          |---:      |---:      |---:      |
+| `grep+sort`      | 40.8 ± 0.4   | 40.1     | 42.0     | 1.00     |
+| `s4 (system)`    | 38.3 ± 1.9   | 35.0     | 48.7     | 1.00     |
+| `s4 (mimalloc)`  | 28.4 ± 2.2   | 26.0     | 43.9     | 1.00     |
+| `s4 (jemalloc))` | 35.1 ± 2.8   | 32.4     | 52.3     | 1.00     |
+| `logmerger`      | 729.2 ± 11.8 | 710.2    | 749.0    | 1.00     |
+
+
+       COMMAND     │  MEAN [MS]   │ MIN [MS] │ MAX [MS] │ RELATIVE
+  ─────────────────┼──────────────┼──────────┼──────────┼───────────
+    grep+sort      │ 40.8 ± 0.4   │     40.1 │     42.0 │     1.00
+    s4 (system)    │ 38.3 ± 1.9   │     35.0 │     48.7 │     1.00
+    s4 (mimalloc)  │ 28.4 ± 2.2   │     26.0 │     43.9 │     1.00
+    s4 (jemalloc)) │ 35.1 ± 2.8   │     32.4 │     52.3 │     1.00
+    logmerger      │ 729.2 ± 11.8 │    710.2 │    749.0 │     1.00

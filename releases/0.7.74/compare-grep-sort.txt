@@ -1,7 +1,7 @@
 + uname -a
-Linux uboo-ubuntu22 5.15.153.1-microsoft-standard-WSL2 #1 SMP Fri Mar 29 23:14:13 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+Linux host 5.15.153.1-microsoft-standard-WSL2 #1 SMP Fri Mar 29 23:14:13 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
 + git log -n1 '--format=%h %D'
-732f8e65 HEAD -> main
+3af9e554 HEAD -> main, origin/main, origin/HEAD
 + ./target/release/s4 --version
 super_speedy_syslog_searcher 0.7.74
 + /usr/bin/grep --version
@@ -13,34 +13,72 @@ time (GNU Time) UNKNOWN
 + hyperfine --version
 hyperfine 1.18.0
 
-+ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-s4_s4_qpTJE.md -N -n s4 -- './target/release/s4 -a 20000101T080000 -b 20000101T085959.999999 --color=never ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log'
-Benchmark 1: s4
-  Time (mean ± σ):      43.4 ms ±   1.2 ms    [User: 50.0 ms, System: 33.0 ms]
-  Range (min … max):    41.9 ms …  47.5 ms    63 runs
- 
++ cargo clean --quiet
++ cargo build --release --quiet
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-s4_s4_GTK9k.md -N -n 's4 (System)' -- './target/release/s4 -a 20000101T080000 -b 20000101T085959.999999 --color=never ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log'
+Benchmark 1: s4 (System)
+  Time (mean ± σ):      76.0 ms ±   3.0 ms    [User: 63.4 ms, System: 69.6 ms]
+  Range (min … max):    71.6 ms …  89.3 ms    38 runs
 
-+ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-s4_s4_aOQcJ.md --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^20000101T08[[:digit:]]{4}'\'' ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log | /usr/bin/sort -t '\'' '\'' -k 1 -s'
+
++ cargo clean --quiet
++ cargo build --release --quiet --features=mimalloc
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-s4_s4_ZmKNa.md -N -n 's4 (mimalloc)' -- './target/release/s4 -a 20000101T080000 -b 20000101T085959.999999 --color=never ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log'
+Benchmark 1: s4 (mimalloc)
+  Time (mean ± σ):      44.7 ms ±   2.1 ms    [User: 52.6 ms, System: 32.4 ms]
+  Range (min … max):    41.9 ms …  55.2 ms    68 runs
+
+  Warning: Statistical outliers were detected. Consider re-running this benchmark on a quiet system without any interferences from other programs. It might help to use the '--warmup' or '--prepare' options.
+
+
++ cargo clean --quiet
++ cargo build --release --quiet --features=jemalloc
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-s4_s4_J708m.md -N -n 's4 (jemalloc)' -- './target/release/s4 -a 20000101T080000 -b 20000101T085959.999999 --color=never ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log'
+Benchmark 1: s4 (jemalloc)
+  Time (mean ± σ):      49.7 ms ±   1.7 ms    [User: 52.5 ms, System: 39.6 ms]
+  Range (min … max):    47.5 ms …  58.3 ms    60 runs
+
+
++ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-s4_s4_r1SCz.md --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^20000101T08[[:digit:]]{4}'\'' ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log | /usr/bin/sort -t '\'' '\'' -k 1 -s'
 Benchmark 1: grep+sort
-  Time (mean ± σ):      35.4 ms ±   0.5 ms    [User: 24.5 ms, System: 7.0 ms]
-  Range (min … max):    34.5 ms …  37.5 ms    82 runs
- 
+  Time (mean ± σ):      36.6 ms ±   1.5 ms    [User: 23.1 ms, System: 8.3 ms]
+  Range (min … max):    35.3 ms …  44.6 ms    66 runs
+
+  Warning: The first benchmarking run for this command was significantly slower than the rest (44.6 ms). This could be caused by (filesystem) caches that were not filled until after the first run. You should consider using the '--warmup' option to fill those caches before the actual benchmark. Alternatively, use the '--prepare' option to clear the caches before each timing run.
+
 + cat ./compare-s4_grep_sort.md
-| Command     | Mean [ms]  | Min [ms] | Max [ms] | Relative |
-|:---         |---:        |---:      |---:      |---:      |
-| `s4`        | 43.4 ± 1.2 | 41.9     | 47.5     | 1.00     |
-| `grep+sort` | 35.4 ± 0.5 | 34.5     | 37.5     | 1.00     |
+| Command         | Mean [ms]  | Min [ms] | Max [ms] | Relative |
+|:---             |---:        |---:      |---:      |---:      |
+| `s4 (System)`   | 76.0 ± 3.0 | 71.6     | 89.3     | 1.00     |
+| `s4 (mimalloc)` | 44.7 ± 2.1 | 41.9     | 55.2     | 1.00     |
+| `s4 (jemalloc)` | 49.7 ± 1.7 | 47.5     | 58.3     | 1.00     |
+| `grep+sort`     | 36.6 ± 1.5 | 35.3     | 44.6     | 1.00     |
 
 
-COMMAND  │ MEAN [MS]  │ MIN [MS] │ MAX [MS] │ RELATIVE
-────────────┼────────────┼──────────┼──────────┼───────────
-s4        │ 43.4 ± 1.2 │     41.9 │     47.5 │     1.00
-grep+sort │ 35.4 ± 0.5 │     34.5 │     37.5 │     1.00
+       COMMAND    │ MEAN [MS]  │ MIN [MS] │ MAX [MS] │ RELATIVE
+  ────────────────┼────────────┼──────────┼──────────┼───────────
+    s4 (System)   │ 76.0 ± 3.0 │     71.6 │     89.3 │     1.00
+    s4 (mimalloc) │ 44.7 ± 2.1 │     41.9 │     55.2 │     1.00
+    s4 (jemalloc) │ 49.7 ± 1.7 │     47.5 │     58.3 │     1.00
+    grep+sort     │ 36.6 ± 1.5 │     35.3 │     44.6 │     1.00
 
++ cargo clean --quiet
++ cargo build --release --quiet
 + /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- ./target/release/s4 -a 20000101T080000 -b 20000101T085959.999999 --color=never ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log
-real 0.04 s, Max RSS 150892 KB, 193% %CPU, (0)
+real 0.07 s, Max RSS 84368 KB, 167% %CPU, (0)
+
++ cargo clean --quiet
++ cargo build --release --quiet --features=mimalloc
++ /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- ./target/release/s4 -a 20000101T080000 -b 20000101T085959.999999 --color=never ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log
+real 0.04 s, Max RSS 150820 KB, 200% %CPU, (0)
+
++ cargo clean --quiet
++ cargo build --release --quiet --features=jemalloc
++ /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- ./target/release/s4 -a 20000101T080000 -b 20000101T085959.999999 --color=never ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log
+real 0.04 s, Max RSS 137376 KB, 187% %CPU, (0)
 
 + /usr/bin/time '--format=real %e s, Max RSS %M KB, %P %%CPU, (%x)' -- sh -c '/usr/bin/grep --color=never --text -hEe '\''^20000101T08[[:digit:]]{4}'\'' -- ./logs/other/tests/gen-100-1-no.log ./logs/other/tests/gen-100-10-.......log ./logs/other/tests/gen-100-10-BRAAAP.log ./logs/other/tests/gen-100-10-FOOBAR.log ./logs/other/tests/gen-100-10-______.log ./logs/other/tests/gen-100-10-skullcrossbones.log ./logs/other/tests/gen-100-4-happyface.log ./logs/other/tests/gen-1000-3-foobar.log ./logs/other/tests/gen-200-1-jajaja.log ./logs/other/tests/gen-400-4-shamrock.log ./logs/other/tests/gen-99999-1-Motley_Crue.log | /usr/bin/sort -t '\'' '\'' -k 1 -s >/dev/null'
-real 0.02 s, Max RSS 7864 KB, 91% %CPU, (0)
+real 0.02 s, Max RSS 6912 KB, 47% %CPU, (0)
 
 The output files will differ due to sorting method differences.
 However Line Count and Byte Count should be the same.
@@ -51,7 +89,6 @@ super_speedy_syslog_searcher output file
 'grep+sort' output file
   Line Count 10800
   Byte Count 3552746
-Files /tmp/compare-s4_s4_A8Rag and /tmp/compare-s4_grep_NwDhp differ
+Files /tmp/compare-s4_s4_D6KTB and /tmp/compare-s4_grep_Lo9O2 differ
 
 Line Count and Byte Count are the same. (ʘ‿ʘ)
-
