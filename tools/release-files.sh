@@ -23,6 +23,7 @@ export DIROUT=${DIROUT-.}
 rm -v "${DIROUT}/callgrind.out" "${DIROUT}/callgrind.dot" || true
 sed -i -e "s|$(realpath .)|.|g" "${DIROUT}/callgrind.txt"
 sed -i -e "s|${HOME}|/home|g" "${DIROUT}/callgrind.txt"
+sed -i -e "s|$(hostname)|host|g" "${DIROUT}/callgrind.txt"
 
 (
     set -x
@@ -30,6 +31,7 @@ sed -i -e "s|${HOME}|/home|g" "${DIROUT}/callgrind.txt"
 )
 rm -v "${DIROUT}/massif.out" || true
 sed -i -e "s|$(realpath .)|.|g" "${DIROUT}/massif.txt"
+sed -i -e "s|$(hostname)|host|g" "${DIROUT}/massif.txt"
 
 (
     # XXX: cargo does not respect color settings
@@ -53,3 +55,6 @@ sed -i -e "s|$(realpath .)|.|g" "${DIROUT}/massif.txt"
     ./tools/compare-grep-sort.sh &> "${DIROUT}/compare-grep-sort.txt"
     ./tools/compare-log-mergers/compare-log-mergers.sh &> "${DIROUT}/compare-log-mergers.txt"
 )
+
+sed -i -e "s|$(hostname)|host|g" "${DIROUT}/compare-grep-sort.txt"
+sed -i -e "s|$(hostname)|host|g" "${DIROUT}/compare-log-mergers.txt"
