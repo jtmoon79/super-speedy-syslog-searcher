@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Index - Criterion.rs</title>
+    <style type="text/css">
+        body {
+            font: 14px Helvetica Neue;
+            text-rendering: optimizelegibility;
+        }
+
+        .body {
+            width: 960px;
+            margin: auto;
+        }
+
+        a:link {
+            color: #1F78B4;
+            text-decoration: none;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 300;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        #footer {
+            height: 40px;
+            background: #888;
+            color: white;
+            font-size: larger;
+            font-weight: 300;
+        }
+
+        #footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        #footer p {
+            text-align: center
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #888;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body">
+        <h2>Criterion.rs Benchmark Index</h2>
+        See individual benchmark pages below for more details.
+        <ul>
+            <li><a href="../bench_prints/report/index.html">bench_prints</a></li>
+            
+            <ul>
+                <li><a href="../bench_prints/get_byteslice_find_byte_and_repeatlast/report/index.html">get_byteslice_find_byte_and_repeatlast</a></li>
+                <li><a href="../bench_prints/get_byteslice_find_byte_iter/report/index.html">get_byteslice_find_byte_iter</a></li>
+                <li><a href="../bench_prints/print_baseline/report/index.html">print_baseline</a></li>
+            </ul>
+            <li><a href="../decode_utf/report/index.html">decode_utf</a></li>
+            
+            <ul>
+                <li><a href="../decode_utf/dutf8_arraystring__CacheString_from_utf8/report/index.html">dutf8_arraystring__CacheString_from_utf8</a></li>
+                <li><a href="../decode_utf/dutf8_arraystring__SmallString_from_utf8/report/index.html">dutf8_arraystring__SmallString_from_utf8</a></li>
+                <li><a href="../decode_utf/dutf8_baseline_no_decoding/report/index.html">dutf8_baseline_no_decoding</a></li>
+                <li><a href="../decode_utf/dutf8_bstr_to_str/report/index.html">dutf8_bstr_to_str</a></li>
+                <li><a href="../decode_utf/dutf8_custom_check1_lt0x80__overzealous/report/index.html">dutf8_custom_check1_lt0x80__overzealous</a></li>
+                <li><a href="../decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1/report/index.html">dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous</a></li>
+                <li><a href="../decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_lat/report/index.html">dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous</a></li>
+                <li><a href="../decode_utf/dutf8_encodingrs_decode_to_string/report/index.html">dutf8_encodingrs_decode_to_string</a></li>
+                <li><a href="../decode_utf/dutf8_encodingrs_decode_to_string_without_replacement/report/index.html">dutf8_encodingrs_decode_to_string_without_replacement</a></li>
+                <li><a href="../decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchec/report/index.html">dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked</a></li>
+                <li><a href="../decode_utf/dutf8_std_str_from_utf8/report/index.html">dutf8_std_str_from_utf8</a></li>
+                <li><a href="../decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid/report/index.html">dutf8_std_str_from_utf8_unchecked__allows_invalid</a></li>
+            </ul>
+            <li><a href="../slice_contains/report/index.html">slice_contains</a></li>
+            
+            <ul>
+                <li><a href="../slice_contains/D2_baseline/report/index.html">D2_baseline</a></li>
+                <li><a href="../slice_contains/D2_slice_contains_D2_custom/report/index.html">D2_slice_contains_D2_custom</a></li>
+                <li><a href="../slice_contains/D2_slice_contains_D2_custom_not/report/index.html">D2_slice_contains_D2_custom_not</a></li>
+                <li><a href="../slice_contains/D2_slice_contains_D2_stringzilla/report/index.html">D2_slice_contains_D2_stringzilla</a></li>
+                <li><a href="../slice_contains/D2_slice_contains_D2_stringzilla_not/report/index.html">D2_slice_contains_D2_stringzilla_not</a></li>
+                <li><a href="../slice_contains/X_2_baseline/report/index.html">X_2_baseline</a></li>
+                <li><a href="../slice_contains/X_2_custom1_slice_iter_found/report/index.html">X_2_custom1_slice_iter_found</a></li>
+                <li><a href="../slice_contains/X_2_custom1_slice_iter_notfound/report/index.html">X_2_custom1_slice_iter_notfound</a></li>
+                <li><a href="../slice_contains/X_2_custom2_slice_iter_found/report/index.html">X_2_custom2_slice_iter_found</a></li>
+                <li><a href="../slice_contains/X_2_custom2_slice_iter_notfound/report/index.html">X_2_custom2_slice_iter_notfound</a></li>
+                <li><a href="../slice_contains/X_2_custom3_contains_found/report/index.html">X_2_custom3_contains_found</a></li>
+                <li><a href="../slice_contains/X_2_custom3_contains_notfound/report/index.html">X_2_custom3_contains_notfound</a></li>
+                <li><a href="../slice_contains/X_2_jetscii_found/report/index.html">X_2_jetscii_found</a></li>
+                <li><a href="../slice_contains/X_2_jetscii_notfound/report/index.html">X_2_jetscii_notfound</a></li>
+                <li><a href="../slice_contains/X_2_memchr_found/report/index.html">X_2_memchr_found</a></li>
+                <li><a href="../slice_contains/X_2_memchr_notfound/report/index.html">X_2_memchr_notfound</a></li>
+                <li><a href="../slice_contains/X_2_stringzilla_found/report/index.html">X_2_stringzilla_found</a></li>
+                <li><a href="../slice_contains/X_2_stringzilla_notfound/report/index.html">X_2_stringzilla_notfound</a></li>
+                <li><a href="../slice_contains/X_2_unroll_found_200/report/index.html">X_2_unroll_found_200</a></li>
+                <li><a href="../slice_contains/X_2_unroll_found_80/report/index.html">X_2_unroll_found_80</a></li>
+                <li><a href="../slice_contains/X_2_unroll_notfound_200/report/index.html">X_2_unroll_notfound_200</a></li>
+                <li><a href="../slice_contains/X_2_unroll_notfound_80/report/index.html">X_2_unroll_notfound_80</a></li>
+            </ul>
+        </ul>
+    </div>
+    <div id="footer">
+        <p>This report was generated by
+            <a href="https://github.com/bheisler/criterion.rs">Criterion.rs</a>, a statistics-driven benchmarking
+            library in Rust.</p>
+    </div>
+</body>
+</html>

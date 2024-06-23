@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>decode_utf Summary - Criterion.rs</title>
+    <style type="text/css">
+        body {
+            font: 14px Helvetica Neue;
+            text-rendering: optimizelegibility;
+        }
+
+        .body {
+            width: 960px;
+            margin: auto;
+        }
+
+        a:link {
+            color: #1F78B4;
+            text-decoration: none;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: 300;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 300;
+        }
+
+        #footer {
+            height: 40px;
+            background: #888;
+            color: white;
+            font-size: larger;
+            font-weight: 300;
+        }
+
+        #footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        #footer p {
+            text-align: center
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body">
+        <h2>decode_utf</h2>
+        <h3>Violin Plot</h3>
+        <a href="violin.svg">
+            <img src="violin.svg" alt="Violin Plot" />
+        </a>
+        <p>This chart shows the relationship between function/parameter and iteration time. The thickness of the shaded
+            region indicates the probability that a measurement of the given function/parameter would take a particular
+            length of time.</p>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_arraystring__CacheString_from_utf8/report/index.html">
+                <h4>decode_utf/dutf8_arraystring__CacheString_from_utf8</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_arraystring__CacheString_from_utf8/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_arraystring__CacheString_from_utf8/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_arraystring__CacheString_from_utf8/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_arraystring__CacheString_from_utf8/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_arraystring__SmallString_from_utf8/report/index.html">
+                <h4>decode_utf/dutf8_arraystring__SmallString_from_utf8</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_arraystring__SmallString_from_utf8/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_arraystring__SmallString_from_utf8/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_arraystring__SmallString_from_utf8/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_arraystring__SmallString_from_utf8/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_baseline_no_decoding/report/index.html">
+                <h4>decode_utf/dutf8_baseline_no_decoding</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_baseline_no_decoding/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_baseline_no_decoding/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_baseline_no_decoding/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_baseline_no_decoding/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_bstr_to_str/report/index.html">
+                <h4>decode_utf/dutf8_bstr_to_str</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_bstr_to_str/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_bstr_to_str/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_bstr_to_str/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_bstr_to_str/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_custom_check1_lt0x80__overzealous/report/index.html">
+                <h4>decode_utf/dutf8_custom_check1_lt0x80__overzealous</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_custom_check1_lt0x80__overzealous/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_custom_check1_lt0x80__overzealous/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_custom_check1_lt0x80__overzealous/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_custom_check1_lt0x80__overzealous/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1/report/index.html">
+                <h4>decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_lat/report/index.html">
+                <h4>decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_lat/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_lat/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_lat/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_lat/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_encodingrs_decode_to_string/report/index.html">
+                <h4>decode_utf/dutf8_encodingrs_decode_to_string</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_encodingrs_decode_to_string/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_encodingrs_decode_to_string/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_encodingrs_decode_to_string/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_encodingrs_decode_to_string/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_encodingrs_decode_to_string_without_replacement/report/index.html">
+                <h4>decode_utf/dutf8_encodingrs_decode_to_string_without_replacement</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_encodingrs_decode_to_string_without_replacement/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_encodingrs_decode_to_string_without_replacement/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_encodingrs_decode_to_string_without_replacement/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_encodingrs_decode_to_string_without_replacement/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchec/report/index.html">
+                <h4>decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchec/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchec/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchec/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchec/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_std_str_from_utf8/report/index.html">
+                <h4>decode_utf/dutf8_std_str_from_utf8</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_std_str_from_utf8/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_std_str_from_utf8/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_std_str_from_utf8/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_std_str_from_utf8/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="plots">
+            <a href="../../decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid/report/index.html">
+                <h4>decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid</h4>
+            </a>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="../../decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid/report/pdf.svg">
+                                <img src="../../decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid/report/pdf_small.svg" alt="PDF of Slope" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="../../decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid/report/regression.svg">
+                                <img src="../../decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid/report/regression_small.svg" alt="Regression" width="450"
+                                    height="300" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <div id="footer">
+        <p>This report was generated by
+            <a href="https://github.com/bheisler/criterion.rs">Criterion.rs</a>, a statistics-driven benchmarking
+            library in Rust.</p>
+    </div>
+</body>
+
+</html>

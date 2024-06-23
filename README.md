@@ -64,6 +64,7 @@ systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
     - [Other Log or File Formats Supported](#other-log-or-file-formats-supported)
     - [Archive Formats Supported](#archive-formats-supported)
     - [Speed Comparison](#speed-comparison)
+    - [Benches](#benches)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
   - [Requesting Support For DateTime Formats; your particular log file](#requesting-support-for-datetime-formats-your-particular-log-file)
@@ -731,6 +732,23 @@ Programs tested:
 See directory results in [`compare-log-mergers.txt`].
 
 [`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.74/releases/0.7.74
+
+---
+
+#### Benches
+
+Function [`slice_contains_X_2_unroll` is a custom implementation] of `slice.contains`. It is used for string searching and specifically to bypass unnecessary regular expression matches.
+According to the [flamegraph], regular expression matches are very expensive.
+
+`slice_contains_X_2_unroll` fares as well as `memchr` and `stringzilla` according to the criterion benchmark report.
+
+<img width="95%" src="releases/0.7.74/criterion/slice_contains/report/violin.svg" style="background-color:white;padding:5px;"/>
+
+See the [0.7.74 criterion benchmark report].
+
+[`slice_contains_X_2_unroll` is a custom implementation]: https://docs.rs/super_speedy_syslog_searcher/0.7.74/s4lib/data/datetime/fn.slice_contains_X_2_unroll.html
+[flamegraph]: https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/0.7.74/releases/0.7.74/flamegraph-syslog.svg
+[0.7.74 criterion benchmark report]: https://html-preview.github.io/?url=https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/releases/0.7.74/criterion/report/index.html
 
 ---
 
