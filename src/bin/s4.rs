@@ -882,12 +882,9 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
     ] {
         let dt = datetime_parse_from_str_w_tz(data.as_str(), pattern);
         defo!("datetime_parse_from_str_w_tz({:?}, {:?}) returned {:?}", data, pattern, dt);
-        match dt {
-            Some(dt_) => {
-                defx!("return {:?}", dt_.offset());
-                return Ok(*dt_.offset());
-            }
-            None => {}
+        if let Some(dt_) = dt {
+            defx!("return {:?}", dt_.offset());
+            return Ok(*dt_.offset());
         }
     }
 
@@ -2012,11 +2009,8 @@ fn exec_syslogprocessor(
                     break;
                 }
                 // try to drop the prior SyslineP (and associated data)
-                match syslinep_last_opt {
-                    Some(syslinep_last) => {
-                        syslogproc.drop_data_try(&syslinep_last);
-                    }
-                    None => {}
+                if let Some(syslinep_last) = syslinep_last_opt {
+                    syslogproc.drop_data_try(&syslinep_last);
                 }
                 syslinep_last_opt = Some(syslinep_tmp);
             }
