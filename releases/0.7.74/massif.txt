@@ -1,4 +1,4 @@
-Linux uboo-ubuntu22 5.15.153.1-microsoft-standard-WSL2 #1 SMP Fri Mar 29 23:14:13 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+Linux ubuntu22 5.15.153.1-microsoft-standard-WSL2 #1 SMP Fri Mar 29 23:14:13 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
 732f8e65 HEAD -> main
 super_speedy_syslog_searcher 0.7.74
 valgrind-3.23.0
