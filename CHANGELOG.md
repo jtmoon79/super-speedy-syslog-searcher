@@ -240,7 +240,7 @@ _MSRV 1.70.0_
 
 ### New
 
-- (BENCH) refactor bench_slice_contains.rs to test stringzilla impl ([2f87bf06])
+- (BENCH) refactor bench_slice_contains.rs to test stringzilla, jetscii, memchr ([2f87bf06])
 - (BIN) Allocator per OS, summary allocator ([e8fec2c8])
 - (BIN) use mimalloc and jemallocator ([86c59498])
 - (BIN) skip build REGEX_DUR_OFFSET if passed empty String ([11d17c67])
@@ -248,13 +248,11 @@ _MSRV 1.70.0_
 - (BIN) --help note decompression, naming req ([57d70052])
 - (CI) add build 1.79.0 ([2bfbe631])
 - (CI) add job_markup_link_checker ([eb212f72])
+- (CI) add .mlc.toml, slow CI checks ([5eea0947])
 - (CI) all commands used --locked ([b5433fd4])
 - (CI) Windows NEXTEST_TEST_THREADS=2 [Issue #218] ([34fbb7d2])
-- (CI) flamegraph.sh call with --preserve-env=PATH ([86342232])
-- (CI) add .mlc.toml, slow CI checks ([5eea0947])
 - (LIB) add DTFSS_YmdHMSf pattern for setupacct.log [Issue #91] ([89dd70d5])
 - (LIB) datetime.rs add regex patterns for DTFSS_BdHMSYZ YEAR + TZ variations ([10f4a0d3])
-- (LIB) tighten matches around CGP_YEAR [Issue #304] ([247a6338])
 - (LIB) add stringzilla impl of 'slice_contains' funcs ([8f38523f])
 - (LIB) allocators are features 'jemalloc' 'mimalloc' ([4be561af])
 - (LIB) buffered writes, statistic flushed ([154c40d6])
@@ -301,10 +299,12 @@ _MSRV 1.70.0_
 
 ### Fixes
 
-- (LIB) datetime.rs constrain epoch range [Issue #304] ([459c931b])
 - (BIN) rm src/bin/mod.rs ([732f8e65])
+- (CI) flamegraph.sh call with --preserve-env=PATH ([86342232])
 - (DEBUG) fix debug in profiles flamegraph, valgrind ([ac0ce998])
 - (DOCS) README fix missing link, simplify sentence ([5b4d5fc8])
+- (LIB) datetime.rs constrain epoch range [Issue #304] ([459c931b])
+- (LIB) tighten matches around CGP_YEAR [Issue #304] ([247a6338])
 - (LIB) printers.rs fix print_journalentry not resetting color at end ([e3126e4d])
 
 ---
