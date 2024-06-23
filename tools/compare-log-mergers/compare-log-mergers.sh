@@ -34,6 +34,10 @@ PYTHON=${PYTHON-$(
     fi
 )}
 (set -x; "${PYTHON}" --version) | head -n1
+if which hyperfine &>/dev/null; then
+    hyperfine=$(which hyperfine)
+    (set -x; hyperfine --version)
+fi
 
 if [[ -z "${VIRTUAL_ENV-}" ]]; then
     echo "ERROR: must run within a Python virtual environment" >&2
@@ -48,7 +52,11 @@ for package in \
  ; do
     (
         set -x
-        "${PYTHON}" -m pip install --upgrade --force --quiet "${package}"
+        "${PYTHON}" -m pip install \
+            --upgrade \
+            --no-python-version-warning --disable-pip-version-check \
+            --force --quiet \
+            "${package}"
     )
 done
 
@@ -59,9 +67,13 @@ declare -a files=(
 )
 
 tmp1=$(mktemp -t "compare-log-mergers_XXXXX.out")
+md1=$(mktemp -t "compare-log_mergers_XXXXX.md")
+md2=$(mktemp -t "compare-log_mergers_XXXXX.md")
+md3=$(mktemp -t "compare-log_mergers_XXXXX.md")
+mdfinal=${DIROUT-.}/compare-log_mergers.md
 
 function exit_() {
-    rm -f "${tmp1}"
+    rm -f "${tmp1}" "${md1}" "${md2}" "${md3}"
 }
 
 trap exit_ EXIT
@@ -86,6 +98,8 @@ function echo_line() {
     echo '----------------------------------------'
 }
 
+TIME_FORMAT='real %e s, Max RSS %M KB, %P %%CPU, (%x)'
+
 # GNU grep + sort
 
 echo_line
@@ -102,15 +116,25 @@ echo
     # search for datetimes between $after_dt $befor_dt
     # using decently constrained regexp to match meaning
     set -x
-    $time -p -- \
-    bash -c "\
-$grep -hEe '${regex_dt}' -- \
-${files[*]} \
-| $sort -t ' ' -k 1 -s \
-> '${tmp1}'"
+    $hyperfine --style=basic --export-markdown "${md1}" --shell sh -n "grep+sort" \
+        -- \
+        "$grep -hEe '${regex_dt}' -- ${files[*]} | $sort -t ' ' -k 1 -s > /dev/null"
+)
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
+        "$grep" -hEe "${regex_dt}" -- "${files[@]}" \
+            | "$sort" -t ' ' -k 1 -s \
+            > "${tmp1}"
 )
 echo
 wc -l "${tmp1}"
+echo
+cat "${md1}"
+echo
 
 # Super Speedy Syslog Searcher (S4)
 
@@ -124,16 +148,27 @@ echo
 (
     files_caching
     set -x
-    $time -p -- \
+    $hyperfine --style=basic --export-markdown "${md2}" -N -n "s4" \
+        -- \
+        "'${PROGRAM_S4}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+)
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
         "${PROGRAM_S4}" \
-        -a "${after_dt}" \
-        -b "${befor_dt}" \
-        --color=never \
-        "${files[@]}" \
-        > "${tmp1}"
+        "-a=${after_dt}" \
+        "-b=${befor_dt}" \
+        "--color=never" \
+        "${files[@]}" > "${tmp1}"
 )
 echo
 wc -l "${tmp1}"
+echo
+cat "${md2}"
+echo
 
 # logmerger
 
@@ -149,17 +184,31 @@ echo
 (
     files_caching
     set -x
-    $time -p -- \
+    $hyperfine --style=basic --export-markdown "${md3}" --shell sh -n "${PROGRAM_LM}" \
+        -- \
+        "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]} > /dev/null"
+)
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
         "${PROGRAM_LM}" \
-        --inline \
-        --output=- \
-        --start "${after_dt}" \
-        --end "${befor_dt}" \
+        "--inline" \
+        "--output=-" \
+        "--start" \
+        "${after_dt}" \
+        "--end" \
+        "${befor_dt}" \
         "${files[@]}" \
-        > "${tmp1}"
+         > "${tmp1}"
 )
 echo
 wc -l "${tmp1}"
+echo
+cat "${md3}"
+echo
 
 # logdissect
 
@@ -175,7 +224,9 @@ echo
     exit 0
     files_caching
     set -x
-    $time -p -- \
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
         "${PROGRAM_LD}" \
         --range "${after_dt_ld}-${befor_dt_ld}" \
         "${files[@]}" \
@@ -197,7 +248,9 @@ echo
 (
     files_caching
     set -x
-    $time -p -- \
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
         "${PROGRAM_TL}" \
         --merge \
         --output-merge "${tmp1}" \
@@ -205,3 +258,18 @@ echo
 )
 echo
 wc -l "${tmp1}"
+echo
+
+# create the final markdown file
+
+(
+    cat "${md1}"
+    cat "${md2}" | tail -n +3
+    cat "${md3}" | tail -n +3
+) | column -t -s '|' -o '|' > "${mdfinal}"
+
+(set -x; cat "${mdfinal}")
+
+if which glow &>/dev/null && [[ -r "${mdfinal}" ]]; then
+    glow "${mdfinal}"
+fi
