@@ -1,0 +1,2193 @@
++ heaptrack --output heaptrack.s4.data ./target/release/s4 -p --color=never ./logs/other/tests/gen-1000-3-foobar.log
+heaptrack stats:
+	allocations:          	485588
+	leaked allocations:   	18118
+	temporary allocations:	107899
++ heaptrack --analyze -F heaptrack.s4.data.txt heaptrack.s4.data.zst
+reading file "heaptrack.s4.data.zst" - please wait, this might take some time...
+Debuggee command was: ./target/release/s4 -p --color=never ./logs/other/tests/gen-1000-3-foobar.log
+finished reading file, now analyzing data:
+
+MOST CALLS TO ALLOCATION FUNCTIONS
+485565 calls to allocation functions with 14.62M peak consumption from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+88318 calls with 5.14M peak consumption from:
+48707 calls with 0B peak consumption from:
+    0x55aabf850f80
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+26704 calls with 0B peak consumption from:
+22292 calls with 0B peak consumption from:
+19454 calls with 0B peak consumption from:
+    0x55aabf86b2a9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+  and 280090 from 2855 other places
+
+6 calls to allocation functions with 160B peak consumption from
+__cxa_thread_atexit_impl
+  at ./stdlib/cxa_thread_atexit_impl.c:107
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8d6f69
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf8b31d0
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8bbf96
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8c1785
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf87a250
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87ac65
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87b017
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69268a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925bf
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+  and 1 from 1 other places
+
+3 calls to allocation functions with 0B peak consumption from
+__pthread_getattr_np
+  at ./nptl/pthread_getattr_np.c:180
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+3 calls to allocation functions with 0B peak consumption from
+__GI___pthread_attr_setaffinity_np
+  at ./nptl/pthread_attr_setaffinity.c:51
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+3 calls to allocation functions with 0B peak consumption from
+__pthread_attr_extension
+  at ./nptl/pthread_attr_extension.c:28
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+2 calls to allocation functions with 672B peak consumption from
+calloc
+  at ../include/rtld-malloc.h:44
+  in /lib64/ld-linux-x86-64.so.2
+allocate_dtv
+  at ../elf/dl-tls.c:375
+__GI__dl_allocate_tls
+  at ../elf/dl-tls.c:634
+1 calls with 336B peak consumption from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6ae7ed
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 336B peak consumption from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aff87
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__fopen_internal
+  at ./libio/iofopen.c:65
+  in /lib/x86_64-linux-gnu/libc.so.6
+_IO_new_fopen
+  at ./libio/iofopen.c:86
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:85
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI___getdelim
+  at ./libio/iogetdelim.c:62
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI___getdelim
+  at ./libio/iogetdelim.c:102
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI__IO_file_doallocate
+  at ./libio/filedoalloc.c:101
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI__IO_doallocbuf
+      at ./libio/genops.c:347
+      in /lib/x86_64-linux-gnu/libc.so.6
+    _IO_new_file_underflow
+      at ./libio/fileops.c:485
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___getdelim
+      at ./libio/iogetdelim.c:73
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+
+PEAK MEMORY CONSUMERS
+14.62M peak memory consumed over 485565 calls from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+7.59M consumed over 14181 calls from:
+5.14M consumed over 88318 calls from:
+231.68K consumed over 12 calls from:
+    0x55aabf81b82a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf81c31f
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1fdb
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7f26fc
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1749
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+196.60K consumed over 35 calls from:
+    0x55aabf74fb2c
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf768def
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7712fc
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7718f6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7721d5
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+159.38K consumed over 4928 calls from:
+    0x55aabf807c94
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e3498
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1749
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+  and 1.30M from 2855 other places
+
+72.70K peak memory consumed over 1 calls from
+0x7f029244f938
+  in /lib/x86_64-linux-gnu/libstdc++.so.6
+72.70K consumed over 1 calls from:
+    call_init
+      at ./elf/dl-init.c:70
+      in /lib64/ld-linux-x86-64.so.2
+    call_init
+      at ./elf/dl-init.c:33
+      in /lib64/ld-linux-x86-64.so.2
+    _dl_init
+      at ./elf/dl-init.c:117
+    0x7f02928702c8
+      at ./elf/rtld.c:0
+      in /lib64/ld-linux-x86-64.so.2
+
+672B peak memory consumed over 2 calls from
+calloc
+  at ../include/rtld-malloc.h:44
+  in /lib64/ld-linux-x86-64.so.2
+allocate_dtv
+  at ../elf/dl-tls.c:375
+__GI__dl_allocate_tls
+  at ../elf/dl-tls.c:634
+336B consumed over 1 calls from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6ae7ed
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+336B consumed over 1 calls from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aff87
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+160B peak memory consumed over 6 calls from
+__cxa_thread_atexit_impl
+  at ./stdlib/cxa_thread_atexit_impl.c:107
+  in /lib/x86_64-linux-gnu/libc.so.6
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8d6f69
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf8b31d0
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8bbf96
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8c1785
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf87a250
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87ac65
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87b017
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69268a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925bf
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+  and 0B from 1 other places
+
+
+MOST TEMPORARY ALLOCATIONS
+108990 temporary allocations of 485565 allocations in total (22.45%) from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+19454 temporary allocations of 19454 allocations in total (100.00%) from:
+    0x55aabf86b2a9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+16118 temporary allocations of 16118 allocations in total (100.00%) from:
+    0x55aabf86b34f
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+14731 temporary allocations of 15776 allocations in total (93.38%) from:
+    0x55aabf86b52b
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868a58
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+14689 temporary allocations of 22292 allocations in total (65.89%) from:
+12536 temporary allocations of 15297 allocations in total (81.95%) from:
+  and 31.46K from 2855 other places
+
+1 temporary allocations of 1 allocations in total (100.00%) from
+0x7f029244f938
+  in /lib/x86_64-linux-gnu/libstdc++.so.6
+1 temporary allocations of 1 allocations in total (100.00%) from:
+    call_init
+      at ./elf/dl-init.c:70
+      in /lib64/ld-linux-x86-64.so.2
+    call_init
+      at ./elf/dl-init.c:33
+      in /lib64/ld-linux-x86-64.so.2
+    _dl_init
+      at ./elf/dl-init.c:117
+    0x7f02928702c8
+      at ./elf/rtld.c:0
+      in /lib64/ld-linux-x86-64.so.2
+
+1 temporary allocations of 1 allocations in total (100.00%) from
+__GI___getdelim
+  at ./libio/iogetdelim.c:102
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 temporary allocations of 1 allocations in total (100.00%) from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+
+total runtime: 0.36s.
+calls to allocation functions: 485588 (1330378/s)
+temporary memory allocations: 108992 (298608/s)
+peak heap memory consumption: 14.69M
+peak RSS (including heaptrack overhead): 22.32M
+total memory leaked: 14.31M
++ heaptrack_print heaptrack.s4.data.zst --print-flamegraph heaptrack.s4.data.txt
+reading file "heaptrack.s4.data.zst" - please wait, this might take some time...
+Debuggee command was: ./target/release/s4 -p --color=never ./logs/other/tests/gen-1000-3-foobar.log
+finished reading file, now analyzing data:
+
+MOST CALLS TO ALLOCATION FUNCTIONS
+485565 calls to allocation functions with 14.62M peak consumption from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+88318 calls with 5.14M peak consumption from:
+48707 calls with 0B peak consumption from:
+    0x55aabf850f80
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+26704 calls with 0B peak consumption from:
+22292 calls with 0B peak consumption from:
+19454 calls with 0B peak consumption from:
+    0x55aabf86b2a9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+  and 280090 from 2855 other places
+
+6 calls to allocation functions with 160B peak consumption from
+__cxa_thread_atexit_impl
+  at ./stdlib/cxa_thread_atexit_impl.c:107
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8d6f69
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf8b31d0
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8bbf96
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8c1785
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf87a250
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87ac65
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87b017
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69268a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925bf
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+  and 1 from 1 other places
+
+3 calls to allocation functions with 0B peak consumption from
+__pthread_getattr_np
+  at ./nptl/pthread_getattr_np.c:180
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+3 calls to allocation functions with 0B peak consumption from
+__GI___pthread_attr_setaffinity_np
+  at ./nptl/pthread_attr_setaffinity.c:51
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+3 calls to allocation functions with 0B peak consumption from
+__pthread_attr_extension
+  at ./nptl/pthread_attr_extension.c:28
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+2 calls to allocation functions with 672B peak consumption from
+calloc
+  at ../include/rtld-malloc.h:44
+  in /lib64/ld-linux-x86-64.so.2
+allocate_dtv
+  at ../elf/dl-tls.c:375
+__GI__dl_allocate_tls
+  at ../elf/dl-tls.c:634
+1 calls with 336B peak consumption from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6ae7ed
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 336B peak consumption from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aff87
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__fopen_internal
+  at ./libio/iofopen.c:65
+  in /lib/x86_64-linux-gnu/libc.so.6
+_IO_new_fopen
+  at ./libio/iofopen.c:86
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:85
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI___getdelim
+  at ./libio/iogetdelim.c:62
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI___getdelim
+  at ./libio/iogetdelim.c:102
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI__IO_file_doallocate
+  at ./libio/filedoalloc.c:101
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI__IO_doallocbuf
+      at ./libio/genops.c:347
+      in /lib/x86_64-linux-gnu/libc.so.6
+    _IO_new_file_underflow
+      at ./libio/fileops.c:485
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___getdelim
+      at ./libio/iogetdelim.c:73
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+
+PEAK MEMORY CONSUMERS
+14.62M peak memory consumed over 485565 calls from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+7.59M consumed over 14181 calls from:
+5.14M consumed over 88318 calls from:
+231.68K consumed over 12 calls from:
+    0x55aabf81b82a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf81c31f
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1fdb
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7f26fc
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1749
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+196.60K consumed over 35 calls from:
+    0x55aabf74fb2c
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf768def
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7712fc
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7718f6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7721d5
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+159.38K consumed over 4928 calls from:
+    0x55aabf807c94
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e3498
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1749
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+  and 1.30M from 2855 other places
+
+72.70K peak memory consumed over 1 calls from
+0x7f029244f938
+  in /lib/x86_64-linux-gnu/libstdc++.so.6
+72.70K consumed over 1 calls from:
+    call_init
+      at ./elf/dl-init.c:70
+      in /lib64/ld-linux-x86-64.so.2
+    call_init
+      at ./elf/dl-init.c:33
+      in /lib64/ld-linux-x86-64.so.2
+    _dl_init
+      at ./elf/dl-init.c:117
+    0x7f02928702c8
+      at ./elf/rtld.c:0
+      in /lib64/ld-linux-x86-64.so.2
+
+672B peak memory consumed over 2 calls from
+calloc
+  at ../include/rtld-malloc.h:44
+  in /lib64/ld-linux-x86-64.so.2
+allocate_dtv
+  at ../elf/dl-tls.c:375
+__GI__dl_allocate_tls
+  at ../elf/dl-tls.c:634
+336B consumed over 1 calls from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6ae7ed
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+336B consumed over 1 calls from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aff87
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+160B peak memory consumed over 6 calls from
+__cxa_thread_atexit_impl
+  at ./stdlib/cxa_thread_atexit_impl.c:107
+  in /lib/x86_64-linux-gnu/libc.so.6
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8d6f69
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf8b31d0
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8bbf96
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8c1785
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf87a250
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87ac65
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87b017
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69268a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925bf
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+  and 0B from 1 other places
+
+
+MOST TEMPORARY ALLOCATIONS
+108990 temporary allocations of 485565 allocations in total (22.45%) from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+19454 temporary allocations of 19454 allocations in total (100.00%) from:
+    0x55aabf86b2a9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+16118 temporary allocations of 16118 allocations in total (100.00%) from:
+    0x55aabf86b34f
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+14731 temporary allocations of 15776 allocations in total (93.38%) from:
+    0x55aabf86b52b
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868a58
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+14689 temporary allocations of 22292 allocations in total (65.89%) from:
+12536 temporary allocations of 15297 allocations in total (81.95%) from:
+  and 31.46K from 2855 other places
+
+1 temporary allocations of 1 allocations in total (100.00%) from
+0x7f029244f938
+  in /lib/x86_64-linux-gnu/libstdc++.so.6
+1 temporary allocations of 1 allocations in total (100.00%) from:
+    call_init
+      at ./elf/dl-init.c:70
+      in /lib64/ld-linux-x86-64.so.2
+    call_init
+      at ./elf/dl-init.c:33
+      in /lib64/ld-linux-x86-64.so.2
+    _dl_init
+      at ./elf/dl-init.c:117
+    0x7f02928702c8
+      at ./elf/rtld.c:0
+      in /lib64/ld-linux-x86-64.so.2
+
+1 temporary allocations of 1 allocations in total (100.00%) from
+__GI___getdelim
+  at ./libio/iogetdelim.c:102
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 temporary allocations of 1 allocations in total (100.00%) from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+
+total runtime: 0.36s.
+calls to allocation functions: 485588 (1330378/s)
+temporary memory allocations: 108992 (298608/s)
+peak heap memory consumption: 14.69M
+peak RSS (including heaptrack overhead): 22.32M
+total memory leaked: 14.31M
++ heaptrack_print heaptrack.s4.data.zst --print-histogram heaptrack.s4.data.histogram.txt
+reading file "heaptrack.s4.data.zst" - please wait, this might take some time...
+Debuggee command was: ./target/release/s4 -p --color=never ./logs/other/tests/gen-1000-3-foobar.log
+finished reading file, now analyzing data:
+
+MOST CALLS TO ALLOCATION FUNCTIONS
+485565 calls to allocation functions with 14.62M peak consumption from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+88318 calls with 5.14M peak consumption from:
+48707 calls with 0B peak consumption from:
+    0x55aabf850f80
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+26704 calls with 0B peak consumption from:
+22292 calls with 0B peak consumption from:
+19454 calls with 0B peak consumption from:
+    0x55aabf86b2a9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+  and 280090 from 2855 other places
+
+6 calls to allocation functions with 160B peak consumption from
+__cxa_thread_atexit_impl
+  at ./stdlib/cxa_thread_atexit_impl.c:107
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8d6f69
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf8b31d0
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8bbf96
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8c1785
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf87a250
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87ac65
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87b017
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69268a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925bf
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+  and 1 from 1 other places
+
+3 calls to allocation functions with 0B peak consumption from
+__pthread_getattr_np
+  at ./nptl/pthread_getattr_np.c:180
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+3 calls to allocation functions with 0B peak consumption from
+__GI___pthread_attr_setaffinity_np
+  at ./nptl/pthread_attr_setaffinity.c:51
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+3 calls to allocation functions with 0B peak consumption from
+__pthread_attr_extension
+  at ./nptl/pthread_attr_extension.c:28
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+2 calls to allocation functions with 672B peak consumption from
+calloc
+  at ../include/rtld-malloc.h:44
+  in /lib64/ld-linux-x86-64.so.2
+allocate_dtv
+  at ../elf/dl-tls.c:375
+__GI__dl_allocate_tls
+  at ../elf/dl-tls.c:634
+1 calls with 336B peak consumption from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6ae7ed
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 336B peak consumption from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aff87
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__fopen_internal
+  at ./libio/iofopen.c:65
+  in /lib/x86_64-linux-gnu/libc.so.6
+_IO_new_fopen
+  at ./libio/iofopen.c:86
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:85
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI___getdelim
+  at ./libio/iogetdelim.c:62
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI___getdelim
+  at ./libio/iogetdelim.c:102
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI__IO_file_doallocate
+  at ./libio/filedoalloc.c:101
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI__IO_doallocbuf
+      at ./libio/genops.c:347
+      in /lib/x86_64-linux-gnu/libc.so.6
+    _IO_new_file_underflow
+      at ./libio/fileops.c:485
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___getdelim
+      at ./libio/iogetdelim.c:73
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+
+PEAK MEMORY CONSUMERS
+14.62M peak memory consumed over 485565 calls from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+7.59M consumed over 14181 calls from:
+5.14M consumed over 88318 calls from:
+231.68K consumed over 12 calls from:
+    0x55aabf81b82a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf81c31f
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1fdb
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7f26fc
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1749
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+196.60K consumed over 35 calls from:
+    0x55aabf74fb2c
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf768def
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7712fc
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7718f6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7721d5
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+159.38K consumed over 4928 calls from:
+    0x55aabf807c94
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e3498
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1749
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+  and 1.30M from 2855 other places
+
+72.70K peak memory consumed over 1 calls from
+0x7f029244f938
+  in /lib/x86_64-linux-gnu/libstdc++.so.6
+72.70K consumed over 1 calls from:
+    call_init
+      at ./elf/dl-init.c:70
+      in /lib64/ld-linux-x86-64.so.2
+    call_init
+      at ./elf/dl-init.c:33
+      in /lib64/ld-linux-x86-64.so.2
+    _dl_init
+      at ./elf/dl-init.c:117
+    0x7f02928702c8
+      at ./elf/rtld.c:0
+      in /lib64/ld-linux-x86-64.so.2
+
+672B peak memory consumed over 2 calls from
+calloc
+  at ../include/rtld-malloc.h:44
+  in /lib64/ld-linux-x86-64.so.2
+allocate_dtv
+  at ../elf/dl-tls.c:375
+__GI__dl_allocate_tls
+  at ../elf/dl-tls.c:634
+336B consumed over 1 calls from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6ae7ed
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+336B consumed over 1 calls from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aff87
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+160B peak memory consumed over 6 calls from
+__cxa_thread_atexit_impl
+  at ./stdlib/cxa_thread_atexit_impl.c:107
+  in /lib/x86_64-linux-gnu/libc.so.6
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8d6f69
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf8b31d0
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8bbf96
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8c1785
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf87a250
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87ac65
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87b017
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69268a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925bf
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+  and 0B from 1 other places
+
+
+MOST TEMPORARY ALLOCATIONS
+108990 temporary allocations of 485565 allocations in total (22.45%) from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+19454 temporary allocations of 19454 allocations in total (100.00%) from:
+    0x55aabf86b2a9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+16118 temporary allocations of 16118 allocations in total (100.00%) from:
+    0x55aabf86b34f
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+14731 temporary allocations of 15776 allocations in total (93.38%) from:
+    0x55aabf86b52b
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868a58
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+14689 temporary allocations of 22292 allocations in total (65.89%) from:
+12536 temporary allocations of 15297 allocations in total (81.95%) from:
+  and 31.46K from 2855 other places
+
+1 temporary allocations of 1 allocations in total (100.00%) from
+0x7f029244f938
+  in /lib/x86_64-linux-gnu/libstdc++.so.6
+1 temporary allocations of 1 allocations in total (100.00%) from:
+    call_init
+      at ./elf/dl-init.c:70
+      in /lib64/ld-linux-x86-64.so.2
+    call_init
+      at ./elf/dl-init.c:33
+      in /lib64/ld-linux-x86-64.so.2
+    _dl_init
+      at ./elf/dl-init.c:117
+    0x7f02928702c8
+      at ./elf/rtld.c:0
+      in /lib64/ld-linux-x86-64.so.2
+
+1 temporary allocations of 1 allocations in total (100.00%) from
+__GI___getdelim
+  at ./libio/iogetdelim.c:102
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 temporary allocations of 1 allocations in total (100.00%) from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+
+total runtime: 0.36s.
+calls to allocation functions: 485588 (1330378/s)
+temporary memory allocations: 108992 (298608/s)
+peak heap memory consumption: 14.69M
+peak RSS (including heaptrack overhead): 22.32M
+total memory leaked: 14.31M
++ heaptrack_print heaptrack.s4.data.zst --print-massif heaptrack.s4.data.massif.txt
+reading file "heaptrack.s4.data.zst" - please wait, this might take some time...
+Debuggee command was: ./target/release/s4 -p --color=never ./logs/other/tests/gen-1000-3-foobar.log
+finished reading file, now analyzing data:
+
+MOST CALLS TO ALLOCATION FUNCTIONS
+485565 calls to allocation functions with 14.62M peak consumption from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+88318 calls with 5.14M peak consumption from:
+48707 calls with 0B peak consumption from:
+    0x55aabf850f80
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+26704 calls with 0B peak consumption from:
+22292 calls with 0B peak consumption from:
+19454 calls with 0B peak consumption from:
+    0x55aabf86b2a9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+  and 280090 from 2855 other places
+
+6 calls to allocation functions with 160B peak consumption from
+__cxa_thread_atexit_impl
+  at ./stdlib/cxa_thread_atexit_impl.c:107
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8d6f69
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf8b31d0
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8bbf96
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8c1785
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf87a250
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87ac65
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87b017
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69268a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 32B peak consumption from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925bf
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+  and 1 from 1 other places
+
+3 calls to allocation functions with 0B peak consumption from
+__pthread_getattr_np
+  at ./nptl/pthread_getattr_np.c:180
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+3 calls to allocation functions with 0B peak consumption from
+__GI___pthread_attr_setaffinity_np
+  at ./nptl/pthread_attr_setaffinity.c:51
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+3 calls to allocation functions with 0B peak consumption from
+__pthread_attr_extension
+  at ./nptl/pthread_attr_extension.c:28
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69267e
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI___pthread_attr_setaffinity_np
+      at ./nptl/pthread_attr_setaffinity.c:45
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:194
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8e72e2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925b2
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+
+2 calls to allocation functions with 672B peak consumption from
+calloc
+  at ../include/rtld-malloc.h:44
+  in /lib64/ld-linux-x86-64.so.2
+allocate_dtv
+  at ../elf/dl-tls.c:375
+__GI__dl_allocate_tls
+  at ../elf/dl-tls.c:634
+1 calls with 336B peak consumption from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6ae7ed
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+1 calls with 336B peak consumption from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aff87
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__fopen_internal
+  at ./libio/iofopen.c:65
+  in /lib/x86_64-linux-gnu/libc.so.6
+_IO_new_fopen
+  at ./libio/iofopen.c:86
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:85
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI___getdelim
+  at ./libio/iogetdelim.c:62
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI___getdelim
+  at ./libio/iogetdelim.c:102
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+1 calls to allocation functions with 0B peak consumption from
+__GI__IO_file_doallocate
+  at ./libio/filedoalloc.c:101
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 calls with 0B peak consumption from:
+    __GI__IO_doallocbuf
+      at ./libio/genops.c:347
+      in /lib/x86_64-linux-gnu/libc.so.6
+    _IO_new_file_underflow
+      at ./libio/fileops.c:485
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___getdelim
+      at ./libio/iogetdelim.c:73
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+
+PEAK MEMORY CONSUMERS
+14.62M peak memory consumed over 485565 calls from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+7.59M consumed over 14181 calls from:
+5.14M consumed over 88318 calls from:
+231.68K consumed over 12 calls from:
+    0x55aabf81b82a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf81c31f
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1fdb
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7f26fc
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1749
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+196.60K consumed over 35 calls from:
+    0x55aabf74fb2c
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf768def
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7712fc
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7718f6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7721d5
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+159.38K consumed over 4928 calls from:
+    0x55aabf807c94
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e3498
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1749
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+  and 1.30M from 2855 other places
+
+72.70K peak memory consumed over 1 calls from
+0x7f029244f938
+  in /lib/x86_64-linux-gnu/libstdc++.so.6
+72.70K consumed over 1 calls from:
+    call_init
+      at ./elf/dl-init.c:70
+      in /lib64/ld-linux-x86-64.so.2
+    call_init
+      at ./elf/dl-init.c:33
+      in /lib64/ld-linux-x86-64.so.2
+    _dl_init
+      at ./elf/dl-init.c:117
+    0x7f02928702c8
+      at ./elf/rtld.c:0
+      in /lib64/ld-linux-x86-64.so.2
+
+672B peak memory consumed over 2 calls from
+calloc
+  at ../include/rtld-malloc.h:44
+  in /lib64/ld-linux-x86-64.so.2
+allocate_dtv
+  at ../elf/dl-tls.c:375
+__GI__dl_allocate_tls
+  at ../elf/dl-tls.c:634
+336B consumed over 1 calls from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6ae7ed
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+336B consumed over 1 calls from:
+    allocate_stack
+      at ./nptl/allocatestack.c:430
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __pthread_create_2_1
+      at ./nptl/pthread_create.c:647
+    0x55aabf8e609d
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aff87
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6aa0ad
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf68e2f1
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+160B peak memory consumed over 6 calls from
+__cxa_thread_atexit_impl
+  at ./stdlib/cxa_thread_atexit_impl.c:107
+  in /lib/x86_64-linux-gnu/libc.so.6
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8d6f69
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf8b31d0
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8bbf96
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8c1785
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf87a250
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87ac65
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf87b017
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf69268a
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+32B consumed over 1 calls from:
+    0x55aabf8e24c7
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6925bf
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf8e6233
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    start_thread
+      at ./nptl/pthread_create.c:442
+      in /lib/x86_64-linux-gnu/libc.so.6
+    __GI___clone3
+      at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:81
+      in /lib/x86_64-linux-gnu/libc.so.6
+  and 0B from 1 other places
+
+
+MOST TEMPORARY ALLOCATIONS
+108990 temporary allocations of 485565 allocations in total (22.45%) from
+0x55aabf8fcd19
+  in /home/super-speedy-syslog-searcher2/target/release/s4
+19454 temporary allocations of 19454 allocations in total (100.00%) from:
+    0x55aabf86b2a9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+16118 temporary allocations of 16118 allocations in total (100.00%) from:
+    0x55aabf86b34f
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868ae6
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+14731 temporary allocations of 15776 allocations in total (93.38%) from:
+    0x55aabf86b52b
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf868a58
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7e1140
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3637
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf7c3ad9
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+14689 temporary allocations of 22292 allocations in total (65.89%) from:
+12536 temporary allocations of 15297 allocations in total (81.95%) from:
+  and 31.46K from 2855 other places
+
+1 temporary allocations of 1 allocations in total (100.00%) from
+0x7f029244f938
+  in /lib/x86_64-linux-gnu/libstdc++.so.6
+1 temporary allocations of 1 allocations in total (100.00%) from:
+    call_init
+      at ./elf/dl-init.c:70
+      in /lib64/ld-linux-x86-64.so.2
+    call_init
+      at ./elf/dl-init.c:33
+      in /lib64/ld-linux-x86-64.so.2
+    _dl_init
+      at ./elf/dl-init.c:117
+    0x7f02928702c8
+      at ./elf/rtld.c:0
+      in /lib64/ld-linux-x86-64.so.2
+
+1 temporary allocations of 1 allocations in total (100.00%) from
+__GI___getdelim
+  at ./libio/iogetdelim.c:102
+  in /lib/x86_64-linux-gnu/libc.so.6
+1 temporary allocations of 1 allocations in total (100.00%) from:
+    __pthread_getattr_np
+      at ./nptl/pthread_getattr_np.c:122
+      in /lib/x86_64-linux-gnu/libc.so.6
+    0x55aabf8d6e81
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+    0x55aabf6c6bf3
+      in /home/super-speedy-syslog-searcher2/target/release/s4
+
+
+total runtime: 0.36s.
+calls to allocation functions: 485588 (1330378/s)
+temporary memory allocations: 108992 (298608/s)
+peak heap memory consumption: 14.69M
+peak RSS (including heaptrack overhead): 22.32M
+total memory leaked: 14.31M
++ flamegraph.pl --countname allocations --title 'allocations (s4 -p --color=never ./logs/other/tests/gen-1000-3-foobar.log)' heaptrack.s4.data.txt
++ flamegraph.pl --countname 'allocations massif' --title 'allocations massif (s4 -p --color=never ./logs/other/tests/gen-1000-3-foobar.log)' heaptrack.s4.data.massif.txt
+Ignored 203 lines with invalid format
+ERROR: No stack counts found
