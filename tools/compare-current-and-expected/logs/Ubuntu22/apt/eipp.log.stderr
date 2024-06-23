@@ -23,15 +23,15 @@ File: ./logs/Ubuntu22/apt/eipp.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    1, miss   26,  3.7%
       caching: LineReader::find_line() LRU cache                   : hit    1, miss   14,  6.7%, put   13
-      copying: SyslineReader::get_boxptrs()                        : sgl 2064, dbl     0, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 2076, dbl     0, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    1,  0.0%, put    0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    0, miss   14,  0.0%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   76, miss   68, 52.8%, largest skipped 22
-      optimize:SyslineReader::ezcheck12d2                          : hit  801, miss 1119, 41.7%, largest skipped 19
-      process: regex captures attempted                            : 1187
+      optimize:SyslineReader::ezcheck12d2                          : hit  806, miss 1126, 41.7%, largest skipped 19
+      process: regex captures attempted                            : 1194
   Processing Drops:
 
 Program Summary:
@@ -47,8 +47,8 @@ Printed syslines       : 0
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 172
+Regex patterns known   : 173
+Regex patterns compiled: 173
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 2

@@ -24,15 +24,15 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  63,  3.1%
       caching: LineReader::find_line() LRU cache                   : hit  15, miss  34, 30.6%, put  33
-      copying: SyslineReader::get_boxptrs()                        : sgl 102, dbl    7, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 103, dbl    7, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  15,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  15,  0.0%, put  15
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  15,  6.2%, put  15
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  14, miss  33, 29.8%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  16, miss  89, 15.2%, largest skipped 49
-      process: regex captures attempted                            : 93
+      optimize:SyslineReader::ezcheck12d2                          : hit  16, miss  90, 15.1%, largest skipped 49
+      process: regex captures attempted                            : 94
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 15
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 79
+Regex patterns known   : 173
+Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 17

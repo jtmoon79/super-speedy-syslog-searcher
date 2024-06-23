@@ -24,15 +24,15 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 11, miss 20, 35.5%, put 19
-      copying: SyslineReader::get_boxptrs()                        : sgl 91, dbl   2, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 92, dbl   2, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 11,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 11,  0.0%, put 11
       caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 11,  8.3%, put 11
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 10, miss 19, 34.5%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  6, miss 83,  6.7%, largest skipped 29
-      process: regex captures attempted                            : 87
+      optimize:SyslineReader::ezcheck12d2                          : hit  6, miss 84,  6.7%, largest skipped 29
+      process: regex captures attempted                            : 88
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 11
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 75
+Regex patterns known   : 173
+Regex patterns compiled: 76
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 13

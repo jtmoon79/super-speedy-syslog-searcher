@@ -24,15 +24,15 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 127,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  65, 13.3%, put  64
-      copying: SyslineReader::get_boxptrs()                        : sgl 115, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 116, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  10,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  64, 12.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  28, miss  84, 25.0%, largest skipped 9
-      process: regex captures attempted                            : 88
+      optimize:SyslineReader::ezcheck12d2                          : hit  28, miss  85, 24.8%, largest skipped 9
+      process: regex captures attempted                            : 89
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 10
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 79
+Regex patterns known   : 173
+Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 12

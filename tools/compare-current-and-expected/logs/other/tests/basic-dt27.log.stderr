@@ -24,15 +24,15 @@ File: ./logs/other/tests/basic-dt27.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  53,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  27, miss  28, 49.1%, put  27
-      copying: SyslineReader::get_boxptrs()                        : sgl 102, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 103, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  27,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  27,  0.0%, put  27
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  27,  3.6%, put  27
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  26, miss  27, 49.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 101,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 105
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 102,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 106
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 27
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 79
+Regex patterns known   : 173
+Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 29

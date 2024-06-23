@@ -24,15 +24,15 @@ File: ./logs/cygwin/setup.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss 152,  0.7%
       caching: LineReader::find_line() LRU cache                   : hit  76, miss  78, 49.4%, put  77
-      copying: SyslineReader::get_boxptrs()                        : sgl 139, dbl   15, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 140, dbl   15, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  76,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  76,  0.0%, put  76
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  76,  1.3%, put  76
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  75, miss  77, 49.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 150,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 154
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 151,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 155
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 76
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 79
+Regex patterns known   : 173
+Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 78

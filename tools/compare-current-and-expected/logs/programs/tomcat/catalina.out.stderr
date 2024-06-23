@@ -24,15 +24,15 @@ File: ./logs/programs/tomcat/catalina.out
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  2, miss 39,  4.9%
       caching: LineReader::find_line() LRU cache                   : hit  7, miss 22, 24.1%, put 21
-      copying: SyslineReader::get_boxptrs()                        : sgl 72, dbl   4, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 73, dbl   4, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  7,  0.0%, put  7
       caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  7, 12.5%, put  7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  6, miss 21, 22.2%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit 12, miss 60, 16.7%, largest skipped 29
-      process: regex captures attempted                            : 64
+      optimize:SyslineReader::ezcheck12d2                          : hit 12, miss 61, 16.4%, largest skipped 29
+      process: regex captures attempted                            : 65
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 7
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 58
+Regex patterns known   : 173
+Regex patterns compiled: 59
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 9

@@ -24,15 +24,15 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 13,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  7, miss  8, 46.7%, put  7
-      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   1, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 81, dbl   1, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  7,  0.0%, put  7
       caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  7, 12.5%, put  7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  6, miss  7, 46.2%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 77,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 81
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 78,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 82
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 7
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 75
+Regex patterns known   : 173
+Regex patterns compiled: 76
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 9

@@ -24,15 +24,15 @@ File: ./logs/RockyLinux9/dnf.rpm.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  75,  2.6%
       caching: LineReader::find_line() LRU cache                   : hit  36, miss  40, 47.4%, put  39
-      copying: SyslineReader::get_boxptrs()                        : sgl 106, dbl    5, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 107, dbl    5, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  36,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  36,  0.0%, put  36
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  36,  2.7%, put  36
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  35, miss  39, 47.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 106,  0.9%, largest skipped 49
-      process: regex captures attempted                            : 110
+      optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 107,  0.9%, largest skipped 49
+      process: regex captures attempted                            : 111
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 36
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 75
+Regex patterns known   : 173
+Regex patterns compiled: 76
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 38

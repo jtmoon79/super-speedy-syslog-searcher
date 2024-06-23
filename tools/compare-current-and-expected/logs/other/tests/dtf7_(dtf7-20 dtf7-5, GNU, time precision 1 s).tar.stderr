@@ -26,15 +26,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
-      copying: SyslineReader::get_boxptrs()                        : sgl 148, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 149, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  20,  4.8%, put  20
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  19, miss  20, 48.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 142,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 152
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 143,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 153
   Processing Drops:
 
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7-5-LEVELS.log
@@ -62,15 +62,15 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 136, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 137, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   5, 16.7%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   5, 44.4%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 127,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 137
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 128,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 138
   Processing Drops:
 
 Program Summary:
@@ -86,8 +86,8 @@ Printed syslines       : 25
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 133
+Regex patterns known   : 173
+Regex patterns compiled: 134
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 29

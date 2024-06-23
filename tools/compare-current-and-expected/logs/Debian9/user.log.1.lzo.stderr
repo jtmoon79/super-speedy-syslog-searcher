@@ -23,15 +23,15 @@ File: ./logs/Debian9/user.log.1.lzo
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  11,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   6, 14.3%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 516, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 519, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   6,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  25, miss  11, 69.4%, largest skipped 34
-      optimize:SyslineReader::ezcheck12d2                          : hit 168, miss 312, 35.0%, largest skipped 29
-      process: regex captures attempted                            : 323
+      optimize:SyslineReader::ezcheck12d2                          : hit 169, miss 314, 35.0%, largest skipped 29
+      process: regex captures attempted                            : 325
   Processing Drops:
 
 Program Summary:
@@ -47,8 +47,8 @@ Printed syslines       : 0
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 172
-Regex patterns compiled: 166
+Regex patterns known   : 173
+Regex patterns compiled: 167
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 2
