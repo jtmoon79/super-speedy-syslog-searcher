@@ -148,7 +148,6 @@ if [[ -n "${hyperfine-}" ]]; then
     (
         cat "${md1}"
         cat "${md2}" | tail -n +3
-        cat "${md3}" | tail -n +3
     ) | column -t -s '|' -o '|' > "${mdfinal}"
 
     (set -x; cat "${mdfinal}")
