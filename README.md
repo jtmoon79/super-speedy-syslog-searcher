@@ -13,7 +13,7 @@ Speedily search and merge log messages by datetime.
 [![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.7.74&version=0.7.74)](https://crates.io/crates/super-speedy-syslog-searcher/0.7.74)
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher#:~:text=Downloads%20all%20time)
 [![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.7.74?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.7.74)
-[![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#0772)
+[![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#0774)
 [![lib.rs](https://img.shields.io/badge/lib.rs-white?style=flat-square&logo=rust&logoColor=202020)](https://lib.rs/crates/super_speedy_syslog_searcher/)
 
 [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.7.74&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
@@ -694,39 +694,41 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 
 #### Speed Comparison
 
-A comparison of merging three large log files:
+A comparison of merging three large log files running on Ubuntu 22 on WSL2.
 
 - 2000 line log file, 1116357 bytes (≈1.1 MB), with high-plane unicode
 - 2500 line log file, 1078842 bytes (≈1.0 MB), with high-plane unicode
 - 5000 line log file, 2158138 bytes (≈2.1 MB), with high-plane unicode
 
-|Program       |real|user|sys |
-|:---          |---:|---:|---:|
-|`grep \| sort`|0.04|0.02|0.01|
-|`s4`          |0.04|0.02|0.05|
-|`logmerger`   |0.71|0.69|0.02|
-|`tl`          |1.13|0.49|0.04|
+Using `hyperfine`
 
-This informal runtime comparison used GNU `time` running on Ubuntu 22 on WSL2.
+| Command               | Mean [ms]   | Min [ms] | Max [ms] |
+|:---                   |---:         |---:      |---:      |
+| `grep+sort`           | 42.9 ± 0.9  | 41.8     | 46.9     |
+| `s4`                  | 44.0 ± 4.0  | 35.6     | 51.9     |
+| `logmerger`           | 730.8 ± 6.4 | 719.1    | 738.7    |
+
+Using GNU `time`
+
+|Program       |real|user|sys |Max RSS [KB]|
+|:---          |---:|---:|---:|---:        |
+|`grep \| sort`|0.04|0.02|0.01|2532        |
+|`s4`          |0.04|0.02|0.05|74948       |
+|`logmerger`   |0.71|0.69|0.02|56444       |
+|`tl`          |1.13|0.49|0.04|50768       |
+
+Programs tested:
 
 - `grep` 3.7, `sort` 8.32
 - `s4` 0.7.74
 - `logmerger` 0.9.0 on Python 3.10.12
 - `tl` 1.5.0 on Python 3.10.12
+- GNU `time` 1.9
+- `hyperfine` 1.11.0
 
 See directory results in [`compare-log-mergers.txt`].
 
-[`compare-log-mergers.txt`]: ./releases/0.7.74/compare-log-mergers.txt
-
-<br/>
-
-A comparison of merging several large log files using `hyperfine` and script
-`compare-grep-sort.sh`.
-
-| Command        | Mean [ms]  | Min [ms] | Max [ms] | Relative |
-|:---            |---:        |---:      |---:      |---:      |
-| `s4`           | 44.8 ± 1.7 | 42.5     | 52.1     | 1.00     |
-| `grep \| sort` | 36.5 ± 0.8 | 35.7     | 40.5     | 1.00     |
+[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.74/releases/0.7.74
 
 ---
 
