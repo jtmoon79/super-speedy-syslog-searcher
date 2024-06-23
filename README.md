@@ -596,10 +596,12 @@ process `file.mp3`. It will be treated as a UTF8 text log file.
 - Entire `.lz4` files are read once before processing ([Issue #293])
 - Entire `.xz` files are read into memory before printing ([Issue #12])
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
+- Entire files within a `.tar` file are read into memory before printing ([Issue #13])
 - Entire [user accounting record files are read into memory] before printing
 - Compressed `.journal` and `.evtx` files are extracted to a temporary file ([Issue #284])
 
 [user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
+[Issue #13]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13
 [Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
 [Issue #293]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/293
 [Issue #300]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/300
