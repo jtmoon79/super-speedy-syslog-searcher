@@ -25,6 +25,8 @@ cat "${CHANGELOG}" > "${tmp_CHANGELOG}"
 sed -i -e '1,/<!-- LINKS BEGIN -->/!d' -- "${tmp_CHANGELOG}"
 echo >> "${tmp_CHANGELOG}"
 
+export GIT_PAGER=
+
 # replaces all visible long commit hash with short commit hash
 #
 #   ([c3e42d74f6d4ae9cfe2701566843830cb4a6d0de]) becomes ([c3e42d7])

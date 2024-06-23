@@ -34,6 +34,8 @@ if [[ ! -d /usr/lib/linux-tools/ ]]; then
     did_install
 fi
 
+export GIT_PAGER=
+
 PERF=${PERF-"/usr/lib/linux-tools/$(ls -1v /usr/lib/linux-tools/ | tail -n1)/perf"}
 if [[ ! -e "${PERF}" ]]; then
     echo "PERF tool does not exist '${PERF}'" >&2
