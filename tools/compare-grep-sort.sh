@@ -21,6 +21,7 @@ cd "$(dirname "${0}")/.."
 if [[ -d '.git' ]]; then
     (set -x; git log -n1 --format='%h %D')
 fi
+PROGRAM_PASSED=${PROGRAM-}
 PROGRAM=${PROGRAM-./target/release/s4}
 (set -x; "${PROGRAM}" --version)
 # use full path to Unix tools
@@ -50,6 +51,8 @@ tmp2=$(mktemp -t "compare-s4_grep_XXXXX")
 tmp2b=$(mktemp -t "compare-s4-sorted_grep_XXXXX")
 md1=$(mktemp -t "compare-s4_s4_XXXXX.md")
 md2=$(mktemp -t "compare-s4_s4_XXXXX.md")
+md3=$(mktemp -t "compare-s4_s4_XXXXX.md")
+md4=$(mktemp -t "compare-s4_s4_XXXXX.md")
 mdfinal=${DIROUT-.}/compare-s4_grep_sort.md
 
 function exit_() {
@@ -122,12 +125,37 @@ declare -ar grep_args=(
 
 # run both programs using hyperfine
 
-if [[ -n "${hyperfine-}" ]]; then
+if [[ -n "${hyperfine-}" ]] && [[ -z "${PROGRAM_PASSED}" ]]; then
     (
+        (set -x; cargo clean --quiet; cargo build --release --quiet)
         # force reading of FILES from disk to allow any possible caching,
         cat "${FILES[@]}" &> /dev/null
         set -x
-        $hyperfine --style=basic --export-markdown ${md1} -N -n "s4" \
+        $hyperfine --style=basic --export-markdown ${md1} -N -n "s4 (System)" \
+            -- \
+            "${PROGRAM} ${s4_args[*]} ${FILES[*]}"
+    )
+
+    echo
+
+    (
+        (set -x; cargo clean --quiet; cargo build --release --quiet --features=mimalloc)
+        # force reading of FILES from disk to allow any possible caching,
+        cat "${FILES[@]}" &> /dev/null
+        set -x
+        $hyperfine --style=basic --export-markdown ${md2} -N -n "s4 (mimalloc)" \
+            -- \
+            "${PROGRAM} ${s4_args[*]} ${FILES[*]}"
+    )
+
+    echo
+
+    (
+        (set -x; cargo clean --quiet; cargo build --release --quiet --features=jemalloc)
+        # force reading of FILES from disk to allow any possible caching,
+        cat "${FILES[@]}" &> /dev/null
+        set -x
+        $hyperfine --style=basic --export-markdown ${md3} -N -n "s4 (jemalloc)" \
             -- \
             "${PROGRAM} ${s4_args[*]} ${FILES[*]}"
     )
@@ -140,7 +168,7 @@ if [[ -n "${hyperfine-}" ]]; then
         # force reading of FILES from disk to allow any possible caching,
         cat "${FILES[@]}" &> /dev/null
         set -x
-        $hyperfine --style=basic --export-markdown ${md2} --shell sh -n "${grep_sort_name}" \
+        $hyperfine --style=basic --export-markdown ${md4} --shell sh -n "${grep_sort_name}" \
             -- \
             "$grep -hEe '${regex_dt}' ${FILES[*]} | $sort -t ' ' -k 1 -s"
     )
@@ -148,6 +176,8 @@ if [[ -n "${hyperfine-}" ]]; then
     (
         cat "${md1}"
         cat "${md2}" | tail -n +3
+        cat "${md3}" | tail -n +3
+        cat "${md4}" | tail -n +3
     ) | column -t -s '|' -o '|' > "${mdfinal}"
 
     (set -x; cat "${mdfinal}")
@@ -162,6 +192,35 @@ fi
 TIME_FORMAT='real %e s, Max RSS %M KB, %P %%CPU, (%x)'
 
 (
+    (set -x; cargo clean --quiet; cargo build --release --quiet)
+    set -x
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
+        "${PROGRAM}" \
+        "${s4_args[@]}" \
+        "${FILES[@]}" \
+        >/dev/null
+)
+
+echo
+
+(
+    (set -x; cargo clean --quiet; cargo build --release --quiet --features=mimalloc)
+    set -x
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
+        "${PROGRAM}" \
+        "${s4_args[@]}" \
+        "${FILES[@]}" \
+        >/dev/null
+)
+
+echo
+
+(
+    (set -x; cargo clean --quiet; cargo build --release --quiet --features=jemalloc)
     set -x
     $time --format="${TIME_FORMAT}" \
         "${@}" \

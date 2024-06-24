@@ -70,10 +70,12 @@ tmp1=$(mktemp -t "compare-log-mergers_XXXXX.out")
 md1=$(mktemp -t "compare-log_mergers_XXXXX.md")
 md2=$(mktemp -t "compare-log_mergers_XXXXX.md")
 md3=$(mktemp -t "compare-log_mergers_XXXXX.md")
+md4=$(mktemp -t "compare-log_mergers_XXXXX.md")
+md5=$(mktemp -t "compare-log_mergers_XXXXX.md")
 mdfinal=${DIROUT-.}/compare-log_mergers.md
 
 function exit_() {
-    rm -f "${tmp1}" "${md1}" "${md2}" "${md3}"
+    rm -f "${tmp1}" "${md1}" "${md2}" "${md3}" "${md4}" "${md5}"
 }
 
 trap exit_ EXIT
@@ -136,7 +138,7 @@ echo
 cat "${md1}"
 echo
 
-# Super Speedy Syslog Searcher (S4)
+# Super Speedy Syslog Searcher (S4) (system)
 
 echo_line
 
@@ -146,9 +148,10 @@ PROGRAM_S4=${PROGRAM_S4-./target/release/s4}
 echo
 
 (
+    (set -x; cargo clean --quiet; cargo build --quiet --release)
     files_caching
     set -x
-    $hyperfine --style=basic --export-markdown "${md2}" -N -n "s4" \
+    $hyperfine --style=basic --export-markdown "${md2}" -N -n "s4 (system)" \
         -- \
         "'${PROGRAM_S4}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
@@ -170,6 +173,66 @@ echo
 cat "${md2}"
 echo
 
+# Super Speedy Syslog Searcher (S4) (mimalloc)
+
+echo_line
+
+(
+    (set -x; cargo clean --quiet; cargo build --quiet --release --features=mimalloc)
+    files_caching
+    set -x
+    $hyperfine --style=basic --export-markdown "${md3}" -N -n "s4 (mimalloc)" \
+        -- \
+        "'${PROGRAM_S4}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+)
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
+        "${PROGRAM_S4}" \
+        "-a=${after_dt}" \
+        "-b=${befor_dt}" \
+        "--color=never" \
+        "${files[@]}" > "${tmp1}"
+)
+echo
+wc -l "${tmp1}"
+echo
+cat "${md3}"
+echo
+
+# Super Speedy Syslog Searcher (S4) (jemalloc)
+
+echo_line
+
+(
+    (set -x; cargo clean --quiet; cargo build --quiet --release --features=jemalloc)
+    files_caching
+    set -x
+    $hyperfine --style=basic --export-markdown "${md4}" -N -n "s4 (jemalloc))" \
+        -- \
+        "'${PROGRAM_S4}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+)
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" \
+        "${@}" \
+        -- \
+        "${PROGRAM_S4}" \
+        "-a=${after_dt}" \
+        "-b=${befor_dt}" \
+        "--color=never" \
+        "${files[@]}" > "${tmp1}"
+)
+echo
+wc -l "${tmp1}"
+echo
+cat "${md4}"
+echo
+
 # logmerger
 
 echo_line
@@ -186,7 +249,7 @@ echo
 (
     files_caching
     set -x
-    $hyperfine --style=basic --export-markdown "${md3}" --shell sh -n "${PROGRAM_LM}" \
+    $hyperfine --style=basic --export-markdown "${md5}" --shell sh -n "${PROGRAM_LM}" \
         -- \
         "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]} > /dev/null"
 )
@@ -209,7 +272,7 @@ echo
 echo
 wc -l "${tmp1}"
 echo
-cat "${md3}"
+cat "${md5}"
 echo
 
 # logdissect
@@ -270,6 +333,8 @@ echo
     cat "${md1}"
     cat "${md2}" | tail -n +3
     cat "${md3}" | tail -n +3
+    cat "${md4}" | tail -n +3
+    cat "${md5}" | tail -n +3
 ) | column -t -s '|' -o '|' > "${mdfinal}"
 
 (set -x; cat "${mdfinal}")
