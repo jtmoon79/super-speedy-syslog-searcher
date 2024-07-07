@@ -605,6 +605,7 @@
 ./logs/other/tests/dtf7-20-LEVELS.log.bz2|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.gz|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.lz|2000-01-01 00:00:20 -0400
+./logs/other/tests/dtf7-20-LEVELS.log.lz4|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.old|2000-01-01 00:00:20-0400
 ./logs/other/tests/dtf7-20-LEVELS.log.old.gz|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.tar|2000-01-01 00:00:20 -0400
@@ -689,6 +690,23 @@
 ./logs/other/tests/simple-11s_b.log|2024-05-27 23:42:19 -0700
 ./logs/other/tests/simple-11s.log|2024-05-27 23:42:09 -0700
 ./logs/other/tests/simple-12.log|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.bz2|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.gz|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.log.bz2|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.log.gz|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.log.lz|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.log.lz4|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.log.lzo|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.log.xz|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.log.zst|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.lz4|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.tar|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.tar.gz|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.tar.lz|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.tar.lzo|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.tar.xz|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.xz|2024-05-27 23:41:10 -0700
+./logs/other/tests/simple-12.zip|2024-05-27 23:41:10 -0700
 ./logs/other/tests/simple-13.log|2024-05-27 23:41:18 -0700
 ./logs/other/tests/simple-14.log|2024-05-27 23:41:27 -0700
 ./logs/other/tests/simple-14s_b.log|2024-05-27 23:42:33 -0700
