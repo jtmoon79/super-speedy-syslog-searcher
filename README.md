@@ -443,6 +443,10 @@ archived within a .tar file.
 Log messages from different files with the same datetime are printed in order
 of the arguments from the command-line.
 
+Datetimes printed for .journal file log messages may differ from datetimes
+printed by program journalctl.
+See Issue #101
+
 DateTime strftime specifiers are described at
 https://docs.rs/chrono/latest/chrono/format/strftime/
 
