@@ -370,7 +370,7 @@ Options:
           May pass value as any radix (hexadecimal, decimal, octal, binary).
           Using the default value is recommended.
           Most useful for developers.
-          [default: 65535]
+          [default: 65536]
   -s, --summary
           Print a summary of files processed to stderr.
           Most useful for developers.
