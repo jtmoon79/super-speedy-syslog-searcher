@@ -698,7 +698,10 @@ impl SyslineReader {
         #[cfg(any(debug_assertions, test))]
         {
             if !self.syslines.is_empty() {
-                e_wrn!("called dt_pattern_has_year() without having processed some syslines");
+                e_wrn!(
+                    "called dt_pattern_has_year() without having processed {} syslines",
+                    self.syslines.len()
+                );
             }
         }
         let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
