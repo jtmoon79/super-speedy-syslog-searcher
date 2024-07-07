@@ -47,6 +47,7 @@ cargo publish --dry-run --allow-dirty
 ./tools/compare-current-and-expected/compare.sh
 ./tools/compare-debug-release.sh
 ./tools/compare-grep-sort.sh
+./tools/compare-cat.sh
 mlc ./README.md
 
 for TARGET in \

@@ -1,122 +1,237 @@
 #!/usr/bin/env bash
 #
-# hardcoded tests of single files with file display
-# THIS SCRIPT IS DEPRECATED
+# compare `s4` and `cat` on varying files
+#
+# does not clean up temporary files
 #
 
 set -euo pipefail
 
 cd "$(dirname "${0}")/.."
 
-echo "THIS SCRIPT IS DEPRECATED!" >&2
-sleep 1
+PROGRAM=${PROGRAM-./target/release/s4}
 
-(
-    set -x
-    cargo build --release
-)
-
-bin="./target/release/s4"
-if ! [[ -x "${bin}" ]]; then
-    echo "ERROR: cannot find or exec '$bin'" >&2
+if ! [[ -x "${PROGRAM}" ]]; then
+    echo "ERROR: cannot find '$PROGRAM'" >&2
     exit 1
 fi
 
-function hexdump () {
-    # https://github.com/kiedtl/hxd
-    # hxd -cu -l 32
-
-    # cargo install --locked -f xd
-    xd --color=always --table reverse
-}
+do_keep=false
 
 # print the file size
 function filesz () {
     stat -tc '%s' "${1}"
 }
 
-
-# file_=/mnt/c/Users/user1/Projects/syslog-datetime-searcher/logs/debian9/syslog
-rootd="."
+DIFF=diff
+if which colordiff &>/dev/null; then
+    DIFF=colordiff
+fi
 
 declare -a files=(
-    "${rootd}/logs/other/tests/zero.log"
-    #"${rootd}/logs/other/tests/test0-nlx1.log"
-    #"${rootd}/logs/other/tests/test0-nlx1_Win.log"
-    #"${rootd}/logs/other/tests/test0-nlx2.log"
-    #"${rootd}/logs/other/tests/test0-nlx2_Win.log"
-    #"${rootd}/logs/other/tests/test0-nlx3.log"
-    #"${rootd}/logs/other/tests/test0-nlx3_Win.log"
-    #"${rootd}/logs/other/tests/test0-no-nl.log"
-    #"${rootd}/logs/other/tests/test1-nl.log"
-    #"${rootd}/logs/other/tests/test1-nl_Win.log"
-    #"${rootd}/logs/other/tests/test1-no-nl.log"
-    #"${rootd}/logs/other/tests/test2.log"
-    #"${rootd}/logs/other/tests/test3-hex.log"
-    "${rootd}/logs/other/tests/basic-dt.log"
-    "${rootd}/logs/other/tests/basic-basic-dt20.log"
-    "${rootd}/logs/Ubuntu18/samba/log.10.7.220.19"  # multi-line syslines
-    "${rootd}/logs/debian9/syslog"  # very large file!
+    ./logs/Debian9/user.log.1.gz
+    ./logs/MacOS11/install.log.0.gz
+    ./logs/MacOS11/system.log.0.gz
+    ./logs/other/tests/dtf9c-23-12x2.log
+    ./logs/other/tests/dtf2-2.log
+    ./logs/other/tests/dtf2-2.log.bz2
+    ./logs/other/tests/dtf2-2.log.gz
+    ./logs/other/tests/dtf2-2.log.lz4
+    ./logs/other/tests/dtf2-2.log.tar
+    ./logs/other/tests/dtf2-2.log.xz
+    ./logs/other/tests/dtf7-20-LEVELS.log
+    ./logs/other/tests/dtf7-20-LEVELS.log.bz2
+    ./logs/other/tests/dtf7-20-LEVELS.log.gz
+    ./logs/other/tests/dtf7-20-LEVELS.log.lz4
+    ./logs/other/tests/dtf7-20-LEVELS.log.tar
+    ./logs/other/tests/dtf7-20-LEVELS.log.xz
+    ./logs/other/tests/gen-1000-3-foobar.log
+    ./logs/other/tests/gen-1000-3-foobar.log.bz2
+    ./logs/other/tests/gen-1000-3-foobar.log.gz
+    ./logs/other/tests/gen-1000-3-foobar.log.lz4
+    ./logs/other/tests/gen-1000-3-foobar.log.tar
+    ./logs/other/tests/gen-1000-3-foobar.log.xz
+    ./logs/other/tests/simple-12.bz2
+    ./logs/other/tests/simple-12.lz4
+    ./logs/other/tests/simple-12.gz
+    ./logs/other/tests/simple-12.xz
+    ./logs/other/tests/simple-12.log
+    ./logs/other/tests/simple-12.log.bz2
+    ./logs/other/tests/simple-12.log.gz
+    ./logs/other/tests/simple-12.log.lz4
+    ./logs/other/tests/simple-12.log.xz
+    ./logs/other/tests/simple-12.tar
+    ./logs/programs/journal/CentOS_7_system.journal
+    ./logs/programs/journal/RHE_91_system.journal
+    ./logs/programs/journal/RHE_91_system.journal.bz2
+    ./logs/programs/journal/RHE_91_system.journal.gz
+    ./logs/programs/journal/RHE_91_system.journal.lz4
+    ./logs/programs/journal/RHE_91_system.journal.xz
+    ./logs/programs/journal/Ubuntu22-user-1000.journal
+    ./logs/programs/journal/Ubuntu22-user-1000x3.journal
+    ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2
+    ./logs/programs/journal/Ubuntu22-user-1000x3.journal.gz
+    ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
+    ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
+    ./logs/RedHatEnterprise9/sssd/sssd_kcm.log-20230507.gz
+    ./logs/Ubuntu16/kern.log.2.gz
+    # TODO: add .evtx files
 )
 
-for file_ in "${files[@]}"; do
-    for sz in 1 2 3 4 5 6 8 10 12 14 16 18 19 20 21 22 32 64 128 1024 2056 4096 8192 16284 32568 65536 131702
-    do
-        if [[ ! -r "${file_}" ]]; then
-            echo -e "\e[33mWarning: skip file not readable or not exist '${file_}'\e[39m" >&2
-            continue
+# pick blocksz larger than smallest file and smaller than largest file
+BLOCKSZ=1024
+
+declare -a files_failed=( )
+declare -a files_passed=( )
+
+function file_ends_with_nl() {
+    tail -c 1 "${1}" | grep -q -Ee '^$'
+}
+
+function delete_last_char_of_file() {
+    (
+        set -x
+        truncate -s-1 "${1}"
+    )
+}
+
+function decompress_file() {
+    declare -r file_=${1}
+    declare -r tmp_=${2}
+    if [[ "${file_:$((${#file_}-4))}" = '.bz2' ]]; then
+        (set -x; bzip2 -cdk "${file_}" > "${tmp_}")
+    elif [[ "${file_:$((${#file_}-3))}" = '.gz' ]]; then
+        (set -x; gzip -cdk "${file_}" > "${tmp_}")
+    elif [[ "${file_:$((${#file_}-4))}" = '.lz4' ]]; then
+        (set -x; lz4 -cdk "${file_}" > "${tmp_}")
+    elif [[ "${file_:$((${#file_}-3))}" = '.xz' ]]; then
+        (set -x; xz -cdk "${file_}" > "${tmp_}")
+    elif [[ "${file_:$((${#file_}-4))}" = '.tar' ]]; then
+        (set -x; tar -xOf "${file_}" > "${tmp_}")
+    else
+        (set -x; cp -av "${file_}" "${tmp_}")
+    fi
+}
+
+for file in "${files[@]}"; do
+    tmp1=$(mktemp -t "compare-s4_XXXXX")
+    tmp2=$(mktemp -t "compare-cat_XXXXX")
+    journal_arg=
+
+    echo "File: '${file}'"
+    if ! [[ -r "${file}" ]]; then
+        echo "file not found '${file}'" >&2
+        exit 1
+    fi
+
+    if echo -n "${file}" | grep -qEe '\.journal'; then
+        # call journalctl with `cat` output which does not print
+        # datetimestamps. There may be differences in printed datetimestamps
+        # for `journalctl` and `s4` output.
+        # See Issue #101.
+        (
+            export SYSTEMD_COLORS=false
+            export SYSTEMD_PAGER=
+            export PAGER=
+            # if $file is compressed then decompress it for use with journalctl
+            tmp3=$(mktemp -t "compare-journal_XXXXX.journal")
+            decompress_file "${file}" "${tmp3}"
+            set -x
+            journalctl --output=cat --no-tail --file="${tmp3}" > "${tmp2}"
+        )
+        journal_arg="--journal-output=cat"
+    else
+        decompress_file "${file}" "${tmp2}"
+    fi
+
+    (
+        set -x
+        "${PROGRAM}" --blocksz=${BLOCKSZ} ${journal_arg} --color=never "${file}" > "${tmp1}"
+    )
+    # delete last newline char added by `s4` only if the same file read by `cat` has no ending newline
+    # see `fn processing_loop` in `src/bin/s4.rs`
+    if ! file_ends_with_nl "${tmp2}"; then
+        (
+            set -x
+            delete_last_char_of_file "${tmp1}"
+        )
+    fi
+    match=true
+    # compare line count
+    lc1=$(cat "${tmp1}" | wc -l)
+    lc2=$(cat "${tmp2}" | wc -l)
+    (
+        set -x
+        wc -l "${tmp1}" "${tmp2}"
+    )
+    if [[ "${lc1}" != "${lc2}" ]]; then
+        echo "ERROR: line count comparison failed for '${file}'" >&2
+        if $match; then
+            files_failed[${#files_failed[@]}]=${file}
         fi
-        declare -i fsz=
-        fsz=$(filesz "${file_}")
-        if [[ ${fsz} -gt 100000 ]] && [[ ${sz} -lt 64 ]]; then
-            continue
+        match=false
+    fi
+    # compare byte count
+    bc1=$(cat "${tmp1}" | wc -c)
+    bc2=$(cat "${tmp2}" | wc -c)
+    (
+        set -x
+        wc -c "${tmp1}" "${tmp2}"
+    )
+    if [[ "${bc1}" != "${bc2}" ]]; then
+        echo "ERROR: byte count comparison failed for '${file}'" >&2
+        if $match; then
+            files_failed[${#files_failed[@]}]=${file}
         fi
-        # note the file contents
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo "File: '${file_}'"
-        echo "----------------------------------------------------------------------------------------------------"
-        if [[ ${fsz} -lt 9999 ]]; then 
-            cat "${file_}"
-            echo "----------------------------------------------------------------------------------------------------"
-            (
-                set -x
-                cat "${file_}"
-            ) | hexdump
-            echo "----------------------------------------------------------------------------------------------------"
-            (
-                set +e
-                set -x
-                "${bin}" -z "${sz}" "${file_}"
-            ) | hexdump 
-            echo "----------------------------------------------------------------------------------------------------"
-            (
-                set +e
-                set -x
-                "${bin}" -z "${sz}" "${file_}"
-            )
-            echo
-            echo "----------------------------------------------------------------------------------------------------"
+        match=false
+    fi
+    # compare checksum
+    sum1=$(cat "${tmp1}" | sha256sum | cut -f1 -d ' ')
+    sum2=$(cat "${tmp2}" | sha256sum | cut -f1 -d ' ')
+    (
+        set -x
+        sha256sum "${tmp1}" "${tmp2}"
+    )
+    if [[ "${sum1}" != "${sum2}" ]]; then
+        echo "ERROR: checksum comparison failed for '${file}'" >&2
+        if [[ "${lc1}" = "${lc2}" ]] && $match; then
+            files_failed[${#files_failed[@]}]=${file}
         fi
-        # run `$bin`, time it, hash output
-        echo
-        echo "${bin} -z ${sz} '${file_}'"
-        time md5_bin=$(
-            set +e
-            "${bin}" -z ${sz} "${file_}" | md5sum
-        ) 2>&1
-        md5_bin=$(echo -n "${md5_bin}" | cut -f1 -d' ')
-        # run `cat`, time it, hash output
-        echo
-        echo "cat '${file_}' | md5sum"
-        time md5_cat=$(cat "${file_}" | md5sum) 2>&1
-        md5_cat=$(echo -n "${md5_cat}" | cut -f1 -d' ')
-        echo
-        # compare hash output
-        if [[ "${md5_bin}" = "${md5_cat}" ]]; then
-            echo -e "\e[32m${md5_bin} = ${md5_cat}\e[39m"
-        else
-            echo -e "\e[31m${md5_bin} ≠ ${md5_cat}\e[39m"
-            exit 1
-        fi
-    done
+        match=false
+    fi
+    if ! ${match}; then
+        echo "Difference:"
+        (
+                set -x;
+                "${DIFF}" --text -y --width=${COLUMNS-120} --suppress-common-lines "${tmp1}" "${tmp2}"
+        ) || true
+    fi
+    echo
+    echo
+    if ${match}; then
+        files_passed[${#files_passed[@]}]=${file}
+    fi
 done
+
+echo "Files passed ${#files_passed[@]}"
+(
+    for file in "${files_passed[@]}"; do
+        echo "${file}"
+    done 
+) | sort | uniq -u
+
+declare -i count_failed=${#files_failed[@]}
+if [[ 0 -eq ${count_failed} ]]; then
+    echo -e "\nAll files passed"
+    exit 0
+fi
+
+echo
+echo "Files failed ${count_failed}"
+(
+    for file in "${files_failed[@]}"; do
+        echo "${file}"
+    done
+) | sort | uniq -u
+
+exit 1

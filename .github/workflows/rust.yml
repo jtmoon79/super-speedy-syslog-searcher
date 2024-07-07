@@ -964,6 +964,16 @@ jobs:
           chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
           "${PROGRAM}" --version
           "${SCRIPT}"
+      # compare cat
+      - name: Run Script compare-cat
+        shell: bash
+        run: |
+          set -eux
+          export PROGRAM=./s4_release
+          SCRIPT=./tools/compare-cat.sh
+          chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
+          "${PROGRAM}" --version
+          "${SCRIPT}"
 
   # Run code coverage using cargo-llvm-cov then upload to coveralls.io
   job_code_coverage_llvm:
