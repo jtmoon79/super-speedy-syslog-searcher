@@ -6552,6 +6552,7 @@ pub fn seconds_to_systemtime(
     seconds: &u64,
 ) -> SystemTime {
     let duration = std::time::Duration::from_secs(*seconds);
+    // TODO: [2024/06] handle `None`
     SystemTime::UNIX_EPOCH.checked_add(duration).unwrap()
 }
 
