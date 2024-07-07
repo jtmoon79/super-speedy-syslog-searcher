@@ -456,6 +456,18 @@ impl LineReader {
         linep
     }
 
+    /// See [`BlockReader::is_streamed_file`].
+    ///
+    /// [`BlockReader::is_streamed_file`]: crate::readers::blockreader::BlockReader#method.is_streamed_file
+    pub const fn is_streamed_file(&self) -> bool {
+        self.blockreader.is_streamed_file()
+    }
+
+    /// Return `drop_data` value.
+    pub const fn is_drop_data(&self) -> bool {
+        self.blockreader.is_drop_data()
+    }
+
     /// Proactively `drop` the [`Lines`]. For "[streaming stage]".
     /// This calls [`LineReader::drop_line`].
     ///
@@ -468,6 +480,10 @@ impl LineReader {
         lines: Lines,
     ) -> bool {
         defn!();
+        if ! self.is_drop_data() {
+            defx!("is_drop_data is false");
+            return false;
+        }
         let mut ret = false;
         for linep in lines.into_iter() {
             if self.drop_line(linep) {

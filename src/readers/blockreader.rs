@@ -377,6 +377,30 @@ pub struct BlockReader {
     pub(crate) file_metadata_modified: SystemTime,
     /// Enum that guides file-handling behavior in functions `read`, and `new`.
     filetype: FileType,
+    /// Do or do not drop `Block`s or other data after they are processed and
+    /// printed.
+    ///
+    /// Only intended to be `false` for a special case of compressed syslog
+    /// files without a year in the datetimestamp.
+    ///
+    /// For syslog files without a year in the datetimestamp, the strategy to
+    /// determine the year requires reading the end of the file, then
+    /// reading the syslines backwards. However, when `is_streamed_file` is
+    /// `true` the `Block`s are dropped after they are read and possibly
+    /// printed (`is_streamed_file` will be `true` for compressed files).
+    /// But in this special case of processing the file backwards,
+    /// the `Block`s should be retained as they will later be printed later.
+    /// Otherwise, the reprocessing time would _O(n²)_.
+    /// The tradeoff is memory usage is _O(n)_.
+    /// See [`process_missing_year`]
+    ///
+    /// For non-compressed files, it is okay to drop `Block`s after they are
+    /// read and then later read them again. This avoids memory usage of _O(n)_.
+    ///
+    /// Use `fn disable_drop_data` to set `drop_data` to `false`.
+    ///
+    /// [`process_missing_year`]: crate::readers::syslogprocessor::SyslogProcessor#method.process_missing_year
+    drop_data: bool,
     /// For bzipped `.bz2` files ([FileTypeArchive::Bz2]), otherwise `None`.
     bz2: Option<Bz2Data>,
     /// For gzipped `.gz` files ([FileTypeArchive::Gz]), otherwise `None`.
@@ -468,6 +492,7 @@ impl fmt::Debug for BlockReader {
             .field("filesz", &self.filesz())
             .field("blockn", &self.blockn)
             .field("blocksz", &self.blocksz)
+            .field("drop_data", &self.drop_data)
             .field("blocks currently stored", &self.blocks.len())
             .field("blocks read", &self.blocks_read.len())
             .field("bytes read", &self.count_bytes_read)
@@ -1742,6 +1767,7 @@ impl BlockReader {
             file_metadata,
             file_metadata_modified,
             filetype,
+            drop_data: true,
             bz2: bz2_opt,
             gz: gz_opt,
             lz: lz_opt,
@@ -2203,10 +2229,34 @@ impl BlockReader {
         }
     }
 
+    /// Return `drop_data` value.
+    pub const fn is_drop_data(&self) -> bool {
+        self.drop_data
+    }
+
+    /// Disable `drop_data`.
+    /// Calls to `drop_block` will immediately return.
+    /// User classes [`LineReader`], [`SyslineReader`], and [`SyslogProcessor`]
+    /// will also check this value.
+    ///
+    /// [`LineReader`]: crate::readers::linereader::LineReader
+    /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
+    /// [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
+    pub fn disable_drop_data(&mut self) {
+        if ! self.drop_data {
+            panic!("BlockReader::disable_drop_data drop_data already disabled");
+        }
+        self.drop_data = false;
+    }
+
     /// Proactively `drop` the [`Block`] at [`BlockOffset`].
     /// For "[streaming stage]".
     ///
     /// _The caller must know what they are doing!_
+    ///
+    /// For some special files, like compressed files that must be read
+    /// from back to front (e.g. no year in the datetimestamp),
+    /// `drop_data` may be `false`. Setting `drop_data` is up to the user.
     ///
     /// [`Block`]: crate::readers::blockreader::Block
     /// [`BlockOffset`]: crate::readers::blockreader::BlockOffset
@@ -2216,6 +2266,10 @@ impl BlockReader {
         blockoffset: BlockOffset,
     ) -> bool {
         defn!("({:?})", blockoffset);
+        if ! self.drop_data {
+            defx!("drop_data is false");
+            return false;
+        }
         let mut ret = true;
         let mut blockp_opt: Option<BlockP> = None;
         match self
@@ -3476,10 +3530,12 @@ impl BlockReader {
             "({0}): blockreader.read_block({0}) (fileoffset {1} (0x{1:08X})), blocksz {2} (0x{2:08X}), filesz {3} (0x{3:08X})",
             blockoffset, self.file_offset_at_block_offset_self(blockoffset), self.blocksz, self.filesz(),
         );
-        if self.read_block_last > blockoffset && self.is_streamed_file() {
-            // TODO: [2024/05] after Issue #283 is resolved then this should
-            //       become a debug_panic
-            de_wrn!(
+        if cfg!(debug_assertions)
+            && self.is_streamed_file()
+            && self.is_drop_data()
+            && self.read_block_last > blockoffset
+        {
+            debug_panic!(
                 "read_block_last {} is greater than passed blockoffset {} for a is_streamed_file {:?}",
                 self.read_block_last,
                 blockoffset,
@@ -3538,7 +3594,7 @@ impl BlockReader {
                                 //      related to the caller's use of `drop_block`.
                                 //      But we can go ahead and just read the block again though
                                 //      that is inefficient and some day should be fixed.
-                                de_err!(
+                                debug_panic!(
                                     "requested block {} is in self.blocks_read but not in self.blocks for file {:?}",
                                     blockoffset, self.path,
                                 );

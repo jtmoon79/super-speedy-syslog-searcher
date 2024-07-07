@@ -372,11 +372,13 @@ fn test_FixedStructReader_process_entry_at(
 /// and `FixedStructReader::summary_complete`
 #[test]
 fn test_FixedStructReader_process_entry_at_2_summary() {
+    defn!();
     let mut fixedstructreader = new_FixedStructReader(
         &NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
         BSZ,
         *FO_P8
     );
+    fixedstructreader.blockreader.disable_drop_data();
 
     let mut fo: FileOffset = 0;
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
@@ -395,6 +397,7 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
         }
     }
     // do one extra redundant search to make it little more interesting
+    defo!("redundant search");
     match fixedstructreader.process_entry_at(0, &mut buffer) {
         ResultS3FixedStructFind::Found(_) => {},
         _ => panic!(),
@@ -424,6 +427,7 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
         }
         _ => panic!(),
     }
+    defx!();
 }
 
 // UTMPX_1ENTRY

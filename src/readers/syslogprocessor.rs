@@ -525,6 +525,11 @@ impl SyslogProcessor {
         self.missing_year.is_some()
     }
 
+    /// Return `drop_data` value.
+    pub const fn is_drop_data(&self) -> bool {
+        self.syslinereader.is_drop_data()
+    }
+
     /// store an `Error` that occurred. For later printing during `--summary`.
     // XXX: duplicates `FixedStructReader.set_error`
     fn set_error(
@@ -734,6 +739,11 @@ impl SyslogProcessor {
         def1n!("({})", blockoffset);
         self.assert_stage(ProcessingStage::Stage3StreamSyslines);
 
+        if ! self.is_drop_data() {
+            def1x!("return false; is_drop_data() is false");
+            return false;
+        }
+
         // `syslinereader.drop_data` is an expensive function, skip if possible.
         if blockoffset == self.drop_block_last {
             def1x!("({}) skip block, return true", blockoffset);
@@ -766,8 +776,14 @@ impl SyslogProcessor {
         syslinep: &SyslineP,
     ) -> bool {
         if !SyslogProcessor::STREAM_STAGE_DROP {
+            de_wrn!("drop_data_try() called but SyslogProcessor::STREAM_STAGE_DROP is false");
             return false;
         }
+        if !self.is_drop_data() {
+            def1ñ!("is_drop_data() is false; return false");
+            return false;
+        }
+
         let bo_first: BlockOffset = (*syslinep).blockoffset_first();
         if bo_first > 1 {
             def1ñ!();
@@ -1248,6 +1264,21 @@ impl SyslogProcessor {
             true => FileProcessingResultBlockZero::FileOk,
             false => FileProcessingResultBlockZero::FileErrNoSyslinesFound,
         };
+
+        // sanity check that only one `DateTimeParseInstr` is in use
+        if cfg!(debug_assertions) && self.syslinereader.dt_patterns_counts_in_use() != 1 {
+            de_wrn!(
+                "dt_patterns_counts_in_use() = {}, expected 1; for {:?}",
+                self.syslinereader.dt_patterns_counts_in_use(), self.path()
+            );
+        }
+
+        if self.syslinereader.is_streamed_file()
+            && !self.syslinereader.dt_pattern_has_year()
+        {
+            self.syslinereader.linereader.blockreader.disable_drop_data();
+            debug_assert!(!self.is_drop_data(), "is_drop_data() should be false");
+        }
 
         defx!("found {} syslines, require {} syslines, return {:?}", found, found_min, fpr);
 

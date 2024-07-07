@@ -652,7 +652,7 @@ impl SyslineReader {
     ///
     /// [`BlockReader::is_streamed_file`]: crate::readers::blockreader::BlockReader#method.is_streamed_file
     pub const fn is_streamed_file(&self) -> bool {
-        self.linereader.blockreader.is_streamed_file()
+        self.linereader.is_streamed_file()
     }
 
     /// See [`LineReader::charsz`].
@@ -936,6 +936,11 @@ impl SyslineReader {
         syslinep
     }
 
+    /// Return `drop_data` value.
+    pub const fn is_drop_data(&self) -> bool {
+        self.linereader.is_drop_data()
+    }
+
     /// Proactively `drop` data associated with the [`Block`] at [`BlockOffset`]
     /// *AND ALL PRIOR BLOCKS* (or at least, drop as much as possible).
     /// This calls [`SyslineReader::drop_sysline`].
@@ -949,6 +954,11 @@ impl SyslineReader {
         blockoffset: BlockOffset,
     ) -> bool {
         def1n!("({})", blockoffset);
+
+        if ! self.is_drop_data() {
+            def1x!("is_drop_data() is false");
+            return false;
+        }
 
         let mut ret = true;
         // vec of `fileoffset` must be ordered which is guaranteed by `syslines: BTreeMap`
@@ -995,6 +1005,12 @@ impl SyslineReader {
         fileoffset: &FileOffset,
     ) -> bool {
         defn!("({})", fileoffset);
+
+        if ! self.is_drop_data() {
+            defx!("is_drop_data() is false");
+            return false;
+        }
+
         let mut ret = false;
         let syslinep: SyslineP = match self
             .syslines
