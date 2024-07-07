@@ -1483,7 +1483,6 @@ impl BlockReader {
                 );
 
                 /*
-
                 3.1. Block Header
 
                         +-------------------+-------------+=================+
@@ -1581,7 +1580,7 @@ impl BlockReader {
                     to 63 bits, which limits the encoded size of the integer to
                     nine bytes. These limits may be increased in the future if
                     needed.
-                     */
+                    */
                     def2n!();
 
                     const SIZE_MAX: uint64_t = 9;

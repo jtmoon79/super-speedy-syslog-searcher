@@ -805,9 +805,10 @@ impl SyslineReader {
     ) -> bool {
         let fo_end: FileOffset = sysline.fileoffset_end();
         if fo_end == self.fileoffset_last() {
-            //defñ!("return true");
+            defñ!("sysline at {} is last", fo_end);
             return true;
         }
+        defñ!("sysline at {} is not last {}", fo_end, self.fileoffset_last());
         debug_assert_lt!(
             fo_end,
             self.filesz(),
@@ -815,7 +816,6 @@ impl SyslineReader {
             fo_end,
             self.filesz(),
         );
-        //defñ!("return false");
 
         false
     }
