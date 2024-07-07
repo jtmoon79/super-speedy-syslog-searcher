@@ -205,6 +205,7 @@ pub const BLOCKSZ_MIN: BlockSz = 1;
 pub const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
 
 /// Default [`Block`] Size in bytes.
+// TODO: [2024/07/06] change to 0x10000
 pub const BLOCKSZ_DEF: usize = 0xFFFF;
 
 /// Data and readers for a bzip2 `.bz2` file, used by [`Bz2DecoderReader`].
