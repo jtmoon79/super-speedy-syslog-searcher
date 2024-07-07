@@ -6,35 +6,35 @@ File: ./logs/Debian9/user.log.1.bz2
       filetype       : TEXT UTF8/ASCII (BZIP2)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
+      bytes         : 544
+      flushes       : 3
+      lines         : 3
+      syslines      : 3
   Processed:
       file size compressed  : 292 (0x124) (bytes)
       file size uncompressed: 364 (0x16C) (bytes)
       bytes         : 728 (0x2D8)
       bytes total   : 364 (0x16C)
       block size    : 256 (0x100)
-      blocks        : 1
+      blocks        : 2
       blocks total  : 2 (512 bytes)
-      lines         : 2
-      syslines      : 3
-      syslines high : 2
+      lines         : 3
+      syslines      : 4
+      syslines high : 3
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  7,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  4, miss  5, 44.4%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 37, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  5,  0.0%, put  3
-      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  5,  0.0%, put  5
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  4, 20.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  1, miss  7, 12.5%
+      caching: LineReader::find_line() LRU cache                   : hit  2, miss  7, 22.2%, put  6
+      copying: SyslineReader::get_boxptrs()                        : sgl 38, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  4,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  3, miss  4, 42.9%, put  4
+      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  7,  0.0%, put  7
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  7,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  8,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 30,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 37
+      process: regex captures attempted                            : 38
   Processing Drops:
 
 Program Summary:
@@ -42,11 +42,11 @@ Program Summary:
 Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
-Printed lines          : 0
-Printed syslines       : 0
+Files printed          : 1
+Printed bytes          : 556
+Printed flushes        : 6
+Printed lines          : 3
+Printed syslines       : 3
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
@@ -54,7 +54,7 @@ Regex patterns known   : 173
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok     : 2
+Channel Receive ok     : 5
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
