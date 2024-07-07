@@ -670,7 +670,7 @@ impl SyslineReader {
     }
 
     /// `Count` of `Sysline`s processed so far, i.e. `self.syslines_count`.
-    pub fn count_syslines_processed(&self) -> Count {
+    pub const fn count_syslines_processed(&self) -> Count {
         self.syslines_count
     }
 
@@ -680,7 +680,7 @@ impl SyslineReader {
     }
 
     /// "high watermark" of `Sysline`s stored in `self.syslines`
-    pub fn syslines_stored_highest(&self) -> usize {
+    pub const fn syslines_stored_highest(&self) -> usize {
         self.syslines_stored_highest
     }
 
@@ -688,7 +688,7 @@ impl SyslineReader {
     ///
     /// [`LineReader::count_lines_processed`]: crate::readers::linereader::LineReader#method.count_lines_processed
     #[inline(always)]
-    pub fn count_lines_processed(&self) -> Count {
+    pub const fn count_lines_processed(&self) -> Count {
         self.linereader
             .count_lines_processed()
     }

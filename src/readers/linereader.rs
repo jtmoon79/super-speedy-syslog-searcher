@@ -311,13 +311,13 @@ impl LineReader {
     /// `Count` of `Line`s processed by this `LineReader`
     /// (i.e. `self.lines_processed`).
     #[inline(always)]
-    pub fn count_lines_processed(&self) -> Count {
+    pub const fn count_lines_processed(&self) -> Count {
         self.lines_processed
     }
 
     /// "high watermark" of Lines stored in `self.lines`
     #[inline(always)]
-    pub fn lines_stored_highest(&self) -> usize {
+    pub const fn lines_stored_highest(&self) -> usize {
         self.lines_stored_highest
     }
 
