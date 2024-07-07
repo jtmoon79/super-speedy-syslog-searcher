@@ -23,7 +23,10 @@ if [[ ! -w "${BACKUPDIR}" ]]; then
     exit 1
 fi
 
-Zz=$(which 7z)
+if ! Zz=$(which 7z); then
+    echo "7z not found in PATH" >&2
+    exit 1
+fi
 
 # limit archived log files to 30M or less
 declare -a logs=()
