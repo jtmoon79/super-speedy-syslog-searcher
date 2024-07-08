@@ -726,19 +726,18 @@ A comparison of merging three large log files running on Ubuntu 22 on WSL2.
 
 Using `hyperfine` and GNU `time` to measure Max RSS.
 
-| Command          | Mean [ms]    | Min [ms] | Max [ms] |Max RSS [KB]|
-|:---              |---:          |---:      |---:      |---:        |
-| `grep+sort`      | 40.8 ± 0.4   | 40.1     | 42.0     |2656        |
-| `s4 (system)`    | 38.3 ± 1.9   | 35.0     | 48.7     |48184       |
-| `s4 (mimalloc)`  | 28.4 ± 2.2   | 26.0     | 43.9     |77344       |
-| `s4 (jemalloc)`  | 35.1 ± 2.8   | 32.4     | 52.3     |70832       |
-| `logmerger`      | 729.2 ± 11.8 | 710.2    | 749.0    |56140       |
-|`tl`              |              |          |          |53324       |
+| Command          | Mean [ms]   | Min [ms] | Max [ms] | Relative |Max RSS [KB]|
+|:---              |---:         |---:      |---:      |---:      |---:        |
+| `grep+sort`      | 41.0 ± 0.5  | 40.5     | 43.8     | 1.00     |2740        |
+| `s4 (system)`    | 37.3 ± 1.5  | 35.3     | 44.6     | 1.00     |48084       |
+| `s4 (mimalloc)`  | 30.3 ± 1.8  | 27.1     | 36.6     | 1.00     |77020       |
+| `s4 (jemalloc)`  | 36.0 ± 2.0  | 32.5     | 43.2     | 1.00     |69028       |
+| `logmerger`      | 720.2 ± 4.9 | 712.9    | 728.0    | 1.00     |56332       |
 
 Programs tested:
 
-- `grep` 3.7, `sort` 8.32
-- `s4` 0.7.74
+- GNU `grep` 3.7, GNU `sort` 8.32
+- `s4` 0.7.75
 - `logmerger` 0.9.0 on Python 3.10.12
 - `tl` 1.5.0 on Python 3.10.12
 - `hyperfine` 1.11.0
@@ -746,7 +745,7 @@ Programs tested:
 
 See directory results in [`compare-log-mergers.txt`].
 
-[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.74/releases/0.7.74
+[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.75/releases/0.7.75
 
 ---
 
