@@ -211,7 +211,7 @@ echo_line
     (set -x; cargo clean --quiet; cargo build --quiet --release --features=jemalloc)
     files_caching
     set -x
-    $hyperfine --style=basic --export-markdown "${md4}" -N -n "s4 (jemalloc))" \
+    $hyperfine --style=basic --export-markdown "${md4}" -N -n "s4 (jemalloc)" \
         -- \
         "'${PROGRAM_S4}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
