@@ -2778,14 +2778,16 @@ impl BlockReader {
             // BUG: large block sizes are more likely to fail `.read`
             //      so do many smaller reads of a size that succeeds more often
             //      in ad-hoc experiments, this size was found to succeed most often
-            // TODO: [2024/06] good experiment for coz profiler; adjusting `READSZ`
-            const READSZ: usize = 2056;
+            // TODO: [2024/06] good experiment for coz profiler; adjusting `BUF_SZ`
+            const BUF_SZ: usize = 2056;
+            // intermediate buffer of size `BUF_SZ` for smaller reads
+            let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
             // bytes to read in last `.read()` for this block
-            let _readsz_last: usize = blocksz_u % READSZ;
-            // number of expected `.read()` of size `READSZ` plus one for this block
+            let _readsz_last: usize = blocksz_u % BUF_SZ;
+            // number of expected `.read()` of size `BUF_SZ` plus one for this block
             let _reads_expect: usize = match bo_at == blockoffset_last {
-                true => blocksz_u % READSZ,
-                false => blocksz_u / READSZ + 1,
+                true => blocksz_u % BUF_SZ,
+                false => blocksz_u / BUF_SZ + 1,
             };
             // number of actual `.read()` for this block
             let mut reads_actual: usize = 0;
@@ -2799,8 +2801,6 @@ impl BlockReader {
             );
             // final block of storage
             let mut block = Block::with_capacity(blocksz_u);
-            // intermediate buffer of size `READSZ` for smaller reads
-            let mut block_buf = Block::with_capacity(READSZ);
             // XXX: `with_capacity, clear, resize` is a verbose way to create a new vector with a
             //      run-time determined `capacity` and `len`. `len == capacity` is necessary for
             //      calls to `decoder.read`.
@@ -2810,34 +2810,30 @@ impl BlockReader {
             block.resize(blocksz_u, 0);
             defo!(
                 "({}): blocks_read count {:?}; for blockoffset {}: must do {} reads of {} bytes, and one read of {} bytes (total {} bytes to read) (uncompressed filesz {})",
-                blockoffset, self.blocks_read.len(), bo_at, _reads_expect - 1, READSZ, _readsz_last, bytes_read_expect, self.filesz(),
+                blockoffset, self.blocks_read.len(), bo_at, _reads_expect - 1, BUF_SZ, _readsz_last, bytes_read_expect, self.filesz(),
             );
 
             while bytes_read_actual < bytes_read_expect {
-                let readsz: usize = match bytes_read_expect - bytes_read_actual < READSZ {
+                let readsz: usize = match bytes_read_expect - bytes_read_actual < BUF_SZ {
                     true => bytes_read_expect - bytes_read_actual,
-                    false => READSZ,
+                    false => BUF_SZ,
                 };
                 debug_assert_ne!(
                     readsz, 0,
-                    "readsz 0; READSZ {}, bytes_read_actual {}, bytes_read_expect {}, diff {}",
-                    READSZ, bytes_read_actual, bytes_read_expect, bytes_read_expect - bytes_read_actual,
+                    "readsz 0; BUF_SZ {}, bytes_read_actual {}, bytes_read_expect {}, diff {}",
+                    BUF_SZ, bytes_read_actual, bytes_read_expect, bytes_read_expect - bytes_read_actual,
                 );
-                // TODO: [2022/07] cost-savings: use pre-allocated buffer
-                block_buf.clear();
-                // forcibly resize `block_buf` otherwise `read` will see a
-                // zero-length buffer and not write anything to it
-                block_buf.resize(readsz, 0);
+
                 defo!(
-                    "({}): GzDecoder.read(…); bytes_read_actual {}, readsz {}, READSZ {}, block_buf len {}, block_buf capacity {}, blockoffset {}, blocksz {}",
-                    blockoffset, bytes_read_actual, readsz, READSZ, block_buf.len(), block_buf.capacity(), bo_at, blocksz_u,
+                    "({}): GzDecoder.read(…); bytes_read_actual {}, readsz {}, BUF_SZ {}, buf len {}, blockoffset {}, blocksz {}",
+                    blockoffset, bytes_read_actual, readsz, BUF_SZ, buf.len(), bo_at, blocksz_u,
                 );
                 match (self
                     .gz
                     .as_mut()
                     .unwrap()
                     .decoder)
-                    .read(block_buf.as_mut())
+                    .read(buf[..readsz].as_mut())
                 {
                     Ok(size_) if size_ == 0 => {
                         reads_actual += 1;
@@ -2856,14 +2852,13 @@ impl BlockReader {
                             Error::new(
                                 ErrorKind::InvalidData,
                                 format!(
-                                    "GzDecoder.read() {} read zero bytes for vec<u8> buffer of length {}, capacity {}; stuck at inflated byte {}, size {}, size uncompressed {} (calculated from gzip header), READSZ {}; file {:?}",
+                                    "GzDecoder.read() {} read zero bytes for vec<u8> buffer of length {}; stuck at inflated byte {}, size {}, size uncompressed {} (calculated from gzip header), BUF_SZ {}; file {:?}",
                                     reads_actual,
-                                    block_buf.len(),
-                                    block_buf.capacity(),
+                                    buf.len(),
                                     byte_at,
                                     self.filesz,
                                     self.filesz_actual,
-                                    READSZ,
+                                    BUF_SZ,
                                     self.path,
                                 )
                             )
@@ -2879,14 +2874,13 @@ impl BlockReader {
                             Error::new(
                                 ErrorKind::InvalidData,
                                 format!(
-                                    "GzDecoder.read() {} read too many bytes {} for vec<u8> buffer of length {}, capacity {}; file size {}, file size uncompressed {} (calculated from gzip header), READSZ {}; file {:?}",
+                                    "GzDecoder.read() {} read too many bytes {} for vec<u8> buffer of length {}; file size {}, file size uncompressed {} (calculated from gzip header), BUF_SZ {}; file {:?}",
                                     reads_actual,
                                     size_,
-                                    block_buf.len(),
-                                    block_buf.capacity(),
+                                    buf.len(),
                                     self.filesz,
                                     self.filesz_actual,
-                                    READSZ,
+                                    BUF_SZ,
                                     self.path,
                                 )
                             )
@@ -2896,7 +2890,7 @@ impl BlockReader {
                     Ok(size_) => {
                         reads_actual += 1;
                         defo!(
-                            "({}): GzDecoder.read() {} returned Ok({:?}), READSZ {}, blocksz {}, bytes_read_actual {}",
+                            "({}): GzDecoder.read() {} returned Ok({:?}), BUF_SZ {}, blocksz {}, bytes_read_actual {}",
                             blockoffset,
                             reads_actual,
                             size_,
@@ -2905,30 +2899,12 @@ impl BlockReader {
                             bytes_read_actual + size_,
                         );
                         self.count_bytes_read += size_ as Count;
-                        let mut _count: usize = 0;
-                        // TODO: cost-savings: use faster `copy_slice`
-                        for byte_ in block_buf.iter().take(size_) {
-                            block[bytes_read_actual] = *byte_;
-                            bytes_read_actual += 1;
-                            _count += 1;
-                        }
-                        defo!("({}): copied {} bytes into block {}, from [{}‥{})", blockoffset, _count, blockoffset, bytes_read_actual - _count, bytes_read_actual);
-                        #[cfg(debug_assertions)]
-                        {
-                            if block_buf.iter().take(size_).all(|&b| b == 0) {
-                                de_wrn!(
-                                    "GzDecoder.read() {} returned Ok({:?}) with all zero bytes for block {}, copied {} (at byte {}), readsz {}, READSZ {}; file {:?}",
-                                    reads_actual,
-                                    size_,
-                                    bo_at,
-                                    _count,
-                                    self.file_offset_at_block_offset_self(bo_at) + (bytes_read_actual as FileOffset),
-                                    readsz,
-                                    READSZ,
-                                    self.path,
-                                );
-                            }
-                        }
+                        block[bytes_read_actual..bytes_read_actual + size_].copy_from_slice(&buf[..size_]);
+                        defo!(
+                            "({}): copied {} bytes into block {}, from [{}‥{})",
+                            blockoffset, size_, blockoffset, bytes_read_actual, bytes_read_actual + size_,
+                        );
+                        bytes_read_actual += size_;
                     }
                     Err(err) => {
                         de_err!(
@@ -2953,6 +2929,7 @@ impl BlockReader {
                     block.len(),
                     blocksz_u
                 );
+                buf.fill(0);
             } // while reads > 0
 
             // sanity check: check returned Block is expected number of bytes
@@ -2971,14 +2948,14 @@ impl BlockReader {
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
-                            "GzDecoder.read() read zero bytes from block {} (at byte {}), requested {} bytes. filesz {}, filesz uncompressed {} (according to gzip header), last block {}, READSZ {}; file {:?}",
+                            "GzDecoder.read() read zero bytes from block {} (at byte {}), requested {} bytes. filesz {}, filesz uncompressed {} (according to gzip header), last block {}, BUF_SZ {}; file {:?}",
                             bo_at,
                             byte_at,
                             blocksz_u,
                             self.filesz,
                             self.filesz_actual,
                             blockoffset_last,
-                            READSZ,
+                            BUF_SZ,
                             self.path,
                         )
                     )
@@ -2991,8 +2968,8 @@ impl BlockReader {
                         Error::new(
                             ErrorKind::InvalidData,
                             format!(
-                                "GzDecoder.read() read {} bytes for last block {} (at byte {}) which is larger than block size {} bytes, READSZ {}; file {:?}",
-                                blocklen_sz, bo_at, byte_at, self.blocksz, READSZ, self.path,
+                                "GzDecoder.read() read {} bytes for last block {} (at byte {}) which is larger than block size {} bytes, BUF_SZ {}; file {:?}",
+                                blocklen_sz, bo_at, byte_at, self.blocksz, BUF_SZ, self.path,
                             )
                         )
                     );
@@ -3004,7 +2981,7 @@ impl BlockReader {
                     Error::new(
                         ErrorKind::InvalidData,
                         format!(
-                            "GzDecoder.read() read {} bytes for block {} expected to read {} bytes (block size), inflate stopped at byte {}. block last {}, filesz {}, filesz uncompressed {} (according to gzip header), READSZ {}; file {:?}",
+                            "GzDecoder.read() read {} bytes for block {} expected to read {} bytes (block size), inflate stopped at byte {}. block last {}, filesz {}, filesz uncompressed {} (according to gzip header), BUF_SZ {}; file {:?}",
                             blocklen_sz,
                             bo_at,
                             self.blocksz,
@@ -3012,7 +2989,7 @@ impl BlockReader {
                             blockoffset_last,
                             self.filesz,
                             self.filesz_actual,
-                            READSZ,
+                            BUF_SZ,
                             self.path,
                         )
                     )
@@ -3022,7 +2999,7 @@ impl BlockReader {
                     Error::new(
                         ErrorKind::InvalidData,
                         format!(
-                            "GzDecoder.read() read {} bytes for block {} expected to read {} bytes (block size), inflate stopped at byte {}. block last {}, filesz {}, filesz uncompressed {} (according to gzip header), READSZ {}; file {:?}",
+                            "GzDecoder.read() read {} bytes for block {} expected to read {} bytes (block size), inflate stopped at byte {}. block last {}, filesz {}, filesz uncompressed {} (according to gzip header), BUF_SZ {}; file {:?}",
                             bytes_read_actual,
                             bo_at,
                             bytes_read_expect,
@@ -3030,7 +3007,7 @@ impl BlockReader {
                             blockoffset_last,
                             self.filesz,
                             self.filesz_actual,
-                            READSZ,
+                            BUF_SZ,
                             self.path,
                         )
                     )
