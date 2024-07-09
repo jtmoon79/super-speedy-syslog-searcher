@@ -249,6 +249,7 @@ _MSRV 1.70.0_
 - (DOCS) README note mimalloc Bus Error ([c463f6d8])
 - (DOCS) README simplify section 'Building locally' ([d2973817])
 - (DOCS) releases 0.7.73 bench heaptrack-syslog ([98b32b5d])
+- (LIB) blockreader.rs read_block_FileGz simplify copying bytes ([a1a29564])
 - (LIB) const more functions ([e5828040])
 - (LIB) default blocksz 0x10000 ([81bb423f])
 - (LIB) update mimalloc, tikv-jemallocator ([746530e4])
@@ -2563,6 +2564,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [a09e9f66]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a09e9f660ce2de3327a34879a5e184b3ef91a79e
 [a0edb157]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a0edb157905810d46d3418098b829744b3444d0f
 [a1378662]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a13786623e5b9117418dc6ff86c1f0519e9074f0
+[a1a29564]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a1a29564a3f7fb1182e9da2badd25d1cd4836776
 [a1e1a680]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a1e1a680278843d4f871f5556bee679282a8d268
 [a1f18eab]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a1f18eab8b9ccea63d5be200604d792108d9ff25
 [a223eeb4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a223eeb41ce8408366fd8944cb70559d3fb50202

@@ -1,5 +1,5 @@
 + uname -a
-Linux uboo-ubuntu22 5.15.153.1-microsoft-standard-WSL2 #1 SMP Fri Mar 29 23:14:13 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+Linux host 5.15.153.1-microsoft-standard-WSL2 #1 SMP Fri Mar 29 23:14:13 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
 + git log -n1 '--format=%h %D'
 d799548f HEAD -> main
 + ./target/release/s4 --version

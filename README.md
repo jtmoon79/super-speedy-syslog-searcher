@@ -726,13 +726,13 @@ A comparison of merging three large log files running on Ubuntu 22 on WSL2.
 
 Using `hyperfine` and GNU `time` to measure Max RSS.
 
-| Command          | Mean [ms]   | Min [ms] | Max [ms] | Relative |Max RSS [KB]|
-|:---              |---:         |---:      |---:      |---:      |---:        |
-| `grep+sort`      | 41.0 ± 0.5  | 40.5     | 43.8     | 1.00     |2740        |
-| `s4 (system)`    | 37.3 ± 1.5  | 35.3     | 44.6     | 1.00     |48084       |
-| `s4 (mimalloc)`  | 30.3 ± 1.8  | 27.1     | 36.6     | 1.00     |77020       |
-| `s4 (jemalloc)`  | 36.0 ± 2.0  | 32.5     | 43.2     | 1.00     |69028       |
-| `logmerger`      | 720.2 ± 4.9 | 712.9    | 728.0    | 1.00     |56332       |
+| Command          | Mean [ms]   | Min [ms] | Max [ms] | Max RSS [KB] |
+|:---              |---:         |---:      |---:      |---:          |
+| `grep \| sort`   | 41.0 ± 0.5  | 40.5     | 43.8     | 2740         |
+| `s4 (system)`    | 37.3 ± 1.5  | 35.3     | 44.6     | 48084        |
+| `s4 (mimalloc)`  | 30.3 ± 1.8  | 27.1     | 36.6     | 77020        |
+| `s4 (jemalloc)`  | 36.0 ± 2.0  | 32.5     | 43.2     | 69028        |
+| `logmerger`      | 720.2 ± 4.9 | 712.9    | 728.0    | 56332        |
 
 Programs tested:
 
