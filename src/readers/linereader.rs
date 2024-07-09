@@ -1629,6 +1629,7 @@ impl LineReader {
             //bi_beg = bi_stop - charsz_bi;
             defo!("B1: scan middle block {} forwards (block len {}), starting from blockindex {} (fileoffset {}) searching for newline B", bo_middle, (*bptr_middle).len(), bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at));
             loop {
+                // TODO: [2024/07] cost-savings: use memchr to scan
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 if (*bptr_middle)[bi_at] == NLu8 {
                     found_nl_b = true;
@@ -1740,6 +1741,7 @@ impl LineReader {
                     bi_end,
                 );
                 loop {
+                    // TODO: [2024/07] cost-savings: use memchr to scan
                     // XXX: Issue #16 only handles UTF-8/ASCII encoding
                     if (*bptr)[bi_beg] == NLu8 {
                         found_nl_b = true;
@@ -2026,6 +2028,7 @@ impl LineReader {
                 bo_middle, bi_at, self.file_offset_at_block_offset_index(bo_middle, bi_at), BI_STOP,
             );
             loop {
+                // TODO: [2024/07] cost-savings: use memchr to scan
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 if (*bptr_middle)[bi_at] == NLu8 {
                     found_nl_a = true;
@@ -2082,12 +2085,6 @@ impl LineReader {
 
         if !found_nl_a && begof {
             found_nl_a = true;
-            // TODO: Issue #61 enable expression attribute when feature is stable
-            //       #[allow(unused_assignments)]
-            //fo_nl_a = 0;
-            // TODO: Issue #61 enable expression attribute when feature is stable
-            //       #[allow(unused_assignments)]
-            //fo_nl_a1 = 0;
         }
 
         if !found_nl_a && !begof {
@@ -2142,6 +2139,7 @@ impl LineReader {
                     bof, bi_at, self.file_offset_at_block_offset_index(bof, bi_at), BI_STOP,
                 );
                 loop {
+                    // TODO: [2024/07] cost-savings: use memchr to scan
                     // XXX: Issue #16 only handles UTF-8/ASCII encoding
                     if (*bptr)[bi_at] == NLu8 {
                         found_nl_a = true;
