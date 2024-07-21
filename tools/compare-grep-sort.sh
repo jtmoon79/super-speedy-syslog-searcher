@@ -3,8 +3,7 @@
 # compare-grep-sort.sh
 #
 # compare run time of `super_speedy_syslog_searcher` to Unix tools `grep` and
-# `sort` (preferably GNU). Passed arguments are forwarded to `/usr/bin/time`, except
-# optional argument `--keep`.
+# `sort` (preferably GNU).
 #
 # optional export `FILES` is string that is a list of files to search,
 # separated by spaces.
@@ -29,15 +28,7 @@ grep=$(which grep)
 (set -x; $grep --version) | head -n1
 sort=$(which sort)
 (set -x; $sort --version) | head -n1
-time=$(which time)
-grep_sort_name="$(basename "$grep")+$(basename "$sort")"
-(set -x; $time --version) | head -n1
-if which hyperfine &>/dev/null; then
-    hyperfine=$(which hyperfine)
-    (set -x; hyperfine --version)
-fi
-
-echo
+grep_sort_name="$(basename "$grep") | $(basename "$sort")"
 
 do_keep=false
 if [[ "${1-}" = "--keep" ]]; then
@@ -49,15 +40,10 @@ tmp1=$(mktemp -t "compare-s4_s4_XXXXX")
 tmp1b=$(mktemp -t "compare-s4-sorted_s4_XXXXX")
 tmp2=$(mktemp -t "compare-s4_grep_XXXXX")
 tmp2b=$(mktemp -t "compare-s4-sorted_grep_XXXXX")
-md1=$(mktemp -t "compare-s4_s4_XXXXX.md")
-md2=$(mktemp -t "compare-s4_s4_XXXXX.md")
-md3=$(mktemp -t "compare-s4_s4_XXXXX.md")
-md4=$(mktemp -t "compare-s4_s4_XXXXX.md")
-mdfinal=${DIROUT-.}/compare-s4_grep_sort.md
 
 function exit_() {
     if ! ${do_keep}; then
-        rm -f "${tmp1}" "${tmp2}" "${tmp1b}" "${tmp2b}" "${md1}" "${md2}"
+        rm -f "${tmp1}" "${tmp2}" "${tmp1b}" "${tmp2b}"
     fi
 }
 
@@ -123,142 +109,30 @@ declare -ar grep_args=(
     --text
 )
 
-# run both programs using hyperfine
-
-if [[ -n "${hyperfine-}" ]] && [[ -z "${PROGRAM_PASSED}" ]]; then
-    (
-        (set -x; cargo clean --quiet; cargo build --release --quiet)
-        # force reading of FILES from disk to allow any possible caching,
-        cat "${FILES[@]}" &> /dev/null
-        set -x
-        $hyperfine --style=basic --export-markdown ${md1} -N -n "s4 (System)" \
-            -- \
-            "${PROGRAM} ${s4_args[*]} ${FILES[*]}"
-    )
-
-    echo
-
-    (
-        (set -x; cargo clean --quiet; cargo build --release --quiet --features=mimalloc)
-        # force reading of FILES from disk to allow any possible caching,
-        cat "${FILES[@]}" &> /dev/null
-        set -x
-        $hyperfine --style=basic --export-markdown ${md2} -N -n "s4 (mimalloc)" \
-            -- \
-            "${PROGRAM} ${s4_args[*]} ${FILES[*]}"
-    )
-
-    echo
-
-    (
-        (set -x; cargo clean --quiet; cargo build --release --quiet --features=jemalloc)
-        # force reading of FILES from disk to allow any possible caching,
-        cat "${FILES[@]}" &> /dev/null
-        set -x
-        $hyperfine --style=basic --export-markdown ${md3} -N -n "s4 (jemalloc)" \
-            -- \
-            "${PROGRAM} ${s4_args[*]} ${FILES[*]}"
-    )
-
-    echo
-
-    # search for datetimes between $AFTER_DT $BEFORE_DT
-    # using decently constrained regexp to match meaning
-    (
-        # force reading of FILES from disk to allow any possible caching,
-        cat "${FILES[@]}" &> /dev/null
-        set -x
-        $hyperfine --style=basic --export-markdown ${md4} --shell sh -n "${grep_sort_name}" \
-            -- \
-            "$grep -hEe '${regex_dt}' ${FILES[*]} | $sort -t ' ' -k 1 -s"
-    )
-
-    (
-        cat "${md1}"
-        cat "${md2}" | tail -n +3
-        cat "${md3}" | tail -n +3
-        cat "${md4}" | tail -n +3
-    ) | column -t -s '|' -o '|' > "${mdfinal}"
-
-    (set -x; cat "${mdfinal}")
-
-    if which glow &>/dev/null; then
-        glow "${mdfinal}"
-    fi
-fi
-
-# run both programs using time
-
-TIME_FORMAT='real %e s, Max RSS %M KB, %P %%CPU, (%x)'
-
-(
-    (set -x; cargo clean --quiet; cargo build --release --quiet)
-    set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
-        -- \
-        "${PROGRAM}" \
-        "${s4_args[@]}" \
-        "${FILES[@]}" \
-        >/dev/null
-)
-
 echo
 
-(
-    (set -x; cargo clean --quiet; cargo build --release --quiet --features=mimalloc)
-    set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
-        -- \
-        "${PROGRAM}" \
-        "${s4_args[@]}" \
-        "${FILES[@]}" \
-        >/dev/null
-)
-
-echo
-
-(
-    (set -x; cargo clean --quiet; cargo build --release --quiet --features=jemalloc)
-    set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
-        -- \
-        "${PROGRAM}" \
-        "${s4_args[@]}" \
-        "${FILES[@]}" \
-        >/dev/null
-)
-
-echo
-
-# search for datetimes between $AFTER_DT $BEFORE_DT
-# using decently constrained regexp to match meaning
-(
-    set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
-        -- \
-        sh -c "\
-$grep ${grep_args[*]} -hEe '${regex_dt}' -- \
-${FILES[*]} \
-| $sort -t ' ' -k 1 -s \
->/dev/null"
-)
-
-# run both programs again, save output for comparison
+# run both programs, save output for comparison
 # this determines the exit code of the script
 
-"${PROGRAM}" \
-    "${s4_args[@]}" \
-    "${FILES[@]}" \
-    > "${tmp1}"
+(
+    cat "${FILES[@]}" &> /dev/null
+    set -x
+    "${PROGRAM}" \
+        "${s4_args[@]}" \
+        "${FILES[@]}" \
+        > "${tmp1}"
+)
 
-$grep ${grep_args[*]} -hEe "${regex_dt}" -- \
-    "${FILES[@]}" \
-    | $sort -t ' ' -k 1 -s \
-    > "${tmp2}"
+echo
+
+(
+    cat "${FILES[@]}" &> /dev/null
+    set -x
+    $grep ${grep_args[*]} -hEe "${regex_dt}" -- \
+        "${FILES[@]}" \
+        | $sort -t ' ' -k 1 -s \
+        > "${tmp2}"
+)
 
 # compare the program outputs
 
