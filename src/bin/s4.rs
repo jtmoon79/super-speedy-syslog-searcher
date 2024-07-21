@@ -2742,7 +2742,7 @@ fn processing_loop(
                 //      Relates to Issue #270
                 if ! filetype.is_archived() {
                     let path_std = fpath_to_path(&path);
-                    let matadata = match path_std.metadata() {
+                    let metadata = match path_std.metadata() {
                         Ok(metadata) => metadata,
                         Err(err) => {
                             e_err!("path.metadata() failed; {}", err);
@@ -2755,7 +2755,7 @@ fn processing_loop(
                             continue;
                         }
                     };
-                    let flen = matadata.len();
+                    let flen = metadata.len();
                     if flen == 0 {
                         defo!("paths_invalid_results.push(FileErrEmpty)");
                         map_pathid_results_invalid.insert(
@@ -3142,7 +3142,7 @@ fn processing_loop(
             ) {
                 Some(val) => val,
                 None => {
-                    // this occurs during an interrupt, after the interupt handler has
+                    // this occurs during an interrupt, after the interrupt handler has
                     // cleared `MAP_PATHID_CHANRECVDATUM`
                     de_wrn!("recv_many_chan returned None which is unexpected");
                     break;

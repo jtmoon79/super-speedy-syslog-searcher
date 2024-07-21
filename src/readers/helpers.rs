@@ -1,6 +1,6 @@
 // src/readers/helpers.rs
 
-//! Miscellaneous helper "readers" functions.
+//! Miscellaneous helper functions for _Readers_.
 
 use crate::common::{FileSz, FPath};
 #[cfg(test)]

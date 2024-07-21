@@ -82,7 +82,7 @@ A C compiler is required.
 
 #### allocator `mimalloc` or `jemalloc`
 
-The default alloctor is the System allocator.
+The default allocator is the System allocator.
 
 Allocator [`mimalloc`] is feature `mimalloc` and allocator [`jemalloc`] is feature `jemalloc`.
 Allocator `mimalloc` [is the fastest according to `mimalloc` project benchmarks].

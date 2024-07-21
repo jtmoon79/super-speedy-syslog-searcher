@@ -44,11 +44,11 @@ use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 /// See <https://github.com/omerbenamram/evtx/issues/234>
 pub type RecordId = u64;
 
-/// Type alias for [`SerializedEvtxRecord`] with [`String`] as the data type.
+/// [`SerializedEvtxRecord`] with [`String`] as the data type.
 ///
 /// [`SerializedEvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.SerializedEvtxRecord.html
 pub type EvtxRS = SerializedEvtxRecord<String>;
-/// Type alias for [`Result`] of [`EvtxRS`].
+/// [`Result`] of [`EvtxRS`].
 ///
 /// [`Result`]: std::result::Result
 pub type ResultEvtxRS = std::result::Result<EvtxRS, EvtxError>;

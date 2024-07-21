@@ -32,9 +32,9 @@ impl LogMessage {
     }
 }
 
-/// Type alias for bytes offsets of the beginning and end of the
+/// Bytes offsets of the beginning and end of the
 /// datetime substring within a `String`.
 // TODO: change to a typed `struct DtBegEndPair(usize, usize)`
 pub type DtBegEndPair = (usize, usize);
-/// Type alias for [`Option`] of [`DtBegEndPair`].
+/// [`Option`] of [`DtBegEndPair`].
 pub type DtBegEndPairOpt = Option<DtBegEndPair>;

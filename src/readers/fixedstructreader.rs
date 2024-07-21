@@ -1,8 +1,8 @@
 // src/readers/fixedstructreader.rs
 
 //! Implements a [`FixedStructReader`],
-//! the driver of deriving [`FixedStruct`s] from a fixed C-struct format file
-//! using a [`BlockReader`].
+//! the driver of deriving [`FixedStruct`s] (acct/lastlog/utmp/etc.)
+//! from a fixed C-struct format file using a [`BlockReader`].
 //!
 //! Sibling of [`SyslogProcessor`]. But simpler in a number of ways due to
 //! predictable format of the fixedsturct files. Also, a `FixedStructReader`

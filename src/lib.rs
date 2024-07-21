@@ -37,7 +37,7 @@
 //! The [`common`] module is for shared constants, definitions, and helper
 //! functions. There are also sub-module `common.rs` specific to that module,
 //! e.g. [`data/common.rs`].<br/>
-//! And finally the driver is under the [`bin/s4.rs`].
+//! And finally the driver program is under the [`bin/s4.rs`].
 //!
 //! Also see [_Definitions of data_] and [`Sysline`].
 //!

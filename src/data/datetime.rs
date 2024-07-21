@@ -166,7 +166,7 @@ pub fn convert_to_systemtime<T>(epoch_seconds: T)
 /// create a `DateTime`
 ///
 /// wrapper for chrono DateTime creation function
-#[cfg(test)]
+#[allow(unused)]
 pub fn ymdhms(
     fixedoffset: &FixedOffset,
     year: i32,
@@ -189,7 +189,7 @@ pub fn ymdhms(
 /// create a `DateTime` with FixedOffset `+00:00`
 ///
 /// wrapper for chrono DateTime creation function
-#[cfg(test)]
+#[allow(unused)]
 pub fn ymdhms0(
     year: i32,
     month: u32,
@@ -212,9 +212,6 @@ pub fn ymdhms0(
 /// create a `DateTime` with milliseconds
 ///
 /// wrapper for chrono DateTime creation function
-///
-/// Testing only
-// #[cfg(test)] // XXX: causes import failure from `s4.rs` desptie only being used in tests
 #[allow(clippy::too_many_arguments)]
 pub fn ymdhmsl(
     fixedoffset: &FixedOffset,
@@ -241,9 +238,6 @@ pub fn ymdhmsl(
 /// create a `DateTime` with microseconds
 ///
 /// wrapper for chrono DateTime creation function
-///
-/// Testing only
-// #[cfg(test)] // XXX: causes import failure from `s4.rs` desptie only being used in tests
 #[allow(clippy::too_many_arguments)]
 pub fn ymdhmsm(
     fixedoffset: &FixedOffset,
@@ -270,7 +264,7 @@ pub fn ymdhmsm(
 /// create a `DateTime` with nanoseconds
 ///
 /// wrapper for chrono DateTime creation function
-#[cfg(test)]
+#[allow(unused)]
 #[allow(clippy::too_many_arguments)]
 pub fn ymdhmsn(
     fixedoffset: &FixedOffset,
@@ -2537,8 +2531,7 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 173;
 ///
 /// A regex that attempts to match from year to second (and not the timezone),
 /// will match `"2001-02-03T04:05:06"`, dropping the timezone information.
-/// This will result in a filler timezone being used which may not
-/// be correct. Generally, more specific regex patterns should be listed before
+/// Generally, more specific regex patterns should be listed before
 /// general regex patterns.
 ///
 /// Notice that local sequences of `DateTimeParseInstr`
@@ -5814,7 +5807,7 @@ fn month_bB_to_month_m_bytes(
         MONTH_02_b_ld | MONTH_02_b_ud | MONTH_02_b_Ud => buffer.copy_from_slice(MONTH_02_m),
         MONTH_03_b_ld | MONTH_03_b_ud | MONTH_03_b_Ud => buffer.copy_from_slice(MONTH_03_m),
         MONTH_04_b_ld | MONTH_04_b_ud | MONTH_04_b_Ud => buffer.copy_from_slice(MONTH_04_m),
-        // MONTH_05_b_ld not neeeded
+        // MONTH_05_b_ld not needed
         MONTH_06_b_ld | MONTH_06_b_ud | MONTH_06_b_Ud => buffer.copy_from_slice(MONTH_06_m),
         MONTH_07_b_ld | MONTH_07_b_ud | MONTH_07_b_Ud => buffer.copy_from_slice(MONTH_07_m),
         MONTH_08_b_ld | MONTH_08_b_ud | MONTH_08_b_Ud => buffer.copy_from_slice(MONTH_08_m),
