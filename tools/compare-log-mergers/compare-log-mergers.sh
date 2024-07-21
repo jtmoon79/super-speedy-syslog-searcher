@@ -34,15 +34,36 @@ PYTHON=${PYTHON-$(
     fi
 )}
 (set -x; "${PYTHON}" --version) | head -n1
+
 if which hyperfine &>/dev/null; then
     hyperfine=$(which hyperfine)
     (set -x; hyperfine --version)
 fi
 
-if [[ -z "${VIRTUAL_ENV-}" ]]; then
-    echo "ERROR: must run within a Python virtual environment" >&2
+if ! which bc &>/dev/null; then
+    echo "ERROR: bc not found in PATH" >&2
+    echo "install:" >&2
+    echo "    sudo apt install bc" >&2
     exit 1
 fi
+
+if ! which jq &>/dev/null; then
+    echo "ERROR: jq not found in PATH" >&2
+    echo "install:" >&2
+    echo "    sudo apt install jq" >&2
+    exit 1
+fi
+JQ=$(which jq)
+
+HRUNS=30
+
+# precompile all python packages
+PYSITE_PKG_PATH=$("${PYTHON}" -c "import sysconfig; print(sysconfig.get_path('purelib'))")
+(
+    set -x
+    "${PYTHON}" -m compileall -q "${PYSITE_PKG_PATH}"
+)
+
 # make sure packages are installed to expected versions
 # XXX: these versions should match that described in the `README.md`
 for package in \
@@ -55,32 +76,44 @@ for package in \
         "${PYTHON}" -m pip install \
             --upgrade \
             --no-python-version-warning --disable-pip-version-check \
-            --force --quiet \
+            --quiet \
             "${package}"
     )
 done
 
 declare -a files=(
-    './tools/compare-log-mergers/gen-5000-1-faces.log'
-    './tools/compare-log-mergers/gen-2500-1-faces.log'
-    './tools/compare-log-mergers/gen-2000-1-faces.log'
+    './tools/compare-log-mergers/gen-5000-1-facesA.log'
+    './tools/compare-log-mergers/gen-5000-1-facesB.log'
+    './tools/compare-log-mergers/gen-5000-1-facesC.log'
 )
 
-tmp1=$(mktemp -t "compare-log-mergers_XXXXX.out")
-md1=$(mktemp -t "compare-log_mergers_XXXXX.md")
-md2=$(mktemp -t "compare-log_mergers_XXXXX.md")
-md3=$(mktemp -t "compare-log_mergers_XXXXX.md")
-md4=$(mktemp -t "compare-log_mergers_XXXXX.md")
-md5=$(mktemp -t "compare-log_mergers_XXXXX.md")
-mdfinal=${DIROUT-.}/compare-log_mergers.md
+tmpA=$(mktemp -t "compare-log-mergers_XXXXX.out")
+json1=$(mktemp -t "compare-log_mergers_XXXXX.json")
+json2=$(mktemp -t "compare-log_mergers_XXXXX.json")
+json3=$(mktemp -t "compare-log_mergers_XXXXX.json")
+json4=$(mktemp -t "compare-log_mergers_XXXXX.json")
+json5=$(mktemp -t "compare-log_mergers_XXXXX.json")
+json6=$(mktemp -t "compare-log_mergers_XXXXX.json")
+json7=$(mktemp -t "compare-log_mergers_XXXXX.json")
+tm1=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tm2=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tm3=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tm4=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tm5=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tm6=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tm7=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+mdfinal=$(mktemp -t "compare-log_mergers_final_XXXXX.md")
 
 function exit_() {
-    rm -f "${tmp1}" "${md1}" "${md2}" "${md3}" "${md4}" "${md5}"
+    rm -f \
+        "${tmpA}" \
+        "${json1}" "${json2}" "${json3}" "${json4}" "${json5}" "${json6}" "${json7}" \
+        "${tm1}" "${tm2}" "${tm3}" "${tm4}" "${tm5}" "${tm6}" "${tm7}" \
+        "${mdfinal}"
 }
-
 trap exit_ EXIT
 
-# datetime range for s4
+# datetime range for s4, lnav
 declare -r after_dt="2000-01-01T00:20:00"
 declare -r befor_dt="2000-01-01T00:50:00"
 # datetime range for logdissect
@@ -93,14 +126,20 @@ declare -r regex_dt='^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'
 function files_caching() {
     # force reading of files from disk to allow any possible caching.
     # crude but possibly better than nothing
-    cat "${files[@]}" > "${tmp1}"
+    cat "${files[@]}" > "${tmpA}"
 }
 
 function echo_line() {
-    echo '----------------------------------------'
+    python -Bc "print('─' * ${COLUMNS:-100})"
+    echo
 }
 
-TIME_FORMAT='real %e s, Max RSS %M KB, %P %%CPU, (%x)'
+# %M = Maximum resident set size in KB
+# %P = CPU percentage
+# %E = Elapsed real time
+# see https://www.man7.org/linux/man-pages/man1/time.1.html
+# Note: metrics %t %K and other memory metrics always returned 0
+TIME_FORMAT='%M|%P|%E'
 
 # GNU grep + sort
 
@@ -118,119 +157,142 @@ echo
     # search for datetimes between $after_dt $befor_dt
     # using decently constrained regexp to match meaning
     set -x
-    $hyperfine --style=basic --export-markdown "${md1}" --shell sh -n "grep+sort" \
+    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json1}" --shell sh -n "grep+sort" \
         -- \
         "$grep -hEe '${regex_dt}' -- ${files[*]} | $sort -t ' ' -k 1 -s > /dev/null"
 )
 (
     files_caching
     set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
+    $time --format="${TIME_FORMAT}" --output="${tm1}" \
         -- \
-        "$grep" -hEe "${regex_dt}" -- "${files[@]}" \
-            | "$sort" -t ' ' -k 1 -s \
-            > "${tmp1}"
+        sh -c "'$grep' -hEe '${regex_dt}' -- ${files[*]} | '$sort' -t ' ' -k 1 -s" > "${tmpA}"
 )
+
 echo
-wc -l "${tmp1}"
-echo
-cat "${md1}"
+cat "${tmpA}" | wc -l -
 echo
 
 # Super Speedy Syslog Searcher (S4) (system)
 
 echo_line
 
-PROGRAM_S4=${PROGRAM_S4-./target/release/s4}
-(set -x; "${PROGRAM_S4}" --version)
+PROGRAM_S4_SYSTEM=${PROGRAM_S4_SYSTEM-./target/release/s4}
+(set -x; "${PROGRAM_S4_SYSTEM}" --version)
 
 echo
 
 (
-    (set -x; cargo clean --quiet; cargo build --quiet --release)
     files_caching
     set -x
-    $hyperfine --style=basic --export-markdown "${md2}" -N -n "s4 (system)" \
+    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json2}" -N -n "s4 (system)" \
         -- \
-        "'${PROGRAM_S4}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+        "'${PROGRAM_S4_SYSTEM}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
 (
     files_caching
     set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
+    $time --format="${TIME_FORMAT}" --output="${tm2}" \
         -- \
-        "${PROGRAM_S4}" \
+        "${PROGRAM_S4_SYSTEM}" \
         "-a=${after_dt}" \
         "-b=${befor_dt}" \
         "--color=never" \
-        "${files[@]}" > "${tmp1}"
+        "${files[@]}" > "${tmpA}"
 )
-echo
-wc -l "${tmp1}"
-echo
-cat "${md2}"
-echo
 
-# Super Speedy Syslog Searcher (S4) (mimalloc)
-
-echo_line
-
-(
-    (set -x; cargo clean --quiet; cargo build --quiet --release --features=mimalloc)
-    files_caching
-    set -x
-    $hyperfine --style=basic --export-markdown "${md3}" -N -n "s4 (mimalloc)" \
-        -- \
-        "'${PROGRAM_S4}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
-)
-(
-    files_caching
-    set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
-        -- \
-        "${PROGRAM_S4}" \
-        "-a=${after_dt}" \
-        "-b=${befor_dt}" \
-        "--color=never" \
-        "${files[@]}" > "${tmp1}"
-)
 echo
-wc -l "${tmp1}"
-echo
-cat "${md3}"
+cat "${tmpA}" | wc -l -
 echo
 
 # Super Speedy Syslog Searcher (S4) (jemalloc)
 
 echo_line
 
+PROGRAM_S4_JEMALLOC=${PROGRAM_S4_JEMALLOC-./target/jemalloc/s4}
+(set -x; "${PROGRAM_S4_JEMALLOC}" --version)
+
 (
-    (set -x; cargo clean --quiet; cargo build --quiet --release --features=jemalloc)
     files_caching
     set -x
-    $hyperfine --style=basic --export-markdown "${md4}" -N -n "s4 (jemalloc)" \
+    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json3}" -N -n "s4 (jemalloc)" \
         -- \
-        "'${PROGRAM_S4}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+        "'${PROGRAM_S4_JEMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
+
 (
     files_caching
     set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
+    $time --format="${TIME_FORMAT}" --output="${tm3}" \
         -- \
-        "${PROGRAM_S4}" \
+        "${PROGRAM_S4_JEMALLOC}" \
         "-a=${after_dt}" \
         "-b=${befor_dt}" \
         "--color=never" \
-        "${files[@]}" > "${tmp1}"
+        "${files[@]}" > "${tmpA}"
 )
+
 echo
-wc -l "${tmp1}"
+cat "${tmpA}" | wc -l -
 echo
-cat "${md4}"
+
+# Super Speedy Syslog Searcher (S4) (mimalloc)
+
+PROGRAM_S4_MIMALLOC=${PROGRAM_S4_MIMALLOC-./target/mimalloc/s4}
+(set -x; "${PROGRAM_S4_MIMALLOC}" --version)
+
+echo_line
+
+(
+    files_caching
+    set -x
+    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json4}" -N -n "s4 (mimalloc)" \
+        -- \
+        "'${PROGRAM_S4_MIMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+)
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" --output="${tm4}" \
+        -- \
+        "${PROGRAM_S4_MIMALLOC}" \
+        "-a=${after_dt}" \
+        "-b=${befor_dt}" \
+        "--color=never" \
+        "${files[@]}" > "${tmpA}"
+)
+
+echo
+cat "${tmpA}" | wc -l -
+echo
+
+# lnav
+
+PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
+(
+    files_caching
+    set -x
+    lnav --version
+    lnav -i -W ./tools/compare-log-mergers/lnav1.json
+    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json5}" -N -n "${PROGRAM_LNAV}" \
+        -- \
+        "'${PROGRAM_LNAV}' -N -n \
+-c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime(\"${after_dt}\") AND Datetime(\"${befor_dt}\")' \
+${files[*]}"
+)
+
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" --output="${tm5}" \
+        -- \
+        "${PROGRAM_LNAV}" -N -n \
+            -c ";SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('${after_dt}') AND Datetime('${befor_dt}')" \
+            "${files[@]}" > "${tmpA}"
+)
+
+echo
+cat "${tmpA}" | wc -l -
 echo
 
 # logmerger
@@ -242,22 +304,25 @@ PROGRAM_LM=${PROGRAM_LM-logmerger}
 echo "${PS4}logmerger --version"
 "${PYTHON}" -m pip list | grep -Fe 'logmerger'
 
-# TODO: precompile logmerger
+# precompile logmerger
+(
+    set -x
+    "${PYTHON}" -m compileall "${PYSITE_PKG_PATH}/logmerger"
+)
 
 echo
 
 (
     files_caching
     set -x
-    $hyperfine --style=basic --export-markdown "${md5}" --shell sh -n "${PROGRAM_LM}" \
+    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json6}" --shell sh -n "${PROGRAM_LM}" \
         -- \
         "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]} > /dev/null"
 )
 (
     files_caching
     set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
+    $time --format="${TIME_FORMAT}" --output="${tm6}" \
         -- \
         "${PROGRAM_LM}" \
         "--inline" \
@@ -267,12 +332,11 @@ echo
         "--end" \
         "${befor_dt}" \
         "${files[@]}" \
-         > "${tmp1}"
+         > "${tmpA}"
 )
+
 echo
-wc -l "${tmp1}"
-echo
-cat "${md5}"
+cat "${tmpA}" | wc -l -
 echo
 
 # logdissect
@@ -289,20 +353,17 @@ echo
     exit 0
     files_caching
     set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
+    $time --format="${TIME_FORMAT}" --output="${tm}" \
         -- \
         "${PROGRAM_LD}" \
         --range "${after_dt_ld}-${befor_dt_ld}" \
         "${files[@]}" \
-        > "${tmp1}"
+        > "${tmpA}"
 )
 echo
-# wc -l "${tmp1}"
+# cat "${tmpA}" | wc -l -
 
 # TooLong
-
-# TODO: precompile TooLong
 
 echo_line
 
@@ -310,35 +371,123 @@ echo_line
 PROGRAM_TL=${PROGRAM_TL-tl}
 (set -x; "${PROGRAM_TL}" --version)
 
+(
+    # precompile toolong
+    set -x
+    "${PYTHON}" -m compileall "${PYSITE_PKG_PATH}/toolong"
+)
+
 echo
 
 (
     files_caching
     set -x
-    $time --format="${TIME_FORMAT}" \
-        "${@}" \
+    $time --format="${TIME_FORMAT}" --output="${tm7}" \
         -- \
         "${PROGRAM_TL}" \
         --merge \
-        --output-merge "${tmp1}" \
-        "${files[@]}" \
+        --output-merge "${tmpA}" \
+        "${files[@]}"
 )
 echo
-wc -l "${tmp1}"
+cat "${tmpA}" | wc -l -
+echo
+cat "${tm7}"
 echo
 
-# create the final markdown file
+erealtime=$(cat "${tm7}" | cut -d'|' -f3 | cut -d':' -f2)
+echo '{
+  "results": [ {
+    "command": "toolong",
+    "mean": '"${erealtime}"',
+    "stddev": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "times": [0.0],
+    "exit_codes": [0]
+  } ]
+}' > "${json7}"
 
-(
-    cat "${md1}"
-    cat "${md2}" | tail -n +3
-    cat "${md3}" | tail -n +3
-    cat "${md4}" | tail -n +3
-    cat "${md5}" | tail -n +3
-) | column -t -s '|' -o '|' > "${mdfinal}"
+#
+# merge separate files into one final markdown file
+#
+# example json output:
+#
+# $  hyperfine --show-output --export-json /tmp/out.json -n 'my sleep' --shell sh -- "sleep 0.1"
+#
+#   {
+#     "results": [
+#         {
+#         "command": "my sleep",
+#         "mean": 0.10085313591172414,
+#         "stddev": 0.00013263308766873322,
+#         "median": 0.10084629836000002,
+#         "user": 0.0007963648275862067,
+#         "system": 0.00002696551724137931,
+#         "min": 0.10058878336000002,
+#         "max": 0.10112353836000001,
+#         "times": [
+#             0.10059074636000001,
+#             ...
+#         ],
+#         "exit_codes": [
+#             0,
+#             ...
+#         ]
+#       }
+#     ]
+#   }
+#
+# example time output:
+#
+#   402418|81.2
+
+function to_milliseconds() {
+    # from seconds to milliseconds; '0.0034125904' -> '3.0'
+    # $1 must be a number
+    if [[ 1 -ne ${#} ]]; then
+        echo "ERROR: wrong number of arguments" >&2
+        exit 1
+    fi
+    if [[ -z "${1}" ]]; then
+        echo "ERROR: empty value" >&2
+        exit 1
+    fi
+    "${PYTHON}" -c "print('%.1f' % (${1} * 1000))"
+}
+
+# markdown table header
+echo '|Command|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpA}"
+echo '|:---|---:|---:|---:|---:|---:|' >> "${tmpA}"
+
+# markdown table rows
+for files_ in \
+    "${json1}|${tm1}" \
+    "${json2}|${tm2}" \
+    "${json3}|${tm3}" \
+    "${json4}|${tm4}" \
+    "${json5}|${tm5}" \
+    "${json6}|${tm6}" \
+    "${json7}|${tm7}" \
+; do
+    (
+        json=$(echo -n "${files_}" | cut -d'|' -f1)
+        tm=$(echo -n "${files_}" | cut -d'|' -f2)
+        command=$($JQ '.results[0].command' < "${json}" | tr -d '"')
+        mean=$(to_milliseconds $($JQ '.results[0].mean' < "${json}"))
+        stddev=$(to_milliseconds $($JQ '.results[0].stddev' < "${json}"))
+        min=$(to_milliseconds $($JQ '.results[0].min' < "${json}"))
+        max=$(to_milliseconds $($JQ '.results[0].max' < "${json}"))
+        mss=$(cat "${tm}" | cut -d'|' -f1)
+        cpup=$(cat "${tm}" | cut -d'|' -f2)
+        echo "|\`${command}\`|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
+    ) >> "${tmpA}"
+done
+
+cat "${tmpA}" | column -t -s '|' -o '|' > "${mdfinal}"
 
 (set -x; cat "${mdfinal}")
 
-if which glow &>/dev/null && [[ -r "${mdfinal}" ]]; then
+if which glow &>/dev/null; then
     glow "${mdfinal}"
 fi
