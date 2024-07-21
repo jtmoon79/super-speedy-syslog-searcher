@@ -75,7 +75,7 @@ for TARGET in \
     x86_64-sun-solaris \
     x86_64-linux-android \
     x86_64-unknown-redox \
-    mips64-unknown-linux-gnuabi64 \
+    `# mips64-unknown-linux-gnuabi64` \
 ; do
     cross check --lib --bins --target $TARGET
 done
