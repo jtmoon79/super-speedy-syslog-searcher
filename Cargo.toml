@@ -153,6 +153,16 @@ panic = "abort"
 split-debuginfo = "unpacked"
 strip = false
 
+# XXX: profiles `jemalloc` and `mimalloc` are merely named different for distinguishment.
+#      setting `features` in a profile has no effect; must still do:
+#      `cargo build --profile jemalloc --features jemalloc`
+
+[profile.jemalloc]
+inherits = "release"
+
+[profile.mimalloc]
+inherits = "release"
+
 # other helpful development tools
 # cargo install --locked cargo-expand cargo-nextest
 
