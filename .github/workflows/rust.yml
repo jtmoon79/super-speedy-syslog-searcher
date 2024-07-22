@@ -531,11 +531,14 @@ jobs:
       - uses: moonrepo/setup-rust@v1
         with:
           channel: ${{ env.MSRV_UPLOAD }}
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: linux-tools-generic
+          version: 1.0
       - name: flamegraph.sh
         shell: bash
         run: |
           set -eux
-          sudo -- apt-get install -y linux-tools-generic
           cargo install --locked flamegraph --version=${FLAMEGRAPH_VERSION}
           RUSTFLAGS=-g cargo build --profile flamegraph
           export OUT="./flamegraph-dtf2-2.svg"
