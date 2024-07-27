@@ -1,0 +1,10 @@
+# .gitattributes
+#
+# linguist overrides
+# used by github.com for project front-page section _Languages_
+# see https://github.com/github-linguist/linguist/blob/master/docs/overrides.md
+
+logs/** linguist-documentation
+releases/** linguist-documentation
+tools/compare-log-mergers/** linguist-documentation
+tools/compare-current-and-expected/** linguist-documentation
