@@ -1327,9 +1327,9 @@ dependencies = [
 
 [[package]]
 name = "evtx"
-version = "0.8.2"
+version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "082a513e8ac6685ee6b4a52d6f774a041d3f6497bdeeabed515df2edd207872b"
+checksum = "2eaa12db61bdb107becc6f8db2f28390eb791394ea8cbacd2f5f85cead2371df"
 dependencies = [
  "anyhow",
  "bitflags 2.4.1",
@@ -2645,9 +2645,9 @@ dependencies = [
 
 [[package]]
 name = "quick-xml"
-version = "0.31.0"
+version = "0.36.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1004a344b30a54e2ee58d66a71b32d2db2feb0a31f9a2d302bf0536f15de2a33"
+checksum = "96a05e2e8efddfa51a84ca47cec303fac86c8541b686d37cac5efc0e094417bc"
 dependencies = [
  "memchr",
 ]
@@ -3022,6 +3022,7 @@ version = "1.0.108"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3d1c7e3eac408d115102c4c24ad393e0821bb3a5df4d506a80f85f7a742a526b"
 dependencies = [
+ "indexmap 2.2.6",
  "itoa",
  "ryu",
  "serde",
