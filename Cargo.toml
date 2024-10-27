@@ -46,7 +46,7 @@ chrono = "0.4.38"
 clap = { version = "=4.2.1", features = ["derive"] }
 const_format = { version = "0.2.33", features = ["assertcp"] }
 crossbeam-channel = "0.5.13"
-ctrlc = "3.4.4"
+ctrlc = "3.4.5"
 current_platform = "0.2.0"
 dlopen2 = "0.7"
 encoding_rs = "0.8.34"
