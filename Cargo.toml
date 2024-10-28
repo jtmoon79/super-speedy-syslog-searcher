@@ -65,7 +65,7 @@ memoffset = "0.9.1"
 min-max = "0.1.8"
 more-asserts = "0.3.1"
 mut_static = "5.0.0"
-nix = "0.27.1"
+nix = "0.29.0"
 numtoa = "0.2.4"
 # TODO: instead of `once_cell` crate, use `std::sync::OnceLock` when it becomes stable
 #       TRACKING: https://github.com/rust-lang/rust/issues/74465
