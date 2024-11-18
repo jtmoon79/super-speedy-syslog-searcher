@@ -50,7 +50,7 @@ ctrlc = "3.4.5"
 current_platform = "0.2.0"
 dlopen2 = "0.7"
 encoding_rs = "0.8.35"
-evtx = { version = "0.8.2", features = ["multithreading"] }
+evtx = { version = "0.8.4", features = ["multithreading"] }
 flate2 = "1.0.34"
 itertools = "0.13.0"
 jetscii = { version = "0.5.3", optional = true }
