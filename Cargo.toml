@@ -39,7 +39,7 @@ exclude = [
 
 [dependencies]
 anyhow = "1.0.93"
-bstr = "1.10.0"
+bstr = "1.11.0"
 bzip2-rs = "0.1.2"
 cfg-if = "1.0.0"
 chrono = "0.4.38"
