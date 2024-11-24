@@ -659,13 +659,13 @@ An overview of features of varying log mergers including GNU tools.
 #### General Features
 
 |Program        |Source|CLI|TUI|Interactive|live tail|merge varying log formats|datetime search range|
-|-              |-     |-  |-  |-          |-        |-                        |- |
-|`grep \| sort` |C     |✔  |✗ |✗          |☐ `tail`|✗                        |‼|
-|`s4`           |Rust  |✔  |✗ |✗          |✗       |✔                        |✔|
-|`lnav`         |C++   |✔  |✔ |✔          |✔       |✔                        |‼|
-|`logmerger`    |Python|✔  |✔ |✔          |✗       |‼                        |✔|
-|`tl`           |Python|✔  |✔ |✔          |✔       |✗                        |✗|
-|`logdissect.py`|Python|✔  |✗ |✗          |✗       |✗                        |✗|
+|-              |-     |-  |-  |-          |-        |-                        |-                    |
+|`grep \| sort` |C     |✔  |✗ |✗          |☐ `tail`|✗                        |‼                    |
+|`s4`           |Rust  |✔  |✗ |✗          |✗       |✔                        |✔                    |
+|`lnav`         |C++   |✔  |✔ |✔          |✔       |✔                        |‼                    |
+|`logmerger`    |Python|✔  |✔ |✔          |✗       |‼                        |✔                    |
+|`tl`           |Python|✔  |✔ |✔          |✔       |✗                        |✗                    |
+|`logdissect.py`|Python|✔  |✗ |✗          |✗       |✗                        |✗                    |
 
 ---
 
@@ -675,7 +675,7 @@ An overview of features of varying log mergers including GNU tools.
 |-                         |-       |-       |-       |-       |-       |
 |`grep \| sort`            |✗      |‼        |!       |!       |!       |
 |`s4`                      |✔      |✔       |✔       |✔      |✔       |
-|`lnav`                    |‼       |✔       |✔       |✔       |✔       |
+|`lnav`                    |‼       |✔       |✔       |✔       |✔      |
 |`logmerger`               |✗      |✗       |!       |!       |◒       |
 |`tl`                      |✗      |✗       |✔       |✔      |✔       |
 
