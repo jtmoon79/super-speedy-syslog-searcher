@@ -339,7 +339,7 @@ mod errno {
         pub const ENOTSUP: Errno = Errno::EOPNOTSUPP;
     }
 
-    pub const fn from_i32(e: i32) -> Errno {
+    pub const fn from_raw(e: i32) -> Errno {
         use self::Errno::*;
 
         match e {
@@ -424,8 +424,8 @@ mod errno {
     }
 
     impl Errno {
-        pub const fn from_i32(err: i32) -> Errno {
-            from_i32(err)
+        pub const fn from_raw(err: i32) -> Errno {
+            from_raw(err)
         }
     }
 }
@@ -467,7 +467,7 @@ macro_rules! testing_force_error {
                     if $api_calls >= start && $api_calls <= end {
                         $api_calls += 1;
                         $api_call_errors += 1;
-                        let e = Errno::from_raw(r.abs());
+                        let e = from_raw!(r.abs());
                         def1o!("{}() FORCE_ERROR_RANGE {}; {:?}", $func_name, r, e);
                         let err = JournalReader::Error_from_Errno(r, &e, $func_name, $path);
                         return $err_type(err);
