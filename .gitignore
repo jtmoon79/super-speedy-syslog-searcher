@@ -2,7 +2,6 @@
 *.venv*/
 .virtualenv/
 /.idea/
-/.vscode/
 /tmp/
 /valgrind/
 tools/compare-current-and-expected_current.stderr
