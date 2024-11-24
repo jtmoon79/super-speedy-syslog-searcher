@@ -467,7 +467,7 @@ macro_rules! testing_force_error {
                     if $api_calls >= start && $api_calls <= end {
                         $api_calls += 1;
                         $api_call_errors += 1;
-                        let e = Errno::from_i32(r.abs());
+                        let e = Errno::from_raw(r.abs());
                         def1o!("{}() FORCE_ERROR_RANGE {}; {:?}", $func_name, r, e);
                         let err = JournalReader::Error_from_Errno(r, &e, $func_name, $path);
                         return $err_type(err);
@@ -1105,7 +1105,7 @@ impl<'a> JournalReader {
             let pppaths: *mut *const ::std::os::raw::c_char = ppaths.as_mut_ptr();
             def1o!("sd_journal_open_files(@{:?}, {:?}, 0)", journal_handle_ptr, path_cs);
             let r: i32 = (*journal_api_ptr).sd_journal_open_files(&mut journal_handle_ptr, pppaths, 0);
-            let e = Errno::from_i32(r.abs());
+            let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_open_files returned {}, {:?}", r, e);
             if r < 0 {
                 let err = Error::new(
@@ -1177,7 +1177,7 @@ impl<'a> JournalReader {
                         self.journal_handle_ptr,
                         *ts
                     );
-                    let e = Errno::from_i32(r.abs());
+                    let e = Errno::from_raw(r.abs());
                     def1o!("sd_journal_seek_realtime_usec returned {}, {:?}", r, e);
                     self.api_calls += 1;
                     if r < 0 {
@@ -1200,7 +1200,7 @@ impl<'a> JournalReader {
                     //
                     def1o!("sd_journal_seek_head(@{:?})", self.journal_handle_ptr);
                     let r: i32 = (*self.journal_api_ptr).sd_journal_seek_head(self.journal_handle_ptr);
-                    let e = Errno::from_i32(r.abs());
+                    let e = Errno::from_raw(r.abs());
                     def1o!("sd_journal_seek_head returned {}, {:?}", r, e);
                     self.api_calls += 1;
                     if r < 0 {
@@ -1256,7 +1256,7 @@ impl<'a> JournalReader {
         unsafe {
             def1n!("sd_journal_next(@{:?})", journal_handle_ptr);
             let r: i32 = (*journal_api_ptr).sd_journal_next(*journal_handle_ptr);
-            let e = Errno::from_i32(r.abs());
+            let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_next returned {}, {:?}", r, e);
             *api_calls += 1;
             if r == 0 {
@@ -1302,7 +1302,7 @@ impl<'a> JournalReader {
                 *journal_handle_ptr,
                 prt
             );
-            let e = Errno::from_i32(r.abs());
+            let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_realtime_usec returned {}, {:?}", r, e);
             *api_calls += 1;
             if r < 0 {
@@ -1396,7 +1396,7 @@ impl<'a> JournalReader {
                 plength,
             );
             *api_calls += 1;
-            let e = Errno::from_i32(r.abs());
+            let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_data returned {}, {:?}", r, e);
             if r < 0 {
                 *api_call_errors += 1;
@@ -1443,7 +1443,7 @@ impl<'a> JournalReader {
                 plength,
             );
             *api_calls += 1;
-            let e = Errno::from_i32(r.abs());
+            let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_enumerate_available_data returned {}, {:?}", r, e);
             if r == 0 {
                 def1x!("return Done");
@@ -1495,7 +1495,7 @@ impl<'a> JournalReader {
                 prt,
                 pboot
             );
-            let e = Errno::from_i32(r.abs());
+            let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_monotonic_usec returned {}, {:?}", r, e);
             *api_calls += 1;
             if r < 0 {
@@ -1539,7 +1539,7 @@ impl<'a> JournalReader {
                 prt,
                 pboot
             );
-            let e = Errno::from_i32(r.abs());
+            let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_monotonic_usec returned {}, {:?}", r, e);
             *api_calls += 1;
             if r < 0 {
@@ -1577,7 +1577,7 @@ impl<'a> JournalReader {
                 pcursor,
             );
             *api_calls += 1;
-            let _e = Errno::from_i32(r.abs());
+            let _e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_cursor returned {}, {:?}", r, _e);
             if r < 0 {
                 *api_call_errors += 1;
