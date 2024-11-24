@@ -18,7 +18,7 @@ readme = "README.md"
 version = "0.7.75"
 edition = "2021"
 # `rust-version` (MSRV) should match ./github/workflows/rust.yml:rust_msrv:msrv and ./README.md
-rust-version = "1.72.1"
+rust-version = "1.73.0"
 default-run = "s4"
 # Do not set metadata fields `documentation` or `homepage` unless using
 # non-standard websites.
