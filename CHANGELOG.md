@@ -215,6 +215,7 @@ Categories:
   (BUILD) - changes to the build (i.e. Cargo.toml)
   (DOCS) - changes to docstrings ("rustdocs"), docs.rs stuff, READMEs
   (CI) - changes to github workflows, codecov
+  (LOGS) - chnages under `logs/`
   (TEST) - changes to tests
   (TOOLS) - changes to scripts under `tools/`
   (PROJECT) - changes to READMEs, CHANGELOG, other non-source tweaks
