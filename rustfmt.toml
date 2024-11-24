@@ -1,3 +1,5 @@
+# rustfmt.toml
+
 # rustfmt options
 # docs at https://rust-lang.github.io/rustfmt/
 array_width = 20
