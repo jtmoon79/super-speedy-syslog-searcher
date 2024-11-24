@@ -377,6 +377,22 @@ jobs:
           cargo check --locked --all-targets
           cargo check --locked --all-targets --release
 
+  job_deny:
+    name: cargo deny
+    needs: [job_rust_msrv_os]
+    runs-on: ubuntu-latest
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v4
+      - uses: moonrepo/setup-rust@v1
+        with:
+          channel: ${{ env.MSRV_UPLOAD }}
+          bins: cargo-deny
+      - name: Run cargo-deny.sh
+        shell: bash
+        run: ./tools/cargo-deny.sh
+        continue-on-error: true
+
   job_clippy:
     # this job downloads and builds dependency crates
     name: clippy
