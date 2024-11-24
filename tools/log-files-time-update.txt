@@ -610,6 +610,7 @@
 ./logs/other/tests/dtf7-20-LEVELS.log.old.gz|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.tar|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-20-LEVELS.log.xz|2000-01-01 00:00:20 -0400
+./logs/other/tests/dtf7-20-LEVELS.log.zip|2000-01-01 00:00:20 -0400
 ./logs/other/tests/dtf7-5-LEVELS.log|2000-01-01 00:00:05-0400
 ./logs/other/tests/dtf8-20-LEVELS.log|2000-01-01 00:00:20.9541789060
 ./logs/other/tests/dtf9a-2.log|2022-07-17 00:00:12.3331789060
