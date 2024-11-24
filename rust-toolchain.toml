@@ -1,0 +1,5 @@
+# rust-toolchain.toml
+
+[toolchain]
+channel = "1.73.0"
+profile = "default"
