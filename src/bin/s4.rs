@@ -98,8 +98,6 @@ use ::chrono::{
 };
 use ::clap::{Parser, ValueEnum};
 use ::const_format::concatcp;
-// TODO: [2023/01] use std::sync::mpsc instead of crossbeam_channel when MSRV is >= 1.67.0
-//       see https://github.com/rust-lang/rust/pull/93563/ and https://releases.rs/docs/1.67.0/
 use ::crossbeam_channel;
 use ::lazy_static::lazy_static;
 use ::regex::Regex;
