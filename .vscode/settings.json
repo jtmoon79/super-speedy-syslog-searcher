@@ -1,0 +1,12 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./Cargo.toml",
+    ],
+    "rust-analyzer.showUnlinkedFileNotification": false,
+    "explorer.excludeGitIgnore": true,
+    "rust-analyzer.cargo.cfgs": {
+        "debug_assertions": null,
+        "miri": null
+    },
+    "files.eol": "\n"
+}
