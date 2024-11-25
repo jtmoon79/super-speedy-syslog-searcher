@@ -216,7 +216,7 @@ Categories:
   (DOCS) - changes to docstrings ("rustdocs"), docs.rs stuff, READMEs
   (CI) - changes to github workflows, codecov
   (LOGS) - chnages under `logs/`
-  (TEST) - changes to tests
+  (TEST) - changes only to `src/tests`
   (TOOLS) - changes to scripts under `tools/`
   (PROJECT) - changes to READMEs, CHANGELOG, other non-source tweaks
 

@@ -10,20 +10,18 @@ COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
 SHA1=$3
 
-echo "
-Categories:
+echo 'Categories:
 
   (LIB) - changes to the library source
   (BIN) - changes to the binary source (bin.rs, CLI options, etc.)
   (DEBUG) - changes to the either source only affecting debug builds
   (BUILD) - changes to the build (i.e. Cargo.toml)
-  (DOCS) - changes to docstrings ('rustdocs'), docs.rs stuff, READMEs
+  (DOCS) - changes to docstrings ("rustdocs"), docs.rs stuff, READMEs
   (CI) - changes to github workflows, codecov
-  (LOGS) - changes to 'logs/'
-  (TEST) - changes to tests
-  (TOOLS) - changes to scripts under 'tools/'
-  (PROJECT) - changes to READMEs, CHANGELOG, other non-source tweaks
-"
+  (LOGS) - chnages under `logs\`
+  (TEST) - changes only to `src/tests`
+  (TOOLS) - changes to scripts under `tools/`
+  (PROJECT) - changes to READMEs, CHANGELOG, other non-source tweaks'
 
 # case "$COMMIT_SOURCE,$SHA1" in
 #  ,|template,)
