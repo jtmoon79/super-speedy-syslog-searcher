@@ -62,7 +62,6 @@ use crate::readers::syslinereader::{
     SummarySyslineReader,
     ResultFindDateTime,
 };
-use crate::tests::datetime_tests::dt_pattern_has_tz;
 #[allow(unused_imports)]
 use crate::tests::common::{
     eprint_file,
@@ -96,6 +95,7 @@ use crate::tests::common::{
     FO_M5,
     FO_M8,
 };
+use crate::tests::datetime_tests::dt_pattern_has_tz;
 
 use std::io::Write; // for `flush()`
 use std::str;
@@ -103,8 +103,7 @@ use std::str;
 use ::bstr::ByteSlice;
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
-#[allow(unused_imports)]
-use ::more_asserts::{assert_gt, assert_le};
+use ::more_asserts::assert_le;
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, deo, stack::stack_offset_set};
 use ::test_case::test_case;

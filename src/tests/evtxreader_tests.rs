@@ -50,8 +50,6 @@ use crate::tests::common::{
 use ::criterion::black_box;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
-use ::more_asserts::{assert_gt, assert_ge};
-#[allow(unused_imports)]
 use ::si_trace_print::printers::{defn, defo, defx, defñ};
 #[allow(unused_imports)]
 use ::si_trace_print::stack::stack_offset_set;

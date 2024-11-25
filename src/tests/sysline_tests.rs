@@ -17,35 +17,6 @@ use ::lazy_static::lazy_static;
 use ::si_trace_print::printers::{defn, defo, defx};
 
 
-#[allow(dead_code)]
-fn block_new(data: &[u8]) -> BlockP {
-    let block: Block = Block::from(data);
-
-    BlockP::new(block)
-}
-
-#[allow(dead_code)]
-fn blockp_new(sz: usize) -> BlockP {
-    let mut block: Block = Block::with_capacity(0);
-    block.clear();
-    block.resize_with(sz, || 0);
-
-    BlockP::new(block)
-}
-
-#[allow(dead_code)]
-fn linepart_new(
-    beg: BlockIndex,
-    end: BlockIndex,
-    fo: FileOffset,
-    bo: BlockOffset,
-    bsz: BlockSz,
-) -> LinePart {
-    let blockp = blockp_new(bsz as usize);
-
-    LinePart::new(blockp, beg, end, fo, bo, bsz)
-}
-
 const DT_STR0: &str = "2022-01-02T03:04:05+08:00";
 //const DATA_STR0: &str = "2022-01-02T03:04:05 0800 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ 😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃 🌚🌛🌜🌝";
 const DATA_STR0: &str =

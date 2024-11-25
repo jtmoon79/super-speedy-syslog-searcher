@@ -20,17 +20,6 @@ use std::str; // for `from_utf8`
 
 use ::lazy_static::lazy_static;
 use ::test_case::test_case;
-#[allow(unused_imports)]
-use ::more_asserts::{
-    assert_ge,
-    assert_gt,
-    assert_le,
-    assert_lt,
-    debug_assert_ge,
-    debug_assert_gt,
-    debug_assert_le,
-    debug_assert_lt,
-};
 
 
 /// Error, broken data

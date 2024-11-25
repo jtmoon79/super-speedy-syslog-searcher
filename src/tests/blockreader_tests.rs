@@ -29,13 +29,10 @@ use crate::readers::blockreader::{
     SummaryBlockReader,
 };
 use crate::readers::helpers::path_to_fpath;
-#[allow(unused_imports)]
 use crate::debug::helpers::{
     create_temp_file,
     create_temp_file_bytes_with_suffix,
     create_temp_file_no_permissions,
-    create_temp_file_with_name_exact,
-    create_temp_file_with_suffix,
     ntf_fpath,
     NamedTempFile,
 };
