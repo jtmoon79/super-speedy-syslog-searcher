@@ -6,6 +6,10 @@
 #
 # Developers must manually update this script when `rust.yml` changes.
 #
+# requires:
+#     cargo install --locked mlc cargo-nextest cargo-msrv
+#     rustup component add clippy
+#
 
 set -euo pipefail
 
