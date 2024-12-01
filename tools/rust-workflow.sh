@@ -50,6 +50,8 @@ cargo publish --dry-run --allow-dirty
 ./tools/compare-cat.sh
 mlc ./README.md
 
+# add targets with command:
+#     rustup target add $TARGET
 for TARGET in \
     aarch64-unknown-linux-gnu \
     i686-pc-windows-gnu \
