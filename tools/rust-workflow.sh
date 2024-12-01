@@ -75,7 +75,7 @@ for TARGET in \
     aarch64-linux-android \
     i686-linux-android \
     `# x86_64-pc-solaris` \
-    x86_64-sun-solaris \
+    `# x86_64-sun-solaris` \
     x86_64-linux-android \
     x86_64-unknown-redox \
     `# mips64-unknown-linux-gnuabi64` \
