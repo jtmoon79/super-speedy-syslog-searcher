@@ -435,7 +435,7 @@ jobs:
 
   job_test_linux:
     # this job downloads and builds dependency crates
-    name: test linux
+    name: test Linux
     needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
     steps:
@@ -490,7 +490,7 @@ jobs:
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_macos:
-    name: test Mac OS
+    name: test Mac
     needs: [job_rust_msrv_os]
     runs-on: macos-latest
     steps:
