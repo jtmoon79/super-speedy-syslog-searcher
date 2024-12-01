@@ -254,7 +254,10 @@ jobs:
           # (just a few chosen)
           - aarch64-linux-android
           - i686-linux-android
-          - x86_64-pc-solaris
+          # BUG: `libc` fails to compile on x86_64-pc-solaris
+          #      see PR #350
+          #      see https://github.com/nix-rust/nix/pull/2544
+          # - x86_64-pc-solaris
           - x86_64-sun-solaris
           - x86_64-linux-android
           - x86_64-unknown-redox
