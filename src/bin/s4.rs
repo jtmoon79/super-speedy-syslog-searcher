@@ -1729,29 +1729,23 @@ type ThreadInitData = (
 /// [`Sysline`]: s4lib::data::sysline::Sysline
 type IsLastLogMessage = bool;
 
-/// The data sent from file processing thread to the main printing thread.
+/// A single data sent from file processing thread to the main printing thread.
 ///
 /// * optional [`LogMessage`] (`Sysline`/`FixedStruct`)
 /// * optional [`Summary`]
 /// * is this the last LogMessage (`Sysline`/`FixedStruct`)?
 /// * `FileProcessingResult`
 ///
-/// There should never be a `Sysline` and a `Summary` received simultaneously.
+/// There should never be a `LogMessage` and a `FileSummary` received simultaneously.
 ///
 /// [`LogMessage`]: self::LogMessage
 /// [`Summary`]: s4lib::readers::summary::Summary
 #[derive(
-    //Clone,
-    //Copy,
     Debug,
-    //PartialEq,
-    //Eq,
-    //PartialOrd,
-    //Ord,
 )]
 enum ChanDatum {
     /// first data sent from file processing thread to main printing thread.
-    /// one must be sent first during the entire thread.
+    /// exactly one must be sent first during the entire thread.
     FileInfo(DateTimeLOpt, FileProcessingResultBlockZero),
     /// data sent from file processing thread to main printing thread
     /// a processed log message for printing.
@@ -1806,8 +1800,8 @@ fn chan_send(
 
 /// This creates a [`SyslogProcessor`] and processes the file.<br/>
 /// If it is a syslog file, then continues processing by sending each
-/// processed [`Sysline`] through a [channel] to the main thread which
-/// will print it.
+/// processed [`Sysline`]  in a [`ChanDatum`] through a [channel] to the main
+/// thread which will print it.
 ///
 /// This function drives a `SyslogProcessor` instance through it's formal
 /// stages (described by [`ProcessingStage`]). During each stage, this function
@@ -2046,8 +2040,9 @@ fn exec_syslogprocessor(
     defx!("({:?})", path);
 }
 
-/// This function drives a `FixedStructReader` instance through it's stages and
-/// makes the expected "find" calls (and other checks) during each stage.
+/// This function drives a [`FixedStructReader`] instance through it's processing.
+/// It makes the expected "find" calls (and other checks) during each stage.
+/// Similar to [`exec_syslogprocessor`].
 fn exec_fixedstructprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
@@ -2313,6 +2308,8 @@ fn exec_fixedstructprocessor(
     defx!("({:?})", path);
 }
 
+/// This function drives a [`EvtxReader`] instance through it's processing.
+/// Similar to [`exec_syslogprocessor`].
 fn exec_evtxprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
@@ -2408,6 +2405,8 @@ fn exec_evtxprocessor(
     defx!("({:?})", path);
 }
 
+/// This function drives a [`JournalReader`] instance through it's processing.
+/// Similar to [`exec_syslogprocessor`].
 fn exec_journalprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
@@ -2548,7 +2547,8 @@ fn exec_journalprocessor(
     defx!("({:?})", path);
 }
 
-/// Thread entry point for processing one file.
+/// Thread entry point for processing one file. Calls the correct `exec_`
+/// function.
 fn exec_fileprocessor_thread(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
@@ -2590,14 +2590,14 @@ fn exec_fileprocessor_thread(
 /// Five seems like a good number for the channel capacity *shrug*
 const CHANNEL_CAPACITY: usize = 5;
 
-/// The main [`Sysline`] processing and printing loop.
+/// The main [`LogMessage`] processing and printing loop.
 ///
 /// 1. creates threads to process each file
 ///
-/// 2. waits on each thread to receive a processed `Sysline`
+/// 2. waits on each thread to receive a processed `LogMessage`
 ///    _or_ a closed [channel]
-///    a. prints received `Sysline` in datetime order
-///    b. repeat 2. until each thread sends a `IsLastSysline` value `true`
+///    a. prints received `LogMessage` in datetime order
+///    b. repeat 2. until each thread sends a `IsLastLogMessage` value `true`
 ///
 /// 3. print each [`Summary`] (if CLI option `--summary`)
 ///
@@ -2606,7 +2606,6 @@ const CHANNEL_CAPACITY: usize = 5;
 /// messages to stderr.<br/>
 /// In debug builds, other file processing threads print verbosely.
 ///
-/// [`Sysline`]: s4lib::data::sysline::Sysline
 /// [`Summary`]: s4lib::readers::summary::Summary
 /// [channel]: self::ChanRecvDatum
 // XXX: this is a very large function
@@ -2789,12 +2788,12 @@ fn processing_loop(
         paths_total += 1;
     }
 
-    // shrink to fit
+    // no more changes to these mappings so shrink them
     map_pathid_filetype.shrink_to_fit();
     map_pathid_logmessagetype.shrink_to_fit();
     map_pathid_results.shrink_to_fit();
 
-    // rebind to be immutable
+    // rebind to be immutable just to be extra cautious
     let map_pathid_filetype = map_pathid_filetype;
     let map_pathid_logmessagetype = map_pathid_logmessagetype;
 
