@@ -27,23 +27,32 @@ function did_install () {
     echo "    cargo install flamegraph" >&2
     echo "    apt install -y linux-perf linux-tools-generic" >&2
     echo "(sometimes only need linux-tools-generic)" >&2
+    echo "" >&2
+    echo "You can also set environment variable 'PERF'" >&2
 }
-
-if [[ ! -d /usr/lib/linux-tools/ ]]; then
-    echo "Warning: cannot find '/usr/lib/linux-tools/'" >&2
-    did_install
-fi
 
 export GIT_PAGER=
 
-PERF=${PERF-"/usr/lib/linux-tools/$(ls -1v /usr/lib/linux-tools/ | tail -n1)/perf"}
+if [[ ! "${PERF+x}" ]]; then
+    PERF=${PERF-"/usr/lib/linux-tools/$(ls -1v /usr/lib/linux-tools/ 2>/dev/null | tail -n1)/perf"} || true
+    if [[ ! -e "${PERF}" ]]; then
+        echo "WARNING: PERF tool not found at '${PERF}'" >&2
+        if ! PERF="$(which perf)"; then
+            echo "ERROR: no perf tool found in the PATH; no 'perf' available" >&2
+            did_install
+            exit 1
+        fi
+    fi
+fi
+readonly PERF
 if [[ ! -e "${PERF}" ]]; then
-    echo "PERF tool does not exist '${PERF}'" >&2
+    echo "ERROR: PERF tool does not exist '${PERF}'" >&2
     did_install
     exit 1
 fi
+echo "using PERF at '${PERF}'" >&2
 if [[ ! -x "${PERF}" ]]; then
-    echo "PERF tool is not executable '${PERF}'" >&2
+    echo "ERROR: PERF tool is not executable '${PERF}'" >&2
     exit 1
 fi
 export PERF
