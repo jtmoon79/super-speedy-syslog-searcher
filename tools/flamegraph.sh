@@ -156,12 +156,12 @@ print(escape(r''' ${1-} '''[1:-1]).replace('/', r'\/'))
 
 NOTES_ESCAPED=$(html_sed_escape "${NOTES}")
 (
-set -x
 
-# force important variables to echo in debug output
-PERF=${PERF}
-CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG}
-RUST_BACKTRACE=${RUST_BACKTRACE}
+echo PERF=${PERF} >&2
+echo CARGO_PROFILE_RELEASE_DEBUG=${CARGO_PROFILE_RELEASE_DEBUG} >&2
+echo RUST_BACKTRACE=${RUST_BACKTRACE} >&2
+
+set -x
 
 cargo flamegraph \
     --verbose \
