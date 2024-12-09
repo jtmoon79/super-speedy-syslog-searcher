@@ -66,13 +66,13 @@ export PERF
 
 declare -r PROGRAM=${PROGRAM-./target/flamegraph/s4}
 if [[ ! -x "${PROGRAM}" ]]; then
-    echo "PROGRAM does not exist or is not executable '${PROGRAM}'" >&2
+    echo "ERROR: PROGRAM does not exist or is not executable '${PROGRAM}'" >&2
     echo "build with:" >&2
     echo "    RUSTFLAGS=-g cargo build --profile flamegraph" >&2
     exit 1
 fi
 if ! "${PROGRAM}" --version &>/dev/null; then
-    echo "PROGRAM failed to run '${PROGRAM}'" >&2
+    echo "ERROR: PROGRAM failed to run '${PROGRAM}'" >&2
     exit 1
 fi
 declare -r BIN=${BIN-s4}
