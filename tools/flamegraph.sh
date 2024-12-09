@@ -107,7 +107,8 @@ FREQ=${FREQ-3000}
 )
 rm -f -- perf.data perf.data.old "${OUT}"
 FLAMEGRAPH_VERSION=$(cargo flamegraph --version)
-RUST_VERSION_SHORT=$(rustc --version | cut -f1,2 -d' ')
+RUST_VERSION_SHORT=$(rustc -vV | sed -n 's|release: ||p')
+RUST_HOST=$(rustc -vV | sed -n 's|host: ||p')
 
 NOTES=$("${PROGRAM}" --version)
 if GITLOG_HASH1=$(git log -n1 --pretty=format:%h 2>/dev/null); then
@@ -143,7 +144,7 @@ else
                )
 fi
 
-NOTES+="; -freq ${FREQ}; created $(date +%Y%m%dT%H%M%S%z); ${FLAMEGRAPH_VERSION}; ${RUST_VERSION_SHORT}"
+NOTES+="; -freq ${FREQ}; created $(date +%Y%m%dT%H%M%S%z); ${FLAMEGRAPH_VERSION}; rust ${RUST_VERSION_SHORT} ${RUST_HOST}"
 
 function html_sed_escape() {
     # escape for HTML and for sed
