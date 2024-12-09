@@ -42,7 +42,7 @@ anyhow = "1.0.93"
 bstr = "1.11.0"
 bzip2-rs = "0.1.2"
 cfg-if = "1.0.0"
-chrono = "0.4.38"
+chrono = "0.4.39"
 clap = { version = "=4.2.1", features = ["derive"] }
 const_format = { version = "0.2.33", features = ["assertcp"] }
 crossbeam-channel = "0.5.13"
