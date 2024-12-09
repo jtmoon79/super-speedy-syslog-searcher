@@ -197,4 +197,5 @@ if which xmllint &>/dev/null; then
     xmllint --format --recover --output "${OUT}" "${OUT}"
 else
     echo "WARNING: xmllint not found; skip formatting of ${OUT}" >&2
+    echo "         apt install libxml2-utils" >&2
 fi
