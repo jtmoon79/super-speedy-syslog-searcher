@@ -2,6 +2,11 @@
 #
 # Run some of the tools to create release files.
 #
+# may require apt packages:
+#    graphviz gnuplot linux-perf valgrind g++
+# and
+#    python -m pip install -r ./tools/requirements.txt
+#
 
 set -euo pipefail
 
