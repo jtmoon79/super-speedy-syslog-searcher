@@ -44,7 +44,7 @@ bzip2-rs = "0.1.2"
 cfg-if = "1.0.0"
 chrono = "0.4.39"
 clap = { version = "=4.2.1", features = ["derive"] }
-const_format = { version = "0.2.33", features = ["assertcp"] }
+const_format = { version = "0.2.34", features = ["assertcp"] }
 crossbeam-channel = "0.5.13"
 ctrlc = "3.4.5"
 current_platform = "0.2.0"
