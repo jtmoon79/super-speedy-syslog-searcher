@@ -275,11 +275,11 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          bins: cross
-          targets: ${{ matrix.target }}
+          toolchain: ${{ env.MSRV_UPLOAD }}
+          target: ${{ matrix.target }}
+          components: cross
       - run: |
           set -eux
           uname -a
