@@ -3187,9 +3187,9 @@ checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "stringzilla"
-version = "3.11.0"
+version = "3.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "840c1dda7db44cd343bfac96cecfd1d9a5f7c8961c34500220d61aedf98908f0"
+checksum = "b9bf1a3467305dd3839478e3e7295e682b5e79e15a1197c36ae1ebf54a0d2ba3"
 dependencies = [
  "cc",
 ]
