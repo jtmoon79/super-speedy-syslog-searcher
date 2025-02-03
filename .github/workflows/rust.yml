@@ -94,9 +94,12 @@ jobs:
       - run: |
           git config --global core.protectNTFS false
       - uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ matrix.msrv }}
+      - run: rustup toolchain install ${{ matrix.msrv }} --profile minimal
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ matrix.msrv }}
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
         shell: bash
         run: |
@@ -159,9 +162,12 @@ jobs:
       # build & upload debug
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
       - name: Build Debug
         shell: bash
         run: |
@@ -274,7 +280,8 @@ jobs:
           # - x86_64-unknown-openbsd  # toolchain 1.67.1 does not support ...
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: git checkout
+        uses: actions/checkout@v4
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: ${{ env.MSRV_UPLOAD }}
@@ -302,13 +309,12 @@ jobs:
           - x86_64-apple-ios
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v4
-      # XXX: use `Swatinem/rust-cache@v2` not `moonrepo/setup-rust@v1`
-      #      due to https://github.com/moonrepo/setup-rust/issues/20
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
-      - run: rustup target add ${{ matrix.target }}
-      - run: cargo install cross --locked
-      - uses: Swatinem/rust-cache@v2
+      - name: git checkout
+        uses: actions/checkout@v4
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+      - run: cargo install --locked cross
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
       - run: |
           set -eux
           uname -a
@@ -327,12 +333,18 @@ jobs:
           - x86_64-pc-windows-msvc
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          bins: cross, cargo-cache
-          targets: ${{ matrix.target }}
+      - name: git checkout
+        uses: actions/checkout@v4
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+      - run: cargo install --locked cross cargo-cache
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
+      #    bins: cross, cargo-cache
+      #    targets: ${{ matrix.target }}
       - run: rustup target add ${{ matrix.target }}
       - name: cross check
         shell: powershell
@@ -366,9 +378,13 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
       - name: Check
         shell: bash
         # `cargo check` builds dependences and other things but skips
@@ -386,10 +402,15 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          bins: cargo-deny
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - run: cargo install --locked cargo-deny
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
+      #    bins: cargo-deny
       - name: Run cargo-deny.sh
         shell: bash
         run: ./tools/cargo-deny.sh
@@ -403,10 +424,14 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          profile: default
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile default
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
+      #    profile: default
       - name: Clippy
         shell: bash
         run: |
@@ -423,9 +448,13 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
       - name: Bench Dry Run
         shell: bash
         run: |
@@ -441,10 +470,15 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          bins: cargo-nextest
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - run: cargo install --locked cargo-nextest
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
+      #    bins: cargo-nextest
       - name: Install libsystemd
         shell: bash
         run: |
@@ -496,10 +530,15 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          bins: cargo-nextest
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - run: cargo install --locked cargo-nextest
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
+      #    bins: cargo-nextest
       # XXX: MacOS tools do not support `touch` arguments run in
       #      `./tools/log-files-time-update.sh`. So skip running `log-files-time-update.sh`
       #      See https://stackoverflow.com/q/78540977/471376
@@ -518,10 +557,15 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
-          bins: cargo-nextest
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - run: cargo install --locked cargo-nextest
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
+      #    bins: cargo-nextest
       - name: set log file filesystem Modified Times
         shell: bash
         run: |
@@ -547,9 +591,13 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: linux-tools-generic
@@ -649,9 +697,13 @@ jobs:
       # checkout for the log files
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.MSRV_UPLOAD }}
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.MSRV_UPLOAD }}
       - name: set log file filesystem Modified Times
         shell: bash
         run: |
@@ -1006,11 +1058,17 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: moonrepo/setup-rust@v1
-        with:
-          channel: ${{ env.VERSION_LLVM_COV }}
-          bins: cargo-llvm-cov
-          components: llvm-tools-preview
+      - run: rustup toolchain install ${{ env.VERSION_LLVM_COV }} --profile minimal
+      - run: rustup component add llvm-tools-preview
+      - run: cargo install --locked cargo-llvm-cov
+      - name: cache (Swatinem)
+        uses: Swatinem/rust-cache@v2
+      #- name: cache (moonrepo)
+      #  uses: moonrepo/setup-rust@v1
+      #  with:
+      #    channel: ${{ env.VERSION_LLVM_COV }}
+      #    bins: cargo-llvm-cov
+      #    components: llvm-tools-preview
       - name: Install libsystemd
         shell: bash
         run: |
