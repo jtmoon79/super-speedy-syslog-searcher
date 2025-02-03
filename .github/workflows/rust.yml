@@ -272,11 +272,8 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          toolchain: ${{ env.MSRV_UPLOAD }}
-          target: ${{ matrix.target }}
-          components: cross
+      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+      - run: cargo install --locked cross
       - run: |
           set -eux
           uname -a
@@ -324,7 +321,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v4
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
-      - run: rustup target add ${{ matrix.target }}
+      - run: cargo install --locked cross
       - name: cross check
         shell: powershell
         run: |
