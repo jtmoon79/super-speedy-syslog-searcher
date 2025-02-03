@@ -273,6 +273,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v4
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+      - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
       - run: |
           set -eux
@@ -299,6 +300,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v4
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+      - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
       - run: |
           set -eux
@@ -321,6 +323,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v4
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+      - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
       - name: cross check
         shell: powershell
