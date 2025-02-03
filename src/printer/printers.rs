@@ -1819,7 +1819,7 @@ pub fn write_stdout(buffer: &[u8]) {
     let mut stdout_lock = std::io::stdout().lock();
     //let mut stderr_lock = std::io::stderr().lock();
     let _si_lock = debug_print_guard();
-    match stdout_lock.write(buffer) {
+    match stdout_lock.write_all(buffer) {
         Ok(_) => {}
         Err(_err) => {
             // XXX: this will print when this program stdout is truncated, like to due to `head`

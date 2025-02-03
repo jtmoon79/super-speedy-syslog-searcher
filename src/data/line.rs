@@ -858,7 +858,7 @@ impl Line {
         for linepart in &self.lineparts {
             let slice = linepart.as_slice();
             if raw {
-                match stdout_lock.write(slice) {
+                match stdout_lock.write_all(slice) {
                     Ok(_) => {}
                     Err(err) => {
                         e_err!(
@@ -884,7 +884,7 @@ impl Line {
                 for c in s.chars() {
                     let c_ = char_to_char_noraw(c);
                     let _cs = c_.encode_utf8(&mut dst);
-                    match stdout_lock.write(&dst) {
+                    match stdout_lock.write_all(&dst) {
                         Ok(_) => {}
                         Err(err) => {
                             e_err!("StdoutLock.write({:?}) error {}", &dst, err);
