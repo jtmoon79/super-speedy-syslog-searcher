@@ -57,7 +57,7 @@ jetscii = { version = "0.5.3", optional = true }
 jwalk = "0.8.1"
 kinded = "0.3.0"
 lazy_static = "1.5.0"
-lru = "0.12.5"
+lru = "0.13.0"
 lzma-rs = "0.3.0"
 lz4_flex = "0.11"
 memchr = "2.7.4"
