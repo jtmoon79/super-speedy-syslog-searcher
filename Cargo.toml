@@ -112,7 +112,7 @@ arraystring = "0.3.0"
 cargo-msrv = "0.15.1"
 criterion = "0.5.1"
 cross = "0.2.5"
-filepath = "0.1.2"
+filepath = "0.2.0"
 filetime = "0.2.25"
 # XXX: `flamegraph` fails to build, MSRV 1.74; must be manually installed
 # flamegraph = "0.6.5"
