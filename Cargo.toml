@@ -52,7 +52,7 @@ dlopen2 = "0.7"
 encoding_rs = "0.8.35"
 evtx = { version = "0.8.4", features = ["multithreading"] }
 flate2 = "1.0.35"
-itertools = "0.13.0"
+itertools = "0.14.0"
 jetscii = { version = "0.5.3", optional = true }
 jwalk = "0.8.1"
 kinded = "0.3.0"
