@@ -63,15 +63,18 @@ cfg_if::cfg_if! {
         #[global_allocator]
         static GLOBAL: Jemalloc = Jemalloc;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Jemalloc;
+        const CLI_HELP_AFTER_ALLOCATOR: &str = "jemalloc";
     }
     else if #[cfg(feature = "mimalloc")] {
         use ::mimalloc::MiMalloc;
         #[global_allocator]
         static GLOBAL: MiMalloc = MiMalloc;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Mimalloc;
+        const CLI_HELP_AFTER_ALLOCATOR: &str = "mimalloc";
     }
     else {
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
+        const CLI_HELP_AFTER_ALLOCATOR: &str = "default";
     }
 }
 
@@ -451,6 +454,16 @@ const CLI_PREPEND_SEP: &str = ":";
 /// default CLI datetime format printed for CLI options `-u` or `-l`.
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z";
 
+#[cfg(debug_assertions)]
+const CLI_HELP_AFTER_NOTE_DEBUG: &str = "\nDEBUG BUILD";
+#[cfg(not(debug_assertions))]
+const CLI_HELP_AFTER_NOTE_DEBUG: &str = "";
+
+#[cfg(test)]
+const CLI_HELP_AFTER_NOTE_TEST: &str = "\nTEST BUILD";
+#[cfg(not(test))]
+const CLI_HELP_AFTER_NOTE_TEST: &str = "";
+
 /// `--help` _afterword_ message.
 const CLI_HELP_AFTER: &str = concatcp!(
     "\
@@ -560,7 +573,11 @@ https://github.com/jtmoon79/super-speedy-syslog-searcher/
 
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
-"#
+
+Allocator: "#,
+    CLI_HELP_AFTER_ALLOCATOR,
+    CLI_HELP_AFTER_NOTE_DEBUG,
+    CLI_HELP_AFTER_NOTE_TEST
 );
 
 static mut PREPEND_DT_FORMAT_PASSED: bool = false;

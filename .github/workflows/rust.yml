@@ -110,8 +110,8 @@ jobs:
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
-          cargo build --locked --release --features mimalloc
-          ./target/release/s4 --help
+          cargo build --locked --profile mimalloc --features mimalloc
+          ./target/mimalloc/s4 --help
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --features jemalloc
         shell: bash
         # jemalloc builds fails on github Windows
@@ -119,8 +119,8 @@ jobs:
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
-          cargo build --locked --release --features jemalloc
-          ./target/release/s4 --help
+          cargo build --locked --profile jemalloc --features jemalloc
+          ./target/jemalloc/s4 --help
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'windows-latest' && matrix.msrv == env.MSRV_UPLOAD }}
         uses: actions/upload-artifact@v4
@@ -176,10 +176,8 @@ jobs:
         run: |
           set -eux
           cargo --version
-          cargo build --locked --release --verbose
+          cargo build --locked --release
           cp -av ./target/release/s4 ./s4_release
-          cargo build --locked --release --features mimalloc
-          cargo build --locked --release --features jemalloc
       - name: Upload release binary for test
         uses: actions/upload-artifact@v4
         with:
