@@ -1981,6 +1981,8 @@ pub const RP_RFC2822_DATE: &RegexPattern = "(date|Date|DATE):";
 /// [Issue #59]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/59
 /// [_List of time zone abbreviations_]: https://en.wikipedia.org/w/index.php?title=List_of_time_zone_abbreviations&oldid=1106679802
 /// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/format/strftime/#fn7
+// TODO: why not map directly to a `FixedOffset` to skip having chrono do another
+//       step of translating from `str` to `FixedOffset`?
 pub static MAP_TZZ_TO_TZz: PhfMap<&'static str, &'static str> = phf_map! {
         // uppercase
         "ACDT" => "+10:30",
