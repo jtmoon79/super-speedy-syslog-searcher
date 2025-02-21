@@ -7,6 +7,8 @@
 # and
 #    python -m pip install -r ./tools/requirements.txt
 #
+# It is probably best to run `cargo clean` before running this script.
+#
 
 set -euo pipefail
 
@@ -14,8 +16,19 @@ cd "$(dirname -- "${0}")/.."
 
 export DIROUT=${DIROUT-.}
 
-# update the cached sudo credentials
-sudo --validate
+if [[ ! "${VIRTUAL_ENV+x}" ]]; then
+    echo "ERROR: not running within a Python virtual environment" >&2
+    exit 1
+fi
+
+sudo --validate -p "update the cached sudo credentials (enter sudo password): "
+
+(
+    set -x
+    cargo build --locked --profile release --release
+    cargo build --locked --profile jemalloc --features jemalloc
+    cargo build --locked --profile mimalloc --features mimalloc
+)
 
 (
     set -x
