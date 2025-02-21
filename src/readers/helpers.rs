@@ -6,6 +6,11 @@ use crate::common::{FileSz, FPath};
 #[cfg(test)]
 use crate::common::FileOffset;
 
+#[cfg(test)]
+use rand;
+#[cfg(test)]
+use rand::seq::SliceRandom; // brings in `shuffle`
+
 use std::ffi::CStr;
 use std;
 
@@ -140,14 +145,8 @@ pub fn is_empty(cstr: &CStr) -> bool {
 #[doc(hidden)]
 #[cfg(test)]
 pub fn randomize(v_: &mut Vec<FileOffset>) {
-    // XXX: can also use `rand::shuffle` https://docs.rs/rand/0.8.4/rand/seq/trait.SliceRandom.html#tymethod.shuffle
-    let sz = v_.len();
-    let mut i = 0;
-    while i < sz {
-        let r = rand::random::<usize>() % sz;
-        v_.swap(r, i);
-        i += 1;
-    }
+    let mut rng = rand::rng();
+    v_.shuffle(&mut rng);
 }
 
 /// Testing helper.
