@@ -1,7 +1,7 @@
 + uname -a
-Linux uboo-ubuntu22 5.15.167.4-microsoft-standard-WSL2 #1 SMP Tue Nov 5 00:21:55 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
+Linux host 5.15.167.4-microsoft-standard-WSL2 #1 SMP Tue Nov 5 00:21:55 UTC 2024 x86_64 x86_64 x86_64 GNU/Linux
 + git log -n1 '--format=%h %D'
-eee7032c HEAD -> main, origin/main, origin/HEAD
+c3058eb9 HEAD -> main
 + ./target/release/s4 --version
 super_speedy_syslog_searcher 0.7.76
 + /usr/bin/grep --version
@@ -23,7 +23,7 @@ super_speedy_syslog_searcher output file
 'grep | sort' output file
   Line Count 10800
   Byte Count 3552746
-Files /tmp/compare-s4_s4_IKx8D and /tmp/compare-s4_grep_Z0JUq differ
+Files /tmp/compare-s4_s4_YHy4L and /tmp/compare-s4_grep_FrjMB differ
 
 Line Count and Byte Count are the same. (ʘ‿ʘ)
 
