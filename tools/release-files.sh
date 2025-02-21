@@ -14,6 +14,9 @@ cd "$(dirname -- "${0}")/.."
 
 export DIROUT=${DIROUT-.}
 
+# update the cached sudo credentials
+sudo --validate
+
 (
     set -x
     RUSTFLAGS=-g cargo build --profile flamegraph
