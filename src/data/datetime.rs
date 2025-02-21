@@ -6214,6 +6214,9 @@ pub fn bytes_to_regex_to_datetime(
     // get the OnceCell
     let entry: &OnceCell<DateTimeRegex> = &DATETIME_PARSE_DATAS_REGEX_VEC[*index];
     // compile the regex if it hasn't been compiled yet
+    // TRACKING: use OnceLock::get_or_try_init https://github.com/rust-lang/rust/issues/109737
+    //           would also need to replace use of `OnceCell` with `OnceLock`, should be a drop-in
+    //           replacement
     let result_init: Result<&Regex, std::io::Error> = entry.get_or_try_init(||
         {
             let regex_pattern = DATETIME_PARSE_DATAS[*index].regex_pattern;

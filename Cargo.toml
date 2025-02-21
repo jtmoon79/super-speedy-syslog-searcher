@@ -67,8 +67,8 @@ more-asserts = "0.3.1"
 mut_static = "5.0.0"
 nix = "0.29.0"
 numtoa = "0.2.4"
-# TODO: instead of `once_cell` crate, use `std::sync::OnceLock` when it becomes stable
-#       TRACKING: https://github.com/rust-lang/rust/issues/74465
+# TODO: instead of `once_cell` crate, use `std::sync::OnceLock` and `get_or_try_init`
+#       TRACKING: https://github.com/rust-lang/rust/issues/109737
 once_cell = "1.20.3"
 phf = { version = "0.11", features = ["macros"] }
 rand = { version = "0.9.0", features = ["thread_rng"] }
