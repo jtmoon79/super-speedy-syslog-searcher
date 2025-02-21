@@ -15,7 +15,7 @@ grep (GNU grep) 3.7
 + /usr/bin/sort --version
 sort (GNU coreutils) 8.32
 
-+ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_lnxc3.md --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_lnxc3.md --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > /dev/null'
 Benchmark 1: grep+sort
   Time (mean ± σ):      40.8 ms ±   0.4 ms    [User: 33.3 ms, System: 2.8 ms]
   Range (min … max):    40.1 ms …  42.0 ms    71 runs
@@ -36,7 +36,7 @@ super_speedy_syslog_searcher 0.7.74
 
 + cargo clean --quiet
 + cargo build --quiet --release
-+ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_qTdPv.md -N -n 's4 (system)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_qTdPv.md -N -n 's4 (system)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
 Benchmark 1: s4 (system)
   Time (mean ± σ):      38.3 ms ±   1.9 ms    [User: 35.5 ms, System: 23.7 ms]
   Range (min … max):    35.0 ms …  48.7 ms    78 runs
@@ -52,7 +52,7 @@ real 0.05 s, Max RSS 48184 KB, 171% %CPU, (0)
 
 + cargo clean --quiet
 + cargo build --quiet --release --features=mimalloc
-+ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_7sYIg.md -N -n 's4 (mimalloc)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_7sYIg.md -N -n 's4 (mimalloc)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
 Benchmark 1: s4 (mimalloc)
   Time (mean ± σ):      28.4 ms ±   2.2 ms    [User: 26.6 ms, System: 16.2 ms]
   Range (min … max):    26.0 ms …  43.9 ms    105 runs
@@ -70,7 +70,7 @@ real 0.04 s, Max RSS 77344 KB, 172% %CPU, (0)
 
 + cargo clean --quiet
 + cargo build --quiet --release --features=jemalloc
-+ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_2AwDx.md -N -n 's4 (jemalloc))' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_2AwDx.md -N -n 's4 (jemalloc))' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
 Benchmark 1: s4 (jemalloc))
   Time (mean ± σ):      35.1 ms ±   2.8 ms    [User: 28.6 ms, System: 23.4 ms]
   Range (min … max):    32.4 ms …  52.3 ms    86 runs
@@ -90,7 +90,7 @@ real 0.05 s, Max RSS 70832 KB, 172% %CPU, (0)
 + logmerger --version
 logmerger         0.9.0
 
-+ /home/ulug/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_MstZl.md --shell sh -n logmerger -- ''\''logmerger'\'' --inline --output=- --start '\''2000-01-01T00:20:00'\'' --end '\''2000-01-01T00:50:00'\'' ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --export-markdown /tmp/compare-log_mergers_MstZl.md --shell sh -n logmerger -- ''\''logmerger'\'' --inline --output=- --start '\''2000-01-01T00:20:00'\'' --end '\''2000-01-01T00:50:00'\'' ./tools/compare-log-mergers/gen-5000-1-faces.log ./tools/compare-log-mergers/gen-2500-1-faces.log ./tools/compare-log-mergers/gen-2000-1-faces.log > /dev/null'
 Benchmark 1: logmerger
   Time (mean ± σ):     729.2 ms ±  11.8 ms    [User: 693.3 ms, System: 32.0 ms]
   Range (min … max):   710.2 ms … 749.0 ms    10 runs
