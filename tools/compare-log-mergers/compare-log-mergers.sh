@@ -2,17 +2,28 @@
 #
 # hardcoded time comparison of GNU grep + sort, `s4`, `logmerger`
 #
+# pass `--skip-tl` to skip processing toolong which takes over the console
+# window and stalls non-interactive consoles
+#
 
 set -eu
 
-if [[ ${#} -ne 0 ]]; then
-    echo "Usage: ${0}" >&2
+if [[ ${#} -gt 1 ]]; then
+    echo "Usage: ${0} [--skip-tl]" >&2
     exit 1
 fi
 
 if ! [[ "${VIRTUAL_ENV-}" ]]; then
     echo "ERROR: must run within a Python virtual environment" >&2
     exit 1
+fi
+
+skip_tl=false
+if [[ ${#} -ge 1 ]]; then
+    if [[ "${1-}" = '--skip-tl' ]]; then
+        skip_tl=true
+        shift
+    fi
 fi
 
 cd "$(dirname "${0}")/../.."
@@ -132,6 +143,14 @@ function files_caching() {
 function echo_line() {
     python -Bc "print('─' * ${COLUMNS:-100})"
     echo
+}
+
+function file_size() {
+    stat --printf='%s' "${1}"
+}
+
+function file_isempty() {
+    [[ $(file_size "${1}") -eq 0 ]]
 }
 
 # %M = Maximum resident set size in KB
@@ -379,25 +398,26 @@ PROGRAM_TL=${PROGRAM_TL-tl}
 
 echo
 
-(
-    files_caching
-    set -x
-    $time --format="${TIME_FORMAT}" --output="${tm7}" \
-        -- \
-        "${PROGRAM_TL}" \
-        --merge \
-        --output-merge "${tmpA}" \
-        "${files[@]}"
-)
-echo
-cat "${tmpA}" | wc -l -
-echo
-cat "${tm7}"
-echo
+if ! ${skip_tl}; then
+    (
+        files_caching
+        set -x
+        $time --format="${TIME_FORMAT}" --output="${tm7}" \
+            -- \
+            "${PROGRAM_TL}" \
+            --merge \
+            --output-merge "${tmpA}" \
+            "${files[@]}"
+    )
+    echo
+    cat "${tmpA}" | wc -l -
+    echo
+    cat "${tm7}"
+    echo
 
-erealtime=$(cat "${tm7}" | cut -d'|' -f3 | cut -d':' -f2)
-echo '{
-  "results": [ {
+    erealtime=$(cat "${tm7}" | cut -d'|' -f3 | cut -d':' -f2)
+    echo '{
+"results": [ {
     "command": "toolong",
     "mean": '"${erealtime}"',
     "stddev": 0.0,
@@ -407,6 +427,7 @@ echo '{
     "exit_codes": [0]
   } ]
 }' > "${json7}"
+fi
 
 #
 # merge separate files into one final markdown file
@@ -470,9 +491,17 @@ for files_ in \
     "${json6}|${tm6}" \
     "${json7}|${tm7}" \
 ; do
+    json=$(echo -n "${files_}" | cut -d'|' -f1)
+    tm=$(echo -n "${files_}" | cut -d'|' -f2)
+    if file_isempty "${json}"; then
+        echo "skip empty JSON file ${json}" >&2
+        continue
+    fi
+    if file_isempty "${tm}"; then
+        echo "skip empty file ${tm}" >&2
+        continue
+    fi
     (
-        json=$(echo -n "${files_}" | cut -d'|' -f1)
-        tm=$(echo -n "${files_}" | cut -d'|' -f2)
         command=$($JQ '.results[0].command' < "${json}" | tr -d '"')
         mean=$(to_milliseconds $($JQ '.results[0].mean' < "${json}"))
         stddev=$(to_milliseconds $($JQ '.results[0].stddev' < "${json}"))

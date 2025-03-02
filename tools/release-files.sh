@@ -75,7 +75,7 @@ sed -i -e "s|$(hostname)|host|g" "${DIROUT}/massif.txt"
     set -x
     cargo build --release --features mimalloc
     ./tools/compare-grep-sort.sh &> "${DIROUT}/compare-grep-sort.txt"
-    ./tools/compare-log-mergers/compare-log-mergers.sh &> "${DIROUT}/compare-log-mergers.txt"
+    ./tools/compare-log-mergers/compare-log-mergers.sh --skip-tl &> "${DIROUT}/compare-log-mergers.txt"
 )
 
 sed -i -e "s|$(hostname)|host|g" "${DIROUT}/compare-grep-sort.txt"
