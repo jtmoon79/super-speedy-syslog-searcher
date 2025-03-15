@@ -50,6 +50,14 @@ pub const COLOR_ERROR: Color = Color::Red;
 
 const CHARSZ: usize = 1;
 
+/// Default format string is `CLI_OPT_PREPEND_FMT` in `s4.rs` value
+/// `%Y%m%dT%H%M%S%.3f%z`.
+/// Example output `20210509T124318.616-0700` (24 chars).
+/// Round up to 40 in case user passes long format string.
+///
+/// XXX: this should loosely follow changes to `CLI_OPT_PREPEND_FMT`
+const CLI_OPT_PREPEND_FMT_CHARLEN: usize = 40;
+
 /// A preselection of `Color`s for printing syslines.
 /// Chosen for a dark background console.
 ///
@@ -705,14 +713,16 @@ impl PrinterLogMessage {
         let dt_: DateTimeL = (*syslinep)
             .dt()
             .with_timezone(&self.prepend_date_offset);
-        // TODO: cost-savings: use `format_with_items` where the passed `Items`
-        //       is created once (`StrftimeItems::new(fmt)`)
         let dt_delayedformat = dt_.format(
-            self.prepend_date_format
-                .as_str(),
+            self.prepend_date_format.as_str(),
         );
+        let mut dt_str = String::with_capacity(CLI_OPT_PREPEND_FMT_CHARLEN);
+        match dt_delayedformat.write_to(&mut dt_str) {
+            Ok(_) => {},
+            Err(_err) => de_err!("{}", _err),
+        }
 
-        dt_delayedformat.to_string()
+        dt_str
     }
 
     /// Helper function to transform [`fixedstruct.dt`] to a `String`.
