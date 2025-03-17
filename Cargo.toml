@@ -76,7 +76,7 @@ rangemap = "1.5.1"
 regex = "1.11.1"
 si_trace_print = "0.3.12"
 stringzilla = { version = "3.12.3", optional = true }
-tar = "0.4.43"
+tar = "0.4.44"
 tempfile = "3.17.1"
 termcolor = "1.4.1"
 unicode-width = "0.2.0"
