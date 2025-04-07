@@ -1,141 +1,143 @@
 Benchmarking decode_utf/dutf8_baseline_no_decoding
 Benchmarking decode_utf/dutf8_baseline_no_decoding: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_baseline_no_decoding: Collecting 100 samples in estimated 5.0004 s (41M iterations)
+Benchmarking decode_utf/dutf8_baseline_no_decoding: Collecting 100 samples in estimated 5.0000 s (41M iterations)
 Benchmarking decode_utf/dutf8_baseline_no_decoding: Analyzing
 decode_utf/dutf8_baseline_no_decoding
-                        time:   [120.41 ns 120.59 ns 120.80 ns]
-Found 8 outliers among 100 measurements (8.00%)
-  1 (1.00%) low mild
+                        time:   [121.62 ns 121.95 ns 122.31 ns]
+Found 15 outliers among 100 measurements (15.00%)
+  1 (1.00%) low severe
   2 (2.00%) high mild
-  5 (5.00%) high severe
+  12 (12.00%) high severe
 Benchmarking decode_utf/dutf8_encodingrs_decode_to_string
 Benchmarking decode_utf/dutf8_encodingrs_decode_to_string: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_encodingrs_decode_to_string: Collecting 100 samples in estimated 5.0004 s (17M iterations)
+Benchmarking decode_utf/dutf8_encodingrs_decode_to_string: Collecting 100 samples in estimated 5.0007 s (17M iterations)
 Benchmarking decode_utf/dutf8_encodingrs_decode_to_string: Analyzing
 decode_utf/dutf8_encodingrs_decode_to_string
-                        time:   [292.52 ns 293.04 ns 293.67 ns]
-Found 5 outliers among 100 measurements (5.00%)
-  1 (1.00%) low mild
+                        time:   [301.03 ns 301.92 ns 303.05 ns]
+Found 13 outliers among 100 measurements (13.00%)
+  3 (3.00%) low mild
   1 (1.00%) high mild
-  3 (3.00%) high severe
+  9 (9.00%) high severe
 Benchmarking decode_utf/dutf8_encodingrs_decode_to_string_without_replacement
 Benchmarking decode_utf/dutf8_encodingrs_decode_to_string_without_replacement: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_encodingrs_decode_to_string_without_replacement: Collecting 100 samples in estimated 5.0004 s (20M iterations)
+Benchmarking decode_utf/dutf8_encodingrs_decode_to_string_without_replacement: Collecting 100 samples in estimated 5.0008 s (19M iterations)
 Benchmarking decode_utf/dutf8_encodingrs_decode_to_string_without_replacement: Analyzing
 decode_utf/dutf8_encodingrs_decode_to_string_without_replacement
-                        time:   [253.84 ns 254.53 ns 255.49 ns]
-Found 11 outliers among 100 measurements (11.00%)
+                        time:   [257.21 ns 257.68 ns 258.22 ns]
+Found 10 outliers among 100 measurements (10.00%)
   5 (5.00%) high mild
-  6 (6.00%) high severe
+  5 (5.00%) high severe
 Benchmarking decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked
 Benchmarking decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked: Collecting 100 samples in estimated 5.0008 s (23M iterations)
+Benchmarking decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked: Collecting 100 samples in estimated 5.0007 s (23M iterations)
 Benchmarking decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked: Analyzing
 decode_utf/dutf8_encodingrs_mem_utf8_latin1_up_to__std_str_from_utf8_unchecked
-                        time:   [218.05 ns 218.29 ns 218.55 ns]
-Found 13 outliers among 100 measurements (13.00%)
-  13 (13.00%) high severe
+                        time:   [219.06 ns 219.45 ns 219.88 ns]
+Found 3 outliers among 100 measurements (3.00%)
+  1 (1.00%) low mild
+  2 (2.00%) high severe
 Benchmarking decode_utf/dutf8_std_str_from_utf8
 Benchmarking decode_utf/dutf8_std_str_from_utf8: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_std_str_from_utf8: Collecting 100 samples in estimated 5.0011 s (22M iterations)
+Benchmarking decode_utf/dutf8_std_str_from_utf8: Collecting 100 samples in estimated 5.0005 s (21M iterations)
 Benchmarking decode_utf/dutf8_std_str_from_utf8: Analyzing
 decode_utf/dutf8_std_str_from_utf8
-                        time:   [226.28 ns 226.98 ns 227.73 ns]
-Found 3 outliers among 100 measurements (3.00%)
-  1 (1.00%) high mild
-  2 (2.00%) high severe
+                        time:   [235.67 ns 236.53 ns 237.52 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  10 (10.00%) high mild
+  1 (1.00%) high severe
 Benchmarking decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid
 Benchmarking decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid: Collecting 100 samples in estimated 5.0001 s (32M iterations)
+Benchmarking decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid: Collecting 100 samples in estimated 5.0007 s (32M iterations)
 Benchmarking decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid: Analyzing
 decode_utf/dutf8_std_str_from_utf8_unchecked__allows_invalid
-                        time:   [156.31 ns 156.56 ns 156.84 ns]
+                        time:   [153.76 ns 154.03 ns 154.31 ns]
 Found 6 outliers among 100 measurements (6.00%)
-  2 (2.00%) high mild
-  4 (4.00%) high severe
+  2 (2.00%) low mild
+  1 (1.00%) high mild
+  3 (3.00%) high severe
 Benchmarking decode_utf/dutf8_custom_check1_lt0x80__overzealous
 Benchmarking decode_utf/dutf8_custom_check1_lt0x80__overzealous: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_custom_check1_lt0x80__overzealous: Collecting 100 samples in estimated 5.0006 s (28M iterations)
+Benchmarking decode_utf/dutf8_custom_check1_lt0x80__overzealous: Collecting 100 samples in estimated 5.0007 s (27M iterations)
 Benchmarking decode_utf/dutf8_custom_check1_lt0x80__overzealous: Analyzing
 decode_utf/dutf8_custom_check1_lt0x80__overzealous
-                        time:   [179.75 ns 180.53 ns 181.35 ns]
-Found 4 outliers among 100 measurements (4.00%)
-  2 (2.00%) low mild
-  2 (2.00%) high mild
+                        time:   [185.11 ns 186.01 ns 186.92 ns]
+Found 1 outliers among 100 measurements (1.00%)
+  1 (1.00%) high mild
 Benchmarking decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous
 Benchmarking decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous: Collecting 100 samples in estimated 5.0003 s (31M iterations)
+Benchmarking decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous: Collecting 100 samples in estimated 5.0002 s (31M iterations)
 Benchmarking decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous: Analyzing
 decode_utf/dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous
-                        time:   [163.16 ns 163.54 ns 163.96 ns]
-Found 4 outliers among 100 measurements (4.00%)
+                        time:   [162.76 ns 163.73 ns 164.89 ns]
+Found 9 outliers among 100 measurements (9.00%)
+  1 (1.00%) low mild
   3 (3.00%) high mild
-  1 (1.00%) high severe
+  5 (5.00%) high severe
 Benchmarking decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous
 Benchmarking decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous: Collecting 100 samples in estimated 5.0002 s (45M iterations)
+Benchmarking decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous: Collecting 100 samples in estimated 5.0001 s (44M iterations)
 Benchmarking decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous: Analyzing
 decode_utf/dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous
-                        time:   [110.50 ns 110.87 ns 111.30 ns]
-Found 9 outliers among 100 measurements (9.00%)
-  9 (9.00%) high mild
+                        time:   [113.82 ns 114.02 ns 114.27 ns]
+Found 12 outliers among 100 measurements (12.00%)
+  3 (3.00%) high mild
+  9 (9.00%) high severe
 Benchmarking decode_utf/dutf8_bstr_to_str
 Benchmarking decode_utf/dutf8_bstr_to_str: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_bstr_to_str: Collecting 100 samples in estimated 5.0002 s (24M iterations)
+Benchmarking decode_utf/dutf8_bstr_to_str: Collecting 100 samples in estimated 5.0004 s (24M iterations)
 Benchmarking decode_utf/dutf8_bstr_to_str: Analyzing
 decode_utf/dutf8_bstr_to_str
-                        time:   [204.92 ns 205.36 ns 205.83 ns]
-Found 6 outliers among 100 measurements (6.00%)
-  4 (4.00%) high mild
-  2 (2.00%) high severe
-Benchmarking decode_utf/dutf8_arraystring__SmallString_from_utf8
-Benchmarking decode_utf/dutf8_arraystring__SmallString_from_utf8: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_arraystring__SmallString_from_utf8: Collecting 100 samples in estimated 5.0008 s (9.5M iterations)
-Benchmarking decode_utf/dutf8_arraystring__SmallString_from_utf8: Analyzing
-decode_utf/dutf8_arraystring__SmallString_from_utf8
-                        time:   [526.13 ns 526.73 ns 527.37 ns]
-Found 9 outliers among 100 measurements (9.00%)
-  7 (7.00%) high mild
-  2 (2.00%) high severe
-Benchmarking decode_utf/dutf8_arraystring__CacheString_from_utf8
-Benchmarking decode_utf/dutf8_arraystring__CacheString_from_utf8: Warming up for 3.0000 s
-Benchmarking decode_utf/dutf8_arraystring__CacheString_from_utf8: Collecting 100 samples in estimated 5.0007 s (9.8M iterations)
-Benchmarking decode_utf/dutf8_arraystring__CacheString_from_utf8: Analyzing
-decode_utf/dutf8_arraystring__CacheString_from_utf8
-                        time:   [508.93 ns 509.76 ns 510.69 ns]
-Found 9 outliers among 100 measurements (9.00%)
-  2 (2.00%) low mild
+                        time:   [210.59 ns 211.09 ns 211.71 ns]
+Found 8 outliers among 100 measurements (8.00%)
+  1 (1.00%) low mild
   3 (3.00%) high mild
   4 (4.00%) high severe
+Benchmarking decode_utf/dutf8_arraystring__SmallString_from_utf8
+Benchmarking decode_utf/dutf8_arraystring__SmallString_from_utf8: Warming up for 3.0000 s
+Benchmarking decode_utf/dutf8_arraystring__SmallString_from_utf8: Collecting 100 samples in estimated 5.0013 s (9.3M iterations)
+Benchmarking decode_utf/dutf8_arraystring__SmallString_from_utf8: Analyzing
+decode_utf/dutf8_arraystring__SmallString_from_utf8
+                        time:   [533.41 ns 534.62 ns 536.04 ns]
+Found 8 outliers among 100 measurements (8.00%)
+  3 (3.00%) high mild
+  5 (5.00%) high severe
+Benchmarking decode_utf/dutf8_arraystring__CacheString_from_utf8
+Benchmarking decode_utf/dutf8_arraystring__CacheString_from_utf8: Warming up for 3.0000 s
+Benchmarking decode_utf/dutf8_arraystring__CacheString_from_utf8: Collecting 100 samples in estimated 5.0010 s (9.5M iterations)
+Benchmarking decode_utf/dutf8_arraystring__CacheString_from_utf8: Analyzing
+decode_utf/dutf8_arraystring__CacheString_from_utf8
+                        time:   [517.67 ns 519.30 ns 521.37 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  6 (6.00%) high mild
+  5 (5.00%) high severe
 
 Benchmarking bench_prints/print_baseline
 Benchmarking bench_prints/print_baseline: Warming up for 3.0000 s
 Benchmarking bench_prints/print_baseline: Collecting 100 samples in estimated 5.0000 s (5.4B iterations)
 Benchmarking bench_prints/print_baseline: Analyzing
 bench_prints/print_baseline
-                        time:   [915.54 ps 916.49 ps 917.55 ps]
-Found 8 outliers among 100 measurements (8.00%)
-  5 (5.00%) high mild
-  3 (3.00%) high severe
+                        time:   [924.61 ps 927.30 ps 930.31 ps]
+Found 9 outliers among 100 measurements (9.00%)
+  4 (4.00%) high mild
+  5 (5.00%) high severe
 Benchmarking bench_prints/get_byteslice_find_byte_and_repeatlast
 Benchmarking bench_prints/get_byteslice_find_byte_and_repeatlast: Warming up for 3.0000 s
-Benchmarking bench_prints/get_byteslice_find_byte_and_repeatlast: Collecting 100 samples in estimated 5.0004 s (45M iterations)
+Benchmarking bench_prints/get_byteslice_find_byte_and_repeatlast: Collecting 100 samples in estimated 5.0000 s (46M iterations)
 Benchmarking bench_prints/get_byteslice_find_byte_and_repeatlast: Analyzing
 bench_prints/get_byteslice_find_byte_and_repeatlast
-                        time:   [111.61 ns 111.73 ns 111.87 ns]
-Found 6 outliers among 100 measurements (6.00%)
-  1 (1.00%) low mild
-  4 (4.00%) high mild
-  1 (1.00%) high severe
+                        time:   [108.15 ns 108.48 ns 108.86 ns]
+Found 5 outliers among 100 measurements (5.00%)
+  3 (3.00%) high mild
+  2 (2.00%) high severe
 Benchmarking bench_prints/get_byteslice_find_byte_iter
 Benchmarking bench_prints/get_byteslice_find_byte_iter: Warming up for 3.0000 s
-Benchmarking bench_prints/get_byteslice_find_byte_iter: Collecting 100 samples in estimated 5.0000 s (1.2B iterations)
+Benchmarking bench_prints/get_byteslice_find_byte_iter: Collecting 100 samples in estimated 5.0000 s (1.1B iterations)
 Benchmarking bench_prints/get_byteslice_find_byte_iter: Analyzing
 bench_prints/get_byteslice_find_byte_iter
-                        time:   [4.3172 ns 4.3265 ns 4.3409 ns]
-Found 6 outliers among 100 measurements (6.00%)
-  2 (2.00%) high mild
-  4 (4.00%) high severe
+                        time:   [4.4188 ns 4.4537 ns 4.4947 ns]
+Found 12 outliers among 100 measurements (12.00%)
+  5 (5.00%) high mild
+  7 (7.00%) high severe
 
 
 running 0 tests
@@ -144,201 +146,210 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 Benchmarking slice_contains/X_2_baseline
 Benchmarking slice_contains/X_2_baseline: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_baseline: Collecting 100 samples in estimated 5.0000 s (4.5B iterations)
+Benchmarking slice_contains/X_2_baseline: Collecting 100 samples in estimated 5.0000 s (5.2B iterations)
 Benchmarking slice_contains/X_2_baseline: Analyzing
 slice_contains/X_2_baseline
-                        time:   [1.1173 ns 1.1188 ns 1.1204 ns]
-Found 8 outliers among 100 measurements (8.00%)
-  7 (7.00%) high mild
-  1 (1.00%) high severe
+                        time:   [951.62 ps 954.29 ps 957.22 ps]
+Found 10 outliers among 100 measurements (10.00%)
+  5 (5.00%) high mild
+  5 (5.00%) high severe
 Benchmarking slice_contains/X_2_custom1_slice_iter_found
 Benchmarking slice_contains/X_2_custom1_slice_iter_found: Warming up for 3.0000 s
 Benchmarking slice_contains/X_2_custom1_slice_iter_found: Collecting 100 samples in estimated 5.0000 s (2.0B iterations)
 Benchmarking slice_contains/X_2_custom1_slice_iter_found: Analyzing
 slice_contains/X_2_custom1_slice_iter_found
-                        time:   [2.4406 ns 2.4485 ns 2.4606 ns]
-Found 8 outliers among 100 measurements (8.00%)
+                        time:   [2.4886 ns 2.5055 ns 2.5255 ns]
+Found 12 outliers among 100 measurements (12.00%)
+  1 (1.00%) low mild
   2 (2.00%) high mild
-  6 (6.00%) high severe
+  9 (9.00%) high severe
 Benchmarking slice_contains/X_2_custom1_slice_iter_notfound
 Benchmarking slice_contains/X_2_custom1_slice_iter_notfound: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_custom1_slice_iter_notfound: Collecting 100 samples in estimated 5.0000 s (145M iterations)
+Benchmarking slice_contains/X_2_custom1_slice_iter_notfound: Collecting 100 samples in estimated 5.0001 s (137M iterations)
 Benchmarking slice_contains/X_2_custom1_slice_iter_notfound: Analyzing
 slice_contains/X_2_custom1_slice_iter_notfound
-                        time:   [34.234 ns 34.546 ns 34.825 ns]
-Found 15 outliers among 100 measurements (15.00%)
-  6 (6.00%) low severe
-  6 (6.00%) low mild
-  2 (2.00%) high mild
-  1 (1.00%) high severe
+                        time:   [36.283 ns 36.468 ns 36.680 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  8 (8.00%) high mild
+  3 (3.00%) high severe
 Benchmarking slice_contains/X_2_custom2_slice_iter_found
 Benchmarking slice_contains/X_2_custom2_slice_iter_found: Warming up for 3.0000 s
 Benchmarking slice_contains/X_2_custom2_slice_iter_found: Collecting 100 samples in estimated 5.0000 s (2.0B iterations)
 Benchmarking slice_contains/X_2_custom2_slice_iter_found: Analyzing
 slice_contains/X_2_custom2_slice_iter_found
-                        time:   [2.4304 ns 2.4338 ns 2.4381 ns]
-Found 3 outliers among 100 measurements (3.00%)
-  3 (3.00%) high severe
+                        time:   [2.4710 ns 2.4806 ns 2.4924 ns]
+Found 8 outliers among 100 measurements (8.00%)
+  1 (1.00%) low mild
+  3 (3.00%) high mild
+  4 (4.00%) high severe
 Benchmarking slice_contains/X_2_custom2_slice_iter_notfound
 Benchmarking slice_contains/X_2_custom2_slice_iter_notfound: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_custom2_slice_iter_notfound: Collecting 100 samples in estimated 5.0001 s (165M iterations)
+Benchmarking slice_contains/X_2_custom2_slice_iter_notfound: Collecting 100 samples in estimated 5.0000 s (162M iterations)
 Benchmarking slice_contains/X_2_custom2_slice_iter_notfound: Analyzing
 slice_contains/X_2_custom2_slice_iter_notfound
-                        time:   [30.233 ns 30.301 ns 30.382 ns]
-Found 11 outliers among 100 measurements (11.00%)
-  6 (6.00%) high mild
-  5 (5.00%) high severe
-Benchmarking slice_contains/X_2_custom3_contains_found
-Benchmarking slice_contains/X_2_custom3_contains_found: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_custom3_contains_found: Collecting 100 samples in estimated 5.0000 s (1.4B iterations)
-Benchmarking slice_contains/X_2_custom3_contains_found: Analyzing
-slice_contains/X_2_custom3_contains_found
-                        time:   [3.5290 ns 3.5378 ns 3.5465 ns]
-Found 3 outliers among 100 measurements (3.00%)
-  3 (3.00%) high mild
-Benchmarking slice_contains/X_2_custom3_contains_notfound
-Benchmarking slice_contains/X_2_custom3_contains_notfound: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_custom3_contains_notfound: Collecting 100 samples in estimated 5.0000 s (262M iterations)
-Benchmarking slice_contains/X_2_custom3_contains_notfound: Analyzing
-slice_contains/X_2_custom3_contains_notfound
-                        time:   [19.026 ns 19.067 ns 19.112 ns]
+                        time:   [30.670 ns 30.745 ns 30.838 ns]
 Found 8 outliers among 100 measurements (8.00%)
   5 (5.00%) high mild
   3 (3.00%) high severe
+Benchmarking slice_contains/X_2_custom3_contains_found
+Benchmarking slice_contains/X_2_custom3_contains_found: Warming up for 3.0000 s
+Benchmarking slice_contains/X_2_custom3_contains_found: Collecting 100 samples in estimated 5.0000 s (1.3B iterations)
+Benchmarking slice_contains/X_2_custom3_contains_found: Analyzing
+slice_contains/X_2_custom3_contains_found
+                        time:   [3.6952 ns 3.7036 ns 3.7129 ns]
+Found 7 outliers among 100 measurements (7.00%)
+  3 (3.00%) low mild
+  2 (2.00%) high mild
+  2 (2.00%) high severe
+Benchmarking slice_contains/X_2_custom3_contains_notfound
+Benchmarking slice_contains/X_2_custom3_contains_notfound: Warming up for 3.0000 s
+Benchmarking slice_contains/X_2_custom3_contains_notfound: Collecting 100 samples in estimated 5.0001 s (257M iterations)
+Benchmarking slice_contains/X_2_custom3_contains_notfound: Analyzing
+slice_contains/X_2_custom3_contains_notfound
+                        time:   [19.385 ns 19.479 ns 19.605 ns]
+Found 13 outliers among 100 measurements (13.00%)
+  1 (1.00%) low severe
+  5 (5.00%) high mild
+  7 (7.00%) high severe
 Benchmarking slice_contains/X_2_jetscii_found
 Benchmarking slice_contains/X_2_jetscii_found: Warming up for 3.0000 s
 Benchmarking slice_contains/X_2_jetscii_found: Collecting 100 samples in estimated 5.0000 s (1.1B iterations)
 Benchmarking slice_contains/X_2_jetscii_found: Analyzing
 slice_contains/X_2_jetscii_found
-                        time:   [4.5039 ns 4.5101 ns 4.5167 ns]
-Found 6 outliers among 100 measurements (6.00%)
-  4 (4.00%) high mild
-  2 (2.00%) high severe
+                        time:   [4.5439 ns 4.5530 ns 4.5638 ns]
+Found 7 outliers among 100 measurements (7.00%)
+  3 (3.00%) high mild
+  4 (4.00%) high severe
 Benchmarking slice_contains/X_2_jetscii_notfound
 Benchmarking slice_contains/X_2_jetscii_notfound: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_jetscii_notfound: Collecting 100 samples in estimated 5.0000 s (332M iterations)
+Benchmarking slice_contains/X_2_jetscii_notfound: Collecting 100 samples in estimated 5.0000 s (329M iterations)
 Benchmarking slice_contains/X_2_jetscii_notfound: Analyzing
 slice_contains/X_2_jetscii_notfound
-                        time:   [15.033 ns 15.055 ns 15.078 ns]
-Found 11 outliers among 100 measurements (11.00%)
-  5 (5.00%) high mild
-  6 (6.00%) high severe
+                        time:   [15.147 ns 15.174 ns 15.206 ns]
+Found 6 outliers among 100 measurements (6.00%)
+  2 (2.00%) high mild
+  4 (4.00%) high severe
 Benchmarking slice_contains/X_2_memchr_found
 Benchmarking slice_contains/X_2_memchr_found: Warming up for 3.0000 s
 Benchmarking slice_contains/X_2_memchr_found: Collecting 100 samples in estimated 5.0000 s (1.3B iterations)
 Benchmarking slice_contains/X_2_memchr_found: Analyzing
 slice_contains/X_2_memchr_found
-                        time:   [3.7405 ns 3.7453 ns 3.7509 ns]
-Found 4 outliers among 100 measurements (4.00%)
-  4 (4.00%) high mild
+                        time:   [3.9603 ns 3.9667 ns 3.9741 ns]
+Found 9 outliers among 100 measurements (9.00%)
+  7 (7.00%) high mild
+  2 (2.00%) high severe
 Benchmarking slice_contains/X_2_memchr_notfound
 Benchmarking slice_contains/X_2_memchr_notfound: Warming up for 3.0000 s
 Benchmarking slice_contains/X_2_memchr_notfound: Collecting 100 samples in estimated 5.0000 s (1.1B iterations)
 Benchmarking slice_contains/X_2_memchr_notfound: Analyzing
 slice_contains/X_2_memchr_notfound
-                        time:   [4.7036 ns 4.7106 ns 4.7193 ns]
-Found 9 outliers among 100 measurements (9.00%)
-  1 (1.00%) low mild
-  4 (4.00%) high mild
-  4 (4.00%) high severe
-Benchmarking slice_contains/X_2_unroll_found_200
-Benchmarking slice_contains/X_2_unroll_found_200: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_unroll_found_200: Collecting 100 samples in estimated 5.0000 s (1.4B iterations)
-Benchmarking slice_contains/X_2_unroll_found_200: Analyzing
-slice_contains/X_2_unroll_found_200
-                        time:   [3.5299 ns 3.5425 ns 3.5573 ns]
-Found 13 outliers among 100 measurements (13.00%)
-  1 (1.00%) low severe
-  6 (6.00%) low mild
-  3 (3.00%) high mild
-  3 (3.00%) high severe
-Benchmarking slice_contains/X_2_unroll_notfound_200
-Benchmarking slice_contains/X_2_unroll_notfound_200: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_unroll_notfound_200: Collecting 100 samples in estimated 5.0000 s (262M iterations)
-Benchmarking slice_contains/X_2_unroll_notfound_200: Analyzing
-slice_contains/X_2_unroll_notfound_200
-                        time:   [19.008 ns 19.057 ns 19.133 ns]
-Found 7 outliers among 100 measurements (7.00%)
+                        time:   [4.7462 ns 4.7575 ns 4.7724 ns]
+Found 6 outliers among 100 measurements (6.00%)
   1 (1.00%) low mild
   2 (2.00%) high mild
+  3 (3.00%) high severe
+Benchmarking slice_contains/X_2_unroll_found_200
+Benchmarking slice_contains/X_2_unroll_found_200: Warming up for 3.0000 s
+Benchmarking slice_contains/X_2_unroll_found_200: Collecting 100 samples in estimated 5.0000 s (1.3B iterations)
+Benchmarking slice_contains/X_2_unroll_found_200: Analyzing
+slice_contains/X_2_unroll_found_200
+                        time:   [3.7042 ns 3.7192 ns 3.7369 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  1 (1.00%) low severe
+  3 (3.00%) low mild
+  3 (3.00%) high mild
   4 (4.00%) high severe
+Benchmarking slice_contains/X_2_unroll_notfound_200
+Benchmarking slice_contains/X_2_unroll_notfound_200: Warming up for 3.0000 s
+Benchmarking slice_contains/X_2_unroll_notfound_200: Collecting 100 samples in estimated 5.0000 s (256M iterations)
+Benchmarking slice_contains/X_2_unroll_notfound_200: Analyzing
+slice_contains/X_2_unroll_notfound_200
+                        time:   [19.463 ns 19.571 ns 19.759 ns]
+Found 13 outliers among 100 measurements (13.00%)
+  6 (6.00%) high mild
+  7 (7.00%) high severe
 Benchmarking slice_contains/X_2_unroll_found_80
 Benchmarking slice_contains/X_2_unroll_found_80: Warming up for 3.0000 s
 Benchmarking slice_contains/X_2_unroll_found_80: Collecting 100 samples in estimated 5.0000 s (2.2B iterations)
 Benchmarking slice_contains/X_2_unroll_found_80: Analyzing
 slice_contains/X_2_unroll_found_80
-                        time:   [2.2432 ns 2.2505 ns 2.2606 ns]
-Found 13 outliers among 100 measurements (13.00%)
-  3 (3.00%) low mild
-  7 (7.00%) high mild
-  3 (3.00%) high severe
+                        time:   [2.2684 ns 2.2760 ns 2.2852 ns]
+Found 10 outliers among 100 measurements (10.00%)
+  4 (4.00%) high mild
+  6 (6.00%) high severe
 Benchmarking slice_contains/X_2_unroll_notfound_80
 Benchmarking slice_contains/X_2_unroll_notfound_80: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_unroll_notfound_80: Collecting 100 samples in estimated 5.0000 s (466M iterations)
+Benchmarking slice_contains/X_2_unroll_notfound_80: Collecting 100 samples in estimated 5.0000 s (461M iterations)
 Benchmarking slice_contains/X_2_unroll_notfound_80: Analyzing
 slice_contains/X_2_unroll_notfound_80
-                        time:   [10.699 ns 10.711 ns 10.725 ns]
-Found 7 outliers among 100 measurements (7.00%)
-  3 (3.00%) high mild
-  4 (4.00%) high severe
+                        time:   [10.843 ns 10.868 ns 10.899 ns]
+Found 12 outliers among 100 measurements (12.00%)
+  7 (7.00%) high mild
+  5 (5.00%) high severe
 Benchmarking slice_contains/X_2_stringzilla_found
 Benchmarking slice_contains/X_2_stringzilla_found: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_stringzilla_found: Collecting 100 samples in estimated 5.0000 s (522M iterations)
+Benchmarking slice_contains/X_2_stringzilla_found: Collecting 100 samples in estimated 5.0000 s (521M iterations)
 Benchmarking slice_contains/X_2_stringzilla_found: Analyzing
 slice_contains/X_2_stringzilla_found
-                        time:   [9.5637 ns 9.5763 ns 9.5888 ns]
+                        time:   [9.5787 ns 9.5931 ns 9.6083 ns]
+Found 3 outliers among 100 measurements (3.00%)
+  3 (3.00%) high mild
+Benchmarking slice_contains/X_2_stringzilla_notfound
+Benchmarking slice_contains/X_2_stringzilla_notfound: Warming up for 3.0000 s
+Benchmarking slice_contains/X_2_stringzilla_notfound: Collecting 100 samples in estimated 5.0000 s (412M iterations)
+Benchmarking slice_contains/X_2_stringzilla_notfound: Analyzing
+slice_contains/X_2_stringzilla_notfound
+                        time:   [12.079 ns 12.101 ns 12.124 ns]
 Found 5 outliers among 100 measurements (5.00%)
   3 (3.00%) high mild
   2 (2.00%) high severe
-Benchmarking slice_contains/X_2_stringzilla_notfound
-Benchmarking slice_contains/X_2_stringzilla_notfound: Warming up for 3.0000 s
-Benchmarking slice_contains/X_2_stringzilla_notfound: Collecting 100 samples in estimated 5.0000 s (415M iterations)
-Benchmarking slice_contains/X_2_stringzilla_notfound: Analyzing
-slice_contains/X_2_stringzilla_notfound
-                        time:   [12.042 ns 12.065 ns 12.089 ns]
 Benchmarking slice_contains/D2_baseline
 Benchmarking slice_contains/D2_baseline: Warming up for 3.0000 s
-Benchmarking slice_contains/D2_baseline: Collecting 100 samples in estimated 5.0000 s (4.5B iterations)
+Benchmarking slice_contains/D2_baseline: Collecting 100 samples in estimated 5.0000 s (5.3B iterations)
 Benchmarking slice_contains/D2_baseline: Analyzing
 slice_contains/D2_baseline
-                        time:   [1.1152 ns 1.1164 ns 1.1177 ns]
-Found 10 outliers among 100 measurements (10.00%)
+                        time:   [944.14 ps 946.12 ps 948.48 ps]
+Found 11 outliers among 100 measurements (11.00%)
   1 (1.00%) low mild
-  7 (7.00%) high mild
-  2 (2.00%) high severe
+  3 (3.00%) high mild
+  7 (7.00%) high severe
 Benchmarking slice_contains/D2_slice_contains_D2_custom
 Benchmarking slice_contains/D2_slice_contains_D2_custom: Warming up for 3.0000 s
-Benchmarking slice_contains/D2_slice_contains_D2_custom: Collecting 100 samples in estimated 5.0001 s (182M iterations)
+Benchmarking slice_contains/D2_slice_contains_D2_custom: Collecting 100 samples in estimated 5.0001 s (225M iterations)
 Benchmarking slice_contains/D2_slice_contains_D2_custom: Analyzing
 slice_contains/D2_slice_contains_D2_custom
-                        time:   [27.334 ns 27.379 ns 27.429 ns]
-Found 4 outliers among 100 measurements (4.00%)
-  3 (3.00%) high mild
-  1 (1.00%) high severe
+                        time:   [22.183 ns 22.243 ns 22.316 ns]
+Found 8 outliers among 100 measurements (8.00%)
+  3 (3.00%) low mild
+  2 (2.00%) high mild
+  3 (3.00%) high severe
 Benchmarking slice_contains/D2_slice_contains_D2_custom_not
 Benchmarking slice_contains/D2_slice_contains_D2_custom_not: Warming up for 3.0000 s
-Benchmarking slice_contains/D2_slice_contains_D2_custom_not: Collecting 100 samples in estimated 5.0001 s (121M iterations)
+Benchmarking slice_contains/D2_slice_contains_D2_custom_not: Collecting 100 samples in estimated 5.0001 s (100M iterations)
 Benchmarking slice_contains/D2_slice_contains_D2_custom_not: Analyzing
 slice_contains/D2_slice_contains_D2_custom_not
-                        time:   [41.256 ns 41.415 ns 41.573 ns]
-Found 2 outliers among 100 measurements (2.00%)
-  2 (2.00%) high severe
+                        time:   [49.794 ns 50.264 ns 50.782 ns]
+Found 11 outliers among 100 measurements (11.00%)
+  1 (1.00%) high mild
+  10 (10.00%) high severe
 Benchmarking slice_contains/D2_slice_contains_D2_stringzilla
 Benchmarking slice_contains/D2_slice_contains_D2_stringzilla: Warming up for 3.0000 s
-Benchmarking slice_contains/D2_slice_contains_D2_stringzilla: Collecting 100 samples in estimated 5.0001 s (69M iterations)
+Benchmarking slice_contains/D2_slice_contains_D2_stringzilla: Collecting 100 samples in estimated 5.0000 s (72M iterations)
 Benchmarking slice_contains/D2_slice_contains_D2_stringzilla: Analyzing
 slice_contains/D2_slice_contains_D2_stringzilla
-                        time:   [70.053 ns 70.245 ns 70.444 ns]
-Found 4 outliers among 100 measurements (4.00%)
-  4 (4.00%) high mild
+                        time:   [73.795 ns 74.064 ns 74.342 ns]
+Found 3 outliers among 100 measurements (3.00%)
+  3 (3.00%) high mild
 Benchmarking slice_contains/D2_slice_contains_D2_stringzilla_not
 Benchmarking slice_contains/D2_slice_contains_D2_stringzilla_not: Warming up for 3.0000 s
-Benchmarking slice_contains/D2_slice_contains_D2_stringzilla_not: Collecting 100 samples in estimated 5.0000 s (47M iterations)
+Benchmarking slice_contains/D2_slice_contains_D2_stringzilla_not: Collecting 100 samples in estimated 5.0004 s (49M iterations)
 Benchmarking slice_contains/D2_slice_contains_D2_stringzilla_not: Analyzing
 slice_contains/D2_slice_contains_D2_stringzilla_not
-                        time:   [101.85 ns 102.02 ns 102.21 ns]
-Found 4 outliers among 100 measurements (4.00%)
-  4 (4.00%) high mild
+                        time:   [106.29 ns 106.52 ns 106.76 ns]
+Found 6 outliers among 100 measurements (6.00%)
+  2 (2.00%) low mild
+  3 (3.00%) high mild
+  1 (1.00%) high severe
 
 
 running 0 tests

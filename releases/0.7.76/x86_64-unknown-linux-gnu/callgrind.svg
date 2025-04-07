@@ -13,7 +13,7 @@
 <g id="node1" class="node">
 <title>(below main)</title>
 <polygon fill="#ff0100" stroke="#ff0100" points="3232.03,-3954 3160.03,-3954 3160.03,-3891 3232.03,-3891 3232.03,-3954"/>
-<text text-anchor="middle" x="3196.03" y="-3942" font-family="Arial" font-size="10.00" fill="#ffffff">s4</text>
+<text text-anchor="middle" x="3196.03" y="-3942" font-family="Arial" font-size="10.00" fill="#ffffff">libc.so.6</text>
 <text text-anchor="middle" x="3196.03" y="-3931" font-family="Arial" font-size="10.00" fill="#ffffff">(below main)</text>
 <text text-anchor="middle" x="3196.03" y="-3920" font-family="Arial" font-size="10.00" fill="#ffffff">99.87%</text>
 <text text-anchor="middle" x="3196.03" y="-3909" font-family="Arial" font-size="10.00" fill="#ffffff">(0.00%)</text>
@@ -25,7 +25,7 @@
 <polygon fill="#ff0200" stroke="#ff0200" points="3221.03,-3851 3171.03,-3851 3171.03,-3788 3221.03,-3788 3221.03,-3851"/>
 <text text-anchor="middle" x="3196.03" y="-3839" font-family="Arial" font-size="10.00" fill="#ffffff">s4</text>
 <text text-anchor="middle" x="3196.03" y="-3828" font-family="Arial" font-size="10.00" fill="#ffffff">main</text>
-<text text-anchor="middle" x="3196.03" y="-3817" font-family="Arial" font-size="10.00" fill="#ffffff">99.86%</text>
+<text text-anchor="middle" x="3196.03" y="-3817" font-family="Arial" font-size="10.00" fill="#ffffff">99.85%</text>
 <text text-anchor="middle" x="3196.03" y="-3806" font-family="Arial" font-size="10.00" fill="#ffffff">(0.00%)</text>
 <text text-anchor="middle" x="3196.03" y="-3795" font-family="Arial" font-size="10.00" fill="#ffffff">1×</text>
 </g>
@@ -34,7 +34,7 @@
 <title>(below main)&#45;&gt;main</title>
 <path fill="none" stroke="#ff0200" stroke-width="3.99" d="M3196.03,-3890.92C3196.03,-3881.61 3196.03,-3871.23 3196.03,-3861.36"/>
 <polygon fill="#ff0200" stroke="#ff0200" stroke-width="3.99" points="3199.53,-3861.32 3196.03,-3851.32 3192.53,-3861.32 3199.53,-3861.32"/>
-<text text-anchor="middle" x="3213.03" y="-3874" font-family="Arial" font-size="10.00" fill="#ff0200">99.86%</text>
+<text text-anchor="middle" x="3213.03" y="-3874" font-family="Arial" font-size="10.00" fill="#ff0200">99.85%</text>
 <text text-anchor="middle" x="3213.03" y="-3863" font-family="Arial" font-size="10.00" fill="#ff0200">1×</text>
 </g>
 <!-- std::rt::lang_start_internal -->
@@ -43,7 +43,7 @@
 <polygon fill="#ff0200" stroke="#ff0200" points="3260.03,-3748 3132.03,-3748 3132.03,-3685 3260.03,-3685 3260.03,-3748"/>
 <text text-anchor="middle" x="3196.03" y="-3736" font-family="Arial" font-size="10.00" fill="#ffffff">s4</text>
 <text text-anchor="middle" x="3196.03" y="-3725" font-family="Arial" font-size="10.00" fill="#ffffff">std::rt::lang_start_internal</text>
-<text text-anchor="middle" x="3196.03" y="-3714" font-family="Arial" font-size="10.00" fill="#ffffff">99.86%</text>
+<text text-anchor="middle" x="3196.03" y="-3714" font-family="Arial" font-size="10.00" fill="#ffffff">99.85%</text>
 <text text-anchor="middle" x="3196.03" y="-3703" font-family="Arial" font-size="10.00" fill="#ffffff">(0.00%)</text>
 <text text-anchor="middle" x="3196.03" y="-3692" font-family="Arial" font-size="10.00" fill="#ffffff">1×</text>
 </g>
@@ -52,7 +52,7 @@
 <title>main&#45;&gt;std::rt::lang_start_internal</title>
 <path fill="none" stroke="#ff0200" stroke-width="3.99" d="M3196.03,-3787.92C3196.03,-3778.61 3196.03,-3768.23 3196.03,-3758.36"/>
 <polygon fill="#ff0200" stroke="#ff0200" stroke-width="3.99" points="3199.53,-3758.32 3196.03,-3748.32 3192.53,-3758.32 3199.53,-3758.32"/>
-<text text-anchor="middle" x="3213.03" y="-3771" font-family="Arial" font-size="10.00" fill="#ff0200">99.86%</text>
+<text text-anchor="middle" x="3213.03" y="-3771" font-family="Arial" font-size="10.00" fill="#ff0200">99.85%</text>
 <text text-anchor="middle" x="3213.03" y="-3760" font-family="Arial" font-size="10.00" fill="#ff0200">1×</text>
 </g>
 <!-- 0x0000000000020290 -->
@@ -81,7 +81,7 @@
 <text text-anchor="middle" x="411.03" y="-246" font-family="Arial" font-size="10.00" fill="#ffffff">0x0000000004898620</text>
 <text text-anchor="middle" x="411.03" y="-235" font-family="Arial" font-size="10.00" fill="#ffffff">1.55%</text>
 <text text-anchor="middle" x="411.03" y="-224" font-family="Arial" font-size="10.00" fill="#ffffff">(0.01%)</text>
-<text text-anchor="middle" x="411.03" y="-213" font-family="Arial" font-size="10.00" fill="#ffffff">25138×</text>
+<text text-anchor="middle" x="411.03" y="-213" font-family="Arial" font-size="10.00" fill="#ffffff">25139×</text>
 </g>
 <!-- __memcpy_avx_unaligned_erms -->
 <g id="node5" class="node">
@@ -91,7 +91,7 @@
 <text text-anchor="middle" x="286.03" y="-143" font-family="Arial" font-size="10.00" fill="#ffffff">__memcpy_avx_unaligned_erms</text>
 <text text-anchor="middle" x="286.03" y="-132" font-family="Arial" font-size="10.00" fill="#ffffff">5.29%</text>
 <text text-anchor="middle" x="286.03" y="-121" font-family="Arial" font-size="10.00" fill="#ffffff">(5.29%)</text>
-<text text-anchor="middle" x="286.03" y="-110" font-family="Arial" font-size="10.00" fill="#ffffff">886002×</text>
+<text text-anchor="middle" x="286.03" y="-110" font-family="Arial" font-size="10.00" fill="#ffffff">886003×</text>
 </g>
 <!-- 0x0000000004898620&#45;&gt;__memcpy_avx_unaligned_erms -->
 <g id="edge3" class="edge">
@@ -99,7 +99,7 @@
 <path fill="none" stroke="#0d1375" stroke-width="0.5" d="M380.95,-205.94C370.28,-195.68 357.96,-184.45 346.03,-175 343.17,-172.73 340.18,-170.47 337.12,-168.24"/>
 <polygon fill="#0d1375" stroke="#0d1375" stroke-width="0.5" points="337.61,-167.08 334.05,-166.02 336.17,-169.06 337.61,-167.08"/>
 <text text-anchor="middle" x="387.53" y="-189" font-family="Arial" font-size="10.00" fill="#0d1375">1.54%</text>
-<text text-anchor="middle" x="387.53" y="-178" font-family="Arial" font-size="10.00" fill="#0d1375">25138×</text>
+<text text-anchor="middle" x="387.53" y="-178" font-family="Arial" font-size="10.00" fill="#0d1375">25139×</text>
 </g>
 <!-- &lt;alloc::vec::Vec&lt;T,A&gt; as alloc::vec::spec_extend::SpecExtend&lt;T,I&gt;&gt;::spec_extend -->
 <g id="node6" class="node">
@@ -818,7 +818,7 @@
 <text text-anchor="middle" x="510.03" y="-246" font-family="Arial" font-size="10.00" fill="#ffffff">_int_malloc</text>
 <text text-anchor="middle" x="510.03" y="-235" font-family="Arial" font-size="10.00" fill="#ffffff">16.98%</text>
 <text text-anchor="middle" x="510.03" y="-224" font-family="Arial" font-size="10.00" fill="#ffffff">(13.07%)</text>
-<text text-anchor="middle" x="510.03" y="-213" font-family="Arial" font-size="10.00" fill="#ffffff">218627×</text>
+<text text-anchor="middle" x="510.03" y="-213" font-family="Arial" font-size="10.00" fill="#ffffff">218623×</text>
 </g>
 <!-- malloc&#45;&gt;_int_malloc -->
 <g id="edge60" class="edge">
@@ -826,7 +826,7 @@
 <path fill="none" stroke="#0d4b84" stroke-width="0.53" d="M569.26,-380.93C566.64,-352.92 560.14,-310.92 544.03,-278 543.13,-276.17 542.13,-274.36 541.05,-272.57"/>
 <polygon fill="#0d4b84" stroke="#0d4b84" stroke-width="0.53" points="542.02,-271.75 539.02,-269.39 539.9,-273.11 542.02,-271.75"/>
 <text text-anchor="middle" x="588.03" y="-343.5" font-family="Arial" font-size="10.00" fill="#0d4b84">13.16%</text>
-<text text-anchor="middle" x="588.03" y="-332.5" font-family="Arial" font-size="10.00" fill="#0d4b84">192057×</text>
+<text text-anchor="middle" x="588.03" y="-332.5" font-family="Arial" font-size="10.00" fill="#0d4b84">192052×</text>
 </g>
 <!-- free -->
 <g id="node35" class="node">
@@ -852,9 +852,9 @@
 <polygon fill="#0d3f81" stroke="#0d3f81" points="608.03,-269 552.03,-269 552.03,-206 608.03,-206 608.03,-269"/>
 <text text-anchor="middle" x="580.03" y="-257" font-family="Arial" font-size="10.00" fill="#ffffff">libc.so.6</text>
 <text text-anchor="middle" x="580.03" y="-246" font-family="Arial" font-size="10.00" fill="#ffffff">_int_free</text>
-<text text-anchor="middle" x="580.03" y="-235" font-family="Arial" font-size="10.00" fill="#ffffff">10.84%</text>
+<text text-anchor="middle" x="580.03" y="-235" font-family="Arial" font-size="10.00" fill="#ffffff">10.85%</text>
 <text text-anchor="middle" x="580.03" y="-224" font-family="Arial" font-size="10.00" fill="#ffffff">(10.01%)</text>
-<text text-anchor="middle" x="580.03" y="-213" font-family="Arial" font-size="10.00" fill="#ffffff">414935×</text>
+<text text-anchor="middle" x="580.03" y="-213" font-family="Arial" font-size="10.00" fill="#ffffff">414937×</text>
 </g>
 <!-- free&#45;&gt;_int_free -->
 <g id="edge58" class="edge">
@@ -916,7 +916,7 @@
 <path fill="none" stroke="#0d1074" stroke-width="0.5" d="M562.47,-205.92C555.88,-194.46 548.36,-181.36 541.61,-169.6"/>
 <polygon fill="#0d1074" stroke="#0d1074" stroke-width="0.5" points="542.53,-168.75 539.72,-166.32 540.41,-169.97 542.53,-168.75"/>
 <text text-anchor="middle" x="571.03" y="-189" font-family="Arial" font-size="10.00" fill="#0d1074">0.78%</text>
-<text text-anchor="middle" x="571.03" y="-178" font-family="Arial" font-size="10.00" fill="#0d1074">191×</text>
+<text text-anchor="middle" x="571.03" y="-178" font-family="Arial" font-size="10.00" fill="#0d1074">192×</text>
 </g>
 <!-- unlink_chunk.constprop.0 -->
 <g id="node41" class="node">
@@ -924,9 +924,9 @@
 <polygon fill="#0d1375" stroke="#0d1375" points="630.03,-63 502.03,-63 502.03,0 630.03,0 630.03,-63"/>
 <text text-anchor="middle" x="566.03" y="-51" font-family="Arial" font-size="10.00" fill="#ffffff">libc.so.6</text>
 <text text-anchor="middle" x="566.03" y="-40" font-family="Arial" font-size="10.00" fill="#ffffff">unlink_chunk.constprop.0</text>
-<text text-anchor="middle" x="566.03" y="-29" font-family="Arial" font-size="10.00" fill="#ffffff">1.48%</text>
-<text text-anchor="middle" x="566.03" y="-18" font-family="Arial" font-size="10.00" fill="#ffffff">(1.48%)</text>
-<text text-anchor="middle" x="566.03" y="-7" font-family="Arial" font-size="10.00" fill="#ffffff">222619×</text>
+<text text-anchor="middle" x="566.03" y="-29" font-family="Arial" font-size="10.00" fill="#ffffff">1.49%</text>
+<text text-anchor="middle" x="566.03" y="-18" font-family="Arial" font-size="10.00" fill="#ffffff">(1.49%)</text>
+<text text-anchor="middle" x="566.03" y="-7" font-family="Arial" font-size="10.00" fill="#ffffff">222735×</text>
 </g>
 <!-- malloc_consolidate&#45;&gt;unlink_chunk.constprop.0 -->
 <g id="edge61" class="edge">
@@ -934,7 +934,7 @@
 <path fill="none" stroke="#0d1174" stroke-width="0.5" d="M532.6,-102.84C536.26,-92.89 540.58,-81.87 545.03,-72 545.82,-70.23 546.66,-68.43 547.53,-66.62"/>
 <polygon fill="#0d1174" stroke="#0d1174" stroke-width="0.5" points="548.69,-67.04 549.13,-63.36 546.49,-65.97 548.69,-67.04"/>
 <text text-anchor="middle" x="564.03" y="-86" font-family="Arial" font-size="10.00" fill="#0d1174">0.94%</text>
-<text text-anchor="middle" x="564.03" y="-75" font-family="Arial" font-size="10.00" fill="#0d1174">145227×</text>
+<text text-anchor="middle" x="564.03" y="-75" font-family="Arial" font-size="10.00" fill="#0d1174">145332×</text>
 </g>
 <!-- _int_malloc&#45;&gt;malloc_consolidate -->
 <g id="edge32" class="edge">
@@ -942,7 +942,7 @@
 <path fill="none" stroke="#0d1b77" stroke-width="0.5" d="M510.47,-205.75C510.89,-195.89 511.66,-184.96 513.03,-175 513.26,-173.26 513.54,-171.49 513.85,-169.7"/>
 <polygon fill="#0d1b77" stroke="#0d1b77" stroke-width="0.5" points="515.1,-169.69 514.51,-166.02 512.68,-169.25 515.1,-169.69"/>
 <text text-anchor="middle" x="527.03" y="-189" font-family="Arial" font-size="10.00" fill="#0d1b77">3.44%</text>
-<text text-anchor="middle" x="527.03" y="-178" font-family="Arial" font-size="10.00" fill="#0d1b77">2500×</text>
+<text text-anchor="middle" x="527.03" y="-178" font-family="Arial" font-size="10.00" fill="#0d1b77">2499×</text>
 </g>
 <!-- _int_malloc&#45;&gt;unlink_chunk.constprop.0 -->
 <g id="edge33" class="edge">
@@ -950,7 +950,7 @@
 <path fill="none" stroke="#0d0f73" stroke-width="0.5" d="M543.05,-208.2C544.36,-207.42 545.69,-206.68 547.03,-206 560.93,-198.86 571.49,-209.39 581.03,-197 609.66,-159.8 595.54,-102.9 581.63,-66.71"/>
 <polygon fill="#0d0f73" stroke="#0d0f73" stroke-width="0.5" points="582.7,-66.09 580.29,-63.28 580.42,-66.98 582.7,-66.09"/>
 <text text-anchor="middle" x="614.53" y="-137.5" font-family="Arial" font-size="10.00" fill="#0d0f73">0.47%</text>
-<text text-anchor="middle" x="614.53" y="-126.5" font-family="Arial" font-size="10.00" fill="#0d0f73">66829×</text>
+<text text-anchor="middle" x="614.53" y="-126.5" font-family="Arial" font-size="10.00" fill="#0d0f73">66838×</text>
 </g>
 <!-- _int_realloc&#45;&gt;0x0000000004898620 -->
 <g id="edge34" class="edge">
@@ -958,7 +958,7 @@
 <path fill="none" stroke="#0d1375" stroke-width="0.5" d="M477.96,-308.92C466.88,-297.26 454.19,-283.92 442.87,-272"/>
 <polygon fill="#0d1375" stroke="#0d1375" stroke-width="0.5" points="443.62,-271.01 440.32,-269.32 441.84,-272.7 443.62,-271.01"/>
 <text text-anchor="middle" x="484.53" y="-292" font-family="Arial" font-size="10.00" fill="#0d1375">1.55%</text>
-<text text-anchor="middle" x="484.53" y="-281" font-family="Arial" font-size="10.00" fill="#0d1375">25081×</text>
+<text text-anchor="middle" x="484.53" y="-281" font-family="Arial" font-size="10.00" fill="#0d1375">25082×</text>
 </g>
 <!-- _int_realloc&#45;&gt;_int_free -->
 <g id="edge35" class="edge">
@@ -966,7 +966,7 @@
 <path fill="none" stroke="#0d1074" stroke-width="0.5" d="M537.18,-308.58C539.57,-305.74 541.89,-302.86 544.03,-300 550.42,-291.43 556.6,-281.65 561.98,-272.44"/>
 <polygon fill="#0d1074" stroke="#0d1074" stroke-width="0.5" points="563.23,-272.72 563.92,-269.07 561.11,-271.49 563.23,-272.72"/>
 <text text-anchor="middle" x="575.53" y="-292" font-family="Arial" font-size="10.00" fill="#0d1074">0.70%</text>
-<text text-anchor="middle" x="575.53" y="-281" font-family="Arial" font-size="10.00" fill="#0d1074">28257×</text>
+<text text-anchor="middle" x="575.53" y="-281" font-family="Arial" font-size="10.00" fill="#0d1074">28259×</text>
 </g>
 <!-- _int_realloc&#45;&gt;_int_malloc -->
 <g id="edge36" class="edge">
@@ -974,7 +974,7 @@
 <path fill="none" stroke="#0d1d78" stroke-width="0.5" d="M507.93,-308.92C508.27,-297.56 508.66,-284.59 509,-272.9"/>
 <polygon fill="#0d1d78" stroke="#0d1d78" stroke-width="0.5" points="510.23,-272.86 509.11,-269.32 507.78,-272.78 510.23,-272.86"/>
 <text text-anchor="middle" x="525.53" y="-292" font-family="Arial" font-size="10.00" fill="#0d1d78">3.75%</text>
-<text text-anchor="middle" x="525.53" y="-281" font-family="Arial" font-size="10.00" fill="#0d1d78">25119×</text>
+<text text-anchor="middle" x="525.53" y="-281" font-family="Arial" font-size="10.00" fill="#0d1d78">25120×</text>
 </g>
 <!-- aho_corasick::ahocorasick::AhoCorasickBuilder::build -->
 <g id="node43" class="node">
@@ -1348,7 +1348,7 @@
 <polygon fill="#f73401" stroke="#f73401" points="3248.53,-2430 3055.53,-2430 3055.53,-2367 3248.53,-2367 3248.53,-2430"/>
 <text text-anchor="middle" x="3152.03" y="-2418" font-family="Arial" font-size="10.00" fill="#ffffff">s4</text>
 <text text-anchor="middle" x="3152.03" y="-2407" font-family="Arial" font-size="10.00" fill="#ffffff">regex::builders::Builder::build_one_bytes</text>
-<text text-anchor="middle" x="3152.03" y="-2396" font-family="Arial" font-size="10.00" fill="#ffffff">94.80%</text>
+<text text-anchor="middle" x="3152.03" y="-2396" font-family="Arial" font-size="10.00" fill="#ffffff">94.79%</text>
 <text text-anchor="middle" x="3152.03" y="-2385" font-family="Arial" font-size="10.00" fill="#ffffff">(0.00%)</text>
 <text text-anchor="middle" x="3152.03" y="-2374" font-family="Arial" font-size="10.00" fill="#ffffff">80×</text>
 </g>
@@ -1357,7 +1357,7 @@
 <title>regex::regex::bytes::Regex::new&#45;&gt;regex::builders::Builder::build_one_bytes</title>
 <path fill="none" stroke="#f73401" stroke-width="3.79" d="M3059.29,-2469.92C3073.22,-2459.34 3088.99,-2447.37 3103.51,-2436.34"/>
 <polygon fill="#f73401" stroke="#f73401" stroke-width="3.79" points="3105.77,-2438.89 3111.44,-2430.32 3101.66,-2433.48 3105.77,-2438.89"/>
-<text text-anchor="middle" x="3115.03" y="-2453" font-family="Arial" font-size="10.00" fill="#f73401">94.80%</text>
+<text text-anchor="middle" x="3115.03" y="-2453" font-family="Arial" font-size="10.00" fill="#f73401">94.79%</text>
 <text text-anchor="middle" x="3115.03" y="-2442" font-family="Arial" font-size="10.00" fill="#f73401">80×</text>
 </g>
 <!-- regex_automata::meta::regex::Builder::build -->
@@ -1366,7 +1366,7 @@
 <polygon fill="#f83001" stroke="#f83001" points="3409.03,-2327 3203.03,-2327 3203.03,-2264 3409.03,-2264 3409.03,-2327"/>
 <text text-anchor="middle" x="3306.03" y="-2315" font-family="Arial" font-size="10.00" fill="#ffffff">s4</text>
 <text text-anchor="middle" x="3306.03" y="-2304" font-family="Arial" font-size="10.00" fill="#ffffff">regex_automata::meta::regex::Builder::build</text>
-<text text-anchor="middle" x="3306.03" y="-2293" font-family="Arial" font-size="10.00" fill="#ffffff">95.29%</text>
+<text text-anchor="middle" x="3306.03" y="-2293" font-family="Arial" font-size="10.00" fill="#ffffff">95.28%</text>
 <text text-anchor="middle" x="3306.03" y="-2282" font-family="Arial" font-size="10.00" fill="#ffffff">(0.01%)</text>
 <text text-anchor="middle" x="3306.03" y="-2271" font-family="Arial" font-size="10.00" fill="#ffffff">81×</text>
 </g>
@@ -1375,7 +1375,7 @@
 <title>regex::builders::Builder::build_one_bytes&#45;&gt;regex_automata::meta::regex::Builder::build</title>
 <path fill="none" stroke="#f73501" stroke-width="3.79" d="M3198.65,-2366.92C3215.16,-2356.1 3233.88,-2343.81 3251.02,-2332.57"/>
 <polygon fill="#f73501" stroke="#f73501" stroke-width="3.79" points="3253.05,-2335.31 3259.29,-2327.15 3249.32,-2329.63 3253.05,-2335.31"/>
-<text text-anchor="middle" x="3260.03" y="-2350" font-family="Arial" font-size="10.00" fill="#f73501">94.77%</text>
+<text text-anchor="middle" x="3260.03" y="-2350" font-family="Arial" font-size="10.00" fill="#f73501">94.76%</text>
 <text text-anchor="middle" x="3260.03" y="-2339" font-family="Arial" font-size="10.00" fill="#f73501">80×</text>
 </g>
 <!-- regex_automata::meta::regex::Builder::build&#45;&gt;core::ptr::drop_in_place&lt;regex_syntax::ast::Ast&gt; -->
@@ -1712,7 +1712,7 @@
 <polygon fill="#0d307d" stroke="#0d307d" points="3657.53,-1648 3440.53,-1648 3440.53,-1585 3657.53,-1585 3657.53,-1648"/>
 <text text-anchor="middle" x="3549.03" y="-1636" font-family="Arial" font-size="10.00" fill="#ffffff">s4</text>
 <text text-anchor="middle" x="3549.03" y="-1625" font-family="Arial" font-size="10.00" fill="#ffffff">regex_automata::meta::reverse_inner::prefilter</text>
-<text text-anchor="middle" x="3549.03" y="-1614" font-family="Arial" font-size="10.00" fill="#ffffff">7.87%</text>
+<text text-anchor="middle" x="3549.03" y="-1614" font-family="Arial" font-size="10.00" fill="#ffffff">7.86%</text>
 <text text-anchor="middle" x="3549.03" y="-1603" font-family="Arial" font-size="10.00" fill="#ffffff">(0.01%)</text>
 <text text-anchor="middle" x="3549.03" y="-1592" font-family="Arial" font-size="10.00" fill="#ffffff">44×</text>
 </g>
@@ -1721,7 +1721,7 @@
 <title>regex_automata::meta::reverse_inner::extract&#45;&gt;regex_automata::meta::reverse_inner::prefilter</title>
 <path fill="none" stroke="#0d307d" stroke-width="0.5" d="M3972.43,-1730.19C3970.95,-1729.79 3969.48,-1729.39 3968.03,-1729 3864.07,-1701.01 3745.5,-1669.5 3661.08,-1647.13"/>
 <polygon fill="#0d307d" stroke="#0d307d" stroke-width="0.5" points="3661.29,-1645.92 3657.59,-1646.21 3660.66,-1648.29 3661.29,-1645.92"/>
-<text text-anchor="middle" x="3948.03" y="-1691.5" font-family="Arial" font-size="10.00" fill="#0d307d">7.87%</text>
+<text text-anchor="middle" x="3948.03" y="-1691.5" font-family="Arial" font-size="10.00" fill="#0d307d">7.86%</text>
 <text text-anchor="middle" x="3948.03" y="-1680.5" font-family="Arial" font-size="10.00" fill="#0d307d">44×</text>
 </g>
 <!-- regex_automata::meta::reverse_inner::flatten&#45;&gt;regex_syntax::hir::Hir::alternation -->
@@ -2154,7 +2154,7 @@
 <title>regex_automata::nfa::thompson::literal_trie::LiteralTrie::add&#45;&gt;alloc::raw_vec::RawVec&lt;T,A&gt;::reserve::do_reserve_and_handle</title>
 <path fill="none" stroke="#0d1475" stroke-width="0.5" d="M2125.83,-1092.46C2128.24,-1091.97 2130.65,-1091.48 2133.03,-1091 2153.87,-1086.8 2164.55,-1096.58 2180.03,-1082 2201.05,-1062.19 2178.85,-1042.23 2196.03,-1019 2197.64,-1016.81 2199.42,-1014.72 2201.33,-1012.72"/>
 <polygon fill="#0d1475" stroke="#0d1475" stroke-width="0.5" points="2202.39,-1013.39 2204,-1010.05 2200.66,-1011.66 2202.39,-1013.39"/>
-<text text-anchor="middle" x="2212.53" y="-1053.5" font-family="Arial" font-size="10.00" fill="#0d1475">1.66%</text>
+<text text-anchor="middle" x="2212.53" y="-1053.5" font-family="Arial" font-size="10.00" fill="#0d1475">1.65%</text>
 <text text-anchor="middle" x="2212.53" y="-1042.5" font-family="Arial" font-size="10.00" fill="#0d1475">19750×</text>
 </g>
 <!-- regex_automata::nfa::thompson::literal_trie::LiteralTrie::add&#45;&gt;alloc::raw_vec::RawVec&lt;T,A&gt;::reserve_for_push -->
@@ -2654,7 +2654,7 @@
 <polygon fill="#fe0900" stroke="#fe0900" points="3211.03,-3336 2815.03,-3336 2815.03,-3273 3211.03,-3273 3211.03,-3336"/>
 <text text-anchor="middle" x="3013.03" y="-3324" font-family="Arial" font-size="10.00" fill="#ffffff">s4</text>
 <text text-anchor="middle" x="3013.03" y="-3313" font-family="Arial" font-size="10.00" fill="#ffffff">s4lib::readers::syslogprocessor::SyslogProcessor::process_stage1_blockzero_analysis</text>
-<text text-anchor="middle" x="3013.03" y="-3302" font-family="Arial" font-size="10.00" fill="#ffffff">99.15%</text>
+<text text-anchor="middle" x="3013.03" y="-3302" font-family="Arial" font-size="10.00" fill="#ffffff">99.14%</text>
 <text text-anchor="middle" x="3013.03" y="-3291" font-family="Arial" font-size="10.00" fill="#ffffff">(0.00%)</text>
 <text text-anchor="middle" x="3013.03" y="-3280" font-family="Arial" font-size="10.00" fill="#ffffff">1×</text>
 </g>
@@ -2663,7 +2663,7 @@
 <title>s4::exec_fileprocessor_thread&#45;&gt;s4lib::readers::syslogprocessor::SyslogProcessor::process_stage1_blockzero_analysis</title>
 <path fill="none" stroke="#fe0900" stroke-width="3.97" d="M3102.27,-3375.92C3088.99,-3365.44 3073.97,-3353.59 3060.1,-3342.65"/>
 <polygon fill="#fe0900" stroke="#fe0900" stroke-width="3.97" points="3062.11,-3339.77 3052.09,-3336.32 3057.77,-3345.26 3062.11,-3339.77"/>
-<text text-anchor="middle" x="3106.03" y="-3359" font-family="Arial" font-size="10.00" fill="#fe0900">99.15%</text>
+<text text-anchor="middle" x="3106.03" y="-3359" font-family="Arial" font-size="10.00" fill="#fe0900">99.14%</text>
 <text text-anchor="middle" x="3106.03" y="-3348" font-family="Arial" font-size="10.00" fill="#fe0900">1×</text>
 </g>
 <!-- s4lib::readers::syslinereader::SyslineReader::find_sysline_in_block_year -->
@@ -2753,7 +2753,7 @@
 <title>s4lib::data::datetime::bytes_to_regex_to_datetime&#45;&gt;once_cell::imp::OnceCell&lt;T&gt;::initialize</title>
 <path fill="none" stroke="#f82f01" stroke-width="3.82" d="M2985.02,-2963.69C2988.36,-2943.03 2992.8,-2915.61 2996.44,-2893.17"/>
 <polygon fill="#f82f01" stroke="#f82f01" stroke-width="3.82" points="2999.86,-2893.47 2998.04,-2883.25 2993.09,-2892.38 2999.86,-2893.47"/>
-<text text-anchor="middle" x="3014.03" y="-2926.5" font-family="Arial" font-size="10.00" fill="#f82f01">95.40%</text>
+<text text-anchor="middle" x="3014.03" y="-2926.5" font-family="Arial" font-size="10.00" fill="#f82f01">95.39%</text>
 <text text-anchor="middle" x="3014.03" y="-2915.5" font-family="Arial" font-size="10.00" fill="#f82f01">80×</text>
 </g>
 <!-- s4lib::data::datetime::bytes_to_regex_to_datetime&#45;&gt;regex_automata::util::pool::inner::Pool&lt;T,F&gt;::get_slow -->
@@ -2770,7 +2770,7 @@
 <polygon fill="#fe0900" stroke="#fe0900" points="3155.53,-3130 2804.53,-3130 2804.53,-3067 3155.53,-3067 3155.53,-3130"/>
 <text text-anchor="middle" x="2980.03" y="-3118" font-family="Arial" font-size="10.00" fill="#ffffff">s4</text>
 <text text-anchor="middle" x="2980.03" y="-3107" font-family="Arial" font-size="10.00" fill="#ffffff">s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached</text>
-<text text-anchor="middle" x="2980.03" y="-3096" font-family="Arial" font-size="10.00" fill="#ffffff">99.12%</text>
+<text text-anchor="middle" x="2980.03" y="-3096" font-family="Arial" font-size="10.00" fill="#ffffff">99.11%</text>
 <text text-anchor="middle" x="2980.03" y="-3085" font-family="Arial" font-size="10.00" fill="#ffffff">(0.00%)</text>
 <text text-anchor="middle" x="2980.03" y="-3074" font-family="Arial" font-size="10.00" fill="#ffffff">8×</text>
 </g>
