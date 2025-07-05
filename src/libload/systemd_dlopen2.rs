@@ -11,7 +11,6 @@ use crate::bindings::sd_journal_h::{
 use std::fmt;
 use std::sync::{RwLock, Arc};
 
-#[cfg(not(windows))]
 use ::const_format::concatcp;
 use ::dlopen2::wrapper::{Container, WrapperApi};
 use ::lazy_static::lazy_static;
@@ -25,20 +24,23 @@ use ::si_trace_print::{
 #[allow(non_camel_case_types)]
 type size_t = ::std::os::raw::c_ulong;
 
-/// User-friendly name for the `libsystemd` library, used in error messages.
+/// `libsystemd` library short file name
+pub const LIB_SNAME_SYSTEMD: &str = "libsystemd";
+
+/// User-friendly file name for the `libsystemd` library, used in error messages.
 #[cfg(not(windows))]
-pub const LIB_NAME_SYSTEMD: &str = "libsystemd.so";
+pub const LIB_NAME_SYSTEMD: &str = concatcp!(LIB_SNAME_SYSTEMD, ".so");
 // XXX: not sure that `libsystemd.dll` is even a thing (libsystemd on Windows!? maybe on cygwin?)
 //      but we can try.
 /// User-friendly name for the `libsystemd` library, used in error messages.
 #[cfg(windows)]
-pub const LIB_NAME_SYSTEMD: &str = "libsystemd.dll";
+pub const LIB_NAME_SYSTEMD: &str = concatcp!(LIB_SNAME_SYSTEMD, ".dll");
 #[cfg(windows)]
 const LIB_NAME_SYSTEMD_NAMES_LEN: usize = 1;
 #[cfg(not(windows))]
-const LIB_NAME_SYSTEMD_NAMES_LEN: usize = 7;
-/// All possible names for the `libsystemd` library
-/// used in [`load_library_systemd`].
+const LIB_NAME_SYSTEMD_NAMES_LEN: usize = 41;
+/// Many possible names for the `libsystemd` library. Used in
+/// [`load_library_systemd`]. Searched for in declared order.
 ///
 /// In my search I found `libsystemd` library file paths:
 ///
@@ -90,6 +92,13 @@ const LIB_NAME_SYSTEMD_NAMES_LEN: usize = 7;
 /// /usr/lib/x86_64-linux-gnu/libsystemd.so.0
 /// /usr/lib/x86_64-linux-gnu/libsystemd.so.0.32.0
 /// ```
+/// - Ubuntu 24.04
+/// ```text
+/// /usr/lib/x86_64-linux-gnu/libsystemd.so.0
+/// /usr/lib/x86_64-linux-gnu/libsystemd.so.0.38.0
+/// /usr/lib/x86_64-linux-gnu/systemd/libsystemd-core-255.so
+/// /usr/lib/x86_64-linux-gnu/systemd/libsystemd-shared-255.so
+/// ```
 /// - FreeBSD and OpenBSD do not run systemd.
 ///
 /// Using command:
@@ -97,16 +106,88 @@ const LIB_NAME_SYSTEMD_NAMES_LEN: usize = 7;
 /// (find / -xdev \( -type f -o -type l \) -name 'libsystemd*' 2>/dev/null || true) | sort
 /// ```
 pub const LIB_NAME_SYSTEMD_NAMES: [&str; LIB_NAME_SYSTEMD_NAMES_LEN] = [
+    // on many Linux systems, there is `libsystemd.so` symlink
     LIB_NAME_SYSTEMD,
-    // on some Linux systems, there is only `libsystemd.so.0` (no `libsystemd.so` symlink)
+    // on many Linux systems, there is `libsystemd.so.0` (no `libsystemd.so` symlink)
     #[cfg(not(windows))]
     concatcp!(LIB_NAME_SYSTEMD, ".0"),
+    // on some Linux systems, there is a numbered `libsystemd.so.0.28.0` (no `libsystemd.so.0` symlink)
     #[cfg(not(windows))]
     concatcp!(LIB_NAME_SYSTEMD, ".0.28.0"),
     #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.29.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.30.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.31.0"),
+    #[cfg(not(windows))]
     concatcp!(LIB_NAME_SYSTEMD, ".0.32.0"),
     #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.33.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.34.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.35.0"),
+    #[cfg(not(windows))]
     concatcp!(LIB_NAME_SYSTEMD, ".0.36.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.37.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.38.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.39.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.40.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.41.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.42.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.43.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.44.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.45.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.46.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.47.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.48.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.49.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.50.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.51.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.52.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.53.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.54.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.55.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.56.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.57.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.58.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.59.0"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_NAME_SYSTEMD, ".0.60.0"),
+    // on some Linux systems there might be `libsystemd-core-255.so` or
+    // `libsystemd-shared-255.so`
+    #[cfg(not(windows))]
+    concatcp!(LIB_SNAME_SYSTEMD, "-core.so"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_SNAME_SYSTEMD, "-core-255.so"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_SNAME_SYSTEMD, "-shared.so"),
+    #[cfg(not(windows))]
+    concatcp!(LIB_SNAME_SYSTEMD, "-shared-255.so"),
     // on older Linux systems there might be `libsystemd-journal.so`
     #[cfg(not(windows))]
     "/usr/lib64/libsystemd-journal.so",
