@@ -6,7 +6,6 @@
 
 use crate::bindings::sd_journal_h::{
     sd_id128_t,
-    size_t,
     sd_journal,
 };
 use std::fmt;
@@ -23,6 +22,8 @@ use ::si_trace_print::{
     defñ,
 };
 
+#[allow(non_camel_case_types)]
+type size_t = ::std::os::raw::c_ulong;
 
 /// User-friendly name for the `libsystemd` library, used in error messages.
 #[cfg(not(windows))]
