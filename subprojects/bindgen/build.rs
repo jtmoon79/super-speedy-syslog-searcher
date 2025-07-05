@@ -1,6 +1,6 @@
 // build.rs
 
-//! generate bindings for `libsystemd`.
+//! Generate bindings for `libsystemd`.
 //!
 //! build the project
 //!
@@ -14,6 +14,9 @@
 //!
 //!     $ cp -v "$(find ./target/ -type f -name 'bindings.rs' | tail -n1)" ../../src/bindings/sd_journal_h.rs
 //!     $ cp -v "$(find ./target/ -type f -name 'bindings.rs' | tail -n1)" ./src/
+//!
+//! some manual editing of `sd_journal_h.rs` may be needed so it works with
+//! `journalreader.rs`.
 //!
 //! format it
 //!
