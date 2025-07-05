@@ -6,11 +6,11 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-//include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 include!("./bindings.rs");
 
 /// ripped from
 /// https://github.com/systemd/systemd/blob/16a9ad557de7173c182e9587a9cc0ca146293ec8/src/libsystemd/sd-journal/journal-internal.h#L135-L142
+#[allow(dead_code)]
 fn JOURNAL_ERRNO_IS_UNAVAILABLE_FIELD(r: i32) -> bool {
     let e = nix::errno::Errno::from_i32(r.abs());
     match e {
@@ -22,6 +22,7 @@ fn JOURNAL_ERRNO_IS_UNAVAILABLE_FIELD(r: i32) -> bool {
     }
 }
 
+#[allow(dead_code)]
 const KEY_SOURCE_REALTIME_TIMESTAMP: &str = "_SOURCE_REALTIME_TIMESTAMP";
 
 #[cfg(test)]
