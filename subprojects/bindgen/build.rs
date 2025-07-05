@@ -1,12 +1,30 @@
 // build.rs
-//
-// generate bindings for `libsystemd`.
-// find the generated file using
-//     $ find ./target/ -type f -name 'bindings.rs'
-//
-// Requires `libsystemd` headers to be installed.
-// On Ubuntu, install with:
-//     $ sudo apt install libsystemd-dev
+
+//! generate bindings for `libsystemd`.
+//!
+//! build the project
+//!
+//!     $ cargo build
+//!
+//! find the generated file using
+//!
+//!     $ find ./target/ -type f -name 'bindings.rs'
+//!
+//! copy that file to `src/bindings`
+//!
+//!     $ cp -v "$(find ./target/ -type f -name 'bindings.rs' | tail -n1)" ../../src/bindings/sd_journal_h.rs
+//!     $ cp -v "$(find ./target/ -type f -name 'bindings.rs' | tail -n1)" ./src/
+//!
+//! format it
+//!
+//!     $ cd ../..
+//!     $ rustfmt src/bindings/sd_journal_h.rs
+//!
+//! Requires `libsystemd` headers to be installed.
+//! On Ubuntu, install with:
+//!
+//!     $ sudo apt install libsystemd-dev
+//!
 
 use std::env;
 use std::path::PathBuf;
