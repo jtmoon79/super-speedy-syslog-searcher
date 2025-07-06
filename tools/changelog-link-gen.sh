@@ -63,6 +63,21 @@ grep -oEe '\[Issue #([[:digit:]]+)\]' -- "${tmp_CHANGELOG}" \
     | uniq \
     >> "${tmp_links}"
 
+# match PR link
+#
+#    [PR #323]
+#
+# prints
+#
+#    [PR #323]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/3
+#
+grep -oEe '\[PR #([[:digit:]]+)\]' -- "${tmp_CHANGELOG}" \
+    | tr -d '[]' \
+    | sort -n -t '#' -k2 \
+    | sed -Ee 's|^PR #([[:digit:]]+)$|[PR #\1]: '"${URL_PROJECT}"'/pull/\1|g' \
+    | uniq \
+    >> "${tmp_links}"
+
 # add markdown link for markdown link notation for dependabot PR
 # from commit message
 #
