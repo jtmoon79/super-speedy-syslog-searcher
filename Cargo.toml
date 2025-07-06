@@ -45,7 +45,7 @@ cfg-if = "1.0.0"
 chrono = "0.4.40"
 clap = { version = "=4.2.1", features = ["derive"] }
 const_format = { version = "0.2.34", features = ["assertcp"] }
-crossbeam-channel = "0.5.14"
+crossbeam-channel = "0.5.15"
 ctrlc = "3.4.7"
 current_platform = "0.2.0"
 dlopen2 = "0.7"
