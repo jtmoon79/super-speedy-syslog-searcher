@@ -29,8 +29,10 @@ fi
 cd "$(dirname "${0}")/../.."
 
 (
+    export PAGER=cat
     set -x
-    git log -n1 --oneline -1
+    # pipe to `cat` to make very sure a pager is not used
+    git log -n1 --oneline -1 | cat -
 )
 
 # use full path to Unix tools
@@ -51,13 +53,6 @@ if which hyperfine &>/dev/null; then
     (set -x; hyperfine --version)
 fi
 
-if ! which bc &>/dev/null; then
-    echo "ERROR: bc not found in PATH" >&2
-    echo "install:" >&2
-    echo "    sudo apt install bc" >&2
-    exit 1
-fi
-
 if ! which jq &>/dev/null; then
     echo "ERROR: jq not found in PATH" >&2
     echo "install:" >&2
@@ -65,6 +60,15 @@ if ! which jq &>/dev/null; then
     exit 1
 fi
 JQ=$(which jq)
+
+if [[ "${PROGRAM_LNAV-}" = '' ]] && ! which lnav &>/dev/null; then
+    echo "ERROR: lnav not found in PATH" >&2
+    echo '       and $PROGRAM_LNAV not set' >&2
+    echo "install:" >&2
+    echo "    sudo apt install lnav" >&2
+    exit 1
+fi
+PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
 
 HRUNS=30
 
@@ -287,7 +291,6 @@ echo
 
 # lnav
 
-PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
 (
     files_caching
     set -x
