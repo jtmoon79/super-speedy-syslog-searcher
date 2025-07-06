@@ -1,0 +1,1535 @@
+Linux host 6.12.34+rpt-rpi-v8 #1 SMP PREEMPT Debian 1:6.12.34-1+rpt1~bookworm (2025-06-26) aarch64 GNU/Linux
+222152bf HEAD -> main, origin/main, origin/HEAD
+super_speedy_syslog_searcher 0.7.76
+valgrind-3.19.0
+
+--------------------------------------------------------------------------------
+Command:            ./target/release/s4 --color=never ./logs/other/tests/gen-99999-1-Motley_Crue.log
+Massif arguments:   --heap=yes --stacks=yes --massif-out-file=./releases/0.7.76/aarch64-unknown-linux-gnu//massif.out
+ms_print arguments: --x=166 --y=32 ./releases/0.7.76/aarch64-unknown-linux-gnu//massif.out
+--------------------------------------------------------------------------------
+
+
+    MB
+23.90^                                                                                                                                                                     :
+     |                                                                                                                                                           ::@@@::##::
+     |                                                                                                                                            :::::::::::::::: @  : # ::
+     |                                                                                                                             ::::::::::::::::  :   :    :  : @  : # ::
+     |                                                                                                              @@:::::@@@::::::  :   :    :  :  :   :    :  : @  : # ::
+     |                                                                                                   :::@@@:::::@ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |                                                                                     :::::::::::::::  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |                                                                    @@::::::::::::::::  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |                                                         :::::::::::@ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |                                          ::::::::::::::::   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |                             ::::::::::::::   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |                  ::::::::::::  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |              :::::   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |           @@@:   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |           @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |           @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |           @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |           @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |           @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |           @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |       ::::@  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |       :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |       :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |       :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |       :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |       :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |   :::::   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |   :   :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |   :   :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |   :   :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |   :   :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+     |   :   :   @  :   :   :   :  :  :  :   :  :   : :   : :  :   :   :  @ :   :  :   :   :  :  : :  :  :  @  :    @ :  : @  :  : :  :   :    :  :  :   :    :  : @  : # ::
+   0 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------->Gi
+     0                                                                                                                                                                 2.432
+
+Number of snapshots: 54
+ Detailed snapshots: [3, 20, 31, 33, 36, 48, 51 (peak)]
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+  0              0                0                0             0            0
+  1     54,817,583        4,766,368        4,663,646        71,922       30,800
+  2    120,263,029        9,632,000        9,437,681       149,119       45,200
+  3    176,982,307       15,352,648       15,099,025       208,295       45,328
+98.35% (15,099,025B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->72.22% (11,088,200B) 0x18A97B: ??? (in ./target/release/s4)
+| ->62.28% (9,562,264B) 0x16A44B: ??? (in ./target/release/s4)
+| | ->62.27% (9,560,768B) 0x28101F: ??? (in ./target/release/s4)
+| | | ->28.64% (4,397,568B) 0x271137: ??? (in ./target/release/s4)
+| | | | ->28.64% (4,397,568B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->28.64% (4,397,568B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->28.64% (4,397,568B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->28.64% (4,397,568B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->28.64% (4,397,568B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->28.64% (4,397,568B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->28.64% (4,397,568B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->28.64% (4,397,568B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->28.64% (4,397,568B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->28.64% (4,397,568B) 0x27118B: ??? (in ./target/release/s4)
+| | | | ->28.64% (4,397,568B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->28.64% (4,397,568B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->28.64% (4,397,568B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->28.64% (4,397,568B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->28.64% (4,397,568B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->28.64% (4,397,568B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->28.64% (4,397,568B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->28.64% (4,397,568B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->28.64% (4,397,568B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->02.49% (382,816B) 0x286A37: ??? (in ./target/release/s4)
+| | | | ->02.49% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->02.49% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->02.49% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->02.49% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->02.49% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->02.49% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->02.49% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->02.49% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->02.49% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->02.49% (382,816B) 0x286A9F: ??? (in ./target/release/s4)
+| | |   ->02.49% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | |     ->02.49% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | |       ->02.49% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | |         ->02.49% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | |           ->02.49% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | |             ->02.49% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | |               ->02.49% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | |                 ->02.49% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | |                   ->02.49% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | |                     
+| | ->00.01% (1,496B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->09.44% (1,448,928B) 0x163E5B: ??? (in ./target/release/s4)
+| | ->04.68% (719,136B) 0x23FB83: ??? (in ./target/release/s4)
+| | | ->01.57% (241,784B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.57% (241,784B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.55% (238,676B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.55% (238,676B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.55% (238,676B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.55% (238,676B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->04.68% (719,136B) 0x23FBAB: ??? (in ./target/release/s4)
+| | | ->01.57% (241,784B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.57% (241,784B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.55% (238,676B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.55% (238,676B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.55% (238,676B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.55% (238,676B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->00.07% (10,656B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.50% (77,008B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->15.33% (2,353,498B) 0x18A99F: ??? (in ./target/release/s4)
+| ->12.51% (1,920,000B) 0x23F9F7: ??? (in ./target/release/s4)
+| | ->12.51% (1,920,000B) 0x2428A7: ??? (in ./target/release/s4)
+| |   ->08.67% (1,331,712B) 0x26D39B: ??? (in ./target/release/s4)
+| |   | ->04.86% (746,496B) 0x2582A3: ??? (in ./target/release/s4)
+| |   | | ->04.86% (746,496B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->04.86% (746,496B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->04.86% (746,496B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->04.86% (746,496B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->04.86% (746,496B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->04.86% (746,496B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->04.86% (746,496B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->04.86% (746,496B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->04.86% (746,496B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->04.86% (746,496B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->04.86% (746,496B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->04.86% (746,496B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->03.80% (583,680B) 0x25A0BF: ??? (in ./target/release/s4)
+| |   | | ->03.80% (583,680B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->03.80% (583,680B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->03.80% (583,680B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->03.80% (583,680B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->03.80% (583,680B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->03.80% (583,680B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->03.80% (583,680B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->03.80% (583,680B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->03.80% (583,680B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->03.80% (583,680B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->03.80% (583,680B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->03.80% (583,680B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->00.01% (1,536B) in 1+ places, all below ms_print's threshold (01.00%)
+| |   | 
+| |   ->02.10% (322,560B) in 6 places, all below massif's threshold (1.00%)
+| |   | 
+| |   ->01.73% (265,728B) 0x26D7DB: ??? (in ./target/release/s4)
+| |     ->01.04% (159,744B) 0x25A0BF: ??? (in ./target/release/s4)
+| |     | ->01.04% (159,744B) 0x257407: ??? (in ./target/release/s4)
+| |     |   ->01.04% (159,744B) 0x2CA92F: ??? (in ./target/release/s4)
+| |     |     ->01.04% (159,744B) 0x23A007: ??? (in ./target/release/s4)
+| |     |       ->01.04% (159,744B) 0x167AE3: ??? (in ./target/release/s4)
+| |     |         ->01.04% (159,744B) 0x2C73AF: ??? (in ./target/release/s4)
+| |     |           ->01.04% (159,744B) 0x36775F: ??? (in ./target/release/s4)
+| |     |             ->01.04% (159,744B) 0x365AD3: ??? (in ./target/release/s4)
+| |     |               ->01.04% (159,744B) 0x17E27F: ??? (in ./target/release/s4)
+| |     |                 ->01.04% (159,744B) 0x182C1F: ??? (in ./target/release/s4)
+| |     |                   ->01.04% (159,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| |     |                     ->01.04% (159,744B) 0x497202F: start_thread (pthread_create.c:442)
+| |     |                       ->01.04% (159,744B) 0x49DBF5B: thread_start (clone.S:79)
+| |     |                         
+| |     ->00.69% (105,984B) in 1+ places, all below ms_print's threshold (01.00%)
+| |     
+| ->01.73% (265,544B) 0x163E27: ??? (in ./target/release/s4)
+| | ->01.65% (253,952B) 0x24CD37: ??? (in ./target/release/s4)
+| | | ->01.65% (253,952B) 0x24C337: ??? (in ./target/release/s4)
+| | |   ->01.65% (253,952B) in 5 places, all below massif's threshold (1.00%)
+| | |     
+| | ->00.08% (11,592B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->01.09% (167,954B) in 29 places, all below massif's threshold (1.00%)
+|   
+->05.31% (814,711B) in 301 places, all below massif's threshold (1.00%)
+| 
+->02.08% (320,000B) 0x248C63: ??? (in ./target/release/s4)
+| ->02.08% (320,000B) 0x2481EB: ??? (in ./target/release/s4)
+|   ->02.08% (320,000B) 0x2444EB: ??? (in ./target/release/s4)
+|     ->02.08% (320,000B) 0x243797: ??? (in ./target/release/s4)
+|     | ->02.08% (320,000B) 0x2431CB: ??? (in ./target/release/s4)
+|     |   ->02.08% (320,000B) 0x2439DB: ??? (in ./target/release/s4)
+|     |     ->02.08% (320,000B) 0x2431CB: ??? (in ./target/release/s4)
+|     |       ->02.08% (320,000B) 0x2922DB: ??? (in ./target/release/s4)
+|     |         ->02.08% (320,000B) 0x26C74F: ??? (in ./target/release/s4)
+|     |           ->02.08% (320,000B) 0x2582A3: ??? (in ./target/release/s4)
+|     |             ->02.08% (320,000B) 0x257407: ??? (in ./target/release/s4)
+|     |               ->02.08% (320,000B) 0x2CA92F: ??? (in ./target/release/s4)
+|     |                 ->02.08% (320,000B) 0x23A007: ??? (in ./target/release/s4)
+|     |                   ->02.08% (320,000B) 0x167AE3: ??? (in ./target/release/s4)
+|     |                     ->02.08% (320,000B) 0x2C73AF: ??? (in ./target/release/s4)
+|     |                       ->02.08% (320,000B) 0x36775F: ??? (in ./target/release/s4)
+|     |                         ->02.08% (320,000B) 0x365AD3: ??? (in ./target/release/s4)
+|     |                           ->02.08% (320,000B) 0x17E27F: ??? (in ./target/release/s4)
+|     |                             ->02.08% (320,000B) 0x182C1F: ??? (in ./target/release/s4)
+|     |                               ->02.08% (320,000B) 0x3A3E37: ??? (in ./target/release/s4)
+|     |                                 ->02.08% (320,000B) 0x497202F: start_thread (pthread_create.c:442)
+|     |                                   ->02.08% (320,000B) 0x49DBF5B: thread_start (clone.S:79)
+|     |                                     
+|     ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+|     
+->01.77% (272,376B) 0x26D633: ??? (in ./target/release/s4)
+| ->01.77% (272,376B) in 3 places, all below massif's threshold (1.00%)
+|   
+->01.63% (250,240B) 0x1A8ED3: ??? (in ./target/release/s4)
+  ->01.63% (250,240B) 0x26B3A7: ??? (in ./target/release/s4)
+    ->01.50% (230,912B) 0x2707B7: ??? (in ./target/release/s4)
+    | ->01.50% (230,912B) 0x26929B: ??? (in ./target/release/s4)
+    | | ->01.50% (230,912B) 0x257407: ??? (in ./target/release/s4)
+    | |   ->01.50% (230,912B) 0x2CA92F: ??? (in ./target/release/s4)
+    | |     ->01.50% (230,912B) 0x23A007: ??? (in ./target/release/s4)
+    | |       ->01.50% (230,912B) 0x167AE3: ??? (in ./target/release/s4)
+    | |         ->01.50% (230,912B) 0x2C73AF: ??? (in ./target/release/s4)
+    | |           ->01.50% (230,912B) 0x36775F: ??? (in ./target/release/s4)
+    | |             ->01.50% (230,912B) 0x365AD3: ??? (in ./target/release/s4)
+    | |               ->01.50% (230,912B) 0x17E27F: ??? (in ./target/release/s4)
+    | |                 ->01.50% (230,912B) 0x182C1F: ??? (in ./target/release/s4)
+    | |                   ->01.50% (230,912B) 0x3A3E37: ??? (in ./target/release/s4)
+    | |                     ->01.50% (230,912B) 0x497202F: start_thread (pthread_create.c:442)
+    | |                       ->01.50% (230,912B) 0x49DBF5B: thread_start (clone.S:79)
+    | |                         
+    | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+    | 
+    ->00.13% (19,328B) in 1+ places, all below ms_print's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+  4    227,278,161       16,391,560       16,113,923       249,301       28,336
+  5    292,623,406       16,676,000       16,375,867       272,005       28,128
+  6    354,178,096       16,888,136       16,578,779       280,893       28,464
+  7    422,138,806       17,123,288       16,803,275       291,677       28,336
+  8    469,855,770       17,306,880       16,977,859       300,077       28,944
+  9    507,815,334       17,414,440       17,087,251       298,501       28,688
+ 10    555,217,813       17,591,224       17,254,363       309,261       27,600
+ 11    624,253,648       17,861,984       17,510,043       324,341       27,600
+ 12    671,885,011       18,036,736       17,677,819       330,245       28,672
+ 13    726,291,809       18,224,176       17,859,027       337,277       27,872
+ 14    756,987,236       18,365,336       17,987,363       349,253       28,720
+ 15    821,505,265       18,639,144       18,240,923       369,261       28,960
+ 16    859,117,337       18,714,776       18,324,443       362,397       27,936
+ 17    904,348,989       18,921,016       18,514,083       379,349       27,584
+ 18    971,774,004       19,116,352       18,706,955       380,261       29,136
+ 19  1,037,770,523       19,372,120       18,947,507       395,669       28,944
+ 20  1,076,564,487       19,618,168       19,178,211       411,973       27,984
+97.76% (19,178,211B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->59.95% (11,760,704B) 0x18A97B: ??? (in ./target/release/s4)
+| ->51.73% (10,149,392B) 0x16A44B: ??? (in ./target/release/s4)
+| | ->51.73% (10,149,120B) 0x28101F: ??? (in ./target/release/s4)
+| | | ->23.92% (4,691,744B) 0x271137: ??? (in ./target/release/s4)
+| | | | ->23.92% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->23.92% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->23.92% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->23.92% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->23.92% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->23.92% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->23.92% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->23.92% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->23.92% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->23.92% (4,691,744B) 0x27118B: ??? (in ./target/release/s4)
+| | | | ->23.92% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->23.92% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->23.92% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->23.92% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->23.92% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->23.92% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->23.92% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->23.92% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->23.92% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.95% (382,816B) 0x286A37: ??? (in ./target/release/s4)
+| | | | ->01.95% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->01.95% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->01.95% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->01.95% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->01.95% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->01.95% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->01.95% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->01.95% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->01.95% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.95% (382,816B) 0x286A9F: ??? (in ./target/release/s4)
+| | |   ->01.95% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | |     ->01.95% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | |       ->01.95% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | |         ->01.95% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | |           ->01.95% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | |             ->01.95% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | |               ->01.95% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | |                 ->01.95% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | |                   ->01.95% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | |                     
+| | ->00.00% (272B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->07.86% (1,542,336B) 0x163E5B: ??? (in ./target/release/s4)
+| | ->03.90% (765,120B) 0x23FB83: ??? (in ./target/release/s4)
+| | | ->01.31% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.31% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.29% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.29% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.29% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.29% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->03.90% (765,120B) 0x23FBAB: ??? (in ./target/release/s4)
+| | | ->01.31% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.31% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.29% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.29% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.29% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.29% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->00.06% (12,096B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.35% (68,976B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->13.23% (2,594,638B) 0x18A99F: ??? (in ./target/release/s4)
+| ->10.49% (2,058,240B) 0x23F9F7: ??? (in ./target/release/s4)
+| | ->10.49% (2,058,240B) 0x2428A7: ??? (in ./target/release/s4)
+| |   ->06.94% (1,362,432B) 0x26D39B: ??? (in ./target/release/s4)
+| |   | ->03.93% (771,072B) 0x2582A3: ??? (in ./target/release/s4)
+| |   | | ->03.93% (771,072B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->03.93% (771,072B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->03.93% (771,072B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->03.93% (771,072B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->03.93% (771,072B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->03.93% (771,072B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->03.93% (771,072B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->03.93% (771,072B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->03.93% (771,072B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->03.93% (771,072B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->03.93% (771,072B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->03.93% (771,072B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->03.01% (589,824B) 0x25A0BF: ??? (in ./target/release/s4)
+| |   | | ->03.01% (589,824B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->03.01% (589,824B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->03.01% (589,824B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->03.01% (589,824B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->03.01% (589,824B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->03.01% (589,824B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->03.01% (589,824B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->03.01% (589,824B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->03.01% (589,824B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->03.01% (589,824B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->03.01% (589,824B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->03.01% (589,824B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->00.01% (1,536B) in 1+ places, all below ms_print's threshold (01.00%)
+| |   | 
+| |   ->01.96% (384,000B) in 7 places, all below massif's threshold (1.00%)
+| |   | 
+| |   ->01.59% (311,808B) 0x26D7DB: ??? (in ./target/release/s4)
+| |     ->01.59% (311,808B) in 3 places, all below massif's threshold (1.00%)
+| |       
+| ->01.92% (376,136B) 0x163E27: ??? (in ./target/release/s4)
+| | ->01.36% (266,240B) 0x24CD37: ??? (in ./target/release/s4)
+| | | ->01.36% (266,240B) 0x24C337: ??? (in ./target/release/s4)
+| | |   ->01.36% (266,240B) in 5 places, all below massif's threshold (1.00%)
+| | |     
+| | ->00.56% (109,896B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.82% (160,262B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->07.53% (1,477,840B) 0x36A73F: ??? (in ./target/release/s4)
+| ->07.53% (1,477,840B) 0x36999B: ??? (in ./target/release/s4)
+|   ->07.53% (1,477,840B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->07.53% (1,477,840B) 0x36C103: ??? (in ./target/release/s4)
+|       ->07.53% (1,477,840B) 0x36C633: ??? (in ./target/release/s4)
+|         ->07.53% (1,477,840B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->07.53% (1,477,840B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->07.53% (1,477,840B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->07.53% (1,477,840B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->07.53% (1,477,840B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->05.17% (1,013,376B) 0x3629DB: ??? (in ./target/release/s4)
+| ->05.17% (1,013,376B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->05.17% (1,013,376B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->05.17% (1,013,376B) 0x36C633: ??? (in ./target/release/s4)
+|       ->05.17% (1,013,376B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->05.17% (1,013,376B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->05.17% (1,013,376B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->05.17% (1,013,376B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->05.17% (1,013,376B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->04.76% (934,093B) in 329 places, all below massif's threshold (1.00%)
+| 
+->01.68% (328,624B) 0x36A457: ??? (in ./target/release/s4)
+| ->01.68% (328,624B) 0x36999B: ??? (in ./target/release/s4)
+|   ->01.68% (328,624B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->01.68% (328,624B) 0x36C103: ??? (in ./target/release/s4)
+|       ->01.68% (328,624B) 0x36C633: ??? (in ./target/release/s4)
+|         ->01.68% (328,624B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->01.68% (328,624B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->01.68% (328,624B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->01.68% (328,624B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->01.68% (328,624B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->01.55% (304,840B) 0x26D633: ??? (in ./target/release/s4)
+| ->01.55% (304,840B) in 3 places, all below massif's threshold (1.00%)
+|   
+->01.34% (262,144B) 0x332C33: ??? (in ./target/release/s4)
+| ->01.34% (262,144B) 0x332273: ??? (in ./target/release/s4)
+|   ->01.34% (262,144B) 0x36338B: ??? (in ./target/release/s4)
+|   | ->01.34% (262,144B) 0x36BFDF: ??? (in ./target/release/s4)
+|   |   ->01.34% (262,144B) 0x36C633: ??? (in ./target/release/s4)
+|   |     ->01.34% (262,144B) 0x17FA53: ??? (in ./target/release/s4)
+|   |       ->01.34% (262,144B) 0x182C1F: ??? (in ./target/release/s4)
+|   |         ->01.34% (262,144B) 0x3A3E37: ??? (in ./target/release/s4)
+|   |           ->01.34% (262,144B) 0x497202F: start_thread (pthread_create.c:442)
+|   |             ->01.34% (262,144B) 0x49DBF5B: thread_start (clone.S:79)
+|   |               
+|   ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.28% (251,712B) 0x3626E7: ??? (in ./target/release/s4)
+| ->01.28% (251,712B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->01.28% (251,712B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->01.28% (251,712B) 0x36C633: ??? (in ./target/release/s4)
+|       ->01.28% (251,712B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->01.28% (251,712B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->01.28% (251,712B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->01.28% (251,712B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->01.28% (251,712B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->01.28% (250,240B) 0x1A8ED3: ??? (in ./target/release/s4)
+  ->01.28% (250,240B) 0x26B3A7: ??? (in ./target/release/s4)
+    ->01.18% (230,912B) 0x2707B7: ??? (in ./target/release/s4)
+    | ->01.18% (230,912B) 0x26929B: ??? (in ./target/release/s4)
+    | | ->01.18% (230,912B) 0x257407: ??? (in ./target/release/s4)
+    | |   ->01.18% (230,912B) 0x2CA92F: ??? (in ./target/release/s4)
+    | |     ->01.18% (230,912B) 0x23A007: ??? (in ./target/release/s4)
+    | |       ->01.18% (230,912B) 0x167AE3: ??? (in ./target/release/s4)
+    | |         ->01.18% (230,912B) 0x2C73AF: ??? (in ./target/release/s4)
+    | |           ->01.18% (230,912B) 0x36775F: ??? (in ./target/release/s4)
+    | |             ->01.18% (230,912B) 0x365AD3: ??? (in ./target/release/s4)
+    | |               ->01.18% (230,912B) 0x17E27F: ??? (in ./target/release/s4)
+    | |                 ->01.18% (230,912B) 0x182C1F: ??? (in ./target/release/s4)
+    | |                   ->01.18% (230,912B) 0x3A3E37: ??? (in ./target/release/s4)
+    | |                     ->01.18% (230,912B) 0x497202F: start_thread (pthread_create.c:442)
+    | |                       ->01.18% (230,912B) 0x49DBF5B: thread_start (clone.S:79)
+    | |                         
+    | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+    | 
+    ->00.10% (19,328B) in 1+ places, all below ms_print's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 21  1,112,751,173       19,612,328       19,182,491       402,237       27,600
+ 22  1,166,841,552       19,805,392       19,368,571       409,685       27,136
+ 23  1,222,142,678       20,040,032       19,586,995       425,933       27,104
+ 24  1,289,752,507       20,301,880       19,831,451       441,469       28,960
+ 25  1,345,334,139       20,505,408       20,025,643       451,045       28,720
+ 26  1,389,106,033       20,682,008       20,190,611       462,933       28,464
+ 27  1,441,175,558       20,800,840       20,316,547       456,709       27,584
+ 28  1,476,139,807       20,916,624       20,426,683       460,981       28,960
+ 29  1,517,173,717       21,107,384       20,603,123       477,237       27,024
+ 30  1,567,916,396       21,265,784       20,757,787       479,085       28,912
+ 31  1,607,926,417       21,533,504       21,006,019       499,501       27,984
+97.55% (21,006,019B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->54.62% (11,760,704B) 0x18A97B: ??? (in ./target/release/s4)
+| ->47.13% (10,149,392B) 0x16A44B: ??? (in ./target/release/s4)
+| | ->47.13% (10,149,120B) 0x28101F: ??? (in ./target/release/s4)
+| | | ->21.79% (4,691,744B) 0x271137: ??? (in ./target/release/s4)
+| | | | ->21.79% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->21.79% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->21.79% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->21.79% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->21.79% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->21.79% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->21.79% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->21.79% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->21.79% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->21.79% (4,691,744B) 0x27118B: ??? (in ./target/release/s4)
+| | | | ->21.79% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->21.79% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->21.79% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->21.79% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->21.79% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->21.79% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->21.79% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->21.79% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->21.79% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.78% (382,816B) 0x286A37: ??? (in ./target/release/s4)
+| | | | ->01.78% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->01.78% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->01.78% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->01.78% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->01.78% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->01.78% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->01.78% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->01.78% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->01.78% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.78% (382,816B) 0x286A9F: ??? (in ./target/release/s4)
+| | |   ->01.78% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | |     ->01.78% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | |       ->01.78% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | |         ->01.78% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | |           ->01.78% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | |             ->01.78% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | |               ->01.78% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | |                 ->01.78% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | |                   ->01.78% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | |                     
+| | ->00.00% (272B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->07.16% (1,542,336B) 0x163E5B: ??? (in ./target/release/s4)
+| | ->03.55% (765,120B) 0x23FB83: ??? (in ./target/release/s4)
+| | | ->01.19% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.19% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.18% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.18% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.18% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.18% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->03.55% (765,120B) 0x23FBAB: ??? (in ./target/release/s4)
+| | | ->01.19% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.19% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.18% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.18% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.18% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.18% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->00.06% (12,096B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.32% (68,976B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->12.05% (2,594,638B) 0x18A99F: ??? (in ./target/release/s4)
+| ->09.56% (2,058,240B) 0x23F9F7: ??? (in ./target/release/s4)
+| | ->09.56% (2,058,240B) 0x2428A7: ??? (in ./target/release/s4)
+| |   ->06.33% (1,362,432B) 0x26D39B: ??? (in ./target/release/s4)
+| |   | ->03.58% (771,072B) 0x2582A3: ??? (in ./target/release/s4)
+| |   | | ->03.58% (771,072B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->03.58% (771,072B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->03.58% (771,072B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->03.58% (771,072B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->03.58% (771,072B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->03.58% (771,072B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->03.58% (771,072B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->03.58% (771,072B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->03.58% (771,072B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->03.58% (771,072B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->03.58% (771,072B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->03.58% (771,072B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->02.74% (589,824B) 0x25A0BF: ??? (in ./target/release/s4)
+| |   | | ->02.74% (589,824B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->02.74% (589,824B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->02.74% (589,824B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->02.74% (589,824B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->02.74% (589,824B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->02.74% (589,824B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->02.74% (589,824B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->02.74% (589,824B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->02.74% (589,824B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->02.74% (589,824B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->02.74% (589,824B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->02.74% (589,824B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->00.01% (1,536B) in 1+ places, all below ms_print's threshold (01.00%)
+| |   | 
+| |   ->01.78% (384,000B) in 7 places, all below massif's threshold (1.00%)
+| |   | 
+| |   ->01.45% (311,808B) 0x26D7DB: ??? (in ./target/release/s4)
+| |     ->01.45% (311,808B) in 3 places, all below massif's threshold (1.00%)
+| |       
+| ->01.75% (376,136B) 0x163E27: ??? (in ./target/release/s4)
+| | ->01.24% (266,240B) 0x24CD37: ??? (in ./target/release/s4)
+| | | ->01.24% (266,240B) 0x24C337: ??? (in ./target/release/s4)
+| | |   ->01.24% (266,240B) in 5 places, all below massif's threshold (1.00%)
+| | |     
+| | ->00.51% (109,896B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.74% (160,262B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->10.94% (2,355,360B) 0x36A73F: ??? (in ./target/release/s4)
+| ->10.94% (2,355,360B) 0x36999B: ??? (in ./target/release/s4)
+|   ->10.94% (2,355,360B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->10.94% (2,355,360B) 0x36C103: ??? (in ./target/release/s4)
+|       ->10.94% (2,355,360B) 0x36C633: ??? (in ./target/release/s4)
+|         ->10.94% (2,355,360B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->10.94% (2,355,360B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->10.94% (2,355,360B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->10.94% (2,355,360B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->10.94% (2,355,360B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->07.50% (1,615,104B) 0x3629DB: ??? (in ./target/release/s4)
+| ->07.50% (1,615,104B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->07.50% (1,615,104B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->07.50% (1,615,104B) 0x36C633: ??? (in ./target/release/s4)
+|       ->07.50% (1,615,104B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->07.50% (1,615,104B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->07.50% (1,615,104B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->07.50% (1,615,104B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->07.50% (1,615,104B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->04.35% (936,045B) in 329 places, all below massif's threshold (1.00%)
+| 
+->02.44% (524,896B) 0x36A457: ??? (in ./target/release/s4)
+| ->02.44% (524,896B) 0x36999B: ??? (in ./target/release/s4)
+|   ->02.44% (524,896B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->02.44% (524,896B) 0x36C103: ??? (in ./target/release/s4)
+|       ->02.44% (524,896B) 0x36C633: ??? (in ./target/release/s4)
+|         ->02.44% (524,896B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->02.44% (524,896B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->02.44% (524,896B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->02.44% (524,896B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->02.44% (524,896B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->01.87% (402,048B) 0x3626E7: ??? (in ./target/release/s4)
+| ->01.87% (402,048B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->01.87% (402,048B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->01.87% (402,048B) 0x36C633: ??? (in ./target/release/s4)
+|       ->01.87% (402,048B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->01.87% (402,048B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->01.87% (402,048B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->01.87% (402,048B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->01.87% (402,048B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->01.42% (304,840B) 0x26D633: ??? (in ./target/release/s4)
+| ->01.42% (304,840B) in 3 places, all below massif's threshold (1.00%)
+|   
+->01.22% (262,144B) 0x332C33: ??? (in ./target/release/s4)
+| ->01.22% (262,144B) 0x332273: ??? (in ./target/release/s4)
+|   ->01.22% (262,144B) 0x36338B: ??? (in ./target/release/s4)
+|   | ->01.22% (262,144B) 0x36BFDF: ??? (in ./target/release/s4)
+|   |   ->01.22% (262,144B) 0x36C633: ??? (in ./target/release/s4)
+|   |     ->01.22% (262,144B) 0x17FA53: ??? (in ./target/release/s4)
+|   |       ->01.22% (262,144B) 0x182C1F: ??? (in ./target/release/s4)
+|   |         ->01.22% (262,144B) 0x3A3E37: ??? (in ./target/release/s4)
+|   |           ->01.22% (262,144B) 0x497202F: start_thread (pthread_create.c:442)
+|   |             ->01.22% (262,144B) 0x49DBF5B: thread_start (clone.S:79)
+|   |               
+|   ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.16% (250,240B) 0x1A8ED3: ??? (in ./target/release/s4)
+  ->01.16% (250,240B) 0x26B3A7: ??? (in ./target/release/s4)
+    ->01.07% (230,912B) 0x2707B7: ??? (in ./target/release/s4)
+    | ->01.07% (230,912B) 0x26929B: ??? (in ./target/release/s4)
+    | | ->01.07% (230,912B) 0x257407: ??? (in ./target/release/s4)
+    | |   ->01.07% (230,912B) 0x2CA92F: ??? (in ./target/release/s4)
+    | |     ->01.07% (230,912B) 0x23A007: ??? (in ./target/release/s4)
+    | |       ->01.07% (230,912B) 0x167AE3: ??? (in ./target/release/s4)
+    | |         ->01.07% (230,912B) 0x2C73AF: ??? (in ./target/release/s4)
+    | |           ->01.07% (230,912B) 0x36775F: ??? (in ./target/release/s4)
+    | |             ->01.07% (230,912B) 0x365AD3: ??? (in ./target/release/s4)
+    | |               ->01.07% (230,912B) 0x17E27F: ??? (in ./target/release/s4)
+    | |                 ->01.07% (230,912B) 0x182C1F: ??? (in ./target/release/s4)
+    | |                   ->01.07% (230,912B) 0x3A3E37: ??? (in ./target/release/s4)
+    | |                     ->01.07% (230,912B) 0x497202F: start_thread (pthread_create.c:442)
+    | |                       ->01.07% (230,912B) 0x49DBF5B: thread_start (clone.S:79)
+    | |                         
+    | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+    | 
+    ->00.09% (19,328B) in 1+ places, all below ms_print's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 32  1,666,195,881       21,605,664       21,083,459       493,309       28,896
+ 33  1,735,215,792       21,987,048       21,438,787       520,277       27,984
+97.51% (21,438,787B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->53.49% (11,760,704B) 0x18A97B: ??? (in ./target/release/s4)
+| ->46.16% (10,149,392B) 0x16A44B: ??? (in ./target/release/s4)
+| | ->46.16% (10,149,120B) 0x28101F: ??? (in ./target/release/s4)
+| | | ->21.34% (4,691,744B) 0x271137: ??? (in ./target/release/s4)
+| | | | ->21.34% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->21.34% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->21.34% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->21.34% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->21.34% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->21.34% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->21.34% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->21.34% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->21.34% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->21.34% (4,691,744B) 0x27118B: ??? (in ./target/release/s4)
+| | | | ->21.34% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->21.34% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->21.34% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->21.34% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->21.34% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->21.34% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->21.34% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->21.34% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->21.34% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.74% (382,816B) 0x286A37: ??? (in ./target/release/s4)
+| | | | ->01.74% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->01.74% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->01.74% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->01.74% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->01.74% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->01.74% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->01.74% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->01.74% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->01.74% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.74% (382,816B) 0x286A9F: ??? (in ./target/release/s4)
+| | |   ->01.74% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | |     ->01.74% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | |       ->01.74% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | |         ->01.74% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | |           ->01.74% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | |             ->01.74% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | |               ->01.74% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | |                 ->01.74% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | |                   ->01.74% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | |                     
+| | ->00.00% (272B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->07.01% (1,542,336B) 0x163E5B: ??? (in ./target/release/s4)
+| | ->03.48% (765,120B) 0x23FB83: ??? (in ./target/release/s4)
+| | | ->01.17% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.17% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.15% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.15% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.15% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.15% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->03.48% (765,120B) 0x23FBAB: ??? (in ./target/release/s4)
+| | | ->01.17% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.17% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.15% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.15% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.15% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.15% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->00.06% (12,096B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.31% (68,976B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->11.80% (2,594,638B) 0x18A99F: ??? (in ./target/release/s4)
+| ->09.36% (2,058,240B) 0x23F9F7: ??? (in ./target/release/s4)
+| | ->09.36% (2,058,240B) 0x2428A7: ??? (in ./target/release/s4)
+| |   ->06.20% (1,362,432B) 0x26D39B: ??? (in ./target/release/s4)
+| |   | ->03.51% (771,072B) 0x2582A3: ??? (in ./target/release/s4)
+| |   | | ->03.51% (771,072B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->03.51% (771,072B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->03.51% (771,072B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->03.51% (771,072B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->03.51% (771,072B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->03.51% (771,072B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->03.51% (771,072B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->03.51% (771,072B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->03.51% (771,072B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->03.51% (771,072B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->03.51% (771,072B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->03.51% (771,072B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->02.68% (589,824B) 0x25A0BF: ??? (in ./target/release/s4)
+| |   | | ->02.68% (589,824B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->02.68% (589,824B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->02.68% (589,824B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->02.68% (589,824B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->02.68% (589,824B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->02.68% (589,824B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->02.68% (589,824B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->02.68% (589,824B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->02.68% (589,824B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->02.68% (589,824B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->02.68% (589,824B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->02.68% (589,824B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->00.01% (1,536B) in 1+ places, all below ms_print's threshold (01.00%)
+| |   | 
+| |   ->01.75% (384,000B) in 7 places, all below massif's threshold (1.00%)
+| |   | 
+| |   ->01.42% (311,808B) 0x26D7DB: ??? (in ./target/release/s4)
+| |     ->01.42% (311,808B) in 3 places, all below massif's threshold (1.00%)
+| |       
+| ->01.71% (376,136B) 0x163E27: ??? (in ./target/release/s4)
+| | ->01.21% (266,240B) 0x24CD37: ??? (in ./target/release/s4)
+| | | ->01.21% (266,240B) 0x24C337: ??? (in ./target/release/s4)
+| | |   ->01.21% (266,240B) in 5 places, all below massif's threshold (1.00%)
+| | |     
+| | ->00.50% (109,896B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.73% (160,262B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->11.66% (2,563,400B) 0x36A73F: ??? (in ./target/release/s4)
+| ->11.66% (2,563,400B) 0x36999B: ??? (in ./target/release/s4)
+|   ->11.66% (2,563,400B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->11.66% (2,563,400B) 0x36C103: ??? (in ./target/release/s4)
+|       ->11.66% (2,563,400B) 0x36C633: ??? (in ./target/release/s4)
+|         ->11.66% (2,563,400B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->11.66% (2,563,400B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->11.66% (2,563,400B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->11.66% (2,563,400B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->11.66% (2,563,400B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->07.99% (1,757,760B) 0x3629DB: ??? (in ./target/release/s4)
+| ->07.99% (1,757,760B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->07.99% (1,757,760B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->07.99% (1,757,760B) 0x36C633: ??? (in ./target/release/s4)
+|       ->07.99% (1,757,760B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->07.99% (1,757,760B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->07.99% (1,757,760B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->07.99% (1,757,760B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->07.99% (1,757,760B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->04.26% (935,781B) in 329 places, all below massif's threshold (1.00%)
+| 
+->02.60% (571,520B) 0x36A457: ??? (in ./target/release/s4)
+| ->02.60% (571,520B) 0x36999B: ??? (in ./target/release/s4)
+|   ->02.60% (571,520B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->02.60% (571,520B) 0x36C103: ??? (in ./target/release/s4)
+|       ->02.60% (571,520B) 0x36C633: ??? (in ./target/release/s4)
+|         ->02.60% (571,520B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->02.60% (571,520B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->02.60% (571,520B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->02.60% (571,520B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->02.60% (571,520B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->01.99% (437,760B) 0x3626E7: ??? (in ./target/release/s4)
+| ->01.99% (437,760B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->01.99% (437,760B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->01.99% (437,760B) 0x36C633: ??? (in ./target/release/s4)
+|       ->01.99% (437,760B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->01.99% (437,760B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->01.99% (437,760B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->01.99% (437,760B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->01.99% (437,760B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->01.39% (304,840B) 0x26D633: ??? (in ./target/release/s4)
+| ->01.39% (304,840B) in 3 places, all below massif's threshold (1.00%)
+|   
+->01.19% (262,144B) 0x332C33: ??? (in ./target/release/s4)
+| ->01.19% (262,144B) 0x332273: ??? (in ./target/release/s4)
+|   ->01.19% (262,144B) 0x36338B: ??? (in ./target/release/s4)
+|   | ->01.19% (262,144B) 0x36BFDF: ??? (in ./target/release/s4)
+|   |   ->01.19% (262,144B) 0x36C633: ??? (in ./target/release/s4)
+|   |     ->01.19% (262,144B) 0x17FA53: ??? (in ./target/release/s4)
+|   |       ->01.19% (262,144B) 0x182C1F: ??? (in ./target/release/s4)
+|   |         ->01.19% (262,144B) 0x3A3E37: ??? (in ./target/release/s4)
+|   |           ->01.19% (262,144B) 0x497202F: start_thread (pthread_create.c:442)
+|   |             ->01.19% (262,144B) 0x49DBF5B: thread_start (clone.S:79)
+|   |               
+|   ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.14% (250,240B) 0x1A8ED3: ??? (in ./target/release/s4)
+  ->01.14% (250,240B) 0x26B3A7: ??? (in ./target/release/s4)
+    ->01.05% (230,912B) 0x2707B7: ??? (in ./target/release/s4)
+    | ->01.05% (230,912B) 0x26929B: ??? (in ./target/release/s4)
+    | | ->01.05% (230,912B) 0x257407: ??? (in ./target/release/s4)
+    | |   ->01.05% (230,912B) 0x2CA92F: ??? (in ./target/release/s4)
+    | |     ->01.05% (230,912B) 0x23A007: ??? (in ./target/release/s4)
+    | |       ->01.05% (230,912B) 0x167AE3: ??? (in ./target/release/s4)
+    | |         ->01.05% (230,912B) 0x2C73AF: ??? (in ./target/release/s4)
+    | |           ->01.05% (230,912B) 0x36775F: ??? (in ./target/release/s4)
+    | |             ->01.05% (230,912B) 0x365AD3: ??? (in ./target/release/s4)
+    | |               ->01.05% (230,912B) 0x17E27F: ??? (in ./target/release/s4)
+    | |                 ->01.05% (230,912B) 0x182C1F: ??? (in ./target/release/s4)
+    | |                   ->01.05% (230,912B) 0x3A3E37: ??? (in ./target/release/s4)
+    | |                     ->01.05% (230,912B) 0x497202F: start_thread (pthread_create.c:442)
+    | |                       ->01.05% (230,912B) 0x49DBF5B: thread_start (clone.S:79)
+    | |                         
+    | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+    | 
+    ->00.09% (19,328B) in 1+ places, all below ms_print's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 34  1,775,918,354       22,060,536       21,507,243       524,957       28,336
+ 35  1,810,803,211       22,259,872       21,699,179       532,133       28,560
+ 36  1,853,803,870       22,481,488       21,913,331       540,173       27,984
+97.47% (21,913,331B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->52.31% (11,760,704B) 0x18A97B: ??? (in ./target/release/s4)
+| ->45.15% (10,149,392B) 0x16A44B: ??? (in ./target/release/s4)
+| | ->45.14% (10,149,120B) 0x28101F: ??? (in ./target/release/s4)
+| | | ->20.87% (4,691,744B) 0x271137: ??? (in ./target/release/s4)
+| | | | ->20.87% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->20.87% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->20.87% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->20.87% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->20.87% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->20.87% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->20.87% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->20.87% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->20.87% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->20.87% (4,691,744B) 0x27118B: ??? (in ./target/release/s4)
+| | | | ->20.87% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->20.87% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->20.87% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->20.87% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->20.87% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->20.87% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->20.87% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->20.87% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->20.87% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.70% (382,816B) 0x286A37: ??? (in ./target/release/s4)
+| | | | ->01.70% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->01.70% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->01.70% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->01.70% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->01.70% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->01.70% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->01.70% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->01.70% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->01.70% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.70% (382,816B) 0x286A9F: ??? (in ./target/release/s4)
+| | |   ->01.70% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | |     ->01.70% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | |       ->01.70% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | |         ->01.70% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | |           ->01.70% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | |             ->01.70% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | |               ->01.70% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | |                 ->01.70% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | |                   ->01.70% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | |                     
+| | ->00.00% (272B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->06.86% (1,542,336B) 0x163E5B: ??? (in ./target/release/s4)
+| | ->03.40% (765,120B) 0x23FB83: ??? (in ./target/release/s4)
+| | | ->01.14% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.14% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.13% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.13% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.13% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.13% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->03.40% (765,120B) 0x23FBAB: ??? (in ./target/release/s4)
+| | | ->01.14% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.14% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.13% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.13% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.13% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.13% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->00.05% (12,096B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.31% (68,976B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->12.28% (2,759,680B) 0x36A73F: ??? (in ./target/release/s4)
+| ->12.28% (2,759,680B) 0x36999B: ??? (in ./target/release/s4)
+|   ->12.28% (2,759,680B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->12.28% (2,759,680B) 0x36C103: ??? (in ./target/release/s4)
+|       ->12.28% (2,759,680B) 0x36C633: ??? (in ./target/release/s4)
+|         ->12.28% (2,759,680B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->12.28% (2,759,680B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->12.28% (2,759,680B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->12.28% (2,759,680B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->12.28% (2,759,680B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->11.54% (2,594,638B) 0x18A99F: ??? (in ./target/release/s4)
+| ->09.16% (2,058,240B) 0x23F9F7: ??? (in ./target/release/s4)
+| | ->09.16% (2,058,240B) 0x2428A7: ??? (in ./target/release/s4)
+| |   ->06.06% (1,362,432B) 0x26D39B: ??? (in ./target/release/s4)
+| |   | ->03.43% (771,072B) 0x2582A3: ??? (in ./target/release/s4)
+| |   | | ->03.43% (771,072B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->03.43% (771,072B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->03.43% (771,072B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->03.43% (771,072B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->03.43% (771,072B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->03.43% (771,072B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->03.43% (771,072B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->03.43% (771,072B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->03.43% (771,072B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->03.43% (771,072B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->03.43% (771,072B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->03.43% (771,072B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->02.62% (589,824B) 0x25A0BF: ??? (in ./target/release/s4)
+| |   | | ->02.62% (589,824B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->02.62% (589,824B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->02.62% (589,824B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->02.62% (589,824B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->02.62% (589,824B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->02.62% (589,824B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->02.62% (589,824B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->02.62% (589,824B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->02.62% (589,824B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->02.62% (589,824B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->02.62% (589,824B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->02.62% (589,824B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->00.01% (1,536B) in 1+ places, all below ms_print's threshold (01.00%)
+| |   | 
+| |   ->01.71% (384,000B) in 7 places, all below massif's threshold (1.00%)
+| |   | 
+| |   ->01.39% (311,808B) 0x26D7DB: ??? (in ./target/release/s4)
+| |     ->01.39% (311,808B) in 3 places, all below massif's threshold (1.00%)
+| |       
+| ->01.67% (376,136B) 0x163E27: ??? (in ./target/release/s4)
+| | ->01.18% (266,240B) 0x24CD37: ??? (in ./target/release/s4)
+| | | ->01.18% (266,240B) 0x24C337: ??? (in ./target/release/s4)
+| | |   ->01.18% (266,240B) in 5 places, all below massif's threshold (1.00%)
+| | |     
+| | ->00.49% (109,896B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.71% (160,262B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->08.42% (1,892,352B) 0x3629DB: ??? (in ./target/release/s4)
+| ->08.42% (1,892,352B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->08.42% (1,892,352B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->08.42% (1,892,352B) 0x36C633: ??? (in ./target/release/s4)
+|       ->08.42% (1,892,352B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->08.42% (1,892,352B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->08.42% (1,892,352B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->08.42% (1,892,352B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->08.42% (1,892,352B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->04.16% (936,229B) in 329 places, all below massif's threshold (1.00%)
+| 
+->02.74% (615,512B) 0x36A457: ??? (in ./target/release/s4)
+| ->02.74% (615,512B) 0x36999B: ??? (in ./target/release/s4)
+|   ->02.74% (615,512B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->02.74% (615,512B) 0x36C103: ??? (in ./target/release/s4)
+|       ->02.74% (615,512B) 0x36C633: ??? (in ./target/release/s4)
+|         ->02.74% (615,512B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->02.74% (615,512B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->02.74% (615,512B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->02.74% (615,512B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->02.74% (615,512B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->02.10% (471,456B) 0x3626E7: ??? (in ./target/release/s4)
+| ->02.10% (471,456B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->02.10% (471,456B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->02.10% (471,456B) 0x36C633: ??? (in ./target/release/s4)
+|       ->02.10% (471,456B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->02.10% (471,456B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->02.10% (471,456B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->02.10% (471,456B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->02.10% (471,456B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->01.46% (327,680B) 0x332C33: ??? (in ./target/release/s4)
+| ->01.46% (327,680B) 0x332273: ??? (in ./target/release/s4)
+|   ->01.46% (327,680B) 0x36338B: ??? (in ./target/release/s4)
+|   | ->01.46% (327,680B) 0x36BFDF: ??? (in ./target/release/s4)
+|   |   ->01.46% (327,680B) 0x36C633: ??? (in ./target/release/s4)
+|   |     ->01.46% (327,680B) 0x17FA53: ??? (in ./target/release/s4)
+|   |       ->01.46% (327,680B) 0x182C1F: ??? (in ./target/release/s4)
+|   |         ->01.46% (327,680B) 0x3A3E37: ??? (in ./target/release/s4)
+|   |           ->01.46% (327,680B) 0x497202F: start_thread (pthread_create.c:442)
+|   |             ->01.46% (327,680B) 0x49DBF5B: thread_start (clone.S:79)
+|   |               
+|   ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.36% (304,840B) 0x26D633: ??? (in ./target/release/s4)
+| ->01.36% (304,840B) in 3 places, all below massif's threshold (1.00%)
+|   
+->01.11% (250,240B) 0x1A8ED3: ??? (in ./target/release/s4)
+  ->01.11% (250,240B) 0x26B3A7: ??? (in ./target/release/s4)
+    ->01.03% (230,912B) 0x2707B7: ??? (in ./target/release/s4)
+    | ->01.03% (230,912B) 0x26929B: ??? (in ./target/release/s4)
+    | | ->01.03% (230,912B) 0x257407: ??? (in ./target/release/s4)
+    | |   ->01.03% (230,912B) 0x2CA92F: ??? (in ./target/release/s4)
+    | |     ->01.03% (230,912B) 0x23A007: ??? (in ./target/release/s4)
+    | |       ->01.03% (230,912B) 0x167AE3: ??? (in ./target/release/s4)
+    | |         ->01.03% (230,912B) 0x2C73AF: ??? (in ./target/release/s4)
+    | |           ->01.03% (230,912B) 0x36775F: ??? (in ./target/release/s4)
+    | |             ->01.03% (230,912B) 0x365AD3: ??? (in ./target/release/s4)
+    | |               ->01.03% (230,912B) 0x17E27F: ??? (in ./target/release/s4)
+    | |                 ->01.03% (230,912B) 0x182C1F: ??? (in ./target/release/s4)
+    | |                   ->01.03% (230,912B) 0x3A3E37: ??? (in ./target/release/s4)
+    | |                     ->01.03% (230,912B) 0x497202F: start_thread (pthread_create.c:442)
+    | |                       ->01.03% (230,912B) 0x49DBF5B: thread_start (clone.S:79)
+    | |                         
+    | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+    | 
+    ->00.09% (19,328B) in 1+ places, all below ms_print's threshold (01.00%)
+    
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 37  1,894,506,860       22,530,080       21,962,587       539,621       27,872
+ 38  1,938,797,418       22,701,424       22,122,403       551,261       27,760
+ 39  1,979,501,635       22,809,224       22,232,275       549,349       27,600
+ 40  2,023,887,328       22,979,416       22,391,859       559,973       27,584
+ 41  2,088,776,591       23,203,744       22,606,155       569,989       27,600
+ 42  2,161,044,701       23,453,832       22,844,523       580,973       28,336
+ 43  2,212,798,037       23,657,728       23,034,475       595,653       27,600
+ 44  2,253,500,750       23,775,344       23,152,051       594,829       28,464
+ 45  2,324,603,926       24,049,864       23,410,243       610,677       28,944
+ 46  2,394,675,950       24,269,456       23,624,883       616,637       27,936
+ 47  2,446,321,204       24,466,688       23,809,483       628,261       28,944
+ 48  2,477,792,045       24,674,880       24,004,755       642,141       27,984
+97.28% (24,004,755B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->47.66% (11,760,704B) 0x18A97B: ??? (in ./target/release/s4)
+| ->41.13% (10,149,392B) 0x16A44B: ??? (in ./target/release/s4)
+| | ->41.13% (10,149,120B) 0x28101F: ??? (in ./target/release/s4)
+| | | ->19.01% (4,691,744B) 0x271137: ??? (in ./target/release/s4)
+| | | | ->19.01% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->19.01% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->19.01% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->19.01% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->19.01% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->19.01% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->19.01% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->19.01% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->19.01% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->19.01% (4,691,744B) 0x27118B: ??? (in ./target/release/s4)
+| | | | ->19.01% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->19.01% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->19.01% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->19.01% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->19.01% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->19.01% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->19.01% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->19.01% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->19.01% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.55% (382,816B) 0x286A37: ??? (in ./target/release/s4)
+| | | | ->01.55% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->01.55% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->01.55% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->01.55% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->01.55% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->01.55% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->01.55% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->01.55% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->01.55% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.55% (382,816B) 0x286A9F: ??? (in ./target/release/s4)
+| | |   ->01.55% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | |     ->01.55% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | |       ->01.55% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | |         ->01.55% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | |           ->01.55% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | |             ->01.55% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | |               ->01.55% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | |                 ->01.55% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | |                   ->01.55% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | |                     
+| | ->00.00% (272B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->06.25% (1,542,336B) 0x163E5B: ??? (in ./target/release/s4)
+| | ->03.10% (765,120B) 0x23FB83: ??? (in ./target/release/s4)
+| | | ->01.04% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.04% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.03% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.03% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.03% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.03% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->03.10% (765,120B) 0x23FBAB: ??? (in ./target/release/s4)
+| | | ->01.04% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.04% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.03% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.03% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.03% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.03% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->00.05% (12,096B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.28% (68,976B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->15.26% (3,764,320B) 0x36A73F: ??? (in ./target/release/s4)
+| ->15.26% (3,764,320B) 0x36999B: ??? (in ./target/release/s4)
+|   ->15.26% (3,764,320B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->15.26% (3,764,320B) 0x36C103: ??? (in ./target/release/s4)
+|       ->15.26% (3,764,320B) 0x36C633: ??? (in ./target/release/s4)
+|         ->15.26% (3,764,320B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->15.26% (3,764,320B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->15.26% (3,764,320B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->15.26% (3,764,320B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->15.26% (3,764,320B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->10.52% (2,594,638B) 0x18A99F: ??? (in ./target/release/s4)
+| ->08.34% (2,058,240B) 0x23F9F7: ??? (in ./target/release/s4)
+| | ->08.34% (2,058,240B) 0x2428A7: ??? (in ./target/release/s4)
+| |   ->05.52% (1,362,432B) 0x26D39B: ??? (in ./target/release/s4)
+| |   | ->03.12% (771,072B) 0x2582A3: ??? (in ./target/release/s4)
+| |   | | ->03.12% (771,072B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->03.12% (771,072B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->03.12% (771,072B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->03.12% (771,072B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->03.12% (771,072B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->03.12% (771,072B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->03.12% (771,072B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->03.12% (771,072B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->03.12% (771,072B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->03.12% (771,072B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->03.12% (771,072B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->03.12% (771,072B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->02.39% (589,824B) 0x25A0BF: ??? (in ./target/release/s4)
+| |   | | ->02.39% (589,824B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->02.39% (589,824B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->02.39% (589,824B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->02.39% (589,824B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->02.39% (589,824B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->02.39% (589,824B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->02.39% (589,824B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->02.39% (589,824B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->02.39% (589,824B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->02.39% (589,824B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->02.39% (589,824B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->02.39% (589,824B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->00.01% (1,536B) in 1+ places, all below ms_print's threshold (01.00%)
+| |   | 
+| |   ->01.56% (384,000B) in 7 places, all below massif's threshold (1.00%)
+| |   | 
+| |   ->01.26% (311,808B) 0x26D7DB: ??? (in ./target/release/s4)
+| |     ->01.26% (311,808B) in 3 places, all below massif's threshold (1.00%)
+| |       
+| ->01.52% (376,136B) 0x163E27: ??? (in ./target/release/s4)
+| | ->01.08% (266,240B) 0x24CD37: ??? (in ./target/release/s4)
+| | | ->01.08% (266,240B) 0x24C337: ??? (in ./target/release/s4)
+| | |   ->01.08% (266,240B) in 5 places, all below massif's threshold (1.00%)
+| | |     
+| | ->00.45% (109,896B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.65% (160,262B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->10.46% (2,581,248B) 0x3629DB: ??? (in ./target/release/s4)
+| ->10.46% (2,581,248B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->10.46% (2,581,248B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->10.46% (2,581,248B) 0x36C633: ??? (in ./target/release/s4)
+|       ->10.46% (2,581,248B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->10.46% (2,581,248B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->10.46% (2,581,248B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->10.46% (2,581,248B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->10.46% (2,581,248B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->03.80% (937,709B) in 329 places, all below massif's threshold (1.00%)
+| 
+->03.40% (839,984B) 0x36A457: ??? (in ./target/release/s4)
+| ->03.40% (839,984B) 0x36999B: ??? (in ./target/release/s4)
+|   ->03.40% (839,984B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->03.40% (839,984B) 0x36C103: ??? (in ./target/release/s4)
+|       ->03.40% (839,984B) 0x36C633: ??? (in ./target/release/s4)
+|         ->03.40% (839,984B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->03.40% (839,984B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->03.40% (839,984B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->03.40% (839,984B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->03.40% (839,984B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->02.61% (643,392B) 0x3626E7: ??? (in ./target/release/s4)
+| ->02.61% (643,392B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->02.61% (643,392B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->02.61% (643,392B) 0x36C633: ??? (in ./target/release/s4)
+|       ->02.61% (643,392B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->02.61% (643,392B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->02.61% (643,392B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->02.61% (643,392B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->02.61% (643,392B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->01.33% (327,680B) 0x332C33: ??? (in ./target/release/s4)
+| ->01.33% (327,680B) 0x332273: ??? (in ./target/release/s4)
+|   ->01.33% (327,680B) 0x36338B: ??? (in ./target/release/s4)
+|   | ->01.33% (327,680B) 0x36BFDF: ??? (in ./target/release/s4)
+|   |   ->01.33% (327,680B) 0x36C633: ??? (in ./target/release/s4)
+|   |     ->01.33% (327,680B) 0x17FA53: ??? (in ./target/release/s4)
+|   |       ->01.33% (327,680B) 0x182C1F: ??? (in ./target/release/s4)
+|   |         ->01.33% (327,680B) 0x3A3E37: ??? (in ./target/release/s4)
+|   |           ->01.33% (327,680B) 0x497202F: start_thread (pthread_create.c:442)
+|   |             ->01.33% (327,680B) 0x49DBF5B: thread_start (clone.S:79)
+|   |               
+|   ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.24% (304,840B) 0x26D633: ??? (in ./target/release/s4)
+| ->01.24% (304,840B) in 3 places, all below massif's threshold (1.00%)
+|   
+->01.01% (250,240B) 0x1A8ED3: ??? (in ./target/release/s4)
+  ->01.01% (250,240B) 0x26B3A7: ??? (in ./target/release/s4)
+    ->01.01% (250,240B) in 2 places, all below massif's threshold (1.00%)
+      
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 49  2,518,496,806       24,714,472       24,046,539       639,309       28,624
+ 50  2,549,192,447       24,842,704       24,164,699       650,133       27,872
+ 51  2,550,337,047       24,926,568       24,244,779       653,805       27,984
+97.26% (24,244,779B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->47.18% (11,760,704B) 0x18A97B: ??? (in ./target/release/s4)
+| ->40.72% (10,149,392B) 0x16A44B: ??? (in ./target/release/s4)
+| | ->40.72% (10,149,120B) 0x28101F: ??? (in ./target/release/s4)
+| | | ->18.82% (4,691,744B) 0x271137: ??? (in ./target/release/s4)
+| | | | ->18.82% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->18.82% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->18.82% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->18.82% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->18.82% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->18.82% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->18.82% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->18.82% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->18.82% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->18.82% (4,691,744B) 0x27118B: ??? (in ./target/release/s4)
+| | | | ->18.82% (4,691,744B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->18.82% (4,691,744B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->18.82% (4,691,744B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->18.82% (4,691,744B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->18.82% (4,691,744B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->18.82% (4,691,744B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->18.82% (4,691,744B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->18.82% (4,691,744B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->18.82% (4,691,744B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.54% (382,816B) 0x286A37: ??? (in ./target/release/s4)
+| | | | ->01.54% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | | |   ->01.54% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | | |     ->01.54% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | | |       ->01.54% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | | |         ->01.54% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | | |           ->01.54% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | | |             ->01.54% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | | |               ->01.54% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | | |                 ->01.54% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | | |                   
+| | | ->01.54% (382,816B) 0x286A9F: ??? (in ./target/release/s4)
+| | |   ->01.54% (382,816B) 0x167B3F: ??? (in ./target/release/s4)
+| | |     ->01.54% (382,816B) 0x2C7967: ??? (in ./target/release/s4)
+| | |       ->01.54% (382,816B) 0x36775F: ??? (in ./target/release/s4)
+| | |         ->01.54% (382,816B) 0x365AD3: ??? (in ./target/release/s4)
+| | |           ->01.54% (382,816B) 0x17E27F: ??? (in ./target/release/s4)
+| | |             ->01.54% (382,816B) 0x182C1F: ??? (in ./target/release/s4)
+| | |               ->01.54% (382,816B) 0x3A3E37: ??? (in ./target/release/s4)
+| | |                 ->01.54% (382,816B) 0x497202F: start_thread (pthread_create.c:442)
+| | |                   ->01.54% (382,816B) 0x49DBF5B: thread_start (clone.S:79)
+| | |                     
+| | ->00.00% (272B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->06.19% (1,542,336B) 0x163E5B: ??? (in ./target/release/s4)
+| | ->03.07% (765,120B) 0x23FB83: ??? (in ./target/release/s4)
+| | | ->01.03% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.03% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.02% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.02% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.02% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.02% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->03.07% (765,120B) 0x23FBAB: ??? (in ./target/release/s4)
+| | | ->01.03% (257,288B) 0x280F2B: ??? (in ./target/release/s4)
+| | | | ->01.03% (257,288B) in 4 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.02% (253,916B) 0x24C257: ??? (in ./target/release/s4)
+| | | | ->01.02% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->01.02% (253,916B) 0x24C28F: ??? (in ./target/release/s4)
+| | | | ->01.02% (253,916B) in 5 places, all below massif's threshold (1.00%)
+| | | |   
+| | | ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+| | | 
+| | ->00.05% (12,096B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.28% (68,976B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->15.56% (3,879,680B) 0x36A73F: ??? (in ./target/release/s4)
+| ->15.56% (3,879,680B) 0x36999B: ??? (in ./target/release/s4)
+|   ->15.56% (3,879,680B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->15.56% (3,879,680B) 0x36C103: ??? (in ./target/release/s4)
+|       ->15.56% (3,879,680B) 0x36C633: ??? (in ./target/release/s4)
+|         ->15.56% (3,879,680B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->15.56% (3,879,680B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->15.56% (3,879,680B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->15.56% (3,879,680B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->15.56% (3,879,680B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->10.67% (2,660,544B) 0x3629DB: ??? (in ./target/release/s4)
+| ->10.67% (2,660,544B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->10.67% (2,660,544B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->10.67% (2,660,544B) 0x36C633: ??? (in ./target/release/s4)
+|       ->10.67% (2,660,544B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->10.67% (2,660,544B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->10.67% (2,660,544B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->10.67% (2,660,544B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->10.67% (2,660,544B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->10.41% (2,594,638B) 0x18A99F: ??? (in ./target/release/s4)
+| ->08.26% (2,058,240B) 0x23F9F7: ??? (in ./target/release/s4)
+| | ->08.26% (2,058,240B) 0x2428A7: ??? (in ./target/release/s4)
+| |   ->05.47% (1,362,432B) 0x26D39B: ??? (in ./target/release/s4)
+| |   | ->03.09% (771,072B) 0x2582A3: ??? (in ./target/release/s4)
+| |   | | ->03.09% (771,072B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->03.09% (771,072B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->03.09% (771,072B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->03.09% (771,072B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->03.09% (771,072B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->03.09% (771,072B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->03.09% (771,072B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->03.09% (771,072B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->03.09% (771,072B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->03.09% (771,072B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->03.09% (771,072B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->03.09% (771,072B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->02.37% (589,824B) 0x25A0BF: ??? (in ./target/release/s4)
+| |   | | ->02.37% (589,824B) 0x257407: ??? (in ./target/release/s4)
+| |   | |   ->02.37% (589,824B) 0x2CA92F: ??? (in ./target/release/s4)
+| |   | |     ->02.37% (589,824B) 0x23A007: ??? (in ./target/release/s4)
+| |   | |       ->02.37% (589,824B) 0x167AE3: ??? (in ./target/release/s4)
+| |   | |         ->02.37% (589,824B) 0x2C73AF: ??? (in ./target/release/s4)
+| |   | |           ->02.37% (589,824B) 0x36775F: ??? (in ./target/release/s4)
+| |   | |             ->02.37% (589,824B) 0x365AD3: ??? (in ./target/release/s4)
+| |   | |               ->02.37% (589,824B) 0x17E27F: ??? (in ./target/release/s4)
+| |   | |                 ->02.37% (589,824B) 0x182C1F: ??? (in ./target/release/s4)
+| |   | |                   ->02.37% (589,824B) 0x3A3E37: ??? (in ./target/release/s4)
+| |   | |                     ->02.37% (589,824B) 0x497202F: start_thread (pthread_create.c:442)
+| |   | |                       ->02.37% (589,824B) 0x49DBF5B: thread_start (clone.S:79)
+| |   | |                         
+| |   | ->00.01% (1,536B) in 1+ places, all below ms_print's threshold (01.00%)
+| |   | 
+| |   ->01.54% (384,000B) in 7 places, all below massif's threshold (1.00%)
+| |   | 
+| |   ->01.25% (311,808B) 0x26D7DB: ??? (in ./target/release/s4)
+| |     ->01.25% (311,808B) in 3 places, all below massif's threshold (1.00%)
+| |       
+| ->01.51% (376,136B) 0x163E27: ??? (in ./target/release/s4)
+| | ->01.07% (266,240B) 0x24CD37: ??? (in ./target/release/s4)
+| | | ->01.07% (266,240B) 0x24C337: ??? (in ./target/release/s4)
+| | |   ->01.07% (266,240B) in 5 places, all below massif's threshold (1.00%)
+| | |     
+| | ->00.44% (109,896B) in 1+ places, all below ms_print's threshold (01.00%)
+| | 
+| ->00.64% (160,262B) in 1+ places, all below ms_print's threshold (01.00%)
+| 
+->03.76% (937,925B) in 329 places, all below massif's threshold (1.00%)
+| 
+->03.47% (865,552B) 0x36A457: ??? (in ./target/release/s4)
+| ->03.47% (865,552B) 0x36999B: ??? (in ./target/release/s4)
+|   ->03.47% (865,552B) 0x3689C3: ??? (in ./target/release/s4)
+|     ->03.47% (865,552B) 0x36C103: ??? (in ./target/release/s4)
+|       ->03.47% (865,552B) 0x36C633: ??? (in ./target/release/s4)
+|         ->03.47% (865,552B) 0x17FA53: ??? (in ./target/release/s4)
+|           ->03.47% (865,552B) 0x182C1F: ??? (in ./target/release/s4)
+|             ->03.47% (865,552B) 0x3A3E37: ??? (in ./target/release/s4)
+|               ->03.47% (865,552B) 0x497202F: start_thread (pthread_create.c:442)
+|                 ->03.47% (865,552B) 0x49DBF5B: thread_start (clone.S:79)
+|                   
+->02.66% (662,976B) 0x3626E7: ??? (in ./target/release/s4)
+| ->02.66% (662,976B) 0x3634D7: ??? (in ./target/release/s4)
+|   ->02.66% (662,976B) 0x36BFDF: ??? (in ./target/release/s4)
+|     ->02.66% (662,976B) 0x36C633: ??? (in ./target/release/s4)
+|       ->02.66% (662,976B) 0x17FA53: ??? (in ./target/release/s4)
+|         ->02.66% (662,976B) 0x182C1F: ??? (in ./target/release/s4)
+|           ->02.66% (662,976B) 0x3A3E37: ??? (in ./target/release/s4)
+|             ->02.66% (662,976B) 0x497202F: start_thread (pthread_create.c:442)
+|               ->02.66% (662,976B) 0x49DBF5B: thread_start (clone.S:79)
+|                 
+->01.31% (327,680B) 0x332C33: ??? (in ./target/release/s4)
+| ->01.31% (327,680B) 0x332273: ??? (in ./target/release/s4)
+|   ->01.31% (327,680B) 0x36338B: ??? (in ./target/release/s4)
+|   | ->01.31% (327,680B) 0x36BFDF: ??? (in ./target/release/s4)
+|   |   ->01.31% (327,680B) 0x36C633: ??? (in ./target/release/s4)
+|   |     ->01.31% (327,680B) 0x17FA53: ??? (in ./target/release/s4)
+|   |       ->01.31% (327,680B) 0x182C1F: ??? (in ./target/release/s4)
+|   |         ->01.31% (327,680B) 0x3A3E37: ??? (in ./target/release/s4)
+|   |           ->01.31% (327,680B) 0x497202F: start_thread (pthread_create.c:442)
+|   |             ->01.31% (327,680B) 0x49DBF5B: thread_start (clone.S:79)
+|   |               
+|   ->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+|   
+->01.22% (304,840B) 0x26D633: ??? (in ./target/release/s4)
+| ->01.22% (304,840B) in 3 places, all below massif's threshold (1.00%)
+|   
+->01.00% (250,240B) 0x1A8ED3: ??? (in ./target/release/s4)
+  ->01.00% (250,240B) 0x26B3A7: ??? (in ./target/release/s4)
+    ->01.00% (250,240B) in 2 places, all below massif's threshold (1.00%)
+      
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 52  2,581,034,030       24,909,528       24,237,739       644,189       27,600
+ 53  2,611,729,561       25,062,464       24,376,075       657,717       28,672
