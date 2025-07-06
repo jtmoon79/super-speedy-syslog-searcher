@@ -95,7 +95,7 @@ jobs:
           git config --global core.protectNTFS false
       - uses: actions/checkout@v4
       - run: rustup toolchain install ${{ matrix.msrv }} --profile minimal
-      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }}
+      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile release
         shell: bash
         run: |
           set -eux
@@ -103,23 +103,23 @@ jobs:
           cargo --version
           rustc --print cfg
           cargo build --locked
-          cargo build --locked --release
+          cargo build --locked --profile release
           ./target/release/s4 --help
-      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --features mimalloc
+      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile mimalloc
         shell: bash
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
-          cargo build --locked --profile mimalloc --features mimalloc
+          cargo build --locked --profile mimalloc
           ./target/mimalloc/s4 --help
-      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --features jemalloc
+      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile jemalloc
         shell: bash
         # jemalloc builds fails on github Windows
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
-          cargo build --locked --profile jemalloc --features jemalloc
+          cargo build --locked --profile jemalloc
           ./target/jemalloc/s4 --help
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'windows-latest' && matrix.msrv == env.MSRV_UPLOAD }}
