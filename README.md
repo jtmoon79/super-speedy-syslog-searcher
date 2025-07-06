@@ -108,6 +108,7 @@ The default allocator is the System allocator.
 Allocator [`mimalloc`] is feature `mimalloc` and allocator [`jemalloc`] is feature `jemalloc`.
 Allocator `mimalloc` [is the fastest according to `mimalloc` project benchmarks].
 `jemalloc` is also very good.
+See the [Speed Comparison](#speed-comparison).
 
 <br/>
 
@@ -776,7 +777,7 @@ Each program had 30 runs except `toolong`.
 Programs tested:
 
 - GNU `grep` 3.7, GNU `sort` 8.32
-- `s4` 0.7.76
+- `s4` 0.7.76 compiled with rustc 1.73.0
 - `logmerger` 0.9.0 on Python 3.10.12
 - `tl` 1.5.0 on Python 3.10.12
 
