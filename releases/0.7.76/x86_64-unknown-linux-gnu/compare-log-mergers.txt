@@ -1,5 +1,5 @@
 + git log -n1 --oneline -1
-71d1a55a (LIB) printers.rs NFC user write_to
+222152bf (LIB) crossbeam-channel 0.5.15
 + /usr/bin/time --version
 time (GNU Time) UNKNOWN
 + python --version
@@ -17,12 +17,12 @@ grep (GNU grep) 3.7
 + /usr/bin/sort --version
 sort (GNU coreutils) 8.32
 
-+ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_7UhW6.json --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_JTMEa.json --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > /dev/null'
 Benchmark 1: grep+sort
-  Time (mean ± σ):      16.2 ms ±   0.2 ms    [User: 7.6 ms, System: 2.4 ms]
-  Range (min … max):    15.9 ms …  16.7 ms    30 runs
+  Time (mean ± σ):      17.3 ms ±   0.4 ms    [User: 10.9 ms, System: 7.0 ms]
+  Range (min … max):    16.2 ms …  18.3 ms    30 runs
  
-+ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_TBJuN.txt -- sh -c ''\''/usr/bin/grep'\'' -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log | '\''/usr/bin/sort'\'' -t '\'' '\'' -k 1 -s'
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_qF7j7.txt -- sh -c ''\''/usr/bin/grep'\'' -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log | '\''/usr/bin/sort'\'' -t '\'' '\'' -k 1 -s'
 
 5403 -
 
@@ -31,12 +31,12 @@ Benchmark 1: grep+sort
 + ./target/release/s4 --version
 super_speedy_syslog_searcher 0.7.76
 
-+ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_9ACIp.json -N -n 's4 (system)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_uoTcw.json -N -n 's4 (system)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
 Benchmark 1: s4 (system)
-  Time (mean ± σ):      38.9 ms ±   3.1 ms    [User: 36.5 ms, System: 26.3 ms]
-  Range (min … max):    30.0 ms …  44.7 ms    30 runs
+  Time (mean ± σ):      30.1 ms ±   1.9 ms    [User: 32.1 ms, System: 23.5 ms]
+  Range (min … max):    27.7 ms …  34.6 ms    30 runs
  
-+ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_9o0Ev.txt -- ./target/release/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_7JoFJ.txt -- ./target/release/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
 
 5403 -
 
@@ -44,12 +44,12 @@ Benchmark 1: s4 (system)
 
 + ./target/jemalloc/s4 --version
 super_speedy_syslog_searcher 0.7.76
-+ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_DZp0B.json -N -n 's4 (jemalloc)' -- ''\''./target/jemalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_IKKlt.json -N -n 's4 (jemalloc)' -- ''\''./target/jemalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
 Benchmark 1: s4 (jemalloc)
-  Time (mean ± σ):      46.4 ms ±   3.0 ms    [User: 37.9 ms, System: 36.0 ms]
-  Range (min … max):    38.7 ms …  52.9 ms    30 runs
+  Time (mean ± σ):      43.1 ms ±   1.5 ms    [User: 32.2 ms, System: 42.2 ms]
+  Range (min … max):    40.5 ms …  46.3 ms    30 runs
  
-+ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_xUiL1.txt -- ./target/jemalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_272Ek.txt -- ./target/jemalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
 
 5403 -
 
@@ -57,12 +57,12 @@ Benchmark 1: s4 (jemalloc)
 super_speedy_syslog_searcher 0.7.76
 ────────────────────────────────────────────────────────────────────────────────────────────────────
 
-+ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_yI6oJ.json -N -n 's4 (mimalloc)' -- ''\''./target/mimalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_1EvlK.json -N -n 's4 (mimalloc)' -- ''\''./target/mimalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
 Benchmark 1: s4 (mimalloc)
-  Time (mean ± σ):      39.1 ms ±   3.1 ms    [User: 35.1 ms, System: 27.7 ms]
-  Range (min … max):    32.6 ms …  44.7 ms    30 runs
+  Time (mean ± σ):      30.8 ms ±   2.0 ms    [User: 35.5 ms, System: 21.3 ms]
+  Range (min … max):    27.2 ms …  35.2 ms    30 runs
  
-+ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_5xVyI.txt -- ./target/mimalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_0mi58.txt -- ./target/mimalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
 
 5403 -
 
@@ -76,14 +76,12 @@ lnav 0.11.2
            $schema The URI of the schema for this file
            (\w+)/
 ✔ installed -- /home/snap/lnav/2760/.lnav/formats/installed/lnav1.json
-+ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_Bjcl4.json -N -n lnav -- ''\''lnav'\'' -N -n -c '\'';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime("2000-01-01T00:20:00") AND Datetime("2000-01-01T00:50:00")'\'' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log'
++ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_xQXEV.json -N -n lnav -- ''\''lnav'\'' -N -n -c '\'';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime("2000-01-01T00:20:00") AND Datetime("2000-01-01T00:50:00")'\'' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log'
 Benchmark 1: lnav
-  Time (mean ± σ):     171.9 ms ±   4.4 ms    [User: 112.5 ms, System: 35.6 ms]
-  Range (min … max):   168.2 ms … 192.6 ms    30 runs
+  Time (mean ± σ):     228.2 ms ±  11.1 ms    [User: 105.4 ms, System: 60.2 ms]
+  Range (min … max):   207.7 ms … 254.3 ms    30 runs
  
-  Warning: The first benchmarking run for this command was significantly slower than the rest (192.6 ms). This could be caused by (filesystem) caches that were not filled until after the first run. You should consider using the '--warmup' option to fill those caches before the actual benchmark. Alternatively, use the '--prepare' option to clear the caches before each timing run.
- 
-+ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_1ilgC.txt -- lnav -N -n -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('\''2000-01-01T00:20:00'\'') AND Datetime('\''2000-01-01T00:50:00'\'')' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_mUc0k.txt -- lnav -N -n -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('\''2000-01-01T00:20:00'\'') AND Datetime('\''2000-01-01T00:50:00'\'')' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
 
 5401 -
 
@@ -95,12 +93,12 @@ logmerger         0.9.0
 Listing './.venv/lib/python3.10/site-packages/logmerger'...
 Listing './.venv/lib/python3.10/site-packages/logmerger/tui'...
 
-+ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_8W9Vt.json --shell sh -n logmerger -- ''\''logmerger'\'' --inline --output=- --start '\''2000-01-01T00:20:00'\'' --end '\''2000-01-01T00:50:00'\'' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
++ /home/.cargo/bin/hyperfine --style=basic --runs=30 --export-json /tmp/compare-log_mergers_FbgHA.json --shell sh -n logmerger -- ''\''logmerger'\'' --inline --output=- --start '\''2000-01-01T00:20:00'\'' --end '\''2000-01-01T00:50:00'\'' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
 Benchmark 1: logmerger
-  Time (mean ± σ):     786.7 ms ±   9.6 ms    [User: 759.2 ms, System: 22.2 ms]
-  Range (min … max):   766.9 ms … 809.8 ms    30 runs
+  Time (mean ± σ):     828.2 ms ±   8.9 ms    [User: 782.7 ms, System: 42.4 ms]
+  Range (min … max):   805.8 ms … 840.4 ms    30 runs
  
-+ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_9HVvl.txt -- logmerger --inline --output=- --start 2000-01-01T00:20:00 --end 2000-01-01T00:50:00 ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_DQoWL.txt -- logmerger --inline --output=- --start 2000-01-01T00:20:00 --end 2000-01-01T00:50:00 ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
 
 3607 -
 
@@ -118,24 +116,24 @@ tl, version 1.5.0
 + python -m compileall ./.venv/lib/python3.10/site-packages/toolong
 Listing './.venv/lib/python3.10/site-packages/toolong'...
 
-skip empty JSON file /tmp/compare-log_mergers_xdqU8.json
-+ cat /tmp/compare-log_mergers_final_6Hznv.md
-|Command        |Mean (ms)  |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
-|:---           |---:       |---:    |---:    |---:        |---: |
-|`grep+sort`    |16.2 ± 0.2 |15.9    |16.7    |8388        |100% |
-|`s4 (system)`  |38.9 ± 3.1 |30.0    |44.7    |76240       |165% |
-|`s4 (jemalloc)`|46.4 ± 3.0 |38.7    |52.9    |72668       |161% |
-|`s4 (mimalloc)`|39.1 ± 3.1 |32.6    |44.7    |74628       |168% |
-|`lnav`         |171.9 ± 4.4|168.2   |192.6   |37144       |85%  |
-|`logmerger`    |786.7 ± 9.6|766.9   |809.8   |55688       |99%  |
+skip empty JSON file /tmp/compare-log_mergers_PDRHn.json
++ cat /tmp/compare-log_mergers_final_hoEgj.md
+|Command        |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
+|:---           |---:        |---:    |---:    |---:        |---: |
+|`grep+sort`    |17.3 ± 0.4  |16.2    |18.3    |4736        |100% |
+|`s4 (system)`  |30.1 ± 1.9  |27.7    |34.6    |79456       |182% |
+|`s4 (jemalloc)`|43.1 ± 1.5  |40.5    |46.3    |53120       |180% |
+|`s4 (mimalloc)`|30.8 ± 2.0  |27.2    |35.2    |78884       |180% |
+|`lnav`         |228.2 ± 11.1|207.7   |254.3   |36736       |72%  |
+|`logmerger`    |828.2 ± 8.9 |805.8   |840.4   |57296       |99%  |
 
 
-COMMAND    │  MEAN (MS)  │ MIN (MS) │ MAX (MS) │ MAX RSS (KB) │ CPU %
-────────────────┼─────────────┼──────────┼──────────┼──────────────┼────────
-grep+sort     │ 16.2 ± 0.2  │     15.9 │     16.7 │         8388 │ 100%
-s4 (system)   │ 38.9 ± 3.1  │     30.0 │     44.7 │        76240 │ 165%
-s4 (jemalloc) │ 46.4 ± 3.0  │     38.7 │     52.9 │        72668 │ 161%
-s4 (mimalloc) │ 39.1 ± 3.1  │     32.6 │     44.7 │        74628 │ 168%
-lnav          │ 171.9 ± 4.4 │    168.2 │    192.6 │        37144 │ 85%
-logmerger     │ 786.7 ± 9.6 │    766.9 │    809.8 │        55688 │ 99%
+COMMAND    │  MEAN (MS)   │ MIN (MS) │ MAX (MS) │ MAX RSS (KB) │ CPU %
+────────────────┼──────────────┼──────────┼──────────┼──────────────┼────────
+grep+sort     │ 17.3 ± 0.4   │     16.2 │     18.3 │         4736 │ 100%
+s4 (system)   │ 30.1 ± 1.9   │     27.7 │     34.6 │        79456 │ 182%
+s4 (jemalloc) │ 43.1 ± 1.5   │     40.5 │     46.3 │        53120 │ 180%
+s4 (mimalloc) │ 30.8 ± 2.0   │     27.2 │     35.2 │        78884 │ 180%
+lnav          │ 228.2 ± 11.1 │    207.7 │    254.3 │        36736 │ 72%
+logmerger     │ 828.2 ± 8.9  │    805.8 │    840.4 │        57296 │ 99%
 
