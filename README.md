@@ -753,7 +753,7 @@ All programs besides `s4` fail to merge different text log formats.
 
 #### Speed Comparison
 
-A comparison of merging three large log files running on Ubuntu 22 on WSL2.
+A comparison of merging three large log files.
 The three log files have 5000 lines, 2158138 bytes (≈2.1 MB) each, with high-plane unicode.
 Each program had 30 runs except `toolong`.
 
@@ -781,6 +781,7 @@ Programs tested:
 - `tl` 1.5.0 on Python 3.10.12
 
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
+Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
 See directory results in [`compare-log-mergers.txt`].
 
