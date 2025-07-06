@@ -757,15 +757,15 @@ A comparison of merging three large log files running on Ubuntu 22 on WSL2.
 The three log files have 5000 lines, 2158138 bytes (≈2.1 MB) each, with high-plane unicode.
 Each program had 30 runs except `toolong`.
 
-|Command        |Mean (ms)        |Min (ms)        |Max (ms)        |Max RSS (KB)|CPU %|
-|:---           |---:             |---:            |---:            |---:        |---: |
-|`grep \| sort` |16.5 ± 0.6       |15.7            |18.6            |5512        |41%  |
-|`s4 (system)`  |37.0 ± 1.8       |34.3            |40.9            |48060       |182% |
-|`s4 (jemalloc)`|37.2 ± 2.0       |33.9            |43.0            |71536       |165% |
-|`s4 (mimalloc)`|32.0 ± 2.1       |27.4            |36.1            |75776       |182% |
-|`lnav`         |155.9 ± 1.8      |153.0           |162.7           |37320       |94%  |
-|`logmerger`    |779.3 ± 10.4     |760.3           |803.2           |55288       |99%  |
-|`toolong`      |                 |                |                |53208       |40%  |
+|Command        |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
+|:---           |---:        |---:    |---:    |---:        |---: |
+|`grep+sort`    |17.3 ± 0.4  |16.2    |18.3    |4736        |100% |
+|`s4 (system)`  |30.1 ± 1.9  |27.7    |34.6    |79456       |182% |
+|`s4 (jemalloc)`|43.1 ± 1.5  |40.5    |46.3    |53120       |180% |
+|`s4 (mimalloc)`|30.8 ± 2.0  |27.2    |35.2    |78884       |180% |
+|`lnav`         |228.2 ± 11.1|207.7   |254.3   |36736       |72%  |
+|`logmerger`    |828.2 ± 8.9 |805.8   |840.4   |57296       |99%  |
+|`toolong`      |            |        |        |53208       |40%  |
 
 <sup style="font-size: xx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xx-small">• _Min_ is minimum runtime in milliseconds</sup>
