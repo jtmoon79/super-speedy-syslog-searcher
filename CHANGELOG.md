@@ -272,7 +272,7 @@ _MSRV 1.73.0_
 - (DOCS) NFC tweak precommit message category ([f47f89b7])
 - (DOCS) README add lnav ([e4658658])
 - (DOCS) README, Changelog add 0.7.75 ([2e80d2bf])
-- (DOCS) README.md release 0.7.76 ([ca77ad21]) (HEAD -> main, tag: 0.7.76, origin/main, origin/HEAD)
+- (DOCS) README.md release 0.7.76 ([ca77ad21])
 - (DOCS) README rm Benches, update program comparison ([08276667])
 - (LIB) add more libsystemd.so file name variations to search ([d03812d6])
 - (LIB) journalreaders.rs deprecated `from_i32` with `from_raw` ([3139418f])
@@ -289,65 +289,65 @@ _MSRV 1.73.0_
 - (LIB) bump rand 0.9.0 ([4d14dbfc])
 - (LIB) bump cargo update wasm-bindgen=0.2.95 crc-catalog=2.4.0 futures-util=0.3.31 bytes=1.8.0 ([07d25370])
 - (LIB) bump crossbeam-channel 0.5.15 ([222152bf])
-- (LIB) dependabot: bump anyhow from 1.0.86 to 1.0.91 (#334) ([4fc3720a])
-- (LIB) dependabot: bump anyhow from 1.0.91 to 1.0.93 (#343) ([add02632])
-- (LIB) dependabot: bump anyhow from 1.0.93 to 1.0.94 (#358) ([837d6f50])
-- (LIB) dependabot: bump anyhow from 1.0.94 to 1.0.95 (#365) ([b3bfd4d9])
-- (LIB) dependabot: bump anyhow from 1.0.96 to 1.0.97 (#381) ([7d9f16f8])
-- (LIB) dependabot: bump bstr from 1.11.0 to 1.11.3 (#368) ([d12f1c15])
-- (LIB) dependabot: bump bstr from 1.9.1 to 1.10.0 (#315) ([b95aded3])
-- (LIB) dependabot: bump chrono from 0.4.38 to 0.4.39 (#359) ([103b4d23])
-- (LIB) dependabot: bump chrono from 0.4.39 to 0.4.40 (#382) ([f1a7dd70])
-- (LIB) dependabot: bump const_format from 0.2.32 to 0.2.33 (#330) ([21d83759])
-- (LIB) dependabot: bump const_format from 0.2.33 to 0.2.34 (#357) ([6ad1d90b])
-- (LIB) dependabot: bump crossbeam-channel from 0.5.13 to 0.5.14 (#361) ([4f3992cf])
-- (LIB) dependabot: bump ctrlc from 3.4.4 to 3.4.5 (#329) ([7fab005a])
+- (LIB) dependabot: bump anyhow from 1.0.86 to 1.0.91 ([4fc3720a])
+- (LIB) dependabot: bump anyhow from 1.0.91 to 1.0.93 [PR #343] ([add02632])
+- (LIB) dependabot: bump anyhow from 1.0.93 to 1.0.94 [PR #358] ([837d6f50])
+- (LIB) dependabot: bump anyhow from 1.0.94 to 1.0.95 [PR #365] ([b3bfd4d9])
+- (LIB) dependabot: bump anyhow from 1.0.96 to 1.0.97 [PR #381] ([7d9f16f8])
+- (LIB) dependabot: bump bstr from 1.11.0 to 1.11.3 [PR #368] ([d12f1c15])
+- (LIB) dependabot: bump bstr from 1.9.1 to 1.10.0 [PR #315] ([b95aded3])
+- (LIB) dependabot: bump chrono from 0.4.38 to 0.4.39 [PR #359] ([103b4d23])
+- (LIB) dependabot: bump chrono from 0.4.39 to 0.4.40 [PR #382] ([f1a7dd70])
+- (LIB) dependabot: bump const_format from 0.2.32 to 0.2.33 [PR #330] ([21d83759])
+- (LIB) dependabot: bump const_format from 0.2.33 to 0.2.34 [PR #357] ([6ad1d90b])
+- (LIB) dependabot: bump crossbeam-channel from 0.5.13 to 0.5.14 [PR #361] ([4f3992cf])
+- (LIB) dependabot: bump ctrlc from 3.4.4 to 3.4.5 [PR #329] ([7fab005a])
 - (LIB) dependabot: bump ctrlc from 3.4.5 to 3.4.7 ([f858a3df])
-- (LIB) dependabot: bump encoding_rs from 0.8.34 to 0.8.35 (#333) ([b2e639c0])
-- (LIB) dependabot: bump evtx from 0.8.2 to 0.8.4 (#349) ([93db291b])
-- (LIB) dependabot: bump filepath from 0.1.2 to 0.2.0 (#371) ([4a7a8d56])
-- (LIB) dependabot: bump filetime from 0.2.23 to 0.2.25 (#332) ([9f9d7c3d])
-- (LIB) dependabot: bump flate2 from 1.0.30 to 1.0.34 (#323) ([2008c9a6]) (jayvdb/main)
-- (LIB) dependabot: bump flate2 from 1.0.34 to 1.0.35 (#346) ([0807ecf2])
-- (LIB) dependabot: bump flate2 from 1.0.35 to 1.1.0 (#378) ([3b0e67c6])
+- (LIB) dependabot: bump encoding_rs from 0.8.34 to 0.8.35 [PR #333] ([b2e639c0])
+- (LIB) dependabot: bump evtx from 0.8.2 to 0.8.4 [PR #349] ([93db291b])
+- (LIB) dependabot: bump filepath from 0.1.2 to 0.2.0 [PR #371] ([4a7a8d56])
+- (LIB) dependabot: bump filetime from 0.2.23 to 0.2.25 [PR #332] ([9f9d7c3d])
+- (LIB) dependabot: bump flate2 from 1.0.30 to 1.0.34 [PR #323] ([2008c9a6]) (jayvdb/main)
+- (LIB) dependabot: bump flate2 from 1.0.34 to 1.0.35 [PR #346] ([0807ecf2])
+- (LIB) dependabot: bump flate2 from 1.0.35 to 1.1.0 [PR #378] ([3b0e67c6])
 - (LIB) dependabot: bump flate2 from 1.1.0 to 1.1.2 ([6def544d])
-- (LIB) dependabot: bump itertools from 0.13.0 to 0.14.0 (#376) ([573b7739])
-- (LIB) dependabot: bump libc from 0.2.167 to 0.2.168 (#356) ([967869ba])
-- (LIB) dependabot: bump libc from 0.2.168 to 0.2.169 (#366) ([557301ae])
-- (LIB) dependabot: bump libc from 0.2.169 to 0.2.170 (#380) ([e6048fb3])
-- (LIB) dependabot: bump libc from 0.2.170 to 0.2.171 (#385) ([4c8fdcde])
-- (LIB) dependabot: bump lru from 0.12.3 to 0.12.5 (#326) ([dbb4e4f3])
-- (LIB) dependabot: bump lru from 0.12.5 to 0.13.0 (#372) ([69c80568])
-- (LIB) dependabot: bump mimalloc from 0.1.43 to 0.1.44 (#389) ([1936fd62])
-- (LIB) dependabot: bump mimalloc from 0.1.44 to 0.1.45 (#391) ([45390157])
-- (LIB) dependabot: bump nix from 0.27.1 to 0.29.0 (#335) ([a0fb0c93])
-- (LIB) dependabot: bump once_cell from 1.19.0 to 1.20.2 (#328) ([64055794])
-- (LIB) dependabot: bump once_cell from 1.20.2 to 1.20.3 (#374) ([336a3d96])
-- (LIB) dependabot: bump once_cell from 1.20.3 to 1.21.1 (#386) ([6f722ae7])
-- (LIB) dependabot: bump once_cell from 1.21.1 to 1.21.3 (#388) ([e23c849b])
-- (LIB) dependabot: bump openssl from 0.10.64 to 0.10.66 (#314) ([927d57b4])
-- (LIB) dependabot: bump openssl from 0.10.66 to 0.10.70 (#369) ([b57cfb21])
-- (LIB) dependabot: bump openssl from 0.10.70 to 0.10.72 (#390) ([86209a0a])
-- (LIB) dependabot: bump phf from 0.11.2 to 0.11.3 (#375) ([b1bffe27])
-- (LIB) dependabot: bump regex from 1.10.5 to 1.11.0 (#324) ([1620f7e7])
-- (LIB) dependabot: bump regex from 1.11.0 to 1.11.1 (#336) ([646d8335])
-- (LIB) dependabot: bump stringzilla from 3.10.11 to 3.11.0 (#355) ([797ecd1c])
-- (LIB) dependabot: bump stringzilla from 3.10.7 to 3.10.10 (#348) ([8dcf0dcd])
-- (LIB) dependabot: bump stringzilla from 3.11.0 to 3.11.3 (#367) ([7c335c2c])
-- (LIB) dependabot: bump stringzilla from 3.11.3 to 3.12.3 (#383) ([9d245cad])
-- (LIB) dependabot: bump stringzilla from 3.8.4 to 3.10.7 (#338) ([7cc45a6e])
-- (LIB) dependabot: bump tar from 0.4.41 to 0.4.42 (#327) ([bc386776])
-- (LIB) dependabot: bump tar from 0.4.42 to 0.4.43 (#337) ([afad2413])
-- (LIB) dependabot: bump tar from 0.4.43 to 0.4.44 (#384) ([738bd507])
-- (LIB) dependabot: bump tempfile from 3.10.1 to 3.13.0 (#325) ([63f7d592])
-- (LIB) dependabot: bump tempfile from 3.14.0 to 3.16.0 (#370) ([72bb96ee])
-- (LIB) dependabot: bump tempfile from 3.16.0 to 3.17.0 (#377) ([0b42a8a1])
-- (LIB) dependabot: bump tempfile from 3.17.1 to 3.19.0 (#387) ([0ee66989])
-- (LIB) dependabot: bump tikv-jemallocator from 0.5.4 to 0.6.0 (#313) ([988e563d])
+- (LIB) dependabot: bump itertools from 0.13.0 to 0.14.0 [PR #376] ([573b7739])
+- (LIB) dependabot: bump libc from 0.2.167 to 0.2.168 [PR #356] ([967869ba])
+- (LIB) dependabot: bump libc from 0.2.168 to 0.2.169 [PR #366] ([557301ae])
+- (LIB) dependabot: bump libc from 0.2.169 to 0.2.170 [PR #380] ([e6048fb3])
+- (LIB) dependabot: bump libc from 0.2.170 to 0.2.171 [PR #385] ([4c8fdcde])
+- (LIB) dependabot: bump lru from 0.12.3 to 0.12.5 [PR #326] ([dbb4e4f3])
+- (LIB) dependabot: bump lru from 0.12.5 to 0.13.0 [PR #372] ([69c80568])
+- (LIB) dependabot: bump mimalloc from 0.1.43 to 0.1.44 [PR #389] ([1936fd62])
+- (LIB) dependabot: bump mimalloc from 0.1.44 to 0.1.45 [PR #391] ([45390157])
+- (LIB) dependabot: bump nix from 0.27.1 to 0.29.0 [PR #335] ([a0fb0c93])
+- (LIB) dependabot: bump once_cell from 1.19.0 to 1.20.2 [PR #328] ([64055794])
+- (LIB) dependabot: bump once_cell from 1.20.2 to 1.20.3 [PR #374] ([336a3d96])
+- (LIB) dependabot: bump once_cell from 1.20.3 to 1.21.1 [PR #386] ([6f722ae7])
+- (LIB) dependabot: bump once_cell from 1.21.1 to 1.21.3 [PR #388] ([e23c849b])
+- (LIB) dependabot: bump openssl from 0.10.64 to 0.10.66 [PR #314] ([927d57b4])
+- (LIB) dependabot: bump openssl from 0.10.66 to 0.10.70 [PR #369] ([b57cfb21])
+- (LIB) dependabot: bump openssl from 0.10.70 to 0.10.72 [PR #390] ([86209a0a])
+- (LIB) dependabot: bump phf from 0.11.2 to 0.11.3 [PR #375] ([b1bffe27])
+- (LIB) dependabot: bump regex from 1.10.5 to 1.11.0 [PR #324] ([1620f7e7])
+- (LIB) dependabot: bump regex from 1.11.0 to 1.11.1 [PR #336] ([646d8335])
+- (LIB) dependabot: bump stringzilla from 3.10.11 to 3.11.0 [PR #355] ([797ecd1c])
+- (LIB) dependabot: bump stringzilla from 3.10.7 to 3.10.10 [PR #348] ([8dcf0dcd])
+- (LIB) dependabot: bump stringzilla from 3.11.0 to 3.11.3 [PR #367] ([7c335c2c])
+- (LIB) dependabot: bump stringzilla from 3.11.3 to 3.12.3 [PR #383] ([9d245cad])
+- (LIB) dependabot: bump stringzilla from 3.8.4 to 3.10.7 [PR #338] ([7cc45a6e])
+- (LIB) dependabot: bump tar from 0.4.41 to 0.4.42 [PR #327] ([bc386776])
+- (LIB) dependabot: bump tar from 0.4.42 to 0.4.43 [PR #337] ([afad2413])
+- (LIB) dependabot: bump tar from 0.4.43 to 0.4.44 [PR #384] ([738bd507])
+- (LIB) dependabot: bump tempfile from 3.10.1 to 3.13.0 [PR #325] ([63f7d592])
+- (LIB) dependabot: bump tempfile from 3.14.0 to 3.16.0 [PR #370] ([72bb96ee])
+- (LIB) dependabot: bump tempfile from 3.16.0 to 3.17.0 [PR #377] ([0b42a8a1])
+- (LIB) dependabot: bump tempfile from 3.17.1 to 3.19.0 [PR #387] ([0ee66989])
+- (LIB) dependabot: bump tikv-jemallocator from 0.5.4 to 0.6.0 [PR #313] ([988e563d])
 - (LIB) dependabot: bump tokio from 1.38.0 to 1.44.2 ([dc35dfd3])
-- (LIB) dependabot: bump unicode-width from 0.1.13 to 0.2.0 (#340) ([cb267457])
-- (LIB) dependabot: bump zerovec-derive from 0.10.2 to 0.10.3 (#312) ([42169f49])
-- (LIB) dependabot: bump zerovec from 0.10.2 to 0.10.4 (#311) ([250e9dee])
+- (LIB) dependabot: bump unicode-width from 0.1.13 to 0.2.0 [PR #340] ([cb267457])
+- (LIB) dependabot: bump zerovec-derive from 0.10.2 to 0.10.3 [PR #312] ([42169f49])
+- (LIB) dependabot: bump zerovec from 0.10.2 to 0.10.4 [PR #311] ([250e9dee])
 - (LOGS) add dtf7-20-LEVELS.log.zip ([aa0990ac])
 - (RELEASE) bump version 0.7.76 ([cf3b3e66])
 - (PROJECT) add .gitattributes ([9f0de805])
@@ -2139,6 +2139,61 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #305]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/305
 [Issue #360]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/360
 [Issue #401]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/401
+[PR #311]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/311
+[PR #312]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/312
+[PR #313]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/313
+[PR #314]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/314
+[PR #315]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/315
+[PR #323]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/323
+[PR #324]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/324
+[PR #325]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/325
+[PR #326]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/326
+[PR #327]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/327
+[PR #328]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/328
+[PR #329]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/329
+[PR #330]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/330
+[PR #332]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/332
+[PR #333]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/333
+[PR #335]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/335
+[PR #336]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/336
+[PR #337]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/337
+[PR #338]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/338
+[PR #340]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/340
+[PR #343]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/343
+[PR #346]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/346
+[PR #348]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/348
+[PR #349]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/349
+[PR #355]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/355
+[PR #356]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/356
+[PR #357]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/357
+[PR #358]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/358
+[PR #359]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/359
+[PR #361]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/361
+[PR #365]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/365
+[PR #366]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/366
+[PR #367]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/367
+[PR #368]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/368
+[PR #369]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/369
+[PR #370]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/370
+[PR #371]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/371
+[PR #372]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/372
+[PR #374]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/374
+[PR #375]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/375
+[PR #376]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/376
+[PR #377]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/377
+[PR #378]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/378
+[PR #380]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/380
+[PR #381]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/381
+[PR #382]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/382
+[PR #383]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/383
+[PR #384]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/384
+[PR #385]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/385
+[PR #386]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/386
+[PR #387]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/387
+[PR #388]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/388
+[PR #389]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/389
+[PR #390]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/390
+[PR #391]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/391
 [(#166)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/166
 [(#168)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/168
 [(#169)]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/169
