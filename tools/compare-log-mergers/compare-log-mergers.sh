@@ -180,7 +180,7 @@ echo
     # search for datetimes between $after_dt $befor_dt
     # using decently constrained regexp to match meaning
     set -x
-    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json1}" --shell sh -n "grep+sort" \
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json1}" --shell sh -n "grep+sort" \
         -- \
         "$grep -hEe '${regex_dt}' -- ${files[*]} | $sort -t ' ' -k 1 -s > /dev/null"
 )
@@ -208,7 +208,7 @@ echo
 (
     files_caching
     set -x
-    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json2}" -N -n "s4 (system)" \
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json2}" -N -n "s4 (system)" \
         -- \
         "'${PROGRAM_S4_SYSTEM}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
@@ -238,7 +238,7 @@ PROGRAM_S4_JEMALLOC=${PROGRAM_S4_JEMALLOC-./target/jemalloc/s4}
 (
     files_caching
     set -x
-    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json3}" -N -n "s4 (jemalloc)" \
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json3}" -N -n "s4 (jemalloc)" \
         -- \
         "'${PROGRAM_S4_JEMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
@@ -269,7 +269,7 @@ echo_line
 (
     files_caching
     set -x
-    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json4}" -N -n "s4 (mimalloc)" \
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json4}" -N -n "s4 (mimalloc)" \
         -- \
         "'${PROGRAM_S4_MIMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
@@ -296,7 +296,7 @@ echo
     set -x
     lnav --version
     lnav -i -W ./tools/compare-log-mergers/lnav1.json
-    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json5}" -N -n "${PROGRAM_LNAV}" \
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json5}" -N -n "${PROGRAM_LNAV}" \
         -- \
         "'${PROGRAM_LNAV}' -N -n \
 -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime(\"${after_dt}\") AND Datetime(\"${befor_dt}\")' \
@@ -337,7 +337,7 @@ echo
 (
     files_caching
     set -x
-    $hyperfine --style=basic --runs=${HRUNS} --export-json "${json6}" --shell sh -n "${PROGRAM_LM}" \
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json6}" --shell sh -n "${PROGRAM_LM}" \
         -- \
         "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]} > /dev/null"
 )
