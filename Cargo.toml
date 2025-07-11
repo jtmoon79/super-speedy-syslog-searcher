@@ -38,10 +38,10 @@ exclude = [
 ]
 
 [dependencies]
-anyhow = "1.0.97"
+anyhow = "1.0.98"
 bstr = "1.12.0"
 bzip2-rs = "0.1.2"
-cfg-if = "1.0.0"
+cfg-if = "1.0.1"
 chrono = "0.4.41"
 clap = { version = "=4.2.1", features = ["derive"] }
 const_format = { version = "0.2.34", features = ["assertcp"] }
