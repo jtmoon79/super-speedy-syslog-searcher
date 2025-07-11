@@ -154,7 +154,7 @@ macro_rules! defo_tv_pair {
 ///
 /// The specific implementation of the FixedStruct. Each implementation of,
 /// for example, a `utmp` struct, differs in fields and sizes among Operating
-/// Systems FreeBsd, Linux, OpenBSD, and NetBSD. and also differ per CPU
+/// Systems FreeBSD, Linux, OpenBSD, and NetBSD. and also differ per CPU
 /// architecture, e.g. x86_64 vs. i386 vs. ARM7
 #[allow(non_camel_case_types)]
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
