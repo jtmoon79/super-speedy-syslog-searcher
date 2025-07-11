@@ -64,6 +64,7 @@ systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
     - [Other Log or File Formats Supported](#other-log-or-file-formats-supported)
     - [Archive Formats Supported](#archive-formats-supported)
     - [Speed Comparison](#speed-comparison)
+      - [Table of speed comparison results](#table-of-speed-comparison-results)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
   - [Requesting Support For DateTime Formats; your particular log file](#requesting-support-for-datetime-formats-your-particular-log-file)
@@ -762,6 +763,8 @@ Here are two typical log messages from them:
 2000-01-01T00:00:01 0001 A 😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁
 2000-01-01T00:00:02 0002 A 😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁😂😃
 ```
+
+##### Table of speed comparison results
 
 |Command        |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
 |:---           |---:        |---:    |---:    |---:        |---: |
