@@ -795,7 +795,7 @@ Each program had 30 runs except `toolong`.
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
 Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
-See directory results in [`compare-log-mergers.txt`].
+See archived results in [`compare-log-mergers.txt`].
 
 [`lnav`]: https://lnav.org/
 [`logmerger`]: https://github.com/ptmcg/logmerger
