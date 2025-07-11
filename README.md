@@ -754,9 +754,9 @@ All programs besides `s4` fail to merge different text log formats.
 
 #### Speed Comparison
 
-A comparison of merging three large log files.
-The three fabricated log files have 5000 lines, 2158138 bytes (≈2.1 MB) each, with high-plane unicode.
-Here are two typical log messages from the input log files:
+A comparison of merging three large contrived log files.
+The three log files have 5000 lines, 2158138 bytes (≈2.1 MB) each, with high-plane unicode.
+Here are two typical log messages from them:
 
 ```text
 2000-01-01T00:00:01 0001 A 😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁
