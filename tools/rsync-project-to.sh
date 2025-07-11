@@ -16,8 +16,7 @@ if [[ ${#} != 1 ]]; then
 fi
 
 cd "$(dirname "${0}")/.."
-HERE="$(basename -- "$(realpath .)")"
-RSYNC=$(which rsync)
+RSYNC=${RSYNC-$(which rsync)}
 TARGET=${1}
 
 if [[ ! -e "${TARGET}" ]]; then
