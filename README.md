@@ -744,7 +744,7 @@ All programs besides `s4` fail to merge different text log formats.
 |Program        |`.gz`     |`.lz`  |`.lz4`   |`.bz`    |`.bz2`       |`.xz`   |`.tar`|`.zip`|
 |-              |-         |-      |-        |-        |-            |-       |-     |-     |
 |`grep \| sort` |☐ `zgrep`|☐ `lz`|☐ `lz4`  |☐ `bzip`|☐ `bzip2`    |☐ `xz` |✗     |✗     |
-|`s4`           |✔        |✗      |✔        |✗        |✔            |✔      |✔     |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39)|
+|`s4`           |✔        |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/128)|✔|✗|✔|✔|✔|[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39)|
 |`lnav`         |✔        |✔      |✔        |?        |✔            |✔      |✔     |✔     |
 |`logmerger`    |✔        |✗      |✗        |✗        |✗            |✗      |✗     |✗     |
 |`tl`           |✔        |✗      |✗        |✔        |✔            |✗      |✗     |✗     |
