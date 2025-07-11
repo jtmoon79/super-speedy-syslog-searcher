@@ -34,8 +34,8 @@ cargo clean
 cargo msrv verify  # cargo install cargo-msrv
 cargo build
 cargo build --release
-cargo build --profile mimalloc
-cargo build --profile jemalloc
+cargo build --release --features mimalloc
+cargo build --release --features jemalloc
 ./tools/log-files-time-update.sh
 cargo nextest run --all-targets
 cargo check --all-targets
