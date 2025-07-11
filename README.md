@@ -755,8 +755,13 @@ All programs besides `s4` fail to merge different text log formats.
 #### Speed Comparison
 
 A comparison of merging three large log files.
-The three log files have 5000 lines, 2158138 bytes (≈2.1 MB) each, with high-plane unicode.
-Each program had 30 runs except `toolong`.
+The three fabricated log files have 5000 lines, 2158138 bytes (≈2.1 MB) each, with high-plane unicode.
+Here are two typical log messages from the input log files:
+
+```text
+2000-01-01T00:00:01 0001 A 😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁
+2000-01-01T00:00:02 0002 A 😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁😂😃
+```
 
 |Command        |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
 |:---           |---:        |---:    |---:    |---:        |---: |
@@ -781,6 +786,7 @@ Programs tested:
 - `logmerger` 0.9.0 on Python 3.10.12
 - `tl` 1.5.0 on Python 3.10.12
 
+Each program had 30 runs except `toolong`.
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
 Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
