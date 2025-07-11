@@ -774,7 +774,7 @@ Here are two typical log messages from them:
 |`s4 (mimalloc)`|30.8 ± 2.0  |27.2    |35.2    |78884       |180% |
 |`lnav`         |228.2 ± 11.1|207.7   |254.3   |36736       |72%  |
 |`logmerger`    |828.2 ± 8.9 |805.8   |840.4   |57296       |99%  |
-|`toolong`      |            |        |        |53208       |40%  |
+|`tl`           |            |        |        |53208       |40%  |
 
 <sup style="font-size: xx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xx-small">• _Min_ is minimum runtime in milliseconds</sup>
@@ -786,8 +786,10 @@ Programs tested:
 
 - GNU `grep` 3.7, GNU `sort` 8.32
 - `s4` 0.7.76 compiled with rustc 1.73.0
-- `logmerger` 0.9.0 on Python 3.10.12
-- `tl` 1.5.0 on Python 3.10.12
+- [`lnav`] 0.11.2
+- [`logmerger`] 0.11.0 on Python 3.10.12
+- `tl` ([_toolong_]) 1.5.0 on Python 3.10.12
+<!-- XXX: these versions should match those in compare-log-mergers/requirements.txt -->
 
 Each program had 30 runs except `toolong`.
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
@@ -795,6 +797,9 @@ Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
 See directory results in [`compare-log-mergers.txt`].
 
+[`lnav`]: https://lnav.org/
+[`logmerger`]: https://github.com/ptmcg/logmerger
+[_toolong_]: https://github.com/Textualize/toolong
 [`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.76/releases/0.7.76
 
 ---

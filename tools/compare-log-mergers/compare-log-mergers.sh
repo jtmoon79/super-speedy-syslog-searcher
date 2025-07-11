@@ -27,6 +27,7 @@ if [[ ${#} -ge 1 ]]; then
 fi
 
 cd "$(dirname "${0}")/../.."
+readonly REQUIREMENTS_FILE=./tools/compare-log-mergers/requirements.txt
 
 (
     export PAGER=cat
@@ -72,29 +73,22 @@ PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
 
 HRUNS=30
 
+# make sure Python packages are installed to expected versions
+(
+    set -x
+    "${PYTHON}" -m pip install \
+        --upgrade \
+        --no-python-version-warning --disable-pip-version-check \
+        --quiet \
+        -r "${REQUIREMENTS_FILE}"
+)
+
 # precompile all python packages
 PYSITE_PKG_PATH=$("${PYTHON}" -c "import sysconfig; print(sysconfig.get_path('purelib'))")
 (
     set -x
     "${PYTHON}" -m compileall -q "${PYSITE_PKG_PATH}"
 )
-
-# make sure packages are installed to expected versions
-# XXX: these versions should match that described in the `README.md`
-for package in \
-    'logmerger==0.9.0' \
-    'toolong==1.5.0' \
-    'logdissect==3.1.1' \
- ; do
-    (
-        set -x
-        "${PYTHON}" -m pip install \
-            --upgrade \
-            --no-python-version-warning --disable-pip-version-check \
-            --quiet \
-            "${package}"
-    )
-done
 
 declare -a files=(
     './tools/compare-log-mergers/gen-5000-1-facesA.log'
