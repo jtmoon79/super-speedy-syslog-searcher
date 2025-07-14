@@ -66,7 +66,7 @@ min-max = "0.1.8"
 more-asserts = "0.3.1"
 mut_static = "5.0.0"
 nix = "0.29.0"
-numtoa = "0.2.4"
+numtoa = "0.3.1"
 # TODO: instead of `once_cell` crate, use `std::sync::OnceLock` and `get_or_try_init`
 #       TRACKING: https://github.com/rust-lang/rust/issues/109737
 once_cell = "1.21.3"
