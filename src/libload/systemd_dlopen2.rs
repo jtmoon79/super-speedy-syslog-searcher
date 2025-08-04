@@ -205,14 +205,14 @@ pub struct SdJournalHApi {
     /// Function signature for [`sd_journal_close`].
     ///
     /// [`sd_journal_close`]: https://www.man7.org/linux/man-pages/man3/sd-journal.3.html
-    sd_journal_close: unsafe extern fn(
+    sd_journal_close: unsafe extern "C" fn(
         j: *mut sd_journal,
     ) -> ::std::os::raw::c_int,
 
     /// Function signature for [`sd_journal_open_files`].
     ///
     /// [`sd_journal_open_files`]: https://man7.org/linux/man-pages/man3/sd_journal_open.3.html
-    sd_journal_open_files: unsafe extern fn(
+    sd_journal_open_files: unsafe extern "C" fn(
         j: *mut *mut sd_journal,
         paths: *mut *const ::std::os::raw::c_char,
         flags: ::std::os::raw::c_int,
@@ -221,21 +221,21 @@ pub struct SdJournalHApi {
     /// Function signature for [`sd_journal_seek_head`].
     ///
     /// [`sd_journal_seek_head`]: https://man7.org/linux/man-pages/man3/sd_journal_seek_head.3.html
-    sd_journal_seek_head: unsafe extern fn(
+    sd_journal_seek_head: unsafe extern "C" fn(
         j: *mut sd_journal,
     ) -> ::std::os::raw::c_int,
 
     /// Function signature for [`sd_journal_next`].
     ///
     /// [`sd_journal_next`]: https://man7.org/linux/man-pages/man3/sd_journal_next.3.html
-    sd_journal_next: unsafe extern fn(
+    sd_journal_next: unsafe extern "C" fn(
         j: *mut sd_journal,
     ) -> ::std::os::raw::c_int,
 
     /// Function signature for [`sd_journal_seek_realtime_usec`].
     ///
     /// [`sd_journal_seek_realtime_usec`]: https://www.man7.org/linux/man-pages/man3/sd_journal_seek_head.3.html
-    sd_journal_seek_realtime_usec: unsafe extern fn(
+    sd_journal_seek_realtime_usec: unsafe extern "C" fn(
         j: *mut sd_journal,
         usec: u64,
     ) -> ::std::os::raw::c_int,
@@ -243,7 +243,7 @@ pub struct SdJournalHApi {
     /// Function signature for [`sd_journal_get_realtime_usec`].
     ///
     /// [`sd_journal_get_realtime_usec`]: https://www.man7.org/linux/man-pages/man3/sd_journal_get_realtime_usec.3.html
-    sd_journal_get_realtime_usec: unsafe extern fn(
+    sd_journal_get_realtime_usec: unsafe extern "C" fn(
         j: *mut sd_journal,
         usec: *mut u64,
     ) -> ::std::os::raw::c_int,
@@ -251,7 +251,7 @@ pub struct SdJournalHApi {
     /// Function signature for [`sd_journal_get_monotonic_usec`].
     ///
     /// [`sd_journal_get_monotonic_usec`]: https://man7.org/linux/man-pages/man3/sd_journal_get_realtime_usec.3.html
-    sd_journal_get_monotonic_usec: unsafe extern fn(
+    sd_journal_get_monotonic_usec: unsafe extern "C" fn(
         j: *mut sd_journal,
         ret: *mut u64,
         ret_boot_id: *mut sd_id128_t,
@@ -260,7 +260,7 @@ pub struct SdJournalHApi {
     /// Function signature for [`sd_id128_get_boot`].
     ///
     /// [`sd_id128_get_boot`]: https://www.man7.org/linux/man-pages/man3/sd_id128_get_boot.3.html
-    sd_id128_get_boot: unsafe extern fn(
+    sd_id128_get_boot: unsafe extern "C" fn(
         j: *mut sd_journal,
         ret: *mut u64,
         ret_boot_id: *mut sd_id128_t,
@@ -269,7 +269,7 @@ pub struct SdJournalHApi {
     /// Function signature for [`sd_journal_get_cursor`].
     ///
     /// [`sd_journal_get_cursor`]: https://www.man7.org/linux/man-pages/man3/sd_journal_get_cursor.3.html
-    sd_journal_get_cursor: unsafe extern fn(
+    sd_journal_get_cursor: unsafe extern "C" fn(
         j: *mut sd_journal,
         cursor: *mut *mut ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int,
@@ -277,14 +277,14 @@ pub struct SdJournalHApi {
     /// Function signature for [`sd_journal_restart_data`].
     ///
     /// [`sd_journal_restart_data`]: https://man7.org/linux/man-pages/man3/sd_journal_get_data.3.html
-    sd_journal_restart_data: unsafe extern fn(
+    sd_journal_restart_data: unsafe extern "C" fn(
         j: *mut sd_journal,
     ) -> ::std::os::raw::c_int,
 
     /// Function signature for [`sd_journal_get_data`].
     ///
     /// [`sd_journal_get_data`]: https://www.man7.org/linux/man-pages/man3/sd_journal_get_data.3.html
-    sd_journal_get_data: unsafe extern fn(
+    sd_journal_get_data: unsafe extern "C" fn(
         j: *mut sd_journal,
         field: *const ::std::os::raw::c_char,
         data: *mut *const ::std::os::raw::c_void,
@@ -294,7 +294,7 @@ pub struct SdJournalHApi {
     /// Function signature for [`sd_journal_enumerate_available_data`].
     ///
     /// [`sd_journal_enumerate_available_data`]: https://man7.org/linux/man-pages/man3/sd_journal_get_data.3.html
-    sd_journal_enumerate_available_data: unsafe extern fn(
+    sd_journal_enumerate_available_data: unsafe extern "C" fn(
         j: *mut sd_journal,
         data: *mut *const ::std::os::raw::c_void,
         l: *mut size_t,
