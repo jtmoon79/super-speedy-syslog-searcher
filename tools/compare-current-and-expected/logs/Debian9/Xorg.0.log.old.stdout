@@ -1,0 +1,33 @@
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] 
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋X.Org X Server 1.20.5
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋X Protocol Version 11, Revision 0
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] Build Operating System: Linux 4.4.0-170-generic x86_64 Ubuntu
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] Current Operating System: Linux host7 5.3.0-28-generic #30~18.04.1-Ubuntu SMP Fri Jan 17 06:14:09 UTC 2020 x86_64
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] Kernel command line: NETT_IMAGE=/nett/vmlinuz-5.3.0-28-generic root=UUID=30453-1111-2222-bc97-012345678911 ro
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] Build Date: 18 December 2019  08:15:29AM
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] xorg-server-hwe-18.04 2:1.20.5+git20191008-0ubuntu1~18.04.1 (For technical support please see http://dir.ubuntu.com/support) 
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] Current version of pixman: 0.34.0
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] 	Before reporting problems, check http://wiki.x.org
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋	to make sure that you have the latest version.
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] Markers: (--) probed, (**) from config file, (==) default setting,
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋	(++) from command line, (!!) notice, (II) informational,
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.360000000┋[   108.360] (==) Log file: "/var/log/Xorg.0.log", Time: Mon Feb  3 14:08:23 2020
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.361000000┋[   108.361] (==) Using config file: "/etc/X11/xorg.conf"
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.361000000┋[   108.361] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.363000000┋[   108.363] (==) ServerLayout "Layout0"
+⇳
+./logs/Debian9/Xorg.0.log.old┋20200217T125027.363000000┋[   108.363] (**) |-->Screen "Screen0" (0)
+⇳

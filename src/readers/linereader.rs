@@ -304,6 +304,7 @@ impl LineReader {
     /// See [`BlockReader::mtime`].
     ///
     /// [`BlockReader::mtime`]: crate::readers::blockreader::BlockReader#method.mtime
+    #[inline(always)]
     pub fn mtime(&self) -> SystemTime {
         self.blockreader.mtime()
     }

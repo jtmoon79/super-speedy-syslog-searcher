@@ -17,6 +17,7 @@ use crate::tests::common::{
     FO_L_STR,
     FO_W8,
     FO_Z,
+    SYSTEMTIME_FALLBACK,
 };
 use crate::data::datetime::{
     LineIndex,
@@ -36,6 +37,7 @@ use crate::data::datetime::{
     DTFS_Tz,
     DTFS_Year,
     DTFS_Epoch,
+    DTFS_Uptime,
     DateTimeL,
     DateTimeLOpt,
     FixedOffset,
@@ -44,6 +46,7 @@ use crate::data::datetime::{
     DateTimeRegex_str,
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
+    SystemTime,
     Year,
     DATETIME_PARSE_DATAS,
     CGP_HOUR_ALL,
@@ -53,6 +56,7 @@ use crate::data::datetime::{
     CGP_FRACTIONAL3,
     CGP_FRACTIONAL6,
     CGP_FRACTIONAL9,
+    CGP_FRACTIONAL39,
     CGP_MONTH_ALL,
     CGN_ALL,
     CGP_DAY_ALL,
@@ -152,6 +156,7 @@ pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
     || pattern.contains(CGP_FRACTIONAL3)
     || pattern.contains(CGP_FRACTIONAL6)
     || pattern.contains(CGP_FRACTIONAL9)
+    || pattern.contains(CGP_FRACTIONAL39)
 }
 
 /// does regex pattern have a timezone?
@@ -294,7 +299,7 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 /// Must manually update the `test_matrix` range end value to the same as
 /// `DATETIME_PARSE_DATAS_LEN`.
 #[allow(clippy::zero_prefixed_literal)]
-#[test_matrix(0..173)]
+#[test_matrix(0..174)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
 
@@ -331,6 +336,10 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     match dtfs.epoch {
         DTFS_Epoch::s => dt_pat_min = 2,
         DTFS_Epoch::_none => {}
+    }
+    match dtfs.uptime {
+        DTFS_Uptime::u => dt_pat_min = 4,
+        DTFS_Uptime::_none => {}
     }
     assert_le!(
         dt_pat_min,
@@ -384,7 +393,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     if dtfs.has_month() {
         assert!(
             regex_pattern_has_month(regpat),
-            "regex_pattern has not month {:?}; declared at line {}",
+            "regex_pattern has no month {:?}; declared at line {}",
             regpat,
             dtpd._line_num
         );
@@ -576,14 +585,31 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     eprintln!("Check epoch {:?}…", dtfs.epoch);
     let rp_ss = regex_pattern_has_epoch(regpat);
     let dp_ss = dt_pattern_has_epoch(dtpat);
-    assert_eq!(
-        rp_ss, dp_ss,
-        "regex_pattern has epoch {}, datetime pattern has epoch {}; they must agree; declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}\n",
-        rp_ss, dp_ss,
-        dtpd._line_num,
-        regpat,
-        dtpat,
-    );
+    if !dtfs.has_uptime() {
+        assert_eq!(
+            rp_ss, dp_ss,
+            "regex_pattern has epoch {}, datetime pattern has epoch {}; they must agree; declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}\n",
+            rp_ss, dp_ss,
+            dtpd._line_num,
+            regpat,
+            dtpat,
+        );
+    } else {
+        assert!(
+            !rp_ss,
+            "regex_pattern has epoch {:?} but dtfs has uptime {:?}; declared at line {}",
+            regpat,
+            dtfs.uptime,
+            dtpd._line_num
+        );
+        assert!(
+            dp_ss,
+            "dt_pattern has epoch {:?} but dtfs has uptime {:?}; declared at line {}",
+            dtpat,
+            dtfs.uptime,
+            dtpd._line_num
+        );
+    }
     // check test data
     assert_gt!(dtpd._test_cases.len(), 0, "No test data for dtpd declared at line {}", dtpd._line_num);
     for test_case_ in dtpd._test_cases {
@@ -711,11 +737,17 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
         if !dtpd.dtfs.has_year() {
             year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
         }
+        let mtime_opt: Option<SystemTime> = if dtpd.dtfs.has_uptime() {
+            Some(*SYSTEMTIME_FALLBACK)
+        } else {
+            None
+        };
         let s = buffer_to_String_noraw(data);
         match bytes_to_regex_to_datetime(
             slice_,
             &index,
             &year_opt,
+            &mtime_opt,
             &FO_L,
             &FO_L_STR,
             #[cfg(any(debug_assertions, test))]

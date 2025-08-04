@@ -162,6 +162,8 @@ lazy_static! {
     pub static ref DT_1_E1: DateTimeL = ymdhmsm(&*FO_E1, 1970, 1, 12, 14, 46, 40, 456123);
     /// matches `DT_1`
     pub static ref TS_1: EpochMicroseconds = 1_000_000_456_123;
+    /// one day from epoch
+    pub static ref SYSTEMTIME_FALLBACK: SystemTime = SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(86400);
 }
 
 // ---------------------

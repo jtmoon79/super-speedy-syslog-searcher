@@ -49,6 +49,7 @@ use std::fmt;
 use std::thread;
 #[doc(hidden)]
 pub use std::time::{SystemTime, UNIX_EPOCH};
+use std::time::Duration as std_Duration;
 use std::sync::RwLock;
 
 #[doc(hidden)]
@@ -71,6 +72,7 @@ use ::jetscii;
 use ::lazy_static::lazy_static;
 use ::memchr;
 use ::more_asserts::{debug_assert_ge, debug_assert_le, debug_assert_lt};
+use ::numtoa::NumToA;  // adds `numtoa` method to numbers
 use ::once_cell::sync::OnceCell;
 use ::phf::phf_map;
 use ::phf::Map as PhfMap;
@@ -87,6 +89,11 @@ use ::unroll::unroll_for_loops;
 
 /// A _Year_ in a date
 pub type Year = i32;
+
+/// An _Uptime_ in a date, e.g. from `[    1.000043] kernel: Linux starting...`,
+/// the seconds parts, e.g. the `1`.
+/// This the default format for dmesg-style log files.
+pub type Uptime = i64;
 
 /// Crate `chrono` [`strftime`] formatting pattern, passed to
 /// chrono [`DateTime::parse_from_str`] or [`NaiveDateTime::parse_from_str`].
@@ -628,6 +635,18 @@ pub enum DTFS_Epoch {
     _none,
 }
 
+/// DateTime Format Specifier for an uptime, seconds since system boot.
+/// e.g. from log message `[    0.001000] kernel: Linux starting...`.
+/// This the default format for dmesg-style log files.
+#[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
+pub enum DTFS_Uptime {
+    /// system uptime in seconds
+    u,
+    /// none
+    _none,
+}
+
+
 /// `DTFSSet`, "DateTime Format Specifer Set", is essentially instructions
 /// to transcribe regex [`named capture groups`] to a
 /// chrono [`strftime`]-ready string,
@@ -765,6 +784,7 @@ pub struct DTFSSet<'a> {
     pub fractional: DTFS_Fractional,
     pub tz: DTFS_Tz,
     pub epoch: DTFS_Epoch,
+    pub uptime: DTFS_Uptime,
     /// strftime pattern passed to [`chrono::DateTime::parse_from_str`] or
     /// [`chrono::NaiveDateTime::parse_from_str`]
     /// in function [`datetime_parse_from_str`]. Directly relates to order of capture group extractions and `push_str`
@@ -852,6 +872,14 @@ impl DTFSSet<'_> {
         }
     }
 
+    /// does the `DTFSSet` expect an uptime?
+    pub const fn has_uptime(&self) -> bool {
+        match self.uptime {
+            DTFS_Uptime::u => true,
+            DTFS_Uptime::_none => false,
+        }
+    }
+
     /// does the `DTFSSet` expect to capture a sequence of two decimal digits?
     pub const fn has_d2(&self) -> bool {
         match self.year {
@@ -895,6 +923,10 @@ impl DTFSSet<'_> {
             DTFS_Epoch::s => return true,
             DTFS_Epoch::_none => {}
         }
+        match self.uptime {
+            DTFS_Uptime::u => return true,
+            DTFS_Uptime::_none => {}
+        }
 
         false
     }
@@ -914,6 +946,7 @@ impl fmt::Debug for DTFSSet<'_> {
             .field("fractional", &self.fractional)
             .field("tz", &self.tz)
             .field("year?", &self.has_year())
+            .field("uptime?", &self.has_uptime())
             .field("tz?", &self.has_tz())
             .field("pattern", &self.pattern)
             ;
@@ -1225,6 +1258,7 @@ const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSzc,
 };
 // single-digit month, single-digit hour
@@ -1238,6 +1272,7 @@ const DTFSS_YmsdkMS: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSzc,
 };
 const DTFSS_YmdHMSz: DTFSSet = DTFSSet {
@@ -1250,6 +1285,7 @@ const DTFSS_YmdHMSz: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSz,
 };
 const DTFSS_YmdHMSzc: DTFSSet = DTFSSet {
@@ -1262,6 +1298,7 @@ const DTFSS_YmdHMSzc: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zc,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSzc,
 };
 const DTFSS_YmdHMSzp: DTFSSet = DTFSSet {
@@ -1274,6 +1311,7 @@ const DTFSS_YmdHMSzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSzp,
 };
 const DTFSS_YmdHMSZ: DTFSSet = DTFSSet {
@@ -1286,6 +1324,7 @@ const DTFSS_YmdHMSZ: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSz,
 };
 
@@ -1299,6 +1338,7 @@ const DTFSS_YmdHMSf: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSfzc,
 };
 const DTFSS_YmdHMSfz: DTFSSet = DTFSSet {
@@ -1311,6 +1351,7 @@ const DTFSS_YmdHMSfz: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSfz,
 };
 const DTFSS_YmdHMSfzc: DTFSSet = DTFSSet {
@@ -1323,6 +1364,7 @@ const DTFSS_YmdHMSfzc: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::zc,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSfzc,
 };
 const DTFSS_YmdHMSfzp: DTFSSet = DTFSSet {
@@ -1335,6 +1377,7 @@ const DTFSS_YmdHMSfzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::zp,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSfzp,
 };
 const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
@@ -1347,6 +1390,7 @@ const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::Z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSfzc,
 };
 
@@ -1360,6 +1404,7 @@ const DTFSS_mdHMS: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_mdHMS,
 };
 const DTFSS_BdHMS: DTFSSet = DTFSSet {
@@ -1372,6 +1417,7 @@ const DTFSS_BdHMS: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_BdHMS,
 };
 const DTFSS_BdHMSZ: DTFSSet = DTFSSet {
@@ -1384,6 +1430,7 @@ const DTFSS_BdHMSZ: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_BdHMSZ,
 };
 const DTFSS_BdHMSY: DTFSSet = DTFSSet {
@@ -1396,6 +1443,7 @@ const DTFSS_BdHMSY: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_BdHMSY,
 };
 const DTFSS_BdHMSYZ: DTFSSet = DTFSSet {
@@ -1408,6 +1456,7 @@ const DTFSS_BdHMSYZ: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_BdHMSYZ,
 };
 const DTFSS_BdHMSYz: DTFSSet = DTFSSet {
@@ -1420,6 +1469,7 @@ const DTFSS_BdHMSYz: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_BdHMSYZ,
 };
 const DTFSS_BdHMSYzc: DTFSSet = DTFSSet {
@@ -1432,6 +1482,7 @@ const DTFSS_BdHMSYzc: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zc,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_BdHMSYZ,
 };
 const DTFSS_BdHMSYzp: DTFSSet = DTFSSet {
@@ -1444,6 +1495,7 @@ const DTFSS_BdHMSYzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_BdHMSYzp,
 };
 
@@ -1457,6 +1509,7 @@ const DTFSS_bdHMSY: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSY,
 };
 const DTFSS_bdHMSYf: DTFSSet = DTFSSet {
@@ -1469,6 +1522,7 @@ const DTFSS_bdHMSYf: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYf,
 };
 const DTFSS_bdHMSYZ: DTFSSet = DTFSSet {
@@ -1481,6 +1535,7 @@ const DTFSS_bdHMSYZ: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZ,
 };
 const DTFSS_bdHMSYz: DTFSSet = DTFSSet {
@@ -1493,6 +1548,7 @@ const DTFSS_bdHMSYz: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZz,
 };
 const DTFSS_bdHMSYzc: DTFSSet = DTFSSet {
@@ -1505,6 +1561,7 @@ const DTFSS_bdHMSYzc: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zc,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZc,
 };
 const DTFSS_bdHMSYzp: DTFSSet = DTFSSet {
@@ -1517,6 +1574,7 @@ const DTFSS_bdHMSYzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZp,
 };
 const DTFSS_bdHMSYfz: DTFSSet = DTFSSet {
@@ -1529,6 +1587,7 @@ const DTFSS_bdHMSYfz: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYfZz,
 };
 const DTFSS_bdHMSYfzc: DTFSSet = DTFSSet {
@@ -1541,6 +1600,7 @@ const DTFSS_bdHMSYfzc: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::zc,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYfZc,
 };
 const DTFSS_bdHMSYfzp: DTFSSet = DTFSSet {
@@ -1553,6 +1613,7 @@ const DTFSS_bdHMSYfzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::zp,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYfZp,
 };
 
@@ -1566,6 +1627,7 @@ const DTFSS_YbdHMSzc: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zc,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZc,
 };
 const DTFSS_YbdHMSzp: DTFSSet = DTFSSet {
@@ -1578,6 +1640,7 @@ const DTFSS_YbdHMSzp: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::zp,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZp,
 };
 const DTFSS_YbdHMSz: DTFSSet = DTFSSet {
@@ -1590,6 +1653,7 @@ const DTFSS_YbdHMSz: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZz,
 };
 const DTFSS_YbdHMSZ: DTFSSet = DTFSSet {
@@ -1602,6 +1666,7 @@ const DTFSS_YbdHMSZ: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::Z,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZ,
 };
 const DTFSS_YbdHMS: DTFSSet = DTFSSet {
@@ -1614,6 +1679,7 @@ const DTFSS_YbdHMS: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSYZc,
 };
 
@@ -1627,6 +1693,7 @@ const DTFSS_ybdHMS: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSyZc,
 };
 
@@ -1640,6 +1707,7 @@ const DTFSS_YmdHM: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_mdHMYZc,
 };
 
@@ -1653,8 +1721,11 @@ const DTFSS_s: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::_none,
     tz: DTFS_Tz::_none,
     epoch: DTFS_Epoch::s,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_s,
 };
+
+/// for epoch syslog lines
 const DTFSS_sf: DTFSSet = DTFSSet {
     year: DTFS_Year::_none,
     month: DTFS_Month::_none,
@@ -1665,22 +1736,25 @@ const DTFSS_sf: DTFSSet = DTFSSet {
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::_none,
     epoch: DTFS_Epoch::s,
+    uptime: DTFS_Uptime::_none,
     pattern: DTP_sf,
 };
 
-// TODO: Issue #4 handle dmesg
-// special case for `dmesg` syslog lines
-//pub(crate) const DTFSS_u: DTFSSet = DTFSSet {
-//    year: DTFS_Year::_fill,
-//    month: DTFS_Month::m,
-//    day: DTFS_Day::_e_or_d,
-//    hour: DTFS_Hour::H,
-//    minute: DTFS_Minute::M,
-//    second: DTFS_Second::S,
-//    fractional: DTFS_Fractional::_none,
-//    tz: DTFS_Tz::_fill,
-//    pattern: DTP_YmdHMSzc,
-//};
+/// for `dmesg` syslog lines, e.g.
+/// `[    0.4074] kernel: Linux version 5.15.0-47-generic (buildd@lcy02-amd64-060)`
+pub(crate) const DTFSS_u: DTFSSet = DTFSSet {
+    year: DTFS_Year::_none,
+    month: DTFS_Month::_none,
+    day: DTFS_Day::_none,
+    hour: DTFS_Hour::_none,
+    minute: DTFS_Minute::_none,
+    second: DTFS_Second::_none,
+    fractional: DTFS_Fractional::f,
+    tz: DTFS_Tz::_none,
+    epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::u,
+    pattern: DTP_sf,
+};
 
 /// to aid testing
 // check `DTP_ALL` has all `DTP_` vars
@@ -1727,15 +1801,15 @@ const CGN_SECOND: &CaptureGroupName = "second";
 const CGN_FRACTIONAL: &CaptureGroupName = "fractional";
 /// corresponds to `strftime` specifier `%Z`, `%z`, `%:z`, `%#z`
 const CGN_TZ: &CaptureGroupName = "tz";
-// special case: `dmesg` uptime
-//const CGN_UPTIME: &CaptureGroupName = "uptime";
 /// special case: Unix epoch seconds
 const CGN_EPOCH: &CaptureGroupName = "epoch";
+/// special case: `dmesg` uptime
+const CGN_UPTIME: &CaptureGroupName = "uptime";
 
 /// all capture group names, for testing
 #[doc(hidden)]
 #[cfg(test)]
-pub(crate) const CGN_ALL: [&CaptureGroupName; 10] = [
+pub(crate) const CGN_ALL: [&CaptureGroupName; 11] = [
     CGN_YEAR,
     CGN_MONTH,
     CGN_DAY,
@@ -1745,7 +1819,7 @@ pub(crate) const CGN_ALL: [&CaptureGroupName; 10] = [
     CGN_SECOND,
     CGN_FRACTIONAL,
     CGN_TZ,
-    //CGN_UPTIME,
+    CGN_UPTIME,
     CGN_EPOCH,
 ];
 
@@ -1820,8 +1894,17 @@ pub const CGP_FRACTIONAL3: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{3
 pub const CGP_FRACTIONAL6: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{6})";
 /// Like [`CGP_FRACTIONAL`] but only matches 9 digits, `%9f`.
 pub const CGP_FRACTIONAL9: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{9})";
-/// Regex capture group pattern for dmesg uptime fractional seconds in logs
-//pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9}\.[[:digit:]]{3,9})";
+/// Like [`CGP_FRACTIONAL`] but matches 3 to 9 digits, `%f`.
+pub const CGP_FRACTIONAL39: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{3,9})";
+/// Regex capture group pattern for dmesg uptime seconds.
+/// 9 digits of seconds covers uptime of 11574 days,
+/// e.g. `[    1.407] kernel: Linux version 5.15.0-47-generic (buildd@lcy02-amd64-060)`
+/// the `1`
+pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9})";
+/// Regex capture group pattern for dmesg uptime seconds + fractional,
+/// e.g. from `[    1.407456] kernel: Linux version 5.15.0-47-generic (buildd@lcy02-amd64-060)`
+/// the `1.407456`
+pub const CGP_UPTIME_F: &CaptureGroupPattern = concatcp!(CGP_UPTIME, r"\.", CGP_FRACTIONAL39);
 /// Regex capture group pattern for Unix epoch in seconds
 /// limited to datetimes from year 2000 and afterward.
 /// Low numbers are likely to be errant matches, e.g. random string "55"
@@ -2514,7 +2597,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<OnceCell<DateTimeRegex>>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 173;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 174;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -5054,6 +5137,29 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // dmesg format, example with offset:
+    //
+    //               1         2         3         4
+    //     01234567890123456789012345678901234567890
+    //     [    0.000000] kernel: Linux version 5.15.0-43-generic (build@lcy02-amd64-076) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #46-Ubuntu SMP Tue Jul 12 10:30:17 UTC 2022 (Ubuntu 5.15.0-43.46-generic 5.15.39)
+    //     [    0.000001] kernel: Command line: BOOT_IMAGE=/boot/vmlinuz-5.15.0-43-generic root=UUID=136735fa-5cc1-470f-9359-ee736e42f844 ro console=tty1 console=ttyS0 net.ifnames=0 biosdevname=0
+    //     [    0.000002] kernel: KERNEL supported cpus:
+    //     [    0.000002] kernel:   Intel GenuineIntel
+    //
+    DTPD!(
+        concatcp!(r"^\[", RP_BLANKSq, CGP_UPTIME_F, r"\]", RP_BLANK),
+        DTFSS_u, 0, 20, CGN_UPTIME, CGN_FRACTIONAL,
+        &[
+            (5, 13, (O_L, 1970, 1, 2, 0, 0, 1, 3000000), "[    1.003000] kernel: Linux version 5.15.0-48-generic (buildd@lcy02-amd64-080) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #54-Ubuntu SMP Fri Aug 26 13:26:29 UTC 2022 (Ubuntu 5.15.0-48.54-generic 5.15.53)"),
+            (4, 13, (O_L, 1970, 1, 2, 0, 0, 15, 364159000), "[   15.364159] kernel: ISO 9660 Extensions: RRIP_1991A"),
+            (1, 15, (O_L, 1970, 1, 22, 0, 40, 35, 564122000), "[1730435.564122] wireguard: wg1: Handshake for peer 481 ((einval)) did not complete after 20 attempts, giving up"),
+        ],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    //
     // same pattern as prior without specifying leading RP_LEVELS, e.g. `DEBUG`, with leading day of week
     // XXX: These next four patterns capture day of week which is redundant with numeric day of month.
     //      The next next four patterns do the same but without the day of week.
@@ -5231,28 +5337,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    // ---------------------------------------------------------------------------------------------
-    //
-    // TODO: Issue #4 handle dmesg
-    //
-    // dmesg format, example with offset:
-    //
-    //               1         2         3         4
-    //     01234567890123456789012345678901234567890
-    //     [    0.000000] kernel: Linux version 5.15.0-43-generic (build@lcy02-amd64-076) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #46-Ubuntu SMP Tue Jul 12 10:30:17 UTC 2022 (Ubuntu 5.15.0-43.46-generic 5.15.39)
-    //     [    0.000000] kernel: Command line: BOOT_IMAGE=/boot/vmlinuz-5.15.0-43-generic root=UUID=136735fa-5cc1-470f-9359-ee736e42f844 ro console=tty1 console=ttyS0 net.ifnames=0 biosdevname=0
-    //     [    0.000000] kernel: KERNEL supported cpus:
-    //     [    0.000000] kernel:   Intel GenuineIntel
-    //
-    //DTPD!(
-    //    concatcp!(r"^\[", RP_BLANKSq, CGP_UPTIME, r"\]", RP_BLANK),
-    //    DTFSS_u, 0, 20, CGN_UPTIME, CGN_UPTIME,
-    //    &[
-    //        (0, 0, DUMMY_ARGS, "[    0.000000] kernel: KERNEL supported cpus:"),
-    //        (0, 0, DUMMY_ARGS, "[    5.364159] kernel: ISO 9660 Extensions: RRIP_1991A"),
-    //    ],
-    //    line!(),
-    //),
 ];
 
 // TODO: [2023/04/29] the initialisation of `DATETIME_PARSE_DATAS_REGEX_VEC` takes much
@@ -5837,7 +5921,7 @@ fn month_bB_to_month_m_bytes(
 }
 
 /// Put [`Captures`] into `buffer` in a particular order and formatting.
-/// This is to prepare the matched data for passing to a later call to
+/// This is to prepare the regex matched data for passing to a later call to
 /// [`DateTime::parse_from_str`] (called outside of this function).
 ///
 /// This bridges the crate `regex` regular expression pattern strings,
@@ -5851,6 +5935,9 @@ fn month_bB_to_month_m_bytes(
 ///
 /// Transforms `%e` acceptable value to `%d` acceptable value.
 ///
+/// Transforms an uptime (seconds since system boot) to current seconds offset
+/// since UNIX_EPOCH. This allows later conversion via chrono strftime `%s`.
+///
 /// Transforms timezone offset inidicator MINUS SIGN `−` (U+2212) into
 /// HYPHEN-MINUS `-` (U+2D), e.g `−0700` becomes `-0700`.
 ///
@@ -5862,6 +5949,7 @@ pub(crate) fn captures_to_buffer_bytes(
     buffer: &mut [u8],
     captures: &regex::bytes::Captures,
     year_opt: &Option<Year>,
+    mtime_opt: &Option<SystemTime>,
     tz_offset_string: &String,
     dtfs: &DTFSSet,
 ) -> usize {
@@ -5873,8 +5961,80 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.epoch {
         DTFS_Epoch::s => {
             copy_capturegroup_to_buffer!(CGN_EPOCH, captures, buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         DTFS_Epoch::_none => {}
+    }
+
+    defo!("process <uptime> {:?}…", dtfs.uptime);
+    match dtfs.uptime {
+        DTFS_Uptime::u => {
+            // copy the `uptime` capture group to a temporary local buffer
+            let mut at_uptime = 0;
+            const BUFLEN: usize = 30;
+            let mut buf_uptime: [u8; BUFLEN] = [0; BUFLEN];
+            copy_capturegroup_to_buffer!(CGN_UPTIME, captures, buf_uptime, at_uptime);
+            defo!("buf_uptime {:?}", buffer_to_String_noraw(&mut buf_uptime));
+            let buf_uptime_s: &str = match std::str::from_utf8(&buf_uptime[..at_uptime]) {
+                Ok(s) => s,
+                Err(_err) => {
+                    de_err!("uptime str::from_utf8 error: {}", _err);
+                    // fallback to zero
+                    "0"
+                }
+            };
+            defo!("buf_uptime_s {:?}", buf_uptime_s);
+            // extact the uptime value string to an `Uptime` value
+            let uptime_val: Uptime = match Uptime::from_str_radix(buf_uptime_s, 10) {
+                Ok(uptime_) => uptime_,
+                Err(_err) => {
+                    de_err!("uptime parse error: {}", _err);
+                    // fallback to zero
+                    0
+                }
+            };
+            defo!("uptime_val {:?}", uptime_val);
+
+            let mtime: SystemTime = match mtime_opt {
+                Some(mtime_) => *mtime_,
+                None => {
+                    debug_panic!("No mtime_opt provided yet processing an Uptime");
+                    UNIX_EPOCH + std_Duration::from_secs(0)
+                }
+            };
+            defo!("mtime {:?}", mtime);
+
+            // convert the uptime value to a `std::time::Duration`
+            let uptime_dur: std_Duration = std_Duration::new(uptime_val as u64, 0);
+            defo!("uptime_dur {:?}", uptime_dur);
+            // add the uptime value to the file mtime value
+            let mtime_plus_uptime: SystemTime = match mtime.checked_add(uptime_dur) {
+                Some(st) => st,
+                None => {
+                    de_err!("mtime.checked_add({:?}) failed", uptime_dur);
+                    UNIX_EPOCH + std_Duration::from_secs(0)
+                }
+            };
+            defo!("mtime_plus_uptime {:?}", mtime_plus_uptime);
+            // convert the `mtime_plus_uptime` value to a string to a [u8]
+            buf_uptime.fill(0);
+            let mtime_plus_uptime_dur = match mtime_plus_uptime.duration_since(SystemTime::UNIX_EPOCH) {
+                Ok(dur) => dur,
+                Err(_err) => {
+                    debug_panic!("mtime_plus_uptime.duration_since(UNIX_EPOCH) failed: {}", _err);
+                    // fallback to zero
+                    std_Duration::from_secs(0)
+                }
+            };
+            let mtime_plus_uptime_n = mtime_plus_uptime_dur.as_secs();
+            defo!("mtime_plus_uptime_n {:?}", mtime_plus_uptime_n);
+            let buf_uptime_plus = mtime_plus_uptime_n.numtoa(10, &mut buf_uptime);
+            defo!("buf_uptime_plus {:?}", buffer_to_String_noraw(&buf_uptime_plus));
+            // copy the local temporary buffer to the main buffer
+            copy_slice_to_buffer!(&buf_uptime_plus, buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+        }
+        DTFS_Uptime::_none => {}
     }
 
     // year
@@ -5883,6 +6043,7 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Year::Y
         | DTFS_Year::y => {
             copy_capturegroup_to_buffer!(CGN_YEAR, captures, buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         | DTFS_Year::_fill => {
             match captures
@@ -5891,6 +6052,7 @@ pub(crate) fn captures_to_buffer_bytes(
             {
                 Some(match_) => {
                     copy_slice_to_buffer!(match_.as_bytes(), buffer, at);
+                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                 }
                 None => {
                     match year_opt {
@@ -5900,10 +6062,12 @@ pub(crate) fn captures_to_buffer_bytes(
                             debug_assert_eq!(year_s.len(), 4, "Bad year string {:?}", year_s);
                             defo!("using fallback year {:?}", year_s);
                             copy_slice_to_buffer!(year_s.as_bytes(), buffer, at);
+                            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                         }
                         None => {
                             defo!("using hardcoded dummy year {:?}", YEAR_FALLBACKDUMMY);
                             copy_slice_to_buffer!(YEAR_FALLBACKDUMMY.as_bytes(), buffer, at);
+                            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                         }
                     }
                 }
@@ -5916,6 +6080,7 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.month {
         DTFS_Month::m => {
             copy_capturegroup_to_buffer!(CGN_MONTH, captures, buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         DTFS_Month::ms => {
             let month = captures.name(CGN_MONTH).as_ref().unwrap().as_bytes();
@@ -5931,6 +6096,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_slice_to_buffer!(month, buffer, at);
                 }
             }
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         DTFS_Month::b | DTFS_Month::B => {
             month_bB_to_month_m_bytes(
@@ -5941,6 +6107,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     .as_bytes(),
                 &mut buffer[at..at + 2],
             );
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
             at += 2;
         }
         DTFS_Month::_none => {}
@@ -5961,6 +6128,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     // change day "8" (%e) to "08" (%d)
                     copy_u8_to_buffer!(b'0', buffer, at);
                     copy_u8_to_buffer!(day[0], buffer, at);
+                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                 }
                 2 => {
                     match day[0] {
@@ -5973,6 +6141,7 @@ pub(crate) fn captures_to_buffer_bytes(
                             copy_slice_to_buffer!(day, buffer, at);
                         }
                     }
+                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                 }
                 _ => {
                     panic!("bad day.len() {}", day.len());
@@ -5987,6 +6156,7 @@ pub(crate) fn captures_to_buffer_bytes(
     // day-time divider
     defo!("process date-time divider…");
     copy_u8_to_buffer!(b'T', buffer, at);
+    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
     // hour
     defo!("process <hour> {:?}…", dtfs.hour);
     match dtfs.hour {
@@ -5994,6 +6164,7 @@ pub(crate) fn captures_to_buffer_bytes(
         | DTFS_Hour::l
         | DTFS_Hour::H => {
             copy_capturegroup_to_buffer!(CGN_HOUR, captures, buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         DTFS_Hour::k => {
             let hour: &[u8] = captures.name(CGN_HOUR).as_ref().unwrap().as_bytes();
@@ -6009,13 +6180,17 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_slice_to_buffer!(hour, buffer, at);
                 }
             }
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         DTFS_Hour::_none => {}
     }
     // minute
     defo!("process <minute> {:?}…", dtfs.minute);
     match dtfs.minute {
-        DTFS_Minute::M => copy_capturegroup_to_buffer!(CGN_MINUTE, captures, buffer, at),
+        DTFS_Minute::M => {
+            copy_capturegroup_to_buffer!(CGN_MINUTE, captures, buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+        },
         DTFS_Minute::_none => {}
     }
     // second
@@ -6023,9 +6198,11 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.second {
         DTFS_Second::S => {
             copy_capturegroup_to_buffer!(CGN_SECOND, captures, buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         DTFS_Second::_fill => {
             copy_slice_to_buffer!(b"00", buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         DTFS_Second::_none => {}
     }
@@ -6035,6 +6212,7 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Fractional::f => {
             defo!("matched DTFS_Fractional::f");
             copy_u8_to_buffer!(b'.', buffer, at);
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
             let fractional: &[u8] = match captures.name(CGN_FRACTIONAL).as_ref() {
                 Some(match_) => {
                     match_.as_bytes()
@@ -6095,9 +6273,11 @@ pub(crate) fn captures_to_buffer_bytes(
                     de_err!("unexpected fractional string match {:?} length {} bytes", fractional, len)
                 }
             }
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
         DTFS_Fractional::_none => {}
     }
+
     // tz
     defo!("process <tz> {:?}…", dtfs.tz);
     match dtfs.tz {
@@ -6122,12 +6302,14 @@ pub(crate) fn captures_to_buffer_bytes(
                     // found Unicode "minus sign", replace with ASCII
                     // "hyphen-minus"
                     copy_slice_to_buffer!(HYPHEN_MINUS, buffer, at);
+                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                     // copy data remaining after Unicode "minus sign"
                     match std::str::from_utf8(&captureb) {
                         Ok(val) => {
                             match val.char_indices().nth(1) {
                                 Some((offset, _)) => {
                                     copy_slice_to_buffer!(val[offset..].as_bytes(), buffer, at);
+                                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                                 }
                                 None => {
                                     // something is wrong with captured value
@@ -6142,6 +6324,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 }
                 false => {
                     copy_slice_to_buffer!(captureb, buffer, at);
+                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                 }
             }
         }
@@ -6188,6 +6371,7 @@ pub(crate) fn captures_to_buffer_bytes(
         }
         DTFS_Tz::_none => {}
     }
+    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
 
     defx!("return {:?}", at);
 
@@ -6204,6 +6388,7 @@ pub fn bytes_to_regex_to_datetime(
     data: &[u8],
     index: &DateTimeParseInstrsIndex,
     year_opt: &Option<Year>,
+    mtime_opt: &Option<SystemTime>,
     tz_offset: &FixedOffset,
     tz_offset_string: &String,
     #[cfg(any(debug_assertions, test))]
@@ -6331,6 +6516,7 @@ pub fn bytes_to_regex_to_datetime(
         &mut buffer,
         &captures,
         year_opt,
+        mtime_opt,
         tz_offset_string,
         &dtpd.dtfs
     );

@@ -21,6 +21,7 @@ use crate::data::datetime::{
     DateTimeParseInstr,
     DateTimePattern_str,
     FixedOffset,
+    SystemTime,
     TimeZone,
     Year,
     DateTimeParseInstrsIndex,
@@ -94,6 +95,7 @@ use crate::tests::common::{
     FO_P8,
     FO_M5,
     FO_M8,
+    SYSTEMTIME_FALLBACK,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
 
@@ -365,6 +367,7 @@ fn test_find_datetime_in_line() {
     let mut ezcheck12d2_miss: Count = 0;
     let mut ezcheck12d2_hit_max: LineIndex = 0;
 
+    let mtime: SystemTime = *SYSTEMTIME_FALLBACK;
     for (i, dtpi) in DATETIME_PARSE_DATAS
         .iter()
         .enumerate()
@@ -391,6 +394,7 @@ fn test_find_datetime_in_line() {
                 &indexes,
                 1 as CharSz,
                 &Some(year),
+                &Some(mtime),
                 &fo,
                 &fo_string,
                 &mut get_boxptrs_singleptr,
@@ -453,6 +457,7 @@ fn test_find_datetime_in_line() {
 #[test]
 fn test_parse_datetime_in_line_cached__no_cache() {
     let mut slr = new_SyslineReader(&*NTF_LOG_EMPTY_FPATH, 0x100, *FO_L);
+    slr.set_mtime(*SYSTEMTIME_FALLBACK);
     slr.LRU_cache_disable();
 
     for (i, dtpi) in DATETIME_PARSE_DATAS
@@ -5554,13 +5559,13 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    346,
+    348,
     0,
     0,
     0,
     0,
     0,
-    24,
+    26,
     0,
     7,
     322,
@@ -5593,13 +5598,13 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    346,
+    348,
     0,
     0,
     0,
     0,
     0,
-    24,
+    26,
     0,
     7,
     322,
@@ -5632,13 +5637,13 @@ fn test_ezcheck_slice(
     2,
     0,
     0,
-    346,
+    348,
     0,
     0,
     0,
     0,
     0,
-    24,
+    26,
     0,
     7,
     322,

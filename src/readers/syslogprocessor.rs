@@ -947,9 +947,8 @@ impl SyslogProcessor {
         self.processingstage = ProcessingStage::Stage2FindDt;
 
         // datetime formats without a year requires special handling
-        if !self
-            .syslinereader
-            .dt_pattern_has_year()
+        if !self.syslinereader.dt_pattern_has_year() &&
+            !self.syslinereader.dt_pattern_uptime()
         {
             defo!("!dt_pattern_has_year()");
             let mtime: SystemTime = self.mtime();

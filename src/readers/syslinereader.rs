@@ -665,8 +665,15 @@ impl SyslineReader {
     /// See [`BlockReader::mtime`].
     ///
     /// [`BlockReader::mtime`]: crate::readers::blockreader::BlockReader#method.mtime
+    #[inline(always)]
     pub fn mtime(&self) -> SystemTime {
         self.linereader.mtime()
+    }
+
+    /// For testing purposes only.
+    #[cfg(test)]
+    pub fn set_mtime(&mut self, mtime: SystemTime) {
+        self.linereader.blockreader.file_metadata_modified = mtime;
     }
 
     /// `Count` of `Sysline`s processed so far, i.e. `self.syslines_count`.
@@ -710,7 +717,24 @@ impl SyslineReader {
         dtpd.dtfs.has_year()
     }
 
-    /// eEable internal LRU cache used by `find_sysline` and
+    /// Is the `dt_pattern` an uptime?
+    pub fn dt_pattern_uptime(&self) -> bool {
+        #[cfg(any(debug_assertions, test))]
+        {
+            if !self.syslines.is_empty() {
+                e_wrn!(
+                    "called dt_pattern_uptime() without having processed {} syslines",
+                    self.syslines.len()
+                );
+            }
+        }
+        let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
+        defñ!("dtpd line {:?} return {}", dtpd._line_num, dtpd.dtfs.has_uptime());
+
+        dtpd.dtfs.has_uptime()
+    }
+
+    /// Enable internal LRU cache used by `find_sysline` and
     /// `parse_datetime_in_line`.
     ///
     /// Returns prior value of `find_sysline_lru_cache_enabled`.
@@ -1202,6 +1226,7 @@ impl SyslineReader {
         parse_data_indexes: &DateTimeParseDatasIndexes,
         charsz: CharSz,
         year_opt: &Option<Year>,
+        mtime_opt: &Option<SystemTime>,
         tz_offset: &FixedOffset,
         tz_offset_string: &String,
         get_boxptrs_singleptr: &mut Count,
@@ -1378,6 +1403,7 @@ impl SyslineReader {
                     slice_,
                     index,
                     year_opt,
+                    mtime_opt,
                     tz_offset,
                     tz_offset_string,
                     #[cfg(any(debug_assertions, test))]
@@ -1674,11 +1700,13 @@ impl SyslineReader {
                 .map(|(k, _v)| k), // copy only the key (first tuple item) which is an index
         );
         defo!("indexes {:?}", indexes);
+        let mtime: SystemTime = self.mtime();
         let result: ResultFindDateTime = SyslineReader::find_datetime_in_line(
             line,
             &indexes,
             charsz,
             year_opt,
+            &Some(mtime),
             &self.tz_offset,
             &self.tz_offset_string,
             &mut self.get_boxptrs_singleptr,
