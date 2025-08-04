@@ -26,7 +26,7 @@ Datetime filters may be passed to narrow the search to a datetime range.
 
 `s4` can read standardized log message formats like RFC 3164 and RFC 5424
 ("syslog"),
-Red Hat Audit logs, strace output, and can read many non-standardized ad-hoc log
+Red Hat Audit logs, strace output, dmesg logs, and can read many non-standardized ad-hoc log
 message formats, including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
@@ -511,6 +511,7 @@ See the real-world example rationale in the section below,
   - [Red Hat Audit Log] files
   - [strace] output files with options `-ttt` or `--timestamps`,
     i.e. Unix epoch plus optional milliseconds, microseconds, or nanoseconds
+  - [dmesg] style logs
   - binary user accounting records files
     ([`acct`, `pacct`], [`lastlog`], [`utmp`, `utmpx`])
     from multiple Operating Systems and CPU architectures
@@ -531,6 +532,7 @@ See the real-world example rationale in the section below,
 [`acct`, `pacct`]: https://www.man7.org/linux/man-pages/man5/acct.5.html
 [`lastlog`]: https://man.netbsd.org/lastlog.5
 [`utmp`, `utmpx`]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
+[dmesg]: https://superuser.com/questions/565927/differences-in-var-log-syslog-dmesg-messages-log-files
 [Internet Message Format (RFC 2822)]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
 [The BSD syslog Protocol (RFC 3164)]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
 [Date and Time on the Internet: Timestamps (RFC 3339)]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
@@ -728,13 +730,13 @@ Binary formats supported:
 
 Ad-hoc text formats:
 
-|Program        |Ad-hoc text formats|Red Hat Audit Log|strace|Apache Common Log Format|
-|-              |-                  |-                |-     |-                       |
-|`grep \| sort` |‼                  |!                |✔     |‼                       |
-|`s4`           |✔                  |✔               |✔     |✔                      |
-|`lnav`         |‼                  |‼                |‼     |✔                      |
-|`logmerger`    |‼                  |‼                |✔     |‼                       |
-|`tl`           |✗                  |✗               |✗     |✔                       |
+|Program        |Ad-hoc text formats|Red Hat Audit Log|strace|Apache Common Log Format|dmesg|
+|-              |-                  |-                |-     |-                       |-    |
+|`grep \| sort` |‼                  |!                |✔     |‼                       |✗   |
+|`s4`           |✔                  |✔               |✔     |✔                      |✔   |
+|`lnav`         |‼                  |‼                |‼     |✔                       |✗   |
+|`logmerger`    |‼                  |‼                |✔     |‼                       |✗   |
+|`tl`           |✗                  |✗               |✗     |✔                       |✗   |
 
 All programs besides `s4` fail to merge different text log formats.
 
@@ -897,6 +899,12 @@ file `/var/log/dpkg.log`
 
 ```text
 2022-10-10 15:15:02 upgrade gpgv:amd64 2.2.27-2 2.2.27-2+deb11u1
+```
+
+file `/var/log/dmesg`
+
+```text
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
 ```
 
 file `/var/log/kern.log`
