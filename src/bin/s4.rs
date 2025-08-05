@@ -959,9 +959,9 @@ fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
     }
 }
 
-// regular expression processing of a user-passed duration string like `"-4m2s"`
-// becomes duration of 4 minutes + 2 seconds
-// helper function to `process_dt`
+/// regular expression processing of a user-passed duration string like `"-4m2s"`
+/// becomes duration of 4 minutes + 2 seconds
+/// helper function to `process_dt`
 fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)> {
     defn!("({:?})", val);
 
@@ -1118,11 +1118,11 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
     Some((duration, duration_offset_type))
 }
 
-// Process duration string like `"-4m2s"` as relative offset of now,
-// or relative offset of other user-passed datetime argument (`dt_other`).
-// `val="-1d"` is one day ago.
-// `val="+1m"` is one day added to the `dt_other`.
-// helper function to function `process_dt`.
+/// Process duration string like `"-4m2s"` as relative offset of now,
+/// or relative offset of other user-passed datetime argument (`dt_other`).
+/// `val="-1d"` is one day ago.
+/// `val="+1m"` is one day added to the `dt_other`.
+/// helper function to function `process_dt`.
 fn string_to_rel_offset_datetime(
     val: &String,
     tz_offset: &FixedOffset,
