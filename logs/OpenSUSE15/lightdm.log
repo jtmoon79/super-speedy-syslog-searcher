@@ -1,0 +1,22 @@
+[+0.00s] DEBUG: Logging to /var/log/lightdm/lightdm.log
+[+0.00s] DEBUG: Starting Light Display Manager 1.32.0, UID=0 PID=925
+[+0.00s] DEBUG: Loading configuration dirs from /usr/share/lightdm/lightdm.conf.d
+[+0.00s] DEBUG: Loading configuration from /usr/share/lightdm/lightdm.conf.d/50-suse-defaults.conf
+[+0.00s] DEBUG: Loading configuration dirs from /usr/local/share/lightdm/lightdm.conf.d
+[+0.00s] DEBUG: Loading configuration dirs from /etc/xdg/lightdm/lightdm.conf.d
+[+0.00s] DEBUG: Loading configuration from /etc/lightdm/lightdm.conf
+[+0.00s] DEBUG: Registered seat module local
+[+0.00s] DEBUG: Registered seat module xremote
+[+0.00s] DEBUG: Using D-Bus name org.freedesktop.DisplayManager
+...
+[+2147.35s] DEBUG: Seat seat0: Display server stopped
+[+2147.35s] DEBUG: Session pid=1051: Exited with return value 1
+[+2147.35s] DEBUG: Seat seat0: Session stopped
+[+2147.35s] DEBUG: Launching process 5411: /usr/etc/X11/xdm/Xreset
+[+2147.37s] DEBUG: Process 5411 exited with return value 0
+[+2147.37s] DEBUG: Seat seat0: Exit status of /usr/etc/X11/xdm/Xreset: 0
+[+2147.37s] DEBUG: Seat seat0: Stopped
+[+2147.37s] DEBUG: Display manager stopped
+[+2147.37s] DEBUG: Stopping daemon
+[+2147.37s] DEBUG: Exiting with return value 0
+

@@ -53,6 +53,7 @@ use crate::data::datetime::{
     CGP_MINUTE,
     CGP_SECOND,
     CGP_FRACTIONAL,
+    CGP_FRACTIONAL23,
     CGP_FRACTIONAL3,
     CGP_FRACTIONAL6,
     CGP_FRACTIONAL9,
@@ -153,6 +154,7 @@ pub fn regex_pattern_has_second(pattern: &DateTimeRegex_str) -> bool {
 /// does regex pattern have a fractional second?
 pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
     pattern.contains(CGP_FRACTIONAL)
+    || pattern.contains(CGP_FRACTIONAL23)
     || pattern.contains(CGP_FRACTIONAL3)
     || pattern.contains(CGP_FRACTIONAL6)
     || pattern.contains(CGP_FRACTIONAL9)
@@ -299,7 +301,7 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 /// Must manually update the `test_matrix` range end value to the same as
 /// `DATETIME_PARSE_DATAS_LEN`.
 #[allow(clippy::zero_prefixed_literal)]
-#[test_matrix(0..174)]
+#[test_matrix(0..175)]
 fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     stack_offset_set(Some(2));
 
@@ -581,7 +583,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
             );
         }
     }
-    // check epoch
+    // check epoch and uptime
     eprintln!("Check epoch {:?}…", dtfs.epoch);
     let rp_ss = regex_pattern_has_epoch(regpat);
     let dp_ss = dt_pattern_has_epoch(dtpat);

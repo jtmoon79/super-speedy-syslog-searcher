@@ -24,15 +24,15 @@ File: ./logs/Windows10Pro/debug/mrt.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  12, miss  87, 12.1%
       caching: LineReader::find_line() LRU cache                   : hit  12, miss  51, 19.0%, put  49
-      copying: SyslineReader::get_boxptrs()                        : sgl 755, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 759, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  55,  8.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  22, miss  32, 40.7%, largest skipped 87
+      optimize:SyslineReader::ezcheckd2                            : hit  24, miss  34, 41.4%, largest skipped 87
       optimize:SyslineReader::ezcheck12d2                          : hit 250, miss 455, 35.5%, largest skipped 87
-      process: regex captures attempted                            : 487
+      process: regex captures attempted                            : 489
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 5
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 174
-Regex patterns compiled: 174
+Regex patterns known   : 175
+Regex patterns compiled: 175
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 7

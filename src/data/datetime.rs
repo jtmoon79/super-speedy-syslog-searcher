@@ -1888,6 +1888,8 @@ pub const CGP_SECOND: &CaptureGroupPattern = r"(?P<second>[012345][[:digit:]]|60
 /// function `captures_to_buffer_bytes`. Then it is parsed by
 /// `datetime_parse_from_str` using `%f` specifier.
 pub const CGP_FRACTIONAL: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{1,9})";
+/// Like [`CGP_FRACTIONAL`] but only matches 2 digits, `%2f`.
+pub const CGP_FRACTIONAL23: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{2,3})";
 /// Like [`CGP_FRACTIONAL`] but only matches 3 digits, `%3f`.
 pub const CGP_FRACTIONAL3: &CaptureGroupPattern = r"(?P<fractional>[[:digit:]]{3})";
 /// Like [`CGP_FRACTIONAL`] but only matches 6 digits, `%6f`.
@@ -1905,6 +1907,8 @@ pub const CGP_UPTIME: &CaptureGroupPattern = r"(?P<uptime>[[:digit:]]{1,9})";
 /// e.g. from `[    1.407456] kernel: Linux version 5.15.0-47-generic (buildd@lcy02-amd64-060)`
 /// the `1.407456`
 pub const CGP_UPTIME_F: &CaptureGroupPattern = concatcp!(CGP_UPTIME, r"\.", CGP_FRACTIONAL39);
+/// Shorter version of [`CGP_UPTIME_F`], for dmesg uptime seconds + fractional,
+pub const CGP_UPTIME_F23: &CaptureGroupPattern = concatcp!(CGP_UPTIME, r"\.", CGP_FRACTIONAL23);
 /// Regex capture group pattern for Unix epoch in seconds
 /// limited to datetimes from year 2000 and afterward.
 /// Low numbers are likely to be errant matches, e.g. random string "55"
@@ -2597,7 +2601,7 @@ pub type DateTimeParseInstrsRegexVec = Vec<OnceCell<DateTimeRegex>>;
 // XXX: do not forget to update test `test_DATETIME_PARSE_DATAS_test_cases`
 //      in `datetime_tests.rs`. The `test_matrix` range end value must match
 //      this value.
-pub const DATETIME_PARSE_DATAS_LEN: usize = 174;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 175;
 
 /// Built-in [`DateTimeParseInstr`] datetime parsing patterns.
 ///
@@ -5139,7 +5143,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // ---------------------------------------------------------------------------------------------
     //
-    // dmesg format, example with offset:
+    // dmesg "uptime" format, example with offset:
     //
     //               1         2         3         4
     //     01234567890123456789012345678901234567890
@@ -5155,6 +5159,25 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
             (5, 13, (O_L, 1970, 1, 2, 0, 0, 1, 3000000), "[    1.003000] kernel: Linux version 5.15.0-48-generic (buildd@lcy02-amd64-080) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #54-Ubuntu SMP Fri Aug 26 13:26:29 UTC 2022 (Ubuntu 5.15.0-48.54-generic 5.15.53)"),
             (4, 13, (O_L, 1970, 1, 2, 0, 0, 15, 364159000), "[   15.364159] kernel: ISO 9660 Extensions: RRIP_1991A"),
             (1, 15, (O_L, 1970, 1, 22, 0, 40, 35, 564122000), "[1730435.564122] wireguard: wg1: Handshake for peer 481 ((einval)) did not complete after 20 attempts, giving up"),
+        ],
+        line!(),
+    ),
+    //
+    // lightdm.log "uptime" format, example with offset:
+    //
+    //               1         2
+    //     012345678901234567890
+    //     [+0.00s] DEBUG: Logging to /var/log/lightdm/lightdm.log
+    //     [+2.80s] DEBUG: XServer 0: Got signal from X server :0
+    //     [+2147.35s] DEBUG: Seat seat0: Display server stopped
+    //
+    DTPD!(
+        concatcp!(r"^\[", RP_BLANKSq, r"\+", CGP_UPTIME_F23, r"s\]", RP_BLANK),
+        DTFSS_u, 0, 25, CGN_UPTIME, CGN_FRACTIONAL,
+        &[
+            (2, 6, (O_L, 1970, 1, 2, 0, 0, 0, 0), "[+0.00s] DEBUG: Logging to /var/log/lightdm/lightdm.log"),
+            (5, 12, (O_L, 1970, 1, 2, 0, 35, 47, 350000000), "[   +2147.35s] DEBUG: Seat seat0: Display server stopped"),
+            (2, 9, (O_L, 1970, 1, 2, 0, 35, 47, 350000000), "[+2147.35s] DEBUG: Seat seat0: Display server stopped"),
         ],
         line!(),
     ),

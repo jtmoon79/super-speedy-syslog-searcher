@@ -485,6 +485,7 @@
 ./logs/OpenSUSE15/journal/f4e4621cbd954e73a519d0ca3e0d82c3/user-1000.journal|2023-12-14 22:06:33.543399695 -0800
 ./logs/OpenSUSE15/lastlog|2024-03-10 21:14:38.839172073 -0700
 ./logs/OpenSUSE15/lastlog.txt|2024-03-10 21:14:38.839172073 -0700
+./logs/OpenSUSE15/lightdm.log|2023-05-06 19:42:20 -0700
 ./logs/OpenSUSE15/pbl.log|2023-12-14 22:04:49.581015874 -0800
 ./logs/OpenSUSE15/plymouth-debug.log|2023-12-14 22:04:22.860088969 -0800
 ./logs/OpenSUSE15/snapper.log|2023-12-14 22:09:39.608249464 -0800

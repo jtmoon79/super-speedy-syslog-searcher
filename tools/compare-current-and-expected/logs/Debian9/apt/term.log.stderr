@@ -24,15 +24,15 @@ File: ./logs/Debian9/apt/term.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   13, miss  581,  2.2%
       caching: LineReader::find_line() LRU cache                   : hit    7, miss  303,  2.3%, put  301
-      copying: SyslineReader::get_boxptrs()                        : sgl 1661, dbl    42, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1669, dbl    42, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    8,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    8,  0.0%, put    7
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    8,  0.0%, put    7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    7, miss  300,  2.3%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   50, miss   56, 47.2%, largest skipped 24
+      optimize:SyslineReader::ezcheckd2                            : hit   52, miss   62, 45.6%, largest skipped 24
       optimize:SyslineReader::ezcheck12d2                          : hit  351, miss 1246, 22.0%, largest skipped 49
-      process: regex captures attempted                            : 1302
+      process: regex captures attempted                            : 1308
   Processing Drops:
 
 Program Summary:
@@ -48,8 +48,8 @@ Printed syslines       : 7
 Printed evtx events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
-Regex patterns known   : 174
-Regex patterns compiled: 169
+Regex patterns known   : 175
+Regex patterns compiled: 170
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
 Channel Receive ok     : 9

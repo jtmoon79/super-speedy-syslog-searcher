@@ -95,6 +95,7 @@
 ./logs/OpenBSD7.4/x86_64/lastlog
 ./logs/OpenBSD7.4/x86_64/utmp
 ./logs/OpenBSD7.4/x86_64/wtmp
+./logs/OpenSUSE15/lightdm.log
 ./logs/OpenSUSE15/YaST2/y2log
 ./logs/OpenSUSE15/zypper.log
 ./logs/OpenSUSE15/zypp/history
