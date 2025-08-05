@@ -1248,6 +1248,12 @@ const DTP_sf: &DateTimePattern_str = "%sT.%f";
 // The variable name represents what is available. The value represents it's rearranged form
 // using in function `captures_to_buffer_bytes`.
 
+// TODO: rename these `DTFSSet` are named inconsistently.
+//       some are `DTFSS__YmdHMS` and others use `DTFSS_BdHMSY`.
+//       The lettering in the name is not consistent. Notice where the `Y` is
+//       placed. Other parts are inconsistent, too.
+//       Name these consistently.
+
 const DTFSS_YmdHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::m,
