@@ -26,8 +26,9 @@ Datetime filters may be passed to narrow the search to a datetime range.
 
 `s4` can read standardized log message formats like RFC 3164 and RFC 5424
 ("syslog"),
-Red Hat Audit logs, strace output, dmesg logs, and can read many non-standardized ad-hoc log
-message formats, including multi-line log messages.
+Red Hat Audit logs, strace output, dmesg and X.org logs,
+and can read many non-standardized ad-hoc log message formats,
+including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
@@ -512,6 +513,7 @@ See the real-world example rationale in the section below,
   - [strace] output files with options `-ttt` or `--timestamps`,
     i.e. Unix epoch plus optional milliseconds, microseconds, or nanoseconds
   - [dmesg] style logs
+  - [_X.org_] and _lightdm_ style logs
   - binary user accounting records files
     ([`acct`, `pacct`], [`lastlog`], [`utmp`, `utmpx`])
     from multiple Operating Systems and CPU architectures
@@ -533,6 +535,7 @@ See the real-world example rationale in the section below,
 [`lastlog`]: https://man.netbsd.org/lastlog.5
 [`utmp`, `utmpx`]: https://en.wikipedia.org/w/index.php?title=Utmp&oldid=1143684808#utmpx,_wtmpx_and_btmpx
 [dmesg]: https://superuser.com/questions/565927/differences-in-var-log-syslog-dmesg-messages-log-files
+[_X.org_]: https://wiki.archlinux.org/title/Xorg#Troubleshooting
 [Internet Message Format (RFC 2822)]: https://www.rfc-editor.org/rfc/rfc2822#section-3.3
 [The BSD syslog Protocol (RFC 3164)]: https://www.rfc-editor.org/rfc/rfc3164#section-4.1.2
 [Date and Time on the Internet: Timestamps (RFC 3339)]: https://www.rfc-editor.org/rfc/rfc3339#section-5.8
