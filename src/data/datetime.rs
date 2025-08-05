@@ -93,7 +93,7 @@ pub type Year = i32;
 /// An _Uptime_ in a date, e.g. from `[    1.000043] kernel: Linux starting...`,
 /// the seconds parts, e.g. the `1`.
 /// This the default format for dmesg-style log files.
-pub type Uptime = i64;
+pub type Uptime = i32;
 
 /// Crate `chrono` [`strftime`] formatting pattern, passed to
 /// chrono [`DateTime::parse_from_str`] or [`NaiveDateTime::parse_from_str`].
