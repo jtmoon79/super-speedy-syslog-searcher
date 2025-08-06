@@ -694,7 +694,7 @@ An overview of features of varying log mergers including GNU tools.
 
 <sup style="font-size: xx-small">• [RFC 3164]: _The BSD syslog Protocol: HEADER Part of a syslog Packet_; e.g. _\<8\>Jan 1 22:00:00 message…_</sup>
 
-<sup style="font-size: xx-small">• [RFC 3339]: _Date and Time on the Internet: Internet Date/Time Format_; e.g. e.g. _2020-01-01T22:00:00-08:00 message…_</sup>
+<sup style="font-size: xx-small">• [RFC 3339]: _Date and Time on the Internet: Internet Date/Time Format_; e.g. _2020-01-01T22:00:00-08:00 message…_</sup>
 
 <sup style="font-size: xx-small">• [RFC 5424]: _The Syslog Protocol: TIMESTAMP_; e.g. _2020-01-01T22:00:00-08:00 message…_</sup>
 
@@ -791,9 +791,9 @@ Programs tested:
 
 - GNU `grep` 3.7, GNU `sort` 8.32
 - `s4` 0.7.76 compiled with rustc 1.73.0
-- [`lnav`] 0.11.2
-- [`logmerger`] 0.11.0 on Python 3.10.12
-- `tl` ([_toolong_]) 1.5.0 on Python 3.10.12
+- `lnav` 0.11.2
+- `logmerger` 0.11.0 on Python 3.10.12
+- `tl` (_toolong_) 1.5.0 on Python 3.10.12
 <!-- XXX: these versions should match those in compare-log-mergers/requirements.txt -->
 
 Each program had 30 runs except `toolong`.
@@ -802,9 +802,6 @@ Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
 See archived results in [`compare-log-mergers.txt`].
 
-[`lnav`]: https://lnav.org/
-[`logmerger`]: https://github.com/ptmcg/logmerger
-[_toolong_]: https://github.com/Textualize/toolong
 [`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.76/releases/0.7.76
 
 ---
