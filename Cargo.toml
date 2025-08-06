@@ -65,7 +65,7 @@ memoffset = "0.9.1"
 min-max = "0.1.8"
 more-asserts = "0.3.1"
 mut_static = "5.0.0"
-nix = "0.29.0"
+nix = "0.30.1"
 # XXX: `numtoa` 0.3 fails to build on rust 1.73; must use 0.2.4
 #      0.3.0 fails with
 #            error[E0658]: mutable references are not allowed in constant functions
