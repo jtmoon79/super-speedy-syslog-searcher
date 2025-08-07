@@ -74,7 +74,7 @@ cfg_if::cfg_if! {
     }
     else {
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
-        const CLI_HELP_AFTER_ALLOCATOR: &str = "default";
+        const CLI_HELP_AFTER_ALLOCATOR: &str = "system";
     }
 }
 
