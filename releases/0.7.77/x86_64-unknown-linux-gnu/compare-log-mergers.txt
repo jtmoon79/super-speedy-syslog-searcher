@@ -1,0 +1,97 @@
++ git log -n1 --oneline -1
++ cat -
+2a1584e3 (TOOLS) prefer 'test' to 'nextest'
++ /usr/bin/time --version
+time (GNU Time) UNKNOWN
++ python --version
+Python 3.10.12
++ hyperfine --version
+hyperfine 1.18.0
++ python -m pip install --upgrade --no-python-version-warning --disable-pip-version-check --quiet -r ./tools/compare-log-mergers/requirements.txt
++ python -m compileall -q /home/ulug/Projects-Here/super-speedy-syslog-searcher/.venv/lib/python3.10/site-packages
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ /usr/bin/grep --version
+grep (GNU grep) 3.7
++ /usr/bin/sort --version
+sort (GNU coreutils) 8.32
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_N38vM.json --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > /dev/null'
+Benchmark 1: grep+sort
+  Time (mean ± σ):      17.0 ms ±   0.4 ms    [User: 11.4 ms, System: 6.8 ms]
+  Range (min … max):    16.3 ms …  17.9 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_oq9Le.txt -- sh -c ''\''/usr/bin/grep'\'' -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log | '\''/usr/bin/sort'\'' -t '\'' '\'' -k 1 -s'
+
+5403 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ ./target/release/s4 --version
+s4 (Super Speedy Syslog Searcher), Version 0.7.77, Allocator mimalloc
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_pgdTh.json -N -n 's4 (system)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
+Benchmark 1: s4 (system)
+  Time (mean ± σ):      30.1 ms ±   1.6 ms    [User: 28.9 ms, System: 26.5 ms]
+  Range (min … max):    27.0 ms …  33.2 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_5RqMq.txt -- ./target/release/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+
+5403 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ ./target/jemalloc/s4 --version
+s4 (Super Speedy Syslog Searcher), Version 0.7.77, Allocator jemalloc
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_oTQaW.json -N -n 's4 (jemalloc)' -- ''\''./target/jemalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
+Benchmark 1: s4 (jemalloc)
+  Time (mean ± σ):      41.3 ms ±   1.9 ms    [User: 32.2 ms, System: 39.5 ms]
+  Range (min … max):    38.7 ms …  45.5 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_zYx6S.txt -- ./target/jemalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+
+5403 -
+
++ ./target/mimalloc/s4 --version
+s4 (Super Speedy Syslog Searcher), Version 0.7.77, Allocator mimalloc
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_3wcvp.json -N -n 's4 (mimalloc)' -- ''\''./target/mimalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
+Benchmark 1: s4 (mimalloc)
+  Time (mean ± σ):      31.4 ms ±   2.2 ms    [User: 30.1 ms, System: 27.6 ms]
+  Range (min … max):    27.8 ms …  36.6 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_nuk1Q.txt -- ./target/mimalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+
+5403 -
+
++ lnav --version
+lnav 0.11.2
++ lnav -i -W ./tools/compare-log-mergers/lnav1.json
+⚠ warning: unexpected value for property “/title”
+ --> ./tools/compare-log-mergers/lnav1.json:3
+ |     "title": "lnav1",                   
+ =   help: Available Properties
+           $schema The URI of the schema for this file
+           (\w+)/
+✔ installed -- /home/ulug/snap/lnav/2760/.lnav/formats/installed/lnav1.json
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_cijCs.json -N -n lnav -- ''\''lnav'\'' -N -n -c '\'';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime("2000-01-01T00:20:00") AND Datetime("2000-01-01T00:50:00")'\'' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log'
+Benchmark 1: lnav
+  Time (mean ± σ):     221.6 ms ±  10.5 ms    [User: 104.1 ms, System: 55.9 ms]
+  Range (min … max):   200.7 ms … 239.5 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_6UjQw.txt -- lnav -N -n -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('\''2000-01-01T00:20:00'\'') AND Datetime('\''2000-01-01T00:50:00'\'')' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+
+5401 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ logmerger --version
+logmerger         0.11.0
++ python -m compileall /home/ulug/Projects-Here/super-speedy-syslog-searcher/.venv/lib/python3.10/site-packages/logmerger
+Listing '/home/ulug/Projects-Here/super-speedy-syslog-searcher/.venv/lib/python3.10/site-packages/logmerger'...
+Can't list '/home/ulug/Projects-Here/super-speedy-syslog-searcher/.venv/lib/python3.10/site-packages/logmerger'
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_wqGSH.json --shell sh -n logmerger -- ''\''logmerger'\'' --inline --output=- --start '\''2000-01-01T00:20:00'\'' --end '\''2000-01-01T00:50:00'\'' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
+Benchmark 1: logmerger
+Error: Command terminated with non-zero exit code: 1. Use the '-i'/'--ignore-failure' option if you want to ignore this. Alternatively, use the '--show-output' option to debug what went wrong.
