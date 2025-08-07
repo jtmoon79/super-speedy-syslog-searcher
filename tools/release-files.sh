@@ -84,7 +84,7 @@ clean_file "${DIROUT}/massif.txt"
 (
     set -x
     # use allocator mimalloc for fastest results
-    cargo build --profile release --features mimalloc
+    cargo build --profile mimalloc --features mimalloc
     ./tools/compare-grep-sort.sh &> "${DIROUT}/compare-grep-sort.txt"
     ./tools/compare-log-mergers/compare-log-mergers.sh --skip-tl &> "${DIROUT}/compare-log-mergers.txt"
 )
