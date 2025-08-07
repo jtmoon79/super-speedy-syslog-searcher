@@ -576,10 +576,14 @@ follow symbolic links and cross file system paths.
 `s4` will ignore files with extensions that are known to be non-log files.
 For example, files with extensions `.dll`, `.mp3`, `.png`, or `.so`, are
 unlikely to be log files and so are not processed.
+See [`src/readers/filepreprocessor`] for the complete list of ignored file
+extensions.
 
 So given a file `/tmp/file.mp3`, an  invocation of `s4 /tmp` will not attempt
 to process `file.mp3`. An invocation of `s4 /tmp/file.mp3` will attempt to
 process `file.mp3`. It will be treated as a UTF8 text log file.
+
+[`src/readers/filepreprocessor`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.7.77/src/readers/filepreprocessor.rs#L480
 
 ### Limitations
 
