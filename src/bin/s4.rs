@@ -568,12 +568,14 @@ DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
 
-Further background and examples are at the project website:
-https://github.com/jtmoon79/super-speedy-syslog-searcher/
-
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 
+Author: "#, env!("CARGO_PKG_AUTHORS"), r#"
+Version: "#, env!("CARGO_PKG_VERSION"), r#"
+License: "#, env!("CARGO_PKG_LICENSE"), r#"
+Repository: "#, env!("CARGO_PKG_REPOSITORY"), r#"
+MSRV: "#, env!("CARGO_PKG_RUST_VERSION"), r#"
 Allocator: "#,
     CLI_HELP_AFTER_ALLOCATOR,
     CLI_HELP_AFTER_NOTE_DEBUG,
@@ -592,8 +594,17 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
 // * the `about` is taken from `Cargo.toml:[package]:description`.
 #[derive(Parser, Debug)]
 #[clap(
-    version,
-    about,
+    about = env!("CARGO_PKG_DESCRIPTION"),
+    author = env!("CARGO_PKG_AUTHORS"),
+    name = "s4",
+    version = concatcp!(
+        "(Super Speedy Syslog Searcher), ",
+        "Version ",
+        env!("CARGO_PKG_VERSION_MAJOR"), ".",
+        env!("CARGO_PKG_VERSION_MINOR"), ".",
+        env!("CARGO_PKG_VERSION_PATCH"), ", ",
+        "Allocator ", CLI_HELP_AFTER_ALLOCATOR
+    ),
     after_help = CLI_HELP_AFTER,
     verbatim_doc_comment,
 )]
