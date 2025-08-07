@@ -37,7 +37,7 @@ cargo build --profile release
 cargo build --features mimalloc --profile mimalloc
 cargo build --features jemalloc --profile jemalloc
 ./tools/log-files-time-update.sh
-cargo nextest run --all-targets
+cargo test
 cargo check --all-targets
 cargo check --all-targets --release
 cargo clippy --no-deps --all-targets
