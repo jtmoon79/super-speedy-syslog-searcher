@@ -323,7 +323,7 @@ echo "${PS4}logmerger --version"
 # precompile logmerger
 (
     set -x
-    "${PYTHON}" -m compileall "${PYSITE_PKG_PATH}/logmerger"
+    "${PYTHON}" -m compileall "${PYSITE_PKG_PATH}/logmerger"*
 )
 
 echo
@@ -331,7 +331,7 @@ echo
 (
     files_caching
     set -x
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json6}" --shell sh -n "${PROGRAM_LM}" \
+    $hyperfine -i --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json6}" --shell sh -n "${PROGRAM_LM}" \
         -- \
         "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]} > /dev/null"
 )
@@ -349,7 +349,7 @@ echo
         "${befor_dt}" \
         "${files[@]}" \
          > "${tmpA}"
-)
+) || true
 
 echo
 cat "${tmpA}" | wc -l -
