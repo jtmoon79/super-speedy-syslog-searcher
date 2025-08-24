@@ -49,7 +49,7 @@ use std::fmt;
 use std::thread;
 #[doc(hidden)]
 pub use std::time::{SystemTime, UNIX_EPOCH};
-use std::time::Duration as std_Duration;
+use std::time::Duration as StdDuration;
 use std::sync::RwLock;
 
 #[doc(hidden)]
@@ -138,6 +138,8 @@ pub type DateTimeRegex = Regex;
 // TODO: rename to `DateTimeS4`
 pub type DateTimeL = DateTime<FixedOffset>;
 pub type DateTimeLOpt = Option<DateTimeL>;
+
+pub(crate) const UPTIME_DEFAULT_OFFSET: SystemTime = UNIX_EPOCH;
 
 /// FixedOffset seconds
 #[cfg(test)]
@@ -5162,9 +5164,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!(r"^\[", RP_BLANKSq, CGP_UPTIME_F, r"\]", RP_BLANK),
         DTFSS_u, 0, 20, CGN_UPTIME, CGN_FRACTIONAL,
         &[
-            (5, 13, (O_L, 1970, 1, 2, 0, 0, 1, 3000000), "[    1.003000] kernel: Linux version 5.15.0-48-generic (buildd@lcy02-amd64-080) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #54-Ubuntu SMP Fri Aug 26 13:26:29 UTC 2022 (Ubuntu 5.15.0-48.54-generic 5.15.53)"),
-            (4, 13, (O_L, 1970, 1, 2, 0, 0, 15, 364159000), "[   15.364159] kernel: ISO 9660 Extensions: RRIP_1991A"),
-            (1, 15, (O_L, 1970, 1, 22, 0, 40, 35, 564122000), "[1730435.564122] wireguard: wg1: Handshake for peer 481 ((einval)) did not complete after 20 attempts, giving up"),
+            (5, 13, (O_L, 1970, 1, 1, 0, 0, 1, 3000000), "[    1.003000] kernel: Linux version 5.15.0-48-generic (buildd@lcy02-amd64-080) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #54-Ubuntu SMP Fri Aug 26 13:26:29 UTC 2022 (Ubuntu 5.15.0-48.54-generic 5.15.53)"),
+            (4, 13, (O_L, 1970, 1, 1, 0, 0, 15, 364159000), "[   15.364159] kernel: ISO 9660 Extensions: RRIP_1991A"),
+            (1, 15, (O_L, 1970, 1, 21, 0, 40, 35, 564122000), "[1730435.564122] wireguard: wg1: Handshake for peer 481 ((einval)) did not complete after 20 attempts, giving up"),
         ],
         line!(),
     ),
@@ -5181,9 +5183,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         concatcp!(r"^\[", RP_BLANKSq, r"\+", CGP_UPTIME_F23, r"s\]", RP_BLANK),
         DTFSS_u, 0, 25, CGN_UPTIME, CGN_FRACTIONAL,
         &[
-            (2, 6, (O_L, 1970, 1, 2, 0, 0, 0, 0), "[+0.00s] DEBUG: Logging to /var/log/lightdm/lightdm.log"),
-            (5, 12, (O_L, 1970, 1, 2, 0, 35, 47, 350000000), "[   +2147.35s] DEBUG: Seat seat0: Display server stopped"),
-            (2, 9, (O_L, 1970, 1, 2, 0, 35, 47, 350000000), "[+2147.35s] DEBUG: Seat seat0: Display server stopped"),
+            (2, 6, (O_L, 1970, 1, 1, 0, 0, 0, 0), "[+0.00s] DEBUG: Logging to /var/log/lightdm/lightdm.log"),
+            (5, 12, (O_L, 1970, 1, 1, 0, 35, 47, 350000000), "[   +2147.35s] DEBUG: Seat seat0: Display server stopped"),
+            (2, 9, (O_L, 1970, 1, 1, 0, 35, 47, 350000000), "[+2147.35s] DEBUG: Seat seat0: Display server stopped"),
         ],
         line!(),
     ),
@@ -5643,7 +5645,7 @@ pub fn datetime_parse_from_str(
                     defx!("skip match due to chrono Issue #660");
                     return None;
                 }
-                defx!("return {:?}", val);
+                defo!("dt_naive={:?}", val);
 
                 val
             }
@@ -5978,11 +5980,12 @@ pub(crate) fn captures_to_buffer_bytes(
     buffer: &mut [u8],
     captures: &regex::bytes::Captures,
     year_opt: &Option<Year>,
-    mtime_opt: &Option<SystemTime>,
+    systemtime_at_uptime_zero: &Option<SystemTime>,
     tz_offset_string: &String,
     dtfs: &DTFSSet,
 ) -> usize {
-    defn!("(…, …, year_opt {:?}, tz_offset {:?}, …)", year_opt, tz_offset_string);
+    defn!("(…, …, year_opt {:?}, systemtime_at_uptime_zero {:?}, tz_offset {:?}, …)",
+          year_opt, systemtime_at_uptime_zero, tz_offset_string);
 
     let mut at: usize = 0;
 
@@ -5998,6 +6001,14 @@ pub(crate) fn captures_to_buffer_bytes(
     defo!("process <uptime> {:?}…", dtfs.uptime);
     match dtfs.uptime {
         DTFS_Uptime::u => {
+            // Here is where an important conversion happens:
+            // get the log uptime string, e.g. `"1.340"`, and convert it to a
+            // Duration. Then add that to the `systemtime_at_uptime_zero`.
+            // So value `1.340` is added to the wrapped `SystemTime` value.
+            // Then that is written into a buffer as seconds since UNIX_EPOCH.
+            // Later, in `datetime_parse_from_str`, this buffer is converted to
+            // a `DateTime` value.
+
             // copy the `uptime` capture group to a temporary local buffer
             let mut at_uptime = 0;
             const BUFLEN: usize = 30;
@@ -6013,7 +6024,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 }
             };
             defo!("buf_uptime_s {:?}", buf_uptime_s);
-            // extact the uptime value string to an `Uptime` value
+            // extract the uptime string to an `Uptime` value
             let uptime_val: Uptime = match Uptime::from_str_radix(buf_uptime_s, 10) {
                 Ok(uptime_) => uptime_,
                 Err(_err) => {
@@ -6024,40 +6035,39 @@ pub(crate) fn captures_to_buffer_bytes(
             };
             defo!("uptime_val {:?}", uptime_val);
 
-            let mtime: SystemTime = match mtime_opt {
-                Some(mtime_) => *mtime_,
-                None => {
-                    debug_panic!("No mtime_opt provided yet processing an Uptime");
-                    UNIX_EPOCH + std_Duration::from_secs(0)
-                }
+            let uptime_zero: SystemTime = match systemtime_at_uptime_zero {
+                Some(val) => *val,
+                None => UPTIME_DEFAULT_OFFSET,
             };
-            defo!("mtime {:?}", mtime);
+            defo!("uptime_zero {:?}", uptime_zero);
 
             // convert the uptime value to a `std::time::Duration`
-            let uptime_dur: std_Duration = std_Duration::new(uptime_val as u64, 0);
+            let uptime_dur: StdDuration = StdDuration::new(uptime_val as u64, 0);
             defo!("uptime_dur {:?}", uptime_dur);
-            // add the uptime value to the file mtime value
-            let mtime_plus_uptime: SystemTime = match mtime.checked_add(uptime_dur) {
+            // add the uptime value to the uptime_zero value
+            let uptime_zero_plus_uptime: SystemTime = match uptime_zero.checked_add(uptime_dur) {
                 Some(st) => st,
                 None => {
-                    de_err!("mtime.checked_add({:?}) failed", uptime_dur);
-                    UNIX_EPOCH + std_Duration::from_secs(0)
-                }
+                    debug_panic!("failed checked_add({:?})", uptime_dur);
+                    // I'm not sure what else to do here in a release build
+
+                    UPTIME_DEFAULT_OFFSET
+                },
             };
-            defo!("mtime_plus_uptime {:?}", mtime_plus_uptime);
-            // convert the `mtime_plus_uptime` value to a string to a [u8]
+            defo!("uptime_zero_plus_uptime {:?}", uptime_zero_plus_uptime);
+            // convert the `uptime_zero_plus_uptime` value to a string to a [u8]
             buf_uptime.fill(0);
-            let mtime_plus_uptime_dur = match mtime_plus_uptime.duration_since(SystemTime::UNIX_EPOCH) {
+            let uptime_zero_plus_uptime_dur = match uptime_zero_plus_uptime.duration_since(SystemTime::UNIX_EPOCH) {
                 Ok(dur) => dur,
                 Err(_err) => {
-                    debug_panic!("mtime_plus_uptime.duration_since(UNIX_EPOCH) failed: {}", _err);
+                    debug_panic!("uptime_zero_plus_uptime.duration_since(UPTIME_DEFAULT_OFFSET) failed: {}", _err);
                     // fallback to zero
-                    std_Duration::from_secs(0)
+                    StdDuration::from_secs(0)
                 }
             };
-            let mtime_plus_uptime_n = mtime_plus_uptime_dur.as_secs();
-            defo!("mtime_plus_uptime_n {:?}", mtime_plus_uptime_n);
-            let buf_uptime_plus = mtime_plus_uptime_n.numtoa(10, &mut buf_uptime);
+            let uptime_zero_plus_uptime_n = uptime_zero_plus_uptime_dur.as_secs();
+            defo!("uptime_zero_plus_uptime_n {:?}", uptime_zero_plus_uptime_n);
+            let buf_uptime_plus = uptime_zero_plus_uptime_n.numtoa(10, &mut buf_uptime);
             defo!("buf_uptime_plus {:?}", buffer_to_String_noraw(&buf_uptime_plus));
             // copy the local temporary buffer to the main buffer
             copy_slice_to_buffer!(&buf_uptime_plus, buffer, at);
@@ -6417,7 +6427,7 @@ pub fn bytes_to_regex_to_datetime(
     data: &[u8],
     index: &DateTimeParseInstrsIndex,
     year_opt: &Option<Year>,
-    mtime_opt: &Option<SystemTime>,
+    systemtime_at_uptime_zero: &Option<SystemTime>,
     tz_offset: &FixedOffset,
     tz_offset_string: &String,
     #[cfg(any(debug_assertions, test))]
@@ -6545,14 +6555,19 @@ pub fn bytes_to_regex_to_datetime(
         &mut buffer,
         &captures,
         year_opt,
-        mtime_opt,
+        systemtime_at_uptime_zero,
         tz_offset_string,
         &dtpd.dtfs
     );
 
     // use the `dt_format` to parse the buffer of regex matches
     let buffer_s: &str = u8_to_str(&buffer[0..copiedn]).unwrap();
-    let dt = match datetime_parse_from_str(buffer_s, dtpd.dtfs.pattern, dtpd.dtfs.has_tz(), tz_offset) {
+    let dt = match datetime_parse_from_str(
+        buffer_s,
+        dtpd.dtfs.pattern,
+        dtpd.dtfs.has_tz(),
+        tz_offset,
+    ) {
         Some(dt_) => dt_,
         None => {
             defx!("return None; datetime_parse_from_str returned None");
@@ -6561,7 +6576,6 @@ pub fn bytes_to_regex_to_datetime(
     };
 
     // derive the `LineIndex` bounds of the datetime substring within `data`
-    // TODO: cost-savings: only track dt_beg, dt_end if passed `--color`
     let dt_beg: LineIndex = match captures.name(dtpd.cgn_first) {
         Some(match_) => match_.start() as LineIndex,
         None => 0,
@@ -6758,6 +6772,17 @@ pub fn systemtime_to_datetime(
     let dtu: DateTime<Utc> = (*systemtime).into();
 
     dtu.with_timezone(fixedoffset)
+}
+
+/// Subtract a [`SystemTime`] from a [`DateTimeL`].
+pub fn datetime_minus_systemtime(
+    datetime: &DateTimeL,
+    systemtime: &SystemTime,
+) -> Duration {
+    *datetime - systemtime_to_datetime(
+        &datetime.offset(),
+        systemtime,
+    )
 }
 
 /// Convert passed seconds since Unix Epoch to a `SystemTime`.

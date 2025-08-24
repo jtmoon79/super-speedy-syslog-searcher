@@ -12,27 +12,27 @@ File: ./logs/OpenSUSE15/lightdm.log
       syslines      : 0
   Processed:
       file size     : 1232 (0x4D0) (bytes)
-      bytes         : 256 (0x100)
+      bytes         : 464 (0x1D0)
       bytes total   : 1232 (0x4D0)
       block size    : 256 (0x100)
-      blocks        : 1
+      blocks        : 2
       blocks total  : 5 (1280 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 4
+      syslines      : 2
+      syslines high : 2
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   2, miss   5, 28.6%, put   4
+      copying: SyslineReader::get_boxptrs()                        : sgl 159, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  14,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  15,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 144,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      process: regex captures attempted                            : 159
   Processing Drops:
 
 Program Summary:

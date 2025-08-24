@@ -35,6 +35,7 @@ use crate::common::{
 use crate::data::datetime::{
     dt_after_or_before,
     systemtime_to_datetime,
+    datetime_minus_systemtime,
     DateTimeL,
     DateTimeLOpt,
     Duration,
@@ -42,6 +43,7 @@ use crate::data::datetime::{
     Result_Filter_DateTime1,
     SystemTime,
     Year,
+    UPTIME_DEFAULT_OFFSET,
 };
 use crate::data::sysline::SyslineP;
 use crate::{e_err, de_err, de_wrn};
@@ -72,6 +74,7 @@ use crate::readers::summary::Summary;
 use std::fmt;
 use std::fmt::Debug;
 use std::io::{Error, ErrorKind, Result};
+use std::time::Duration as StdDuration;
 
 use ::chrono::Datelike;
 use ::lazy_static::lazy_static;
@@ -525,6 +528,11 @@ impl SyslogProcessor {
         self.missing_year.is_some()
     }
 
+    /// Did this `SyslogProcessor` run `process_uptime()` ?
+    fn did_process_uptime(&self) -> bool {
+        self.systemtime_at_uptime_zero().is_some()
+    }
+
     /// Return `drop_data` value.
     pub const fn is_drop_data(&self) -> bool {
         self.syslinereader.is_drop_data()
@@ -706,6 +714,101 @@ impl SyslogProcessor {
             }
             syslinep_prev_opt = Some(syslinep.clone());
         } // end loop
+        defx!("return FileOk");
+
+        FileProcessingResultBlockZero::FileOk
+    }
+
+    fn systemtime_at_uptime_zero(&self) -> Option<SystemTime>{
+        self.syslinereader.systemtime_at_uptime_zero
+    }
+
+    pub fn process_uptime(
+        &mut self,
+    ) -> FileProcessingResultBlockZero {
+        defn!();
+        debug_assert!(!self.did_process_uptime(), "did_process_uptime() must only be called once");
+
+        let fo_last = self.fileoffset_last();
+        defo!("find_sysline(fo_last={})", fo_last);
+        let syslinep = match self.find_sysline(fo_last) {
+            ResultS3SyslineFind::Found((_fo, syslinep_)) => {
+                defo!("found sysline at fo_last={} {:?}", fo_last, syslinep_);
+
+                syslinep_
+            }
+            ResultS3SyslineFind::Done => {
+                defx!("No sysline found");
+                return FileProcessingResultBlockZero::FileErrNoSyslinesFound;
+            }
+            ResultS3SyslineFind::Err(err) => {
+                defx!("error finding sysline: {:?}", err);
+                return FileProcessingResultBlockZero::FileErrIo(err);
+            }
+        };
+        let dt = syslinep.dt();
+        let diff_ = datetime_minus_systemtime(&dt, &UPTIME_DEFAULT_OFFSET);
+        defo!("diff_ from UPTIME_DEFAULT_OFFSET {:?}", diff_);
+        let diff_secs = diff_.num_seconds();
+        defo!("diff_secs {:?}", diff_secs);
+        let mut diff_nanos = diff_.subsec_nanos();
+        defo!("diff_nanos {:?}", diff_nanos);
+        if diff_nanos < 0 {
+            diff_nanos = 0;
+        }
+        let diffs: StdDuration = StdDuration::new(
+            diff_secs as u64,
+            diff_nanos as u32,
+        );
+        defo!("diffs {:?}", diffs);
+        defo!("mtime()");
+        let mtime = self.mtime();
+        defo!("mtime {:?} (as DateTime {:?})",
+              mtime, systemtime_to_datetime(&self.tz_offset, &mtime));
+        // std::time::Duration is unsigned whereas chrono::Duration is signed.
+        let st_at_zero = if diff_secs > 0 {
+            defo!("checked_sub({:?})", diffs);
+            match mtime.checked_sub(diffs) {
+                Some(st) => st,
+                None => {
+                    defx!("failed to calculate systemtime at uptime zero");
+                    return FileProcessingResultBlockZero::FileErrIo(std::io::Error::new(
+                        std::io::ErrorKind::Other,
+                        "failed to calculate systemtime at uptime zero",
+                    ));
+                }
+            }
+        } else {
+            defo!("checked_add({:?})", diffs);
+            match mtime.checked_add(diffs) {
+                Some(st) => st,
+                None => {
+                    defx!("failed to calculate systemtime at uptime zero");
+                    return FileProcessingResultBlockZero::FileErrIo(std::io::Error::new(
+                        std::io::ErrorKind::Other,
+                        "failed to calculate systemtime at uptime zero",
+                    ));
+                }
+            }
+        };
+        self.syslinereader.systemtime_at_uptime_zero = Some(st_at_zero);
+        defo!("systemtime_at_uptime_zero is  {:?}", self.syslinereader.systemtime_at_uptime_zero);
+        #[cfg(debug_assertions)]
+        {
+            let d = systemtime_to_datetime(
+                &self.tz_offset,
+                &st_at_zero,
+            );
+            defo!("systemtime_at_uptime_zero as DateTime {:?}", d);
+        }
+
+        // The systemtime at uptime zero has been discovered.
+        // So clear the lines that previously used the stand-in value for
+        // `systemtime_at_uptime_zero`.
+        self.syslinereader.clear_syslines();
+        // The syslines gathered after this point will use the
+        // correct `systemtime_at_uptime_zero`.
+
         defx!("return FileOk");
 
         FileProcessingResultBlockZero::FileOk
@@ -950,9 +1053,18 @@ impl SyslogProcessor {
         if !self.syslinereader.dt_pattern_has_year() &&
             !self.syslinereader.dt_pattern_uptime()
         {
-            defo!("!dt_pattern_has_year()");
+            defo!("!dt_pattern_has_year() && !dt_pattern_uptime()");
             let mtime: SystemTime = self.mtime();
             match self.process_missing_year(mtime, filter_dt_after_opt) {
+                FileProcessingResultBlockZero::FileOk => {}
+                result => {
+                    defx!("Bad result {:?}", result);
+                    return result;
+                }
+            }
+        } else if self.syslinereader.dt_pattern_uptime() {
+            defo!("dt_pattern_uptime()");
+            match self.process_uptime() {
                 FileProcessingResultBlockZero::FileOk => {}
                 result => {
                     defx!("Bad result {:?}", result);

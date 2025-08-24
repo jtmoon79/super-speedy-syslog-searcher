@@ -17,7 +17,6 @@ use crate::tests::common::{
     FO_L_STR,
     FO_W8,
     FO_Z,
-    SYSTEMTIME_FALLBACK,
 };
 use crate::data::datetime::{
     LineIndex,
@@ -91,6 +90,7 @@ use crate::debug::printers::buffer_to_String_noraw;
 
 use std::collections::HashSet;
 use std::str;
+use std::time::UNIX_EPOCH;
 
 use ::bstr::ByteSlice;
 // for `with_nanosecond()`, `year()`, and others
@@ -739,8 +739,8 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
         if !dtpd.dtfs.has_year() {
             year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
         }
-        let mtime_opt: Option<SystemTime> = if dtpd.dtfs.has_uptime() {
-            Some(*SYSTEMTIME_FALLBACK)
+        let uptime_zero_opt: Option<SystemTime> = if dtpd.dtfs.has_uptime() {
+            Some(UNIX_EPOCH)
         } else {
             None
         };
@@ -749,7 +749,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
             slice_,
             &index,
             &year_opt,
-            &mtime_opt,
+            &uptime_zero_opt,
             &FO_L,
             &FO_L_STR,
             #[cfg(any(debug_assertions, test))]

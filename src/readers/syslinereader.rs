@@ -239,6 +239,9 @@ pub struct SyslineReader {
     tz_offset: FixedOffset,
     /// precompute `tz_offset` as a `String`
     tz_offset_string: String,
+    /// Datetime of uptime value 0.
+    /// Only for syslog files with uptime format.
+    pub(super) systemtime_at_uptime_zero: Option<SystemTime>,
     /// Enable or disable the internal LRU cache for `find_sysline()`.
     find_sysline_lru_cache_enabled: bool,
     /// The last requested `FileOffset` in `find_sysline()`.
@@ -512,6 +515,7 @@ impl SyslineReader {
             dt_patterns_indexes,
             tz_offset,
             tz_offset_string: tz_offset.to_string(),
+            systemtime_at_uptime_zero: None,
             find_sysline_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
             fileoffset_last: 0,
             find_sysline_lru_cache: SyslinesLRUCache::new(
@@ -858,7 +862,7 @@ impl SyslineReader {
     }
 
     /// Clear all the syslines so far collected.
-    /// Only intended to aid post-processing year updates.
+    /// Only intended to aid post-processing year updates or uptime updates.
     ///
     /// Users must know what they are doing with this.
     ///
@@ -1226,7 +1230,7 @@ impl SyslineReader {
         parse_data_indexes: &DateTimeParseDatasIndexes,
         charsz: CharSz,
         year_opt: &Option<Year>,
-        mtime_opt: &Option<SystemTime>,
+        systemtime_at_uptime_zero: &Option<SystemTime>,
         tz_offset: &FixedOffset,
         tz_offset_string: &String,
         get_boxptrs_singleptr: &mut Count,
@@ -1403,7 +1407,7 @@ impl SyslineReader {
                     slice_,
                     index,
                     year_opt,
-                    mtime_opt,
+                    systemtime_at_uptime_zero,
                     tz_offset,
                     tz_offset_string,
                     #[cfg(any(debug_assertions, test))]
@@ -1700,13 +1704,17 @@ impl SyslineReader {
                 .map(|(k, _v)| k), // copy only the key (first tuple item) which is an index
         );
         defo!("indexes {:?}", indexes);
-        let mtime: SystemTime = self.mtime();
+        // LAST WORKING HERE 20250823
+        //  need to set `mtime` to the SystemTime of uptime zero, i.e. syslogprocessor.systemtime_at_zero
+        //  then need to change that value to Option<SystemTime>
+        // ... I think a `systemtime_at_zero` needs to be added to the SyslineReader...
+        //     I'm not sure. Need to think about this...
         let result: ResultFindDateTime = SyslineReader::find_datetime_in_line(
             line,
             &indexes,
             charsz,
             year_opt,
-            &Some(mtime),
+            &self.systemtime_at_uptime_zero,
             &self.tz_offset,
             &self.tz_offset_string,
             &mut self.get_boxptrs_singleptr,

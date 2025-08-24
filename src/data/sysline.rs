@@ -21,14 +21,18 @@ use crate::data::datetime::{
     DateTimeL,
     Duration,
 };
-use crate::data::line::{Line, LineIndex, LineP, LinePart, Lines};
+use crate::data::line::{Line, LineIndex, LineP, LinePart, LinePartPtrs, Lines};
 #[allow(unused_imports)]
 use crate::debug::printers::{de_err, de_wrn, e_wrn};
 
 use std::fmt;
 use std::sync::Arc;
 
-use ::more_asserts::debug_assert_ge;
+use ::more_asserts::{
+    assert_le,
+    assert_lt,
+    debug_assert_ge,
+};
 #[allow(unused_imports)]
 use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 
@@ -309,6 +313,42 @@ impl Sysline {
         }
     }
 
+    /// Return a new `Bytes` that is the subset of the line that is the datetime bytes.
+    ///
+    /// Not memory efficient. Only intended for rare special cases.
+    pub fn dt_bytes(self: &Sysline) -> Bytes {
+        defn!();
+        assert!(!self.lines.is_empty(),
+                "dt_bytes: No lines stored in this Sysline yet caller wants Bytes");
+        let line0 = &self.lines[0];
+        let ia: LineIndex = self.dt_beg;
+        let ib: LineIndex = self.dt_end;
+        assert_lt!(ia, line0.len(), "dt_beg={} is past end of line zero (len {})", ia, line0.len());
+        assert_lt!(ib, line0.len(), "dt_end={} is past end of line zero (len {})", ib, line0.len());
+        assert_le!(ia, ib, "bad dt_beg={}, dt_end={}", ia, ib);
+        let mut bytes: Bytes = Bytes::with_capacity((ib - ia) as usize);
+        match line0.get_boxptrs(ia, ib) {
+            LinePartPtrs::SinglePtr(ptr) => {
+                bytes.extend_from_slice(*ptr);
+            }
+            LinePartPtrs::DoublePtr(ptra, ptrb ) => {
+                bytes.extend_from_slice(*ptra);
+                bytes.extend_from_slice(*ptrb);
+            }
+            LinePartPtrs::MultiPtr(ptrs) => {
+                for ptr in ptrs.iter() {
+                    bytes.extend_from_slice(**ptr);
+                }
+            }
+            LinePartPtrs::NoPtr => {
+                panic!("Line at offset {} has no slices", line0.fileoffset_begin());
+            }
+        }
+        defx!("return {} bytes", bytes.len());
+
+        bytes
+    }
+
     /// Create a `String` from `lines`:
     ///
     /// - `raw` is `true` means use byte characters as-is
@@ -319,7 +359,7 @@ impl Sysline {
     //       https://bes.github.io/blog/rust-strings
     //
     // TODO: remove this
-    // TODO fix this non_snake_case (use correct snake_case)
+    // TODO: fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]

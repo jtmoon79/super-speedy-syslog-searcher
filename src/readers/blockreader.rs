@@ -1879,6 +1879,7 @@ impl BlockReader {
     //
     // TODO: also handle when `self.file_metadata_modified` is zero
     //       (or a non-meaningful placeholder value).
+    // TODO: it would be nice to cache the value from this but that would require passing `mut`
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
             FileType::Evtx{ .. } => {

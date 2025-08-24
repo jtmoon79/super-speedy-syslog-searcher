@@ -95,12 +95,12 @@ use crate::tests::common::{
     FO_P8,
     FO_M5,
     FO_M8,
-    SYSTEMTIME_FALLBACK,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
 
 use std::io::Write; // for `flush()`
 use std::str;
+use std::time::UNIX_EPOCH;
 
 use ::bstr::ByteSlice;
 use ::const_format::concatcp;
@@ -367,7 +367,7 @@ fn test_find_datetime_in_line() {
     let mut ezcheck12d2_miss: Count = 0;
     let mut ezcheck12d2_hit_max: LineIndex = 0;
 
-    let mtime: SystemTime = *SYSTEMTIME_FALLBACK;
+    let mtime: SystemTime = UNIX_EPOCH;
     for (i, dtpi) in DATETIME_PARSE_DATAS
         .iter()
         .enumerate()
@@ -457,7 +457,7 @@ fn test_find_datetime_in_line() {
 #[test]
 fn test_parse_datetime_in_line_cached__no_cache() {
     let mut slr = new_SyslineReader(&*NTF_LOG_EMPTY_FPATH, 0x100, *FO_L);
-    slr.set_mtime(*SYSTEMTIME_FALLBACK);
+    slr.set_mtime(UNIX_EPOCH);
     slr.LRU_cache_disable();
 
     for (i, dtpi) in DATETIME_PARSE_DATAS

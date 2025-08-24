@@ -1,3 +1,4 @@
+[    0.0000] kernel: booting...
 [    0.4074] kernel: Linux version 5.15.0-47-generic (buildd@lcy02-amd64-060) (gcc (Ubuntu 11.2.0-19ubuntu1) 11.2.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #51-Ubuntu SMP Thu Aug 11 07:51:15 UTC 2022 (Ubuntu 5.15.0-47.51-generic 5.15.46)
 [    0.4074] kernel: Command line: NETT_IMAGE=/nett/vmlinuz-5.15.0-47-generic root=UUID=4074-1111-2222-9359-012345678911 ro console=tty1 console=ttyS0 net.ifnames=0 biosdevname=0
 [    0.4074] kernel: KERNEL supported cpus:

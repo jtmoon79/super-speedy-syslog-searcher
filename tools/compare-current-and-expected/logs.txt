@@ -563,6 +563,7 @@
 ./logs/Ubuntu22/cloud-init.log
 ./logs/Ubuntu22/cloud-init-output.log
 ./logs/Ubuntu22/dmesg
+./logs/Ubuntu22/dmesg-+0400
 ./logs/Ubuntu22/dmesg.0
 ./logs/Ubuntu22/dmesg.0.gz
 ./logs/Ubuntu22/dpkg.log

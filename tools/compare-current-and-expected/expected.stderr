@@ -1738,33 +1738,33 @@ File: ./logs/Debian9/Xorg.0.log
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4061
-      flushes       : 14
-      lines         : 19
-      syslines      : 14
+      bytes         : 0
+      flushes       : 0
+      lines         : 0
+      syslines      : 0
   Processed:
       file size     : 1249 (0x4E1) (bytes)
-      bytes         : 1249 (0x4E1)
+      bytes         : 481 (0x1E1)
       bytes total   : 1249 (0x4E1)
       block size    : 256 (0x100)
-      blocks        : 5
+      blocks        : 2
       blocks total  : 5 (1280 bytes)
-      lines         : 19
-      syslines      : 14
-      syslines high : 11
+      lines         : 5
+      syslines      : 2
+      syslines high : 2
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  14, miss  20, 41.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 522, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  14,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  14,  0.0%, put  14
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  14,  6.7%, put  14
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  13, miss  19, 40.6%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   6, 14.3%, put   5
+      copying: SyslineReader::get_boxptrs()                        : sgl 508, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   5, miss  51,  8.9%, largest skipped 19
+      optimize:SyslineReader::ezcheckd2                            : hit   2, miss  40,  4.8%, largest skipped 19
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 466,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 517
+      process: regex captures attempted                            : 506
   Processing Drops:
 
 File: ./logs/Debian9/Xorg.0.log.old
@@ -1772,33 +1772,33 @@ File: ./logs/Debian9/Xorg.0.log.old
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 4062
-      flushes       : 14
-      lines         : 19
-      syslines      : 14
+      bytes         : 0
+      flushes       : 0
+      lines         : 0
+      syslines      : 0
   Processed:
       file size     : 1250 (0x4E2) (bytes)
-      bytes         : 1250 (0x4E2)
+      bytes         : 482 (0x1E2)
       bytes total   : 1250 (0x4E2)
       block size    : 256 (0x100)
-      blocks        : 5
+      blocks        : 2
       blocks total  : 5 (1280 bytes)
-      lines         : 19
-      syslines      : 14
-      syslines high : 11
+      lines         : 5
+      syslines      : 2
+      syslines high : 2
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  14, miss  20, 41.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 522, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  14,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  14,  0.0%, put  14
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  14,  6.7%, put  14
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  13, miss  19, 40.6%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   6, 14.3%, put   5
+      copying: SyslineReader::get_boxptrs()                        : sgl 508, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   5, miss  51,  8.9%, largest skipped 19
+      optimize:SyslineReader::ezcheckd2                            : hit   2, miss  40,  4.8%, largest skipped 19
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 466,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 517
+      process: regex captures attempted                            : 506
   Processing Drops:
 
 File: ./logs/FedoraRemix29/dnf.librepo.log
@@ -2173,27 +2173,27 @@ File: ./logs/OpenSUSE15/lightdm.log
       syslines      : 0
   Processed:
       file size     : 1232 (0x4D0) (bytes)
-      bytes         : 256 (0x100)
+      bytes         : 464 (0x1D0)
       bytes total   : 1232 (0x4D0)
       block size    : 256 (0x100)
-      blocks        : 1
+      blocks        : 2
       blocks total  : 5 (1280 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 4
+      syslines      : 2
+      syslines high : 2
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 158, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
-      caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss   1, 50.0%, put   1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   2, miss   5, 28.6%, put   4
+      copying: SyslineReader::get_boxptrs()                        : sgl 159, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  14,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  15,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 144,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 158
+      process: regex captures attempted                            : 159
   Processing Drops:
 
 File: ./logs/OpenSUSE15/YaST2/y2log
@@ -16968,33 +16968,67 @@ File: ./logs/Ubuntu22/dmesg
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3234
-      flushes       : 14
-      lines         : 14
-      syslines      : 14
+      bytes         : 0
+      flushes       : 0
+      lines         : 0
+      syslines      : 0
   Processed:
-      file size     : 1162 (0x48A) (bytes)
-      bytes         : 1162 (0x48A)
-      bytes total   : 1162 (0x48A)
+      file size     : 1193 (0x4A9) (bytes)
+      bytes         : 425 (0x1A9)
+      bytes total   : 1193 (0x4A9)
       block size    : 256 (0x100)
-      blocks        : 5
+      blocks        : 2
       blocks total  : 5 (1280 bytes)
-      lines         : 14
-      syslines      : 14
-      syslines high : 12
+      lines         : 2
+      syslines      : 1
+      syslines high : 1
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  29,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  15, miss  16, 48.4%, put  14
-      copying: SyslineReader::get_boxptrs()                        : sgl 166, dbl    3, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  15,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  15,  0.0%, put  14
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  15,  0.0%, put  14
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  14, miss  14, 50.0%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 157, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  25,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 144,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 169
+      process: regex captures attempted                            : 157
+  Processing Drops:
+
+File: ./logs/Ubuntu22/dmesg-+0400
+  About:
+      filetype       : TEXT UTF8/ASCII
+      logmessagetype : syslog lines
+  Printed:
+      bytes         : 0
+      flushes       : 0
+      lines         : 0
+      syslines      : 0
+  Processed:
+      file size     : 937 (0x3A9) (bytes)
+      bytes         : 425 (0x1A9)
+      bytes total   : 937 (0x3A9)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 4 (1024 bytes)
+      lines         : 2
+      syslines      : 1
+      syslines high : 1
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 157, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 144,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 157
   Processing Drops:
 
 File: ./logs/Ubuntu22/dmesg.0
@@ -17002,33 +17036,33 @@ File: ./logs/Ubuntu22/dmesg.0
       filetype       : TEXT UTF8/ASCII
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3233
-      flushes       : 14
-      lines         : 14
-      syslines      : 14
+      bytes         : 0
+      flushes       : 0
+      lines         : 0
+      syslines      : 0
   Processed:
       file size     : 1161 (0x489) (bytes)
-      bytes         : 1161 (0x489)
+      bytes         : 393 (0x189)
       bytes total   : 1161 (0x489)
       block size    : 256 (0x100)
-      blocks        : 5
+      blocks        : 2
       blocks total  : 5 (1280 bytes)
-      lines         : 14
-      syslines      : 14
-      syslines high : 12
+      lines         : 2
+      syslines      : 1
+      syslines high : 1
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  29,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  15, miss  16, 48.4%, put  14
-      copying: SyslineReader::get_boxptrs()                        : sgl 166, dbl    3, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  15,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  15,  0.0%, put  14
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  15,  0.0%, put  14
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  14, miss  14, 50.0%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 157, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  25,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 144,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 169
+      process: regex captures attempted                            : 157
   Processing Drops:
 
 File: ./logs/Ubuntu22/dmesg.0.gz
@@ -17036,10 +17070,10 @@ File: ./logs/Ubuntu22/dmesg.0.gz
       filetype       : TEXT UTF8/ASCII (GZIP)
       logmessagetype : syslog lines
   Printed:
-      bytes         : 3233
-      flushes       : 14
-      lines         : 14
-      syslines      : 14
+      bytes         : 0
+      flushes       : 0
+      lines         : 0
+      syslines      : 0
   Processed:
       file size compressed  : 569 (0x239) (bytes)
       file size uncompressed: 1161 (0x489) (bytes)
@@ -17048,22 +17082,22 @@ File: ./logs/Ubuntu22/dmesg.0.gz
       block size    : 256 (0x100)
       blocks        : 5
       blocks total  : 5 (1280 bytes)
-      lines         : 14
-      syslines      : 14
-      syslines high : 14
+      lines         : 2
+      syslines      : 1
+      syslines high : 1
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss  29,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  15, miss  16, 48.4%, put  14
-      copying: SyslineReader::get_boxptrs()                        : sgl 166, dbl    3, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  15,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  15,  0.0%, put  14
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  15,  0.0%, put  14
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  14, miss  14, 50.0%, put   0
+      storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 157, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  25,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  13,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 144,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 169
+      process: regex captures attempted                            : 157
   Processing Drops:
 
 File: ./logs/Ubuntu22/dpkg.log
@@ -18407,14 +18441,14 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
-Paths considered       : 617
+Paths considered       : 618
 Paths not processed    : 33
-Files processed        : 584
-Files printed          : 454
-Printed bytes          : 8305915
-Printed flushes        : 28000
-Printed lines          : 14484
-Printed syslines       : 12015
+Files processed        : 585
+Files printed          : 449
+Printed bytes          : 8287812
+Printed flushes        : 27860
+Printed lines          : 14404
+Printed syslines       : 11945
 Printed evtx events    : 681
 Printed fixedstruct    : 116
 Printed journal events : 18
@@ -18422,9 +18456,9 @@ Regex patterns known   : 175
 Regex patterns compiled: 175
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
-Channel Receive ok     : 14000
+Channel Receive ok     : 13932
 Channel Receive err    : 0
-Threads Spawned        : 585
+Threads Spawned        : 586
 Thread Spawn errors    : 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

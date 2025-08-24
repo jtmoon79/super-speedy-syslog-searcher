@@ -1161,7 +1161,8 @@
 ./logs/Ubuntu22/auth.log|2022-10-03 22:15:45.5257725660
 ./logs/Ubuntu22/cloud-init.log|2022-07-31 19:12:53.017
 ./logs/Ubuntu22/cloud-init-output.log|2022-10-06 21:34:42.617770807 -0700
-./logs/Ubuntu22/dmesg|2022-10-04 10:23:21.000000000 -0700
+./logs/Ubuntu22/dmesg|2022-10-01 20:00:07 -0700
+./logs/Ubuntu22/dmesg-+0400|2022-10-01 09:00:07 +0400
 ./logs/Ubuntu22/dmesg.0|2022-09-01 01:34:42.7097690470 -0700
 ./logs/Ubuntu22/dmesg.0.gz|2022-09-01 01:34:42.709769047 -0700
 ./logs/Ubuntu22/dpkg.log.1|2022-09-01 06:21:07
