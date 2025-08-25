@@ -1,0 +1,161 @@
++ git log -n1 --oneline -1
++ cat -
+4adfd641 (TOOLS) compare-log-mergers.sh hyperfine -i
++ /usr/bin/time --version
+time (GNU Time) UNKNOWN
++ python --version
+Python 3.10.12
++ hyperfine --version
+hyperfine 1.18.0
++ python -m pip install --upgrade --no-python-version-warning --disable-pip-version-check --quiet -r ./tools/compare-log-mergers/requirements.txt
++ python -m compileall -q ./.venv/lib/python3.10/site-packages
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ /usr/bin/grep --version
+grep (GNU grep) 3.7
++ /usr/bin/sort --version
+sort (GNU coreutils) 8.32
+
++ /home/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_Kt31G.json --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > /dev/null'
+Benchmark 1: grep+sort
+  Time (mean ± σ):      18.7 ms ±   1.5 ms    [User: 12.2 ms, System: 6.7 ms]
+  Range (min … max):    17.6 ms …  24.3 ms    30 runs
+ 
+  Warning: Statistical outliers were detected. Consider re-running this benchmark on a quiet system without any interferences from other programs. It might help to use the '--warmup' or '--prepare' options.
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_fWtlN.txt -- sh -c ''\''/usr/bin/grep'\'' -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log | '\''/usr/bin/sort'\'' -t '\'' '\'' -k 1 -s'
+
+5403 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ ./target/release/s4 --version
+s4 (Super Speedy Syslog Searcher), Version 0.7.78, Allocator system
+
++ /home/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_QDqY5.json -N -n 's4 (system)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
+Benchmark 1: s4 (system)
+  Time (mean ± σ):      47.5 ms ±   1.2 ms    [User: 42.8 ms, System: 37.9 ms]
+  Range (min … max):    45.6 ms …  51.2 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_1oBzd.txt -- ./target/release/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+
+5403 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ ./target/jemalloc/s4 --version
+s4 (Super Speedy Syslog Searcher), Version 0.7.78, Allocator jemalloc
++ /home/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_Je2QR.json -N -n 's4 (jemalloc)' -- ''\''./target/jemalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
+Benchmark 1: s4 (jemalloc)
+  Time (mean ± σ):      46.3 ms ±   2.6 ms    [User: 33.7 ms, System: 46.7 ms]
+  Range (min … max):    42.2 ms …  51.8 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_OYY28.txt -- ./target/jemalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+
+5403 -
+
++ ./target/mimalloc/s4 --version
+s4 (Super Speedy Syslog Searcher), Version 0.7.78, Allocator mimalloc
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ /home/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_MQCWN.json -N -n 's4 (mimalloc)' -- ''\''./target/mimalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
+Benchmark 1: s4 (mimalloc)
+  Time (mean ± σ):      30.9 ms ±   1.5 ms    [User: 33.4 ms, System: 24.1 ms]
+  Range (min … max):    28.9 ms …  34.7 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_AInXb.txt -- ./target/mimalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+
+5403 -
+
++ lnav --version
+lnav 0.11.2
++ lnav -i -W ./tools/compare-log-mergers/lnav1.json
+⚠ warning: unexpected value for property “/title”
+ --> ./tools/compare-log-mergers/lnav1.json:3
+ |     "title": "lnav1",                   
+ =   help: Available Properties
+           $schema The URI of the schema for this file
+           (\w+)/
+✔ installed -- /home/snap/lnav/2760/.lnav/formats/installed/lnav1.json
++ /home/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_XaRAb.json -N -n lnav -- ''\''lnav'\'' -N -n -c '\'';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime("2000-01-01T00:20:00") AND Datetime("2000-01-01T00:50:00")'\'' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log'
+Benchmark 1: lnav
+  Time (mean ± σ):     246.1 ms ±   9.7 ms    [User: 122.2 ms, System: 63.7 ms]
+  Range (min … max):   228.4 ms … 259.8 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_Z5zfq.txt -- lnav -N -n -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('\''2000-01-01T00:20:00'\'') AND Datetime('\''2000-01-01T00:50:00'\'')' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+
+5401 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ logmerger --version
+logmerger         0.11.0
++ python -m compileall ./.venv/lib/python3.10/site-packages/logmerger-0.11.0.dist-info
+Listing './.venv/lib/python3.10/site-packages/logmerger-0.11.0.dist-info'...
+Listing './.venv/lib/python3.10/site-packages/logmerger-0.11.0.dist-info/licenses'...
+
++ /home/.cargo/bin/hyperfine -i --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_u725q.json --shell sh -n logmerger -- ''\''logmerger'\'' --inline --output=- --start '\''2000-01-01T00:20:00'\'' --end '\''2000-01-01T00:50:00'\'' ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log > /dev/null'
+Benchmark 1: logmerger
+  Time (mean ± σ):      10.2 ms ±   0.3 ms    [User: 5.5 ms, System: 3.5 ms]
+  Range (min … max):     9.8 ms …  11.0 ms    30 runs
+ 
+  Warning: Ignoring non-zero exit code.
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_xRie1.txt -- logmerger --inline --output=- --start 2000-01-01T00:20:00 --end 2000-01-01T00:50:00 ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log
+Traceback (most recent call last):
+  File "./.venv/bin/logmerger", line 5, in <module>
+    from logmerger.logmerger import main
+ModuleNotFoundError: No module named 'logmerger'
+
+0 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ logdissect --version
+logdissect 3.1.1
+
+TODO: figure out how to use logdissect. I'm unable to get it to match on ANY files.
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ tl --version
+tl, version 1.5.0
++ python -m compileall ./.venv/lib/python3.10/site-packages/toolong
+Listing './.venv/lib/python3.10/site-packages/toolong'...
+
+skip empty JSON file /tmp/compare-log_mergers_P00NB.json
++ cat /tmp/compare-log_mergers_final_MdKDz.md
+    |Command                              |Mean (ms)  |Min (ms)|Max (ms)|Max RSS (KB)                         |CPU %|
+    |:---                                 |---:       |---:    |---:    |---:                                 |---: |
+    |`grep+sort`                          |18.7 ± 1.5 |17.6    |24.3    |4608                                 |110% |
+    |`s4 (system)`                        |47.5 ± 1.2 |45.6    |51.2    |48208                                |180% |
+    |`s4 (jemalloc)`                      |46.3 ± 2.6 |42.2    |51.8    |54016                                |179% |
+    |`s4 (mimalloc)`                      |30.9 ± 1.5 |28.9    |34.7    |79592                                |184% |
+    |`lnav`                               |246.1 ± 9.7|228.4   |259.8   |36608                                |77%  |
+    |`logmerger`                          |10.2 ± 0.3 |9.8     |11.0    |Command exited with non-zero status 1|     |
+9344|Command exited with non-zero status 1|           |        |        |                                     |     |
+80% |                                     |           |        |        |                                     |     |
+
+
+|Command                              |Mean (ms)  |Min (ms)|Max (ms)|Max
+RSS (KB)                         |CPU %|
+|:---                                 |---:       |---:    |---:    |---:
+|---: |
+|`grep+sort`                          |18.7 ± 1.5 |17.6    |24.3    |4608
+|110% |
+|`s4 (system)`                        |47.5 ± 1.2 |45.6    |51.2    |48208
+|180% |
+|`s4 (jemalloc)`                      |46.3 ± 2.6 |42.2    |51.8    |54016
+|179% |
+|`s4 (mimalloc)`                      |30.9 ± 1.5 |28.9    |34.7    |79592
+|184% |
+|`lnav`                               |246.1 ± 9.7|228.4   |259.8   |36608
+|77%  |
+|`logmerger`                          |10.2 ± 0.3 |9.8     |11.0
+|Command exited with non-zero status 1|     |
+
+9344|Command exited with non-zero status 1|           |        |        |
+|     |
+80% |                                     |           |        |        |
+|     |
+
