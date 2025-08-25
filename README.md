@@ -791,7 +791,7 @@ Here are two typical log messages from them:
 Programs tested:
 
 - GNU `grep` 3.7, GNU `sort` 8.32
-- `s4` 0.7.78 compiled with rustc 1.73.0
+- `s4` 0.7.77 compiled with rustc 1.73.0
 - `lnav` 0.11.2
 - `logmerger` 0.11.0 on Python 3.10.12
 - `tl` (_toolong_) 1.5.0 on Python 3.10.12
@@ -803,7 +803,7 @@ Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
 See archived results in [`compare-log-mergers.txt`].
 
-[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.78/releases/0.7.78
+[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.77/releases/0.7.77
 
 ---
 
