@@ -775,7 +775,7 @@ Ad-hoc text formats:
 
 |Program        |Ad-hoc text formats|Red Hat Audit Log|strace|Apache Common Log Format|dmesg|
 |-              |-                  |-                |-     |-                       |-    |
-|`grep \| sort` |‼                  |!                |✔     |‼                       |✗   |
+|`grep \| sort` |‼                  |!                |✔     |‼                       |!   |
 |`s4`           |✔                  |✔               |✔     |✔                      |✔   |
 |`lnav`         |‼                  |‼                |‼     |✔                       |✗   |
 |`logmerger`    |‼                  |‼                |✔     |‼                       |✗   |
@@ -802,6 +802,7 @@ All programs besides `s4` fail to merge different text log formats.
 
 A comparison of merging three large contrived log files.
 The three log files have 5000 lines, 2158138 bytes (≈2.1 MB) each, with high-plane unicode.
+There is filtering on a subset of datetime values.
 Here are two typical log messages from them:
 
 ```text
