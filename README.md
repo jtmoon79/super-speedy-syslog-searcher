@@ -56,6 +56,7 @@ systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
   - [Features](#features)
     - [File name guessing](#file-name-guessing)
     - [Directory walks](#directory-walks)
+    - [Platforms supported](#platforms-supported)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
 - [More](#more)
@@ -584,6 +585,44 @@ to process `file.mp3`. An invocation of `s4 /tmp/file.mp3` will attempt to
 process `file.mp3`. It will be treated as a UTF8 text log file.
 
 [`src/readers/filepreprocessor`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.7.78/src/readers/filepreprocessor.rs#L480
+
+#### Platforms supported
+
+Builds are tested on the following rust platforms:
+
+_Tier 1_
+
+- aarch64-unknown-linux-gnu
+- i686-pc-windows-gnu
+- i686-pc-windows-msvc
+- i686-unknown-linux-gnu
+- x86_64-pc-windows-gnu
+- x86_64-pc-windows-msvc
+- x86_64-unknown-linux-gnu
+
+_Tier 2_
+
+- aarch64-unknown-linux-musl
+- arm-unknown-linux-gnueabi
+- arm-unknown-linux-gnueabihf
+- armv7-unknown-linux-gnueabihf
+- loongarch64-unknown-linux-gnu
+- powerpc-unknown-linux-gnu
+- powerpc64-unknown-linux-gnu
+- riscv64gc-unknown-linux-gnu
+- x86_64-unknown-freebsd
+- x86_64-unknown-illumos
+- x86_64-unknown-linux-musl
+- x86_64-unknown-netbsd
+- aarch64-linux-android
+- i686-linux-android
+- x86_64-pc-solaris
+- x86_64-linux-android
+- x86_64-unknown-redox
+
+See [the Github Action].
+
+[the Github Action]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.7.78/.github/workflows/rust.yml
 
 ### Limitations
 
