@@ -56,7 +56,7 @@ systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
   - [Features](#features)
     - [File name guessing](#file-name-guessing)
     - [Directory walks](#directory-walks)
-    - [Platforms supported](#platforms-supported)
+    - [Platforms tested](#platforms-tested)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
 - [More](#more)
@@ -586,7 +586,7 @@ process `file.mp3`. It will be treated as a UTF8 text log file.
 
 [`src/readers/filepreprocessor`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.7.78/src/readers/filepreprocessor.rs#L480
 
-#### Platforms supported
+#### Platforms tested
 
 Builds are tested on the following rust platforms:
 
@@ -801,9 +801,12 @@ All programs besides `s4` fail to merge different text log formats.
 #### Speed Comparison
 
 A comparison of merging three large contrived log files.
-The three log files have 5000 lines, 2158138 bytes (≈2.1 MB) each, with high-plane unicode.
-There is filtering on a subset of datetime values.
-Here are two typical log messages from them:
+The three log files have 5000 single-line log messages, 2158138 bytes (≈2.1 MB) each,
+with high-plane unicode.
+There is filtering on a a range of datetime values that prints 1800 single-line
+log messages.
+
+Here are two typical log messages from a contrived log file:
 
 ```text
 2000-01-01T00:00:01 0001 A 😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁
