@@ -194,13 +194,20 @@ For example, print all the log messages in syslog files under `/var/log/`
 s4 /var/log
 ```
 
+Print the last 5 minutes of log messages
+
+```lang-text
+s4 /var/log -a=-5m
+```
+
 On Windows, print the ad-hoc logs under `C:\Windows\Logs`
 
 ```lang-text
 s4.exe C:\Windows\Logs
 ```
 
-On Windows, print all `.log` files under `C:\Windows` (with the help of Powershell)
+On Windows, print all `.log` files under `C:\Windows`
+(with the help of Powershell)
 
 ```lang-powershell
 Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction SilentlyContinue `
@@ -235,10 +242,17 @@ or
 s4 /var/log -a 20220101 -b @+1d
 ```
 
-Print the log messages on January 1, 2022, from 12:00:00 to 16:00:00
+Print the log messages on January 1, 2022, from 12:00:00 and
+the preceding 5 minutes
 
 ```lang-text
-s4 /var/log -a 20220101T120000 -b 20220101T160000
+s4 /var/log -a=@-5m -b 20220101T120000
+```
+
+Print the log messages on for the 5 minute period ending 1 minute ago
+
+```lang-text
+s4 /var/log -a=@-5m -b=-1m
 ```
 
 Print the record-keeping log messages from up to a day ago
