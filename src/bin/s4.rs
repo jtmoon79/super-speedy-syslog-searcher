@@ -571,6 +571,8 @@ DateTimes supported language is English.
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 
+---
+
 Author: "#, env!("CARGO_PKG_AUTHORS"), r#"
 Version: "#, env!("CARGO_PKG_VERSION"), r#"
 License: "#, env!("CARGO_PKG_LICENSE"), r#"
