@@ -503,7 +503,7 @@ Each * is an optional trailing 3-digit fractional sub-seconds,
 or 6-digit fractional sub-seconds, and/or timezone.
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
-For example, value "+946684800" is be January 1, 2000 at 00:00, GMT.
+For example, value "+946684800" is January 1, 2000 at 00:00, GMT.
 
 DateTime Filters may be custom relative offset patterns:
     "+DwDdDhDmDs" or "-DwDdDhDmDs"
