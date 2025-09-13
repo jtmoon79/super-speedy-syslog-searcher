@@ -410,8 +410,10 @@ DateTime Filters may be strftime specifier patterns:
     "%Y%m%d"
     "%Y-%m-%d"
     "%Y/%m/%d"
+    "%H:%M:%S"
+    "%H:%M"
     "+%s"
-Each * is an optional trailing 3-digit fractional sub-seconds,
+Each trailing * is an optional trailing 3-digit fractional sub-seconds,
 or 6-digit fractional sub-seconds, and/or timezone.
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".

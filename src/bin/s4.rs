@@ -270,14 +270,14 @@ enum CLI_Color_Choice {
 /// Subset of [`DateTimeParseInstr`] for calls to
 /// function [`datetime_parse_from_str`].
 ///
-/// (DateTimePattern_str, has year, has timezone, has_Z, has time)
+/// (DateTimePattern_str, has_year, has_timezone, has_Z, has_time, has_time_sec, has_date)
 ///
 /// [`DateTimeParseInstr`]: s4lib::data::datetime::DateTimeParseInstr
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
 #[allow(non_camel_case_types)]
-type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool, bool);
+type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool, bool, bool, bool);
 
-const CLI_FILTER_PATTERNS_COUNT: usize = 76;
+const CLI_FILTER_PATTERNS_COUNT: usize = 78;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
 // XXX: this is a an inelegant brute-force approach to matching potential
@@ -288,105 +288,109 @@ const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = 
     // XXX: use of `%Z` must be at the end of the `DateTimePattern_str` value
     //      as this is an assumption of the `process_dt` function.
     // YYYYmmddTHH:MM:SS*
-    ("%Y%m%dT%H%M%S", true, false, false, true),
-    ("%Y%m%dT%H%M%S.%3f", true, false, false, true),
-    ("%Y%m%dT%H%M%S.%6f", true, false, false, true),
+    ("%Y%m%dT%H%M%S", true, false, false, true, true, true),
+    ("%Y%m%dT%H%M%S.%3f", true, false, false, true, true, true),
+    ("%Y%m%dT%H%M%S.%6f", true, false, false, true, true, true),
     // %z
-    ("%Y%m%dT%H%M%S%z", true, true, false, true),
-    ("%Y%m%dT%H%M%S.%3f%z", true, true, false, true),
-    ("%Y%m%dT%H%M%S.%6f%z", true, true, false, true),
+    ("%Y%m%dT%H%M%S%z", true, true, false, true, true, true),
+    ("%Y%m%dT%H%M%S.%3f%z", true, true, false, true, true, true),
+    ("%Y%m%dT%H%M%S.%6f%z", true, true, false, true, true, true),
     // %:z
-    ("%Y%m%dT%H%M%S%:z", true, true, false, true),
-    ("%Y%m%dT%H%M%S.%3f%:z", true, true, false, true),
-    ("%Y%m%dT%H%M%S.%6f%:z", true, true, false, true),
+    ("%Y%m%dT%H%M%S%:z", true, true, false, true, true, true),
+    ("%Y%m%dT%H%M%S.%3f%:z", true, true, false, true, true, true),
+    ("%Y%m%dT%H%M%S.%6f%:z", true, true, false, true, true, true),
     // %#z
-    ("%Y%m%dT%H%M%S%#z", true, true, false, true),
-    ("%Y%m%dT%H%M%S.%3f%#z", true, true, false, true),
-    ("%Y%m%dT%H%M%S.%6f%#z", true, true, false, true),
+    ("%Y%m%dT%H%M%S%#z", true, true, false, true, true, true),
+    ("%Y%m%dT%H%M%S.%3f%#z", true, true, false, true, true, true),
+    ("%Y%m%dT%H%M%S.%6f%#z", true, true, false, true, true, true),
     // %Z
-    ("%Y%m%dT%H%M%S%Z", true, true, true, true),
-    ("%Y%m%dT%H%M%S.%3f%Z", true, true, true, true),
-    ("%Y%m%dT%H%M%S.%6f%Z", true, true, true, true),
+    ("%Y%m%dT%H%M%S%Z", true, true, true, true, true, true),
+    ("%Y%m%dT%H%M%S.%3f%Z", true, true, true, true, true, true),
+    ("%Y%m%dT%H%M%S.%6f%Z", true, true, true, true, true, true),
     // YYYY-mm-dd HH:MM:SS*
-    ("%Y-%m-%d %H:%M:%S", true, false, false, true),
-    ("%Y-%m-%d %H:%M:%S.%3f", true, false, false, true),
-    ("%Y-%m-%d %H:%M:%S.%6f", true, false, false, true),
+    ("%Y-%m-%d %H:%M:%S", true, false, false, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%3f", true, false, false, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%6f", true, false, false, true, true, true),
     // %z
-    ("%Y-%m-%d %H:%M:%S %z", true, true, false, true),
-    ("%Y-%m-%d %H:%M:%S.%3f %z", true, true, false, true),
-    ("%Y-%m-%d %H:%M:%S.%6f %z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S %z", true, true, false, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%3f %z", true, true, false, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%6f %z", true, true, false, true, true, true),
     // %:z
-    ("%Y-%m-%d %H:%M:%S %:z", true, true, false, true),
-    ("%Y-%m-%d %H:%M:%S.%3f %:z", true, true, false, true),
-    ("%Y-%m-%d %H:%M:%S.%6f %:z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S %:z", true, true, false, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%3f %:z", true, true, false, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%6f %:z", true, true, false, true, true, true),
     // %#z
-    ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true),
-    ("%Y-%m-%d %H:%M:%S.%3f %#z", true, true, false, true),
-    ("%Y-%m-%d %H:%M:%S.%6f %#z", true, true, false, true),
+    ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%3f %#z", true, true, false, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%6f %#z", true, true, false, true, true, true),
     // %Z
-    ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%3f %Z", true, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%6f %Z", true, true, true, true),
+    ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%3f %Z", true, true, true, true, true, true),
+    ("%Y-%m-%d %H:%M:%S.%6f %Z", true, true, true, true, true, true),
     // YYYY-mm-ddTHH:MM:SS*
-    ("%Y-%m-%dT%H:%M:%S", true, false, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f", true, false, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f", true, false, false, true),
+    ("%Y-%m-%dT%H:%M:%S", true, false, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f", true, false, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f", true, false, false, true, true, true),
     // %z
-    ("%Y-%m-%dT%H:%M:%S%z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f %z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f %z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f%z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S%z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f %z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f %z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f%z", true, true, false, true, true, true),
     // %:z
-    ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%:z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f%:z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f %:z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f %:z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%:z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f%:z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f %:z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f %:z", true, true, false, true, true, true),
     // %#z
-    ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%#z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f%#z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f %#z", true, true, false, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f %#z", true, true, false, true),
+    ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%#z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f%#z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f %#z", true, true, false, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f %#z", true, true, false, true, true, true),
     // %Z
-    ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%Z", true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f%Z", true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f %Z", true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f %Z", true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f%Z", true, true, true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f%Z", true, true, true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%3f %Z", true, true, true, true, true, true),
+    ("%Y-%m-%dT%H:%M:%S.%6f %Z", true, true, true, true, true, true),
     // YYYY/mm/dd HH:MM:SS*
-    ("%Y/%m/%d %H:%M:%S", true, false, false, true),
-    ("%Y/%m/%d %H:%M:%S.%3f", true, false, false, true),
-    ("%Y/%m/%d %H:%M:%S.%6f", true, false, false, true),
+    ("%Y/%m/%d %H:%M:%S", true, false, false, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%3f", true, false, false, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%6f", true, false, false, true, true, true),
     // %z
-    ("%Y/%m/%d %H:%M:%S %z", true, true, false, true),
-    ("%Y/%m/%d %H:%M:%S.%3f %z", true, true, false, true),
-    ("%Y/%m/%d %H:%M:%S.%6f %z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S %z", true, true, false, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%3f %z", true, true, false, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%6f %z", true, true, false, true, true, true),
     // %:z
-    ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true),
-    ("%Y/%m/%d %H:%M:%S.%3f %:z", true, true, false, true),
-    ("%Y/%m/%d %H:%M:%S.%6f %:z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%3f %:z", true, true, false, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%6f %:z", true, true, false, true, true, true),
     // %#z
-    ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true),
-    ("%Y/%m/%d %H:%M:%S.%3f %#z", true, true, false, true),
-    ("%Y/%m/%d %H:%M:%S.%6f %#z", true, true, false, true),
+    ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%3f %#z", true, true, false, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%6f %#z", true, true, false, true, true, true),
     // %Z
-    ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%3f %Z", true, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%6f %Z", true, true, true, true),
+    ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%3f %Z", true, true, true, true, true, true),
+    ("%Y/%m/%d %H:%M:%S.%6f %Z", true, true, true, true, true, true),
     // YYYYmmdd
-    ("%Y%m%d", true, false, false, false),
+    ("%Y%m%d", true, false, false, false, false, true),
     // YYYY-mm-dd
-    ("%Y-%m-%d", true, false, false, false),
+    ("%Y-%m-%d", true, false, false, false, false, true),
     // YYYY/mm/dd
-    ("%Y/%m/%d", true, false, false, false),
+    ("%Y/%m/%d", true, false, false, false, false, true),
+    // HH:mm:ss
+    ("%H:%M:%S", true, false, false, true, true, false),
+    // HH:mm
+    ("%H:%M", true, false, false, true, false, false),
     // s
-    ("+%s", false, false, false, true),
+    ("+%s", false, false, false, true, false, true),
 ];
 
 const CGN_DUR_OFFSET_TYPE: &str = "offset_type";
@@ -448,6 +452,10 @@ const CLI_DT_FILTER_APPEND_TIME_VALUE: &str = " T000000";
 /// when `has_time` is `false`.
 const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
 
+/// CLI strftime format pattern to append in function `process_dt`
+/// when `has_date` is `false`.
+const CLI_DT_FILTER_APPEND_DATE_PATTERN: &str = "%Y%m%dT";
+
 /// default separator for prepended strings
 const CLI_PREPEND_SEP: &str = ":";
 
@@ -497,9 +505,15 @@ DateTime Filters may be strftime specifier patterns:
     "\"
     \"",
     CLI_FILTER_PATTERNS[75].0,
+    "\"
+    \"",
+    CLI_FILTER_PATTERNS[76].0,
+    "\"
+    \"",
+    CLI_FILTER_PATTERNS[77].0,
     "\"",
     r#"
-Each * is an optional trailing 3-digit fractional sub-seconds,
+Each trailing * is an optional trailing 3-digit fractional sub-seconds,
 or 6-digit fractional sub-seconds, and/or timezone.
 
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
@@ -1217,10 +1231,12 @@ fn process_dt(
         has_tz,
         has_tzZ,
         has_time,
+        _has_time_sec,
+        has_date,
     ) in CLI_FILTER_PATTERNS.iter() {
         defo!(
-            "(pattern {:?}, has_year {:?}, has_tz {:?}, has_tzZ {:?}, has_time {:?})",
-            pattern_, _has_year, has_tz, has_tzZ, has_time,
+            "(pattern {:?}, has_year {:?}, has_tz {:?}, has_tzZ {:?}, has_time {:?}, has_time_sec {:?}, has_date {:?})",
+            pattern_, _has_year, has_tz, has_tzZ, has_time, _has_time_sec, has_date
         );
         let mut pattern: String = String::from(*pattern_);
         let mut dts_: String = dts.clone();
@@ -1255,6 +1271,18 @@ fn process_dt(
             dts_.push_str(CLI_DT_FILTER_APPEND_TIME_VALUE);
             pattern.push_str(CLI_DT_FILTER_APPEND_TIME_PATTERN);
             defo!("appended {:?}, {:?}", CLI_DT_FILTER_APPEND_TIME_VALUE, CLI_DT_FILTER_APPEND_TIME_PATTERN);
+        }
+        if !has_date {
+            let mut ymd = String::with_capacity(11);
+            LOCAL_NOW.with(|ln| {
+                let y = ln.year();
+                let m = ln.month();
+                let d = ln.day();
+                ymd = format!("{:04}{:02}{:02}T", y, m, d);
+                dts_.insert_str(0, &ymd);
+            });
+            pattern.insert_str(0, CLI_DT_FILTER_APPEND_DATE_PATTERN);
+            defo!("prepended {:?}, {:?}", ymd, CLI_DT_FILTER_APPEND_DATE_PATTERN);
         }
         defo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
         if let Some(val) = datetime_parse_from_str(dts_.as_str(), pattern.as_str(), *has_tz, tz_offset) {
@@ -4046,7 +4074,15 @@ mod tests {
     #[test]
     fn test_cli_filter_patterns() {
         #[allow(non_snake_case)]
-        for (pattern_, _has_year, has_tz, has_tzZ, has_time) in CLI_FILTER_PATTERNS.iter() {
+        for (
+            pattern_,
+            _has_year,
+            has_tz,
+            has_tzZ,
+            has_time,
+            has_time_sec,
+            has_date,
+        ) in CLI_FILTER_PATTERNS.iter() {
             let pattern: DateTimePattern_string = DateTimePattern_string::from(*pattern_);
 
             let has_tz_actual = pattern.contains("%z")
@@ -4079,15 +4115,34 @@ mod tests {
             assert!(!(*has_tzZ && !has_tz), "has_tzZ && !has_tz");
 
             let has_time_actual = pattern.contains("%H")
-                || pattern.contains("%M")
-                || pattern.contains("%S")
-                || pattern.contains("%s")
-                || pattern.contains("%3f");
+                && pattern.contains("%M")
+                || pattern.contains("+%s");
             assert!(
                 has_time == &has_time_actual,
                 "has_time: {} != {} actual in {:?}",
                 has_time,
                 has_time_actual,
+                pattern
+            );
+
+            let has_time_sec_actual = pattern.contains("%S");
+            assert!(
+                has_time_sec == &has_time_sec_actual,
+                "has_time_sec: {} != {} actual in {:?}",
+                has_time_sec,
+                has_time_sec_actual,
+                pattern
+            );
+
+            let has_date_actual = pattern.contains("%Y")
+                && pattern.contains("%m")
+                && pattern.contains("%d")
+                || pattern.contains("+%s");
+            assert!(
+                has_date == &has_date_actual,
+                "has_date: {} != {} actual in {:?}",
+                has_date,
+                has_date_actual,
                 pattern
             );
         }
