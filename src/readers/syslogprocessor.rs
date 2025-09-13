@@ -14,7 +14,7 @@
 //!
 //! Sibling of [`FixedStructReader`]. But far more complicated due to the
 //! ad-hoc nature of log files.
-//! 
+//!
 //! This is an _s4lib_ structure used by the binary program _s4_.
 //!
 //! [`FixedStructReader`]: crate::readers::fixedstructreader::FixedStructReader
@@ -22,6 +22,28 @@
 //! [`SyslogProcessor`]: SyslogProcessor
 
 #![allow(non_snake_case)]
+
+use std::fmt;
+use std::fmt::Debug;
+use std::io::{
+    Error,
+    ErrorKind,
+    Result,
+};
+use std::time::Duration as StdDuration;
+
+use ::chrono::Datelike;
+use ::lazy_static::lazy_static;
+use ::rangemap::RangeMap;
+use ::si_trace_print::{
+    def1n,
+    def1x,
+    def1ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 
 use crate::common::{
     Count,
@@ -33,9 +55,9 @@ use crate::common::{
     SYSLOG_SZ_MAX,
 };
 use crate::data::datetime::{
+    datetime_minus_systemtime,
     dt_after_or_before,
     systemtime_to_datetime,
-    datetime_minus_systemtime,
     DateTimeL,
     DateTimeLOpt,
     Duration,
@@ -46,7 +68,8 @@ use crate::data::datetime::{
     UPTIME_DEFAULT_OFFSET,
 };
 use crate::data::sysline::SyslineP;
-use crate::{e_err, de_err, de_wrn};
+#[cfg(test)]
+use crate::readers::blockreader::SetDroppedBlocks;
 use crate::readers::blockreader::{
     BlockIndex,
     BlockOffset,
@@ -54,14 +77,13 @@ use crate::readers::blockreader::{
     BlockSz,
     ResultFindReadBlock,
 };
-#[cfg(test)]
-use crate::readers::blockreader::SetDroppedBlocks;
-#[cfg(test)]
-use crate::readers::linereader::SetDroppedLines;
-#[cfg(test)]
-use crate::readers::syslinereader::SetDroppedSyslines;
 #[doc(hidden)]
 pub use crate::readers::linereader::ResultFindLine;
+#[cfg(test)]
+use crate::readers::linereader::SetDroppedLines;
+use crate::readers::summary::Summary;
+#[cfg(test)]
+use crate::readers::syslinereader::SetDroppedSyslines;
 #[doc(hidden)]
 pub use crate::readers::syslinereader::{
     DateTimePatternCounts,
@@ -69,18 +91,11 @@ pub use crate::readers::syslinereader::{
     SummarySyslineReader,
     SyslineReader,
 };
-use crate::readers::summary::Summary;
-
-use std::fmt;
-use std::fmt::Debug;
-use std::io::{Error, ErrorKind, Result};
-use std::time::Duration as StdDuration;
-
-use ::chrono::Datelike;
-use ::lazy_static::lazy_static;
-use ::rangemap::RangeMap;
-use ::si_trace_print::{def1n, def1x, def1ñ, defn, defo, defx, defñ};
-
+use crate::{
+    de_err,
+    de_wrn,
+    e_err,
+};
 
 // ---------------
 // SyslogProcessor
@@ -115,7 +130,7 @@ pub enum ProcessingStage {
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     Stage2FindDt,
     /// Advanced through the syslog file to the end.<br/>
-    /// If passed CLI option `--before` then process up to 
+    /// If passed CLI option `--before` then process up to
     /// the last [`Sysline`] with datetime at or before the user-passed
     /// [`DateTimeL`]. Otherwise, process all remaining Syslines.
     ///
@@ -364,21 +379,19 @@ impl SyslogProcessor {
 
         def1x!("return Ok(SyslogProcessor)");
 
-        Result::Ok(
-            SyslogProcessor {
-                syslinereader: slr,
-                processingstage: ProcessingStage::Stage0ValidFileCheck,
-                path: path_,
-                blocksz,
-                tz_offset,
-                filter_dt_after_opt,
-                filter_dt_before_opt,
-                blockzero_analysis_done: false,
-                drop_block_last: 0,
-                missing_year: None,
-                error: None,
-            }
-        )
+        Result::Ok(SyslogProcessor {
+            syslinereader: slr,
+            processingstage: ProcessingStage::Stage0ValidFileCheck,
+            path: path_,
+            blocksz,
+            tz_offset,
+            filter_dt_after_opt,
+            filter_dt_before_opt,
+            blockzero_analysis_done: false,
+            drop_block_last: 0,
+            missing_year: None,
+            error: None,
+        })
     }
 
     /// `Count` of [`Line`s] processed.
@@ -756,15 +769,11 @@ impl SyslogProcessor {
         if diff_nanos < 0 {
             diff_nanos = 0;
         }
-        let diffs: StdDuration = StdDuration::new(
-            diff_secs as u64,
-            diff_nanos as u32,
-        );
+        let diffs: StdDuration = StdDuration::new(diff_secs as u64, diff_nanos as u32);
         defo!("diffs {:?}", diffs);
         defo!("mtime()");
         let mtime = self.mtime();
-        defo!("mtime {:?} (as DateTime {:?})",
-              mtime, systemtime_to_datetime(&self.tz_offset, &mtime));
+        defo!("mtime {:?} (as DateTime {:?})", mtime, systemtime_to_datetime(&self.tz_offset, &mtime));
         // std::time::Duration is unsigned whereas chrono::Duration is signed.
         let st_at_zero = if diff_secs > 0 {
             defo!("checked_sub({:?})", diffs);
@@ -842,7 +851,7 @@ impl SyslogProcessor {
         def1n!("({})", blockoffset);
         self.assert_stage(ProcessingStage::Stage3StreamSyslines);
 
-        if ! self.is_drop_data() {
+        if !self.is_drop_data() {
             def1x!("return false; is_drop_data() is false");
             return false;
         }
@@ -1211,7 +1220,7 @@ impl SyslogProcessor {
                         Some(_) => {
                             found += 1;
                             _partial_found = true;
-                        },
+                        }
                         None => {}
                     }
                     break;

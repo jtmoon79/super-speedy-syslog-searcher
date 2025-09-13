@@ -137,61 +137,36 @@
 //! [Issue #17]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/17
 //! [`DT_USES_SOURCE_OVERRIDE`]: DT_USES_SOURCE_OVERRIDE
 
-use crate::de_err;
-use crate::common::{
-    Count,
-    File,
-    FileOpenOptions,
-    FileMetadata,
-    FileSz,
-    FileType,
-    FileTypeArchive,
-    FPath,
-    ResultFind4,
-    ResultFind,
+use std::collections::{
+    BTreeMap,
+    HashMap,
 };
-use crate::data::datetime::{
-    FixedOffset,
-    DateTimeL,
-    DateTimeLOpt,
-    Result_Filter_DateTime1,
-    Result_Filter_DateTime2,
-    SystemTime,
+use std::ffi::{
+    CStr,
+    CString,
 };
-use crate::data::journal::{
-    ENTRY_END_U8,
-    FIELD_END_U8,
-    FIELD_MID_U8,
-    DtUsesSource,
-    EpochMicroseconds,
-    EpochMicrosecondsOpt,
-    MonotonicMicroseconds,
-    JournalEntry,
-    realtime_timestamp_to_datetimel,
-    realtime_or_source_realtime_timestamp_to_datetimel,
-    DT_USES_SOURCE_OVERRIDE,
+use std::io::{
+    Error,
+    ErrorKind,
+    Result,
 };
-use crate::readers::filedecompressor::decompress_to_ntf;
-use crate::readers::helpers::path_to_fpath;
-use crate::readers::summary::Summary;
-
-use std::collections::{BTreeMap, HashMap};
-use std::ffi::{CStr, CString};
-use std::fmt;
-use std::io::{Error, ErrorKind, Result};
-use std::mem;
 #[cfg(test)]
 use std::ops::Range;
 use std::path::Path;
 use std::slice::Iter;
 use std::str::FromStr;
 use std::string::ToString;
+use std::{
+    fmt,
+    mem,
+};
 
 use ::bstr::{
     ByteSlice,
     ByteVec,
 };
 use ::itertools::Itertools; // for `sorted`
+use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_le,
@@ -209,34 +184,69 @@ pub use ::nix::errno::Errno;
 #[allow(unused_imports)]
 use ::si_trace_print::{
     de,
-    defn,
     def1n,
-    defo,
     def1o,
-    defx,
     def1x,
-    defñ,
     def1ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
     den,
     deo,
     dex,
     deñ,
-    pfo,
     pfn,
+    pfo,
     pfx,
 };
-use ::lazy_static::lazy_static;
 use ::tempfile::NamedTempFile;
 
 use crate::bindings::sd_journal_h::{
     sd_id128,
     sd_journal,
 };
-use crate::libload::systemd_dlopen2::{
-    JournalApiPtr,
-    journal_api,
+use crate::common::{
+    Count,
+    FPath,
+    File,
+    FileMetadata,
+    FileOpenOptions,
+    FileSz,
+    FileType,
+    FileTypeArchive,
+    ResultFind,
+    ResultFind4,
 };
-
+use crate::data::datetime::{
+    DateTimeL,
+    DateTimeLOpt,
+    FixedOffset,
+    Result_Filter_DateTime1,
+    Result_Filter_DateTime2,
+    SystemTime,
+};
+use crate::data::journal::{
+    realtime_or_source_realtime_timestamp_to_datetimel,
+    realtime_timestamp_to_datetimel,
+    DtUsesSource,
+    EpochMicroseconds,
+    EpochMicrosecondsOpt,
+    JournalEntry,
+    MonotonicMicroseconds,
+    DT_USES_SOURCE_OVERRIDE,
+    ENTRY_END_U8,
+    FIELD_END_U8,
+    FIELD_MID_U8,
+};
+use crate::de_err;
+use crate::libload::systemd_dlopen2::{
+    journal_api,
+    JournalApiPtr,
+};
+use crate::readers::filedecompressor::decompress_to_ntf;
+use crate::readers::helpers::path_to_fpath;
+use crate::readers::summary::Summary;
 
 // XXX: ripped from `nix` crate
 // stub `Errno` for to allow Windows to build
@@ -476,7 +486,7 @@ macro_rules! testing_force_error {
                 None => {}
             }
         }
-    }
+    };
 }
 
 /// `journalctl --output=verbose` field prepend.
@@ -523,15 +533,7 @@ lazy_static! {
 ///                        json, json-pretty, json-sse, json-seq, cat,
 ///                        with-unit)
 /// ```
-#[derive(
-    Clone,
-    Copy,
-    Debug,
-    Default,
-    PartialEq,
-    Eq,
-    ::clap::ValueEnum,
-)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, ::clap::ValueEnum)]
 pub enum JournalOutput {
     #[default]
     Short,
@@ -548,8 +550,11 @@ pub enum JournalOutput {
 
 /// Should match options shown in `journalctl --help`
 impl fmt::Display for JournalOutput {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-       match self {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter,
+    ) -> fmt::Result {
+        match self {
             JournalOutput::Short => write!(f, "short"),
             JournalOutput::ShortPrecise => write!(f, "short-precise"),
             JournalOutput::ShortIso => write!(f, "short-iso"),
@@ -560,7 +565,7 @@ impl fmt::Display for JournalOutput {
             JournalOutput::Verbose => write!(f, "verbose"),
             JournalOutput::Export => write!(f, "export"),
             JournalOutput::Cat => write!(f, "cat"),
-       }
+        }
     }
 }
 
@@ -991,7 +996,6 @@ pub struct SummaryJournalReader {
 
 /// Implement the JournalReader.
 impl<'a> JournalReader {
-
     /// This many `JournalEntry` will be held in memory before any are
     /// sent to the main printing thread (unless there are fewer available).
     pub const ENTRY_BUFFER_SZ: usize = 0x200 - 1;
@@ -1015,22 +1019,15 @@ impl<'a> JournalReader {
         let named_temp_file: Option<NamedTempFile>;
         let mtime_opt: Option<SystemTime>;
 
-        (named_temp_file, mtime_opt) = match decompress_to_ntf(
-            &path_std, &file_type
-        ) {
-            Ok(ntf_mtime) => {
-                match ntf_mtime {
-                    Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
-                    None => (None, None),
-                }
-            }
-            Err(err) => {
-                def1x!(
-                    "decompress_to_ntf({:?}, {:?}) Error, return {:?}",
-                    path, file_type, err,
-                );
-                return Err(err);
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(&path_std, &file_type) {
+            Ok(ntf_mtime) => match ntf_mtime {
+                Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
+                None => (None, None),
             },
+            Err(err) => {
+                def1x!("decompress_to_ntf({:?}, {:?}) Error, return {:?}", path, file_type, err,);
+                return Err(err);
+            }
         };
         def1o!("named_temp_file {:?}", named_temp_file);
         def1o!("mtime_opt {:?}", mtime_opt);
@@ -1063,23 +1060,18 @@ impl<'a> JournalReader {
 
         let mtime: SystemTime = match mtime_opt {
             Some(val) => val,
-            None => {
-                match metadata.modified() {
-                    Result::Ok(val) => val,
-                    Result::Err(_err) => {
-                        de_err!("metadata.modified() failed {}", _err);
-                        SystemTime::UNIX_EPOCH
-                    },
+            None => match metadata.modified() {
+                Result::Ok(val) => val,
+                Result::Err(_err) => {
+                    de_err!("metadata.modified() failed {}", _err);
+                    SystemTime::UNIX_EPOCH
                 }
-            }
+            },
         };
         def1o!("mtime {:?}", mtime);
 
         // create the `JournalFile` file descriptor handle
-        let mut journal_handle: Box<sd_journal> = Box::new(
-            sd_journal {
-                _unused: [0; 0],
-            });
+        let mut journal_handle: Box<sd_journal> = Box::new(sd_journal { _unused: [0; 0] });
         def1o!("journal_handle @{:p}", journal_handle.as_ref());
         let path_cs: CString = match named_temp_file {
             Some(ref ntf) => {
@@ -1087,9 +1079,7 @@ impl<'a> JournalReader {
                 def1o!("fpath {:?}", fpath);
                 CString::new(fpath.as_str()).unwrap()
             }
-            None => {
-                CString::new(path_std.to_str().unwrap()).unwrap()
-            }
+            None => CString::new(path_std.to_str().unwrap()).unwrap(),
         };
         def1o!("path_cs {:?}", path_cs);
 
@@ -1110,7 +1100,7 @@ impl<'a> JournalReader {
             if r < 0 {
                 let err = Error::new(
                     errno_to_errorkind(&e),
-                    format!("sd_journal_open_files({:?}) returned {}; {:?}", path_cs, r, e)
+                    format!("sd_journal_open_files({:?}) returned {}; {:?}", path_cs, r, e),
                 );
                 def1x!("return {:?}", err);
                 return Err(err);
@@ -1120,36 +1110,33 @@ impl<'a> JournalReader {
 
         def1x!("return Ok(JournalReader)");
 
-        Result::Ok(
-            JournalReader
-            {
-                _journal_handle: journal_handle,
-                journal_handle_ptr,
-                journal_api_ptr,
-                fill_buffer,
-                next_fill_buffer_index: 0,
-                next_fill_buffer_loop: true,
-                path,
-                named_temp_file,
-                journal_output,
-                fixed_offset,
-                events_processed: 0,
-                events_accepted: 0,
-                ts_first_accepted: EpochMicrosecondsOpt::None,
-                ts_last_accepted: EpochMicrosecondsOpt::None,
-                ts_first_processed: EpochMicrosecondsOpt::None,
-                ts_last_processed: EpochMicrosecondsOpt::None,
-                filesz,
-                mtime,
-                analyzed: false,
-                api_calls: 1,
-                api_call_errors: 0,
-                out_of_order: 0,
-                error: None,
-                #[cfg(test)]
-                force_error_range_opt: None,
-            }
-        )
+        Result::Ok(JournalReader {
+            _journal_handle: journal_handle,
+            journal_handle_ptr,
+            journal_api_ptr,
+            fill_buffer,
+            next_fill_buffer_index: 0,
+            next_fill_buffer_loop: true,
+            path,
+            named_temp_file,
+            journal_output,
+            fixed_offset,
+            events_processed: 0,
+            events_accepted: 0,
+            ts_first_accepted: EpochMicrosecondsOpt::None,
+            ts_last_accepted: EpochMicrosecondsOpt::None,
+            ts_first_processed: EpochMicrosecondsOpt::None,
+            ts_last_processed: EpochMicrosecondsOpt::None,
+            filesz,
+            mtime,
+            analyzed: false,
+            api_calls: 1,
+            api_call_errors: 0,
+            out_of_order: 0,
+            error: None,
+            #[cfg(test)]
+            force_error_range_opt: None,
+        })
     }
 
     pub fn mtime(&self) -> SystemTime {
@@ -1186,7 +1173,7 @@ impl<'a> JournalReader {
                             format!(
                                 "sd_journal_seek_realtime_usec({:?}) returned {}; {:?} file {:?}",
                                 ts, r, e, self.path
-                            )
+                            ),
                         );
                         def1x!("return {:?}", err);
                         return Err(err);
@@ -1207,10 +1194,7 @@ impl<'a> JournalReader {
                         self.api_call_errors += 1;
                         let err = Error::new(
                             errno_to_errorkind(&e),
-                            format!(
-                                "sd_journal_seek_head() returned {}; {:?} file {:?}",
-                                r, e, self.path
-                            )
+                            format!("sd_journal_seek_head() returned {}; {:?} file {:?}", r, e, self.path),
                         );
                         def1x!("return {:?}", err);
                         return Err(err);
@@ -1262,8 +1246,7 @@ impl<'a> JournalReader {
             if r == 0 {
                 def1x!("return Done");
                 return ResultFind::Done;
-            }
-            else if r < 0 {
+            } else if r < 0 {
                 *api_call_errors += 1;
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_next", path);
                 def1x!("return {:?}", err);
@@ -1321,9 +1304,7 @@ impl<'a> JournalReader {
     /// Wrapper to call `sd_journal_get_data` and return the
     /// timestamp, then convert the timestamp.
     /// Returns `None` if the timestamp is not available.
-    fn get_source_realtime_timestamp(
-        &mut self,
-    ) -> Option<EpochMicroseconds> {
+    fn get_source_realtime_timestamp(&mut self) -> Option<EpochMicroseconds> {
         defn!();
         let data: &[u8] = match Self::call_sd_journal_get_data(
             &mut self.journal_handle_ptr,
@@ -1376,7 +1357,14 @@ impl<'a> JournalReader {
         #[cfg(test)]
         force_error_range: &ForceErrorRangeOpt,
     ) -> Result<&'a [u8]> {
-        testing_force_error!(&force_error_range, "call_sd_journal_get_data", (*api_calls), (*api_call_errors), Result::Err, path);
+        testing_force_error!(
+            &force_error_range,
+            "call_sd_journal_get_data",
+            (*api_calls),
+            (*api_call_errors),
+            Result::Err,
+            path
+        );
         def1n!("(@{:p}, {:?})", journal_handle_ptr, field);
         let data: &[u8];
         let pcfield = field.as_ptr();
@@ -1389,12 +1377,7 @@ impl<'a> JournalReader {
             let mut pdata: *const std::os::raw::c_void = mem::zeroed();
             let ppdata: *mut *const std::os::raw::c_void = &mut pdata;
             def1o!("sd_journal_get_data(@{:p}, @{:p}, @{:p}, @{:p})", journal_handle_ptr, pcfield, ppdata, plength);
-            let r: i32 = (*journal_api_ptr).sd_journal_get_data(
-                *journal_handle_ptr,
-                pcfield,
-                ppdata,
-                plength,
-            );
+            let r: i32 = (*journal_api_ptr).sd_journal_get_data(*journal_handle_ptr, pcfield, ppdata, plength);
             *api_calls += 1;
             let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_data returned {}, {:?}", r, e);

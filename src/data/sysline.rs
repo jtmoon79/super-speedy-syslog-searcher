@@ -4,6 +4,26 @@
 //!
 //! [`Sysline`]: crate::data::sysline::Sysline
 
+use std::fmt;
+use std::sync::Arc;
+
+use ::more_asserts::{
+    assert_le,
+    assert_lt,
+    debug_assert_ge,
+};
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
+
 #[doc(hidden)]
 pub use crate::common::{
     Bytes,
@@ -14,28 +34,27 @@ pub use crate::common::{
     NLc,
     NLu8,
 };
-use crate::readers::blockreader::BlockOffset;
-#[cfg(test)]
-use crate::readers::blockreader::Slices;
 use crate::data::datetime::{
     DateTimeL,
     Duration,
 };
-use crate::data::line::{Line, LineIndex, LineP, LinePart, LinePartPtrs, Lines};
-#[allow(unused_imports)]
-use crate::debug::printers::{de_err, de_wrn, e_wrn};
-
-use std::fmt;
-use std::sync::Arc;
-
-use ::more_asserts::{
-    assert_le,
-    assert_lt,
-    debug_assert_ge,
+use crate::data::line::{
+    Line,
+    LineIndex,
+    LineP,
+    LinePart,
+    LinePartPtrs,
+    Lines,
 };
 #[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-
+use crate::debug::printers::{
+    de_err,
+    de_wrn,
+    e_wrn,
+};
+use crate::readers::blockreader::BlockOffset;
+#[cfg(test)]
+use crate::readers::blockreader::Slices;
 
 // -------
 // Sysline

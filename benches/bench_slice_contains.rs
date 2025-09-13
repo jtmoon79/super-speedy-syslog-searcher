@@ -5,20 +5,22 @@
 #![allow(non_snake_case)]
 #![allow(unused)]
 
-use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ::criterion::{
+    black_box,
+    criterion_group,
+    criterion_main,
+    Criterion,
+};
 use ::lazy_static::lazy_static;
-
 use s4lib::data::datetime::{
     slice_contains_D2_custom,
+    slice_contains_X_2_memchr,
     slice_contains_X_2_unroll,
 };
 #[cfg(feature = "bench_jetscii")]
 use s4lib::data::datetime::{
     slice_contains_D2_jetscii,
     slice_contains_X_2_jetscii,
-};
-use s4lib::data::datetime::{
-    slice_contains_X_2_memchr,
 };
 #[cfg(feature = "bench_stringzilla")]
 use s4lib::data::datetime::{

@@ -2,18 +2,24 @@
 
 //! Miscellaneous helper functions for debug printing and testing.
 
-use crate::common::FPath;
-use crate::readers::helpers::path_to_fpath;
-
-use std::fs::{create_dir, File, set_permissions};
-use std::path::PathBuf;
+use std::fs::{
+    create_dir,
+    set_permissions,
+    File,
+};
 use std::io::ErrorKind;
 #[allow(unused_imports)] // XXX: clippy wrongly marks `Write` as unused
 use std::io::Write; // for `NamedTempFile.write_all`
+use std::path::PathBuf;
 
 use ::filepath::FilePath; // provide `path` function on `File`
 use ::lazy_static::lazy_static;
-use ::si_trace_print::{defn, defo, defx, defñ};
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 #[doc(hidden)]
 pub use ::tempfile::tempdir;
 #[doc(hidden)]
@@ -21,6 +27,8 @@ pub use ::tempfile::NamedTempFile;
 #[doc(hidden)]
 pub use ::tempfile::TempDir;
 
+use crate::common::FPath;
+use crate::readers::helpers::path_to_fpath;
 
 // -------------------------------
 // temporary file helper functions
@@ -298,11 +306,7 @@ pub fn create_temp_file_no_permissions(suffix: &str) -> NamedTempFile {
 
     let mut prefix: String = String::from(STR_TEMPFILE_PREFIX);
     prefix.push_str("no_permissions-");
-    let ntf = create_temp_file_with_name(
-        "sample data",
-        Some(&prefix),
-        Some(&String::from(suffix)),
-    );
+    let ntf = create_temp_file_with_name("sample data", Some(&prefix), Some(&String::from(suffix)));
     let path = ntf.path();
     let perm = std::fs::Permissions::from_mode(0o000);
     match set_permissions(path, perm) {

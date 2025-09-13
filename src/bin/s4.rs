@@ -78,17 +78,21 @@ cfg_if::cfg_if! {
     }
 }
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{
+    BTreeMap,
+    HashMap,
+};
 use std::io::BufRead; // for stdin::lock().lines()
 use std::io::Error;
 use std::process::ExitCode;
-use std::str;
 use std::sync::RwLock;
-use std::thread;
-use std::thread_local;
 use std::time::Instant;
+use std::{
+    str,
+    thread,
+    thread_local,
+};
 
-use ::anyhow;
 use ::chrono::{
     DateTime,
     Datelike,
@@ -99,87 +103,52 @@ use ::chrono::{
     TimeZone,
     Timelike,
 };
-use ::clap::{Parser, ValueEnum};
+use ::clap::{
+    Parser,
+    ValueEnum,
+};
 use ::const_format::concatcp;
-use ::crossbeam_channel;
 use ::lazy_static::lazy_static;
 use ::regex::Regex;
-use ::si_trace_print::{
-    def1n,
-    def1o,
-    def1x,
-    defn,
-    defo,
-    defx,
-    defñ,
-    deo,
-    stack::stack_offset_set,
-};
-use ::unicode_width;
-// `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
-use ::s4lib::debug_panic;
 use ::s4lib::common::{
-    FILE_TOO_SMALL_SZ,
     Count,
     FPath,
     FPaths,
     FileOffset,
-    FileType,
     FileProcessingResult,
+    FileType,
     LogMessageType,
     NLu8a,
     PathId,
     SetPathId,
+    FILE_TOO_SMALL_SZ,
 };
+use ::s4lib::data::common::LogMessage;
 use ::s4lib::data::datetime::{
     datetime_parse_from_str,
     datetime_parse_from_str_w_tz,
+    systemtime_to_datetime,
     DateTimeLOpt,
     DateTimePattern_str,
     MAP_TZZ_TO_TZz,
     Utc,
-    systemtime_to_datetime,
 };
-use ::s4lib::data::common::LogMessage;
-use ::s4lib::data::journal::datetimelopt_to_realtime_timestamp_opt;
 use ::s4lib::data::fixedstruct::ENTRY_SZ_MAX;
+use ::s4lib::data::journal::datetimelopt_to_realtime_timestamp_opt;
 use ::s4lib::data::sysline::SyslineP;
-use ::s4lib::debug::printers::{de_err, de_wrn, e_err, e_wrn};
+use ::s4lib::debug::printers::{
+    de_err,
+    de_wrn,
+    e_err,
+    e_wrn,
+};
+// `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
+use ::s4lib::debug_panic;
 use ::s4lib::libload::systemd_dlopen2::{
-    LoadLibraryError,
     load_library_systemd,
+    LoadLibraryError,
     LIB_NAME_SYSTEMD,
 };
-use ::s4lib::readers::blockreader::{
-    BlockSz,
-    BLOCKSZ_DEF,
-    BLOCKSZ_MAX,
-    BLOCKSZ_MIN,
-};
-use ::s4lib::readers::evtxreader::EvtxReader;
-use ::s4lib::readers::journalreader::{
-    JournalOutput,
-    JournalReader,
-    ResultNext,
-};
-use ::s4lib::readers::filedecompressor::NAMED_TEMP_FILES;
-use ::s4lib::readers::filepreprocessor::{
-    process_path,
-    ProcessPathResult,
-    ProcessPathResults,
-};
-use ::s4lib::readers::fixedstructreader::{
-    FixedStructReader,
-    ResultFixedStructReaderNew,
-    ResultFindFixedStruct,
-};
-use ::s4lib::readers::helpers::{basename, fpath_to_path};
-use ::s4lib::readers::summary::{
-    Summary,
-    SummaryOpt,
-};
-use ::s4lib::readers::syslinereader::ResultFindSysline;
-use ::s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
 use ::s4lib::printer::printers::{
     color_rand,
     write_stdout,
@@ -193,18 +162,70 @@ use ::s4lib::printer::printers::{
 use ::s4lib::printer::summary::{
     print_summary,
     summary_update,
-    SummaryPrinted,
-    MapPathIdSummaryPrint,
     MapPathIdSummary,
-    MapPathIdToProcessPathResult,
-    MapPathIdToProcessPathResultOrdered,
-    MapPathIdToFPath,
+    MapPathIdSummaryPrint,
     MapPathIdToColor,
-    MapPathIdToPrinterLogMessage,
-    MapPathIdToModifiedTime,
+    MapPathIdToFPath,
     MapPathIdToFileProcessingResultBlockZero,
     MapPathIdToFileType,
     MapPathIdToLogMessageType,
+    MapPathIdToModifiedTime,
+    MapPathIdToPrinterLogMessage,
+    MapPathIdToProcessPathResult,
+    MapPathIdToProcessPathResultOrdered,
+    SummaryPrinted,
+};
+use ::s4lib::readers::blockreader::{
+    BlockSz,
+    BLOCKSZ_DEF,
+    BLOCKSZ_MAX,
+    BLOCKSZ_MIN,
+};
+use ::s4lib::readers::evtxreader::EvtxReader;
+use ::s4lib::readers::filedecompressor::NAMED_TEMP_FILES;
+use ::s4lib::readers::filepreprocessor::{
+    process_path,
+    ProcessPathResult,
+    ProcessPathResults,
+};
+use ::s4lib::readers::fixedstructreader::{
+    FixedStructReader,
+    ResultFindFixedStruct,
+    ResultFixedStructReaderNew,
+};
+use ::s4lib::readers::helpers::{
+    basename,
+    fpath_to_path,
+};
+use ::s4lib::readers::journalreader::{
+    JournalOutput,
+    JournalReader,
+    ResultNext,
+};
+use ::s4lib::readers::summary::{
+    Summary,
+    SummaryOpt,
+};
+use ::s4lib::readers::syslinereader::ResultFindSysline;
+use ::s4lib::readers::syslogprocessor::{
+    FileProcessingResultBlockZero,
+    SyslogProcessor,
+};
+use ::si_trace_print::stack::stack_offset_set;
+use ::si_trace_print::{
+    def1n,
+    def1o,
+    def1x,
+    defn,
+    defo,
+    defx,
+    defñ,
+    deo,
+};
+use {
+    ::anyhow,
+    ::crossbeam_channel,
+    ::unicode_width,
 };
 
 // --------------------
@@ -1006,9 +1027,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
     let mut days: i64 = 0;
     let mut weeks: i64 = 0;
 
-    let captures: regex::Captures = match REGEX_DUR_OFFSET.with(|re|
-        re.captures(val.as_str())
-    ) {
+    let captures: regex::Captures = match REGEX_DUR_OFFSET.with(|re| re.captures(val.as_str())) {
         Some(caps) => caps,
         None => {
             defx!("REGEX_DUR_OFFSET.captures(…) None");
@@ -1130,11 +1149,9 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
         Duration::try_minutes(minutes),
         Duration::try_hours(hours),
         Duration::try_days(days),
-        Duration::try_weeks(weeks)
+        Duration::try_weeks(weeks),
     ) {
-        (Some(s), Some(m), Some(h), Some(d), Some(w)) => {
-            s + m + h + d + w
-        }
+        (Some(s), Some(m), Some(h), Some(d), Some(w)) => s + m + h + d + w,
         _ => {
             e_err!("Unable to parse a duration from {:?}", val);
             return None;
@@ -1185,21 +1202,19 @@ fn string_to_rel_offset_datetime(
 
             now_off
         }
-        DUR_OFFSET_TYPE::Other => {
-            match dt_other_opt {
-                Some(dt_other) => {
-                    defo!("other     {:?}", dt_other);
-                    let other_off = dt_other.checked_add_signed(duration);
-                    defx!("other_off {:?}", other_off.unwrap());
+        DUR_OFFSET_TYPE::Other => match dt_other_opt {
+            Some(dt_other) => {
+                defo!("other     {:?}", dt_other);
+                let other_off = dt_other.checked_add_signed(duration);
+                defx!("other_off {:?}", other_off.unwrap());
 
-                    other_off
-                }
-                None => {
-                    e_err!("passed relative offset to other datetime {:?}, but other datetime was not set", val);
-                    std::process::exit(EXIT_ERR);
-                }
+                other_off
             }
-        }
+            None => {
+                e_err!("passed relative offset to other datetime {:?}, but other datetime was not set", val);
+                std::process::exit(EXIT_ERR);
+            }
+        },
     }
 }
 
@@ -1236,7 +1251,13 @@ fn process_dt(
     ) in CLI_FILTER_PATTERNS.iter() {
         defo!(
             "(pattern {:?}, has_year {:?}, has_tz {:?}, has_tzZ {:?}, has_time {:?}, has_time_sec {:?}, has_date {:?})",
-            pattern_, _has_year, has_tz, has_tzZ, has_time, _has_time_sec, has_date
+            pattern_,
+            _has_year,
+            has_tz,
+            has_tzZ,
+            has_time,
+            _has_time_sec,
+            has_date
         );
         let mut pattern: String = String::from(*pattern_);
         let mut dts_: String = dts.clone();
@@ -1247,14 +1268,24 @@ fn process_dt(
         if *has_tzZ {
             defo!("has_tzZ {:?}", dts_);
             let mut val_Z: String = String::with_capacity(5);
-            while dts_.chars().rev().next().unwrap_or('\0').is_alphabetic() {
+            while dts_
+                .chars()
+                .rev()
+                .next()
+                .unwrap_or('\0')
+                .is_alphabetic()
+            {
                 match dts_.pop() {
                     Some(c) => val_Z.insert(0, c),
-                    None => continue
+                    None => continue,
                 }
             }
             if MAP_TZZ_TO_TZz.contains_key(val_Z.as_str()) {
-                dts_.push_str(MAP_TZZ_TO_TZz.get(val_Z.as_str()).unwrap());
+                dts_.push_str(
+                    MAP_TZZ_TO_TZz
+                        .get(val_Z.as_str())
+                        .unwrap(),
+                );
             } else {
                 defo!("has_tzZ WARNING failed to find MAP_TZZ_TO_TZz({:?})", val_Z);
                 continue;
@@ -1514,7 +1545,10 @@ fn cli_process_args() -> (
     };
     defo!("color_choice {:?}", color_choice);
 
-    let log_message_separator: String = match unescape::unescape_str(args.log_message_separator.as_str()) {
+    let log_message_separator: String = match unescape::unescape_str(
+        args.log_message_separator
+            .as_str(),
+    ) {
         Ok(val) => val,
         Err(err) => {
             e_err!("{:?}", err);
@@ -1655,11 +1689,7 @@ pub fn main() -> ExitCode {
         start_time,
     );
 
-    let exitcode = if ret {
-        ExitCode::SUCCESS
-    } else {
-        ExitCode::FAILURE
-    };
+    let exitcode = if ret { ExitCode::SUCCESS } else { ExitCode::FAILURE };
     defx!("exitcode {:?}", exitcode);
 
     exitcode
@@ -1798,9 +1828,7 @@ type IsLastLogMessage = bool;
 ///
 /// [`LogMessage`]: self::LogMessage
 /// [`Summary`]: s4lib::readers::summary::Summary
-#[derive(
-    Debug,
-)]
+#[derive(Debug)]
 enum ChanDatum {
     /// first data sent from file processing thread to main printing thread.
     /// exactly one must be sent first during the entire thread.
@@ -1845,14 +1873,9 @@ fn chan_send(
     chan_datum: ChanDatum,
     _path: &FPath,
 ) {
-    match chan_send_dt.send(chan_datum)
-    {
+    match chan_send_dt.send(chan_datum) {
         Ok(_) => {}
-        Err(_err) =>
-            de_err!(
-                "chan_send_dt.send(…) failed {} for {:?}",
-                _err, _path
-            )
+        Err(_err) => de_err!("chan_send_dt.send(…) failed {} for {:?}", _err, _path),
     }
 }
 
@@ -1904,7 +1927,7 @@ fn exec_syslogprocessor(
             chan_send(
                 &chan_send_dt,
                 ChanDatum::FileInfo(DateTimeLOpt::None, FileProcessingResultBlockZero::FileErrIoPath(err)),
-                &path
+                &path,
             );
             // send `ChanDatum::FileSummary`
             let summary = Summary::new_failed(

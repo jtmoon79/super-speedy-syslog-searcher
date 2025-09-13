@@ -4,21 +4,28 @@
 //!
 //! [`dlopen2`]: https://docs.rs/dlopen2/0.4.1/dlopen2/index.html
 
-use crate::bindings::sd_journal_h::{
-    sd_id128_t,
-    sd_journal,
-};
 use std::fmt;
-use std::sync::{RwLock, Arc};
+use std::sync::{
+    Arc,
+    RwLock,
+};
 
 use ::const_format::concatcp;
-use ::dlopen2::wrapper::{Container, WrapperApi};
+use ::dlopen2::wrapper::{
+    Container,
+    WrapperApi,
+};
 use ::lazy_static::lazy_static;
 use ::si_trace_print::{
     defn,
     defo,
     defx,
     defñ,
+};
+
+use crate::bindings::sd_journal_h::{
+    sd_id128_t,
+    sd_journal,
 };
 
 #[allow(non_camel_case_types)]

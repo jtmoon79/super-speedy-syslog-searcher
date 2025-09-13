@@ -35,22 +35,17 @@
 #![allow(non_camel_case_types)]
 #![allow(non_upper_case_globals)]
 
-use crate::{de_err, de_wrn, debug_panic};
-#[cfg(any(debug_assertions, test))]
-use crate::common::FPath;
-#[cfg(any(debug_assertions, test))]
-use crate::debug::printers::{buffer_to_String_noraw, str_to_String_noraw};
-#[doc(hidden)]
-pub use crate::data::line::{LineIndex, RangeLineIndex};
-
 use std::convert::TryFrom; // for passing array slices as references
 use std::fmt;
+use std::sync::RwLock;
 #[cfg(any(debug_assertions, test))]
 use std::thread;
-#[doc(hidden)]
-pub use std::time::{SystemTime, UNIX_EPOCH};
 use std::time::Duration as StdDuration;
-use std::sync::RwLock;
+#[doc(hidden)]
+pub use std::time::{
+    SystemTime,
+    UNIX_EPOCH,
+};
 
 #[doc(hidden)]
 pub use ::chrono::{
@@ -71,18 +66,50 @@ use ::const_format::concatcp;
 use ::jetscii;
 use ::lazy_static::lazy_static;
 use ::memchr;
-use ::more_asserts::{debug_assert_ge, debug_assert_le, debug_assert_lt};
-use ::numtoa::NumToA;  // adds `numtoa` method to numbers
+use ::more_asserts::{
+    debug_assert_ge,
+    debug_assert_le,
+    debug_assert_lt,
+};
+use ::numtoa::NumToA; // adds `numtoa` method to numbers
 use ::once_cell::sync::OnceCell;
-use ::phf::phf_map;
-use ::phf::Map as PhfMap;
+use ::phf::{
+    phf_map,
+    Map as PhfMap,
+};
 use ::regex::bytes::Regex;
 #[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
 #[cfg(feature = "bench_stringzilla")]
 use ::stringzilla;
 use ::unroll::unroll_for_loops;
 
+#[cfg(any(debug_assertions, test))]
+use crate::common::FPath;
+#[doc(hidden)]
+pub use crate::data::line::{
+    LineIndex,
+    RangeLineIndex,
+};
+#[cfg(any(debug_assertions, test))]
+use crate::debug::printers::{
+    buffer_to_String_noraw,
+    str_to_String_noraw,
+};
+use crate::{
+    de_err,
+    de_wrn,
+    debug_panic,
+};
 
 // -----------------------------------------------
 // DateTime Regex Matching and strftime formatting
@@ -146,7 +173,7 @@ pub(crate) const UPTIME_DEFAULT_OFFSET: SystemTime = UNIX_EPOCH;
 #[allow(non_camel_case_types)]
 type fos = i32;
 
-#[cfg(any(debug_assertions,test))]
+#[cfg(any(debug_assertions, test))]
 lazy_static! {
     pub static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
 }
@@ -166,10 +193,16 @@ const YEAR_FALLBACKDUMMY: &str = "1972";
 /// Convert a `T` to a [`SystemTime`].
 ///
 /// [`SystemTime`]: std::time::SystemTime
-pub fn convert_to_systemtime<T>(epoch_seconds: T)
-    -> SystemTime where u64: From<T>
+pub fn convert_to_systemtime<T>(epoch_seconds: T) -> SystemTime
+where
+    u64: From<T>,
 {
-    UNIX_EPOCH + std::time::Duration::from_secs(epoch_seconds.try_into().unwrap())
+    UNIX_EPOCH
+        + std::time::Duration::from_secs(
+            epoch_seconds
+                .try_into()
+                .unwrap(),
+        )
 }
 
 /// create a `DateTime`
@@ -647,7 +680,6 @@ pub enum DTFS_Uptime {
     /// none
     _none,
 }
-
 
 /// `DTFSSet`, "DateTime Format Specifer Set", is essentially instructions
 /// to transcribe regex [`named capture groups`] to a
@@ -1988,7 +2020,6 @@ acdt|acst|act|acwst|adt|aedt|aest|aet|aft|akdt|akst|almt|amst|amt|anat|aqtt|art|
 pub(crate) const CGP_TZZ_U: &CaptureGroupPattern = "(?P<tz>\
 ACDT|ACST|ACT|ACWST|ADT|AEDT|AEST|AET|AFT|AKDT|AKST|ALMT|AMST|AMT|ANAT|AQTT|ART|AST|AWST|AZOST|AZOT|AZT|BIOT|BIT|BNT|BOT|BRST|BRT|BST|BTT|CAT|CCT|CDT|CEST|CET|CHADT|CHAST|CHOST|CHOT|CHST|CHUT|CIST|CKT|CLST|CLT|COST|COT|CST|CT|CVT|CWST|CXT|DAVT|DDUT|DFT|EASST|EAST|EAT|ECT|EDT|EEST|EET|EGST|EGT|EST|ET|FET|FJT|FKST|FKT|FNT|GALT|GAMT|GET|GFT|GILT|GIT|GMT|GST|GYT|HAEC|HDT|HKT|HMT|HOVST|HOVT|HST|ICT|IDLW|IDT|IOT|IRDT|IRKT|IRST|IST|JST|KALT|KGT|KOST|KRAT|KST|LHST|LINT|MAGT|MART|MAWT|MDT|MEST|MET|MHT|MIST|MIT|MMT|MSK|MST|MUT|MVT|MYT|NCT|NDT|NFT|NOVT|NPT|NST|NT|NUT|NZDT|NZST|OMST|ORAT|PDT|PETT|PET|PGT|PHOT|PHST|PHT|PKT|PMDT|PMST|PONT|PST|PWT|PYST|PYT|RET|ROTT|SAKT|SAMT|SAST|SBT|SCT|SDT|SGT|SLST|SRET|SRT|SST|SYOT|TAHT|TFT|THA|TJT|TKT|TLT|TMT|TOT|TRT|TVT|ULAST|ULAT|UTC|UT|UYST|UYT|UZT|VET|VLAT|VOLT|VOST|VUT|WAKT|WAST|WAT|WEST|WET|WGST|WGT|WIB|WITA|WIT|WST|YAKT|YEKT|ZULU|Z\
 )";
-
 
 /// for testing
 #[doc(hidden)]
@@ -5381,7 +5412,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
 //            https://github.com/rust-lang/rust/issues/79738
 //       > this code actually leads to two allocations containing 42, i.e.,
 //       > FOO and BAR point to different things. The linker later merges the two,
-//       > so the issue is currently not directly observable. 
+//       > so the issue is currently not directly observable.
 //       ```rust
 //       pub mod a {
 //           #[no_mangle]

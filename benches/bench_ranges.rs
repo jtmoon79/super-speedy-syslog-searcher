@@ -5,7 +5,12 @@
 // <https://docs.rs/rangemap/latest/rangemap/>
 //
 
-use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ::criterion::{
+    black_box,
+    criterion_group,
+    criterion_main,
+    Criterion,
+};
 
 //type RangeMapT = RangeMap<u64, u64>;
 //type RangeSetT = RangeSet<u64>;

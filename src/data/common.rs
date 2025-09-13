@@ -4,10 +4,9 @@
 
 use crate::data::datetime::DateTimeL;
 use crate::data::evtx::Evtx;
-use crate::data::sysline::SyslineP;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
-
+use crate::data::sysline::SyslineP;
 
 /// The type of log message sent from file processing thread to the main
 /// printing thread enclosing the specific message.

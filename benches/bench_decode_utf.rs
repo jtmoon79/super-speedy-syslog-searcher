@@ -20,11 +20,18 @@
     non_snake_case
 )]
 
-use ::arraystring;
 use ::bstr::ByteSlice; // adds method `to_bstr` on some built-ins
-use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
-use ::encoding_rs;
+use ::criterion::{
+    black_box,
+    criterion_group,
+    criterion_main,
+    Criterion,
+};
 use ::lazy_static::lazy_static;
+use {
+    ::arraystring,
+    ::encoding_rs,
+};
 
 type Bytes = Vec<u8>;
 
@@ -33,14 +40,13 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref Data2: Bytes =
-        vec![b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',];
+    static ref Data2: Bytes = vec![b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',];
 }
 
 lazy_static! {
     static ref Data3: Bytes = vec![
-        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b'A', b'B', b'C', b'D', b'E',
-        b'F', b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
+        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b'A', b'B', b'C', b'D', b'E', b'F',
+        b'G', b'H', b'I', b'J', b'K', b'L', b'M', b'N',
     ];
 }
 
@@ -454,24 +460,16 @@ fn criterion_benchmark(c: &mut Criterion) {
     bg.bench_function("dutf8_std_str_from_utf8_unchecked__allows_invalid", |b| {
         b.iter(dutf8_std_str_from_utf8_unchecked__allows_invalid)
     });
-    bg.bench_function("dutf8_custom_check1_lt0x80__overzealous", |b| {
-        b.iter(dutf8_custom_check1_lt0x80__overzealous)
+    bg.bench_function("dutf8_custom_check1_lt0x80__overzealous", |b| b.iter(dutf8_custom_check1_lt0x80__overzealous));
+    bg.bench_function("dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous", |b| {
+        b.iter(dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous)
     });
-    bg.bench_function(
-        "dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous",
-        |b| b.iter(dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous),
-    );
-    bg.bench_function(
-        "dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous",
-        |b| b.iter(dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous),
-    );
+    bg.bench_function("dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous", |b| {
+        b.iter(dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous)
+    });
     bg.bench_function("dutf8_bstr_to_str", |b| b.iter(dutf8_bstr_to_str));
-    bg.bench_function("dutf8_arraystring__SmallString_from_utf8", |b| {
-        b.iter(dutf8_arraystring__SmallString_from_utf8)
-    });
-    bg.bench_function("dutf8_arraystring__CacheString_from_utf8", |b| {
-        b.iter(dutf8_arraystring__CacheString_from_utf8)
-    });
+    bg.bench_function("dutf8_arraystring__SmallString_from_utf8", |b| b.iter(dutf8_arraystring__SmallString_from_utf8));
+    bg.bench_function("dutf8_arraystring__CacheString_from_utf8", |b| b.iter(dutf8_arraystring__CacheString_from_utf8));
 }
 
 criterion_group!(benches, criterion_benchmark);

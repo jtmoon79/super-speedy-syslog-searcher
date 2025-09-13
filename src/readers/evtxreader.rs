@@ -17,32 +17,14 @@
 //! [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
 //! [Issue #87]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/87
 
-use crate::de_err;
-use crate::common::{
-    Count,
-    File,
-    FileMetadata,
-    FileOpenOptions,
-    FileSz,
-    FileType,
-    FPath,
-};
-use crate::data::datetime::{
-    DateTimeL,
-    DateTimeLOpt,
-    FixedOffset,
-    Result_Filter_DateTime2,
-    SystemTime,
-};
-use crate::data::evtx::Evtx;
-use crate::readers::filedecompressor::decompress_to_ntf;
-use crate::readers::helpers::path_to_fpath;
-use crate::readers::summary::Summary;
-
 use std::collections::BTreeMap;
 use std::fmt;
+use std::io::{
+    Error,
+    ErrorKind,
+    Result,
+};
 use std::path::Path;
-use std::io::{Error, ErrorKind, Result};
 
 use ::chrono::{
     DateTime,
@@ -53,28 +35,54 @@ use ::evtx::{
     ParserSettings,
 };
 #[allow(unused_imports)]
-use ::more_asserts::{assert_le, debug_assert_ge, debug_assert_le, debug_assert_lt};
+use ::more_asserts::{
+    assert_le,
+    debug_assert_ge,
+    debug_assert_le,
+    debug_assert_lt,
+};
 #[allow(unused_imports)]
 use ::si_trace_print::{
     de,
-    defn,
     def1n,
-    defo,
     def1o,
-    defx,
     def1x,
-    defñ,
     def1ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
     den,
     deo,
     dex,
     deñ,
-    pfo,
     pfn,
+    pfo,
     pfx,
 };
 use ::tempfile::NamedTempFile;
 
+use crate::common::{
+    Count,
+    FPath,
+    File,
+    FileMetadata,
+    FileOpenOptions,
+    FileSz,
+    FileType,
+};
+use crate::data::datetime::{
+    DateTimeL,
+    DateTimeLOpt,
+    FixedOffset,
+    Result_Filter_DateTime2,
+    SystemTime,
+};
+use crate::data::evtx::Evtx;
+use crate::de_err;
+use crate::readers::filedecompressor::decompress_to_ntf;
+use crate::readers::helpers::path_to_fpath;
+use crate::readers::summary::Summary;
 
 // ----------
 // EvtxReader
@@ -369,15 +377,13 @@ impl<'a> EvtxReader {
 
         let mtime: SystemTime = match mtime_opt {
             Some(val) => val,
-            None => {
-                match metadata.modified() {
-                    Result::Ok(val) => val,
-                    Result::Err(_err) => {
-                        de_err!("metadata.modified() failed {}", _err);
-                        SystemTime::UNIX_EPOCH
-                    },
+            None => match metadata.modified() {
+                Result::Ok(val) => val,
+                Result::Err(_err) => {
+                    de_err!("metadata.modified() failed {}", _err);
+                    SystemTime::UNIX_EPOCH
                 }
-            }
+            },
         };
         def1o!("mtime {:?}", mtime);
 
@@ -390,35 +396,29 @@ impl<'a> EvtxReader {
         let evtxparser: EvtxParser<File> = match EvtxParser::from_path(&path_actual) {
             Ok(evtxparser) => evtxparser.with_configuration(settings),
             Err(err) => {
-                return Err(Error::new(
-                    ErrorKind::Other,
-                    format!("EvtxParser::from_path({:?}): {}", path_actual, err),
-                ));
+                return Err(Error::new(ErrorKind::Other, format!("EvtxParser::from_path({:?}): {}", path_actual, err)));
             }
         };
         def1x!("return Ok(EvtxReader)");
 
-        Ok(
-            EvtxReader
-            {
-                evtxparser,
-                events: Events::new(),
-                path,
-                named_temp_file,
-                events_processed: 0,
-                events_accepted: 0,
-                ts_first_processed: TimestampOpt::None,
-                ts_last_processed: TimestampOpt::None,
-                ts_first_accepted: TimestampOpt::None,
-                ts_last_accepted: TimestampOpt::None,
-                filetype,
-                filesz,
-                mtime,
-                out_of_order: 0,
-                analyzed: false,
-                error: None,
-            }
-        )
+        Ok(EvtxReader {
+            evtxparser,
+            events: Events::new(),
+            path,
+            named_temp_file,
+            events_processed: 0,
+            events_accepted: 0,
+            ts_first_processed: TimestampOpt::None,
+            ts_last_processed: TimestampOpt::None,
+            ts_first_accepted: TimestampOpt::None,
+            ts_last_accepted: TimestampOpt::None,
+            filetype,
+            filesz,
+            mtime,
+            out_of_order: 0,
+            analyzed: false,
+            error: None,
+        })
     }
 
     pub fn mtime(&self) -> SystemTime {
@@ -439,12 +439,19 @@ impl<'a> EvtxReader {
         let ts_filter_after = datetimelopt_to_timestampopt(dt_filter_after);
         let ts_filter_before = datetimelopt_to_timestampopt(dt_filter_before);
         let mut timestamp_last: TimestampOpt = TimestampOpt::None;
-        for (index, result) in self.evtxparser.records().enumerate() {
+        for (index, result) in self
+            .evtxparser
+            .records()
+            .enumerate()
+        {
             match result {
                 Ok(record) => {
                     // update fields *processed
                     self.events_processed += 1;
-                    match self.ts_first_processed.as_ref() {
+                    match self
+                        .ts_first_processed
+                        .as_ref()
+                    {
                         Some(ts_first_) => {
                             if ts_first_ > &record.timestamp {
                                 self.ts_first_processed = Some(record.timestamp);
@@ -452,7 +459,10 @@ impl<'a> EvtxReader {
                         }
                         None => self.ts_first_processed = Some(record.timestamp),
                     }
-                    match self.ts_last_processed.as_ref() {
+                    match self
+                        .ts_last_processed
+                        .as_ref()
+                    {
                         Some(ts_last_) => {
                             if ts_last_ < &record.timestamp {
                                 self.ts_last_processed = Some(record.timestamp);
@@ -469,11 +479,7 @@ impl<'a> EvtxReader {
                     timestamp_last = Some(record.timestamp);
 
                     // filter by date
-                    match ts_pass_filters(
-                        &record.timestamp,
-                        &ts_filter_after,
-                        &ts_filter_before,
-                    ) {
+                    match ts_pass_filters(&record.timestamp, &ts_filter_after, &ts_filter_before) {
                         Result_Filter_DateTime2::InRange => {
                             defo!("InRange");
                         }
@@ -488,13 +494,16 @@ impl<'a> EvtxReader {
                     }
 
                     let timestamp = record.timestamp;
-                    let evtx =
-                        Evtx::from_evtxrs(&record);
-                    self.events.insert((timestamp, index), evtx);
+                    let evtx = Evtx::from_evtxrs(&record);
+                    self.events
+                        .insert((timestamp, index), evtx);
 
                     // update fields *accepted
                     self.events_accepted += 1;
-                    match self.ts_first_accepted.as_ref() {
+                    match self
+                        .ts_first_accepted
+                        .as_ref()
+                    {
                         Some(ts_first_) => {
                             if ts_first_ > &timestamp {
                                 self.ts_first_accepted = Some(timestamp);
@@ -521,13 +530,13 @@ impl<'a> EvtxReader {
         defx!();
     }
 
-    pub fn next(
-        &mut self,
-    ) -> Option<Evtx> {
+    pub fn next(&mut self) -> Option<Evtx> {
         def1ñ!();
         debug_assert!(self.analyzed, "must call `analyze()` before calling `next()`");
 
-        self.events.pop_first().map(|(_key, evtx)| evtx)
+        self.events
+            .pop_first()
+            .map(|(_key, evtx)| evtx)
     }
 
     /// `Count` of `Evtx`s processed by this `EvtxReader`
@@ -561,8 +570,7 @@ impl<'a> EvtxReader {
     pub fn dt_first_processed(&self) -> DateTimeLOpt {
         match self.ts_first_processed {
             TimestampOpt::None => DateTimeLOpt::None,
-            TimestampOpt::Some(ts) =>
-                DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+            TimestampOpt::Some(ts) => DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
         }
     }
 
@@ -570,8 +578,7 @@ impl<'a> EvtxReader {
     pub fn dt_last_processed(&self) -> DateTimeLOpt {
         match self.ts_last_processed {
             TimestampOpt::None => DateTimeLOpt::None,
-            TimestampOpt::Some(ts) =>
-                DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+            TimestampOpt::Some(ts) => DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
         }
     }
 
@@ -580,8 +587,7 @@ impl<'a> EvtxReader {
     pub fn dt_first_accepted(&self) -> DateTimeLOpt {
         match self.ts_first_accepted {
             TimestampOpt::None => DateTimeLOpt::None,
-            TimestampOpt::Some(ts) =>
-                DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+            TimestampOpt::Some(ts) => DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
         }
     }
 
@@ -590,8 +596,7 @@ impl<'a> EvtxReader {
     pub fn dt_last_accepted(&self) -> DateTimeLOpt {
         match self.ts_last_accepted {
             TimestampOpt::None => DateTimeLOpt::None,
-            TimestampOpt::Some(ts) =>
-                DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+            TimestampOpt::Some(ts) => DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
         }
     }
 

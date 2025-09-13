@@ -2,6 +2,18 @@
 
 //! Data representation of `.journal` file log message entries.
 
+use std::fmt;
+use std::time::Duration as StdDuration;
+
+use ::bstr::ByteSlice; // attaches `find` to `&[u8]`
+use ::more_asserts::debug_assert_le;
+use ::si_trace_print::{
+    def1n,
+    def1x,
+    def1ñ,
+    defñ,
+};
+
 #[doc(hidden)]
 pub use crate::common::{
     Bytes,
@@ -9,28 +21,20 @@ pub use crate::common::{
     Count,
     FPath,
     FileOffset,
-    NLs,
     NLc,
+    NLs,
     NLu8,
     ResultFind,
 };
 use crate::data::common::DtBegEndPairOpt;
 use crate::data::datetime::{
-    DateTimeLOpt,
-    DateTimeL,
     DateTime,
+    DateTimeL,
+    DateTimeLOpt,
     FixedOffset,
     SystemTime,
     Utc,
 };
-
-use std::time::Duration as StdDuration;
-use std::fmt;
-
-use ::bstr::ByteSlice; // attaches `find` to `&[u8]`
-use ::more_asserts::debug_assert_le;
-use ::si_trace_print::{defñ, def1n, def1x, def1ñ};
-
 
 /*
 
@@ -377,7 +381,7 @@ impl JournalEntry {
                         dt_a = idx + KEY__REALTIME_TIMESTAMP_BYTES.len() + FIELD_MID.len();
                         dt_b = match buffer[dt_a..].find_byte(FIELD_END_U8) {
                             None => dt_a,
-                            Some(idx) => dt_a + idx
+                            Some(idx) => dt_a + idx,
                         };
                     }
                     None => {
@@ -392,7 +396,7 @@ impl JournalEntry {
                                 dt_a = idx + KEY_SOURCE_REALTIME_TIMESTAMP_BYTES.len() + FIELD_MID.len();
                                 dt_b = match buffer[dt_a..].find_byte(FIELD_END_U8) {
                                     None => dt_a,
-                                    Some(idx) => dt_a + idx
+                                    Some(idx) => dt_a + idx,
                                 };
                             }
                         }
@@ -407,7 +411,7 @@ impl JournalEntry {
                             // value ends at end of buffer
                             None => buffer.len(),
                             // value ends at end of line
-                            Some(idx) => dt_a + idx
+                            Some(idx) => dt_a + idx,
                         };
                     }
                     None => {
@@ -425,7 +429,7 @@ impl JournalEntry {
                                     // value ends at end of buffer
                                     None => buffer.len(),
                                     // value ends at end of line
-                                    Some(idx) => dt_a + idx
+                                    Some(idx) => dt_a + idx,
                                 };
                             }
                         }

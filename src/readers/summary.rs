@@ -4,6 +4,30 @@
 
 #![allow(non_snake_case)]
 
+use std::fmt;
+
+use ::min_max::max;
+#[cfg(any(debug_assertions, test))]
+use ::more_asserts::{
+    assert_ge,
+    assert_le,
+};
+use ::more_asserts::{
+    debug_assert_ge,
+    debug_assert_le,
+};
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
+
 use crate::common::{
     debug_panic,
     Count,
@@ -14,30 +38,25 @@ use crate::common::{
 };
 use crate::data::datetime::DateTimeLOpt;
 #[allow(unused_imports)]
-use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
-use crate::readers::blockreader::{
-    BlockSz,
-    BLOCKSZ_MAX,
-    SummaryBlockReader,
+use crate::debug::printers::{
+    de_err,
+    de_wrn,
+    e_err,
+    e_wrn,
 };
 #[cfg(any(debug_assertions, test))]
 use crate::readers::blockreader::BLOCKSZ_MIN;
+use crate::readers::blockreader::{
+    BlockSz,
+    SummaryBlockReader,
+    BLOCKSZ_MAX,
+};
+use crate::readers::evtxreader::SummaryEvtxReader;
+use crate::readers::fixedstructreader::SummaryFixedStructReader;
+use crate::readers::journalreader::SummaryJournalReader;
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::SummarySyslogProcessor;
-use crate::readers::fixedstructreader::SummaryFixedStructReader;
-use crate::readers::evtxreader::SummaryEvtxReader;
-use crate::readers::journalreader::SummaryJournalReader;
-
-use std::fmt;
-
-use ::min_max::max;
-use ::more_asserts::{debug_assert_ge, debug_assert_le};
-#[cfg(any(debug_assertions, test))]
-use ::more_asserts::{assert_ge, assert_le};
-#[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-
 
 // -------
 // Summary
@@ -159,7 +178,11 @@ impl Summary {
         match summaryblockreader_opt.as_ref() {
             // XXX: random sanity checks
             Some(summaryblockreader) => {
-                assert_ge!(summaryblockreader.blockreader_bytes, summaryblockreader.blockreader_blocks, "There is less bytes than Blocks");
+                assert_ge!(
+                    summaryblockreader.blockreader_bytes,
+                    summaryblockreader.blockreader_blocks,
+                    "There is less bytes than Blocks"
+                );
                 assert_ge!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MIN, "blocksz too small");
                 assert_le!(summaryblockreader.blockreader_blocksz, BLOCKSZ_MAX, "blocksz too big");
             }
@@ -172,24 +195,27 @@ impl Summary {
         //debug_assert_ge!(linereader_lines, syslinereader_syslines, "There is less Lines than Syslines");
         match logmessagetype {
             LogMessageType::Sysline => {
-                debug_assert_none!(
-                    summaryfixedstructreader_opt,
-                    summaryevtxreader_opt
-                );
+                debug_assert_none!(summaryfixedstructreader_opt, summaryevtxreader_opt);
                 let summaryblockreader = summaryblockreader_opt.unwrap();
                 let summarylinereader = summarylinereader_opt.unwrap();
                 let summarysyslinereader = summarysyslinereader_opt.unwrap();
                 let summarysyslogprocessor = summarysyslogprocessor_opt.unwrap();
-                debug_assert_ge!(summaryblockreader.blockreader_bytes, summarylinereader.linereader_lines, "There is less bytes than Lines");
-                debug_assert_ge!(summaryblockreader.blockreader_bytes, summarysyslinereader.syslinereader_syslines, "There is less bytes than Syslines");
-                let readerdata: SummaryReaderData = SummaryReaderData::Syslog(
-                    (
-                        summaryblockreader,
-                        summarylinereader,
-                        summarysyslinereader,
-                        summarysyslogprocessor,
-                    ),
+                debug_assert_ge!(
+                    summaryblockreader.blockreader_bytes,
+                    summarylinereader.linereader_lines,
+                    "There is less bytes than Lines"
                 );
+                debug_assert_ge!(
+                    summaryblockreader.blockreader_bytes,
+                    summarysyslinereader.syslinereader_syslines,
+                    "There is less bytes than Syslines"
+                );
+                let readerdata: SummaryReaderData = SummaryReaderData::Syslog((
+                    summaryblockreader,
+                    summarylinereader,
+                    summarysyslinereader,
+                    summarysyslogprocessor,
+                ));
                 Summary {
                     path,
                     filetype: Some(filetype),
@@ -208,13 +234,13 @@ impl Summary {
                 );
                 let summaryblockreader = summaryblockreader_opt.unwrap();
                 let summaryfixedstructreader = summaryfixedstructreader_opt.unwrap();
-                debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryfixedstructreader.fixedstructreader_utmp_entries, "There is less bytes than FixedStruct Entries");
-                let readerdata: SummaryReaderData = SummaryReaderData::FixedStruct(
-                    (
-                        summaryblockreader,
-                        summaryfixedstructreader,
-                    ),
+                debug_assert_ge!(
+                    summaryblockreader.blockreader_bytes,
+                    summaryfixedstructreader.fixedstructreader_utmp_entries,
+                    "There is less bytes than FixedStruct Entries"
                 );
+                let readerdata: SummaryReaderData =
+                    SummaryReaderData::FixedStruct((summaryblockreader, summaryfixedstructreader));
                 Summary {
                     path,
                     filetype: Some(filetype),
@@ -257,9 +283,7 @@ impl Summary {
                     summaryfixedstructreader_opt
                 );
                 let summaryevtxreader = summaryevtxreader_opt.unwrap();
-                let readerdata: SummaryReaderData = SummaryReaderData::Etvx(
-                    summaryevtxreader
-                );
+                let readerdata: SummaryReaderData = SummaryReaderData::Etvx(summaryevtxreader);
                 Summary {
                     path,
                     filetype: Some(filetype),
@@ -271,9 +295,7 @@ impl Summary {
             }
             LogMessageType::Journal => {
                 let summaryjournalreader = summaryjournalreader_opt.unwrap();
-                let readerdata: SummaryReaderData = SummaryReaderData::Journal(
-                    summaryjournalreader
-                );
+                let readerdata: SummaryReaderData = SummaryReaderData::Journal(summaryjournalreader);
                 Summary {
                     path,
                     filetype: Some(filetype),
@@ -322,21 +344,14 @@ impl Summary {
                     "Summary::blockreader() called on readerdata type SummaryReaderData::Dummy; path {:?}",
                     self.path
                 );
-            },
-            SummaryReaderData::Syslog(
-                (
-                    summaryblockreader,
-                    _summarylinereader,
-                    _summarysyslinereader,
-                    _summarysyslogprocessor,
-                )
-            ) => Some(summaryblockreader),
-            SummaryReaderData::FixedStruct(
-                (
-                    summaryblockreader,
-                    _summaryfixedstructreader,
-                )
-            ) => Some(summaryblockreader),
+            }
+            SummaryReaderData::Syslog((
+                summaryblockreader,
+                _summarylinereader,
+                _summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => Some(summaryblockreader),
+            SummaryReaderData::FixedStruct((summaryblockreader, _summaryfixedstructreader)) => Some(summaryblockreader),
             SummaryReaderData::Etvx(_) => None,
             SummaryReaderData::Journal(_) => None,
         }
@@ -349,56 +364,44 @@ impl Summary {
     /// chronologically earliest printed datetime in file
     pub fn datetime_first(&self) -> &DateTimeLOpt {
         match &self.readerdata {
-            SummaryReaderData::Dummy => panic!(
-                "Summary::datetime_first() called on Summary::Dummy; path {:?}",
-                self.path,
-            ),
-            SummaryReaderData::Syslog(
-                (
-                    _summaryblockreader,
-                    _summarylinereader,
-                    summarysyslinereader,
-                    _summarysyslogprocessor,
-                )
-            ) => &summarysyslinereader.syslinereader_datetime_first,
-            SummaryReaderData::FixedStruct(
-                (
-                    _summaryblockreader,
-                    summaryfixedstructreader,
-                )
-            ) => &summaryfixedstructreader.fixedstructreader_datetime_first,
-            SummaryReaderData::Etvx(summaryevtxreader)
-                => &summaryevtxreader.evtxreader_datetime_first_accepted,
-            SummaryReaderData::Journal(summaryjournalreader)
-                => &summaryjournalreader.journalreader_datetime_first_accepted,
+            SummaryReaderData::Dummy => {
+                panic!("Summary::datetime_first() called on Summary::Dummy; path {:?}", self.path,)
+            }
+            SummaryReaderData::Syslog((
+                _summaryblockreader,
+                _summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => &summarysyslinereader.syslinereader_datetime_first,
+            SummaryReaderData::FixedStruct((_summaryblockreader, summaryfixedstructreader)) => {
+                &summaryfixedstructreader.fixedstructreader_datetime_first
+            }
+            SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_accepted,
+            SummaryReaderData::Journal(summaryjournalreader) => {
+                &summaryjournalreader.journalreader_datetime_first_accepted
+            }
         }
     }
 
     /// chronologically latest printed datetime in file
     pub fn datetime_last(&self) -> &DateTimeLOpt {
         match &self.readerdata {
-            SummaryReaderData::Dummy => panic!(
-                "Summary::datetime_last() called on Summary::Dummy; path {:?}",
-                self.path,
-            ),
-            SummaryReaderData::Syslog(
-                (
-                    _summaryblockreader,
-                    _summarylinereader,
-                    summarysyslinereader,
-                    _summarysyslogprocessor,
-                )
-            ) => &summarysyslinereader.syslinereader_datetime_last,
-            SummaryReaderData::FixedStruct(
-                (
-                    _summaryblockreader,
-                    summaryfixedstructreader,
-                )
-            ) => &summaryfixedstructreader.fixedstructreader_datetime_last,
-            SummaryReaderData::Etvx(summaryevtxreader)
-                => &summaryevtxreader.evtxreader_datetime_last_accepted,
-            SummaryReaderData::Journal(summaryjournalreader)
-                => &summaryjournalreader.journalreader_datetime_last_accepted,
+            SummaryReaderData::Dummy => {
+                panic!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path,)
+            }
+            SummaryReaderData::Syslog((
+                _summaryblockreader,
+                _summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => &summarysyslinereader.syslinereader_datetime_last,
+            SummaryReaderData::FixedStruct((_summaryblockreader, summaryfixedstructreader)) => {
+                &summaryfixedstructreader.fixedstructreader_datetime_last
+            }
+            SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_accepted,
+            SummaryReaderData::Journal(summaryjournalreader) => {
+                &summaryjournalreader.journalreader_datetime_last_accepted
+            }
         }
     }
 
@@ -408,14 +411,12 @@ impl Summary {
     pub fn max_hit_miss(&self) -> Count {
         match &self.readerdata {
             SummaryReaderData::Dummy => 0,
-            SummaryReaderData::Syslog(
-                (
-                    summaryblockreader,
-                    summarylinereader,
-                    summarysyslinereader,
-                    _summarysyslogprocessor,
-                )
-            ) => {
+            SummaryReaderData::Syslog((
+                summaryblockreader,
+                summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => {
                 max!(
                     summaryblockreader.blockreader_read_block_lru_cache_hit,
                     summaryblockreader.blockreader_read_block_lru_cache_miss,
@@ -450,12 +451,7 @@ impl Summary {
                     summarysyslinereader.syslinereader_ezcheckd2_miss
                 )
             }
-            SummaryReaderData::FixedStruct(
-                (
-                    summaryblockreader,
-                    summaryfixedstructreader,
-                )
-            ) => {
+            SummaryReaderData::FixedStruct((summaryblockreader, summaryfixedstructreader)) => {
                 max!(
                     summaryblockreader.blockreader_read_block_lru_cache_hit,
                     summaryblockreader.blockreader_read_block_lru_cache_miss,
@@ -468,10 +464,7 @@ impl Summary {
                 )
             }
             SummaryReaderData::Etvx(summaryevtxreader) => {
-                max!(
-                    summaryevtxreader.evtxreader_events_accepted,
-                    summaryevtxreader.evtxreader_events_processed
-                )
+                max!(summaryevtxreader.evtxreader_events_accepted, summaryevtxreader.evtxreader_events_processed)
             }
             SummaryReaderData::Journal(summaryjournalreader) => {
                 max!(
@@ -491,15 +484,13 @@ impl Summary {
                 debug_panic!("Should not be called on Dummy");
 
                 0
-            },
-            SummaryReaderData::Syslog(
-                (
-                    summaryblockreader,
-                    summarylinereader,
-                    summarysyslinereader,
-                    _summarysyslogprocessor
-                )
-            ) => {
+            }
+            SummaryReaderData::Syslog((
+                summaryblockreader,
+                summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => {
                 max!(
                     summaryblockreader.blockreader_blocks_dropped_ok,
                     summaryblockreader.blockreader_blocks_dropped_err,
@@ -509,23 +500,14 @@ impl Summary {
                     summarysyslinereader.syslinereader_drop_sysline_errors
                 )
             }
-            SummaryReaderData::FixedStruct(
-                (
-                    summaryblockreader,
-                    _summaryfixedstructreader,
-                )
-            ) => {
+            SummaryReaderData::FixedStruct((summaryblockreader, _summaryfixedstructreader)) => {
                 max!(
                     summaryblockreader.blockreader_blocks_dropped_ok,
                     summaryblockreader.blockreader_blocks_dropped_err
                 )
             }
-            SummaryReaderData::Etvx(_summaryevtxreader) => {
-                0
-            }
-            SummaryReaderData::Journal(_summaryjournalreader) => {
-                0
-            }
+            SummaryReaderData::Etvx(_summaryevtxreader) => 0,
+            SummaryReaderData::Journal(_summaryjournalreader) => 0,
         }
     }
 }
@@ -536,153 +518,203 @@ impl fmt::Debug for Summary {
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
         match &self.readerdata {
-            SummaryReaderData::Dummy => f.debug_struct("Dummy").finish(),
-            SummaryReaderData::Syslog(
-                (
-                    summaryblockreader,
-                    summarylinereader,
-                    summarysyslinereader,
-                    _summarysyslogprocessor
-                )
-            ) => {
+            SummaryReaderData::Dummy => f
+                .debug_struct("Dummy")
+                .finish(),
+            SummaryReaderData::Syslog((
+                summaryblockreader,
+                summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => {
                 match self.filetype {
                     None => {
                         debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
 
-                        f.debug_struct("Unexpected self.filetype=None").finish()
+                        f.debug_struct("Unexpected self.filetype=None")
+                            .finish()
                     }
                     Some(filetype_) => {
                         match filetype_ {
-                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
-                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
-                            | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
-                            | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
-                            => f
+                            | FileType::FixedStruct {
+                                archival_type: FileTypeArchive::Normal,
+                                fixedstruct_type: _,
+                            }
+                            | FileType::FixedStruct {
+                                archival_type: FileTypeArchive::Tar,
+                                fixedstruct_type: _,
+                            }
+                            | FileType::Text {
+                                archival_type: FileTypeArchive::Normal,
+                                encoding_type: _,
+                            }
+                            | FileType::Text {
+                                archival_type: FileTypeArchive::Tar,
+                                encoding_type: _,
+                            } => f
                                 .debug_struct("")
                                 .field("bytes", &summaryblockreader.blockreader_bytes)
                                 .field("bytes total", &summaryblockreader.blockreader_bytes_total)
                                 .field("lines", &summarylinereader.linereader_lines)
                                 .field("lines stored highest", &summarylinereader.linereader_lines_stored_highest)
                                 .field("syslines", &summarysyslinereader.syslinereader_syslines)
-                                .field("syslines stored highest", &summarysyslinereader.syslinereader_syslines_stored_highest)
+                                .field(
+                                    "syslines stored highest",
+                                    &summarysyslinereader.syslinereader_syslines_stored_highest,
+                                )
                                 .field("blocks", &summaryblockreader.blockreader_blocks)
                                 .field("blocks total", &summaryblockreader.blockreader_blocks_total)
                                 .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)
-                                .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
+                                .field(
+                                    "blocksz",
+                                    &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz),
+                                )
                                 .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
                                 .finish(),
-                            FileType::Evtx{ archival_type: FileTypeArchive::Gz }
-                            | FileType::Evtx{ archival_type: FileTypeArchive::Bz2 }
-                            | FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
-                            | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
-                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, fixedstruct_type: _ }
-                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
-                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, fixedstruct_type: _ }
-                            | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
-                            | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: _ }
-                            | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
-                            | FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: _ }
-                            | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }
-                            => f
+                            FileType::Evtx {
+                                archival_type: FileTypeArchive::Gz,
+                            }
+                            | FileType::Evtx {
+                                archival_type: FileTypeArchive::Bz2,
+                            }
+                            | FileType::Evtx {
+                                archival_type: FileTypeArchive::Lz4,
+                            }
+                            | FileType::Evtx {
+                                archival_type: FileTypeArchive::Xz,
+                            }
+                            | FileType::FixedStruct {
+                                archival_type: FileTypeArchive::Bz2,
+                                fixedstruct_type: _,
+                            }
+                            | FileType::FixedStruct {
+                                archival_type: FileTypeArchive::Gz,
+                                fixedstruct_type: _,
+                            }
+                            | FileType::FixedStruct {
+                                archival_type: FileTypeArchive::Lz4,
+                                fixedstruct_type: _,
+                            }
+                            | FileType::FixedStruct {
+                                archival_type: FileTypeArchive::Xz,
+                                fixedstruct_type: _,
+                            }
+                            | FileType::Text {
+                                archival_type: FileTypeArchive::Bz2,
+                                encoding_type: _,
+                            }
+                            | FileType::Text {
+                                archival_type: FileTypeArchive::Gz,
+                                encoding_type: _,
+                            }
+                            | FileType::Text {
+                                archival_type: FileTypeArchive::Lz4,
+                                encoding_type: _,
+                            }
+                            | FileType::Text {
+                                archival_type: FileTypeArchive::Xz,
+                                encoding_type: _,
+                            } => f
                                 .debug_struct("")
                                 .field("bytes", &summaryblockreader.blockreader_bytes)
                                 .field("bytes total", &summaryblockreader.blockreader_bytes_total)
                                 .field("lines", &summarylinereader.linereader_lines)
                                 .field("lines stored highest", &summarylinereader.linereader_lines_stored_highest)
                                 .field("syslines", &summarysyslinereader.syslinereader_syslines)
-                                .field("syslines stored highest", &summarysyslinereader.syslinereader_syslines_stored_highest)
+                                .field(
+                                    "syslines stored highest",
+                                    &summarysyslinereader.syslinereader_syslines_stored_highest,
+                                )
                                 .field("blocks", &summaryblockreader.blockreader_blocks)
                                 .field("blocks total", &summaryblockreader.blockreader_blocks_total)
                                 .field("blocks stored high", &summaryblockreader.blockreader_blocks_highest)
-                                .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
-                                .field("filesz uncompressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz_actual))
-                                .field("filesz compressed", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
+                                .field(
+                                    "blocksz",
+                                    &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz),
+                                )
+                                .field(
+                                    "filesz uncompressed",
+                                    &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz_actual),
+                                )
+                                .field(
+                                    "filesz compressed",
+                                    &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz),
+                                )
                                 .finish(),
                             // Summary::default()
-                            FileType::Evtx{ archival_type: _ }
-                            | FileType::Journal{ archival_type: _ }
-                            | FileType::Unparsable
-                            => f
+                            FileType::Evtx { archival_type: _ }
+                            | FileType::Journal { archival_type: _ }
+                            | FileType::Unparsable => f
                                 .debug_struct("Summary::Default")
                                 .finish(),
                         }
                     }
                 }
             }
-            SummaryReaderData::FixedStruct(
-                (
-                    summaryblockreader,
-                    summaryfixedstructreader,
-                )
-            ) => {
-                match self.filetype {
-                    None => {
-                        debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+            SummaryReaderData::FixedStruct((summaryblockreader, summaryfixedstructreader)) => match self.filetype {
+                None => {
+                    debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
 
-                        f.debug_struct("Unexpected self.filetype=None").finish()
-                    }
-                    Some(filetype_) => {
-                        match filetype_ {
-                            FileType::FixedStruct{..} => f
-                                .debug_struct("SummaryReaderData::FixedStruct")
-                                .field("bytes", &summaryblockreader.blockreader_bytes)
-                                .field("bytes total", &summaryblockreader.blockreader_bytes_total)
-                                .field("entries", &summaryfixedstructreader.fixedstructreader_utmp_entries)
-                                .field("blocks", &summaryblockreader.blockreader_blocks)
-                                .field("blocks total", &summaryblockreader.blockreader_blocks_total)
-                                .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)
-                                .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
-                                .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
-                                .finish(),
-                            ft => {
-                                debug_panic!("Unexpected filetype {}; path {:?}", ft, self.path);
-
-                                f.debug_struct("Unexpected filetype").finish()
-                            }
-                        }
-                    }
+                    f.debug_struct("Unexpected self.filetype=None")
+                        .finish()
                 }
-            }
-            SummaryReaderData::Etvx(summaryevtxreader) => {
-                match self.filetype {
-                    None => {
-                        debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+                Some(filetype_) => match filetype_ {
+                    FileType::FixedStruct { .. } => f
+                        .debug_struct("SummaryReaderData::FixedStruct")
+                        .field("bytes", &summaryblockreader.blockreader_bytes)
+                        .field("bytes total", &summaryblockreader.blockreader_bytes_total)
+                        .field("entries", &summaryfixedstructreader.fixedstructreader_utmp_entries)
+                        .field("blocks", &summaryblockreader.blockreader_blocks)
+                        .field("blocks total", &summaryblockreader.blockreader_blocks_total)
+                        .field("blocks stored highest", &summaryblockreader.blockreader_blocks_highest)
+                        .field("blocksz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_blocksz))
+                        .field("filesz", &format_args!("{0} (0x{0:X})", &summaryblockreader.blockreader_filesz))
+                        .finish(),
+                    ft => {
+                        debug_panic!("Unexpected filetype {}; path {:?}", ft, self.path);
 
-                        f.debug_struct("Unexpected self.filetype is None").finish()
+                        f.debug_struct("Unexpected filetype")
+                            .finish()
                     }
-                    Some(filetype_) => {
-                        match filetype_ {
-                            FileType::Evtx{..} => f
-                                .debug_struct("")
-                                .field("evtx events processed", &summaryevtxreader.evtxreader_events_processed)
-                                .field("evtx events accepted", &summaryevtxreader.evtxreader_events_accepted)
-                                .finish(),
-                            ft => {
-                                debug_panic!("Unpexected filetype {}; path {:?}", ft, self.path);
+                },
+            },
+            SummaryReaderData::Etvx(summaryevtxreader) => match self.filetype {
+                None => {
+                    debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
 
-                                f.debug_struct("Unexpected filetype").finish()
-                            }
-                        }
-                    }
+                    f.debug_struct("Unexpected self.filetype is None")
+                        .finish()
                 }
-            }
-            SummaryReaderData::Journal(summaryjournalreader) => {
-                match self.filetype {
-                    None => {
-                        debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+                Some(filetype_) => match filetype_ {
+                    FileType::Evtx { .. } => f
+                        .debug_struct("")
+                        .field("evtx events processed", &summaryevtxreader.evtxreader_events_processed)
+                        .field("evtx events accepted", &summaryevtxreader.evtxreader_events_accepted)
+                        .finish(),
+                    ft => {
+                        debug_panic!("Unpexected filetype {}; path {:?}", ft, self.path);
 
-                        f.debug_struct("Unexpected self.filetype is None").finish()
+                        f.debug_struct("Unexpected filetype")
+                            .finish()
                     }
-                    Some(filetype_) => match filetype_ {
-                        FileType::Journal{..} => f
-                            .debug_struct("")
-                            .field("journal events processed", &summaryjournalreader.journalreader_events_processed)
-                            .field("journal events accepted", &summaryjournalreader.journalreader_events_accepted)
-                            .finish(),
-                        ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
-                    }
+                },
+            },
+            SummaryReaderData::Journal(summaryjournalreader) => match self.filetype {
+                None => {
+                    debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+
+                    f.debug_struct("Unexpected self.filetype is None")
+                        .finish()
                 }
-            }
+                Some(filetype_) => match filetype_ {
+                    FileType::Journal { .. } => f
+                        .debug_struct("")
+                        .field("journal events processed", &summaryjournalreader.journalreader_events_processed)
+                        .field("journal events accepted", &summaryjournalreader.journalreader_events_accepted)
+                        .finish(),
+                    ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
+                },
+            },
         }
     }
 }

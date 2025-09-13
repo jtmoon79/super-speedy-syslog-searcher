@@ -3,10 +3,13 @@
 //! Common imports, type aliases, and other globals for _s4lib_.
 
 use std::collections::HashSet;
+use std::fmt::Debug;
 #[doc(hidden)]
 pub use std::fs::File;
-use std::io::{Error, Result};
-use std::fmt::Debug;
+use std::io::{
+    Error,
+    Result,
+};
 #[doc(hidden)]
 pub use std::path::Path;
 
@@ -378,7 +381,7 @@ impl<T, E> ResultFind4<T, E> {
     pub fn ok(self) -> Option<T> {
         match self {
             ResultFind4::Found(x) => Some(x),
-            _ => None
+            _ => None,
         }
     }
 
@@ -820,10 +823,10 @@ impl FileType {
     /// Returns `true` if the file is processable
     pub const fn is_supported(&self) -> bool {
         match self {
-            FileType::Evtx{ .. } => true,
-            FileType::FixedStruct{ .. } => true,
-            FileType::Journal{ .. } => true,
-            FileType::Text{ .. } => true,
+            FileType::Evtx { .. } => true,
+            FileType::FixedStruct { .. } => true,
+            FileType::Journal { .. } => true,
+            FileType::Text { .. } => true,
             FileType::Unparsable => false,
         }
     }
@@ -831,81 +834,81 @@ impl FileType {
     /// convert a `FileType` to it's corresponding `LogMessageType`
     pub const fn to_logmessagetype(&self) -> LogMessageType {
         match self {
-            FileType::Evtx{ .. } => LogMessageType::Evtx,
-            FileType::FixedStruct{ .. } => LogMessageType::FixedStruct,
-            FileType::Journal{ .. } => LogMessageType::Journal,
-            FileType::Text{ .. } => LogMessageType::Sysline,
+            FileType::Evtx { .. } => LogMessageType::Evtx,
+            FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
+            FileType::Journal { .. } => LogMessageType::Journal,
+            FileType::Text { .. } => LogMessageType::Sysline,
             FileType::Unparsable => {
                 debug_panic!("FileType::Unparsable should not be converted to LogMessageType");
 
                 LogMessageType::All
-            },
+            }
         }
     }
 
     /// convert a `FileType` to it's inner `FileTypeArchive`
     pub const fn to_filetypearchive(&self) -> FileTypeArchive {
         match self {
-            FileType::Evtx{ archival_type } => *archival_type,
-            FileType::FixedStruct{ archival_type, .. } => *archival_type,
-            FileType::Journal{ archival_type } => *archival_type,
-            FileType::Text{ archival_type, .. } => *archival_type,
+            FileType::Evtx { archival_type } => *archival_type,
+            FileType::FixedStruct { archival_type, .. } => *archival_type,
+            FileType::Journal { archival_type } => *archival_type,
+            FileType::Text { archival_type, .. } => *archival_type,
             FileType::Unparsable => {
                 debug_panic!("FileType::Unparsable should not be converted to FileTypeArchive");
 
                 FileTypeArchive::Normal
-            },
+            }
         }
     }
 
-    pub const fn is_evtx (&self) -> bool {
+    pub const fn is_evtx(&self) -> bool {
         match self {
-            FileType::Evtx{ .. } => true,
+            FileType::Evtx { .. } => true,
             _ => false,
         }
     }
 
-    pub const fn is_fixedstruct (&self) -> bool {
+    pub const fn is_fixedstruct(&self) -> bool {
         match self {
-            FileType::FixedStruct{ .. } => true,
+            FileType::FixedStruct { .. } => true,
             _ => false,
         }
     }
 
-    pub const fn is_journal (&self) -> bool {
+    pub const fn is_journal(&self) -> bool {
         match self {
-            FileType::Journal{ .. } => true,
+            FileType::Journal { .. } => true,
             _ => false,
         }
     }
 
-    pub const fn is_text (&self) -> bool {
+    pub const fn is_text(&self) -> bool {
         match self {
-            FileType::Text{ .. } => true,
+            FileType::Text { .. } => true,
             _ => false,
         }
     }
 
-    pub const fn is_unparsable (&self) -> bool {
+    pub const fn is_unparsable(&self) -> bool {
         match self {
             FileType::Unparsable => true,
             _ => false,
         }
     }
 
-    pub const fn archival_type (&self) -> FileTypeArchive {
+    pub const fn archival_type(&self) -> FileTypeArchive {
         match self {
-            FileType::Evtx{ archival_type } => *archival_type,
-            FileType::FixedStruct{ archival_type, .. } => *archival_type,
-            FileType::Journal{ archival_type } => *archival_type,
-            FileType::Text{ archival_type, .. } => *archival_type,
+            FileType::Evtx { archival_type } => *archival_type,
+            FileType::FixedStruct { archival_type, .. } => *archival_type,
+            FileType::Journal { archival_type } => *archival_type,
+            FileType::Text { archival_type, .. } => *archival_type,
             FileType::Unparsable => FileTypeArchive::Normal,
         }
     }
 
-    pub const fn encoding_type (&self) -> Option<FileTypeTextEncoding> {
+    pub const fn encoding_type(&self) -> Option<FileTypeTextEncoding> {
         match self {
-            FileType::Text{ encoding_type, .. } => Some(*encoding_type),
+            FileType::Text { encoding_type, .. } => Some(*encoding_type),
             _ => None,
         }
     }
@@ -928,7 +931,7 @@ pub enum LogMessageType {
     // / A binary [lastlog/lastlogx/utmp/utmpx format] file.
     // /
     // / Relates to a [`FixedStruct`].
-    // / 
+    // /
     // / [lastlog/lastlogx/utmp/utmpx format]: https://web.archive.org/web/20231216015325/https://man.freebsd.org/cgi/man.cgi?query=lastlog&sektion=5&manpath=NetBSD+9.3
     // / [`FixedStruct`]: crate::data::fixedstruct::FixedStruct
     FixedStruct,
@@ -999,28 +1002,24 @@ pub const NLu8a: [u8; 1] = [NLu8];
 pub const SYSLOG_SZ_MAX: usize = 8096;
 
 /// Create a `Error` with an error string that includes the file path.
-pub fn err_from_err_path(error: &Error, fpath: &FPath, mesg: Option<&str>) -> Error
-{
+pub fn err_from_err_path(
+    error: &Error,
+    fpath: &FPath,
+    mesg: Option<&str>,
+) -> Error {
     match mesg {
-        Some(s) => Error::new(
-            error.kind(),
-            format!(
-                "{} {} file {:?}", error, s, fpath
-            )
-        ),
-        None => Error::new(
-            error.kind(),
-            format!(
-                "{} file {:?}", error, fpath
-            )
-        )
+        Some(s) => Error::new(error.kind(), format!("{} {} file {:?}", error, s, fpath)),
+        None => Error::new(error.kind(), format!("{} file {:?}", error, fpath)),
     }
 }
 
 /// Helper to `BlockReadeer::new`; create a `Result::Err` with an error
 /// string that includes the file path
-pub fn err_from_err_path_result<T>(error: &Error, fpath: &FPath, mesg: Option<&str>) -> Result<T>
-{
+pub fn err_from_err_path_result<T>(
+    error: &Error,
+    fpath: &FPath,
+    mesg: Option<&str>,
+) -> Result<T> {
     Result::Err(err_from_err_path(error, fpath, mesg))
 }
 
@@ -1038,33 +1037,65 @@ pub fn err_from_err_path_result<T>(error: &Error, fpath: &FPath, mesg: Option<&s
 ///
 /// Credit to <https://stackoverflow.com/a/53646925/471376>
 #[allow(clippy::too_many_arguments)]
-pub const fn max2(a: usize, b: usize) -> usize
-{
+pub const fn max2(
+    a: usize,
+    b: usize,
+) -> usize {
     [a, b][(a < b) as usize]
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn max3(a: usize, b: usize, c: usize) -> usize {
+pub const fn max3(
+    a: usize,
+    b: usize,
+    c: usize,
+) -> usize {
     max2(max2(a, b), c)
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn max4(a: usize, b: usize, c: usize, d: usize) -> usize {
+pub const fn max4(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+) -> usize {
     max2(max3(a, b, c), d)
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn max5(a: usize, b: usize, c: usize, d: usize, e: usize) -> usize {
+pub const fn max5(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+) -> usize {
     max2(max4(a, b, c, d), e)
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn max6(a: usize, b: usize, c: usize, d: usize, e: usize, f: usize) -> usize {
+pub const fn max6(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+) -> usize {
     max2(max5(a, b, c, d, e), f)
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn max7(a: usize, b: usize, c: usize, d: usize, e: usize, f: usize, g: usize) -> usize {
+pub const fn max7(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+) -> usize {
     max2(max6(a, b, c, d, e, f), g)
 }
 
@@ -1234,32 +1265,65 @@ pub const fn max16(
 ///
 /// Credit to <https://stackoverflow.com/a/53646925/471376>
 #[allow(clippy::too_many_arguments)]
-pub const fn min2(a: usize, b: usize) -> usize {
+pub const fn min2(
+    a: usize,
+    b: usize,
+) -> usize {
     [a, b][(a > b) as usize]
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn min3(a: usize, b: usize, c: usize) -> usize {
+pub const fn min3(
+    a: usize,
+    b: usize,
+    c: usize,
+) -> usize {
     min2(min2(a, b), c)
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn min4(a: usize, b: usize, c: usize, d: usize) -> usize {
+pub const fn min4(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+) -> usize {
     min2(min3(a, b, c), d)
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn min5(a: usize, b: usize, c: usize, d: usize, e: usize) -> usize {
+pub const fn min5(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+) -> usize {
     min2(min4(a, b, c, d), e)
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn min6(a: usize, b: usize, c: usize, d: usize, e: usize, f: usize) -> usize {
+pub const fn min6(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+) -> usize {
     min2(min5(a, b, c, d, e), f)
 }
 
 #[allow(clippy::too_many_arguments)]
-pub const fn min7(a: usize, b: usize, c: usize, d: usize, e: usize, f: usize, g: usize) -> usize {
+pub const fn min7(
+    a: usize,
+    b: usize,
+    c: usize,
+    d: usize,
+    e: usize,
+    f: usize,
+    g: usize,
+) -> usize {
     min2(min6(a, b, c, d, e, f), g)
 }
 
@@ -1272,7 +1336,7 @@ pub const fn min8(
     e: usize,
     f: usize,
     g: usize,
-    h: usize
+    h: usize,
 ) -> usize {
     min2(min7(a, b, c, d, e, f, g), h)
 }

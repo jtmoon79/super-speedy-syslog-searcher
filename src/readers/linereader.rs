@@ -6,9 +6,52 @@
 //! [`Line`s]: crate::data::line::Line
 //! [`BlockReader`]: crate::readers::blockreader::BlockReader
 
-use crate::common::{CharSz, Count, FPath, FileOffset, FileSz, FileType, NLu8, ResultFind};
-use crate::data::line::{Line, LineP, LinePart, Lines};
+use std::collections::BTreeMap;
+#[cfg(test)]
+use std::collections::HashSet;
+use std::fmt;
+use std::io::{
+    Error,
+    Result,
+};
+use std::sync::Arc;
+
+use ::lru::LruCache;
+use ::more_asserts::debug_assert_ge;
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    def1n,
+    def1x,
+    def1ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
+
+use crate::common::{
+    CharSz,
+    Count,
+    FPath,
+    FileOffset,
+    FileSz,
+    FileType,
+    NLu8,
+    ResultFind,
+};
 use crate::data::datetime::SystemTime;
+use crate::data::line::{
+    Line,
+    LineP,
+    LinePart,
+    Lines,
+};
+#[cfg(any(debug_assertions, test))]
+use crate::debug::printers::byte_to_char_noraw;
 use crate::readers::blockreader::{
     BlockIndex,
     BlockOffset,
@@ -17,21 +60,6 @@ use crate::readers::blockreader::{
     BlockSz,
     ResultFindReadBlock,
 };
-#[cfg(any(debug_assertions, test))]
-use crate::debug::printers::byte_to_char_noraw;
-
-use std::collections::BTreeMap;
-#[cfg(test)]
-use std::collections::HashSet;
-use std::fmt;
-use std::io::{Error, Result};
-use std::sync::Arc;
-
-use ::lru::LruCache;
-use ::more_asserts::debug_assert_ge;
-#[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, def1n, def1ñ, def1x, den, deo, dex, deñ};
-
 
 // ----------
 // LineReader
@@ -480,7 +508,7 @@ impl LineReader {
         lines: Lines,
     ) -> bool {
         defn!();
-        if ! self.is_drop_data() {
+        if !self.is_drop_data() {
             defx!("is_drop_data is false");
             return false;
         }
@@ -546,10 +574,7 @@ impl LineReader {
                 }
             }
             Err(_linep) => {
-                defo!(
-                    "Arc::try_unwrap(linep) failed to drop Line, strong_count {}",
-                    Arc::strong_count(&_linep)
-                );
+                defo!("Arc::try_unwrap(linep) failed to drop Line, strong_count {}", Arc::strong_count(&_linep));
                 self.drop_line_errors += 1;
             }
         }
@@ -654,7 +679,8 @@ impl LineReader {
                         defx!("Err {}", _err);
                         eprintln!(
                             "ERROR: unexpected Error store in find_line_lru_cache, fileoffset {}, file {:?}",
-                            fileoffset, self.path(),
+                            fileoffset,
+                            self.path(),
                         );
                     }
                 }
@@ -695,12 +721,7 @@ impl LineReader {
             if self.is_line_last(&linep) {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    deo!(
-                        "LRU Cache put({}, Found({}, …)) {:?}",
-                        fileoffset,
-                        fo_next,
-                        (*linep).to_String_noraw()
-                    );
+                    deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
                 }
@@ -739,12 +760,7 @@ impl LineReader {
                 if self.is_line_last(&linep) {
                     if self.find_line_lru_cache_enabled {
                         self.find_line_lru_cache_put += 1;
-                        deo!(
-                            "LRU Cache put({}, Found({}, …)) {:?}",
-                            fileoffset,
-                            fo_next,
-                            (*linep).to_String_noraw()
-                        );
+                        deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                         self.find_line_lru_cache
                             .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
                     }
@@ -759,12 +775,7 @@ impl LineReader {
                 }
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    deo!(
-                        "LRU Cache put({}, Found({}, …)) {:?}",
-                        fileoffset,
-                        fo_next,
-                        (*linep).to_String_noraw()
-                    );
+                    deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
                 }
@@ -895,7 +906,7 @@ impl LineReader {
         let blockoffset_last: BlockOffset = self.blockoffset_last();
 
         // if NewLine part A cannot be found maybe we can find NewLine part B
-        let mut partial_line= false;
+        let mut partial_line = false;
         // FOUND NewLine part A? Line begins after that newline
         let mut found_nl_a = false;
         // FOUND NewLine part B? Line ends at this.
@@ -1091,13 +1102,7 @@ impl LineReader {
             if !nl_b_eof {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    defo!(
-                        "({}) A0: LRU cache put({}, Found(({}, @{:p})))",
-                        fileoffset,
-                        fileoffset,
-                        fo_next,
-                        linep
-                    );
+                    defo!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
                 }
@@ -1113,13 +1118,7 @@ impl LineReader {
             } else {
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    defo!(
-                        "({}) A0: LRU cache put({}, Found(({}, @{:p})))",
-                        fileoffset,
-                        fileoffset,
-                        fo_next,
-                        linep
-                    );
+                    defo!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
                 }
@@ -1135,16 +1134,13 @@ impl LineReader {
             };
         }
 
-        assert!(
-            !found_nl_a,
-            "already found newline A; was finding it once not good enough? {:?}",
-            self.path()
-        );
+        assert!(!found_nl_a, "already found newline A; was finding it once not good enough? {:?}", self.path());
         assert!(
             // XOR check
             !found_nl_b ^ !partial_line,
             "found newline A, found_nl_b {} yet {} partial_line, expected only one; bird with one wing. {:?}",
-            found_nl_b, partial_line,
+            found_nl_b,
+            partial_line,
             self.path(),
         );
 
@@ -1220,11 +1216,7 @@ impl LineReader {
                 return (ResultFindLine::Found((fo_next, linep)), None);
             } else {
                 self.lines_miss += 1;
-                defo!(
-                    "({}) A1a: miss in self.lines for FileOffset {} (quick check before part A)",
-                    fileoffset,
-                    fo_
-                );
+                defo!("({}) A1a: miss in self.lines for FileOffset {} (quick check before part A)", fileoffset, fo_);
             }
 
             if !partial_line {
@@ -1237,7 +1229,8 @@ impl LineReader {
                         //found_nl_a = true;
                         fo_nl_a = (*linep_prev).fileoffset_end();
                         debug_assert_eq!(
-                            fo_nl_a, fo_,
+                            fo_nl_a,
+                            fo_,
                             "get_linep({}) returned Line with fileoffset_end() {}; these should match for file {:?}",
                             fo_,
                             fo_nl_a,
@@ -1328,7 +1321,7 @@ impl LineReader {
         // BEGinning OFfset?
         let mut begof: bool = false; // run into beginning of file (as in first byte)?
                                      // newline A plus one (one charsz past preceding Line terminating '\n')
-        // FileOffset NewLine A1
+                                     // FileOffset NewLine A1
         let mut fo_nl_a1: FileOffset = 0;
 
         if bof != bo_middle {
@@ -1394,8 +1387,7 @@ impl LineReader {
             return (ResultFindLine::Done, None);
         }
 
-        let li: LinePart =
-            LinePart::new(bptr_middle, bi_at, bi_middle_end + 1, fo_nl_a1, bo_middle, self.blocksz());
+        let li: LinePart = LinePart::new(bptr_middle, bi_at, bi_middle_end + 1, fo_nl_a1, bo_middle, self.blocksz());
         line.prepend(li);
 
         if partial_line {
@@ -1614,11 +1606,7 @@ impl LineReader {
                     return ResultFindLine::Done;
                 }
                 ResultFindReadBlock::Err(err) => {
-                    defx!(
-                        "B1: read_block({}) returned Err, return ResultFindLine::Err({:?})",
-                        bo_middle,
-                        err
-                    );
+                    defx!("B1: read_block({}) returned Err, return ResultFindLine::Err({:?})", bo_middle, err);
                     return ResultFindLine::Err(err);
                 }
             };
@@ -1709,11 +1697,7 @@ impl LineReader {
                         return ResultFindLine::Done;
                     }
                     ResultFindReadBlock::Err(err) => {
-                        defx!(
-                            "B2: read_block({}) returned Err, return ResultFindLine::Err({:?})",
-                            bof,
-                            err
-                        );
+                        defx!("B2: read_block({}) returned Err, return ResultFindLine::Err({:?})", bof, err);
                         return ResultFindLine::Err(err);
                     }
                 };
@@ -1746,11 +1730,7 @@ impl LineReader {
                     if (*bptr)[bi_beg] == NLu8 {
                         found_nl_b = true;
                         fo_nl_b = self.file_offset_at_block_offset_index(bof, bi_beg);
-                        assert!(
-                            !fo_nl_b_in_middle,
-                            "fo_nl_b_in_middle should be false, file {:?}",
-                            self.path()
-                        );
+                        assert!(!fo_nl_b_in_middle, "fo_nl_b_in_middle should be false, file {:?}", self.path());
                         defo!(
                             "B2: found newline B during byte search, blockoffset {} blockindex {} (fileoffset {}) {:?}",
                             bof,
@@ -1891,16 +1871,8 @@ impl LineReader {
                 return ResultFindLine::Found((fo_next, linep));
             };
         }
-        assert!(
-            !found_nl_a,
-            "already found newline A; was finding it once not good enough? file {:?}",
-            self.path()
-        );
-        assert!(
-            found_nl_b,
-            "found newline A, have not found newline B; bird with one wing. file {:?}",
-            self.path()
-        );
+        assert!(!found_nl_a, "already found newline A; was finding it once not good enough? file {:?}", self.path());
+        assert!(found_nl_b, "found newline A, have not found newline B; bird with one wing. file {:?}", self.path());
         // …but before doing work of discovering a new `Line` (newline A),
         // check various maps at `fileoffset + 1` to see if the preceding
         // `Line` has already been discovered and processed.
@@ -1933,12 +1905,7 @@ impl LineReader {
                 let fo_next: FileOffset = fo_nl_b + charsz_fo;
                 if self.find_line_lru_cache_enabled {
                     self.find_line_lru_cache_put += 1;
-                    defo!(
-                        "A1a: LRU Cache put({}, Found({}, …)) {:?}",
-                        fileoffset,
-                        fo_next,
-                        (*linep).to_String_noraw()
-                    );
+                    defo!("A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
                 }
@@ -2124,12 +2091,7 @@ impl LineReader {
                     }
                 };
                 let blen: BlockIndex = bptr.len() as BlockIndex;
-                debug_assert_ge!(
-                    blen,
-                    charsz_bi,
-                    "blen is less than charsz; not yet handled, file {:?}",
-                    self.path()
-                );
+                debug_assert_ge!(blen, charsz_bi, "blen is less than charsz; not yet handled, file {:?}", self.path());
                 bi_start_prior = bi_start;
                 bi_start = blen - charsz_bi;
                 let mut bi_at: BlockIndex = bi_start;
@@ -2260,24 +2222,15 @@ impl LineReader {
     }
 
     pub fn summary(&self) -> SummaryLineReader {
-        let linereader_lines = self
-            .count_lines_processed();
-        let linereader_lines_stored_highest = self
-            .lines_stored_highest();
-        let linereader_lines_hits = self
-            .lines_hits;
-        let linereader_lines_miss = self
-            .lines_miss;
-        let linereader_find_line_lru_cache_hit = self
-            .find_line_lru_cache_hit;
-        let linereader_find_line_lru_cache_miss = self
-            .find_line_lru_cache_miss;
-        let linereader_find_line_lru_cache_put = self
-            .find_line_lru_cache_put;
-        let linereader_drop_line_ok = self
-            .drop_line_ok;
-        let linereader_drop_line_errors = self
-            .drop_line_errors;
+        let linereader_lines = self.count_lines_processed();
+        let linereader_lines_stored_highest = self.lines_stored_highest();
+        let linereader_lines_hits = self.lines_hits;
+        let linereader_lines_miss = self.lines_miss;
+        let linereader_find_line_lru_cache_hit = self.find_line_lru_cache_hit;
+        let linereader_find_line_lru_cache_miss = self.find_line_lru_cache_miss;
+        let linereader_find_line_lru_cache_put = self.find_line_lru_cache_put;
+        let linereader_drop_line_ok = self.drop_line_ok;
+        let linereader_drop_line_errors = self.drop_line_errors;
 
         SummaryLineReader {
             linereader_lines,

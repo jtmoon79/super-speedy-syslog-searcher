@@ -2,6 +2,12 @@
 
 //! Benchmark functions of `crate::readers::syslinereader::SyslineReader`
 
+use ::criterion::{
+    black_box,
+    criterion_group,
+    criterion_main,
+    Criterion,
+};
 use ::s4lib::common::{
     FPath,
     FileType,
@@ -11,8 +17,6 @@ use ::s4lib::common::{
 use ::s4lib::data::datetime::FixedOffset;
 use ::s4lib::readers::blockreader::BlockSz;
 use ::s4lib::readers::syslinereader::SyslineReader;
-
-use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 const BLOCKSZ: BlockSz = 0x200;
 
@@ -39,7 +43,7 @@ fn syslinereader_baseline_init() {
         FileType::Text {
             archival_type: FileTypeArchive::Normal,
             encoding_type: FileTypeTextEncoding::Utf8Ascii,
-        }
+        },
     );
 
     black_box(syslinereader1);

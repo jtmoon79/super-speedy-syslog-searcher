@@ -8,11 +8,15 @@
     non_snake_case
 )]
 
-use ::s4lib::common::NLu8;
-
 use ::bstr::ByteSlice;
-use ::criterion::{black_box, criterion_group, criterion_main, Criterion};
+use ::criterion::{
+    black_box,
+    criterion_group,
+    criterion_main,
+    Criterion,
+};
 use ::lazy_static::lazy_static;
+use ::s4lib::common::NLu8;
 
 const CHARSZ: usize = 1;
 

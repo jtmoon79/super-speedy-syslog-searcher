@@ -11,58 +11,28 @@
 //       Other times the same variable becomes `fo_offset` or `offset`.
 //       Pick one and be consistent about it everywhere.
 
-use crate::common::{
-    Bytes,
-    CharSz,
-    Count,
-    debug_panic,
-    FPath,
-    FileOffset,
-    FileSz,
-    FileType,
-    ResultFind,
+use std::cmp::{
+    max,
+    min,
 };
-use crate::data::line::{Line, LineIndex, LineP, LinePartPtrs};
-use crate::data::sysline::{Sysline, SyslineP};
-use crate::data::datetime::{
-    bytes_to_regex_to_datetime,
-    dt_after_or_before,
-    dt_pass_filters,
-    DateTimeL,
-    DateTimeLOpt,
-    DateTimeParseInstr,
-    DateTimeParseInstrsIndex,
-    FixedOffset,
-    Result_Filter_DateTime1,
-    Result_Filter_DateTime2,
-    SystemTime,
-    Year,
-    DATETIME_PARSE_DATAS,
-    DATETIME_PARSE_DATAS_LEN,
-    slice_contains_X_2,
-    slice_contains_D2,
-    slice_contains_12_D2,
-};
-#[allow(unused_imports)]
-use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
-use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockSz};
-use crate::readers::linereader::{LineReader, ResultFindLine};
-
-use std::cmp::{max, min};
+use std::collections::BTreeMap;
 #[cfg(test)]
 use std::collections::HashSet;
-use std::collections::BTreeMap;
 use std::fmt;
-use std::io::{Error, ErrorKind, Result};
+use std::io::{
+    Error,
+    ErrorKind,
+    Result,
+};
 use std::sync::Arc;
 
 use ::itertools::Itertools; // brings in `sorted_by`
 use ::lru::LruCache;
 use ::more_asserts::{
     assert_le,
+    debug_assert_gt,
     debug_assert_le,
     debug_assert_lt,
-    debug_assert_gt,
 };
 use ::rangemap::RangeMap;
 #[allow(unused_imports)]
@@ -81,6 +51,62 @@ use ::si_trace_print::{
     deñ,
 };
 
+use crate::common::{
+    debug_panic,
+    Bytes,
+    CharSz,
+    Count,
+    FPath,
+    FileOffset,
+    FileSz,
+    FileType,
+    ResultFind,
+};
+use crate::data::datetime::{
+    bytes_to_regex_to_datetime,
+    dt_after_or_before,
+    dt_pass_filters,
+    slice_contains_12_D2,
+    slice_contains_D2,
+    slice_contains_X_2,
+    DateTimeL,
+    DateTimeLOpt,
+    DateTimeParseInstr,
+    DateTimeParseInstrsIndex,
+    FixedOffset,
+    Result_Filter_DateTime1,
+    Result_Filter_DateTime2,
+    SystemTime,
+    Year,
+    DATETIME_PARSE_DATAS,
+    DATETIME_PARSE_DATAS_LEN,
+};
+use crate::data::line::{
+    Line,
+    LineIndex,
+    LineP,
+    LinePartPtrs,
+};
+use crate::data::sysline::{
+    Sysline,
+    SyslineP,
+};
+#[allow(unused_imports)]
+use crate::debug::printers::{
+    de_err,
+    de_wrn,
+    e_err,
+    e_wrn,
+};
+use crate::readers::blockreader::{
+    BlockIndex,
+    BlockOffset,
+    BlockSz,
+};
+use crate::readers::linereader::{
+    LineReader,
+    ResultFindLine,
+};
 
 // ----------------------------------------
 // DateTime typing, strings, and formatting
@@ -311,32 +337,32 @@ pub struct SyslineReader {
     /// a `Line`. Regular expression matching is expensive.
     ///
     /// This hack is only applicable to ASCII/UTF-8 encoded text files.
-    pub (super) ezcheck12_hit: Count,
+    pub(super) ezcheck12_hit: Count,
     /// `Count` of EZCHECK12 attempts that missed.
-    pub (super) ezcheck12_miss: Count,
+    pub(super) ezcheck12_miss: Count,
     /// Highest EXCHECK12 `Line` byte length ignored.
-    pub (super) ezcheck12_hit_max: LineIndex,
+    pub(super) ezcheck12_hit_max: LineIndex,
     /// `Count` of EZCHECKD2 attempts that "hit".
     ///
     /// EZCHECKD2 is a simple hack to skipping regular expression matching for
     /// a `Line`. Regular expression matching is expensive.
     ///
     /// This hack is only applicable to ASCII/UTF-8 encoded text files.
-    pub (super) ezcheckd2_hit: Count,
+    pub(super) ezcheckd2_hit: Count,
     /// `Count` of EZCHECKD2 attempts that missed.
-    pub (super) ezcheckd2_miss: Count,
+    pub(super) ezcheckd2_miss: Count,
     /// Highest EXCHECKD2 `Line` byte length ignored.
-    pub (super) ezcheckd2_hit_max: LineIndex,
+    pub(super) ezcheckd2_hit_max: LineIndex,
     /// `Count` of EZCHECK12D2 attempts that "hit".
     ///
     /// EZCHECK12D2 combines both EZCHECK12 and EZCHECKD2 in one function.
     ///
     /// This hack is only applicable to ASCII/UTF-8 encoded text files.
-    pub (super) ezcheck12d2_hit: Count,
+    pub(super) ezcheck12d2_hit: Count,
     /// `Count` of EZCHECK12D2 attempts that missed.
-    pub (super) ezcheck12d2_miss: Count,
+    pub(super) ezcheck12d2_miss: Count,
     /// Highest EXCHECK12D2 `Line` byte length ignored.
-    pub (super) ezcheck12d2_hit_max: LineIndex,
+    pub(super) ezcheck12d2_hit_max: LineIndex,
     /// testing-only tracker of successfully dropped `Sysline`
     #[cfg(test)]
     pub(crate) dropped_syslines: SetDroppedSyslines,
@@ -674,8 +700,13 @@ impl SyslineReader {
 
     /// For testing purposes only.
     #[cfg(test)]
-    pub fn set_mtime(&mut self, mtime: SystemTime) {
-        self.linereader.blockreader.file_metadata_modified = mtime;
+    pub fn set_mtime(
+        &mut self,
+        mtime: SystemTime,
+    ) {
+        self.linereader
+            .blockreader
+            .file_metadata_modified = mtime;
     }
 
     /// `Count` of `Sysline`s processed so far, i.e. `self.syslines_count`.
@@ -707,10 +738,7 @@ impl SyslineReader {
         #[cfg(any(debug_assertions, test))]
         {
             if !self.syslines.is_empty() {
-                e_wrn!(
-                    "called dt_pattern_has_year() without having processed {} syslines",
-                    self.syslines.len()
-                );
+                e_wrn!("called dt_pattern_has_year() without having processed {} syslines", self.syslines.len());
             }
         }
         let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
@@ -724,10 +752,7 @@ impl SyslineReader {
         #[cfg(any(debug_assertions, test))]
         {
             if !self.syslines.is_empty() {
-                e_wrn!(
-                    "called dt_pattern_uptime() without having processed {} syslines",
-                    self.syslines.len()
-                );
+                e_wrn!("called dt_pattern_uptime() without having processed {} syslines", self.syslines.len());
             }
         }
         let dtpd: &DateTimeParseInstr = self.datetime_parse_data();
@@ -759,9 +784,7 @@ impl SyslineReader {
             self.parse_datetime_in_line_lru_cache
                 .clear();
             self.parse_datetime_in_line_lru_cache
-                .resize(
-                    std::num::NonZeroUsize::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ).unwrap(),
-                );
+                .resize(std::num::NonZeroUsize::new(SyslineReader::PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ).unwrap());
         }
 
         defñ!("return {}", ret);
@@ -838,13 +861,7 @@ impl SyslineReader {
             return true;
         }
         defñ!("sysline at {} is not last {}", fo_end, self.fileoffset_last());
-        debug_assert_lt!(
-            fo_end,
-            self.filesz(),
-            "fileoffset_end {} is at or after filesz() {}",
-            fo_end,
-            self.filesz(),
-        );
+        debug_assert_lt!(fo_end, self.filesz(), "fileoffset_end {} is at or after filesz() {}", fo_end, self.filesz(),);
 
         false
     }
@@ -900,12 +917,7 @@ impl SyslineReader {
             Some(syslinep) => {
                 let fo_beg: FileOffset = (*syslinep).fileoffset_begin();
                 let fo_end: FileOffset = (*syslinep).fileoffset_end();
-                defo!(
-                    "sysline at {} removed; {:?} {:?}",
-                    fileoffset,
-                    (*syslinep).dt(),
-                    (*syslinep).to_String_noraw()
-                );
+                defo!("sysline at {} removed; {:?} {:?}", fileoffset, (*syslinep).dt(), (*syslinep).to_String_noraw());
                 debug_assert_eq!(
                     fileoffset, fo_beg,
                     "mismatching fileoffset {}, fileoffset_begin {}",
@@ -984,7 +996,7 @@ impl SyslineReader {
     ) -> bool {
         def1n!("({})", blockoffset);
 
-        if ! self.is_drop_data() {
+        if !self.is_drop_data() {
             def1x!("is_drop_data() is false");
             return false;
         }
@@ -1035,7 +1047,7 @@ impl SyslineReader {
     ) -> bool {
         defn!("({})", fileoffset);
 
-        if ! self.is_drop_data() {
+        if !self.is_drop_data() {
             defx!("is_drop_data() is false");
             return false;
         }
@@ -1137,10 +1149,7 @@ impl SyslineReader {
                 // Only applicable to ASCII/UTF-8 encoded text files.
                 // Regular expression matching is very expensive according to
                 // `tools/flamegraph.sh` so this ezcheck skip that possible.
-                if !slice_contains_X_2(
-                    &slice_[min(*ezcheck12_min, slice_.len())..],
-                    EZCHECK12
-                ) {
+                if !slice_contains_X_2(&slice_[min(*ezcheck12_min, slice_.len())..], EZCHECK12) {
                     defo!("skip slice (EZCHECK12)");
                     if dtpd.range_regex.start == 0 && *ezcheck12_min < slice_.len() {
                         // now proven that magic "12" is not in this `Line` up
@@ -1164,9 +1173,7 @@ impl SyslineReader {
                 // Only applicable to ASCII/UTF-8 encoded text files.
                 // Regular expression matching is very expensive according to
                 // `tools/flamegraph.sh` so skip it where possible.
-                if !slice_contains_D2(
-                    &slice_[min(*ezcheckd2_min, slice_.len())..]
-                ) {
+                if !slice_contains_D2(&slice_[min(*ezcheckd2_min, slice_.len())..]) {
                     defo!("skip slice (EZCHECKD2)");
                     if dtpd.range_regex.start == 0 && *ezcheckd2_min < slice_.len() {
                         // now proven that this `Line` does not have two
@@ -1186,9 +1193,7 @@ impl SyslineReader {
                 // hack efficiency improvement: EZCHECK12 EZCHECKD2
                 // combines both prior hack efficiency improvements into
                 // one function call
-                if !slice_contains_12_D2(
-                    &slice_[min(*ezcheck12d2_min, slice_.len())..]
-                ) {
+                if !slice_contains_12_D2(&slice_[min(*ezcheck12d2_min, slice_.len())..]) {
                     defo!("skip slice (EZCHECK12D2)");
                     if dtpd.range_regex.start == 0 && *ezcheck12d2_min < slice_.len() {
                         // now proven that magic "12" is not in this `Line` up
@@ -1246,27 +1251,16 @@ impl SyslineReader {
         ezcheck12d2_hit_max: &mut LineIndex,
         path: &FPath,
     ) -> ResultFindDateTime {
-        defn!(
-            "(…, …, {:?}, year_opt {:?}, {:?}) line {:?}",
-            charsz,
-            year_opt,
-            tz_offset,
-            line.to_String_noraw()
-        );
+        defn!("(…, …, {:?}, year_opt {:?}, {:?}) line {:?}", charsz, year_opt, tz_offset, line.to_String_noraw());
         defo!("parse_data_indexes.len() {} {:?}", parse_data_indexes.len(), parse_data_indexes);
 
         // skip an easy case; no possible datetime
         if line.len() < SyslineReader::DATETIME_STR_MIN {
             defx!("return Err(ErrorKind::InvalidInput);");
-            return ResultFindDateTime::Err(
-                Error::new(
-                    ErrorKind::InvalidInput,
-                    format!(
-                        "Line (length {}) is too short to hold a datetime for file {:?}",
-                        line.len(), path,
-                    ),
-                )
-            );
+            return ResultFindDateTime::Err(Error::new(
+                ErrorKind::InvalidInput,
+                format!("Line (length {}) is too short to hold a datetime for file {:?}", line.len(), path,),
+            ));
         }
 
         #[cfg(any(debug_assertions, test))]
@@ -1286,11 +1280,7 @@ impl SyslineReader {
             defo!("pattern data try {} index {} dtpd.line_num {}", _try, index, dtpd._line_num);
 
             if line.len() <= dtpd.range_regex.start {
-                defo!(
-                    "line too short {} for requested start {}; continue",
-                    line.len(),
-                    dtpd.range_regex.start
-                );
+                defo!("line too short {} for requested start {}; continue", line.len(), dtpd.range_regex.start);
                 continue;
             }
             if line.len() <= ezcheck12_min {
@@ -1326,7 +1316,9 @@ impl SyslineReader {
                 LinePartPtrs::NoPtr => {
                     debug_panic!(
                         "LinePartPtrs::NoPtr for slice [{}, {}); file {:?}",
-                        dtpd.range_regex.start, slice_end, path,
+                        dtpd.range_regex.start,
+                        slice_end,
+                        path,
                     );
                     continue;
                 }
@@ -1368,7 +1360,7 @@ impl SyslineReader {
             );
 
             if charsz == 1
-            && SyslineReader::ezcheck_slice(
+                && SyslineReader::ezcheck_slice(
                     dtpd,
                     slice_,
                     charsz,
@@ -1400,34 +1392,25 @@ impl SyslineReader {
             let dt: DateTimeL;
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
-            (dt_beg, dt_end, dt) =
-                match bytes_to_regex_to_datetime(
-                    slice_,
-                    index,
-                    year_opt,
-                    systemtime_at_uptime_zero,
-                    tz_offset,
-                    tz_offset_string,
-                    #[cfg(any(debug_assertions, test))]
-                    path,
-                ) {
-                    None => continue,
-                    Some(val) => val,
+            (dt_beg, dt_end, dt) = match bytes_to_regex_to_datetime(
+                slice_,
+                index,
+                year_opt,
+                systemtime_at_uptime_zero,
+                tz_offset,
+                tz_offset_string,
+                #[cfg(any(debug_assertions, test))]
+                path,
+            ) {
+                None => continue,
+                Some(val) => val,
             };
             defx!("return Ok({}, {}, {}, {});", dt_beg, dt_end, &dt, index);
             return ResultFindDateTime::Ok((dt_beg, dt_end, dt, *index));
         } // end for(pattern, …)
 
         defx!("return Err(ErrorKind::NotFound); tried {} DateTimeParseInstr", _attempts);
-        ResultFindDateTime::Err(
-            Error::new(
-                ErrorKind::NotFound,
-                format!(
-                    "No datetime found in Line! file {:?}",
-                    path,
-                )
-            )
-        )
+        ResultFindDateTime::Err(Error::new(ErrorKind::NotFound, format!("No datetime found in Line! file {:?}", path,)))
     }
 
     /// Update the two statistic `DateTimeL` of
@@ -1471,7 +1454,10 @@ impl SyslineReader {
     /// current count of `DateTimeParseInstrs` that have been used as tracked
     /// by `self.dt_patterns`.
     pub(crate) fn dt_patterns_counts_in_use(&self) -> usize {
-        self.dt_patterns_counts.iter().filter(|(_index, count)| count > &&0).count()
+        self.dt_patterns_counts
+            .iter()
+            .filter(|(_index, count)| count > &&0)
+            .count()
     }
 
     /// Helper function to update `parse_datetime_in_line`.
@@ -1729,7 +1715,7 @@ impl SyslineReader {
             &mut self.ezcheck12d2_hit,
             &mut self.ezcheck12d2_miss,
             &mut self.ezcheck12d2_hit_max,
-            &self.linereader.path()
+            &self.linereader.path(),
         );
         let data: FindDateTimeData = match result {
             Ok(val) => val,
@@ -1799,7 +1785,10 @@ impl SyslineReader {
 
     /// wrapper for a verbose debug check for `find_sysline`.
     #[inline]
-    fn debug_assert_gt_fo_syslineend(fo: &FileOffset, syslinep: &SyslineP) {
+    fn debug_assert_gt_fo_syslineend(
+        fo: &FileOffset,
+        syslinep: &SyslineP,
+    ) {
         debug_assert_gt!(
             fo,
             &(*syslinep).fileoffset_end(),
@@ -1848,7 +1837,8 @@ impl SyslineReader {
                             defo!("Error {:?}", err);
                             e_err!(
                                 "unexpected value store in self._find_line_lru_cache.get({}) error {}",
-                                fileoffset, err
+                                fileoffset,
+                                err
                             );
                             // cache errors can be ignored.. though if an error was
                             // stored in the cache then there is other serious problems
@@ -2029,25 +2019,16 @@ impl SyslineReader {
                     (fo_, linep_)
                 }
                 ResultFindLine::Done => {
-                    defo!(
-                        "({}): A from LineReader.find_line_in_block({}), partial {:?}",
-                        fileoffset,
-                        fo1,
-                        partial,
-                    );
+                    defo!("({}): A from LineReader.find_line_in_block({}), partial {:?}", fileoffset, fo1, partial,);
                     match partial {
                         Some(line) => {
                             // received Done but also a partial Line (the terminating Newline was
                             // not found in the current Block). Try to match a datetime on this
                             // partial Line. Do not store this Line, do not create a new Sysline.
-                            let result = self.parse_datetime_in_line_cached(
-                                &LineP::new(line),
-                                self.charsz(),
-                                year_opt,
-                            );
+                            let result = self.parse_datetime_in_line_cached(&LineP::new(line), self.charsz(), year_opt);
                             defo!("({}): partial parse_datetime_in_line_cached returned {:?}", fileoffset, result);
                             match result {
-                                Err(_) => {},
+                                Err(_) => {}
                                 Ok((_dt_beg, _dt_end, _dt, _index)) => {
                                     defo!("({}): partial Line datetime found: {:?}", fileoffset, _dt);
                                     defx!("({}): return ResultFindSysline::Done, true", fileoffset);
@@ -2071,12 +2052,7 @@ impl SyslineReader {
                     return (ResultFindSysline::Err(err), false);
                 }
             };
-            let result: ResultParseDateTime =
-                self.parse_datetime_in_line_cached(
-                    &linep,
-                    self.charsz(),
-                    year_opt
-                );
+            let result: ResultParseDateTime = self.parse_datetime_in_line_cached(&linep, self.charsz(), year_opt);
             defo!("({}): A parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {}
@@ -2085,11 +2061,7 @@ impl SyslineReader {
                 Ok((dt_beg, dt_end, dt, _index)) => {
                     // a datetime was found! beginning of a sysline
                     _fo_a = fo1;
-                    sysline = Sysline::new_no_lines(
-                        dt_beg,
-                        dt_end,
-                        dt,
-                    );
+                    sysline = Sysline::new_no_lines(dt_beg, dt_end, dt);
                     defo!(
                         "({}): A sl.dt_beg {}, sl.dt_end {}, sl.push({:?})",
                         fileoffset,
@@ -2101,13 +2073,7 @@ impl SyslineReader {
                     fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
                     // sanity check
                     debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}", dt_beg, dt_end);
-                    debug_assert_le!(
-                        dt_end,
-                        fo1 as usize,
-                        "bad dt_end {} fileoffset+charsz {}",
-                        dt_end,
-                        fo1 as usize
-                    );
+                    debug_assert_le!(dt_end, fo1 as usize, "bad dt_end {} fileoffset+charsz {}", dt_end, fo1 as usize);
                     if self.is_sysline_last(&sysline) {
                         let syslinep: SyslineP = self.insert_sysline(sysline);
                         if self.find_sysline_lru_cache_enabled {
@@ -2196,12 +2162,7 @@ impl SyslineReader {
                 }
             };
 
-            let result: ResultParseDateTime =
-                self.parse_datetime_in_line_cached(
-                    &linep,
-                    self.charsz(),
-                    year_opt
-                );
+            let result: ResultParseDateTime = self.parse_datetime_in_line_cached(&linep, self.charsz(), year_opt);
             defo!("({}): B parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {
@@ -2302,7 +2263,9 @@ impl SyslineReader {
             //       become a debug_panic
             de_wrn!(
                 "fileoffset {} > {} fileoffset_last for a streamed file {:?}",
-                fileoffset, self.fileoffset_last, self.path(),
+                fileoffset,
+                self.fileoffset_last,
+                self.path(),
             );
         }
 
@@ -2351,11 +2314,7 @@ impl SyslineReader {
                         self.find_sysline_lru_cache
                             .put(fileoffset, ResultFindSysline::Done);
                     }
-                    defx!(
-                        "({}): return ResultFindSysline::Done; A from LineReader.find_line({})",
-                        fileoffset,
-                        fo1
-                    );
+                    defx!("({}): return ResultFindSysline::Done; A from LineReader.find_line({})", fileoffset, fo1);
                     return ResultFindSysline::Done;
                 }
                 ResultFindLine::Err(err) => {
@@ -2370,12 +2329,7 @@ impl SyslineReader {
                 }
             };
             fo_a_max = max(fo_a_max, fo2);
-            let result: ResultParseDateTime =
-                self.parse_datetime_in_line_cached(
-                    &linep,
-                    self.charsz(),
-                    year_opt,
-                );
+            let result: ResultParseDateTime = self.parse_datetime_in_line_cached(&linep, self.charsz(), year_opt);
             defo!("({}): A parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {
@@ -2384,11 +2338,7 @@ impl SyslineReader {
                 Ok((dt_beg, dt_end, dt, _index)) => {
                     // a datetime was found! beginning of a sysline
                     _fo_a = fo1;
-                    sysline = Sysline::new_no_lines(
-                        dt_beg,
-                        dt_end,
-                        dt,
-                    );
+                    sysline = Sysline::new_no_lines(dt_beg, dt_end, dt);
                     defo!("({}): A sl.push({:?})", fileoffset, (*linep).to_String_noraw());
                     sysline.push(linep);
                     fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
@@ -2482,8 +2432,7 @@ impl SyslineReader {
                     return ResultFindSysline::Err(err);
                 }
             };
-            let result: ResultParseDateTime =
-                self.parse_datetime_in_line_cached(&linep, self.charsz(), year_opt);
+            let result: ResultParseDateTime = self.parse_datetime_in_line_cached(&linep, self.charsz(), year_opt);
             defo!("({}): B parse_datetime_in_line_cached returned {:?}", fileoffset, result);
             match result {
                 Err(_) => {
@@ -2640,12 +2589,7 @@ impl SyslineReader {
                         (*syslinep).to_String_noraw(),
                     );
                     // here is the binary search algorithm in action
-                    defo!(
-                        "sysline_dt_after_or_before(@{:p} ({:?}), {:?})",
-                        &syslinep,
-                        (*syslinep).dt(),
-                        dt_filter,
-                    );
+                    defo!("sysline_dt_after_or_before(@{:p} ({:?}), {:?})", &syslinep, (*syslinep).dt(), dt_filter,);
                     match SyslineReader::sysline_dt_after_or_before(&syslinep, dt_filter) {
                         Result_Filter_DateTime1::Pass => {
                             defo!(
@@ -2858,9 +2802,7 @@ impl SyslineReader {
                     }
                     _ => {
                         defo!("unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple");
-                        e_err!(
-                            "unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple"
-                        );
+                        e_err!("unhandled (Result_Filter_DateTime1, Result_Filter_DateTime1) tuple");
                         break;
                     }
                 };
@@ -2940,7 +2882,7 @@ impl SyslineReader {
                     defo!("self.find_sysline({}) returned Err({})", fo_cursor, err,);
                     de_err!("{}", err);
                     defx!("return ResultFindSysline::Err");
-                    return ResultFindSysline::Err(err)
+                    return ResultFindSysline::Err(err);
                 }
             }
         }
@@ -2957,12 +2899,7 @@ impl SyslineReader {
         syslinep: &SyslineP,
         dt_filter: &DateTimeLOpt,
     ) -> Result_Filter_DateTime1 {
-        defñ!(
-            "(Sysline@[{:?}, {:?}], {:?})",
-            (*syslinep).fileoffset_begin(),
-            (*syslinep).fileoffset_end(),
-            dt_filter,
-        );
+        defñ!("(Sysline@[{:?}, {:?}], {:?})", (*syslinep).fileoffset_begin(), (*syslinep).fileoffset_end(), dt_filter,);
 
         let dt: &DateTimeL = (*syslinep).dt();
 
@@ -3054,25 +2991,17 @@ impl SyslineReader {
     }
 
     pub fn summary(&self) -> SummarySyslineReader {
-        let syslinereader_syslines = self
-            .count_syslines_processed();
-        let syslinereader_syslines_stored_highest = self
-            .syslines_stored_highest();
-        let syslinereader_syslines_hit = self
-            .syslines_hit;
-        let syslinereader_syslines_miss = self
-            .syslines_miss;
-        let syslinereader_syslines_by_range_hit = self
-            .syslines_by_range_hit;
-        let syslinereader_syslines_by_range_miss = self
-            .syslines_by_range_miss;
-        let syslinereader_syslines_by_range_put = self
-            .syslines_by_range_put;
+        let syslinereader_syslines = self.count_syslines_processed();
+        let syslinereader_syslines_stored_highest = self.syslines_stored_highest();
+        let syslinereader_syslines_hit = self.syslines_hit;
+        let syslinereader_syslines_miss = self.syslines_miss;
+        let syslinereader_syslines_by_range_hit = self.syslines_by_range_hit;
+        let syslinereader_syslines_by_range_miss = self.syslines_by_range_miss;
+        let syslinereader_syslines_by_range_put = self.syslines_by_range_put;
         // only print patterns with use count > 0, sorted by count
         let mut syslinereader_patterns_ = DateTimePatternCounts::new();
         syslinereader_patterns_.extend(
-            self
-                .dt_patterns_counts
+            self.dt_patterns_counts
                 .iter()
                 .filter(|&(_k, v)| v > &mut 0),
         );
@@ -3082,30 +3011,18 @@ impl SyslineReader {
                 .into_iter()
                 .sorted_by(|a, b| Ord::cmp(&b.1, &a.1)),
         );
-        let syslinereader_find_sysline_lru_cache_hit = self
-            .find_sysline_lru_cache_hit;
-        let syslinereader_find_sysline_lru_cache_miss = self
-            .find_sysline_lru_cache_miss;
-        let syslinereader_find_sysline_lru_cache_put = self
-            .find_sysline_lru_cache_put;
-        let syslinereader_parse_datetime_in_line_lru_cache_hit = self
-            .parse_datetime_in_line_lru_cache_hit;
-        let syslinereader_parse_datetime_in_line_lru_cache_miss = self
-            .parse_datetime_in_line_lru_cache_miss;
-        let syslinereader_parse_datetime_in_line_lru_cache_put = self
-            .parse_datetime_in_line_lru_cache_put;
-        let syslinereader_get_boxptrs_singleptr = self
-            .get_boxptrs_singleptr;
-        let syslinereader_get_boxptrs_doubleptr = self
-            .get_boxptrs_doubleptr;
-        let syslinereader_get_boxptrs_multiptr = self
-            .get_boxptrs_multiptr;
-        let syslinereader_regex_captures_attempted = self
-            .regex_captures_attempted;
-        let syslinereader_drop_sysline_ok = self
-            .drop_sysline_ok;
-        let syslinereader_drop_sysline_errors = self
-            .drop_sysline_errors;
+        let syslinereader_find_sysline_lru_cache_hit = self.find_sysline_lru_cache_hit;
+        let syslinereader_find_sysline_lru_cache_miss = self.find_sysline_lru_cache_miss;
+        let syslinereader_find_sysline_lru_cache_put = self.find_sysline_lru_cache_put;
+        let syslinereader_parse_datetime_in_line_lru_cache_hit = self.parse_datetime_in_line_lru_cache_hit;
+        let syslinereader_parse_datetime_in_line_lru_cache_miss = self.parse_datetime_in_line_lru_cache_miss;
+        let syslinereader_parse_datetime_in_line_lru_cache_put = self.parse_datetime_in_line_lru_cache_put;
+        let syslinereader_get_boxptrs_singleptr = self.get_boxptrs_singleptr;
+        let syslinereader_get_boxptrs_doubleptr = self.get_boxptrs_doubleptr;
+        let syslinereader_get_boxptrs_multiptr = self.get_boxptrs_multiptr;
+        let syslinereader_regex_captures_attempted = self.regex_captures_attempted;
+        let syslinereader_drop_sysline_ok = self.drop_sysline_ok;
+        let syslinereader_drop_sysline_errors = self.drop_sysline_errors;
         let syslinereader_ezcheck12_hit = self.ezcheck12_hit;
         let syslinereader_ezcheck12_miss = self.ezcheck12_miss;
         let syslinereader_ezcheck12_hit_max = self.ezcheck12_hit_max;

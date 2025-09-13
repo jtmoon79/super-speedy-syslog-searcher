@@ -6,20 +6,6 @@
 //!
 //! [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
 
-use crate::common::{
-    FPath,
-    FileSz,
-    FileType,
-    FileTypeArchive,
-    FileTypeFixedStruct,
-    FileTypeTextEncoding,
-};
-use crate::debug::printers::de_err;
-use crate::readers::blockreader::SUBPATH_SEP;
-use crate::readers::helpers::path_to_fpath;
-#[cfg(any(debug_assertions, test))]
-use crate::readers::helpers::fpath_to_path;
-
 use std::borrow::Cow;
 use std::ffi::OsStr;
 use std::fs::File;
@@ -30,11 +16,35 @@ use std::path::{
 #[cfg(test)]
 use std::str::FromStr; // for `String::from_str`
 
-use ::jwalk;
 #[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
-use ::tar;
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
+use {
+    ::jwalk,
+    ::tar,
+};
 
+use crate::common::{
+    FPath,
+    FileSz,
+    FileType,
+    FileTypeArchive,
+    FileTypeFixedStruct,
+    FileTypeTextEncoding,
+};
+use crate::debug::printers::de_err;
+use crate::readers::blockreader::SUBPATH_SEP;
+#[cfg(any(debug_assertions, test))]
+use crate::readers::helpers::fpath_to_path;
+use crate::readers::helpers::path_to_fpath;
 
 // ----------------
 // FilePreProcessor
@@ -247,8 +257,14 @@ fn pathbuf_to_filetype_impl(
 
     // check for special case where symbolic directory, `.` or `..`, name was passed
     // this probably should never get here but handle it anyway
-    let file_name_s = file_name.to_str().unwrap_or_default();
-    if !file_name_s.is_empty() && file_name_s.chars().all(|c| c == '.') {
+    let file_name_s = file_name
+        .to_str()
+        .unwrap_or_default();
+    if !file_name_s.is_empty()
+        && file_name_s
+            .chars()
+            .all(|c| c == '.')
+    {
         de_err!("file_name_s {:?} is all '.'", file_name_s);
         match unparseable_are_text {
             true => {
@@ -780,7 +796,7 @@ pub fn process_path_tar(
     //      handle `filetypearchive`; extract the file first and then process it
 
     // debug runtime checks
-    #[cfg(all(debug_assertions,not(test)))]
+    #[cfg(all(debug_assertions, not(test)))]
     {
         defo!("debug_assertions");
         let std_path = fpath_to_path(path);
@@ -790,7 +806,13 @@ pub fn process_path_tar(
         if !std_path.is_file() {
             panic!("path is not a file: {:?}", std_path);
         }
-        if !std_path.extension().unwrap_or_default().to_str().unwrap_or_default().eq("tar") {
+        if !std_path
+            .extension()
+            .unwrap_or_default()
+            .to_str()
+            .unwrap_or_default()
+            .eq("tar")
+        {
             panic!("path does not end in \".tar\": {:?}", std_path);
         }
     }
@@ -831,16 +853,17 @@ pub fn process_path_tar(
             Err(err) => {
                 defo!("entry.path() Err {:?}; skip", err);
                 let err_string = error_to_string(&err, path);
-                results.push(ProcessPathResult::FileErr(path.clone(), err_string ));
+                results.push(ProcessPathResult::FileErr(path.clone(), err_string));
                 continue;
             }
         };
         if entry.size() == 0 {
             defo!("entry.size() is 0; skip");
-            let subfpath: FPath =
-                path.clone()
+            let subfpath: FPath = path.clone()
                 + &String::from(SUBPATH_SEP)
-                + subpath.to_string_lossy().as_ref();
+                + subpath
+                    .to_string_lossy()
+                    .as_ref();
             results.push(ProcessPathResult::FileErrEmpty(subfpath, FileType::Unparsable));
             continue;
         }
@@ -856,8 +879,7 @@ pub fn process_path_tar(
         //
         // where `path/file.tar` are on the host filesystem, and `subpath/subfile` are within
         // the `.tar` file
-        let mut fullpath: FPath =
-            String::with_capacity(path.len() + SUBPATH_SEP.len_utf8() + subfpath.len() + 1);
+        let mut fullpath: FPath = String::with_capacity(path.len() + SUBPATH_SEP.len_utf8() + subfpath.len() + 1);
         fullpath.push_str(path.as_str());
         fullpath.push(SUBPATH_SEP);
         fullpath.push_str(subfpath.as_str());
@@ -989,7 +1011,10 @@ pub fn process_path_tar(
 /// (Relates to Issue #11, Issue #8).
 ///
 /// This behavior assumes a user-passed file path should attempt to be parsed.
-pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPathResult> {
+pub fn process_path(
+    path: &FPath,
+    unparseable_are_text: bool,
+) -> Vec<ProcessPathResult> {
     defn!("({:?}, {:?})", path, unparseable_are_text);
 
     let mut std_path: PathBuf = PathBuf::from(path);
@@ -998,23 +1023,21 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
 
     std_path = match std_path.canonicalize() {
         Ok(val) => val,
-        Err(err) => {
-            match err.kind() {
-                std::io::ErrorKind::NotFound => {
-                    defx!("return FileErrNotExist({:?})", path);
-                    return vec![ProcessPathResult::FileErrNotExist(path.clone())];
-                }
-                std::io::ErrorKind::PermissionDenied => {
-                    defx!("return FileErrNoPermissions({:?})", path);
-                    return vec![ProcessPathResult::FileErrNoPermissions(path.clone())];
-                }
-                _ => {
-                    let err_string = error_to_string(&err, path);
-                    defx!("return FileErr({:?}, {:?})", path, err_string);
-                    return vec![ProcessPathResult::FileErr(path.clone(), err_string)];
-                }
+        Err(err) => match err.kind() {
+            std::io::ErrorKind::NotFound => {
+                defx!("return FileErrNotExist({:?})", path);
+                return vec![ProcessPathResult::FileErrNotExist(path.clone())];
             }
-        }
+            std::io::ErrorKind::PermissionDenied => {
+                defx!("return FileErrNoPermissions({:?})", path);
+                return vec![ProcessPathResult::FileErrNoPermissions(path.clone())];
+            }
+            _ => {
+                let err_string = error_to_string(&err, path);
+                defx!("return FileErr({:?}, {:?})", path, err_string);
+                return vec![ProcessPathResult::FileErr(path.clone(), err_string)];
+            }
+        },
     };
     deo!("std_path {:?}", std_path);
 
@@ -1028,8 +1051,7 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
         match result {
             PathToFiletypeResult::Filetype(filetype) => {
                 debug_assert!(!filetype.is_archived());
-                let paths: Vec<ProcessPathResult> =
-                    vec![ProcessPathResult::FileValid(path.clone(), filetype)];
+                let paths: Vec<ProcessPathResult> = vec![ProcessPathResult::FileValid(path.clone(), filetype)];
                 defx!("({:?}) {:?}", path, paths);
                 return paths;
             }
@@ -1038,11 +1060,7 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
                     FileTypeArchiveMultiple::Tar => {
                         // getting here means `std_path` is a `.tar` file
                         defo!("std_path is a .tar file {:?}", std_path);
-                        let results = process_path_tar(
-                            path,
-                            unparseable_are_text,
-                            fta,
-                        );
+                        let results = process_path_tar(path, unparseable_are_text, fta);
                         defx!("return process_path_tar({:?}) returned {} results", path, results.len());
                         return results;
                     }
@@ -1102,11 +1120,7 @@ pub fn process_path(path: &FPath, unparseable_are_text: bool) -> Vec<ProcessPath
                     FileTypeArchiveMultiple::Tar => {
                         // getting here means `std_path` is a `.tar` file
                         defo!("std_path_entry is a .tar file {:?}", std_path_entry);
-                        results = process_path_tar(
-                            &path_to_fpath(std_path_entry),
-                            unparseable_are_text,
-                            fta,
-                        );
+                        results = process_path_tar(&path_to_fpath(std_path_entry), unparseable_are_text, fta);
                     }
                 }
                 for result in results.into_iter() {

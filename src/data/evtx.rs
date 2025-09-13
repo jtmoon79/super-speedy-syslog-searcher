@@ -4,26 +4,14 @@
 //!
 //! [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
 
-#[doc(hidden)]
-use crate::common::{
-    NLs,
-    NLc,
-};
-use crate::data::common::DtBegEndPairOpt;
-use crate::data::datetime::DateTimeL;
-#[cfg(any(debug_assertions, test))]
-use crate::debug::printers::buffer_to_String_noraw;
-
 use std::fmt;
 use std::io::{
-    Error, ErrorKind,
+    Error,
+    ErrorKind,
 };
 
-pub(crate) use ::evtx::{
-    err::EvtxError,
-    SerializedEvtxRecord,
-};
-
+pub(crate) use ::evtx::err::EvtxError;
+pub(crate) use ::evtx::SerializedEvtxRecord;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -36,8 +24,26 @@ use ::more_asserts::{
     debug_assert_lt,
 };
 #[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
 
+#[doc(hidden)]
+use crate::common::{
+    NLc,
+    NLs,
+};
+use crate::data::common::DtBegEndPairOpt;
+use crate::data::datetime::DateTimeL;
+#[cfg(any(debug_assertions, test))]
+use crate::debug::printers::buffer_to_String_noraw;
 
 /// From private `evtx::evtx_record::RecordId`.
 ///

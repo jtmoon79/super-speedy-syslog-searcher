@@ -2,37 +2,23 @@
 
 //! The `filedecompressor` module is for decompressing files to temporary files.
 
-use std::borrow::{BorrowMut, Cow};
+use std::borrow::{
+    BorrowMut,
+    Cow,
+};
 use std::collections::LinkedList;
-use std::io::{BufReader, BufWriter, Error, ErrorKind, Read, Result, Write};
+use std::io::{
+    BufReader,
+    BufWriter,
+    Error,
+    ErrorKind,
+    Read,
+    Result,
+    Write,
+};
 use std::path::Path;
 use std::sync::RwLock;
 use std::time::SystemTime;
-
-use crate::{debug_panic, e_wrn, path_filesz_or_return_err};
-use crate::common::{
-    err_from_err_path,
-    err_from_err_path_result,
-    File,
-    FileOpenOptions,
-    FileSz,
-    FileType,
-    FileTypeArchive,
-    FPath,
-    FileMetadata,
-};
-use crate::readers::blockreader::{
-    BlockReader,
-    SUBPATH_SEP,
-    TarChecksum,
-    TarHandle,
-    TarMTime,
-};
-use crate::readers::helpers::{
-    fpath_to_path,
-    path_to_fpath,
-    path_filesz,
-};
 
 use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
 // `flate2` is for gzip files.
@@ -54,8 +40,39 @@ use ::si_trace_print::{
     dex,
     deñ,
 };
-use ::tempfile::{Builder, NamedTempFile};
+use ::tempfile::{
+    Builder,
+    NamedTempFile,
+};
 
+use crate::common::{
+    err_from_err_path,
+    err_from_err_path_result,
+    FPath,
+    File,
+    FileMetadata,
+    FileOpenOptions,
+    FileSz,
+    FileType,
+    FileTypeArchive,
+};
+use crate::readers::blockreader::{
+    BlockReader,
+    TarChecksum,
+    TarHandle,
+    TarMTime,
+    SUBPATH_SEP,
+};
+use crate::readers::helpers::{
+    fpath_to_path,
+    path_filesz,
+    path_to_fpath,
+};
+use crate::{
+    debug_panic,
+    e_wrn,
+    path_filesz_or_return_err,
+};
 
 type BufReaderLz4 = BufReader<File>;
 type Lz4FrameReader = lz4_flex::frame::FrameDecoder<BufReaderLz4>;
@@ -75,9 +92,11 @@ type DecompressToNtfResult = Result<DecompressToNtfValue>;
 
 /// wrapper for call to `err_from_err_path_result::<DecompressToNtfValue>`
 macro_rules! err_from_err_path_result_dtn {
-    ($error: expr, $fpath: expr, $mesg: expr) => ({{
-        err_from_err_path_result::<DecompressToNtfValue>($error, $fpath, $mesg)
-    }})
+    ($error: expr, $fpath: expr, $mesg: expr) => {{
+        {
+            err_from_err_path_result::<DecompressToNtfValue>($error, $fpath, $mesg)
+        }
+    }};
 }
 
 type ListFPaths = LinkedList<FPath>;
@@ -97,9 +116,10 @@ lazy_static! {
 /// Returns a `Result` containing a [`DecompressToNtfValue`].
 /// Return value `None` means no file was decompressed because it was not needed
 /// as determined by the passed `file_type`.
-pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
-    -> DecompressToNtfResult
-{
+pub fn decompress_to_ntf(
+    path_std: &Path,
+    file_type: &FileType,
+) -> DecompressToNtfResult {
     defn!("({:?}, file_type={:?})", path_std, file_type);
     const BUF_SZ: usize = 65536;
     let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
@@ -131,25 +151,19 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
         FileType::Unparsable => {
             debug_panic!("Unexpected {:?}", file_type);
 
-            return Err(
-                Error::new(
-                    ErrorKind::Other,
-                    format!("Unexpected FileType::Unparsable for {:?}", path_std)
-                )
-            );
+            return Err(Error::new(ErrorKind::Other, format!("Unexpected FileType::Unparsable for {:?}", path_std)));
         }
     };
     match file_type_archive {
         FileTypeArchive::Normal => {
             defx!("FileTypeArchive::Normal; return Ok(None)");
             return Ok(None);
-        },
+        }
         FileTypeArchive::Bz2
         | FileTypeArchive::Gz
         | FileTypeArchive::Lz4
         | FileTypeArchive::Tar
-        | FileTypeArchive::Xz
-        => {}
+        | FileTypeArchive::Xz => {}
     }
 
     let fpath: FPath = path_to_fpath(path_std);
@@ -164,9 +178,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
         Ok(val) => val,
         Err(err) => {
             defx!("tempfile::Builder::new().tempfile() Error, return {:?}", err);
-            return err_from_err_path_result_dtn!(
-                &err, &fpath, Some("tempfile::Builder::new() failed")
-            );
+            return err_from_err_path_result_dtn!(&err, &fpath, Some("tempfile::Builder::new() failed"));
         }
     };
     let path_ntf = ntf.path();
@@ -181,14 +193,9 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
             ntfs_mut.push_back(fpath_ntf);
         }
         Err(err) => {
-            let ioerr = Error::new(
-                ErrorKind::Other,
-                format!("NAMED_TEMP_FILES.lock() failed: {:?}", err)
-            );
+            let ioerr = Error::new(ErrorKind::Other, format!("NAMED_TEMP_FILES.lock() failed: {:?}", err));
             defx!("NAMED_TEMP_FILES.lock() failed, return {:?}", err);
-            return err_from_err_path_result_dtn!(
-                &ioerr, &fpath, Some("NAMED_TEMP_FILES.lock() failed")
-            );
+            return err_from_err_path_result_dtn!(&ioerr, &fpath, Some("NAMED_TEMP_FILES.lock() failed"));
         }
     }
 
@@ -290,9 +297,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                 Ok(val) => val,
                 Err(err) => {
                     defx!("Tar: Err {:?}", err);
-                    return err_from_err_path_result_dtn!(
-                        &err, &fpath, Some("archive.entries_with_seek() failed")
-                    );
+                    return err_from_err_path_result_dtn!(&err, &fpath, Some("archive.entries_with_seek() failed"));
                 }
             };
 
@@ -330,9 +335,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     Ok(val) => val,
                     Err(err) => {
                         defx!("Tar: entry.header().size() Err {:?}", err);
-                        return err_from_err_path_result_dtn!(
-                            &err, &fpath, Some("FileTar header().size")
-                        );
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("FileTar header().size"));
                     }
                 };
                 defo!("Tar: filesz_header {:?}", filesz_header);
@@ -400,9 +403,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     }
                     Err(err) => {
                         defx!("Tar: entry.read() Err {:?}", err);
-                        return err_from_err_path_result_dtn!(
-                            &err, &fpath, Some("FileTar entry.read()")
-                        );
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("FileTar entry.read()"));
                     }
                 }
             }
@@ -457,9 +458,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     Ok(sz) => sz,
                     Err(err) => {
                         defx!("bz2_decoder.read() Error, return {:?}", err);
-                        return err_from_err_path_result_dtn!(
-                            &err, &fpath, Some("bz2_decoder.read() failed")
-                        );
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("bz2_decoder.read() failed"));
                     }
                 };
                 if bytes_read == 0 {
@@ -470,9 +469,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     Ok(_) => {}
                     Err(err) => {
                         defx!("bufwriter.write_all() Error, return {:?}", err);
-                        return err_from_err_path_result_dtn!(
-                            &err, &fpath, Some("bufwriter.write_all() failed")
-                        );
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("bufwriter.write_all() failed"));
                     }
                 }
                 _filesz_uncompressed += bytes_read as FileSz;
@@ -520,7 +517,9 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                         Ok(val) => val,
                         Err(_err) => String::with_capacity(0),
                     };
-                    mtime = header.mtime_as_datetime().unwrap_or(SystemTime::UNIX_EPOCH);
+                    mtime = header
+                        .mtime_as_datetime()
+                        .unwrap_or(SystemTime::UNIX_EPOCH);
                 }
                 None => {
                     defo!("FileGz: GzDecoder::header() is None for {:?}", path_std);
@@ -528,11 +527,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
             };
             defo!("filename {:?}", _filename);
             defo!("mtime    {:?}", mtime);
-            mtime_opt = if mtime == SystemTime::UNIX_EPOCH {
-                None
-            } else {
-                Some(mtime)
-            };
+            mtime_opt = if mtime == SystemTime::UNIX_EPOCH { None } else { Some(mtime) };
             defo!("mtime_opt {:?}", mtime_opt);
 
             let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
@@ -544,9 +539,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     Ok(val) => val,
                     Err(err) => {
                         defx!("GzDecoder::read() Error, return Err({:?})", err);
-                        return err_from_err_path_result_dtn!(
-                            &err, &fpath, Some("GzDecoder.read() failed")
-                        );
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("GzDecoder.read() failed"));
                     }
                 };
                 defo!("GzDecoder read {:?} bytes", bytes_read);
@@ -558,11 +551,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     Ok(_) => {}
                     Err(err) => {
                         defx!("bufwriter.write_all() Error, return Err({:?})", err);
-                        return err_from_err_path_result_dtn!(
-                            &err,
-                            &fpath,
-                            Some("bufwriter.write_all() failed")
-                        );
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("bufwriter.write_all() failed"));
                     }
                 }
             }
@@ -582,7 +571,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
             let mut lz4_decoder: Lz4FrameReader = Lz4FrameReader::new(bufreader);
             defo!("lz4_decoder {:?}", lz4_decoder);
             let mut _filesz_uncompressed: FileSz = 0;
-            
+
             let mut _loop_count: usize = 0;
             loop {
                 defo!("{:3} lz4_decoder.read(buf size {})", _loop_count, BUF_SZ);
@@ -590,9 +579,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     Ok(sz) => sz,
                     Err(err) => {
                         defx!("lz4_decoder.read() Error, return {:?}", err);
-                        return err_from_err_path_result_dtn!(
-                            &err, &fpath, Some("lz4_decoder.read() failed")
-                        );
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("lz4_decoder.read() failed"));
                     }
                 };
                 if bytes_read == 0 {
@@ -603,9 +590,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     Ok(_) => {}
                     Err(err) => {
                         defx!("bufwriter.write_all() Error, return {:?}", err);
-                        return err_from_err_path_result_dtn!(
-                            &err, &fpath, Some("bufwriter.write_all() failed")
-                        );
+                        return err_from_err_path_result_dtn!(&err, &fpath, Some("bufwriter.write_all() failed"));
                     }
                 }
                 _filesz_uncompressed += bytes_read as FileSz;
@@ -616,12 +601,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
         FileTypeArchive::Tar
         => {
             debug_panic!("FileTypeArchive::Tar already handled, should not reach here");
-            return Err(
-                Error::new(
-                    ErrorKind::Other,
-                    format!("Unexpected FileTypeArchive::Tar for {:?}", path_std)
-                )
-            );
+            return Err(Error::new(ErrorKind::Other, format!("Unexpected FileTypeArchive::Tar for {:?}", path_std)));
         }
         FileTypeArchive::Xz
         => {
@@ -636,21 +616,17 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                     match &err {
                         lzma_rs::error::Error::IoError(ref ioerr) => {
                             defo!("ioerr.kind() {:?}", ioerr.kind());
-                            return Err(
-                                err_from_err_path(ioerr, &fpath, Some("(xz_decompress failed)"))
-                            );
+                            return Err(err_from_err_path(ioerr, &fpath, Some("(xz_decompress failed)")));
                         }
                         _err => {
                             defo!("err {:?}", _err);
                         }
                     }
                     defx!("xz_decompress Error, return Err({:?})", err);
-                    return Err(
-                        Error::new(
-                            ErrorKind::Other,
-                            format!("xz_decompress failed: {} for file {:?}", err, fpath),
-                        )
-                    );
+                    return Err(Error::new(
+                        ErrorKind::Other,
+                        format!("xz_decompress failed: {} for file {:?}", err, fpath),
+                    ));
                 }
             }
             defo!("xz_decompress() complete");
@@ -659,7 +635,7 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
 
     // in case the mtime was not found in the header, try to get it from the file metadata
     mtime_opt = match mtime_opt {
-        Some(val) => {Some(val)}
+        Some(val) => Some(val),
         None => {
             // no mtime found from the header so try get it from the file metadata
             match file_compressed_metadata.modified() {
@@ -673,21 +649,17 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                             // get the file modified time from the original
                             // compressed file, not the temporary file
                             match std::fs::metadata(path_std) {
-                                Result::Ok(val) => {
-                                    match val.modified() {
-                                        Result::Ok(systemtime) => {
-                                            defo!(
-                                                "mtime from metadata {:?} from file {:?}",
-                                                systemtime, path_std);
+                                Result::Ok(val) => match val.modified() {
+                                    Result::Ok(systemtime) => {
+                                        defo!("mtime from metadata {:?} from file {:?}", systemtime, path_std);
 
-                                            Some(systemtime)
-                                        },
-                                        Result::Err(_err) => {
-                                            defo!("metadata({:?}).modified() Err {}", path_std, _err);
-                                            defo!("mtime from fallback {:?}", SystemTime::UNIX_EPOCH);
+                                        Some(systemtime)
+                                    }
+                                    Result::Err(_err) => {
+                                        defo!("metadata({:?}).modified() Err {}", path_std, _err);
+                                        defo!("mtime from fallback {:?}", SystemTime::UNIX_EPOCH);
 
-                                            Some(SystemTime::UNIX_EPOCH)
-                                        }
+                                        Some(SystemTime::UNIX_EPOCH)
                                     }
                                 },
                                 Result::Err(_err) => {
@@ -708,15 +680,12 @@ pub fn decompress_to_ntf(path_std: &Path, file_type: &FileType)
                         FileTypeArchive::Normal => {
                             debug_panic!("Unexpected FileTypeArchive::Normal");
                             e_wrn!("Unexpected FileTypeArchive::Normal for {:?}", path_std);
-                            defo!(
-                                "mtime from metadata {:?} from file {:?}",
-                                systemtime, path_std
-                            );
+                            defo!("mtime from metadata {:?} from file {:?}", systemtime, path_std);
 
                             Some(systemtime)
                         }
                     }
-                },
+                }
                 Result::Err(_err) => {
                     defo!("Err {:?}", _err);
                     defo!("mtime from fallback {:?}", SystemTime::UNIX_EPOCH);

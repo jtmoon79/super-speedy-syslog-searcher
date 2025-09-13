@@ -3,19 +3,26 @@
 //! A hodge-podge of printer functions and helpers for test and debug builds.
 
 #[cfg(test)]
-use crate::common::{FPath, FileOpenOptions};
-
+use std::io::prelude::*; // for `std::fs::File.read_to_string`
 #[cfg(any(debug_assertions, test))]
 use std::io::Write; // for `std::io::Stdout.flush`
-#[cfg(test)]
-use std::io::prelude::*; // for `std::fs::File.read_to_string`
 
 #[doc(hidden)]
-pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
+pub use ::termcolor::{
+    Color,
+    ColorChoice,
+    ColorSpec,
+    WriteColor,
+};
 #[doc(hidden)]
 #[cfg(any(debug_assertions, test))]
-use ::utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
+use ::utf8_iter::Utf8CharsEx;
 
+#[cfg(test)]
+use crate::common::{
+    FPath,
+    FileOpenOptions,
+}; // provides `.chars()` on `&[u8]`
 
 /// `d`ebug `e`println! an `err`or
 #[macro_export]
@@ -150,7 +157,7 @@ pub const fn byte_to_char_noraw(byte: u8) -> char {
 pub fn buffer_to_String_noraw(buffer: &[u8]) -> String {
     let mut s2: String = String::with_capacity(buffer.len() + 1);
     for c in buffer.chars() {
-        let c_ : char = char_to_char_noraw(c);
+        let c_: char = char_to_char_noraw(c);
         s2.push(c_);
     }
     s2

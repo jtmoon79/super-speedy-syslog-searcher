@@ -10,41 +10,37 @@
 //! [`Block`s]: crate::readers::blockreader::Block
 //! [`BlockReader`]: crate::readers::blockreader::BlockReader
 
-#[doc(hidden)]
-use crate::common::{
-    err_from_err_path,
-    err_from_err_path_result,
-    Count,
-    FileTypeArchive,
-    FileOffset,
-    FileSz,
-    FileType,
-    FPath,
-};
-use crate::common::{File, FileMetadata, FileOpenOptions, ResultFind};
-#[cfg(test)]
-use crate::common::Bytes;
-use crate::data::datetime::{
-    seconds_to_systemtime,
-    SystemTime,
-};
-#[allow(unused_imports)]
-use crate::debug::printers::{de_err, de_wrn, e_err, e_wrn};
-use crate::debug_panic;
-
 use std::borrow::Cow;
 #[cfg(test)]
 use std::collections::HashSet;
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{
+    BTreeMap,
+    BTreeSet,
+};
 use std::fmt;
 use std::fs::Metadata;
 use std::io::prelude::Read;
-use std::io::{BufReader, Error, ErrorKind, Result, Seek, SeekFrom, Take};
+use std::io::{
+    BufReader,
+    Error,
+    ErrorKind,
+    Result,
+    Seek,
+    SeekFrom,
+    Take,
+};
 use std::path::Path;
 use std::sync::Arc;
 
 use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
+// `flate2` is for gzip files.
+use ::flate2::read::GzDecoder;
+use ::flate2::GzHeader;
 use ::lru::LruCache;
+// `lz4_flex` is for lz4 files.
+use ::lz4_flex;
+// `lzma_rs` is for xz files.
+use ::lzma_rs;
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -55,13 +51,6 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
-// `flate2` is for gzip files.
-use ::flate2::read::GzDecoder;
-use ::flate2::GzHeader;
-// `lz4_flex` is for lz4 files.
-use ::lz4_flex;
-// `lzma_rs` is for xz files.
-use ::lzma_rs;
 #[allow(unused_imports)]
 use ::si_trace_print::{
     def1n,
@@ -86,6 +75,37 @@ use ::si_trace_print::{
 // `tar` is for tar files.
 use ::tar;
 
+#[cfg(test)]
+use crate::common::Bytes;
+#[doc(hidden)]
+use crate::common::{
+    err_from_err_path,
+    err_from_err_path_result,
+    Count,
+    FPath,
+    FileOffset,
+    FileSz,
+    FileType,
+    FileTypeArchive,
+};
+use crate::common::{
+    File,
+    FileMetadata,
+    FileOpenOptions,
+    ResultFind,
+};
+use crate::data::datetime::{
+    seconds_to_systemtime,
+    SystemTime,
+};
+#[allow(unused_imports)]
+use crate::debug::printers::{
+    de_err,
+    de_wrn,
+    e_err,
+    e_wrn,
+};
+use crate::debug_panic;
 
 /// [`Block`] Size in bytes.
 pub type BlockSz = u64;
@@ -116,8 +136,11 @@ pub type Slices<'a> = Vec<&'a [u8]>;
 
 /// Helper to `BlockReader::read_block`; create a `ResultFindReadBlock::Err`
 /// with an error string that includes the file path
-fn err_from_err_path_results3(error: &Error, path: &FPath, mesg: Option<&str>) -> ResultFindReadBlock
-{
+fn err_from_err_path_results3(
+    error: &Error,
+    path: &FPath,
+    mesg: Option<&str>,
+) -> ResultFindReadBlock {
     ResultFindReadBlock::Err(err_from_err_path(error, path, mesg))
 }
 
@@ -183,19 +206,16 @@ pub type ResultReadDataToBuffer = ResultFind<usize, Error>;
 /// In case of error, return from caller function with
 /// `ResultReadDataToBuffer::Err`.
 macro_rules! read_data_to_buffer_len_check {
-    ($arg1:expr, $arg2:expr, $path:expr) => (
+    ($arg1:expr, $arg2:expr, $path:expr) => {
         if $arg1 < $arg2 {
             let err = Error::new(
                 ErrorKind::Other,
-                format!(
-                    "buffer too small, len {}, need {} for file {:?}",
-                    $arg1, $arg2, $path
-                ),
+                format!("buffer too small, len {}, need {} for file {:?}", $arg1, $arg2, $path),
             );
             defx!("return {:?}", err);
             return ResultReadDataToBuffer::Err(err);
         }
-    )
+    };
 }
 
 /// Absolute minimum Block Size in bytes (inclusive).
@@ -214,7 +234,7 @@ pub struct Bz2Data {
     /// size of file uncompressed
     pub filesz: FileSz,
     /// calls to `read` use this
-    pub decoder:  Bz2DecoderReader<File>,
+    pub decoder: Bz2DecoderReader<File>,
 }
 
 /// Data and readers for a gzip `.gz` file, used by [`BlockReader`].
@@ -683,21 +703,31 @@ impl BlockReader {
         let mut read_blocks_put: Count = 0;
 
         match filetype {
-            FileType::Evtx{ .. } => {
+            FileType::Evtx { .. } => {
                 panic!("BlockerReader::new FileType::Evtx does not use a BlockReader")
-            },
+            }
             FileType::Journal { .. } => {
                 panic!("BlockerReader::new FileType::Journal does not use a BlockReader")
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Normal, .. }
-            => {
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => {
                 filesz_actual = filesz;
                 blocksz = blocksz_;
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Bz2, .. }
-            => {
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => {
                 blocksz = blocksz_;
                 def1o!("Bz2");
 
@@ -724,12 +754,10 @@ impl BlockReader {
                 // size of `empty.bz2` is 14 bytes
                 if filesz < 12 {
                     def1x!("Bz2: return Err(InvalidData)");
-                    return Result::Err(
-                        Error::new(
-                            ErrorKind::InvalidData,
-                            format!("bzip2 file size {:?} is too small for {:?}", filesz, path),
-                        )
-                    );
+                    return Result::Err(Error::new(
+                        ErrorKind::InvalidData,
+                        format!("bzip2 file size {:?} is too small for {:?}", filesz, path),
+                    ));
                 }
 
                 let file_handle2: File = match open_options
@@ -764,12 +792,10 @@ impl BlockReader {
                         }
                         Err(err) => {
                             def1x!("Bz2: bz2_decoder.read() Error, return {:?}", err);
-                            return Err(
-                                Error::new(
-                                    ErrorKind::InvalidData,
-                                    format!("bz2_decoder.read({}) {}", BUF_SZ, err),
-                                )
-                            );
+                            return Err(Error::new(
+                                ErrorKind::InvalidData,
+                                format!("bz2_decoder.read({}) {}", BUF_SZ, err),
+                            ));
                         }
                     }
                     _loop_count += 1;
@@ -795,9 +821,14 @@ impl BlockReader {
                 });
                 def1o!("Bz2: created bz2_opt");
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Gz, .. }
-            => {
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => {
                 // TODO: [2023/04] move this large chunk of code into private function
                 // TODO: [2024/05] most code in this block repeats code in
                 //       filedecompressor.rs. Both should be refactored to reduce
@@ -818,12 +849,10 @@ impl BlockReader {
                 // sanity check file size
                 if filesz < 8 {
                     def1x!("FileGz: return Err(InvalidData)");
-                    return Result::Err(
-                        Error::new(
-                            ErrorKind::InvalidData,
-                            format!("gzip file size {:?} is too small for {:?}", filesz, path),
-                        )
-                    );
+                    return Result::Err(Error::new(
+                        ErrorKind::InvalidData,
+                        format!("gzip file size {:?} is too small for {:?}", filesz, path),
+                    ));
                 }
                 // TODO: Issue #9 [2022/06] it's known that for a file larger than 4GB uncompressed,
                 //       gzip cannot store it's filesz accurately, since filesz is stored within 32 bits.
@@ -962,9 +991,14 @@ impl BlockReader {
                 });
                 def1o!("FileGz: created {:?}", gz_opt);
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Lz4, .. }
-            => {
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => {
                 // TODO: [2023/04] move this large chunk of code into private function
                 blocksz = blocksz_;
                 def1o!("FileLz4: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
@@ -1007,12 +1041,10 @@ impl BlockReader {
                         }
                         Err(err) => {
                             def1x!("FileLz4: lz4_decoder.read() Error, return {:?}", err);
-                            return Err(
-                                Error::new(
-                                    ErrorKind::InvalidData,
-                                    format!("lz4_decoder.read({}) {}", BUF_SZ, err),
-                                )
-                            );
+                            return Err(Error::new(
+                                ErrorKind::InvalidData,
+                                format!("lz4_decoder.read({}) {}", BUF_SZ, err),
+                            ));
                         }
                     }
                     _loop_count += 1;
@@ -1043,9 +1075,14 @@ impl BlockReader {
                     reader: lz4_decoder,
                 });
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Tar, .. }
-            => {
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => {
                 // TODO: [2024/05] most code in this block repeats code in
                 //       filedecompressor.rs. Both should be refactored to reduce
                 //       duplicate code.
@@ -1100,7 +1137,11 @@ impl BlockReader {
                         Ok(val) => val,
                         Err(err) => {
                             def1x!("FileTar: entry.header().size() Err {:?}", err);
-                            return err_from_err_path_result::<BlockReader>(&err, &path, Some("(FileTar header().size)"));
+                            return err_from_err_path_result::<BlockReader>(
+                                &err,
+                                &path,
+                                Some("(FileTar header().size)"),
+                            );
                         }
                     };
                     def1o!("FileTar: filesz_actual {:?}", filesz_actual);
@@ -1132,9 +1173,14 @@ impl BlockReader {
                     mtime,
                 });
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Xz, .. }
-            => {
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => {
                 // TODO: [2023/04] move this large chunk of code into private function
                 blocksz = blocksz_;
                 def1o!("FileXz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
@@ -1328,12 +1374,13 @@ impl BlockReader {
                 match reader.read_exact(&mut buffer_) {
                     Ok(_) => {}
                     Err(err) => {
-                        de_err!(
-                            "FileXz: reader.read_exact() (stream header magic bytes) path {:?} {}",
-                            path_std, err
-                        );
+                        de_err!("FileXz: reader.read_exact() (stream header magic bytes) path {:?} {}", path_std, err);
                         def1x!("FileXz: return B {:?}", err);
-                        return err_from_err_path_result::<BlockReader>(&err, &path, Some("(missing XZ stream header magic bytes)"));
+                        return err_from_err_path_result::<BlockReader>(
+                            &err,
+                            &path,
+                            Some("(missing XZ stream header magic bytes)"),
+                        );
                     }
                 }
                 // magic bytes expected "ý7zXZ\0"
@@ -1382,10 +1429,7 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         def1x!("FileXz: return C {:?}", err);
-                        e_err!(
-                            "FileXz: reader.read_exact() (stream header flags) path {:?} {}",
-                            path_std, err
-                        );
+                        e_err!("FileXz: reader.read_exact() (stream header flags) path {:?} {}", path_std, err);
                         return err_from_err_path_result::<BlockReader>(&err, &path, Some("(FileXz header flags)"));
                     }
                 }
@@ -1396,48 +1440,43 @@ impl BlockReader {
                 let stream_header_flag_check_type: u8 = buffer_[1];
                 def1o!("FileXz: stream_header_flag_null 0x{0:02X} 0b{0:08b}", stream_header_flag_null);
                 if stream_header_flag_null != 0 {
-                    de_err!(
-                        "FileXz: stream_header_flag_null 0x{0:02X} 0b{0:08b} is not null",
-                        stream_header_flag_null,
-                    );
+                    de_err!("FileXz: stream_header_flag_null 0x{0:02X} 0b{0:08b} is not null", stream_header_flag_null,);
                 }
                 def1o!("FileXz: stream_header_flag_check_type 0x{0:02X} 0b{0:08b}", stream_header_flag_check_type);
 
                 /*
-                    The second byte of Stream Flags is a bit field:
+                   The second byte of Stream Flags is a bit field:
 
-                    Bit(s)  Mask  Description
-                    0-3    0x0F  Type of Check (see Section 3.4):
-                                ID    Size      Check name
-                                0x00   0 bytes  None
-                                0x01   4 bytes  CRC32
-                                0x02   4 bytes  (Reserved)
-                                0x03   4 bytes  (Reserved)
-                                0x04   8 bytes  CRC64
-                                0x05   8 bytes  (Reserved)
-                                0x06   8 bytes  (Reserved)
-                                0x07  16 bytes  (Reserved)
-                                0x08  16 bytes  (Reserved)
-                                0x09  16 bytes  (Reserved)
-                                0x0A  32 bytes  SHA-256
-                                0x0B  32 bytes  (Reserved)
-                                0x0C  32 bytes  (Reserved)
-                                0x0D  64 bytes  (Reserved)
-                                0x0E  64 bytes  (Reserved)
-                                0x0F  64 bytes  (Reserved)
-                    4-7    0xF0  Reserved for future use; MUST be zero for now.
-                 */
-                 if stream_header_flag_check_type & 0xF0 != 0 {
+                   Bit(s)  Mask  Description
+                   0-3    0x0F  Type of Check (see Section 3.4):
+                               ID    Size      Check name
+                               0x00   0 bytes  None
+                               0x01   4 bytes  CRC32
+                               0x02   4 bytes  (Reserved)
+                               0x03   4 bytes  (Reserved)
+                               0x04   8 bytes  CRC64
+                               0x05   8 bytes  (Reserved)
+                               0x06   8 bytes  (Reserved)
+                               0x07  16 bytes  (Reserved)
+                               0x08  16 bytes  (Reserved)
+                               0x09  16 bytes  (Reserved)
+                               0x0A  32 bytes  SHA-256
+                               0x0B  32 bytes  (Reserved)
+                               0x0C  32 bytes  (Reserved)
+                               0x0D  64 bytes  (Reserved)
+                               0x0E  64 bytes  (Reserved)
+                               0x0F  64 bytes  (Reserved)
+                   4-7    0xF0  Reserved for future use; MUST be zero for now.
+                */
+                if stream_header_flag_check_type & 0xF0 != 0 {
                     def1x!("FileXz: return Err(InvalidData)");
-                    return Result::Err(
-                        Error::new(
-                            ErrorKind::InvalidData,
-                            format!(
-                                "xz stream header flag check type 0x{:02X} has reserved bits set for {:?}",
-                                stream_header_flag_check_type, path
-                            ),
-                        )
-                    );
+                    return Result::Err(Error::new(
+                        ErrorKind::InvalidData,
+                        format!(
+                            "xz stream header flag check type 0x{:02X} has reserved bits set for {:?}",
+                            stream_header_flag_check_type, path
+                        ),
+                    ));
                 }
                 let _check_size: usize = match stream_header_flag_check_type {
                     0x00 => {
@@ -1461,7 +1500,10 @@ impl BlockReader {
                         32
                     }
                     _ => {
-                        def1o!("FileXz: stream_header_flag_check_type 0x{:02X} (unknown)", stream_header_flag_check_type);
+                        def1o!(
+                            "FileXz: stream_header_flag_check_type 0x{:02X} (unknown)",
+                            stream_header_flag_check_type
+                        );
 
                         0
                     }
@@ -1477,10 +1519,7 @@ impl BlockReader {
                     }
                 }
                 let _stream_header_crc32: u32 = u32::from_le_bytes(buffer_);
-                def1o!(
-                    "FileXz: stream header CRC32 {0:} (0x{0:08X}) (0b{0:032b})",
-                    _stream_header_crc32,
-                );
+                def1o!("FileXz: stream header CRC32 {0:} (0x{0:08X}) (0b{0:032b})", _stream_header_crc32,);
 
                 /*
                 3.1. Block Header
@@ -1550,10 +1589,7 @@ impl BlockReader {
                 def1o!("FileXz: block0_flag_uncompressed_size {}", block0_flag_uncompressed_size);
 
                 if !block0_flag_uncompressed_size {
-                    let _msg = format!(
-                        "xz file does not have Uncompressed Size field for {:?}",
-                        path
-                    );
+                    let _msg = format!("xz file does not have Uncompressed Size field for {:?}", path);
                     def1o!("xz file does not have Uncompressed Size field for {:?}", path);
                     de_wrn!("xz file does not have Uncompressed Size field for {:?}", path);
                 }
@@ -1641,7 +1677,11 @@ impl BlockReader {
                     Ok(_) => {}
                     Err(err) => {
                         def1x!("FileXz: return G {:?}", err);
-                        return err_from_err_path_result::<BlockReader>(&err, &path, Some("(XZ Block #0 Header Flags; reset Seek)"));
+                        return err_from_err_path_result::<BlockReader>(
+                            &err,
+                            &path,
+                            Some("(XZ Block #0 Header Flags; reset Seek)"),
+                        );
                     }
                 }
 
@@ -1688,18 +1728,18 @@ impl BlockReader {
                                         def1o!("FileXz: xz_decompress Error UnexpectedEof, break!");
                                         break;
                                     }
-                                    return err_from_err_path_result::<BlockReader>(ioerr, &path, Some("(xz_decompress failed)"));
+                                    return err_from_err_path_result::<BlockReader>(
+                                        ioerr,
+                                        &path,
+                                        Some("(xz_decompress failed)"),
+                                    );
                                 }
                                 _err => {
                                     def1o!("FileXz: err {:?}", _err);
                                 }
                             }
                             def1x!("FileXz: xz_decompress Error, return Err({:?})", err);
-                            return Err(
-                                Error::new(
-                                    ErrorKind::Other, format!("{} for file {:?}", err, path)
-                                )
-                            );
+                            return Err(Error::new(ErrorKind::Other, format!("{} for file {:?}", err, path)));
                         }
                     }
                     if buffer.is_empty() {
@@ -1737,16 +1777,13 @@ impl BlockReader {
                 });
                 def1o!("FileXz: created {:?}", xz_opt.as_ref().unwrap());
             }
-            FileType::Unparsable
-            => {
+            FileType::Unparsable => {
                 debug_panic!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path);
 
-                return Result::Err(
-                    Error::new(
-                        ErrorKind::InvalidData,
-                        format!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path),
-                    )
-                );
+                return Result::Err(Error::new(
+                    ErrorKind::InvalidData,
+                    format!("BlockReader::new bad filetype {:?} for file {:?}", filetype, path),
+                ));
             }
         }
 
@@ -1820,30 +1857,90 @@ impl BlockReader {
     /// `self.filesz` or `self.filesz_actual` directly.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
-            FileType::Evtx{ archival_type: FileTypeArchive::Normal } => self.filesz,
-            FileType::Evtx{ archival_type: FileTypeArchive::Bz2 } => self.filesz_actual,
-            FileType::Evtx{ archival_type: FileTypeArchive::Gz } => self.filesz_actual,
-            FileType::Evtx{ archival_type: FileTypeArchive::Lz4 } => self.filesz_actual,
-            FileType::Evtx{ archival_type: FileTypeArchive::Tar } => self.filesz_actual,
-            FileType::Evtx{ archival_type: FileTypeArchive::Xz } => self.filesz_actual,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => self.filesz,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. } => self.filesz_actual,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => self.filesz_actual,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => self.filesz_actual,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => self.filesz_actual,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => self.filesz_actual,
-            FileType::Journal{ archival_type: FileTypeArchive::Normal } => self.filesz,
-            FileType::Journal{ archival_type: FileTypeArchive::Bz2 } => self.filesz,
-            FileType::Journal{ archival_type: FileTypeArchive::Gz } => self.filesz_actual,
-            FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => self.filesz_actual,
-            FileType::Journal{ archival_type: FileTypeArchive::Tar } => self.filesz_actual,
-            FileType::Journal{ archival_type: FileTypeArchive::Xz } => self.filesz_actual,
-            FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => self.filesz,
-            FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => self.filesz_actual,
-            FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => self.filesz_actual,
-            FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => self.filesz_actual,
-            FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => self.filesz_actual,
-            FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => self.filesz_actual,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Normal,
+            } => self.filesz,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Bz2,
+            } => self.filesz_actual,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Gz,
+            } => self.filesz_actual,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Lz4,
+            } => self.filesz_actual,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Tar,
+            } => self.filesz_actual,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Xz,
+            } => self.filesz_actual,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => self.filesz,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => self.filesz_actual,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => self.filesz_actual,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => self.filesz_actual,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => self.filesz_actual,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => self.filesz_actual,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Normal,
+            } => self.filesz,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Bz2,
+            } => self.filesz,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Gz,
+            } => self.filesz_actual,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Lz4,
+            } => self.filesz_actual,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Tar,
+            } => self.filesz_actual,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Xz,
+            } => self.filesz_actual,
+            FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => self.filesz,
+            FileType::Text {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => self.filesz_actual,
+            FileType::Text {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => self.filesz_actual,
+            FileType::Text {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => self.filesz_actual,
+            FileType::Text {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => self.filesz_actual,
+            FileType::Text {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => self.filesz_actual,
             FileType::Unparsable => panic!("BlockerReader::filesz Unexpected Unparsable"),
         }
     }
@@ -1882,31 +1979,56 @@ impl BlockReader {
     // TODO: it would be nice to cache the value from this but that would require passing `mut`
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
-            FileType::Evtx{ .. } => {
+            FileType::Evtx { .. } => {
                 panic!("BlockerReader::mtime FileType::Evtx does not use a BlockReader")
-            },
+            }
             FileType::Journal { .. } => {
                 panic!("BlockerReader::mtime FileType::Journal does not use a BlockReader")
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. }
-            | FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. }
-            | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. }
-            | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Normal, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Bz2, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Lz4, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Xz, .. }
-            => {
-                defñ!(
-                    "{:?}: file_metadata_modified {:?}",
-                    self.filetype, self.file_metadata_modified
-                );
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            }
+            | FileType::FixedStruct {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            }
+            | FileType::FixedStruct {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            }
+            | FileType::FixedStruct {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => {
+                defñ!("{:?}: file_metadata_modified {:?}", self.filetype, self.file_metadata_modified);
 
                 self.file_metadata_modified
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Gz, .. }
-            => {
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => {
                 let mtime = self
                     .gz
                     .as_ref()
@@ -1919,17 +2041,19 @@ impl BlockReader {
 
                     st
                 } else {
-                    defñ!(
-                        "{:?}: file_metadata_modified {:?}",
-                        self.filetype, self.file_metadata_modified
-                    );
+                    defñ!("{:?}: file_metadata_modified {:?}", self.filetype, self.file_metadata_modified);
 
                     self.file_metadata_modified
                 }
             }
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. }
-            | FileType::Text{ archival_type: FileTypeArchive::Tar, .. }
-            => {
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            }
+            | FileType::Text {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => {
                 let mtime = self
                     .tar
                     .as_ref()
@@ -1942,10 +2066,7 @@ impl BlockReader {
 
                     st
                 } else {
-                    defñ!(
-                        "{:?}: file_metadata_modified {:?}",
-                        self.filetype, self.file_metadata_modified
-                    );
+                    defñ!("{:?}: file_metadata_modified {:?}", self.filetype, self.file_metadata_modified);
 
                     self.file_metadata_modified
                 }
@@ -2201,30 +2322,90 @@ impl BlockReader {
     /// `blockoffset` passed to `read_block_File`.
     pub const fn is_streamed_file(&self) -> bool {
         match self.filetype {
-            FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
-            FileType::Evtx{ archival_type: FileTypeArchive::Bz2 } => true,
-            FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,
-            FileType::Evtx{ archival_type: FileTypeArchive::Lz4 } => true,
-            FileType::Evtx{ archival_type: FileTypeArchive::Tar } => true,
-            FileType::Evtx{ archival_type: FileTypeArchive::Xz } => true,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => false,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. } => true,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => true,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => true,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => true,
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => true,
-            FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
-            FileType::Journal{ archival_type: FileTypeArchive::Bz2 } => true,
-            FileType::Journal{ archival_type: FileTypeArchive::Gz } => true,
-            FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => true,
-            FileType::Journal{ archival_type: FileTypeArchive::Tar } => true,
-            FileType::Journal{ archival_type: FileTypeArchive::Xz } => true,
-            FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => false,
-            FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => true,
-            FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => true,
-            FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => true,
-            FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => true,
-            FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => true,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Normal,
+            } => false,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Bz2,
+            } => true,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Gz,
+            } => true,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Lz4,
+            } => true,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Tar,
+            } => true,
+            FileType::Evtx {
+                archival_type: FileTypeArchive::Xz,
+            } => true,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => false,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => true,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => true,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => true,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => true,
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => true,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Normal,
+            } => false,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Bz2,
+            } => true,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Gz,
+            } => true,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Lz4,
+            } => true,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Tar,
+            } => true,
+            FileType::Journal {
+                archival_type: FileTypeArchive::Xz,
+            } => true,
+            FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => false,
+            FileType::Text {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => true,
+            FileType::Text {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => true,
+            FileType::Text {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => true,
+            FileType::Text {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => true,
+            FileType::Text {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => true,
             FileType::Unparsable => false,
         }
     }
@@ -2243,7 +2424,7 @@ impl BlockReader {
     /// [`SyslineReader`]: crate::readers::syslinereader::SyslineReader
     /// [`SyslogProcessor`]: crate::readers::syslogprocessor::SyslogProcessor
     pub fn disable_drop_data(&mut self) {
-        if ! self.drop_data {
+        if !self.drop_data {
             panic!("BlockReader::disable_drop_data drop_data already disabled");
         }
         self.drop_data = false;
@@ -2266,7 +2447,7 @@ impl BlockReader {
         blockoffset: BlockOffset,
     ) -> bool {
         defn!("({:?})", blockoffset);
-        if ! self.drop_data {
+        if !self.drop_data {
             defx!("drop_data is false");
             return false;
         }
@@ -2311,7 +2492,9 @@ impl BlockReader {
                 Ok(_block) => {
                     deo!(
                         "dropped block {} @0x{:p}, len {}, total span [{}‥{})",
-                        blockoffset, &_block, _block.len(),
+                        blockoffset,
+                        &_block,
+                        _block.len(),
                         blockoffset * self.blocksz,
                         blockoffset * self.blocksz + (_block.len() as BlockOffset),
                     );
@@ -2381,7 +2564,10 @@ impl BlockReader {
             Some(_bp) => {
                 de_wrn!(
                     "blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p} for file {:?}",
-                    blockoffset, blockp, _bp, self.path,
+                    blockoffset,
+                    blockp,
+                    _bp,
+                    self.path,
                 );
             }
             _ => {}
@@ -2394,7 +2580,8 @@ impl BlockReader {
         {
             debug_panic!(
                 "BlockReader::store_blocks_in_storage blockreader.blocks_read({}) already had a entry, for file {:?}",
-                blockoffset, self.path
+                blockoffset,
+                self.path
             );
         }
     }
@@ -2415,8 +2602,13 @@ impl BlockReader {
         debug_assert!(
             matches!(
                 self.filetype,
-                FileType::Text { archival_type: FileTypeArchive::Normal, .. }
-                | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. }
+                FileType::Text {
+                    archival_type: FileTypeArchive::Normal,
+                    ..
+                } | FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Normal,
+                    ..
+                }
             ),
             "wrong FileType {:?} for calling read_block_File",
             self.filetype
@@ -2442,7 +2634,10 @@ impl BlockReader {
         // forcibly resize `buffer` so `read_exact` will write to it
         buffer.resize(cap, 0);
         defo!("reader.read_exact(buffer (capacity {}))", cap);
-        match self.file_handle.read_exact(&mut buffer) {
+        match self
+            .file_handle
+            .read_exact(&mut buffer)
+        {
             Ok(_) => {}
             Err(err) => {
                 e_err!("reader.read_to_end(buffer) {} for file {:?}", err, self.path);
@@ -2478,10 +2673,17 @@ impl BlockReader {
         debug_assert!(
             matches!(
                 self.filetype,
-                FileType::Evtx{ archival_type: FileTypeArchive::Bz2 }
-                | FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. }
-                | FileType::Journal{ archival_type: FileTypeArchive::Bz2 }
-                | FileType::Text{ archival_type: FileTypeArchive::Bz2, .. }
+                FileType::Evtx {
+                    archival_type: FileTypeArchive::Bz2
+                } | FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Bz2,
+                    ..
+                } | FileType::Journal {
+                    archival_type: FileTypeArchive::Bz2
+                } | FileType::Text {
+                    archival_type: FileTypeArchive::Bz2,
+                    ..
+                }
             ),
             "wrong FileType {:?} for calling read_block_FileBz2",
             self.filetype
@@ -2524,10 +2726,7 @@ impl BlockReader {
                 bo_at += 1;
                 continue;
             } else {
-                defo!(
-                    "({}): blocks_read.contains({}) missed (does not contain key)",
-                    blockoffset, bo_at,
-                );
+                defo!("({}): blocks_read.contains({}) missed (does not contain key)", blockoffset, bo_at,);
                 debug_assert!(
                     !self
                         .blocks
@@ -2542,15 +2741,10 @@ impl BlockReader {
             let reader = match self.bz2 {
                 Some(ref mut bz2) => &mut bz2.decoder,
                 None => {
-                    return ResultFindReadBlock::Err(
-                        Error::new(
-                            ErrorKind::InvalidData,
-                            format!(
-                                "Bz2DecoderReader not initialized for file {:?}",
-                                self.path
-                            )
-                        )
-                    );
+                    return ResultFindReadBlock::Err(Error::new(
+                        ErrorKind::InvalidData,
+                        format!("Bz2DecoderReader not initialized for file {:?}", self.path),
+                    ));
                 }
             };
             let mut block = Block::with_capacity(blocksz_u);
@@ -2611,13 +2805,7 @@ impl BlockReader {
 
             // sanity check: check returned Block is expected number of bytes
             let blocklen_sz: BlockSz = block.len() as BlockSz;
-            defo!(
-                "({}): block.len() {}, blocksz {}, blockoffset at {}",
-                blockoffset,
-                blocklen_sz,
-                self.blocksz,
-                bo_at
-            );
+            defo!("({}): block.len() {}, blocksz {}, blockoffset at {}", blockoffset, blocklen_sz, self.blocksz, bo_at);
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
                 return ResultFindReadBlock::Err(
@@ -2708,10 +2896,17 @@ impl BlockReader {
         debug_assert!(
             matches!(
                 self.filetype,
-                FileType::Evtx{ archival_type: FileTypeArchive::Gz }
-                | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. }
-                | FileType::Journal{ archival_type: FileTypeArchive::Gz }
-                | FileType::Text{ archival_type: FileTypeArchive::Gz, .. }
+                FileType::Evtx {
+                    archival_type: FileTypeArchive::Gz
+                } | FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Gz,
+                    ..
+                } | FileType::Journal {
+                    archival_type: FileTypeArchive::Gz
+                } | FileType::Text {
+                    archival_type: FileTypeArchive::Gz,
+                    ..
+                }
             ),
             "wrong FileType {:?} for calling read_block_FileGz",
             self.filetype
@@ -2798,7 +2993,8 @@ impl BlockReader {
             let mut bytes_read_actual: usize = 0;
             debug_assert_eq!(
                 bytes_read_expect, blocksz_u,
-                "bad calculation; bytes_read_expect {} != blocksz_u {}; blockoffset {}", bytes_read_expect, blocksz_u, bo_at,
+                "bad calculation; bytes_read_expect {} != blocksz_u {}; blockoffset {}",
+                bytes_read_expect, blocksz_u, bo_at,
             );
             // final block of storage
             let mut block = Block::with_capacity(blocksz_u);
@@ -2820,9 +3016,13 @@ impl BlockReader {
                     false => BUF_SZ,
                 };
                 debug_assert_ne!(
-                    readsz, 0,
+                    readsz,
+                    0,
                     "readsz 0; BUF_SZ {}, bytes_read_actual {}, bytes_read_expect {}, diff {}",
-                    BUF_SZ, bytes_read_actual, bytes_read_expect, bytes_read_expect - bytes_read_actual,
+                    BUF_SZ,
+                    bytes_read_actual,
+                    bytes_read_expect,
+                    bytes_read_expect - bytes_read_actual,
                 );
 
                 defo!(
@@ -2903,7 +3103,11 @@ impl BlockReader {
                         block[bytes_read_actual..bytes_read_actual + size_].copy_from_slice(&buf[..size_]);
                         defo!(
                             "({}): copied {} bytes into block {}, from [{}‥{})",
-                            blockoffset, size_, blockoffset, bytes_read_actual, bytes_read_actual + size_,
+                            blockoffset,
+                            size_,
+                            blockoffset,
+                            bytes_read_actual,
+                            bytes_read_actual + size_,
                         );
                         bytes_read_actual += size_;
                     }
@@ -2916,11 +3120,7 @@ impl BlockReader {
                             self.path
                         );
                         defx!("({}): return Err({})", blockoffset, err);
-                        return err_from_err_path_results3(
-                            &err,
-                            &self.path,
-                            Some("(GzDecoder.read(…) failed)"),
-                        );
+                        return err_from_err_path_results3(&err, &self.path, Some("(GzDecoder.read(…) failed)"));
                     }
                 }
                 debug_assert_le!(
@@ -3066,10 +3266,17 @@ impl BlockReader {
         debug_assert!(
             matches!(
                 self.filetype,
-                FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
-                | FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. }
-                | FileType::Journal{ archival_type: FileTypeArchive::Lz4 }
-                | FileType::Text{ archival_type: FileTypeArchive::Lz4, .. }
+                FileType::Evtx {
+                    archival_type: FileTypeArchive::Lz4
+                } | FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Lz4,
+                    ..
+                } | FileType::Journal {
+                    archival_type: FileTypeArchive::Lz4
+                } | FileType::Text {
+                    archival_type: FileTypeArchive::Lz4,
+                    ..
+                }
             ),
             "wrong FileType {:?} for calling read_block_FileLz4",
             self.filetype
@@ -3127,15 +3334,10 @@ impl BlockReader {
             let reader = match self.lz {
                 Some(ref mut lz) => &mut lz.reader,
                 None => {
-                    return ResultFindReadBlock::Err(
-                        Error::new(
-                            ErrorKind::InvalidData,
-                            format!(
-                                "FrameDecoder not initialized for file {:?}",
-                                self.path
-                            )
-                        )
-                    );
+                    return ResultFindReadBlock::Err(Error::new(
+                        ErrorKind::InvalidData,
+                        format!("FrameDecoder not initialized for file {:?}", self.path),
+                    ));
                 }
             };
             let mut block = Block::with_capacity(blocksz_u);
@@ -3163,23 +3365,13 @@ impl BlockReader {
                         self.path,
                     );
                     defx!("({}): return Err({})", blockoffset, err);
-                    return err_from_err_path_results3(
-                        &err,
-                        self.path(),
-                        Some("(FrameDecoder.read(…) failed)"),
-                    );
+                    return err_from_err_path_results3(&err, self.path(), Some("(FrameDecoder.read(…) failed)"));
                 }
             }
 
             // sanity check: check returned Block is expected number of bytes
             let blocklen_sz: BlockSz = block.len() as BlockSz;
-            defo!(
-                "({}): block.len() {}, blocksz {}, blockoffset at {}",
-                blockoffset,
-                blocklen_sz,
-                self.blocksz,
-                bo_at
-            );
+            defo!("({}): block.len() {}, blocksz {}, blockoffset at {}", blockoffset, blocklen_sz, self.blocksz, bo_at);
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
                 return ResultFindReadBlock::Err(
@@ -3270,10 +3462,17 @@ impl BlockReader {
         debug_assert!(
             matches!(
                 self.filetype,
-                FileType::Evtx{ archival_type: FileTypeArchive::Xz }
-                | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. }
-                | FileType::Journal{ archival_type: FileTypeArchive::Xz }
-                | FileType::Text{ archival_type: FileTypeArchive::Xz, .. }
+                FileType::Evtx {
+                    archival_type: FileTypeArchive::Xz
+                } | FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Xz,
+                    ..
+                } | FileType::Journal {
+                    archival_type: FileTypeArchive::Xz
+                } | FileType::Text {
+                    archival_type: FileTypeArchive::Xz,
+                    ..
+                }
             ),
             "wrong FileType {:?} for calling read_block_FileXz",
             self.filetype
@@ -3339,12 +3538,7 @@ impl BlockReader {
                 .as_mut()
                 .unwrap()
                 .bufreader;
-            deo!(
-                "xz_decompress({:?}, block (len {}, capacity {}))",
-                bufreader,
-                block.len(),
-                block.capacity()
-            );
+            deo!("xz_decompress({:?}, block (len {}, capacity {}))", bufreader, block.len(), block.capacity());
             // XXX: xz_decompress may resize the passed `buffer`
             match lzma_rs::xz_decompress(&mut bufreader, &mut block) {
                 Ok(_) => {
@@ -3459,10 +3653,17 @@ impl BlockReader {
         debug_assert!(
             matches!(
                 self.filetype,
-                FileType::Evtx{ archival_type: FileTypeArchive::Tar }
-                | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. }
-                | FileType::Journal{ archival_type: FileTypeArchive::Tar }
-                | FileType::Text{ archival_type: FileTypeArchive::Tar, .. }
+                FileType::Evtx {
+                    archival_type: FileTypeArchive::Tar
+                } | FileType::FixedStruct {
+                    archival_type: FileTypeArchive::Tar,
+                    ..
+                } | FileType::Journal {
+                    archival_type: FileTypeArchive::Tar
+                } | FileType::Text {
+                    archival_type: FileTypeArchive::Tar,
+                    ..
+                }
             ),
             "wrong FileType {:?} for calling read_block_FileTar",
             self.filetype
@@ -3505,9 +3706,11 @@ impl BlockReader {
                     Ok(entry) => entry,
                     Err(err) => {
                         defx!("Err {:?}", err);
-                        return err_from_err_path_results3(&err, &self.path, Some(
-                            format!("(entry_iter.nth({}) failed)", index).as_str()
-                        ));
+                        return err_from_err_path_results3(
+                            &err,
+                            &self.path,
+                            Some(format!("(entry_iter.nth({}) failed)", index).as_str()),
+                        );
                     }
                 },
                 None => {
@@ -3542,11 +3745,7 @@ impl BlockReader {
             match entry.read_exact(block.as_mut_slice()) {
                 Ok(_) => {}
                 Err(err) => {
-                    defx!(
-                        "read_block_FileTar: read_exact(&block (capacity {})) error, return {:?}",
-                        cap,
-                        err
-                    );
+                    defx!("read_block_FileTar: read_exact(&block (capacity {})) error, return {:?}", cap, err);
                     e_err!("entry.read_exact(&block (capacity {})) file {:?} {}", cap, path_std, err);
                     return err_from_err_path_results3(&err, &self.path, Some("(entry.read_exact(…) failed)"));
                 }
@@ -3592,15 +3791,13 @@ impl BlockReader {
             Some(blockp_) => blockp_.clone(),
             None => {
                 defx!("self.blocks.get({}), returned None, return Err(UnexpectedEof)", blockoffset);
-                return ResultFindReadBlock::Err(
-                    Error::new(
-                        ErrorKind::UnexpectedEof,
-                        format!(
-                                "read_block_FileTar: self.blocks.get({}) returned None for file {:?}",
-                                blockoffset, self.path
-                        ),
-                    )
-                );
+                return ResultFindReadBlock::Err(Error::new(
+                    ErrorKind::UnexpectedEof,
+                    format!(
+                        "read_block_FileTar: self.blocks.get({}) returned None for file {:?}",
+                        blockoffset, self.path
+                    ),
+                ));
             }
         };
 
@@ -3686,24 +3883,26 @@ impl BlockReader {
                     let blockp: BlockP = match self
                         .blocks
                         .get_mut(&blockoffset)
-                        {
-                            Some(blockp) => blockp.clone(),
-                            None => {
-                                // BUG: getting here means something is wrong
-                                //      with the internal state of `BlockReader` and likely
-                                //      related to the caller's use of `drop_block`.
-                                //      But we can go ahead and just read the block again though
-                                //      that is inefficient and some day should be fixed.
-                                debug_panic!(
-                                    "requested block {} is in self.blocks_read but not in self.blocks for file {:?}",
-                                    blockoffset, self.path,
-                                );
-                                self.read_blocks_reread_error += 1;
-                                self.read_blocks_miss += 1;
-                                self.blocks_read.remove(&blockoffset);
-                                break;
-                            }
-                        };
+                    {
+                        Some(blockp) => blockp.clone(),
+                        None => {
+                            // BUG: getting here means something is wrong
+                            //      with the internal state of `BlockReader` and likely
+                            //      related to the caller's use of `drop_block`.
+                            //      But we can go ahead and just read the block again though
+                            //      that is inefficient and some day should be fixed.
+                            debug_panic!(
+                                "requested block {} is in self.blocks_read but not in self.blocks for file {:?}",
+                                blockoffset,
+                                self.path,
+                            );
+                            self.read_blocks_reread_error += 1;
+                            self.read_blocks_miss += 1;
+                            self.blocks_read
+                                .remove(&blockoffset);
+                            break;
+                        }
+                    };
                     self.store_block_in_LRU_cache(blockoffset, &blockp);
                     defx!(
                         "return Found(Block); use stored Block[{}] @[{}, {}) len {}",
@@ -3728,31 +3927,63 @@ impl BlockReader {
         }
 
         match self.filetype {
-            FileType::Evtx{ archival_type: _ } => panic!(
-                "BlockReader::read_block unsupported filetype {:?}; path {:?}",
-                self.filetype, self.path,
-            ),
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, .. } => self.read_block_File(blockoffset),
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Bz2, .. } => self.read_block_FileBz2(blockoffset),
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, .. } => self.read_block_FileGz(blockoffset),
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Lz4, .. } => self.read_block_FileLz4(blockoffset),
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, .. } => self.read_block_FileTar(blockoffset),
-            FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, .. } => self.read_block_FileXz(blockoffset),
-            FileType::Journal{ archival_type: _ } => panic!(
-                "BlockReader::read_block unsupported filetype {:?}; path {:?}",
-                self.filetype, self.path,
-            ),
-            FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => self.read_block_File(blockoffset),
-            FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => self.read_block_FileBz2(blockoffset),
-            FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => self.read_block_FileGz(blockoffset),
-            FileType::Text{ archival_type: FileTypeArchive::Lz4, .. } => self.read_block_FileLz4(blockoffset),
-            FileType::Text{ archival_type: FileTypeArchive::Tar, .. } => self.read_block_FileTar(blockoffset),
-            FileType::Text{ archival_type: FileTypeArchive::Xz, .. } => self.read_block_FileXz(blockoffset),
-            FileType::Unparsable
-            => panic!(
-                "BlockReader::read_block bad filetype {:?}; path {:?}",
-                self.filetype, self.path,
-            ),
+            FileType::Evtx { archival_type: _ } => {
+                panic!("BlockReader::read_block unsupported filetype {:?}; path {:?}", self.filetype, self.path,)
+            }
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => self.read_block_File(blockoffset),
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => self.read_block_FileBz2(blockoffset),
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => self.read_block_FileGz(blockoffset),
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => self.read_block_FileLz4(blockoffset),
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => self.read_block_FileTar(blockoffset),
+            FileType::FixedStruct {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => self.read_block_FileXz(blockoffset),
+            FileType::Journal { archival_type: _ } => {
+                panic!("BlockReader::read_block unsupported filetype {:?}; path {:?}", self.filetype, self.path,)
+            }
+            FileType::Text {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => self.read_block_File(blockoffset),
+            FileType::Text {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => self.read_block_FileBz2(blockoffset),
+            FileType::Text {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => self.read_block_FileGz(blockoffset),
+            FileType::Text {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => self.read_block_FileLz4(blockoffset),
+            FileType::Text {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => self.read_block_FileTar(blockoffset),
+            FileType::Text {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => self.read_block_FileXz(blockoffset),
+            FileType::Unparsable => {
+                panic!("BlockReader::read_block bad filetype {:?}; path {:?}", self.filetype, self.path,)
+            }
         }
     }
 
@@ -3789,8 +4020,7 @@ impl BlockReader {
         fileoffset_beg: FileOffset,
         fileoffset_end: FileOffset,
         oneblock: bool,
-    ) -> ResultReadData
-    {
+    ) -> ResultReadData {
         defn!("({}, {}, oneblock={})", fileoffset_beg, fileoffset_end, oneblock);
         debug_assert_le!(fileoffset_beg, fileoffset_end);
         let fileoffset_end: FileOffset = std::cmp::min(fileoffset_end, self.filesz());
@@ -3933,15 +4163,11 @@ impl BlockReader {
         fileoffset_beg: FileOffset,
         fileoffset_end: FileOffset,
         oneblock: bool,
-        buffer: &mut [u8]
+        buffer: &mut [u8],
     ) -> ResultReadDataToBuffer {
         defn!("({}, {}, oneblock={}, buffer len {})", fileoffset_beg, fileoffset_end, oneblock, buffer.len());
         read_data_to_buffer_len_check!(buffer.len(), 1, self.path);
-        let readdata: ReadData = match self.read_data(
-            fileoffset_beg,
-            fileoffset_end,
-            oneblock,
-        ) {
+        let readdata: ReadData = match self.read_data(fileoffset_beg, fileoffset_end, oneblock) {
             ResultReadData::Found(readdata) => readdata,
             ResultReadData::Done => {
                 defx!("return ResultReadDataToBuffer::Done");
@@ -4007,14 +4233,18 @@ impl BlockReader {
                 buffer[..at + n].copy_from_slice(&blockps[0].as_slice()[bi1..bi1 + n]);
                 at += n;
                 // middle block(s)
-                for blockp in blockps.iter().skip(1).take(len_ - 2) {
+                for blockp in blockps
+                    .iter()
+                    .skip(1)
+                    .take(len_ - 2)
+                {
                     debug_assert_eq!((*blockp).len(), self.blocksz() as usize);
                     let n = (*blockp).len();
                     defo!("copy {}‥{}", at, at + n);
                     read_data_to_buffer_len_check!(buffer.len(), at + n, self.path);
                     buffer[at..at + n].copy_from_slice(&blockp.as_slice()[..n]);
                     at += n;
-                };
+                }
                 // last block
                 //let n = std::cmp::min(blockps[len_ - 1].len(), bi2);
                 let n = bi2;
@@ -4117,5 +4347,4 @@ impl BlockReader {
             blockreader_blocks_dropped_err,
         }
     }
-
 }

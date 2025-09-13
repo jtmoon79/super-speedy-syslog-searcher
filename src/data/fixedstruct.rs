@@ -13,36 +13,14 @@
 
 #![allow(clippy::tabs_in_doc_comments)]
 
-#[doc(hidden)]
-use crate::{de_err, de_wrn, debug_panic};
-#[doc(hidden)]
-use crate::common::{
-    FileOffset,
-    FileSz,
-    FileTypeFixedStruct,
-    max16,
-    min16,
-};
-use crate::data::datetime::{
-    DateTimeL,
-    FixedOffset,
-    LocalResult,
-    TimeZone,
-};
-use crate::readers::blockreader::{
-    BlockOffset,
-    BlockReader,
-    BlockSz,
-};
-use crate::readers::helpers::is_empty;
-#[cfg(any(debug_assertions, test))]
-use crate::debug::printers::byte_to_char_noraw;
-
 use core::panic;
 use std::collections::HashMap;
 use std::ffi::CStr;
 use std::fmt;
-use std::io::{Error, ErrorKind};
+use std::io::{
+    Error,
+    ErrorKind,
+};
 
 use ::const_format::assertcp;
 #[allow(unused_imports)]
@@ -56,10 +34,47 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
-use numtoa::NumToA;  // adds `numtoa` method to numbers
 #[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+};
+use numtoa::NumToA; // adds `numtoa` method to numbers
 
+#[doc(hidden)]
+use crate::common::{
+    max16,
+    min16,
+    FileOffset,
+    FileSz,
+    FileTypeFixedStruct,
+};
+use crate::data::datetime::{
+    DateTimeL,
+    FixedOffset,
+    LocalResult,
+    TimeZone,
+};
+#[cfg(any(debug_assertions, test))]
+use crate::debug::printers::byte_to_char_noraw;
+use crate::readers::blockreader::{
+    BlockOffset,
+    BlockReader,
+    BlockSz,
+};
+use crate::readers::helpers::is_empty;
+#[doc(hidden)]
+use crate::{
+    de_err,
+    de_wrn,
+    debug_panic,
+};
 
 /// size of the `[u8]` buffer used for `numtoa` conversions
 /// good up to `i64::MAX` or `i64::MIN` plus a little "just in case" head room

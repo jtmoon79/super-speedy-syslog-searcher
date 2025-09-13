@@ -2,17 +2,8 @@
 
 //! Miscellaneous helper functions for _Readers_.
 
-use crate::common::{FileSz, FPath};
-#[cfg(test)]
-use crate::common::FileOffset;
-
-#[cfg(test)]
-use rand;
-#[cfg(test)]
-use rand::seq::SliceRandom; // brings in `shuffle`
-
-use std::ffi::CStr;
 use std;
+use std::ffi::CStr;
 
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -20,6 +11,17 @@ use ::si_trace_print::{
     defo,
     defx,
     defñ,
+};
+#[cfg(test)]
+use rand;
+#[cfg(test)]
+use rand::seq::SliceRandom; // brings in `shuffle`
+
+#[cfg(test)]
+use crate::common::FileOffset;
+use crate::common::{
+    FPath,
+    FileSz,
 };
 
 /// Return the basename of an `FPath`.
@@ -64,20 +66,17 @@ pub fn path_filesz(path: &std::path::Path) -> Option<FileSz> {
 /// wrapper for call to `path_filesz`
 #[macro_export]
 macro_rules! path_filesz_or_return_err {
-    ($path: expr) => ({{
-        match path_filesz($path) {
-            Some(val) => val,
-            None => {
-                defx!("path_filesz() returned None for {:?}", $path);
-                return Err(
-                    Error::new(
-                        ErrorKind::Other,
-                        format!("path_filesz() returned None for {:?}", $path)
-                    )
-                );
+    ($path: expr) => {{
+        {
+            match path_filesz($path) {
+                Some(val) => val,
+                None => {
+                    defx!("path_filesz() returned None for {:?}", $path);
+                    return Err(Error::new(ErrorKind::Other, format!("path_filesz() returned None for {:?}", $path)));
+                }
             }
         }
-    }})
+    }};
 }
 
 /// Count instances of a particular `c` in `s`.

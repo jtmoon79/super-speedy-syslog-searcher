@@ -7,16 +7,6 @@
 //!
 //! [`PrinterLogMessage`]: self::PrinterLogMessage
 
-use crate::debug_panic;
-use crate::common::NLu8;
-use crate::data::datetime::{DateTimeL, FixedOffset, DateTimePattern_string};
-use crate::data::evtx::Evtx;
-use crate::data::journal::JournalEntry;
-use crate::data::line::{LineIndex, LineP};
-use crate::data::sysline::SyslineP;
-use crate::data::fixedstruct::{InfoAsBytes, FixedStruct};
-use crate::debug::printers::de_err;
-
 use std::hint::black_box;
 use std::io::{
     Error,
@@ -27,14 +17,46 @@ use std::io::{
 };
 
 use ::bstr::ByteSlice;
-#[doc(hidden)]
-pub use ::termcolor::{Color, ColorChoice, ColorSpec, WriteColor};
 #[allow(unused_imports)]
-use ::more_asserts::{debug_assert_le, debug_assert_lt};
-#[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ};
+use ::more_asserts::{
+    debug_assert_le,
+    debug_assert_lt,
+};
 use ::si_trace_print::printers::debug_print_guard;
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
+#[doc(hidden)]
+pub use ::termcolor::{
+    Color,
+    ColorChoice,
+    ColorSpec,
+    WriteColor,
+};
 
+use crate::common::NLu8;
+use crate::data::datetime::{
+    DateTimeL,
+    DateTimePattern_string,
+    FixedOffset,
+};
+use crate::data::evtx::Evtx;
+use crate::data::fixedstruct::{
+    FixedStruct,
+    InfoAsBytes,
+};
+use crate::data::journal::JournalEntry;
+use crate::data::line::{
+    LineIndex,
+    LineP,
+};
+use crate::data::sysline::SyslineP;
+use crate::debug::printers::de_err;
+use crate::debug_panic;
 
 // ---------------------
 // globals and constants
@@ -196,7 +218,7 @@ const BUFFER_CAP: usize = 2056;
 /// Flushes. Sets `error_ret` if there is an error.
 macro_rules! buffer_flush_or_seterr {
     ($stdout:expr, $buffer:expr, $printed:expr, $flushed:expr, $error_ret:expr) => {{
-        if ! $buffer.is_empty() {
+        if !$buffer.is_empty() {
             match $stdout.write_all($buffer.as_slice()) {
                 Ok(_) => {
                     $printed += $buffer.len();
@@ -227,7 +249,7 @@ macro_rules! buffer_flush_or_seterr {
                 }
             }
         }
-    }}
+    }};
 }
 
 /// Flushes `PrinterLogMessage.buffer`. Returns upon Err.
@@ -239,7 +261,7 @@ macro_rules! buffer_flush_or_return {
             Some(err) => return PrinterLogMessageResult::Err(err),
             None => {}
         }
-    }}
+    }};
 }
 
 /// Flushes `PrinterLogMessage.buffer`. No returns. No statistics updates. Ignores errors.
@@ -250,7 +272,7 @@ macro_rules! buffer_flush_nostats {
         let mut _flushed: usize = 0;
         let mut _printed: usize = 0;
         buffer_flush_or_seterr!($stdout, $buffer, _printed, _flushed, _error_ret);
-    }}
+    }};
 }
 
 /// Macro to write `$slice_` to `PrinterLogMessage.buffer`.
@@ -259,7 +281,7 @@ macro_rules! buffer_flush_nostats {
 macro_rules! buffer_write_or_return {
     ($stdout:expr, $buffer:expr, $slice_:expr, $printed:expr, $flushed:expr) => {{
         let mut error_ret: Option<Error> = None;
-        if ! BUFFER_USE {
+        if !BUFFER_USE {
             match $stdout.write_all($slice_) {
                 Ok(_) => {
                     $printed += $slice_.len();
@@ -330,7 +352,7 @@ macro_rules! buffer_write_or_return {
                         // never get written (because a printing error *should*
                         // cause the printing thread to return early)
                         $buffer.extend_from_slice($slice_);
-                    },
+                    }
                     None => {
                         // no error occurred from `write_all`.
                         // if slice is larger than buffer capacity then write the slice
@@ -354,7 +376,7 @@ macro_rules! buffer_write_or_return {
                             }
                             if let Err(err) = $stdout.flush() {
                                 if let None = error_ret {
-                                        error_ret = Some(err);
+                                    error_ret = Some(err);
                                 }
                             }
                             $flushed += 1;
@@ -369,7 +391,7 @@ macro_rules! buffer_write_or_return {
                 }
             }
         }
-    }}
+    }};
 }
 
 /// Macro that sets output color only if the color has changed since the last

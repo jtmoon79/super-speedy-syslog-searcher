@@ -24,40 +24,74 @@
 //       `e_termination` and `e_exit` in `struct exit_status`
 //       https://elixir.bootlin.com/glibc/glibc-2.37/source/bits/utmp.h#L48
 
-use crate::{e_err, de_err, de_wrn};
+use std::collections::{
+    BTreeMap,
+    LinkedList,
+};
+use std::fmt;
+use std::io::{
+    Error,
+    ErrorKind,
+    Result,
+};
+
+use ::more_asserts::{
+    debug_assert_ge,
+    debug_assert_le,
+};
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    de,
+    def1n,
+    def1o,
+    def1x,
+    def1ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
+    pfn,
+    pfo,
+    pfx,
+};
+
 use crate::common::{
     debug_panic,
     Count,
+    FPath,
     FileOffset,
     FileSz,
     FileType,
     FileTypeFixedStruct,
-    FPath,
     ResultFind,
 };
 use crate::data::datetime::{
+    dt_after_or_before,
+    dt_pass_filters,
     DateTimeL,
     DateTimeLOpt,
     FixedOffset,
-    SystemTime,
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
-    dt_after_or_before,
-    dt_pass_filters,
+    SystemTime,
 };
 use crate::data::fixedstruct::{
     buffer_to_fixedstructptr,
     convert_datetime_tvpair,
     filesz_to_types,
+    tv_pair_type,
     FixedStruct,
     FixedStructDynPtr,
     FixedStructType,
     FixedStructTypeSet,
+    Score,
     ENTRY_SZ_MAX,
     ENTRY_SZ_MIN,
-    Score,
     TIMEVAL_SZ_MAX,
-    tv_pair_type,
 };
 use crate::readers::blockreader::{
     BlockIndex,
@@ -67,32 +101,11 @@ use crate::readers::blockreader::{
     ResultReadDataToBuffer,
 };
 use crate::readers::summary::Summary;
-
-use std::collections::{BTreeMap, LinkedList};
-use std::fmt;
-use std::io::{Error, ErrorKind, Result};
-
-use ::more_asserts::{debug_assert_ge, debug_assert_le};
-#[allow(unused_imports)]
-use ::si_trace_print::{
-    de,
-    defn,
-    defo,
-    defx,
-    defñ,
-    def1ñ,
-    def1n,
-    def1o,
-    def1x,
-    den,
-    deo,
-    dex,
-    deñ,
-    pfo,
-    pfn,
-    pfx,
+use crate::{
+    de_err,
+    de_wrn,
+    e_err,
 };
-
 
 // -----------------
 // FixedStructReader
@@ -197,8 +210,7 @@ pub type ResultFixedStructReaderScoreFileError = ResultFixedStructReaderScoreFil
 /// [`preprocess_fixedstructtype`]: FixedStructReader::preprocess_fixedstructtype
 /// [`preprocess_timevalues`]: FixedStructReader::preprocess_timevalues
 /// [`process_entry_at`]: FixedStructReader::process_entry_at
-pub struct FixedStructReader
-{
+pub struct FixedStructReader {
     pub(crate) blockreader: BlockReader,
     fixedstruct_type: FixedStructType,
     filetype_fixedstruct: FileTypeFixedStruct,
@@ -273,8 +285,7 @@ pub struct FixedStructReader
     error: Option<String>,
 }
 
-impl fmt::Debug for FixedStructReader
-{
+impl fmt::Debug for FixedStructReader {
     fn fmt(
         &self,
         f: &mut fmt::Formatter,
@@ -317,8 +328,7 @@ pub struct SummaryFixedStructReader {
 }
 
 /// Implement the FixedStructReader.
-impl FixedStructReader
-{
+impl FixedStructReader {
     /// Create a new `FixedStructReader`.
     ///
     /// **NOTE:** this `new()` calls [`BlockerReader.read_block`],
@@ -341,9 +351,7 @@ impl FixedStructReader
             "({:?}, filetype={:?}, blocksz={:?}, {:?}, {:?}, {:?})",
             path, filetype, blocksz, tz_offset, dt_filter_after, dt_filter_before,
         );
-        let mut blockreader = match BlockReader::new(
-            path.clone(), filetype, blocksz
-        ) {
+        let mut blockreader = match BlockReader::new(path.clone(), filetype, blocksz) {
             Ok(blockreader_) => blockreader_,
             Err(err) => {
                 def1x!("return Err {}", err);
@@ -355,12 +363,10 @@ impl FixedStructReader
             FileType::FixedStruct { archival_type: _, fixedstruct_type: type_ } => type_,
             _ => {
                 debug_panic!("Unexpected FileType: {:?}", filetype);
-                return ResultFixedStructReaderNew::FileErrIo(
-                    Error::new(
-                        ErrorKind::InvalidData,
-                        format!("Unexpected FileType {:?}", filetype),
-                    )
-                );
+                return ResultFixedStructReaderNew::FileErrIo(Error::new(
+                    ErrorKind::InvalidData,
+                    format!("Unexpected FileType {:?}", filetype),
+                ));
             }
         };
 
@@ -462,10 +468,7 @@ impl FixedStructReader
                 first_entry_fileoffset = *fo;
             }
         }
-        debug_assert_ne!(
-            first_entry_fileoffset, blockreader.filesz(),
-            "failed to update first_entry_fileoffset"
-        );
+        debug_assert_ne!(first_entry_fileoffset, blockreader.filesz(), "failed to update first_entry_fileoffset");
 
         // create a mapping of blocks to not-yet-processed entries
         // later on, this will be used to proactively drop blocks
@@ -476,13 +479,16 @@ impl FixedStructReader
             let fo_end: FileOffset = *fo + fixedstruct_type.size() as FileOffset;
             let bo_end: BlockOffset = BlockReader::block_offset_at_file_offset(fo_end, blocksz);
             def1o!("blocksz = {}", blocksz);
-            for bo in bo_beg..bo_end+1 {
+            for bo in bo_beg..bo_end + 1 {
                 match block_use_count.get_mut(&bo) {
                     Some(count) => {
                         let count_ = *count + 1;
                         def1o!(
                             "block_use_count[{}] += 1 ({}); [{}‥{}]; total span [{}‥{})",
-                            bo, count_, *fo, fo_end,
+                            bo,
+                            count_,
+                            *fo,
+                            fo_end,
                             BlockReader::file_offset_at_block_offset(bo_beg, blocksz),
                             BlockReader::file_offset_at_block_offset(bo_end + 1, blocksz),
                         );
@@ -491,7 +497,9 @@ impl FixedStructReader
                     None => {
                         def1o!(
                             "block_use_count[{}] = 1; [{}‥{}]; total span [{}‥{})",
-                            bo, *fo, fo_end,
+                            bo,
+                            *fo,
+                            fo_end,
                             BlockReader::file_offset_at_block_offset(bo_beg, blocksz),
                             BlockReader::file_offset_at_block_offset(bo_end + 1, blocksz),
                         );
@@ -505,7 +513,8 @@ impl FixedStructReader
             for (bo, count) in block_use_count.iter() {
                 def1o!(
                     "block_use_count[{}] = {}; total span [{}‥{}]",
-                    bo, count,
+                    bo,
+                    count,
                     BlockReader::file_offset_at_block_offset(*bo, blocksz),
                     BlockReader::file_offset_at_block_offset(*bo + 1, blocksz),
                 );
@@ -514,8 +523,7 @@ impl FixedStructReader
 
         let map_max_len = map_tvpair_fo.len();
         // now that the `fixedstruct_type` is known, create the FixedStructReader
-        let mut fixedstructreader = FixedStructReader
-        {
+        let mut fixedstructreader = FixedStructReader {
             blockreader,
             fixedstruct_type,
             filetype_fixedstruct,
@@ -550,11 +558,14 @@ impl FixedStructReader
             //       `FixedStruct`. However, the maximum number of `FixedStruct` entries
             //       created and then discarded will be very few so this is a marginal
             //       improvement.
-            match FixedStruct::from_fixedstructptr(
-                fo, &tz_offset, fixedstructptr
-            ) {
+            match FixedStruct::from_fixedstructptr(fo, &tz_offset, fixedstructptr) {
                 Ok(fixedstruct) => {
-                    if fixedstructreader.map_tvpair_fo.iter().find(|(_tv_pair, fo2)| &fo == *fo2).is_some() {
+                    if fixedstructreader
+                        .map_tvpair_fo
+                        .iter()
+                        .find(|(_tv_pair, fo2)| &fo == *fo2)
+                        .is_some()
+                    {
                         def1o!("insert entry at fo {}", fo);
                         fixedstructreader.insert_cache_entry(fixedstruct);
                     } else {
@@ -562,8 +573,7 @@ impl FixedStructReader
                     }
                 }
                 Err(err) => {
-                    de_err!("FixedStruct::from_fixedstructptr Error {}; file {:?}",
-                            err, fixedstructreader.path());
+                    de_err!("FixedStruct::from_fixedstructptr Error {}; file {:?}", err, fixedstructreader.path());
                     fixedstructreader.set_error(&err);
                 }
             }
@@ -715,7 +725,7 @@ impl FixedStructReader
     /// Return the `FileOffset` that is adjusted to the beginning offset of
     /// a `fixedstruct` entry.
     #[inline(always)]
-    pub const fn fileoffset_to_fixedstructoffset (
+    pub const fn fileoffset_to_fixedstructoffset(
         &self,
         fileoffset: FileOffset,
     ) -> FileOffset {
@@ -726,7 +736,11 @@ impl FixedStructReader
     /// entry as sorted by `tv_pair_type` (datetime); i.e. the earliest entry.
     /// Ties are broken by `FileOffset`.
     pub fn fileoffset_first(&self) -> Option<FileOffset> {
-        match self.map_tvpair_fo.iter().min_by_key(|(tv_pair, fo)| (*tv_pair, *fo)) {
+        match self
+            .map_tvpair_fo
+            .iter()
+            .min_by_key(|(tv_pair, fo)| (*tv_pair, *fo))
+        {
             Some((_tv_pair, fo_)) => Some(*fo_),
             None => None,
         }
@@ -816,9 +830,7 @@ impl FixedStructReader
         // update some stats and (most importantly) `self.cache_entries`
         self.cache_entries
             .insert(fo_beg, entry);
-        self.entries_stored_highest = std::cmp::max(
-            self.entries_stored_highest, self.cache_entries.len()
-        );
+        self.entries_stored_highest = std::cmp::max(self.entries_stored_highest, self.cache_entries.len());
         self.entries_processed += 1;
         defo!("entries_processed = {}", self.entries_processed);
 
@@ -980,10 +992,7 @@ impl FixedStructReader
         #[cfg(debug_assertions)]
         {
             for (fixedstructtype, bonus) in types_to_bonus.iter() {
-                def1o!(
-                    "types_to_bonus: ({:<30?}, {:2}) size {}",
-                    fixedstructtype, bonus, fixedstructtype.size(),
-                );
+                def1o!("types_to_bonus: ({:<30?}, {:2}) size {}", fixedstructtype, bonus, fixedstructtype.size(),);
             }
         }
         // allocate largest possible buffer needed on the stack
@@ -1027,12 +1036,7 @@ impl FixedStructReader
                 // See https://godbolt.org/z/KcxW9hWYb
                 buffer.iter_mut().for_each(|m| *m = 0);
                 // read data into buffer
-                let buffer_read: usize = match blockreader.read_data_to_buffer(
-                    fo,
-                    fo_end,
-                    oneblock,
-                    &mut buffer,
-                ) {
+                let buffer_read: usize = match blockreader.read_data_to_buffer(fo, fo_end, oneblock, &mut buffer) {
                     ResultReadDataToBuffer::Found(buffer_read) => buffer_read,
                     ResultReadDataToBuffer::Err(err) => {
                         def1x!("return Err");
@@ -1046,7 +1050,8 @@ impl FixedStructReader
                 if buffer_read < utmp_sz {
                     def1o!(
                         "read_data_to_buffer read bytes {} < {} requested fixedstruct size bytes; break",
-                        buffer_read, utmp_sz,
+                        buffer_read,
+                        utmp_sz,
                     );
                     break;
                 }
@@ -1061,7 +1066,8 @@ impl FixedStructReader
                     None => {
                         def1o!(
                             "buffer_to_fixedstructptr(buf len {}, {:?}) returned None; continue",
-                            buffer.len(), fixedstructtype,
+                            buffer.len(),
+                            fixedstructtype,
                         );
                         continue;
                     }
@@ -1069,24 +1075,17 @@ impl FixedStructReader
                 count_found_entries += 1;
                 // score the newly create fixedstruct
                 let score: Score = FixedStruct::score_fixedstruct(&fixedstructptr, bonus);
-                def1o!("score {} for entry type {:?} @[{}‥{}]",
-                       score, fixedstructptr.fixedstruct_type(), fo2, fo_end);
+                def1o!("score {} for entry type {:?} @[{}‥{}]", score, fixedstructptr.fixedstruct_type(), fo2, fo_end);
                 // update the high score
                 let _fs_type: FixedStructType = fixedstructptr.fixedstruct_type();
                 found_entries.push_back((fo2, fixedstructptr));
                 if score <= high_score {
-                    def1o!(
-                        "score {} ({:?}) not higher than high score {}",
-                        score,
-                        _fs_type,
-                        high_score,
-                    );
+                    def1o!("score {} ({:?}) not higher than high score {}", score, _fs_type, high_score,);
                     // score is not higher than high score so continue
                     continue;
                 }
                 // there is a new high score for this type
-                def1o!("new high score {} for entry type {:?} @[{}‥{}]",
-                       score, _fs_type, fo2, fo_end);
+                def1o!("new high score {} for entry type {:?} @[{}‥{}]", score, _fs_type, fo2, fo_end);
                 high_score = score;
             }
             // finished with that fixedstructtype
@@ -1152,8 +1151,7 @@ impl FixedStructReader
         blockreader: &mut BlockReader,
         filetype_fixedstruct: &FileTypeFixedStruct,
         oneblock: bool,
-    ) -> ResultFixedStructReaderScoreFileError
-    {
+    ) -> ResultFixedStructReaderScoreFileError {
         def1n!("({:?}, oneblock={})", filetype_fixedstruct, oneblock);
 
         // short-circuit special case of empty file
@@ -1196,8 +1194,7 @@ impl FixedStructReader
         fixedstruct_type: FixedStructType,
         dt_filter_after: &DateTimeLOpt,
         dt_filter_before: &DateTimeLOpt,
-    ) -> ResultTvFo
-    {
+    ) -> ResultTvFo {
         defn!();
         // allocate largest possible buffer needed on the stack
         let mut buffer: [u8; TIMEVAL_SZ_MAX] = [0; TIMEVAL_SZ_MAX];
@@ -1235,12 +1232,7 @@ impl FixedStructReader
             // 2. jump to each offset, grab datetime bytes,
             let beg: FileOffset = fo + tv_offset as FileOffset;
             let end: FileOffset = beg + tv_sz as FileOffset;
-            match blockreader.read_data_to_buffer(
-                beg,
-                end,
-                false,
-                slice_,
-            ) {
+            match blockreader.read_data_to_buffer(beg, end, false, slice_) {
                 ResultReadDataToBuffer::Found(_readn) => {
                     defo!("read {} bytes at fileoffset {}", _readn, beg);
                     debug_assert_eq!(
@@ -1259,9 +1251,7 @@ impl FixedStructReader
                 }
             }
             // 3. convert bytes to tv_sec, tv_usec
-            let tv_pair: tv_pair_type = match fixedstruct_type.tv_pair_from_buffer(
-                slice_,
-            ) {
+            let tv_pair: tv_pair_type = match fixedstruct_type.tv_pair_from_buffer(slice_) {
                 Some(pair) => pair,
                 None => {
                     de_err!("invalid entry at fileoffset {}", fo);
@@ -1283,7 +1273,9 @@ impl FixedStructReader
                         out_of_order += 1;
                         defo!(
                             "out_of_order = {}; tv_pair = {:?}, tv_pair_prev = {:?}",
-                            out_of_order, tv_pair, tv_pair_prev,
+                            out_of_order,
+                            tv_pair,
+                            tv_pair_prev,
                         );
                     }
                 }
@@ -1319,9 +1311,7 @@ impl FixedStructReader
         // 6. return list of valid entries
         defx!("map_tv_pair_fo len {}", map_tv_pair_fo.len());
 
-        ResultTvFo::Ok(
-            (total_entries, invalid, valid_no_pass_filter, out_of_order, map_tv_pair_fo)
-        )
+        ResultTvFo::Ok((total_entries, invalid, valid_no_pass_filter, out_of_order, map_tv_pair_fo))
     }
 
     /// Process the data at FileOffset `fo`. Transform it into a `FixedStruct`
@@ -1335,23 +1325,19 @@ impl FixedStructReader
     /// This function does the bulk of file processing after the
     /// `FixedStructReader` has been initialized during
     /// [`FixedStructReader::new`].
-    pub fn process_entry_at(&mut self, fo: FileOffset, buffer: &mut [u8])
-        -> ResultFindFixedStruct
-    {
+    pub fn process_entry_at(
+        &mut self,
+        fo: FileOffset,
+        buffer: &mut [u8],
+    ) -> ResultFindFixedStruct {
         defn!("({})", fo);
 
         let sz: FileOffset = self.fixedstruct_size_fo();
-        debug_assert_eq!(
-            fo % sz, 0,
-            "fileoffset {} not multiple of {}", fo, sz,
-        );
+        debug_assert_eq!(fo % sz, 0, "fileoffset {} not multiple of {}", fo, sz,);
         let fileoffset: FileOffset = fo - (fo % sz);
 
         if fileoffset >= self.filesz() {
-            defx!(
-                "return ResultFindFixedStruct::Done; fileoffset {} >= filesz {}",
-                fileoffset, self.filesz()
-            );
+            defx!("return ResultFindFixedStruct::Done; fileoffset {} >= filesz {}", fileoffset, self.filesz());
             return ResultFindFixedStruct::Done;
         }
 
@@ -1375,10 +1361,7 @@ impl FixedStructReader
                     break;
                 }
                 if &fileoffset == fo_at {
-                    defo!(
-                        "found fileoffset {} with key {:?} in map_tvpair_fo",
-                        fileoffset, tv_pair_at,
-                    );
+                    defo!("found fileoffset {} with key {:?} in map_tvpair_fo", fileoffset, tv_pair_at,);
                     tv_pair_at_opt = Some(*tv_pair_at);
                     next_pair = true;
                 }
@@ -1386,11 +1369,9 @@ impl FixedStructReader
             // remove the `tv_pair` from `map_tvpair_fo`
             match tv_pair_at_opt {
                 Some(tv_pair_at) => {
-                    self.map_tvpair_fo.remove(&tv_pair_at);
-                    defo!(
-                        "remove tv_pair {:?}; map_tvpair_fo size {}",
-                        tv_pair_at, self.map_tvpair_fo.len()
-                    );
+                    self.map_tvpair_fo
+                        .remove(&tv_pair_at);
+                    defo!("remove tv_pair {:?}; map_tvpair_fo size {}", tv_pair_at, self.map_tvpair_fo.len());
                 }
                 None => {
                     defo!("no map_tvpair_fo found!");
@@ -1406,10 +1387,7 @@ impl FixedStructReader
             self.dt_first_last_update(fixedstruct.dt());
             // try to drop blocks associated with the entry
             self.drop_entry(&fixedstruct);
-            defx!(
-                "remove_cache_entry found fixedstruct at fileoffset {}; return Found({}, …)",
-                fileoffset, fo_next,
-            );
+            defx!("remove_cache_entry found fixedstruct at fileoffset {}; return Found({}, …)", fileoffset, fo_next,);
             return ResultFindFixedStruct::Found((fo_next, fixedstruct));
         }
 
@@ -1427,7 +1405,7 @@ impl FixedStructReader
                         "buffer size {} less than fixedstruct size {} at fileoffset {}, file {:?}",
                         buffer.len(), sz, fileoffset, self.path(),
                     ),
-                )
+                ),
             ));
         }
 
@@ -1437,12 +1415,10 @@ impl FixedStructReader
         slice_.iter_mut().for_each(|m| *m = 0);
 
         // read raw bytes into the slice
-        let _readn = match self.blockreader.read_data_to_buffer(
-            fileoffset,
-            fileoffset + sz,
-            false,
-            slice_,
-        ) {
+        let _readn = match self
+            .blockreader
+            .read_data_to_buffer(fileoffset, fileoffset + sz, false, slice_)
+        {
             ResultReadDataToBuffer::Found(val) => val,
             ResultReadDataToBuffer::Done => {
                 defx!("return ResultFindFixedStruct::Done; read_data_to_buffer returned Done");

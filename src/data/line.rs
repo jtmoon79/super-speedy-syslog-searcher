@@ -4,17 +4,6 @@
 
 #![allow(non_camel_case_types)]
 
-#[doc(hidden)]
-use crate::common::{Count, FileOffset};
-#[doc(hidden)]
-#[cfg(any(debug_assertions, test))]
-use crate::common::Bytes;
-use crate::readers::blockreader::{BlockIndex, BlockOffset, BlockP, BlockReader, BlockSz};
-#[cfg(any(debug_assertions, test))]
-use crate::readers::blockreader::Slices;
-#[cfg(any(debug_assertions, test))]
-use crate::debug::printers::{buffer_to_String_noraw, char_to_char_noraw, e_err};
-
 #[cfg(any(debug_assertions, test))]
 use std::borrow::Cow;
 use std::fmt;
@@ -22,12 +11,50 @@ use std::fmt;
 use std::io::prelude::*;
 use std::sync::Arc;
 
-#[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, defñ, den, deo, dex, deñ};
 use ::more_asserts::{
-    assert_ge, assert_gt, assert_le, assert_lt, debug_assert_gt, debug_assert_le, debug_assert_lt,
+    assert_ge,
+    assert_gt,
+    assert_le,
+    assert_lt,
+    debug_assert_gt,
+    debug_assert_le,
+    debug_assert_lt,
+};
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+    den,
+    deo,
+    dex,
+    deñ,
 };
 
+#[doc(hidden)]
+#[cfg(any(debug_assertions, test))]
+use crate::common::Bytes;
+#[doc(hidden)]
+use crate::common::{
+    Count,
+    FileOffset,
+};
+#[cfg(any(debug_assertions, test))]
+use crate::debug::printers::{
+    buffer_to_String_noraw,
+    char_to_char_noraw,
+    e_err,
+};
+#[cfg(any(debug_assertions, test))]
+use crate::readers::blockreader::Slices;
+use crate::readers::blockreader::{
+    BlockIndex,
+    BlockOffset,
+    BlockP,
+    BlockReader,
+    BlockSz,
+};
 
 /// A sequence of [`LinePart`] that make up a [`Line`].
 /// A `Line` may span multiple [`Block`s]. One `LinePart` refers to bytes

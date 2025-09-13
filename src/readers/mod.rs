@@ -5,7 +5,7 @@
 //! ## Overview of readers
 //!
 //! ### Reading log and syslog files
-//! 
+//!
 //! * A [`SyslogProcessor`] drives a [`SyslineReader`] to derive [`Sysline`s].
 //! * A `SyslineReader` drives a [`LineReader`] to derive [`Line`s].
 //! * A `LineReader` drives a [`BlockReader`] to derive [`Block`s].
@@ -79,10 +79,10 @@ pub mod blockreader;
 pub mod evtxreader;
 pub mod filedecompressor;
 pub mod filepreprocessor;
+pub mod fixedstructreader;
 pub mod helpers;
 pub mod journalreader;
 pub mod linereader;
 pub mod summary;
 pub mod syslinereader;
 pub mod syslogprocessor;
-pub mod fixedstructreader;
