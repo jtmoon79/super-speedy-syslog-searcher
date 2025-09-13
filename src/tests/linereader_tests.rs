@@ -32,7 +32,7 @@ use crate::readers::helpers::randomize;
 use crate::data::line::{LineIndex, LineP, LinePartPtrs};
 use crate::readers::linereader::{
     LineReader,
-    ResultS3LineFind,
+    ResultFindLine,
     SummaryLineReader,
 };
 use crate::debug::helpers::{create_temp_file, ntf_fpath};
@@ -48,17 +48,17 @@ use ::si_trace_print::stack::{sn, so, stack_offset_set, sx};
 use ::test_case::test_case;
 
 
-/// dummy version of `ResultS3LineFind` for asserting return enum of `LineReader::find_line`
+/// dummy version of `ResultFindLine` for asserting return enum of `LineReader::find_line`
 #[allow(non_camel_case_types)]
 #[derive(Debug, Eq, PartialEq)]
-enum ResultS3LineFind_Test {
+enum ResultFindLine_Test {
     Found,
     Done,
 }
 
 // helpful abbreviations
-const RS3T_DONE: ResultS3LineFind_Test = ResultS3LineFind_Test::Done;
-const RS3T_FOUND: ResultS3LineFind_Test = ResultS3LineFind_Test::Found;
+const RS3T_DONE: ResultFindLine_Test = ResultFindLine_Test::Done;
+const RS3T_FOUND: ResultFindLine_Test = ResultFindLine_Test::Found;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -133,10 +133,10 @@ fn process_LineReader(lr1: &mut LineReader) {
         defo!("fileoffset {}", fo1);
         let result = lr1.find_line(fo1);
         match result {
-            ResultS3LineFind::Found((fo, lp)) => {
+            ResultFindLine::Found((fo, lp)) => {
                 let count = lr1.count_lines_processed();
                 defo!(
-                    "ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
+                    "ResultFindLine::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     fo,
                     count,
                     &*lp,
@@ -146,12 +146,12 @@ fn process_LineReader(lr1: &mut LineReader) {
                 fo1 = fo;
                 (*lp).print(false);
             }
-            ResultS3LineFind::Done => {
-                defo!("ResultS3LineFind::Done!");
+            ResultFindLine::Done => {
+                defo!("ResultFindLine::Done!");
                 break;
             }
-            ResultS3LineFind::Err(err) => {
-                defo!("ResultS3LineFind::Err {}", err);
+            ResultFindLine::Err(err) => {
+                defo!("ResultFindLine::Err {}", err);
                 panic!("ERROR: {}", err);
             }
         }
@@ -265,10 +265,10 @@ fn find_line_all(
         eprintln!("{}LineReader.find_line({})", so(), fo1);
         let result = linereader.find_line(*fo1);
         match result {
-            ResultS3LineFind::Found((fo, lp)) => {
+            ResultFindLine::Found((fo, lp)) => {
                 let _ln = linereader.count_lines_processed();
                 eprintln!(
-                    "{}ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
+                    "{}ResultFindLine::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
                     _ln,
@@ -277,11 +277,11 @@ fn find_line_all(
                     (*lp).to_String_noraw()
                 );
             }
-            ResultS3LineFind::Done => {
-                eprintln!("{}ResultS3LineFind::Done!", so());
+            ResultFindLine::Done => {
+                eprintln!("{}ResultFindLine::Done!", so());
             }
-            ResultS3LineFind::Err(err) => {
-                eprintln!("{}ResultS3LineFind::Err {}", so(), err);
+            ResultFindLine::Err(err) => {
+                eprintln!("{}ResultFindLine::Err {}", so(), err);
                 panic!("ERROR: find_line({:?}) {:?}", fo1, err);
             }
         }
@@ -1208,10 +1208,10 @@ fn find_line_in_block_all(
         defo!("LineReader.find_line_in_block({})", fo1);
         let result = linereader.find_line_in_block(*fo1);
         match result {
-            (ResultS3LineFind::Found((fo, lp)), partial) => {
+            (ResultFindLine::Found((fo, lp)), partial) => {
                 let _ln = linereader.count_lines_processed();
                 defo!(
-                    "ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
+                    "ResultFindLine::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     fo,
                     _ln,
                     &*lp,
@@ -1220,11 +1220,11 @@ fn find_line_in_block_all(
                 );
                 assert!(partial.is_none());
             }
-            (ResultS3LineFind::Done, partial) => {
-                defo!("ResultS3LineFind::Done! partial {:?}", partial);
+            (ResultFindLine::Done, partial) => {
+                defo!("ResultFindLine::Done! partial {:?}", partial);
             }
-            (ResultS3LineFind::Err(err), _) => {
-                defo!("ResultS3LineFind::Err {}", err);
+            (ResultFindLine::Err(err), _) => {
+                defo!("ResultFindLine::Err {}", err);
                 panic!("ERROR: find_line({:?}) {:?}", fo1, err);
             }
         }
@@ -1339,7 +1339,7 @@ fn test_find_line_in_block_all_5_4() {
 
 // -------------------------------------------------------------------------------------------------
 
-type TestFindLineInBlockCheck = Vec<(FileOffset, (ResultS3LineFind_Test, Option<&'static str>), String)>;
+type TestFindLineInBlockCheck = Vec<(FileOffset, (ResultFindLine_Test, Option<&'static str>), String)>;
 
 /// test `LineReader::find_line_in_block` reads passed file offsets
 #[allow(non_snake_case)]
@@ -1368,10 +1368,10 @@ fn test_find_line_in_block(
         eprintln!("{}LineReader.find_line_in_block({})", so(), fo_in);
         let result = lr1.find_line_in_block(*fo_in);
         match result {
-            (ResultS3LineFind::Found((fo, lp)), partial_actual) => {
+            (ResultFindLine::Found((fo, lp)), partial_actual) => {
                 let _ln = lr1.count_lines_processed();
                 eprintln!(
-                    "{}ResultS3LineFind::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
+                    "{}ResultFindLine::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
                     _ln,
@@ -1389,8 +1389,8 @@ fn test_find_line_in_block(
                 assert!(partial_actual.is_none(), "unexpected partial for result Found");
                 assert!(partial_expect.is_none(), "bad test check for partial");
             }
-            (ResultS3LineFind::Done, partial_actual) => {
-                eprintln!("{}ResultS3LineFind::Done, {:?}", so(), partial_actual);
+            (ResultFindLine::Done, partial_actual) => {
+                eprintln!("{}ResultFindLine::Done, {:?}", so(), partial_actual);
                 assert_eq!(
                     &"",
                     &str_expect.as_str(),
@@ -1417,8 +1417,8 @@ fn test_find_line_in_block(
                     }
                 }
             }
-            (ResultS3LineFind::Err(err), _) => {
-                eprintln!("{}ResultS3LineFind::Err {}", so(), err);
+            (ResultFindLine::Err(err), _) => {
+                eprintln!("{}ResultFindLine::Err {}", so(), err);
                 panic!("ERROR: find_line_in_block({:?}) {:?}", fo_in, err);
             }
         }
@@ -1620,14 +1620,14 @@ fn test_Line_get_boxptrs(
     let mut fo: FileOffset = 0;
     loop {
         match lr.find_line(fo) {
-            ResultS3LineFind::Found((fo_, _)) => {
+            ResultFindLine::Found((fo_, _)) => {
                 fo = fo_;
             }
-            ResultS3LineFind::Done => {
+            ResultFindLine::Done => {
                 break;
             }
-            ResultS3LineFind::Err(err) => {
-                panic!("LineReader::new({:?}, {:?}) ResultS3LineFind::Err {}", path, blocksz, err);
+            ResultFindLine::Err(err) => {
+                panic!("LineReader::new({:?}, {:?}) ResultFindLine::Err {}", path, blocksz, err);
             }
         }
     }
@@ -1991,14 +1991,14 @@ fn test_SummaryLineReader(
     let mut fo: FileOffset = 0;
     loop {
         match lr.find_line(fo) {
-            ResultS3LineFind::Found((fo_, _)) => {
+            ResultFindLine::Found((fo_, _)) => {
                 fo = fo_;
             }
-            ResultS3LineFind::Done => {
+            ResultFindLine::Done => {
                 break;
             }
-            ResultS3LineFind::Err(err) => {
-                panic!("LineReader::new({:?}, {:?}) ResultS3LineFind::Err {}", path, blocksz, err);
+            ResultFindLine::Err(err) => {
+                panic!("LineReader::new({:?}, {:?}) ResultFindLine::Err {}", path, blocksz, err);
             }
         }
     }

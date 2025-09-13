@@ -39,7 +39,7 @@ use crate::readers::summary::SummaryReaderData;
 use crate::readers::syslinereader::{
     DateTimePatternCounts,
     SummarySyslineReader,
-    ResultS3SyslineFind,
+    ResultFindSysline,
 };
 use crate::readers::syslogprocessor::{
     FileProcessingResultBlockZero,
@@ -674,13 +674,13 @@ fn test_find_sysline() {
     loop {
         let result = slp.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+            ResultFindSysline::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("Error {}", err);
             }
         }
@@ -693,11 +693,11 @@ fn test_find_sysline_between_datetime_filters_Found() {
 
     let result = slp.find_sysline_between_datetime_filters(0);
     match result {
-        ResultS3SyslineFind::Found((_fo, _syslinep)) => {}
-        ResultS3SyslineFind::Done => {
+        ResultFindSysline::Found((_fo, _syslinep)) => {}
+        ResultFindSysline::Done => {
             panic!("Unexpected Done");
         }
-        ResultS3SyslineFind::Err(err) => {
+        ResultFindSysline::Err(err) => {
             panic!("Error {}", err);
         }
     }
@@ -710,11 +710,11 @@ fn test_find_sysline_between_datetime_filters_Done() {
 
     let result = slp.find_sysline_between_datetime_filters(fo);
     match result {
-        ResultS3SyslineFind::Found((_fo, _syslinep)) => {
+        ResultFindSysline::Found((_fo, _syslinep)) => {
             panic!("Unexpected Found");
         }
-        ResultS3SyslineFind::Done => {}
-        ResultS3SyslineFind::Err(err) => {
+        ResultFindSysline::Done => {}
+        ResultFindSysline::Err(err) => {
             panic!("Error {}", err);
         }
     }
@@ -920,7 +920,7 @@ fn test_process_stages_0to5(
         defo!("check_counter {}, slp.find_sysline({})", check_counter, fo);
         let result = slp.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, syslinep)) => {
+            ResultFindSysline::Found((fo_, syslinep)) => {
                 fo = fo_;
                 assert_eq!(
                     checks[check_counter],
@@ -929,10 +929,10 @@ fn test_process_stages_0to5(
                     check_counter,
                 );
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("Error {}", err);
             }
         }
@@ -1025,11 +1025,11 @@ fn test_process_stage0to3_drop_data(
     }
 
     match slp.find_sysline_between_datetime_filters(0) {
-        ResultS3SyslineFind::Found(_) => {}
-        ResultS3SyslineFind::Done => {
+        ResultFindSysline::Found(_) => {}
+        ResultFindSysline::Done => {
             panic!("Unexpected Done");
         }
-        ResultS3SyslineFind::Err(err) => {
+        ResultFindSysline::Err(err) => {
             panic!(
                 "ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
                 path, err
@@ -1049,15 +1049,15 @@ fn test_process_stage0to3_drop_data(
     let mut syslinep_last_opt: Option<SyslineP> = None;
     loop {
         match slp.find_sysline(fo) {
-            ResultS3SyslineFind::Found((fo_, syslinep)) => {
+            ResultFindSysline::Found((fo_, syslinep)) => {
                 fo = fo_;
                 if let Some(syslinep_) = syslinep_last_opt {
                     slp.drop_data_try(&syslinep_);
                 }
                 syslinep_last_opt = Some(syslinep);
             }
-            ResultS3SyslineFind::Done => break,
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Done => break,
+            ResultFindSysline::Err(err) => {
                 panic!(
                     "ERROR: SyslogProcessor.find_sysline({}) Path {:?} Error {}",
                     fo, path, err
@@ -1103,13 +1103,13 @@ fn test_datetime_parse_datas_compiled_count(
     let mut fo: FileOffset = 0;
     loop {
         match syslogprocessor.find_sysline(fo) {
-            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+            ResultFindSysline::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("Error {}", err);
             }
         }
@@ -1232,13 +1232,13 @@ fn test_Reader_summary(
     loop {
         let result = syslogprocessor.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+            ResultFindSysline::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("Error {}", err);
             }
         }

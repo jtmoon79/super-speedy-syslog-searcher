@@ -107,9 +107,8 @@ lazy_static! {
 ///
 /// [`Result`]: std::result::Result
 /// [Readers]: crate::readers
-// TODO: rename from `ResultS3` to `ResultFind`
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub enum ResultS3<T, E> {
+pub enum ResultFind<T, E> {
     /// Contains the found data.
     Found(T),
     /// File is empty, or a request reached the end of the file or beyond the
@@ -124,32 +123,32 @@ pub enum ResultS3<T, E> {
 // XXX: ripped from '\.rustup\toolchains\beta-x86_64-pc-windows-msvc\lib\rustlib\src\rust\library\core\src\result.rs'
 //      https://doc.rust-lang.org/src/core/result.rs.html#501-659
 
-impl<T, E> ResultS3<T, E> {
+impl<T, E> ResultFind<T, E> {
     // Querying the contained values
 
     /// Returns `true` if the result is [`Found`], [`Done`].
     ///
-    /// [`Found`]: self::ResultS3#variant.Found
-    /// [`Done`]: self::ResultS3#variant.Done
-    /// [`Err`]: self::ResultS3#variant.Err
+    /// [`Found`]: self::ResultFind#variant.Found
+    /// [`Done`]: self::ResultFind#variant.Done
+    /// [`Err`]: self::ResultFind#variant.Err
     #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is ok, consider `.unwrap()` instead"]
     #[inline(always)]
     pub const fn is_ok(&self) -> bool {
-        matches!(*self, ResultS3::Found(_) | ResultS3::Done)
+        matches!(*self, ResultFind::Found(_) | ResultFind::Done)
     }
 
     /// Returns `true` if the result is [`Found`].
     ///
-    /// [`Found`]: self::ResultS3#variant.Found
+    /// [`Found`]: self::ResultFind#variant.Found
     #[inline(always)]
     pub const fn is_found(&self) -> bool {
-        matches!(*self, ResultS3::Found(_))
+        matches!(*self, ResultFind::Found(_))
     }
 
     /// Returns `true` if the result is [`Err`].
     ///
-    /// [`Err`]: self::ResultS3#variant.Err
+    /// [`Err`]: self::ResultFind#variant.Err
     #[allow(dead_code)]
     #[must_use = "if you intended to assert that this is err, consider `.unwrae_err()` instead"]
     #[inline(always)]
@@ -159,16 +158,16 @@ impl<T, E> ResultS3<T, E> {
 
     /// Returns `true` if the result is [`Done`].
     ///
-    /// [`Done`]: self::ResultS3#variant.Done
+    /// [`Done`]: self::ResultFind#variant.Done
     #[inline(always)]
     pub const fn is_done(&self) -> bool {
-        matches!(*self, ResultS3::Done)
+        matches!(*self, ResultFind::Done)
     }
 
     /// Returns `true` if the result is an [`Found`] value containing the given
     /// value.
     ///
-    /// [`Found`]: self::ResultS3#variant.Found
+    /// [`Found`]: self::ResultFind#variant.Found
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
@@ -180,16 +179,16 @@ impl<T, E> ResultS3<T, E> {
         U: PartialEq<T>,
     {
         match self {
-            ResultS3::Found(y) => x == y,
-            ResultS3::Done => false,
-            ResultS3::Err(_) => false,
+            ResultFind::Found(y) => x == y,
+            ResultFind::Done => false,
+            ResultFind::Err(_) => false,
         }
     }
 
     /// Returns `true` if the result is an [`Err`] value containing the given
     /// value.
     ///
-    /// [`Err`]: self::ResultS3#variant.Err
+    /// [`Err`]: self::ResultFind#variant.Err
     #[allow(dead_code)]
     #[must_use]
     #[inline(always)]
@@ -201,14 +200,14 @@ impl<T, E> ResultS3<T, E> {
         F: PartialEq<E>,
     {
         match self {
-            ResultS3::Err(e) => f == e,
+            ResultFind::Err(e) => f == e,
             _ => false,
         }
     }
 
     // Adapter for each variant
 
-    /// Converts from `ResultS3<T, E>` to [`Option<T>`].
+    /// Converts from `ResultFind<T, E>` to [`Option<T>`].
     ///
     /// Converts `self` into an [`Option<T>`], consuming `self`,
     /// and discarding the error, if any.
@@ -216,13 +215,13 @@ impl<T, E> ResultS3<T, E> {
     #[inline(always)]
     pub fn ok(self) -> Option<T> {
         match self {
-            ResultS3::Found(x) => Some(x),
-            ResultS3::Done => None,
-            ResultS3::Err(_) => None,
+            ResultFind::Found(x) => Some(x),
+            ResultFind::Done => None,
+            ResultFind::Err(_) => None,
         }
     }
 
-    /// Converts from `ResultS3<T, E>` to [`Option<E>`].
+    /// Converts from `ResultFind<T, E>` to [`Option<E>`].
     ///
     /// Converts `self` into an [`Option<E>`], consuming `self`,
     /// and discarding the success value, if any.
@@ -230,14 +229,14 @@ impl<T, E> ResultS3<T, E> {
     #[inline(always)]
     pub fn err(self) -> Option<E> {
         match self {
-            ResultS3::Found(_) => None,
-            ResultS3::Done => None,
-            ResultS3::Err(x) => Some(x),
+            ResultFind::Found(_) => None,
+            ResultFind::Done => None,
+            ResultFind::Err(x) => Some(x),
         }
     }
 }
 
-impl<T, E> std::fmt::Display for ResultS3<T, E>
+impl<T, E> std::fmt::Display for ResultFind<T, E>
 where
     E: std::fmt::Display,
 {
@@ -246,14 +245,14 @@ where
         f: &mut std::fmt::Formatter<'_>,
     ) -> std::fmt::Result {
         match self {
-            ResultS3::Found(_) => {
-                write!(f, "ResultS3::Found")
+            ResultFind::Found(_) => {
+                write!(f, "ResultFind::Found")
             }
-            ResultS3::Done => {
-                write!(f, "ResultS3::Done")
+            ResultFind::Done => {
+                write!(f, "ResultFind::Done")
             }
-            ResultS3::Err(err) => {
-                write!(f, "ResultS3::Err({})", err)
+            ResultFind::Err(err) => {
+                write!(f, "ResultFind::Err({})", err)
             }
         }
     }

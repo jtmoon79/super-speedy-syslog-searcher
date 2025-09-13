@@ -21,7 +21,7 @@ use crate::common::{
     FileType,
     FPath,
 };
-use crate::common::{File, FileMetadata, FileOpenOptions, ResultS3};
+use crate::common::{File, FileMetadata, FileOpenOptions, ResultFind};
 #[cfg(test)]
 use crate::common::Bytes;
 use crate::data::datetime::{
@@ -114,11 +114,11 @@ pub type BlockP = Arc<Block>;
 /// A sequence of byte slices.
 pub type Slices<'a> = Vec<&'a [u8]>;
 
-/// Helper to `BlockReader::read_block`; create a `ResultS3ReadBlock::Err`
+/// Helper to `BlockReader::read_block`; create a `ResultFindReadBlock::Err`
 /// with an error string that includes the file path
-fn err_from_err_path_results3(error: &Error, path: &FPath, mesg: Option<&str>) -> ResultS3ReadBlock
+fn err_from_err_path_results3(error: &Error, path: &FPath, mesg: Option<&str>) -> ResultFindReadBlock
 {
-    ResultS3ReadBlock::Err(err_from_err_path(error, path, mesg))
+    ResultFindReadBlock::Err(err_from_err_path(error, path, mesg))
 }
 
 /// Map of `BlockOffset` to `BlockP` pointers.
@@ -136,13 +136,13 @@ pub type BlocksTracked = BTreeSet<BlockOffset>;
 /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
 pub type BlocksLRUCache = LruCache<BlockOffset, BlockP>;
 
-/// A typed [`ResultS3`] for function [`BlockReader::read_block`].
+/// A typed [`ResultFind`] for function [`BlockReader::read_block`].
 ///
-/// [`ResultS3`]: crate::common::ResultS3
+/// [`ResultFind`]: crate::common::ResultFind
 /// [`BlockReader::read_block`]: BlockReader::read_block
-// TODO: rename `ResultS3ReadBlock` with `ResultReadBlock`
+// TODO: rename `ResultFindReadBlock` with `ResultReadBlock`
 #[allow(non_upper_case_globals)]
-pub type ResultS3ReadBlock = ResultS3<BlockP, Error>;
+pub type ResultFindReadBlock = ResultFind<BlockP, Error>;
 
 /// Return type for private function `BlockReader::read_data`.
 ///
@@ -166,18 +166,18 @@ pub enum ReadDataParts {
 // TODO: change to a typed `struct ReadData(...)`
 pub type ReadData = (ReadDataParts, BlockIndex, BlockIndex);
 
-/// A typed [`ResultS3`] for private function `BlockReader::read_data`.
+/// A typed [`ResultFind`] for private function `BlockReader::read_data`.
 ///
-/// [`ResultS3`]: crate::common::ResultS3
+/// [`ResultFind`]: crate::common::ResultFind
 #[allow(non_upper_case_globals)]
-pub type ResultReadData = ResultS3<ReadData, Error>;
+pub type ResultReadData = ResultFind<ReadData, Error>;
 
-/// A typed [`ResultS3`] for function [`read_data_to_buffer`].
+/// A typed [`ResultFind`] for function [`read_data_to_buffer`].
 ///
-/// [`ResultS3`]: crate::common::ResultS3
+/// [`ResultFind`]: crate::common::ResultFind
 /// [`read_data_to_buffer`]: BlockReader#method.read_data_to_buffer
 #[allow(non_upper_case_globals)]
-pub type ResultReadDataToBuffer = ResultS3<usize, Error>;
+pub type ResultReadDataToBuffer = ResultFind<usize, Error>;
 
 /// Helper to `BlockReader::read_data_to_buffer` to check buffer length.
 /// In case of error, return from caller function with
@@ -2410,7 +2410,7 @@ impl BlockReader {
     fn read_block_File(
         &mut self,
         blockoffset: BlockOffset,
-    ) -> ResultS3ReadBlock {
+    ) -> ResultFindReadBlock {
         defn!("({})", blockoffset);
         debug_assert!(
             matches!(
@@ -2432,7 +2432,7 @@ impl BlockReader {
             Err(err) => {
                 e_err!("file.SeekFrom(Start({})) {:?} {}", seek, self.path, err);
                 defx!("({}): return Err({})", blockoffset, err);
-                return ResultS3ReadBlock::Err(err);
+                return ResultFindReadBlock::Err(err);
             }
         };
         // here is where the `Block` is created then set with data.
@@ -2447,21 +2447,21 @@ impl BlockReader {
             Err(err) => {
                 e_err!("reader.read_to_end(buffer) {} for file {:?}", err, self.path);
                 defx!("read_block_File({}): return Err({})", blockoffset, err);
-                return ResultS3ReadBlock::Err(err);
+                return ResultFindReadBlock::Err(err);
             }
         };
         self.count_bytes_read += buffer.len() as Count;
         defo!("count_bytes_read={}", self.count_bytes_read);
         if buffer.len() == 0 {
             defx!("read_block_File({}): return Done for file {:?}", blockoffset, self.path);
-            return ResultS3ReadBlock::Done;
+            return ResultFindReadBlock::Done;
         }
         let blockp: BlockP = BlockP::new(buffer);
         self.store_block_in_storage(blockoffset, &blockp);
         self.store_block_in_LRU_cache(blockoffset, &blockp);
         defx!("({}): return Found", blockoffset);
 
-        ResultS3ReadBlock::Found(blockp)
+        ResultFindReadBlock::Found(blockp)
     }
 
     /// Read a block of data from storage for a compressed gzip file
@@ -2473,7 +2473,7 @@ impl BlockReader {
     fn read_block_FileBz2(
         &mut self,
         blockoffset: BlockOffset,
-    ) -> ResultS3ReadBlock {
+    ) -> ResultFindReadBlock {
         defn!("({})", blockoffset);
         debug_assert!(
             matches!(
@@ -2490,7 +2490,7 @@ impl BlockReader {
         // handle special case immediately
         if self.filesz_actual == 0 {
             defx!("filesz 0; return Done");
-            return ResultS3ReadBlock::Done;
+            return ResultFindReadBlock::Done;
         }
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
@@ -2519,7 +2519,7 @@ impl BlockReader {
                         .unwrap()
                         .clone();
                     self.store_block_in_LRU_cache(bo_at, &blockp);
-                    return ResultS3ReadBlock::Found(blockp);
+                    return ResultFindReadBlock::Found(blockp);
                 }
                 bo_at += 1;
                 continue;
@@ -2542,7 +2542,7 @@ impl BlockReader {
             let reader = match self.bz2 {
                 Some(ref mut bz2) => &mut bz2.decoder,
                 None => {
-                    return ResultS3ReadBlock::Err(
+                    return ResultFindReadBlock::Err(
                         Error::new(
                             ErrorKind::InvalidData,
                             format!(
@@ -2581,7 +2581,7 @@ impl BlockReader {
                         if size == 0 {
                             // the `Bz2Decoder` stalled, bail out
                             let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                            return ResultS3ReadBlock::Err(
+                            return ResultFindReadBlock::Err(
                                 Error::new(
                                     ErrorKind::UnexpectedEof,
                                     format!(
@@ -2620,7 +2620,7 @@ impl BlockReader {
             );
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
@@ -2633,7 +2633,7 @@ impl BlockReader {
                 // last block, is blocksz correct?
                 if blocklen_sz > self.blocksz {
                     let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                    return ResultS3ReadBlock::Err(
+                    return ResultFindReadBlock::Err(
                         Error::new(
                             ErrorKind::InvalidData,
                             format!(
@@ -2646,7 +2646,7 @@ impl BlockReader {
             } else if bytes_read != (self.blocksz as usize) {
                 // not last block, is blocksz correct?
                 let byte_at = self.file_offset_at_block_offset_self(bo_at) + (bytes_read as FileOffset);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::InvalidData,
                         format!(
@@ -2678,7 +2678,7 @@ impl BlockReader {
             }
             if bo_at == blockoffset {
                 defx!("({}): return Found", blockoffset);
-                return ResultS3ReadBlock::Found(blockp);
+                return ResultFindReadBlock::Found(blockp);
             }
             bo_at_old = bo_at;
             bo_at += 1;
@@ -2686,7 +2686,7 @@ impl BlockReader {
 
         defx!("({}): return Done", blockoffset);
 
-        ResultS3ReadBlock::Done
+        ResultFindReadBlock::Done
     }
 
     /// Read a block of data from storage for a compressed gzip file
@@ -2703,7 +2703,7 @@ impl BlockReader {
     fn read_block_FileGz(
         &mut self,
         blockoffset: BlockOffset,
-    ) -> ResultS3ReadBlock {
+    ) -> ResultFindReadBlock {
         defn!("({})", blockoffset);
         debug_assert!(
             matches!(
@@ -2720,7 +2720,7 @@ impl BlockReader {
         // handle special case immediately
         if self.filesz_actual == 0 {
             defx!("filesz 0; return Done");
-            return ResultS3ReadBlock::Done;
+            return ResultFindReadBlock::Done;
         }
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
@@ -2751,7 +2751,7 @@ impl BlockReader {
                         .unwrap()
                         .clone();
                     self.store_block_in_LRU_cache(bo_at, &blockp);
-                    return ResultS3ReadBlock::Found(blockp);
+                    return ResultFindReadBlock::Found(blockp);
                 }
                 bo_at += 1;
                 continue;
@@ -2849,7 +2849,7 @@ impl BlockReader {
                             self.file_offset_at_block_offset_self(bo_at) + (bytes_read_actual as FileOffset);
                         // in ad-hoc testing, it was found the decoder never recovers from a
                         // zero-byte read
-                        return ResultS3ReadBlock::Err(
+                        return ResultFindReadBlock::Err(
                             Error::new(
                                 ErrorKind::InvalidData,
                                 format!(
@@ -2871,7 +2871,7 @@ impl BlockReader {
                         defo!("({}): GzDecoder.read() returned Ok({:?}); size too big", blockoffset, size_);
                         self.count_bytes_read += size_ as Count;
                         defo!("({}): count_bytes_read={}", blockoffset, self.count_bytes_read);
-                        return ResultS3ReadBlock::Err(
+                        return ResultFindReadBlock::Err(
                             Error::new(
                                 ErrorKind::InvalidData,
                                 format!(
@@ -2945,7 +2945,7 @@ impl BlockReader {
             );
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
@@ -2965,7 +2965,7 @@ impl BlockReader {
                 // last block, is blocksz correct?
                 if blocklen_sz > self.blocksz {
                     let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                    return ResultS3ReadBlock::Err(
+                    return ResultFindReadBlock::Err(
                         Error::new(
                             ErrorKind::InvalidData,
                             format!(
@@ -2978,7 +2978,7 @@ impl BlockReader {
             } else if blocklen_sz != self.blocksz {
                 // not last block, is blocksz correct?
                 let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::InvalidData,
                         format!(
@@ -2996,7 +2996,7 @@ impl BlockReader {
                     )
                 );
             } else if bytes_read_expect != bytes_read_actual {
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::InvalidData,
                         format!(
@@ -3036,7 +3036,7 @@ impl BlockReader {
             }
             if bo_at == blockoffset {
                 defx!("({}): return Found", blockoffset);
-                return ResultS3ReadBlock::Found(blockp);
+                return ResultFindReadBlock::Found(blockp);
             }
             bo_at_old = bo_at;
             bo_at += 1;
@@ -3044,7 +3044,7 @@ impl BlockReader {
 
         defx!("({}): return Done", blockoffset);
 
-        ResultS3ReadBlock::Done
+        ResultFindReadBlock::Done
     }
 
     /// Read a block of data from storage for a compressed lzma file
@@ -3061,7 +3061,7 @@ impl BlockReader {
     fn read_block_FileLz4(
         &mut self,
         blockoffset: BlockOffset,
-    ) -> ResultS3ReadBlock {
+    ) -> ResultFindReadBlock {
         defn!("({})", blockoffset);
         debug_assert!(
             matches!(
@@ -3078,7 +3078,7 @@ impl BlockReader {
         // handle special case immediately
         if self.filesz_actual == 0 {
             defx!("filesz 0; return Done");
-            return ResultS3ReadBlock::Done;
+            return ResultFindReadBlock::Done;
         }
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
@@ -3107,7 +3107,7 @@ impl BlockReader {
                         .unwrap()
                         .clone();
                     self.store_block_in_LRU_cache(bo_at, &blockp);
-                    return ResultS3ReadBlock::Found(blockp);
+                    return ResultFindReadBlock::Found(blockp);
                 }
                 bo_at += 1;
                 continue;
@@ -3127,7 +3127,7 @@ impl BlockReader {
             let reader = match self.lz {
                 Some(ref mut lz) => &mut lz.reader,
                 None => {
-                    return ResultS3ReadBlock::Err(
+                    return ResultFindReadBlock::Err(
                         Error::new(
                             ErrorKind::InvalidData,
                             format!(
@@ -3182,7 +3182,7 @@ impl BlockReader {
             );
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
@@ -3195,7 +3195,7 @@ impl BlockReader {
                 // last block, is blocksz correct?
                 if blocklen_sz > self.blocksz {
                     let byte_at = self.file_offset_at_block_offset_self(bo_at);
-                    return ResultS3ReadBlock::Err(
+                    return ResultFindReadBlock::Err(
                         Error::new(
                             ErrorKind::InvalidData,
                             format!(
@@ -3208,7 +3208,7 @@ impl BlockReader {
             } else if blocklen_sz != self.blocksz {
                 // not last block, is blocksz correct?
                 let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::InvalidData,
                         format!(
@@ -3240,7 +3240,7 @@ impl BlockReader {
             }
             if bo_at == blockoffset {
                 defx!("({}): return Found", blockoffset);
-                return ResultS3ReadBlock::Found(blockp);
+                return ResultFindReadBlock::Found(blockp);
             }
             bo_at_old = bo_at;
             bo_at += 1;
@@ -3248,7 +3248,7 @@ impl BlockReader {
 
         defx!("({}): return Done", blockoffset);
 
-        ResultS3ReadBlock::Done
+        ResultFindReadBlock::Done
     }
 
     /// Read a block of data from storage for a compressed `xz` file
@@ -3265,7 +3265,7 @@ impl BlockReader {
     fn read_block_FileXz(
         &mut self,
         blockoffset: BlockOffset,
-    ) -> ResultS3ReadBlock {
+    ) -> ResultFindReadBlock {
         defn!("({})", blockoffset);
         debug_assert!(
             matches!(
@@ -3282,7 +3282,7 @@ impl BlockReader {
         // handle special case immediately
         if self.filesz_actual == 0 {
             defx!("filesz 0; return Done");
-            return ResultS3ReadBlock::Done;
+            return ResultFindReadBlock::Done;
         }
 
         let blockoffset_last: BlockOffset = self.blockoffset_last();
@@ -3316,7 +3316,7 @@ impl BlockReader {
                         bo_drop += 1;
                     }
                     defx!("({}): return Found", blockoffset);
-                    return ResultS3ReadBlock::Found(blockp);
+                    return ResultFindReadBlock::Found(blockp);
                 }
                 bo_at += 1;
                 continue;
@@ -3367,7 +3367,7 @@ impl BlockReader {
                         }
                     }
                     defx!("xz_decompress Error, return Err({:?})", err);
-                    return ResultS3::Err(Error::new(ErrorKind::Other, format!("{:?}", err)));
+                    return ResultFind::Err(Error::new(ErrorKind::Other, format!("{:?}", err)));
                 }
             }
             deo!("xz_decompress returned block len {}, capacity {}", block.len(), block.capacity());
@@ -3378,7 +3378,7 @@ impl BlockReader {
             if block.is_empty() {
                 let byte_at = self.file_offset_at_block_offset_self(bo_at);
                 defx!("({}): return Err", blockoffset);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
@@ -3392,7 +3392,7 @@ impl BlockReader {
                 if blocklen_sz > self.blocksz {
                     let byte_at = self.file_offset_at_block_offset_self(bo_at);
                     defx!("({}): return Err", blockoffset);
-                    return ResultS3ReadBlock::Err(
+                    return ResultFindReadBlock::Err(
                         Error::new(
                             ErrorKind::InvalidData,
                             format!(
@@ -3406,7 +3406,7 @@ impl BlockReader {
                 // not last block, is blocksz correct?
                 let byte_at = self.file_offset_at_block_offset_self(bo_at) + blocklen_sz;
                 defx!("({}): return Err", blockoffset);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::InvalidData,
                         format!(
@@ -3422,13 +3422,13 @@ impl BlockReader {
             self.store_block_in_storage(bo_at, &blockp);
             if bo_at == blockoffset {
                 defx!("({}): return Found", blockoffset);
-                return ResultS3ReadBlock::Found(blockp);
+                return ResultFindReadBlock::Found(blockp);
             }
             bo_at += 1;
         }
         defx!("({}): return Done", blockoffset);
 
-        ResultS3ReadBlock::Done
+        ResultFindReadBlock::Done
     }
 
     /// Read a block of data from a file within a .tar archive file
@@ -3454,7 +3454,7 @@ impl BlockReader {
     fn read_block_FileTar(
         &mut self,
         blockoffset: BlockOffset,
-    ) -> ResultS3ReadBlock {
+    ) -> ResultFindReadBlock {
         defn!("({})", blockoffset);
         debug_assert!(
             matches!(
@@ -3512,7 +3512,7 @@ impl BlockReader {
                 },
                 None => {
                     defx!("None");
-                    return ResultS3ReadBlock::Err(Error::new(
+                    return ResultFindReadBlock::Err(Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
                             "tar.handle.entries_with_seek().entry_iter.nth({}) returned None for file {:?}",
@@ -3527,7 +3527,7 @@ impl BlockReader {
         // also file size zero cause `entry.read_exact` to return an error
         if self.filesz_actual == 0 {
             defx!("({}): filesz_actual 0; return Done", blockoffset);
-            return ResultS3ReadBlock::Done;
+            return ResultFindReadBlock::Done;
         }
 
         // read all blocks from file `entry`
@@ -3558,7 +3558,7 @@ impl BlockReader {
             if block.is_empty() {
                 defo!("block.is_empty()");
                 let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
@@ -3570,7 +3570,7 @@ impl BlockReader {
             } else if cap != block.len() {
                 defo!("cap {} != {} block.len()", cap, block.len());
                 let byte_at: FileOffset = self.file_offset_at_block_offset_self(bo_at);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
@@ -3592,7 +3592,7 @@ impl BlockReader {
             Some(blockp_) => blockp_.clone(),
             None => {
                 defx!("self.blocks.get({}), returned None, return Err(UnexpectedEof)", blockoffset);
-                return ResultS3ReadBlock::Err(
+                return ResultFindReadBlock::Err(
                     Error::new(
                         ErrorKind::UnexpectedEof,
                         format!(
@@ -3606,7 +3606,7 @@ impl BlockReader {
 
         defx!("({}): return Found", blockoffset);
 
-        ResultS3ReadBlock::Found(blockp)
+        ResultFindReadBlock::Found(blockp)
     }
 
     /// Read a `Block` of data of max size `self.blocksz` from the file.
@@ -3619,13 +3619,13 @@ impl BlockReader {
     /// All other `File` and `std::io` errors are propagated to the caller
     /// in [`Err`].
     ///
-    /// [`Found(BlockP)`]: crate::common::ResultS3
-    /// [`Done`]: crate::common::ResultS3
-    /// [`Err`]: crate::common::ResultS3
+    /// [`Found(BlockP)`]: crate::common::ResultFind
+    /// [`Done`]: crate::common::ResultFind
+    /// [`Err`]: crate::common::ResultFind
     pub fn read_block(
         &mut self,
         blockoffset: BlockOffset,
-    ) -> ResultS3ReadBlock {
+    ) -> ResultFindReadBlock {
         defn!(
             "({0}): blockreader.read_block({0}) (fileoffset {1} (0x{1:08X})), blocksz {2} (0x{2:08X}), filesz {3} (0x{3:08X})",
             blockoffset, self.file_offset_at_block_offset_self(blockoffset), self.blocksz, self.filesz(),
@@ -3646,7 +3646,7 @@ impl BlockReader {
 
         if blockoffset > self.blockoffset_last() {
             defx!("({}) is past blockoffset_last {}; return Done", blockoffset, self.blockoffset_last());
-            return ResultS3ReadBlock::Done;
+            return ResultFindReadBlock::Done;
         }
         {
             // check storages
@@ -3665,7 +3665,7 @@ impl BlockReader {
                             BlockReader::file_offset_at_block_offset(blockoffset + 1, self.blocksz),
                             (*bp).len(),
                         );
-                        return ResultS3ReadBlock::Found(bp.clone());
+                        return ResultFindReadBlock::Found(bp.clone());
                     }
                     None => {
                         self.read_block_cache_lru_miss += 1;
@@ -3712,7 +3712,7 @@ impl BlockReader {
                         BlockReader::file_offset_at_block_offset(blockoffset + 1, self.blocksz),
                         self.blocks[&blockoffset].len(),
                     );
-                    return ResultS3ReadBlock::Found(blockp);
+                    return ResultFindReadBlock::Found(blockp);
                 }
             } else {
                 self.read_blocks_miss += 1;
@@ -3782,8 +3782,8 @@ impl BlockReader {
     /// [`BlockIndex`]: BlockIndex
     /// [`ReadDataParts`]: ReadDataParts
     /// [`Vec`]: Vec
-    /// [`Done`]: crate::common::ResultS3#variant.Done
-    /// [`Found`]: crate::common::ResultS3#variant.Found
+    /// [`Done`]: crate::common::ResultFind#variant.Done
+    /// [`Found`]: crate::common::ResultFind#variant.Found
     pub(crate) fn read_data(
         &mut self,
         fileoffset_beg: FileOffset,
@@ -3803,16 +3803,16 @@ impl BlockReader {
         let bo_last: BlockOffset = self.blockoffset_last();
         let mut bo1: BlockOffset = self.block_offset_at_file_offset_self(fileoffset_beg);
         let blockp1 = match self.read_block(bo1) {
-            ResultS3ReadBlock::Found(blockp) => {
+            ResultFindReadBlock::Found(blockp) => {
                 defo!("read_block({}) returned Found Block len {}", bo1, (*blockp).len());
 
                 blockp
             }
-            ResultS3ReadBlock::Done => {
+            ResultFindReadBlock::Done => {
                 defx!("read_block({}) returned Done; returning Done", bo1);
                 return ResultReadData::Done;
             }
-            ResultS3ReadBlock::Err(err) => {
+            ResultFindReadBlock::Err(err) => {
                 defx!("read_block({}) returned Error {:?}", bo1, err);
                 return ResultReadData::Err(err);
             }
@@ -3855,12 +3855,12 @@ impl BlockReader {
         if bo1 + 1 == bo2 {
             // data spans two Blocks
             let blockp2 = match self.read_block(bo2) {
-                ResultS3ReadBlock::Found(blockp) => {
+                ResultFindReadBlock::Found(blockp) => {
                     defo!("read_block({}) returned Found Block len {}", bo2, (*blockp).len());
 
                     blockp
                 }
-                ResultS3ReadBlock::Done => {
+                ResultFindReadBlock::Done => {
                     defo!("read_block({}) returned Done", bo2);
                     let err = Error::new(
                         ErrorKind::Other,
@@ -3872,7 +3872,7 @@ impl BlockReader {
                     defx!("return {:?}", err);
                     return ResultReadData::Err(err);
                 }
-                ResultS3ReadBlock::Err(err) => {
+                ResultFindReadBlock::Err(err) => {
                     defx!("read_block({}) returned Error {:?}", bo2, err);
                     return ResultReadData::Err(err);
                 }
@@ -3894,16 +3894,16 @@ impl BlockReader {
         bo1 += 1;
         while bo1 <= bo2 {
             match self.read_block(bo1) {
-                ResultS3ReadBlock::Found(blockp) => {
+                ResultFindReadBlock::Found(blockp) => {
                     defo!("read_block({}) returned Found Block len {}", bo1, (*blockp).len());
                     defo!("blockps.push({})", bo1);
                     blockps.push(blockp);
                 }
-                ResultS3ReadBlock::Done => {
+                ResultFindReadBlock::Done => {
                     defo!("read_block({}) returned Done (fileoffset_end {} larger than filesz)", bo1, fileoffset_end);
                     break;
                 }
-                ResultS3ReadBlock::Err(err) => {
+                ResultFindReadBlock::Err(err) => {
                     defx!("read_block({}) returned Error {:?}", bo1, err);
                     return ResultReadData::Err(err);
                 }

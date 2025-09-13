@@ -33,7 +33,7 @@ use crate::common::{
     FileType,
     FileTypeFixedStruct,
     FPath,
-    ResultS3,
+    ResultFind,
 };
 use crate::data::datetime::{
     DateTimeL,
@@ -118,9 +118,9 @@ type MapTvPairToFo = BTreeMap<tv_pair_type, FileOffset>;
 /// [`FixedStructReader.find`*] functions results.
 ///
 /// [`FixedStructReader.find`*]: self::FixedStructReader#method.find_entry
-pub type ResultS3FixedStructFind = ResultS3<(FileOffset, FixedStruct), (Option<FileOffset>, Error)>;
+pub type ResultFindFixedStruct = ResultFind<(FileOffset, FixedStruct), (Option<FileOffset>, Error)>;
 
-pub type ResultS3FixedStructProcZeroBlock = ResultS3<(FixedStructType, Score, ListFileOffsetFixedStructPtr), Error>;
+pub type ResultFindFixedStructProcZeroBlock = ResultFind<(FixedStructType, Score, ListFileOffsetFixedStructPtr), Error>;
 
 pub type ResultTvFo = Result<(usize, usize, usize, usize, MapTvPairToFo)>;
 
@@ -1336,7 +1336,7 @@ impl FixedStructReader
     /// `FixedStructReader` has been initialized during
     /// [`FixedStructReader::new`].
     pub fn process_entry_at(&mut self, fo: FileOffset, buffer: &mut [u8])
-        -> ResultS3FixedStructFind
+        -> ResultFindFixedStruct
     {
         defn!("({})", fo);
 
@@ -1349,10 +1349,10 @@ impl FixedStructReader
 
         if fileoffset >= self.filesz() {
             defx!(
-                "return ResultS3FixedStructFind::Done; fileoffset {} >= filesz {}",
+                "return ResultFindFixedStruct::Done; fileoffset {} >= filesz {}",
                 fileoffset, self.filesz()
             );
-            return ResultS3FixedStructFind::Done;
+            return ResultFindFixedStruct::Done;
         }
 
         // The `map_tvpair_fo` is the oracle listing of entries ordered by
@@ -1410,7 +1410,7 @@ impl FixedStructReader
                 "remove_cache_entry found fixedstruct at fileoffset {}; return Found({}, …)",
                 fileoffset, fo_next,
             );
-            return ResultS3FixedStructFind::Found((fo_next, fixedstruct));
+            return ResultFindFixedStruct::Found((fo_next, fixedstruct));
         }
 
         // the entry was not in the cache so read the raw bytes from the file
@@ -1418,8 +1418,8 @@ impl FixedStructReader
 
         // check the buffer size
         if buffer.len() < sz as usize {
-            defx!("return ResultS3FixedStructFind::Err");
-            return ResultS3FixedStructFind::Err((
+            defx!("return ResultFindFixedStruct::Err");
+            return ResultFindFixedStruct::Err((
                 None,
                 Error::new(
                     ErrorKind::InvalidData,
@@ -1445,15 +1445,15 @@ impl FixedStructReader
         ) {
             ResultReadDataToBuffer::Found(val) => val,
             ResultReadDataToBuffer::Done => {
-                defx!("return ResultS3FixedStructFind::Done; read_data_to_buffer returned Done");
-                return ResultS3FixedStructFind::Done;
+                defx!("return ResultFindFixedStruct::Done; read_data_to_buffer returned Done");
+                return ResultFindFixedStruct::Done;
             }
             ResultReadDataToBuffer::Err(err) => {
                 self.set_error(&err);
-                defx!("return ResultS3FixedStructFind::Err({:?})", err);
+                defx!("return ResultFindFixedStruct::Err({:?})", err);
                 // an error from `blockreader.read_data_to_buffer` is unlikely to improve
                 // with a retry so return `None` signifying no more processing of the file
-                return ResultS3FixedStructFind::Err((None, err));
+                return ResultFindFixedStruct::Err((None, err));
             }
         };
         debug_assert_eq!(_readn, sz as usize, "read {} bytes, expected {} bytes", _readn, sz);
@@ -1467,8 +1467,8 @@ impl FixedStructReader
         ) {
             Ok(val) => val,
             Err(err) => {
-                defx!("return ResultS3FixedStructFind::Done; FixedStruct::new returned Err({:?})", err);
-                return ResultS3FixedStructFind::Err((Some(fo_next), err));
+                defx!("return ResultFindFixedStruct::Done; FixedStruct::new returned Err({:?})", err);
+                return ResultFindFixedStruct::Err((Some(fo_next), err));
             }
         };
         // update various statistics/counters
@@ -1478,9 +1478,9 @@ impl FixedStructReader
         // try to drop blocks associated with the entry
         self.drop_entry(&fs);
 
-        defx!("return ResultS3FixedStructFind::Found((fo_next={}, …))", fo_next);
+        defx!("return ResultFindFixedStruct::Found((fo_next={}, …))", fo_next);
 
-        ResultS3FixedStructFind::Found((fo_next, fs))
+        ResultFindFixedStruct::Found((fo_next, fs))
     }
 
     /// Wrapper function for call to [`datetime::dt_after_or_before`] using the

@@ -57,14 +57,14 @@ use crate::readers::filepreprocessor::{
 use crate::readers::fixedstructreader::{
     FixedStructReader,
     ResultFixedStructReaderNew,
-    ResultS3FixedStructFind,
+    ResultFindFixedStruct,
 };
 use crate::readers::journalreader::{
     JournalOutput,
     JournalReader,
     ResultNext,
 };
-use crate::readers::syslinereader::{ResultS3SyslineFind, SyslineReader};
+use crate::readers::syslinereader::{ResultFindSysline, SyslineReader};
 use crate::tests::common::{
     FO_0,
     FO_P8,
@@ -196,7 +196,7 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
     loop {
         let result = slr.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, syslinep)) => {
+            ResultFindSysline::Found((fo_, syslinep)) => {
                 fo = fo_;
                 match plm.print_sysline(&syslinep) {
                     Ok((bytes_, flushed_)) => {
@@ -209,10 +209,10 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
                     }
                 }
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("ERROR: slr.find_sysline({}) returned Err({})", fo, err);
             }
         }
@@ -278,16 +278,16 @@ fn test_PrinterLogMessage_print_fixedstruct(
     let mut printed_flushed: usize = 0;
     loop {
         let (fo_next, fs) = match fixedstructreader.process_entry_at(fo, &mut buffer) {
-            ResultS3FixedStructFind::Found((fo_, fixedstruct_)) => {
-                defo!("ResultS3FixedStructFind::Found({}, …)", fo_);
+            ResultFindFixedStruct::Found((fo_, fixedstruct_)) => {
+                defo!("ResultFindFixedStruct::Found({}, …)", fo_);
                 (fo_, fixedstruct_)
             }
-            ResultS3FixedStructFind::Done => {
-                defo!("ResultS3FixedStructFind::Done");
+            ResultFindFixedStruct::Done => {
+                defo!("ResultFindFixedStruct::Done");
                 break;
             }
-            ResultS3FixedStructFind::Err((_fo_opt, err)) => {
-                panic!("ResultS3FixedStructFind::Err({})", err);
+            ResultFindFixedStruct::Err((_fo_opt, err)) => {
+                panic!("ResultFindFixedStruct::Err({})", err);
             }
         };
         fo = fo_next;

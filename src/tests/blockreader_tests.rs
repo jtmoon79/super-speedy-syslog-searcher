@@ -13,7 +13,7 @@ use crate::common::{
     FileSz,
     FileType,
     FPath,
-    ResultS3,
+    ResultFind,
 };
 use crate::data::datetime::systemtime_year;
 use crate::debug::printers::byte_to_char_noraw;
@@ -21,7 +21,7 @@ use crate::readers::blockreader::{
     BlockOffset,
     BlockReader,
     BlockSz,
-    ResultS3ReadBlock,
+    ResultFindReadBlock,
     ResultReadData,
     ReadData,
     ReadDataParts,
@@ -215,11 +215,11 @@ fn test_BlockReader_helpers(
 
 // -------------------------------------------------------------------------------------------------
 
-type ResultS3_Check = ResultS3<(), ()>;
-type Checks = BTreeMap<BlockOffset, (Vec<u8>, ResultS3_Check)>;
+type ResultFind_Check = ResultFind<(), ()>;
+type Checks = BTreeMap<BlockOffset, (Vec<u8>, ResultFind_Check)>;
 
-const FOUND: ResultS3_Check = ResultS3_Check::Found(());
-const DONE: ResultS3_Check = ResultS3_Check::Done;
+const FOUND: ResultFind_Check = ResultFind_Check::Found(());
+const DONE: ResultFind_Check = ResultFind_Check::Done;
 
 /// test of basic test of BlockReader things
 #[allow(non_snake_case)]
@@ -244,13 +244,13 @@ fn test_BlockReader(
             defo!("read_block({})", offset);
             let blockp = br1.read_block(*offset);
             match blockp {
-                ResultS3ReadBlock::Found(_val) => {
+                ResultFindReadBlock::Found(_val) => {
                     let _boff: FileOffset = BlockReader::file_offset_at_block_offset(*offset, blocksz);
                 }
-                ResultS3ReadBlock::Done => {
+                ResultFindReadBlock::Done => {
                     continue;
                 }
-                ResultS3ReadBlock::Err(err) => {
+                ResultFindReadBlock::Err(err) => {
                     panic!("ERROR: blockreader.read({}) error {}", offset, err);
                 }
             };
@@ -264,16 +264,16 @@ fn test_BlockReader(
             offset, block_expect.len(), results3,
         );
         match br1.read_block(*offset) {
-            ResultS3ReadBlock::Found(_) => {
-                assert!(results3.is_found(), "Got ResultS3::Found, Expected {:?}", results3);
+            ResultFindReadBlock::Found(_) => {
+                assert!(results3.is_found(), "Got ResultFind::Found, Expected {:?}", results3);
             }
-            ResultS3ReadBlock::Done => {
-                assert!(results3.is_done(), "Got ResultS3::Done, Expected {:?}", results3);
+            ResultFindReadBlock::Done => {
+                assert!(results3.is_done(), "Got ResultFind::Done, Expected {:?}", results3);
                 continue;
             }
-            ResultS3ReadBlock::Err(err) => {
+            ResultFindReadBlock::Err(err) => {
                 eprintln!("ERROR: blockreader.read({}) error {}", offset, err);
-                assert!(results3.is_err(), "Got ResultS3::Err, Expected {:?}", results3);
+                assert!(results3.is_err(), "Got ResultFind::Err, Expected {:?}", results3);
                 continue;
             }
         }
@@ -1802,13 +1802,13 @@ fn test_SummaryBlockReader(
     let mut blockreader = new_BlockReader(path, filetype, blocksz);
     for bo in 0..blockreader.blockoffset_last() {
         match blockreader.read_block(bo) {
-            ResultS3ReadBlock::Found(_block) => {
+            ResultFindReadBlock::Found(_block) => {
                 // do nothing
             }
-            ResultS3ReadBlock::Done => {
+            ResultFindReadBlock::Done => {
                 panic!("read_block({}) failed: Done was unexpected", bo);
             }
-            ResultS3ReadBlock::Err(e) => {
+            ResultFindReadBlock::Err(e) => {
                 panic!("read_block({}) failed: {}", bo, e);
             }
         }

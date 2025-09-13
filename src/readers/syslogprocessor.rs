@@ -52,7 +52,7 @@ use crate::readers::blockreader::{
     BlockOffset,
     BlockP,
     BlockSz,
-    ResultS3ReadBlock,
+    ResultFindReadBlock,
 };
 #[cfg(test)]
 use crate::readers::blockreader::SetDroppedBlocks;
@@ -61,11 +61,11 @@ use crate::readers::linereader::SetDroppedLines;
 #[cfg(test)]
 use crate::readers::syslinereader::SetDroppedSyslines;
 #[doc(hidden)]
-pub use crate::readers::linereader::ResultS3LineFind;
+pub use crate::readers::linereader::ResultFindLine;
 #[doc(hidden)]
 pub use crate::readers::syslinereader::{
     DateTimePatternCounts,
-    ResultS3SyslineFind,
+    ResultFindSysline,
     SummarySyslineReader,
     SyslineReader,
 };
@@ -640,7 +640,7 @@ impl SyslogProcessor {
                 .syslinereader
                 .find_sysline_year(fo_prev, &year_opt)
             {
-                ResultS3SyslineFind::Found((_fo, syslinep)) => {
+                ResultFindSysline::Found((_fo, syslinep)) => {
                     defo!(
                         "Found {} Sysline @[{}, {}] datetime: {:?})",
                         _fo,
@@ -650,11 +650,11 @@ impl SyslogProcessor {
                     );
                     syslinep
                 }
-                ResultS3SyslineFind::Done => {
+                ResultFindSysline::Done => {
                     defo!("Done, break;");
                     break;
                 }
-                ResultS3SyslineFind::Err(err) => {
+                ResultFindSysline::Err(err) => {
                     self.set_error(&err);
                     defx!("return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIoPath(err);
@@ -732,16 +732,16 @@ impl SyslogProcessor {
         let fo_last = self.fileoffset_last();
         defo!("find_sysline(fo_last={})", fo_last);
         let syslinep = match self.find_sysline(fo_last) {
-            ResultS3SyslineFind::Found((_fo, syslinep_)) => {
+            ResultFindSysline::Found((_fo, syslinep_)) => {
                 defo!("found sysline at fo_last={} {:?}", fo_last, syslinep_);
 
                 syslinep_
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 defx!("No sysline found");
                 return FileProcessingResultBlockZero::FileErrNoSyslinesFound;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 defx!("error finding sysline: {:?}", err);
                 return FileProcessingResultBlockZero::FileErrIo(err);
             }
@@ -910,15 +910,15 @@ impl SyslogProcessor {
     pub fn find_sysline(
         &mut self,
         fileoffset: FileOffset,
-    ) -> ResultS3SyslineFind {
+    ) -> ResultFindSysline {
         defn!("({})", fileoffset);
-        let result: ResultS3SyslineFind = self
+        let result: ResultFindSysline = self
             .syslinereader
             .find_sysline(fileoffset);
         match result {
-            ResultS3SyslineFind::Found(_) => {}
-            ResultS3SyslineFind::Done => {}
-            ResultS3SyslineFind::Err(ref err) => {
+            ResultFindSysline::Found(_) => {}
+            ResultFindSysline::Done => {}
+            ResultFindSysline::Err(ref err) => {
                 self.set_error(err);
             }
         }
@@ -945,7 +945,7 @@ impl SyslogProcessor {
     pub fn find_sysline_between_datetime_filters(
         &mut self,
         fileoffset: FileOffset,
-    ) -> ResultS3SyslineFind {
+    ) -> ResultFindSysline {
         defn!("({})", fileoffset);
 
         let result = match self
@@ -955,10 +955,10 @@ impl SyslogProcessor {
                 &self.filter_dt_after_opt,
                 &self.filter_dt_before_opt,
             ) {
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 self.set_error(&err);
 
-                ResultS3SyslineFind::Err(err)
+                ResultFindSysline::Err(err)
             }
             val => val,
         };
@@ -1123,12 +1123,12 @@ impl SyslogProcessor {
             .blockreader
             .read_block(0)
         {
-            ResultS3ReadBlock::Found(blockp_) => blockp_,
-            ResultS3ReadBlock::Done => {
+            ResultFindReadBlock::Found(blockp_) => blockp_,
+            ResultFindReadBlock::Done => {
                 defx!("return FileErrEmpty");
                 return FileProcessingResultBlockZero::FileErrEmpty;
             }
-            ResultS3ReadBlock::Err(err) => {
+            ResultFindReadBlock::Err(err) => {
                 self.set_error(&err);
                 defx!("return FileErrIo({:?})", err);
                 return FileProcessingResultBlockZero::FileErrIoPath(err);
@@ -1173,12 +1173,12 @@ impl SyslogProcessor {
             .blockreader
             .read_block(0)
         {
-            ResultS3ReadBlock::Found(blockp_) => blockp_,
-            ResultS3ReadBlock::Done => {
+            ResultFindReadBlock::Found(blockp_) => blockp_,
+            ResultFindReadBlock::Done => {
                 defx!("return FileErrEmpty");
                 return FileProcessingResultBlockZero::FileErrEmpty;
             }
-            ResultS3ReadBlock::Err(err) => {
+            ResultFindReadBlock::Err(err) => {
                 self.set_error(&err);
                 defx!("return FileErrIo({:?})", err);
                 return FileProcessingResultBlockZero::FileErrIoPath(err);
@@ -1201,12 +1201,12 @@ impl SyslogProcessor {
                 .linereader
                 .find_line_in_block(fo)
             {
-                (ResultS3LineFind::Found((fo_next, _linep)), _) => {
+                (ResultFindLine::Found((fo_next, _linep)), _) => {
                     found += 1;
 
                     fo_next
                 }
-                (ResultS3LineFind::Done, partial) => {
+                (ResultFindLine::Done, partial) => {
                     match partial {
                         Some(_) => {
                             found += 1;
@@ -1216,7 +1216,7 @@ impl SyslogProcessor {
                     }
                     break;
                 }
-                (ResultS3LineFind::Err(err), _) => {
+                (ResultFindLine::Err(err), _) => {
                     self.set_error(&err);
                     defx!("return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIoPath(err);
@@ -1258,12 +1258,12 @@ impl SyslogProcessor {
             .blockreader
             .read_block(0)
         {
-            ResultS3ReadBlock::Found(blockp_) => blockp_,
-            ResultS3ReadBlock::Done => {
+            ResultFindReadBlock::Found(blockp_) => blockp_,
+            ResultFindReadBlock::Done => {
                 defx!("return FileErrEmpty");
                 return FileProcessingResultBlockZero::FileErrEmpty;
             }
-            ResultS3ReadBlock::Err(err) => {
+            ResultFindReadBlock::Err(err) => {
                 self.set_error(&err);
                 defx!("return FileErrIo({:?})", err);
                 return FileProcessingResultBlockZero::FileErrIoPath(err);
@@ -1287,20 +1287,20 @@ impl SyslogProcessor {
                 .syslinereader
                 .find_sysline_in_block(fo)
             {
-                (ResultS3SyslineFind::Found((fo_next, _slinep)), _) => {
+                (ResultFindSysline::Found((fo_next, _slinep)), _) => {
                     found += 1;
                     defo!("Found; found {} syslines, fo_next {}", found, fo_next);
 
                     fo_next
                 }
-                (ResultS3SyslineFind::Done, partial_found) => {
+                (ResultFindSysline::Done, partial_found) => {
                     defo!("Done; found {} syslines, partial_found {}", found, partial_found);
                     if partial_found {
                         found += 1;
                     }
                     break;
                 }
-                (ResultS3SyslineFind::Err(err), _) => {
+                (ResultFindSysline::Err(err), _) => {
                     self.set_error(&err);
                     defx!("return FileErrIo({:?})", err);
                     return FileProcessingResultBlockZero::FileErrIoPath(err);
@@ -1346,20 +1346,20 @@ impl SyslogProcessor {
                     .syslinereader
                     .find_sysline_in_block(fo)
                 {
-                    (ResultS3SyslineFind::Found((fo_next, _slinep)), _) => {
+                    (ResultFindSysline::Found((fo_next, _slinep)), _) => {
                         found += 1;
                         defo!("Found; found {} syslines, fo_next {}", found, fo_next);
 
                         fo_next
                     }
-                    (ResultS3SyslineFind::Done, partial_found) => {
+                    (ResultFindSysline::Done, partial_found) => {
                         defo!("Done; found {} syslines, partial_found {}", found, partial_found);
                         if partial_found {
                             found += 1;
                         }
                         break;
                     }
-                    (ResultS3SyslineFind::Err(err), _) => {
+                    (ResultFindSysline::Err(err), _) => {
                         self.set_error(&err);
                         defx!("return FileErrIo({:?})", err);
                         return FileProcessingResultBlockZero::FileErrIoPath(err);

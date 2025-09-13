@@ -148,7 +148,7 @@ use crate::common::{
     FileTypeArchive,
     FPath,
     ResultFind4,
-    ResultS3,
+    ResultFind,
 };
 use crate::data::datetime::{
     FixedOffset,
@@ -1252,7 +1252,7 @@ impl<'a> JournalReader {
         api_calls: &mut Count,
         api_call_errors: &mut Count,
         path: &FPath,
-    ) -> ResultS3<EpochMicroseconds, Error> {
+    ) -> ResultFind<EpochMicroseconds, Error> {
         unsafe {
             def1n!("sd_journal_next(@{:?})", journal_handle_ptr);
             let r: i32 = (*journal_api_ptr).sd_journal_next(*journal_handle_ptr);
@@ -1261,18 +1261,18 @@ impl<'a> JournalReader {
             *api_calls += 1;
             if r == 0 {
                 def1x!("return Done");
-                return ResultS3::Done;
+                return ResultFind::Done;
             }
             else if r < 0 {
                 *api_call_errors += 1;
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_next", path);
                 def1x!("return {:?}", err);
-                return ResultS3::Err(err);
+                return ResultFind::Err(err);
             }
         }
         def1x!("Found");
 
-        ResultS3::Found(0)
+        ResultFind::Found(0)
     }
 
     /// Wrapper to call `sd_journal_get_realtime_usec` and return the
@@ -1424,9 +1424,9 @@ impl<'a> JournalReader {
         path: &FPath,
         #[cfg(test)]
         force_error_range: &ForceErrorRangeOpt,
-    ) -> ResultS3<&'a [u8], Error> {
+    ) -> ResultFind<&'a [u8], Error> {
         def1n!();
-        testing_force_error!(&force_error_range, "call_sd_journal_enumerate_available_data", (*api_calls), (*api_call_errors), ResultS3::Err, path);
+        testing_force_error!(&force_error_range, "call_sd_journal_enumerate_available_data", (*api_calls), (*api_call_errors), ResultFind::Err, path);
         let data: &[u8];
         unsafe {
             //
@@ -1447,14 +1447,14 @@ impl<'a> JournalReader {
             def1o!("sd_journal_enumerate_available_data returned {}, {:?}", r, e);
             if r == 0 {
                 def1x!("return Done");
-                return ResultS3::Done;
+                return ResultFind::Done;
             }
             if r < 0 {
                 *api_call_errors += 1;
                 de_err!("sd_journal_enumerate_available_data() returned {}; {:?}", r, e);
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_enumerate_available_data", path);
                 def1x!("return Err");
-                return ResultS3::Err(err);
+                return ResultFind::Err(err);
             }
             // length is number of bytes
             def1o!("sd_journal_enumerate_available_data returned data length {}", length);
@@ -1463,7 +1463,7 @@ impl<'a> JournalReader {
         } // end unsafe
         def1x!("return Found");
 
-        ResultS3::Found(data)
+        ResultFind::Found(data)
     }
 
     /// Wrapper to call `sd_journal_get_monotonic_usec`.
@@ -1770,12 +1770,12 @@ impl<'a> JournalReader {
             &mut self.api_call_errors,
             &self.path,
         ) {
-            ResultS3::Found(_) => {}
-            ResultS3::Done => {
+            ResultFind::Found(_) => {}
+            ResultFind::Done => {
                 def1x!("return Done");
                 return ResultNextCommon::Done;
             }
-            ResultS3::Err(err) => {
+            ResultFind::Err(err) => {
                 def1x!("return Err {:?}", err);
                 return ResultNextCommon::Err(err);
             }
@@ -1950,12 +1950,12 @@ impl<'a> JournalReader {
                 #[cfg(test)]
                 &self.force_error_range_opt,
             ) {
-                ResultS3::Found(d) => d,
-                ResultS3::Err(_err) => {
+                ResultFind::Found(d) => d,
+                ResultFind::Err(_err) => {
                     de_err!("failed to get data (continue); {:?}", _err);
                     continue;
                 }
-                ResultS3::Done => {
+                ResultFind::Done => {
                     break;
                 }
             };
@@ -2267,9 +2267,9 @@ impl<'a> JournalReader {
                 #[cfg(test)]
                 &self.force_error_range_opt,
             ) {
-                ResultS3::Found(d) => d,
-                ResultS3::Done => break,
-                ResultS3::Err(_err) => {
+                ResultFind::Found(d) => d,
+                ResultFind::Done => break,
+                ResultFind::Err(_err) => {
                     de_err!("call_sd_journal_enumerate_available_data() failed (continue): {:?}", _err);
                     continue;
                 }
@@ -2503,12 +2503,12 @@ impl<'a> JournalReader {
                 #[cfg(test)]
                 &self.force_error_range_opt,
             ) {
-                ResultS3::Found(d) => d,
-                ResultS3::Err(err) => {
+                ResultFind::Found(d) => d,
+                ResultFind::Err(err) => {
                     def1x!("return {:?}", err);
                     return ResultNext::Err(err);
                 }
-                ResultS3::Done => {
+                ResultFind::Done => {
                     def1o!("returned Done");
                     break;
                 }

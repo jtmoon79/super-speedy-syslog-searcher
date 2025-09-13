@@ -32,7 +32,7 @@ use crate::readers::fixedstructreader::{
     FixedStructReader,
     ResultFixedStructReaderNew,
     ResultFixedStructReaderNewError,
-    ResultS3FixedStructFind,
+    ResultFindFixedStruct,
     SummaryFixedStructReader,
 };
 use crate::tests::common::{
@@ -205,21 +205,21 @@ fn test_FixedStructReader_helpers() {
     // entry 1
     let fo_next: FileOffset = 0;
     let (fo_next, fs) = match fsr.process_entry_at(fo_next, &mut buffer) {
-        ResultS3FixedStructFind::Found((fo, fs)) => (fo, fs),
+        ResultFindFixedStruct::Found((fo, fs)) => (fo, fs),
         _ => panic!("process_entry_at({}) failed", fo_next),
     };
     assert!(!fsr.is_fileoffset_last(fo_next));
     assert!(!fsr.is_last(&fs));
     // entry 2
     let (fo_next, fs) = match fsr.process_entry_at(fo_next, &mut buffer) {
-        ResultS3FixedStructFind::Found((fo, fs)) => (fo, fs),
+        ResultFindFixedStruct::Found((fo, fs)) => (fo, fs),
         _ => panic!("process_entry_at({}) failed", fo_next),
     };
     assert!(!fsr.is_fileoffset_last(fo_next));
     assert!(fsr.is_last(&fs));
     // entry 3
     match fsr.process_entry_at(fo_next, &mut buffer) {
-        ResultS3FixedStructFind::Done => {},
+        ResultFindFixedStruct::Done => {},
         _ => panic!("process_entry_at({}) unexpected return", fo_next),
     };
 
@@ -229,13 +229,13 @@ fn test_FixedStructReader_helpers() {
 }
 
 #[derive(Debug, Eq, PartialEq)]
-enum ResultS3FixedStructFind_Test {
+enum ResultFindFixedStruct_Test {
     Found,
     Done,
 }
 
-const FOUND: ResultS3FixedStructFind_Test = ResultS3FixedStructFind_Test::Found;
-const DONE: ResultS3FixedStructFind_Test = ResultS3FixedStructFind_Test::Done;
+const FOUND: ResultFindFixedStruct_Test = ResultFindFixedStruct_Test::Found;
+const DONE: ResultFindFixedStruct_Test = ResultFindFixedStruct_Test::Done;
 
 const NEWNODT: Option<ResultFixedStructReaderNewError> =
     Some(ResultFixedStructReaderNewError::FileErrNoFixedStructWithinDtFilters);
@@ -291,7 +291,7 @@ fn test_FixedStructReader_process_entry_at(
     filetypefixedstruct: FileTypeFixedStruct,
     blocksz: BlockSz,
     fo: FileOffset,
-    expect_result: ResultS3FixedStructFind_Test,
+    expect_result: ResultFindFixedStruct_Test,
     expect_fo_index: FileOffset,
     expect_new: Option<ResultFixedStructReaderNewError>,
 ) {
@@ -317,7 +317,7 @@ fn test_FixedStructReader_process_entry_at(
                     expect_new.unwrap(),
                     ResultFixedStructReaderNewError::FileErrEmpty,
                 ));
-            assert_eq!(expect_result, ResultS3FixedStructFind_Test::Done);
+            assert_eq!(expect_result, ResultFindFixedStruct_Test::Done);
             assert_eq!(expect_fo_index, 0);
             return;
         }
@@ -327,7 +327,7 @@ fn test_FixedStructReader_process_entry_at(
                     expect_new.unwrap(),
                     ResultFixedStructReaderNewError::FileErrNoValidFixedStruct,
                 ));
-            assert_eq!(expect_result, ResultS3FixedStructFind_Test::Done);
+            assert_eq!(expect_result, ResultFindFixedStruct_Test::Done);
             assert_eq!(expect_fo_index, 0);
             return;
         }
@@ -337,7 +337,7 @@ fn test_FixedStructReader_process_entry_at(
                     expect_new.unwrap(),
                     ResultFixedStructReaderNewError::FileErrNoFixedStructWithinDtFilters,
                 ));
-            assert_eq!(expect_result, ResultS3FixedStructFind_Test::Done);
+            assert_eq!(expect_result, ResultFindFixedStruct_Test::Done);
             assert_eq!(expect_fo_index, 0);
             return;
         }
@@ -348,16 +348,16 @@ fn test_FixedStructReader_process_entry_at(
 
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
     let fo_next = match fixedstructreader.process_entry_at(fo, &mut buffer) {
-        ResultS3FixedStructFind::Found((fo_, _fixedstruct)) => {
-            assert!(matches!(expect_result, ResultS3FixedStructFind_Test::Found));
+        ResultFindFixedStruct::Found((fo_, _fixedstruct)) => {
+            assert!(matches!(expect_result, ResultFindFixedStruct_Test::Found));
             fo_
         }
-        ResultS3FixedStructFind::Done => {
-            assert!(matches!(expect_result, ResultS3FixedStructFind_Test::Done));
+        ResultFindFixedStruct::Done => {
+            assert!(matches!(expect_result, ResultFindFixedStruct_Test::Done));
             assert_eq!(expect_fo_index, 0);
             return;
         }
-        ResultS3FixedStructFind::Err((_fo_opt, err)) => {
+        ResultFindFixedStruct::Err((_fo_opt, err)) => {
             panic!("process_entry_at({:?}) failed; {} for {:?}", fo, err, path);
         }
     };
@@ -381,15 +381,15 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
     let mut fo: FileOffset = 0;
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
     loop {
-        let result: ResultS3FixedStructFind = fixedstructreader.process_entry_at(fo, &mut buffer);
+        let result: ResultFindFixedStruct = fixedstructreader.process_entry_at(fo, &mut buffer);
         match result {
-            ResultS3FixedStructFind::Found((fo_, _utmpx)) => {
+            ResultFindFixedStruct::Found((fo_, _utmpx)) => {
                 fo = fo_;
             }
-            ResultS3FixedStructFind::Done => {
+            ResultFindFixedStruct::Done => {
                 break;
             }
-            ResultS3FixedStructFind::Err(err) => {
+            ResultFindFixedStruct::Err(err) => {
                 panic!("Error {:?}", err);
             }
         }
@@ -397,7 +397,7 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
     // do one extra redundant search to make it little more interesting
     defo!("redundant search");
     match fixedstructreader.process_entry_at(0, &mut buffer) {
-        ResultS3FixedStructFind::Found(_) => {},
+        ResultFindFixedStruct::Found(_) => {},
         _ => panic!(),
     }
 
@@ -467,7 +467,7 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
     filetypefixedstruct: FileTypeFixedStruct, // pass to `FixedStructReader::new`
     fo: FileOffset, // pass to `process_entry_at`
     seconds: i64, // create this dt_filter with this adjustment from LINUX_X86_UTMPX_BUFFER1_DT
-    expect_opt: Option<ResultS3FixedStructFind_Test>, // expected result of `process_entry_at`
+    expect_opt: Option<ResultFindFixedStruct_Test>, // expected result of `process_entry_at`
     expect_fo: FileOffset, // expected result of `process_entry_at`
     new_result_opt: Option<ResultFixedStructReaderNewError>, // expected result of `FixedStructReader::new`
 ) {
@@ -526,13 +526,13 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
         None => return,
     };
 
-    let result: ResultS3FixedStructFind =
+    let result: ResultFindFixedStruct =
         fixedstructreader.process_entry_at(
             fo,
             &mut buffer,
         );
     match result {
-        ResultS3FixedStructFind::Found((fo_, _utmpx)) => {
+        ResultFindFixedStruct::Found((fo_, _utmpx)) => {
             match expect {
                 FOUND => {
                     assert_eq!(
@@ -546,7 +546,7 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
                 }
             }
         }
-        ResultS3FixedStructFind::Done => {
+        ResultFindFixedStruct::Done => {
             match expect {
                 FOUND => {
                     panic!("expected FOUND");
@@ -554,7 +554,7 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
                 DONE => {}
             }
         }
-        ResultS3FixedStructFind::Err(err) => {
+        ResultFindFixedStruct::Err(err) => {
             panic!("Error {:?}", err);
         }
     }
@@ -1097,18 +1097,18 @@ fn test_FixedStructReader_summary(
 
     // find all the entries
     loop {
-        let result: ResultS3FixedStructFind = fixedstructreader.process_entry_at(
+        let result: ResultFindFixedStruct = fixedstructreader.process_entry_at(
             fo, &mut buffer,
         );
         match result {
-            ResultS3FixedStructFind::Found((fo_, _utmpx)) => {
+            ResultFindFixedStruct::Found((fo_, _utmpx)) => {
                 _fo_last = fo;
                 fo = fo_;
             }
-            ResultS3FixedStructFind::Done => {
+            ResultFindFixedStruct::Done => {
                 break;
             }
-            ResultS3FixedStructFind::Err(err) => {
+            ResultFindFixedStruct::Err(err) => {
                 panic!("Error {:?}", err);
             }
         }
@@ -1282,7 +1282,7 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
     fo: FileOffset, // call `process_entry_at` with this file offset
     diff_a: i64, // add this to `LINUX_X86_UTMPX_BUFFER1_DT` to get `dt_filter_a`
     diff_b: i64, // add this to `LINUX_X86_UTMPX_BUFFER1_DT` to get `dt_filter_b`
-    expect_opt: Option<ResultS3FixedStructFind_Test>, // expected result of `process_entry_at`
+    expect_opt: Option<ResultFindFixedStruct_Test>, // expected result of `process_entry_at`
     expect_fo: FileOffset, // expected file offset of `process_entry_at`
     new_result_opt: Option<ResultFixedStructReaderNewError>, // expected result of `FixedStructReader::new`
 ) {
@@ -1346,7 +1346,7 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
             }
     };
 
-    let result: ResultS3FixedStructFind =
+    let result: ResultFindFixedStruct =
         fixedstructreader.process_entry_at(
             fo,
             &mut buffer,
@@ -1355,7 +1355,7 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
 
     let fs_: &FixedStruct;
     match &result {
-        ResultS3FixedStructFind::Found((_fo, fixedstruct)) => {
+        ResultFindFixedStruct::Found((_fo, fixedstruct)) => {
             match expect {
                 FOUND => {
                     assert_eq!(
@@ -1365,15 +1365,15 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
                     );
                 }
                 DONE => {
-                    panic!("expected DONE, got ResultS3FixedStructFind::Found");
+                    panic!("expected DONE, got ResultFindFixedStruct::Found");
                 }
             }
             fs_ = fixedstruct;
         }
-        ResultS3FixedStructFind::Done => {
+        ResultFindFixedStruct::Done => {
             match expect {
                 FOUND => {
-                    panic!("expected FOUND, got ResultS3FixedStructFind::Done");
+                    panic!("expected FOUND, got ResultFindFixedStruct::Done");
                 }
                 DONE => {
                     defx!("process_entry_at({}, ...) returned Done", fo);
@@ -1381,7 +1381,7 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
                 }
             }
         }
-        ResultS3FixedStructFind::Err(err) => {
+        ResultFindFixedStruct::Err(err) => {
             panic!("Error {:?}", err);
         }
     }

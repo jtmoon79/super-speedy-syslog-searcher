@@ -171,14 +171,14 @@ use ::s4lib::readers::filepreprocessor::{
 use ::s4lib::readers::fixedstructreader::{
     FixedStructReader,
     ResultFixedStructReaderNew,
-    ResultS3FixedStructFind,
+    ResultFindFixedStruct,
 };
 use ::s4lib::readers::helpers::{basename, fpath_to_path};
 use ::s4lib::readers::summary::{
     Summary,
     SummaryOpt,
 };
-use ::s4lib::readers::syslinereader::ResultS3SyslineFind;
+use ::s4lib::readers::syslinereader::ResultFindSysline;
 use ::s4lib::readers::syslogprocessor::{FileProcessingResultBlockZero, SyslogProcessor};
 use ::s4lib::printer::printers::{
     color_rand,
@@ -1977,9 +1977,9 @@ fn exec_syslogprocessor(
     let mut sent_is_last: bool = false; // sanity check sending of `is_last`
     let mut fo1: FileOffset = 0;
     let search_more: bool;
-    let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(0);
+    let result: ResultFindSysline = syslogproc.find_sysline_between_datetime_filters(0);
     match result {
-        ResultS3SyslineFind::Found((fo, syslinep)) => {
+        ResultFindSysline::Found((fo, syslinep)) => {
             fo1 = fo;
             let is_last: IsLastLogMessage = syslogproc.is_sysline_last(&syslinep) as IsLastLogMessage;
             deo!("{:?}({}): Found, chan_send_dt.send({:p}, None, {});", _tid, _tname, syslinep, is_last);
@@ -2004,10 +2004,10 @@ fn exec_syslogprocessor(
                 search_more = true;
             }
         }
-        ResultS3SyslineFind::Done => {
+        ResultFindSysline::Done => {
             search_more = false;
         }
-        ResultS3SyslineFind::Err(err) => {
+        ResultFindSysline::Err(err) => {
             deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, _tname, err);
             file_err = Some(FileProcessingResultBlockZero::FileErrIoPath(err));
             search_more = false;
@@ -2039,9 +2039,9 @@ fn exec_syslogprocessor(
     loop {
         // TODO: [2022/06/20] see note about refactoring `find` functions so
         //                    they are more intuitive
-        let result: ResultS3SyslineFind = syslogproc.find_sysline_between_datetime_filters(fo1);
+        let result: ResultFindSysline = syslogproc.find_sysline_between_datetime_filters(fo1);
         match result {
-            ResultS3SyslineFind::Found((fo, syslinep)) => {
+            ResultFindSysline::Found((fo, syslinep)) => {
                 let syslinep_tmp = syslinep.clone();
                 let is_last: IsLastLogMessage = syslogproc.is_sysline_last(&syslinep);
                 chan_send(
@@ -2068,10 +2068,10 @@ fn exec_syslogprocessor(
                 }
                 syslinep_last_opt = Some(syslinep_tmp);
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 deo!("{:?}({}): find_sysline_at_datetime_filter returned Err({:?});", _tid, _tname, err);
                 e_err!("syslogprocessor.find_sysline({}) {} for {:?}", fo1, err, path);
                 file_err = Some(FileProcessingResult::FileErrIoPath(err));
@@ -2318,8 +2318,8 @@ fn exec_fixedstructprocessor(
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
     loop {
         let fo_next = match fixedstructreader.process_entry_at(fo, &mut buffer) {
-            ResultS3FixedStructFind::Found((fo_, fixedstruct)) => {
-                defo!("ResultS3FixedStructFind::Found({}, …)", fo_);
+            ResultFindFixedStruct::Found((fo_, fixedstruct)) => {
+                defo!("ResultFindFixedStruct::Found({}, …)", fo_);
                 let is_last = fixedstructreader.is_last(&fixedstruct);
                 chan_send(
                     &chan_send_dt,
@@ -2332,12 +2332,12 @@ fn exec_fixedstructprocessor(
 
                 fo_
             }
-            ResultS3FixedStructFind::Done => {
-                defo!("ResultS3FixedStructFind::Done");
+            ResultFindFixedStruct::Done => {
+                defo!("ResultFindFixedStruct::Done");
                 break;
             }
-            ResultS3FixedStructFind::Err((fo_opt, err)) => {
-                defo!("ResultS3FixedStructFind::Err({:?}, {:?})", fo_opt, err);
+            ResultFindFixedStruct::Err((fo_opt, err)) => {
+                defo!("ResultFindFixedStruct::Err({:?}, {:?})", fo_opt, err);
                 de_err!("process_entry_at({}) failed; {} for {:?}", fo, err, path);
                 file_err = Some(FileProcessingResultBlockZero::FileErrIoPath(err));
                 match fo_opt {

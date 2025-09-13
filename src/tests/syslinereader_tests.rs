@@ -12,7 +12,7 @@ use crate::common::{
     Count,
     FileOffset,
     FPath,
-    ResultS3,
+    ResultFind,
 };
 use crate::data::datetime::{
     datetime_parse_from_str,
@@ -58,7 +58,7 @@ use crate::readers::filepreprocessor::{
 use crate::readers::helpers::{fill, randomize};
 use crate::readers::syslinereader::{
     DateTimeParseDatasIndexes,
-    ResultS3SyslineFind,
+    ResultFindSysline,
     SyslineReader,
     SummarySyslineReader,
     ResultFindDateTime,
@@ -111,11 +111,11 @@ use ::si_trace_print::{defn, defo, defx, deo, stack::stack_offset_set};
 use ::test_case::test_case;
 
 
-/// check the return type of `find_sysline` to this dummy approximation of `ResultS3SyslineFind`
-pub type ResultS3SyslineFind_Test = ResultS3<(), std::io::Error>;
+/// check the return type of `find_sysline` to this dummy approximation of `ResultFindSysline`
+pub type ResultFindSysline_Test = ResultFind<(), std::io::Error>;
 
-const FOUND: ResultS3SyslineFind_Test = ResultS3SyslineFind_Test::Found(());
-const DONE: ResultS3SyslineFind_Test = ResultS3SyslineFind_Test::Done;
+const FOUND: ResultFindSysline_Test = ResultFindSysline_Test::Found(());
+const DONE: ResultFindSysline_Test = ResultFindSysline_Test::Done;
 
 /// Helper to wrap the match and panic checks
 fn new_SyslineReader(
@@ -178,7 +178,7 @@ fn test_new_SyslineReader_no_file_permissions() {
 /// - `FileOffset` is the input
 /// - second parameter is expected result enum
 /// - third parameter is the expected sysline string value
-type TestFindSyslineCheck<'a> = (FileOffset, ResultS3SyslineFind_Test, &'a str);
+type TestFindSyslineCheck<'a> = (FileOffset, ResultFindSysline_Test, &'a str);
 type TestFindSyslineChecks<'a> = Vec<TestFindSyslineCheck<'a>>;
 
 const NTF5_DATA_LINE0: &str =
@@ -232,7 +232,7 @@ fn impl_find_sysline(
         let result_actual = slr.find_sysline(*fo);
         assert_results4(fo, result_expect, &result_actual);
         match result_actual {
-            ResultS3SyslineFind::Found((_fo, slp)) => {
+            ResultFindSysline::Found((_fo, slp)) => {
                 let slp_string = (*slp).to_String();
                 defo!("slr.find_sysline({}) Found", fo);
                 defo!("expected {:?}", sline_expect);
@@ -245,10 +245,10 @@ fn impl_find_sysline(
                     &slp_string.as_str()
                 );
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 defo!("slr.find_sysline({}) Done", fo);
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("ERROR: impl_find_sysline: slr.find_sysline({}) returned Err({})", fo, err);
             }
         }
@@ -562,10 +562,10 @@ fn test_dt_pattern_index_max_count() {
 ///   The datetime `str` transformed to `DateTimeL` and then passed to
 ///   `syslinereader.find_sysline_at_datetime_filter(FileOffset, Some(DateTimeL))`.
 ///
-/// - Third `ResultS3SyslineFind_Test` is the expected return.
+/// - Third `ResultFindSysline_Test` is the expected return.
 /// - Fourth (last) `str` is the expected sysline data, in `str` form, returned (this is the tested
 ///   comparison).
-type TestFindSyslineAtDatetimeFilterCheck<'a> = (FileOffset, &'a str, ResultS3SyslineFind_Test, &'a str);
+type TestFindSyslineAtDatetimeFilterCheck<'a> = (FileOffset, &'a str, ResultFindSysline_Test, &'a str);
 type TestFindSyslineAtDatetimeFilterChecks<'a> = Vec<TestFindSyslineAtDatetimeFilterCheck<'a>>;
 
 /// underlying test code for `SyslineReader.find_datetime_in_line`
@@ -606,7 +606,7 @@ fn impl_test_find_sysline_at_datetime_filter(
         let result = slr.find_sysline_at_datetime_filter(*fo1, &Some(dt));
         assert_results4(fo1, result_expect, &result);
         match result {
-            ResultS3SyslineFind::Found(val) => {
+            ResultFindSysline::Found(val) => {
                 let sline = val.1.to_String();
                 let sline_noraw = str_to_String_noraw(sline.as_str());
                 defo!("expected: {:?}", sline_expect_noraw);
@@ -622,8 +622,8 @@ fn impl_test_find_sysline_at_datetime_filter(
                     fo1, dts, sline_noraw
                 );
             }
-            ResultS3SyslineFind::Done => {}
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Done => {}
+            ResultFindSysline::Err(err) => {
                 panic!("During test unexpected result Error {}", err);
             }
         }
@@ -766,16 +766,16 @@ lazy_static! {
 
 /// a `std::io::Error` does not implement `Copy` or `Clone` which means `std::io::Result`
 /// also does not.
-/// This function does a copy of a `ResultS3SyslineFind_Test`, dropping any particular `Error` for
+/// This function does a copy of a `ResultFindSysline_Test`, dropping any particular `Error` for
 /// a generic one.
-fn copy_ResultS3(result: &ResultS3SyslineFind_Test) -> ResultS3SyslineFind_Test {
+fn copy_ResultFind(result: &ResultFindSysline_Test) -> ResultFindSysline_Test {
     match result {
-        ResultS3SyslineFind_Test::Found(_) => FOUND,
-        ResultS3SyslineFind_Test::Done => DONE,
-        ResultS3SyslineFind_Test::Err(_err) =>
+        ResultFindSysline_Test::Found(_) => FOUND,
+        ResultFindSysline_Test::Done => DONE,
+        ResultFindSysline_Test::Err(_err) =>
         // use a generic filler error; particulars are not important for testing
         {
-            ResultS3SyslineFind_Test::Err(std::io::Error::new(std::io::ErrorKind::Other, "FILLER"))
+            ResultFindSysline_Test::Err(std::io::Error::new(std::io::ErrorKind::Other, "FILLER"))
         }
     }
 }
@@ -784,7 +784,7 @@ fn NTF26_checks_copy() -> TestFindSyslineAtDatetimeFilterChecks<'static> {
     // must manually copy `NTF26_checks`
     let mut checks = TestFindSyslineAtDatetimeFilterChecks::with_capacity(NTF26_checks.len());
     for check in NTF26_checks.iter() {
-        let result_expect = copy_ResultS3(&check.2);
+        let result_expect = copy_ResultFind(&check.2);
         checks.push((check.0, check.1, result_expect, check.3))
     }
 
@@ -795,7 +795,7 @@ fn NTF26_checksx_copy() -> TestFindSyslineAtDatetimeFilterChecks<'static> {
     // must manually copy `NTF26_checksx`
     let mut checks = TestFindSyslineAtDatetimeFilterChecks::with_capacity(NTF26_checksx.len());
     for check in NTF26_checksx.iter() {
-        let result_expect = copy_ResultS3(&check.2);
+        let result_expect = copy_ResultFind(&check.2);
         checks.push((check.0, check.1, result_expect, check.3))
     }
 
@@ -3504,11 +3504,11 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_yaz(
 /// - Third `&str` input to `datetime_parse_from_str`
 ///   Those datetime `str` transformed to `DateTimeL` and then passed to
 ///   `syslinereader.find_sysline_between_datetime_filters(FileOffset, Some(DateTimeL), Some(DateTimeL))`.
-/// - Fourth `ResultS3SyslineFind_Test` is the expected return.
+/// - Fourth `ResultFindSysline_Test` is the expected return.
 /// - Fifth (last) `str` is the expected sysline data, in `str` form, returned (this is the tested
 ///   comparison).
 type TestFindSyslineBetweenDatetimeFilterCheck<'a> =
-    (FileOffset, &'a str, &'a str, ResultS3SyslineFind_Test, &'a str);
+    (FileOffset, &'a str, &'a str, ResultFindSysline_Test, &'a str);
 type TestFindSyslineBetweenDatetimeFilterChecks<'a> = Vec<TestFindSyslineBetweenDatetimeFilterCheck<'a>>;
 
 /// test `syslinereader.find_sysline_between_datetime_filters`
@@ -3567,7 +3567,7 @@ fn impl_test_find_sysline_between_datetime_filter(
         let result = slr.find_sysline_between_datetime_filters(*fo1, &Some(dt_a), &Some(dt_b));
         assert_results4(fo1, result_expect, &result);
         match result {
-            ResultS3SyslineFind::Found(val) => {
+            ResultFindSysline::Found(val) => {
                 let sline = val.1.to_String();
                 let sline_noraw = str_to_String_noraw(sline.as_str());
                 defo!("expected: {:?}", sline_expect_noraw);
@@ -3583,8 +3583,8 @@ fn impl_test_find_sysline_between_datetime_filter(
                     fo1, dts_a, dts_b, sline_noraw
                 );
             }
-            ResultS3SyslineFind::Done => {}
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Done => {}
+            ResultFindSysline::Err(err) => {
                 panic!("During test unexpected result Error {}", err);
             }
         }
@@ -3628,7 +3628,7 @@ fn NTF26B_checks_copy() -> TestFindSyslineBetweenDatetimeFilterChecks<'static> {
     // must manually copy `NTF26_checks`
     let mut checks = TestFindSyslineBetweenDatetimeFilterChecks::with_capacity(NTF26B_checks.len());
     for check in NTF26B_checks.iter() {
-        let result_expect = copy_ResultS3(&check.3);
+        let result_expect = copy_ResultFind(&check.3);
         checks.push((check.0, check.1, check.2, result_expect, check.4))
     }
 
@@ -3703,7 +3703,7 @@ fn impl_test_SyslineReader_find_sysline(
         let result = slr.find_sysline(fo1);
         let done = result.is_done();
         match result {
-            ResultS3SyslineFind::Found((fo, slp)) => {
+            ResultFindSysline::Found((fo, slp)) => {
                 defo!("slr.find_sysline({}) returned Found({}, @{:p})", fo1, fo, &*slp);
                 defo!(
                     "FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
@@ -3741,11 +3741,11 @@ fn impl_test_SyslineReader_find_sysline(
                     check_fo, fo, check_i
                 );
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 defo!("slr.find_sysline({}) returned Done", fo1);
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 defo!("slr.find_sysline({}) returned Err({})", fo1, err);
                 panic!("ERROR: {}", err);
             }
@@ -3848,22 +3848,22 @@ fn test_find_sysline_A1_dt6_128_X9999() {
 /// Helper to assert `find_sysline` return enum
 fn assert_results4(
     fo: &FileOffset,
-    result_expect: &ResultS3SyslineFind_Test,
-    result_actual: &ResultS3SyslineFind,
+    result_expect: &ResultFindSysline_Test,
+    result_actual: &ResultFindSysline,
 ) {
     let actual: String = format!("{}", result_actual);
     match result_expect {
-        ResultS3SyslineFind_Test::Found(_) => {
+        ResultFindSysline_Test::Found(_) => {
             assert!(
-                matches!(result_actual, ResultS3SyslineFind::Found(_)),
+                matches!(result_actual, ResultFindSysline::Found(_)),
                 "\n  for find_sysline({})\n  Expected Found\n  Actual {:?}\n",
                 fo,
                 actual,
             );
         }
-        ResultS3SyslineFind_Test::Done => {
+        ResultFindSysline_Test::Done => {
             assert!(
-                matches!(result_actual, ResultS3SyslineFind::Done),
+                matches!(result_actual, ResultFindSysline::Done),
                 "\n  for find_sysline({})\n  Expected Done\n  Actual {:?}\n",
                 fo,
                 actual,
@@ -3877,7 +3877,7 @@ fn assert_results4(
 
 // -----------------------------------------------------------------------------
 
-type TestSyslineReaderAnyInputCheck<'a> = (FileOffset, ResultS3SyslineFind_Test, FileOffset, &'a str);
+type TestSyslineReaderAnyInputCheck<'a> = (FileOffset, ResultFindSysline_Test, FileOffset, &'a str);
 type TestSyslineReaderAnyInputChecks<'a> = Vec<TestSyslineReaderAnyInputCheck<'a>>;
 
 /// test of `SyslineReader::find_sysline` with test-specified fileoffset searches
@@ -3903,7 +3903,7 @@ fn impl_test_findsysline(
         let result = slr.find_sysline(*input_fo);
         assert_results4(input_fo, expect_result, &result);
         match result {
-            ResultS3SyslineFind::Found((fo, slp)) => {
+            ResultFindSysline::Found((fo, slp)) => {
                 defo!("slr.find_sysline({}) returned Found({}, @{:p})", input_fo, fo, &*slp);
                 defo!(
                     "FileOffset {} Sysline @{:p}: line count {} sysline.len() {} {:?}",
@@ -3934,10 +3934,10 @@ fn impl_test_findsysline(
                     assert!(slr.dt_patterns_analysis(), "dt_patterns_analysis() failed");
                 }
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 defo!("slr.find_sysline({}) returned Done", input_fo);
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 defo!("slr.find_sysline({}) returned Err({})", input_fo, err);
                 panic!("ERROR: {}", err);
             }
@@ -4144,9 +4144,9 @@ fn copy_TestDataA2Dt6Checks(checks: &TestDataA2Dt6Checks) -> TestDataA2Dt6Checks
     // discussed in https://github.com/rust-lang-deprecated/failure/issues/148
     for check in checks {
         let result = match &check.1 {
-            ResultS3::Found(_) => FOUND,
-            ResultS3::Done => DONE,
-            ResultS3::Err(_) => ResultS3SyslineFind_Test::Err(
+            ResultFind::Found(_) => FOUND,
+            ResultFind::Done => DONE,
+            ResultFind::Err(_) => ResultFindSysline_Test::Err(
                 std::io::Error::new(
                     std::io::ErrorKind::Other,
                     "dummy error",
@@ -4776,13 +4776,13 @@ fn test_remove_sysline(cache: bool) {
         let fo2 = fo;
         let result = slr.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+            ResultFindSysline::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("ERROR: {}", err);
             }
         }
@@ -4806,13 +4806,13 @@ fn test_clear_syslines(cache: bool) {
     loop {
         let result = slr.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+            ResultFindSysline::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("ERROR: {}", err);
             }
         }
@@ -4838,13 +4838,13 @@ fn test_datetime_parse_data() {
     loop {
         let result = slr.find_sysline(fo);
         match result {
-            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+            ResultFindSysline::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("ERROR: {}", err);
             }
         }
@@ -4879,7 +4879,7 @@ fn impl_test_find_sysline_rand(
         let result = slr.find_sysline(fo1);
         #[allow(clippy::single_match)]
         match result {
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("slr.find_sysline({}) returned Err({})", fo1, err);
             }
             _ => {}
@@ -4945,7 +4945,7 @@ fn test_find_sysline_rand__dtf5_6c__8() {
 
 // -----------------------------------------------------------------------------
 
-type CheckFindSyslineInBlock = Vec<(FileOffset, ResultS3SyslineFind_Test, String)>;
+type CheckFindSyslineInBlock = Vec<(FileOffset, ResultFindSysline_Test, String)>;
 
 /// test `syslinereader.find_sysline_in_block`
 #[allow(non_snake_case)]
@@ -4967,7 +4967,7 @@ fn impl_test_find_sysline_in_block(
         let result = slr.find_sysline_in_block(*fo_input);
         assert_results4(fo_input, result_expect, &result.0);
         match result.0 {
-            ResultS3SyslineFind::Found((_fo, slp)) => {
+            ResultFindSysline::Found((_fo, slp)) => {
                 let value_actual: String = (*slp).to_String();
                 assert_eq!(
                     value_expect, &value_actual,
@@ -4975,11 +4975,11 @@ fn impl_test_find_sysline_in_block(
                     fo_input, value_expect, value_actual,
                 );
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 // self-check
                 assert_eq!(value_expect, &String::from(""), "bad test check value {:?}", value_expect,);
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("ERROR: find_sysline_in_block({}) returned Error {:?}", fo_input, err);
             }
         }
@@ -5820,13 +5820,13 @@ fn test_syslinereadersummary(
     loop {
         let result = slr.find_sysline_between_datetime_filters(fo, &dt_filter_after, &dt_filter_before);
         match result {
-            ResultS3SyslineFind::Found((fo_, _syslinep)) => {
+            ResultFindSysline::Found((fo_, _syslinep)) => {
                 fo = fo_;
             }
-            ResultS3SyslineFind::Done => {
+            ResultFindSysline::Done => {
                 break;
             }
-            ResultS3SyslineFind::Err(err) => {
+            ResultFindSysline::Err(err) => {
                 panic!("During test unexpected result Error {}", err);
             }
         }

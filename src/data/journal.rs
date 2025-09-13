@@ -12,7 +12,7 @@ pub use crate::common::{
     NLs,
     NLc,
     NLu8,
-    ResultS3,
+    ResultFind,
 };
 use crate::data::common::DtBegEndPairOpt;
 use crate::data::datetime::{
