@@ -8,47 +8,73 @@
 #![allow(non_upper_case_globals)]
 #![allow(clippy::too_many_arguments)]
 
-use crate::tests::common::{
-    eprint_file,
-    fill,
-    FILETYPE_UTF8,
-    NTF_NL_1_PATH,
-    NTF_NL_2_PATH,
-    NTF_NL_3_PATH,
-    NTF_NL_4_PATH,
-    NTF_NL_5_PATH,
-    NTF_LOG_EMPTY_FPATH,
-    NTF_SYSLINE_2_PATH,
+use ::more_asserts::{
+    assert_ge,
+    assert_le,
 };
-use crate::common::{Bytes, Count, FPath, FileOffset};
-use crate::debug::helpers::create_temp_file_no_permissions;
-use crate::readers::blockreader::BlockSz;
-use crate::readers::helpers::path_to_fpath;
-use crate::readers::filepreprocessor::{
-    fpath_to_filetype,
-    PathToFiletypeResult,
+use ::si_trace_print::printers::{
+    defn,
+    defo,
+    defx,
 };
-use crate::readers::helpers::randomize;
-use crate::data::line::{LineIndex, LineP, LinePartPtrs};
-use crate::readers::linereader::{
-    LineReader,
-    ResultFindLine,
-    SummaryLineReader,
+use ::si_trace_print::stack::{
+    sn,
+    so,
+    stack_offset_set,
+    sx,
 };
-use crate::debug::helpers::{create_temp_file, ntf_fpath};
+use ::test_case::test_case;
+
+use crate::common::{
+    Bytes,
+    Count,
+    FPath,
+    FileOffset,
+};
+use crate::data::line::{
+    LineIndex,
+    LineP,
+    LinePartPtrs,
+};
+use crate::debug::helpers::{
+    create_temp_file,
+    create_temp_file_no_permissions,
+    ntf_fpath,
+};
 use crate::debug::printers::{
     buffer_to_String_noraw,
     byte_to_char_noraw,
     str_to_String_noraw,
 };
+use crate::readers::blockreader::BlockSz;
+use crate::readers::filepreprocessor::{
+    fpath_to_filetype,
+    PathToFiletypeResult,
+};
+use crate::readers::helpers::{
+    path_to_fpath,
+    randomize,
+};
+use crate::readers::linereader::{
+    LineReader,
+    ResultFindLine,
+    SummaryLineReader,
+};
+use crate::tests::common::{
+    eprint_file,
+    fill,
+    FILETYPE_UTF8,
+    NTF_LOG_EMPTY_FPATH,
+    NTF_NL_1_PATH,
+    NTF_NL_2_PATH,
+    NTF_NL_3_PATH,
+    NTF_NL_4_PATH,
+    NTF_NL_5_PATH,
+    NTF_SYSLINE_2_PATH,
+};
 
-use ::more_asserts::{assert_ge, assert_le};
-use ::si_trace_print::printers::{defn, defo, defx};
-use ::si_trace_print::stack::{sn, so, stack_offset_set, sx};
-use ::test_case::test_case;
-
-
-/// dummy version of `ResultFindLine` for asserting return enum of `LineReader::find_line`
+/// dummy version of `ResultFindLine` for asserting return enum of
+/// `LineReader::find_line`
 #[allow(non_camel_case_types)]
 #[derive(Debug, Eq, PartialEq)]
 enum ResultFindLine_Test {
@@ -1199,7 +1225,8 @@ test_LineReader_precise_order_3 line 3 of 3
 
 // -------------------------------------------------------------------------------------------------
 
-/// call `LineReader.find_line_in_block` for all `FileOffset` in passed `offsets`
+/// call `LineReader.find_line_in_block` for all `FileOffset` in passed
+/// `offsets`
 fn find_line_in_block_all(
     linereader: &mut LineReader,
     offsets: &Vec<FileOffset>,

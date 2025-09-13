@@ -6,29 +6,30 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
+use std::collections::BTreeMap;
+use std::time::SystemTime;
+
+use ::chrono::Datelike;
+use ::lazy_static::lazy_static;
+use ::si_trace_print::stack::stack_offset_set;
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
+use ::test_case::test_case;
+
 use crate::common::{
     Bytes,
     Count,
+    FPath,
     FileOffset,
     FileSz,
     FileType,
-    FPath,
     ResultFind,
 };
 use crate::data::datetime::systemtime_year;
-use crate::debug::printers::byte_to_char_noraw;
-use crate::readers::blockreader::{
-    BlockOffset,
-    BlockReader,
-    BlockSz,
-    ResultFindReadBlock,
-    ResultReadData,
-    ReadData,
-    ReadDataParts,
-    ResultReadDataToBuffer,
-    SummaryBlockReader,
-};
-use crate::readers::helpers::path_to_fpath;
 use crate::debug::helpers::{
     create_temp_file,
     create_temp_file_bytes_with_suffix,
@@ -36,6 +37,19 @@ use crate::debug::helpers::{
     ntf_fpath,
     NamedTempFile,
 };
+use crate::debug::printers::byte_to_char_noraw;
+use crate::readers::blockreader::{
+    BlockOffset,
+    BlockReader,
+    BlockSz,
+    ReadData,
+    ReadDataParts,
+    ResultFindReadBlock,
+    ResultReadData,
+    ResultReadDataToBuffer,
+    SummaryBlockReader,
+};
+use crate::readers::helpers::path_to_fpath;
 #[allow(unused_imports)]
 use crate::tests::common::{
     BYTES_A,
@@ -51,11 +65,10 @@ use crate::tests::common::{
     FILETYPE_UTF8_LZ4,
     FILETYPE_UTF8_TAR,
     FILETYPE_UTF8_XZ,
+    LOCAL_NOW,
     NTF_1BYTE_FPATH,
     NTF_3BYTE_FPATH,
     NTF_8BYTE_FPATH,
-    NTF_SYSLINE_2_PATH,
-    NTF_SYSLINE_2_SZ,
     NTF_BZ2_1BYTE_FPATH,
     NTF_BZ2_1BYTE_SYSTEMTIME,
     NTF_BZ2_8BYTE_FPATH,
@@ -68,10 +81,11 @@ use crate::tests::common::{
     NTF_GZ_8BYTE_SYSTEMTIME,
     NTF_GZ_EMPTY_FPATH,
     NTF_GZ_EMPTY_SYSTEMTIME,
+    NTF_LOG_EMPTY_FPATH,
     NTF_LZ4_8BYTE_FPATH,
     NTF_LZ4_EMPTY_FPATH,
-    NTF_LOG_EMPTY_FPATH,
-    NTF_UNKNOWN_EMPTY_FPATH,
+    NTF_SYSLINE_2_PATH,
+    NTF_SYSLINE_2_SZ,
     NTF_TAR_0BYTE_FILEA_FPATH,
     NTF_TAR_1BYTE_FILEA_FPATH,
     NTF_TAR_1BYTE_FILEA_SYSTEMTIME,
@@ -81,22 +95,12 @@ use crate::tests::common::{
     NTF_TAR_3BYTE_USTAR_FILEA_FPATH,
     NTF_TAR_8BYTE_FILEA_FPATH,
     NTF_TAR_8BYTE_FILEA_SYSTEMTIME,
+    NTF_UNKNOWN_EMPTY_FPATH,
     NTF_XZ_1BYTE_FPATH,
     NTF_XZ_8BYTE_FPATH,
     NTF_XZ_EMPTY_FPATH,
-    LOCAL_NOW,
     UTC_NOW,
 };
-
-use std::collections::BTreeMap;
-use std::time::SystemTime;
-
-use ::chrono::Datelike;
-use ::lazy_static::lazy_static;
-use ::si_trace_print::stack::stack_offset_set;
-use ::si_trace_print::{defn, defo, defx, defñ};
-use ::test_case::test_case;
-
 
 /// Helper wrapper to create a new BlockReader
 fn new_BlockReader(
@@ -259,10 +263,7 @@ fn test_BlockReader(
 
     for (offset, (block_expect, results3)) in checks.iter() {
         // get the block data before calling `read_block`
-        defo!(
-            "check: read_block({}); expect block.len {}, result {:?}",
-            offset, block_expect.len(), results3,
-        );
+        defo!("check: read_block({}); expect block.len {}, result {:?}", offset, block_expect.len(), results3,);
         match br1.read_block(*offset) {
             ResultFindReadBlock::Found(_) => {
                 assert!(results3.is_found(), "Got ResultFind::Found, Expected {:?}", results3);
@@ -498,7 +499,6 @@ fn test_new_read_block_bz2_8bytes_0_bsz16() {
     checks.insert(1, (vec![], DONE));
     test_BlockReader(&NTF_BZ2_8BYTE_FPATH, FILETYPE_UTF8_BZ2, 16, &offsets, &checks);
 }
-
 
 // -------------------------------------------------------------------------------------------------
 
@@ -1241,7 +1241,7 @@ fn test_read_data(
         assert!(expect_data.is_empty(), "bad test parameters");
     };
     let mut br1 = new_BlockReader(path, filetype, blocksz);
-    let data: ReadData = match br1.read_data(beg, end, oneblock){
+    let data: ReadData = match br1.read_data(beg, end, oneblock) {
         ResultReadData::Found(data) => {
             assert_eq!(result, FOUND_, "expected result to be {:?}", result);
 
@@ -1260,7 +1260,7 @@ fn test_read_data(
     let mut at: usize = 0;
     let a: usize = data.1;
     let b: usize = data.2;
-    
+
     match data.0 {
         ReadDataParts::One(blockp) => {
             eprintln!("blockp[{}‥{}]: ", a, b);
@@ -1440,18 +1440,21 @@ fn test_read_data_to_buffer(
     eprintln!("expect_data: {:?}", expect_data);
     eprintln!("buffer:      {:?}", &buffer.as_slice()[..copyn]);
     eprintln!("buffer.len() {}, copyn {}", buffer.len(), copyn);
-    for (i, c) in buffer.iter().take(copyn).enumerate() {
+    for (i, c) in buffer
+        .iter()
+        .take(copyn)
+        .enumerate()
+    {
         let c_ = &expect_data[i];
         assert_eq!(c, c_, "failed to match byte at index {}, value {}", i, c_);
         at += 1;
     }
     assert_eq!(at, expect_data.len(), "failed to match all bytes, matched {}, expected {}", at, expect_data.len());
-
 }
 
 /// Test `BlockReader.mtime()`.
-/// Only precisely compare returned `SystemTime` for the "temporary" files with known
-/// `SystemTime`s. Otherwise, just compare that the year returned is the
+/// Only precisely compare returned `SystemTime` for the "temporary" files with
+/// known `SystemTime`s. Otherwise, just compare that the year returned is the
 /// current year (just don't run this test at 11:59:59 on New Year's Eve;
 /// you should be having fun not running these tests!).
 #[test_case(&NTF_LOG_EMPTY_FPATH, FILETYPE_UTF8, None)]
@@ -1706,9 +1709,7 @@ fn test_BlockReader_summary_empty(
     filetype: FileType,
     blocksz: BlockSz,
 ) {
-    let blockreader = new_BlockReader(
-        path, filetype, blocksz
-    );
+    let blockreader = new_BlockReader(path, filetype, blocksz);
     _ = blockreader.summary();
 }
 

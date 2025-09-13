@@ -650,14 +650,20 @@ pub enum FileType {
     /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
     Evtx { archival_type: FileTypeArchive },
     /// a binary acct/lastlog/lastlogx/utmp/umtpx format file
-    FixedStruct { archival_type: FileTypeArchive, fixedstruct_type: FileTypeFixedStruct },
+    FixedStruct {
+        archival_type: FileTypeArchive,
+        fixedstruct_type: FileTypeFixedStruct,
+    },
     /// a [systemd Journal file]
     ///
     /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
     Journal { archival_type: FileTypeArchive },
     /// a plain vanilla file, e.g. `file.log`. Presumed to be a "syslog" file
     /// as the term is loosely used in this project.
-    Text { archival_type: FileTypeArchive, encoding_type: FileTypeTextEncoding },
+    Text {
+        archival_type: FileTypeArchive,
+        encoding_type: FileTypeTextEncoding,
+    },
     /// a file type known to be unparsable
     Unparsable,
 }

@@ -5,6 +5,44 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
+use std::fs::copy;
+
+#[allow(unused_imports)]
+use ::filepath::FilePath; // provide `path` function on `File`
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
+use ::test_case::test_case;
+
+use crate::common::{
+    FPath,
+    FileType,
+    FileTypeArchive,
+    FileTypeFixedStruct,
+    FileTypeTextEncoding,
+};
+use crate::debug::helpers::{
+    create_files_and_tmpdir,
+    create_temp_dir,
+    ntf_fpath,
+    NamedTempFile,
+};
+use crate::readers::filepreprocessor::{
+    copy_process_path_result_canonicalize_path,
+    fpath_to_filetype,
+    process_path,
+    process_path_tar,
+    FileTypeArchiveMultiple,
+    PathToFiletypeResult,
+    ProcessPathResult,
+};
+use crate::readers::helpers::{
+    fpath_to_path,
+    path_to_fpath,
+};
 use crate::tests::common::{
     FILETYPE_EVTX,
     FILETYPE_EVTX_GZ,
@@ -28,11 +66,6 @@ use crate::tests::common::{
     NTF_TAR_8BYTE_FILEA_FILETYPE,
     NTF_TAR_8BYTE_FILEA_FPATH,
     NTF_TAR_8BYTE_FPATH,
-    NTF_TAR_AB_FILEA_FILETYPE,
-    NTF_TAR_AB_FILEA_FPATH,
-    NTF_TAR_AB_FILEB_FILETYPE,
-    NTF_TAR_AB_FILEB_FPATH,
-    NTF_TAR_AB_FPATH,
     NTF_TAR_ABCDEFGHI,
     NTF_TAR_ABCDEFGHI_FILEA_FILETYPE,
     NTF_TAR_ABCDEFGHI_FILEA_FPATH,
@@ -49,41 +82,14 @@ use crate::tests::common::{
     NTF_TAR_ABCDEFGHI_FILEI_FILETYPE,
     NTF_TAR_ABCDEFGHI_FILEI_FPATH,
     NTF_TAR_ABCDEFGHI_FPATH,
+    NTF_TAR_AB_FILEA_FILETYPE,
+    NTF_TAR_AB_FILEA_FPATH,
+    NTF_TAR_AB_FILEB_FILETYPE,
+    NTF_TAR_AB_FILEB_FPATH,
+    NTF_TAR_AB_FPATH,
     NTF_TGZ_8BYTE,
     NTF_TGZ_8BYTE_FPATH,
 };
-use crate::common::{
-    FileType,
-    FileTypeArchive,
-    FileTypeFixedStruct,
-    FileTypeTextEncoding,
-    FPath,
-};
-use crate::readers::filepreprocessor::{
-    copy_process_path_result_canonicalize_path,
-    fpath_to_filetype,
-    FileTypeArchiveMultiple,
-    PathToFiletypeResult,
-    process_path,
-    process_path_tar,
-    ProcessPathResult,
-};
-use crate::readers::helpers::{fpath_to_path, path_to_fpath};
-use crate::debug::helpers::{
-    create_files_and_tmpdir,
-    create_temp_dir,
-    ntf_fpath,
-    NamedTempFile,
-};
-
-use std::fs::copy;
-
-#[allow(unused_imports)]
-use ::filepath::FilePath; // provide `path` function on `File`
-
-use ::si_trace_print::{defn, defo, defx, defñ};
-use ::test_case::test_case;
-
 
 // FileType consts
 const FTTN8: PathToFiletypeResult = PathToFiletypeResult::Filetype(

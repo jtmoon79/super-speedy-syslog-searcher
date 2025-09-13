@@ -770,8 +770,8 @@ type EntryBuffer = BTreeMap<EntryBufferKey, JournalEntry>;
 /// entries within a small realtime window.~~
 ///
 /// ~~So this `JournalReader` buffers a fixed amount of processed entries
-/// ([`ENTRY_BUFFER_SZ`]), storing them in a `BTreeMap` sorted by `DateTimeL` and
-/// order encountered.
+/// ([`ENTRY_BUFFER_SZ`]), storing them in a `BTreeMap` sorted by `DateTimeL`
+/// and order encountered.
 /// The first call to `next_fill_buffer` will fill the `JournalReader`
 /// buffer and then one entry from that buffer (the earlier entry). Subsequent
 /// calls to `next_fill_buffer` will read another journal entry, store it in the
@@ -1214,14 +1214,13 @@ impl<'a> JournalReader {
 
     /// Helper to create an `Error` from an `Errno`.
     #[allow(non_snake_case)]
-    fn Error_from_Errno(r: i32, e: &Errno, funcname: &str, path: &FPath) -> Error {
-        Error::new(
-            errno_to_errorkind(e),
-            format!(
-                "{} returned {}; {:?} file {:?}",
-                funcname, r, e, path
-            )
-        )
+    fn Error_from_Errno(
+        r: i32,
+        e: &Errno,
+        funcname: &str,
+        path: &FPath,
+    ) -> Error {
+        Error::new(errno_to_errorkind(e), format!("{} returned {}; {:?} file {:?}", funcname, r, e, path))
     }
 
     // The following `fn call_*` functions have a somewhat awkward
@@ -1464,9 +1463,7 @@ impl<'a> JournalReader {
         let monotonic_usec: MonotonicMicroseconds;
         let mut boot_id_id128: sd_id128 = match boot_id {
             Some(b) => b,
-            None => {
-                sd_id128 { bytes: [0; 16] }
-            }
+            None => sd_id128 { bytes: [0; 16] },
         };
         unsafe {
             let mut rt: std::os::raw::c_ulonglong = 0;
@@ -1989,7 +1986,7 @@ impl<'a> JournalReader {
                 key_syslog_pid_found,
                 key_comm_found,
                 key_pid_found,
-                key_message_found
+                key_message_found,
             ) {
                 (true, true, true, _, true, true) => {
                     // if all the keys are found then break out of the loop
@@ -2209,7 +2206,7 @@ impl<'a> JournalReader {
                 buffer.push_str(cursor);
                 buffer.push(FIELD_END_U8);
             }
-            None => de_err!("failed to write cursor to buffer")
+            None => de_err!("failed to write cursor to buffer"),
         }
 
         // line 2 `__REALTIME_TIMESTAMP`
@@ -2229,10 +2226,10 @@ impl<'a> JournalReader {
                 // TODO: cost-savings: use crate `numtoa` to convert number to readable bytes
                 buffer.push_str(&m.to_string());
                 buffer.push(FIELD_END_U8);
-            },
+            }
             None => {
                 de_err!("get_monotonic_usec() failed; cannot write monotonic timestamp to buffer");
-            },
+            }
         };
 
         // remaining lines
@@ -2823,16 +2820,14 @@ impl<'a> JournalReader {
             DtUsesSource::RealtimeTimestamp => {
                 self.em_first_last_update_accepted(&realtime_timestamp);
             }
-            DtUsesSource::SourceRealtimeTimestamp => {
-                match source_realtime_timestamp {
-                    Some(em) => {
-                        self.em_first_last_update_accepted(em);
-                    }
-                    None => {
-                        self.em_first_last_update_accepted(&realtime_timestamp);
-                    }
+            DtUsesSource::SourceRealtimeTimestamp => match source_realtime_timestamp {
+                Some(em) => {
+                    self.em_first_last_update_accepted(em);
                 }
-            }
+                None => {
+                    self.em_first_last_update_accepted(&realtime_timestamp);
+                }
+            },
         }
     }
 
@@ -2886,8 +2881,9 @@ impl<'a> JournalReader {
     pub fn dt_first_accepted(&self) -> DateTimeLOpt {
         match self.ts_first_accepted {
             EpochMicrosecondsOpt::None => DateTimeLOpt::None,
-            EpochMicrosecondsOpt::Some(ts) =>
-                DateTimeLOpt::Some(realtime_timestamp_to_datetimel(&self.fixed_offset, &ts)),
+            EpochMicrosecondsOpt::Some(ts) => {
+                DateTimeLOpt::Some(realtime_timestamp_to_datetimel(&self.fixed_offset, &ts))
+            }
         }
     }
 
@@ -2898,8 +2894,9 @@ impl<'a> JournalReader {
     pub fn dt_last_accepted(&self) -> DateTimeLOpt {
         match self.ts_last_accepted {
             EpochMicrosecondsOpt::None => DateTimeLOpt::None,
-            EpochMicrosecondsOpt::Some(ts) =>
-                DateTimeLOpt::Some(realtime_timestamp_to_datetimel(&self.fixed_offset, &ts)),
+            EpochMicrosecondsOpt::Some(ts) => {
+                DateTimeLOpt::Some(realtime_timestamp_to_datetimel(&self.fixed_offset, &ts))
+            }
         }
     }
 
@@ -2909,8 +2906,9 @@ impl<'a> JournalReader {
     pub fn dt_first_processed(&self) -> DateTimeLOpt {
         match self.ts_first_processed {
             EpochMicrosecondsOpt::None => DateTimeLOpt::None,
-            EpochMicrosecondsOpt::Some(ts) =>
-                DateTimeLOpt::Some(realtime_timestamp_to_datetimel(&self.fixed_offset, &ts)),
+            EpochMicrosecondsOpt::Some(ts) => {
+                DateTimeLOpt::Some(realtime_timestamp_to_datetimel(&self.fixed_offset, &ts))
+            }
         }
     }
 
@@ -2920,8 +2918,9 @@ impl<'a> JournalReader {
     pub fn dt_last_processed(&self) -> DateTimeLOpt {
         match self.ts_last_processed {
             EpochMicrosecondsOpt::None => DateTimeLOpt::None,
-            EpochMicrosecondsOpt::Some(ts) =>
-                DateTimeLOpt::Some(realtime_timestamp_to_datetimel(&self.fixed_offset, &ts)),
+            EpochMicrosecondsOpt::Some(ts) => {
+                DateTimeLOpt::Some(realtime_timestamp_to_datetimel(&self.fixed_offset, &ts))
+            }
         }
     }
 

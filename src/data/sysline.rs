@@ -350,7 +350,7 @@ impl Sysline {
             LinePartPtrs::SinglePtr(ptr) => {
                 bytes.extend_from_slice(*ptr);
             }
-            LinePartPtrs::DoublePtr(ptra, ptrb ) => {
+            LinePartPtrs::DoublePtr(ptra, ptrb) => {
                 bytes.extend_from_slice(*ptra);
                 bytes.extend_from_slice(*ptrb);
             }

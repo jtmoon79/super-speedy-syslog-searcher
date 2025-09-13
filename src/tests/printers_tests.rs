@@ -6,20 +6,25 @@
 
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
+use ::const_format::concatcp;
+use ::lazy_static::lazy_static;
+#[allow(unused_imports)]
+use ::si_trace_print::printers::{
+    defn,
+    defo,
+    defx,
+};
+use ::test_case::test_case;
+
 use crate::common::{
     AllocatorChosen,
+    FPath,
     FileOffset,
     FileType,
     FileTypeArchive,
     FileTypeFixedStruct,
-    FPath,
     LogMessageType,
     SetPathId,
-};
-use crate::debug::helpers::{
-    create_temp_file,
-    ntf_fpath,
-    NamedTempFile,
 };
 use crate::data::datetime::{
     FixedOffset,
@@ -27,6 +32,11 @@ use crate::data::datetime::{
     Utc,
 };
 use crate::data::fixedstruct::ENTRY_SZ_MAX;
+use crate::debug::helpers::{
+    create_temp_file,
+    ntf_fpath,
+    NamedTempFile,
+};
 use crate::libload::systemd_dlopen2::load_library_systemd;
 use crate::printer::printers::{
     Color,
@@ -35,18 +45,18 @@ use crate::printer::printers::{
     PrinterLogMessageResult,
 };
 use crate::printer::summary::{
-    MapPathIdToProcessPathResult,
-    MapPathIdToProcessPathResultOrdered,
+    print_summary,
+    MapPathIdSummary,
+    MapPathIdSummaryPrint,
+    MapPathIdToColor,
     MapPathIdToFPath,
-    MapPathIdToModifiedTime,
     MapPathIdToFileProcessingResultBlockZero,
     MapPathIdToFileType,
     MapPathIdToLogMessageType,
-    MapPathIdToColor,
-    MapPathIdSummary,
-    MapPathIdSummaryPrint,
+    MapPathIdToModifiedTime,
+    MapPathIdToProcessPathResult,
+    MapPathIdToProcessPathResultOrdered,
     SummaryPrinted,
-    print_summary,
 };
 use crate::readers::blockreader::BlockSz;
 use crate::readers::evtxreader::EvtxReader;
@@ -56,44 +66,38 @@ use crate::readers::filepreprocessor::{
 };
 use crate::readers::fixedstructreader::{
     FixedStructReader,
-    ResultFixedStructReaderNew,
     ResultFindFixedStruct,
+    ResultFixedStructReaderNew,
 };
 use crate::readers::journalreader::{
     JournalOutput,
     JournalReader,
     ResultNext,
 };
-use crate::readers::syslinereader::{ResultFindSysline, SyslineReader};
+use crate::readers::syslinereader::{
+    ResultFindSysline,
+    SyslineReader,
+};
 use crate::tests::common::{
+    EVTX_KPNP_EVENT_COUNT,
+    EVTX_KPNP_FPATH,
     FO_0,
     FO_P8,
+    JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
     NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH,
     NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
-    EVTX_KPNP_FPATH,
-    EVTX_KPNP_EVENT_COUNT,
-    JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
 };
 
-use ::const_format::concatcp;
-use ::lazy_static::lazy_static;
-#[allow(unused_imports)]
-use ::si_trace_print::printers::{defn, defo, defx};
-use ::test_case::test_case;
-
-
 // XXX: copied from `syslinereader_tests.rs`
-const NTF5_DATA_LINE0: &str =
-    "[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 0.0.0.0 port 3389.\n";
+const NTF5_DATA_LINE0: &str = "[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 0.0.0.0 port 3389.\n";
 const NTF5_DATA_LINE1: &str = "[20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
 CLOSED!\n";
 const NTF5_DATA_LINE2: &str = "[20200113-11:03:08] [INFO ] starting xrdp with pid 23198\n";
 const NTF5_DATA_LINE3: &str = "[20200113-11:13:59] [DEBUG] Certification found
     FOUND CERTIFICATE!\n";
 const NTF5_DATA_LINE4: &str = "[20200113-11:13:59] [DEBUG] Certification complete.\n";
-const NTF5_DATA: &str =
-    concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
+const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
 const FT_EVTX_NORM: FileType = FileType::Evtx { archival_type: FileTypeArchive::Normal };
 
@@ -139,7 +143,7 @@ fn new_PrinterLogMessage(
     prepend_file: Option<&str>,
     prepend_date: Option<&str>,
     prepend_offset: Option<FixedOffset>,
-) -> PrinterLogMessage{
+) -> PrinterLogMessage {
     let pf = prepend_file.map(String::from);
     let pd = prepend_date.map(String::from);
 

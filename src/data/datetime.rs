@@ -4,14 +4,12 @@
 //! transform matches to chrono [`DateTime`] instances.
 //!
 //! Parsing bytes and finding datetime strings requires:
-//! 1. searching some slice of bytes from a [`Line`] for a regular expression
-//!    match.
-//! 2. using a [`DateTimeParseInstr`], attempting to transform the matched
-//!    regular expression named capture groups into data passable to
-//!    chrono [`DateTime::parse_from_str`] or [`NaiveDateTime::parse_from_str`].
-//! 3. return chrono `DateTime` instances along with byte offsets of the found
-//!    matches to a caller (who will presumably use it create a new
-//!    [`Sysline`]).
+//! 1. searching some slice of bytes from a [`Line`] for a regular expression match.
+//! 2. using a [`DateTimeParseInstr`], attempting to transform the matched regular expression named
+//!    capture groups into data passable to chrono [`DateTime::parse_from_str`] or
+//!    [`NaiveDateTime::parse_from_str`].
+//! 3. return chrono `DateTime` instances along with byte offsets of the found matches to a caller
+//!    (who will presumably use it create a new [`Sysline`]).
 //!
 //! The most relevant documents to understand this file are:
 //! - `chrono` crate [`strftime`] format.
@@ -141,8 +139,8 @@ pub type DateTimePattern_string = String;
 /// [`regex::bytes::Regex`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html
 pub type DateTimeRegex_str = str;
 
-/// Regular expression capture group name, used within the regular expression and
-/// for later retrieval via [`regex::captures.name`].
+/// Regular expression capture group name, used within the regular expression
+/// and for later retrieval via [`regex::captures.name`].
 ///
 /// [`regex::captures.name`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html#method.name
 pub type CaptureGroupName = str;
@@ -155,8 +153,8 @@ pub type CaptureGroupPattern = str;
 /// [`regex::bytes::Regex::captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html#method.captures
 pub type RegexPattern = str;
 
-/// The regular expression "class" used here, specifically for matching datetime substrings
-/// within a [`&str`](str).
+/// The regular expression "class" used here, specifically for matching datetime
+/// substrings within a [`&str`](str).
 pub type DateTimeRegex = Regex;
 
 /// A chrono [`DateTime`] type used in _s4lib_.
@@ -821,8 +819,9 @@ pub struct DTFSSet<'a> {
     pub uptime: DTFS_Uptime,
     /// strftime pattern passed to [`chrono::DateTime::parse_from_str`] or
     /// [`chrono::NaiveDateTime::parse_from_str`]
-    /// in function [`datetime_parse_from_str`]. Directly relates to order of capture group extractions and `push_str`
-    /// done in private `captures_to_buffer_bytes`.
+    /// in function [`datetime_parse_from_str`]. Directly relates to order of
+    /// capture group extractions and `push_str` done in private
+    /// `captures_to_buffer_bytes`.
     ///
     /// `pattern` is interdependent with other members.
     ///
@@ -1279,8 +1278,8 @@ const DTP_s: &DateTimePattern_str = "%sT";
 /// `%s.%f` value
 const DTP_sf: &DateTimePattern_str = "%sT.%f";
 
-// The variable name represents what is available. The value represents it's rearranged form
-// using in function `captures_to_buffer_bytes`.
+// The variable name represents what is available. The value represents it's
+// rearranged form using in function `captures_to_buffer_bytes`.
 
 // TODO: rename these `DTFSSet` are named inconsistently.
 //       some are `DTFSS__YmdHMS` and others use `DTFSS_BdHMSY`.
@@ -1866,8 +1865,8 @@ pub(crate) const CGN_ALL: [&CaptureGroupName; 11] = [
 // saved rust playground for quick testing regex patterns
 // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=00460112beb2a6d078d6bbba72557574
 
-// Names used in the upcoming capture group pattern variable values (`CGP_*`) *MUST*
-// match the values of previous capture group name values (`CGN_*`).
+// Names used in the upcoming capture group pattern variable values (`CGP_*`)
+// *MUST* match the values of previous capture group name values (`CGN_*`).
 
 /// Regex capture group pattern for `strftime` year specifier `%Y`, as
 /// four decimal number characters.
@@ -2677,8 +2676,8 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 175;
 /// `DATETIME_PARSE_DATAS` then the `SyslineReader` will try *all*
 /// the `DateTimeParseInstr` within `DATETIME_PARSE_DATAS` several times.
 /// Once the controlling `SyslineReader` calls
-/// [`dt_patterns_analysis`] for the last time, then only one `DateTimeParseInstr`
-/// is tried for each `Line`.
+/// [`dt_patterns_analysis`] for the last time, then only one
+/// `DateTimeParseInstr` is tried for each `Line`.
 /// But until `dt_patterns_analysis` is called, there will be many missed
 /// matches. Regular expression creation and matching uses a large amount of
 /// compute and time resources.

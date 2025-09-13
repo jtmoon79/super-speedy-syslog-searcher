@@ -80,89 +80,88 @@ use crate::{
 /// good up to `i64::MAX` or `i64::MIN` plus a little "just in case" head room
 pub const NUMTOA_BUF_SZ: usize = 22;
 
-/// A scoring system for the quality of the data in a [`FixedStruct`]. A higher score
-/// means the data is more likely to be the [`FixedStructType`] expected.
+/// A scoring system for the quality of the data in a [`FixedStruct`]. A higher
+/// score means the data is more likely to be the [`FixedStructType`] expected.
 pub type Score = i32;
 
 /// Helper to [`FixedStructType::tv_pair_from_buffer`].
 macro_rules! buffer_to_timeval {
-    ($timeval_type:ty, $timeval_sz:expr, $buffer:ident, $tv_sec:ident, $tv_usec:ident) => ({{
-        // ut_tv
-        let size: usize = $timeval_sz;
-        defo!("size {:?}", size);
-        debug_assert_eq!($buffer.len(), size);
-        let time_val: $timeval_type = unsafe {
-            *($buffer.as_ptr() as *const $timeval_type)
-        };
-        // XXX: copy to local variable to avoid alignment warning
-        //      see #82523 <https://github.com/rust-lang/rust/issues/82523>
-        let _tv_sec = time_val.tv_sec;
-        let _tv_usec = time_val.tv_usec;
-        defo!("time_val.tv_sec {:?} .tv_usec {:?}", _tv_sec, _tv_usec);
-        // ut_tv.tv_sec
-        $tv_sec = match time_val.tv_sec.try_into() {
-            Ok(val) => val,
-            Err(_) => {
-                debug_panic!("tv_sec overflow: {:?}", _tv_sec);
-                return None;
-            }
-        };
-        defo!("tv_sec {:?}", $tv_sec);
-        // ut_tv.tv_usec
-        $tv_usec = match time_val.tv_usec.try_into() {
-            Ok(val) => val,
-            Err(_) => {
-                debug_panic!("tv_usec overflow: {:?}", _tv_usec);
+    ($timeval_type:ty, $timeval_sz:expr, $buffer:ident, $tv_sec:ident, $tv_usec:ident) => {{
+        {
+            // ut_tv
+            let size: usize = $timeval_sz;
+            defo!("size {:?}", size);
+            debug_assert_eq!($buffer.len(), size);
+            let time_val: $timeval_type = unsafe { *($buffer.as_ptr() as *const $timeval_type) };
+            // XXX: copy to local variable to avoid alignment warning
+            //      see #82523 <https://github.com/rust-lang/rust/issues/82523>
+            let _tv_sec = time_val.tv_sec;
+            let _tv_usec = time_val.tv_usec;
+            defo!("time_val.tv_sec {:?} .tv_usec {:?}", _tv_sec, _tv_usec);
+            // ut_tv.tv_sec
+            $tv_sec = match time_val.tv_sec.try_into() {
+                Ok(val) => val,
+                Err(_) => {
+                    debug_panic!("tv_sec overflow: {:?}", _tv_sec);
+                    return None;
+                }
+            };
+            defo!("tv_sec {:?}", $tv_sec);
+            // ut_tv.tv_usec
+            $tv_usec = match time_val.tv_usec.try_into() {
+                Ok(val) => val,
+                Err(_) => {
+                    debug_panic!("tv_usec overflow: {:?}", _tv_usec);
 
-                0
-            }
-        };
-        defo!("tv_usec {:?}", $tv_usec);
-    }})
+                    0
+                }
+            };
+            defo!("tv_usec {:?}", $tv_usec);
+        }
+    }};
 }
 
 macro_rules! buffer_to_time_t {
-    ($ll_time_t:ty, $ll_time_sz:expr, $buffer:ident, $tv_sec:ident) => ({{
-        let size: usize = $ll_time_sz;
-        defo!("size {:?}", size);
-        debug_assert_eq!($buffer.len(), size);
-        let ll_time: $ll_time_t = unsafe {
-            *($buffer.as_ptr() as *const $ll_time_t)
-        };
-        defo!("ll_time {:?}", ll_time);
-        $tv_sec = match ll_time.try_into() {
-            Ok(val) => val,
-            Err(_) => {
-                debug_panic!("tv_sec overflow from ll_time {:?}", ll_time);
-                return None;
-            }
-        };
-        defo!("tv_sec {:?}", $tv_sec);
-    }})
+    ($ll_time_t:ty, $ll_time_sz:expr, $buffer:ident, $tv_sec:ident) => {{
+        {
+            let size: usize = $ll_time_sz;
+            defo!("size {:?}", size);
+            debug_assert_eq!($buffer.len(), size);
+            let ll_time: $ll_time_t = unsafe { *($buffer.as_ptr() as *const $ll_time_t) };
+            defo!("ll_time {:?}", ll_time);
+            $tv_sec = match ll_time.try_into() {
+                Ok(val) => val,
+                Err(_) => {
+                    debug_panic!("tv_sec overflow from ll_time {:?}", ll_time);
+                    return None;
+                }
+            };
+            defo!("tv_sec {:?}", $tv_sec);
+        }
+    }};
 }
 
 /// Helper to [`FixedStructType::tv_pair_from_buffer`].
 /// Debug print the `DateTimeL` conversion of a `tv_pair`.
 macro_rules! defo_tv_pair {
-    ($tv_sec:ident, $tv_usec:ident) => ({{
-        #[cfg(any(debug_assertions, test))]
+    ($tv_sec:ident, $tv_usec:ident) => {{
         {
-            let tz_offset: FixedOffset = FixedOffset::east_opt(0).unwrap();
-            let tv_pair = tv_pair_type($tv_sec, $tv_usec);
-            match convert_tvpair_to_datetime(tv_pair, &tz_offset) {
-                Ok(_dt) => {
-                    defo!("dt: {:?}", _dt);
-                }
-                Err(err) => {
-                    de_err!("{:?}", err);
-                    panic!(
-                        "convert_tvpair_to_datetime({:?}) returned an error; {}",
-                        tv_pair, err
-                    );
+            #[cfg(any(debug_assertions, test))]
+            {
+                let tz_offset: FixedOffset = FixedOffset::east_opt(0).unwrap();
+                let tv_pair = tv_pair_type($tv_sec, $tv_usec);
+                match convert_tvpair_to_datetime(tv_pair, &tz_offset) {
+                    Ok(_dt) => {
+                        defo!("dt: {:?}", _dt);
+                    }
+                    Err(err) => {
+                        de_err!("{:?}", err);
+                        panic!("convert_tvpair_to_datetime({:?}) returned an error; {}", tv_pair, err);
+                    }
                 }
             }
         }
-    }})
+    }};
 }
 
 /// FixedStruct Implementation Type (name `FixedStructType` is taken).

@@ -865,7 +865,7 @@ macro_rules! exit_early_check {
                 return false;
             }
         }
-    }
+    };
 }
 
 /// `clap` argument processor for `--blocksz`.
@@ -902,10 +902,7 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
 
     let max_min = std::cmp::max(BLOCKSZ_MIN, SyslogProcessor::BLOCKSZ_MIN);
     if !(max_min <= blocksz_ && blocksz_ <= BLOCKSZ_MAX) {
-        return Err(format!(
-            "--blocksz must be {} ≤ BLOCKSZ ≤ {}, it was {:?}",
-            max_min, BLOCKSZ_MAX, blockszs
-        ));
+        return Err(format!("--blocksz must be {} ≤ BLOCKSZ ≤ {}, it was {:?}", max_min, BLOCKSZ_MAX, blockszs));
     }
 
     Ok(blocksz_)
@@ -926,9 +923,10 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
             match tz_offset.is_empty() {
                 // an empty value signifies an ambiguous named timezone
                 true => {
-                    return Err(
-                        format!("Given ambiguous timezone {:?} (this timezone abbreviation refers to several timezone offsets)", tzo)
-                    );
+                    return Err(format!(
+                        "Given ambiguous timezone {:?} (this timezone abbreviation refers to several timezone offsets)",
+                        tzo
+                    ));
                 }
                 // unambiguous named timezone passed
                 false => tz_offset,
@@ -960,7 +958,8 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
 
 /// `clap` argument validator for `--prepend-dt-format`.
 ///
-/// Returning `Ok(None)` means that the user did not pass a value for `--prepend-dt-format`.
+/// Returning `Ok(None)` means that the user did not pass a value for
+/// `--prepend-dt-format`.
 fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<String, String> {
     defñ!("cli_parser_prepend_dt_format({:?})", prepend_dt_format);
     unsafe {
@@ -969,13 +968,16 @@ fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<
     if prepend_dt_format.is_empty() {
         return Ok(String::default());
     }
-    let result = Utc
-        .with_ymd_and_hms(2000, 1, 1, 0, 0, 0);
+    let result = Utc.with_ymd_and_hms(2000, 1, 1, 0, 0, 0);
     let dt = match result {
         LocalResult::Single(dt) => dt,
         LocalResult::Ambiguous(dt, _) => dt,
-        LocalResult::None =>
-            return Err(format!("Unable to parse a datetime format for --prepend-dt-format {:?} (this datetime is invalid)", prepend_dt_format)),
+        LocalResult::None => {
+            return Err(format!(
+                "Unable to parse a datetime format for --prepend-dt-format {:?} (this datetime is invalid)",
+                prepend_dt_format
+            ))
+        }
     };
     // try to format the datetime with the given format string in case something
     // panics then panic sooner rather than later
@@ -1007,8 +1009,8 @@ fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
     }
 }
 
-/// regular expression processing of a user-passed duration string like `"-4m2s"`
-/// becomes duration of 4 minutes + 2 seconds
+/// regular expression processing of a user-passed duration string like
+/// `"-4m2s"` becomes duration of 4 minutes + 2 seconds
 /// helper function to `process_dt`
 fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)> {
     defn!("({:?})", val);
@@ -1824,7 +1826,8 @@ type IsLastLogMessage = bool;
 /// * is this the last LogMessage (`Sysline`/`FixedStruct`)?
 /// * `FileProcessingResult`
 ///
-/// There should never be a `LogMessage` and a `FileSummary` received simultaneously.
+/// There should never be a `LogMessage` and a `FileSummary` received
+/// simultaneously.
 ///
 /// [`LogMessage`]: self::LogMessage
 /// [`Summary`]: s4lib::readers::summary::Summary
@@ -2109,21 +2112,14 @@ fn exec_syslogprocessor(
 
     let summary = syslogproc.summary_complete();
     deo!("{:?}({}): last chan_send_dt.send((None, {:?}, {}));", _tid, _tname, summary, false);
-    chan_send(
-        &chan_send_dt,
-        ChanDatum::FileSummary(
-            Some(summary),
-            file_err.unwrap_or(FILEOK),
-        ),
-        &path
-    );
+    chan_send(&chan_send_dt, ChanDatum::FileSummary(Some(summary), file_err.unwrap_or(FILEOK)), &path);
 
     defx!("({:?})", path);
 }
 
-/// This function drives a [`FixedStructReader`] instance through it's processing.
-/// It makes the expected "find" calls (and other checks) during each stage.
-/// Similar to [`exec_syslogprocessor`].
+/// This function drives a [`FixedStructReader`] instance through it's
+/// processing. It makes the expected "find" calls (and other checks) during
+/// each stage. Similar to [`exec_syslogprocessor`].
 fn exec_fixedstructprocessor(
     chan_send_dt: ChanSendDatum,
     thread_init_data: ThreadInitData,
@@ -2141,10 +2137,10 @@ fn exec_fixedstructprocessor(
         tz_offset,
     ) = thread_init_data;
     defn!("{:?}({}): ({:?})", _tid, _tname, path);
-    debug_assert!(matches!(filetype, FileType::FixedStruct{..}));
+    debug_assert!(matches!(filetype, FileType::FixedStruct { .. }));
     debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
     let logmessagetype: LogMessageType = match filetype {
-        FileType::FixedStruct{..} => LogMessageType::FixedStruct,
+        FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
         _ => {
             e_err!("exec_fixedstructprocessor called with filetype {:?} for path {:?}", filetype, path);
             return;
@@ -2221,9 +2217,9 @@ fn exec_fixedstructprocessor(
                 &chan_send_dt,
                 ChanDatum::FileInfo(
                     DateTimeLOpt::None,
-                    FileProcessingResultBlockZero::FileErrTooSmallS(err_string.clone())
+                    FileProcessingResultBlockZero::FileErrTooSmallS(err_string.clone()),
                 ),
-                &path
+                &path,
             );
             // send `ChanDatum::FileSummary`
             let summary = Summary::new_failed(
@@ -2335,7 +2331,7 @@ fn exec_fixedstructprocessor(
 
             defx!("({:?})", path);
             return;
-        },
+        }
     };
     defo!("starting process_entry_at loop from fileoffset_first {:?}", fo);
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
@@ -2530,7 +2526,7 @@ fn exec_journalprocessor(
             chan_send(
                 &chan_send_dt,
                 ChanDatum::FileInfo(DateTimeLOpt::None, FileProcessingResultBlockZero::FileErrIoPath(err)),
-                &path
+                &path,
             );
             // send `ChanDatum::FileSummary`
             let summary = Summary::new_failed(
@@ -2564,9 +2560,7 @@ fn exec_journalprocessor(
     let ts_filter_after = datetimelopt_to_realtime_timestamp_opt(&filter_dt_after_opt);
     defo!("ts_filter_after {:?}", ts_filter_after);
 
-    match journalreader.analyze(
-        &ts_filter_after,
-    ) {
+    match journalreader.analyze(&ts_filter_after) {
         Ok(_) => {}
         Err(err) => {
             let mut summary = journalreader.summary_complete();
@@ -2651,19 +2645,13 @@ fn exec_fileprocessor_thread(
     let tname: &str = "";
 
     match thread_init_data.2 {
-        FileType::FixedStruct{..} => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
-        FileType::Evtx{..} => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
-        FileType::Journal{..} => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
-        FileType::Text{..} => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
-        _ =>  {
-            debug_panic!(
-                "exec_fileprocessor_thread called with unexpected filetype {:?}",
-                thread_init_data.2
-            );
-            e_err!(
-                "exec_fileprocessor_thread called with unexpected filetype {:?}",
-                thread_init_data.2
-            );
+        FileType::FixedStruct { .. } => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Evtx { .. } => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Journal { .. } => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Text { .. } => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
+        _ => {
+            debug_panic!("exec_fileprocessor_thread called with unexpected filetype {:?}", thread_init_data.2);
+            e_err!("exec_fileprocessor_thread called with unexpected filetype {:?}", thread_init_data.2);
         }
     }
 }
@@ -2842,8 +2830,7 @@ fn processing_loop(
                         );
                         paths_total += 1;
                         continue;
-                    }
-                    else if flen <= FILE_TOO_SMALL_SZ {
+                    } else if flen <= FILE_TOO_SMALL_SZ {
                         defo!("paths_invalid_results.push(FileErrTooSmall)");
                         map_pathid_results_invalid.insert(
                             pathid_counter,
@@ -2976,7 +2963,7 @@ fn processing_loop(
             }
         };
         let logmessagespecificdata = match filetype {
-            FileType::Journal{..} => LogMessageSpecificData::Journal(journal_output),
+            FileType::Journal { .. } => LogMessageSpecificData::Journal(journal_output),
             _ => LogMessageSpecificData::None,
         };
         let thread_data: ThreadInitData = (
@@ -3159,7 +3146,7 @@ fn processing_loop(
     // shortcut to the "sep"arator "b"ytes of the `log_message_separator`
     let sepb: &[u8] = log_message_separator.as_str().as_bytes();
     // shortcut to check if `sepb` should be printed
-    let sepb_print: bool = ! sepb.is_empty();
+    let sepb_print: bool = !sepb.is_empty();
     // debug sanity check
     let mut _count_since_received_fileinfo: usize = 0;
 
@@ -3289,9 +3276,7 @@ fn processing_loop(
             {
                 // how long has it been since a `ChanDatum::FileInfo` was received?
                 // was it longer than maximum possible number of file processing threads?
-                if !map_pathid_received_fileinfo.is_empty()
-                   && _count_since_received_fileinfo > file_count
-                {
+                if !map_pathid_received_fileinfo.is_empty() && _count_since_received_fileinfo > file_count {
                     // very likely stuck in a loop, e.g. a file processing thread
                     // exited before sending a `ChanDatum::FileInfo`
                     panic!(
@@ -3380,7 +3365,9 @@ fn processing_loop(
 
             #[cfg(debug_assertions)]
             {
-                for (_i, (_k, _v)) in MAP_PATHID_CHANRECVDATUM.read().unwrap()
+                for (_i, (_k, _v)) in MAP_PATHID_CHANRECVDATUM
+                    .read()
+                    .unwrap()
                     .iter()
                     .enumerate()
                 {
@@ -3400,13 +3387,12 @@ fn processing_loop(
 
                 // First, get a set of all pathids with awaiting LogMessages, ignoring paths
                 // for which no LogMessages were found.
-                // No LogMessages will be printed for those paths that did not return a LogMessage:
+                // No LogMessages will be printed for those paths that did not return a
+                // LogMessage:
                 // - do not include them in determining prepended width (CLI option `-w`).
                 // - do not create a `PrinterLogMessage` for them.
                 let mut pathid_with_logmessages: SetPathId = SetPathId::with_capacity(map_pathid_datum.len());
-                for (pathid, _) in map_pathid_datum
-                    .iter()
-                {
+                for (pathid, _) in map_pathid_datum.iter() {
                     pathid_with_logmessages.insert(*pathid);
                 }
 
@@ -3519,11 +3505,7 @@ fn processing_loop(
             // select the logmessage with earliest datetime
             (pathid, log_message, is_last) = match map_pathid_datum
                 .iter_mut()
-                .min_by(|x, y|
-                    {
-                        x.1.0.dt().cmp(y.1.0.dt())
-                    }
-                )
+                .min_by(|x, y| x.1.0.dt().cmp(y.1.0.dt()))
             {
                 Some(val) => (val.0, &val.1.0, val.1.1),
                 None => {
@@ -3586,12 +3568,14 @@ fn processing_loop(
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
                         SummaryPrinted::summaryprint_map_update_evtx(
-                            evtx, pathid, &mut map_pathid_sumpr, printed, flushed,
+                            evtx,
+                            pathid,
+                            &mut map_pathid_sumpr,
+                            printed,
+                            flushed,
                         );
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_evtx(
-                            evtx, printed, flushed,
-                        );
+                        summaryprinted.summaryprint_update_evtx(evtx, printed, flushed);
                     }
                 }
                 LogMessage::FixedStruct(entry) => {
@@ -3625,12 +3609,14 @@ fn processing_loop(
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
                         SummaryPrinted::summaryprint_map_update_fixedstruct(
-                            entry, pathid, &mut map_pathid_sumpr, printed, flushed,
+                            entry,
+                            pathid,
+                            &mut map_pathid_sumpr,
+                            printed,
+                            flushed,
                         );
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_fixedstruct(
-                            entry, printed, flushed,
-                        );
+                        summaryprinted.summaryprint_update_fixedstruct(entry, printed, flushed);
                     }
                 }
                 LogMessage::Journal(journalentry) => {
@@ -3664,12 +3650,14 @@ fn processing_loop(
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
                         SummaryPrinted::summaryprint_map_update_journalentry(
-                            journalentry, pathid, &mut map_pathid_sumpr, printed, flushed,
+                            journalentry,
+                            pathid,
+                            &mut map_pathid_sumpr,
+                            printed,
+                            flushed,
                         );
                         // update the single total program `SummaryPrinted`
-                        summaryprinted.summaryprint_update_journalentry(
-                            journalentry, printed, flushed,
-                        );
+                        summaryprinted.summaryprint_update_journalentry(journalentry, printed, flushed);
                     }
                 }
                 LogMessage::Sysline(syslinep) => {
@@ -3685,7 +3673,7 @@ fn processing_loop(
                         Ok((printed_, flushed_)) => {
                             printed = printed_ as Count;
                             flushed = flushed_ as Count;
-                        },
+                        }
                         Err(_err) => {
                             // Only print a printing error once and only for debug builds.
                             if !has_print_err {
@@ -3722,11 +3710,14 @@ fn processing_loop(
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
                         SummaryPrinted::summaryprint_map_update_sysline(
-                            syslinep, pathid, &mut map_pathid_sumpr, printed, flushed,
+                            syslinep,
+                            pathid,
+                            &mut map_pathid_sumpr,
+                            printed,
+                            flushed,
                         );
                         // update the single total program `SummaryPrinted`
                         summaryprinted.summaryprint_update_sysline(syslinep, printed, flushed);
-
                     }
                 }
             }
@@ -3847,13 +3838,13 @@ fn processing_loop(
 mod tests {
     extern crate test_case;
     use s4lib::data::datetime::{
-        DateTimePattern_string,
+        ymdhmsl,
+        ymdhmsm,
         DateTimeL,
-    };
-    use s4lib::data::datetime::{
-        ymdhmsl, ymdhmsm,
+        DateTimePattern_string,
     };
     use test_case::test_case;
+
     use super::*;
 
     lazy_static! {
@@ -3927,7 +3918,10 @@ mod tests {
     #[test_case("Z", *FIXEDOFFSET0; "Z (0)")]
     #[test_case("vlat", FixedOffset::east_opt(36000).unwrap(); "vlat east(36000)")]
     #[test_case("IDLW", FixedOffset::east_opt(-43200).unwrap(); "IDLW east(-43200)")]
-    fn test_cli_process_tz_offset(in_: &str, out_fo: FixedOffset) {
+    fn test_cli_process_tz_offset(
+        in_: &str,
+        out_fo: FixedOffset,
+    ) {
         let input: String = String::from(in_);
         let result = cli_process_tz_offset(&input);
         match result {
@@ -4086,11 +4080,7 @@ mod tests {
         dt_other: DateTimeL,
         expect: DateTimeLOpt,
     ) {
-        let dt = process_dt(
-            &dts, &tz_offset,
-            &Some(dt_other),
-            &UTC_NOW.with(|utc_now| *utc_now),
-        );
+        let dt = process_dt(&dts, &tz_offset, &Some(dt_other), &UTC_NOW.with(|utc_now| *utc_now));
         assert_eq!(dt, expect);
     }
 
@@ -4227,7 +4217,10 @@ mod tests {
     #[test_case(r"\\t", Some("\\t"); "escape t")]
     #[test_case(r"\", None)]
     #[test_case(r"\X", None)]
-    fn test_unescape_str (input: &str, expect: Option<&str>) {
+    fn test_unescape_str(
+        input: &str,
+        expect: Option<&str>,
+    ) {
         let result = unescape::unescape_str(input);
         match (result, expect) {
             (Ok(actual_s), Some(expect_s)) => {

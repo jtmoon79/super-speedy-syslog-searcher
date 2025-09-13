@@ -264,8 +264,8 @@ macro_rules! buffer_flush_or_return {
     }};
 }
 
-/// Flushes `PrinterLogMessage.buffer`. No returns. No statistics updates. Ignores errors.
-/// Only for some error-in-progress cases.
+/// Flushes `PrinterLogMessage.buffer`. No returns. No statistics updates.
+/// Ignores errors. Only for some error-in-progress cases.
 macro_rules! buffer_flush_nostats {
     ($stdout:expr, $buffer:expr) => {{
         let mut _error_ret: Option<Error> = None;
@@ -622,7 +622,7 @@ impl PrinterLogMessage {
             prepend_date_format: prepend_date_format_,
             prepend_date_offset,
             color_spec_last,
-            buffer: Vec::<u8>::with_capacity(if BUFFER_USE { BUFFER_CAP } else  { 0 }),
+            buffer: Vec::<u8>::with_capacity(if BUFFER_USE { BUFFER_CAP } else { 0 }),
         }
     }
 
@@ -657,8 +657,7 @@ impl PrinterLogMessage {
         &mut self,
         fixedstruct: &FixedStruct,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult
-    {
+    ) -> PrinterLogMessageResult {
         // TODO: [2023/03/23] refactor `print_utmp*` similar to `print_evtx*`
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_fixedstruct_(fixedstruct, buffer),
@@ -740,7 +739,7 @@ impl PrinterLogMessage {
         );
         let mut dt_str = String::with_capacity(CLI_OPT_PREPEND_FMT_CHARLEN);
         match dt_delayedformat.write_to(&mut dt_str) {
-            Ok(_) => {},
+            Ok(_) => {}
             Err(_err) => de_err!("{}", _err),
         }
 
@@ -754,8 +753,7 @@ impl PrinterLogMessage {
     fn datetime_to_string_fixedstruct(
         &self,
         fixedstruct: &FixedStruct,
-    ) -> String
-    {
+    ) -> String {
         // write the `fixedstruct.dt` into a `String` once
         let dt_: DateTimeL = (*fixedstruct)
             .dt()
@@ -1090,8 +1088,7 @@ impl PrinterLogMessage {
         &mut self,
         fixedstruct: &FixedStruct,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult
-    {
+    ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         let at = match fixedstruct.as_bytes(buffer) {
@@ -1138,8 +1135,7 @@ impl PrinterLogMessage {
         &mut self,
         fixedstruct: &FixedStruct,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult
-    {
+    ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
 
         let mut printed: usize = 0;
@@ -1167,8 +1163,7 @@ impl PrinterLogMessage {
         &mut self,
         fixedstruct: &FixedStruct,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult
-    {
+    ) -> PrinterLogMessageResult {
         debug_assert!(self.prepend_file.is_some(), "self.prepend_file is {:?}", self.prepend_file);
         debug_assert!(!self.prepend_date_format.is_empty());
 
@@ -1201,8 +1196,7 @@ impl PrinterLogMessage {
         &mut self,
         fixedstruct: &FixedStruct,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult
-    {
+    ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         let (at, beg, end) = match fixedstruct.as_bytes(buffer) {
@@ -1211,7 +1205,7 @@ impl PrinterLogMessage {
                 let err = Error::new(
                     ErrorKind::Other,
                     format!("buffer of len {} given too little data {}", buffer.len(), at),
-                );    
+                );
                 return PrinterLogMessageResult::Err(err);
             }
         };
@@ -1242,8 +1236,7 @@ impl PrinterLogMessage {
         &mut self,
         fixedstruct: &FixedStruct,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult
-    {
+    ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
@@ -1254,7 +1247,7 @@ impl PrinterLogMessage {
                 let err = Error::new(
                     ErrorKind::Other,
                     format!("buffer of len {} given too little data {}", buffer.len(), at),
-                );    
+                );
                 return PrinterLogMessageResult::Err(err);
             }
         };
@@ -1290,8 +1283,7 @@ impl PrinterLogMessage {
         &mut self,
         fixedstruct: &FixedStruct,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult
-    {
+    ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         let prepend_file: &[u8] = self
@@ -1305,7 +1297,7 @@ impl PrinterLogMessage {
                 let err = Error::new(
                     ErrorKind::Other,
                     format!("buffer of len {} given too little data {}", buffer.len(), at),
-                );    
+                );
                 return PrinterLogMessageResult::Err(err);
             }
         };
@@ -1341,8 +1333,7 @@ impl PrinterLogMessage {
         &mut self,
         fixedstruct: &FixedStruct,
         buffer: &mut [u8],
-    ) -> PrinterLogMessageResult
-    {
+    ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         let dt_string: String = self.datetime_to_string_fixedstruct(fixedstruct);
@@ -1358,7 +1349,7 @@ impl PrinterLogMessage {
                 let err = Error::new(
                     ErrorKind::Other,
                     format!("buffer of len {} given too little data {}", buffer.len(), at),
-                );    
+                );
                 return PrinterLogMessageResult::Err(err);
             }
         };
@@ -1462,7 +1453,7 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let (beg, end) = match evtx.dt_beg_end() {
             Some((beg, end)) => (*beg, *end),
-            None => (0, 0)
+            None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let mut printed: usize = 0;
@@ -1516,7 +1507,7 @@ impl PrinterLogMessage {
         };
         let (beg, end) = match evtx.dt_beg_end() {
             Some((beg, end)) => (*beg, *end),
-            None => (0, 0)
+            None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let data = evtx.as_bytes();
@@ -1640,7 +1631,7 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let (beg, end) = match journalentry.dt_beg_end() {
             Some((beg, end)) => (*beg, *end),
-            None => (0, 0)
+            None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let mut printed: usize = 0;
@@ -1699,7 +1690,7 @@ impl PrinterLogMessage {
         };
         let (beg, end) = match journalentry.dt_beg_end() {
             Some((beg, end)) => (*beg, *end),
-            None => (0, 0)
+            None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let data = journalentry.as_bytes();

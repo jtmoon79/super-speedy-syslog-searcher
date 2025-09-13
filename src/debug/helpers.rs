@@ -187,9 +187,9 @@ pub fn create_dir_in_tmpdir(
     defx!();
 }
 
-/// Testing helper function to write a `[u8]` to a file in a temporary directory.
-/// Will create leading directories in paths, e.g. `name` value `foo/bar` creates
-/// directory `foo` and file `bar`.
+/// Testing helper function to write a `[u8]` to a file in a temporary
+/// directory. Will create leading directories in paths, e.g. `name` value
+/// `foo/bar` creates directory `foo` and file `bar`.
 pub fn create_file_bytes_name_in_tmpdir(
     data: &[u8],
     name: &FPath,

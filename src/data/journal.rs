@@ -235,7 +235,7 @@ impl JournalEntry {
     /// Determines `dt_uses_source` from passed `source_realtime_timestamp` and
     /// `realtime_timestamp`.
     pub fn new(
-        data: Vec::<u8>,
+        data: Vec<u8>,
         realtime_timestamp: EpochMicroseconds,
         source_realtime_timestamp: EpochMicrosecondsOpt,
         dt_uses_source: DtUsesSource,
@@ -260,7 +260,7 @@ impl JournalEntry {
 
     /// Caller has all the nnecessary data to create a `JournalEntry`.
     pub fn new_with_date(
-        data: Vec::<u8>,
+        data: Vec<u8>,
         realtime_timestamp: EpochMicroseconds,
         source_realtime_timestamp: EpochMicrosecondsOpt,
         dt: DateTimeL,
@@ -352,23 +352,18 @@ impl JournalEntry {
         let dt = realtime_or_source_realtime_timestamp_to_datetimel(
             fixedoffset,
             &realtime_timestamp,
-            &source_realtime_timestamp
+            &source_realtime_timestamp,
         );
         let (dt_a, dt_b) = Self::find_timestamp_in_buffer(data.as_slice(), dt_uses_source);
-        Self::from_vec(
-            data,
-            realtime_timestamp,
-            source_realtime_timestamp,
-            dt,
-            dt_uses_source,
-            dt_a,
-            dt_b,
-        )
+        Self::from_vec(data, realtime_timestamp, source_realtime_timestamp, dt, dt_uses_source, dt_a, dt_b)
     }
 
     /// Find the datetime stamp substring by searching for relevant key
     /// patterns.
-    pub(crate) fn find_timestamp_in_buffer(buffer: &[u8], dt_uses_source: DtUsesSource) -> (usize, usize) {
+    pub(crate) fn find_timestamp_in_buffer(
+        buffer: &[u8],
+        dt_uses_source: DtUsesSource,
+    ) -> (usize, usize) {
         def1n!();
         let dt_a: usize;
         let dt_b: usize;

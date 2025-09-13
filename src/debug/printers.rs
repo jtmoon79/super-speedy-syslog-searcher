@@ -87,12 +87,14 @@ pub use e_wrn;
 // ------------------------------------------
 // helper functions - various print and write
 
-/// turn passed u8 into char, for any char values that are CLI formatting instructions transform
-/// them to pictoral representations, e.g. '\n' returns a pictoral unicode representation '␊'.
+/// turn passed u8 into char, for any char values that are CLI formatting
+/// instructions transform them to pictoral representations, e.g. '\n' returns a
+/// pictoral unicode representation '␊'.
 ///
-/// This is intended as an improvement of `fmt::Debug` display of `str` which control codes with
-/// backslash-escape sequences, e.g. '\n'. This function keeps the printing width of a control
-/// character to 1. This helps humans visually review various debug outputs.
+/// This is intended as an improvement of `fmt::Debug` display of `str` which
+/// control codes with backslash-escape sequences, e.g. '\n'. This function
+/// keeps the printing width of a control character to 1. This helps humans
+/// visually review various debug outputs.
 ///
 /// only intended to aid visual debugging
 ///

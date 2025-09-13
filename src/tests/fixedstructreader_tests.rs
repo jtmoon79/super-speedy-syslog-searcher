@@ -5,20 +5,34 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
+use std::any::Any;
+use std::collections::HashSet;
+
+use ::chrono::Duration;
+#[allow(unused_imports)]
+use ::si_trace_print::printers::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
+use ::si_trace_print::stack::stack_offset_set;
+use ::test_case::test_case;
+
 use crate::common::{
     Count,
+    FPath,
     FileOffset,
     FileType,
     FileTypeArchive,
     FileTypeFixedStruct,
-    FPath,
 };
 use crate::data::datetime::FixedOffset;
 use crate::data::fixedstruct::{
+    linux_x86,
     FixedStruct,
     FixedStructType,
     ENTRY_SZ_MAX,
-    linux_x86,
 };
 use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::blockreader::{
@@ -26,46 +40,36 @@ use crate::readers::blockreader::{
     BlockSz,
     SummaryBlockReader,
 };
-use crate::readers::helpers::path_to_fpath;
-use crate::readers::summary::SummaryReaderData;
 use crate::readers::fixedstructreader::{
     FixedStructReader,
+    ResultFindFixedStruct,
     ResultFixedStructReaderNew,
     ResultFixedStructReaderNewError,
-    ResultFindFixedStruct,
     SummaryFixedStructReader,
 };
+use crate::readers::helpers::path_to_fpath;
+use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
     FO_0,
     FO_P8,
-    LINUX_X86_UTMPX_2ENTRY_FILESZ,
     LINUX_X86_LASTLOG_BUFFER1_DTO,
-    NTF_LOG_EMPTY_FPATH,
-    NTF_NL_1_PATH,
-    NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH,
-    NTF_LINUX_X86_UTMPX_1ENTRY_FPATH,
-    NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
-    NTF_LINUX_X86_UTMPX_3ENTRY_FPATH,
-    NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH,
-    NTF_LINUX_X86_UTMPX_00_ENTRY_FPATH,
-    NTF_LINUX_X86_UTMPX_55_ENTRY_FPATH,
-    NTF_LINUX_X86_UTMPX_AA_ENTRY_FPATH,
-    NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH,
+    LINUX_X86_UTMPX_2ENTRY_FILESZ,
     LINUX_X86_UTMPX_BUFFER1_DT,
     LINUX_X86_UTMPX_BUFFER1_DTO,
     LINUX_X86_UTMPX_BUFFER2_DTO,
     LINUX_X86_UTMPX_BUFFER3_DTO,
+    NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH,
+    NTF_LINUX_X86_UTMPX_00_ENTRY_FPATH,
+    NTF_LINUX_X86_UTMPX_1ENTRY_FPATH,
+    NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
+    NTF_LINUX_X86_UTMPX_3ENTRY_FPATH,
+    NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH,
+    NTF_LINUX_X86_UTMPX_55_ENTRY_FPATH,
+    NTF_LINUX_X86_UTMPX_AA_ENTRY_FPATH,
+    NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH,
+    NTF_LOG_EMPTY_FPATH,
+    NTF_NL_1_PATH,
 };
-
-use std::any::Any;
-use std::collections::HashSet;
-
-use ::chrono::Duration;
-#[allow(unused_imports)]
-use ::si_trace_print::printers::{defn, defo, defx, defñ};
-use ::si_trace_print::stack::stack_offset_set;
-use ::test_case::test_case;
-
 
 // short alias
 const U1SZ: FileOffset = linux_x86::UTMPX_SZ as FileOffset;
@@ -74,7 +78,7 @@ const L1SZ: FileOffset = linux_x86::LASTLOG_SZ as FileOffset;
 const UFS: FileTypeFixedStruct = FileTypeFixedStruct::Utmpx;
 const LFS: FileTypeFixedStruct = FileTypeFixedStruct::Lastlog;
 
-const FT_UTMPX: FileType = FileType::FixedStruct{
+const FT_UTMPX: FileType = FileType::FixedStruct {
     archival_type: FileTypeArchive::Normal,
     fixedstruct_type: FileTypeFixedStruct::Utmpx,
 };

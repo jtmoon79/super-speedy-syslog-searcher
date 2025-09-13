@@ -6,88 +6,6 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::FPath;
-use crate::tests::common::{
-    FO_0,
-    FO_P1,
-    FO_M7,
-    FO_M8,
-    FO_E10,
-    FO_L,
-    FO_L_STR,
-    FO_W8,
-    FO_Z,
-};
-use crate::data::datetime::{
-    LineIndex,
-    ymdhms,
-    ymdhmsn,
-    ymdhmsm,
-    ymdhmsn_args,
-    DUMMY_ARGS,
-    O_L,
-    YEAR_FALLBACKDUMMY_VAL,
-    bytes_to_regex_to_datetime,
-    datetime_from_str_workaround_Issue660,
-    datetime_parse_from_str,
-    dt_after_or_before,
-    dt_pass_filters,
-    DTFSSet,
-    DTFS_Tz,
-    DTFS_Year,
-    DTFS_Epoch,
-    DTFS_Uptime,
-    DateTimeL,
-    DateTimeLOpt,
-    FixedOffset,
-    DateTimeParseInstr,
-    DateTimePattern_str,
-    DateTimeRegex_str,
-    Result_Filter_DateTime1,
-    Result_Filter_DateTime2,
-    SystemTime,
-    Year,
-    DATETIME_PARSE_DATAS,
-    CGP_HOUR_ALL,
-    CGP_MINUTE,
-    CGP_SECOND,
-    CGP_FRACTIONAL,
-    CGP_FRACTIONAL23,
-    CGP_FRACTIONAL3,
-    CGP_FRACTIONAL6,
-    CGP_FRACTIONAL9,
-    CGP_FRACTIONAL39,
-    CGP_MONTH_ALL,
-    CGN_ALL,
-    CGP_DAY_ALL,
-    CGP_YEAR,
-    CGP_YEARy,
-    CGP_TZZ,
-    CGP_TZ_ALL,
-    CGP_EPOCH,
-    MAP_TZZ_TO_TZz,
-    RP_LB,
-    RP_RB,
-    DTP_ALL,
-    slice_contains_X_2,
-    slice_contains_X_2_unroll,
-    slice_contains_D2,
-    slice_contains_D2_custom,
-    slice_contains_12_D2,
-};
-#[cfg(feature = "bench_jetscii")]
-use crate::data::datetime::{
-    slice_contains_X_2_jetscii,
-    slice_contains_D2_jetscii,
-};
-use crate::data::datetime::slice_contains_X_2_memchr;
-#[cfg(feature = "bench_stringzilla")]
-use crate::data::datetime::{
-    slice_contains_X_2_stringzilla,
-    slice_contains_D2_stringzilla,
-};
-use crate::debug::printers::buffer_to_String_noraw;
-
 use std::collections::HashSet;
 use std::str;
 use std::time::UNIX_EPOCH;
@@ -95,13 +13,108 @@ use std::time::UNIX_EPOCH;
 use ::bstr::ByteSlice;
 // for `with_nanosecond()`, `year()`, and others
 #[allow(unused_imports)]
-use ::chrono::{Datelike, Timelike};
-use ::more_asserts::{assert_gt, assert_le, assert_lt};
+use ::chrono::{
+    Datelike,
+    Timelike,
+};
+use ::more_asserts::{
+    assert_gt,
+    assert_le,
+    assert_lt,
+};
 use ::regex;
 use ::si_trace_print::stack::stack_offset_set;
-use ::si_trace_print::{defn, defo, defx};
-use ::test_case::{test_case, test_matrix};
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+};
+use ::test_case::{
+    test_case,
+    test_matrix,
+};
 
+use crate::common::FPath;
+use crate::data::datetime::{
+    bytes_to_regex_to_datetime,
+    datetime_from_str_workaround_Issue660,
+    datetime_parse_from_str,
+    dt_after_or_before,
+    dt_pass_filters,
+    slice_contains_12_D2,
+    slice_contains_D2,
+    slice_contains_D2_custom,
+    slice_contains_X_2,
+    slice_contains_X_2_memchr,
+    slice_contains_X_2_unroll,
+    ymdhms,
+    ymdhmsm,
+    ymdhmsn,
+    ymdhmsn_args,
+    CGP_YEARy,
+    DTFSSet,
+    DTFS_Epoch,
+    DTFS_Tz,
+    DTFS_Uptime,
+    DTFS_Year,
+    DateTimeL,
+    DateTimeLOpt,
+    DateTimeParseInstr,
+    DateTimePattern_str,
+    DateTimeRegex_str,
+    FixedOffset,
+    LineIndex,
+    MAP_TZZ_TO_TZz,
+    Result_Filter_DateTime1,
+    Result_Filter_DateTime2,
+    SystemTime,
+    Year,
+    CGN_ALL,
+    CGP_DAY_ALL,
+    CGP_EPOCH,
+    CGP_FRACTIONAL,
+    CGP_FRACTIONAL23,
+    CGP_FRACTIONAL3,
+    CGP_FRACTIONAL39,
+    CGP_FRACTIONAL6,
+    CGP_FRACTIONAL9,
+    CGP_HOUR_ALL,
+    CGP_MINUTE,
+    CGP_MONTH_ALL,
+    CGP_SECOND,
+    CGP_TZZ,
+    CGP_TZ_ALL,
+    CGP_YEAR,
+    DATETIME_PARSE_DATAS,
+    DTP_ALL,
+    DUMMY_ARGS,
+    O_L,
+    RP_LB,
+    RP_RB,
+    YEAR_FALLBACKDUMMY_VAL,
+};
+#[cfg(feature = "bench_jetscii")]
+use crate::data::datetime::{
+    slice_contains_D2_jetscii,
+    slice_contains_X_2_jetscii,
+};
+#[cfg(feature = "bench_stringzilla")]
+use crate::data::datetime::{
+    slice_contains_D2_stringzilla,
+    slice_contains_X_2_stringzilla,
+};
+use crate::debug::printers::buffer_to_String_noraw;
+use crate::tests::common::{
+    FO_0,
+    FO_E10,
+    FO_L,
+    FO_L_STR,
+    FO_M7,
+    FO_M8,
+    FO_P1,
+    FO_W8,
+    FO_Z,
+};
 
 /// does regex pattern have a year?
 pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {

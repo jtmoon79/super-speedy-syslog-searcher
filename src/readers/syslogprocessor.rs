@@ -212,8 +212,7 @@ lazy_static! {
 /// A `SyslogProcessor` has knowledge of:
 /// - the different stages of processing a syslog file
 /// - stores optional datetime filters and searches with them
-/// - handles special cases of a syslog file with a datetime format without a
-///   year
+/// - handles special cases of a syslog file with a datetime format without a year
 ///
 /// A `SyslogProcessor` is driven by a thread to fully process one syslog file.
 ///
@@ -299,7 +298,8 @@ impl SyslogProcessor {
     #[cfg(any(debug_assertions, test))]
     pub const BLOCKSZ_MIN: BlockSz = 0x2;
 
-    /// Maximum number of datetime patterns for matching the remainder of a syslog file.
+    /// Maximum number of datetime patterns for matching the remainder of a
+    /// syslog file.
     const DT_PATTERN_MAX: usize = SyslineReader::DT_PATTERN_MAX;
 
     /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
@@ -349,15 +349,15 @@ impl SyslogProcessor {
     ) -> Result<SyslogProcessor> {
         def1n!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
         if blocksz < SyslogProcessor::BLOCKSZ_MIN {
-            return Result::Err(
-                Error::new(
-                    ErrorKind::InvalidInput,
-                    format!(
-                        "BlockSz {0} (0x{0:08X}) is too small, SyslogProcessor has BlockSz minimum {1} (0x{1:08X}) file {2:?}",
-                        blocksz, SyslogProcessor::BLOCKSZ_MIN, &path,
-                    )
-                )
-            );
+            return Result::Err(Error::new(
+                ErrorKind::InvalidInput,
+                format!(
+                    "BlockSz {0} (0x{0:08X}) is too small, SyslogProcessor has BlockSz minimum {1} (0x{1:08X}) file {2:?}",
+                    blocksz,
+                    SyslogProcessor::BLOCKSZ_MIN,
+                    &path,
+                ),
+            ));
         }
         let path_ = path.clone();
         let mut slr = match SyslineReader::new(path, filetype, blocksz, tz_offset) {
@@ -638,10 +638,11 @@ impl SyslogProcessor {
         defo!("year_opt {:?}", year_opt);
         let charsz_fo: FileOffset = self.charsz() as FileOffset;
 
-        // The previously stored `Sysline`s have a filler year that is most likely incorrect.
-        // The underlying `Sysline` instance cannot be updated behind an `Arc`.
-        // Those syslines must be dropped and the entire file processed again.
-        // However, underlying `Line` and `Block` are still valid; do not reprocess those.
+        // The previously stored `Sysline`s have a filler year that is most likely
+        // incorrect. The underlying `Sysline` instance cannot be updated behind
+        // an `Arc`. Those syslines must be dropped and the entire file
+        // processed again. However, underlying `Line` and `Block` are still
+        // valid; do not reprocess those.
         self.syslinereader
             .clear_syslines();
 
@@ -678,8 +679,8 @@ impl SyslogProcessor {
             let fo_prev_prev: FileOffset = fo_prev;
             fo_prev = (*syslinep).fileoffset_begin();
             // check if datetime has suddenly jumped backwards.
-            // if date has jumped backwards, then remove sysline, update the year, and process the file
-            // from that fileoffset again
+            // if date has jumped backwards, then remove sysline, update the year, and
+            // process the file from that fileoffset again
             match syslinep_prev_opt {
                 Some(syslinep_prev) => {
                     // normally `dt_cur` should have a datetime *before or equal* to `dt_prev`

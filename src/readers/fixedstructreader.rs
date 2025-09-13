@@ -225,8 +225,8 @@ pub struct FixedStructReader {
     /// [`convert_tvpair_to_datetime`]: crate::data::fixedstruct::convert_tvpair_to_datetime
     tz_offset: FixedOffset,
     /// A temporary hold for [`FixedStruct`] entries found
-    /// by [`preprocess_fixedstructtype`]. Use `insert_cache_entry` and `remove_entry`
-    /// to manage this cache.
+    /// by [`preprocess_fixedstructtype`]. Use `insert_cache_entry` and
+    /// `remove_entry` to manage this cache.
     ///
     /// [`preprocess_fixedstructtype`]: FixedStructReader::preprocess_fixedstructtype
     pub(crate) cache_entries: FoToEntry,

@@ -6,66 +6,11 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::FileOffset;
-use crate::data::datetime::{
-    DateTimeL,
-    DateTimeLOpt,
-    ymdhms,
-    ymdhmsm,
-};
-use crate::data::fixedstruct::{
-    buffer_to_fixedstructptr,
-    convert_datetime_tvpair,
-    convert_tvpair_to_datetime,
-    tv_pair_type,
-    tv_sec_type,
-    tv_usec_type,
-    FixedStruct,
-    FixedStructDynPtr,
-    FixedStructType,
-    InfoAsBytes,
-    Score,
-    ENTRY_SZ_MAX,
-    freebsd_x8664,
-    linux_arm64aarch64,
-    linux_x86,
-    netbsd_x8632,
-    netbsd_x8664,
-    openbsd_x86,
-};
-use crate::readers::blockreader::{
-    BlockSz,
-    BlockOffset,
-};
-use crate::tests::common::{
-    FO_0,
-    FREEBSD_X8664_UTMPX_BUFFER1,
-    LINUX_ARM64AARCH64_LASTLOG_BUFFER1,
-    LINUX_ARM64AARCH64_UTMPX_BUFFER1,
-    LINUX_X86_ACCT_BUFFER1,
-    LINUX_X86_ACCT_V3_BUFFER1,
-    LINUX_X86_UTMPX_BUFFER1,
-    LINUX_X86_UTMPX_BUFFER2,
-    LINUX_X86_UTMPX_BUFFER_00,
-    LINUX_X86_UTMPX_BUFFER_FF,
-    LINUX_X86_LASTLOG_BUFFER1,
-    NETBSD_X8632_ACCT_BUFFER1,
-    NETBSD_X8632_LASTLOGX_BUFFER1,
-    NETBSD_X8632_UTMPX_BUFFER1,
-    NETBSD_X8664_LASTLOG_BUFFER1,
-    NETBSD_X8664_LASTLOGX_BUFFER1,
-    NETBSD_X8664_UTMP_BUFFER1,
-    NETBSD_X8664_UTMPX_BUFFER1,
-    OPENBSD_X86_LASTLOG_BUFFER1,
-    OPENBSD_X86_UTMP_BUFFER1,
-};
-
 use std::ffi::CString;
 use std::str; // for `from_utf8`
 
 use ::chrono::FixedOffset;
 use ::lazy_static::lazy_static;
-use ::test_case::test_case;
 use ::more_asserts::{
     assert_gt,
     assert_lt,
@@ -77,7 +22,61 @@ use ::si_trace_print::{
     defx,
     defñ,
 };
+use ::test_case::test_case;
 
+use crate::common::FileOffset;
+use crate::data::datetime::{
+    ymdhms,
+    ymdhmsm,
+    DateTimeL,
+    DateTimeLOpt,
+};
+use crate::data::fixedstruct::{
+    buffer_to_fixedstructptr,
+    convert_datetime_tvpair,
+    convert_tvpair_to_datetime,
+    freebsd_x8664,
+    linux_arm64aarch64,
+    linux_x86,
+    netbsd_x8632,
+    netbsd_x8664,
+    openbsd_x86,
+    tv_pair_type,
+    tv_sec_type,
+    tv_usec_type,
+    FixedStruct,
+    FixedStructDynPtr,
+    FixedStructType,
+    InfoAsBytes,
+    Score,
+    ENTRY_SZ_MAX,
+};
+use crate::readers::blockreader::{
+    BlockOffset,
+    BlockSz,
+};
+use crate::tests::common::{
+    FO_0,
+    FREEBSD_X8664_UTMPX_BUFFER1,
+    LINUX_ARM64AARCH64_LASTLOG_BUFFER1,
+    LINUX_ARM64AARCH64_UTMPX_BUFFER1,
+    LINUX_X86_ACCT_BUFFER1,
+    LINUX_X86_ACCT_V3_BUFFER1,
+    LINUX_X86_LASTLOG_BUFFER1,
+    LINUX_X86_UTMPX_BUFFER1,
+    LINUX_X86_UTMPX_BUFFER2,
+    LINUX_X86_UTMPX_BUFFER_00,
+    LINUX_X86_UTMPX_BUFFER_FF,
+    NETBSD_X8632_ACCT_BUFFER1,
+    NETBSD_X8632_LASTLOGX_BUFFER1,
+    NETBSD_X8632_UTMPX_BUFFER1,
+    NETBSD_X8664_LASTLOGX_BUFFER1,
+    NETBSD_X8664_LASTLOG_BUFFER1,
+    NETBSD_X8664_UTMPX_BUFFER1,
+    NETBSD_X8664_UTMP_BUFFER1,
+    OPENBSD_X86_LASTLOG_BUFFER1,
+    OPENBSD_X86_UTMP_BUFFER1,
+};
 
 /// fileoffset for `UTMPX2`
 const UTMPX2_FO2: FileOffset = linux_x86::UTMPX_SZ_FO;
@@ -120,7 +119,6 @@ lazy_static! {
         ).unwrap()
     };
 }
-
 
 #[test_case(
     ymdhmsm(&FO_0, 2030, 1, 2, 0, 12, 13, 999999), 1893543133, 999999

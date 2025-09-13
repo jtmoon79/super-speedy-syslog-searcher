@@ -10,18 +10,28 @@ use std::io::ErrorKind;
 use std::ops::Range;
 use std::path::Path;
 
+use ::bstr::ByteSlice;
+use ::criterion::black_box;
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
+use ::test_case::test_case;
+
 use crate::common::{
     Count,
+    FPath,
     FileSz,
     FileType,
     FileTypeArchive,
-    FPath,
     LogMessageType,
 };
 use crate::data::datetime::{
+    DateTimeLOpt,
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
-    DateTimeLOpt,
 };
 use crate::data::journal::{
     EpochMicroseconds,
@@ -29,76 +39,65 @@ use crate::data::journal::{
 };
 use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::libload::systemd_dlopen2::{
-    LoadLibraryError,
     load_library_systemd,
+    LoadLibraryError,
 };
 use crate::readers::helpers::path_to_fpath;
-use crate::readers::summary::SummaryReaderData;
 use crate::readers::journalreader::{
-    JournalOutput,
-    JournalReader,
     em_after_or_before,
     em_pass_filters,
     errno_to_errorkind,
     Errno,
-    ResultNext,
     ForceErrorRangeOpt,
+    JournalOutput,
+    JournalReader,
+    ResultNext,
 };
+use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
     FILETYPE_JOURNAL,
     FO_0,
-    TS_1,
-    NTF_JOURNAL_EMPTY_FPATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_PATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
-    JOURNAL_FILE_RHE_91_SYSTEM_EVENT_FILESZ,
-    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT,
-    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT,
-    JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT,
-    JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_FILESZ,
-    JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT,
-    JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT,
-    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT,
-    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_FILESZ,
-    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT,
-    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT,
-    JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT,
-    JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_FILESZ,
-    JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT,
-    JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT,
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_EXPORT,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORT,
-    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTPRECISE,
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTFULL,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISO,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTISOPRECISE,
-    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTFULL,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTMONOTONIC,
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTPRECISE,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_SHORTUNIX,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_VERBOSE,
-    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_EXPORT,
-    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT,
-    JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH,
-    JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH,
-    JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
-    JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ,
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_FIRST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_ENTRY_LAST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_EVENT_FILESZ,
+    JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_FIRST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_ENTRY_LAST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_EVENT_FILESZ,
+    JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_FIRST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_ENTRY_LAST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_EVENT_FILESZ,
+    JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_PATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_FIRST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_ENTRY_LAST_DT,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_COUNT,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_EVENT_FILESZ,
+    JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH,
     JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_FIRST_DT,
     JOURNAL_FILE_UBUNTU_22_SYSTEM_ENTRY_LAST_DT,
+    JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_COUNT,
+    JOURNAL_FILE_UBUNTU_22_SYSTEM_EVENT_FILESZ,
+    JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH,
+    JOURNAL_FILE_UBUNTU_22_SYSTEM_PATH,
+    NTF_JOURNAL_EMPTY_FPATH,
     SYSTEMD_NOT_AVAILABLE,
+    TS_1,
 };
-
-use ::bstr::ByteSlice;
-use ::criterion::black_box;
-use ::test_case::test_case;
-use ::si_trace_print::{
-    defn,
-    defo,
-    defx,
-    defñ,
-};
-
 
 const FT_NORM: FileType = FileType::Journal {
     archival_type: FileTypeArchive::Normal,
@@ -244,7 +243,10 @@ fn test_mtime(path: &FPath) {
 #[test_case(&FPath::from("BAD PATH"), false)]
 #[test_case(&*JOURNAL_FILE_RHE_91_SYSTEM_FPATH, true)]
 #[test_case(&*JOURNAL_FILE_UBUNTU_22_SYSTEM_FPATH, true)]
-fn test_JournalReader_new_(path: &FPath, ok: bool) {
+fn test_JournalReader_new_(
+    path: &FPath,
+    ok: bool,
+) {
     defn!();
     let load = load_library_systemd();
     defo!("load_library_systemd() returned {:?}", load);
@@ -387,9 +389,7 @@ fn test_JournalReader_entry1_output(
     }
     let result = journalreader.next(&None);
     let je = match result {
-        ResultNext::Found(je) => {
-            je
-        }
+        ResultNext::Found(je) => je,
         ResultNext::Done => {
             panic!("journalreader.next() failed: Done");
         }

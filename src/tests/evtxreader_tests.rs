@@ -6,55 +6,59 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
-use crate::common::{
-    Count,
-    FileSz,
-    FileType,
-    FileTypeArchive,
-    FPath,
-    LogMessageType,
-};
-use crate::data::datetime::DateTimeLOpt;
-use crate::data::common::DtBegEndPairOpt;
-use crate::data::evtx::Evtx;
-use crate::debug::helpers::create_temp_file_no_permissions;
-use crate::readers::helpers::path_to_fpath;
-use crate::readers::summary::SummaryReaderData;
-use crate::readers::evtxreader::EvtxReader;
-use crate::tests::common::{
-    NTF_LOG_EMPTY_FPATH,
-    EVTX_NE_FPATH,
-    EVTX_KPNP_FPATH,
-    EVTX_KPNP_ENTRY1_DT,
-    EVTX_KPNP_ENTRY227_DT,
-    EVTX_KPNP_EVENT_COUNT,
-    EVTX_KPNP_DATA1_S,
-    EVTX_KPNP_GZ_FPATH,
-    EVTX_KPNP_GZ_ENTRY1_DT,
-    EVTX_KPNP_GZ_ENTRY227_DT,
-    EVTX_KPNP_GZ_EVENT_COUNT,
-    EVTX_KPNP_LZ4_FPATH,
-    EVTX_KPNP_LZ4_ENTRY1_DT,
-    EVTX_KPNP_LZ4_ENTRY227_DT,
-    EVTX_KPNP_LZ4_EVENT_COUNT,
-    EVTX_KPNP_TAR_FPATH,
-    EVTX_KPNP_TAR_ENTRY1_DT,
-    EVTX_KPNP_TAR_ENTRY227_DT,
-    EVTX_KPNP_TAR_EVENT_COUNT,
-    EVTX_KPNP_XZ_FPATH,
-    EVTX_KPNP_XZ_ENTRY1_DT,
-    EVTX_KPNP_XZ_ENTRY227_DT,
-    EVTX_KPNP_XZ_EVENT_COUNT,
-};
-
 use ::criterion::black_box;
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
-use ::si_trace_print::printers::{defn, defo, defx, defñ};
+use ::si_trace_print::printers::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
 #[allow(unused_imports)]
 use ::si_trace_print::stack::stack_offset_set;
 use ::test_case::test_case;
 
+use crate::common::{
+    Count,
+    FPath,
+    FileSz,
+    FileType,
+    FileTypeArchive,
+    LogMessageType,
+};
+use crate::data::common::DtBegEndPairOpt;
+use crate::data::datetime::DateTimeLOpt;
+use crate::data::evtx::Evtx;
+use crate::debug::helpers::create_temp_file_no_permissions;
+use crate::readers::evtxreader::EvtxReader;
+use crate::readers::helpers::path_to_fpath;
+use crate::readers::summary::SummaryReaderData;
+use crate::tests::common::{
+    EVTX_KPNP_DATA1_S,
+    EVTX_KPNP_ENTRY1_DT,
+    EVTX_KPNP_ENTRY227_DT,
+    EVTX_KPNP_EVENT_COUNT,
+    EVTX_KPNP_FPATH,
+    EVTX_KPNP_GZ_ENTRY1_DT,
+    EVTX_KPNP_GZ_ENTRY227_DT,
+    EVTX_KPNP_GZ_EVENT_COUNT,
+    EVTX_KPNP_GZ_FPATH,
+    EVTX_KPNP_LZ4_ENTRY1_DT,
+    EVTX_KPNP_LZ4_ENTRY227_DT,
+    EVTX_KPNP_LZ4_EVENT_COUNT,
+    EVTX_KPNP_LZ4_FPATH,
+    EVTX_KPNP_TAR_ENTRY1_DT,
+    EVTX_KPNP_TAR_ENTRY227_DT,
+    EVTX_KPNP_TAR_EVENT_COUNT,
+    EVTX_KPNP_TAR_FPATH,
+    EVTX_KPNP_XZ_ENTRY1_DT,
+    EVTX_KPNP_XZ_ENTRY227_DT,
+    EVTX_KPNP_XZ_EVENT_COUNT,
+    EVTX_KPNP_XZ_FPATH,
+    EVTX_NE_FPATH,
+    NTF_LOG_EMPTY_FPATH,
+};
 
 /// Error, broken data
 pub const EVTX_KPNP_DATA1_S_E: &str = r#"
@@ -94,11 +98,11 @@ const FT_XZ: FileType = FileType::Evtx {
 #[test_case(&EVTX_KPNP_FPATH, true)]
 #[test_case(&NTF_LOG_EMPTY_FPATH, false)]
 #[test_case(&FPath::from("BAD PATH"), false)]
-fn test_EvtxReader_new(path: &FPath, ok: bool) {
-    match EvtxReader::new(
-        path.clone(),
-        FT_NORM,
-    ) {
+fn test_EvtxReader_new(
+    path: &FPath,
+    ok: bool,
+) {
+    match EvtxReader::new(path.clone(), FT_NORM) {
         Ok(_) => {
             assert!(ok, "EvtxReader::new({:?}) should have failed", path);
         }
@@ -114,10 +118,7 @@ fn test_new_EvtxReader_no_file_permissions() {
     let ntf = create_temp_file_no_permissions(".evtx");
     let path = ntf.path();
     let fpath = path_to_fpath(path);
-    match EvtxReader::new(
-        fpath.clone(),
-        FT_NORM,
-    ) {
+    match EvtxReader::new(fpath.clone(), FT_NORM) {
         Ok(_) => {
             panic!("no permissions to read {:?}", path);
         }
@@ -131,10 +132,7 @@ fn test_new_EvtxReader_no_file_permissions() {
 #[test_case(&EVTX_NE_FPATH)]
 #[test_case(&EVTX_KPNP_FPATH)]
 fn test_mtime(path: &FPath) {
-    let er1 = EvtxReader::new(
-        path.clone(),
-        FT_NORM,
-    ).unwrap();
+    let er1 = EvtxReader::new(path.clone(), FT_NORM).unwrap();
     // merely run the function
     _ = er1.mtime();
 }
@@ -143,13 +141,8 @@ fn test_mtime(path: &FPath) {
 /// before doing any processing
 #[test_case(&EVTX_NE_FPATH)]
 #[test_case(&EVTX_KPNP_FPATH)]
-fn test_EvtxReader_summary_empty(
-    path: &FPath,
-) {
-    let evtxreader = EvtxReader::new(
-        path.clone(),
-        FT_NORM,
-    ).unwrap();
+fn test_EvtxReader_summary_empty(path: &FPath) {
+    let evtxreader = EvtxReader::new(path.clone(), FT_NORM).unwrap();
     _ = evtxreader.summary();
     _ = evtxreader.summary_complete();
 }

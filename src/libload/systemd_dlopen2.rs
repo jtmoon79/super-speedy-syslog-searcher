@@ -372,7 +372,10 @@ pub enum LoadLibraryError {
 
 impl PartialEq for LoadLibraryError {
     /// allow `Err` == `PrevErr`
-    fn eq(&self, other: &LoadLibraryError) -> bool {
+    fn eq(
+        &self,
+        other: &LoadLibraryError,
+    ) -> bool {
         match (self, other) {
             (&LoadLibraryError::Ok, &LoadLibraryError::Ok) |
             (&LoadLibraryError::Err(_), &LoadLibraryError::Err(_)) |
@@ -386,7 +389,10 @@ impl PartialEq for LoadLibraryError {
 impl Eq for LoadLibraryError {}
 
 impl fmt::Debug for LoadLibraryError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter<'_>,
+    ) -> fmt::Result {
         match self {
             LoadLibraryError::Ok => {
                 f.debug_struct("LoadLibraryError::Ok")

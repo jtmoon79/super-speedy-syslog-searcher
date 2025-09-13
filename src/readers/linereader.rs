@@ -970,7 +970,8 @@ impl LineReader {
         debug_assert_ge!(bi_stop, charsz_bi, "bi_stop is less than charsz; not yet handled");
 
         // XXX: only handle UTF-8/ASCII encoding
-        defo!("({}) B1: scan middle block {} forwards, starting from blockindex {} (fileoffset {}) searching for newline B",
+        defo!(
+            "({}) B1: scan middle block {} forwards, starting from blockindex {} (fileoffset {}) searching for newline B",
             fileoffset,
             bo_middle,
             bi_at,

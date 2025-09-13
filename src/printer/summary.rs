@@ -18,21 +18,24 @@ use ::chrono::{
     Timelike,
 };
 use ::current_platform::CURRENT_PLATFORM;
-use ::si_trace_print::{de, defñ};
+use ::si_trace_print::{
+    de,
+    defñ,
+};
 
-use crate::de_err;
 use crate::common::{
-    AllocatorChosen,
     debug_panic,
+    AllocatorChosen,
     Count,
+    FPath,
     FileType,
     FileTypeArchive,
-    FIXEDOFFSET0,
-    FPath,
     LogMessageType,
     PathId,
     SetPathId,
+    FIXEDOFFSET0,
 };
+use crate::data::common::LogMessage;
 use crate::data::datetime::{
     DateTimeL,
     DateTimeLOpt,
@@ -42,18 +45,29 @@ use crate::data::datetime::{
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
 };
-use crate::data::common::LogMessage;
 use crate::data::evtx::Evtx;
-use crate::data::journal::JournalEntry;
 use crate::data::fixedstruct::FixedStruct;
+use crate::data::journal::JournalEntry;
 use crate::data::sysline::SyslineP;
+use crate::de_err;
 use crate::debug::printers::{
     de_wrn,
     e_err,
 };
+use crate::printer::printers::{
+    print_colored_stderr,
+    write_stderr,
+    // termcolor imports
+    Color,
+    ColorChoice,
+    PrinterLogMessage,
+    COLOR_DIMMED,
+    //
+    COLOR_ERROR,
+};
 use crate::readers::blockreader::{
-    SUBPATH_SEP,
     SummaryBlockReader,
+    SUBPATH_SEP,
 };
 use crate::readers::filepreprocessor::ProcessPathResult;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
@@ -65,17 +79,6 @@ use crate::readers::summary::{
 };
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::FileProcessingResultBlockZero;
-use crate::printer::printers::{
-    print_colored_stderr,
-    write_stderr,
-    // termcolor imports
-    Color,
-    ColorChoice,
-    PrinterLogMessage,
-    //
-    COLOR_ERROR,
-    COLOR_DIMMED,
-};
 
 pub type MapPathIdSummaryPrint = BTreeMap<PathId, SummaryPrinted>;
 pub type MapPathIdSummary = HashMap<PathId, Summary>;
@@ -431,7 +434,7 @@ impl SummaryPrinted {
                             eprint!("{}datetime first: ", indent2);
                             print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                             eprintln!();
-                        },
+                        }
                         None => {}
                     }
                 }
@@ -563,8 +566,7 @@ impl SummaryPrinted {
         entry: &FixedStruct,
         printed: Count,
         flushed: Count,
-    )
-    {
+    ) {
         defñ!();
         debug_assert!(
             matches!(self.logmessagetype, LogMessageType::FixedStruct | LogMessageType::All),
@@ -643,8 +645,7 @@ impl SummaryPrinted {
         map_: &mut MapPathIdSummaryPrint,
         printed: Count,
         flushed: Count,
-    )
-    {
+    ) {
         defñ!();
         match map_.get_mut(pathid) {
             Some(sp) => {
@@ -1099,9 +1100,7 @@ fn print_summary_opt_processed(
     color_choice: &ColorChoice,
 ) {
     let summary = match summary_opt {
-        Some(summary) => {
-            summary
-        }
+        Some(summary) => summary,
         None => {
             eprintln!("{}Processed: None", OPT_SUMMARY_PRINT_INDENT1);
             return;
@@ -1253,12 +1252,12 @@ fn print_summary_opt_processed(
                     data.as_bytes(),
                 ) {
                     Ok(_) => eprintln!(),
-                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
+                    Err(e) => e_err!("print_colored_stderr: {:?}", e),
                 }
             }
             match summaryjournalreader.journalreader_datetime_first_processed {
                 Some(dt) => {
-                    eprint!("{}datetime first: ",indent2);
+                    eprint!("{}datetime first: ", indent2);
                     print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                     eprintln!();
                 }
@@ -1331,9 +1330,7 @@ fn print_summary_opt_processed_summaryblockreader(
         return;
     }
     let summaryblockreader = match summary.blockreader() {
-        Some(summaryblockreader) => {
-            summaryblockreader
-        }
+        Some(summaryblockreader) => summaryblockreader,
         None => {
             return;
         }
@@ -1428,7 +1425,7 @@ pub fn print_summary_opt_printed(
     match summary_print_opt {
         Some(summary_print) => {
             defñ!("Some(summary_print)");
-            
+
             summary_print.print_colored_stderr(
                 Some(*color_choice),
                 summary_opt,
@@ -1545,7 +1542,8 @@ fn print_cache_stats_summarylinereader(
     );
 }
 
-/// Print information about caching and optimizations for `SummarySyslineReader`.
+/// Print information about caching and optimizations for
+/// `SummarySyslineReader`.
 fn print_cache_stats_summarysyslinereader(
     summarysyslinereader: &SummarySyslineReader,
     indent: &str,
@@ -1668,7 +1666,8 @@ fn print_cache_stats_summarysyslinereader(
     );
 }
 
-/// Print information about caching and optimizations for `SummaryFixedStructReader`.
+/// Print information about caching and optimizations for
+/// `SummaryFixedStructReader`.
 fn print_cache_stats_summaryfixedstructreader(
     summaryfixedstructreader: &SummaryFixedStructReader,
     indent: &str,
@@ -1691,7 +1690,10 @@ fn print_cache_stats_summaryfixedstructreader(
 
 /// Print the various (optional) `Summary` caching and storage statistics
 /// (multiple lines).
-fn print_cache_stats(summary_opt: &SummaryOpt, color_choice: &ColorChoice) {
+fn print_cache_stats(
+    summary_opt: &SummaryOpt,
+    color_choice: &ColorChoice,
+) {
     if summary_opt.is_none() {
         return;
     }
@@ -1778,13 +1780,15 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     // the `EvtxReader` and `JournalReader` do not use `BlockReader`
     match summary.filetype {
         None => debug_panic!("unexpected None for summary.filetype"),
-        Some(filetype_) => {
-            match filetype_ {
-                FileType::Evtx{..} => { return; }
-                FileType::Journal{..} => { return; }
-                _ => {}
+        Some(filetype_) => match filetype_ {
+            FileType::Evtx { .. } => {
+                return;
             }
-        }
+            FileType::Journal { .. } => {
+                return;
+            }
+            _ => {}
+        },
     }
     eprintln!("{}Processing Drops:", OPT_SUMMARY_PRINT_INDENT1);
     let wide: usize = summary
@@ -1804,14 +1808,12 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
         None => {}
     }
     match &summary.readerdata {
-        SummaryReaderData::Syslog(
-            (
-                _summaryblockreader,
-                summarylinereader,
-                summarysyslinereader,
-                _summarysyslogreader,
-            )
-        ) => {
+        SummaryReaderData::Syslog((
+            _summaryblockreader,
+            summarylinereader,
+            summarysyslinereader,
+            _summarysyslogreader,
+        )) => {
             eprintln!(
                 "{}streaming: LineReader::drop_line()       : Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
@@ -2027,7 +2029,7 @@ fn print_files_processpathresult(
     ) {
         match print_colored_stderr(*color, Some(*color_choice), buffer.as_bytes()) {
             Ok(_) => {}
-            Err(e) => e_err!("print_colored_stderr: {:?}", e)
+            Err(e) => e_err!("print_colored_stderr: {:?}", e),
         };
     }
 

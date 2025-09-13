@@ -2,6 +2,8 @@
 
 use std::time::SystemTime;
 
+use ::test_case::test_case;
+
 use crate::common::{
     FPath,
     FileSz,
@@ -12,11 +14,11 @@ use crate::common::{
 use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::helpers::fpath_to_path;
 use crate::tests::common::{
+    EVTX_KPNP_BZ2_FPATH,
+    EVTX_KPNP_BZ2_MTIME,
     // evtx
     EVTX_KPNP_FILESZ,
     EVTX_KPNP_FPATH,
-    EVTX_KPNP_BZ2_FPATH,
-    EVTX_KPNP_BZ2_MTIME,
     EVTX_KPNP_GZ_FPATH,
     EVTX_KPNP_GZ_MTIME,
     EVTX_KPNP_LZ4_FPATH,
@@ -25,11 +27,11 @@ use crate::tests::common::{
     EVTX_KPNP_TAR_MTIME,
     EVTX_KPNP_XZ_FPATH,
     EVTX_KPNP_XZ_MTIME,
+    JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH,
+    JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME,
     // journal
     JOURNAL_FILE_RHE_91_SYSTEM_FILESZ,
     JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH,
-    JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME,
     JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH,
     JOURNAL_FILE_RHE_91_SYSTEM_GZ_MTIME,
     JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH,
@@ -38,21 +40,18 @@ use crate::tests::common::{
     JOURNAL_FILE_RHE_91_SYSTEM_TAR_MTIME,
     JOURNAL_FILE_RHE_91_SYSTEM_XZ_FPATH,
     JOURNAL_FILE_RHE_91_SYSTEM_XZ_MTIME,
-    // text
-    NTF_LOG_EMPTY_FPATH,
-    NTF_NL_1_PATH,
-    NTF_BZ2_EMPTY_FPATH,
-    NTF_GZ_EMPTY_FPATH,
-    NTF_LZ4_8BYTE_FPATH,
-    NTF_TAR_1BYTE_FILEA_FPATH,
-    NTF_XZ_EMPTY_FPATH,
     // fixedstruct
     LINUX_X86_UTMPX_3ENTRY_FILETYPE,
+    NTF_BZ2_EMPTY_FPATH,
+    NTF_GZ_EMPTY_FPATH,
     NTF_LINUX_X86_UTMPX_3ENTRY_FPATH,
+    // text
+    NTF_LOG_EMPTY_FPATH,
+    NTF_LZ4_8BYTE_FPATH,
+    NTF_NL_1_PATH,
+    NTF_TAR_1BYTE_FILEA_FPATH,
+    NTF_XZ_EMPTY_FPATH,
 };
-
-use ::test_case::test_case;
-
 
 // evtx files
 #[test_case(

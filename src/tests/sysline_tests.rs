@@ -6,21 +6,39 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::FileOffset;
-use crate::data::datetime::{DateTimeL, Duration};
-use crate::data::line::{Line, LineP, LinePart};
-use crate::data::sysline::{Sysline, SyslineP};
-use crate::readers::blockreader::{Block, BlockIndex, BlockOffset, BlockP, BlockSz};
-
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
-use ::si_trace_print::printers::{defn, defo, defx};
+use ::si_trace_print::printers::{
+    defn,
+    defo,
+    defx,
+};
 
+use crate::common::FileOffset;
+use crate::data::datetime::{
+    DateTimeL,
+    Duration,
+};
+use crate::data::line::{
+    Line,
+    LineP,
+    LinePart,
+};
+use crate::data::sysline::{
+    Sysline,
+    SyslineP,
+};
+use crate::readers::blockreader::{
+    Block,
+    BlockIndex,
+    BlockOffset,
+    BlockP,
+    BlockSz,
+};
 
 const DT_STR0: &str = "2022-01-02T03:04:05+08:00";
 //const DATA_STR0: &str = "2022-01-02T03:04:05 0800 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ 😀😁😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃 🌚🌛🌜🌝";
-const DATA_STR0: &str =
-    "2022-01-02T03:04:05 0800 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZ";
+const DATA_STR0: &str = "2022-01-02T03:04:05 0800 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWZYZ";
 const DATA_STR0_LAST_BYTE: u8 = b'Z';
 const DT_BEG0: usize = 0;
 const DT_END0: usize = 24;

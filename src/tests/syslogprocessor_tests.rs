@@ -5,17 +5,37 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use crate::common::{Count, FPath, FileOffset};
+use ::const_format::concatcp;
+use ::filetime;
+use ::lazy_static::lazy_static;
+use ::more_asserts::{
+    assert_ge,
+    assert_gt,
+};
+#[allow(unused_imports)]
+use ::si_trace_print::printers::{
+    defn,
+    defo,
+    defx,
+    defñ,
+};
+use ::test_case::test_case;
+
+use crate::common::{
+    Count,
+    FPath,
+    FileOffset,
+};
 use crate::data::datetime::{
     datetime_parse_from_str,
-    DateTimeL,
-    DateTimeLOpt,
-    DateTimePattern_str,
-    DateTimeParseDatasCompiledCount,
-    FixedOffset,
-    SystemTime,
     seconds_to_systemtime,
     ymdhms0,
+    DateTimeL,
+    DateTimeLOpt,
+    DateTimeParseDatasCompiledCount,
+    DateTimePattern_str,
+    FixedOffset,
+    SystemTime,
 };
 use crate::data::sysline::SyslineP;
 use crate::debug::helpers::{
@@ -29,17 +49,17 @@ use crate::readers::blockreader::{
     BlockSz,
     SummaryBlockReader,
 };
-use crate::readers::helpers::path_to_fpath;
 use crate::readers::filepreprocessor::{
     fpath_to_filetype,
     PathToFiletypeResult,
 };
+use crate::readers::helpers::path_to_fpath;
 use crate::readers::linereader::SummaryLineReader;
 use crate::readers::summary::SummaryReaderData;
 use crate::readers::syslinereader::{
     DateTimePatternCounts,
-    SummarySyslineReader,
     ResultFindSysline,
+    SummarySyslineReader,
 };
 use crate::readers::syslogprocessor::{
     FileProcessingResultBlockZero,
@@ -52,19 +72,10 @@ use crate::tests::common::{
     eprint_file_blocks,
     FILETYPE_UTF8,
     FO_0,
+    NTF_GZ_8BYTE_FPATH,
     NTF_GZ_EMPTY_FPATH,
     NTF_LOG_EMPTY_FPATH,
-    NTF_GZ_8BYTE_FPATH,
 };
-
-use ::const_format::concatcp;
-use ::filetime;
-use ::lazy_static::lazy_static;
-use ::more_asserts::{assert_ge, assert_gt};
-#[allow(unused_imports)]
-use ::si_trace_print::printers::{defn, defo, defx, defñ};
-use ::test_case::test_case;
-
 
 const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 
@@ -77,9 +88,7 @@ const SZ: BlockSz = SyslogProcessor::BLOCKSZ_MIN;
 
 const NTF1S_A_DATA_LINE0: &str = "jan 1 12:34:56";
 
-const NTF1S_A_DATA: &str = concatcp!(
-    NTF1S_A_DATA_LINE0,
-);
+const NTF1S_A_DATA: &str = concatcp!(NTF1S_A_DATA_LINE0,);
 
 /// Unix epoch time for time `NTF1S_A_DATA_LINE0` year 2001 at UTC
 const NTF1S_A_MTIME_UNIXEPOCH: i64 = 978381296;
@@ -93,9 +102,7 @@ const NTF1S_A_MTIME_UNIXEPOCH: i64 = 978381296;
 
 const NTF1S_B_DATA_LINE0: &str = "jan 1 12:34:56\n";
 
-const NTF1S_B_DATA: &str = concatcp!(
-    NTF1S_B_DATA_LINE0,
-);
+const NTF1S_B_DATA: &str = concatcp!(NTF1S_B_DATA_LINE0,);
 
 /// Unix epoch time for time `NTF1S_B_DATA_LINE0` year 2001 at UTC
 const NTF1S_B_MTIME_UNIXEPOCH: i64 = 978381296;
@@ -106,9 +113,7 @@ const NTF1S_B_MTIME_UNIXEPOCH: i64 = 978381296;
 
 const NTF1S_C_DATA_LINE0: &str = "ABC";
 
-const NTF1S_C_DATA: &str = concatcp!(
-    NTF1S_C_DATA_LINE0,
-);
+const NTF1S_C_DATA: &str = concatcp!(NTF1S_C_DATA_LINE0,);
 
 /// Unix epoch time for time `NTF1S_C_DATA_LINE0` year 2001 at UTC
 const NTF1S_C_MTIME_UNIXEPOCH: i64 = 978381296;
@@ -123,10 +128,7 @@ const NTF1S_C_MTIME_UNIXEPOCH: i64 = 978381296;
 const NTF2S_A_DATA_LINE0: &str = "jan 1 12:34:56\n";
 const NTF2S_A_DATA_LINE1: &str = "jan 2 23:45:60\n";
 
-const NTF2S_A_DATA: &str = concatcp!(
-    NTF2S_A_DATA_LINE0,
-    NTF2S_A_DATA_LINE1,
-);
+const NTF2S_A_DATA: &str = concatcp!(NTF2S_A_DATA_LINE0, NTF2S_A_DATA_LINE1,);
 
 /// Unix epoch time for time `NTF1S_B_DATA_LINE0` year 2001 at UTC
 const NTF2S_A_MTIME_UNIXEPOCH: i64 = 978381296;
@@ -748,7 +750,8 @@ fn test_process_stage0(
     let mut slp = new_SyslogProcessor(path, blocksz);
 
     let fprbz_actual = slp.process_stage0_valid_file_check();
-    assert_eq!(fprbz_actual, fprbz_expect,
+    assert_eq!(
+        fprbz_actual, fprbz_expect,
         "process_stage0_valid_file_check\n  expected {:?}, actual {:?}",
         fprbz_expect, fprbz_actual,
     );
@@ -859,7 +862,8 @@ fn test_process_stage1_blockzero_analysis_varying(
     }
 
     let fprbz_actual = slp.process_stage1_blockzero_analysis();
-    assert_eq!(fprbz_actual, fprbz_expect,
+    assert_eq!(
+        fprbz_actual, fprbz_expect,
         "process_stage1_blockzero_analysis\n  expected {:?}, actual {:?}",
         fprbz_expect, fprbz_actual,
     );
@@ -877,7 +881,8 @@ fn test_process_stages_0to5(
     match slp.process_stage0_valid_file_check() {
         FileProcessingResultBlockZero::FileOk => {}
         result => {
-            assert_eq!(result, fprbz_expect,
+            assert_eq!(
+                result, fprbz_expect,
                 "process_stage0_valid_file_check\n  expected {:?}, actual {:?}",
                 fprbz_expect, result,
             );
@@ -888,7 +893,8 @@ fn test_process_stages_0to5(
     match slp.process_stage1_blockzero_analysis() {
         FileProcessingResultBlockZero::FileOk => {}
         result => {
-            assert_eq!(result, fprbz_expect,
+            assert_eq!(
+                result, fprbz_expect,
                 "process_stage1_blockzero_analysis\n  expected {:?}, actual {:?}",
                 fprbz_expect, result,
             );
@@ -899,7 +905,8 @@ fn test_process_stages_0to5(
     match slp.process_stage2_find_dt(&None) {
         FileProcessingResultBlockZero::FileOk => {}
         result => {
-            assert_eq!(result, fprbz_expect,
+            assert_eq!(
+                result, fprbz_expect,
                 "process_stage2_find_dt\n  expected {:?}, actual {:?}",
                 fprbz_expect, result,
             );
@@ -1030,10 +1037,7 @@ fn test_process_stage0to3_drop_data(
             panic!("Unexpected Done");
         }
         ResultFindSysline::Err(err) => {
-            panic!(
-                "ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}",
-                path, err
-            );
+            panic!("ERROR: SyslogProcessor.find_sysline_between_datetime_filters(0) Path {:?} Error {}", path, err);
         }
     }
 

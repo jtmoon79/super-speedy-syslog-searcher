@@ -247,7 +247,10 @@ impl Evtx {
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    fn impl_to_String_raw(&self, raw: bool) -> String {
+    fn impl_to_String_raw(
+        &self,
+        raw: bool,
+    ) -> String {
         match raw {
             true => buffer_to_String_noraw(&self.data.as_bytes()),
             false => self.data.clone(),

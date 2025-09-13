@@ -7,34 +7,52 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
+use std::io::Write; // for `flush()`
+use std::str;
+use std::time::UNIX_EPOCH;
+
+use ::bstr::ByteSlice;
+use ::const_format::concatcp;
+use ::lazy_static::lazy_static;
+use ::more_asserts::assert_le;
+#[allow(unused_imports)]
+use ::si_trace_print::{
+    defn,
+    defo,
+    defx,
+    deo,
+    stack::stack_offset_set,
+};
+use ::test_case::test_case;
+
 use crate::common::{
     CharSz,
     Count,
-    FileOffset,
     FPath,
+    FileOffset,
     ResultFind,
 };
 use crate::data::datetime::{
     datetime_parse_from_str,
+    ymdhmsn,
     DateTimeL,
     DateTimeLOpt,
     DateTimeParseInstr,
+    DateTimeParseInstrsIndex,
     DateTimePattern_str,
     FixedOffset,
     SystemTime,
     TimeZone,
     Year,
-    DateTimeParseInstrsIndex,
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
-    ymdhmsn,
     O_L,
 };
 use crate::data::line::{
-    LinePart,
     Line,
-    LineP,
     LineIndex,
+    LineP,
+    LinePart,
 };
 use crate::debug::helpers::{
     create_temp_file,
@@ -50,30 +68,37 @@ use crate::readers::blockreader::{
     BlockP,
     BlockSz,
 };
-use crate::readers::helpers::path_to_fpath;
 use crate::readers::filepreprocessor::{
     fpath_to_filetype,
     PathToFiletypeResult,
 };
-use crate::readers::helpers::{fill, randomize};
+use crate::readers::helpers::{
+    fill,
+    path_to_fpath,
+    randomize,
+};
 use crate::readers::syslinereader::{
     DateTimeParseDatasIndexes,
-    ResultFindSysline,
-    SyslineReader,
-    SummarySyslineReader,
     ResultFindDateTime,
+    ResultFindSysline,
+    SummarySyslineReader,
+    SyslineReader,
 };
 #[allow(unused_imports)]
 use crate::tests::common::{
     eprint_file,
     FILETYPE_UTF8,
+    FO_0,
+    FO_L,
+    FO_M5,
+    FO_M8,
+    FO_P5,
+    FO_P8,
     NTF_GZ_1BYTE_FPATH,
     NTF_GZ_8BYTE_FPATH,
     NTF_GZ_EMPTY_FPATH,
-    NTF_LZ4_8BYTE_FPATH,
-    NTF_XZ_1BYTE_FPATH,
-    NTF_XZ_8BYTE_FPATH,
     NTF_LOG_EMPTY_FPATH,
+    NTF_LZ4_8BYTE_FPATH,
     NTF_NL_1_PATH,
     NTF_NL_2_PATH,
     NTF_NL_3_PATH,
@@ -89,29 +114,13 @@ use crate::tests::common::{
     NTF_TAR_1BYTE_FPATH,
     NTF_TAR_8BYTE_FILEA_FPATH,
     NTF_WNL_1_PATH,
-    FO_0,
-    FO_L,
-    FO_P5,
-    FO_P8,
-    FO_M5,
-    FO_M8,
+    NTF_XZ_1BYTE_FPATH,
+    NTF_XZ_8BYTE_FPATH,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
 
-use std::io::Write; // for `flush()`
-use std::str;
-use std::time::UNIX_EPOCH;
-
-use ::bstr::ByteSlice;
-use ::const_format::concatcp;
-use ::lazy_static::lazy_static;
-use ::more_asserts::assert_le;
-#[allow(unused_imports)]
-use ::si_trace_print::{defn, defo, defx, deo, stack::stack_offset_set};
-use ::test_case::test_case;
-
-
-/// check the return type of `find_sysline` to this dummy approximation of `ResultFindSysline`
+/// check the return type of `find_sysline` to this dummy approximation of
+/// `ResultFindSysline`
 pub type ResultFindSysline_Test = ResultFind<(), std::io::Error>;
 
 const FOUND: ResultFindSysline_Test = ResultFindSysline_Test::Found(());
@@ -181,8 +190,7 @@ fn test_new_SyslineReader_no_file_permissions() {
 type TestFindSyslineCheck<'a> = (FileOffset, ResultFindSysline_Test, &'a str);
 type TestFindSyslineChecks<'a> = Vec<TestFindSyslineCheck<'a>>;
 
-const NTF5_DATA_LINE0: &str =
-    "[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 0.0.0.0 port 3389.\n";
+const NTF5_DATA_LINE0: &str = "[20200113-11:03:06] [DEBUG] Testing if xrdp can listen on 0.0.0.0 port 3389.\n";
 const NTF5_DATA_LINE1: &str = "[20200113-11:03:06] [DEBUG] Closed socket 7 (AF_INET6 :: port 3389)
 CLOSED!\n";
 const NTF5_DATA_LINE2: &str = "[20200113-11:03:08] [INFO ] starting xrdp with pid 23198\n";
@@ -190,8 +198,7 @@ const NTF5_DATA_LINE3: &str = "[20200113-11:13:59] [DEBUG] Certification found
     FOUND CERTIFICATE!\n";
 const NTF5_DATA_LINE4: &str = "[20200113-11:13:59] [DEBUG] Certification complete.\n";
 
-const NTF5_DATA: &str =
-    concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
+const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
 const NTF5_DATA_LINE0_OFFSET: usize = 0;
 const NTF5_DATA_LINE1_OFFSET: usize = NTF5_DATA_LINE0

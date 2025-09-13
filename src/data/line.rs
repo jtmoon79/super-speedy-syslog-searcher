@@ -547,8 +547,8 @@ impl Line {
         deo!("Line.append({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
-            // sanity checks; each `LinePart` should be stored in same order as it appears in the
-            // file. only need to compare to last `LinePart`
+            // sanity checks; each `LinePart` should be stored in same order as it appears
+            // in the file. only need to compare to last `LinePart`
             let li = &self.lineparts[l_ - 1];
             assert_le!(
                 li.blockoffset,
@@ -580,8 +580,8 @@ impl Line {
         deo!("Line.prepend({:?}) {:?}", &linepart, linepart.to_String_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
-            // sanity checks; each `LinePart` should be stored in same order as it appears in the
-            // file. only need to compare to last `LinePart`
+            // sanity checks; each `LinePart` should be stored in same order as it appears
+            // in the file. only need to compare to last `LinePart`
             let li: &LinePart = &self.lineparts[0];
             assert_ge!(
                 li.blockoffset,
@@ -779,7 +779,8 @@ impl Line {
                 b1 -= len_;
             }
         }
-        // handle special case where `b` is beyond last `lineparts` but `a` data is within last `linepart`
+        // handle special case where `b` is beyond last `lineparts` but `a` data is
+        // within last `linepart`
         if let Some(..) = bptr_a {
             defx!("special case: return SinglePtr({})", a1);
             return LinePartPtrs::SinglePtr(bptr_a.unwrap());

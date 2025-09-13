@@ -6,7 +6,11 @@
 #![allow(non_camel_case_types)]
 
 use crate::common::FileOffset;
-use crate::data::line::{Line, LinePart, LinePartPtrs};
+use crate::data::line::{
+    Line,
+    LinePart,
+    LinePartPtrs,
+};
 use crate::readers::blockreader::{
     Block,
     BlockIndex,

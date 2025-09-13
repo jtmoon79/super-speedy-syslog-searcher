@@ -162,7 +162,7 @@ pub fn ts_pass_filters(
             debug_assert_le!(da, ts, "Unexpected range values da ts");
             debug_assert_le!(ts, db, "Unexpected range values ts db");
             defx!("return InRange");
-    
+
             Result_Filter_DateTime2::InRange
         }
         (Some(da), None) => {
@@ -171,7 +171,7 @@ pub fn ts_pass_filters(
                 return Result_Filter_DateTime2::BeforeRange;
             }
             defx!("return InRange");
-    
+
             Result_Filter_DateTime2::InRange
         }
         (None, Some(db)) => {
@@ -180,7 +180,7 @@ pub fn ts_pass_filters(
                 return Result_Filter_DateTime2::AfterRange;
             }
             defx!("return InRange");
-    
+
             Result_Filter_DateTime2::InRange
         }
     }

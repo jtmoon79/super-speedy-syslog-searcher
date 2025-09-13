@@ -36,11 +36,15 @@ use {
 type Bytes = Vec<u8>;
 
 lazy_static! {
-    static ref Data1: Bytes = vec![b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',];
+    static ref Data1: Bytes = vec![
+        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1',
+    ];
 }
 
 lazy_static! {
-    static ref Data2: Bytes = vec![b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',];
+    static ref Data2: Bytes = vec![
+        b'2', b'0', b'0', b'0', b'T', b'0', b'0', b'0', b'0', b'0', b'1', b' ', b' ',
+    ];
 }
 
 lazy_static! {
@@ -308,7 +312,8 @@ fn dutf8_custom_check1_lt0x80__overzealous() {
 #[inline(never)]
 fn dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous() {
     // custom check data before built-in unsafe decoding
-    // custom check will fallback to encoding_rs::mem::utf8_latin1_up_to if things get difficult
+    // custom check will fallback to encoding_rs::mem::utf8_latin1_up_to if things
+    // get difficult
     let mut count: u32 = 0;
     for data in Datas.iter() {
         let data_slice = data.as_slice();
@@ -325,7 +330,8 @@ fn dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overz
                 break;
             };
         }
-        // UTF8 special chars found, fallback to `utf8_latin1_up_to` which can do this correctly
+        // UTF8 special chars found, fallback to `utf8_latin1_up_to` which can do this
+        // correctly
         if fallback {
             let va = encoding_rs::mem::utf8_latin1_up_to(data_slice);
             if va != data_slice.len() {
@@ -348,7 +354,8 @@ fn dutf8_custom_check2_lt0x80__fallback__encodingrs_mem_utf8_latin1_up_to__overz
 #[inline(never)]
 fn dutf8_custom_check3__is_ascii__fallback__encodingrs_mem_utf8_latin1_up_to__overzealous() {
     // custom check data before built-in unsafe decoding
-    // custom check will fallback to encoding_rs::mem::utf8_latin1_up_to if things get difficult
+    // custom check will fallback to encoding_rs::mem::utf8_latin1_up_to if things
+    // get difficult
     let mut count: u32 = 0;
     for data in Datas.iter() {
         let data_slice = data.as_slice();
@@ -405,7 +412,8 @@ fn dutf8_arraystring__SmallString_from_utf8() {
     for data in Datas.iter() {
         let data_slice = data.as_slice();
         //let arraystring1 = match ArrayString::<DATA_MAX_SZ>::from_utf8(data_slice) {
-        // XXX: docs suggest using `SmallString` to create an `ArrayString`, somewhat confusing
+        // XXX: docs suggest using `SmallString` to create an `ArrayString`, somewhat
+        // confusing
         let arraystring1 = match arraystring::SmallString::from_utf8(data_slice) {
             | Ok(val) => val,
             | Err(_) => {

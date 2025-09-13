@@ -17,8 +17,8 @@
 //!
 //! A "block" is a sequence of contiguous bytes in a file that:
 //!
-//! * have the same length as other blocks in the file, except for the last
-//!   block which has an equal or lesser length.
+//! * have the same length as other blocks in the file, except for the last block which has an equal
+//!   or lesser length.
 //!
 //! A "block" is represented by a [`Block`] and retrieved by a [`BlockReader`].
 //!

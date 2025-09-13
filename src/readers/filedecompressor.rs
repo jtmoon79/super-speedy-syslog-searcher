@@ -359,9 +359,7 @@ pub fn decompress_to_ntf(
                 defo!("Tar: mtime {:?}", mtime);
                 mtime_opt = match mtime {
                     0 => None,
-                    _ => {
-                        Some(SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(mtime))
-                    },
+                    _ => Some(SystemTime::UNIX_EPOCH + std::time::Duration::from_secs(mtime)),
                 };
 
                 entry_opt = Some(entry);

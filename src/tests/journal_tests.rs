@@ -2,43 +2,36 @@
 
 //! tests for `journal.rs`
 
+use ::more_asserts::assert_le;
+use ::test_case::test_case;
+
 use crate::data::datetime::{
-    FixedOffset,
     DateTimeL,
     DateTimeLOpt,
+    FixedOffset,
 };
 use crate::data::journal::{
+    datetimel_to_realtime_timestamp,
+    datetimelopt_to_realtime_timestamp_opt,
+    realtime_or_source_realtime_timestamp_to_datetimel,
+    realtime_timestamp_to_datetimel,
     DtUsesSource,
     EpochMicroseconds,
     EpochMicrosecondsOpt,
-    realtime_timestamp_to_datetimel,
-    realtime_or_source_realtime_timestamp_to_datetimel,
-    datetimel_to_realtime_timestamp,
-    datetimelopt_to_realtime_timestamp_opt,
     JournalEntry,
     DT_USES_SOURCE_OVERRIDE,
 };
 use crate::tests::common::{
-    FO_0,
-    FO_E1,
     DT_1,
     DT_1_E1,
+    FO_0,
+    FO_E1,
     TS_1,
 };
 
-use ::more_asserts::assert_le;
-use ::test_case::test_case;
-
-
 #[test]
 fn test_journalentry_new() {
-    JournalEntry::new(
-        b"".to_vec(),
-        0,
-        Some(0),
-        DtUsesSource::RealtimeTimestamp,
-        &*FO_0,
-    );
+    JournalEntry::new(b"".to_vec(), 0, Some(0), DtUsesSource::RealtimeTimestamp, &*FO_0);
 }
 
 const JOURNAL_ENTRY_EXPORT: &str = "\

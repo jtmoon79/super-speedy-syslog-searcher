@@ -473,7 +473,8 @@ pub struct SummarySyslineReader {
 
 /// Implement the `SyslineReader`
 impl SyslineReader {
-    /// Maximum number of datetime patterns for matching the remainder of a syslog file.
+    /// Maximum number of datetime patterns for matching the remainder of a
+    /// syslog file.
     pub(crate) const DT_PATTERN_MAX: usize = 1;
 
     /// Capacity of internal LRU cache `find_sysline_lru_cache`.
@@ -482,8 +483,9 @@ impl SyslineReader {
     /// Capacity of internal LRU cache `parse_datetime_in_line_lru_cache`.
     const PARSE_DATETIME_IN_LINE_LRU_CACHE_SZ: usize = 8;
 
-    /// A `Line.len()` must at least this value to proceed with a datetime search, if `Line.len()`
-    /// is less then it is presumed no datetime string could fit on the line.
+    /// A `Line.len()` must at least this value to proceed with a datetime
+    /// search, if `Line.len()` is less then it is presumed no datetime
+    /// string could fit on the line.
     ///
     /// This allows skipping a few datetime searches that would fail.
     ///
@@ -881,10 +883,11 @@ impl SyslineReader {
     ///
     /// Users must know what they are doing with this.
     ///
-    /// Leaves the statistics as-is which means they may be confusing. For example,
-    /// given a file with 5 syslines, then all 5 syslines are parsed and stored, then
-    /// `clear_syslines()` is called, and then the file is processed again, the resulting
-    /// `self.syslines_count` will be value `10`.
+    /// Leaves the statistics as-is which means they may be confusing. For
+    /// example, given a file with 5 syslines, then all 5 syslines are
+    /// parsed and stored, then `clear_syslines()` is called, and then the
+    /// file is processed again, the resulting `self.syslines_count` will be
+    /// value `10`.
     pub(crate) fn clear_syslines(&mut self) {
         defñ!();
         let cache_enable = self.LRU_cache_disable();
@@ -1308,8 +1311,8 @@ impl SyslineReader {
                 continue;
             }
             // take a slice of the `line_as_slice` then convert to `str`
-            // this is to force the parsing function `Local.datetime_from_str` to constrain where it
-            // searches within the `Line`
+            // this is to force the parsing function `Local.datetime_from_str` to constrain
+            // where it searches within the `Line`
             let mut hack_slice: Bytes;
             let slice_: &[u8];
             match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
@@ -1473,10 +1476,7 @@ impl SyslineReader {
                 defo!("dt_patterns_counts({:?}) has count {}", index, counter);
             }
             None => {
-                panic!(
-                    "index {} not present in self.dt_patterns_counts; path {:?}",
-                    index, self.path(),
-                );
+                panic!("index {} not present in self.dt_patterns_counts; path {:?}", index, self.path(),);
             }
         }
         defo!("dt_patterns_counts {:?}", self.dt_patterns_counts);
@@ -1558,7 +1558,8 @@ impl SyslineReader {
         // get maximum value in `dt_patterns_counts`
         // ripped from https://stackoverflow.com/a/60134450/471376
         // test https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=b8eb53f40fd89461c9dad9c976746cc3
-        let max_ = self.dt_patterns_counts
+        let max_ = self
+            .dt_patterns_counts
             .iter()
             .fold(std::u64::MIN, |a, b| a.max(*(b.1)));
         if max_ == 0 {

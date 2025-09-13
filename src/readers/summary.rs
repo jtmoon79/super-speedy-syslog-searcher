@@ -113,8 +113,8 @@ impl SummaryReaderData {
 
 /// Accumulated statistics about processing and printing activity of a single
 /// file processed by a `SyslineReader` and it's underlying `LineReader` and
-/// it's underlying `BlockReader`, _or_ a `FixedStructReader` and it's underlying
-/// `BlockReader`.
+/// it's underlying `BlockReader`, _or_ a `FixedStructReader` and it's
+/// underlying `BlockReader`.
 ///
 /// For CLI option `--summary`.
 #[derive(Clone, Default)]
@@ -132,8 +132,8 @@ pub struct Summary {
     /// When `logmessagetype` is [`LogMessageType::Sysline`] then this must be
     /// [`SummaryReaderData::Syslog`].
     ///
-    /// When `logmessagetype` is [`LogMessageType::FixedStruct*`] then this must be
-    /// [`SummaryReaderData::FixedStruct`].
+    /// When `logmessagetype` is [`LogMessageType::FixedStruct*`] then this must
+    /// be [`SummaryReaderData::FixedStruct`].
     ///
     /// When `logmessagetype` is [`LogMessageType::Evtx`] then this must be
     /// [`SummaryReaderData::Etvx`].
