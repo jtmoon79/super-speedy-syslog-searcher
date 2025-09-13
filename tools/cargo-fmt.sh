@@ -11,4 +11,4 @@ set -x
 
 cargo fmt --version
 
-exec cargo fmt --verbose "${@}"
+exec cargo +nightly fmt --verbose "${@}"
