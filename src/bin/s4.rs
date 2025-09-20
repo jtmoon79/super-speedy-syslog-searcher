@@ -182,7 +182,10 @@ use ::s4lib::readers::blockreader::{
     BLOCKSZ_MIN,
 };
 use ::s4lib::readers::evtxreader::EvtxReader;
-use ::s4lib::readers::filedecompressor::NAMED_TEMP_FILES;
+use ::s4lib::readers::filedecompressor::{
+    count_temporary_files,
+    remove_temporary_files,
+};
 use ::s4lib::readers::filepreprocessor::{
     process_path,
     ProcessPathResult,
@@ -1742,22 +1745,7 @@ pub fn set_signal_handler() -> anyhow::Result<(), ctrlc::Error> {
 
         // remove the named temporary files
         // (the entire reason this complex signal handler had to be implemented)
-        let named_temp_files = match (&*NAMED_TEMP_FILES).write() {
-            Ok(val) => val,
-            Err(_err) => {
-                de_err!("NAMED_TEMP_FILES.write().unwrap() failed {}", _err);
-                std::process::exit(EXIT_ERR);
-            }
-        };
-        for fpath in named_temp_files.iter() {
-            defo!("remove_file({:?})", fpath);
-            match std::fs::remove_file(fpath) {
-                Ok(_) => {}
-                Err(_err) => {
-                    de_err!("remove_file({:?}) failed {}", fpath, _err);
-                }
-            }
-        }
+        _ = remove_temporary_files();
 
         // signal the `processing_loop` to return early
         match EXIT_EARLY.write() {
@@ -3012,6 +3000,12 @@ fn processing_loop(
         if !cli_opt_summary {
             return false;
         }
+        let named_temp_files_count: usize = count_temporary_files();
+        debug_assert_eq!(
+            named_temp_files_count,
+            0,
+            "no threads were created yet temporary files were created?"
+        );
         print_summary(
             map_pathid_results,
             map_pathid_results_invalid,
@@ -3035,6 +3029,7 @@ fn processing_loop(
             0,
             0,
             start_time,
+            named_temp_files_count,
             thread_count,
             thread_err_count,
             ALLOCATOR_CHOSEN,
@@ -3769,6 +3764,14 @@ fn processing_loop(
     // check again before writing the final summary
     exit_early_check!();
 
+    // temporary files should have been removed when the processing thread
+    // dropped the `NamedTempFile` object.
+    // But in case something went wrong, check them all again.
+    if !remove_temporary_files() {
+        de_err!("there was an error removing temporary files");
+        error_count += 1;
+    }
+
     if cli_opt_summary {
         // some errors may occur later in processing, e.g. File Permissions errors,
         // so update `map_pathid_results` and `map_pathid_results_invalid`
@@ -3790,6 +3793,7 @@ fn processing_loop(
                 None => {}
             }
         }
+        let named_temp_files_count: usize = count_temporary_files();
         // print the `--summary` of the entire process
         // consumes the various maps
         print_summary(
@@ -3815,6 +3819,7 @@ fn processing_loop(
             chan_recv_ok,
             chan_recv_err,
             start_time,
+            named_temp_files_count,
             thread_count,
             thread_err_count,
             ALLOCATOR_CHOSEN,

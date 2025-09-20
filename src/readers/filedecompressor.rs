@@ -56,6 +56,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
 };
+use crate::debug::printers::de_err;
 use crate::readers::blockreader::{
     BlockReader,
     TarChecksum,
@@ -105,10 +106,18 @@ lazy_static! {
     /// Global list of named temporary files created by the program.
     /// This is used by a signal handler run in the main thread to remove the
     /// temporary files during an unexpected exit.
-    pub static ref NAMED_TEMP_FILES: RwLock<ListFPaths> = {
+    static ref NAMED_TEMP_FILES: RwLock<ListFPaths> = {
         defñ!("lazy_static! NAMED_TEMP_FILES");
 
         RwLock::new(ListFPaths::new())
+    };
+    /// Only used for summary statistics.
+    /// Count `NAMED_TEMP_FILES.push_back()` calls. Allows for `NAMED_TEMP_FILES`
+    /// to be cleared at any time before printing the summary.
+    static ref NAMED_TEMP_FILES_COUNT: RwLock<usize> = {
+        defñ!("lazy_static! NAMED_TEMP_FILES_COUNT");
+
+        RwLock::new(0)
     };
 }
 
@@ -196,6 +205,18 @@ pub fn decompress_to_ntf(
             let ioerr = Error::new(ErrorKind::Other, format!("NAMED_TEMP_FILES.lock() failed: {:?}", err));
             defx!("NAMED_TEMP_FILES.lock() failed, return {:?}", err);
             return err_from_err_path_result_dtn!(&ioerr, &fpath, Some("NAMED_TEMP_FILES.lock() failed"));
+        }
+    }
+    defo!("NAMED_TEMP_FILES_COUNT.lock()");
+    match (&*NAMED_TEMP_FILES_COUNT).write() {
+        Ok(ref mut count) => {
+            let count_mut: &mut usize = count.borrow_mut();
+            *count_mut += 1;
+            defo!("NAMED_TEMP_FILES_COUNT {}", *count_mut);
+        }
+        Err(err) => {
+            debug_panic!("NAMED_TEMP_FILES_COUNT.lock() failed: {:?}", err);
+            // this counter is not worth failing over
         }
     }
 
@@ -699,4 +720,57 @@ pub fn decompress_to_ntf(
 
     defx!("return Ok(Some(({:?}, {:?}, {:?}))", ntf.path(), mtime_opt, file_sz);
     Ok(Some((ntf, mtime_opt, file_sz)))
+}
+
+/// remove the named temporary files in the global `NAMED_TEMP_FILES` list.
+/// Returns `true` if all files were removed, `false` if there was an error.
+/// The list is cleared after attempting to remove all files.
+pub fn remove_temporary_files() -> bool {
+    defn!();
+    let mut ret: bool = true;
+
+    match (&*NAMED_TEMP_FILES).write() {
+        Ok(mut named_temp_files) => {
+            for fpath in named_temp_files.iter() {
+                defo!("remove_file({:?})", fpath);
+                match std::fs::remove_file(fpath) {
+                    Ok(_) => {}
+                    Err(err) => {
+                        if err.kind() == ErrorKind::NotFound {
+                            // file already removed, ignore
+                            defo!("temporary file already removed {:?}", fpath);
+                        } else {
+                            de_err!("remove_file({:?}) failed {}", fpath, err);
+                        }
+                    }
+                }
+            }
+            named_temp_files.clear();
+        },
+        Err(_err) => {
+            de_err!("NAMED_TEMP_FILES.write().unwrap() failed {}", _err);
+            ret = false;
+        }
+    };
+    defx!("return {}", ret);
+
+    ret
+}
+
+/// return the count of named temporary files created so far.
+pub fn count_temporary_files() -> usize {
+    defn!();
+    let mut count: usize = 0;
+
+    match (&*NAMED_TEMP_FILES_COUNT).read() {
+        Ok(named_temp_files_count) => {
+            count = *named_temp_files_count;
+        },
+        Err(_err) => {
+            de_err!("NAMED_TEMP_FILES_COUNT.read().unwrap() failed {}", _err);
+        }
+    };
+    defx!("return {}", count);
+
+    count
 }

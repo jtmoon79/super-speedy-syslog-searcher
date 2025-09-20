@@ -773,6 +773,7 @@ pub fn print_summary(
     chan_recv_ok: Count,
     chan_recv_err: Count,
     start_time: Instant,
+    named_temp_files_count: usize,
     thread_count: usize,
     thread_err_count: usize,
     allocator_chosen: AllocatorChosen,
@@ -915,6 +916,7 @@ pub fn print_summary(
             eprintln!("Program Run Time       : unknown");
         }
     }
+    eprintln!("Temporary files created: {}", named_temp_files_count);
     eprintln!("Platform               : {}", CURRENT_PLATFORM);
     eprintln!("Allocator              : {}", allocator_chosen);
 }

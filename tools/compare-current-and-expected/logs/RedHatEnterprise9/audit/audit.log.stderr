@@ -57,5 +57,6 @@ Channel Receive ok     : 12
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0
+Temporary files created: 0
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

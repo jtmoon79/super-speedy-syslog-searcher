@@ -18460,5 +18460,6 @@ Channel Receive ok     : 13932
 Channel Receive err    : 0
 Threads Spawned        : 586
 Thread Spawn errors    : 0
+Temporary files created: 7
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

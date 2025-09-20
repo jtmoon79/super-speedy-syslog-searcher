@@ -496,6 +496,7 @@ fn test_print_summary_empty() {
         0,
         0,
         std::time::Instant::now(),
+        0,
         1,
         0,
         AllocatorChosen::System,
