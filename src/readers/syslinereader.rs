@@ -1690,11 +1690,6 @@ impl SyslineReader {
                 .map(|(k, _v)| k), // copy only the key (first tuple item) which is an index
         );
         defo!("indexes {:?}", indexes);
-        // LAST WORKING HERE 20250823
-        //  need to set `mtime` to the SystemTime of uptime zero, i.e. syslogprocessor.systemtime_at_zero
-        //  then need to change that value to Option<SystemTime>
-        // ... I think a `systemtime_at_zero` needs to be added to the SyslineReader...
-        //     I'm not sure. Need to think about this...
         let result: ResultFindDateTime = SyslineReader::find_datetime_in_line(
             line,
             &indexes,
