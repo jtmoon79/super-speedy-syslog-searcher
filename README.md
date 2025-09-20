@@ -436,6 +436,12 @@ Arguments "-a 20220102 -b @+1d" are equivalent to "-a 20220102 -b 20220103".
 Arguments "-a @-6h -b 20220101T120000" are equivalent to
 "-a 20220101T060000 -b 20220101T120000".
 
+DateTime Filters with a clock time but without a date are assumed to be today,
+e.g. "-a 12:05" is today at time 12:05 in the local timezone.
+DateTime Filters with a date but without a clock time are assumed to be that
+date at time 00:00:00.000 in the local timezone, e.g. "-a 20220102" is
+2022-01-02 at time 00:00:00.000 in the local timezone.
+
 Without a timezone, the Datetime Filter is presumed to be the local
 system timezone.
 
