@@ -272,30 +272,28 @@ find /var -xdev -type f \( \
     | s4 - -a=-1d
 ```
 
-Print the journal log messages from up to an hour ago,
-prepending the journal file name
-(with the help of `find`)
+Print the journal log messages from up to an hour ago, prepending the journal
+file name (with the help of `find`)
 
 ```lang-text
 find / -xdev -name '*.journal' -type f 2>/dev/null \
     | s4 - -a=-1h -n
 ```
 
-Print only the log messages that occurred two days ago
-(with the help of GNU `date`)
+Print the log messages from 10:00 today until 11:05.
 
 ```lang-text
-s4 /var/log -a $(date -d "2 days ago" '+%Y%m%d') -b @+1d
+s4 /var/log -a 10:00 -b @+1h5m
 ```
 
-Print only the log messages that occurred two days ago during the noon hour
+Print the log messages that occurred two days ago during the noon hour
 (with the help of GNU `date`)
 
 ```lang-text
 s4 /var/log -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S') -b @+1h
 ```
 
-Print only the log messages that occurred two days ago during the noon hour in
+Print the log messages that occurred two days ago during the noon hour in
 Bengaluru, India (timezone offset +05:30) and prepended with equivalent UTC
 datetime (with the help of GNU `date`)
 
