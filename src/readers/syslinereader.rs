@@ -1678,7 +1678,7 @@ impl SyslineReader {
         // `self.dt_patterns`
         //
         // TODO: [2022/06/26] cost-savings: create the `indexes` once in an analysis update function
-        //       or somewhere else
+        //       or somewhere else, Issue #84
         let mut indexes: DateTimeParseDatasIndexes = DateTimeParseDatasIndexes::new();
         // get copy of indexes sorted by value
         indexes.extend(
