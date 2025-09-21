@@ -1,5 +1,5 @@
 + uname -a
-Linux uboo-ubuntu22 6.6.87.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+Linux host 6.6.87.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
 + git log -n1 '--format=%h %D'
 2a1584e3 HEAD -> main
 + ./target/release/s4 --version
