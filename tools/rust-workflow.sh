@@ -52,6 +52,7 @@ cargo publish --dry-run --allow-dirty
 ./tools/compare-debug-release.sh
 ./tools/compare-grep-sort.sh
 ./tools/compare-cat.sh
+./tools/cargo-llvm-cov-combine-multiple.sh
 mlc ./README.md
 
 # add targets with command:
