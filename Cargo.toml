@@ -38,15 +38,15 @@ exclude = [
 ]
 
 [dependencies]
-anyhow = "1.0.98"
+anyhow = "1.0.100"
 bstr = "1.12.0"
 bzip2-rs = "0.1.2"
-cfg-if = "1.0.1"
-chrono = "0.4.41"
+cfg-if = "1.0.3"
+chrono = "0.4.42"
 clap = { version = "=4.2.1", features = ["derive"] }
 const_format = { version = "0.2.34", features = ["assertcp"] }
-crossbeam-channel = "0.5.14"
-ctrlc = "3.4.7"
+crossbeam-channel = "0.5.15"
+ctrlc = "3.5.0"
 current_platform = "0.2.0"
 dlopen2 = "0.7"
 encoding_rs = "0.8.35"
@@ -57,10 +57,10 @@ jetscii = { version = "0.5.3", optional = true }
 jwalk = "0.8.1"
 kinded = "0.3.0"
 lazy_static = "1.5.0"
-lru = "0.16.0"
+lru = "0.16.1"
 lzma-rs = "0.3.0"
 lz4_flex = "0.11"
-memchr = "2.7.4"
+memchr = "2.7.6"
 memoffset = "0.9.1"
 min-max = "0.1.8"
 more-asserts = "0.3.1"
@@ -72,25 +72,25 @@ nix = "0.30.1"
 #      0.3.1 fails with
 #            error[E0658]: inline-const is experimental
 # TODO: use latest numbtoa when MSRV is bumped
-numtoa = "= 0.2.4"
+numtoa = "=0.2.4"
 # TODO: instead of `once_cell` crate, use `std::sync::OnceLock` and `get_or_try_init`
 #       TRACKING: https://github.com/rust-lang/rust/issues/109737
 once_cell = "1.21.3"
-phf = { version = "0.12", features = ["macros"] }
-rand = { version = "0.9.0", features = ["thread_rng"] }
+phf = { version = "0.13.1", features = ["macros"] }
+rand = { version = "0.9.2", features = ["thread_rng"] }
 rangemap = "1.6.0"
-regex = "1.11.1"
+regex = "1.11.3"
 si_trace_print = "0.3.12"
-stringzilla = { version = "3.12.5", optional = true }
+stringzilla = { version = "3.12.6", optional = true }
 tar = "0.4.44"
-tempfile = "3.19.1"
+tempfile = "3.23.0"
 termcolor = "1.4.1"
 unicode-width = "0.2.1"
 unroll = "0.1.5"
 walkdir = "2.5.0"
 utf8_iter = "1.0.4"
 # allocators
-mimalloc = { version = "0.1.47", optional = true }
+mimalloc = { version = "0.1.48", optional = true }
 tikv-jemallocator = { version = "0.6.0", optional = true }
 
 [lib]
@@ -103,7 +103,7 @@ doc = true
 doctest = true
 bench = false
 [target.'cfg(windows)'.dependencies]
-libc = "0.2.174"
+libc = "0.2.176"
 
 [[bin]]
 name = "s4"
@@ -116,10 +116,12 @@ bench = false
 [dev-dependencies]
 arraystring = "0.3.0"
 cargo-msrv = "0.15.1"
+# XXX: exclude `cargo-llvm-cov` as it is only called by scripts
+# cargo-llvm-cov
 criterion = "0.5.1"
 cross = "0.2.5"
 filepath = "0.2.0"
-filetime = "0.2.25"
+filetime = "0.2.26"
 # XXX: `flamegraph` fails to build, MSRV 1.74; must be manually installed
 # flamegraph = "0.6.5"
 test-case = "3.3.1"
