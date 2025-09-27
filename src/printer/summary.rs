@@ -1802,7 +1802,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     match summary.blockreader() {
         Some(summaryblockreader) => {
             eprintln!(
-                "{}streaming: BlockReader::drop_block()     : Ok {:wide$}, Err {:wide$}",
+                "{}streaming: BlockReader::drop_block()      : Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
                 summaryblockreader.blockreader_blocks_dropped_ok,
                 summaryblockreader.blockreader_blocks_dropped_err,
@@ -1819,14 +1819,14 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             _summarysyslogreader,
         )) => {
             eprintln!(
-                "{}streaming: LineReader::drop_line()       : Ok {:wide$}, Err {:wide$}",
+                "{}streaming: LineReader::drop_line()        : Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
                 summarylinereader.linereader_drop_line_ok,
                 summarylinereader.linereader_drop_line_errors,
                 wide = wide,
             );
             eprintln!(
-                "{}streaming: SyslineReader::drop_sysline() : Ok {:wide$}, Err {:wide$}",
+                "{}streaming: SyslineReader::drop_sysline()  : Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
                 summarysyslinereader.syslinereader_drop_sysline_ok,
                 summarysyslinereader.syslinereader_drop_sysline_errors,
@@ -1840,7 +1840,7 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
             )
         ) => {
             eprintln!(
-                "{}streaming: FixedStructReader::drop_entry()    : Ok {:wide$}, Err {:wide$}",
+                "{}streaming: FixedStructReader::drop_entry(): Ok {:wide$}, Err {:wide$}",
                 OPT_SUMMARY_PRINT_INDENT2,
                 summaryfixedstructreader.fixedstructreader_drop_entry_ok,
                 summaryfixedstructreader.fixedstructreader_drop_entry_errors,
