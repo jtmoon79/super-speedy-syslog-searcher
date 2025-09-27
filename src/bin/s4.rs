@@ -155,9 +155,12 @@ use ::s4lib::printer::printers::{
     // termcolor imports
     Color,
     ColorChoice,
-    PrinterLogMessage,
     //
-    COLOR_DEFAULT,
+    ColorTheme,
+    ColorThemeGlobal,
+    PrinterLogMessage,
+    color_default,
+    COLOR_THEME_DEFAULT,
 };
 use ::s4lib::printer::summary::{
     print_summary,
@@ -824,7 +827,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     )]
     journal_output: JournalOutput,
 
-    /// Choose to print to terminal using colors.
+    /// Choose to print using colors.
     #[clap(
         required = false,
         short = 'c',
@@ -834,6 +837,17 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         default_value_t = CLI_Color_Choice::auto,
     )]
     color_choice: CLI_Color_Choice,
+
+    /// Print text using darker colors for a lighter terminal background.
+    /// By default, a dark color theme is used (print text with lighter colors).
+    /// Has no effect if --color is not "always" or "auto".
+    #[clap(
+        required = false,
+        long = "light-theme",
+        verbatim_doc_comment,
+        default_value_t = false,
+    )]
+    color_theme_light: bool,
 
     /// Read blocks of this size in bytes.
     /// May pass value as any radix (hexadecimal, decimal, octal, binary).
@@ -1555,6 +1569,25 @@ fn cli_process_args() -> (
         CLI_Color_Choice::never => ColorChoice::Never,
     };
     defo!("color_choice {:?}", color_choice);
+
+    let color_theme: ColorTheme = if args.color_theme_light {
+        ColorTheme::Light
+    } else {
+        ColorTheme::Dark
+    };
+    defo!("color_theme {:?}", color_theme);
+    if color_theme != COLOR_THEME_DEFAULT {
+        defo!("ColorThemeGlobal.write({:?})", color_theme);
+        match ColorThemeGlobal.write() {
+            Ok(mut ctg) => {
+                *ctg = color_theme;
+            }
+            Err(err) => {
+                e_err!("ColorThemeGlobal.write() failed: {:?}", err);
+                std::process::exit(EXIT_ERR);
+            }
+        }
+    }
 
     let log_message_separator: String = match unescape::unescape_str(
         args.log_message_separator
@@ -2916,6 +2949,7 @@ fn processing_loop(
 
     // pre-created mapping for calls to `select.recv` and `select.select`
     type MapIndexToPathId = HashMap<usize, PathId>;
+    let color_default_: Color = color_default();
     // mapping PathId to colors for printing.
     let mut map_pathid_color = MapPathIdToColor::with_capacity(file_count);
     // mapping PathId to a `Summary` for `--summary`
@@ -2992,8 +3026,6 @@ fn processing_loop(
         }
     }
 
-    let color_default = COLOR_DEFAULT;
-
     if MAP_PATHID_CHANRECVDATUM.read().unwrap().is_empty() {
         // No threads were created. This can happen if user passes only paths
         // that do not exist.
@@ -3018,7 +3050,7 @@ fn processing_loop(
             map_pathid_summary,
             MapPathIdSummaryPrint::new(),
             color_choice,
-            color_default,
+            color_default_,
             paths_total,
             SetPathId::with_capacity(0),
             SummaryPrinted::default(),
@@ -3459,7 +3491,7 @@ fn processing_loop(
                 for pathid in pathid_with_logmessages.iter() {
                     let color_: &Color = map_pathid_color
                         .get(pathid)
-                        .unwrap_or(&color_default);
+                        .unwrap_or(&color_default_);
                     let prepend_file: Option<String> =
                         match cli_opt_prepend_filename || cli_opt_prepend_filepath {
                             true => Some(
@@ -3808,7 +3840,7 @@ fn processing_loop(
             map_pathid_summary,
             map_pathid_sumpr,
             color_choice,
-            color_default,
+            color_default(),
             paths_total,
             paths_printed_logmessages,
             summaryprinted,

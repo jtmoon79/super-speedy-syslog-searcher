@@ -15,6 +15,7 @@ use std::io::{
     StdoutLock,
     Write, // for `std::io::Stdout.flush`
 };
+use std::sync::RwLock;
 
 use ::bstr::ByteSlice;
 #[allow(unused_imports)]
@@ -22,6 +23,7 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
+use ::lazy_static::lazy_static;
 use ::si_trace_print::printers::debug_print_guard;
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -61,15 +63,26 @@ use crate::debug_panic;
 // ---------------------
 // globals and constants
 
-/// `Color` for printing prepended data like datetime, file name, etc.
-pub const COLOR_DEFAULT: Color = Color::White;
+const COLOR_THEME_COUNT: usize = 2;
 
 /// `Color` for printing prepended data like datetime, file name, etc.
-pub const COLOR_DIMMED: Color = Color::Rgb(0xC0, 0xC0, 0xC0);
+/// Dark Theme, Light Theme
+pub const COLOR_DEFAULT: [Color; COLOR_THEME_COUNT] = [
+    Color::White,
+    Color::Black,
+];
+
+/// `Color` for printing prepended data like datetime, file name, etc.
+/// Dark Theme, Light Theme
+pub const COLOR_DIMMED: [Color; COLOR_THEME_COUNT] = [
+    Color::Rgb(0xC0, 0xC0, 0xC0),
+    Color::Rgb(0xC0, 0xC0, 0xC0),
+];
 
 /// `Color` for printing some user-facing error messages.
 pub const COLOR_ERROR: Color = Color::Red;
 
+// XXX: relates to Issue #16
 const CHARSZ: usize = 1;
 
 /// Default format string is `CLI_OPT_PREPEND_FMT` in `s4.rs` value
@@ -80,8 +93,10 @@ const CHARSZ: usize = 1;
 /// XXX: this should loosely follow changes to `CLI_OPT_PREPEND_FMT`
 const CLI_OPT_PREPEND_FMT_CHARLEN: usize = 40;
 
-/// A preselection of `Color`s for printing syslines.
-/// Chosen for a dark background console.
+const COLORS_TEXT_LEN: usize = 28;
+
+/// A preselection of `Color`s for log messages.
+/// Dark Theme: bright colors chosen for a dark background console.
 ///
 /// A decent reference for RGB colors is
 /// <https://www.rapidtables.com/web/color/RGB_Color.html>.
@@ -90,7 +105,7 @@ const CLI_OPT_PREPEND_FMT_CHARLEN: usize = 40;
 //       to react to the console (is it light or dark?) and adjust at run-time.
 //       Not sure if that is possible.
 //       Issue #261
-pub const COLORS_TEXT: [Color; 28] = [
+pub const COLORS_TEXT_DT: [Color; COLORS_TEXT_LEN] = [
     // XXX: colors with low pixel values are difficult to see on dark console
     //      backgrounds recommend at least one pixel value of 102 or greater
     // 102 + 230
@@ -135,29 +150,141 @@ pub const COLORS_TEXT: [Color; 28] = [
     Color::Rgb(255, 255, 255),
 ];
 
+/// A preselection of `Color`s for printing log messages.
+/// Light Theme: dimmer colors chosen for a light background console.
+pub const COLORS_TEXT_LT: [Color; COLORS_TEXT_LEN] = [
+    // 102 + 25
+    Color::Rgb(102, 102, 25),
+    Color::Rgb(102, 25, 102),
+    Color::Rgb(102, 25, 25),
+    // 102 + 0
+    Color::Rgb(102, 102, 0),
+    Color::Rgb(102, 0, 102),
+    Color::Rgb(102, 0, 0),
+    // 127
+    Color::Rgb(127, 127, 127),
+    // 127 + 25
+    Color::Rgb(127, 25, 127),
+    Color::Rgb(127, 127, 25),
+    Color::Rgb(127, 25, 25),
+    // 127 + 0
+    Color::Rgb(127, 0, 127),
+    Color::Rgb(127, 127, 0),
+    Color::Rgb(127, 0, 0),
+    // 102
+    Color::Rgb(102, 102, 102),
+    // 102 + 0
+    Color::Rgb(102, 102, 0),
+    Color::Rgb(102, 0, 102),
+    Color::Rgb(102, 0, 0),
+    // 25 + 127
+    Color::Rgb(25, 127, 127),
+    Color::Rgb(25, 25, 127),
+    Color::Rgb(25, 127, 25),
+    // 25 + 102
+    Color::Rgb(25, 102, 102),
+    Color::Rgb(25, 25, 102),
+    Color::Rgb(25, 102, 25),
+    // 25
+    Color::Rgb(25, 25, 25),
+    // 25 + 0
+    Color::Rgb(25, 0, 0),
+    Color::Rgb(25, 25, 0),
+    Color::Rgb(25, 0, 25),
+    // 0
+    Color::Rgb(0, 0, 0),
+];
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ColorTheme {
+    Dark = 0,
+    Light,
+}
+
+pub const COLOR_THEME_DEFAULT: ColorTheme = ColorTheme::Dark;
+
 // ----------------
 // helper functions
 
+lazy_static! {
+    /// Global setting for the color theme.
+    pub static ref ColorThemeGlobal: RwLock<ColorTheme> = {
+        defñ!("lazy_static! ColorThemeGlobal");
+
+        RwLock::new(COLOR_THEME_DEFAULT)
+    };
+}
+
 /// "Cached" indexing value for `color_rand`.
 ///
-/// XXX: not thread-aware
+/// XXX: not thread-aware, not recommended
 #[doc(hidden)]
 #[allow(non_upper_case_globals)]
 static mut _color_at: usize = 0;
 
-/// Return a random color from [`COLORS_TEXT`].
+/// "Cached" setting for `color_rand`.
+///
+/// XXX: not thread-aware, not recommended
+#[doc(hidden)]
+#[allow(non_upper_case_globals)]
+static mut _color_theme: Option<ColorTheme> = None;
+
+/// Return a random color from either `COLORS_TEXT_*T`.
+///
+/// unsafe; not thread-aware; not recommended.
+#[allow(static_mut_refs)]
 pub fn color_rand() -> Color {
     let ci: usize;
+    let colors_text: &[Color; COLORS_TEXT_LEN];
+
     unsafe {
+        if _color_theme.is_none() {
+            _color_theme = Some(*ColorThemeGlobal.read().unwrap());
+        }
+        colors_text = match _color_theme.unwrap() {
+            ColorTheme::Dark => &COLORS_TEXT_DT,
+            ColorTheme::Light => &COLORS_TEXT_LT,
+        };
+
         _color_at += 1;
-        if _color_at == COLORS_TEXT.len() {
+        if _color_at == colors_text.len() {
             _color_at = 0;
         }
         ci = _color_at;
     }
 
-    COLORS_TEXT[ci]
+    colors_text[ci]
 }
+
+/// unsafe; not thread-aware; not recommended.
+#[allow(static_mut_refs)]
+fn color_theme_to_index() -> usize {
+    let index: usize;
+    unsafe {
+        if _color_theme.is_none() {
+            _color_theme = Some(*ColorThemeGlobal.read().unwrap());
+        }
+        match _color_theme.unwrap() {
+            ColorTheme::Dark => index = 0,
+            ColorTheme::Light => index = 1,
+        }
+    }
+
+    index
+}
+
+pub fn color_dimmed() -> Color {
+    let color_theme_index: usize = color_theme_to_index();
+
+    COLOR_DIMMED[color_theme_index]
+}
+
+pub fn color_default() -> Color {
+    let color_theme_index: usize = color_theme_to_index();
+
+    COLOR_DEFAULT[color_theme_index]
+}
+
 
 // -----------------
 // PrinterLogMessage
@@ -594,7 +721,7 @@ impl PrinterLogMessage {
             ColorChoice::Always | ColorChoice::AlwaysAnsi | ColorChoice::Auto => true,
         };
         let mut color_spec_default: ColorSpec = ColorSpec::new();
-        color_spec_default.set_fg(Some(COLOR_DEFAULT));
+        color_spec_default.set_fg(Some(color_default()));
         let mut color_spec_sysline: ColorSpec = ColorSpec::new();
         color_spec_sysline.set_fg(Some(color_logmessage));
         let mut color_spec_datetime: ColorSpec = ColorSpec::new();

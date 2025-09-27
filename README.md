@@ -377,9 +377,13 @@ Options:
           [possible values: short, short-precise, short-iso, short-iso-precise,
           short-full, short-monotonic, short-unix, verbose, export, cat]
   -c, --color <COLOR_CHOICE>
-          Choose to print to terminal using colors.
+          Choose to print using colors.
           [default: auto]
           [possible values: always, auto, never]
+      --light-theme
+          Print text using darker colors for a lighter terminal background.
+          By default, a dark color theme is used (print text with lighter colors).
+          Has no effect if --color is not "always" or "auto".
       --blocksz <BLOCKSZ>
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).

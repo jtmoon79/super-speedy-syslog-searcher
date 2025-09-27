@@ -784,6 +784,13 @@ jobs:
           S4=./s4_debug
           chmod -v +x -- ${S4}
           ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - name: s4_debug -s S4_ARGSD --color=always --light-theme -u -p -w S4_TEST_FILES
+        shell: bash
+        run: |
+          set -eux
+          S4=./s4_debug
+          chmod -v +x -- ${S4}
+          ${S4} -s --color=always --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
       # download & run release
       - name: Download release binary
         uses: actions/download-artifact@v4
@@ -930,6 +937,13 @@ jobs:
           S4=./s4_release
           chmod -v +x -- ${S4}
           ${S4} -s --color=always -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - name: s4_release -s --color=always --light-theme -u -p -w S4_TEST_FILES
+        shell: bash
+        run: |
+          set -eux
+          S4=./s4_release
+          chmod -v +x -- ${S4}
+          ${S4} -s --color=always --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
       # compare debug release
       - name: Run Script compare-debug-release.sh
         shell: bash

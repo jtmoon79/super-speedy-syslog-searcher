@@ -61,7 +61,7 @@ use crate::printer::printers::{
     Color,
     ColorChoice,
     PrinterLogMessage,
-    COLOR_DIMMED,
+    color_dimmed,
     //
     COLOR_ERROR,
 };
@@ -112,8 +112,9 @@ fn print_datetime_utc_dimmed(
 ) {
     let dt_utc = dt.with_timezone(&*FIXEDOFFSET0);
     let dt_utc_s = dt_utc.format(DATETIMEFMT);
+    let color_dimmed_ = color_dimmed();
     match print_colored_stderr(
-        COLOR_DIMMED,
+        color_dimmed_,
         color_choice_opt,
         format!("({})", dt_utc_s).as_bytes()
     ) {
@@ -134,8 +135,9 @@ fn print_datetime_asis_utc_dimmed(
     eprint!("{} ", dt_s);
     let dt_utc = dt.with_timezone(&*FIXEDOFFSET0);
     let dt_utc_s = dt_utc.format(DATETIMEFMT);
+    let color_dimmed_ = color_dimmed();
     match print_colored_stderr(
-        COLOR_DIMMED,
+        color_dimmed_,
         color_choice_opt,
         format!("({})", dt_utc_s).as_bytes()
     ) {

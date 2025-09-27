@@ -101,6 +101,7 @@ for args in \
     "-s --color=always -l -p -w" \
     "-s --color=always -u -n -w" \
     "-s --color=always -u -p -w" \
+    "-s --color=always --light-theme -u -p -w" \
 ; do
     (
         set -x
