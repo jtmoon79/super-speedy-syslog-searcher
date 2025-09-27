@@ -3814,7 +3814,7 @@ impl BlockReader {
         );
         if cfg!(debug_assertions)
             && self.is_streamed_file()
-            && self.is_drop_data()
+            && !self.is_drop_data()
             && self.read_block_last > blockoffset
         {
             debug_panic!(
@@ -3874,9 +3874,15 @@ impl BlockReader {
                             // BUG: getting here means something is wrong
                             //      with the internal state of `BlockReader` and likely
                             //      related to the caller's use of `drop_block`.
+                            //      `self.blocks_read` says the Block was read but
+                            //      `self.blocks` does not have the Block.
                             //      But we can go ahead and just read the block again though
                             //      that is inefficient and some day should be fixed.
-                            debug_panic!(
+                            // UPDATE: this can happen when streaming a file and using a very
+                            //         small `blocksz` value like 100.
+                            //         this will happen with file
+                            //         `./logs/programs/utmp/host-entry6.wtmp.gz`
+                            de_wrn!(
                                 "requested block {} is in self.blocks_read but not in self.blocks for file {:?}",
                                 blockoffset,
                                 self.path,
