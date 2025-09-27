@@ -25,7 +25,7 @@ declare -ar S4_ARGS=(
     --separator='⇳\n'
     --journal-output=export
     --dt-after='19990303T000000+0000'
-    --dt-before='20230410T221032+0000'
+    --dt-before='20250401T120005+0000'
     --summary
 )
 
@@ -40,6 +40,6 @@ done < "${logs}"
 
 set -x
 exec \
-    cargo llvm-cov run --lcov --bin s4 "${@}" -- \
+    cargo llvm-cov run --locked --lcov --bin s4 "${@}" -- \
         "${S4_ARGS[@]}" \
         "${logs_args[@]}" &>/dev/null
