@@ -48,6 +48,14 @@ env:
     ./logs/other/tests/gen-20-2-2-faces.log
     ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
     ./logs/programs/journal/RHE_91_system.journal
+    ./logs/programs/journal/RHE_91_system.journal.gz
+    ./logs/programs/strace/strace-unix,us_ls.out
+    ./logs/programs/utmp/host-entry6.wtmp
+    ./logs/programs/utmp/host-entry6.wtmp.bz2
+    ./logs/programs/utmp/host-entry6.wtmp.gz
+    ./logs/programs/utmp/host-entry6.wtmp.lz4
+    ./logs/programs/utmp/host-entry6.wtmp.tar
+    ./logs/programs/utmp/host-entry6.wtmp.xz
     ./logs/standards/ctime.log
     ./logs/standards/ISO8601-Date-Extend.log
     ./logs/standards/ISO8601-Date-Ordinal.log
