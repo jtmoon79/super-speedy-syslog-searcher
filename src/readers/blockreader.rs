@@ -360,8 +360,16 @@ pub struct BlockReader {
     /// Path to the file.
     path: FPath,
     /// Combined `path`, separator, and `subpath`, useful for files within an
-    /// archive file, e.g. a `.tar` file. When there is no `subpath` then
-    /// it is only `path`.
+    /// archive file, e.g. a file within a `.tar` file.
+    /// When there is no `subpath` then it is only `path`,
+    /// e.g. when it's not a file within a `.tar` file.
+    // TODO: [2025/09] the `path_subpath` and `path` fields need to be better
+    //       separated into obvious roles, and then wrapper functions added that
+    //       clarify when they are returning `path`, `subpath`, or `path|subpath`.
+    //       e.g. `/path/to/file.tar` or `var/log/syslog` or `/path/to/file.tar|var/log/syslog`.
+    //       Right now, `path_subpath` is simply a clone of `path` so it's unclear
+    //       why both exist.
+    //       This would affect all user classes so it's a bit of work.
     path_subpath: FPath,
     /// The file handle.
     file_handle: File,
