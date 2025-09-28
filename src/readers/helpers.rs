@@ -41,12 +41,12 @@ pub fn fpath_to_path(path: &FPath) -> &std::path::Path {
     std::path::Path::new(path)
 }
 
-/// Helper function for a non-obvious technique.
+/// Helper function for a somewhat non-obvious expression.
 pub fn path_clone(path: &std::path::Path) -> &std::path::Path {
     std::path::Path::new(path.as_os_str())
 }
 
-/// return the size of the file
+/// Return the size of the file.
 pub fn path_filesz(path: &std::path::Path) -> Option<FileSz> {
     defn!("({:?})", path);
     let metadata = match std::fs::metadata(path) {
