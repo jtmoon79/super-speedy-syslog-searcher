@@ -341,9 +341,6 @@ pub struct PrinterLogMessage {
     _color_choice: ColorChoice,
     /// color settings for plain text (not sysline)
     color_spec_default: ColorSpec,
-    /// color of printed logmessage data
-    // TODO: [2023/03/22] remove this
-    _color_logmessage: Color,
     /// color settings for sysline text
     // TODO: [2023/03/22] rename from `color_spec_sysline` to `color_spec_text`
     color_spec_sysline: ColorSpec,
@@ -773,7 +770,6 @@ impl PrinterLogMessage {
             do_color,
             _color_choice: color_choice,
             color_spec_default,
-            _color_logmessage: color_logmessage,
             color_spec_sysline,
             color_spec_datetime,
             do_prepend_file: prepend_file.is_some(),
