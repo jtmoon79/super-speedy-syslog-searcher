@@ -1299,8 +1299,7 @@ fn process_dt(
             let mut val_Z: String = String::with_capacity(5);
             while dts_
                 .chars()
-                .rev()
-                .next()
+                .next_back()
                 .unwrap_or('\0')
                 .is_alphabetic()
             {
@@ -1353,10 +1352,8 @@ fn process_dt(
     } // end for … in CLI_FILTER_PATTERNS
     // could not match specific datetime pattern
     // try relative offset pattern matching, e.g. `"-30m5s"`, `"+2d"`
-    dto = match string_to_rel_offset_datetime(dts, tz_offset, dt_other, now_utc) {
-        Some(dto) => Some(dto),
-        None => None,
-    };
+    dto = string_to_rel_offset_datetime(dts, tz_offset, dt_other, now_utc)
+        .map(|dto| dto);
     defx!("return {:?}", dto);
 
     dto
@@ -1611,10 +1608,9 @@ fn cli_process_args() -> (
             prepend_dt_format = Some(String::from(""));
         }
     }
-    if args.prepend_dt_format.is_some() {
-        if !args.prepend_dt_format.as_ref().unwrap().is_empty() {
-            prepend_dt_format = Some(args.prepend_dt_format.unwrap());
-        }
+    if args.prepend_dt_format.is_some()
+       && !args.prepend_dt_format.as_ref().unwrap().is_empty() {
+        prepend_dt_format = Some(args.prepend_dt_format.unwrap());
     }
 
     defo!("args.prepend_tz {:?}", args.prepend_tz);
@@ -2838,7 +2834,7 @@ fn processing_loop(
                 //      so this is a small violation of that but worth it.
                 //      Relates to Issue #270
                 if ! filetype.is_archived() {
-                    let path_std = fpath_to_path(&path);
+                    let path_std = fpath_to_path(path);
                     let metadata = match path_std.metadata() {
                         Ok(metadata) => metadata,
                         Err(err) => {
@@ -3181,7 +3177,7 @@ fn processing_loop(
     // channels that should be disconnected per "game loop" loop iteration
     let mut disconnect = Vec::<PathId>::with_capacity(file_count);
     // shortcut to the "sep"arator "b"ytes of the `log_message_separator`
-    let sepb: &[u8] = log_message_separator.as_str().as_bytes();
+    let sepb: &[u8] = log_message_separator.as_bytes();
     // shortcut to check if `sepb` should be printed
     let sepb_print: bool = !sepb.is_empty();
     // debug sanity check
@@ -3259,9 +3255,8 @@ fn processing_loop(
                         ChanDatum::FileInfo(dt_opt, file_processing_result) => {
                             defo!("B1 received ChanDatum::FileInfo for {:?}", pathid);
                             defo!("B1 received modified_time {:?} for {:?}", dt_opt, pathid);
-                            match map_pathid_modified_time.insert(pathid, dt_opt) {
-                                Some(_) => debug_panic!("Already had stored DateTimeLOpt for PathID {:?}", pathid),
-                                None => {}
+                            if let Some(_) = map_pathid_modified_time.insert(pathid, dt_opt) {
+                                debug_panic!("Already had stored DateTimeLOpt for PathID {:?}", pathid)
                             }
                             defo!("B1 received file_processing_result {:?} for {:?}", file_processing_result, pathid);
                             if !file_processing_result.is_ok() {
