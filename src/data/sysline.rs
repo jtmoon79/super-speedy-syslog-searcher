@@ -373,12 +373,7 @@ impl Sysline {
     /// - `raw` is `true` means use byte characters as-is
     /// - `raw` is `false` means replace formatting characters or non-printable
     ///    characters with pictoral representation (i.e. `byte_to_char_noraw`)
-    ///
-    // TODO: this would be more efficient returning `&str`
-    //       https://bes.github.io/blog/rust-strings
-    //
-    // TODO: remove this
-    // TODO: fix this non_snake_case (use correct snake_case)
+    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]

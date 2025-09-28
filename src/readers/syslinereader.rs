@@ -2563,8 +2563,7 @@ impl SyslineReader {
         let mut fo_b: FileOffset = fo_end; // end "range cursor" marker
 
         loop {
-            // TODO: [2021/09/26]
-            //       this could be faster.
+            // TODO: [2021/09/26] this could be faster...
             //       currently it narrowing down to a byte offset
             //       but it only needs to narrow down to offsets within range of one sysline
             //       so if `fo_a` and `fo_b` are in same sysline range, then this can return that sysline.
@@ -2664,11 +2663,12 @@ impl SyslineReader {
                     } // end SyslineReader::sysline_dt_after_or_before()
                     defo!("                    fo {} try_fo {} try_fo_last {} fo_a {} fo_b {} (fo_end {})", fo, try_fo, try_fo_last, fo_a, fo_b, fo_end);
                     syslinep_opt = Some(syslinep);
-                    // TODO: [2021/09/26]
+                    // TODO: [2021/09/26] this check could be done sooner...
                     //       I think this could do an early check and potentially skip a few loops.
                     //       if `fo_a` and `fo_b` are offsets into the same Sysline
                     //       then that Sysline is the candidate, so return Ok(...)
-                    //       unless `fo_a` and `fo_b` are past last Sysline.fileoffset_begin of the file then return Done
+                    //       unless `fo_a` and `fo_b` are past last Sysline.fileoffset_begin of the
+                    //       file then return Done
                 } // end Found
                 ResultFindSysline::Done => {
                     defo!("SyslineReader.find_sysline(try_fo: {}) returned Done", try_fo);
@@ -2706,7 +2706,7 @@ impl SyslineReader {
             } // match result
             defo!("next loop will try offset {} (fo_end {})", try_fo, fo_end);
 
-            // TODO: 2022/03/18 this latter part hints at a check that could be done sooner,
+            // TODO: [2022/03/18] this latter part hints at a check that could be done sooner,
             //       before `try_fo==try_fo_last`, that would result in a bit less loops.
             //       A simpler and faster check is to do
             //           fo_next, syslinep = find_sysline(fileoffset)

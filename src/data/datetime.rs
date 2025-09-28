@@ -5605,6 +5605,7 @@ pub fn u8_to_str(data: &[u8]) -> Option<&str> {
     unsafe {
         dts = std::str::from_utf8_unchecked(data);
     };
+
     Some(dts)
 }
 

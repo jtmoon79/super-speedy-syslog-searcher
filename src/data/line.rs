@@ -114,11 +114,9 @@ pub struct LinePart {
     /// `BlockOffset` of underlying `Block` to which `blockp` points.
     ///
     /// XXX: debug helper
-    // TODO: [2022] is this used?
     blockoffset: BlockOffset,
     /// The file-designated `BlockSz`, _not necessarily_ the `len()` of the
     /// `Block` at `blockp`.
-    // TODO: [2022] is this used?
     pub blocksz: BlockSz,
 }
 
@@ -271,8 +269,6 @@ impl LinePart {
     /// Count of bytes of this `LinePart`.
     ///
     /// XXX: `count_bytes` and `len` is overlapping and confusing.
-    ///
-    // TODO: this should be removed
     pub fn count_bytes(&self) -> Count {
         self.len() as Count
     }
