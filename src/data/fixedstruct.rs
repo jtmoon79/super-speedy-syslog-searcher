@@ -68,7 +68,6 @@ use crate::readers::blockreader::{
     BlockReader,
     BlockSz,
 };
-use crate::readers::helpers::is_empty;
 #[doc(hidden)]
 use crate::{
     de_err,
@@ -4770,7 +4769,7 @@ macro_rules! tv_to_datetime_or_err {
 macro_rules! score_fixedstruct_cstr {
     ($score:ident, $cstr:expr) => {{
         let cstr_: &CStr = $cstr;
-        if !is_empty(cstr_) {
+        if !cstr_.is_empty() {
             $score += 1;
             for c in cstr_.to_bytes().iter() {
                 match c {

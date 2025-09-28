@@ -125,21 +125,6 @@ pub fn remove_extension(path: &std::path::Path) -> Option<FPath> {
     Some(path_to_fpath(path2))
 }
 
-/// Returns `true` if `self.to_bytes()` has a length of 0.
-///
-/// TRACKING: `CStr::is_empty` <https://github.com/rust-lang/rust/issues/102444>
-///
-/// TODO: replace with tracking function `is_empty` when available.
-pub fn is_empty(cstr: &CStr) -> bool {
-    for c in cstr.to_bytes() {
-        if c != &0 {
-            return false;
-        }
-    }
-
-    true
-}
-
 /// Testing helper.
 #[doc(hidden)]
 #[cfg(test)]
