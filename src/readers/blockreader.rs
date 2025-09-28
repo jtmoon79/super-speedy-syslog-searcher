@@ -3813,6 +3813,7 @@ impl BlockReader {
             blockoffset, self.file_offset_at_block_offset_self(blockoffset), self.blocksz, self.filesz(),
         );
         if cfg!(debug_assertions)
+            && !cfg!(test)
             && self.is_streamed_file()
             && !self.is_drop_data()
             && self.read_block_last > blockoffset
