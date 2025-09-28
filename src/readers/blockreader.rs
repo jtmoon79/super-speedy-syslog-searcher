@@ -359,11 +359,8 @@ pub struct TarData {
 pub struct BlockReader {
     /// Path to the file.
     path: FPath,
-    /// Subpath to file. Only for `filetype.is_archived()` files.
-    // XXX: Relates to Issue #7
-    // TODO: rename `_subpath` to `subpath`
-    _subpath: Option<FPath>,
-    /// Combined `path`, Separator, and `_subpath`. When there is no `_subpath`
+    /// Combined `path`, separator, and `subpath`, useful for files within an
+    /// archive file, e.g. a `.tar` file. When there is no `subpath` then
     /// it is only `path`.
     path_subpath: FPath,
     /// The file handle.
@@ -1791,7 +1788,6 @@ impl BlockReader {
 
         Ok(BlockReader {
             path,
-            _subpath: subpath_opt,
             path_subpath,
             file_handle,
             file_metadata,

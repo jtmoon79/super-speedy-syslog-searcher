@@ -3,7 +3,6 @@
 //! Miscellaneous helper functions for _Readers_.
 
 use std;
-use std::ffi::CStr;
 
 #[allow(unused_imports)]
 use ::si_trace_print::{
