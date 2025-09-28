@@ -122,6 +122,8 @@ use ::s4lib::common::{
     PathId,
     SetPathId,
     FILE_TOO_SMALL_SZ,
+    SUBPATH_SEP,
+    SUBPATH_SEP_DISPLAY_STR,
 };
 use ::s4lib::data::common::LogMessage;
 use ::s4lib::data::datetime::{
@@ -151,6 +153,9 @@ use ::s4lib::libload::systemd_dlopen2::{
 };
 use ::s4lib::printer::printers::{
     color_rand,
+    color_default,
+    fpath_to_prependname,
+    fpath_to_prependpath,
     write_stdout,
     // termcolor imports
     Color,
@@ -159,7 +164,6 @@ use ::s4lib::printer::printers::{
     ColorTheme,
     ColorThemeGlobal,
     PrinterLogMessage,
-    color_default,
     COLOR_THEME_DEFAULT,
 };
 use ::s4lib::printer::summary::{
@@ -3008,7 +3012,7 @@ fn processing_loop(
             crossbeam_channel::bounded(CHANNEL_CAPACITY);
         defo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
         MAP_PATHID_CHANRECVDATUM.write().unwrap().insert(*pathid, chan_recv_dt);
-        let basename_: FPath = basename(path);
+        let basename_: FPath = basename(path).replace(SUBPATH_SEP, SUBPATH_SEP_DISPLAY_STR);
         match thread::Builder::new()
             .name(basename_.clone())
             .spawn(move || exec_fileprocessor_thread(chan_send_dt, thread_data))
@@ -3440,7 +3444,7 @@ fn processing_loop(
                                 Some(path_) => path_,
                                 None => continue,
                             };
-                            let bname: String = basename(path);
+                            let bname: String = fpath_to_prependname(path);
                             prependname_width = std::cmp::max(
                                 prependname_width,
                                 unicode_width::UnicodeWidthStr::width(bname.as_str()),
@@ -3453,7 +3457,7 @@ fn processing_loop(
                             Some(path_) => path_,
                             None => continue,
                         };
-                        let bname: String = basename(path);
+                        let bname: String = fpath_to_prependname(path);
                         let prepend: String =
                             format!("{0:<1$}{2}", bname, prependname_width, cli_prepend_separator);
                         pathid_to_prependname.insert(*pathid, prepend);
@@ -3461,10 +3465,10 @@ fn processing_loop(
                 } else if cli_opt_prepend_filepath {
                     // pre-create prepended filepath strings once (`-p`)
                     if cli_opt_prepend_file_align {
-                        // determine prepended width (`-w`)
+                        // determine max width needed (`-w`)
                         for pathid in pathid_with_logmessages.iter() {
                             let path = match map_pathid_path.get(pathid) {
-                                Some(path_) => path_,
+                                Some(path_) => fpath_to_prependpath(path_),
                                 None => continue,
                             };
                             prependname_width = std::cmp::max(
@@ -3476,7 +3480,7 @@ fn processing_loop(
                     pathid_to_prependname = MapPathIdToPrependName::with_capacity(pathid_with_logmessages.len());
                     for pathid in pathid_with_logmessages.iter() {
                         let path = match map_pathid_path.get(pathid) {
-                            Some(path_) => path_,
+                            Some(path_) => fpath_to_prependpath(path_),
                             None => continue,
                         };
                         let prepend: String =
@@ -3879,16 +3883,18 @@ fn processing_loop(
 
 #[cfg(test)]
 mod tests {
-    extern crate test_case;
     use s4lib::data::datetime::{
         ymdhmsl,
         ymdhmsm,
         DateTimeL,
         DateTimePattern_string,
     };
-    use test_case::test_case;
 
     use super::*;
+
+    mod s4 {
+        use ::test_case::test_case;
+        use super::*;
 
     lazy_static! {
         static ref FIXEDOFFSET0: FixedOffset = {
@@ -4277,5 +4283,7 @@ mod tests {
             }
             (Err(_), None) => {}
         }
+    }
+
     }
 }

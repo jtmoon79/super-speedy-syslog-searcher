@@ -87,6 +87,7 @@ use crate::common::{
     FileSz,
     FileType,
     FileTypeArchive,
+    SUBPATH_SEP,
 };
 use crate::common::{
     File,
@@ -290,19 +291,6 @@ pub struct XzData {
     /// [`lzma_rs`]: https://docs.rs/lzma-rs/0.2.0/lzma_rs/index.html
     pub bufreader: BufReaderXz,
 }
-
-/// Separator `char` symbol for a filesystem path and subpath within a
-/// compressed file or an archive file. Used by an [`FPath`].
-///
-/// e.g. `path/logs.tar|logs/syslog`<br/>
-/// e.g. `log.xz|syslog`
-///
-/// [`FPath`]: crate::common::FPath
-// TODO: move this to common.rs
-// TODO: Issue #7
-//       it is not impossible for paths to have '|', use '\0' instead
-//       is even less likely to be in a path. Use '|' when printing paths.
-pub const SUBPATH_SEP: char = '|';
 
 /// crate `tar` handle for a plain `File`.
 pub type TarHandle = tar::Archive<File>;

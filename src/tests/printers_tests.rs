@@ -43,6 +43,8 @@ use crate::printer::printers::{
     ColorChoice,
     PrinterLogMessage,
     PrinterLogMessageResult,
+    fpath_to_prependname,
+    fpath_to_prependpath,
 };
 use crate::printer::summary::{
     print_summary,
@@ -500,5 +502,47 @@ fn test_print_summary_empty() {
         1,
         0,
         AllocatorChosen::System,
+    );
+}
+
+#[test_case("bar", "bar")]
+#[test_case("/foo/bar", "bar")]
+#[test_case("/foo/bar/baz", "baz")]
+#[test_case("/foo/bar.tar\0baz", "baz")]
+#[test_case("/foo/bar.tar\0b\0az", "b\0az")]
+fn test_fpath_to_prependname(
+    path_s: &str,
+    expect: &str,
+) {
+    let fpath: FPath = FPath::from(path_s);
+    let result: FPath = fpath_to_prependname(&fpath);
+    assert_eq!(
+        result,
+        expect,
+        "\nGiven    {:?}\nExpected {:?}\nActual   {:?}\n",
+        path_s,
+        expect,
+        result
+    );
+}
+
+#[test_case("bar", "bar")]
+#[test_case("/foo/bar", "/foo/bar")]
+#[test_case("/foo/bar/baz", "/foo/bar/baz")]
+#[test_case("/foo/bar.tar\0baz", "/foo/bar.tar|baz")]
+#[test_case("/foo/bar.tar\0b\0az", "/foo/bar.tar|b\0az")]
+fn test_fpath_to_prependpath(
+    path_s: &str,
+    expect: &str,
+) {
+    let fpath: FPath = FPath::from(path_s);
+    let result: FPath = fpath_to_prependpath(&fpath);
+    assert_eq!(
+        result,
+        expect,
+        "\nGiven    {:?}\nExpected {:?}\nActual   {:?}\n",
+        path_s,
+        expect,
+        result
     );
 }

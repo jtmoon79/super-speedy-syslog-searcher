@@ -34,6 +34,7 @@ use crate::common::{
     PathId,
     SetPathId,
     FIXEDOFFSET0,
+    SUBPATH_SEP,
 };
 use crate::data::common::LogMessage;
 use crate::data::datetime::{
@@ -49,26 +50,24 @@ use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
 use crate::data::sysline::SyslineP;
-use crate::de_err;
 use crate::debug::printers::{
+    de_err,
     de_wrn,
     e_err,
 };
 use crate::printer::printers::{
+    fpath_to_prependpath,
     print_colored_stderr,
     write_stderr,
     // termcolor imports
     Color,
     ColorChoice,
+    //
     PrinterLogMessage,
     color_dimmed,
-    //
     COLOR_ERROR,
 };
-use crate::readers::blockreader::{
-    SummaryBlockReader,
-    SUBPATH_SEP,
-};
+use crate::readers::blockreader::SummaryBlockReader;
 use crate::readers::filepreprocessor::ProcessPathResult;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::linereader::SummaryLineReader;
@@ -944,21 +943,21 @@ fn print_file_about(
     match print_colored_stderr(
         *color,
         Some(*color_choice),
-        path.as_bytes()
+        fpath_to_prependpath(path).as_bytes()
     ) {
         Ok(_) => {}
         Err(e) => e_err!("print_colored_stderr: {:?}", e)
     }
     eprintln!("\n{}About:", OPT_SUMMARY_PRINT_INDENT1);
     // XXX: experimentation revealed std::fs::Metadata::is_symlink to be unreliable on WSL Ubuntu
-    let mut path2: &str = path.as_str();
+    let mut path1: &str = path.as_str();
     let mut subpath: &str = "";
     if filetype.is_archived() && path.contains(SUBPATH_SEP) {
         // only canonicalize the first part of the path,
         // e.g. `"path/to/file.tar"` from `"path/to/file.tar|inner/file.txt"`
-        (path2, subpath) = path2.split_once(SUBPATH_SEP).unwrap_or((path.as_str(), ""));
+        (path1, subpath) = path1.split_once(SUBPATH_SEP).unwrap_or((path.as_str(), ""));
     }
-    match std::fs::canonicalize(path2) {
+    match std::fs::canonicalize(path1) {
         Ok(pathb) => match pathb.to_str() {
             Some(s) => {
                 if s != path.as_str() {
@@ -969,7 +968,7 @@ fn print_file_about(
             None => {}
         },
         Err(_err) => {
-            de_err!("canonicalize failed for {:?}; {}", path2, _err);
+            de_err!("canonicalize failed for {:?}; {}", path1, _err);
         }
     }
     if !subpath.is_empty() {
@@ -2040,24 +2039,27 @@ fn print_files_processpathresult(
     for (_pathid, result) in map_pathid_result.iter() {
         match result {
             ProcessPathResult::FileValid(path, _filetype) => {
-                print_(format!("File: {} ", path), color_choice, color_default);
+                // defo!("FileValid");
+                print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
             }
             ProcessPathResult::FileErrEmpty(path, filetype) => {
-                print_(format!("File: {} ", path), color_choice, color_default);
+                print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
                 print_("(empty file)".to_string(), color_choice, color_error);
                 print_(format!(" {}", filetype), color_choice, color_default);
             }
             ProcessPathResult::FileErrTooSmall(path, filetype, len) => {
-                print_(format!("File: {} ", path), color_choice, color_default);
+                print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
                 print_("(too small)".to_string(), color_choice, color_error);
                 print_(format!(" ({} bytes) {}", len, filetype), color_choice, color_default);
             }
             ProcessPathResult::FileErrNoPermissions(path) => {
-                print_(format!("File: {} ", path), color_choice, color_default);
+                print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
                 print_("(no permissions)".to_string(), color_choice, color_error);
             }
             ProcessPathResult::FileErrNotSupported(path, message) => {
-                print_(format!("File: {} ", path), color_choice, color_default);
+                // defo!("FileErrNotSupported 1");
+                print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
+                // defo!("FileErrNotSupported 2");
                 match message {
                     Some(m) => {
                         print_(format!("({})", m), color_choice, color_error);
@@ -2068,19 +2070,19 @@ fn print_files_processpathresult(
                 }
             }
             ProcessPathResult::FileErrNotAFile(path) => {
-                print_(format!("File: {} ", path), color_choice, color_default);
+                print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
                 print_("(not a file)".to_string(), color_choice, color_error);
             }
             ProcessPathResult::FileErrNotExist(path) => {
-                print_(format!("File: {} ", path), color_choice, color_default);
+                print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
                 print_("(does not exist)".to_string(), color_choice, color_error);
             }
             ProcessPathResult::FileErrLoadingLibrary(path, libname, filetype) => {
-                print_(format!("File: {} {:?} ", path, filetype), color_choice, color_default);
+                print_(format!("File: {} {:?} ", fpath_to_prependpath(path), filetype), color_choice, color_default);
                 print_(format!("(failed to load shared library {:?})", libname), color_choice, color_error);
             }
             ProcessPathResult::FileErr(path, message) => {
-                print_(format!("File: {} ", path), color_choice, color_default);
+                print_(format!("File: {} ", fpath_to_prependpath(path)), color_choice, color_default);
                 print_(format!("({})", message), color_choice, color_error);
             }
         }

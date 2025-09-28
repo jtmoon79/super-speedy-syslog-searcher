@@ -40,7 +40,13 @@ pub use ::termcolor::{
     WriteColor,
 };
 
-use crate::common::NLu8;
+use crate::common::{
+    debug_panic,
+    FPath,
+    NLu8,
+    SUBPATH_SEP,
+    SUBPATH_SEP_DISPLAY_STR,
+};
 use crate::data::datetime::{
     DateTimeL,
     DateTimePattern_string,
@@ -58,7 +64,7 @@ use crate::data::line::{
 };
 use crate::data::sysline::SyslineP;
 use crate::debug::printers::de_err;
-use crate::debug_panic;
+use crate::readers::helpers::basename;
 
 // ---------------------
 // globals and constants
@@ -285,6 +291,33 @@ pub fn color_default() -> Color {
     COLOR_DEFAULT[color_theme_index]
 }
 
+/// helper to create string for CLI option `--prepend-filename`
+pub fn fpath_to_prependname(path: &FPath) -> String {
+    // `_` will be archive path
+    // `b` will be path within archive or just the file path
+    let path_ = match path.split_once(SUBPATH_SEP) {
+        Some((_, b_)) => &FPath::from(b_),
+        None => path,
+    };
+
+    basename(path_)
+}
+
+/// helper to create string for CLI option `--prepend-filepath`
+pub fn fpath_to_prependpath(path: &FPath) -> FPath {
+    path.replacen(
+        SUBPATH_SEP,
+        SUBPATH_SEP_DISPLAY_STR,
+        1,
+    )
+}
+
+//pub fn fpath_split_only_path(path: &FPath) -> FPath {
+//    match path.rsplit_once(SUBPATH_SEP) {
+//        Some((a, _)) => FPath::from(a),
+//        None => path.clone(),
+//    }
+//}
 
 // -----------------
 // PrinterLogMessage

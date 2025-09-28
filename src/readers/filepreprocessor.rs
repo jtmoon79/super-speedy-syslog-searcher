@@ -39,9 +39,9 @@ use crate::common::{
     FileTypeArchive,
     FileTypeFixedStruct,
     FileTypeTextEncoding,
+    SUBPATH_SEP,
 };
 use crate::debug::printers::de_err;
-use crate::readers::blockreader::SUBPATH_SEP;
 #[cfg(any(debug_assertions, test))]
 use crate::readers::helpers::fpath_to_path;
 use crate::readers::helpers::path_to_fpath;
@@ -806,15 +806,6 @@ pub fn process_path_tar(
         if !std_path.is_file() {
             panic!("path is not a file: {:?}", std_path);
         }
-        if !std_path
-            .extension()
-            .unwrap_or_default()
-            .to_str()
-            .unwrap_or_default()
-            .eq("tar")
-        {
-            panic!("path does not end in \".tar\": {:?}", std_path);
-        }
     }
 
     let file: File = File::open(path).unwrap();
@@ -879,10 +870,16 @@ pub fn process_path_tar(
         //
         // where `path/file.tar` are on the host filesystem, and `subpath/subfile` are within
         // the `.tar` file
-        let mut fullpath: FPath = String::with_capacity(path.len() + SUBPATH_SEP.len_utf8() + subfpath.len() + 1);
+        let mut fullpath: FPath = String::with_capacity(
+            path.len()
+            + SUBPATH_SEP.len_utf8()
+            + subfpath.len()
+            + 1
+        );
         fullpath.push_str(path.as_str());
         fullpath.push(SUBPATH_SEP);
         fullpath.push_str(subfpath.as_str());
+        defo!("fullpath {:?}", fullpath);
         let result: ProcessPathResult;
         match pathtofileresult {
             PathToFiletypeResult::Filetype(filetype) => {

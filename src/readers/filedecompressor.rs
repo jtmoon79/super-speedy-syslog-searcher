@@ -55,6 +55,7 @@ use crate::common::{
     FileSz,
     FileType,
     FileTypeArchive,
+    SUBPATH_SEP,
 };
 use crate::debug::printers::de_err;
 use crate::readers::blockreader::{
@@ -62,7 +63,6 @@ use crate::readers::blockreader::{
     TarChecksum,
     TarHandle,
     TarMTime,
-    SUBPATH_SEP,
 };
 use crate::readers::helpers::{
     fpath_to_path,

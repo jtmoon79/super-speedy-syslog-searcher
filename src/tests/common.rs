@@ -19,6 +19,7 @@ use crate::common::{
     FileTypeFixedStruct,
     FileTypeTextEncoding,
     Path,
+    SUBPATH_SEP,
 };
 use crate::data::datetime::{
     seconds_to_systemtime,
@@ -55,7 +56,6 @@ use crate::debug::printers::{
 use crate::readers::blockreader::{
     Block,
     BlockSz,
-    SUBPATH_SEP,
 };
 use crate::readers::helpers::{
     fpath_to_path,
