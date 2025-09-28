@@ -184,9 +184,7 @@ fn test_linepart_block_boxptr_ab_3_2_panic() {
 /// create line `"bc"`
 fn new_line_1_3() -> Line {
     let mut line: Line = Line::new();
-    let blockp: BlockP = block_new(&[
-        b'a', b'b', b'c', b'd',
-    ]);
+    let blockp: BlockP = block_new(b"abcd");
     let linepart: LinePart = LinePart::new(blockp, 1, 3, 1, 0, 4);
     line.append(linepart);
 
@@ -197,15 +195,11 @@ fn new_line_1_3() -> Line {
 fn new_line_2_6() -> Line {
     let mut line: Line = Line::new();
     // second half of first block
-    let blockp: BlockP = block_new(&[
-        b'a', b'b', b'c', b'd',
-    ]);
+    let blockp: BlockP = block_new(b"abcd");
     let linepart: LinePart = LinePart::new(blockp, 2, 4, 6, 1, 4);
     line.append(linepart);
     // first half of second block
-    let blockp: BlockP = block_new(&[
-        b'e', b'f', b'g', b'h',
-    ]);
+    let blockp: BlockP = block_new(b"efgh");
     let linepart: LinePart = LinePart::new(blockp, 0, 2, 8, 2, 4);
     line.append(linepart);
 

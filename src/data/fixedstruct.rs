@@ -3944,7 +3944,7 @@ impl Clone for FixedStruct {
             fixedstructtype: self.fixedstructtype,
             filetypefixedstruct: self.filetypefixedstruct,
             fileoffset: self.fileoffset,
-            dt: self.dt.clone(),
+            dt: self.dt,
             tv_pair: self.tv_pair,
         }
     }
@@ -4057,18 +4057,7 @@ pub fn convert_datetime_tvpair(
     dt: &DateTimeL,
 ) -> tv_pair_type {
     let tv_sec: tv_sec_type = dt.timestamp();
-    let tv_usec: tv_usec_type = match dt.timestamp_subsec_micros().try_into() {
-        Ok(val) => val,
-        Err(_err) => {
-            de_wrn!(
-                "failed to convert subsec_micros {} to tv_usec_type: {}",
-                dt.timestamp_subsec_micros(), _err,
-            );
-            // ignore overflow and continue; `tv_usec` merely supplements
-            // the more coarse `tv_sec`
-            0
-        }
-    };
+    let tv_usec: tv_usec_type = dt.timestamp_subsec_micros().into();
 
     tv_pair_type(tv_sec, tv_usec)
 }
@@ -4076,8 +4065,8 @@ pub fn convert_datetime_tvpair(
 #[cfg(any(debug_assertions, test))]
 fn struct_field_to_string(buffer: &[u8], offset: usize, sz: usize) -> String {
     let mut s = String::with_capacity(sz);
-    for i in offset..(offset + sz) {
-        s.push(byte_to_char_noraw(buffer[i]));
+    for b_ in buffer.iter().skip(offset).take(sz) {
+        s.push(byte_to_char_noraw(*b_));
     }
 
     s
@@ -4189,15 +4178,15 @@ pub fn buffer_to_fixedstructptr(buffer: &[u8], fixedstructtype: FixedStructType)
         const LEN: usize = 16;
         defo!("\nbuffer[‥{}] ({} bytes per line)\n[", sz, LEN);
         let _lock = si_trace_print::printers::GLOBAL_LOCK_PRINTER.lock().unwrap();
-        for i in 0..sz {
-            eprint!("{:?}, ", slice_[i] as char);
+        for (i, b_) in slice_.iter().enumerate().take(sz) {
+            eprint!("{:?}, ", *b_ as char);
             if i != 0 && i % LEN == 0 {
                 eprintln!();
             }
         }
         eprintln!("\n]");
-        for i in 0..sz {
-            eprint!("{}", byte_to_char_noraw(slice_[i]));
+        for (i, b_) in slice_.iter().enumerate().take(sz) {
+            eprint!("{}", byte_to_char_noraw(*b_));
             if i != 0 && i % LEN == 0 {
                 eprintln!();
             }
@@ -4941,7 +4930,7 @@ macro_rules! score_fixedstruct_time_range {
                 0
             }
         };
-        if EPOCH_SECOND_LOW <= value_as && value_as <= EPOCH_SECOND_HIGH {
+        if (EPOCH_SECOND_LOW..=EPOCH_SECOND_HIGH).contains(&value_as) {
             $score += 20;
         } else {
             $score -= 30;

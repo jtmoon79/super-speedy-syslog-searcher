@@ -195,12 +195,7 @@ pub fn convert_to_systemtime<T>(epoch_seconds: T) -> SystemTime
 where
     u64: From<T>,
 {
-    UNIX_EPOCH
-        + std::time::Duration::from_secs(
-            epoch_seconds
-                .try_into()
-                .unwrap(),
-        )
+    UNIX_EPOCH + std::time::Duration::from_secs(epoch_seconds.into())
 }
 
 /// create a `DateTime`
@@ -996,7 +991,7 @@ impl fmt::Debug for DTFSSet<'_> {
 /// An explanation of a `DateTimeParseInstr` instance:
 ///
 /// 1. All `DateTimeParseInstr` instances are declared within the array
-///   [`pub const DATETIME_PARSE_DATAS`].
+///    [`pub const DATETIME_PARSE_DATAS`].
 /// 2. The `DateTimeParseInstr.regex_pattern` is a `&str` for regex matching some
 ///    line of text from the processed file.
 /// 3. The `DateTimeParseInstr.dtfs` are like instructions for taking the
@@ -6045,7 +6040,7 @@ pub(crate) fn captures_to_buffer_bytes(
             const BUFLEN: usize = 30;
             let mut buf_uptime: [u8; BUFLEN] = [0; BUFLEN];
             copy_capturegroup_to_buffer!(CGN_UPTIME, captures, buf_uptime, at_uptime);
-            defo!("buf_uptime {:?}", buffer_to_String_noraw(&mut buf_uptime));
+            defo!("buf_uptime {:?}", buffer_to_String_noraw(&buf_uptime));
             let buf_uptime_s: &str = match std::str::from_utf8(&buf_uptime[..at_uptime]) {
                 Ok(s) => s,
                 Err(_err) => {
@@ -6099,7 +6094,7 @@ pub(crate) fn captures_to_buffer_bytes(
             let uptime_zero_plus_uptime_n = uptime_zero_plus_uptime_dur.as_secs();
             defo!("uptime_zero_plus_uptime_n {:?}", uptime_zero_plus_uptime_n);
             let buf_uptime_plus = uptime_zero_plus_uptime_n.numtoa(10, &mut buf_uptime);
-            defo!("buf_uptime_plus {:?}", buffer_to_String_noraw(&buf_uptime_plus));
+            defo!("buf_uptime_plus {:?}", buffer_to_String_noraw(buf_uptime_plus));
             // copy the local temporary buffer to the main buffer
             copy_slice_to_buffer!(&buf_uptime_plus, buffer, at);
             defo!("buffer {:?}", buffer_to_String_noraw(buffer));
@@ -6158,7 +6153,7 @@ pub(crate) fn captures_to_buffer_bytes(
             // so prepend `0` if necessary
             match month.len() {
                 1 => {
-                    copy_slice_to_buffer!(&[b'0'], buffer, at);
+                    copy_slice_to_buffer!(b"0", buffer, at);
                     copy_slice_to_buffer!(month, buffer, at);
                 }
                 _val => {
@@ -6242,7 +6237,7 @@ pub(crate) fn captures_to_buffer_bytes(
             // so prepend `0` if necessary
             match hour.len() {
                 1 => {
-                    copy_slice_to_buffer!(&[b'0'], buffer, at);
+                    copy_slice_to_buffer!(b"0", buffer, at);
                     copy_slice_to_buffer!(hour, buffer, at);
                 }
                 _val => {
@@ -6374,7 +6369,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_slice_to_buffer!(HYPHEN_MINUS, buffer, at);
                     defo!("buffer {:?}", buffer_to_String_noraw(buffer));
                     // copy data remaining after Unicode "minus sign"
-                    match std::str::from_utf8(&captureb) {
+                    match std::str::from_utf8(captureb) {
                         Ok(val) => {
                             match val.char_indices().nth(1) {
                                 Some((offset, _)) => {
@@ -6400,18 +6395,13 @@ pub(crate) fn captures_to_buffer_bytes(
         }
         DTFS_Tz::Z => {
             #[allow(non_snake_case)]
-            let tzZ: &str = match u8_to_str(
+            let tzZ: &str = u8_to_str(
                 captures
                     .name(CGN_TZ)
                     .as_ref()
                     .unwrap()
-                    .as_bytes(),
-            ) {
-                Some(val) => val,
-                None => {
-                    ""
-                }
-            };
+                    .as_bytes()
+                ).unwrap_or_default();
             if tzZ.is_empty() {
                 debug_panic!("tzZ.is_empty()");
                 // `u8_to_str` failed, fallback to using passed TZ offset
@@ -6811,7 +6801,7 @@ pub fn datetime_minus_systemtime(
     systemtime: &SystemTime,
 ) -> Duration {
     *datetime - systemtime_to_datetime(
-        &datetime.offset(),
+        datetime.offset(),
         systemtime,
     )
 }
@@ -6821,6 +6811,7 @@ pub fn seconds_to_systemtime(
     seconds: &u64,
 ) -> SystemTime {
     let duration = std::time::Duration::from_secs(*seconds);
+
     // TODO: [2024/06] handle `None`
     SystemTime::UNIX_EPOCH.checked_add(duration).unwrap()
 }
@@ -6830,6 +6821,7 @@ pub fn systemtime_year(
     systemtime: &SystemTime,
 ) -> Year {
     let dtu: DateTime<Utc> = (*systemtime).into();
+
     dtu.year()
 }
 
@@ -8361,10 +8353,11 @@ pub fn slice_contains_X_2_memchr(
     slice_: &[u8],
     search: &[u8; 2],
 ) -> bool {
-    match memchr::memchr2(search[0], search[1], slice_) {
-        Some(_) => true,
-        None => false,
-    }
+    memchr::memchr2(
+        search[0],
+        search[1],
+        slice_,
+    ).is_some()
 }
 
 /// Stringzilla implementation of `slice.contains` for a byte slice and a
@@ -8379,10 +8372,7 @@ pub fn slice_contains_X_2_stringzilla(
     slice_: &[u8],
     search: &[u8; 2],
 ) -> bool {
-    match stringzilla::sz::find_char_from(slice_, search) {
-        Some(_) => true,
-        None => false,
-    }
+    stringzilla::sz::find_char_from(slice_, search).is_some()
 }
 
 /// Wrapper to call the preferred `slice_contains_X_2` function.

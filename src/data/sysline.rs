@@ -320,15 +320,10 @@ impl Sysline {
     /// XXX: Calling this on a partially constructed `Sysline` is most
     ///      likely pointless.
     pub fn ends_with_newline(self: &Sysline) -> bool {
-        let byte_last = match self.last_byte() {
-            Some(byte_) => byte_,
-            None => {
-                return false;
-            }
-        };
-        match char::try_from(byte_last) {
-            Ok(char_) => NLc == char_,
-            Err(_err) => false,
+        match self.last_byte() {
+            // XXX: Issue #16 only handles UTF-8/ASCII encoding
+            Some(byte_) => NLc == char::from(byte_),
+            None => false,
         }
     }
 

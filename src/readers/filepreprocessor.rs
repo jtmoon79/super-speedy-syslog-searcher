@@ -792,8 +792,7 @@ pub fn process_path_tar(
 ) -> Vec<ProcessPathResult> {
     defn!("({:?}, {:?}, {:?})", path, unparseable_are_text, _filetypearchive);
 
-    // TODO [2024/04/29]
-    //      handle `filetypearchive`; extract the file first and then process it
+    // TODO [2024/04/29] handle `filetypearchive`; extract the file first and then process it
 
     // debug runtime checks
     #[cfg(all(debug_assertions, not(test)))]

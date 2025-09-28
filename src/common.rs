@@ -868,38 +868,23 @@ impl FileType {
     }
 
     pub const fn is_evtx(&self) -> bool {
-        match self {
-            FileType::Evtx { .. } => true,
-            _ => false,
-        }
+        matches!(self, FileType::Evtx { .. })
     }
 
     pub const fn is_fixedstruct(&self) -> bool {
-        match self {
-            FileType::FixedStruct { .. } => true,
-            _ => false,
-        }
+        matches!(self, FileType::FixedStruct { .. })
     }
 
     pub const fn is_journal(&self) -> bool {
-        match self {
-            FileType::Journal { .. } => true,
-            _ => false,
-        }
+        matches!(self, FileType::Journal { .. })
     }
 
     pub const fn is_text(&self) -> bool {
-        match self {
-            FileType::Text { .. } => true,
-            _ => false,
-        }
+        matches!(self, FileType::Text { .. })
     }
 
     pub const fn is_unparsable(&self) -> bool {
-        match self {
-            FileType::Unparsable => true,
-            _ => false,
-        }
+        matches!(self, FileType::Unparsable)
     }
 
     pub const fn archival_type(&self) -> FileTypeArchive {

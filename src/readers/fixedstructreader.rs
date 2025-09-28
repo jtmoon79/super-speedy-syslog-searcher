@@ -1174,13 +1174,10 @@ impl FixedStructReader {
         };
         def1o!("filesz_to_types returned {} types: {:?}", types_to_bonus.len(), types_to_bonus);
 
-        match FixedStructReader::score_file(blockreader, oneblock, types_to_bonus) {
-            ret => {
-                def1x!("score_file returned {:?}", ret);
+        let ret = FixedStructReader::score_file(blockreader, oneblock, types_to_bonus);
+        def1x!("score_file returned {:?}", ret);
 
-                ret
-            }
-        }
+        ret
     }
 
     /// Jump to each entry offset, convert the raw bytes to a `tv_pair_type`.

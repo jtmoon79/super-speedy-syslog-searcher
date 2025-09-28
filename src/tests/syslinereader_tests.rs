@@ -310,7 +310,7 @@ fn helper_extract_dtpi_info(
     String,
 )
 {
-    let (a_expect, b_expect, zymdhmsn, data) = dtpi._test_cases.iter().nth(test_case_index).unwrap();
+    let (a_expect, b_expect, zymdhmsn, data) = dtpi._test_cases.get(test_case_index).unwrap();
     let block: Block = Block::from(data.as_bytes());
     let blockp: BlockP = BlockP::new(block);
     let linepart = LinePart::new(

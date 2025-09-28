@@ -278,7 +278,7 @@ pub struct EvtxReader {
     error: Option<String>,
 }
 
-impl<'a> fmt::Debug for EvtxReader {
+impl fmt::Debug for EvtxReader {
     fn fmt(
         &self,
         f: &mut fmt::Formatter,

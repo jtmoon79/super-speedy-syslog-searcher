@@ -119,7 +119,6 @@ fn print_datetime_utc_dimmed(
     ) {
         Err(e) => {
             eprintln!("\nERROR: print_colored_stderr {:?}", e);
-            return;
         }
         Ok(_) => {}
     }
@@ -142,7 +141,6 @@ fn print_datetime_asis_utc_dimmed(
     ) {
         Err(e) => {
             eprintln!("\nERROR: print_colored_stderr {:?}", e);
-            return;
         }
         Ok(_) => {}
     }
@@ -1399,8 +1397,8 @@ fn print_summary_opt_processed_summaryblockreader(
     //       tracking in `BlockReader`.
     //       i.e. bytes read from storage.
     eprintln!("{}bytes         : {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes);
-    // TODO: [2024/05/05] `bytes total` repeats `file size` printed
-    //       above. Remove it entirely.
+    // TODO: [2024/05/05] `bytes total` repeats `file size` printed above.
+    //       Remove it entirely.
     eprintln!("{}bytes total   : {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes_total);
     eprintln!("{}block size    : {1} (0x{1:X})", indent, summaryblockreader.blockreader_blocksz);
     eprintln!("{}blocks        : {}", indent, summaryblockreader.blockreader_blocks);
@@ -1427,8 +1425,6 @@ pub fn print_summary_opt_printed(
 ) {
     match summary_print_opt {
         Some(summary_print) => {
-            defñ!("Some(summary_print)");
-
             summary_print.print_colored_stderr(
                 Some(*color_choice),
                 summary_opt,
@@ -1437,7 +1433,6 @@ pub fn print_summary_opt_printed(
             );
         }
         None => {
-            defñ!("None");
             SummaryPrinted::default().print_colored_stderr(
                 Some(*color_choice),
                 summary_opt,

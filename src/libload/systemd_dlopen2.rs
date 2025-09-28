@@ -376,14 +376,14 @@ impl PartialEq for LoadLibraryError {
         &self,
         other: &LoadLibraryError,
     ) -> bool {
-        match (self, other) {
+        matches!(
+            (self, other),
             (&LoadLibraryError::Ok, &LoadLibraryError::Ok) |
             (&LoadLibraryError::Err(_), &LoadLibraryError::Err(_)) |
             (&LoadLibraryError::Err(_), &LoadLibraryError::PrevErr) |
             (&LoadLibraryError::PrevErr, &LoadLibraryError::Err(_)) |
-            (&LoadLibraryError::PrevErr, &LoadLibraryError::PrevErr) => true,
-            _ => false,
-        }
+            (&LoadLibraryError::PrevErr, &LoadLibraryError::PrevErr)
+        )
     }
 }
 impl Eq for LoadLibraryError {}
@@ -413,26 +413,17 @@ impl fmt::Debug for LoadLibraryError {
 impl LoadLibraryError {
     /// Return `true` if the library was successfully loaded.
     pub fn is_ok(&self) -> bool {
-        match self {
-            LoadLibraryError::Ok => true,
-            _ => false,
-        }
+        matches!(self, LoadLibraryError::Ok)
     }
 
     /// Return `true` if the library failed to load.
     pub fn is_err(&self) -> bool {
-        match self {
-            LoadLibraryError::Err(_) => true,
-            _ => false,
-        }
+        matches!(self, LoadLibraryError::Err(_))
     }
 
     /// Return `true` if a previous attempt to load the library failed.
     pub fn is_prev_err(&self) -> bool {
-        match self {
-            LoadLibraryError::PrevErr => true,
-            _ => false,
-        }
+        matches!(self, LoadLibraryError::PrevErr)
     }
 
 }

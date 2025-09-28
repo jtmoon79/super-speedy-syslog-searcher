@@ -957,7 +957,7 @@ pub struct JournalReader {
     pub(crate) force_error_range_opt: ForceErrorRangeOpt,
 }
 
-impl<'a> fmt::Debug for JournalReader {
+impl fmt::Debug for JournalReader {
     fn fmt(
         &self,
         f: &mut fmt::Formatter,
