@@ -19,6 +19,7 @@ pub mod filedecompressor_tests;
 pub mod filepreprocessor_tests;
 pub mod fixedstruct_tests;
 pub mod fixedstructreader_tests;
+pub mod helpers_tests;
 pub mod journal_tests;
 pub mod journalreader_tests;
 pub mod line_tests;
