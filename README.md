@@ -841,13 +841,13 @@ Here are two typical log messages from a contrived log file:
 
 |Command        |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
 |:---           |---:        |---:    |---:    |---:        |---: |
-|`grep+sort`    |16.6 ± 0.4  |16.1    |17.6    |4608        |94%  |
-|`s4 (system)`  |30.9 ± 3.5  |26.9    |45.7    |77288       |181% |
-|`s4 (jemalloc)`|40.0 ± 1.8  |37.7    |44.5    |52864       |188% |
-|`s4 (mimalloc)`|29.6 ± 2.0  |26.9    |34.2    |79336       |182% |
-|`lnav`         |222.3 ± 10.2|202.7   |240.3   |36608       |77%  |
-|`logmerger`    |828.2 ± 8.9 |805.8   |840.4   |57296       |99%  |
-|`tl`           |            |        |        |53208       |40%  |
+|`grep\|sort`   |17.6 ± 0.5  |16.8    |18.9    |4736        |95%  |
+|`s4 (system)`  |44.5 ± 1.1  |42.8    |47.9    |47172       |182% |
+|`s4 (jemalloc)`|41.6 ± 1.5  |39.0    |44.8    |52736       |184% |
+|`s4 (mimalloc)`|29.3 ± 1.4  |26.9    |34.0    |77160       |173% |
+|`lnav`         |262.1 ± 9.0 |242.4   |283.6   |36736       |73%  |
+|`logmerger`    |200.1 ± 2.6 |195.1   |205.1   |48648       |99%  |
+|`toolong`      |2100.0 ± 0.0|        |        |52816       |30%  |
 
 <sup style="font-size: xx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xx-small">• _Min_ is minimum runtime in milliseconds</sup>
@@ -858,9 +858,9 @@ Here are two typical log messages from a contrived log file:
 Programs tested:
 
 - GNU `grep` 3.7, GNU `sort` 8.32
-- `s4` 0.7.77 compiled with rustc 1.73.0
+- `s4` 0.7.79 compiled with rustc 1.73.0
 - `lnav` 0.11.2
-- `logmerger` 0.11.0 on Python 3.10.12
+- `logmerger` 0.12.0 on Python 3.10.12
 - `tl` (_toolong_) 1.5.0 on Python 3.10.12
 <!-- XXX: these versions should match those in compare-log-mergers/requirements.txt -->
 
