@@ -301,7 +301,7 @@ _MSRV 1.81.0_
 - (LIB) rm unused BlockReader::_subpath ([e75a099b])
 - (LIB) rm unused PrinterLogMessage::_color_logmessage ([88285895])
 - (RELEASE) add  releases/0.7.78/aarch64-unknown-linux-gnu/ ([41009684])
-- (RELEASE) add releases/0.7.79/x86_64-unknown-linux-gnu/ ([e6fdc373]) (origin/main, origin/HEAD)
+- (RELEASE) add releases/0.7.79/x86_64-unknown-linux-gnu/ ([e6fdc373])
 - (TEST) add helpers_tests, revise count_char_in_str ([be9e0dfd])
 - (TOOLS) cargo fmt use nightly ([492188bd])
 - (TOOLS) cargo-llvm-cov-run.sh tweak dt-before, --locked ([d1f63b14])
