@@ -514,7 +514,8 @@ fn test_fpath_to_prependname(
     path_s: &str,
     expect: &str,
 ) {
-    let fpath: FPath = FPath::from(path_s);
+    const S: char = std::path::MAIN_SEPARATOR;
+    let fpath: FPath = FPath::from(path_s).replace("/", &S.to_string());
     let result: FPath = fpath_to_prependname(&fpath);
     assert_eq!(
         result,
