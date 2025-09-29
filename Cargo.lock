@@ -2284,12 +2284,11 @@ dependencies = [
 
 [[package]]
 name = "nu-ansi-term"
-version = "0.46.0"
+version = "0.50.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77a8165726e8236064dbb45459242600304b42a5ea24ee2948e18e023bf7ba84"
+checksum = "d4a28e057d01f97e61255210fcff094d74ed0466038633e95017f5beb68e4399"
 dependencies = [
- "overload",
- "winapi",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -2424,12 +2423,6 @@ name = "os_str_bytes"
 version = "6.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2355d85b9a3786f481747ced0e0ff2ba35213a1f9bd406ed906554d7af805a1"
-
-[[package]]
-name = "overload"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b15813163c1d831bf4a13c3610c05c0d03b39feb07f7e09fa234dac9b15aaf39"
 
 [[package]]
 name = "owo-colors"
@@ -3683,9 +3676,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-core"
-version = "0.1.32"
+version = "0.1.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c06d3da6113f116aaee68e4d601191614c9053067f9ab7f6edbcb161237daa54"
+checksum = "b9d12581f227e93f094d3af2ae690a574abb8a2b9b7a96e7cfe9647b2b617678"
 dependencies = [
  "once_cell",
  "valuable",
@@ -3704,9 +3697,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-serde"
-version = "0.1.3"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bc6b213177105856957181934e4920de57730fc69bf42c37ee5bb664d406d9e1"
+checksum = "704b1aeb7be0d0a84fc9828cae51dab5970fee5088f83d1dd7ee6f6246fc6ff1"
 dependencies = [
  "serde",
  "tracing-core",
@@ -3714,9 +3707,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-subscriber"
-version = "0.3.18"
+version = "0.3.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad0f048c97dbd9faa9b7df56362b8ebcaa52adb06b498c050d2f4e32f90a7a8b"
+checksum = "2054a14f5307d601f88daf0553e1cbf472acc4f2c51afab632431cdcd72124d5"
 dependencies = [
  "nu-ansi-term",
  "serde",
