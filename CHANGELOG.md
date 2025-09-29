@@ -276,7 +276,7 @@ _MSRV 1.81.0_
 - (BIN) --summary tweak spacing in 'Processing Drops' subsection ([5627c971])
 - (CI) add wtmp journal strace to S4_TEST_FILES ([4dc89cea])
 - (CI) coveralls upload cargo-llvm-cov-combine-multiple.sh ([9b54b319])
-- (DOC) examples hightlight-a -b offsets ([de94d527])
+- (DOCS) examples hightlight-a -b offsets ([de94d527])
 - (DOCS) fix README table version description ([bf556e61])
 - (DOCS) README add platforms supported ([0b781120])
 - (DOCS) README comparisons note grep+sort dmesg ([33e795be])
@@ -288,19 +288,14 @@ _MSRV 1.81.0_
 - (LIB BIN) SUBPATH_SEP='\0' SUBPATH_SEP_DISPLAY ([835cdde6])
 - (LIB) bump clap 4.5.48 ([eb02c426])
 - (LIB) bump ctrlc 3.5.0, lz4_flex 0.11.3 ([01eb4c24])
+- (LIB) pin ctrlc=3.4.7 ([f3f4f7d4])
 - (LIB) bump rust-version 1.81.0 ([6b8d31e1])
 - (LIB) cargo upgrade multiple packages ([332d8659])
-- (LIB) NFC BlockReader note TODO about subpaths ([86c5740d])
 - (LIB) NFC helpers.rs tweak docstrings ([612c4533])
-- (LIB) NFC misc comment cleanup ([6d66def3])
-- (LIB) NFC note Issue in comment ([414a8be0])
-- (LIB) NFC remove dead comment ([009b36fd])
 - (LIB) NFC rename ResultS3 to ResultFind ([e8887e16])
-- (LIB) pin ctrlc=3.4.7 ([f3f4f7d4])
 - (LIB) remove redundant CStr::is_empty ([81446a51])
 - (LIB) rm unused BlockReader::_subpath ([e75a099b])
 - (LIB) rm unused PrinterLogMessage::_color_logmessage ([88285895])
-- (RELEASE) add  releases/0.7.78/aarch64-unknown-linux-gnu/ ([41009684])
 - (RELEASE) add releases/0.7.79/x86_64-unknown-linux-gnu/ ([e6fdc373])
 - (TEST) add helpers_tests, revise count_char_in_str ([be9e0dfd])
 - (TOOLS) cargo fmt use nightly ([492188bd])
@@ -328,6 +323,7 @@ _MSRV 1.73.0_
 ### Changes
 
 - (DOCS) update comparison table of log mergers for 0.7.77 ([5b12554d])
+- (RELEASE) add releases/0.7.78/aarch64-unknown-linux-gnu/ ([41009684])
 - (TOOLS) compare-log-mergers.sh hyperfine -i ([4adfd641])
 
 ### Fixes
