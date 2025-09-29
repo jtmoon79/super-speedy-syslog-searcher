@@ -261,7 +261,7 @@ _MSRV 1.81.0_
 
 ### New
 
-- (BIN) allow -a -b HH:MM:SS HH:MM ([524988dc])
+- (BIN) allow -a -b HH:MM:SS HH:MM [Issue #36] ([524988dc])
 - (BIN) --help explains datetime filters without time date ([41f316ca])
 - (BIN LIB) count namedtempfiles, print in summary ([8c5ca504])
 - (BIN LIB) option --light-theme [Issue #261] ([e594436e])
@@ -2214,6 +2214,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #28]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/28
 [Issue #29]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/29
 [Issue #35]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/35
+[Issue #36]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/36
 [Issue #38]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/38
 [Issue #40]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/40
 [Issue #41]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/41

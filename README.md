@@ -858,7 +858,7 @@ Here are two typical log messages from a contrived log file:
 Programs tested:
 
 - GNU `grep` 3.7, GNU `sort` 8.32
-- `s4` 0.7.79 compiled with rustc 1.73.0
+- `s4` 0.7.79 compiled with rustc 1.81.0
 - `lnav` 0.11.2
 - `logmerger` 0.12.0 on Python 3.10.12
 - `tl` (_toolong_) 1.5.0 on Python 3.10.12
