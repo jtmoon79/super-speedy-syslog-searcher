@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 #
-# hardcoded time comparison of GNU grep + sort, `s4`, `logmerger`
+# hardcoded performance comparison of GNU `grep | sort`, `s4` (all allocator
+# variations), `logmerger`, `lnav`, `logdissect` and `toolong` (tl).
+#
+# For each log merging tool, this script runs a search for log lines
+# between two datetimes in three 5,000-line log files.
+# Gathers program runtime performance data using `hyperfine` and GNU `time`.
+# Then does some scraping of those results and outputs that as a markdown table.
+# The markdown output is typically for display (bragging) in the top-level
+# README.md file.
 #
 # pass `--skip-tl` to skip processing toolong which takes over the console
 # window and stalls non-interactive consoles
@@ -383,7 +391,8 @@ echo
 
 echo_line
 
-# TODO: how to force `tl` to not create a TUI window?
+# TODO: how to force toolong to not create a TUI window so it doesn't need
+#       to be forcefully killed?
 PROGRAM_TL=${PROGRAM_TL-tl}
 (set -x; "${PROGRAM_TL}" --version)
 
