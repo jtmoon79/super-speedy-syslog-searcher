@@ -373,6 +373,10 @@ const BUFFER_USE: bool = true;
 const BUFFER_CAP: usize = 2056;
 
 /// Flushes. Sets `error_ret` if there is an error.
+// XXX: this custom-made buffering may have been more work than it's worth.
+//      It duplicates the buffering already done by the OS and std::io and/or
+//      termcolor. Local tests demonstrated negligible performance difference
+//      (fewer calls to `flush`). Test it by changing the value of `BUFFER_USE`.
 macro_rules! buffer_flush_or_seterr {
     ($stdout:expr, $buffer:expr, $printed:expr, $flushed:expr, $error_ret:expr) => {{
         if !$buffer.is_empty() {
