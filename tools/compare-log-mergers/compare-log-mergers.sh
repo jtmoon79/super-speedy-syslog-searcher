@@ -112,6 +112,7 @@ json4=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json5=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json6=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json7=$(mktemp -t "compare-log_mergers_XXXXX.json")
+json8=$(mktemp -t "compare-log_mergers_XXXXX.json")
 tm1=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm2=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm3=$(mktemp -t "compare-log_mergers_XXXXX.txt")
@@ -119,13 +120,14 @@ tm4=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm5=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm6=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm7=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tm8=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 mdfinal=$(mktemp -t "compare-log_mergers_final_XXXXX.md")
 
 function exit_() {
     rm -f \
         "${tmpA}" \
-        "${json1}" "${json2}" "${json3}" "${json4}" "${json5}" "${json6}" "${json7}" \
-        "${tm1}" "${tm2}" "${tm3}" "${tm4}" "${tm5}" "${tm6}" "${tm7}" \
+        "${json1}" "${json2}" "${json3}" "${json4}" "${json5}" "${json6}" "${json7}" "${json8}" \
+        "${tm1}" "${tm2}" "${tm3}" "${tm4}" "${tm5}" "${tm6}" "${tm7}" "${tm8}" \
         "${mdfinal}"
 }
 trap exit_ EXIT
@@ -291,6 +293,36 @@ echo
 cat "${tmpA}" | wc -l -
 echo
 
+# Super Speedy Syslog Searcher (S4) (tcmalloc)
+
+PROGRAM_S4_TCMALLOC=${PROGRAM_S4_TCMALLOC-./target/tcmalloc/s4}
+(set -x; "${PROGRAM_S4_TCMALLOC}" --version)
+
+echo_line
+
+(
+    files_caching
+    set -x
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json5}" -N -n "s4 (tcmalloc)" \
+        -- \
+        "'${PROGRAM_S4_TCMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+)
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" --output="${tm5}" \
+        -- \
+        "${PROGRAM_S4_TCMALLOC}" \
+        "-a=${after_dt}" \
+        "-b=${befor_dt}" \
+        "--color=never" \
+        "${files[@]}" > "${tmpA}"
+)
+
+echo
+cat "${tmpA}" | wc -l -
+echo
+
 # lnav
 
 (
@@ -298,7 +330,7 @@ echo
     set -x
     lnav --version
     lnav -i -W ./tools/compare-log-mergers/lnav1.json
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json5}" -N -n "${PROGRAM_LNAV}" \
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json6}" -N -n "${PROGRAM_LNAV}" \
         -- \
         "'${PROGRAM_LNAV}' -N -n \
 -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime(\"${after_dt}\") AND Datetime(\"${befor_dt}\")' \
@@ -308,7 +340,7 @@ ${files[*]}"
 (
     files_caching
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm5}" \
+    $time --format="${TIME_FORMAT}" --output="${tm6}" \
         -- \
         "${PROGRAM_LNAV}" -N -n \
             -c ";SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('${after_dt}') AND Datetime('${befor_dt}')" \
@@ -339,14 +371,15 @@ echo
 (
     files_caching
     set -x
-    $hyperfine -i --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json6}" --shell sh -n "${PROGRAM_LM}" \
+    $hyperfine -i --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json7}" \
+        --shell sh -n "${PROGRAM_LM}" \
         -- \
         "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]} > /dev/null"
 )
 (
     files_caching
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm6}" \
+    $time --format="${TIME_FORMAT}" --output="${tm7}" \
         -- \
         "${PROGRAM_LM}" \
         "--inline" \
@@ -407,22 +440,29 @@ echo
 if ! ${skip_tl}; then
     (
         files_caching
-        set -x
-        $time --format="${TIME_FORMAT}" --output="${tm7}" \
+        # run toolong (tl)
+        # there is no way to make toolong automatically exit after processing input
+        # the user must manually exit the TUI
+        $time --format="${TIME_FORMAT}" --output="${tm8}" \
             -- \
             "${PROGRAM_TL}" \
             --merge \
             --output-merge "${tmpA}" \
             "${files[@]}"
     )
-    echo
-    cat "${tmpA}" | wc -l -
-    echo
-    cat "${tm7}"
-    echo
+else
+    echo "Skipping toolong (tl)" >&2
+    # set dummy data
+    echo '0|0|0:0' > "${tm8}"
+fi
+echo
+cat "${tmpA}" | wc -l -
+echo
+cat "${tm8}"
+echo
 
-    erealtime=$(cat "${tm7}" | cut -d'|' -f3 | cut -d':' -f2)
-    echo '{
+erealtime=$(cat "${tm8}" | cut -d'|' -f3 | cut -d':' -f2)
+echo '{
 "results": [ {
     "command": "toolong",
     "mean": '"${erealtime}"',
@@ -433,7 +473,6 @@ if ! ${skip_tl}; then
     "exit_codes": [0]
   } ]
 }' > "${json7}"
-fi
 
 #
 # merge separate files into one final markdown file
@@ -496,6 +535,7 @@ for files_ in \
     "${json5}|${tm5}" \
     "${json6}|${tm6}" \
     "${json7}|${tm7}" \
+    "${json8}|${tm8}" \
 ; do
     json=$(echo -n "${files_}" | cut -d'|' -f1)
     tm=$(echo -n "${files_}" | cut -d'|' -f2)

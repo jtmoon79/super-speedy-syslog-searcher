@@ -72,6 +72,13 @@ cfg_if::cfg_if! {
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::Mimalloc;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "mimalloc";
     }
+    else if #[cfg(feature = "tcmalloc")] {
+        use ::tcmalloc::TCMalloc;
+        #[global_allocator]
+        static GLOBAL: TCMalloc = TCMalloc;
+        const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::TCMalloc;
+        const CLI_HELP_AFTER_ALLOCATOR: &str = "tcmalloc";
+    }
     else {
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "system";

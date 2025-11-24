@@ -39,6 +39,7 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
     cargo build --locked --profile release
     cargo build --locked --profile jemalloc --features jemalloc
     cargo build --locked --profile mimalloc --features mimalloc
+    cargo build --locked --profile tcmalloc --features tcmalloc
 )
 
 (
@@ -85,6 +86,7 @@ clean_file "${DIROUT}/massif.txt"
     set -x
     # use allocator mimalloc for fastest results
     cargo build --profile mimalloc --features mimalloc
+    export PROGRAM=./target/mimalloc/s4
     ./tools/compare-grep-sort.sh &> "${DIROUT}/compare-grep-sort.txt"
 )
 clean_file "${DIROUT}/compare-grep-sort.txt"

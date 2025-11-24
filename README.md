@@ -43,7 +43,7 @@ systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
 <!-- toc start -->
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
-    - [allocator `mimalloc` or `jemalloc`](#allocator-mimalloc-or-jemalloc)
+    - [allocator `mimalloc` or `jemalloc` or `tcmalloc`](#allocator-mimalloc-or-jemalloc-or-tcmalloc)
       - [Alpine](#alpine)
       - [Debian and Ubuntu](#debian-and-ubuntu)
       - [OpenSUSE](#opensuse)
@@ -104,13 +104,14 @@ A C compiler is required.
 
 [rust is installed]: https://www.rust-lang.org/tools/install
 
-#### allocator `mimalloc` or `jemalloc`
+#### allocator `mimalloc` or `jemalloc` or `tcmalloc`
 
 The default allocator is the System allocator.
 
 Allocator [`mimalloc`] is feature `mimalloc` and allocator [`jemalloc`] is feature `jemalloc`.
 Allocator `mimalloc` [is the fastest according to `mimalloc` project benchmarks].
 `jemalloc` is also very good.
+Allocator [`tcmalloc`] performs poorer than the system allocator in testing.
 See the [Speed Comparison](#speed-comparison).
 
 <br/>
@@ -140,9 +141,24 @@ cargo install --locked super_speedy_syslog_searcher --features jemalloc
 
 <br/>
 
+`tcmalloc`
+
+On Ubuntu, this requires these apt packages:
+
+```lang-text
+apt install google-perftools libgoogle-perftools-dev libtcmalloc-minimal4
+```
+
+```lang-text
+cargo install --locked super_speedy_syslog_searcher --features tcmalloc
+```
+
+<br/>
+
 [`jemalloc`]: http://jemalloc.net/
 [`mimalloc`]: https://microsoft.github.io/mimalloc/bench.html
 [is the fastest according to `mimalloc` project benchmarks]: https://github.com/microsoft/mimalloc#Performance
+[`tcmalloc`]: https://github.com/jmcomets/tcmalloc-rs
 
 <br/>
 

@@ -36,6 +36,7 @@ cargo build
 cargo build --profile release
 cargo build --profile mimalloc --features mimalloc
 cargo build --profile jemalloc --features jemalloc
+cargo build --profile tcmalloc --features tcmalloc
 ./tools/log-files-time-update.sh
 cargo test
 cargo check --all-targets

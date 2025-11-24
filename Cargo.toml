@@ -91,6 +91,7 @@ walkdir = "2.5.0"
 utf8_iter = "1.0.4"
 # allocators
 mimalloc = { version = "0.1.48", optional = true }
+tcmalloc = { version = "0.3.0", optional = true }
 tikv-jemallocator = { version = "0.6.0", optional = true }
 
 [lib]
@@ -133,6 +134,7 @@ bench_memchr = []
 bench_stringzilla = ["dep:stringzilla"]
 jemalloc = ["dep:tikv-jemallocator"]
 mimalloc = ["dep:mimalloc"]
+tcmalloc = ["dep:tcmalloc"]
 
 # release build optimizations
 # from https://github.com/johnthagen/min-sized-rust
@@ -169,6 +171,9 @@ strip = false
 inherits = "release"
 
 [profile.mimalloc]
+inherits = "release"
+
+[profile.tcmalloc]
 inherits = "release"
 
 # other helpful development tools
