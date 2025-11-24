@@ -77,6 +77,7 @@ set -x
 )
 
 # remove write permissions from the archive file
+# this may fail on NTFS or SMB mounts
 chmod -w -- "${ZIPFILE}" || true
 
 ls -lh "${ZIPFILE}"
