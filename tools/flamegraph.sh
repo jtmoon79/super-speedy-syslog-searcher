@@ -11,6 +11,8 @@
 #   apt install -y linux-perf linux-tools-generic
 #   cargo install flamegraph
 #
+# note the `perf` program installed to `/usr/bin/perf` is often a stub.
+#
 # noted at https://nnethercote.github.io/perf-book/profiling.html
 #
 # User may set environment variable $PROGRAM and $BIN.
@@ -26,22 +28,44 @@ function did_install () {
     echo "Did you:" >&2
     echo "    cargo install flamegraph" >&2
     echo "    apt install -y linux-perf linux-tools-generic" >&2
-    echo "(sometimes only need linux-tools-generic)" >&2
+    echo "or for newer Debian-based distros:" >&2
+    echo "    apt install -y linux-tools-generic"
     echo "" >&2
     echo "You can also set environment variable 'PERF'" >&2
 }
 
 export GIT_PAGER=
 
+# make a best-effort attempt to find the `perf` program which may reside
+# at an unusual path not in the environment PATH.
+# the perf installed to `/usr/bin/perf` is often a stub.
+# print the full path of perf.
+function perf_path() {
+    local perf_path_candidate
+    for perf_path_candidate in \
+        "/usr/lib/linux-tools/$(ls -1v /usr/lib/linux-tools/ 2>/dev/null | tail -n1 || true)/perf" \
+        "/usr/lib/linux-tools-$(uname -r)/perf" \
+        "$(find /usr/lib/ -name perf -type f 2>/dev/null | sort | head -n1 || true)" \
+        "/usr/lib64/perf" \
+        "/usr/lib/perf" \
+        "/usr/lib/linux-tools/$(uname -r)/perf" \
+        "$(which perf 2>/dev/null)"
+    do
+        if [[ -e "${perf_path_candidate}" ]]; then
+            echo -n "${perf_path_candidate}"
+            return 0
+        fi
+    done
+
+    return 1
+}
+
 if [[ ! "${PERF+x}" ]]; then
-    PERF=${PERF-"/usr/lib/linux-tools/$(ls -1v /usr/lib/linux-tools/ 2>/dev/null | tail -n1)/perf"} || true
+    PERF=${PERF-$(perf_path)} || true
     if [[ ! -e "${PERF}" ]]; then
         echo "WARNING: PERF tool not found at '${PERF}'" >&2
-        if ! PERF="$(which perf)"; then
-            echo "ERROR: no perf tool found in the PATH; no 'perf' available" >&2
-            did_install
-            exit 1
-        fi
+        did_install
+        exit 1
     fi
 fi
 readonly PERF
@@ -105,6 +129,8 @@ FREQ=${FREQ-3000}
         --freq ${FREQ} \
         -- --version
 )
+echo >&2
+echo >&2
 rm -f -- perf.data perf.data.old "${OUT}"
 FLAMEGRAPH_VERSION=$(cargo flamegraph --version)
 RUST_VERSION_SHORT=$(rustc -vV | sed -n 's|release: ||p')
@@ -131,6 +157,7 @@ else
     while read line; do
         args+=("${line}")
         # use first 50 files listed in `log-files-time-update.txt`
+        # append a few known files of varying types
     done <<< $(sed -Ee 's/\|.*//' ./tools/log-files-time-update.txt \
                | sed -Ee '/^#/d' \
                | head -n 50;
