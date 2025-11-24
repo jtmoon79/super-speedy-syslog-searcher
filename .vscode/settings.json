@@ -4,9 +4,21 @@
     ],
     "rust-analyzer.showUnlinkedFileNotification": false,
     "explorer.excludeGitIgnore": true,
-    "rust-analyzer.cargo.cfgs": {
-        "debug_assertions": null,
-        "miri": null
+    //"rust-analyzer.cargo.cfgs": {
+    //    "debug_assertions": null,
+    //    "miri": null
+    //},
+    "rust-analyzer.cargo.cfgs": [],
+    "files.eol": "\n",
+    "rust-analyzer.check.allTargets": null,
+    "rust-analyzer.server.extraEnv": {
+        // This value should be the same as `rust-version` in `Cargo.toml`
+        // XXX: for whatever reason the rust-analyzer insists on using
+        //      rust 1.79.0 despite rustup override set 1.81.0
+        //      so we force the env var here
+        "RUSTUP_TOOLCHAIN": "1.83.0"
     },
-    "files.eol": "\n"
+    "evenBetterToml.formatter.allowedBlankLines": 2,
+    "evenBetterToml.formatter.columnWidth": 100,
+    "python.analysis.typeCheckingMode": "basic"
 }
