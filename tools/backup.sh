@@ -28,12 +28,6 @@ if ! Zz=$(which 7z); then
     exit 1
 fi
 
-# limit archived log files to 30M or less
-declare -a logs=()
-while read log; do
-    logs[${#logs[@]}]=${log}
-done <<< $(find ./logs -xdev -type f -size -30M | sort)
-
 HERE="$(basename -- "$(realpath .)")"
 ZIPFILE="${BACKUPDIR}/${HERE}-$(date '+%Y%m%dT%H%M%S')-$(hostname).zip"
 
@@ -45,33 +39,39 @@ set -x
 
 # backup the project!
 # ignore `target` directories in bindgen/ and the root
-"${Zz}" a -spf -ssc -bb1 -bt -stl -snl -tzip -- "${ZIPFILE}" \
+"${Zz}" a -spf -ssc -bb1 -bt -stl -snl -scsUTF-8 -tzip -- "${ZIPFILE}" \
     ./benches/ \
-    $(find ./subprojects/bindgen/ \
-        -mindepth 1 -maxdepth 1 \
-        -not -name 'target') \
     ./Cargo.toml \
     ./Cargo.lock \
     ./CHANGELOG.md \
+    ./deny.toml \
     ./Extended-Thoughts.md \
+    ./.gitattributes \
+    ./.git_hooks/ \
     ./.github/ \
     ./.gitignore \
     ./LICENSE.txt \
-    "${logs[@]}" \
+    ./logs/ \
     $(ls -d1 \
         ./performance-data \
         ./valgrind \
         ./Notes.txt \
         ./flamegraph*.svg \
-        ./releases \
         ./tests \
-        ./.vscode \
+        ./trace.fxt.gz \
         2>/dev/null || true
     ) \
+    ./.mlc.toml \
     ./README.md \
+    ./releases/ \
     ./rustfmt.toml \
+    ./.taplo.toml \
     ./src/ \
+    $(find ./subprojects/bindgen/ \
+        -mindepth 1 -maxdepth 1 \
+        -not -name 'target') \
     ./tools/ \
+    ./.vscode/ \
 
 "${Zz}" l "${ZIPFILE}"
 )
