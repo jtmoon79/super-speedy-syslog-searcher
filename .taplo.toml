@@ -1,0 +1,10 @@
+# taplo Even Better TOML configuration
+#
+# copied from https://github.com/tamasfe/taplo/issues/387
+# to fix a problem with schema detection for Cargo.toml files
+
+[[rule]]
+include = ["**/Cargo.toml"]
+
+[rule.schema]
+url = "https://json.schemastore.org/cargo.json"
