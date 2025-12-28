@@ -1,0 +1,27 @@
+# dependencies.apt
+#
+# apt packages required for scripts under `tools/` and other commands
+
+# cargo clippy
+pkg-config
+libssl-dev
+
+# flamegraph.sh
+llvm
+linux-tools-common
+linux-tools-generic
+
+# heaptrack.sh
+heaptrack
+
+# valgrind*.sh
+valgrind
+g++
+
+# s4 + journal files
+libsystemd0
+libsystemd-dev
+
+# compare-log-mergers.sh
+jq
+lnav
