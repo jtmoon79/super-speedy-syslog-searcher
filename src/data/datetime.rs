@@ -171,11 +171,6 @@ pub(crate) const UPTIME_DEFAULT_OFFSET: SystemTime = UNIX_EPOCH;
 #[allow(non_camel_case_types)]
 type fos = i32;
 
-#[cfg(any(debug_assertions, test))]
-lazy_static! {
-    pub static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
-}
-
 #[cfg(test)]
 pub(crate) const YEAR_FALLBACKDUMMY_VAL: i32 = 1972;
 /// For datetimes missing a year, in some circumstances a filler year must be
@@ -6813,6 +6808,8 @@ pub fn seconds_to_systemtime(
     let duration = std::time::Duration::from_secs(*seconds);
 
     // TODO: [2024/06] handle `None`
+    // TODO: if `checked_add` becomes `const` then multiple other functions
+    //       could become `const`
     SystemTime::UNIX_EPOCH.checked_add(duration).unwrap()
 }
 
