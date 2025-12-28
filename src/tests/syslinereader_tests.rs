@@ -150,13 +150,13 @@ fn new_SyslineReader(
 
 #[test]
 fn test_new_SyslineReader_1() {
-    new_SyslineReader(&NTF_LOG_EMPTY_FPATH, 1024, *FO_P8);
+    new_SyslineReader(&NTF_LOG_EMPTY_FPATH, 1024, FO_P8);
 }
 
 #[test]
 #[should_panic]
 fn test_new_SyslineReader_2_bad_path_panics() {
-    new_SyslineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024, *FO_P8);
+    new_SyslineReader(&FPath::from("THIS/PATH_DOES/NOT///EXIST!!!"), 1024, FO_P8);
 }
 
 #[cfg(target_family = "unix")]
@@ -169,7 +169,7 @@ fn test_new_SyslineReader_no_file_permissions() {
         fpath.clone(),
         FILETYPE_UTF8,
         1024,
-        *FO_0,
+        FO_0,
     ) {
         Ok(_) => {
             panic!("no permissions to read {:?}", path);
@@ -230,7 +230,7 @@ fn impl_find_sysline(
 ) {
     stack_offset_set(Some(2));
     defn!("(cache {:?}, blocksz {:?})", cache, blocksz);
-    let mut slr = new_SyslineReader(&NTF5_PATH, blocksz, *FO_P8);
+    let mut slr = new_SyslineReader(&NTF5_PATH, blocksz, FO_P8);
     if !cache {
         slr.LRU_cache_disable();
     }
@@ -587,7 +587,7 @@ fn impl_test_find_sysline_at_datetime_filter(
     defn!("(…, {:?}, {}, …)", dt_pattern, blocksz);
 
     let path = ntf_fpath(ntf);
-    let tzo: FixedOffset = *FO_M8;
+    let tzo: FixedOffset = FO_M8;
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -3532,7 +3532,7 @@ fn impl_test_find_sysline_between_datetime_filter(
     defn!("(…, {:?}, {}, {}, …)", dt_pattern, cache, blocksz);
 
     let path = ntf_fpath(ntf);
-    let tzo: FixedOffset = *FO_M8;
+    let tzo: FixedOffset = FO_M8;
     let mut slr = new_SyslineReader(&path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -3701,7 +3701,7 @@ fn impl_test_SyslineReader_find_sysline(
     stack_offset_set(Some(2));
     defn!("({:?}, {}, {})", path, blocksz, fileoffset);
     eprint_file(path);
-    let tzo: FixedOffset = *FO_M8;
+    let tzo: FixedOffset = FO_M8;
     let mut slr = new_SyslineReader(path, blocksz, tzo);
 
     let mut fo1: FileOffset = fileoffset;
@@ -3898,7 +3898,7 @@ fn impl_test_findsysline(
     stack_offset_set(Some(2));
     defn!("({:?}, {})", path, blocksz);
     eprint_file(path);
-    let tzo: FixedOffset = *FO_M8;
+    let tzo: FixedOffset = FO_M8;
     let mut slr = new_SyslineReader(path, blocksz, tzo);
     if !cache {
         slr.LRU_cache_disable();
@@ -4773,7 +4773,7 @@ fn test_find_sysline_H_dt4_Done() {
 #[test_case(true; "cache")]
 #[test_case(false; "nocache")]
 fn test_remove_sysline(cache: bool) {
-    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *FO_P8);
+    let mut slr = new_SyslineReader(&NTF26_PATH, 128, FO_P8);
     if !cache {
         slr.LRU_cache_disable();
     }
@@ -4804,7 +4804,7 @@ fn test_remove_sysline(cache: bool) {
 #[test_case(true; "cache")]
 #[test_case(false; "nocache")]
 fn test_clear_syslines(cache: bool) {
-    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *FO_P8);
+    let mut slr = new_SyslineReader(&NTF26_PATH, 128, FO_P8);
     if !cache {
         slr.LRU_cache_disable();
     }
@@ -4840,7 +4840,7 @@ fn test_clear_syslines(cache: bool) {
 
 #[test]
 fn test_datetime_parse_data() {
-    let mut slr = new_SyslineReader(&NTF26_PATH, 128, *FO_P8);
+    let mut slr = new_SyslineReader(&NTF26_PATH, 128, FO_P8);
     let mut fo: FileOffset = 0;
     loop {
         let result = slr.find_sysline(fo);
@@ -4873,7 +4873,7 @@ fn impl_test_find_sysline_rand(
     blocksz: BlockSz,
 ) {
     defn!("({:?}, {})", path, blocksz);
-    let tzo8: FixedOffset = *FO_M8;
+    let tzo8: FixedOffset = FO_M8;
     let mut slr = new_SyslineReader(path, blocksz, tzo8);
     defo!("SyslineReader: {:?}", slr);
     let mut offsets_rand = Vec::<FileOffset>::with_capacity(slr.filesz() as usize);
@@ -5263,7 +5263,7 @@ fn test_datetime_soonest2() {
     let vec0 = Vec::<DateTimeL>::with_capacity(0);
     let val = datetime_soonest2(&vec0);
     assert!(val.is_none());
-    let tzo: FixedOffset = *FO_M8;
+    let tzo: FixedOffset = FO_M8;
 
     let dt1_a = datetime_parse_from_str("2001-01-01T12:00:00", "%Y-%m-%dT%H:%M:%S", false, &tzo).unwrap();
     let vec1: Vec<DateTimeL> = vec![dt1_a];
@@ -5344,11 +5344,11 @@ fn test_datetime_soonest2() {
 }
 
 /// test `SyslineReader::summary` before doing any processing
-#[test_case(&NTF_LOG_EMPTY_FPATH, 64, *FO_M5)]
-//#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, 64, *FO_P8)]
-#[test_case(&NTF_GZ_EMPTY_FPATH, 64, *FO_P8)]
-#[test_case(&NTF_GZ_1BYTE_FPATH, 64, *FO_P8)]
-#[test_case(&NTF_XZ_1BYTE_FPATH, 64, *FO_P8)]
+#[test_case(&NTF_LOG_EMPTY_FPATH, 64, FO_M5)]
+//#[test_case(&NTF_TAR_1BYTE_FILEA_FPATH, 64, FO_P8)]
+#[test_case(&NTF_GZ_EMPTY_FPATH, 64, FO_P8)]
+#[test_case(&NTF_GZ_1BYTE_FPATH, 64, FO_P8)]
+#[test_case(&NTF_XZ_1BYTE_FPATH, 64, FO_P8)]
 fn test_SyslineReader_summary_empty(
     path: &FPath,
     blocksz: BlockSz,
@@ -5544,7 +5544,7 @@ fn test_ezcheck_slice(
 #[test_case(
     &*NTF_GZ_8BYTE_FPATH,
     0x60,
-    *FO_0,
+    FO_0,
     true,
     None,
 	None,
@@ -5583,7 +5583,7 @@ fn test_ezcheck_slice(
 #[test_case(
     &*NTF_LZ4_8BYTE_FPATH,
     0x60,
-    *FO_0,
+    FO_0,
     true,
     None,
 	None,
@@ -5622,7 +5622,7 @@ fn test_ezcheck_slice(
 #[test_case(
     &*NTF_XZ_8BYTE_FPATH,
     0x60,
-    *FO_0,
+    FO_0,
     true,
     None,
 	None,
@@ -5661,7 +5661,7 @@ fn test_ezcheck_slice(
 #[test_case(
     &*NTF_SYSLINE_1_PATH,
     0x20,
-    *FO_0,
+    FO_0,
     true,
     None,
 	None,
@@ -5700,7 +5700,7 @@ fn test_ezcheck_slice(
 #[test_case(
     &*NTF_SYSLINE_1_PATH,
     0x20,
-    *FO_0,
+    FO_0,
     false,
     None,
 	None,
@@ -5739,7 +5739,7 @@ fn test_ezcheck_slice(
 #[test_case(
     &*NTF_SYSLINE_2_PATH,
     0x8,
-    *FO_0,
+    FO_0,
     true,
     None,
 	None,

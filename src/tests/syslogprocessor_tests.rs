@@ -346,10 +346,9 @@ const NTF7_2_DATA_SYSLINES: [&str; 8] = [
 //
 
 const NTF0X12000_DATA: &[u8; 12000] = &[0; 12000];
+const TIMEZONE_0: FixedOffset = FixedOffset::west_opt(0).unwrap();
 
 lazy_static! {
-    static ref TIMEZONE_0: FixedOffset = FixedOffset::west_opt(0).unwrap();
-
     //
     // NTF1S_A
     //
@@ -604,7 +603,7 @@ fn new_SyslogProcessor(
     path: &FPath,
     blocksz: BlockSz,
 ) -> SyslogProcessor {
-    let tzo: FixedOffset = *FO_0;
+    let tzo: FixedOffset = FO_0;
     defñ!("SyslogProcessor::new({:?}, {:?}, {:?})", path, blocksz, tzo);
     let result = fpath_to_filetype(path, true);
     let filetype = match result {
@@ -645,7 +644,7 @@ fn test_new_SyslogProcessor_no_file_permissions() {
         fpath.clone(),
         FILETYPE_UTF8,
         1024,
-        *FO_0,
+        FO_0,
         None,
         None,
     ) {
