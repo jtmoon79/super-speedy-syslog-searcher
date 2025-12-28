@@ -782,7 +782,7 @@ fn copy_ResultFind(result: &ResultFindSysline_Test) -> ResultFindSysline_Test {
         ResultFindSysline_Test::Err(_err) =>
         // use a generic filler error; particulars are not important for testing
         {
-            ResultFindSysline_Test::Err(std::io::Error::new(std::io::ErrorKind::Other, "FILLER"))
+            ResultFindSysline_Test::Err(std::io::Error::other("FILLER"))
         }
     }
 }
