@@ -32,7 +32,7 @@ env:
   VERSION_LLVM_COV: "1.85.0"
   # version of flamegraph which is often using latest rust
   # so a specific version must be installed for the current MSRV
-  FLAMEGRAPH_VERSION: "0.6.5"
+  FLAMEGRAPH_VERSION: "0.6.8"
   # run options for debug
   S4_ARGSD: --blocksz 0x2 -s
   # run options for release
