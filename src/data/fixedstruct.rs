@@ -431,6 +431,8 @@ pub mod freebsd_x8664 {
     use crate::common::FileOffset;
     use std::ffi::CStr;
     use std::mem::size_of;
+    // TODO: can `memoffset::offset_of` be replaced with native `offset_of`?
+    //       see https://releases.rs/docs/1.82.0/
     use ::memoffset::offset_of;
     use ::const_format::assertcp_eq;
 
@@ -653,10 +655,10 @@ pub mod linux_arm64aarch64 {
     }
 
     impl lastlog {
-        pub fn ll_line(&self) -> &CStr {
+        pub const fn ll_line(&self) -> &CStr {
             unsafe { CStr::from_ptr(self.ll_line.as_ptr()) }
         }
-        pub fn ll_host(&self) -> &CStr {
+        pub const fn ll_host(&self) -> &CStr {
             unsafe { CStr::from_ptr(self.ll_host.as_ptr()) }
         }
     }
@@ -1147,10 +1149,10 @@ pub mod linux_x86 {
     assertcp_eq!(offset_of!(lastlog, ll_host), 36);
 
     impl lastlog {
-        pub fn ll_line(&self) -> &CStr {
+        pub const fn ll_line(&self) -> &CStr {
             unsafe { CStr::from_ptr(self.ll_line.as_ptr()) }
         }
-        pub fn ll_host(&self) -> &CStr {
+        pub const fn ll_host(&self) -> &CStr {
             unsafe { CStr::from_ptr(self.ll_host.as_ptr()) }
         }
     }
@@ -1541,11 +1543,11 @@ pub mod netbsd_x8632 {
     pub const PATH_LASTLOGX: &str = "/var/log/lastlogx";
 
     impl lastlogx {
-        pub fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line[..UTX_LINESIZE].as_ptr()) }
+        pub const fn ll_line(&self) -> &CStr {
+            unsafe { CStr::from_ptr(self.ll_line.as_slice().as_ptr()) }
         }
-        pub fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host[..UTX_HOSTSIZE].as_ptr()) }
+        pub const fn ll_host(&self) -> &CStr {
+            unsafe { CStr::from_ptr(self.ll_host.as_slice().as_ptr()) }
         }
     }
 
@@ -1761,11 +1763,11 @@ pub mod netbsd_x8664 {
     pub const PATH_LASTLOG: &str = "/var/log/lastlog";
 
     impl lastlog {
-        pub fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line[..UT_LINESIZE].as_ptr()) }
+        pub const fn ll_line(&self) -> &CStr {
+            unsafe { CStr::from_ptr(self.ll_line.as_slice().as_ptr()) }
         }
-        pub fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host[..UT_HOSTSIZE].as_ptr()) }
+        pub const fn ll_host(&self) -> &CStr {
+            unsafe { CStr::from_ptr(self.ll_host.as_slice().as_ptr()) }
         }
     }
 
@@ -1835,11 +1837,11 @@ pub mod netbsd_x8664 {
     pub const PATH_LASTLOGX: &str = "/var/log/lastlogx";
 
     impl lastlogx {
-        pub fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line[..UTX_LINESIZE].as_ptr()) }
+        pub const fn ll_line(&self) -> &CStr {
+            unsafe { CStr::from_ptr(self.ll_line.as_slice().as_ptr()) }
         }
-        pub fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host[..UTX_HOSTSIZE].as_ptr()) }
+        pub const fn ll_host(&self) -> &CStr {
+            unsafe { CStr::from_ptr(self.ll_host.as_slice().as_ptr()) }
         }
     }
 
@@ -2154,11 +2156,11 @@ pub mod openbsd_x86 {
     /// to avoid the `CStr` constructor from reading past the end of the given
     /// field into the next field.
     impl lastlog {
-        pub fn ll_line(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_line[..UT_LINESIZE].as_ptr()) }
+        pub const fn ll_line(&self) -> &CStr {
+            unsafe { CStr::from_ptr(self.ll_line.as_slice().as_ptr()) }
         }
-        pub fn ll_host(&self) -> &CStr {
-            unsafe { CStr::from_ptr(self.ll_host[..UT_HOSTSIZE].as_ptr()) }
+        pub const fn ll_host(&self) -> &CStr {
+            unsafe { CStr::from_ptr(self.ll_host.as_slice().as_ptr()) }
         }
     }
 
