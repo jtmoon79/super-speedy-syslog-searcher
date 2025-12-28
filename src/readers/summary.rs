@@ -18,6 +18,9 @@ use ::more_asserts::{
 };
 #[allow(unused_imports)]
 use ::si_trace_print::{
+    def1n,
+    def1o,
+    def1x,
     defn,
     defo,
     defx,
@@ -220,6 +223,7 @@ impl Summary {
                     summarysyslinereader,
                     summarysyslogprocessor,
                 ));
+                def1x!();
                 Summary {
                     path,
                     filetype: Some(filetype),
@@ -246,6 +250,7 @@ impl Summary {
                 );
                 let readerdata: SummaryReaderData =
                     SummaryReaderData::FixedStruct((summaryblockreader, summaryfixedstructreader));
+                def1x!();
                 Summary {
                     path,
                     filetype: Some(filetype),
