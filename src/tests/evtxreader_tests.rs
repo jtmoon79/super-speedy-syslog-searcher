@@ -6,7 +6,8 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
-use ::criterion::black_box;
+use std::hint::black_box;
+
 use ::lazy_static::lazy_static;
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{

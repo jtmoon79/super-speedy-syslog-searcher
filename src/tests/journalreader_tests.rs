@@ -6,12 +6,12 @@
 #![allow(non_camel_case_types)]
 #![allow(clippy::too_many_arguments)]
 
+use std::hint::black_box;
 use std::io::ErrorKind;
 use std::ops::Range;
 use std::path::Path;
 
 use ::bstr::ByteSlice;
-use ::criterion::black_box;
 use ::si_trace_print::{
     defn,
     defo,
