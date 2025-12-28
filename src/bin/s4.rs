@@ -4285,13 +4285,7 @@ mod tests {
         use ::test_case::test_case;
         use super::*;
 
-    lazy_static! {
-        static ref FIXEDOFFSET0: FixedOffset = {
-            defo!("lazy_static! FIXEDOFFSET0::new()");
-
-            FixedOffset::east_opt(0).unwrap()
-        };
-    }
+    const FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
 
     #[test_case("500", true)]
     #[test_case("0x2", true)]
@@ -4341,9 +4335,9 @@ mod tests {
         }
     }
 
-    #[test_case("+00", *FIXEDOFFSET0; "+00 east(0)")]
-    #[test_case("+0000", *FIXEDOFFSET0; "+0000 east(0)")]
-    #[test_case("+00:00", *FIXEDOFFSET0; "+00:00 east(0)")]
+    #[test_case("+00", FIXEDOFFSET0; "+00 east(0)")]
+    #[test_case("+0000", FIXEDOFFSET0; "+0000 east(0)")]
+    #[test_case("+00:00", FIXEDOFFSET0; "+00:00 east(0)")]
     #[test_case("+00:01", FixedOffset::east_opt(60).unwrap(); "+00:01 east(60)")]
     #[test_case("+01:00", FixedOffset::east_opt(3600).unwrap(); "+01:00 east(3600) A")]
     #[test_case("-01:00", FixedOffset::east_opt(-3600).unwrap(); "-01:00 east(-3600) B")]
@@ -4351,9 +4345,9 @@ mod tests {
     #[test_case("+02:30", FixedOffset::east_opt(9000).unwrap(); "+02:30 east(9000)")]
     #[test_case("+02:35", FixedOffset::east_opt(9300).unwrap(); "+02:30 east(9300)")]
     #[test_case("+23:00", FixedOffset::east_opt(82800).unwrap(); "+23:00 east(82800)")]
-    #[test_case("gmt", *FIXEDOFFSET0; "GMT (0)")]
-    #[test_case("UTC", *FIXEDOFFSET0; "UTC east(0)")]
-    #[test_case("Z", *FIXEDOFFSET0; "Z (0)")]
+    #[test_case("gmt", FIXEDOFFSET0; "GMT (0)")]
+    #[test_case("UTC", FIXEDOFFSET0; "UTC east(0)")]
+    #[test_case("Z", FIXEDOFFSET0; "Z (0)")]
     #[test_case("vlat", FixedOffset::east_opt(36000).unwrap(); "vlat east(36000)")]
     #[test_case("IDLW", FixedOffset::east_opt(-43200).unwrap(); "IDLW east(-43200)")]
     fn test_cli_process_tz_offset(
@@ -4381,92 +4375,92 @@ mod tests {
     }
 
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05")), FIXEDOFFSET0,
         Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05.678")), FIXEDOFFSET0,
         Some(ymdhmsl(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678));
         "2000-01-02T03:04:05.678"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05.678901")), FIXEDOFFSET0,
         Some(ymdhmsm(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-01")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05.678901-01")), FIXEDOFFSET0,
         Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901-01"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-0100")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05.678901-0100")), FIXEDOFFSET0,
         Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901-0100"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-01:00")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05.678901-01:00")), FIXEDOFFSET0,
         Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901-01:00"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901 -01:00")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05.678901 -01:00")), FIXEDOFFSET0,
         Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901 -01:00_"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901 AZOT")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05.678901 AZOT")), FIXEDOFFSET0,
         Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901 AZOT"
     )]
     #[test_case(
-        Some(String::from("+946782245")), *FIXEDOFFSET0,
+        Some(String::from("+946782245")), FIXEDOFFSET0,
         Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "+946782245"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05 -0100")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05 -0100")), FIXEDOFFSET0,
         Some(FixedOffset::east_opt(-3600).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05 -0100"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05PDT")), *FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05PDT")), FIXEDOFFSET0,
         Some(FixedOffset::east_opt(-25200).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05PDT"
     )]
     #[test_case(
         // bad timezone
-        Some(String::from("2000-01-02T03:04:05FOOO")), *FIXEDOFFSET0, None;
+        Some(String::from("2000-01-02T03:04:05FOOO")), FIXEDOFFSET0, None;
         "2000-01-02T03:04:05FOOO"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05")), *FIXEDOFFSET0,
+        Some(String::from("2000/01/02 03:04:05")), FIXEDOFFSET0,
         Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05 (no TZ)"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678")), *FIXEDOFFSET0,
+        Some(String::from("2000/01/02 03:04:05.678")), FIXEDOFFSET0,
         Some(ymdhmsl(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678));
         "2000-01-02 03:04:05.678"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901")), *FIXEDOFFSET0,
+        Some(String::from("2000/01/02 03:04:05.678901")), FIXEDOFFSET0,
         Some(ymdhmsm(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02 03:04:05.678901"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -01")), *FIXEDOFFSET0,
+        Some(String::from("2000/01/02 03:04:05.678901 -01")), FIXEDOFFSET0,
         Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02 03:04:05.678901 -01"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -01:30")), *FIXEDOFFSET0,
+        Some(String::from("2000/01/02 03:04:05.678901 -01:30")), FIXEDOFFSET0,
         Some(ymdhmsm(&FixedOffset::east_opt(-5400).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02 03:04:05.678901 -01:30"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -0130")), *FIXEDOFFSET0,
+        Some(String::from("2000/01/02 03:04:05.678901 -0130")), FIXEDOFFSET0,
         Some(ymdhmsm(&FixedOffset::east_opt(-5400).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02 03:04:05.678901 -0130"
     )]
@@ -4486,21 +4480,21 @@ mod tests {
 
     #[test_case(
         Some(String::from("@+1s")),
-        *FIXEDOFFSET0,
+        FIXEDOFFSET0,
         FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
         Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 6).unwrap());
         "2000-01-02T03:04:05 add 1s"
     )]
     #[test_case(
         Some(String::from("@-1s")),
-        *FIXEDOFFSET0,
+        FIXEDOFFSET0,
         FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
         Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 4).unwrap());
         "2000-01-02T03:04:04 add 1s"
     )]
     #[test_case(
         Some(String::from("@+4h1d")),
-        *FIXEDOFFSET0,
+        FIXEDOFFSET0,
         FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
         Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
         "2000-01-02T03:04:05 sub 4h1d"
