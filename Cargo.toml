@@ -60,6 +60,8 @@ ctrlc = "=3.4.7"
 current_platform = "0.2.0"
 dlopen2 = "0.7"
 encoding_rs = "0.8.35"
+# TODO: [2025/12] update `evtx` and use `RecordId` when Issue 234 is merged and released
+#       https://github.com/omerbenamram/evtx/issues/234
 evtx = { version = "0.8.5", features = ["multithreading"] }
 flate2 = "1.1.6"
 include_dir = "0.7.4"
