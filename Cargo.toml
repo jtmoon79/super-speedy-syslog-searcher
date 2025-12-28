@@ -15,6 +15,7 @@ categories = [
     "filesystem",
 ]
 readme = "README.md"
+# XXX: `version` should match src/python/s4_event_readers/pyproject.toml:project:version
 version = "0.7.79"
 edition = "2021"
 # MSRV: `rust-version` should match ./github/workflows/rust.yml:rust_msrv:msrv
