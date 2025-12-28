@@ -118,7 +118,7 @@ lazy_static! {
 
         RwLock::new(ListFPaths::new())
     };
-    /// Only used for summary statistics.
+    /// Summary statistic.
     /// Count `NAMED_TEMP_FILES.push_back()` calls. Allows for `NAMED_TEMP_FILES`
     /// to be cleared at any time before printing the summary.
     static ref NAMED_TEMP_FILES_COUNT: RwLock<usize> = {
@@ -128,9 +128,9 @@ lazy_static! {
     };
 }
 
-/// helper function to decompress a `path_std` to a temporary file.
-/// Returns a `Result` containing a [`DecompressToNtfValue`].
-/// Return value `None` means no file was decompressed because it was not needed
+/// Helper function to decompress `path_std` to a temporary file.
+/// Returns a `Result` containing a value [`DecompressToNtfValue`].
+/// Value `None` means no file was decompressed because it was not needed
 /// as determined by the passed `file_type`.
 pub fn decompress_to_ntf(
     path_std: &Path,
@@ -305,6 +305,7 @@ pub fn decompress_to_ntf(
             // e.g. `path/to/tarfile.tar|path/in/tarfile.journal`
 
             // split the passed path into the path and subpath
+            defo!("fpath.rsplit_once({:?})", SUBPATH_SEP);
             let (path_, subpath_) = match fpath.rsplit_once(SUBPATH_SEP) {
                 Some(val) => val,
                 None => {
@@ -317,6 +318,7 @@ pub fn decompress_to_ntf(
                     return DecompressToNtfResult::Err(Error::new(
                         // TODO: TRACKING: use `ErrorKind::InvalidFilename` when it is stable
                         //       <https://github.com/rust-lang/rust/issues/86442>
+                        //       <https://github.com/rust-lang/rust/pull/134076>
                         ErrorKind::InvalidInput,
                         format!(
                             "Given Filetype {:?} but failed to find delimiter {:?} in {:?}",
@@ -474,6 +476,7 @@ pub fn decompress_to_ntf(
     //       this is about where this temporary file would be noted in some global
     //       container, and later removed during an unexpected exit (like user presses ctrl+c).
 
+    defo!("match file_type_archive={:?}", file_type_archive);
     match file_type_archive {
         FileTypeArchive::Normal => {
             debug_panic!("Unexpected {:?}", file_type_archive);
