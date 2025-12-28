@@ -258,8 +258,12 @@ pub fn decompress_to_ntf(
 
     defo!("open_options.write().open({:?})", path_ntf);
     let file_ntf: File = match open_options
+        // BUG: rust std::fs::OpenOptions defaults should all be false
         .read(false)
         .write(true)
+        .create(false)
+        .truncate(false)
+        .append(false)
         .open(path_ntf)
     {
         Ok(val) => val,
@@ -285,14 +289,19 @@ pub fn decompress_to_ntf(
         => {
             defo!("open_options.read().open({:?})", path_std);
             file_compressed = match open_options
+                // BUG: rust std::fs::OpenOptions defaults should all be false
                 .read(true)
+                .write(false)
+                .create(false)
+                .truncate(false)
+                .append(false)
                 .open(path_std)
             {
                 Ok(val) => val,
                 Err(err) => {
-                    defx!("open_options.read({:?}) Error, return {:?}", path_std, err);
+                    defx!("open_options.read().open({:?}) Error, return {:?}", path_std, err);
                     return err_from_err_path_result_dtn!(
-                        &err, &fpath, Some("open_options failed")
+                        &err, &fpath, Some("open failed")
                     );
                 }
             };
