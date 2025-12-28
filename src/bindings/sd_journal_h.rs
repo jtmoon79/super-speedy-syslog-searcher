@@ -431,9 +431,9 @@ pub type __pid_t = ::std::os::raw::c_int;
 pub struct __fsid_t {
     pub __val: [::std::os::raw::c_int; 2usize],
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___fsid_t() {
     const UNINIT: ::std::mem::MaybeUninit<__fsid_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -498,9 +498,9 @@ pub struct imaxdiv_t {
     pub quot: ::std::os::raw::c_long,
     pub rem: ::std::os::raw::c_long,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_imaxdiv_t() {
     const UNINIT: ::std::mem::MaybeUninit<imaxdiv_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -593,9 +593,9 @@ pub type register_t = ::std::os::raw::c_long;
 pub struct __sigset_t {
     pub __val: [::std::os::raw::c_ulong; 16usize],
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___sigset_t() {
     const UNINIT: ::std::mem::MaybeUninit<__sigset_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -614,9 +614,9 @@ pub struct timeval {
     pub tv_sec: __time_t,
     pub tv_usec: __suseconds_t,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_timeval() {
     const UNINIT: ::std::mem::MaybeUninit<timeval> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -639,9 +639,9 @@ pub struct timespec {
     pub tv_sec: __time_t,
     pub tv_nsec: __syscall_slong_t,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_timespec() {
     const UNINIT: ::std::mem::MaybeUninit<timespec> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -665,9 +665,9 @@ pub type __fd_mask = ::std::os::raw::c_long;
 pub struct fd_set {
     pub __fds_bits: [__fd_mask; 16usize],
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_fd_set() {
     const UNINIT: ::std::mem::MaybeUninit<fd_set> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -715,9 +715,9 @@ pub struct __atomic_wide_counter__bindgen_ty_1 {
     pub __low: ::std::os::raw::c_uint,
     pub __high: ::std::os::raw::c_uint,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___atomic_wide_counter__bindgen_ty_1() {
     const UNINIT: ::std::mem::MaybeUninit<__atomic_wide_counter__bindgen_ty_1> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -742,9 +742,9 @@ fn bindgen_test_layout___atomic_wide_counter__bindgen_ty_1() {
         "Offset of field: __atomic_wide_counter__bindgen_ty_1::__high"
     );
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___atomic_wide_counter() {
     const UNINIT: ::std::mem::MaybeUninit<__atomic_wide_counter> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -767,9 +767,9 @@ pub struct __pthread_internal_list {
     pub __prev: *mut __pthread_internal_list,
     pub __next: *mut __pthread_internal_list,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___pthread_internal_list() {
     const UNINIT: ::std::mem::MaybeUninit<__pthread_internal_list> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -792,9 +792,9 @@ pub type __pthread_list_t = __pthread_internal_list;
 pub struct __pthread_internal_slist {
     pub __next: *mut __pthread_internal_slist,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___pthread_internal_slist() {
     const UNINIT: ::std::mem::MaybeUninit<__pthread_internal_slist> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -819,9 +819,9 @@ pub struct __pthread_mutex_s {
     pub __elision: ::std::os::raw::c_short,
     pub __list: __pthread_list_t,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___pthread_mutex_s() {
     const UNINIT: ::std::mem::MaybeUninit<__pthread_mutex_s> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -884,9 +884,9 @@ pub struct __pthread_rwlock_arch_t {
     pub __pad2: ::std::os::raw::c_ulong,
     pub __flags: ::std::os::raw::c_uint,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___pthread_rwlock_arch_t() {
     const UNINIT: ::std::mem::MaybeUninit<__pthread_rwlock_arch_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -964,9 +964,9 @@ pub struct __pthread_cond_s {
     pub __wrefs: ::std::os::raw::c_uint,
     pub __g_signals: [::std::os::raw::c_uint; 2usize],
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___pthread_cond_s() {
     const UNINIT: ::std::mem::MaybeUninit<__pthread_cond_s> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1015,9 +1015,9 @@ pub type __thrd_t = ::std::os::raw::c_ulong;
 pub struct __once_flag {
     pub __data: ::std::os::raw::c_int,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___once_flag() {
     const UNINIT: ::std::mem::MaybeUninit<__once_flag> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1036,9 +1036,9 @@ pub union pthread_mutexattr_t {
     pub __size: [::std::os::raw::c_char; 4usize],
     pub __align: ::std::os::raw::c_int,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_mutexattr_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_mutexattr_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1061,9 +1061,9 @@ pub union pthread_condattr_t {
     pub __size: [::std::os::raw::c_char; 4usize],
     pub __align: ::std::os::raw::c_int,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_condattr_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_condattr_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1088,9 +1088,9 @@ pub union pthread_attr_t {
     pub __size: [::std::os::raw::c_char; 56usize],
     pub __align: ::std::os::raw::c_long,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_attr_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_attr_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1114,9 +1114,9 @@ pub union pthread_mutex_t {
     pub __size: [::std::os::raw::c_char; 40usize],
     pub __align: ::std::os::raw::c_long,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_mutex_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_mutex_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1145,9 +1145,9 @@ pub union pthread_cond_t {
     pub __size: [::std::os::raw::c_char; 48usize],
     pub __align: ::std::os::raw::c_longlong,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_cond_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_cond_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1176,9 +1176,9 @@ pub union pthread_rwlock_t {
     pub __size: [::std::os::raw::c_char; 56usize],
     pub __align: ::std::os::raw::c_long,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_rwlock_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_rwlock_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1206,9 +1206,9 @@ pub union pthread_rwlockattr_t {
     pub __size: [::std::os::raw::c_char; 8usize],
     pub __align: ::std::os::raw::c_long,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_rwlockattr_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_rwlockattr_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1232,9 +1232,9 @@ pub union pthread_barrier_t {
     pub __size: [::std::os::raw::c_char; 32usize],
     pub __align: ::std::os::raw::c_long,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_barrier_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_barrier_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1257,9 +1257,9 @@ pub union pthread_barrierattr_t {
     pub __size: [::std::os::raw::c_char; 4usize],
     pub __align: ::std::os::raw::c_int,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_pthread_barrierattr_t() {
     const UNINIT: ::std::mem::MaybeUninit<pthread_barrierattr_t> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1282,9 +1282,9 @@ pub struct iovec {
     pub iov_base: *mut ::std::os::raw::c_void,
     pub iov_len: usize,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_iovec() {
     const UNINIT: ::std::mem::MaybeUninit<iovec> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1473,9 +1473,9 @@ pub struct __locale_struct {
     pub __ctype_toupper: *const ::std::os::raw::c_int,
     pub __names: [*const ::std::os::raw::c_char; 13usize],
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___locale_struct() {
     const UNINIT: ::std::mem::MaybeUninit<__locale_struct> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -1738,9 +1738,9 @@ pub union sd_id128 {
     pub bytes: [u8; 16usize],
     pub qwords: [u64; 2usize],
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout_sd_id128() {
     const UNINIT: ::std::mem::MaybeUninit<sd_id128> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
@@ -2170,9 +2170,9 @@ pub struct __va_list_tag {
     pub overflow_arg_area: *mut ::std::os::raw::c_void,
     pub reg_save_area: *mut ::std::os::raw::c_void,
 }
-// test commented out to workaround Issue #401
-#[allow(dead_code)]
-// #[test]
+
+#[ignore = "test ignored to workaround Issue #401"]
+#[test]
 fn bindgen_test_layout___va_list_tag() {
     const UNINIT: ::std::mem::MaybeUninit<__va_list_tag> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
