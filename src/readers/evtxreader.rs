@@ -316,7 +316,7 @@ pub struct SummaryEvtxReader {
 }
 
 /// Implement the EvtxReader.
-impl<'a> EvtxReader {
+impl EvtxReader {
     /// Create a new `EvtxReader`.
     ///
     /// **NOTE:** should not attempt any file reads here, similar to other
