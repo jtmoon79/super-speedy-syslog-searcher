@@ -1,0 +1,12 @@
+# requirements.in
+#
+# Basic dependencies for s4_etl_readers.
+# Run tools/pip-tools-compile.sh to regenerate requirements-*.txt files.
+#
+# These versions are known to work with Python 3.9+.
+#
+colorist==1.1.2
+construct==2.10.70
+dissect.etl==3.13
+etl-parser==1.0.1
+pycryptodome==3.23.0

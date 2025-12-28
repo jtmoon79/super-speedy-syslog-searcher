@@ -60,6 +60,71 @@ pub type PathId = usize;
 /// a set of [`PathId`]
 pub type SetPathId = HashSet<PathId>;
 
+/// status of whether summary statistics are enabled
+///
+/// only access via `summary_stats_enabled()` function. unsafe global variable!
+///
+/// _XXX:_ skips use `LazyStatic`, `OnceCell`, etc. for better performance as it
+///      is accessed often.
+///
+/// TODO: prove the prior statement with a benchmark
+static mut SUMMARY_STATS_ENABLED: bool = false;
+/// sanity check
+static mut SUMMARY_STATS_INITIALIZED: bool = false;
+
+/// enable summary statistics
+///
+/// only call this from the main thread once; multi-thread unsafe!
+pub fn summary_stats_enable() {
+    unsafe {
+        SUMMARY_STATS_ENABLED = true;
+        if SUMMARY_STATS_INITIALIZED {
+            panic!("summary_stats_enable() called more than once");
+        }
+        SUMMARY_STATS_INITIALIZED = true;
+    }
+}
+
+/// Check if summary statistics are enabled.
+#[inline(always)]
+pub fn summary_stats_enabled() -> bool {
+    unsafe {
+        return SUMMARY_STATS_ENABLED;
+    }
+}
+
+/// Only execute the given expression if summary statistics are enabled.
+///
+/// This macro wraps expressions that update summary statistics. This
+/// reduces a trivial amount of overhead and more
+/// importantly clarifies which expressions are related to summary statistics.
+#[macro_export]
+macro_rules! summary_stat {
+    ($($arg:expr)*) => (
+        if crate::common::summary_stats_enabled() {
+            $($arg)*;
+        }
+    )
+}
+pub use summary_stat;
+
+/// If summary statistics are enabled, do the first expression, else do the second.
+///
+/// This macro wraps expressions that update summary statistics. This
+/// reduces a trivial amount of overhead and more
+/// importantly clarifies which expressions are related to summary statistics.
+#[macro_export]
+macro_rules! summary_stat_set {
+    ($($arg_if_true:expr)*, $($arg_if_false:expr)*) => (
+        if crate::common::summary_stats_enabled() {
+            $($arg_if_true)*
+        } else {
+            $($arg_if_false)*
+        }
+    )
+}
+pub use summary_stat_set;
+
 /// signifier of which allocator was chosen
 pub enum AllocatorChosen {
     System = 1,
@@ -96,9 +161,41 @@ macro_rules! debug_panic {
 }
 pub use debug_panic;
 
-lazy_static! {
-    pub static ref FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+/// Assert if the any of the arguments are `None`, only in debug builds.
+#[macro_export]
+macro_rules! debug_assert_nones {
+    // TODO: change this to allow passing format arguments
+    ($($arg:expr),+) => {
+        $(
+            debug_assert!(matches!($arg, None), "'{}' is not None", stringify!($arg));
+        )+
+    };
 }
+pub use debug_assert_nones;
+
+/// Assert if the the argument is `None`, allow optional message, only in debug builds.
+#[macro_export]
+macro_rules! debug_assert_none {
+    ($arg:expr) => {
+        if cfg!(any(debug_assertions, test))
+        {
+            if !matches!($arg, None) {
+                panic!("'{}' is not None", stringify!($arg));
+            }
+        }
+    };
+    ($arg:expr, $($extra_message:tt)*) => {
+        if cfg!(any(debug_assertions, test))
+        {
+            if !matches!($arg, None) {
+                panic!("'{}' is not None; {}", stringify!($arg), format_args!($($extra_message)*));
+            }
+        }
+    };
+}
+pub use debug_assert_none;
+
+pub const FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
 
 // --------------------------------------------------
 // custom Results enums for various *Reader functions
@@ -428,6 +525,41 @@ where
     }
 }
 
+/// [`Result`]-like result extended 3 types, distinguishing between
+/// errors that may be reprinted and errors that should not.
+///
+/// [`Result`]: std::result::Result
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum Result3<T, E> {
+    /// Success
+    Ok(T),
+    /// Error that may be reprinted
+    Err(E),
+    /// Error that should not be reprinted
+    ErrNoReprint(E),
+}
+
+pub type Result3E<T> = Result3<T, std::io::Error>;
+
+impl<T, E> Result3<T, E> {
+    /// Returns `true` if the result is [`Ok`].
+    ///
+    /// [`Ok`]: self::Result3#variant.Ok
+    #[inline(always)]
+    pub const fn is_ok(&self) -> bool {
+        matches!(*self, Result3::Ok(_))
+    }
+
+    /// Returns `true` if the result is [`Err`] or [`ErrNoReprint`].
+    ///
+    /// [`Err`]: self::Result3#variant.Err
+    /// [`ErrNoReprint`]: self::Result3#variant.ErrNoReprint
+    #[inline(always)]
+    pub const fn is_err(&self) -> bool {
+        matches!(*self, Result3::Err(_) | Result3::ErrNoReprint(_))
+    }
+}
+
 /// A file size in bytes equal or less is too small and will not be processed
 pub const FILE_TOO_SMALL_SZ: FileSz = 5;
 
@@ -487,6 +619,67 @@ impl<E> FileProcessingResult<E> {
     #[inline(always)]
     pub const fn has_err(&self) -> bool {
         matches!(*self, FileProcessingResult::FileErrIo(_) | FileProcessingResult::FileErrIoPath(_))
+    }
+}
+
+impl<E> std::fmt::Display for FileProcessingResult<E>
+where
+    E: std::fmt::Display,
+{
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
+        match self {
+            FileProcessingResult::FileErrEmpty => {
+                write!(f, "file empty")
+            }
+            FileProcessingResult::FileErrTooSmall => {
+                write!(f, "file too small")
+            }
+            FileProcessingResult::FileErrTooSmallS(msg) => {
+                write!(f, "file too small: {}", msg)
+            }
+            FileProcessingResult::FileErrNullBytes => {
+                write!(f, "file contains null bytes")
+            }
+            FileProcessingResult::FileErrNoLinesFound => {
+                write!(f, "no lines found in file")
+            }
+            FileProcessingResult::FileErrNoSyslinesFound => {
+                write!(f, "no syslog lines found in file")
+            }
+            FileProcessingResult::FileErrNoSyslinesInDtRange => {
+                write!(f, "no syslog lines found in date/time range")
+            }
+            FileProcessingResult::FileErrNoValidFixedStruct => {
+                write!(f, "no valid fixed-structure records found in file")
+            }
+            FileProcessingResult::FileErrNoFixedStructInDtRange => {
+                write!(f, "no fixed-structure records found in date/time range")
+            }
+            FileProcessingResult::FileErrIo(err) => {
+                write!(f, "{}", err)
+            }
+            FileProcessingResult::FileErrIoPath(err) => {
+                write!(f, "{}", err)
+            }
+            FileProcessingResult::FileErrWrongType => {
+                write!(f, "wrong file type")
+            }
+            FileProcessingResult::FileErrDecompress => {
+                write!(f, "decompression error")
+            }
+            FileProcessingResult::FileErrStub => {
+                write!(f, "stub error")
+            }
+            FileProcessingResult::FileErrChanSend => {
+                write!(f, "channel send error")
+            }
+            FileProcessingResult::FileOk => {
+                write!(f, "file OK")
+            }
+        }
     }
 }
 
@@ -640,6 +833,35 @@ impl FileTypeArchive {
     }
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
+pub enum OdlSubType {
+    /// suffix `.aodl`
+    Aodl,
+    /// suffix `.odl`
+    Odl,
+    /// suffix `.odlgz`
+    ///
+    /// This is not the same as a standard gzip-compressed file. It is gzipped by the Microsoft
+    /// ODL writer. However the gzip data begins after the OneDrive Log header.
+    Odlgz,
+    /// suffix `.odlsent`
+    Odlsent,
+}
+
+impl std::fmt::Display for OdlSubType {
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter,
+    ) -> std::fmt::Result {
+        match self {
+            OdlSubType::Aodl => write!(f, "AODL"),
+            OdlSubType::Odl => write!(f, "ODL"),
+            OdlSubType::Odlgz => write!(f, "ODLGZ"),
+            OdlSubType::Odlsent => write!(f, "ODLSENT"),
+        }
+    }
+}
+
 /// A file's major type to distinguish which _Reader_ struct should use it and
 /// how the _Readers_ processes it.
 // TODO: [2023/04] types Unset, Unparsable, Unknown are confusing to keep around
@@ -647,6 +869,10 @@ impl FileTypeArchive {
 //       Can they be removed?
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
 pub enum FileType {
+    /// a Windows [Event Trace Log] file
+    ///
+    /// [Event Trace Log]: https://learn.microsoft.com/en-us/windows-hardware/test/wpt/opening-and-analyzing-etl-files-in-wpa
+    Etl { archival_type: FileTypeArchive },
     /// a [Windows XML EventLog] file
     ///
     /// [Windows XML EventLog]: https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
@@ -660,6 +886,7 @@ pub enum FileType {
     ///
     /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
     Journal { archival_type: FileTypeArchive },
+    Odl { archival_type: FileTypeArchive, odl_sub_type: OdlSubType },
     /// a plain vanilla file, e.g. `file.log`. Presumed to be a "syslog" file
     /// as the term is loosely used in this project.
     Text {
@@ -751,6 +978,7 @@ impl std::fmt::Display for FileType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
+            FileType::Etl{ .. } => write!(f, "ETL"),
             FileType::Evtx{ .. } => write!(f, "EVTX"),
             FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Acct, .. } => write!(f, "ACCT"),
             FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::AcctV3, .. } => write!(f, "ACCT_V3"),
@@ -759,6 +987,7 @@ impl std::fmt::Display for FileType {
             FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Utmp, .. } => write!(f, "UTMP/WTMP"),
             FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Utmpx, .. } => write!(f, "UTMPX/WTMPX"),
             FileType::Journal{ .. } => write!(f, "JOURNAL"),
+            FileType::Odl{ .. } => write!(f, "ODL"),
             FileType::Text{ .. } => write!(f, "TEXT"),
             FileType::Unparsable => write!(f, "UNPARSABLE"),
         }
@@ -769,6 +998,12 @@ impl FileType {
     /// Returns `true` if this is a compressed file
     pub const fn is_compressed(&self) -> bool {
         match self {
+            FileType::Etl{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Etl{ archival_type: FileTypeArchive::Bz2 } => true,
+            FileType::Etl{ archival_type: FileTypeArchive::Gz } => true,
+            FileType::Etl{ archival_type: FileTypeArchive::Lz4 } => true,
+            FileType::Etl{ archival_type: FileTypeArchive::Tar } => false,
+            FileType::Etl{ archival_type: FileTypeArchive::Xz } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Bz2 } => true,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => true,
@@ -787,6 +1022,12 @@ impl FileType {
             FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => true,
+            FileType::Odl{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::Odl{ archival_type: FileTypeArchive::Bz2, .. } => true,
+            FileType::Odl{ archival_type: FileTypeArchive::Gz, .. } => true,
+            FileType::Odl{ archival_type: FileTypeArchive::Lz4, .. } => true,
+            FileType::Odl{ archival_type: FileTypeArchive::Tar, .. } => true,
+            FileType::Odl{ archival_type: FileTypeArchive::Xz, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Normal, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => true,
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => true,
@@ -800,6 +1041,12 @@ impl FileType {
     /// Returns `true` if the file is within an archived file
     pub const fn is_archived(&self) -> bool {
         match self {
+            FileType::Etl{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Etl{ archival_type: FileTypeArchive::Bz2 } => false,
+            FileType::Etl{ archival_type: FileTypeArchive::Gz } => false,
+            FileType::Etl{ archival_type: FileTypeArchive::Lz4 } => false,
+            FileType::Etl{ archival_type: FileTypeArchive::Tar } => true,
+            FileType::Etl{ archival_type: FileTypeArchive::Xz } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Bz2 } => false,
             FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
@@ -818,6 +1065,12 @@ impl FileType {
             FileType::Journal{ archival_type: FileTypeArchive::Lz4 } => false,
             FileType::Journal{ archival_type: FileTypeArchive::Tar } => true,
             FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
+            FileType::Odl{ archival_type: FileTypeArchive::Normal, .. } => false,
+            FileType::Odl{ archival_type: FileTypeArchive::Bz2, .. } => false,
+            FileType::Odl{ archival_type: FileTypeArchive::Gz, .. } => false,
+            FileType::Odl{ archival_type: FileTypeArchive::Lz4, .. } => false,
+            FileType::Odl{ archival_type: FileTypeArchive::Tar, .. } => true,
+            FileType::Odl{ archival_type: FileTypeArchive::Xz, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Normal, ..} => false,
             FileType::Text{ archival_type: FileTypeArchive::Bz2, .. } => false,
             FileType::Text{ archival_type: FileTypeArchive::Gz, .. } => false,
@@ -831,9 +1084,11 @@ impl FileType {
     /// Returns `true` if the file is processable
     pub const fn is_supported(&self) -> bool {
         match self {
+            FileType::Etl { .. } => true,
             FileType::Evtx { .. } => true,
             FileType::FixedStruct { .. } => true,
             FileType::Journal { .. } => true,
+            FileType::Odl { .. } => true,
             FileType::Text { .. } => true,
             FileType::Unparsable => false,
         }
@@ -842,9 +1097,11 @@ impl FileType {
     /// convert a `FileType` to it's corresponding `LogMessageType`
     pub const fn to_logmessagetype(&self) -> LogMessageType {
         match self {
+            FileType::Etl { .. } => LogMessageType::PyEvent,
             FileType::Evtx { .. } => LogMessageType::Evtx,
             FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
             FileType::Journal { .. } => LogMessageType::Journal,
+            FileType::Odl { .. } => LogMessageType::PyEvent,
             FileType::Text { .. } => LogMessageType::Sysline,
             FileType::Unparsable => {
                 debug_panic!("FileType::Unparsable should not be converted to LogMessageType");
@@ -857,9 +1114,11 @@ impl FileType {
     /// convert a `FileType` to it's inner `FileTypeArchive`
     pub const fn to_filetypearchive(&self) -> FileTypeArchive {
         match self {
+            FileType::Etl { archival_type } => *archival_type,
             FileType::Evtx { archival_type } => *archival_type,
             FileType::FixedStruct { archival_type, .. } => *archival_type,
             FileType::Journal { archival_type } => *archival_type,
+            FileType::Odl { archival_type, .. } => *archival_type,
             FileType::Text { archival_type, .. } => *archival_type,
             FileType::Unparsable => {
                 debug_panic!("FileType::Unparsable should not be converted to FileTypeArchive");
@@ -867,6 +1126,10 @@ impl FileType {
                 FileTypeArchive::Normal
             }
         }
+    }
+
+    pub const fn is_etl(&self) -> bool {
+        matches!(self, FileType::Etl { .. })
     }
 
     pub const fn is_evtx(&self) -> bool {
@@ -881,6 +1144,10 @@ impl FileType {
         matches!(self, FileType::Journal { .. })
     }
 
+    pub const fn is_odl(&self) -> bool {
+        matches!(self, FileType::Odl { .. })
+    }
+
     pub const fn is_text(&self) -> bool {
         matches!(self, FileType::Text { .. })
     }
@@ -891,9 +1158,11 @@ impl FileType {
 
     pub const fn archival_type(&self) -> FileTypeArchive {
         match self {
+            FileType::Etl { archival_type } => *archival_type,
             FileType::Evtx { archival_type } => *archival_type,
             FileType::FixedStruct { archival_type, .. } => *archival_type,
             FileType::Journal { archival_type } => *archival_type,
+            FileType::Odl { archival_type, .. } => *archival_type,
             FileType::Text { archival_type, .. } => *archival_type,
             FileType::Unparsable => FileTypeArchive::Normal,
         }
@@ -903,6 +1172,18 @@ impl FileType {
         match self {
             FileType::Text { encoding_type, .. } => Some(*encoding_type),
             _ => None,
+        }
+    }
+
+    pub const fn pretty_name(&self) -> &'static str {
+        match self {
+            FileType::Etl { .. } => "Windows Event Trace Log",
+            FileType::Evtx { .. } => "Windows XML EventLog",
+            FileType::FixedStruct { .. } => "Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx)",
+            FileType::Journal { .. } => "systemd Journal",
+            FileType::Odl { .. } => "OneDrive Log",
+            FileType::Text { .. } => "text log",
+            FileType::Unparsable => "Unparsable",
         }
     }
 }
@@ -939,6 +1220,10 @@ pub enum LogMessageType {
     /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
     /// [`JournalEntry`]: crate::data::journal::JournalEntry
     Journal,
+    /// a Windows [Event Trace Log] file, or Windows OneDrive Log (ODL) file.
+    ///
+    /// [Event Trace Log]: https://learn.microsoft.com/en-us/windows-hardware/test/wpt/opening-and-analyzing-etl-files-in-wpa
+    PyEvent,
     /// Special case, used to indicate "ALL" or "ANY" message type.
     /// Useful for code objects tracking multiple files.
     #[default]
@@ -951,10 +1236,11 @@ impl std::fmt::Display for LogMessageType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
-            LogMessageType::Sysline => write!(f, "syslog lines"),
-            LogMessageType::FixedStruct => write!(f, "fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)"),
-            LogMessageType::Evtx => write!(f, "evtx entries"),
-            LogMessageType::Journal => write!(f, "journal entries"),
+            LogMessageType::Evtx => write!(f, "EVTX entries (Windows XML EventLog)"),
+            LogMessageType::FixedStruct => write!(f, "fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
+            LogMessageType::Journal => write!(f, "systemd journal entries"),
+            LogMessageType::PyEvent => write!(f, "Python parsed events (ETL/ODL)"),
+            LogMessageType::Sysline => write!(f, "text log lines"),
             LogMessageType::All => write!(f, "ALL"),
         }
     }
@@ -1027,6 +1313,17 @@ pub fn err_from_err_path_result<T>(
     mesg: Option<&str>,
 ) -> Result<T> {
     Result::Err(err_from_err_path(error, fpath, mesg))
+}
+
+/// convert a `thread::ThreadId` to `u64`
+// TRACKING: Tracking Issue for `ThreadId` to u64 conversion <https://github.com/rust-lang/rust/issues/67939>
+pub fn threadid_to_u64(tid: thread::ThreadId) -> u64 {
+    let tid_u64: u64;
+    unsafe {
+        tid_u64 = std::mem::transmute::<thread::ThreadId, u64>(tid);
+    }
+
+    tid_u64
 }
 
 // TRACKING: Tracking Issue for comparing values in const items <https://github.com/rust-lang/rust/issues/92391>

@@ -1,0 +1,13 @@
+# requirements-dev.in
+#
+# Development requirements for s4_event_readers.
+# These versions are known to work with Python 3.9+.
+#
+black>=24
+flake8>=7.3
+Flake8-pyproject>=1.2
+isort>=6.0,<7.1
+mypy~=1.19
+packaging
+pip-tools~=7.5
+ptpython~=3.0

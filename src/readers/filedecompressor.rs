@@ -55,6 +55,7 @@ use crate::common::{
     FileSz,
     FileType,
     FileTypeArchive,
+    OdlSubType,
     SUBPATH_SEP,
 };
 use crate::debug::printers::de_err;
@@ -78,9 +79,15 @@ use crate::{
 type BufReaderLz4 = BufReader<File>;
 type Lz4FrameReader = lz4_flex::frame::FrameDecoder<BufReaderLz4>;
 
+const SUFFIX_ETL: &str = ".etl";
 const SUFFIX_EVTX: &str = ".evtx";
 const SUFFIX_FIXEDSTRUCT: &str = ".wtmp";
 const SUFFIX_JOURNAL: &str = ".journal";
+const SUFFIX_ODL: &str = ".odl";
+const SUFFIX_ODLGZ: &str = ".odlgz";
+const SUFFIX_ODLSENT: &str = ".odlsent";
+const SUFFIX_AODL: &str = ".aodl";
+// XXX: ignore .aold files for now, not sure what these are
 const SUFFIX_TEXT: &str = ".log";
 
 /// optional tuple value returned by `decompress_to_ntf()`:
@@ -135,6 +142,11 @@ pub fn decompress_to_ntf(
     let mut mtime_opt: Option<SystemTime> = None;
     let suffix: &str;
     let file_type_archive: &FileTypeArchive = match file_type {
+        FileType::Etl { archival_type } => {
+            suffix = SUFFIX_ETL;
+
+            archival_type
+        }
         FileType::Evtx { archival_type } => {
             suffix = SUFFIX_EVTX;
 
@@ -148,6 +160,16 @@ pub fn decompress_to_ntf(
         }
         FileType::Journal { archival_type } => {
             suffix = SUFFIX_JOURNAL;
+
+            archival_type
+        }
+        FileType::Odl { archival_type, odl_sub_type } => {
+            suffix = match odl_sub_type {
+                OdlSubType::Odl => SUFFIX_ODL,
+                OdlSubType::Odlgz => SUFFIX_ODLGZ,
+                OdlSubType::Odlsent => SUFFIX_ODLSENT,
+                OdlSubType::Aodl => SUFFIX_AODL,
+            };
 
             archival_type
         }

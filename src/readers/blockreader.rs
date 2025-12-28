@@ -694,11 +694,17 @@ impl BlockReader {
         let mut read_blocks_put: Count = 0;
 
         match filetype {
+            FileType::Etl { .. } => {
+                panic!("BlockerReader::new FileType::Etl does not use a BlockReader")
+            }
             FileType::Evtx { .. } => {
                 panic!("BlockerReader::new FileType::Evtx does not use a BlockReader")
             }
             FileType::Journal { .. } => {
                 panic!("BlockerReader::new FileType::Journal does not use a BlockReader")
+            }
+            FileType::Odl { .. } => {
+                panic!("BlockerReader::new FileType::Odl does not use a BlockReader")
             }
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Normal,
@@ -1855,6 +1861,24 @@ impl BlockReader {
     /// `self.filesz` or `self.filesz_actual` directly.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
+            FileType::Etl {
+                archival_type: FileTypeArchive::Normal,
+            } => self.filesz,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Bz2,
+            } => self.filesz_actual,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Gz,
+            } => self.filesz_actual,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Lz4,
+            } => self.filesz_actual,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Tar,
+            } => self.filesz_actual,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Xz,
+            } => self.filesz_actual,
             FileType::Evtx {
                 archival_type: FileTypeArchive::Normal,
             } => self.filesz,
@@ -1914,6 +1938,30 @@ impl BlockReader {
             } => self.filesz_actual,
             FileType::Journal {
                 archival_type: FileTypeArchive::Xz,
+            } => self.filesz_actual,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => self.filesz,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => self.filesz_actual,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => self.filesz_actual,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => self.filesz_actual,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => self.filesz_actual,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Xz,
+                ..
             } => self.filesz_actual,
             FileType::Text {
                 archival_type: FileTypeArchive::Normal,
@@ -1977,11 +2025,17 @@ impl BlockReader {
     // TODO: it would be nice to cache the value from this but that would require passing `mut`
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
+            FileType::Etl { .. } => {
+                panic!("BlockerReader::mtime FileType::Etl does not use a BlockReader")
+            }
             FileType::Evtx { .. } => {
                 panic!("BlockerReader::mtime FileType::Evtx does not use a BlockReader")
             }
             FileType::Journal { .. } => {
                 panic!("BlockerReader::mtime FileType::Journal does not use a BlockReader")
+            }
+            FileType::Odl { .. } => {
+                panic!("BlockerReader::mtime FileType::Odl does not use a BlockReader")
             }
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Normal,
@@ -2316,6 +2370,24 @@ impl BlockReader {
     /// `blockoffset` passed to `read_block_File`.
     pub const fn is_streamed_file(&self) -> bool {
         match self.filetype {
+            FileType::Etl {
+                archival_type: FileTypeArchive::Normal,
+            } => false,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Bz2,
+            } => true,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Gz,
+            } => true,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Lz4,
+            } => true,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Tar,
+            } => true,
+            FileType::Etl {
+                archival_type: FileTypeArchive::Xz,
+            } => true,
             FileType::Evtx {
                 archival_type: FileTypeArchive::Normal,
             } => false,
@@ -2380,6 +2452,30 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Normal,
                 ..
             } => false,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Normal,
+                ..
+            } => false,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Bz2,
+                ..
+            } => true,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Gz,
+                ..
+            } => true,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Lz4,
+                ..
+            } => true,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Tar,
+                ..
+            } => true,
+            FileType::Odl {
+                archival_type: FileTypeArchive::Xz,
+                ..
+            } => true,
             FileType::Text {
                 archival_type: FileTypeArchive::Bz2,
                 ..
@@ -3911,8 +4007,17 @@ impl BlockReader {
         }
 
         match self.filetype {
-            FileType::Evtx { archival_type: _ } => {
-                panic!("BlockReader::read_block unsupported filetype {:?}; path {:?}", self.filetype, self.path,)
+            FileType::Etl { .. } => {
+                panic!(
+                    "BlockReader::read_block unsupported filetype {:?}; path {:?}",
+                    self.filetype, self.path,
+                )
+            }
+            FileType::Evtx { .. } => {
+                panic!(
+                    "BlockReader::read_block unsupported filetype {:?}; path {:?}",
+                    self.filetype, self.path,
+                )
             }
             FileType::FixedStruct {
                 archival_type: FileTypeArchive::Normal,
@@ -3938,8 +4043,17 @@ impl BlockReader {
                 archival_type: FileTypeArchive::Xz,
                 ..
             } => self.read_block_FileXz(blockoffset),
-            FileType::Journal { archival_type: _ } => {
-                panic!("BlockReader::read_block unsupported filetype {:?}; path {:?}", self.filetype, self.path,)
+            FileType::Journal { .. } => {
+                panic!(
+                    "BlockReader::read_block unsupported filetype {:?}; path {:?}",
+                    self.filetype, self.path,
+                )
+            }
+            FileType::Odl { .. } => {
+                panic!(
+                    "BlockReader::read_block unsupported filetype {:?}; path {:?}",
+                    self.filetype, self.path,
+                )
             }
             FileType::Text {
                 archival_type: FileTypeArchive::Normal,

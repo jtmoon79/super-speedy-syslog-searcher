@@ -1,0 +1,13 @@
+# src/python/.gitignore
+
+s4_event_readers.egg-info/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+build/
+dist/
+.eggs/
+**/.mypy_cache/
+**/.pytest_cache/
+**/.venv*/
