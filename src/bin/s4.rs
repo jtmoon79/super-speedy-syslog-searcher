@@ -1933,7 +1933,7 @@ const FILEOK: FileProcessingResultBlockZero = FileProcessingResultBlockZero::Fil
 //       pub-sub approach
 //       see old archived code to see previous attempts
 
-/// enum to pass filetype-specific data to the file processing thread
+/// enum to pass filetype-specific data to a file processing thread
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum FileTypeExecData {
     /// all other log message types (nothing is needed)
