@@ -55,8 +55,9 @@ set -x
     $(ls -d1 \
         ./performance-data \
         ./valgrind \
+        *.log \
         ./Notes.txt \
-        ./flamegraph*.svg \
+        ./*.svg \
         ./tests \
         ./trace.fxt.gz \
         2>/dev/null || true
