@@ -667,6 +667,7 @@ jobs:
           sudo apt install python3
           which python3
           python3 --version
+          S4=./s4_debug
           ${S4} --venv
       - name: s4_debug --color=never S4_TEST_FILES
         shell: bash
@@ -814,6 +815,14 @@ jobs:
           chmod -v +x -- ${S4}
           ${S4} --version
           ${S4} --help
+      - name: setup venv
+        shell: bash
+        run: |
+          set -eux
+          which python3
+          python3 --version
+          S4=./s4_release
+          ${S4} --venv
       - name: s4_release --color=never S4_TEST_FILES
         shell: bash
         run: |
