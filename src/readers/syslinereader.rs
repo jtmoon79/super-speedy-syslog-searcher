@@ -845,7 +845,7 @@ impl SyslineReader {
     /// values.
     ///
     /// After `dt_patterns_analysis()` completes, it will return the same value.
-    pub(crate) fn datetime_parse_data(&self) -> &DateTimeParseInstr {
+    pub(crate) fn datetime_parse_data(&self) -> &DateTimeParseInstr<'_> {
         &DATETIME_PARSE_DATAS[self.dt_pattern_index_max_count()]
     }
 
