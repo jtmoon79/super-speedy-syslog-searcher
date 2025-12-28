@@ -57,10 +57,13 @@ PYTHON=${PYTHON-$(
 )}
 (set -x; "${PYTHON}" --version) | head -n1
 
-if which hyperfine &>/dev/null; then
-    hyperfine=$(which hyperfine)
-    (set -x; hyperfine --version)
-fi
+hyperfine=$(which hyperfine) || {
+    echo "ERROR: hyperfine not found in PATH" >&2
+    echo "install:" >&2
+    echo "    cargo install --locked hyperfine" >&2
+    exit 1
+}
+(set -x; hyperfine --version)
 
 if ! which jq &>/dev/null; then
     echo "ERROR: jq not found in PATH" >&2
