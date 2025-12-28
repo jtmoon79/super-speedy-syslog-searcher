@@ -109,6 +109,7 @@ use crate::debug::printers::{
 use crate::debug_panic;
 
 /// [`Block`] Size in bytes.
+// TODO: move this into crate::common ?
 pub type BlockSz = u64;
 
 /// Byte offset (Index) _into_ a [`Block`] from the beginning of that `Block`.
