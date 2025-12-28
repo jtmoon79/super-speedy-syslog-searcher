@@ -622,6 +622,7 @@ impl BlockReader {
                     return Result::Err(Error::new(
                         // TODO: TRACKING: use `ErrorKind::InvalidFilename` when it is stable
                         //       <https://github.com/rust-lang/rust/issues/86442>
+                        //       <https://github.com/rust-lang/rust/pull/134076>
                         ErrorKind::InvalidInput,
                         format!(
                             "Given Filetype {:?} but failed to find delimiter {:?} in {:?}",
@@ -678,10 +679,9 @@ impl BlockReader {
             }
         };
         if file_metadata.is_dir() {
-            def1x!("return Err(Unsupported)");
+            def1x!("return Err(IsADirectory)");
             return std::result::Result::Err(Error::new(
-                //ErrorKind::IsADirectory,  // XXX: error[E0658]: use of unstable library feature 'io_error_more'
-                ErrorKind::Unsupported,
+                ErrorKind::IsADirectory,
                 format!("Path is a directory {:?}", path),
             ));
         }
@@ -867,13 +867,9 @@ impl BlockReader {
                 //       Third, similar to "Second" but for very large files that are too large
                 //       to hold in memory, i.e. a 64GB log.gz file, what then?
                 if filesz > BlockReader::GZ_MAX_SZ {
-                    def1x!("FileGz: return Err(InvalidData)");
+                    def1x!("FileGz: return Err(FileTooLarge)");
                     return Result::Err(Error::new(
-                        // TODO: Issue #10 [2022/06] use `ErrorKind::FileTooLarge` when it is stable
-                        //       `ErrorKind::FileTooLarge` causes error:
-                        //       use of unstable library feature 'io_error_more'
-                        // TRACKING: see issue #86442 <https://github.com/rust-lang/rust/issues/86442>
-                        ErrorKind::InvalidData,
+                        ErrorKind::FileTooLarge,
                         format!(
                             "Cannot handle gzip files larger than semi-arbitrary {0} (0x{0:08X}) uncompressed bytes, file is {1} (0x{1:08X}) uncompressed bytes according to gzip header {2:?}",
                             BlockReader::GZ_MAX_SZ,
@@ -2123,7 +2119,7 @@ impl BlockReader {
                     self.file_metadata_modified
                 }
             }
-            FileType::Unparsable => panic!("BlockerReader::mtime unexpected {:?}", FileType::Unparsable),
+            FileType::Unparsable => panic!("BlockerReader::mtime unexpected Unparsable"),
         }
     }
 
@@ -4080,7 +4076,11 @@ impl BlockReader {
                 ..
             } => self.read_block_FileXz(blockoffset),
             FileType::Unparsable => {
-                panic!("BlockReader::read_block bad filetype {:?}; path {:?}", self.filetype, self.path,)
+                panic!(
+                    "BlockReader::read_block bad filetype {:?}; path {:?}",
+                    self.filetype,
+                    self.path,
+                )
             }
         }
     }
