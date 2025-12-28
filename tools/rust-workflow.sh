@@ -18,6 +18,8 @@ cd "$(dirname -- "${0}")/.."
 declare -r S4R=./target/release/s4
 declare -r S4D=./target/debug/s4
 declare -ar S4_TEST_FILES=(
+    ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
+    ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
     ./logs/other/tests/dtf2-2.log
     ./logs/other/tests/dtf3-2a.log
     ./logs/other/tests/dtf5-6a.log.gz
@@ -47,6 +49,7 @@ cargo build --profile flamegraph
 cargo build --profile valgrind
 cargo doc --locked --release --frozen --no-deps
 cargo publish --dry-run --allow-dirty
+"${S4R}" --venv
 "${S4R}" --color=never "${S4_TEST_FILES[@]}" 2>/dev/null
 "${S4D}" --color=never "${S4_TEST_FILES[@]}" 2>/dev/null
 ./tools/compare-current-and-expected/compare.sh
