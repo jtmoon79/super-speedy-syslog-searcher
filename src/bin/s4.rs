@@ -727,6 +727,7 @@ struct CLI_Args {
         short = 'a',
         long,
         verbatim_doc_comment,
+        // TODO: env="S4_DT_AFTER"
     )]
     dt_after: Option<String>,
 
@@ -737,6 +738,7 @@ struct CLI_Args {
         short = 'b',
         long,
         verbatim_doc_comment,
+        // TODO: env="S4_DT_BEFORE"
     )]
     dt_before: Option<String>,
 
@@ -754,6 +756,7 @@ struct CLI_Args {
         verbatim_doc_comment,
         value_parser = cli_process_tz_offset,
         default_value_t=LOCAL_NOW_OFFSET.with(|lno| *lno),
+        // TODO: env="S4_TZ_OFFSET"
     )]
     tz_offset: FixedOffset,
 
@@ -767,6 +770,7 @@ struct CLI_Args {
             "group_prepend_dt",
         ],
         value_parser = cli_process_tz_offset,
+        // TODO: env="S4_PREPEND_TZ"
     )]
     prepend_tz: Option<FixedOffset>,
 
@@ -780,6 +784,7 @@ struct CLI_Args {
         groups = &[
             "group_prepend_dt",
         ],
+        // TODO: env="S4_PREPEND_UTC"
     )]
     prepend_utc: bool,
 
@@ -794,6 +799,7 @@ struct CLI_Args {
         groups = &[
             "group_prepend_dt",
         ],
+        // TODO: env="S4_PREPEND_LOCAL"
     )]
     prepend_local: bool,
 
@@ -812,6 +818,7 @@ i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset value
 is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         value_parser = cli_parser_prepend_dt_format,
         default_value = None,
+        // TODO: env="S4_PREPEND_DT_FORMAT"
     )]
     prepend_dt_format: Option<String>,
 
@@ -823,6 +830,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         groups = &[
             "group_prepend_file",
         ]
+        // TODO: env="S4_PREPEND_FILENAME"
     )]
     prepend_filename: bool,
 
@@ -834,6 +842,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         groups = &[
             "group_prepend_file",
         ]
+        // TODO: env="S4_PREPEND_FILEPATH"
     )]
     prepend_filepath: bool,
 
@@ -843,6 +852,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         long = "prepend-file-align",
         verbatim_doc_comment,
         requires = "group_prepend_file",
+        // TODO: env="S4_PREPEND_FILE_ALIGN"
     )]
     prepend_file_align: bool,
 
@@ -852,8 +862,11 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         // TODO: how to require `any("prepend_file", "prepend_dt")`
         default_value_t = String::from(CLI_PREPEND_SEP)
+        // TODO: env="S4_PREPEND_SEPARATOR"
     )]
     prepend_separator: String,
+
+    // TODO: [2023/02/26] add option to prepend byte offset along with filename, helpful for development
 
     /// An extra separator string between printed log messages.
     /// Per log message not per line of text.
@@ -865,6 +878,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         default_value_t = String::from(""),
         hide_default_value = true,
+        // TODO: env="S4_SEPARATOR"
     )]
     log_message_separator: String,
 
@@ -877,6 +891,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         value_enum,
         default_value_t = JournalOutput::Short,
+        // TODO: env="S4_JOURNAL_OUTPUT"
     )]
     journal_output: JournalOutput,
 
@@ -903,6 +918,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         value_enum,
         default_value_t = CLI_Color_Choice::auto,
+        // TODO: env="S4_COLOR"
     )]
     color_choice: CLI_Color_Choice,
 
@@ -914,6 +930,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         long = "light-theme",
         verbatim_doc_comment,
         default_value_t = false,
+        // TODO: env="S4_COLOR_THEME_LIGHT"
     )]
     color_theme_light: bool,
 
@@ -946,6 +963,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         default_value_t = BLOCKSZ_DEF.to_string(),
         value_parser = cli_parse_blocksz,
+        // TODO: env="S4_BLOCKSZ"
     )]
     blocksz: String,
 
@@ -955,6 +973,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         short,
         long,
         verbatim_doc_comment,
+        // TODO: env="S4_SUMMARY"
     )]
     summary: bool,
 }
@@ -1964,6 +1983,7 @@ type ThreadInitData = (
     BlockSz,
     DateTimeLOpt,
     DateTimeLOpt,
+    // TODO: rename all `tz_offset` to `fixed_offset`
     FixedOffset,
 );
 
@@ -1984,6 +2004,9 @@ type IsLastLogMessage = bool;
 ///
 /// [`LogMessage`]: self::LogMessage
 /// [`Summary`]: s4lib::readers::summary::Summary
+// TODO: [2025/12] this should support carrying an Error in a new variant
+//       like `ProcessingErrContinue(String)` so that file processing
+//       threads can report non-fatal errors to the main printing thread.
 #[derive(Debug)]
 enum ChanDatum {
     /// first data sent from file processing thread to main printing thread.
@@ -4270,6 +4293,7 @@ fn processing_loop(
     ret
 }
 
+// TODO: move this section to a s4_tests.rs file
 #[cfg(test)]
 mod tests {
     use s4lib::data::datetime::{
