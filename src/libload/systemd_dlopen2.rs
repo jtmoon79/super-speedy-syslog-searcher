@@ -412,17 +412,17 @@ impl fmt::Debug for LoadLibraryError {
 
 impl LoadLibraryError {
     /// Return `true` if the library was successfully loaded.
-    pub fn is_ok(&self) -> bool {
+    pub const fn is_ok(&self) -> bool {
         matches!(self, LoadLibraryError::Ok)
     }
 
     /// Return `true` if the library failed to load.
-    pub fn is_err(&self) -> bool {
+    pub const fn is_err(&self) -> bool {
         matches!(self, LoadLibraryError::Err(_))
     }
 
     /// Return `true` if a previous attempt to load the library failed.
-    pub fn is_prev_err(&self) -> bool {
+    pub const fn is_prev_err(&self) -> bool {
         matches!(self, LoadLibraryError::PrevErr)
     }
 
