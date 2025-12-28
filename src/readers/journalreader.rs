@@ -492,6 +492,7 @@ macro_rules! testing_force_error {
 /// `journalctl --output=verbose` field prepend.
 pub const FIELD_BEG_VERBOSE: &str = "    ";
 
+#[allow(non_upper_case_globals)]
 pub const KEY__CURSOR: &str = "__CURSOR";
 pub const KEY_HOSTNAME: &str = "_HOSTNAME";
 pub const KEY_HOSTNAME_BYTES: &[u8] = KEY_HOSTNAME.as_bytes();
@@ -505,9 +506,13 @@ pub const KEY_COMM: &str = "_COMM";
 pub const KEY_COMM_BYTES: &[u8] = KEY_COMM.as_bytes();
 pub const KEY_SOURCE_REALTIME_TIMESTAMP: &str = "_SOURCE_REALTIME_TIMESTAMP";
 pub const KEY_SOURCE_REALTIME_TIMESTAMP_BYTES: &[u8] = KEY_SOURCE_REALTIME_TIMESTAMP.as_bytes();
+#[allow(non_upper_case_globals)]
 pub const KEY__REALTIME_TIMESTAMP: &str = "__REALTIME_TIMESTAMP";
+#[allow(non_upper_case_globals)]
 pub const KEY__REALTIME_TIMESTAMP_BYTES: &[u8] = KEY__REALTIME_TIMESTAMP.as_bytes();
+#[allow(non_upper_case_globals)]
 pub const KEY__MONOTONIC_TIMESTAMP: &str = "__MONOTONIC_TIMESTAMP";
+#[allow(non_upper_case_globals)]
 pub const KEY__MONOTONIC_TIMESTAMP_BYTES: &[u8] = KEY__MONOTONIC_TIMESTAMP.as_bytes();
 pub const KEY_MESSAGE_ID: &str = "MESSAGE_ID";
 pub const KEY_MESSAGE_ID_BYTES: &[u8] = KEY_MESSAGE_ID.as_bytes();
