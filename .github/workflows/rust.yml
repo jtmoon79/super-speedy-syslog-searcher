@@ -48,9 +48,11 @@ env:
     ./logs/other/tests/gen-20-1-faces.log
     ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
     ./logs/other/tests/gen-20-2-2-faces.log
+    ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
     ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
     ./logs/programs/journal/RHE_91_system.journal
     ./logs/programs/journal/RHE_91_system.journal.gz
+    ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
     ./logs/programs/strace/strace-unix,us_ls.out
     ./logs/programs/utmp/host-entry6.wtmp
     ./logs/programs/utmp/host-entry6.wtmp.bz2
@@ -658,6 +660,14 @@ jobs:
           chmod -v +x -- ${S4}
           ${S4} --version
           ${S4} --help
+      - name: setup venv
+        shell: bash
+        run: |
+          set -eux
+          sudo apt install python3
+          which python3
+          python3 --version
+          ${S4} --venv
       - name: s4_debug --color=never S4_TEST_FILES
         shell: bash
         run: |
