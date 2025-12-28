@@ -113,14 +113,14 @@ const FT_XZ: FileType = FileType::Journal {
 };
 
 #[test_case(
-    *TS_1,
-    EpochMicrosecondsOpt::Some(*TS_1 - 1),
+    TS_1,
+    EpochMicrosecondsOpt::Some(TS_1 - 1),
     Result_Filter_DateTime1::OccursAtOrAfter;
     "TS_1 OccursAtOrAfter"
 )]
 #[test_case(
-    *TS_1,
-    EpochMicrosecondsOpt::Some(*TS_1 + 1),
+    TS_1,
+    EpochMicrosecondsOpt::Some(TS_1 + 1),
     Result_Filter_DateTime1::OccursBefore;
     "TS_1 OccursBefore"
 )]
@@ -138,56 +138,56 @@ fn test_em_after_or_before(
 }
 
 #[test_case(
-    *TS_1,
-    EpochMicrosecondsOpt::Some(*TS_1 - 1),
-    EpochMicrosecondsOpt::Some(*TS_1 + 1),
+    TS_1,
+    EpochMicrosecondsOpt::Some(TS_1 - 1),
+    EpochMicrosecondsOpt::Some(TS_1 + 1),
     Result_Filter_DateTime2::InRange;
     "Some Some InRange"
 )]
 #[test_case(
-    *TS_1,
-    EpochMicrosecondsOpt::Some(*TS_1 + 1),
-    EpochMicrosecondsOpt::Some(*TS_1 + 2),
+    TS_1,
+    EpochMicrosecondsOpt::Some(TS_1 + 1),
+    EpochMicrosecondsOpt::Some(TS_1 + 2),
     Result_Filter_DateTime2::BeforeRange;
     "Some Some BeforeRange"
 )]
 #[test_case(
-    *TS_1,
-    EpochMicrosecondsOpt::Some(*TS_1 - 2),
-    EpochMicrosecondsOpt::Some(*TS_1 - 1),
+    TS_1,
+    EpochMicrosecondsOpt::Some(TS_1 - 2),
+    EpochMicrosecondsOpt::Some(TS_1 - 1),
     Result_Filter_DateTime2::AfterRange;
     "Some Some AfterRange"
 )]
 #[test_case(
-    *TS_1,
-    EpochMicrosecondsOpt::Some(*TS_1 - 1),
+    TS_1,
+    EpochMicrosecondsOpt::Some(TS_1 - 1),
     EpochMicrosecondsOpt::None,
     Result_Filter_DateTime2::InRange;
     "Some None InRange"
 )]
 #[test_case(
-    *TS_1,
-    EpochMicrosecondsOpt::Some(*TS_1 + 1),
+    TS_1,
+    EpochMicrosecondsOpt::Some(TS_1 + 1),
     EpochMicrosecondsOpt::None,
     Result_Filter_DateTime2::BeforeRange;
     "Some None BeforeRange"
 )]
 #[test_case(
-    *TS_1,
+    TS_1,
     EpochMicrosecondsOpt::None,
-    EpochMicrosecondsOpt::Some(*TS_1 - 1),
+    EpochMicrosecondsOpt::Some(TS_1 - 1),
     Result_Filter_DateTime2::AfterRange;
     "None Some AfterRange"
 )]
 #[test_case(
-    *TS_1,
+    TS_1,
     EpochMicrosecondsOpt::None,
-    EpochMicrosecondsOpt::Some(*TS_1 + 1),
+    EpochMicrosecondsOpt::Some(TS_1 + 1),
     Result_Filter_DateTime2::InRange;
     "None Some InRange"
 )]
 #[test_case(
-    *TS_1,
+    TS_1,
     EpochMicrosecondsOpt::None,
     EpochMicrosecondsOpt::None,
     Result_Filter_DateTime2::InRange;
@@ -229,7 +229,7 @@ fn test_mtime(path: &FPath) {
     let jr1 = JournalReader::new(
         path.clone(),
         JournalOutput::Short,
-        *FO_0,
+        FO_0,
         FileType::Journal {
             archival_type: FileTypeArchive::Normal,
         },
@@ -265,7 +265,7 @@ fn test_JournalReader_new_(
     match JournalReader::new(
         path.clone(),
         JournalOutput::Short,
-        *FO_0,
+        FO_0,
         FT_NORM,
     ) {
         Ok(_) => {
@@ -287,7 +287,7 @@ fn test_new_JournalReader_no_file_permissions() {
     match JournalReader::new(
         fpath.clone(),
         JournalOutput::Short,
-        *FO_0,
+        FO_0,
         FT_NORM,
     ) {
         Ok(_) => {
@@ -376,7 +376,7 @@ fn test_JournalReader_entry1_output(
     let mut journalreader = JournalReader::new(
         fpath,
         journal_output,
-        *FO_0,
+        FO_0,
         FileType::Journal {
             archival_type: FileTypeArchive::Normal,
         },
@@ -553,7 +553,7 @@ fn test_JournalReader_next_summary(
     let mut journalreader = JournalReader::new(
         fpath,
         JournalOutput::Short,
-        *FO_0,
+        FO_0,
         filetype,
     ).unwrap();
     match journalreader.analyze(&None) {

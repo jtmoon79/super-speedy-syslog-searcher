@@ -31,7 +31,7 @@ use crate::tests::common::{
 
 #[test]
 fn test_journalentry_new() {
-    JournalEntry::new(b"".to_vec(), 0, Some(0), DtUsesSource::RealtimeTimestamp, &*FO_0);
+    JournalEntry::new(b"".to_vec(), 0, Some(0), DtUsesSource::RealtimeTimestamp, &FO_0);
 }
 
 const JOURNAL_ENTRY_EXPORT: &str = "\
@@ -78,10 +78,10 @@ fn test_journalentry_export_realtime_timestamp() {
     let dtus: DtUsesSource = DtUsesSource::RealtimeTimestamp;
     let je = JournalEntry::new(
         data.clone(),
-        *TS_1,
+        TS_1,
         None,
         dtus,
-        &*FO_0,
+        &FO_0,
     );
     assert_eq!(je.dt(), &*DT_1, "dt()");
     assert_eq!(je.as_bytes(), &data, "data");
@@ -102,12 +102,12 @@ fn test_journalentry_export_source_realtime_timestamp() {
         data.clone(),
         // XXX: last minute hack to get tests to pass
         match DT_USES_SOURCE_OVERRIDE {
-            Some(_) => *TS_1,
+            Some(_) => TS_1,
             None => 99,
         },
-        EpochMicrosecondsOpt::Some(*TS_1),
+        EpochMicrosecondsOpt::Some(TS_1),
         dtus,
-        &*FO_0,
+        &FO_0,
     );
     assert_eq!(je.dt(), &*DT_1, "dt()");
     assert_eq!(je.as_bytes(), &data, "data");
@@ -131,12 +131,12 @@ fn test_journalentry_shortfull() {
         data.clone(),
         // XXX: last minute hack to get tests to pass
         match DT_USES_SOURCE_OVERRIDE {
-            Some(_) => *TS_1,
+            Some(_) => TS_1,
             None => 99,
         },
-        EpochMicrosecondsOpt::Some(*TS_1),
+        EpochMicrosecondsOpt::Some(TS_1),
         dtus,
-        &*FO_0,
+        &FO_0,
     );
     assert_eq!(je.dt(), &*DT_1, "dt()");
     assert_eq!(je.as_bytes(), &data, "data");
@@ -150,10 +150,10 @@ fn test_journalentry_shortfull() {
 }
 
 #[test_case(
-    &*FO_0,
-    *TS_1,
+    &FO_0,
+    TS_1,
     *DT_1;
-    "FO0_one_ts1"
+    "FO0_one_TS1"
 )]
 fn test_realtime_timestamp_to_datetimel(
     fixed_offset: &FixedOffset,
@@ -169,18 +169,18 @@ fn test_realtime_timestamp_to_datetimel(
 }
 
 #[test_case(
-    &*FO_0,
-    *TS_1,
+    &FO_0,
+    TS_1,
     EpochMicrosecondsOpt::Some(99),
     *DT_1;
     "FO0_ts1_99"
 )]
 #[test_case(
-    &*FO_E1,
-    *TS_1,
+    &FO_E1,
+    TS_1,
     EpochMicrosecondsOpt::None,
     *DT_1_E1;
-    "FOE1_ts1_None"
+    "FOE1_TS1_None"
 )]
 fn test_realtime_or_source_realtime_timestamp_to_datetimel(
     fixed_offset: &FixedOffset,
@@ -197,7 +197,7 @@ fn test_realtime_or_source_realtime_timestamp_to_datetimel(
     assert_eq!(dt, expect_dt, "\ngot      {:?}\nexpected {:?}\n", dt, expect_dt);
 }
 
-#[test_case(*DT_1, *TS_1)]
+#[test_case(*DT_1, TS_1)]
 fn test_datetimel_to_realtime_timestamp(
     dt: DateTimeL,
     expect_rt: EpochMicroseconds,
@@ -209,7 +209,7 @@ fn test_datetimel_to_realtime_timestamp(
     assert_eq!(rt, expect_rt, "\ngot      {:?}\nexpected {:?}\n", rt, expect_rt);
 }
 
-#[test_case(DateTimeLOpt::Some(*DT_1), *TS_1)]
+#[test_case(DateTimeLOpt::Some(*DT_1), TS_1)]
 #[test_case(DateTimeLOpt::None, 0)]
 fn test_datetimelopt_to_realtime_timestamp(
     dt: DateTimeLOpt,

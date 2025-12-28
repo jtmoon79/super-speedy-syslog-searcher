@@ -114,7 +114,7 @@ fn test_new_FixedStructReader_1_empty() {
         NTF_LOG_EMPTY_FPATH.clone(),
         FT_UTMPX,
         1024,
-        *FO_P8,
+        FO_P8,
         None,
         None,
     ) {
@@ -135,7 +135,7 @@ fn test_new_FixedStructReader_2_bad_noerr() {
         NTF_NL_1_PATH.clone(),
         FT_UTMPX,
         1024,
-        *FO_P8,
+        FO_P8,
         None,
         None,
     ) {
@@ -159,7 +159,7 @@ fn test_new_FixedStructReader_no_file_permissions() {
         fpath.clone(),
         FT_UTMPX,
         1024,
-        *FO_P8,
+        FO_P8,
         None,
         None,
     ) {
@@ -183,7 +183,7 @@ fn test_FixedStructReader_helpers() {
     let mut fsr = new_FixedStructReader(
         &NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
         BSZ,
-        *FO_P8
+        FO_P8
     );
 
     assert_eq!(fsr.block_index_at_file_offset(0), 0);
@@ -306,7 +306,7 @@ fn test_FixedStructReader_process_entry_at(
             fixedstruct_type: filetypefixedstruct,
         },
         blocksz,
-        *FO_0,
+        FO_0,
         None,
         None,
     ) {
@@ -378,7 +378,7 @@ fn test_FixedStructReader_process_entry_at_2_summary() {
     let mut fixedstructreader = new_FixedStructReader(
         &NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
         BSZ,
-        *FO_P8
+        FO_P8
     );
     fixedstructreader.blockreader.disable_drop_data();
 
@@ -491,7 +491,7 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
     );
 
     let blocksz: BlockSz = 0x100;
-    let tzo = *FO_P8;
+    let tzo = FO_P8;
     let mut fixedstructreader = match FixedStructReader::new(
         path.clone(),
         FileType::FixedStruct{
@@ -1089,7 +1089,7 @@ fn test_FixedStructReader_summary(
     expect_fixedstructreadersummary: SummaryFixedStructReader,
 ) {
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
-    let mut fixedstructreader = new_FixedStructReader(&path, blocksz, *FO_P8);
+    let mut fixedstructreader = new_FixedStructReader(&path, blocksz, FO_P8);
 
     let mut fo: FileOffset = match fixedstructreader.fileoffset_first() {
         Some(fo) => fo,
@@ -1327,7 +1327,7 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
                 fixedstruct_type: filetypefixedstruct,
             },
             BSZ,
-            *FO_0,
+            FO_0,
             dt_filter_a,
             dt_filter_b,
         ) {
@@ -1343,7 +1343,7 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
                     None => {
                         panic!(
                             "ERROR: FixedStructReader::new({:?}, {:?}, {:?}, {:?}, {:?}) failed: {:?}, expected FileOk",
-                            path, BSZ, *FO_0, dt_filter_a, dt_filter_b, result,
+                            path, BSZ, FO_0, dt_filter_a, dt_filter_b, result,
                         );
                     }
                 };
