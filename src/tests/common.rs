@@ -109,66 +109,74 @@ lazy_static! {
     pub static ref BYTES_C: Vec<u8> = vec![b'C'];
     pub static ref BYTES_ABCD: Vec<u8> = vec![b'A', b'B', b'C', b'D'];
     pub static ref BYTES_EFGH: Vec<u8> = vec![b'E', b'F', b'G', b'H'];
-    pub static ref BYTES_ABCDEFGH: Vec<u8> = vec![b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H'];
+    pub static ref BYTES_ABCDEFGH: Vec<u8> = vec![b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H']; 
+}
 
-    pub static ref LOCAL_NOW: DateTime<Local> = Local::now();
-    pub static ref DATETIME_NOW_Z0: DateTime<FixedOffset> = LOCAL_NOW.with_timezone(&*FO_Z);
-    pub static ref UTC_NOW: DateTime<Utc> = (*LOCAL_NOW).into();
+// FixedOffset Zulu / UTC
+pub const FO_Z: FixedOffset = FixedOffset::east_opt(0).unwrap();
+pub const FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+// FixedOffset West
+pub const FO_W8: FixedOffset = FixedOffset::west_opt(3600 * 8).unwrap();
+// FixedOffset East
+pub const FO_E1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
+pub const FO_E8: FixedOffset = FixedOffset::east_opt(3600 * 8).unwrap();
+pub const FO_E10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
+// FixedOffset Minus (West)
+pub const FO_M1: FixedOffset = FixedOffset::west_opt(3600).unwrap();
+pub const FO_M2: FixedOffset = FixedOffset::west_opt(3600 * 2).unwrap();
+pub const FO_M3: FixedOffset = FixedOffset::west_opt(3600 * 3).unwrap();
+pub const FO_M4: FixedOffset = FixedOffset::west_opt(3600 * 4).unwrap();
+pub const FO_M5: FixedOffset = FixedOffset::west_opt(3600 * 5).unwrap();
+pub const FO_M6: FixedOffset = FixedOffset::west_opt(3600 * 6).unwrap();
+pub const FO_M7: FixedOffset = FixedOffset::west_opt(3600 * 7).unwrap();
+pub const FO_M8: FixedOffset = FixedOffset::west_opt(3600 * 8).unwrap();
+pub const FO_M9: FixedOffset = FixedOffset::west_opt(3600 * 9).unwrap();
+pub const FO_M10: FixedOffset = FixedOffset::west_opt(3600 * 10).unwrap();
+pub const FO_M11: FixedOffset = FixedOffset::west_opt(3600 * 11).unwrap();
+pub const FO_M12: FixedOffset = FixedOffset::west_opt(3600 * 12).unwrap();
+// FixedOffset Plus (East)
+pub const FO_P1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
+pub const FO_P2: FixedOffset = FixedOffset::east_opt(3600 * 2).unwrap();
+pub const FO_P3: FixedOffset = FixedOffset::east_opt(3600 * 3).unwrap();
+pub const FO_P4: FixedOffset = FixedOffset::east_opt(3600 * 4).unwrap();
+pub const FO_P5: FixedOffset = FixedOffset::east_opt(3600 * 5).unwrap();
+pub const FO_P6: FixedOffset = FixedOffset::east_opt(3600 * 6).unwrap();
+pub const FO_P7: FixedOffset = FixedOffset::east_opt(3600 * 7).unwrap();
+pub const FO_P8: FixedOffset = FixedOffset::east_opt(3600 * 8).unwrap();
+pub const FO_P9: FixedOffset = FixedOffset::east_opt(3600 * 9).unwrap();
+pub const FO_P10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
+pub const FO_P11: FixedOffset = FixedOffset::east_opt(3600 * 11).unwrap();
+pub const FO_P12: FixedOffset = FixedOffset::east_opt(3600 * 12).unwrap();
+
+lazy_static! {
 
     // FixedOffset Local
     pub static ref FO_L: FixedOffset = *LOCAL_NOW.offset();
     pub static ref FO_L_STR: String = String::from(&*FO_L.to_string());
-    // FixedOffset Zulu / UTC
-    pub static ref FO_Z: FixedOffset = FixedOffset::east_opt(0).unwrap();
-    pub static ref FO_0: FixedOffset = FixedOffset::east_opt(0).unwrap();
-    // FixedOffset West
-    pub static ref FO_W8: FixedOffset = FixedOffset::west_opt(3600 * 8).unwrap();
-    // FixedOffset East
-    pub static ref FO_E1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
-    pub static ref FO_E8: FixedOffset = FixedOffset::east_opt(3600 * 8).unwrap();
-    pub static ref FO_E10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
-    // FixedOffset Minus (West)
-    pub static ref FO_M1: FixedOffset = FixedOffset::west_opt(3600).unwrap();
-    pub static ref FO_M2: FixedOffset = FixedOffset::west_opt(3600 * 2).unwrap();
-    pub static ref FO_M3: FixedOffset = FixedOffset::west_opt(3600 * 3).unwrap();
-    pub static ref FO_M4: FixedOffset = FixedOffset::west_opt(3600 * 4).unwrap();
-    pub static ref FO_M5: FixedOffset = FixedOffset::west_opt(3600 * 5).unwrap();
-    pub static ref FO_M6: FixedOffset = FixedOffset::west_opt(3600 * 6).unwrap();
-    pub static ref FO_M7: FixedOffset = FixedOffset::west_opt(3600 * 7).unwrap();
-    pub static ref FO_M8: FixedOffset = FixedOffset::west_opt(3600 * 8).unwrap();
-    pub static ref FO_M9: FixedOffset = FixedOffset::west_opt(3600 * 9).unwrap();
-    pub static ref FO_M10: FixedOffset = FixedOffset::west_opt(3600 * 10).unwrap();
-    pub static ref FO_M11: FixedOffset = FixedOffset::west_opt(3600 * 11).unwrap();
-    pub static ref FO_M12: FixedOffset = FixedOffset::west_opt(3600 * 12).unwrap();
-    // FixedOffset Plus (East)
-    pub static ref FO_P1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
-    pub static ref FO_P2: FixedOffset = FixedOffset::east_opt(3600 * 2).unwrap();
-    pub static ref FO_P3: FixedOffset = FixedOffset::east_opt(3600 * 3).unwrap();
-    pub static ref FO_P4: FixedOffset = FixedOffset::east_opt(3600 * 4).unwrap();
-    pub static ref FO_P5: FixedOffset = FixedOffset::east_opt(3600 * 5).unwrap();
-    pub static ref FO_P6: FixedOffset = FixedOffset::east_opt(3600 * 6).unwrap();
-    pub static ref FO_P7: FixedOffset = FixedOffset::east_opt(3600 * 7).unwrap();
-    pub static ref FO_P8: FixedOffset = FixedOffset::east_opt(3600 * 8).unwrap();
-    pub static ref FO_P9: FixedOffset = FixedOffset::east_opt(3600 * 9).unwrap();
-    pub static ref FO_P10: FixedOffset = FixedOffset::east_opt(3600 * 10).unwrap();
-    pub static ref FO_P11: FixedOffset = FixedOffset::east_opt(3600 * 11).unwrap();
-    pub static ref FO_P12: FixedOffset = FixedOffset::east_opt(3600 * 12).unwrap();
 
     // Datetimes
 
+    // now
+    pub static ref LOCAL_NOW: DateTime<Local> = Local::now();
+    // now
+    pub static ref DATETIME_NOW_Z0: DateTime<FixedOffset> = LOCAL_NOW.with_timezone(&FO_Z);
+    // now
+    pub static ref UTC_NOW: DateTime<Utc> = (*LOCAL_NOW).into();
     /// 1970-01-01T00:00:00+00:00
-    pub static ref DT_0: DateTimeL = ymdhms(&*FO_0, 0, 0, 0, 0, 0, 0);
+    pub static ref DT_0: DateTimeL = ymdhms(&FO_0, 0, 0, 0, 0, 0, 0);
     /// 1970-01-01T01:00:00+01:00
-    pub static ref DT_0_E1: DateTimeL = ymdhms(&*FO_E1, 0, 0, 0, 1, 0, 0);
-    /// matches `DT_0`
-    pub static ref TS_0: EpochMicroseconds = 0;
+    pub static ref DT_0_E1: DateTimeL = ymdhms(&FO_E1, 0, 0, 0, 1, 0, 0);
     /// 1970-01-12T13:46:40.456123+00:00
-    pub static ref DT_1: DateTimeL = ymdhmsm(&*FO_0, 1970, 1, 12, 13, 46, 40, 456123);
+    pub static ref DT_1: DateTimeL = ymdhmsm(&FO_0, 1970, 1, 12, 13, 46, 40, 456123);
     /// 1970-01-12T14:46:40.456123+01:00 (matches `DT_1`)
-    pub static ref DT_1_E1: DateTimeL = ymdhmsm(&*FO_E1, 1970, 1, 12, 14, 46, 40, 456123);
-    /// matches `DT_1`
-    pub static ref TS_1: EpochMicroseconds = 1_000_000_456_123;
+    pub static ref DT_1_E1: DateTimeL = ymdhmsm(&FO_E1, 1970, 1, 12, 14, 46, 40, 456123);
 }
+
+/// matches `DT_0`
+pub const TS_0: EpochMicroseconds = 0;
+
+/// matches `DT_1`
+pub const TS_1: EpochMicroseconds = 1_000_000_456_123;
 
 // ---------------------
 // very simple log files
@@ -238,7 +246,7 @@ lazy_static! {
     );
     pub static ref NTF_SYSLINE_1_PATH: FPath = ntf_fpath(&NTF_SYSLINE_1);
     pub static ref NTF_SYSLINE_1_SYSLINE1_DT: DateTimeL = {
-        ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 5)
+        ymdhms(&FO_0, 2000, 1, 2, 3, 4, 5)
     };
 
     // 2 sysline file
@@ -248,10 +256,10 @@ lazy_static! {
     pub static ref NTF_SYSLINE_2: NamedTempFile = create_temp_log(*NTF_SYSLINE_2_DATA);
     pub static ref NTF_SYSLINE_2_PATH: FPath = ntf_fpath(&NTF_SYSLINE_2);
     pub static ref NTF_SYSLINE_2_SYSLINE1_DT: DateTimeL = {
-        ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 5)
+        ymdhms(&FO_0, 2000, 1, 2, 3, 4, 5)
     };
     pub static ref NTF_SYSLINE_2_SYSLINE2_DT: DateTimeL = {
-        ymdhms(&*FO_0, 2000, 1, 2, 3, 4, 6)
+        ymdhms(&FO_0, 2000, 1, 2, 3, 4, 6)
     };
     pub static ref NTF_SYSLINE_2_SZ: FileSz = {
         (*NTF_SYSLINE_2_DATA).as_bytes().len() as FileSz
@@ -3430,7 +3438,7 @@ pub const LINUX_X86_UTMPX_BUFFER1: [u8; linux_x86::UTMPX_SZ] = [
 
 lazy_static! {
     pub static ref LINUX_X86_UTMPX_BUFFER1_DATETIME: DateTimeL = {
-        ymdhms(&*FO_E8, 2020, 1, 1, 20, 0, 0)
+        ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 0)
     };
 }
 
@@ -3493,7 +3501,7 @@ pub const LINUX_X86_UTMPX_BUFFER2: [u8; linux_x86::UTMPX_SZ] = [
 
 lazy_static! {
     pub static ref LINUX_X86_UTMPX_BUFFER2_DATETIME: DateTimeL = {
-        ymdhms(&*FO_E8, 2020, 1, 1, 20, 0, 4)
+        ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 4)
     };
 }
 
@@ -3614,7 +3622,7 @@ lazy_static! {
         v_
     };
     pub static ref LINUX_X86_UTMPX_1ENTRY_DATETIME1: DateTimeL = {
-        ymdhms(&*FO_E8, 2020, 1, 1, 20, 0, 0)
+        ymdhms(&FO_E8, 2020, 1, 1, 20, 0, 0)
     };
     pub static ref NTF_UTMPX_1ENTRY: NamedTempFile =
         create_temp_file_bytes_with_suffix(
