@@ -191,21 +191,22 @@ lazy_static! {
 
         m
     };
-
-    /// 25 hours.
-    /// For processing syslog files without a year.
-    /// If there is a datetime jump backwards more than this value then
-    /// a year rollover happened.
-    ///
-    /// e.g. given log messages
-    ///     Dec 31 23:59:59 [INFO] One!
-    ///     Jan 1 00:00:00 [INFO] Happy New Year!!!
-    /// These messages interpreted as the same year would be a jump backwards
-    /// in time.
-    /// Of course, this apparent "jump backwards" means the year changed.
-    // XXX: cannot make `const` because `secs` is a private field
-    static ref BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR: Duration = Duration::try_seconds(60 * 60 * 25).unwrap();
 }
+
+
+/// 25 hours.
+/// For processing syslog files without a year.
+/// If there is a datetime jump backwards more than this value then
+/// a year rollover happened.
+///
+/// e.g. given log messages
+///     Dec 31 23:59:59 [INFO] One!
+///     Jan 1 00:00:00 [INFO] Happy New Year!!!
+/// These messages interpreted as the same year would be a jump backwards
+/// in time.
+/// Of course, this apparent "jump backwards" means the year changed.
+// XXX: cannot make `const` because `secs` is a private field
+const BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR: Duration = Duration::try_seconds(60 * 60 * 25).unwrap();
 
 /// The `SyslogProcessor` uses [`SyslineReader`] to find [`Sysline`s] in a file.
 ///
@@ -687,7 +688,7 @@ impl SyslogProcessor {
                     // but if not, then there was probably a year rollover
                     if (*syslinep).dt() > (*syslinep_prev).dt() {
                         let diff: Duration = *(*syslinep).dt() - *(*syslinep_prev).dt();
-                        if diff > *BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR {
+                        if diff > BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR {
                             year_opt = Some(year_opt.unwrap() - 1);
                             defo!("year_opt updated {:?}", year_opt);
                             self.syslinereader
