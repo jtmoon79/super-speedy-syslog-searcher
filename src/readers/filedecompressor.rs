@@ -200,9 +200,21 @@ pub fn decompress_to_ntf(
     let fpath: FPath = path_to_fpath(path_std);
     defo!("fpath {:?}", fpath);
 
-    defo!("tempfile::Builder::new()");
+    // TODO: [2025/11] handle file names too long for $MAX_PATH because this is
+    //       adding a few chars to the name
+    let mut temp_name: String = match path_std.file_name() {
+        Some(val) => val.to_string_lossy().into_owned(),
+        None => {
+            de_err!("path_std.file_stem() None");
+            String::default()
+        }
+    };
+    temp_name = temp_name.replace(SUBPATH_SEP, "_");
+    temp_name.insert_str(0, "s4-");
+    temp_name.push('-');
+    defo!("tempfile::Builder::new({:?}, {:?})", temp_name, suffix);
     let ntf: NamedTempFile = match Builder::new()
-        .prefix("s4-")
+        .prefix(&temp_name)
         .suffix(suffix)
         .tempfile()
     {
