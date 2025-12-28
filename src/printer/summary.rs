@@ -347,44 +347,23 @@ impl SummaryPrinted {
         match summaryblockreader_opt {
             Some(summaryblockreader) => {
                 eprint!("{}bytes         : ", indent2);
-                if self.bytes == 0 && summaryblockreader.blockreader_bytes != 0 {
-                    match print_colored_stderr(
-                        COLOR_ERROR,
-                        color_choice_opt,
-                        self.bytes
-                            .to_string()
-                            .as_bytes(),
-                    ) {
-                        Err(e) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
-                            return;
-                        }
-                        Ok(_) => eprintln!(),
-                    }
-                } else {
-                    eprintln!("{}", self.bytes);
-                }
+                let is_err: bool = self.bytes == 0 && summaryblockreader.blockreader_bytes != 0;
+                eprintln_display_color_error(
+                    &self.bytes,
+                    |_| is_err,
+                    &color_choice_opt.unwrap_or_default(),
+                );
+
                 eprintln!("{}flushes       : {}", indent2, self.flushed);
 
                 if summarylinereader_opt.is_some() {
                     eprint!("{}lines         : ", indent2);
-                    if self.lines == 0 && summaryblockreader.blockreader_bytes != 0 {
-                        match print_colored_stderr(
-                            COLOR_ERROR,
-                            color_choice_opt,
-                            self.lines
-                                .to_string()
-                                .as_bytes(),
-                        ) {
-                            Err(e) => {
-                                eprintln!("\nERROR: print_colored_stderr {:?}", e);
-                                return;
-                            }
-                            Ok(_) => eprintln!(),
-                        }
-                    } else {
-                        eprintln!("{}", self.lines);
-                    }
+                    let is_err: bool = self.lines == 0 && summaryblockreader.blockreader_bytes != 0;
+                    eprintln_display_color_error(
+                        &self.lines,
+                        |_| is_err,
+                        &color_choice_opt.unwrap_or_default(),
+                    );
                 }
             }
             None => {}
@@ -393,23 +372,12 @@ impl SummaryPrinted {
         match summaryfixedstructreader_opt {
             Some(summaryfixedstructreader) => {
                 eprint!("{}entries       : ", indent2);
-                if self.fixedstructentries == 0 && summaryfixedstructreader.fixedstructreader_utmp_entries != 0 {
-                    match print_colored_stderr(
-                        COLOR_ERROR,
-                        color_choice_opt,
-                        self.fixedstructentries
-                            .to_string()
-                            .as_bytes(),
-                    ) {
-                        Err(e) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
-                            return;
-                        }
-                        Ok(_) => eprintln!(),
-                    }
-                } else {
-                    eprintln!("{}", self.fixedstructentries);
-                }
+                let is_err: bool = self.fixedstructentries == 0 && summaryfixedstructreader.fixedstructreader_utmp_entries != 0;
+                eprintln_display_color_error(
+                    &self.fixedstructentries,
+                    |_| is_err,
+                    &color_choice_opt.unwrap_or_default(),
+                );
             }
             None => {}
         }
@@ -419,23 +387,12 @@ impl SummaryPrinted {
             // then hint at an error with colored text
             Some(summarylinereader) => {
                 eprint!("{}syslines      : ", indent2);
-                if self.syslines == 0 && summarylinereader.linereader_lines != 0 {
-                    match print_colored_stderr(
-                        COLOR_ERROR,
-                        color_choice_opt,
-                        self.syslines
-                            .to_string()
-                            .as_bytes(),
-                    ) {
-                        Err(e) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
-                            return;
-                        }
-                        Ok(_) => eprintln!(),
-                    }
-                } else {
-                    eprintln!("{}", self.syslines);
-                }
+                let is_err: bool = self.syslines == 0 && summarylinereader.linereader_lines != 0;
+                eprintln_display_color_error(
+                    &self.syslines,
+                    |_| is_err,
+                    &color_choice_opt.unwrap_or_default(),
+                );
             }
             None => {}
         }
@@ -446,13 +403,12 @@ impl SummaryPrinted {
                     // if no datetime_first was processed but lines were processed
                     // then hint at an error with colored text
                     eprint!("{}datetime first: ", indent2);
-                    match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
-                        Err(e) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
-                            return;
-                        }
-                        Ok(_) => eprintln!(),
-                    }
+                    print_colored_stderr(
+                        COLOR_ERROR,
+                        color_choice_opt,
+                        "None Found".as_bytes(),
+                    );
+                    eprintln!();
                 } else {
                     match self.dt_first {
                         Some(dt) => {
@@ -467,13 +423,8 @@ impl SummaryPrinted {
                     // if no datetime_last was processed but lines were processed
                     // then hint at an error with colored text
                     eprint!("{}datetime last : ", indent2);
-                    match print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes()) {
-                        Err(e) => {
-                            eprintln!("\nERROR: print_colored_stderr {:?}", e);
-                            return;
-                        }
-                        Ok(_) => eprintln!(),
-                    }
+                    print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes());
+                    eprintln!();
                 } else {
                     match self.dt_last {
                         Some(dt) => {
@@ -602,6 +553,7 @@ impl SummaryPrinted {
         flushed: Count,
     ) {
         defñ!();
+        // TODO: can `All` be removed here?
         debug_assert!(
             matches!(self.logmessagetype, LogMessageType::Sysline | LogMessageType::All),
             "Unexpected LogMessageType {:?}", self.logmessagetype,
@@ -666,6 +618,7 @@ impl SummaryPrinted {
         flushed: Count,
     ) {
         defñ!();
+        // TODO: can `All` be removed here?
         debug_assert!(
             matches!(self.logmessagetype, LogMessageType::Evtx | LogMessageType::All),
             "Unexpected LogMessageType {:?}", self.logmessagetype,
@@ -683,6 +636,7 @@ impl SummaryPrinted {
         flushed: Count,
     ) {
         defñ!();
+        // TODO: can `All` be removed here?
         debug_assert!(
             matches!(self.logmessagetype, LogMessageType::Journal | LogMessageType::All),
             "Unexpected LogMessageType {:?}", self.logmessagetype,
@@ -825,10 +779,19 @@ impl SummaryPrinted {
                 Self::summaryprint_map_update_evtx(evtx, pathid, map_, printed, flushed)
             }
             LogMessage::FixedStruct(entry) => {
-                Self::summaryprint_map_update_fixedstruct(entry, pathid, map_, printed, flushed)
+                Self::summaryprint_map_update_fixedstruct(
+                    entry, pathid, map_, printed, flushed
+                )
             }
             LogMessage::Journal(journalentry) => {
-                Self::summaryprint_map_update_journalentry(journalentry, pathid, map_, printed, flushed)
+                Self::summaryprint_map_update_journalentry(
+                    journalentry, pathid, map_, printed, flushed
+                )
+            }
+            LogMessage::PyEvent(pyevent, pyevent_type) => {
+                Self::summaryprint_map_update_pyevent(
+                    pyevent, pathid, *pyevent_type, map_, printed, flushed
+                )
             }
             LogMessage::Sysline(syslinep) => {
                 Self::summaryprint_map_update_sysline(syslinep, pathid, map_, printed, flushed)
@@ -884,14 +847,12 @@ pub fn print_summary(
 ) {
     let finish_time = Instant::now();
     // reset the text color to default
-    match print_colored_stderr(
+    print_colored_stderr(
         color_default,
         Some(color_choice),
         "".as_bytes()
-    ) {
-        Ok(_) => {}
-        Err(_e) => de!("\nERROR: print_colored_stderr {:?}", _e),
-    }
+    );
+
     // print details about all the valid files
     print_all_files_summaries(
         &map_pathid_path,
@@ -978,17 +939,7 @@ pub fn print_summary(
         }
         None => eprintln!(),
     }
-    // print the time now as this program sees it, drop sub-second values
-    let local_now = Local
-        .with_ymd_and_hms(
-            local_now.year(),
-            local_now.month(),
-            local_now.day(),
-            local_now.hour(),
-            local_now.minute(),
-            local_now.second(),
-        )
-        .unwrap();
+    // print the time now as this program sees it
     let local_now_s = local_now.format(DATETIMEFMT);
     eprint!("Datetime Now           : {} ", local_now_s);
     // print UTC now without fractional, and with numeric offset `-00:00`
@@ -1070,14 +1021,11 @@ fn print_file_about(
 ) {
     eprint!("File: ");
     // print path
-    match print_colored_stderr(
+    print_colored_stderr(
         *color,
         Some(*color_choice),
         fpath_to_prependpath(path).as_bytes()
-    ) {
-        Ok(_) => {}
-        Err(e) => e_err!("print_colored_stderr: {:?}", e)
-    }
+    );
     eprintln!("\n{}About:", OPT_SUMMARY_PRINT_INDENT1);
     // XXX: experimentation revealed std::fs::Metadata::is_symlink to be unreliable on WSL Ubuntu
     let mut path1: &str = path.as_str();
@@ -1131,14 +1079,11 @@ fn print_file_about(
     if let Some(result) = file_processing_result {
         if matches!(result, FileProcessingResultBlockZero::FileErrEmpty) {
             eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
-            match print_colored_stderr(
+            print_colored_stderr(
                 COLOR_ERROR,
                 Some(*color_choice),
-                format!("{:?}", result).as_bytes(),
-            ) {
-                Ok(_) => {}
-                Err(e) => e_err!("print_colored_stderr: {:?}", e)
-            }
+                format!("{}", result).as_bytes(),
+            );
             eprintln!();
             return;
         }
@@ -1403,19 +1348,11 @@ fn print_summary_opt_processed(
             eprintln!("{}Events accepted    : {}", indent2, summaryevtxreader.evtxreader_events_accepted);
             // print out of order. If there are any, print in red.
             eprint!("{}Events out of order: ", indent2);
-            if summaryevtxreader.evtxreader_out_of_order == 0 {
-                eprintln!("{}", summaryevtxreader.evtxreader_out_of_order);
-            } else {
-                let data = format!("{}", summaryevtxreader.evtxreader_out_of_order);
-                match print_colored_stderr(
-                    COLOR_ERROR,
-                    Some(*color_choice),
-                    data.as_bytes(),
-                ) {
-                    Ok(_) => eprintln!(),
-                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
-                }
-            }
+            eprintln_display_color_error(
+                &summaryevtxreader.evtxreader_out_of_order,
+                |x| *x != 0,
+                color_choice,
+            );
             match summaryevtxreader.evtxreader_datetime_first_processed {
                 Some(dt) => {
                     eprint!("{}datetime first     : ", indent2);
@@ -1446,38 +1383,22 @@ fn print_summary_opt_processed(
             );
             // print out of order. If there are any, print in red.
             eprint!("{}out of order  : ", indent2);
-            if summaryjournalreader.journalreader_out_of_order == 0 {
-                eprintln!("{}", summaryjournalreader.journalreader_out_of_order);
-            } else {
-                let data = format!("{}", summaryjournalreader.journalreader_out_of_order);
-                match print_colored_stderr(
-                    COLOR_ERROR,
-                    Some(*color_choice),
-                    data.as_bytes(),
-                ) {
-                    Ok(_) => eprintln!(),
-                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
-                }
-            }
+            eprintln_display_color_error(
+                &summaryjournalreader.journalreader_out_of_order,
+                |n| *n != 0,
+                color_choice,
+            );
             eprintln!(
                 "{}lib. API calls: {}",
                 indent2, summaryjournalreader.journalreader_api_calls,
             );
             // print API call errors. If there are any, print in red.
             eprint!("{}API errors    : ", indent2);
-            if summaryjournalreader.journalreader_api_call_errors == 0 {
-                eprintln!("{}", summaryjournalreader.journalreader_api_call_errors);
-            } else {
-                let data = format!("{}", summaryjournalreader.journalreader_api_call_errors);
-                match print_colored_stderr(
-                    COLOR_ERROR,
-                    Some(*color_choice),
-                    data.as_bytes(),
-                ) {
-                    Ok(_) => eprintln!(),
-                    Err(e) => e_err!("print_colored_stderr: {:?}", e),
-                }
-            }
+            eprintln_display_color_error(
+                &summaryjournalreader.journalreader_api_call_errors,
+                |n| *n != 0,
+                color_choice,
+            );
             match summaryjournalreader.journalreader_datetime_first_processed {
                 Some(dt) => {
                     eprint!("{}datetime first: ", indent2);
@@ -1650,8 +1571,7 @@ fn print_summary_opt_processed_summaryblockreader(
     );
 }
 
-/// Print the (optional) `SummaryPrinted` (one line) printed section for
-/// one file.
+/// Print the (optional) `SummaryPrinted` section for one file.
 pub fn print_summary_opt_printed(
     summary_print_opt: &SummaryPrintedOpt,
     summary_opt: &SummaryOpt,
@@ -1710,22 +1630,12 @@ fn print_cache_stats_summaryblockreader(
         widep = WIDEP,
     );
     // append the rereads count, colorize if greater than 0
-    let rereads_err_str = format!(
-        " (rereads {})\n",
-        summaryblockreader.blockreader_read_blocks_reread_error,
+    let rereads = summaryblockreader.blockreader_read_blocks_reread_error;
+    eprintln_display_color_error(
+        &format!(" (rereads {})", rereads),
+        |_| rereads > 0,
+        color_choice,
     );
-    if summaryblockreader.blockreader_read_blocks_reread_error > 0 {
-        match print_colored_stderr(
-            COLOR_ERROR, 
-            Some(*color_choice),
-            rereads_err_str.as_bytes()
-        ) {
-            Ok(_) => {}
-            Err(e) => e_err!("print_colored_stderr: {:?}", e)
-        }
-    } else {
-        write_stderr(rereads_err_str.as_bytes());
-    }
     // BlockReader::_read_blocks_cache
     percent = percent64(
         &summaryblockreader.blockreader_read_block_lru_cache_hit,
@@ -2097,12 +2007,18 @@ fn print_error_summary(
     match summary_opt.as_ref() {
         Some(summary_) => match &summary_.error {
             Some(err_string) => {
-                eprint!("{}Error: ", OPT_SUMMARY_PRINT_INDENT1);
-                #[allow(clippy::single_match)]
-                match print_colored_stderr(COLOR_ERROR, Some(*color_choice), err_string.as_bytes()) {
-                    Ok(_) => {}
-                    Err(e) => e_err!("print_colored_stderr: {:?}", e)
+                eprint!("{}Error:", OPT_SUMMARY_PRINT_INDENT1);
+                if err_string.contains("\n") {
+                    eprintln!();
+                } else {
+                    eprint!(" ");
                 }
+                #[allow(clippy::single_match)]
+                print_colored_stderr(
+                    COLOR_ERROR,
+                    Some(*color_choice),
+                    err_string.as_bytes(),
+                );
                 eprintln!();
             }
             None => {}
@@ -2261,10 +2177,11 @@ fn print_files_processpathresult(
         color_choice: &ColorChoice,
         color: &Color,
     ) {
-        match print_colored_stderr(*color, Some(*color_choice), buffer.as_bytes()) {
-            Ok(_) => {}
-            Err(e) => e_err!("print_colored_stderr: {:?}", e),
-        };
+        print_colored_stderr(
+            *color,
+            Some(*color_choice),
+            buffer.as_bytes(),
+        );
     }
 
     for (_pathid, result) in map_pathid_result.iter() {

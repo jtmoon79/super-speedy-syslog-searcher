@@ -23,7 +23,6 @@ use ::more_asserts::{
     debug_assert_le,
     debug_assert_lt,
 };
-use ::lazy_static::lazy_static;
 use ::si_trace_print::printers::debug_print_guard;
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -37,6 +36,7 @@ pub use ::termcolor::{
     Color,
     ColorChoice,
     ColorSpec,
+    StandardStream,
     WriteColor,
 };
 
@@ -213,14 +213,9 @@ pub const COLOR_THEME_DEFAULT: ColorTheme = ColorTheme::Dark;
 // ----------------
 // helper functions
 
-lazy_static! {
-    /// Global setting for the color theme.
-    pub static ref ColorThemeGlobal: RwLock<ColorTheme> = {
-        defñ!("lazy_static! ColorThemeGlobal");
-
-        RwLock::new(COLOR_THEME_DEFAULT)
-    };
-}
+/// Global setting for the color theme.
+#[allow(non_upper_case_globals)]
+pub const ColorThemeGlobal: RwLock<ColorTheme> = RwLock::new(COLOR_THEME_DEFAULT);
 
 /// "Cached" indexing value for `color_rand`.
 ///
@@ -335,7 +330,7 @@ pub struct PrinterLogMessage {
     /// handle to stdout
     stdout: std::io::Stdout,
     /// termcolor handle to stdout
-    stdout_color: termcolor::StandardStream,
+    stdout_color: StandardStream,
     /// should printing be in color?
     do_color: bool,
     /// termcolor::ColorChoice
@@ -753,7 +748,7 @@ impl PrinterLogMessage {
         );
         // get a stdout handle once
         let stdout = std::io::stdout();
-        let stdout_color = termcolor::StandardStream::stdout(color_choice);
+        let stdout_color = StandardStream::stdout(color_choice);
         let do_color: bool = match color_choice {
             ColorChoice::Never => false,
             ColorChoice::Always | ColorChoice::AlwaysAnsi | ColorChoice::Auto => true,
@@ -2204,7 +2199,7 @@ pub fn print_colored_stderr(
     color: Color,
     color_choice_opt: Option<ColorChoice>,
     value: &[u8],
-) -> std::io::Result<()> {
+) {
     let choice: ColorChoice = match color_choice_opt {
         Some(choice_) => choice_,
         None => ColorChoice::Auto,
@@ -2214,7 +2209,12 @@ pub fn print_colored_stderr(
     //let _stderr_lock = std::io::stderr().lock();
     let _si_lock = debug_print_guard();
 
-    print_colored(color, value, &mut stderr)
+    match print_colored(color, value, &mut stderr) {
+        Ok(_) => {}
+        Err(e) => {
+            eprintln!("\nERROR: print_colored_stderr {:?}", e);
+        }
+    }
 }
 
 /// Safely write the `buffer` to stdout with help of [`StdoutLock`].
@@ -2250,7 +2250,7 @@ pub fn write_stdout(buffer: &[u8]) {
 ///
 /// [`StderrLock`]: std::io::StderrLock
 pub fn write_stderr(buffer: &[u8]) {
-    //let mut stdout_lock = std::io::stdout().lock();
+    let stdout_lock = std::io::stdout().lock();
     let mut stderr_lock = std::io::stderr().lock();
     let _si_lock = debug_print_guard();
     // BUG: this print is shown during `cargo test` yet nearby `eprintln!` are not seen
@@ -2274,5 +2274,6 @@ pub fn write_stderr(buffer: &[u8]) {
             de_err!("stderr flushing error {}", _err);
         }
     }
-    //_ = stdout_lock.flush();
+    drop(stdout_lock);
+    drop(stderr_lock);
 }
