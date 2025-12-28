@@ -733,7 +733,9 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     // regex matching tests
     //
     eprintln!("Test Regex self-tests …");
-    eprintln!("  Regex Pattern     : {:?}", dtpd.regex_pattern);
+    eprintln!("  Regex Pattern         : {:?}", dtpd.regex_pattern);
+    let r_noraw = buffer_to_String_noraw(dtpd.regex_pattern.as_bytes());
+    eprintln!("  Regex Pattern (no raw): {}", r_noraw);
     eprintln!("  DateTime Pattern  : {:?}", dtpd.dtfs.pattern);
     let dummy_fpath: FPath = FPath::from("test_DATETIME_PARSE_DATAS_test_cases");
     for test_case_ in dtpd._test_cases {
@@ -875,7 +877,7 @@ fn test_Map_TZ_names() {
 /// declared.
 fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
     stack_offset_set(Some(2));
-    let _tz = *FO_P1;
+    let _tz = FO_P1;
     for (index, dtpd) in DATETIME_PARSE_DATAS
         .iter()
         .enumerate()
@@ -1104,7 +1106,7 @@ fn test_dt_pass_filters_z() {
     defn!();
 
     fn DTLz(s: &str) -> DateTimeL {
-        let tz_dummy = *FO_0;
+        let tz_dummy = FO_0;
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, &tz_dummy).unwrap()
     }
 
@@ -1213,7 +1215,7 @@ fn test_dt_after_or_before() {
     defn!();
 
     fn DTL(s: &str) -> DateTimeL {
-        let tz_offset = *FO_M8;
+        let tz_offset = FO_M8;
         datetime_parse_from_str(s, "%Y%m%dT%H%M%S", false, &tz_offset).unwrap()
     }
 
