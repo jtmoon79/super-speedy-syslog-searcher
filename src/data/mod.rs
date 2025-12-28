@@ -114,4 +114,5 @@ pub mod evtx;
 pub mod fixedstruct;
 pub mod journal;
 pub mod line;
+pub mod pydataevent;
 pub mod sysline;

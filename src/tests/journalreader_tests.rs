@@ -618,8 +618,8 @@ fn test_JournalReader_next_summary(
     assert_eq!(summary_c.filetype.unwrap(), FILETYPE_JOURNAL, "summary_c.filetype");
     assert_eq!(summary_c.logmessagetype, LogMessageType::Journal, "summary_c.logmessagetype");
     assert!(summary_c.blockreader().is_none());
-    assert_eq!(summary_c.datetime_first(), &datetime_first_accepted);
-    assert_eq!(summary_c.datetime_last(), &datetime_last_accepted);
+    assert_eq!(summary_c.datetime_first_printed(), &datetime_first_accepted);
+    assert_eq!(summary_c.datetime_last_printed(), &datetime_last_accepted);
     assert_eq!(summary_c.max_drop(), 0);
     assert_eq!(summary_c.max_hit_miss(), events_accepted);
     match summary_c.readerdata {

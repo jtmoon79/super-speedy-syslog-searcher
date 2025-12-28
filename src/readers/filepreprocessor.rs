@@ -39,6 +39,7 @@ use crate::common::{
     FileTypeArchive,
     FileTypeFixedStruct,
     FileTypeTextEncoding,
+    OdlSubType,
     SUBPATH_SEP,
 };
 use crate::debug::printers::de_err;
@@ -353,6 +354,15 @@ fn pathbuf_to_filetype_impl(
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
         }
+        "etl" => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Etl {
+                    archival_type: fta,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
         "evtx" => {
             let ret = PathToFiletypeResult::Filetype(
                 FileType::Evtx {
@@ -371,6 +381,20 @@ fn pathbuf_to_filetype_impl(
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
         }
+        // `.loggz` is a OneDrive convention, though it typically wraps UTF-16 log files
+        "loggz" => {
+            defo!("file_suffix {:?} is a gzip but a OneDrive convention", file_suffix);
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Text {
+                    archival_type: FileTypeArchive::Gz,
+                    encoding_type: FileTypeTextEncoding::Utf16,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        // `.gz` is very common
+        // `.gzip` I have seen but I don't recall where
         "gz" | "gzip" => {
             defo!("file_suffix {:?} is a gzip", file_suffix);
             let ret = pathbuf_to_filetype_impl(
@@ -387,6 +411,29 @@ fn pathbuf_to_filetype_impl(
                 &pathbuf.clone().with_extension(""),
                 unparseable_are_text,
                 Some(FileTypeArchive::Lz4),
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
+        odl_sub_type @ "aodl"
+        | odl_sub_type @ "odl"
+        | odl_sub_type @ "odlsent"
+        | odl_sub_type @ "odlgz" => {
+            let odl_sub_type_enum: OdlSubType = match odl_sub_type {
+                "aodl" => OdlSubType::Aodl,
+                "odl" => OdlSubType::Odl,
+                "odlsent" => OdlSubType::Odlsent,
+                "odlgz" => OdlSubType::Odlgz,
+                _ => {
+                    debug_panic!("unexpected odl_sub_type {:?}", odl_sub_type);
+                    OdlSubType::Odl
+                }
+            };
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Odl {
+                    archival_type: fta,
+                    odl_sub_type: odl_sub_type_enum,
+                }
             );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
             return ret;
@@ -577,6 +624,34 @@ fn pathbuf_to_filetype_impl(
         }
     }
 
+    let file_name_sl: String = file_name
+        .to_str()
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    let file_name_s: &str = file_name_sl.as_str();
+
+    defo!("match file_name_s {:?}", file_name_s);
+    match file_name_s {
+        // OneDrive mapping files
+        "general.keystore"
+        | "ObfuscationStringMap.txt"
+        => {
+            match unparseable_are_text {
+                true => {
+                    defx!("file_name_s {:?} (OneDrive mapping), return {:?}", file_name_s, RET_FALLBACK_TEXT);
+                    return RET_FALLBACK_TEXT;
+                }
+                false => {
+                    defx!("file_name_s {:?} (OneDrive mapping), return {:?}", file_name_s, RET_FALLBACK_UNPARSABLE);
+                    return RET_FALLBACK_UNPARSABLE;
+                }
+            }
+        }
+        _ => {}
+    }
+
+    defo!("match file_suffix.is_empty() {:?}", file_suffix.is_empty());
+
     if !file_suffix.is_empty() {
         defo!("file_suffix {:?} not empty; remove it and call again", file_suffix);
         // remove the file suffix/extension and call again
@@ -591,12 +666,7 @@ fn pathbuf_to_filetype_impl(
 
     // getting here means there is no suffix/extension in the file name
 
-    let file_name_sl: String = file_name
-        .to_str()
-        .unwrap_or_default()
-        .to_ascii_lowercase();
-    let file_name_s: &str = file_name_sl.as_str();
-    defo!("file_name_s   {:?}", file_name_s);
+    defo!("match file_name_s.is_empty() {:?}", file_name_s.is_empty());
 
     if file_name_s.is_empty() {
         match unparseable_are_text {
@@ -610,6 +680,8 @@ fn pathbuf_to_filetype_impl(
             }
         }
     }
+
+    defo!("match file_name_s {:?}", file_name_s);
 
     match file_name_s {
         "dmesg"
@@ -883,6 +955,26 @@ pub fn process_path_tar(
         match pathtofileresult {
             PathToFiletypeResult::Filetype(filetype) => {
                 match filetype {
+                    // Etl
+                    FileType::Etl { archival_type: at @ FileTypeArchive::Bz2, .. }
+                    | FileType::Etl { archival_type: at @ FileTypeArchive::Gz, .. }
+                    | FileType::Etl { archival_type: at @ FileTypeArchive::Lz4, .. }
+                    | FileType::Etl{ archival_type: at @ FileTypeArchive::Xz, .. }
+                    | FileType::Etl{ archival_type: at @ FileTypeArchive::Tar, .. }
+                    => {
+                        result = ProcessPathResult::FileErrNotSupported(
+                            fullpath,
+                            Some(String::from(
+                                format!("cannot extract {} type from a tar archived file", at)
+                            ))
+                        );
+                    }
+                    FileType::Etl { archival_type: FileTypeArchive::Normal, .. }
+                    => {
+                        result = ProcessPathResult::FileValid(
+                            fullpath, FileType::Etl { archival_type: FileTypeArchive::Tar }
+                        );
+                    }
                     // Evtx
                     FileType::Evtx { archival_type: at @ FileTypeArchive::Bz2, .. }
                     | FileType::Evtx { archival_type: at @ FileTypeArchive::Gz, .. }
@@ -923,6 +1015,26 @@ pub fn process_path_tar(
                             fullpath, FileType::FixedStruct {
                                 archival_type: FileTypeArchive::Tar, fixedstruct_type: ft
                             }
+                        );
+                    }
+                    // Odl
+                    FileType::Odl { archival_type: at @ FileTypeArchive::Bz2, .. }
+                    | FileType::Odl { archival_type: at @ FileTypeArchive::Gz, .. }
+                    | FileType::Odl { archival_type: at @ FileTypeArchive::Lz4, .. }
+                    | FileType::Odl{ archival_type: at @ FileTypeArchive::Xz, .. }
+                    | FileType::Odl{ archival_type: at @ FileTypeArchive::Tar, .. }
+                    => {
+                        result = ProcessPathResult::FileErrNotSupported(
+                            fullpath,
+                            Some(String::from(
+                                format!("cannot extract {} type from a tar archived file", at)
+                            ))
+                        );
+                    }
+                    FileType::Odl { archival_type: FileTypeArchive::Normal, odl_sub_type }
+                    => {
+                        result = ProcessPathResult::FileValid(
+                            fullpath, FileType::Odl { archival_type: FileTypeArchive::Tar, odl_sub_type }
                         );
                     }
                     // Journal
@@ -1126,7 +1238,13 @@ pub fn process_path(
             }
         };
         match filetype {
-            FileType::Evtx{ archival_type: FileTypeArchive::Normal }
+            FileType::Etl{ archival_type: FileTypeArchive::Normal }
+            | FileType::Etl{ archival_type: FileTypeArchive::Bz2 }
+            | FileType::Etl{ archival_type: FileTypeArchive::Gz }
+            | FileType::Etl{ archival_type: FileTypeArchive::Lz4 }
+            | FileType::Etl{ archival_type: FileTypeArchive::Tar }
+            | FileType::Etl{ archival_type: FileTypeArchive::Xz }
+            | FileType::Evtx{ archival_type: FileTypeArchive::Normal }
             | FileType::Evtx{ archival_type: FileTypeArchive::Bz2 }
             | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
             | FileType::Evtx{ archival_type: FileTypeArchive::Lz4 }
@@ -1144,6 +1262,7 @@ pub fn process_path(
             | FileType::Journal{ archival_type: FileTypeArchive::Lz4 }
             | FileType::Journal{ archival_type: FileTypeArchive::Tar }
             | FileType::Journal{ archival_type: FileTypeArchive::Xz }
+            | FileType::Odl{ archival_type: FileTypeArchive::Normal, odl_sub_type: _ }
             | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii }
             | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: FileTypeTextEncoding::Utf8Ascii }
             | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
@@ -1153,6 +1272,18 @@ pub fn process_path(
             => {
                 deo!("paths.push(FileValid(({:?}, {:?})))", fpath_entry, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, filetype));
+            }
+            ft @ FileType::Odl{ archival_type: FileTypeArchive::Bz2, odl_sub_type: _ }
+            | ft @ FileType::Odl{ archival_type: FileTypeArchive::Gz, odl_sub_type: _ }
+            | ft @ FileType::Odl{ archival_type: FileTypeArchive::Lz4, odl_sub_type: _ }
+            | ft @ FileType::Odl{ archival_type: FileTypeArchive::Tar, odl_sub_type: _ }
+            | ft @ FileType::Odl{ archival_type: FileTypeArchive::Xz, odl_sub_type: _ }
+           => {
+                deo!("Odl archived is not supported {:?}", std_path_entry);
+                paths.push(ProcessPathResult::FileErrNotSupported(
+                    fpath_entry,
+                    Some(format!("Compressed ODL {}", ft.archival_type())),
+                ));
             }
             ft @ FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf16 }
             | ft @ FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf32 }

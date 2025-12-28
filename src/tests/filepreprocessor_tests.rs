@@ -23,6 +23,7 @@ use crate::common::{
     FileTypeArchive,
     FileTypeFixedStruct,
     FileTypeTextEncoding,
+    OdlSubType,
 };
 use crate::debug::helpers::{
     create_files_and_tmpdir,
@@ -116,6 +117,23 @@ const FTTXZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
         encoding_type: FileTypeTextEncoding::Utf8Ascii,
     }
 );
+// Etl
+const FTETL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Etl { archival_type: FileTypeArchive::Normal }
+);
+const FTETLBZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Etl { archival_type: FileTypeArchive::Bz2 }
+);
+const FTETLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Etl { archival_type: FileTypeArchive::Gz }
+);
+const FTETLLZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Etl { archival_type: FileTypeArchive::Lz4 }
+);
+const FTETLXZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Etl { archival_type: FileTypeArchive::Xz }
+);
+// Evtx
 const FTEVTXN: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Evtx {
         archival_type: FileTypeArchive::Normal,
@@ -168,6 +186,73 @@ const FTJOURNALX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 );
 const FTUNPARSABLE: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Unparsable,
+);
+//
+// ODL
+//
+const FTAODL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Normal , odl_sub_type: OdlSubType::Aodl }
+);
+const FTODL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Normal , odl_sub_type: OdlSubType::Odl }
+);
+const FTODLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Normal , odl_sub_type: OdlSubType::Odlgz }
+);
+const FTODLSENT: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Normal , odl_sub_type: OdlSubType::Odlsent }
+);
+// .odl.bz2
+const FTAODL_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Bz2 , odl_sub_type: OdlSubType::Aodl }
+);
+const FTODL_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Bz2 , odl_sub_type: OdlSubType::Odl }
+);
+const FTODLGZ_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Bz2 , odl_sub_type: OdlSubType::Odlgz }
+);
+const FTODLSENT_BZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Bz2 , odl_sub_type: OdlSubType::Odlsent }
+);
+// .odl.gz
+const FTAODL_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Gz , odl_sub_type: OdlSubType::Aodl }
+);
+const FTODL_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Gz , odl_sub_type: OdlSubType::Odl }
+);
+const FTODLGZ_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Gz , odl_sub_type: OdlSubType::Odlgz }
+);
+const FTODLSENT_GZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Gz , odl_sub_type: OdlSubType::Odlsent }
+);
+// .old.lz4
+const FTAODL_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Lz4 , odl_sub_type: OdlSubType::Aodl }
+);
+const FTODL_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Lz4 , odl_sub_type: OdlSubType::Odl }
+);
+const FTODLGZ_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Lz4 , odl_sub_type: OdlSubType::Odlgz }
+);
+const FTODLSENT_LZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Lz4 , odl_sub_type: OdlSubType::Odlsent }
+);
+// .old.xz
+const FTAODL_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Xz , odl_sub_type: OdlSubType::Aodl }
+);
+const FTODL_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Xz , odl_sub_type: OdlSubType::Odl }
+);
+const FTODLGZ_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Xz , odl_sub_type: OdlSubType::Odlgz }
+);
+const FTODLSENT_XZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Odl { archival_type: FileTypeArchive::Xz , odl_sub_type: OdlSubType::Odlsent }
 );
 // PathToFiletypeResult::Archive consts
 const AMTARN: PathToFiletypeResult = PathToFiletypeResult::Archive(
@@ -383,7 +468,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("setup.log.full.old", FTTN8, true)]
 #[test_case("setup.log.full.old.1", FTTN8, true)]
 #[test_case("setup.log.full.old.2", FTTN8, true)]
-#[test_case("SIH.20230422.034724.362.1.etl", FTTN8, true)]
 // TEXT bz2
 #[test_case("syslog.bz2", FTTB8, true)]
 #[test_case("syslog.1.bz2", FTTB8, true)]
@@ -453,6 +537,69 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("data.tar.gz", AMTARG, true)]
 // xz
 #[test_case("data.tar.xz", AMTARX, true)]
+//
+// ETL
+//
+#[test_case("SIH.20230422.034724.362.1.etl", FTETL, true; ".etl true")]
+#[test_case("SIH.20230422.034724.362.1.etl", FTETL, false; ".etl false")]
+#[test_case("SIH.20230422.034724.362.1.etl.bz2", FTETLBZ2, true; ".etl.bz2 true")]
+#[test_case("SIH.20230422.034724.362.1.etl.bz2", FTETLBZ2, false; ".etl.bz2 false")]
+#[test_case("SIH.20230422.034724.362.1.etl.gz", FTETLGZ, true; "etl.gz true")]
+#[test_case("SIH.20230422.034724.362.1.etl.gz", FTETLGZ, false; "etl.gz false")]
+#[test_case("SIH.20230422.034724.362.1.etl.lz4", FTETLLZ4, true; "etl.lz4 true")]
+#[test_case("SIH.20230422.034724.362.1.etl.lz4", FTETLLZ4, false; "etl.lz4 false")]
+// TODO: add .tar test cases
+#[test_case("SIH.20230422.034724.362.1.etl.xz", FTETLXZ, true; "etl.xz true")]
+#[test_case("SIH.20230422.034724.362.1.etl.xz", FTETLXZ, false; "etl.xz false")]
+//
+// ODL
+//
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl", FTAODL, true; "aodl true")]
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl", FTAODL, false; "aodl false")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl", FTODL, true; "ODL true")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl", FTODL, false; "ODL false")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz", FTODLGZ, true; "ODLGZ true")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz", FTODLGZ, false; "ODLGZ false")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent", FTODLSENT, true; "ODLSENT true")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent", FTODLSENT, false; "ODLSENT false")]
+// .odl.bz2
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl.bz2", FTAODL_BZ2, true; "aodl.bz2 true")]
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl.bz2", FTAODL_BZ2, false; "aodl.bz2 false")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl.bz2", FTODL_BZ2, true; "ODL.bz2 true")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl.bz2", FTODL_BZ2, false; "ODL.bz2 false")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz.bz2", FTODLGZ_BZ2, true; "ODLGZ.bz2 true")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz.bz2", FTODLGZ_BZ2, false; "ODLGZ.bz2 false")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent.bz2", FTODLSENT_BZ2, true; "ODLSENT.bz2 true")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent.bz2", FTODLSENT_BZ2, false; "ODLSENT.bz2 false")]
+// .odl.gz
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl.gz", FTAODL_GZ, true; "aodl.gz true")]
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl.gz", FTAODL_GZ, false; "aodl.gz false")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl.gz", FTODL_GZ, true; "ODL.gz true")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl.gz", FTODL_GZ, false; "ODL.gz false")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz.gz", FTODLGZ_GZ, true; "ODLGZ.gz true")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz.gz", FTODLGZ_GZ, false; "ODLGZ.gz false")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent.gz", FTODLSENT_GZ, true; "ODLSENT.gz true")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent.gz", FTODLSENT_GZ, false; "ODLSENT.gz false")]
+// .odl.lz4
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl.lz4", FTAODL_LZ4, true; "aodl.lz4 true")]
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl.lz4", FTAODL_LZ4, false; "aodl.lz4 false")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl.lz4", FTODL_LZ4, true; "ODL.lz4 true")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl.lz4", FTODL_LZ4, false; "ODL.lz4 false")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz.lz4", FTODLGZ_LZ4, true; "ODLGZ.lz4 true")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz.lz4", FTODLGZ_LZ4, false; "ODLGZ.lz4 false")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent.lz4", FTODLSENT_LZ4, true; "ODLSENT.lz4 true")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent.lz4", FTODLSENT_LZ4, false; "ODLSENT.lz4 false")]
+// .old.tar
+// TODO: Add test cases for .odl.tar if needed
+// .odl.xz
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl.xz", FTAODL_XZ, true; "aodl.xz true")]
+#[test_case("Nucleus-2025-12-23.1618.7692.3.aodl.xz", FTAODL_XZ, false; "aodl.xz false")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl.xz", FTODL_XZ, true; "ODL.xz true")]
+#[test_case("FileCoAuth-2025-12-21.1216.11020.1.odl.xz", FTODL_XZ, false; "ODL.xz false")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz.xz", FTODLGZ_XZ, true; "ODLGZ.xz true")]
+#[test_case("Nucleus-2025-12-23.1330.10164.1.odlgz.xz", FTODLGZ_XZ, false; "ODLGZ.xz false")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent.xz", FTODLSENT_XZ, true; "ODLSENT.xz true")]
+#[test_case("Sentinel-2025-12-24.0915.1234.2.odlsent.xz", FTODLSENT_XZ, false; "ODLSENT.xz false")]
 //
 // FIXEDSTRUCT
 //

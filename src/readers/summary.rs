@@ -29,6 +29,7 @@ use ::si_trace_print::{
 };
 
 use crate::common::{
+    debug_assert_nones,
     debug_panic,
     Count,
     FPath,
@@ -55,24 +56,12 @@ use crate::readers::evtxreader::SummaryEvtxReader;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::journalreader::SummaryJournalReader;
 use crate::readers::linereader::SummaryLineReader;
+use crate::readers::pyeventreader::SummaryPyEventReader;
 use crate::readers::syslinereader::SummarySyslineReader;
 use crate::readers::syslogprocessor::SummarySyslogProcessor;
 
 // -------
 // Summary
-
-/// Panic if the argument is `None` in debug builds.
-#[macro_export]
-macro_rules! debug_assert_none {
-    ($($arg:expr),+) => {
-        $(
-            if cfg!(debug_assertions)
-            {
-                assert!(($arg).is_none(), "'{}' is not None", stringify!($arg));
-            }
-        )+
-    };
-}
 
 /// wrapper for various `Summary*` data types for different files corresponding
 /// to [`LogMessage`] variants.
@@ -92,6 +81,10 @@ pub enum SummaryReaderData {
     ///
     /// [`FixedStructReader`]: crate::readers::fixedstructreader::FixedStructReader
     FixedStruct((SummaryBlockReader, SummaryFixedStructReader)),
+    /// For an [`PyEventReader`].
+    ///
+    /// [`PyEventReader`]: crate::readers::pyeventreader::PyEventReader
+    PyEvent(SummaryPyEventReader),
     /// For a [`EvtxReader`].
     ///
     /// [`EvtxReader`]: crate::readers::evtxreader::EvtxReader
@@ -135,6 +128,9 @@ pub struct Summary {
     /// When `logmessagetype` is [`LogMessageType::FixedStruct*`] then this must
     /// be [`SummaryReaderData::FixedStruct`].
     ///
+    /// When `logmessagetype` is [`LogMessageType::Etl`] then this must be
+    /// [`SummaryReaderData::Etl`].
+    ///
     /// When `logmessagetype` is [`LogMessageType::Evtx`] then this must be
     /// [`SummaryReaderData::Etvx`].
     ///
@@ -170,10 +166,12 @@ impl Summary {
         summarysyslinereader_opt: Option<SummarySyslineReader>,
         summarysyslogprocessor_opt: Option<SummarySyslogProcessor>,
         summaryfixedstructreader_opt: Option<SummaryFixedStructReader>,
+        summarypyeventreader_opt: Option<SummaryPyEventReader>,
         summaryevtxreader_opt: Option<SummaryEvtxReader>,
         summaryjournalreader_opt: Option<SummaryJournalReader>,
         error: Option<String>,
     ) -> Summary {
+        def1n!("logmessagetype {:?}", logmessagetype);
         #[cfg(any(debug_assertions, test))]
         match summaryblockreader_opt.as_ref() {
             // XXX: random sanity checks
@@ -193,9 +191,15 @@ impl Summary {
         //      leading to a `syslinereader_syslines` that is more than `linereader_lines`.
         //      See `syslogprocessor.process_missing_year()`.
         //debug_assert_ge!(linereader_lines, syslinereader_syslines, "There is less Lines than Syslines");
+
         match logmessagetype {
             LogMessageType::Sysline => {
-                debug_assert_none!(summaryfixedstructreader_opt, summaryevtxreader_opt);
+                debug_assert_nones!(
+                    summaryfixedstructreader_opt,
+                    summarypyeventreader_opt,
+                    summaryevtxreader_opt,
+                    summaryjournalreader_opt
+                );
                 let summaryblockreader = summaryblockreader_opt.unwrap();
                 let summarylinereader = summarylinereader_opt.unwrap();
                 let summarysyslinereader = summarysyslinereader_opt.unwrap();
@@ -226,10 +230,11 @@ impl Summary {
                 }
             }
             LogMessageType::FixedStruct => {
-                debug_assert_none!(
+                debug_assert_nones!(
                     summarylinereader_opt,
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
+                    summarypyeventreader_opt,
                     summaryevtxreader_opt
                 );
                 let summaryblockreader = summaryblockreader_opt.unwrap();
@@ -250,40 +255,20 @@ impl Summary {
                     error,
                 }
             }
-            // LogMessageType::FixedStructFixedStruct => {
-            //     debug_assert_none!(
-            //         summarylinereader_opt,
-            //         summarysyslinereader_opt,
-            //         summarysyslogprocessor_opt,
-            //         summaryevtxreader_opt
-            //     );
-            //     let summaryblockreader = summaryblockreader_opt.unwrap();
-            //     let summaryfixedstructreader = summaryfixedstructreader_opt.unwrap();
-            //     debug_assert_ge!(summaryblockreader.blockreader_bytes, summaryfixedstructreader.fixedstructreader_utmp_entries, "There is less bytes than FixedStruct Entries");
-            //     let readerdata: SummaryReaderData = SummaryReaderData::FixedStruct(
-            //         (
-            //             summaryblockreader,
-            //             summaryfixedstructreader,
-            //         ),
-            //     );
-            //     Summary {
-            //         path,
-            //         filetype,
-            //         logmessagetype,
-            //         readerdata,
-            //         error,
-            //     }
-            // }
             LogMessageType::Evtx => {
-                debug_assert_none!(
+                debug_assert_nones!(
                     summaryblockreader_opt,
+                    summarypyeventreader_opt,
                     summarylinereader_opt,
                     summarysyslinereader_opt,
                     summarysyslogprocessor_opt,
-                    summaryfixedstructreader_opt
+                    summaryfixedstructreader_opt,
+                    summarypyeventreader_opt,
+                    summaryjournalreader_opt
                 );
                 let summaryevtxreader = summaryevtxreader_opt.unwrap();
                 let readerdata: SummaryReaderData = SummaryReaderData::Etvx(summaryevtxreader);
+                def1x!();
                 Summary {
                     path,
                     filetype: Some(filetype),
@@ -294,8 +279,41 @@ impl Summary {
                 }
             }
             LogMessageType::Journal => {
+                debug_assert_nones!(
+                    summaryblockreader_opt,
+                    summarypyeventreader_opt,
+                    summarylinereader_opt,
+                    summarysyslinereader_opt,
+                    summarysyslogprocessor_opt,
+                    summaryfixedstructreader_opt,
+                    summaryevtxreader_opt
+                );
                 let summaryjournalreader = summaryjournalreader_opt.unwrap();
                 let readerdata: SummaryReaderData = SummaryReaderData::Journal(summaryjournalreader);
+                def1x!();
+                Summary {
+                    path,
+                    filetype: Some(filetype),
+                    logmessagetype,
+                    readerdata,
+                    path_ntf,
+                    error,
+                }
+            }
+            LogMessageType::PyEvent => {
+                debug_assert_nones!(
+                    summaryblockreader_opt,
+                    summarylinereader_opt,
+                    summarysyslinereader_opt,
+                    summarysyslogprocessor_opt,
+                    summaryfixedstructreader_opt,
+                    summaryevtxreader_opt,
+                    summaryjournalreader_opt
+                );
+                let readerdata: SummaryReaderData = SummaryReaderData::PyEvent(
+                    summarypyeventreader_opt.unwrap(),
+                );
+                def1x!();
                 Summary {
                     path,
                     filetype: Some(filetype),
@@ -354,6 +372,7 @@ impl Summary {
             SummaryReaderData::FixedStruct((summaryblockreader, _summaryfixedstructreader)) => Some(summaryblockreader),
             SummaryReaderData::Etvx(_) => None,
             SummaryReaderData::Journal(_) => None,
+            SummaryReaderData::PyEvent(_) => None,
         }
     }
 
@@ -362,46 +381,84 @@ impl Summary {
     }
 
     /// chronologically earliest printed datetime in file
-    pub fn datetime_first(&self) -> &DateTimeLOpt {
+    pub fn datetime_first_printed(&self) -> &DateTimeLOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
                 panic!("Summary::datetime_first() called on Summary::Dummy; path {:?}", self.path,)
             }
+            // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
             SummaryReaderData::Syslog((
                 _summaryblockreader,
                 _summarylinereader,
                 summarysyslinereader,
                 _summarysyslogprocessor,
             )) => &summarysyslinereader.syslinereader_datetime_first,
-            SummaryReaderData::FixedStruct((_summaryblockreader, summaryfixedstructreader)) => {
-                &summaryfixedstructreader.fixedstructreader_datetime_first
-            }
+            // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => &summaryfixedstructreader.fixedstructreader_datetime_first,
             SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_accepted,
-            SummaryReaderData::Journal(summaryjournalreader) => {
-                &summaryjournalreader.journalreader_datetime_first_accepted
-            }
+            SummaryReaderData::Journal(summaryjournalreader) => &summaryjournalreader.journalreader_datetime_first_accepted,
+            SummaryReaderData::PyEvent(summarypyeventreader) => &summarypyeventreader.pyeventreader_datetime_first_accepted,
         }
     }
 
-    /// chronologically latest printed datetime in file
-    pub fn datetime_last(&self) -> &DateTimeLOpt {
+    /// chronologically earliest processed datetime in file
+    pub fn datetime_first_processed(&self) -> &DateTimeLOpt {
+        match &self.readerdata {
+            SummaryReaderData::Dummy => {
+                panic!("Summary::datetime_first() called on Summary::Dummy; path {:?}", self.path,)
+            }
+            // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::Syslog((
+                _summaryblockreader,
+                _summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => &summarysyslinereader.syslinereader_datetime_first,
+            // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::FixedStruct((_summaryblockreader, summaryfixedstructreader)) => &summaryfixedstructreader.fixedstructreader_datetime_first,
+            SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_first_processed,
+            SummaryReaderData::Journal(summaryjournalreader) => &summaryjournalreader.journalreader_datetime_first_processed,
+            SummaryReaderData::PyEvent(summarypyeventreader) => &summarypyeventreader.pyeventreader_datetime_first_processed,
+        }
+    }
+
+    pub fn datetime_last_printed(&self) -> &DateTimeLOpt {
         match &self.readerdata {
             SummaryReaderData::Dummy => {
                 panic!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path,)
             }
+            // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
             SummaryReaderData::Syslog((
                 _summaryblockreader,
                 _summarylinereader,
                 summarysyslinereader,
                 _summarysyslogprocessor,
             )) => &summarysyslinereader.syslinereader_datetime_last,
-            SummaryReaderData::FixedStruct((_summaryblockreader, summaryfixedstructreader)) => {
-                &summaryfixedstructreader.fixedstructreader_datetime_last
-            }
+            // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => &summaryfixedstructreader.fixedstructreader_datetime_last,
             SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_accepted,
-            SummaryReaderData::Journal(summaryjournalreader) => {
-                &summaryjournalreader.journalreader_datetime_last_accepted
+            SummaryReaderData::Journal(summaryjournalreader) => &summaryjournalreader.journalreader_datetime_last_accepted,
+            SummaryReaderData::PyEvent(summarypyeventreader) => &summarypyeventreader.pyeventreader_datetime_last_accepted,
+        }
+    }
+
+    pub fn datetime_last_processed(&self) -> &DateTimeLOpt {
+        match &self.readerdata {
+            SummaryReaderData::Dummy => {
+                panic!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path,)
             }
+            // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::Syslog((
+                _summaryblockreader,
+                _summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => &summarysyslinereader.syslinereader_datetime_last,
+            // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => &summaryfixedstructreader.fixedstructreader_datetime_last,
+            SummaryReaderData::Etvx(summaryevtxreader) => &summaryevtxreader.evtxreader_datetime_last_processed,
+            SummaryReaderData::Journal(summaryjournalreader) => &summaryjournalreader.journalreader_datetime_last_processed,
+            SummaryReaderData::PyEvent(summarypyeventreader) => &summarypyeventreader.pyeventreader_datetime_last_processed,
         }
     }
 
@@ -464,12 +521,21 @@ impl Summary {
                 )
             }
             SummaryReaderData::Etvx(summaryevtxreader) => {
-                max!(summaryevtxreader.evtxreader_events_accepted, summaryevtxreader.evtxreader_events_processed)
+                max!(
+                    summaryevtxreader.evtxreader_events_accepted,
+                    summaryevtxreader.evtxreader_events_processed
+                )
             }
             SummaryReaderData::Journal(summaryjournalreader) => {
                 max!(
                     summaryjournalreader.journalreader_events_accepted,
                     summaryjournalreader.journalreader_events_processed
+                )
+            }
+            SummaryReaderData::PyEvent(summarypyeventreader) => {
+                max!(
+                    summarypyeventreader.pyeventreader_events_accepted,
+                    summarypyeventreader.pyeventreader_events_processed
                 )
             }
         }
@@ -508,6 +574,7 @@ impl Summary {
             }
             SummaryReaderData::Etvx(_summaryevtxreader) => 0,
             SummaryReaderData::Journal(_summaryjournalreader) => 0,
+            SummaryReaderData::PyEvent(_summarypyeventreader) => 0,
         }
     }
 }
@@ -642,8 +709,10 @@ impl fmt::Debug for Summary {
                                 )
                                 .finish(),
                             // Summary::default()
-                            FileType::Evtx { archival_type: _ }
+                            FileType::Etl { archival_type: _ }
+                            | FileType::Evtx { archival_type: _ }
                             | FileType::Journal { archival_type: _ }
+                            | FileType::Odl { archival_type: _, odl_sub_type: _ }
                             | FileType::Unparsable => f
                                 .debug_struct("Summary::Default")
                                 .finish(),
@@ -676,8 +745,8 @@ impl fmt::Debug for Summary {
                         f.debug_struct("Unexpected filetype")
                             .finish()
                     }
-                },
-            },
+                }
+            }
             SummaryReaderData::Etvx(summaryevtxreader) => match self.filetype {
                 None => {
                     debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
@@ -697,8 +766,8 @@ impl fmt::Debug for Summary {
                         f.debug_struct("Unexpected filetype")
                             .finish()
                     }
-                },
-            },
+                }
+            }
             SummaryReaderData::Journal(summaryjournalreader) => match self.filetype {
                 None => {
                     debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
@@ -713,8 +782,34 @@ impl fmt::Debug for Summary {
                         .field("journal events accepted", &summaryjournalreader.journalreader_events_accepted)
                         .finish(),
                     ft => panic!("Unpexected filetype {}; path {:?}", ft, self.path),
-                },
-            },
+                }
+            }
+            SummaryReaderData::PyEvent(summarypyeventreader) => match self.filetype {
+                None => {
+                    debug_panic!("Summary::Debug self.filetype is None; path {:?}", self.path);
+
+                    f.debug_struct("Unexpected self.filetype is None")
+                        .finish()
+                }
+                Some(filetype_) => match filetype_ {
+                    FileType::Etl { .. } => f
+                        .debug_struct("")
+                        .field("etl events processed", &summarypyeventreader.pyeventreader_events_processed)
+                        .field("etl events accepted", &summarypyeventreader.pyeventreader_events_accepted)
+                        .finish(),
+                    FileType::Odl { .. } => f
+                        .debug_struct("")
+                        .field("odl events processed", &summarypyeventreader.pyeventreader_events_processed)
+                        .field("odl events accepted", &summarypyeventreader.pyeventreader_events_accepted)
+                        .finish(),
+                    ft => {
+                        debug_panic!("Unpexected filetype {}; path {:?}", ft, self.path);
+
+                        f.debug_struct("Unexpected filetype")
+                            .finish()
+                    }
+                }
+            }
         }
     }
 }

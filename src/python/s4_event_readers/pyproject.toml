@@ -1,0 +1,59 @@
+# pyproject.toml
+
+[project]
+authors = [
+    { name = "James Thomas Moon" },
+]
+name = "s4_event_readers"
+# XXX: `version` should match Cargo.toml:package:version
+version = "0.7.79"
+description = "ETL readers designed for use with Super Speedy Syslog Searcher (s4). Not intended to be used standalone."
+dynamic = ["dependencies"]
+# python dependencies in requirements.in and requirements.txt must be compatible
+# with this Python version
+requires-python = ">=3.9"
+license = "MIT"
+
+[project.urls]
+Homepage = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+Repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+Issues = "https://github.com/jtmoon79/super-speedy-syslog-searcher/issues"
+Changelog = "https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/master/CHANGELOG.md"
+
+[project.scripts]
+etl_reader_dissect_etl = "s4_event_readers.etl_reader_dissect_etl:main"
+etl_reader_etl_parser = "s4_event_readers.etl_reader_etl_parser:main"
+
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+# pip-tools does not natively support dependencies based on the Python version
+# so all dependencies are compatible with Python 3.9+.
+# see https://github.com/jazzband/pip-tools/issues/639
+dependencies = { file = ["requirements.txt"] }
+optional-dependencies.dev = { file = ["requirements-dev.txt"] }
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+
+# flake8 requires Flake8-pyproject to read from this pyproject.toml
+[tool.flake8]
+max-line-length = 100
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    ".mpy_cache",
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+ignore_missing_imports = true

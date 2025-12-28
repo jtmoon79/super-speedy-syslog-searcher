@@ -126,11 +126,13 @@ use ::s4lib::common::{
     FileType,
     LogMessageType,
     NLu8a,
+    Result3E,
     PathId,
     SetPathId,
     FILE_TOO_SMALL_SZ,
     SUBPATH_SEP,
     SUBPATH_SEP_DISPLAY_STR,
+    summary_stats_enable,
 };
 use ::s4lib::data::common::LogMessage;
 use ::s4lib::data::datetime::{
@@ -142,6 +144,7 @@ use ::s4lib::data::datetime::{
     MAP_TZZ_TO_TZz,
     Utc,
 };
+use ::s4lib::data::pydataevent::EtlParserUsed;
 use ::s4lib::data::fixedstruct::ENTRY_SZ_MAX;
 use ::s4lib::data::journal::datetimelopt_to_realtime_timestamp_opt;
 use ::s4lib::data::sysline::SyslineP;
@@ -189,11 +192,24 @@ use ::s4lib::printer::summary::{
     MapPathIdToProcessPathResultOrdered,
     SummaryPrinted,
 };
+use ::s4lib::python::pyrunner::{
+    PipeSz,
+    PYTHON_ENV,
+};
+use ::s4lib::python::venv::{
+    PYTHON_VENV_PATH_DEFAULT,
+    create as venv_create,
+};
 use ::s4lib::readers::blockreader::{
     BlockSz,
     BLOCKSZ_DEF,
     BLOCKSZ_MAX,
     BLOCKSZ_MIN,
+};
+use ::s4lib::readers::pyeventreader::{
+    PyEventReader,
+    PyEventType,
+    ResultNextPyDataEvent,
 };
 use ::s4lib::readers::evtxreader::EvtxReader;
 use ::s4lib::readers::filedecompressor::{
@@ -233,17 +249,17 @@ use ::si_trace_print::{
     def1n,
     def1o,
     def1x,
+    def1ñ,
     defn,
     defo,
     defx,
     defñ,
     deo,
 };
-use {
-    ::anyhow,
-    ::crossbeam_channel,
-    ::unicode_width,
-};
+
+use ::anyhow;
+use ::crossbeam_channel;
+use ::unicode_width;
 
 // --------------------
 // command-line parsing
@@ -626,6 +642,14 @@ DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
 
+The Python interpreter used during `--venv` requires Python 3.7 or higher.
+This installs to "#, PYTHON_VENV_PATH_DEFAULT, r#"
+These Python packages are installed:
+  dissect-etl==3.14
+  etl-parser==1.0.1
+The Python interpreter used may be overridden by setting environment variable
+"#, PYTHON_ENV, r#" to the path of the Python interpreter.
+
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 
@@ -667,6 +691,10 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
     ),
     after_help = CLI_HELP_AFTER,
     verbatim_doc_comment,
+    // override usage to more clearly show `--venv` is an exclusive "mode".
+    // clap does not support multiple usage statements with exclusive args
+    // see https://github.com/clap-rs/clap/issues/4191
+    override_usage = "\n  s4 [OPTIONS] <PATHS>...\n\n  s4 --venv",
 )]
 struct CLI_Args {
     /// Path(s) of log files or directories.
@@ -676,6 +704,9 @@ struct CLI_Args {
     #[clap(
         required = true,
         verbatim_doc_comment,
+        groups = &[
+            "command_mode",
+        ],
     )]
     paths: Vec<String>,
 
@@ -838,6 +869,21 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     )]
     journal_output: JournalOutput,
 
+    /// For parsing Windows Event Tracing Log (.etl) files, use Python library
+    /// etl-parser. By default, Python library dissect.etl is used.
+    /// The etl-parser library may have more complete information but is slower
+    /// than dissect.etl.
+    /// Requires prior creation of a Python virtual environment with
+    /// the --venv option. Or use environment variable S4_PYTHON set to
+    /// a Python interpreter path with necessary packages installed.
+    #[clap(
+        long = "etl-parser",
+        verbatim_doc_comment,
+        default_value_t = false,
+        // TODO: env = "S4_ETL_PARSER",
+    )]
+    etl_parser: bool,
+
     /// Choose to print using colors.
     #[clap(
         required = false,
@@ -859,6 +905,25 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         default_value_t = false,
     )]
     color_theme_light: bool,
+
+    /// Create a Python virtual environment exclusively for s4.
+    /// This is only necessary for parsing Windows Event Tracing Log
+    /// (.etl) files. This only needs to be done once.
+    /// When this option is used, no other options may be passed.
+    /// The Python interpreter used may be set by environment variable
+    /// S4_PYTHON.
+    // XXX: S4_PYTHON must match PYTHON_ENV
+    #[clap(
+        long = "venv",
+        verbatim_doc_comment,
+        default_value_t = false,
+        groups = &[
+             "command_mode",
+        ],
+        conflicts_with = "paths",
+        exclusive = true,
+    )]
+    python_venv: bool,
 
     /// Read blocks of this size in bytes.
     /// May pass value as any radix (hexadecimal, decimal, octal, binary).
@@ -1465,6 +1530,8 @@ fn cli_process_args() -> (
     bool,
     String,
     String,
+    EtlParserUsed,
+    bool,
     JournalOutput,
     bool,
 ) {
@@ -1608,6 +1675,12 @@ fn cli_process_args() -> (
         }
     };
 
+    let etl_parser_used: EtlParserUsed = if args.etl_parser {
+        EtlParserUsed::EtlParser
+    } else {
+        EtlParserUsed::DissectEtl
+    };
+
     defo!("args.prepend_dt_format {:?}", args.prepend_dt_format);
     let mut prepend_dt_format: Option<String> = None;
     unsafe {
@@ -1648,6 +1721,7 @@ fn cli_process_args() -> (
     } else {
         cli_opt_prepend_offset = LOCAL_NOW_OFFSET.with(|lno| *lno);
     }
+
     defo!("prepend_dt_format {:?}", prepend_dt_format);
 
     defo!("prepend_utc {:?}", args.prepend_utc);
@@ -1659,6 +1733,8 @@ fn cli_process_args() -> (
     defo!("prepend_file_align {:?}", args.prepend_file_align);
     defo!("prepend_separator {:?}", args.prepend_separator);
     defo!("log_message_separator {:?}", log_message_separator);
+    defo!("etl_parser_used {:?}", etl_parser_used);
+    defo!("python_venv {:?}", args.python_venv);
     defo!("journal_output {:?}", args.journal_output);
     defo!("summary {:?}", args.summary);
 
@@ -1676,6 +1752,8 @@ fn cli_process_args() -> (
         args.prepend_file_align,
         args.prepend_separator,
         log_message_separator,
+        etl_parser_used,
+        args.python_venv,
         args.journal_output,
         args.summary,
     )
@@ -1703,14 +1781,38 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_offset,
         cli_prepend_dt_format,
         cli_opt_prepend_filename,
-        // TODO: [2023/02/26] add option to prepend byte offset along with filename, helpful for development
         cli_opt_prepend_filepath,
         cli_opt_prepend_file_align,
         cli_prepend_separator,
         log_message_separator,
+        etl_parser_used,
+        python_venv,
         journal_output,
         cli_opt_summary,
     ) = cli_process_args();
+
+    if cli_opt_summary {
+        summary_stats_enable();
+    }
+
+    if python_venv {
+        let exitcode: ExitCode;
+        match venv_create() {
+            Result3E::Ok(_) => exitcode = ExitCode::SUCCESS,
+            Result3E::Err(err) => {
+                e_err!("{}", err);
+                exitcode = ExitCode::FAILURE;
+            }
+            Result3E::ErrNoReprint(_err) => {
+                exitcode = ExitCode::FAILURE;
+            }
+        }
+        defx!("exitcode {:?}", exitcode);
+
+        return exitcode;
+    }
+
+    // TODO: 2025/11/27 given .etl files but bad Python venv then need to print single error for user
 
     let mut processed_paths: ProcessPathResults = ProcessPathResults::with_capacity(paths.len() * 4);
     for path in paths.iter() {
@@ -1735,6 +1837,7 @@ pub fn main() -> ExitCode {
         cli_opt_prepend_file_align,
         cli_prepend_separator,
         log_message_separator,
+        etl_parser_used,
         journal_output,
         cli_opt_summary,
         start_time,
@@ -1751,6 +1854,7 @@ lazy_static! {
     /// `processing_loop`.
     /// Must be lazy static (global) so that is may be called from the
     /// `ctrlc::set_handler` signal handler.
+    //
     // XXX: there's a few imperfect uses that read then read-again with presumption
     //      `MAP_PATHID_CHANRECVDATUM` was not written to in-between. In the rare
     //      case that occurs, it should not be a problem.
@@ -1819,11 +1923,14 @@ const FILEOK: FileProcessingResultBlockZero = FileProcessingResultBlockZero::Fil
 
 /// enum to pass filetype-specific data to the file processing thread
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub enum LogMessageSpecificData {
+pub enum FileTypeExecData {
     /// all other log message types (nothing is needed)
     None,
     /// Journal processing thread needs to know the journal output format
     Journal(JournalOutput),
+    /// Windows Event Trace Log processing thread needs to know the
+    /// python library to use
+    Etl(EtlParserUsed),
 }
 
 /// Data to initialize a file processing thread.
@@ -1841,7 +1948,7 @@ type ThreadInitData = (
     FPath,
     PathId,
     FileType,
-    LogMessageSpecificData,
+    FileTypeExecData,
     BlockSz,
     DateTimeLOpt,
     DateTimeLOpt,
@@ -1884,6 +1991,16 @@ enum ChanDatum {
     FileSummary(SummaryOpt, FileProcessingResultBlockZero),
 }
 
+impl fmt::Display for ChanDatum {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            ChanDatum::FileInfo(dt, _) => write!(f, "FileInfo({:?})", dt),
+            ChanDatum::NewMessage(lm, illm) => write!(f, "NewMessage({:?}, {:?})", lm, illm),
+            ChanDatum::FileSummary(..) => write!(f, "FileSummary(..)"),
+        }
+    }
+}
+
 type MapPathIdDatum = BTreeMap<PathId, (LogMessage, IsLastLogMessage)>;
 
 /// Sender channel (used by each file processing thread).
@@ -1910,6 +2027,18 @@ fn chan_send(
     chan_datum: ChanDatum,
     _path: &FPath,
 ) {
+    if cfg!(debug_assertions) {
+        let _err_s: String = match &chan_datum {
+            ChanDatum::FileInfo(_, fileprocessingresult) => {
+                format!("ChanDatum::FileInfo({:?})", fileprocessingresult)
+            },
+            ChanDatum::NewMessage(..) => String::from("ChanDatum::NewMessage(..)"),
+            ChanDatum::FileSummary(_, fileprocessingresult) => {
+                format!("ChanDatum::FileSummary({:?})", fileprocessingresult)
+            }
+        };
+        def1ñ!("chan_send(..., chan_datum={}, _path={:?})", _err_s, _path);
+    }
     match chan_send_dt.send(chan_datum) {
         Ok(_) => {}
         Err(_err) => de_err!("chan_send_dt.send(…) failed {} for {:?}", _err, _path),
@@ -1940,15 +2069,23 @@ fn exec_syslogprocessor(
         path,
         _pathid,
         filetype,
-        _logmessagespecificdata,
+        _filetypeexecdata,
         blocksz,
         filter_dt_after_opt,
         filter_dt_before_opt,
         tz_offset,
     ) = thread_init_data;
     defn!("({:?})", path);
-    debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
+    debug_assert!(matches!(_filetypeexecdata, FileTypeExecData::None));
 
+    // TODO: add thread runtime tracking with `Instant::now()`
+    //       create an `Instant::now()` in the `SyslogProcessor::new()`
+    //       and then store another `Instant::now()` during creation of
+    //       the `summary_complete()`.
+    //       Store both in the `SyslogProcessor::Summary`.
+    //       Add a line to print it in the appropriate printing function.
+    //       I think during printing the "Processed:" section of the printed summary.
+    //       Do this for all other Readers as well.
     let mut syslogproc: SyslogProcessor = match SyslogProcessor::new(
         path.clone(),
         filetype,
@@ -2164,7 +2301,7 @@ fn exec_fixedstructprocessor(
         path,
         _pathid,
         filetype,
-        _logmessagespecificdata,
+        _filetypeexecdata,
         blocksz,
         filter_dt_after_opt,
         filter_dt_before_opt,
@@ -2172,11 +2309,14 @@ fn exec_fixedstructprocessor(
     ) = thread_init_data;
     defn!("{:?}({}): ({:?})", _tid, _tname, path);
     debug_assert!(matches!(filetype, FileType::FixedStruct { .. }));
-    debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
+    debug_assert!(matches!(_filetypeexecdata, FileTypeExecData::None));
     let logmessagetype: LogMessageType = match filetype {
         FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
         _ => {
-            e_err!("exec_fixedstructprocessor called with filetype {:?} for path {:?}", filetype, path);
+            e_err!(
+                "exec_fixedstructprocessor called with wrong filetype {:?} for path {:?}",
+                filetype, path
+            );
             return;
         }
     };
@@ -2431,7 +2571,7 @@ fn exec_evtxprocessor(
         path,
         _pathid,
         filetype,
-        _logmessagespecificdata,
+        _filetypeexecdata,
         _blocksz,
         filter_dt_after_opt,
         filter_dt_before_opt,
@@ -2439,7 +2579,7 @@ fn exec_evtxprocessor(
     ) = thread_init_data;
     defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
     debug_assert!(filetype.is_evtx());
-    debug_assert!(matches!(_logmessagespecificdata, LogMessageSpecificData::None));
+    debug_assert!(matches!(_filetypeexecdata, FileTypeExecData::None));
 
     let mut evtxreader: EvtxReader = match EvtxReader::new(
         path.clone(),
@@ -2516,6 +2656,154 @@ fn exec_evtxprocessor(
     defx!("({:?})", path);
 }
 
+/// This function drives a [`PyEventReader`] instance through it's processing.
+/// Similar to [`exec_syslogprocessor`].
+fn exec_pyeventprocessor(
+    chan_send_dt: ChanSendDatum,
+    thread_init_data: ThreadInitData,
+    _tname: &str,
+    _tid: thread::ThreadId,
+) {
+    let (
+        path,
+        _pathid,
+        filetype,
+        filetypeexecdata,
+        blocksz,
+        filter_dt_after_opt,
+        filter_dt_before_opt,
+        tz_offset,
+    ) = thread_init_data;
+    defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
+    debug_assert!(filetype.is_etl() || filetype.is_odl());
+    
+    let etl_parser_used: EtlParserUsed = match filetypeexecdata {
+        FileTypeExecData::Etl(etl_parser_used) => etl_parser_used,
+        FileTypeExecData::None => EtlParserUsed::EtlParser,
+        FileTypeExecData::Journal { .. } => {
+            debug_panic!(
+                "exec_pyeventprocessor called with filetypeexecdata {:?} for path {:?}",
+                filetypeexecdata, path
+            );
+            e_err!("filetypeexecdata is {:?} not Etl which is unexpected", filetypeexecdata);
+            defx!("({:?}) return early due filetypeexecdata is not Etl, is {:?}", path, filetypeexecdata);
+            return;
+        }
+    };
+
+    let pyevent_type: PyEventType = match filetype {
+        FileType::Etl { .. } => {
+            PyEventType::Etl
+        }
+        FileType::Odl { .. } => {
+            PyEventType::Odl
+        }
+        _ => {
+            debug_panic!(
+                "exec_pyeventprocessor called with wrong filetype {:?} for path {:?}",
+                filetype, path
+            );
+            e_err!("filetype is {:?} not Etl/Odl which is unexpected", filetype);
+            defx!("({:?}) return early due filetype is not Etl/Odl", path);
+            return;
+        }
+    };
+
+    let mut py_event_reader: PyEventReader = match PyEventReader::new(
+        path.clone(),
+        etl_parser_used,
+        filetype,
+        tz_offset,
+        blocksz as PipeSz,
+    ) {
+        Ok(val) => val,
+        Err(err) => {
+            let err_string = err.to_string();
+            // send `ChanDatum::FileInfo`
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileInfo(
+                    DateTimeLOpt::None,
+                    FileProcessingResultBlockZero::FileErrIo(err)
+                ),
+                &path
+            );
+            // send `ChanDatum::FileSummary`
+            let summary = Summary::new_failed(
+                path.clone(),
+                filetype,
+                LogMessageType::PyEvent,
+                0,
+                Some(err_string)
+            );
+            chan_send(
+                &chan_send_dt,
+                ChanDatum::FileSummary(Some(summary), FILEERRSTUB),
+                &path
+            );
+            defx!("({:?}) thread will return early due to error", path);
+            return;
+        }
+    };
+    defo!("{:?}({}): py_event_reader {:?}", _tid, _tname, py_event_reader);
+
+    // send `ChanDatum::FileInfo`
+    let mtime = py_event_reader.mtime();
+    let dt = systemtime_to_datetime(&tz_offset, &mtime);
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileInfo(DateTimeLOpt::Some(dt), FILEOK),
+        &path
+    );
+
+    let mut result_err: Option<FileProcessingResult<Error>> = None;
+    // call py_event_reader.next() until exhausted
+    loop {
+        match py_event_reader.next(
+            &filter_dt_after_opt,
+            &filter_dt_before_opt,
+        ) {
+            ResultNextPyDataEvent::Found(etl_event) => {
+                def1o!("ResultNextPyDataEvent::Found({} bytes); chan_send()...", etl_event.len());
+                chan_send(
+                    &chan_send_dt,
+                    ChanDatum::NewMessage(
+                        LogMessage::PyEvent(etl_event, pyevent_type),
+                        false,
+                    ),
+                    &path
+                );
+            }
+            ResultNextPyDataEvent::Done => {
+                def1o!("ResultNextPyDataEvent::Done");
+                break;
+            }
+            ResultNextPyDataEvent::Err(err) => {
+                def1o!("ResultNextPyDataEvent::Err({:?})", err);
+                de_err!("etl_reader.next(…) returned {}", err);
+                result_err = Some(FileProcessingResult::FileErrIo(err));
+                break;
+            }
+            ResultNextPyDataEvent::ErrIgnore(_err) => {
+                def1o!("ResultNextPyDataEvent::ErrIgnore({:?})", _err);
+                de_err!("etl_reader.next(…) returned {} (Ignored)", _err);
+            }
+        }
+    };
+
+    let summary = py_event_reader.summary_complete();
+    chan_send(
+        &chan_send_dt,
+        ChanDatum::FileSummary(
+            Some(summary),
+            result_err.unwrap_or(FILEOK),
+        ),
+        &path
+    );
+
+    defx!("({:?})", path);
+}
+
 /// This function drives a [`JournalReader`] instance through it's processing.
 /// Similar to [`exec_syslogprocessor`].
 fn exec_journalprocessor(
@@ -2528,7 +2816,7 @@ fn exec_journalprocessor(
         path,
         _pathid,
         filetype,
-        logmessagespecificdata,
+        filetypeexecdata,
         _blocksz,
         filter_dt_after_opt,
         filter_dt_before_opt,
@@ -2536,13 +2824,13 @@ fn exec_journalprocessor(
     ) = thread_init_data;
     defn!("{:?}({}): ({:?})", _tid, _tname, path);
     debug_assert!(filetype.is_journal());
-    debug_assert!(matches!(logmessagespecificdata, LogMessageSpecificData::Journal(_)));
+    debug_assert!(matches!(filetypeexecdata, FileTypeExecData::Journal(_)));
 
-    let journal_output: JournalOutput = match logmessagespecificdata {
-        LogMessageSpecificData::Journal(journal_output) => journal_output,
+    let journal_output: JournalOutput = match filetypeexecdata {
+        FileTypeExecData::Journal(journal_output) => journal_output,
         _ => {
-            e_err!("logmessagespecificdata is not Journal which is unexpected");
-            defx!("({:?}) return early due logmessagespecificdata is not Journal", path);
+            e_err!("filetypeexecdata is not Journal which is unexpected");
+            defx!("({:?}) return early due filetypeexecdata is not Journal", path);
             return;
         }
     };
@@ -2680,8 +2968,10 @@ fn exec_fileprocessor_thread(
 
     match thread_init_data.2 {
         FileType::FixedStruct { .. } => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Etl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Evtx { .. } => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Journal { .. } => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
+        FileType::Odl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Text { .. } => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
         _ => {
             debug_panic!("exec_fileprocessor_thread called with unexpected filetype {:?}", thread_init_data.2);
@@ -2727,6 +3017,7 @@ fn processing_loop(
     cli_opt_prepend_file_align: bool,
     cli_prepend_separator: String,
     log_message_separator: String,
+    etl_parser_used: EtlParserUsed,
     journal_output: JournalOutput,
     cli_opt_summary: bool,
     start_time: Instant,
@@ -2997,15 +3288,16 @@ fn processing_loop(
                 panic!("bad pathid {} for path {:?}", pathid, path);
             }
         };
-        let logmessagespecificdata = match filetype {
-            FileType::Journal { .. } => LogMessageSpecificData::Journal(journal_output),
-            _ => LogMessageSpecificData::None,
+        let filetypeexecdata = match filetype {
+            FileType::Etl { .. } => FileTypeExecData::Etl(etl_parser_used),
+            FileType::Journal { .. } => FileTypeExecData::Journal(journal_output),
+            _ => FileTypeExecData::None,
         };
         let thread_data: ThreadInitData = (
             path.clone().to_owned(),
             *pathid,
             *filetype,
-            logmessagespecificdata,
+            filetypeexecdata,
             blocksz,
             *filter_dt_after_opt,
             *filter_dt_before_opt,
@@ -3086,7 +3378,8 @@ fn processing_loop(
         map_index_pathid: &mut MapIndexToPathId,
         filter_: &SetPathId,
     ) -> Option<(PathId, RecvResult4)> {
-        def1n!("(…)");
+        def1n!("(pathid_chans {} entries, map_index_pathid {} entries, filter_ {} entries)",
+               pathid_chans.len(), map_index_pathid.len(), filter_.len());
         // "mapping" of index to data; required for various `Select` and `SelectedOperation` procedures,
         // order should match index numeric value returned by `select`
         map_index_pathid.clear();
@@ -3257,11 +3550,15 @@ fn processing_loop(
             defo!("B_ recv_many_chan returned result for PathId {:?};", pathid);
             match result {
                 Ok(chan_datum) => {
-                    defo!("B0 crossbeam_channel::Found for PathId {:?};", pathid);
+                    defo!("B0 crossbeam_channel::Found for PathId {:?}; map_pathid_file_processing_result has {:?}",
+                          pathid, map_pathid_file_processing_result.len());
                     match chan_datum {
+                        // only expect 1 FileInfo per processing thread
                         ChanDatum::FileInfo(dt_opt, file_processing_result) => {
-                            defo!("B1 received ChanDatum::FileInfo for {:?}", pathid);
-                            defo!("B1 received modified_time {:?} for {:?}", dt_opt, pathid);
+                            defn!("B1 received ChanDatum::FileInfo for {:?}, modified_time, for {:?}", pathid, dt_opt);
+                            defo!("B1 file_processing_result {:?}", file_processing_result);
+                            defo!("B1 map_pathid_modified_time.insert({:?}, {:?})",
+                                  pathid, dt_opt);
                             if let Some(_) = map_pathid_modified_time.insert(pathid, dt_opt) {
                                 debug_panic!("Already had stored DateTimeLOpt for PathID {:?}", pathid)
                             }
@@ -3269,41 +3566,63 @@ fn processing_loop(
                             if !file_processing_result.is_ok() {
                                 _fileprocessing_not_okay += 1;
                             }
+                            defo!("map_pathid_file_processing_result.insert({:?}, {:?})",
+                                  pathid, file_processing_result);
                             map_pathid_file_processing_result.insert(pathid, file_processing_result);
                             defo!("B1 map_pathid_received_fileinfo.insert({:?}, true)", pathid);
                             map_pathid_received_fileinfo.insert(pathid, true);
                             _count_since_received_fileinfo = 0;
+                            defx!("B1");
                         }
+                        // expect multiple NewMessage per processing thread
                         ChanDatum::NewMessage(log_message, is_last_message) => {
-                            defo!("B2 received ChanDatum::NewMessage for PathID {:?}", pathid);
+                            defn!("B2 received ChanDatum::NewMessage for PathID {:?}, is_last_message {:?}",
+                                  pathid, is_last_message);
                             map_pathid_datum.insert(pathid, (log_message, is_last_message));
                             set_pathid.insert(pathid);
+                            defx!("B2");
                         }
+                        // only expect 1 FileSummary per processing thread
                         ChanDatum::FileSummary(summary_opt, file_processing_result) => {
-                            defo!("B3 received ChanDatum::FileSummary for {:?}", pathid);
+                            defn!("B4 received ChanDatum::FileSummary for {:?}", pathid);
+                            defo!("B4 file_processing_result {:?}", file_processing_result);
                             match summary_opt {
                                 Some(summary) => summary_update(&pathid, summary, &mut map_pathid_summary),
                                 None => debug_panic!("No summary received for FileSummary with PathID {}", pathid),
                             }
-                            defo!("B3 will disconnect channel {:?}", pathid);
+                            defo!("B4 will disconnect channel {:?}", pathid);
                             disconnect.push(pathid);
                             if !file_processing_result.is_ok() {
                                 _fileprocessing_not_okay += 1;
                             }
                             // only save the `FileProcessingResult` if it is not `FileOk` or `FileStub`
-                            // and if an `FileOk` is not already in the map
-                            if !file_processing_result.is_ok()
+                            // and if its an `FILEERR`
+                            let r = map_pathid_file_processing_result.get(&pathid);
+                            if ! file_processing_result.is_ok()
                                && ! file_processing_result.is_stub()
-                               && ! map_pathid_file_processing_result.get(&pathid).unwrap_or(&FILEOK).is_ok()
+                               && (
+                                r.unwrap_or(&FILEOK).is_ok()
+                                || r.unwrap_or(&FILEOK).is_stub()
+                               )
                             {
-                                map_pathid_file_processing_result.insert(pathid, file_processing_result);
+                                defo!("B4 map_pathid_file_processing_result.insert({:?}, {:?})",
+                                      pathid, file_processing_result);
+                                match map_pathid_file_processing_result.insert(pathid, file_processing_result) {
+                                    Some(_old) => {
+                                        defo!("B4 replaced old FileProcessingResult for {:?}; {:?}", pathid, _old);
+                                    }
+                                    None => {}
+                                }
                             }
+                            defx!("B4");
                         }
                     }
+                    defo!("B5 done processing ChanDatum for PathId {:?}; map_pathid_file_processing_result has {:?}",
+                          pathid, map_pathid_file_processing_result.len());
                     chan_recv_ok += 1;
                 }
                 Err(crossbeam_channel::RecvError) => {
-                    defo!("B0 crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
+                    defo!("B6 crossbeam_channel::RecvError, will disconnect channel for PathId {:?};", pathid);
                     // this channel was closed by the sender, it should be disconnected
                     disconnect.push(pathid);
                     chan_recv_err += 1;
@@ -3325,10 +3644,17 @@ fn processing_loop(
                 }
             }
 
+            defo!("C_ map_pathid_file_processing_result has {} entries",
+                  map_pathid_file_processing_result.len());
+            defo!("C_ map_pathid_received_fileinfo has {} entries",
+                  map_pathid_received_fileinfo.len());
+            defo!("C_ map_pathid_received_fileinfo.all()? {}",
+                  map_pathid_received_fileinfo.iter().all(|(_, v)| v == &true));
+
             if !map_pathid_received_fileinfo.is_empty()
                 && map_pathid_received_fileinfo.iter().all(|(_, v)| v == &true)
             {
-                defo!("C map_pathid_received_fileinfo.all() are true");
+                defo!("C1 map_pathid_received_fileinfo.all() are true");
 
                 // debug sanity check
                 #[cfg(any(debug_assertions, test))]
@@ -3340,8 +3666,10 @@ fn processing_loop(
                     }
                 }
 
+                defo!("C1 map_pathid_file_processing_result has {:?} entries",
+                      map_pathid_file_processing_result.len());
                 for (pathid, file_processing_result) in map_pathid_file_processing_result.iter() {
-                    defo!("C process file_processing_result {:?} for {:?}", file_processing_result, pathid);
+                    defo!("C2 process file_processing_result {:?} for {:?}", file_processing_result, pathid);
                     match file_processing_result {
                         FileProcessingResultBlockZero::FileOk => {}
                         _ => {
@@ -3388,7 +3716,7 @@ fn processing_loop(
                     }
                 }
                 // all `ChanDatum::FileInfo` have been received so clear the tracking map
-                defo!("C map_pathid_received_fileinfo.clear()");
+                defo!("C3 map_pathid_received_fileinfo.clear()");
                 map_pathid_received_fileinfo.clear();
             }
         } else {
@@ -3419,6 +3747,8 @@ fn processing_loop(
                     deo!("{} A1 map_pathid_datum[{:?}] = {:?}", _i, _k, _v);
                 }
             }
+
+            defo!("CX map_pathid_received_fileinfo.all() are false");
 
             if first_print {
                 // One-time creation of `PrinterLogMessage` and optional prepended strings
@@ -3576,8 +3906,52 @@ fn processing_loop(
             // this `match` statement is where the actual printing takes place in this
             // main thread or "printing thread"
             match log_message {
+                LogMessage::PyEvent(pyevent, pyevent_type) => {
+                    defo!("A3 PyEvent printing PyDataEvent PathId: {:?}", pathid);
+                    let mut printed: Count = 0;
+                    let mut flushed: Count = 0;
+                    match printer.print_pyevent(pyevent) {
+                        Ok((printed_, flushed_)) => {
+                            printed = printed_ as Count;
+                            flushed = flushed_ as Count;
+                        }
+                        Err(_err) => {
+                            // Only print a printing error once and only for debug builds.
+                            if !has_print_err {
+                                has_print_err = true;
+                                // BUG: Issue #3 colorization settings in the context of a pipe
+                                de_err!("failed to print {}", _err);
+                            }
+                            defo!("print error, will disconnect channel {:?}", pathid);
+                            disconnect.push(*pathid);
+                        }
+                    }
+                    if sepb_print {
+                        write_stdout(sepb);
+                        if cli_opt_summary {
+                            summaryprinted.bytes += sepb.len() as Count;
+                            summaryprinted.flushed += 1;
+                        }
+                    }
+                    if cli_opt_summary {
+                        paths_printed_logmessages.insert(*pathid);
+                        // update the per processing file `SummaryPrinted`
+                        SummaryPrinted::summaryprint_map_update_pyevent(
+                            pyevent,
+                            pathid,
+                            *pyevent_type,
+                            &mut map_pathid_sumpr,
+                            printed,
+                            flushed,
+                        );
+                        // update the single total program `SummaryPrinted`
+                        summaryprinted.summaryprint_update_pyevent(
+                            pyevent, *pyevent_type, printed, flushed
+                        );
+                    }
+                }
                 LogMessage::Evtx(evtx) => {
-                    defo!("A3.3 printing Evtx PathId: {:?}", pathid);
+                    defo!("A3 Evtx printing PathId: {:?}", pathid);
                     let mut printed: Count = 0;
                     let mut flushed: Count = 0;
                     match printer.print_evtx(evtx) {
@@ -3618,7 +3992,7 @@ fn processing_loop(
                     }
                 }
                 LogMessage::FixedStruct(entry) => {
-                    defo!("A3.2 printing FixedStruct PathId: {:?}", pathid);
+                    defo!("A3 FixedStruct printing PathId: {:?}", pathid);
                     let mut printed: Count = 0;
                     let mut flushed: Count = 0;
                     match printer.print_fixedstruct(entry, &mut buffer_utmp) {
@@ -3659,7 +4033,7 @@ fn processing_loop(
                     }
                 }
                 LogMessage::Journal(journalentry) => {
-                    defo!("A3.4 printing JournalEntry PathId: {:?}", pathid);
+                    defo!("A3 Journal printing JournalEntry PathId: {:?}", pathid);
                     let mut printed: Count = 0;
                     let mut flushed: Count = 0;
                     match printer.print_journalentry(journalentry) {
@@ -3701,7 +4075,7 @@ fn processing_loop(
                 }
                 LogMessage::Sysline(syslinep) => {
                     defo!(
-                        "A3.1 printing SyslineP @[{}, {}] PathId: {:?}",
+                        "A3 Sysline printing SyslineP @[{}, {}] PathId: {:?}",
                         syslinep.fileoffset_begin(),
                         syslinep.fileoffset_end(),
                         pathid,
@@ -3770,22 +4144,22 @@ fn processing_loop(
         // remove channels (and keys) that are marked disconnected
         let mut map_pathid_chanrecvdatum = MAP_PATHID_CHANRECVDATUM.write().unwrap();
         for pathid in disconnect.iter() {
-            defo!("C disconnect channel: map_pathid_chanrecvdatum.remove({:?});", pathid);
+            defo!("D disconnect channel: map_pathid_chanrecvdatum.remove({:?});", pathid);
             map_pathid_chanrecvdatum.remove(pathid);
-            defo!("C pathid_to_prependname.remove({:?});", pathid);
+            defo!("D pathid_to_prependname.remove({:?});", pathid);
             pathid_to_prependname.remove(pathid);
-            defo!("C map_pathid_printer.remove({:?});", pathid);
+            defo!("D map_pathid_printer.remove({:?});", pathid);
             map_pathid_printer.remove(pathid);
         }
         // are there any channels to receive from?
         if map_pathid_chanrecvdatum.is_empty() {
-            defo!("D map_pathid_chanrecvdatum.is_empty(); no more channels to receive from!");
+            defo!("E map_pathid_chanrecvdatum.is_empty(); no more channels to receive from!");
             // all channels are closed, break from main processing loop
             break;
         }
-        defo!("D map_pathid_chanrecvdatum: {:?}", map_pathid_chanrecvdatum);
-        defo!("D map_pathid_datum: {:?}", map_pathid_datum);
-        defo!("D set_pathid: {:?}", set_pathid);
+        defo!("F map_pathid_chanrecvdatum: {:?}", map_pathid_chanrecvdatum);
+        defo!("F map_pathid_datum: {:?}", map_pathid_datum);
+        defo!("F set_pathid: {:?}", set_pathid);
     } // end loop
 
     // Getting here means main program processing has completed.
@@ -3798,6 +4172,7 @@ fn processing_loop(
             error_count += 1;
         }
     }
+    defo!("G summary error_count: {:?}", error_count);
 
     // check again before writing the final summary
     exit_early_check!();
@@ -3811,6 +4186,7 @@ fn processing_loop(
     }
 
     if cli_opt_summary {
+        defo!("H cli_opt_summary");
         // some errors may occur later in processing, e.g. File Permissions errors,
         // so update `map_pathid_results` and `map_pathid_results_invalid`
         for (pathid, summary) in map_pathid_summary.iter() {
@@ -3863,19 +4239,18 @@ fn processing_loop(
             ALLOCATOR_CHOSEN,
         );
     }
-
-    defo!("E chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
+    defo!("I chan_recv_ok {:?} _count_recv_di {:?}", chan_recv_ok, chan_recv_err);
 
     // TODO: Issue #5 return code confusion
     //       the rationale for returning `false` (and then the process return code 1)
     //       is clunky, and could use a little refactoring.
     let mut ret: bool = true;
     if chan_recv_err > 0 {
-        defo!("F chan_recv_err {}; return false", chan_recv_err);
+        defo!("K chan_recv_err {}; return false", chan_recv_err);
         ret = false;
     }
     if error_count > 0 {
-        defo!("F error_count {}; return false", error_count);
+        defo!("L error_count {}; return false", error_count);
         ret = false;
     }
     defx!("return {:?}", ret);

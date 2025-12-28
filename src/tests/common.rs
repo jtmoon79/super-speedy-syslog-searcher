@@ -4092,6 +4092,40 @@ pub const OPENBSD_X86_UTMP_BUFFER1: [u8; openbsd_x86::UTMP_SZ] = [
 
 // -------------------------------------------------------------------------------------------------
 
+// Python event data; .etl .odl
+
+// .etl data
+
+pub const ETL_1_STR_PATH: &str = "./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl";
+pub const ETL_1_FILESZ: FileSz = 16384;
+pub const ETL_1_GZ_STR_PATH: &str = "./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz";
+
+lazy_static! {
+    pub static ref ETL_1_FPATH: FPath = FPath::from(ETL_1_STR_PATH);
+    pub static ref ETL_1_EVENT_COUNT: Count = 21;
+    pub static ref ETL_1_GZ_FPATH: FPath = FPath::from(ETL_1_GZ_STR_PATH);
+    pub static ref ETL_1_GZ_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1759660280))
+    };
+}
+
+// .odl data
+
+pub const ODL_1_STR_PATH: &str = "./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl";
+pub const ODL_1_FILESZ: FileSz = 1961;
+pub const ODL_1_GZ_STR_PATH: &str = "./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.gz";
+
+lazy_static! {
+    pub static ref ODL_1_FPATH: FPath = FPath::from(ODL_1_STR_PATH);
+    pub static ref ODL_1_EVENT_COUNT: Count = 11;
+    pub static ref ODL_1_GZ_FPATH: FPath = FPath::from(ODL_1_GZ_STR_PATH);
+    pub static ref ODL_1_GZ_MTIME: SystemTime = {
+        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1766319245))
+    };
+}
+
+// -------------------------------------------------------------------------------------------------
+
 // EVTX data
 
 pub const EVTX_NE_STR_PATH: &str = "../../logs/programs/evtx/NoEvents.evtx";

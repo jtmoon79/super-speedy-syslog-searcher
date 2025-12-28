@@ -5,10 +5,17 @@
 
 #![allow(non_camel_case_types)]
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::{
+    BTreeMap,
+    HashMap,
+};
 use std::fmt;
+use std::path::PathBuf;
 use std::str;
-use std::time::Instant;
+use std::time::{
+    Duration,
+    Instant,
+};
 
 use ::chrono::{
     DateTime,
@@ -18,10 +25,7 @@ use ::chrono::{
     Timelike,
 };
 use ::current_platform::CURRENT_PLATFORM;
-use ::si_trace_print::{
-    de,
-    defñ,
-};
+use ::si_trace_print::defñ;
 
 use crate::common::{
     debug_panic,
@@ -49,6 +53,7 @@ use crate::data::datetime::{
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
+use crate::data::pydataevent::PyDataEvent;
 use crate::data::sysline::SyslineP;
 use crate::debug::printers::{
     de_err,
@@ -58,19 +63,21 @@ use crate::debug::printers::{
 use crate::printer::printers::{
     fpath_to_prependpath,
     print_colored_stderr,
-    write_stderr,
-    // termcolor imports
     Color,
     ColorChoice,
-    //
     PrinterLogMessage,
     color_dimmed,
     COLOR_ERROR,
+};
+use crate::python::pyrunner::{
+    ExitStatus,
+    PythonPathsRan,
 };
 use crate::readers::blockreader::SummaryBlockReader;
 use crate::readers::filepreprocessor::ProcessPathResult;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::linereader::SummaryLineReader;
+use crate::readers::pyeventreader::PyEventType;
 use crate::readers::summary::{
     Summary,
     SummaryOpt,
@@ -102,26 +109,32 @@ const OPT_SUMMARY_PRINT_INDENT1: &str = "  ";
 const OPT_SUMMARY_PRINT_INDENT2: &str = "      ";
 const OPT_SUMMARY_PRINT_INDENT3: &str = "                   ";
 
+/// datetime format for primary printing of datetime
 const DATETIMEFMT: &str = "%Y-%m-%d %H:%M:%S %:z";
+/// datetime format for secondary printing of datetime
+const DATETIMEFMT_SEC: &str = "%Y-%m-%d %H:%M:%S.%6f %:z";
+
+fn print_dimmed(
+    s: &String,
+    color_choice_opt: Option<ColorChoice>,
+) {
+    let color_dimmed_ = color_dimmed();
+    print_colored_stderr(
+        color_dimmed_,
+        color_choice_opt,
+        s.as_bytes()
+    );
+}
 
 /// print the passed `DateTimeL` as UTC with dimmed color
 fn print_datetime_utc_dimmed(
     dt: &DateTimeL,
     color_choice_opt: Option<ColorChoice>,
 ) {
-    let dt_utc = dt.with_timezone(&*FIXEDOFFSET0);
-    let dt_utc_s = dt_utc.format(DATETIMEFMT);
-    let color_dimmed_ = color_dimmed();
-    match print_colored_stderr(
-        color_dimmed_,
-        color_choice_opt,
-        format!("({})", dt_utc_s).as_bytes()
-    ) {
-        Err(e) => {
-            eprintln!("\nERROR: print_colored_stderr {:?}", e);
-        }
-        Ok(_) => {}
-    }
+    let dt_utc = dt.with_timezone(&FIXEDOFFSET0);
+    let dt_utc_s = dt_utc.format(DATETIMEFMT_SEC);
+    let s = format!("({})", dt_utc_s);
+    print_dimmed(&s, color_choice_opt);
 }
 
 /// print the passed `DateTimeL` as-is and with UTC dimmed color
@@ -131,21 +144,11 @@ fn print_datetime_asis_utc_dimmed(
 ) {
     let dt_s = dt.format(DATETIMEFMT);
     eprint!("{} ", dt_s);
-    let dt_utc = dt.with_timezone(&*FIXEDOFFSET0);
-    let dt_utc_s = dt_utc.format(DATETIMEFMT);
-    let color_dimmed_ = color_dimmed();
-    match print_colored_stderr(
-        color_dimmed_,
-        color_choice_opt,
-        format!("({})", dt_utc_s).as_bytes()
-    ) {
-        Err(e) => {
-            eprintln!("\nERROR: print_colored_stderr {:?}", e);
-        }
-        Ok(_) => {}
-    }
+    let dt_utc = dt.with_timezone(&FIXEDOFFSET0);
+    let dt_utc_s = dt_utc.format(DATETIMEFMT_SEC);
+    let s = format!("({})", dt_utc_s);
+    print_dimmed(&s, color_choice_opt);
 }
-
 
 /// Statistics about the main processing thread's printing activity.
 /// Used with CLI option `--summary`.
@@ -163,10 +166,14 @@ pub struct SummaryPrinted {
     pub syslines: Count,
     /// count of `FixedStruct` printed
     pub fixedstructentries: Count,
+    /// count of `PyDataEvent` printed
+    pub etlentries: Count,
     /// count of `Evtx` printed
     pub evtxentries: Count,
     /// count of `JournalEntry` printed
     pub journalentries: Count,
+    /// count of `Odl` printed
+    pub odlentries: Count,
     /// last datetime printed
     pub dt_first: DateTimeLOpt,
     pub dt_last: DateTimeLOpt,
@@ -225,8 +232,10 @@ impl SummaryPrinted {
             lines: 0,
             syslines: 0,
             fixedstructentries: 0,
+            etlentries: 0,
             evtxentries: 0,
             journalentries: 0,
+            odlentries: 0,
             dt_first: None,
             dt_last: None,
         }
@@ -254,6 +263,7 @@ impl SummaryPrinted {
             _summarysyslinereader_opt,
             _summarysyslogprocessor_opt,
             summaryfixedstructreader_opt,
+            summarypyeventreader_opt,
             summaryevtxreader_opt,
             summaryjournalreader_opt,
         ) = match &summary.readerdata {
@@ -275,6 +285,7 @@ impl SummaryPrinted {
                     None,
                     None,
                     None,
+                    None,
                 )
             }
             SummaryReaderData::FixedStruct(
@@ -291,10 +302,24 @@ impl SummaryPrinted {
                     Some(summaryfixedstructreader),
                     None,
                     None,
+                    None,
+                )
+            }
+            SummaryReaderData::PyEvent(summarypyeventreader) => {
+                (
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    Some(summarypyeventreader),
+                    None,
+                    None,
                 )
             }
             SummaryReaderData::Etvx(summaryevtxreader) => {
                 (
+                    None,
                     None,
                     None,
                     None,
@@ -306,6 +331,7 @@ impl SummaryPrinted {
             }
             SummaryReaderData::Journal(summaryjournalreader) => {
                 (
+                    None,
                     None,
                     None,
                     None,
@@ -462,6 +488,34 @@ impl SummaryPrinted {
             None => {}
         }
 
+        match summarypyeventreader_opt {
+            Some(summarypyeventreader) => {
+                eprintln!("{}bytes         : {}", indent2, self.bytes);
+                eprintln!("{}flushes       : {}", indent2, self.flushed);
+                eprintln!("{}events        : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
+                match summarypyeventreader.pyeventreader_datetime_first_accepted {
+                    Some(dt) => {
+                        eprint!("{}datetime first: ", indent2);
+                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                        eprintln!();
+                    }
+                    None => {}
+                }
+                match summarypyeventreader.pyeventreader_datetime_last_accepted {
+                    Some(dt) => {
+                        eprint!("{}datetime last : ", indent2);
+                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                        eprintln!();
+                        debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_some());
+                    }
+                    None => {
+                        debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_none());
+                    }
+                }
+            }
+            None => {}
+        }
+
         match summaryevtxreader_opt {
             Some(summaryevtxreader) => {
                 eprintln!("{}bytes         : {}", indent2, self.bytes);
@@ -577,6 +631,33 @@ impl SummaryPrinted {
         self.summaryprint_update_dt(entry.dt());
     }
 
+    pub fn summaryprint_update_pyevent(
+        &mut self,
+        pyevent: &PyDataEvent,
+        pyevent_type: PyEventType,
+        printed: Count,
+        flushed: Count,
+    ) {
+        defñ!();
+        // TODO [2025/12/23]: can `LogMessageType::All` be removed here?
+        //      I don't recall how this is ends up getting passed in.
+        debug_assert!(
+            matches!(self.logmessagetype, LogMessageType::PyEvent | LogMessageType::All),
+            "Unexpected LogMessageType {:?}", self.logmessagetype,
+        );
+        match pyevent_type {
+            PyEventType::Etl { .. } => {
+                self.etlentries += 1;
+            }
+            PyEventType::Odl { .. } => {
+                self.odlentries += 1;
+            }
+        }
+        self.bytes += printed;
+        self.flushed += flushed;
+        self.summaryprint_update_dt(pyevent.dt());
+    }
+
     /// Update a `SummaryPrinted` with information from a printed `Evtx`.
     pub fn summaryprint_update_evtx(
         &mut self,
@@ -653,6 +734,30 @@ impl SummaryPrinted {
             None => {
                 let mut sp = SummaryPrinted::new(LogMessageType::FixedStruct);
                 sp.summaryprint_update_fixedstruct(fixedstruct, printed, flushed);
+                map_.insert(*pathid, sp);
+            }
+        };
+    }
+
+    /// Update a mapping of `PathId` to `SummaryPrinted` for a PyEvent.
+    ///
+    /// Helper function to function `processing_loop`.
+    pub fn summaryprint_map_update_pyevent(
+        pyevent: &PyDataEvent,
+        pathid: &PathId,
+        pyevent_type: PyEventType,
+        map_: &mut MapPathIdSummaryPrint,
+        printed: Count,
+        flushed: Count,
+    ) {
+        defñ!();
+        match map_.get_mut(pathid) {
+            Some(sp) => {
+                sp.summaryprint_update_pyevent(pyevent, pyevent_type, printed, flushed);
+            }
+            None => {
+                let mut sp = SummaryPrinted::new(LogMessageType::PyEvent);
+                sp.summaryprint_update_pyevent(pyevent, pyevent_type, printed, flushed);
                 map_.insert(*pathid, sp);
             }
         };
@@ -818,7 +923,8 @@ pub fn print_summary(
     eprintln!("Printed flushes        : {}", summaryprinted.flushed);
     eprintln!("Printed lines          : {}", summaryprinted.lines);
     eprintln!("Printed syslines       : {}", summaryprinted.syslines);
-    eprintln!("Printed evtx events    : {}", summaryprinted.evtxentries);
+    eprintln!("Printed ETL events     : {}", summaryprinted.etlentries);
+    eprintln!("Printed EVTX events    : {}", summaryprinted.evtxentries);
     // TODO: [2023/03/26] eprint count of EVTX files "out of order".
     eprintln!("Printed fixedstruct    : {}", summaryprinted.fixedstructentries);
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
@@ -828,6 +934,7 @@ pub fn print_summary(
         // XXX: hacky hint that the count is not available
         Err(_) => -1,
     };
+    eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
     eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN);
     eprintln!("Regex patterns compiled: {}", count);
 
@@ -896,9 +1003,34 @@ pub fn print_summary(
             utc_now.second(),
         )
         .unwrap()
-        .with_timezone(&*FIXEDOFFSET0);
+        .with_timezone(&FIXEDOFFSET0);
     print_datetime_utc_dimmed(&utc_now, Some(color_choice));
     eprintln!();
+    // print the python executables that were run
+    match PythonPathsRan.read() {
+        Ok(python_exes_ran) => {
+            for python_exe in python_exes_ran.iter() {
+                eprint!("Python Interpreter     : {}", python_exe);
+                // print the realpath if different than `python_exe`
+                let path_: PathBuf = PathBuf::from(python_exe);
+                match path_.canonicalize() {
+                    Ok(pathbuf) => match pathbuf.to_str() {
+                        Some(path_s) => {
+                            if path_s != python_exe.as_str() {
+                                print_dimmed(&format!(" ({})", path_s), Some(color_choice));
+                            }
+                        }
+                        None => {}
+                    },
+                    Err(_err) => {
+                        de_err!("canonicalize failed for {:?}; {}", path_, _err);
+                    }
+                }
+                eprintln!();
+            }
+        }
+        Err(_) => {}
+    }
     // print basic stats about the channel
     eprintln!("Channel Receive ok     : {}", chan_recv_ok);
     eprintln!("Channel Receive err    : {}", chan_recv_err);
@@ -1011,17 +1143,32 @@ fn print_file_about(
             return;
         }
     }
-    eprint!("{}filetype       : {}", OPT_SUMMARY_PRINT_INDENT2, filetype);
+    // print filetype leadin
+    eprint!("{}filetype       : ", OPT_SUMMARY_PRINT_INDENT2);
+    // print the filetype basic info
     match filetype {
         FileType::Text { encoding_type: et, .. } => {
-            eprint!(" {}", et);
+            eprint!("{} {}", filetype, et);
         }
-        _ => {}
+        | FileType::Odl { archival_type: _ , odl_sub_type: ot} => {
+            eprint!("{}", ot);
+        }
+        FileType::FixedStruct { .. }
+        | FileType::Etl { .. }
+        | FileType::Evtx { .. }
+        | FileType::Journal { .. }
+        | FileType::Unparsable { .. }
+        => {
+            eprint!("{}", filetype);
+        }
     }
+    // print the filetype archival type if applicable
     match filetype {
-        FileType::Evtx { archival_type: at }
+        FileType::Etl { archival_type: at }
+        | FileType::Evtx { archival_type: at }
         | FileType::FixedStruct { archival_type: at, .. }
         | FileType::Journal { archival_type: at }
+        | FileType::Odl { archival_type: at , .. }
         | FileType::Text { archival_type: at, .. }
         => {
             match at {
@@ -1035,14 +1182,18 @@ fn print_file_about(
             debug_panic!("unexpected FileType::Unparsable");
         }
     }
-    eprintln!();
+    // print the descriptive pretty name
+    eprintln!(" ({})", filetype.pretty_name());
+    // print about FixedStruct types if applicable
     match filetype {
         FileType::FixedStruct { archival_type: _, fixedstruct_type: fst } => {
             eprintln!("{}fixedstructtype: {:?}", OPT_SUMMARY_PRINT_INDENT2, fst);
         }
         _ => {}
     }
+    // print log message type
     eprintln!("{}logmessagetype : {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
+
     match summary_opt {
         Some(summary) => {
             match &summary.readerdata {
@@ -1063,35 +1214,66 @@ fn print_file_about(
         }
         None => {}
     }
-    // print `FileProcessingResultBlockZero` if it was not okay
+    // print `FileProcessingResult` if it was not okay
     if let Some(result) = file_processing_result {
         if !result.is_ok() {
             eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
-            match print_colored_stderr(
+            let indent: String = OPT_SUMMARY_PRINT_INDENT2.to_string() + "                 ";
+            // if the error message has newlines then indent it
+            let s: String = format!("{}", result);
+            let s: String = String::from(s.trim_end());
+            let s: String = s.replace("\n", &format!("\n{}", indent));
+            print_colored_stderr(
                 COLOR_ERROR,
                 Some(*color_choice),
-                match result {
-                    // only print ErrorKind here
-                    // later the Error message will be printed
-                    FileProcessingResultBlockZero::FileErrIoPath(err)
-                    | FileProcessingResultBlockZero::FileErrIo(err) =>
-                        format!("{}", err.kind()),
-                    FileProcessingResultBlockZero::FileErrTooSmallS(_) =>
-                        format!("FileErrTooSmall"),
-                    FileProcessingResultBlockZero::FileErrNoSyslinesInDtRange =>
-                        format!("No Syslines in DateTime Range"),
-                    FileProcessingResultBlockZero::FileErrNoFixedStructInDtRange =>
-                        format!("No FixedStruct in DateTime Range"),
-                    _ => format!("{:?}", result),
-                }.as_bytes()
-            ) {
-                Ok(_) => {}
-                Err(e) => e_err!("print_colored_stderr: {:?}", e)
-            }
+                s.as_bytes(),
+            );
             eprintln!();
         }
     }
 }
+
+/// print `value` normally if `predicate` returns `false`
+/// else print `value` in color with the error color
+fn eprintln_display_color_error<T, F>(value: &T, predicate: F, color_choice: &ColorChoice)
+    where
+        F: Fn(&T) -> bool,
+        T: fmt::Display,
+{
+    if ! predicate(value) {
+        eprintln!("{}", value);
+    } else {
+        let data = format!("{}", value);
+        print_colored_stderr(
+            COLOR_ERROR,
+            Some(*color_choice),
+            data.as_bytes(),
+        );
+        eprintln!();
+    }
+}
+
+/// print `value` if `predicate` returns `false`
+/// else print `value` in color with the error color
+#[allow(dead_code)]
+fn eprintln_debug_color_error<T, F>(value: &T, predicate: F, color_choice: &ColorChoice)
+    where
+        F: Fn(&T) -> bool,
+        T: fmt::Debug,
+{
+    if ! predicate(value) {
+        eprintln!("{:?}", value);
+    } else {
+        let data = format!("{:?}", value);
+        print_colored_stderr(
+            COLOR_ERROR,
+            Some(*color_choice),
+            data.as_bytes(),
+        );
+        eprintln!();
+    }
+}
+
 
 /// Print the (optional) [`Summary`] (multiple lines) processed sections.
 ///
@@ -1168,6 +1350,46 @@ fn print_summary_opt_processed(
                 "{}out of order? : {}",
                 indent2, summaryfixedstructreader.fixedstructreader_entries_out_of_order
             );
+        }
+        SummaryReaderData::PyEvent(summarypyeventreader) => {
+            eprintln!(
+                "{}file size          : {1} (0x{1:X}) (bytes)",
+                indent2, summarypyeventreader.pyeventreader_filesz,
+            );
+            eprintln!("{}events processed   : {}", indent2, summarypyeventreader.pyeventreader_events_processed);
+            eprintln!("{}events accepted    : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
+            eprint!("{}events out of order: ", indent2);
+            eprintln_display_color_error(
+                &summarypyeventreader.pyeventreader_out_of_order,
+                |x| *x != 0,
+                color_choice,
+            );
+            eprintln!("{}events read max    : {}", indent2, summarypyeventreader.pyeventreader_events_read_max);
+            eprintln!("{}events queue high  : {}", indent2, summarypyeventreader.pyeventreader_events_held_max);
+            eprintln!("{}Python process polls       : {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_polls);
+            eprintln!("{}Python process reads stdout: {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_reads_stdout);
+            eprintln!("{}Python process reads stderr: {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_reads_stderr);
+            eprintln!("{}Python process writes stdin: {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_writes);
+            eprintln!("{}Python pipe recv stdout    : {}", indent2, summarypyeventreader.pyeventreader_python_count_pipe_recv_stdout);
+            eprintln!("{}Python pipe recv stderr    : {}", indent2, summarypyeventreader.pyeventreader_python_count_pipe_recv_stderr);
+            eprintln!("{}Python pipe size stdout    : {}", indent2, summarypyeventreader.pyeventreader_pipe_sz_stdout);
+            eprintln!("{}Python pipe size stderr    : {}", indent2, summarypyeventreader.pyeventreader_pipe_sz_stderr);
+            // drop sub-milliseconds data, milliseconds is precise enough
+            let dur_ms_wait: Duration = Duration::from_millis(summarypyeventreader.pyeventreader_duration_proc_wait.as_millis() as u64);
+            eprintln!("{}Python process waits       : {:?}", indent2, dur_ms_wait);
+            let dur_ms_run: Duration = Duration::from_millis(summarypyeventreader.pyeventreader_duration_proc_run.as_millis() as u64);
+            eprintln!("{}Python process runtime     : {:?}", indent2, dur_ms_run);
+            eprint!("{}Python exit status         : ", indent2);
+            let exit_status: &ExitStatus = &summarypyeventreader.pyeventreader_python_exit_status.unwrap_or_default();
+            // remove "exit status: " from the ExitStatus display string
+            let es_s: String = format!("{}", exit_status).replace("exit status: ", "");
+            eprintln_display_color_error(
+                &es_s,
+                |_| { !exit_status.success() },
+                color_choice,
+            );
+            let args: String = summarypyeventreader.pyeventreader_python_arguments.join(" ");
+            eprintln!("{}Python script arguments    : {}", indent2, args);
         }
         SummaryReaderData::Etvx(summaryevtxreader) => {
             eprintln!(
@@ -1275,21 +1497,31 @@ fn print_summary_opt_processed(
             return;
         }
     }
-    // print datetime first and last
-    match (summary.datetime_first(), summary.datetime_last()) {
-        (Some(dt_first), Some(dt_last)) => {
-            eprint!("{}datetime first: ", indent2);
+
+    // print datetime first processed
+    let dt_first = summary.datetime_first_processed();
+    match dt_first {
+        Some(dt_first) => {
+            eprint!("{}datetime first     : ", indent2);
             print_datetime_asis_utc_dimmed(&dt_first, Some(*color_choice));
             eprintln!();
-            eprint!("{}datetime last : ", indent2);
+        }
+        None => {}
+    }
+    // print datetime last processed
+    let dt_last = summary.datetime_last_processed();
+    match dt_last {
+        Some(dt_last) => {
+            eprint!("{}datetime last      : ", indent2);
             print_datetime_asis_utc_dimmed(&dt_last, Some(*color_choice));
             eprintln!();
         }
-        (None, Some(_)) | (Some(_), None) =>
-            e_err!("only one of dt_first or dt_last fulfilled; this is unexpected."),
-        _ => {}
+        None => {}
     }
-    // print datetime patterns
+    // assert that both are None or both are Some
+    debug_assert!((dt_first.is_none() || dt_last.is_none()) || (dt_first.is_some() || dt_last.is_some()));
+
+    // print datetime regex patterns
     match &summary.readerdata {
         SummaryReaderData::Syslog((
             _summaryblockreader,
@@ -1384,8 +1616,10 @@ fn print_summary_opt_processed_summaryblockreader(
                 indent, summaryblockreader.blockreader_filesz_actual
             );
         }
-        FileType::Evtx{..}
+        FileType::Etl{..}
+        | FileType::Evtx{..}
         | FileType::Journal{..}
+        | FileType::Odl { .. }
         | FileType::Unparsable
         => {
             debug_panic!("unexpected filetype {:?}", summary.filetype);
@@ -1754,6 +1988,7 @@ fn print_cache_stats(
         }
         SummaryReaderData::Etvx(_summaryevtxreader) => {}
         SummaryReaderData::Journal(_summaryjournalreader) => {}
+        SummaryReaderData::PyEvent(_summarypyeventreader) => {}
         SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
     }
 }
@@ -1779,13 +2014,17 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     match summary.filetype {
         None => debug_panic!("unexpected None for summary.filetype"),
         Some(filetype_) => match filetype_ {
-            FileType::Evtx { .. } => {
+            FileType::Etl { .. }
+            | FileType::Evtx { .. }
+            | FileType::Journal { .. }
+            | FileType::Odl { .. } => {
                 return;
             }
-            FileType::Journal { .. } => {
-                return;
+            FileType::FixedStruct { .. }
+            | FileType::Text { .. } => {}
+            FileType::Unparsable => {
+                debug_panic!("unexpected Unparsable for summary.filetype");
             }
-            _ => {}
         },
     }
     eprintln!("{}Processing Drops:", OPT_SUMMARY_PRINT_INDENT1);
@@ -1841,13 +2080,10 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
                 wide = wide,
             );
         }
-        SummaryReaderData::Etvx(_summaryevtxreader) => {
-            panic!("Unexpected SummaryReaderData::Etvx");
-        }
-        SummaryReaderData::Journal(_summaryjournalreader) => {
-            panic!("Unexpected SummaryReaderData::Journal");
-        }
-        SummaryReaderData::Dummy => panic!("Unexpected SummaryReaderData::Dummy"),
+        SummaryReaderData::Etvx(..) => debug_panic!("Unexpected SummaryReaderData::Etvx"),
+        SummaryReaderData::Journal(..) => debug_panic!("Unexpected SummaryReaderData::Journal"),
+        SummaryReaderData::PyEvent(..) => debug_panic!("Unexpected SummaryReaderData::PyEvent"),
+        SummaryReaderData::Dummy => debug_panic!("Unexpected SummaryReaderData::Dummy"),
     }
 }
 

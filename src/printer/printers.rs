@@ -52,6 +52,7 @@ use crate::data::datetime::{
     DateTimePattern_string,
     FixedOffset,
 };
+use crate::data::pydataevent::PyDataEvent;
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::{
     FixedStruct,
@@ -834,6 +835,28 @@ impl PrinterLogMessage {
         }
     }
 
+    /// Print a `Etl` based on [`PrinterLogMessage`] settings.
+    ///
+    /// Users should call this function.
+    #[inline(always)]
+    pub fn print_pyevent(
+        &mut self,
+        pyevent: &PyDataEvent,
+    ) -> PrinterLogMessageResult {
+        match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
+            (false, false, false) => self.print_pyevent_(pyevent),
+            (false, do_prepend_file, do_prepend_date) => {
+                self.print_pyevent_prepend(pyevent, do_prepend_file, do_prepend_date)
+            }
+            (true, do_prepend_file, do_prepend_date) => {
+                match (do_prepend_file, do_prepend_date) {
+                    (false, false) => self.print_pyevent_color(pyevent),
+                    (do_prepend_file, do_prepend_date) => self.print_pyevent_prepend_color(pyevent, do_prepend_file, do_prepend_date),
+                }
+            }
+        }
+    }
+
     /// Print a `Evtx` based on [`PrinterLogMessage`] settings.
     ///
     /// Users should call this function.
@@ -922,6 +945,25 @@ impl PrinterLogMessage {
             .dt()
             .with_timezone(&self.prepend_date_offset);
         let dt_delayedformat = dt_.format(
+            self.prepend_date_format.as_str(),
+        );
+
+        dt_delayedformat.to_string()
+    }
+
+    /// Helper function to transform [`fixedstruct.dt`] to a `String`.
+    ///
+    /// [`fixedstruct.dt`]: crate::data::fixedstruct::fixedstruct#structfield.dt
+    #[inline(always)]
+    fn datetime_to_string_pyevent(
+        &self,
+        pyevent: &PyDataEvent,
+    ) -> String {
+        // write the `pyevent.dt` into a `String` once
+        let dt: DateTimeL = pyevent
+            .dt()
+            .with_timezone(&self.prepend_date_offset);
+        let dt_delayedformat = dt.format(
             self.prepend_date_format.as_str(),
         );
 
@@ -1537,6 +1579,184 @@ impl PrinterLogMessage {
         buffer_write_or_return!(self.stdout_color, self.buffer, &buffer[end..at], printed, flushed);
         buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
 
+        setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
+        black_box(&stdout_lock);
+
+        PrinterLogMessageResult::Ok((printed, flushed))
+    }
+
+    /// Print a `Evtx` without anything special. Optimized for this simple
+    /// common case.
+    fn print_pyevent_(
+        &mut self,
+        pyevent: &PyDataEvent,
+    ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
+        let mut flushed: usize = 0;
+        let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
+        buffer_write_or_return!(stdout_lock, self.buffer, pyevent.as_bytes(), printed, flushed);
+        buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
+
+        PrinterLogMessageResult::Ok((printed, flushed))
+    }
+
+    /// Print a `Evtx` with prepended file and/or datetime.
+    fn print_pyevent_prepend(
+        &mut self,
+        pyevent: &PyDataEvent,
+        do_prependfile: bool,
+        do_prependdate: bool,
+    ) -> PrinterLogMessageResult {
+        debug_assert!(!self.prepend_date_format.is_empty());
+
+        let mut printed: usize = 0;
+        let mut flushed: usize = 0;
+        let prepend_file: &[u8] = match do_prependfile {
+            true => self
+                    .prepend_file
+                    .as_ref()
+                    .unwrap()
+                    .as_bytes(),
+            false => &[],
+        };
+        let prepend_date_s: String;
+        let prepend_date: &[u8] = match do_prependdate {
+            true => {
+                prepend_date_s = self.datetime_to_string_pyevent(pyevent);
+                prepend_date_s.as_bytes()
+            }
+            false => &[],
+        };
+        let data = pyevent.as_bytes();
+        let mut a: usize = 0;
+        let mut stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
+        while let Some(b) = data[a..].find_byte(NLu8) {
+            let line = &data[a..a + b + CHARSZ];
+            a += b + CHARSZ;
+            if line.is_empty() {
+                continue;
+            }
+            if do_prependfile {
+                buffer_write_or_return!(stdout_lock, self.buffer, prepend_file, printed, flushed);
+            }
+            if do_prependdate {
+                buffer_write_or_return!(stdout_lock, self.buffer, prepend_date, printed, flushed);
+            }
+            buffer_write_or_return!(stdout_lock, self.buffer, line, printed, flushed);
+        }
+        buffer_flush_or_return!(stdout_lock, self.buffer, printed, flushed);
+
+        PrinterLogMessageResult::Ok((printed, flushed))
+    }
+
+    /// Print a `Evtx` in color. Optimized for this simple common case.
+    fn print_pyevent_color(
+        &mut self,
+        pyevent: &PyDataEvent,
+    ) -> PrinterLogMessageResult {
+        let (beg, end) = match pyevent.dt_beg_end() {
+            Some((beg, end)) => (*beg, *end),
+            None => (0, 0),
+        };
+        debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
+        let mut printed: usize = 0;
+        let mut flushed: usize = 0;
+        let data = pyevent.as_bytes();
+        let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
+
+        setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
+        buffer_write_or_return!(self.stdout_color, self.buffer, &data[..beg], printed, flushed);
+        buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
+
+        setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_datetime, self.color_spec_last, printed, flushed);
+        buffer_write_or_return!(self.stdout_color, self.buffer, &data[beg..end], printed, flushed);
+        buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
+
+        setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
+        buffer_write_or_return!(self.stdout_color, self.buffer, &data[end..], printed, flushed);
+        buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
+
+        setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
+        black_box(&stdout_lock);
+
+        PrinterLogMessageResult::Ok((printed, flushed))
+    }
+
+    /// Print a `Evtx` in color and prepended filename and/or datetime.
+    fn print_pyevent_prepend_color(
+        &mut self,
+        pyevent: &PyDataEvent,
+        do_prependfile: bool,
+        do_prependdate: bool,
+    ) -> PrinterLogMessageResult {
+        let mut printed: usize = 0;
+        let mut flushed: usize = 0;
+        let prepend_file: &[u8] = match do_prependfile {
+            true => self
+                    .prepend_file
+                    .as_ref()
+                    .unwrap()
+                    .as_bytes(),
+            false => &[],
+        };
+        let prepend_date_s: String;
+        let prepend_date: &[u8] = match do_prependdate {
+            true => {
+                prepend_date_s = self.datetime_to_string_pyevent(pyevent);
+                prepend_date_s.as_bytes()
+            }
+            false => &[],
+        };
+        let (beg, end) = match pyevent.dt_beg_end() {
+            Some((beg, end)) => (*beg, *end),
+            None => (0, 0),
+        };
+        debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
+        let data = pyevent.as_bytes();
+        let mut at: usize = 0;
+        let mut a: usize = 0;
+        let stdout_lock = self.stdout.lock();
+        let _si_lock = debug_print_guard();
+        while let Some(b) = data[a..].find_byte(NLu8) {
+            let line = &data[a..a + b + CHARSZ];
+            a += b + CHARSZ;
+            if line.is_empty() {
+                continue;
+            }
+            let len = line.len();
+            setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
+            if do_prependfile {
+                buffer_write_or_return!(self.stdout_color, self.buffer, prepend_file, printed, flushed);
+            }
+            if do_prependdate {
+                buffer_write_or_return!(self.stdout_color, self.buffer, prepend_date, printed, flushed);
+            }
+            buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
+            match (at <= beg, end < at + len) {
+                (true, true) => {
+                    setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
+                    buffer_write_or_return!(self.stdout_color, self.buffer, &line[..beg - at], printed, flushed);
+                    buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
+
+                    setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_datetime, self.color_spec_last, printed, flushed);
+                    buffer_write_or_return!(self.stdout_color, self.buffer, &line[beg - at..end - at], printed, flushed);
+                    buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
+
+                    setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
+                    buffer_write_or_return!(self.stdout_color, self.buffer, &line[end - at..], printed, flushed);
+                    buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
+                }
+                _ => {
+                    setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
+                    buffer_write_or_return!(self.stdout_color, self.buffer, line, printed, flushed);
+                    buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
+                }
+            }
+            at += line.len();
+        }
         setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
         black_box(&stdout_lock);
 

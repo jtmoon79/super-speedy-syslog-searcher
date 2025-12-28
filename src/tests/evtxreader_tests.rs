@@ -297,8 +297,8 @@ fn test_EvtxReader_next_summary(
     assert_eq!(summary_c.logmessagetype, LogMessageType::Evtx,
         "summary_c.logmessagetype");
     assert!(summary_c.blockreader().is_none());
-    assert_eq!(summary_c.datetime_first(), &datetime_first_accepted);
-    assert_eq!(summary_c.datetime_last(), &datetime_last_accepted);
+    assert_eq!(summary_c.datetime_first_printed(), &datetime_first_accepted);
+    assert_eq!(summary_c.datetime_last_printed(), &datetime_last_accepted);
     assert_eq!(summary_c.max_drop(), 0);
     assert_eq!(summary_c.max_hit_miss(), events_processed);
     match summary_c.readerdata {

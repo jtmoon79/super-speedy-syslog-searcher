@@ -10,6 +10,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
     FileTypeTextEncoding,
+    OdlSubType,
 };
 use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::helpers::fpath_to_path;
@@ -29,6 +30,11 @@ use crate::tests::common::{
     EVTX_KPNP_XZ_MTIME,
     JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH,
     JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME,
+    // etl
+    ETL_1_FPATH,
+    ETL_1_GZ_FPATH,
+    ETL_1_FILESZ,
+    ETL_1_GZ_MTIME,
     // journal
     JOURNAL_FILE_RHE_91_SYSTEM_FILESZ,
     JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
@@ -45,6 +51,11 @@ use crate::tests::common::{
     NTF_BZ2_EMPTY_FPATH,
     NTF_GZ_EMPTY_FPATH,
     NTF_LINUX_X86_UTMPX_3ENTRY_FPATH,
+    // odl
+    ODL_1_FPATH,
+    ODL_1_FILESZ,
+    ODL_1_GZ_FPATH,
+    ODL_1_GZ_MTIME,
     // text
     NTF_LOG_EMPTY_FPATH,
     NTF_LZ4_8BYTE_FPATH,
@@ -89,6 +100,16 @@ use crate::tests::common::{
     EVTX_KPNP_FILESZ;
     "evtx.xz"
 )]
+// etl files
+#[test_case(
+    &ETL_1_GZ_FPATH,
+    FileType::Etl { archival_type: FileTypeArchive::Gz },
+    Some(*ETL_1_GZ_MTIME),
+    ETL_1_FILESZ;
+    "etl.gz"
+)]
+// TODO: [2025/12] add other decompression types for ETL files
+//       this is low priority as I have never seen ETL files compressed
 // journal files
 #[test_case(
     &JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH,
@@ -125,20 +146,34 @@ use crate::tests::common::{
     JOURNAL_FILE_RHE_91_SYSTEM_FILESZ;
     "journal.xz"
 )]
+// ODL files
+#[test_case(
+    &ODL_1_GZ_FPATH,
+    FileType::Odl { archival_type: FileTypeArchive::Gz, odl_sub_type: OdlSubType::Odl },
+    Some(*ODL_1_GZ_MTIME),
+    ODL_1_FILESZ;
+    "odl.gz"
+)]
+// TODO: [2025/12]  add other decompression types for ODL files
+//       however, this is low priority as OneDrive has it's own custom compression mechanism
+//       for ODL files (odlgz).
+//       OneDrive does not try to compress ODL files with other compression tools.
 fn test_decompress_to_ntf_ok_some(
     fpath: &FPath,
     filetype: FileType,
     systemtime: Option<SystemTime>,
     filesz: FileSz,
 ) {
-    // XXX: catch error for newly added FileType or FileTypeArchive variants not yet handled
+    // XXX: is it possible to catch error for newly added FileType or FileTypeArchive variants not yet handled?
     match filetype {
         FileType::Unparsable => {
             panic!();
         }
-        FileType::Evtx { archival_type }
+        FileType::Etl { archival_type }
+        | FileType::Evtx { archival_type }
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }
+        | FileType::Odl { archival_type, .. }
         | FileType::Text { archival_type, .. }
         => {
             match archival_type {
@@ -157,14 +192,15 @@ fn test_decompress_to_ntf_ok_some(
         path,
         &filetype,
     );
-    assert!(result.is_ok());
+    assert!(result.is_ok(), "result is not okay; {:?}", result);
     let value_opt = result.unwrap();
-    assert!(value_opt.is_some());
+    assert!(value_opt.is_some(), "value_opt is None");
     let value = value_opt.unwrap();
     // XXX: the `touch` and `SetFile` program on MacOS do not accept timezone offsets.
     //      The datetimestamps in `log-files-time-update.txt` have timezone offsets.
     //      Those timezone offsets cause an error for `touch` and `SetFile`.
-    //      After consideration, this hack is the least worst workaround.
+    //      After consideration, this hack is the least worst workaround. The hack
+    //      just skips the file modified time check when run on MacOS.
     #[cfg(not(target_os="macos"))]
     {
         assert_eq!(
@@ -180,6 +216,12 @@ fn test_decompress_to_ntf_ok_some(
     );
 }
 
+// etl files
+#[test_case(
+    &ETL_1_FPATH,
+    FileType::Etl { archival_type: FileTypeArchive::Normal };
+    "etl"
+)]
 // evtx files
 #[test_case(
     &EVTX_KPNP_FPATH,
@@ -192,6 +234,12 @@ fn test_decompress_to_ntf_ok_some(
     FileType::Journal { archival_type: FileTypeArchive::Normal };
     "journal"
 )]
+// odl files
+#[test_case(
+    &ODL_1_FPATH,
+    FileType::Odl { archival_type: FileTypeArchive::Normal, odl_sub_type: OdlSubType::Odl };
+    "odl"
+)]
 fn test_decompress_to_ntf_ok_none(
     fpath: &FPath,
     filetype: FileType,
@@ -201,9 +249,11 @@ fn test_decompress_to_ntf_ok_none(
         FileType::Unparsable => {
             panic!();
         }
-        FileType::Evtx { archival_type }
+        FileType::Etl { archival_type }
+        | FileType::Evtx { archival_type }
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }
+        | FileType::Odl { archival_type, .. }
         | FileType::Text { archival_type, .. }
         => {
             match archival_type {
@@ -267,9 +317,11 @@ fn test_decompress_to_ntf_panic(fpath: &FPath, filetype: FileType) {
     // XXX: catch error for newly added FileType or FileTypeArchive variants not yet handled
     match filetype {
         FileType::Unparsable => {}
-        FileType::Evtx { archival_type }
+        FileType::Etl { archival_type }
+        | FileType::Evtx { archival_type }
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }
+        | FileType::Odl { archival_type, .. }
         | FileType::Text { archival_type, .. }
         => {
             match archival_type {

@@ -83,6 +83,7 @@ pub mod fixedstructreader;
 pub mod helpers;
 pub mod journalreader;
 pub mod linereader;
+pub mod pyeventreader;
 pub mod summary;
 pub mod syslinereader;
 pub mod syslogprocessor;
