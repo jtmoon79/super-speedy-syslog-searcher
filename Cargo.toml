@@ -58,7 +58,7 @@ const_format = { version = "0.2.35", features = ["assertcp"] }
 crossbeam-channel = "0.5.15"
 ctrlc = "=3.4.7"
 current_platform = "0.2.0"
-dlopen2 = "0.7"
+dlopen2 = "0.8"
 encoding_rs = "0.8.35"
 # TODO: [2025/12] update `evtx` and use `RecordId` when Issue 234 is merged and released
 #       https://github.com/omerbenamram/evtx/issues/234
