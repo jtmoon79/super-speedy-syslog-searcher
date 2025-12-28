@@ -1542,7 +1542,7 @@ impl FixedStructReader {
         let filetype = self.filetype();
         let logmessagetype = filetype.to_logmessagetype();
         let summaryblockreader = self.blockreader.summary();
-        let summaryutmpreader = self.summary();
+        let summaryfixedstructreader = self.summary();
         let error: Option<String> = self.error.clone();
 
         Summary::new(
