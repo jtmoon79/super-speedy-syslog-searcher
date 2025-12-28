@@ -7,7 +7,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 's4'",
+            "name": "Debug bin 's4' gen-99999-1-Motley_Crue.log",
             "cargo": {
                 "args": [
                     "build",
@@ -22,12 +22,15 @@
             "args": [
                 "./logs/other/tests/gen-99999-1-Motley_Crue.log",
             ],
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "sourceLanguages": [
+                "rust"
+            ],
         },
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 's4'",
+            "name": "Debug unit tests in bin 's4'",
             "cargo": {
                 "args": [
                     "test",
@@ -41,7 +44,45 @@
                 }
             },
             "args": [],
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "sourceLanguages": [
+                "rust"
+            ],
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Run release 's4' .etl file",
+            "cargo": {
+                "args": [
+                    "run",
+                    "--profile=flamegraph",
+                    "--",
+                    "./logs/programs/etl/waasmedic.20251005_113019_195.etl"
+                ],
+                "filter": {
+                    "name": "s4",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "sourceLanguages": [
+                "rust"
+            ],
+        },
+        {
+            "type": "debugpy",
+            "request": "launch",
+            "name": "Run etl_reader_etl_parser.py",
+            "program": "${workspaceFolder}/src/python/s4_etl_readers/s4_etl_readers/etl_reader_etl_parser.py",
+            "args": [
+                "${workspaceFolder}/logs/programs/etl/waasmedic.20251005_113019_195.etl",
+            ],
+            "cwd": "${workspaceFolder}",
+            "sourceLanguages": [
+                "python"
+            ],
         }
     ]
 }
