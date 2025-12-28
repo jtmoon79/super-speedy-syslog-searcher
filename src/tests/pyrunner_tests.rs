@@ -49,6 +49,14 @@ pub fn PYTHON_PATH() -> &'static str {
     }
 }
 
+fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
+    let e_s = data.as_ref().unwrap().clone();
+    let mut e_s_s: String = String::from_utf8_lossy(&e_s).to_string();
+    e_s_s = e_s_s.replace(old, new);
+
+    Bytes::from(e_s_s.as_bytes())
+}
+
 #[test_case(
     1,
     &FPath::from(PYTHON_PATH()),
@@ -335,13 +343,7 @@ fn test_PyRunner_stdout_run_many_times(
     assert!(result.is_ok(), "PyRunner new failed: {:?}", result);
     let mut pyr = result.unwrap();
 
-    fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
-        let e_s = data.as_ref().unwrap().clone();
-        let mut e_s_s: String = String::from_utf8_lossy(&e_s).to_string();
-        e_s_s = e_s_s.replace(old, new);
 
-        Bytes::from(e_s_s.as_bytes())
-    }
 
     // clone to re-declare as mutable
     let mut expect_stdout = expect_stdout.clone();
@@ -540,14 +542,6 @@ fn test_PyRunner_stdout_stderr_run_many_times(
     assert!(result.is_ok(), "PyRunner new failed: {:?}", result);
     let mut pyr = result.unwrap();
 
-    fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
-        let e_s = data.as_ref().unwrap().clone();
-        let mut e_s_s: String = String::from_utf8_lossy(&e_s).to_string();
-        e_s_s = e_s_s.replace(old, new);
-
-        Bytes::from(e_s_s.as_bytes())
-    }
-
     // clone to re-declare as mutable
     let mut expect_stdout = expect_stdout.clone();
     let mut expect_stderr = expect_stderr.clone();
@@ -722,14 +716,6 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
     );
     assert!(result.is_ok(), "PyRunner new failed: {:?}", result);
     let mut pyr = result.unwrap();
-
-    fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
-        let e_s = data.as_ref().unwrap().clone();
-        let mut e_s_s: String = String::from_utf8_lossy(&e_s).to_string();
-        e_s_s = e_s_s.replace(old, new);
-
-        Bytes::from(e_s_s.as_bytes())
-    }
 
     // clone to re-declare as mutable
     let mut expect_stdout = expect_stdout.clone();
