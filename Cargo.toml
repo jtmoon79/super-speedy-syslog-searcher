@@ -17,8 +17,8 @@ categories = [
 readme = "README.md"
 version = "0.7.79"
 edition = "2021"
-# `rust-version` (MSRV) should match ./github/workflows/rust.yml:rust_msrv:msrv and ./README.md
-rust-version = "1.83.0"
+# MSRV: `rust-version` should match ./github/workflows/rust.yml:rust_msrv:msrv
+rust-version = "1.85.0"
 default-run = "s4"
 # Do not set metadata fields `documentation` or `homepage` unless using
 # non-standard websites.

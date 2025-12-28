@@ -12,11 +12,11 @@
     "files.eol": "\n",
     "rust-analyzer.check.allTargets": null,
     "rust-analyzer.server.extraEnv": {
+        // MSRV
         // This value should be the same as `rust-version` in `Cargo.toml`
-        // XXX: for whatever reason the rust-analyzer insists on using
-        //      rust 1.79.0 despite rustup override set 1.81.0
-        //      so we force the env var here
-        "RUSTUP_TOOLCHAIN": "1.83.0"
+        // XXX: for whatever reason the rust-analyzer may insist on using
+        //      a different toolchain despite `rustup override` being set.
+        "RUSTUP_TOOLCHAIN": "1.85.0"
     },
     "evenBetterToml.formatter.allowedBlankLines": 2,
     "evenBetterToml.formatter.columnWidth": 100,
