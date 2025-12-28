@@ -115,7 +115,7 @@ fn test_PrinterLogMessage_new() {
         Color::Red,
         None,
         None,
-        *FO_0,
+        FO_0,
     );
 }
 
@@ -154,7 +154,7 @@ fn new_PrinterLogMessage(
         color,
         pf,
         pd,
-        prepend_offset.unwrap_or(*FO_0),
+        prepend_offset.unwrap_or(FO_0),
     )
 }
 
@@ -171,12 +171,12 @@ const DATE: &str = "20000101T000000";
 #[test_case(CCN, CLR, None, None, None, 333, 5; "c")]
 #[test_case(CCA, CLR, Some(FILEN), None, None, 382, 49; "d")]
 #[test_case(CCU, CLR, None, Some(DATE), None, 438, 49; "e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8), 333, 5; "f")]
+#[test_case(CCN, CLR, None, None, Some(FO_P8), 333, 5; "f")]
 #[test_case(CCA, CLR, Some(FILEN), Some(DATE), None, 487, 49; "g")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), 438, 5; "h")]
-#[test_case(CCA, CLR, Some(FILEN), Some(DATE), Some(*FO_P8), 487, 49; "i")]
-#[test_case(CCU, CLR, Some(FILEN), Some(DATE), Some(*FO_P8), 487, 49; "j")]
-#[test_case(CCN, CLR, Some(FILEN), Some(DATE), Some(*FO_P8), 487, 5; "k")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(FO_P8), 438, 5; "h")]
+#[test_case(CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 487, 49; "i")]
+#[test_case(CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 487, 49; "j")]
+#[test_case(CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 487, 5; "k")]
 fn test_PrinterLogMessage_print_sysline_NTF5(
     colorchoice: ColorChoice,
     color: Color,
@@ -195,7 +195,7 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
     );
 
     let mut fo: FileOffset = 0;
-    let mut slr = new_SyslineReader(&NTF5_PATH, 1024, *FO_P8);
+    let mut slr = new_SyslineReader(&NTF5_PATH, 1024, FO_P8);
     let mut prints: usize = 0;
     let mut printed_bytes: usize = 0;
     let mut printed_flushed: usize = 0;
@@ -242,11 +242,11 @@ const FILEU: &str = "foo.utmp";
 #[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, None, 378, 2; "c")]
 #[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), None, None, 394, 17; "d")]
 #[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, None, Some(DATE), None, 408, 17; "e")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, Some(*FO_P8), 378, 2; "f")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, None, Some(FO_P8), 378, 2; "f")]
 #[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCA, CLR, Some(FILEU), Some(DATE), None, 424, 17; "g")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8), 424, 17; "h")]
-#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, Some(DATE), Some(*FO_P8), 408, 2; "i")]
-#[test_case(&*NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, 1, CCN, CLR, None, Some(DATE), Some(*FO_P8), 71, 1; "j")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCU, CLR, Some(FILEU), Some(DATE), Some(FO_P8), 424, 17; "h")]
+#[test_case(&*NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, 2, CCN, CLR, None, Some(DATE), Some(FO_P8), 408, 2; "i")]
+#[test_case(&*NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, 1, CCN, CLR, None, Some(DATE), Some(FO_P8), 71, 1; "j")]
 fn test_PrinterLogMessage_print_fixedstruct(
     path: &FPath,
     print_count_expect: usize,
@@ -271,7 +271,7 @@ fn test_PrinterLogMessage_print_fixedstruct(
         path.clone(),
         FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmpx },
         ENTRY_SZ_MAX as BlockSz,
-        *FO_P8,
+        FO_P8,
         None,
         None,
     ) {
@@ -328,10 +328,10 @@ fn test_PrinterLogMessage_print_fixedstruct(
 #[test_case(CCN, CLR, None, None, None, 321782, 227; "c")]
 #[test_case(CCA, CLR, Some(FILEU), None, None, 388782, 34409; "d")]
 #[test_case(CCU, CLR, None, Some(DATE), None, 447407, 34409; "e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8), 321782, 227; "f")]
+#[test_case(CCN, CLR, None, None, Some(FO_P8), 321782, 227; "f")]
 #[test_case(CCA, CLR, Some(FILEU), Some(DATE), None, 514407, 34409; "g")]
-#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(*FO_P8), 514407, 34409; "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), 447407, 339; "i")]
+#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(FO_P8), 514407, 34409; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(FO_P8), 447407, 339; "i")]
 fn test_PrinterLogMessage_print_evtx(
     colorchoice: ColorChoice,
     color: Color,
@@ -390,11 +390,11 @@ const FILEJ: &str = "foo.JOURNAL";
 #[test_case(CCN, CLR, None, None, None, JournalOutput::ShortIso, 205473, 2081; "c")]
 #[test_case(CCA, CLR, Some(FILEJ), None, None, JournalOutput::ShortIsoPrecise, 253424, 14600; "d")]
 #[test_case(CCU, CLR, None, Some(DATE), None, JournalOutput::ShortFull, 259699, 14600; "e")]
-#[test_case(CCN, CLR, None, None, Some(*FO_P8), JournalOutput::ShortMonotonic, 195068, 2081; "f")]
+#[test_case(CCN, CLR, None, None, Some(FO_P8), JournalOutput::ShortMonotonic, 195068, 2081; "f")]
 #[test_case(CCA, CLR, Some(FILEJ), Some(DATE), None, JournalOutput::ShortUnix, 255625, 14600; "g")]
-#[test_case(CCU, CLR, Some(FILEJ), Some(DATE), Some(*FO_P8), JournalOutput::Verbose, 3234685, 205840; "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Export, 2574170, 2085; "i")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(*FO_P8), JournalOutput::Cat, 154102, 2081; "j")]
+#[test_case(CCU, CLR, Some(FILEJ), Some(DATE), Some(FO_P8), JournalOutput::Verbose, 3234685, 205840; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(FO_P8), JournalOutput::Export, 2574170, 2085; "i")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(FO_P8), JournalOutput::Cat, 154102, 2081; "j")]
 fn test_PrinterLogMessage_print_journal(
     colorchoice: ColorChoice,
     color: Color,
@@ -420,7 +420,7 @@ fn test_PrinterLogMessage_print_journal(
     let mut jr: JournalReader = JournalReader::new(
         (*JOURNAL_FILE_RHE_91_SYSTEM_FPATH).clone(),
         journal_output,
-        *FO_0,
+        FO_0,
         FileType::Journal{ archival_type: FileTypeArchive::Normal },
     ).unwrap();
     let mut prints: usize = 0;
