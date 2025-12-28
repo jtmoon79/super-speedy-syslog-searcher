@@ -152,6 +152,7 @@ pub const fn byte_to_char_noraw(byte: u8) -> char {
 /// transform buffer of chars to a non-raw String
 /// chars may be invalid utf-8
 ///
+/// extremely inefficient!
 /// only intended for debugging
 #[doc(hidden)]
 #[allow(non_snake_case)]
@@ -167,6 +168,7 @@ pub fn buffer_to_String_noraw(buffer: &[u8]) -> String {
 
 /// transform valid UTF8 str to non-raw String version
 ///
+/// extremely inefficient
 /// only intended for debugging
 #[doc(hidden)]
 #[allow(non_snake_case)]
@@ -182,6 +184,7 @@ pub fn str_to_String_noraw(str_buf: &str) -> String {
 
 /// return contents of file utf-8 chars (presumably) at `path` as non-raw String
 ///
+/// extremely inefficient
 /// only intended for debugging
 #[allow(non_snake_case)]
 #[cfg(test)]
