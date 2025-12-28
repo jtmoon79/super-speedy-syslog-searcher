@@ -16,6 +16,7 @@ use std::path::{
 #[cfg(test)]
 use std::str::FromStr; // for `String::from_str`
 
+use ::jwalk;
 #[allow(unused_imports)]
 use ::si_trace_print::{
     defn,
@@ -27,11 +28,9 @@ use ::si_trace_print::{
     dex,
     deñ,
 };
-use {
-    ::jwalk,
-    ::tar,
-};
+use ::tar;
 
+use crate::debug_panic;
 use crate::common::{
     FPath,
     FileSz,
@@ -154,9 +153,11 @@ fn canonicalize_fpath(fpath: &FPath) -> FPath {
 /// Some Windows hosts return the MS-DOS shortened form of a path.
 /// Later, that will fail comparisons to the canonical full form of the same
 /// path.
+///
 /// e.g. `"C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\.tmp6TC2W5\\file1"`
 ///      !=
 ///      `"C:\\Users\\runneradmin\\AppData\\Local\\Temp\\.tmp6TC2W5\\file1"`
+///
 /// This function should resolve the first string to the second string.
 pub(crate) fn copy_process_path_result_canonicalize_path(ppr: ProcessPathResult) -> ProcessPathResult {
     match ppr {
@@ -198,6 +199,10 @@ pub enum PathToFiletypeResult {
 }
 
 /// Determine the `FileType` of a file based on the `pathbuf` file name.
+///
+/// This function does the bulk of tedious work around determining a `FileType` based on a
+/// file name. It is recursive to handle multiple suffixes/extensions such as
+/// `archive.tar.gz` or `syslog.1.gz`.
 fn pathbuf_to_filetype_impl(
     pathbuf: &PathBuf,
     unparseable_are_text: bool,
@@ -343,6 +348,7 @@ fn pathbuf_to_filetype_impl(
         return ret;
     }
 
+    defo!("match file_suffix {:?}", file_suffix.as_str());
     match file_suffix.as_str() {
         "bz2" => {
             defo!("file_suffix {:?} is a bz2", file_suffix);
@@ -823,9 +829,6 @@ fn pathbuf_to_filetype_impl(
     ret
 }
 
-/// Determine the `FileType` of a file based on the `pathbuf` file name.
-/// Attempt to determine the `FileType::archive_type` of the file.
-///
 /// Wrapper function for [`pathbuf_to_filetype_impl`]
 pub fn pathbuf_to_filetype(
     pathbuf: &PathBuf,
