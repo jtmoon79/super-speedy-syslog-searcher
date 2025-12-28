@@ -12,10 +12,10 @@ use std::io::{
 };
 #[doc(hidden)]
 pub use std::path::Path;
+use std::thread;
 
 use ::chrono::FixedOffset;
 use ::kinded::Kinded;
-use ::lazy_static::lazy_static;
 
 /// `F`ake `Path` or `F`ile `Path`.
 ///
@@ -896,81 +896,6 @@ pub enum FileType {
     /// a file type known to be unparsable
     Unparsable,
 }
-
-/*
-
-For copy+pasta convenience:
-
-    FileType::Evtx{ archival_type: FileTypeArchive::Normal } => false,
-    FileType::Evtx{ archival_type: FileTypeArchive::Gz } => false,
-    FileType::Evtx{ archival_type: FileTypeArchive::Tar } => false,
-    FileType::Evtx{ archival_type: FileTypeArchive::Xz } => false,
-    FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ } => false,
-    FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ } => false,
-    FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ } => false,
-    FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ } => false,
-    FileType::Journal{ archival_type: FileTypeArchive::Normal } => false,
-    FileType::Journal{ archival_type: FileTypeArchive::Gz } => false,
-    FileType::Journal{ archival_type: FileTypeArchive::Tar } => false,
-    FileType::Journal{ archival_type: FileTypeArchive::Xz } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf16 } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf32 } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf16 } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf32 } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf16 } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf32 } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf16 } => false,
-    FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf32 } => false,
-    FileType::Unparsable => false,
-
-    FileType::Evtx{ archival_type: FileTypeArchive::Normal }
-    | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
-    | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
-    | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
-    | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
-    | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
-    | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
-    | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
-    | FileType::Journal{ archival_type: FileTypeArchive::Normal }
-    | FileType::Journal{ archival_type: FileTypeArchive::Gz }
-    | FileType::Journal{ archival_type: FileTypeArchive::Tar }
-    | FileType::Journal{ archival_type: FileTypeArchive::Xz }
-    | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-    | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf16 }
-    | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf32 }
-    | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-    | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf16 }
-    | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf32 }
-    | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-    | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf16 }
-    | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf32 }
-    | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-    | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf16 }
-    | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf32 }
-    | FileType::Unparsable
-
-    FileType::Evtx{ archival_type: FileTypeArchive::Normal }
-    | FileType::Evtx{ archival_type: FileTypeArchive::Gz }
-    | FileType::Evtx{ archival_type: FileTypeArchive::Tar }
-    | FileType::Evtx{ archival_type: FileTypeArchive::Xz }
-    | FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: _ }
-    | FileType::FixedStruct{ archival_type: FileTypeArchive::Gz, fixedstruct_type: _ }
-    | FileType::FixedStruct{ archival_type: FileTypeArchive::Tar, fixedstruct_type: _ }
-    | FileType::FixedStruct{ archival_type: FileTypeArchive::Xz, fixedstruct_type: _ }
-    | FileType::Journal{ archival_type: FileTypeArchive::Normal }
-    | FileType::Journal{ archival_type: FileTypeArchive::Gz }
-    | FileType::Journal{ archival_type: FileTypeArchive::Tar }
-    | FileType::Journal{ archival_type: FileTypeArchive::Xz }
-    | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
-    | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
-    | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
-    | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }
-    | FileType::Unparsable
-*/
 
 impl std::fmt::Display for FileType {
     fn fmt(
