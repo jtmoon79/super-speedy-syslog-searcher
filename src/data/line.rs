@@ -484,25 +484,25 @@ pub enum LinePartPtrs<'a> {
 impl<'a> LinePartPtrs<'a> {
     /// To aid testing.
     #[cfg(test)]
-    pub fn is_no_ptr(&self) -> bool {
+    pub const fn is_no_ptr(&self) -> bool {
         matches!(self, LinePartPtrs::NoPtr)
     }
 
     /// To aid testing.
     #[cfg(test)]
-    pub fn is_single_ptr(&self) -> bool {
+    pub const fn is_single_ptr(&self) -> bool {
         matches!(self, LinePartPtrs::SinglePtr(_))
     }
 
     /// To aid testing.
     #[cfg(test)]
-    pub fn is_double_ptr(&self) -> bool {
+    pub const fn is_double_ptr(&self) -> bool {
         matches!(self, LinePartPtrs::DoublePtr(_, _))
     }
 
     /// To aid testing.
     #[cfg(test)]
-    pub fn is_multi_ptr(&self) -> bool {
+    pub const fn is_multi_ptr(&self) -> bool {
         matches!(self, LinePartPtrs::MultiPtr(_))
     }
 }
@@ -682,7 +682,7 @@ impl Line {
     /// Only for testing.
     #[doc(hidden)]
     #[cfg(any(debug_assertions, test))]
-    pub fn get_slices(self: &Line) -> Slices {
+    pub fn get_slices(self: &Line) -> Slices<'_> {
         // short-circuit this case
         let sz = self.lineparts.len();
         let mut slices = Slices::with_capacity(sz);

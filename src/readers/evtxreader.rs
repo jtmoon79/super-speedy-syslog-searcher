@@ -421,7 +421,7 @@ impl<'a> EvtxReader {
         })
     }
 
-    pub fn mtime(&self) -> SystemTime {
+    pub const fn mtime(&self) -> SystemTime {
         self.mtime
     }
 

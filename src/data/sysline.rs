@@ -164,7 +164,7 @@ impl Sysline {
     }
 
     /// Return a reference to `self.dt`
-    pub fn dt(self: &Sysline) -> &DateTimeL {
+    pub const fn dt(self: &Sysline) -> &DateTimeL {
         &self.dt
     }
 

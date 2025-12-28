@@ -438,7 +438,7 @@ impl JournalEntry {
         (dt_a, dt_b)
     }
 
-    pub fn dt(&self) -> &DateTimeL {
+    pub const fn dt(&self) -> &DateTimeL {
         &self.dt
     }
 

@@ -35,5 +35,6 @@ impl LogMessage {
 /// datetime substring within a `String`.
 // TODO: change to a typed `struct DtBegEndPair(usize, usize)`
 pub type DtBegEndPair = (usize, usize);
+
 /// [`Option`] of [`DtBegEndPair`].
 pub type DtBegEndPairOpt = Option<DtBegEndPair>;
