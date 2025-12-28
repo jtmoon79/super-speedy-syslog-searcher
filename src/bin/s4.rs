@@ -38,6 +38,8 @@
 //! prints a [`Summary`] about each file processed, and one final
 //! [`SummaryPrinted`].
 //!
+//! `s4.rs` should be the main thread and the only thread that prints to STDOUT.
+//!
 //! [_s4lib_]: s4lib
 //! [`Stage3StreamSyslines`]: s4lib::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
 //! [`DateTimeL`]: s4lib::data::datetime::DateTimeL
@@ -89,8 +91,11 @@ use std::collections::{
     BTreeMap,
     HashMap,
 };
-use std::io::BufRead; // for stdin::lock().lines()
-use std::io::Error;
+use std::fmt;
+use std::io::{
+    BufRead, // for stdin::lock().lines()
+    Error,
+};
 use std::process::ExitCode;
 use std::sync::RwLock;
 use std::time::Instant;
@@ -117,6 +122,7 @@ use ::clap::{
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
 use ::regex::Regex;
+
 use ::s4lib::common::{
     Count,
     FPath,
@@ -655,13 +661,13 @@ https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 
 ---
 
-Author: "#, env!("CARGO_PKG_AUTHORS"), r#"
 Version: "#, env!("CARGO_PKG_VERSION"), r#"
+MSRV: "#, env!("CARGO_PKG_RUST_VERSION"), r#"
+Allocator: "#, CLI_HELP_AFTER_ALLOCATOR, r#"
 License: "#, env!("CARGO_PKG_LICENSE"), r#"
 Repository: "#, env!("CARGO_PKG_REPOSITORY"), r#"
-MSRV: "#, env!("CARGO_PKG_RUST_VERSION"), r#"
-Allocator: "#,
-    CLI_HELP_AFTER_ALLOCATOR,
+Author: "#, env!("CARGO_PKG_AUTHORS"), r#"
+"#,
     CLI_HELP_AFTER_NOTE_DEBUG,
     CLI_HELP_AFTER_NOTE_TEST
 );
@@ -681,13 +687,18 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
     about = env!("CARGO_PKG_DESCRIPTION"),
     author = env!("CARGO_PKG_AUTHORS"),
     name = "s4",
+    // write expanded information for the `--version` output
     version = concatcp!(
-        "(Super Speedy Syslog Searcher), ",
-        "Version ",
+        "(Super Speedy Syslog Searcher)\n",
+        "Version: ",
         env!("CARGO_PKG_VERSION_MAJOR"), ".",
         env!("CARGO_PKG_VERSION_MINOR"), ".",
-        env!("CARGO_PKG_VERSION_PATCH"), ", ",
-        "Allocator ", CLI_HELP_AFTER_ALLOCATOR
+        env!("CARGO_PKG_VERSION_PATCH"), "\n",
+        "MSRV: ", env!("CARGO_PKG_RUST_VERSION"), "\n",
+        "Allocator: ", CLI_HELP_AFTER_ALLOCATOR , "\n",
+        "License: ", env!("CARGO_PKG_LICENSE"), "\n",
+        "Repository: ", env!("CARGO_PKG_REPOSITORY"), "\n",
+        "Author: ", env!("CARGO_PKG_AUTHORS"), "\n",
     ),
     after_help = CLI_HELP_AFTER,
     verbatim_doc_comment,
@@ -1771,6 +1782,7 @@ pub fn main() -> ExitCode {
         stack_offset_set(Some(0));
     }
     defn!();
+
     let (
         paths,
         blocksz,
