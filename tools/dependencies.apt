@@ -25,3 +25,7 @@ libsystemd-dev
 # compare-log-mergers.sh
 jq
 lnav
+
+# for build --feature=tcmalloc
+libtcmalloc-minimal4
+google-perftools
