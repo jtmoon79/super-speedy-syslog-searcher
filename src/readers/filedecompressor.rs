@@ -679,7 +679,7 @@ pub fn decompress_to_ntf(
                 Ok(_) => {}
                 Err(err) => {
                     match &err {
-                        lzma_rs::error::Error::IoError(ref ioerr) => {
+                        lzma_rs::error::Error::IoError(ioerr) => {
                             defo!("ioerr.kind() {:?}", ioerr.kind());
                             return Err(err_from_err_path(ioerr, &fpath, Some("(xz_decompress failed)")));
                         }

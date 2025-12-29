@@ -1724,7 +1724,7 @@ impl BlockReader {
                         }
                         Err(err) => {
                             match &err {
-                                lzma_rs::error::Error::IoError(ref ioerr) => {
+                                lzma_rs::error::Error::IoError(ioerr) => {
                                     def1o!("FileXz: ioerr.kind() {:?}", ioerr.kind());
                                     if ioerr.kind() == ErrorKind::UnexpectedEof {
                                         def1o!("FileXz: xz_decompress Error UnexpectedEof, break!");
@@ -3623,7 +3623,7 @@ impl BlockReader {
                     //      `lzma_rs::error::Error`
                     //      https://docs.rs/lzma-rs/0.2.0/lzma_rs/error/enum.Error.html
                     match &err {
-                        lzma_rs::error::Error::IoError(ref ioerr) => {
+                        lzma_rs::error::Error::IoError(ioerr) => {
                             defo!("ioerr.kind() {:?}", ioerr.kind());
                             if ioerr.kind() == ErrorKind::UnexpectedEof {
                                 defo!("xz_decompress Error UnexpectedEof, break!");

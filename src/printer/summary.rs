@@ -1907,7 +1907,7 @@ fn print_cache_stats(
 /// (multiple lines).
 fn print_drop_stats(summary_opt: &SummaryOpt) {
     let summary: &Summary = match summary_opt {
-        Some(ref summary) => summary,
+        Some(summary) => summary,
         None => {
             de_wrn!("summary_opt is None");
 

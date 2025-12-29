@@ -517,37 +517,37 @@ fn bindgen_test_layout_imaxdiv_t() {
         "Offset of field: imaxdiv_t::rem"
     );
 }
-extern "C" {
+unsafe extern "C" {
     pub fn imaxabs(__n: intmax_t) -> intmax_t;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn imaxdiv(
         __numer: intmax_t,
         __denom: intmax_t,
     ) -> imaxdiv_t;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strtoimax(
         __nptr: *const ::std::os::raw::c_char,
         __endptr: *mut *mut ::std::os::raw::c_char,
         __base: ::std::os::raw::c_int,
     ) -> intmax_t;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strtoumax(
         __nptr: *const ::std::os::raw::c_char,
         __endptr: *mut *mut ::std::os::raw::c_char,
         __base: ::std::os::raw::c_int,
     ) -> uintmax_t;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn wcstoimax(
         __nptr: *const __gwchar_t,
         __endptr: *mut *mut __gwchar_t,
         __base: ::std::os::raw::c_int,
     ) -> intmax_t;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn wcstoumax(
         __nptr: *const __gwchar_t,
         __endptr: *mut *mut __gwchar_t,
@@ -680,7 +680,7 @@ fn bindgen_test_layout_fd_set() {
     );
 }
 pub type fd_mask = __fd_mask;
-extern "C" {
+unsafe extern "C" {
     pub fn select(
         __nfds: ::std::os::raw::c_int,
         __readfds: *mut fd_set,
@@ -689,7 +689,7 @@ extern "C" {
         __timeout: *mut timeval,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn pselect(
         __nfds: ::std::os::raw::c_int,
         __readfds: *mut fd_set,
@@ -1301,21 +1301,21 @@ fn bindgen_test_layout_iovec() {
         "Offset of field: iovec::iov_len"
     );
 }
-extern "C" {
+unsafe extern "C" {
     pub fn readv(
         __fd: ::std::os::raw::c_int,
         __iovec: *const iovec,
         __count: ::std::os::raw::c_int,
     ) -> isize;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn writev(
         __fd: ::std::os::raw::c_int,
         __iovec: *const iovec,
         __count: ::std::os::raw::c_int,
     ) -> isize;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn preadv(
         __fd: ::std::os::raw::c_int,
         __iovec: *const iovec,
@@ -1323,7 +1323,7 @@ extern "C" {
         __offset: __off_t,
     ) -> isize;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn pwritev(
         __fd: ::std::os::raw::c_int,
         __iovec: *const iovec,
@@ -1331,27 +1331,27 @@ extern "C" {
         __offset: __off_t,
     ) -> isize;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn closelog();
 }
-extern "C" {
+unsafe extern "C" {
     pub fn openlog(
         __ident: *const ::std::os::raw::c_char,
         __option: ::std::os::raw::c_int,
         __facility: ::std::os::raw::c_int,
     );
 }
-extern "C" {
+unsafe extern "C" {
     pub fn setlogmask(__mask: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn syslog(
         __pri: ::std::os::raw::c_int,
         __fmt: *const ::std::os::raw::c_char,
         ...
     );
 }
-extern "C" {
+unsafe extern "C" {
     pub fn vsyslog(
         __pri: ::std::os::raw::c_int,
         __fmt: *const ::std::os::raw::c_char,
@@ -1362,21 +1362,21 @@ pub type _Float32 = f32;
 pub type _Float64 = f64;
 pub type _Float32x = f64;
 pub type _Float64x = u128;
-extern "C" {
+unsafe extern "C" {
     pub fn memcpy(
         __dest: *mut ::std::os::raw::c_void,
         __src: *const ::std::os::raw::c_void,
         __n: ::std::os::raw::c_ulong,
     ) -> *mut ::std::os::raw::c_void;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn memmove(
         __dest: *mut ::std::os::raw::c_void,
         __src: *const ::std::os::raw::c_void,
         __n: ::std::os::raw::c_ulong,
     ) -> *mut ::std::os::raw::c_void;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn memccpy(
         __dest: *mut ::std::os::raw::c_void,
         __src: *const ::std::os::raw::c_void,
@@ -1384,80 +1384,80 @@ extern "C" {
         __n: ::std::os::raw::c_ulong,
     ) -> *mut ::std::os::raw::c_void;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn memset(
         __s: *mut ::std::os::raw::c_void,
         __c: ::std::os::raw::c_int,
         __n: ::std::os::raw::c_ulong,
     ) -> *mut ::std::os::raw::c_void;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn memcmp(
         __s1: *const ::std::os::raw::c_void,
         __s2: *const ::std::os::raw::c_void,
         __n: ::std::os::raw::c_ulong,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn __memcmpeq(
         __s1: *const ::std::os::raw::c_void,
         __s2: *const ::std::os::raw::c_void,
         __n: usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn memchr(
         __s: *const ::std::os::raw::c_void,
         __c: ::std::os::raw::c_int,
         __n: ::std::os::raw::c_ulong,
     ) -> *mut ::std::os::raw::c_void;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strcpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strncpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
         __n: ::std::os::raw::c_ulong,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strcat(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strncat(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
         __n: ::std::os::raw::c_ulong,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strcmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strncmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
         __n: ::std::os::raw::c_ulong,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strcoll(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strxfrm(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
@@ -1509,14 +1509,14 @@ fn bindgen_test_layout___locale_struct() {
 }
 pub type __locale_t = *mut __locale_struct;
 pub type locale_t = __locale_t;
-extern "C" {
+unsafe extern "C" {
     pub fn strcoll_l(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
         __l: locale_t,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strxfrm_l(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
@@ -1524,84 +1524,84 @@ extern "C" {
         __l: locale_t,
     ) -> usize;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strdup(__s: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strndup(
         __string: *const ::std::os::raw::c_char,
         __n: ::std::os::raw::c_ulong,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strchr(
         __s: *const ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strrchr(
         __s: *const ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strcspn(
         __s: *const ::std::os::raw::c_char,
         __reject: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_ulong;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strspn(
         __s: *const ::std::os::raw::c_char,
         __accept: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_ulong;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strpbrk(
         __s: *const ::std::os::raw::c_char,
         __accept: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strstr(
         __haystack: *const ::std::os::raw::c_char,
         __needle: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strtok(
         __s: *mut ::std::os::raw::c_char,
         __delim: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn __strtok_r(
         __s: *mut ::std::os::raw::c_char,
         __delim: *const ::std::os::raw::c_char,
         __save_ptr: *mut *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strtok_r(
         __s: *mut ::std::os::raw::c_char,
         __delim: *const ::std::os::raw::c_char,
         __save_ptr: *mut *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strlen(__s: *const ::std::os::raw::c_char) -> ::std::os::raw::c_ulong;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strnlen(
         __string: *const ::std::os::raw::c_char,
         __maxlen: usize,
     ) -> usize;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strerror(__errnum: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     #[link_name = "\u{1}__xpg_strerror_r"]
     pub fn strerror_r(
         __errnum: ::std::os::raw::c_int,
@@ -1609,74 +1609,74 @@ extern "C" {
         __buflen: usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strerror_l(
         __errnum: ::std::os::raw::c_int,
         __l: locale_t,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn bcmp(
         __s1: *const ::std::os::raw::c_void,
         __s2: *const ::std::os::raw::c_void,
         __n: ::std::os::raw::c_ulong,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn bcopy(
         __src: *const ::std::os::raw::c_void,
         __dest: *mut ::std::os::raw::c_void,
         __n: usize,
     );
 }
-extern "C" {
+unsafe extern "C" {
     pub fn bzero(
         __s: *mut ::std::os::raw::c_void,
         __n: ::std::os::raw::c_ulong,
     );
 }
-extern "C" {
+unsafe extern "C" {
     pub fn index(
         __s: *const ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn rindex(
         __s: *const ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn ffs(__i: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn ffsl(__l: ::std::os::raw::c_long) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn ffsll(__ll: ::std::os::raw::c_longlong) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strcasecmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strncasecmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
         __n: ::std::os::raw::c_ulong,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strcasecmp_l(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
         __loc: locale_t,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strncasecmp_l(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
@@ -1684,41 +1684,41 @@ extern "C" {
         __loc: locale_t,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn explicit_bzero(
         __s: *mut ::std::os::raw::c_void,
         __n: usize,
     );
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strsep(
         __stringp: *mut *mut ::std::os::raw::c_char,
         __delim: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn strsignal(__sig: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn __stpcpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn stpcpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn __stpncpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
         __n: usize,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn stpncpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
@@ -1757,72 +1757,72 @@ fn bindgen_test_layout_sd_id128() {
         "Offset of field: sd_id128::qwords"
     );
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_id128_to_string(
         id: sd_id128_t,
         s: *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_id128_from_string(
         s: *const ::std::os::raw::c_char,
         ret: *mut sd_id128_t,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_id128_randomize(ret: *mut sd_id128_t) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_id128_get_machine(ret: *mut sd_id128_t) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_id128_get_boot(ret: *mut sd_id128_t) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_id128_get_invocation(ret: *mut sd_id128_t) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_id128_get_machine_app_specific(
         app_id: sd_id128_t,
         ret: *mut sd_id128_t,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_id128_get_boot_app_specific(
         app_id: sd_id128_t,
         ret: *mut sd_id128_t,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_print(
         priority: ::std::os::raw::c_int,
         format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_printv(
         priority: ::std::os::raw::c_int,
         format: *const ::std::os::raw::c_char,
         ap: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_send(
         format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_sendv(
         iov: *const iovec,
         n: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_perror(message: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_print_with_location(
         priority: ::std::os::raw::c_int,
         file: *const ::std::os::raw::c_char,
@@ -1832,7 +1832,7 @@ extern "C" {
         ...
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_printv_with_location(
         priority: ::std::os::raw::c_int,
         file: *const ::std::os::raw::c_char,
@@ -1842,7 +1842,7 @@ extern "C" {
         ap: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_send_with_location(
         file: *const ::std::os::raw::c_char,
         line: *const ::std::os::raw::c_char,
@@ -1851,7 +1851,7 @@ extern "C" {
         ...
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_sendv_with_location(
         file: *const ::std::os::raw::c_char,
         line: *const ::std::os::raw::c_char,
@@ -1860,7 +1860,7 @@ extern "C" {
         n: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_perror_with_location(
         file: *const ::std::os::raw::c_char,
         line: *const ::std::os::raw::c_char,
@@ -1868,7 +1868,7 @@ extern "C" {
         message: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_stream_fd(
         identifier: *const ::std::os::raw::c_char,
         priority: ::std::os::raw::c_int,
@@ -1893,41 +1893,41 @@ pub const SD_JOURNAL_NOP: _bindgen_ty_2 = 0;
 pub const SD_JOURNAL_APPEND: _bindgen_ty_2 = 1;
 pub const SD_JOURNAL_INVALIDATE: _bindgen_ty_2 = 2;
 pub type _bindgen_ty_2 = ::std::os::raw::c_uint;
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_open(
         ret: *mut *mut sd_journal,
         flags: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_open_namespace(
         ret: *mut *mut sd_journal,
         name_space: *const ::std::os::raw::c_char,
         flags: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_open_directory(
         ret: *mut *mut sd_journal,
         path: *const ::std::os::raw::c_char,
         flags: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_open_directory_fd(
         ret: *mut *mut sd_journal,
         fd: ::std::os::raw::c_int,
         flags: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_open_files(
         ret: *mut *mut sd_journal,
         paths: *mut *const ::std::os::raw::c_char,
         flags: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_open_files_fd(
         ret: *mut *mut sd_journal,
         fds: *mut ::std::os::raw::c_int,
@@ -1935,60 +1935,60 @@ extern "C" {
         flags: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_open_container(
         ret: *mut *mut sd_journal,
         machine: *const ::std::os::raw::c_char,
         flags: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_close(j: *mut sd_journal);
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_previous(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_next(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_previous_skip(
         j: *mut sd_journal,
         skip: u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_next_skip(
         j: *mut sd_journal,
         skip: u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_realtime_usec(
         j: *mut sd_journal,
         ret: *mut u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_monotonic_usec(
         j: *mut sd_journal,
         ret: *mut u64,
         ret_boot_id: *mut sd_id128_t,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_set_data_threshold(
         j: *mut sd_journal,
         sz: usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_data_threshold(
         j: *mut sd_journal,
         sz: *mut usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_data(
         j: *mut sd_journal,
         field: *const ::std::os::raw::c_char,
@@ -1996,84 +1996,84 @@ extern "C" {
         l: *mut usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_enumerate_data(
         j: *mut sd_journal,
         data: *mut *const ::std::os::raw::c_void,
         l: *mut usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_enumerate_available_data(
         j: *mut sd_journal,
         data: *mut *const ::std::os::raw::c_void,
         l: *mut usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_restart_data(j: *mut sd_journal);
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_add_match(
         j: *mut sd_journal,
         data: *const ::std::os::raw::c_void,
         size: usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_add_disjunction(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_add_conjunction(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_flush_matches(j: *mut sd_journal);
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_seek_head(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_seek_tail(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_seek_monotonic_usec(
         j: *mut sd_journal,
         boot_id: sd_id128_t,
         usec: u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_seek_realtime_usec(
         j: *mut sd_journal,
         usec: u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_seek_cursor(
         j: *mut sd_journal,
         cursor: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_cursor(
         j: *mut sd_journal,
         cursor: *mut *mut ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_test_cursor(
         j: *mut sd_journal,
         cursor: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_cutoff_realtime_usec(
         j: *mut sd_journal,
         from: *mut u64,
         to: *mut u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_cutoff_monotonic_usec(
         j: *mut sd_journal,
         boot_id: sd_id128_t,
@@ -2081,84 +2081,84 @@ extern "C" {
         to: *mut u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_usage(
         j: *mut sd_journal,
         bytes: *mut u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_query_unique(
         j: *mut sd_journal,
         field: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_enumerate_unique(
         j: *mut sd_journal,
         data: *mut *const ::std::os::raw::c_void,
         l: *mut usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_enumerate_available_unique(
         j: *mut sd_journal,
         data: *mut *const ::std::os::raw::c_void,
         l: *mut usize,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_restart_unique(j: *mut sd_journal);
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_enumerate_fields(
         j: *mut sd_journal,
         field: *mut *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_restart_fields(j: *mut sd_journal);
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_fd(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_events(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_timeout(
         j: *mut sd_journal,
         timeout_usec: *mut u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_process(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_wait(
         j: *mut sd_journal,
         timeout_usec: u64,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_reliable_fd(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_catalog(
         j: *mut sd_journal,
         text: *mut *mut ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_get_catalog_for_message_id(
         id: sd_id128_t,
         text: *mut *mut ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_has_runtime_files(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
-extern "C" {
+unsafe extern "C" {
     pub fn sd_journal_has_persistent_files(j: *mut sd_journal) -> ::std::os::raw::c_int;
 }
 pub type __builtin_va_list = [__va_list_tag; 1usize];
