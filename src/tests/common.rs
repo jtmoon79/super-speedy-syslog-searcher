@@ -4111,7 +4111,6 @@ pub const ETL_1_EVENT_COUNT: Count = 21;
 
 lazy_static! {
     pub static ref ETL_1_FPATH: FPath = FPath::from(ETL_1_STR_PATH);
-    
     pub static ref ETL_1_GZ_FPATH: FPath = FPath::from(ETL_1_GZ_STR_PATH);
     pub static ref ETL_1_GZ_MTIME: SystemTime = {
         SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1759660280))

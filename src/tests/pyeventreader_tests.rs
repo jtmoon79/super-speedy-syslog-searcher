@@ -7,7 +7,6 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use ::const_format::concatcp;
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
     defn,

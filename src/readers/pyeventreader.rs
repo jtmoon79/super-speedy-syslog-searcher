@@ -252,10 +252,6 @@ impl PyEventReader {
     pub const ENTRY_BUFFER_SZ: usize = 5;
 
     /// Create a new `PyEventReader`.
-    ///
-    /// NOTE: should not attempt any file reads here,
-    /// similar to other `*Readers::new()` unless the file is compressed
-    /// or archived.
     pub fn new(
         path: FPath,
         etl_parser_used: EtlParserUsed,
