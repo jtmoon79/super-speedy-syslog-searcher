@@ -54,6 +54,7 @@ use crate::python::pyrunner::{
     PipeSz,
     PyRunner,
     PythonToUse,
+    RECV_TIMEOUT,
 };
 
 /// Minimum acceptable Python version, checked during venv creation
@@ -221,6 +222,7 @@ pub fn create() -> Result3E<()> {
     let mut pyrunner = match PyRunner::new(
         PythonToUse::EnvPath,
         PIPE_SZ,
+        RECV_TIMEOUT,
         Some(CHUNK_DELIMITER),
         None,
         None,
@@ -294,6 +296,7 @@ pub fn create() -> Result3E<()> {
     match PyRunner::run_once(
         PythonToUse::Value,
         PIPE_SZ,
+        RECV_TIMEOUT,
         CHUNK_DELIMITER,
         Some(python_path),
         vec![
@@ -319,6 +322,7 @@ pub fn create() -> Result3E<()> {
     match PyRunner::run_once(
         PythonToUse::Venv,
         PIPE_SZ,
+        RECV_TIMEOUT,
         CHUNK_DELIMITER,
         None,
         vec![
@@ -339,6 +343,7 @@ pub fn create() -> Result3E<()> {
     match PyRunner::run_once(
         PythonToUse::Venv,
         PIPE_SZ,
+        RECV_TIMEOUT,
         CHUNK_DELIMITER,
         None,
         vec![
@@ -362,6 +367,7 @@ pub fn create() -> Result3E<()> {
     match PyRunner::run_once(
         PythonToUse::Venv,
         PIPE_SZ,
+        RECV_TIMEOUT,
         CHUNK_DELIMITER,
         None,
         vec![
@@ -418,6 +424,7 @@ pub fn create() -> Result3E<()> {
     match PyRunner::run_once(
         PythonToUse::Venv,
         PIPE_SZ,
+        RECV_TIMEOUT,
         CHUNK_DELIMITER,
         None,
         vec![
@@ -440,6 +447,7 @@ pub fn create() -> Result3E<()> {
     match PyRunner::run_once(
         PythonToUse::Venv,
         PIPE_SZ,
+        RECV_TIMEOUT,
         CHUNK_DELIMITER,
         None,
         vec![
@@ -462,6 +470,7 @@ pub fn create() -> Result3E<()> {
     let site_path: Bytes = match PyRunner::run_once(
         PythonToUse::Venv,
         PIPE_SZ,
+        RECV_TIMEOUT,
         CHUNK_DELIMITER,
         None,
         vec![
@@ -505,6 +514,7 @@ pub fn create() -> Result3E<()> {
     match PyRunner::run_once(
         PythonToUse::Venv,
         PIPE_SZ,
+        RECV_TIMEOUT,
         CHUNK_DELIMITER,
         None,
         argv,

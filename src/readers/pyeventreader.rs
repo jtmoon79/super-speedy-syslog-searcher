@@ -88,6 +88,7 @@ use crate::python::pyrunner::{
     PipeSz,
     PythonToUse,
     PyRunner,
+    RECV_TIMEOUT,
 };
 use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::helpers::path_to_fpath;
@@ -392,6 +393,7 @@ impl PyEventReader {
         let pyrunner: PyRunner = match PyRunner::new(
             PythonToUse::EnvVenv,
             std::cmp::min(pipe_sz, 32768),
+            RECV_TIMEOUT,
             Some(DELIMITER_EVENTS),
             None,
             None,

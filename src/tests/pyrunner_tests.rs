@@ -9,6 +9,7 @@
 
 use std::env;
 use std::path::PathBuf;
+use std::time::Duration;
 
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
@@ -30,24 +31,10 @@ use crate::python::pyrunner::{
     PipeSz,
     PyRunner,
     PythonToUse,
-    PYTHON_ENV,
     find_python_executable,
+    RECV_TIMEOUT,
 };
-
-pub fn PYTHON_PATH() -> &'static str {
-    #[cfg(target_os = "windows")]
-    {
-        "C:\\Python312\\python.exe"
-    }
-    #[cfg(target_os = "linux")]
-    {
-        "/usr/bin/python3"
-    }
-    #[cfg(target_os = "macos")]
-    {
-        "/usr/local/bin/python3"
-    }
-}
+use crate::tests::venv_tests::venv_setup;
 
 fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
     let e_s = data.as_ref().unwrap().clone();
@@ -59,7 +46,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
 
 #[test_case(
     1,
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         "print('Hello'); print('World'); print('Goodbye!')",
@@ -70,7 +57,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
 )]
 #[test_case(
     2,
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         "print('Hello'); print('World'); print('Goodbye!')",
@@ -81,7 +68,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
 )]
 #[test_case(
     20,
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         "print('Hello'); print('World'); print('Goodbye!')",
@@ -92,7 +79,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
 )]
 #[test_case(
     21,
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         "print('Hello'); print('World'); print('Goodbye!')",
@@ -103,7 +90,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
 )]
 #[test_case(
     22,
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         "print('Hello'); print('World'); print('Goodbye!')",
@@ -114,7 +101,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
 )]
 #[test_case(
     23,
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         "print('Hello'); print('World'); print('Goodbye!')",
@@ -125,7 +112,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
 )]
 #[test_case(
     1,
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         r#"
@@ -145,7 +132,7 @@ print("STDERR3", file=sys.stderr)
 )]
 #[test_case(
     20,
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         r#"
@@ -165,15 +152,24 @@ print("STDERR3", file=sys.stderr)
 )]
 fn test_PyRunner_new_run_run_once(
     pipe_sz: PipeSz,
-    python_path: &FPath,
+    recv_timeout: Duration,
     cmd_args: Vec<&str>,
     expect_stdout: Bytes,
     expect_stderr: Bytes,
 ) {
+    defn!("test_PyRunner_new_run_run_once: pipe_sz={:?}, cmd_args[0]={:?}\ncmd_args[1]={}\n",
+        pipe_sz, cmd_args[0], cmd_args[1]);
+
+    venv_setup();
+
+    let python_path = find_python_executable(PythonToUse::Path)
+        .as_ref().expect("failed to find python executable in the PATH");
+
     // try with `new()` and `run()`
     let mut pyr = PyRunner::new(
         PythonToUse::Value,
         pipe_sz,
+        recv_timeout,
         Some(b'\n'),
         None,
         Some(python_path.clone()),
@@ -196,6 +192,7 @@ fn test_PyRunner_new_run_run_once(
     let result = PyRunner::run_once(
         PythonToUse::Value,
         pipe_sz,
+        recv_timeout,
         b'\n',
         Some(python_path.clone()),
         cmd_args,
@@ -212,6 +209,8 @@ fn test_PyRunner_new_run_run_once(
 
     assert!(pyr.exited(), "PyRunner did not exit after run_once()");
     assert!(pyr.exited_exhausted(), "PyRunner not exhausted after run_once()");
+
+    defx!();
 }
 
 const PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE: &str = r#"
@@ -231,7 +230,7 @@ const PYTHON_SRC_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     1, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()), // python_path
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "1").as_str()
@@ -244,7 +243,7 @@ const PYTHON_SRC_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     2, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()), // python_path
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "2").as_str()
@@ -257,7 +256,7 @@ const PYTHON_SRC_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     200, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()), // python_path
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "200").as_str()
@@ -270,7 +269,7 @@ const PYTHON_SRC_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     10, // loops
     2, // pipe_sz
-    &FPath::from(PYTHON_PATH()), // python_path
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "10").as_str()
@@ -281,9 +280,22 @@ const PYTHON_SRC_LOOP_KEYWORD: &str = "[LOOP]";
     "loops 10 pipsz 2"
 )]
 #[test_case(
+    10, // loops
+    2, // pipe_sz
+    Duration::from_millis(50),
+    vec![
+        "-c",
+        PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "10").as_str()
+    ],
+    Some(PYTHON_SRC_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_OUTPUT.to_vec()), // expect_stdout
+    None, // expect_stderr
+    b'\0'; // chunk_delimiter stdout
+    "loops 10 pipsz 2 recv_timeout 50ms"
+)]
+#[test_case(
     100, // loops
     30, // pipe_sz
-    &FPath::from(PYTHON_PATH()), // python_path
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "10").as_str()
@@ -296,7 +308,7 @@ const PYTHON_SRC_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     100, // loops
     90, // pipe_sz
-    &FPath::from(PYTHON_PATH()), // python_path
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "100").as_str()
@@ -308,8 +320,34 @@ const PYTHON_SRC_LOOP_KEYWORD: &str = "[LOOP]";
 )]
 #[test_case(
     100, // loops
+    90, // pipe_sz
+    Duration::from_millis(100),
+    vec![
+        "-c",
+        PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "100").as_str()
+    ],
+    Some(PYTHON_SRC_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_OUTPUT.to_vec()), // expect_stdout
+    None, // expect_stderr
+    b'\0'; // chunk_delimiter stdout
+    "loops 100 pipsz 90 recv_timeout 100ms"
+)]
+#[test_case(
+    100, // loops
+    90, // pipe_sz
+    Duration::from_millis(200),
+    vec![
+        "-c",
+        PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "100").as_str()
+    ],
+    Some(PYTHON_SRC_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_OUTPUT.to_vec()), // expect_stdout
+    None, // expect_stderr
+    b'\0'; // chunk_delimiter stdout
+    "loops 100 pipsz 90 recv_timeout 200ms"
+)]
+#[test_case(
+    100, // loops
     5092, // pipe_sz
-    &FPath::from(PYTHON_PATH()), // python_path
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_LOOPS_KEYWORD, "100").as_str()
@@ -322,19 +360,25 @@ const PYTHON_SRC_LOOP_KEYWORD: &str = "[LOOP]";
 fn test_PyRunner_stdout_run_many_times(
     loops: usize,
     pipe_sz: PipeSz,
-    python_path: &FPath,
+    recv_timeout: Duration,
     cmd_args: Vec<&str>,
     expect_stdout: Option<Bytes>,
     expect_stderr: Option<Bytes>,
     chunk_delimiter: ChunkDelimiter,
 ) {
     stack_offset_set(Some(2));
-    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, python_path={:?}, chunk_delimiter={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
-        loops, pipe_sz, python_path, chunk_delimiter, cmd_args[0], cmd_args[1]);
+    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
+        loops, pipe_sz, chunk_delimiter, cmd_args[0], cmd_args[1]);
+
+    venv_setup();
+
+    let python_path = find_python_executable(PythonToUse::Path)
+        .as_ref().expect("failed to find python executable in the PATH");
 
     let result = PyRunner::new(
         PythonToUse::Value,
         pipe_sz,
+        recv_timeout,
         Some(chunk_delimiter),
         None,
         Some(python_path.clone()),
@@ -342,8 +386,6 @@ fn test_PyRunner_stdout_run_many_times(
     );
     assert!(result.is_ok(), "PyRunner new failed: {:?}", result);
     let mut pyr = result.unwrap();
-
-
 
     // clone to re-declare as mutable
     let mut expect_stdout = expect_stdout.clone();
@@ -380,6 +422,7 @@ fn test_PyRunner_stdout_run_many_times(
         }
         print!("."); // progress indicator
     }
+
     defx!();
 }
 
@@ -409,7 +452,7 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     1, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "1").as_str()
@@ -423,7 +466,7 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     10, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "10").as_str()
@@ -437,7 +480,7 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     100, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "100").as_str()
@@ -451,7 +494,7 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     1000, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "1000").as_str()
@@ -465,7 +508,7 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     10, // loops
     2, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "10").as_str()
@@ -479,7 +522,7 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     10, // loops
     30, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "10").as_str()
@@ -491,9 +534,37 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
     "loops 10 pipesz 30"
 )]
 #[test_case(
+    10, // loops
+    30, // pipe_sz
+    Duration::from_millis(200),
+    vec![
+        "-c",
+        PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "10").as_str()
+    ],
+    Some(PYTHON_SRC_WSTDERR_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_STDOUT.to_vec()), // expect_stdout
+    Some(PYTHON_SRC_WSTDERR_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_STDERR.to_vec()), // expect_stderr
+    Some(b'\0'), // chunk_delimiter_stdout
+    Some(b'\0'); // chunk_delimiter_stderr
+    "loops 10 pipesz 30 recv_timeout 200ms"
+)]
+#[test_case(
+    10, // loops
+    30, // pipe_sz
+    Duration::from_millis(500),
+    vec![
+        "-c",
+        PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "10").as_str()
+    ],
+    Some(PYTHON_SRC_WSTDERR_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_STDOUT.to_vec()), // expect_stdout
+    Some(PYTHON_SRC_WSTDERR_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_STDERR.to_vec()), // expect_stderr
+    Some(b'\0'), // chunk_delimiter_stdout
+    Some(b'\0'); // chunk_delimiter_stderr
+    "loops 10 pipesz 30 recv_timeout 500ms"
+)]
+#[test_case(
     100, // loops
     30, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "100").as_str()
@@ -507,7 +578,7 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     1000, // loops
     90, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_WSTDERR_LOOPS_KEYWORD, "1000").as_str()
@@ -521,7 +592,7 @@ const PYTHON_SRC_WSTDERR_LOOP_KEYWORD: &str = "[LOOP]";
 fn test_PyRunner_stdout_stderr_run_many_times(
     loops: usize,
     pipe_sz: PipeSz,
-    python_path: &FPath,
+    recv_timeout: Duration,
     cmd_args: Vec<&str>,
     expect_stdout: Option<Bytes>,
     expect_stderr: Option<Bytes>,
@@ -529,11 +600,18 @@ fn test_PyRunner_stdout_stderr_run_many_times(
     chunk_delimiter_stderr: Option<ChunkDelimiter>,
 ) {
     stack_offset_set(Some(2));
-    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, python_path={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
-        loops, pipe_sz, python_path, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
+        loops, pipe_sz, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+
+    venv_setup();
+
+    let python_path = find_python_executable(PythonToUse::Path)
+        .as_ref().expect("failed to find python executable in the PATH");
+
     let result = PyRunner::new(
         PythonToUse::Value,
         pipe_sz,
+        recv_timeout,
         chunk_delimiter_stdout,
         chunk_delimiter_stderr,
         Some(python_path.clone()),
@@ -584,6 +662,7 @@ fn test_PyRunner_stdout_stderr_run_many_times(
         }
         print!("."); // progress indicator
     }
+
     defx!();
 }
 
@@ -612,7 +691,7 @@ const PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     1, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_OUT0_ERR_LOOPS_KEYWORD, "1").as_str()
@@ -626,7 +705,7 @@ const PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     10, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_OUT0_ERR_LOOPS_KEYWORD, "10").as_str()
@@ -640,7 +719,7 @@ const PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     100, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_OUT0_ERR_LOOPS_KEYWORD, "100").as_str()
@@ -654,7 +733,7 @@ const PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     1000, // loops
     1, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_OUT0_ERR_LOOPS_KEYWORD, "1000").as_str()
@@ -668,7 +747,7 @@ const PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     10, // loops
     30, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_OUT0_ERR_LOOPS_KEYWORD, "10").as_str()
@@ -682,7 +761,7 @@ const PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD: &str = "[LOOP]";
 #[test_case(
     1000, // loops
     90, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
+    RECV_TIMEOUT,
     vec![
         "-c",
         PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_OUT0_ERR_LOOPS_KEYWORD, "1000").as_str()
@@ -693,10 +772,38 @@ const PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD: &str = "[LOOP]";
     None; // chunk_delimiter_stderr
     "loops 1000 pipesz 90"
 )]
+#[test_case(
+    1000, // loops
+    90, // pipe_sz
+    Duration::from_millis(1),
+    vec![
+        "-c",
+        PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_OUT0_ERR_LOOPS_KEYWORD, "1000").as_str()
+    ],
+    Some(PYTHON_SRC_OUT0_ERR_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_STDOUT.to_vec()), // expect_stdout
+    Some(Vec::with_capacity(0)), // expect_stderr
+    Some(b'\0'), // chunk_delimiter_stdout
+    None; // chunk_delimiter_stderr
+    "loops 1000 pipesz 90 recv_timeout 1ms"
+)]
+#[test_case(
+    1000, // loops
+    90, // pipe_sz
+    Duration::from_millis(50),
+    vec![
+        "-c",
+        PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE.replace(PYTHON_SRC_OUT0_ERR_LOOPS_KEYWORD, "1000").as_str()
+    ],
+    Some(PYTHON_SRC_OUT0_ERR_LOOP_PRINTED_WORLD_GOODBYE_EXPECTED_STDOUT.to_vec()), // expect_stdout
+    Some(Vec::with_capacity(0)), // expect_stderr
+    Some(b'\0'), // chunk_delimiter_stdout
+    None; // chunk_delimiter_stderr
+    "loops 1000 pipesz 90 recv_timeout 50ms"
+)]
 fn test_PyRunner_stdout0_stderr_run_many_times(
     loops: usize,
     pipe_sz: PipeSz,
-    python_path: &FPath,
+    recv_timeout: Duration,
     cmd_args: Vec<&str>,
     expect_stdout: Option<Bytes>,
     expect_stderr: Option<Bytes>,
@@ -704,11 +811,18 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
     chunk_delimiter_stderr: Option<ChunkDelimiter>,
 ) {
     stack_offset_set(Some(2));
-    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, python_path={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
-        loops, pipe_sz, python_path, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+    defn!("test_PyRunner_run_many_times: loops={}, pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
+        loops, pipe_sz, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+
+    venv_setup();
+
+    let python_path = find_python_executable(PythonToUse::Path)
+        .as_ref().expect("failed to find python executable in the PATH");
+
     let result = PyRunner::new(
         PythonToUse::Value,
         pipe_sz,
+        recv_timeout,
         chunk_delimiter_stdout,
         chunk_delimiter_stderr,
         Some(python_path.clone()),
@@ -750,12 +864,12 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
         }
         print!("."); // progress indicator
     }
+
     defx!();
 }
 
 #[test_case(
     2, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
     vec![
         "-c",
         r#"
@@ -780,7 +894,6 @@ sys.exit(1)
 )]
 #[test_case(
     128, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
     vec![
         "-c",
         r#"
@@ -805,7 +918,6 @@ sys.exit(1)
 )]
 #[test_case(
     8, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
     vec![
         "-c",
         r#"
@@ -832,7 +944,6 @@ sys.exit(2)
 )]
 #[test_case(
     8, // pipe_sz
-    &FPath::from(PYTHON_PATH()),
     vec![
         "-c",
         r#"
@@ -859,7 +970,6 @@ sys.exit(2)
 )]
 fn test_PyRunner_exit_early(
     pipe_sz: PipeSz,
-    python_path: &FPath,
     cmd_args: Vec<&str>,
     expect_stdout: Bytes,
     expect_stderr: Bytes,
@@ -868,12 +978,18 @@ fn test_PyRunner_exit_early(
     exit_status: i32,
 ) {
     stack_offset_set(Some(2));
-    defn!("test_PyRunner_exit_early: pipe_sz={:?}, python_path={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
-        pipe_sz, python_path, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+    defn!("test_PyRunner_exit_early: pipe_sz={:?}, chunk_delimiter_stdout={:?}, chunk_delimiter_stderr={:?}\ncmd_args[0]={:?}\ncmd_args[1]={}\n",
+        pipe_sz, chunk_delimiter_stdout, chunk_delimiter_stderr, cmd_args[0], cmd_args[1]);
+
+    venv_setup();
+
+    let python_path = find_python_executable(PythonToUse::Path)
+        .as_ref().expect("failed to find python executable in the PATH");
 
     let result = PyRunner::new(
         PythonToUse::Value,
         pipe_sz,
+        RECV_TIMEOUT,
         chunk_delimiter_stdout,
         chunk_delimiter_stderr,
         Some(python_path.clone()),
@@ -953,53 +1069,15 @@ fn test_PyRunner_exit_early(
     defx!();
 }
 
-#[test]
-fn test_find_python_executable_env() {
-    // save current env var state
-    let python_env_current = env::var_os(PYTHON_ENV);
-    // overwrite the env var
-    const PYTHON_ENV_TEST_VALUE: &str = "PYTHON_TEST_FIND_EXECUTABLE";
-    unsafe {
-        env::set_var(PYTHON_ENV, PYTHON_ENV_TEST_VALUE);
-    }
-    // call the funtions to test
-    let result_env = find_python_executable(PythonToUse::Env);
-    let result_envpath = find_python_executable(PythonToUse::EnvPath);
-    // restore previous env var state
-    match python_env_current {
-        Some(val) => unsafe {
-            env::set_var(PYTHON_ENV, val);
-        },
-        None => unsafe {
-            env::remove_var(PYTHON_ENV);
-        },
-    }
-
-    // check results of `find_python_executable(Env)`
-    assert!(&result_env.is_some(), "find_python_executable(Env) failed");
-    let result_val = result_env.as_ref().unwrap();
-    defo!("find_python_executable(Env) returned {:?}", result_val);
-    assert_eq!(
-        result_val,
-        &FPath::from(PYTHON_ENV_TEST_VALUE),
-        "find_python_executable(Env) did not return expected path from env variable {:?}",
-        PYTHON_ENV
-    );
-
-    // check results of `find_python_executable(EnvPath)`
-    assert!(&result_envpath.is_some(), "find_python_executable(EnvPath) failed");
-    let result_val_path = result_envpath.as_ref().unwrap();
-    defo!("find_python_executable(EnvPath) returned {:?}", result_val_path);
-    assert_eq!(
-        result_val_path,
-        &FPath::from(PYTHON_ENV_TEST_VALUE),
-        "find_python_executable(EnvPath) did not return expected path from env variable {:?}",
-        PYTHON_ENV
-    );
-}
+// XXX: cannot test `find_python_executable(PythonToUse::Env)` because `find_python_executable`
+//      uses sets a `OnceCell` upon first call.
 
 #[test]
 fn test_find_python_executable_path() {
+    defn!();
+
+    venv_setup();
+
     const PATH_KEY: &str = "PATH";
     // save current env var state
     let path_env_current_opt = env::var_os(PATH_KEY);
@@ -1022,15 +1100,21 @@ fn test_find_python_executable_path() {
         std::path::MAIN_SEPARATOR,
         path_env_current
     );
-    env::set_var(PATH_KEY, path_new);
+    unsafe {
+        env::set_var(PATH_KEY, path_new);
+    }
     // call the funtions to test
     let result = find_python_executable(PythonToUse::Path);
     // restore previous env var state
-    env::set_var(PATH_KEY, path_env_current);
+    unsafe {
+        env::set_var(PATH_KEY, path_env_current);
+    }
     // check results of `find_python_executable(Path)`
     assert!(
         &result.is_some(),
         "find_python_executable(Path) failed; failed to find python in PATH including temporary directory {:?}",
         tmpdir.path()
     );
+
+    defx!();
 }

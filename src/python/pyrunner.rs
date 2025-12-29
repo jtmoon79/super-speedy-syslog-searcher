@@ -125,6 +125,9 @@ pub const PROMPT_DEFAULT: &str = "$ ";
 /// executable
 pub const PYTHON_ENV: &str = "S4_PYTHON";
 
+/// default timeout for Pipe `recv_timeout` when reading from the child Python processes
+pub const RECV_TIMEOUT: Duration = Duration::from_millis(5);
+
 /// cached Python path found in environment variable `S4_PYTHON`.
 /// set in `find_python_executable`
 #[allow(non_upper_case_globals)]
@@ -168,6 +171,7 @@ pub enum PythonToUse {
 /// find a Python executable.
 /// `python_to_use` instructs how to find the Python executable.
 /// Does not check if the found Python executable is valid.
+/// Caches found paths for reliability among threads.
 /// Returns `None` when passed `PythonToUse::Value`.
 pub fn find_python_executable(python_to_use: PythonToUse) -> &'static Option<FPath> {
     defn!("{:?}", python_to_use);
@@ -311,6 +315,7 @@ impl PipeStreamReader {
     fn new(
         name: String,
         pipe_sz: PipeSz,
+        recv_timeout: Duration,
         chunk_delimiter_opt: Option<ChunkDelimiter>,
         mut stream_child_proc: Box<dyn Read + Send>
     ) -> PipeStreamReader
@@ -397,10 +402,8 @@ impl PipeStreamReader {
                                 //      `ProcessStatus::Exited`.
                                 //      Using `recv_timeout(5ms)` softens this busy loop.
                                 //      It's ugly but it works.
-                                def2o!("{_d_p} rx_exit.recv_timeout(5ms)…");
-                                let rx_result = rx_exit.recv_timeout(
-                                    std::time::Duration::from_millis(5)
-                                );
+                                def2o!("{_d_p} rx_exit.recv_timeout({:?})…", recv_timeout);
+                                let rx_result = rx_exit.recv_timeout(recv_timeout);
                                 match rx_result {
                                     Ok(ProcessStatus::Exited) => {
                                         def2o!("{_d_p} rx_exit ProcessStatus::Exited; send Done({}, buf_chunk1 {} bytes) and break",
@@ -684,6 +687,7 @@ impl PyRunner {
     pub fn new(
         python_to_use: PythonToUse,
         pipe_sz: PipeSz,
+        recv_timeout: Duration,
         chunk_delimiter_stdout: Option<ChunkDelimiter>,
         chunk_delimiter_stderr: Option<ChunkDelimiter>,
         python_path: Option<FPath>,
@@ -807,6 +811,7 @@ impl PyRunner {
         let pipe_stdout = PipeStreamReader::new(
             String::from("stdout"),
             pipe_sz_stdout,
+            recv_timeout,
             chunk_delimiter_stdout,
             Box::new(process_stdout)
         );
@@ -816,6 +821,7 @@ impl PyRunner {
         let pipe_stderr = PipeStreamReader::new(
             String::from("stderr"),
             pipe_sz_stderr,
+            recv_timeout,
             chunk_delimiter_stderr,
             Box::new(process_stderr)
         );
@@ -1432,6 +1438,7 @@ impl PyRunner {
     pub fn run_once(
         python_to_use: PythonToUse,
         pipe_sz: PipeSz,
+        recv_timeout: Duration,
         chunk_delimiter: ChunkDelimiter,
         python_path: Option<FPath>,
         argv: Vec<&str>,
@@ -1441,6 +1448,7 @@ impl PyRunner {
         let mut pyrunner = match PyRunner::new(
             python_to_use,
             pipe_sz,
+            recv_timeout,
             Some(chunk_delimiter),
             None,
             python_path,

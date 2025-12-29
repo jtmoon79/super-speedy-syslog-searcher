@@ -17,6 +17,7 @@ use ::si_trace_print::printers::{
 use ::test_case::test_case;
 
 use crate::common::{
+    Count,
     FPath,
     FileType,
     FileTypeArchive,
@@ -31,17 +32,20 @@ use crate::readers::pyeventreader::{
     PyEventReader,
     ResultNextPyDataEvent,
 };
-use crate::tests::common::FO_0;
+use crate::tests::common::{
+    FO_0,
+    ETL_1_FPATH,
+    ETL_1_EVENT_COUNT,
+    ETL_1_FILESZ,
+};
+use crate::tests::venv_tests::venv_setup;
 
-pub const LOG_ETL_FILE_1: &str = concatcp!(
-    env!("CARGO_MANIFEST_DIR"),
-    "/logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl"
-);
-pub const LOG_ETL_FILE_1_SZ: usize = 16384;
-pub const LOG_ETL_FILE_1_EVENTS_COUNT: usize = 21;
-
-#[test_case(LOG_ETL_FILE_1.to_string(), 1024; "etl1")]
+#[test_case(ETL_1_FPATH.clone(), 1024; "etl1")]
 fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
+    defn!("path={:?}, pipe_sz={:?}", path, pipe_sz);
+
+    venv_setup();
+
     let per = PyEventReader::new(
         path,
         EtlParserUsed::DissectEtl,
@@ -50,19 +54,24 @@ fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
         pipe_sz,
     ).unwrap();
     defo!("per: {:?}", per);
-    assert_eq!(per.filesz() as usize, LOG_ETL_FILE_1_SZ);
+    assert_eq!(per.filesz(), ETL_1_FILESZ);
     defo!("per.mtime(): {:?}", per.mtime());
     defo!("per.path(): {:?}", per.path());
     defo!("per.pipe_sz_stdout(): {:?}", per.pipe_sz_stdout());
     defo!("per.pipe_sz_stderr(): {:?}", per.pipe_sz_stderr());
     assert_eq!(per.pipe_sz_stdout(), pipe_sz);
     assert_eq!(per.pipe_sz_stderr(), pipe_sz);
+
+    defx!();
 }
 
 #[test]
 fn test_PyEventReader_ts_data_to_datetime_ok() {
+    defn!();
+    venv_setup();
+
     let per = PyEventReader::new(
-        LOG_ETL_FILE_1.to_string(),
+        ETL_1_FPATH.clone(),
         EtlParserUsed::DissectEtl,
         FileType::Etl { archival_type: FileTypeArchive::Normal },
         FO_0,
@@ -75,12 +84,17 @@ fn test_PyEventReader_ts_data_to_datetime_ok() {
     let dt_utc = ymdhmsl(&FO_0,2020, 5, 25, 17, 59, 15, 554);
     defo!("dt_utc: {:?}", dt_utc);
     assert_eq!(dt_utc, dt_ts);
+
+    defx!();
 }
 
 #[test]
 fn test_PyEventReader_ts_data_to_datetime_none() {
+    defn!();
+    venv_setup();
+
     let per = PyEventReader::new(
-        LOG_ETL_FILE_1.to_string(),
+        ETL_1_FPATH.clone(),
         EtlParserUsed::DissectEtl,
         FileType::Etl { archival_type: FileTypeArchive::Normal },
         FO_0,
@@ -90,30 +104,32 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
     let ts_data = b"-"; // May 25, 2020 16:19:15.554 UTC
     let dt_ts = per.ts_data_to_datetime(ts_data);
     assert!(dt_ts.is_none());
+
+    defx!();
 }
 
 #[test_case(
-    LOG_ETL_FILE_1.to_string(),
+    ETL_1_FPATH.clone(),
     8,
     EtlParserUsed::DissectEtl,
     FileType::Etl { archival_type: FileTypeArchive::Normal },
     &DateTimeLOpt::None,
     &DateTimeLOpt::None,
-    LOG_ETL_FILE_1_EVENTS_COUNT;
+    ETL_1_EVENT_COUNT;
     "etl1 pipesz 8 events all"
 )]
 #[test_case(
-    LOG_ETL_FILE_1.to_string(),
+    ETL_1_FPATH.clone(),
     2056,
     EtlParserUsed::DissectEtl,
     FileType::Etl { archival_type: FileTypeArchive::Normal },
     &DateTimeLOpt::None,
     &DateTimeLOpt::None,
-    LOG_ETL_FILE_1_EVENTS_COUNT;
+    ETL_1_EVENT_COUNT;
     "etl1 pipesz 2056 events all"
 )]
 #[test_case(
-    LOG_ETL_FILE_1.to_string(),
+    ETL_1_FPATH.clone(),
     64,
     EtlParserUsed::DissectEtl,
     FileType::Etl { archival_type: FileTypeArchive::Normal },
@@ -124,7 +140,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
     "etl1 pipesz 64 events 13, after 2025-10-05T11:30:19.300"
 )]
 #[test_case(
-    LOG_ETL_FILE_1.to_string(),
+    ETL_1_FPATH.clone(),
     64,
     EtlParserUsed::DissectEtl,
     FileType::Etl { archival_type: FileTypeArchive::Normal },
@@ -135,7 +151,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
     "etl1 pipesz 64 events 8, before 2025-10-05T11:30:19.300"
 )]
 #[test_case(
-    LOG_ETL_FILE_1.to_string(),
+    ETL_1_FPATH.clone(),
     64,
     EtlParserUsed::DissectEtl,
     FileType::Etl { archival_type: FileTypeArchive::Normal },
@@ -146,7 +162,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
     "etl1 pipesz 64 events 0 after 2030-01-01T12:00:00.000"
 )]
 #[test_case(
-    LOG_ETL_FILE_1.to_string(),
+    ETL_1_FPATH.clone(),
     64,
     EtlParserUsed::DissectEtl,
     FileType::Etl { archival_type: FileTypeArchive::Normal },
@@ -163,11 +179,13 @@ fn test_PyEventReader_next(
     file_type: FileType,
     dt_filter_after: &DateTimeLOpt,
     dt_filter_before: &DateTimeLOpt,
-    events_expected: usize,
+    events_expected: Count,
 ) {
     defn!(
         "test_PyEventReader_next: path={:?}, pipe_sz={:?}, etl_parser_used={:?}, file_type={:?}, dt_filter_after={:?}, dt_filter_before={:?}, events_expected={}",
         path, pipe_sz, etl_parser_used, file_type, dt_filter_after,  dt_filter_before, events_expected);
+
+    venv_setup();
 
     let mut per = PyEventReader::new(
         path,
@@ -177,7 +195,7 @@ fn test_PyEventReader_next(
         pipe_sz,
     ).unwrap();
 
-    let mut count: usize = 0;
+    let mut count: Count = 0;
     loop {
         let pde_result = per.next(dt_filter_after, dt_filter_before);
         match pde_result {
@@ -201,4 +219,6 @@ fn test_PyEventReader_next(
     }
     defo!("total PyDataEvents read: {}", count);
     assert_eq!(count, events_expected, "expected {} PyDataEvents", events_expected);
+
+    defx!();
 }
