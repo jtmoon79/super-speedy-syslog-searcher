@@ -10,6 +10,8 @@ File: ./logs/Debian9/samba/log.nmbd
       flushes       : 1
       lines         : 3
       syslines      : 1
+      datetime first: 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
+      datetime last : 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
   Processed:
       file size     : 226 (0xE2) (bytes)
       bytes         : 226 (0xE2)
@@ -20,6 +22,8 @@ File: ./logs/Debian9/samba/log.nmbd
       lines         : 3
       syslines      : 1
       syslines high : 1
+      datetime first     : 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
+      datetime last      : 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 166
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
+Datetime printed last  : 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 3
 Channel Receive err    : 0

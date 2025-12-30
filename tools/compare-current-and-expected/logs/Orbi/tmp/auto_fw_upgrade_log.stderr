@@ -10,6 +10,8 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       flushes       : 8
       lines         : 9
       syslines      : 8
+      datetime first: 2022-04-04 16:37:20 +08:00 (2022-04-04 08:37:20.000000 +00:00)
+      datetime last : 2022-04-04 23:37:16 +08:00 (2022-04-04 15:37:16.000000 +00:00)
   Processed:
       file size     : 643 (0x283) (bytes)
       bytes         : 643 (0x283)
@@ -20,6 +22,8 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       lines         : 9
       syslines      : 8
       syslines high : 8
+      datetime first     : 2022-04-04 16:37:20 +08:00 (2022-04-04 08:37:20.000000 +00:00)
+      datetime last      : 2022-04-04 23:37:16 +08:00 (2022-04-04 15:37:16.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  16,  5.9%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 138
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-04-04 16:37:20 +08:00 (2022-04-04 08:37:20.000000 +00:00)
+Datetime printed last  : 2022-04-04 23:37:16 +08:00 (2022-04-04 15:37:16.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 10
 Channel Receive err    : 0

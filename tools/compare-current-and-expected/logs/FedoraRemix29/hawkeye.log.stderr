@@ -10,6 +10,8 @@ File: ./logs/FedoraRemix29/hawkeye.log
       flushes       : 36
       lines         : 37
       syslines      : 36
+      datetime first: 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
+      datetime last : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
   Processed:
       file size     : 3467 (0xD8B) (bytes)
       bytes         : 3467 (0xD8B)
@@ -20,6 +22,8 @@ File: ./logs/FedoraRemix29/hawkeye.log
       lines         : 37
       syslines      : 37
       syslines high : 36
+      datetime first     : 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
+      datetime last      : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2021
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 155
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
+Datetime printed last  : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 38
 Channel Receive err    : 0

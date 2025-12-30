@@ -10,6 +10,8 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       flushes       : 14
       lines         : 14
       syslines      : 14
+      datetime first: 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
+      datetime last : 2022-09-02 23:13:55 +08:00 (2022-09-02 15:13:55.641000 +00:00)
   Processed:
       file size     : 1105 (0x451) (bytes)
       bytes         : 1105 (0x451)
@@ -20,6 +22,8 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       lines         : 14
       syslines      : 14
       syslines high : 12
+      datetime first     : 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
+      datetime last      : 2022-09-02 23:13:55 +08:00 (2022-09-02 15:13:55.641000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 75
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
+Datetime printed last  : 2022-09-02 23:13:55 +08:00 (2022-09-02 15:13:55.641000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 16
 Channel Receive err    : 0

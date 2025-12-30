@@ -10,6 +10,8 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       flushes       : 11
       lines         : 19
       syslines      : 11
+      datetime first: 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
+      datetime last : 2018-02-28 15:00:32 -08:00 (2018-02-28 23:00:32.000000 +00:00)
   Processed:
       file size     : 749 (0x2ED) (bytes)
       bytes         : 749 (0x2ED)
@@ -20,6 +22,8 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       lines         : 19
       syslines      : 11
       syslines high : 11
+      datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
+      datetime last      : 2018-02-28 15:00:32 -08:00 (2018-02-28 23:00:32.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 76
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
+Datetime printed last  : 2018-02-28 15:00:32 -08:00 (2018-02-28 23:00:32.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 13
 Channel Receive err    : 0

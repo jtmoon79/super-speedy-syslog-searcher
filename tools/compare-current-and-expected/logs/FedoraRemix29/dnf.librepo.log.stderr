@@ -10,6 +10,8 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       flushes       : 27
       lines         : 27
       syslines      : 27
+      datetime first: 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
+      datetime last : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
   Processed:
       file size     : 3171 (0xC63) (bytes)
       bytes         : 3171 (0xC63)
@@ -20,6 +22,8 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       lines         : 27
       syslines      : 27
       syslines high : 9
+      datetime first     : 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
+      datetime last      : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 55,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 79
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
+Datetime printed last  : 2019-06-16 14:09:37 +00:00 (2019-06-16 14:09:37.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 29
 Channel Receive err    : 0

@@ -10,6 +10,8 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       flushes       : 16
       lines         : 16
       syslines      : 16
+      datetime first: 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
+      datetime last : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
   Processed:
       file size     : 1197 (0x4AD) (bytes)
       bytes         : 941 (0x3AD)
@@ -20,6 +22,8 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       lines         : 23
       syslines      : 22
       syslines high : 20
+      datetime first     : 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)
+      datetime last      : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2000
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 33
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
+Datetime printed last  : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 18
 Channel Receive err    : 0

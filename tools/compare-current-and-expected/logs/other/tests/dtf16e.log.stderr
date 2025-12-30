@@ -10,6 +10,8 @@ File: ./logs/other/tests/dtf16e.log
       flushes       : 0
       lines         : 0
       syslines      : 0
+      datetime first: None Found
+      datetime last : None Found
   Processed:
       file size     : 214 (0xD6) (bytes)
       bytes         : 214 (0xD6)
@@ -20,6 +22,8 @@ File: ./logs/other/tests/dtf16e.log
       lines         : 2
       syslines      : 1
       syslines high : 1
+      datetime first     : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 85
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first :
+Datetime printed last  :
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 2
 Channel Receive err    : 0

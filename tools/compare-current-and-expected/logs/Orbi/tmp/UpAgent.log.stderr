@@ -10,6 +10,8 @@ File: ./logs/Orbi/tmp/UpAgent.log
       flushes       : 18
       lines         : 19
       syslines      : 18
+      datetime first: 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
+      datetime last : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
   Processed:
       file size     : 1865 (0x749) (bytes)
       bytes         : 1865 (0x749)
@@ -20,6 +22,8 @@ File: ./logs/Orbi/tmp/UpAgent.log
       lines         : 19
       syslines      : 18
       syslines high : 10
+      datetime first     : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
+      datetime last      : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  1, miss 36,  2.7%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
+Datetime printed last  : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 20
 Channel Receive err    : 0

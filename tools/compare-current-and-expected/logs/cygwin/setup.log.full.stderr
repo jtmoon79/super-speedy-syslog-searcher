@@ -10,6 +10,8 @@ File: ./logs/cygwin/setup.log.full
       flushes       : 14
       lines         : 77
       syslines      : 12
+      datetime first: 2022-03-23 14:00:20 +08:00 (2022-03-23 06:00:20.000000 +00:00)
+      datetime last : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
   Processed:
       file size     : 4075 (0xFEB) (bytes)
       bytes         : 4075 (0xFEB)
@@ -20,6 +22,8 @@ File: ./logs/cygwin/setup.log.full
       lines         : 77
       syslines      : 12
       syslines high : 11
+      datetime first     : 2022-03-23 14:00:20 +08:00 (2022-03-23 06:00:20.000000 +00:00)
+      datetime last      : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 153,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-03-23 14:00:20 +08:00 (2022-03-23 06:00:20.000000 +00:00)
+Datetime printed last  : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 14
 Channel Receive err    : 0

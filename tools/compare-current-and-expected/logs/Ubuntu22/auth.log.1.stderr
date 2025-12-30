@@ -10,6 +10,8 @@ File: ./logs/Ubuntu22/auth.log.1
       flushes       : 14
       lines         : 14
       syslines      : 14
+      datetime first: 2022-09-18 07:00:12 +08:00 (2022-09-17 23:00:12.000000 +00:00)
+      datetime last : 2022-09-18 07:00:35 +08:00 (2022-09-17 23:00:35.000000 +00:00)
   Processed:
       file size     : 1432 (0x598) (bytes)
       bytes         : 1432 (0x598)
@@ -20,6 +22,8 @@ File: ./logs/Ubuntu22/auth.log.1
       lines         : 14
       syslines      : 15
       syslines high : 14
+      datetime first     : 2022-09-18 07:00:12 +08:00 (2022-09-17 23:00:12.000000 +00:00)
+      datetime last      : 2022-09-18 07:00:35 +08:00 (2022-09-17 23:00:35.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-09-18 07:00:12 +08:00 (2022-09-17 23:00:12.000000 +00:00)
+Datetime printed last  : 2022-09-18 07:00:35 +08:00 (2022-09-17 23:00:35.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 16
 Channel Receive err    : 0

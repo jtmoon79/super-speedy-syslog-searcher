@@ -10,6 +10,8 @@ File: ./logs/other/tests/dtf13a.log
       flushes       : 3
       lines         : 3
       syslines      : 3
+      datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
+      datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.628322 +00:00)
   Processed:
       file size     : 231 (0xE7) (bytes)
       bytes         : 231 (0xE7)
@@ -20,6 +22,8 @@ File: ./logs/other/tests/dtf13a.log
       lines         : 3
       syslines      : 3
       syslines high : 3
+      datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
+      datetime last      : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.628322 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 74
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
+Datetime printed last  : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.628322 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 5
 Channel Receive err    : 0

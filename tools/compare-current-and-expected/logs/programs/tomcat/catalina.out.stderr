@@ -10,6 +10,8 @@ File: ./logs/programs/tomcat/catalina.out
       flushes       : 8
       lines         : 21
       syslines      : 7
+      datetime first: 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
+      datetime last : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)
   Processed:
       file size     : 1832 (0x728) (bytes)
       bytes         : 1832 (0x728)
@@ -20,6 +22,8 @@ File: ./logs/programs/tomcat/catalina.out
       lines         : 21
       syslines      : 7
       syslines high : 7
+      datetime first     : 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
+      datetime last      : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  2, miss 39,  4.9%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 59
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
+Datetime printed last  : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 9
 Channel Receive err    : 0

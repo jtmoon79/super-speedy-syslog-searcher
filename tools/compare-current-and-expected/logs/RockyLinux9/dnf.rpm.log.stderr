@@ -10,6 +10,8 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       flushes       : 36
       lines         : 39
       syslines      : 36
+      datetime first: 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
+      datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
   Processed:
       file size     : 2400 (0x960) (bytes)
       bytes         : 2400 (0x960)
@@ -20,6 +22,8 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       lines         : 39
       syslines      : 36
       syslines high : 12
+      datetime first     : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
+      datetime last      : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  75,  2.6%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 76
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
+Datetime printed last  : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 38
 Channel Receive err    : 0

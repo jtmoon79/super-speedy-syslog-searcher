@@ -10,6 +10,8 @@ File: ./logs/RockyLinux9/cron
       flushes       : 116
       lines         : 116
       syslines      : 116
+      datetime first: 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
+      datetime last : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
   Processed:
       file size     : 12532 (0x30F4) (bytes)
       bytes         : 12532 (0x30F4)
@@ -20,6 +22,8 @@ File: ./logs/RockyLinux9/cron
       lines         : 116
       syslines      : 117
       syslines high : 116
+      datetime first     : 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
+      datetime last      : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
+Datetime printed last  : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 118
 Channel Receive err    : 0

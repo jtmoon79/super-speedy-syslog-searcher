@@ -10,6 +10,8 @@ File: ./logs/FreeBSD13.1/devd.log
       flushes       : 9
       lines         : 19
       syslines      : 9
+      datetime first: 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
+      datetime last : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
   Processed:
       file size     : 612 (0x264) (bytes)
       bytes         : 612 (0x264)
@@ -20,6 +22,8 @@ File: ./logs/FreeBSD13.1/devd.log
       lines         : 19
       syslines      : 10
       syslines high : 9
+      datetime first     : 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
+      datetime last      : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2023
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
+Datetime printed last  : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 11
 Channel Receive err    : 0

@@ -10,6 +10,8 @@ File: ./logs/Windows10Pro/debug/mrt.log
       flushes       : 5
       lines         : 47
       syslines      : 5
+      datetime first: 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
+      datetime last : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
   Processed:
       file size     : 1427 (0x593) (bytes)
       bytes         : 1427 (0x593)
@@ -20,6 +22,8 @@ File: ./logs/Windows10Pro/debug/mrt.log
       lines         : 49
       syslines      : 5
       syslines high : 5
+      datetime first     : 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
+      datetime last      : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  12, miss  87, 12.1%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 175
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
+Datetime printed last  : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 7
 Channel Receive err    : 0

@@ -10,6 +10,8 @@ File: ./logs/synology-DS6/space_operation_error.log
       flushes       : 19
       lines         : 19
       syslines      : 19
+      datetime first: 2017-12-05 20:31:40 +08:00 (2017-12-05 12:31:40.000000 +00:00)
+      datetime last : 2018-01-24 23:24:08 +08:00 (2018-01-24 15:24:08.000000 +00:00)
   Processed:
       file size     : 2353 (0x931) (bytes)
       bytes         : 2353 (0x931)
@@ -20,6 +22,8 @@ File: ./logs/synology-DS6/space_operation_error.log
       lines         : 19
       syslines      : 21
       syslines high : 19
+      datetime first     : 2017-01-03 01:38:36 +08:00 (2017-01-02 17:38:36.000000 +00:00)
+      datetime last      : 2018-01-24 23:24:08 +08:00 (2018-01-24 15:24:08.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2017-12-05 20:31:40 +08:00 (2017-12-05 12:31:40.000000 +00:00)
+Datetime printed last  : 2018-01-24 23:24:08 +08:00 (2018-01-24 15:24:08.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 21
 Channel Receive err    : 0

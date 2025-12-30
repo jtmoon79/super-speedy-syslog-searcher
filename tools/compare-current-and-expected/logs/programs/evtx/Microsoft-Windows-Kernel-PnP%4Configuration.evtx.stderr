@@ -9,11 +9,15 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
       bytes         : 1159282
       flushes       : 678
       Events        : 227
+      datetime first: 2023-03-10 03:49:43 +00:00 (2023-03-10 03:49:43.558721 +00:00)
+      datetime last : 2023-03-17 21:21:46 +00:00 (2023-03-17 21:21:46.786681 +00:00)
   Processed:
       file size          : 1052672 (0x101000) (bytes)
       Events processed   : 227
       Events accepted    : 227
       Events out of order: 1
+      datetime first     : 2023-03-10 03:49:43 +00:00 (2023-03-10 03:49:43.558721 +00:00)
+      datetime last      : 2023-03-17 21:21:46 +00:00 (2023-03-17 21:21:46.786681 +00:00)
 
 Program Summary:
 
@@ -33,6 +37,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2023-03-10 03:49:43 +00:00 (2023-03-10 03:49:43.558721 +00:00)
+Datetime printed last  : 2023-03-17 21:21:46 +00:00 (2023-03-17 21:21:46.786681 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 229
 Channel Receive err    : 0

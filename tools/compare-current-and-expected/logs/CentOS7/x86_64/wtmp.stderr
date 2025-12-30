@@ -25,6 +25,8 @@ File: ./logs/CentOS7/x86_64/wtmp
       entry high    : 3
       peak map size : 3
       out of order? : 0
+      datetime first     : 2023-04-11 05:54:58 +08:00 (2023-04-10 21:54:58.759000 +00:00)
+      datetime last      : 2023-04-11 05:55:40 +08:00 (2023-04-10 21:55:40.502962 +00:00)
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%
   Processing Drops:
@@ -47,6 +49,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2023-04-11 05:54:58 +08:00 (2023-04-10 21:54:58.759000 +00:00)
+Datetime printed last  : 2023-04-11 05:55:40 +08:00 (2023-04-10 21:55:40.502962 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 5
 Channel Receive err    : 0

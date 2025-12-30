@@ -19,6 +19,8 @@ source "${HERE}/common.sh"
 
 ./tools/log-files-time-update.sh
 
+TZ_HERE='America/New_York'
+
 # verify s4 can run
 (set -x; "${PROGRAM}" --version)
 echo >&2
@@ -73,6 +75,7 @@ echo "${PS4}${PROGRAM} $(for arg in "${S4_ARGS[@]}"; do echo -n "'${arg}' "; don
 (
     set +e
     set +o pipefail
+    export TZ=${TZ_HERE}
     "${PROGRAM}" "${S4_ARGS[@]}" - < "${LOGS}"
 ) 1> "${EXPECT_OUT}" 2> "${EXPECT_ERR}" || true
 
@@ -102,6 +105,7 @@ while read -r log_file; do
     mkdir -p "$(dirname -- "${log_file_stdout}")"
     # run s4 and save stdout, stderr
     (
+        export TZ=${TZ_HERE}
         "${PROGRAM}" "${S4_ARGS[@]}" "${log_file}" 1>"${log_file_stdout}" 2>"${log_file_stderr}"
     ) || true
     echo "Updated file '${log_file_stdout}'" >&2

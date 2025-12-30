@@ -10,6 +10,8 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       flushes       : 19
       lines         : 152
       syslines      : 9
+      datetime first: 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
+      datetime last : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
   Processed:
       file size     : 12586 (0x312A) (bytes)
       bytes         : 12586 (0x312A)
@@ -20,6 +22,8 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       lines         : 161
       syslines      : 9
       syslines high : 5
+      datetime first     : 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
+      datetime last      : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   23, miss  312,  6.9%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 175
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
+Datetime printed last  : 2019-12-07 09:14:37 +08:00 (2019-12-07 01:14:37.876000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 11
 Channel Receive err    : 0

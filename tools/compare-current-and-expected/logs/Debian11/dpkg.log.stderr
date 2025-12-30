@@ -10,6 +10,8 @@ File: ./logs/Debian11/dpkg.log
       flushes       : 48
       lines         : 49
       syslines      : 48
+      datetime first: 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
+      datetime last : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
   Processed:
       file size     : 3060 (0xBF4) (bytes)
       bytes         : 3060 (0xBF4)
@@ -20,6 +22,8 @@ File: ./logs/Debian11/dpkg.log
       lines         : 49
       syslines      : 48
       syslines high : 15
+      datetime first     : 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
+      datetime last      : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  96,  1.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
+Datetime printed last  : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 50
 Channel Receive err    : 0

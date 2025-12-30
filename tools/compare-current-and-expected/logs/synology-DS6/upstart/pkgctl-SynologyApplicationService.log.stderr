@@ -10,6 +10,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       flushes       : 19
       lines         : 19
       syslines      : 19
+      datetime first: 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)
+      datetime last : 2019-10-19 19:03:44 -07:00 (2019-10-20 02:03:44.000000 +00:00)
   Processed:
       file size     : 1372 (0x55C) (bytes)
       bytes         : 1372 (0x55C)
@@ -20,6 +22,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       lines         : 19
       syslines      : 19
       syslines high : 13
+      datetime first     : 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)
+      datetime last      : 2019-10-19 19:03:44 -07:00 (2019-10-20 02:03:44.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 76
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)
+Datetime printed last  : 2019-10-19 19:03:44 -07:00 (2019-10-20 02:03:44.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 21
 Channel Receive err    : 0

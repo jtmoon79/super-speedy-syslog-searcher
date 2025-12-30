@@ -10,6 +10,8 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
       flushes       : 19
       lines         : 19
       syslines      : 19
+      datetime first: 2022-05-10 14:22:57 +08:00 (2022-05-10 06:22:57.000000 +00:00)
+      datetime last : 2022-05-10 15:09:27 +08:00 (2022-05-10 07:09:27.000000 +00:00)
   Processed:
       file size     : 2135 (0x857) (bytes)
       bytes         : 2135 (0x857)
@@ -20,6 +22,8 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
       lines         : 19
       syslines      : 19
       syslines high : 9
+      datetime first     : 2022-05-10 14:22:57 +08:00 (2022-05-10 06:22:57.000000 +00:00)
+      datetime last      : 2022-05-10 15:09:27 +08:00 (2022-05-10 07:09:27.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 138
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-05-10 14:22:57 +08:00 (2022-05-10 06:22:57.000000 +00:00)
+Datetime printed last  : 2022-05-10 15:09:27 +08:00 (2022-05-10 07:09:27.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 21
 Channel Receive err    : 0

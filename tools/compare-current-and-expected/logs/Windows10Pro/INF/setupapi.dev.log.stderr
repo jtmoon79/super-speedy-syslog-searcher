@@ -10,6 +10,8 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       flushes       : 4
       lines         : 41
       syslines      : 2
+      datetime first: 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
+      datetime last : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
   Processed:
       file size     : 3610 (0xE1A) (bytes)
       bytes         : 3610 (0xE1A)
@@ -20,6 +22,8 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       lines         : 50
       syslines      : 2
       syslines high : 2
+      datetime first     : 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
+      datetime last      : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   15, miss   98, 13.3%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 175
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
+Datetime printed last  : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 4
 Channel Receive err    : 0

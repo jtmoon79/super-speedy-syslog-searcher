@@ -10,6 +10,8 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       flushes       : 10
       lines         : 10
       syslines      : 10
+      datetime first: 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
+      datetime last : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.293000 +00:00)
   Processed:
       file size     : 4922 (0x133A) (bytes)
       bytes         : 4922 (0x133A)
@@ -20,6 +22,8 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       lines         : 19
       syslines      : 19
       syslines high : 19
+      datetime first     : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
+      datetime last      : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2023
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 94
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
+Datetime printed last  : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.293000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 12
 Channel Receive err    : 0

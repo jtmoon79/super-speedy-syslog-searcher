@@ -10,6 +10,8 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       flushes       : 105
       lines         : 105
       syslines      : 105
+      datetime first: 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
+      datetime last : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
   Processed:
       file size     : 15258 (0x3B9A) (bytes)
       bytes         : 15258 (0x3B9A)
@@ -20,6 +22,8 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       lines         : 105
       syslines      : 105
       syslines high : 7
+      datetime first     : 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
+      datetime last      : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 211,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 138
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
+Datetime printed last  : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 107
 Channel Receive err    : 0

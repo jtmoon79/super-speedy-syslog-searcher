@@ -10,6 +10,8 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       flushes       : 2
       lines         : 2
       syslines      : 2
+      datetime first: 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
+      datetime last : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)
   Processed:
       file size     : 183 (0xB7) (bytes)
       bytes         : 183 (0xB7)
@@ -20,6 +22,8 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       lines         : 2
       syslines      : 2
       syslines high : 2
+      datetime first     : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
+      datetime last      : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 137
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
+Datetime printed last  : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 4
 Channel Receive err    : 0

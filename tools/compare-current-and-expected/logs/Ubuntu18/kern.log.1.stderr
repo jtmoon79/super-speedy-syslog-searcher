@@ -10,6 +10,8 @@ File: ./logs/Ubuntu18/kern.log.1
       flushes       : 19
       lines         : 19
       syslines      : 19
+      datetime first: 2019-03-09 08:10:29 +08:00 (2019-03-09 00:10:29.000000 +00:00)
+      datetime last : 2019-03-09 17:47:07 +08:00 (2019-03-09 09:47:07.000000 +00:00)
   Processed:
       file size     : 1671 (0x687) (bytes)
       bytes         : 1671 (0x687)
@@ -20,6 +22,8 @@ File: ./logs/Ubuntu18/kern.log.1
       lines         : 19
       syslines      : 20
       syslines high : 19
+      datetime first     : 2019-03-09 08:10:29 +08:00 (2019-03-09 00:10:29.000000 +00:00)
+      datetime last      : 2019-03-09 17:47:07 +08:00 (2019-03-09 09:47:07.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2019
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2019-03-09 08:10:29 +08:00 (2019-03-09 00:10:29.000000 +00:00)
+Datetime printed last  : 2019-03-09 17:47:07 +08:00 (2019-03-09 09:47:07.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 21
 Channel Receive err    : 0

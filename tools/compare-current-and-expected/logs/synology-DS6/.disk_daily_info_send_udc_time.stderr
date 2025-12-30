@@ -10,6 +10,8 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       flushes       : 1
       lines         : 1
       syslines      : 1
+      datetime first: 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
+      datetime last : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
   Processed:
       file size     : 25 (0x19) (bytes)
       bytes         : 25 (0x19)
@@ -20,6 +22,8 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       lines         : 1
       syslines      : 1
       syslines high : 1
+      datetime first     : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
+      datetime last      : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  1,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 89
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
+Datetime printed last  : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 3
 Channel Receive err    : 0

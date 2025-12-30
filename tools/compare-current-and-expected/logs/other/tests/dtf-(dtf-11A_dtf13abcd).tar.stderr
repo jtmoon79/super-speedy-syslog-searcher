@@ -11,6 +11,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       flushes       : 13
       lines         : 13
       syslines      : 13
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-12-31 00:00:00 +08:00 (2000-12-30 16:00:00.000000 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
       file size unarchived: 480 (0x1E0) (bytes)
@@ -22,6 +24,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       lines         : 13
       syslines      : 13
       syslines high : 13
+      datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last      : 2000-12-31 00:00:00 +08:00 (2000-12-30 16:00:00.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 25,  0.0%
@@ -47,6 +51,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       flushes       : 3
       lines         : 3
       syslines      : 3
+      datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
+      datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.628322 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
       file size unarchived: 231 (0xE7) (bytes)
@@ -58,6 +64,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       lines         : 3
       syslines      : 3
       syslines high : 3
+      datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
+      datetime last      : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.628322 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%
@@ -83,6 +91,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       flushes       : 3
       lines         : 3
       syslines      : 3
+      datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
+      datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638300 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
       file size unarchived: 228 (0xE4) (bytes)
@@ -94,6 +104,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       lines         : 3
       syslines      : 3
       syslines high : 3
+      datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
+      datetime last      : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638300 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%
@@ -119,6 +131,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       flushes       : 3
       lines         : 3
       syslines      : 3
+      datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
+      datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
       file size unarchived: 231 (0xE7) (bytes)
@@ -130,6 +144,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       lines         : 3
       syslines      : 3
       syslines high : 3
+      datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
+      datetime last      : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%
@@ -155,6 +171,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       flushes       : 3
       lines         : 3
       syslines      : 3
+      datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
+      datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
   Processed:
       file size archive   : 6144 (0x1800) (bytes)
       file size unarchived: 222 (0xDE) (bytes)
@@ -166,6 +184,8 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       lines         : 3
       syslines      : 3
       syslines high : 3
+      datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
+      datetime last      : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%
@@ -199,6 +219,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+Datetime printed last  : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638300 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 35
 Channel Receive err    : 0

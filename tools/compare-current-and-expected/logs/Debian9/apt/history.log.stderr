@@ -10,6 +10,8 @@ File: ./logs/Debian9/apt/history.log
       flushes       : 4
       lines         : 9
       syslines      : 4
+      datetime first: 2019-09-13 19:20:11 +08:00 (2019-09-13 11:20:11.000000 +00:00)
+      datetime last : 2020-02-18 16:36:26 +08:00 (2020-02-18 08:36:26.000000 +00:00)
   Processed:
       file size     : 298 (0x12A) (bytes)
       bytes         : 298 (0x12A)
@@ -20,6 +22,8 @@ File: ./logs/Debian9/apt/history.log
       lines         : 10
       syslines      : 4
       syslines high : 4
+      datetime first     : 2019-09-13 19:20:11 +08:00 (2019-09-13 11:20:11.000000 +00:00)
+      datetime last      : 2020-02-18 16:36:26 +08:00 (2020-02-18 08:36:26.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  17, 10.5%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 163
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2019-09-13 19:20:11 +08:00 (2019-09-13 11:20:11.000000 +00:00)
+Datetime printed last  : 2020-02-18 16:36:26 +08:00 (2020-02-18 08:36:26.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 6
 Channel Receive err    : 0

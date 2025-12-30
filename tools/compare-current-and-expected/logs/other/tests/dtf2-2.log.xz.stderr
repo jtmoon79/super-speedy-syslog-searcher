@@ -10,6 +10,8 @@ File: ./logs/other/tests/dtf2-2.log.xz
       flushes       : 2
       lines         : 3
       syslines      : 2
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
   Processed:
       file size compressed  : 96 (0x60) (bytes)
       file size uncompressed: 60 (0x3C) (bytes)
@@ -21,6 +23,8 @@ File: ./logs/other/tests/dtf2-2.log.xz
       lines         : 3
       syslines      : 2
       syslines high : 2
+      datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last      : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+Datetime printed last  : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 4
 Channel Receive err    : 0

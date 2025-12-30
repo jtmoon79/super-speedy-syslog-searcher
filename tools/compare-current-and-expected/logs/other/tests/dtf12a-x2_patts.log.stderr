@@ -10,6 +10,8 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       flushes       : 4
       lines         : 8
       syslines      : 4
+      datetime first: 2022-01-31 00:00:01 +00:30 (2022-01-30 23:30:01.000000 +00:00)
+      datetime last : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
   Processed:
       file size     : 295 (0x127) (bytes)
       bytes         : 295 (0x127)
@@ -20,6 +22,8 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       lines         : 8
       syslines      : 5
       syslines high : 4
+      datetime first     : 2022-01-31 00:00:01 +00:30 (2022-01-30 23:30:01.000000 +00:00)
+      datetime last      : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  15,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-01-31 00:00:01 +00:30 (2022-01-30 23:30:01.000000 +00:00)
+Datetime printed last  : 2022-01-31 00:00:07 +00:30 (2022-01-30 23:30:07.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 6
 Channel Receive err    : 0

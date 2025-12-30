@@ -11,6 +11,8 @@ File: ./logs/Windows10Pro/PFRO.log
       flushes       : 0
       lines         : 0
       syslines      : 0
+      datetime first: None Found
+      datetime last : None Found
   Processed:
       file size     : 22346 (0x574A) (bytes)
       bytes         : 256 (0x100)
@@ -53,6 +55,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 161
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first :
+Datetime printed last  :
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 2
 Channel Receive err    : 0

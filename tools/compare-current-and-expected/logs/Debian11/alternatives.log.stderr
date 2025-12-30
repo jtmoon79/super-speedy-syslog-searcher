@@ -10,6 +10,8 @@ File: ./logs/Debian11/alternatives.log
       flushes       : 15
       lines         : 15
       syslines      : 15
+      datetime first: 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
+      datetime last : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
   Processed:
       file size     : 4222 (0x107E) (bytes)
       bytes         : 4222 (0x107E)
@@ -20,6 +22,8 @@ File: ./logs/Debian11/alternatives.log
       lines         : 15
       syslines      : 15
       syslines high : 8
+      datetime first     : 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
+      datetime last      : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  31,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 136
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
+Datetime printed last  : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 17
 Channel Receive err    : 0

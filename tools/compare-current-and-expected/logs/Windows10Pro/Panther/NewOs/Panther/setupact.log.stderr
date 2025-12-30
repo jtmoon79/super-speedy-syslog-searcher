@@ -10,6 +10,8 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       flushes       : 36
       lines         : 55
       syslines      : 35
+      datetime first: 2022-10-14 05:56:46 +08:00 (2022-10-13 21:56:46.000000 +00:00)
+      datetime last : 2022-10-14 07:42:33 +08:00 (2022-10-13 23:42:33.000000 +00:00)
   Processed:
       file size     : 5256 (0x1488) (bytes)
       bytes         : 5256 (0x1488)
@@ -20,6 +22,8 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       lines         : 55
       syslines      : 35
       syslines high : 9
+      datetime first     : 2022-10-14 05:56:46 +08:00 (2022-10-13 21:56:46.000000 +00:00)
+      datetime last      : 2022-10-14 07:42:33 +08:00 (2022-10-13 23:42:33.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   4, miss 105,  3.7%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-10-14 05:56:46 +08:00 (2022-10-13 21:56:46.000000 +00:00)
+Datetime printed last  : 2022-10-14 07:42:33 +08:00 (2022-10-13 23:42:33.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 37
 Channel Receive err    : 0

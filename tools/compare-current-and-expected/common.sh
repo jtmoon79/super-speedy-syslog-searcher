@@ -49,9 +49,6 @@ function stderr_clean () {
     # $1 is a file path
     #
     # - remove the printing of the current time `Datetime Now`
-    # - remove the printing of the `datetime first` and `datetime last`.
-    #   It might use the local system timezone which varies from system to
-    #   system.
     # - remove the printing of `Modified Time` as it may vary based on the
     #   filesystem.
     # - remove the realpath as it varies depending on the repo. path.
@@ -71,10 +68,6 @@ function stderr_clean () {
     sed -i \
         -E \
         -e '/^Datetime Now[ ]*:.*$/d' \
-        -e '/^[ ]*datetime first[ ]*.*$/d' \
-        -e '/^[ ]*datetime last[ ]*.*$/d' \
-        -e '/^Datetime printed first[ ]*:.*$/d' \
-        -e '/^Datetime printed last[ ]*:.*$/d' \
         -e '/^[ ]+Modified Time [ ]*:.*$/d' \
         -e '/^[ ]+modified time [ ]*:.*$/d' \
         -e '/^[ ]+realpath .*$/d' \

@@ -10,6 +10,8 @@ File: ./logs/Debian9/messages.log
       flushes       : 1
       lines         : 1
       syslines      : 1
+      datetime first: 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
+      datetime last : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
   Processed:
       file size     : 153 (0x99) (bytes)
       bytes         : 153 (0x99)
@@ -20,6 +22,8 @@ File: ./logs/Debian9/messages.log
       lines         : 1
       syslines      : 2
       syslines high : 1
+      datetime first     : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
+      datetime last      : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
+Datetime printed last  : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 3
 Channel Receive err    : 0

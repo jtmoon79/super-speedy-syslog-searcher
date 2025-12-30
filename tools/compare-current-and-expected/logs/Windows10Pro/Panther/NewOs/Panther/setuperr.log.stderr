@@ -10,6 +10,8 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       flushes       : 16
       lines         : 33
       syslines      : 15
+      datetime first: 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
+      datetime last : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
   Processed:
       file size     : 2716 (0xA9C) (bytes)
       bytes         : 2716 (0xA9C)
@@ -20,6 +22,8 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       lines         : 33
       syslines      : 15
       syslines high : 10
+      datetime first     : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
+      datetime last      : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  63,  3.1%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
+Datetime printed last  : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 17
 Channel Receive err    : 0

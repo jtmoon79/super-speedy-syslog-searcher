@@ -10,6 +10,8 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       flushes       : 5
       lines         : 5
       syslines      : 5
+      datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
+      datetime last : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
   Processed:
       file size     : 596 (0x254) (bytes)
       bytes         : 596 (0x254)
@@ -20,6 +22,8 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       lines         : 5
       syslines      : 5
       syslines high : 5
+      datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
+      datetime last      : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 75
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
+Datetime printed last  : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 7
 Channel Receive err    : 0

@@ -10,6 +10,8 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       flushes       : 20
       lines         : 20
       syslines      : 20
+      datetime first: 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
+      datetime last : 2019-09-17 07:08:12 +08:00 (2019-09-16 23:08:12.000000 +00:00)
   Processed:
       file size     : 1979 (0x7BB) (bytes)
       bytes         : 1979 (0x7BB)
@@ -20,6 +22,8 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       lines         : 20
       syslines      : 20
       syslines high : 10
+      datetime first     : 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
+      datetime last      : 2019-09-17 07:08:12 +08:00 (2019-09-16 23:08:12.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 41,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
+Datetime printed last  : 2019-09-17 07:08:12 +08:00 (2019-09-16 23:08:12.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 22
 Channel Receive err    : 0

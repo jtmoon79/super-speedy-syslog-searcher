@@ -10,6 +10,8 @@ File: ./logs/Ubuntu22/cloud-init.log
       flushes       : 14
       lines         : 14
       syslines      : 14
+      datetime first: 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.002000 +00:00)
+      datetime last : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.017000 +00:00)
   Processed:
       file size     : 1456 (0x5B0) (bytes)
       bytes         : 1456 (0x5B0)
@@ -20,6 +22,8 @@ File: ./logs/Ubuntu22/cloud-init.log
       lines         : 14
       syslines      : 14
       syslines high : 10
+      datetime first     : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.002000 +00:00)
+      datetime last      : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.017000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 75
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.002000 +00:00)
+Datetime printed last  : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.017000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 16
 Channel Receive err    : 0

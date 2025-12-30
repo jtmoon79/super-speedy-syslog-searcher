@@ -10,6 +10,8 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       flushes       : 8
       lines         : 10
       syslines      : 8
+      datetime first: 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
+      datetime last : 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
   Processed:
       file size     : 952 (0x3B8) (bytes)
       bytes         : 952 (0x3B8)
@@ -20,6 +22,8 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       lines         : 10
       syslines      : 8
       syslines high : 8
+      datetime first     : 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
+      datetime last      : 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  19,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 137
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
+Datetime printed last  : 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 10
 Channel Receive err    : 0

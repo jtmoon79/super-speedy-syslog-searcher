@@ -10,6 +10,8 @@ File: ./logs/synology-DS6/synologydrive.log
       flushes       : 17
       lines         : 18
       syslines      : 17
+      datetime first: 2018-12-06 02:27:57 -08:00 (2018-12-06 10:27:57.000000 +00:00)
+      datetime last : 2018-12-17 15:09:11 -08:00 (2018-12-17 23:09:11.000000 +00:00)
   Processed:
       file size     : 2361 (0x939) (bytes)
       bytes         : 2361 (0x939)
@@ -20,6 +22,8 @@ File: ./logs/synology-DS6/synologydrive.log
       lines         : 18
       syslines      : 17
       syslines high : 9
+      datetime first     : 2018-12-06 02:27:57 -08:00 (2018-12-06 10:27:57.000000 +00:00)
+      datetime last      : 2018-12-17 15:09:11 -08:00 (2018-12-17 23:09:11.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 35,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 77
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2018-12-06 02:27:57 -08:00 (2018-12-06 10:27:57.000000 +00:00)
+Datetime printed last  : 2018-12-17 15:09:11 -08:00 (2018-12-17 23:09:11.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 19
 Channel Receive err    : 0

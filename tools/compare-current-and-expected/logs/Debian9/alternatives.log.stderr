@@ -10,6 +10,8 @@ File: ./logs/Debian9/alternatives.log
       flushes       : 14
       lines         : 19
       syslines      : 14
+      datetime first: 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
+      datetime last : 2020-02-03 13:57:14 +08:00 (2020-02-03 05:57:14.000000 +00:00)
   Processed:
       file size     : 2763 (0xACB) (bytes)
       bytes         : 2763 (0xACB)
@@ -20,6 +22,8 @@ File: ./logs/Debian9/alternatives.log
       lines         : 19
       syslines      : 14
       syslines high : 7
+      datetime first     : 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
+      datetime last      : 2020-02-03 13:57:14 +08:00 (2020-02-03 05:57:14.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  36,  2.7%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 136
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
+Datetime printed last  : 2020-02-03 13:57:14 +08:00 (2020-02-03 05:57:14.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 16
 Channel Receive err    : 0

@@ -11,6 +11,8 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       flushes       : 20
       lines         : 20
       syslines      : 20
+      datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      datetime last : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Processed:
       file size archive   : 4096 (0x1000) (bytes)
       file size unarchived: 1260 (0x4EC) (bytes)
@@ -22,6 +24,8 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       lines         : 20
       syslines      : 20
       syslines high : 15
+      datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      datetime last      : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
@@ -47,6 +51,8 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       flushes       : 5
       lines         : 5
       syslines      : 5
+      datetime first: 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 -04:00 (2000-01-01 04:00:05.000000 +00:00)
   Processed:
       file size archive   : 4096 (0x1000) (bytes)
       file size unarchived: 272 (0x110) (bytes)
@@ -58,6 +64,8 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       lines         : 5
       syslines      : 5
       syslines high : 5
+      datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+      datetime last      : 2000-01-01 00:00:05 -04:00 (2000-01-01 04:00:05.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
@@ -91,6 +99,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 134
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
+Datetime printed last  : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 29
 Channel Receive err    : 0

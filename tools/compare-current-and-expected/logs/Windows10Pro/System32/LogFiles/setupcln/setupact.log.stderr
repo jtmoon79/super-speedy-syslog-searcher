@@ -10,6 +10,8 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       flushes       : 1205
       lines         : 1300
       syslines      : 1205
+      datetime first: 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
+      datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
   Processed:
       file size     : 125229 (0x1E92D) (bytes)
       bytes         : 125229 (0x1E92D)
@@ -20,6 +22,8 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       lines         : 1300
       syslines      : 1205
       syslines high : 11
+      datetime first     : 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
+      datetime last      : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    0, miss 2599,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 138
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
+Datetime printed last  : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 1207
 Channel Receive err    : 0

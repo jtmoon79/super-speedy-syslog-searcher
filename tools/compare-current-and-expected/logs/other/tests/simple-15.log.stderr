@@ -10,6 +10,8 @@ File: ./logs/other/tests/simple-15.log
       flushes       : 1
       lines         : 1
       syslines      : 1
+      datetime first: 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
+      datetime last : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
   Processed:
       file size     : 15 (0xF) (bytes)
       bytes         : 15 (0xF)
@@ -20,6 +22,8 @@ File: ./logs/other/tests/simple-15.log
       lines         : 1
       syslines      : 1
       syslines high : 1
+      datetime first     : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
+      datetime last      : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  1,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
+Datetime printed last  : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 3
 Channel Receive err    : 0

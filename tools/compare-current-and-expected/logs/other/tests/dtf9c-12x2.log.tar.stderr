@@ -11,6 +11,8 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       flushes       : 23
       lines         : 25
       syslines      : 23
+      datetime first: 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
+      datetime last : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
   Processed:
       file size archive   : 10240 (0x2800) (bytes)
       file size unarchived: 431 (0x1AF) (bytes)
@@ -22,6 +24,8 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       lines         : 25
       syslines      : 25
       syslines high : 23
+      datetime first     : 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
+      datetime last      : 2010-12-12 12:00:00 +08:00 (2010-12-12 04:00:00.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2011
   Processing Stores:
@@ -56,6 +60,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
+Datetime printed last  : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 25
 Channel Receive err    : 0

@@ -10,6 +10,8 @@ File: ./logs/RockyLinux9/messages
       flushes       : 2432
       lines         : 2432
       syslines      : 2432
+      datetime first: 2002-10-08 06:18:20 +08:00 (2002-10-07 22:18:20.000000 +00:00)
+      datetime last : 2002-10-08 22:26:52 +08:00 (2002-10-08 14:26:52.000000 +00:00)
   Processed:
       file size     : 256136 (0x3E888) (bytes)
       bytes         : 256136 (0x3E888)
@@ -20,6 +22,8 @@ File: ./logs/RockyLinux9/messages
       lines         : 2432
       syslines      : 2432
       syslines high : 2432
+      datetime first     : 2002-10-08 06:18:20 +08:00 (2002-10-07 22:18:20.000000 +00:00)
+      datetime last      : 2002-10-08 22:26:52 +08:00 (2002-10-08 14:26:52.000000 +00:00)
   Parsers:
                    datetime format missing year; estimated year of last sysline 2002
   Processing Stores:
@@ -54,6 +58,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 34
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2002-10-08 06:18:20 +08:00 (2002-10-07 22:18:20.000000 +00:00)
+Datetime printed last  : 2002-10-08 22:26:52 +08:00 (2002-10-08 14:26:52.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 2434
 Channel Receive err    : 0

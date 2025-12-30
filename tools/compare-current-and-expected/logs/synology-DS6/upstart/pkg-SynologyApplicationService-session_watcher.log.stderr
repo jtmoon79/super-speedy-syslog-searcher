@@ -10,6 +10,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
       flushes       : 19
       lines         : 19
       syslines      : 19
+      datetime first: 2019-08-31 23:53:52 -07:00 (2019-09-01 06:53:52.000000 +00:00)
+      datetime last : 2020-03-06 20:09:23 -08:00 (2020-03-07 04:09:23.000000 +00:00)
   Processed:
       file size     : 1036 (0x40C) (bytes)
       bytes         : 1036 (0x40C)
@@ -20,6 +22,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
       lines         : 19
       syslines      : 19
       syslines high : 17
+      datetime first     : 2019-08-31 23:53:52 -07:00 (2019-09-01 06:53:52.000000 +00:00)
+      datetime last      : 2020-03-06 20:09:23 -08:00 (2020-03-07 04:09:23.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 76
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2019-08-31 23:53:52 -07:00 (2019-09-01 06:53:52.000000 +00:00)
+Datetime printed last  : 2020-03-06 20:09:23 -08:00 (2020-03-07 04:09:23.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 21
 Channel Receive err    : 0

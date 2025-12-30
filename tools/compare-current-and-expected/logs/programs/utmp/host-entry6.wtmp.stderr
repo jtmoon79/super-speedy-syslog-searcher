@@ -25,6 +25,8 @@ File: ./logs/programs/utmp/host-entry6.wtmp
       entry high    : 5
       peak map size : 6
       out of order? : 0
+      datetime first     : 2023-02-24 16:40:27 +08:00 (2023-02-24 08:40:27.123636 +00:00)
+      datetime last      : 2023-02-24 16:52:26 +08:00 (2023-02-24 08:52:26.987104 +00:00)
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
@@ -47,6 +49,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2023-02-24 16:40:27 +08:00 (2023-02-24 08:40:27.123636 +00:00)
+Datetime printed last  : 2023-02-24 16:52:26 +08:00 (2023-02-24 08:52:26.987104 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 8
 Channel Receive err    : 0

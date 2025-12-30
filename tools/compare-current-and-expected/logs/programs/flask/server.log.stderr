@@ -10,6 +10,8 @@ File: ./logs/programs/flask/server.log
       flushes       : 0
       lines         : 0
       syslines      : 0
+      datetime first: None Found
+      datetime last : None Found
   Processed:
       file size     : 240 (0xF0) (bytes)
       bytes         : 240 (0xF0)
@@ -20,6 +22,8 @@ File: ./logs/programs/flask/server.log
       lines         : 2
       syslines      : 1
       syslines high : 1
+      datetime first     : 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
+      datetime last      : 2024-03-22 15:11:33 +08:00 (2024-03-22 07:11:33.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 51
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first :
+Datetime printed last  :
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 2
 Channel Receive err    : 0

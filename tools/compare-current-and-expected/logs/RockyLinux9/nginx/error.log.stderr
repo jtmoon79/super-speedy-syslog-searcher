@@ -10,6 +10,8 @@ File: ./logs/RockyLinux9/nginx/error.log
       flushes       : 2
       lines         : 2
       syslines      : 2
+      datetime first: 2022-10-08 22:27:40 +08:00 (2022-10-08 14:27:40.000000 +00:00)
+      datetime last : 2022-10-08 22:27:55 +08:00 (2022-10-08 14:27:55.000000 +00:00)
   Processed:
       file size     : 461 (0x1CD) (bytes)
       bytes         : 461 (0x1CD)
@@ -20,6 +22,8 @@ File: ./logs/RockyLinux9/nginx/error.log
       lines         : 2
       syslines      : 2
       syslines high : 2
+      datetime first     : 2022-10-08 22:27:40 +08:00 (2022-10-08 14:27:40.000000 +00:00)
+      datetime last      : 2022-10-08 22:27:55 +08:00 (2022-10-08 14:27:55.000000 +00:00)
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%
@@ -53,6 +57,8 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2022-10-08 22:27:40 +08:00 (2022-10-08 14:27:40.000000 +00:00)
+Datetime printed last  : 2022-10-08 22:27:55 +08:00 (2022-10-08 14:27:55.000000 +00:00)
 Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 4
 Channel Receive err    : 0
