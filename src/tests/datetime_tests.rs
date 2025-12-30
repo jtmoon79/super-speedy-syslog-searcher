@@ -300,7 +300,8 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
             assert_eq!(co, cd, "entry {:?} appears to be a duplicate", co);
         }
     };
-    assert_eq!(check.len(), DATETIME_PARSE_DATAS.len(), "the deduplicated DATETIME_PARSE_DATAS_VEC is different len than original; there are duplicates in DATETIME_PARSE_DATAS_VEC but the test could not determine which entry.");
+    assert_eq!(check.len(), DATETIME_PARSE_DATAS.len(),
+        "the deduplicated DATETIME_PARSE_DATAS_VEC is different len than original; there are duplicates in DATETIME_PARSE_DATAS_VEC but the test could not determine which entry.");
     // another check for duplicates
     assert!(
         has_unique_elements(check),
@@ -367,7 +368,9 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     // while the pattern could intentionally start with "^" and start past 0,
     // it is most likely a user error
     if dtpat.starts_with('^') {
-        assert_eq!(dtpd.range_regex.start, 0, "Pattern user beginning of line yet range starts at {:?}, expected start at 0", dtpd.range_regex.start);
+        assert_eq!(dtpd.range_regex.start, 0,
+            "Pattern user beginning of line yet range starts at {:?}, expected start at 0",
+            dtpd.range_regex.start);
     }
 
     // check year
@@ -668,7 +671,9 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
             eprintln!();
         }
     }
-    assert_eq!(cgn_first_s, dtpd.cgn_first, "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}", dtpd.cgn_first, cgn_first_s, dtpd._line_num);
+    assert_eq!(cgn_first_s, dtpd.cgn_first,
+        "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}",
+        dtpd.cgn_first, cgn_first_s, dtpd._line_num);
     // check cgn_last
     assert!(
         regpat.contains(dtpd.cgn_last),
@@ -699,13 +704,10 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
             }
         }
     }
-    assert_eq!(cgn_last_s, dtpd.cgn_last, "cgn_last is {:?}, but analysis of the regexp found the last capture named group {:?}; declared at line {}", dtpd.cgn_last, cgn_last_s, dtpd._line_num);
-
-    // LAST WORKING HERE 2025/12/29 clippy lints
-    // need to commit fixes for pyrunner_tests end="\n" and then separate commit for clippy changes
-    // then push and see how CI works out
-    // also need to add tests in compare-current-and-expected.sh for .etl .odl
-    // also need to add check for ODL and ETL when venv is not created, and print warning at end of output.
+    assert_eq!(
+        cgn_last_s, dtpd.cgn_last,
+        "cgn_last is {:?}, but analysis of the regexp found the last capture named group {:?}; declared at line {}",
+        dtpd.cgn_last, cgn_last_s, dtpd._line_num);
 
     // check left-brackets and right-brackets are equally present and on correct sides
     if let Some(lb_i) = regpat.find(RP_LB) {
@@ -718,7 +720,9 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
                 );
             }
         };
-        assert_lt!(lb_i, rb_i, "regex pattern has RP_LB (left bracket) at {}, RP_RB (right bracket) at {}; declared at line {}", lb_i, rb_i, dtpd._line_num);
+        assert_lt!(lb_i, rb_i,
+            "regex pattern has RP_LB (left bracket) at {}, RP_RB (right bracket) at {}; declared at line {}",
+            lb_i, rb_i, dtpd._line_num);
     }
     if regpat.find(RP_RB).is_some() && regpat.find(RP_LB).is_none() {
         panic!("regex pattern has RP_RB (right bracket) no RP_LB (left bracket) found; declared at line {}", dtpd._line_num);
@@ -847,14 +851,19 @@ fn test_Map_TZ_names() {
             assert!("01".contains(tz_val.chars().nth(1).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
             assert!("0123456789".contains(tz_val.chars().nth(2).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
             assert!(":".contains(tz_val.chars().nth(3).unwrap()), "Bad timezone value {:?} for entry {:?}", tz_val, tz_name);
-            assert!(tz_val.ends_with(":00") || tz_val.ends_with(":30") || tz_val.ends_with(":45"), "Bad timezone value ends_with {:?} for entry {:?}", tz_val, tz_name);
+            assert!(tz_val.ends_with(":00") || tz_val.ends_with(":30") || tz_val.ends_with(":45"),
+                "Bad timezone value ends_with {:?} for entry {:?}", tz_val, tz_name);
             assert!(tz_val.contains(':'), "Bad timezone value {:?} not contains ':' for entry {:?}", tz_val, tz_name);
         } else {
             // empty value means the name is ambiguous
             let tz_val_u = MAP_TZZ_TO_TZz.get(&tz_name_u.as_str()).unwrap();
             let tz_val_l = MAP_TZZ_TO_TZz.get(&tz_name_l.as_str()).unwrap();
-            assert!(tz_val_u.is_empty(), "Ambiguous timezone name {:?} has uppercase version {:?} that is not empty {:?}", tz_name, tz_name_u, tz_val_u);
-            assert!(tz_val_l.is_empty(), "Ambiguous timezone name {:?} has lowercase version {:?} that is not empty {:?}", tz_name, tz_name_l, tz_val_l);
+            assert!(tz_val_u.is_empty(),
+                "Ambiguous timezone name {:?} has uppercase version {:?} that is not empty {:?}",
+                tz_name, tz_name_u, tz_val_u);
+            assert!(tz_val_l.is_empty(),
+                "Ambiguous timezone name {:?} has lowercase version {:?} that is not empty {:?}",
+                tz_name, tz_name_l, tz_val_l);
         }
     }
     let start = CGP_TZZ.find('>');
@@ -1088,7 +1097,9 @@ fn test_dt_pass_filters_fixedoffset2() {
         ),
     ] {
         let result = dt_pass_filters(&dt, &da, &db);
-        assert_eq!(exp_result, result, "Expected {:?} Got {:?} for {:?} among dt_pass_filters({:?}, {:?})", exp_result, result, dt, da, db);
+        assert_eq!(exp_result, result,
+            "Expected {:?} Got {:?} for {:?} among dt_pass_filters({:?}, {:?})",
+            exp_result, result, dt, da, db);
         defo!("dt_pass_filters(\n\t{:?},\n\t{:?},\n\t{:?}\n)\nreturned expected {:?}", dt, da, db, result);
     }
     defx!();
