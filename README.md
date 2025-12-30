@@ -43,12 +43,14 @@ systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
 <!-- toc start -->
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
-    - [allocator `mimalloc` or `jemalloc` or `tcmalloc`](#allocator-mimalloc-or-jemalloc-or-tcmalloc)
+    - [allocator `mimalloc` or `jemalloc`](#allocator-mimalloc-or-jemalloc)
       - [Alpine](#alpine)
       - [Debian and Ubuntu](#debian-and-ubuntu)
       - [OpenSUSE](#opensuse)
       - [Red Hat and CentOS](#red-hat-and-centos)
-      - [feature `mimalloc` on Windows](#feature-mimalloc-on-windows)
+      - [Windows](#windows)
+    - [allocator `tcmalloc`](#allocator-tcmalloc)
+      - [Debian and Ubuntu](#debian-and-ubuntu-1)
   - [Run `s4`](#run-s4)
   - [`--help`](#--help)
 - [About](#about)
@@ -104,14 +106,13 @@ A C compiler is required.
 
 [rust is installed]: https://www.rust-lang.org/tools/install
 
-#### allocator `mimalloc` or `jemalloc` or `tcmalloc`
+#### allocator `mimalloc` or `jemalloc`
 
 The default allocator is the System allocator.
 
 Allocator [`mimalloc`] is feature `mimalloc` and allocator [`jemalloc`] is feature `jemalloc`.
 Allocator `mimalloc` [is the fastest according to `mimalloc` project benchmarks].
 `jemalloc` is also very good.
-Allocator [`tcmalloc`] performs poorer than the system allocator in testing.
 See the [Speed Comparison](#speed-comparison).
 
 <br/>
@@ -137,20 +138,6 @@ Either use `jemalloc` or the default System allocator.
 
 ```lang-text
 cargo install --locked super_speedy_syslog_searcher --features jemalloc
-```
-
-<br/>
-
-`tcmalloc`
-
-On Ubuntu, this requires these apt packages:
-
-```lang-text
-apt install google-perftools libgoogle-perftools-dev libtcmalloc-minimal4
-```
-
-```lang-text
-cargo install --locked super_speedy_syslog_searcher --features tcmalloc
 ```
 
 <br/>
@@ -195,12 +182,33 @@ zypper install gcc glibc-devel make
 yum install gcc glibc-devel make
 ```
 
-##### feature `mimalloc` on Windows
+##### Windows
 
 Compiling `mimalloc` on Windows requires `lib.exe` which is part of _Visual Studio Build Tools_.
 Instructions at [rustup.rs].
 
 [rustup.rs]: https://rustup.rs/
+
+#### allocator `tcmalloc`
+
+Allocator [`tcmalloc`] performs poorer than the system allocator in testing.
+See the [Speed Comparison](#speed-comparison).
+
+To install
+
+```lang-text
+cargo install --locked super_speedy_syslog_searcher --features tcmalloc
+```
+
+##### Debian and Ubuntu
+
+On Ubuntu, `tcmalloc` requires these apt packages
+
+```lang-text
+apt install google-perftools libgoogle-perftools-dev libtcmalloc-minimal4
+```
+
+Other platforms have not been checked for use with `tcmalloc`.
 
 ### Run `s4`
 
