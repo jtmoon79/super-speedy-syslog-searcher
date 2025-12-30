@@ -1347,7 +1347,10 @@ fn print_summary_opt_processed(
         eprintln!();
     }
     // assert that both are None or both are Some
-    debug_assert!((dt_first.is_none() || dt_last.is_none()) || (dt_first.is_some() || dt_last.is_some()));
+    debug_assert!((dt_first.is_none() && dt_last.is_none()) || (dt_first.is_some() && dt_last.is_some()),
+        "summary datetimes are not both None or both Some: first={:?} last={:?}",
+        dt_first, dt_last
+    );
 
     // print datetime regex patterns
     match &summary.readerdata {
