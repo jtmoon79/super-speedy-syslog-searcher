@@ -734,7 +734,7 @@ impl PyRunner {
                 Some(s) => s,
                 None => {
                     let s = format!(
-                        "failed to find python executable; you may specify the Python interpreter path using environment variable {}",
+                        "failed to find a Python interpreter; create the Python virtual environment with command --venv, or you may specify the Python interpreter path using environment variable {}; failed",
                         PYTHON_ENV
                     );
                     def1x!("{}", s);
