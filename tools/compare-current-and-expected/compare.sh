@@ -136,6 +136,13 @@ function compare_single_file() {
     declare -r log=${1}
 }
 
+# print number of differing lines between two files
+function wc_diff() {
+    declare -r file1=${1}
+    declare -r file2=${2}
+    (diff --text --color=never --side-by-side --suppress-common-lines -- "${file1}" "${file2}" 2>/dev/null || true) | wc -l
+}
+
 declare diff_found=false
 
 DIFF=diff
@@ -145,11 +152,11 @@ fi
 
 declare -i width=140
 if [[ "${COLUMNS+x}" ]]; then
-    width=$(($COLUMNS * 2))
+    width=$COLUMNS
 fi
 
-total_diff_stdout=true
 # compare total stdout
+total_diff_stdout=true
 if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     ret=1
     echo "Output of total stdout are not the same. (ಠ_ಠ)"
@@ -193,10 +200,10 @@ echo "Comparing ${LOGS_COUNT} individual files:"
 tmp1=$(mktemp -t "tmp.s4.compare-current-and-expected_stdout_XXXXX")
 tmp2=$(mktemp -t "tmp.s4.compare-current-and-expected_stderr_XXXXX")
 declare -i diff_log_stdout=0
-declare -a diff_file_stdout=0
+declare -A diff_file_stdout=()
 declare -i same_log_stdout=0
 declare -i diff_log_stderr=0
-declare -a diff_file_stderr=0
+declare -A diff_file_stderr=()
 declare -i same_log_stderr=0
 while read -r log_file; do
     if [[ "${log_file}" = '' ]] || [[ "${log_file:0:1}" = '#' ]]; then
@@ -214,7 +221,7 @@ while read -r log_file; do
     # compare stdout per file
     if ! "${DIFF}" --text --brief "${log_file_stdout}" "${tmp1}" &>/dev/null; then
         diff_log_stdout+=1
-        diff_file_stdout+=("${log_file}")
+        diff_file_stdout["${log_file}"]="$(wc_diff "${log_file_stdout}" "${tmp1}")|${DIFF} -ay --suppress-common-lines '${log_file_stdout}' '${tmp1}'"
         ret=1
         echo >&2
         echo "    Different stdout ${log_file_stdout}" >&2
@@ -232,7 +239,7 @@ while read -r log_file; do
     # compare stderr per file
     if ! "${DIFF}" --text --brief "${log_file_stderr}" "${tmp2}" &>/dev/null; then
         diff_log_stderr+=1
-        diff_file_stderr+=("${log_file}")
+        diff_file_stderr["${log_file}"]="$(wc_diff "${log_file_stderr}" "${tmp2}")|${DIFF} -ay --suppress-common-lines '${log_file_stderr}' '${tmp2}'"
         ret=1
         echo >&2
         echo "    Different stderr ${log_file_stderr}" >&2
@@ -250,29 +257,46 @@ while read -r log_file; do
 done < "${LOGS}"
 
 echo
+
 echo "Outputs of ${same_log_stdout} individual stdout comparisons are the same. (ʘ‿ʘ)"
 if [[ ${diff_log_stdout} -gt 0 ]]; then
-    echo "Outputs of ${diff_log_stdout} individual stdout comparisons were not the same. (ಠ_ಠ)"
-    for log in "${diff_file_stdout[@]}"; do
-        echo "    ${log}"
-    done
+    echo -e "\e[31mOutputs of ${diff_log_stdout} individual stdout comparisons were not the same. (ಠ_ಠ)\e[0m"
+    {
+        echo "Count|File|Diff command"
+        for log in "${!diff_file_stdout[@]}"; do
+            dfile=${diff_file_stdout[${log}]}
+            declare -i diff_n=$(echo "${dfile}" | cut -d'|' -f1)
+            declare diff_cmd=$(echo "${dfile}" | cut -d'|' -f2-)
+            echo "${diff_n}|${log}|${diff_cmd}"
+        done | sort -n -t '|' -k1,1
+    } | column -s '|' -t
 fi
+
 echo "Outputs of ${same_log_stderr} individual stderr comparisons are the same. (ʘ‿ʘ)"
 if [[ ${diff_log_stderr} -gt 0 ]]; then
-    echo "Outputs of ${diff_log_stderr} individual stderr comparisons were not the same. (ಠ_ಠ)"
-    for log in "${diff_file_stderr[@]}"; do
-        echo "    ${log}"
-    done
+    echo -e "\e[31mOutputs of ${diff_log_stderr} individual stderr comparisons were not the same. (ಠ_ಠ)\e[0m"
+    {
+        echo "Count|File|Diff command"
+        for log in "${!diff_file_stderr[@]}"; do
+            dfile=${diff_file_stderr[${log}]}
+            declare -i diff_n=$(echo "${dfile}" | cut -d'|' -f1)
+            declare diff_cmd=$(echo "${dfile}" | cut -d'|' -f2-)
+            echo "${diff_n}|${log}|${diff_cmd}"
+        done | sort -n -t '|' -k1,1
+    } | column -s '|' -t
 fi
+
+echo
+
 if ${total_diff_stdout}; then
-    echo "Total stdout outputs are the same. (ʘ‿ʘ)"
+    echo "Total ${same_log_stdout} of $((same_log_stdout + diff_log_stdout)) stdout outputs are the same. (ʘ‿ʘ)"
 else
-    echo "Total stdout outputs are not the same. (ಠ_ಠ)"
+    echo -e "\e[31mTotal ${diff_log_stdout} of $((same_log_stdout + diff_log_stdout)) stdout outputs are not the same. (ಠ_ಠ)\e[0m"
 fi
 if ${total_diff_stderr}; then
-    echo "Total stderr outputs are the same. (ʘ‿ʘ)"
+    echo "Total ${same_log_stderr} of $((same_log_stderr + diff_log_stderr)) stderr outputs are the same. (ʘ‿ʘ)"
 else
-    echo "Total stderr outputs are not the same. (ಠ_ಠ)"
+    echo -e "\e[31mTotal ${diff_log_stderr} of $((same_log_stderr + diff_log_stderr)) stderr outputs are not the same. (ಠ_ಠ)\e[0m"
 fi
 echo
 
