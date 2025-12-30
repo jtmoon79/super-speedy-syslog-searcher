@@ -186,9 +186,7 @@ pub(crate) fn copy_process_path_result_canonicalize_path(ppr: ProcessPathResult)
 
             ProcessPathResult::FileErrNotExist(fpath_c)
         }
-        ret => {
-            ret
-        }
+        ret => ret,
     }
 }
 

@@ -39,7 +39,7 @@ static VENV_ENV_CREATED: std::sync::OnceLock<()> = std::sync::OnceLock::new();
 pub fn venv_setup() {
     let _lock = VENV_TESTS_LOCK.lock().unwrap();
     if VENV_ENV_CREATED.get().is_none() {
-        defn!("creating venv...");
+        defn!("creating venv…");
         let create_result = create();
         assert!(create_result.is_ok(), "venv creation failed in venv_setup()");
         VENV_ENV_CREATED.set(()).unwrap();

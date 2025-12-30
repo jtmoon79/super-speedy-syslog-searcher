@@ -2777,7 +2777,7 @@ fn exec_pyeventprocessor(
             &filter_dt_before_opt,
         ) {
             ResultNextPyDataEvent::Found(etl_event) => {
-                def1o!("ResultNextPyDataEvent::Found({} bytes); chan_send()...", etl_event.len());
+                def1o!("ResultNextPyDataEvent::Found({} bytes); chan_send()…", etl_event.len());
                 chan_send(
                     &chan_send_dt,
                     ChanDatum::NewMessage(
