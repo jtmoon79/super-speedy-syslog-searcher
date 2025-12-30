@@ -314,9 +314,23 @@ struct PipeStreamReader {
 }
 
 impl PipeStreamReader {
-    // Starts a thread reading bytes from a process pipe.
+    /// Starts a thread reading bytes from a child process pipe.
+    ///
+    /// `pipe_sz` is the size of the Pipe chunk buffer in bytes.
+    ///
+    /// `recv_timeout` is the timeout duration for calls to `recv_timeout()`.
+    ///
+    /// `chunk_delimiter_opt` is an optional byte delimiter used to separate chunks of data.
+    /// If `None` then each read immediately returns any data read.
+    ///
+    /// `stream_child_proc` is the `Read` stream of the child process to read from.
+    ///
+    /// `name` and `pid` are used for debugging messages.
+    /// `name` is the name of the pipe.
+    /// `pid` is the process ID of the child process.
     fn new(
         name: String,
+        pid: u32,
         pipe_sz: PipeSz,
         recv_timeout: Duration,
         chunk_delimiter_opt: Option<ChunkDelimiter>,
@@ -326,7 +340,6 @@ impl PipeStreamReader {
         def1n!("PipeStreamReader new(pipe_sz={}, name={:?}, chunk_delimiter_opt={:?})", pipe_sz, name, chunk_delimiter_opt);
         def1o!("PipeStreamReader {:?} create unbounded channel", name);
         let (tx_exit, rx_exit) = ::crossbeam_channel::unbounded();
-        def1o!("PipeStreamReader {:?} created unbounded channel exit", name);
 
         PipeStreamReader {
             chunk_receiver: {
@@ -335,21 +348,23 @@ impl PipeStreamReader {
                 // parent thread ID
                 let _tidn_p: u64 = threadid_to_u64(thread::current().id());
                 // debug message prepend
-                let _d_p = format!("PipeStreamReader {:?} TID {:?}", name, _tidn_p);
+                let _d_p = format!(
+                    "PipeStreamReader {:?} PID {:?} PTID {:?}",
+                    name, pid, _tidn_p
+                );
                 def1o!("{_d_p} create unbounded channel");
                 // TODO: make this bounded
                 let (tx_parent, rx_parent) = ::crossbeam_channel::unbounded();
-                def1o!("{_d_p} created unbounded channel");
 
                 let thread_pipe = thread::Builder::new().name(thread_name.clone());
 
                 def1o!("{_d_p} spawn thread {:?}", thread_name);
                 let result = thread_pipe.spawn(move ||
                 {
-                    let _tid = thread::current().id();
-                    let _tidn = threadid_to_u64(_tid);
-                    let _d_p = format!("PipeStreamReader {:?} PTID {:?} TID {:?}", name, _tidn_p, _tidn);
-                    let _e_p = format!(" {_tidn_p} {_tidn}");
+                    // debug message prepend
+                    let _d_p = format!(
+                        "PipeStreamReader {:?} PID {:?} PTID {:?} TID {:?}",
+                        name, pid, _tidn_p, threadid_to_u64(thread::current().id()));
                     def2n!("{_d_p} start, pipe_sz {}", pipe_sz);
                     let mut _recv_bytes: usize = 0;
                     let mut reads: usize = 0;
@@ -628,6 +643,8 @@ pub struct PyRunner {
     pid_: u32,
     /// this thread ID. For help during debugging.
     _tidn: u64,
+    /// debug message prepend. For help during debugging.
+    _d_p: String,
     /// all stderr is stored in case the process exits with an error
     /// this is because stderr may be `read` and only later calls to
     /// `poll` or `wait` may find the process has exited.
@@ -785,11 +802,14 @@ impl PyRunner {
         }
 
         let pid: u32 = process.id();
+        def1o!("Python process PID {}", pid);
+
+        let _d_p = format!("Python process {}", pid);
 
         let process_stdout = match process.stdout.take() {
             Some(s) => s,
             None => {
-                let s = format!("Python process stdout was None; pid {}", pid);
+                let s = format!("{_d_p} stdout was None");
                 def1x!("{}", s);
                 return Result::Err(
                     Error::other(s)
@@ -799,7 +819,7 @@ impl PyRunner {
         let process_stderr = match process.stderr.take() {
             Some(s) => s,
             None => {
-                let s = format!("Python process stderr was None; pid {}", pid);
+                let s = format!("{_d_p} stderr was None");
                 def1x!("{}", s);
                 return Result::Err(
                     Error::other(s)
@@ -808,28 +828,30 @@ impl PyRunner {
         };
 
         // create PipeStreamReaders for stdout, stderr
-        def1o!("PipeStreamReader::new() stdout");
+        def1o!("{_d_p} PipeStreamReader::new() stdout");
         let pipe_sz_stdout: usize = pipe_sz;
         let pipe_stdout = PipeStreamReader::new(
             String::from("stdout"),
+            pid,
             pipe_sz_stdout,
             recv_timeout,
             chunk_delimiter_stdout,
             Box::new(process_stdout)
         );
-        def1o!("PipeStreamReader::new() stderr");
+        def1o!("{_d_p} PipeStreamReader::new() stderr");
         // stderr pipe capped at 5096 bytes
         let pipe_sz_stderr: usize = std::cmp::min(pipe_sz, 5096);
         let pipe_stderr = PipeStreamReader::new(
             String::from("stderr"),
+            pid,
             pipe_sz_stderr,
             recv_timeout,
             chunk_delimiter_stderr,
             Box::new(process_stderr)
         );
 
-        def1x!("Python process {}", pid);
         let _tidn: u64 = threadid_to_u64(thread::current().id());
+        defx!("{_d_p} PyRunner created for Python process PID {}, TID {}", pid, _tidn);
 
         Result::Ok(Self {
             process,
@@ -845,6 +867,7 @@ impl PyRunner {
             pipe_sz_stderr,
             pid_: pid,
             _tidn,
+            _d_p,
             stderr_all: None,
             time_beg,
             time_end: None,
@@ -900,7 +923,8 @@ impl PyRunner {
     /// If the process has exited, returns `Some(ExitStatus)`.
     /// If the process is still running, returns `None`.
     pub fn poll(&mut self) -> Option<ExitStatus> {
-        def1n!("Python process {} poll()", self.pid_);
+        let _d_p: &String = &self._d_p;
+        def1n!("{_d_p} poll()");
 
         summary_stat!(self.count_proc_polls += 1);
 
@@ -918,14 +942,11 @@ impl PyRunner {
                     _was_exited = false;
                 }
                 if exit_status.success() {
-                    def1x!("Python process {}{} exited successfully",
-                           self.pid_, if _was_exited { " was" } else { "" });
+                    def1x!("{_d_p} exited successfully{}", if _was_exited { " was" } else { "" });
                 } else if let Some(_code) = exit_status.code() {
-                    def1x!("Python process {}{} exited with code {}",
-                           self.pid_, if _was_exited { " was" } else { "" }, _code);
+                    def1x!("{_d_p} exited with code {}{}", _code, if _was_exited { " was" } else { "" });
                 } else {
-                    def1x!("Python process {}{} exited with status {:?}",
-                           self.pid_, if _was_exited { " was" } else { "" }, exit_status);
+                    def1x!("{_d_p} exited with status {:?}", exit_status);
                 }
                 self.pipes_exit_sender(ProcessStatus::Exited);
 
@@ -933,12 +954,12 @@ impl PyRunner {
             },
             Ok(None) => {
                 // Process is still alive
-                def1x!("Python process {} is still running", self.pid_);
+                def1x!("{_d_p} is still running");
 
                 None
             },
             Err(err) => {
-                def1x!("Python process {} poll error: {}", self.pid_, err);
+                def1x!("{_d_p} poll error: {}", err);
                 self.error = Some(err);
                 self.pipes_exit_sender(ProcessStatus::Exited);
 
@@ -995,7 +1016,7 @@ impl PyRunner {
         if self.pipe_sent_exit {
             return;
         }
-        def2ñ!("Python process {} pipes_exit_sender({:?})", self.pid_, pe);
+        def2ñ!("{} pipes_exit_sender({:?})", self._d_p, pe);
         self.pipe_stdout.exit_sender.send(pe).unwrap_or(());
         self.pipe_stderr.exit_sender.send(pe).unwrap_or(());
         self.pipe_sent_exit = true;
@@ -1012,11 +1033,10 @@ impl PyRunner {
     /// information e.g. a Python stack trace.
     pub fn write_read(&mut self, input_data: Option<&[u8]>) -> (bool, Option<Bytes>, Option<Bytes>) {
         let _len = input_data.unwrap_or(&[]).len();
-        let _d_p = format!("Python process {}", self.pid_);
-        def1n!("{_d_p} input_data: {} bytes", _len);
+        def1n!("{} input_data: {} bytes", self._d_p, _len);
 
         if let Some(_exit_status) = self.poll() {
-            def1o!("{_d_p} already exited before read");
+            def1o!("{} already exited before read", self._d_p);
         }
 
         // write string, read from stdout and stderr after poll as there may still be data to read
@@ -1029,7 +1049,8 @@ impl PyRunner {
                     match self.process.stdin.as_mut() {
                         Some(stdin) => {
                             def1o!(
-                                "{_d_p} writing {} bytes to stdin (\"{}\")",
+                                "{} writing {} bytes to stdin (\"{}\")",
+                                self._d_p,
                                 input_data_.len(),
                                 buffer_to_String_noraw(&input_data_[..input_data_.len().min(10)]).to_string()
                             );
@@ -1037,28 +1058,29 @@ impl PyRunner {
                                 Ok(_len) => {
                                     summary_stat!(self.count_proc_writes += 1);
                                     def1o!(
-                                        "{_d_p} wrote {} bytes to stdin, expected {} bytes",
-                                        _len, input_data_.len()
+                                        "{} wrote {} bytes to stdin, expected {} bytes",
+                                        self._d_p, _len, input_data_.len()
                                     );
                                 }
                                 Err(_err) => {
-                                    de_err!("Error writing to {_d_p} stdin: {:?}", _err);
+                                    de_err!("Error writing to Python process {} stdin: {:?}", self.pid_, _err);
                                     self.pipes_exit_sender(ProcessStatus::Exited);
                                 }
                             }
                         }
                         None => {
-                            de_err!("{_d_p} stdin is None");
+                            de_err!("{} stdin is None", self._d_p);
                         }
                     }
                 } else {
-                    def1o!("{_d_p} no stdin data to write");
+                    def1o!("{} no stdin data to write", self._d_p);
                 }
             }
         } else {
-            def1o!("{_d_p} has exited; skip writing to stdin");
+            def1o!("{} has exited; skip writing to stdin", self._d_p);
         }
 
+        let _d_p: &String = &self._d_p;
         // use select to block until either channel signals data is available
         let mut sel = Select::new();
         let mut _sel_counts: usize = 0;
@@ -1100,6 +1122,9 @@ impl PyRunner {
         let mut stdout_data: Option<Bytes> = None;
         let mut stderr_data: Option<Bytes> = None;
 
+        // avoid borrow-checker conflicts
+        let _d_p = ();
+
         match sel_index {
             // TODO: combine these matches since they are nearly identical?
             //       though stdout might be treated differently from stderr?
@@ -1107,7 +1132,7 @@ impl PyRunner {
             //       between stdout and stderr ?
             i if i == sel_out && sel_out != 0 => {
                 // read stdout
-                def1o!("{_d_p} recv(&pipe_stdout.chunk_receiver)…");
+                def1o!("{} recv(&pipe_stdout.chunk_receiver)…", self._d_p);
                 summary_stat!(self.count_pipe_recv_stdout += 1);
                 match sel_oper.recv(&self.pipe_stdout.chunk_receiver) {
                     Ok(remote_result) => {
@@ -1116,18 +1141,18 @@ impl PyRunner {
                                 match piped_line {
                                     PipedChunk::Chunk(chunk) => {
                                         let len_ = chunk.len();
-                                        def1o!("{_d_p} received {} bytes from stdout", len_);
+                                        def1o!("{} received {} bytes from stdout", self._d_p, len_);
                                         stdout_data = Some(Vec::with_capacity(len_ + 1));
                                         let data = stdout_data.as_mut().unwrap();
                                         data.extend_from_slice(chunk.as_slice());
                                     }
                                     PipedChunk::Continue => {
-                                        def1o!("{_d_p} stdout Continue");
+                                        def1o!("{} stdout Continue", self._d_p);
                                     }
                                     PipedChunk::Done(reads, remaining_bytes) => {
                                         summary_stat!(self.count_proc_reads_stdout = reads);
-                                        def1o!("{_d_p} stdout Done({} reads, {} remaining bytes)",
-                                               reads, remaining_bytes.len());
+                                        def1o!("{} stdout Done({} reads, {} remaining bytes)",
+                                               self._d_p, reads, remaining_bytes.len());
                                         if !remaining_bytes.is_empty() {
                                             stdout_data = Some(Vec::with_capacity(remaining_bytes.len() + 1));
                                             let data = stdout_data.as_mut().unwrap();
@@ -1139,7 +1164,7 @@ impl PyRunner {
                                 }
                             }
                             Err(error) => {
-                                de_err!("Error reading from {_d_p} stdout: {:?}", error);
+                                de_err!("Error reading from Python process {} stdout: {:?}", self.pid_, error);
                                 self.error = Some(error);
                                 self.pipe_stdout_eof = true;
                                 self.pipes_exit_sender(ProcessStatus::Exited);
@@ -1147,7 +1172,7 @@ impl PyRunner {
                         }
                     }
                     Err(recverror) => {
-                        def1o!("{_d_p} stdout channel RecvError {}; set pipe_stdout_eof=true", recverror);
+                        def1o!("{} stdout channel RecvError {}; set pipe_stdout_eof=true", self._d_p, recverror);
                         self.error = Some(self.new_error_from_recverror(&recverror));
                         self.pipe_stdout_eof = true;
                         self.pipes_exit_sender(ProcessStatus::Exited);
@@ -1156,7 +1181,7 @@ impl PyRunner {
             }
             i if i == sel_err && sel_err != 0 => {
                 // read stderr
-                def1o!("{_d_p} recv(&pipe_stderr.chunk_receiver)…");
+                def1o!("{} recv(&pipe_stderr.chunk_receiver)…", self._d_p);
                 summary_stat!(self.count_pipe_recv_stderr += 1);
                 match sel_oper.recv(&self.pipe_stderr.chunk_receiver) {
                     Ok(remote_result) => {
@@ -1165,19 +1190,19 @@ impl PyRunner {
                                 match piped_line {
                                     PipedChunk::Chunk(chunk) => {
                                         let len_ = chunk.len();
-                                        def1o!("{_d_p} received {} bytes from stderr", len_);
+                                        def1o!("{} received {} bytes from stderr", self._d_p, len_);
                                         let mut data: Bytes = Bytes::with_capacity(len_);
                                         data.extend_from_slice(chunk.as_slice());
                                         self.stderr_all_add(&data);
                                         stderr_data = Some(data);
                                     }
                                     PipedChunk::Continue => {
-                                        def1o!("{_d_p} stderr Continue");
+                                        def1o!("{} stderr Continue", self._d_p);
                                     }
                                     PipedChunk::Done(reads, remaining_bytes) => {
                                         summary_stat!(self.count_proc_reads_stderr = reads);
-                                        def1o!("{_d_p} stderr Done({} reads, {} remaining bytes)",
-                                               reads, remaining_bytes.len());
+                                        def1o!("{} stderr Done({} reads, {} remaining bytes)",
+                                               self._d_p, reads, remaining_bytes.len());
                                         if !remaining_bytes.is_empty() {
                                             let mut data: Bytes = Bytes::with_capacity(remaining_bytes.len());
                                             data.extend_from_slice(remaining_bytes.as_slice());
@@ -1190,7 +1215,7 @@ impl PyRunner {
                                 }
                             }
                             Err(error) => {
-                                de_err!("Error reading from {_d_p} stderr: {:?}", error);
+                                de_err!("Error reading from Python process {} stderr: {:?}", self.pid_, error);
                                 self.error = Some(error);
                                 self.pipe_stderr_eof = true;
                                 self.pipes_exit_sender(ProcessStatus::Exited);
@@ -1198,7 +1223,7 @@ impl PyRunner {
                         }
                     }
                     Err(_err) => {
-                        def1o!("{_d_p} stderr channel RecvError {}; set pipe_stderr_eof=true", _err);
+                        def1o!("{} stderr channel RecvError {}; set pipe_stderr_eof=true", self._d_p, _err);
                         self.error = Some(self.new_error_from_recverror(&_err));
                         self.pipe_stderr_eof = true;
                         self.pipes_exit_sender(ProcessStatus::Exited);
@@ -1206,11 +1231,12 @@ impl PyRunner {
                 }
             }
             _i => {
-                def1o!("{_d_p} selected unknown index {}", _i);
+                def1o!("{} selected unknown index {}", self._d_p, _i);
             }
         }
 
-        def1x!("{_d_p} return ({}, stdout bytes {:?} (eof? {}), stderr bytes {:?} (eof? {}))",
+        def1x!("{} return ({}, stdout bytes {:?} (eof? {}), stderr bytes {:?} (eof? {}))",
+                self._d_p,
                 self.exited_exhausted(),
                 stdout_data.as_ref().unwrap_or(&vec![]).len(),
                 self.pipe_stdout_eof,
@@ -1235,13 +1261,14 @@ impl PyRunner {
     /// Wait for the Python process to exit.
     /// If the process has already exited then return the saved `ExitStatus`.
     pub fn wait(&mut self) -> Result<ExitStatus> {
+        let _d_p: &String = &self._d_p;
         if self.exited() {
-            def1ñ!("Python process {} exited; return {:?}",
-                   self.pid_, self.exit_status.unwrap());
+            def1ñ!("{_d_p} exited; return {:?}",
+                   self.exit_status.unwrap());
             return Ok(self.exit_status.unwrap());
         }
         // XXX: should `wait` be passed a timeout?
-        def1n!("Python process {} wait()", self.pid_);
+        def1n!("{_d_p} wait()");
         let d1: Instant = Instant::now();
         let rc = self.process.wait();
         self.duration_proc_wait += d1.elapsed();
@@ -1257,12 +1284,12 @@ impl PyRunner {
                     debug_panic!("Python process {} exit_status is already set! {:?}",
                                  self.pid_, self.exit_status)
                 }
-                def1x!("Python process {} wait returned {:?}", self.pid_, exit_status);
+                def1x!("{_d_p} wait returned {:?}", exit_status);
                 return Ok(self.exit_status.unwrap());
             }
             Err(error) => {
-                de_err!("Python process {} wait returned {:?}", self.pid_, error);
-                def1x!("Python process {} error wait returned {:?}", self.pid_, error);
+                de_err!("{_d_p} wait returned {:?}", error);
+                def1x!("{_d_p} error wait returned {:?}", error);
                 return Result::Err(
                     Error::new(
                         error.kind(),
@@ -1299,7 +1326,7 @@ impl PyRunner {
     /// to stdout. In normal operation of `s4`, only the main
     /// thread should print to stdout.
     pub fn run(&mut self, print_argv: bool, print_stdout: bool, print_stderr: bool) -> Result<(Bytes, Bytes)> {
-        let _d_p: String = format!("Python process {}", self.pid_);
+        let _d_p: &String = &self._d_p;
         def1n!("{_d_p}, print_argv={}", print_argv);
 
         if self.exited() {
@@ -1364,6 +1391,9 @@ impl PyRunner {
         let mut stdout_data: Bytes = Bytes::with_capacity(2056);
         let mut stderr_data: Bytes = Bytes::with_capacity(1024);
 
+        // remove _d_p reference to avoid borrow checker conflict that would occur in the loop
+        let _d_p = ();
+
         // print remaining stdout and stderr
         loop {
             let (
@@ -1371,7 +1401,7 @@ impl PyRunner {
                 out_data,
                 err_data,
             ) = self.write_read(None);
-            def1o!("{_d_p} exited? {:?}", _exited);
+            def1o!("{} exited? {:?}", self._d_p, _exited);
             // print stdout to stdout
             if let Some(data) = out_data {
                 stdout_data.extend_from_slice(data.as_slice());
@@ -1395,11 +1425,13 @@ impl PyRunner {
             }
         }
 
+        let _d_p: &String = &self._d_p;
+
         match self.exit_status {
             Some(status) => {
                 if ! status.success() {
                     let s = format!("Python process {} exited with non-zero status {:?}", self.pid_, status);
-                    def1x!("{}", s);
+                    def1x!("{_d_p} {}", s);
                     return Result::Err(
                         Error::other(s)
                     )
