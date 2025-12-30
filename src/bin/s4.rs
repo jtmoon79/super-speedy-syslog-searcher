@@ -1183,7 +1183,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
         let s_count = match_
             .as_str()
             .replace('s', "");
-        match i64::from_str_radix(s_count.as_str(), 10) {
+        match s_count.as_str().parse::<i64>() {
             Ok(val) => {
                 seconds = val * addsub;
             }
@@ -1198,7 +1198,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
         let s_count = match_
             .as_str()
             .replace('m', "");
-        match i64::from_str_radix(s_count.as_str(), 10) {
+        match s_count.as_str().parse::<i64>() {
             Ok(val) => {
                 minutes = val * addsub;
             }
@@ -1213,7 +1213,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
         let s_count = match_
             .as_str()
             .replace('h', "");
-        match i64::from_str_radix(s_count.as_str(), 10) {
+        match s_count.as_str().parse::<i64>() {
             Ok(val) => {
                 hours = val * addsub;
             }
@@ -1228,7 +1228,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
         let s_count = match_
             .as_str()
             .replace('d', "");
-        match i64::from_str_radix(s_count.as_str(), 10) {
+        match s_count.as_str().parse::<i64>() {
             Ok(val) => {
                 days = val * addsub;
             }
@@ -1243,7 +1243,7 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
         let s_count = match_
             .as_str()
             .replace('w', "");
-        match i64::from_str_radix(s_count.as_str(), 10) {
+        match s_count.as_str().parse::<i64>() {
             Ok(val) => {
                 weeks = val * addsub;
             }
