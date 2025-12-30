@@ -49,7 +49,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        "print('Hello'); print('World'); print('Goodbye!')",
+        "print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -60,7 +60,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        "print('Hello'); print('World'); print('Goodbye!')",
+        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -71,7 +71,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        "print('Hello'); print('World'); print('Goodbye!')",
+        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -82,7 +82,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        "print('Hello'); print('World'); print('Goodbye!')",
+        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -93,7 +93,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        "print('Hello'); print('World'); print('Goodbye!')",
+        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -104,7 +104,7 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        "print('Hello'); print('World'); print('Goodbye!')",
+        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -118,12 +118,12 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &String, new: &String) -> Bytes {
         r#"
 import sys
 
-print("Hello")
-print("STDERR1", file=sys.stderr)
-print("World")
-print("STDERR2", file=sys.stderr)
-print("Goodbye!")
-print("STDERR3", file=sys.stderr)
+print("Hello", end="\n")
+print("STDERR1", end="\n", file=sys.stderr)
+print("World", end="\n")
+print("STDERR2", end="\n", file=sys.stderr)
+print("Goodbye!", end="\n")
+print("STDERR3", end="\n", file=sys.stderr)
 "#,
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
@@ -138,12 +138,12 @@ print("STDERR3", file=sys.stderr)
         r#"
 import sys
 
-print("Hello")
-print("STDERR1", file=sys.stderr)
-print("World")
-print("STDERR2", file=sys.stderr)
-print("Goodbye!")
-print("STDERR3", file=sys.stderr)
+print("Hello", end="\n")
+print("STDERR1", end="\n", file=sys.stderr)
+print("World", end="\n")
+print("STDERR2", end="\n", file=sys.stderr)
+print("Goodbye!", end="\n")
+print("STDERR3", end="\n", file=sys.stderr)
 "#,
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
@@ -216,10 +216,10 @@ fn test_PyRunner_new_run_run_once(
 const PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE: &str = r#"
 import time
 for i in range([LOOPS]):
-    print("Hello")
+    print("Hello", end="\n")
     time.sleep((i % 10) * 0.001)
-    print("World")
-    print(f"Goodbye! {i}")
+    print("World", end="\n")
+    print(f"Goodbye! {i}", end="\n")
     print("\0", end="")
     time.sleep((i % 10) * 0.001)
 "#;
@@ -876,11 +876,11 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
 import time
 import sys
 
-print("Hello")
+print("Hello", end="\n")
 time.sleep(0.5)
 input()
 time.sleep(0.5)
-print("Exiting early!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?", file=sys.stderr)
+print("Exiting early!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?", end="\n", file=sys.stderr)
 time.sleep(0.5)
 sys.exit(1)
 "#,
@@ -900,11 +900,11 @@ sys.exit(1)
 import time
 import sys
 
-print("Hello")
+print("Hello", end="\n")
 time.sleep(0.5)
 input()
 time.sleep(0.5)
-print("Exiting early!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?", file=sys.stderr)
+print("Exiting early!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?", end="\n", file=sys.stderr)
 time.sleep(0.5)
 sys.exit(1)
 "#,
@@ -924,14 +924,14 @@ sys.exit(1)
 import time
 import sys
 
-print("HELLO FROM STDOUT1", file=sys.stdout)
-print("HELLO FROM STDERR1", file=sys.stderr)
+print("HELLO FROM STDOUT1", end="\n", file=sys.stdout)
+print("HELLO FROM STDERR1", end="\n", file=sys.stderr)
 time.sleep(0.5)
 input()
 time.sleep(0.5)
-print("HELLO FROM STDERR2", file=sys.stderr)
+print("HELLO FROM STDERR2", end="\n", file=sys.stderr)
 time.sleep(0.5)
-print("HELLO FROM STDOUT2", file=sys.stdout)
+print("HELLO FROM STDOUT2", end="\n", file=sys.stdout)
 sys.exit(2)
 "#,
     ],
@@ -950,14 +950,14 @@ sys.exit(2)
 import time
 import sys
 
-print("HELLO FROM STDOUT1", file=sys.stdout)
-print("HELLO FROM STDERR1", file=sys.stderr)
+print("HELLO FROM STDOUT1", end="\n", file=sys.stdout)
+print("HELLO FROM STDERR1", end="\n", file=sys.stderr)
 time.sleep(0.5)
 input()
 time.sleep(0.5)
-print("HELLO FROM STDERR2", file=sys.stderr)
+print("HELLO FROM STDERR2", end="\n", file=sys.stderr)
 time.sleep(0.5)
-print("HELLO FROM STDOUT2", file=sys.stdout)
+print("HELLO FROM STDOUT2", end="\n", file=sys.stdout)
 sys.exit(2)
 "#,
     ],
