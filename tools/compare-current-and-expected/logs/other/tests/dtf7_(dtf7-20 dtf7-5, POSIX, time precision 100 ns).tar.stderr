@@ -4,8 +4,8 @@ Files:
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-20-LEVELS.log
   About:
       archive subpath: dtf7-20-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (TAR)
-      logmessagetype : syslog lines
+      filetype       : TEXT UTF8/ASCII (TAR) (text log)
+      logmessagetype : text log lines
   Printed:
       bytes         : 3740
       flushes       : 20
@@ -40,8 +40,8 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
 File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar|dtf7-5-LEVELS.log
   About:
       archive subpath: dtf7-5-LEVELS.log
-      filetype       : TEXT UTF8/ASCII (TAR)
-      logmessagetype : syslog lines
+      filetype       : TEXT UTF8/ASCII (TAR) (text log)
+      logmessagetype : text log lines
   Printed:
       bytes         : 892
       flushes       : 5
@@ -83,13 +83,15 @@ Printed bytes          : 4734
 Printed flushes        : 52
 Printed lines          : 25
 Printed syslines       : 25
-Printed evtx events    : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
+Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 134
-Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 29
 Channel Receive err    : 0
 Threads Spawned        : 2

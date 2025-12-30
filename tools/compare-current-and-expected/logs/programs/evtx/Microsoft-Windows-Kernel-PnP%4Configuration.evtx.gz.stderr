@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
   About:
-      filetype       : EVTX (GZIP)
-      logmessagetype : evtx entries
+      filetype       : EVTX (GZIP) (Windows XML EventLog)
+      logmessagetype : EVTX entries (Windows XML EventLog)
   Printed:
       bytes         : 1184407
       flushes       : 678
@@ -25,13 +25,15 @@ Printed bytes          : 1185315
 Printed flushes        : 905
 Printed lines          : 0
 Printed syslines       : 0
-Printed evtx events    : 227
+Printed ETL events     : 0
+Printed EVTX events    : 227
 Printed fixedstruct    : 0
 Printed journal events : 0
+Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
-Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 229
 Channel Receive err    : 0
 Threads Spawned        : 1

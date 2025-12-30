@@ -3,9 +3,9 @@ Files:
 
 File: ./logs/programs/utmp/host-entry6.wtmp
   About:
-      filetype       : UTMP/WTMP
+      filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
-      logmessagetype : fixedstruct entries (acct/lastlog/lastlogx/utmp/utmpx)
+      logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
       bytes         : 1517
@@ -39,13 +39,15 @@ Printed bytes          : 1541
 Printed flushes        : 12
 Printed lines          : 0
 Printed syslines       : 0
-Printed evtx events    : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
 Printed fixedstruct    : 6
 Printed journal events : 0
+Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
-Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 8
 Channel Receive err    : 0
 Threads Spawned        : 1

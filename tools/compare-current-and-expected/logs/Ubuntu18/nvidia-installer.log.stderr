@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/Ubuntu18/nvidia-installer.log
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
+      filetype       : TEXT UTF8/ASCII (text log)
+      logmessagetype : text log lines
   Printed:
       bytes         : 2022
       flushes       : 1
@@ -45,13 +45,15 @@ Printed bytes          : 2026
 Printed flushes        : 2
 Printed lines          : 18
 Printed syslines       : 1
-Printed evtx events    : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
+Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 172
-Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 3
 Channel Receive err    : 0
 Threads Spawned        : 1

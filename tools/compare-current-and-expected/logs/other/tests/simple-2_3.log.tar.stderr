@@ -4,8 +4,9 @@ Files:
 File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
   About:
       archive subpath: simple-2.log
-      filetype       : TEXT UTF8/ASCII (TAR)
-      logmessagetype : syslog lines
+      filetype       : TEXT UTF8/ASCII (TAR) (text log)
+      logmessagetype : text log lines
+      Processing Err : file too small
   Printed:
       bytes         : 0
       flushes       : 0
@@ -39,8 +40,9 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
 File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
   About:
       archive subpath: simple-3.log
-      filetype       : TEXT UTF8/ASCII (TAR)
-      logmessagetype : syslog lines
+      filetype       : TEXT UTF8/ASCII (TAR) (text log)
+      logmessagetype : text log lines
+      Processing Err : file too small
   Printed:
       bytes         : 0
       flushes       : 0
@@ -81,13 +83,15 @@ Printed bytes          : 0
 Printed flushes        : 0
 Printed lines          : 0
 Printed syslines       : 0
-Printed evtx events    : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
+Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
-Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 4
 Channel Receive err    : 0
 Threads Spawned        : 2

@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/other/tests/dtf2-2.log.bz2
   About:
-      filetype       : TEXT UTF8/ASCII (BZIP2)
-      logmessagetype : syslog lines
+      filetype       : TEXT UTF8/ASCII (BZIP2) (text log)
+      logmessagetype : text log lines
   Printed:
       bytes         : 252
       flushes       : 2
@@ -46,13 +46,15 @@ Printed bytes          : 260
 Printed flushes        : 4
 Printed lines          : 3
 Printed syslines       : 2
-Printed evtx events    : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
+Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 80
-Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 4
 Channel Receive err    : 0
 Threads Spawned        : 1

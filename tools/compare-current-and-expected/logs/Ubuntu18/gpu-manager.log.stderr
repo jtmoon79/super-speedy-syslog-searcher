@@ -3,8 +3,9 @@ Files:
 
 File: ./logs/Ubuntu18/gpu-manager.log
   About:
-      filetype       : TEXT UTF8/ASCII
-      logmessagetype : syslog lines
+      filetype       : TEXT UTF8/ASCII (text log)
+      logmessagetype : text log lines
+      Processing Err : no syslog lines found in file
   Printed:
       bytes         : 0
       flushes       : 0
@@ -44,13 +45,15 @@ Printed bytes          : 0
 Printed flushes        : 0
 Printed lines          : 0
 Printed syslines       : 0
-Printed evtx events    : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
+Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
-Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32 +00:00)
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
 Channel Receive ok     : 2
 Channel Receive err    : 0
 Threads Spawned        : 1
