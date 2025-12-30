@@ -15,6 +15,9 @@ use ::si_trace_print::printers::{
     defo,
     defx,
     defñ,
+    def2n,
+    def2x,
+    def2ñ,
 };
 
 use crate::common::Bytes;
@@ -27,8 +30,6 @@ use crate::python::venv::{
 };
 
 type VENV_LOCK_TYPE<'a> = std::sync::Mutex<()>;
-pub type VENV_LOCK_GUARD<'a> = std::sync::MutexGuard<'a, ()>;
-
 /// Tests should call `venv_setup()` to ensure the virtual environment is created before using it.
 static VENV_TESTS_LOCK: VENV_LOCK_TYPE<'static> = VENV_LOCK_TYPE::new(());
 /// Indicates if the virtual environment has been created.
@@ -39,13 +40,13 @@ static VENV_ENV_CREATED: std::sync::OnceLock<()> = std::sync::OnceLock::new();
 pub fn venv_setup() {
     let _lock = VENV_TESTS_LOCK.lock().unwrap();
     if VENV_ENV_CREATED.get().is_none() {
-        defn!("creating venv…");
+        def2n!("creating venv…");
         let create_result = create();
         assert!(create_result.is_ok(), "venv creation failed in venv_setup()");
         VENV_ENV_CREATED.set(()).unwrap();
-        defx!("venv created.");
+        def2x!("venv created.");
     } else {
-        defñ!("venv already created.");
+        def2ñ!("venv already created.");
     }
 }
 
