@@ -4,8 +4,6 @@
 
 import sys
 
-from .etl_reader_dissect_etl import main as etl_reader_dissect_etl_main
-
 from . import __version__
 
 

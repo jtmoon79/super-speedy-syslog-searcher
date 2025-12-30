@@ -527,6 +527,24 @@ pub fn create() -> Result3E<()> {
         }
     };
 
+    if let Err(err) = PyRunner::run_once(
+        PythonToUse::Venv,
+        PIPE_SZ,
+        RECV_TIMEOUT,
+        CHUNK_DELIMITER,
+        None,
+        vec![
+            "-OO",
+            "-m",
+            "s4_event_readers",
+        ],
+        true,
+    ) {
+        e_err!("Failed to run s4_event_readers module test: {}", err);
+        def1x!("PyRunner::new failed {:?}", err);
+        return Result3E::ErrNoReprint(err);
+    }
+
     eprintln!("Python virtual environment created at {}", venv_path_pb.display());
     eprintln!("This environment will be automatically used by s4 for Python-based event readers, i.e. for .etl, .odl files.");
 
