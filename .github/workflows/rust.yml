@@ -464,7 +464,15 @@ jobs:
                   -name 'libsystemd*' 2>/dev/null || true) \
               | sort
           # run tests that use libsystemd
-          cargo test --locked journalreader_tests
+          cargo test --locked tests::journalreader_tests
+      - name: create venv
+        shell: bash
+        run: |
+          set -eux
+          cargo build --locked --release
+          which python
+          python --version
+          ./target/release/s4 --venv
       - name: nextest (all)
         shell: bash
         run: |
@@ -486,6 +494,14 @@ jobs:
       # XXX: MacOS tools do not support `touch` arguments run in
       #      `./tools/log-files-time-update.sh`. So skip running `log-files-time-update.sh`
       #      See https://stackoverflow.com/q/78540977/471376
+      - name: create venv
+        shell: bash
+        run: |
+          set -eux
+          cargo build --locked --release
+          which python
+          python --version
+          ./target/release/s4 --venv
       - name: nextest (all)
         shell: bash
         run: |
@@ -512,6 +528,14 @@ jobs:
           grep --version
           chmod -v +x ./tools/log-files-time-update.sh
           ./tools/log-files-time-update.sh
+      - name: create venv
+        shell: powershell
+        run: |
+          Set-PSDebug -Trace 1
+          cargo.exe build --locked --release
+          Get-Command -All python.exe
+          python.exe --version
+          ./target/release/s4 --venv
       - name: nextest (all)
         shell: powershell
         run: |
@@ -643,11 +667,17 @@ jobs:
           set -eux
           sudo apt update || true
           sudo apt install --yes libsystemd0
-      # download & run debug
+      # download debug
       - name: Download debug binary
         uses: actions/download-artifact@v4
         with:
           name: s4_debug
+      # download release
+      - name: Download release binary
+        uses: actions/download-artifact@v4
+        with:
+          name: s4_release
+      # run debug
       - name: s4_debug --help
         shell: bash
         run: |
@@ -667,7 +697,7 @@ jobs:
           sudo apt install python3
           which python3
           python3 --version
-          S4=./s4_debug
+          S4=./s4_release
           ${S4} --venv
       - name: s4_debug --color=never S4_TEST_FILES
         shell: bash
@@ -802,11 +832,7 @@ jobs:
           S4=./s4_debug
           chmod -v +x -- ${S4}
           ${S4} -s --color=always --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
-      # download & run release
-      - name: Download release binary
-        uses: actions/download-artifact@v4
-        with:
-          name: s4_release
+      # run release
       - name: s4_release --help
         shell: bash
         run: |
