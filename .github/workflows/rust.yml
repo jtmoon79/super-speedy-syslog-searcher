@@ -481,7 +481,7 @@ jobs:
           set -eux
           bash --version
           cargo nextest --version
-          export NEXTEST_TEST_THREADS="1"
+          export NEXTEST_TEST_THREADS="num-cpus"
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_macos:
@@ -509,7 +509,7 @@ jobs:
         run: |
           set -eux
           cargo nextest --version
-          export NEXTEST_TEST_THREADS="1"
+          export NEXTEST_TEST_THREADS="num-cpus"
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_windows:
@@ -543,7 +543,7 @@ jobs:
         run: |
           Set-PSDebug -Trace 1
           cargo.exe nextest --version
-          ${env:NEXTEST_TEST_THREADS}="1"
+          ${env:NEXTEST_TEST_THREADS}="2"
           cargo.exe nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_flamegraph:
