@@ -48,6 +48,7 @@ readonly REQUIREMENTS_FILE=./tools/compare-log-mergers/requirements.txt
 time=$(which time)
 (set -x; $time --version) | head -n1
 
+# do a little work to find Python interpreter in the PATH
 PYTHON=${PYTHON-$(
     if which -a python &>/dev/null; then
         echo -n 'python'
@@ -57,6 +58,7 @@ PYTHON=${PYTHON-$(
 )}
 (set -x; "${PYTHON}" --version) | head -n1
 
+# check for hyperfine
 hyperfine=$(which hyperfine) || {
     echo "ERROR: hyperfine not found in PATH" >&2
     echo "install:" >&2
@@ -65,6 +67,7 @@ hyperfine=$(which hyperfine) || {
 }
 (set -x; hyperfine --version)
 
+# check for jq
 if ! which jq &>/dev/null; then
     echo "ERROR: jq not found in PATH" >&2
     echo "install:" >&2
@@ -73,6 +76,7 @@ if ! which jq &>/dev/null; then
 fi
 JQ=$(which jq)
 
+# check for lnav
 if [[ "${PROGRAM_LNAV-}" = '' ]] && ! which lnav &>/dev/null; then
     echo "ERROR: lnav not found in PATH" >&2
     echo '       and $PROGRAM_LNAV not set' >&2
@@ -568,4 +572,7 @@ cat "${tmpA}" | column -t -s '|' -o '|' > "${mdfinal}"
 
 if which glow &>/dev/null; then
     glow "${mdfinal}"
+else
+    echo "install 'glow' for pretty markdown viewing" >&2
+    echo "    go install github.com/charmbracelet/glow/v2@latest" >&2
 fi
