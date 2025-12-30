@@ -38,11 +38,12 @@ declare -arg S4_ARGS=(
     --separator='⇳\n'
     --journal-output=export
     --dt-after='19990303T000000+0000'
-    --dt-before='20230410T221032+0000'
+    --dt-before='20260102T000000+0000'
     --blocksz='0x100'
     --summary
 )
 declare -rg S4_ARGS_QUOTED=$(for arg in "${S4_ARGS[@]}"; do echo -n "'${arg}' "; done)
+declare -rg S4_VENV_PIP=~/.config/s4/venv/pip.conf
 
 function stderr_clean () {
     # remove text lines from `s4` stderr that vary from run to run
@@ -56,6 +57,10 @@ function stderr_clean () {
     # - remove warnings as they are printed in an unpredictable order
     # - remove `streaming: `, `blocks high:`, `lines high:`, `caching:` from the
     #   "streaming" summary. Explained in Issue #213
+    # - remove Python process reads/writes/polls/waits/runtime as they vary
+    #   depending on system load.
+    # - remove `Python Interpreter` as it varies depending on the system.
+    # - remove `Program Run Time` as it varies depending on system load.
     # - remove `ERROR:` because they are sometimes printed by processing threads
     #   and so the timing of prints may vary
     # - remove `DateTimeParseInstr` as it varies due to changes in the
@@ -67,9 +72,17 @@ function stderr_clean () {
     fi
     sed -i \
         -E \
-        -e '/^Datetime Now[ ]*:.*$/d' \
         -e '/^[ ]+Modified Time [ ]*:.*$/d' \
         -e '/^[ ]+modified time [ ]*:.*$/d' \
+        -e '/^[ ]+Python process reads stderr[ ]*:.*$/d' \
+        -e '/^[ ]+Python process reads stdout[ ]*:.*$/d' \
+        -e '/^[ ]+Python process writes stdin[ ]*:.*$/d' \
+        -e '/^[ ]+Python pipe recv stderr[ ]*:.*$/d' \
+        -e '/^[ ]+Python pipe recv stdout[ ]*:.*$/d' \
+        -e '/^[ ]+Python process polls[ ]*:.*$/d' \
+        -e '/^[ ]+Python process waits[ ]*:.*$/d' \
+        -e '/^[ ]+Python process runtime[ ]*:.*$/d' \
+        -e '/^[ ]+Python script arguments[ ]*:.*$/d' \
         -e '/^[ ]+realpath .*$/d' \
         -e '/^[ ]+real path .*$/d' \
         -e '/^[ ]+temporary path .*$/d' \
@@ -78,6 +91,8 @@ function stderr_clean () {
         -e '/^[ ]+storage: BlockReader::read_block.*$/d' \
         -e '/^[ ]+blocks high[ ]+: .*$/d' \
         -e '/^[ ]+lines high[ ]+: .*$/d' \
+        -e '/^Datetime Now[ ]*:.*$/d' \
+        -e '/^Python Interpreter [ ]*:.*$/d' \
         -e '/^Program Run Time[ ]+: .*$/d' \
         -e '/^ERROR: .*$/d' \
         -e '/.*DateTimeParseInstr:.*/d' \

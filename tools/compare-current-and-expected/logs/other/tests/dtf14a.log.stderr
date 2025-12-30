@@ -6,12 +6,12 @@ File: ./logs/other/tests/dtf14a.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 550
+      flushes       : 4
+      lines         : 5
+      syslines      : 4
+      datetime first: 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last : 2023-08-31 20:01:10 +00:00 (2023-08-31 20:01:10.000000 +00:00)
   Processed:
       file size     : 250 (0xFA) (bytes)
       bytes         : 250 (0xFA)
@@ -19,24 +19,24 @@ File: ./logs/other/tests/dtf14a.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 4
+      syslines high : 4
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 20:01:10 +00:00 (2023-08-31 20:01:10.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 95, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  4, miss  6, 40.0%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 98, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  4,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  4,  0.0%, put  4
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  4, 20.0%, put  4
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  3, miss  5, 37.5%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 91,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 95
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 94,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 98
   Processing Drops:
 
 Program Summary:
@@ -44,11 +44,11 @@ Program Summary:
 Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
-Printed lines          : 0
-Printed syslines       : 0
+Files printed          : 1
+Printed bytes          : 567
+Printed flushes        : 9
+Printed lines          : 5
+Printed syslines       : 4
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
@@ -57,10 +57,10 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 94
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first :
-Datetime printed last  :
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
-Channel Receive ok     : 2
+Datetime printed first : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+Datetime printed last  : 2023-08-31 20:01:10 +00:00 (2023-08-31 20:01:10.000000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 6
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0

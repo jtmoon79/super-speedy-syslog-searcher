@@ -59,7 +59,7 @@ Regex patterns compiled: 138
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
 Datetime printed last  : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
 Channel Receive ok     : 107
 Channel Receive err    : 0
 Threads Spawned        : 1

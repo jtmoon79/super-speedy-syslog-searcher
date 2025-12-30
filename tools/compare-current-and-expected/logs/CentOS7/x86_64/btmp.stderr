@@ -6,30 +6,53 @@ File: ./logs/CentOS7/x86_64/btmp
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 685
+      flushes       : 3
+      entries       : 3
+  Processed:
+      file size     : 1152 (0x480) (bytes)
+      bytes         : 1152 (0x480)
+      bytes total   : 1152 (0x480)
+      block size    : 256 (0x100)
+      blocks        : 5
+      blocks total  : 5 (1280 bytes)
+      entries       : 3
+      entry size    : 384 (bytes)
+      entry hi-score: 96
+      first entry   : @0
+      entry high    : 3
+      peak map size : 3
+      out of order? : 0
+      datetime first     : 2023-04-23 03:44:33 +08:00 (2023-04-22 19:44:33.042030 +00:00)
+      datetime last      : 2023-04-23 04:03:09 +08:00 (2023-04-22 20:03:09.193274 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%
+  Processing Drops:
 
 Program Summary:
 
 Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
+Files printed          : 1
+Printed bytes          : 697
+Printed flushes        : 6
 Printed lines          : 0
 Printed syslines       : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
+Printed fixedstruct    : 3
 Printed journal events : 0
 Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first :
-Datetime printed last  :
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
-Channel Receive ok     : 2
+Datetime printed first : 2023-04-23 03:44:33 +08:00 (2023-04-22 19:44:33.042030 +00:00)
+Datetime printed last  : 2023-04-23 04:03:09 +08:00 (2023-04-22 20:03:09.193274 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 5
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0

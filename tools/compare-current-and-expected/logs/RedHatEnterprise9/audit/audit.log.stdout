@@ -18,3 +18,21 @@
 ⇳
 ./logs/RedHatEnterprise9/audit/audit.log┋20230410T125634.293000000┋type=SYSCALL msg=audit(1681160194.293:8): arch=c000003e syscall=44 success=yes exit=60 a0=3 a1=7ffc748c1930 a2=3c a3=0 items=0 ppid=723 pid=733 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=4294967295 comm="auditctl" exe="/usr/sbin/auditctl" subj=system_u:system_r:unconfined_service_t:s0 key=(null)ARCH=x86_64 SYSCALL=sendto AUID="unset" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"
 ⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220926.863000000┋type=SERVICE_START msg=audit(1683526166.863:495): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-hostnamed comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'UID="root" AUID="unset"
+⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220957.112000000┋type=SERVICE_STOP msg=audit(1683526197.112:496): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=system_u:system_r:init_t:s0 msg='unit=systemd-hostnamed comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'UID="root" AUID="unset"
+⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220926.630000000┋type=USER_START msg=audit(1683526166.630:481): pid=13871 uid=0 auid=0 ses=7 subj=system_u:system_r:init_t:s0 msg='op=PAM:session_open grantors=pam_selinux,pam_selinux,pam_loginuid,pam_keyinit,pam_limits,pam_systemd,pam_unix acct="root" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'UID="root" AUID="root"
+⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220926.749000000┋type=CRED_ACQ msg=audit(1683526166.749:489): pid=13890 uid=0 auid=0 ses=6 subj=system_u:system_r:sshd_t:s0-s0:c0.c1023 msg='op=PAM:setcred grantors=pam_unix acct="root" exe="/usr/sbin/sshd" hostname=192.168.1.8 addr=192.168.1.8 terminal=ssh res=success'UID="root" AUID="root"
+⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220926.810000000┋type=USER_LOGIN msg=audit(1683526166.810:490): pid=13862 uid=0 auid=0 ses=6 subj=system_u:system_r:sshd_t:s0-s0:c0.c1023 msg='op=login id=0 exe="/usr/sbin/sshd" hostname=? addr=192.168.1.8 terminal=/dev/pts/1 res=success'UID="root" AUID="root" ID="root"
+⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220926.810000000┋type=USER_START msg=audit(1683526166.810:491): pid=13862 uid=0 auid=0 ses=6 subj=system_u:system_r:sshd_t:s0-s0:c0.c1023 msg='op=login id=0 exe="/usr/sbin/sshd" hostname=? addr=192.168.1.8 terminal=/dev/pts/1 res=success'UID="root" AUID="root" ID="root"
+⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220926.814000000┋type=CRYPTO_KEY_USER msg=audit(1683526166.814:492): pid=13862 uid=0 auid=0 ses=6 subj=system_u:system_r:sshd_t:s0-s0:c0.c1023 msg='op=destroy kind=server fp=SHA256:34:76:7b:a4:dc:bb:e0:b6:5e:5d:73:e9:a1:db:89:21:c0:0d:ca:54:f4:7d:46:9c:b2:87:c4:ed:0b:d4:3f:59 direction=? spid=13900 suid=0  exe="/usr/sbin/sshd" hostname=? addr=? terminal=? res=success'UID="root" AUID="root" SUID="root"
+⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220957.145000000┋type=BPF msg=audit(1683526197.145:497): prog-id=0 op=UNLOAD
+⇳
+./logs/RedHatEnterprise9/audit/audit.log┋20230507T220957.145000000┋type=BPF msg=audit(1683526197.145:498): prog-id=0 op=UNLOAD⇳
+

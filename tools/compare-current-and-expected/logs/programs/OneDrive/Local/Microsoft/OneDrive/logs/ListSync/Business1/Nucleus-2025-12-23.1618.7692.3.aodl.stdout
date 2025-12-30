@@ -1,0 +1,1658 @@
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.364000000┋1766506720364 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAuthParameters;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.364000000┋1766506720364 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::AcquireTokenSilentlyInternal;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.364000000┋1766506720364 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋1766506720365 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋1766506720365 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋1766506720365 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetAuthHeader;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋1766506720365 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetLogBatchUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋1766506720365 NucleusLogUploader.cpp:Nucleus::System::NucleusEnvironmentLogUploaderConfig::Report; LogUpload LogUpload Success
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161840.365000000┋1766506720365 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161850.371000000┋1766506730371 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T161850.371000000┋1766506730371 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.487000000┋1766508297487 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.487000000┋1766508297487 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ c647e70a-d05a-4e3a-b665-6a3ad3e57f98/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164457.488000000┋1766508297488 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164527.502000000┋1766508327502 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164527.502000000┋1766508327502 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164527.502000000┋1766508327502 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164527.502000000┋1766508327502 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164527.502000000┋1766508327502 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T164527.502000000┋1766508327502 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.487000000┋1766510097487 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.487000000┋1766510097487 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ b4a0e222-cf15-482d-91d7-8786f16018f8/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171457.488000000┋1766510097488 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171527.503000000┋1766510127503 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171527.504000000┋1766510127504 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171527.504000000┋1766510127504 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171527.504000000┋1766510127504 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171527.504000000┋1766510127504 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171527.504000000┋1766510127504 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.371000000┋1766510320371 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.371000000┋1766510320371 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.371000000┋1766510320371 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.435000000┋1766510320435 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.435000000┋1766510320435 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.499000000┋1766510320499 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.499000000┋1766510320499 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.563000000┋1766510320563 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.563000000┋1766510320563 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.627000000┋1766510320627 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.627000000┋1766510320627 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.690000000┋1766510320690 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.690000000┋1766510320690 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.754000000┋1766510320754 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.754000000┋1766510320754 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.818000000┋1766510320818 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.818000000┋1766510320818 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.881000000┋1766510320881 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.881000000┋1766510320881 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.945000000┋1766510320945 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171840.945000000┋1766510320945 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.009000000┋1766510321009 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.009000000┋1766510321009 LogUploader2.cpp:LogUpload::LogUploader2::ClearUploadQueue;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.009000000┋1766510321009 LogUploader2.cpp:LogUpload::LogUploader2::GetLastActiveLogInformation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.009000000┋1766510321009 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::PersistSettings;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 ScenarioTracking.cpp:LogNewTraceCreated; AuthSignIn/ 77e494fc-1c71-4086-8cea-b2176e0c473b/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.010000000┋1766510321010 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 AccountContext.cpp:Nucleus::Context::AccountContext::CacheAccountDetails;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::EnsureSignInContextIsValid;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 Auth.cpp:Auth::IsOnPremServer;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 CWinHttp.cpp:CWinHttpSession::InitializeSession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.011000000┋1766510321011 Auth.cpp:Auth::IsNetworkAuthSupported;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋1766510321399 CWinHttp.cpp:CWinHttpRequest::OnRequestComplete;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋1766510321399 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::OnRequestComplete; S_OK
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋1766510321399 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋1766510321399 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋1766510321399 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋1766510321399 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋1766510321399 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.399000000┋1766510321399 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋1766510321400 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAccountFromAccountHint;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋1766510321400 OneAuthApi.cpp:Nucleus::Auth::OneAuthApi::ReadAllAccounts;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋1766510321400 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAuthParameters;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋1766510321400 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::AcquireTokenSilentlyInternal;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋1766510321400 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋1766510321400 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.400000000┋1766510321400 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.401000000┋1766510321401 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetAuthHeader;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.401000000┋1766510321401 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetLogBatchUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.401000000┋1766510321401 NucleusLogUploader.cpp:Nucleus::System::NucleusEnvironmentLogUploaderConfig::Report; LogUpload LogUpload Success
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.401000000┋1766510321401 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.456000000┋1766510321456 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.456000000┋1766510321456 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogCompression; Nucleus-2025-12-21.1217.7692.2.odl
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171841.490000000┋1766510321490 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171851.405000000┋1766510331405 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T171851.405000000┋1766510331405 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.497000000┋1766511897497 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.497000000┋1766511897497 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ ba728169-be0d-4b62-8f9e-8fab03af5f92/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174457.498000000┋1766511897498 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174527.511000000┋1766511927511 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174527.511000000┋1766511927511 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174527.511000000┋1766511927511 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174527.512000000┋1766511927512 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174527.512000000┋1766511927512 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T174527.512000000┋1766511927512 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.500000000┋1766513697500 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ f607f1dd-bb43-4b86-af03-4b9ee7750f8e/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181457.501000000┋1766513697501 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181527.514000000┋1766513727514 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181527.514000000┋1766513727514 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181527.514000000┋1766513727514 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181527.514000000┋1766513727514 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181527.514000000┋1766513727514 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181527.514000000┋1766513727514 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.505000000┋1766513921505 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.505000000┋1766513921505 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.505000000┋1766513921505 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.569000000┋1766513921569 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.569000000┋1766513921569 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.633000000┋1766513921633 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.633000000┋1766513921633 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.696000000┋1766513921696 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.696000000┋1766513921696 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.760000000┋1766513921760 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.760000000┋1766513921760 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.824000000┋1766513921824 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.824000000┋1766513921824 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.888000000┋1766513921888 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.888000000┋1766513921888 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.952000000┋1766513921952 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181841.952000000┋1766513921952 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.015000000┋1766513922015 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.015000000┋1766513922015 LogUploader2.cpp:LogUpload::LogUploader2::ClearUploadQueue;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.015000000┋1766513922015 LogUploader2.cpp:LogUpload::LogUploader2::GetLastActiveLogInformation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.015000000┋1766513922015 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::PersistSettings;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.016000000┋1766513922016 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 ScenarioTracking.cpp:LogNewTraceCreated; AuthSignIn/ 36da706c-e0e8-48bd-b652-e23dd4587fde/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.017000000┋1766513922017 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋1766513922018 AccountContext.cpp:Nucleus::Context::AccountContext::CacheAccountDetails;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋1766513922018 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::EnsureSignInContextIsValid;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋1766513922018 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋1766513922018 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋1766513922018 Auth.cpp:Auth::IsOnPremServer;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋1766513922018 CWinHttp.cpp:CWinHttpSession::InitializeSession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋1766513922018 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.018000000┋1766513922018 Auth.cpp:Auth::IsNetworkAuthSupported;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 CWinHttp.cpp:CWinHttpRequest::OnRequestComplete;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::OnRequestComplete; S_OK
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.321000000┋1766513922321 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAccountFromAccountHint;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋1766513922322 OneAuthApi.cpp:Nucleus::Auth::OneAuthApi::ReadAllAccounts;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋1766513922322 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAuthParameters;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋1766513922322 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::AcquireTokenSilentlyInternal;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋1766513922322 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋1766513922322 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.322000000┋1766513922322 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.323000000┋1766513922323 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetAuthHeader;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.323000000┋1766513922323 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetLogBatchUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.323000000┋1766513922323 NucleusLogUploader.cpp:Nucleus::System::NucleusEnvironmentLogUploaderConfig::Report; LogUpload LogUpload Success
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181842.323000000┋1766513922323 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181852.338000000┋1766513932338 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T181852.338000000┋1766513932338 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.510000000┋1766515497510 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.510000000┋1766515497510 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 3877766b-3936-4d13-8830-17fcf7e225fc/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184457.511000000┋1766515497511 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184527.520000000┋1766515527520 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184527.520000000┋1766515527520 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184527.520000000┋1766515527520 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184527.520000000┋1766515527520 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184527.520000000┋1766515527520 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T184527.520000000┋1766515527520 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.512000000┋1766517297512 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.513000000┋1766517297513 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.513000000┋1766517297513 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.513000000┋1766517297513 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 96d24a4d-dd29-4f6b-804a-f63ff3386cb2/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.513000000┋1766517297513 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.513000000┋1766517297513 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.513000000┋1766517297513 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.514000000┋1766517297514 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.514000000┋1766517297514 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.514000000┋1766517297514 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191457.514000000┋1766517297514 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191527.525000000┋1766517327525 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191527.526000000┋1766517327526 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191527.526000000┋1766517327526 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191527.526000000┋1766517327526 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191527.526000000┋1766517327526 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191527.526000000┋1766517327526 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.329000000┋1766517522329 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.329000000┋1766517522329 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.329000000┋1766517522329 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.393000000┋1766517522393 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.393000000┋1766517522393 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.457000000┋1766517522457 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.457000000┋1766517522457 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.521000000┋1766517522521 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.521000000┋1766517522521 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.585000000┋1766517522585 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.585000000┋1766517522585 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.649000000┋1766517522649 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.649000000┋1766517522649 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.712000000┋1766517522712 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.712000000┋1766517522712 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.775000000┋1766517522775 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.775000000┋1766517522775 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.839000000┋1766517522839 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.839000000┋1766517522839 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.903000000┋1766517522903 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.903000000┋1766517522903 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.967000000┋1766517522967 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191842.967000000┋1766517522967 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::ClearUploadQueue;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::GetLastActiveLogInformation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::PersistSettings;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 ScenarioTracking.cpp:LogNewTraceCreated; AuthSignIn/ aca8cd92-37d5-45e3-8365-44ad2d9f0ff2/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.031000000┋1766517523031 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 AccountContext.cpp:Nucleus::Context::AccountContext::CacheAccountDetails;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::EnsureSignInContextIsValid;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 Auth.cpp:Auth::IsOnPremServer;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 CWinHttp.cpp:CWinHttpSession::InitializeSession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.032000000┋1766517523032 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.033000000┋1766517523033 Auth.cpp:Auth::IsNetworkAuthSupported;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 CWinHttp.cpp:CWinHttpRequest::OnRequestComplete;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::OnRequestComplete; S_OK
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.393000000┋1766517523393 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAccountFromAccountHint;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 OneAuthApi.cpp:Nucleus::Auth::OneAuthApi::ReadAllAccounts;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAuthParameters;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::AcquireTokenSilentlyInternal;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetAuthHeader;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetLogBatchUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 NucleusLogUploader.cpp:Nucleus::System::NucleusEnvironmentLogUploaderConfig::Report; LogUpload LogUpload Success
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191843.394000000┋1766517523394 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191853.405000000┋1766517533405 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T191853.405000000┋1766517533405 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.523000000┋1766519097523 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.524000000┋1766519097524 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.524000000┋1766519097524 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.524000000┋1766519097524 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 48d8bf29-25cb-4bf0-862d-8e8b03191b09/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.524000000┋1766519097524 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.524000000┋1766519097524 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.525000000┋1766519097525 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.525000000┋1766519097525 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.525000000┋1766519097525 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.525000000┋1766519097525 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194457.525000000┋1766519097525 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194527.535000000┋1766519127535 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194527.535000000┋1766519127535 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194527.535000000┋1766519127535 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194527.535000000┋1766519127535 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194527.535000000┋1766519127535 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T194527.535000000┋1766519127535 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.531000000┋1766520897531 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.531000000┋1766520897531 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 58042c25-961e-43c8-b184-56073da62f48/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201457.532000000┋1766520897532 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201527.533000000┋1766520927533 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201527.534000000┋1766520927534 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201527.534000000┋1766520927534 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201527.534000000┋1766520927534 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201527.534000000┋1766520927534 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201527.534000000┋1766520927534 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.386000000┋1766521123386 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.386000000┋1766521123386 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.386000000┋1766521123386 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.449000000┋1766521123449 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.449000000┋1766521123449 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.513000000┋1766521123513 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.513000000┋1766521123513 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.576000000┋1766521123576 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.576000000┋1766521123576 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.640000000┋1766521123640 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.640000000┋1766521123640 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.704000000┋1766521123704 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.704000000┋1766521123704 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.768000000┋1766521123768 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.768000000┋1766521123768 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.831000000┋1766521123831 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.831000000┋1766521123831 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.895000000┋1766521123895 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.895000000┋1766521123895 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.959000000┋1766521123959 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201843.959000000┋1766521123959 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.023000000┋1766521124023 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.023000000┋1766521124023 LogUploader2.cpp:LogUpload::LogUploader2::ClearUploadQueue;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.023000000┋1766521124023 LogUploader2.cpp:LogUpload::LogUploader2::GetLastActiveLogInformation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.023000000┋1766521124023 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::PersistSettings;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.024000000┋1766521124024 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 ScenarioTracking.cpp:LogNewTraceCreated; AuthSignIn/ 25aad92b-8e91-4e13-8af5-214234292e9e/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.029000000┋1766521124029 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋1766521124030 AccountContext.cpp:Nucleus::Context::AccountContext::CacheAccountDetails;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋1766521124030 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::EnsureSignInContextIsValid;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋1766521124030 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋1766521124030 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋1766521124030 Auth.cpp:Auth::IsOnPremServer;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋1766521124030 CWinHttp.cpp:CWinHttpSession::InitializeSession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋1766521124030 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.030000000┋1766521124030 Auth.cpp:Auth::IsNetworkAuthSupported;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.190000000┋1766521124190 CWinHttp.cpp:CWinHttpRequest::OnRequestComplete;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.190000000┋1766521124190 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::OnRequestComplete; S_OK
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.190000000┋1766521124190 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.190000000┋1766521124190 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAccountFromAccountHint;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 OneAuthApi.cpp:Nucleus::Auth::OneAuthApi::ReadAllAccounts;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAuthParameters;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::AcquireTokenSilentlyInternal;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.191000000┋1766521124191 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.192000000┋1766521124192 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.192000000┋1766521124192 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetAuthHeader;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.192000000┋1766521124192 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetLogBatchUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.192000000┋1766521124192 NucleusLogUploader.cpp:Nucleus::System::NucleusEnvironmentLogUploaderConfig::Report; LogUpload LogUpload Success
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201844.192000000┋1766521124192 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201854.203000000┋1766521134203 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T201854.203000000┋1766521134203 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.544000000┋1766522697544 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.544000000┋1766522697544 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 8bc4652d-0dc2-4239-b08b-5ba462510a63/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204457.545000000┋1766522697545 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204527.558000000┋1766522727558 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204527.558000000┋1766522727558 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204527.559000000┋1766522727559 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204527.559000000┋1766522727559 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204527.559000000┋1766522727559 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T204527.559000000┋1766522727559 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.560000000┋1766524497560 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.560000000┋1766524497560 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ e0a6ca5b-bb2d-48f6-a96d-8a31eae0fe46/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211457.561000000┋1766524497561 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211527.562000000┋1766524527562 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211527.562000000┋1766524527562 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211527.562000000┋1766524527562 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211527.562000000┋1766524527562 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211527.562000000┋1766524527562 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211527.562000000┋1766524527562 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.191000000┋1766524724191 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.191000000┋1766524724191 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.191000000┋1766524724191 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.255000000┋1766524724255 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.255000000┋1766524724255 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.318000000┋1766524724318 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.318000000┋1766524724318 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.382000000┋1766524724382 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.382000000┋1766524724382 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.445000000┋1766524724445 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.445000000┋1766524724445 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.509000000┋1766524724509 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.509000000┋1766524724509 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.573000000┋1766524724573 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.573000000┋1766524724573 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.637000000┋1766524724637 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.637000000┋1766524724637 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.701000000┋1766524724701 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.701000000┋1766524724701 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.765000000┋1766524724765 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.765000000┋1766524724765 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.828000000┋1766524724828 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.828000000┋1766524724828 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.892000000┋1766524724892 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.892000000┋1766524724892 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.956000000┋1766524724956 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211844.956000000┋1766524724956 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.020000000┋1766524725020 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.020000000┋1766524725020 LogUploader2.cpp:LogUpload::LogUploader2::ClearUploadQueue;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.020000000┋1766524725020 LogUploader2.cpp:LogUpload::LogUploader2::GetLastActiveLogInformation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.020000000┋1766524725020 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::PersistSettings;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 ScenarioTracking.cpp:LogNewTraceCreated; AuthSignIn/ e95b55d8-a0c0-4f8b-a606-0f0c6ce79017/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.021000000┋1766524725021 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋1766524725022 AccountContext.cpp:Nucleus::Context::AccountContext::CacheAccountDetails;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋1766524725022 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::EnsureSignInContextIsValid;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋1766524725022 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋1766524725022 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋1766524725022 Auth.cpp:Auth::IsOnPremServer;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋1766524725022 CWinHttp.cpp:CWinHttpSession::InitializeSession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋1766524725022 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.022000000┋1766524725022 Auth.cpp:Auth::IsNetworkAuthSupported;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 CWinHttp.cpp:CWinHttpRequest::OnRequestComplete;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::OnRequestComplete; S_OK
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.274000000┋1766524725274 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAccountFromAccountHint;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 OneAuthApi.cpp:Nucleus::Auth::OneAuthApi::ReadAllAccounts;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAuthParameters;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::AcquireTokenSilentlyInternal;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetAuthHeader;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetLogBatchUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 NucleusLogUploader.cpp:Nucleus::System::NucleusEnvironmentLogUploaderConfig::Report; LogUpload LogUpload Success
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211845.275000000┋1766524725275 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211855.287000000┋1766524735287 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T211855.287000000┋1766524735287 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.569000000┋1766526297569 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.570000000┋1766526297570 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.570000000┋1766526297570 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.570000000┋1766526297570 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ a80610a4-457d-45c8-8d59-938d5504ee83/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.570000000┋1766526297570 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.570000000┋1766526297570 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.570000000┋1766526297570 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.570000000┋1766526297570 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.570000000┋1766526297570 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.571000000┋1766526297571 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214457.571000000┋1766526297571 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214527.580000000┋1766526327580 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214527.580000000┋1766526327580 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214527.580000000┋1766526327580 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214527.580000000┋1766526327580 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214527.580000000┋1766526327580 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T214527.580000000┋1766526327580 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.583000000┋1766528097583 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.583000000┋1766528097583 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ da3439e5-0c43-4dbd-b938-9ff8e7405dcd/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221457.584000000┋1766528097584 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221527.584000000┋1766528127584 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221527.584000000┋1766528127584 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221527.584000000┋1766528127584 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221527.584000000┋1766528127584 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221527.600000000┋1766528127600 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221527.600000000┋1766528127600 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.285000000┋1766528325285 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.285000000┋1766528325285 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.285000000┋1766528325285 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.350000000┋1766528325350 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.350000000┋1766528325350 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.413000000┋1766528325413 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.413000000┋1766528325413 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.477000000┋1766528325477 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.477000000┋1766528325477 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.541000000┋1766528325541 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.541000000┋1766528325541 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.605000000┋1766528325605 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.605000000┋1766528325605 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.668000000┋1766528325668 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.668000000┋1766528325668 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.732000000┋1766528325732 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.732000000┋1766528325732 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.796000000┋1766528325796 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.796000000┋1766528325796 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.860000000┋1766528325860 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.860000000┋1766528325860 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.924000000┋1766528325924 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.924000000┋1766528325924 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.988000000┋1766528325988 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221845.988000000┋1766528325988 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.051000000┋1766528326051 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.051000000┋1766528326051 LogUploader2.cpp:LogUpload::LogUploader2::ClearUploadQueue;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.051000000┋1766528326051 LogUploader2.cpp:LogUpload::LogUploader2::GetLastActiveLogInformation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.051000000┋1766528326051 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::PersistSettings;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 ScenarioTracking.cpp:LogNewTraceCreated; AuthSignIn/ 38240d22-ecc1-47c2-9832-0c3e012de780/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.052000000┋1766528326052 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 AccountContext.cpp:Nucleus::Context::AccountContext::CacheAccountDetails;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::EnsureSignInContextIsValid;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 Auth.cpp:Auth::IsOnPremServer;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 CWinHttp.cpp:CWinHttpSession::InitializeSession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.053000000┋1766528326053 Auth.cpp:Auth::IsNetworkAuthSupported;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋1766528326316 CWinHttp.cpp:CWinHttpRequest::OnRequestComplete;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋1766528326316 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::OnRequestComplete; S_OK
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋1766528326316 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋1766528326316 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋1766528326316 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋1766528326316 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.316000000┋1766528326316 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.317000000┋1766528326317 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.317000000┋1766528326317 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAccountFromAccountHint;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.317000000┋1766528326317 OneAuthApi.cpp:Nucleus::Auth::OneAuthApi::ReadAllAccounts;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.317000000┋1766528326317 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAuthParameters;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.317000000┋1766528326317 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::AcquireTokenSilentlyInternal;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.317000000┋1766528326317 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋1766528326318 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋1766528326318 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋1766528326318 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetAuthHeader;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋1766528326318 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetLogBatchUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋1766528326318 NucleusLogUploader.cpp:Nucleus::System::NucleusEnvironmentLogUploaderConfig::Report; LogUpload LogUpload Success
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221846.318000000┋1766528326318 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221856.318000000┋1766528336318 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T221856.318000000┋1766528336318 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.594000000┋1766529897594 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.595000000┋1766529897595 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.595000000┋1766529897595 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.595000000┋1766529897595 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ b937da04-d6c2-4dc4-b9de-f54b88fe33be/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.595000000┋1766529897595 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.595000000┋1766529897595 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.595000000┋1766529897595 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.596000000┋1766529897596 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.596000000┋1766529897596 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.596000000┋1766529897596 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224457.596000000┋1766529897596 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224527.598000000┋1766529927598 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224527.598000000┋1766529927598 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224527.598000000┋1766529927598 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224527.598000000┋1766529927598 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224527.599000000┋1766529927599 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T224527.599000000┋1766529927599 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.599000000┋1766531697599 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.599000000┋1766531697599 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::PollForDriveTokenRefreshAsync::<lambda_1>::operator ();
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 ScenarioTracking.cpp:LogNewTraceCreated; RetriableTaskExecution/ 7e326bc0-ab01-41eb-b207-4e63e37625a5/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 ListSyncEngine.cpp:Nucleus::Sync::ListSync::ListSyncEngine::RefreshDriveTokensForListCollectionWithRandomization;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231457.600000000┋1766531697600 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231527.608000000┋1766531727608 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231527.608000000┋1766531727608 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231527.608000000┋1766531727608 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231527.608000000┋1766531727608 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Database Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231527.608000000┋1766531727608 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231527.608000000┋1766531727608 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; Nucleus Shared Worker Thread
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.324000000┋1766531926324 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.324000000┋1766531926324 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.324000000┋1766531926324 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.387000000┋1766531926387 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.387000000┋1766531926387 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.451000000┋1766531926451 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.451000000┋1766531926451 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.515000000┋1766531926515 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.515000000┋1766531926515 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.578000000┋1766531926578 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.578000000┋1766531926578 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.642000000┋1766531926642 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.642000000┋1766531926642 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.705000000┋1766531926705 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.706000000┋1766531926706 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.769000000┋1766531926769 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.770000000┋1766531926770 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.833000000┋1766531926833 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.833000000┋1766531926833 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.896000000┋1766531926896 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.896000000┋1766531926896 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.961000000┋1766531926961 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231846.961000000┋1766531926961 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.024000000┋1766531927024 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.024000000┋1766531927024 LogUploader2.cpp:LogUpload::LogUploader2::ClearUploadQueue;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.024000000┋1766531927024 LogUploader2.cpp:LogUpload::LogUploader2::GetLastActiveLogInformation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.024000000┋1766531927024 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogsHelper;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::PersistSettings;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::ScanForUnuploadedLogs;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::ReportStateIfNeeded;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1214.9352.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.11120.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-22.1236.9320.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-23.1330.10164.1.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::BuildLogBatchQueue; Nucleus-2025-12-21.1217.7692.2.odlgz
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::StartNextLogUploadBatchIfAble;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 LogUploader2.cpp:LogUpload::LogUploader2::ExecuteLogUploadBatch;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 ScenarioTracking.cpp:LogNewTraceCreated; AuthSignIn/ af70361c-959a-4c8b-8e74-63aa9e5ec0af/
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 WorkerThreadPool.cpp:WorkerThreadPool::AddThread; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.025000000┋1766531927025 WorkerThreadPool.cpp:WorkerThreadPool::WorkerMainLoop; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 AccountContext.cpp:Nucleus::Context::AccountContext::CacheAccountDetails;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::EnsureSignInContextIsValid;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::CheckIfResourceBlockedDuetoExternalSharing; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Create; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 Auth.cpp:Auth::IsOnPremServer;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 CWinHttp.cpp:CWinHttpSession::InitializeSession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 CWinHttp.cpp:CWinHttpSession::CreateRequest; OPTIONS I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.026000000┋1766531927026 Auth.cpp:Auth::IsNetworkAuthSupported;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 CWinHttp.cpp:CWinHttpRequest::OnRequestComplete;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::OnRequestComplete; S_OK
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 AuthPlatformHttpRequest.cpp:AuthLibrary::AuthPlatformHttpRequest::Wait;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker; I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 OAuthCredentialCache.cpp:OAuth::CredentialCache::GetCredential; https://onedrive.live.com
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::AcquireTokenInternalWorker;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAccountFromAccountHint;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 OneAuthApi.cpp:Nucleus::Auth::OneAuthApi::ReadAllAccounts;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::GetAuthParameters;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.154000000┋1766531927154 OneAuthAuthenticator.cpp:Nucleus::Auth::OneAuthAuthenticator::AcquireTokenSilentlyInternal;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋1766531927155 AuthenticationProvider.cpp:Nucleus::Auth::AuthenticationProvider::HandleAcquireTokenSilentlyException;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋1766531927155 AuthenticationScenarioTelemetry.cpp:Nucleus::Auth::AuthenticationScenarioTelemetry::Report; AuthSignIn AuthAcquireTokenSilently UnexpectedFailure No available AAD accounts, aborting sign in. I56X82KxaA8CRoO4VbwYVg://AUD9G9f8VcTEooX08SGYz-PZa7HdinWPMJ7FjGy1A8E.com OneAuth
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋1766531927155 LoggingTelemetrySession.cpp:LoggingTelemetrySession::ApplyASHATransform; AuthSignIn UnexpectedFailure
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋1766531927155 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetAuthHeader;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋1766531927155 LogUploaderServiceApi.cpp:LogUpload::LogUploaderService::LogUploaderServiceApi::GetLogBatchUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋1766531927155 NucleusLogUploader.cpp:Nucleus::System::NucleusEnvironmentLogUploaderConfig::Report; LogUpload LogUpload Success
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231847.155000000┋1766531927155 LogUploader2.cpp:LogUpload::LogUploader2::LogBatchIsReady;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231857.170000000┋1766531937170 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl┋20251223T231857.170000000┋1766531937170 WorkerThreadPool.cpp:WorkerThreadPool::OnThreadExiting; AuthenticationProviderThreadPool
+⇳

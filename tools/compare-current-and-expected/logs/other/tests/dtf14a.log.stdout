@@ -1,0 +1,9 @@
+./logs/other/tests/dtf14a.log┋20230831T200105.000000000┋2023 Aug 31 20:01:05 UTC [ERROR] dev-disk-a error 0x08320105
+⇳
+./logs/other/tests/dtf14a.log┋20230831T200105.000000000┋2023 Aug 31 20:01:05 UTC [ERROR] dev-disk-a error 0x08320102
+./logs/other/tests/dtf14a.log┋20230831T200105.000000000┋IDs [] [] 99185892
+⇳
+./logs/other/tests/dtf14a.log┋20230831T200109.000000000┋2023 Aug 31 20:01:09 UTC [WARNING] dev-disk-a disconnected.
+⇳
+./logs/other/tests/dtf14a.log┋20230831T200110.000000000┋2023 Aug 31 20:01:10 UTC [INFO] /mnt/a unmounted.⇳
+

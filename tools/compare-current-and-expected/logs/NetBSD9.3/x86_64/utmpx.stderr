@@ -6,30 +6,53 @@ File: ./logs/NetBSD9.3/x86_64/utmpx
       filetype       : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Utmpx
+  Printed:
+      bytes         : 1970
+      flushes       : 9
+      entries       : 9
+  Processed:
+      file size     : 5200 (0x1450) (bytes)
+      bytes         : 5200 (0x1450)
+      bytes total   : 5200 (0x1450)
+      block size    : 256 (0x100)
+      blocks        : 21
+      blocks total  : 21 (5376 bytes)
+      entries       : 9
+      entry size    : 520 (bytes)
+      entry hi-score: 155
+      first entry   : @520
+      entry high    : 4
+      peak map size : 9
+      out of order? : 0
+      datetime first     : 2024-02-25 16:35:33 +08:00 (2024-02-25 08:35:33.024702 +00:00)
+      datetime last      : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.794868 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  4, miss  5, 44.4%
+  Processing Drops:
 
 Program Summary:
 
 Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
+Files printed          : 1
+Printed bytes          : 2006
+Printed flushes        : 18
 Printed lines          : 0
 Printed syslines       : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
-Printed fixedstruct    : 0
+Printed fixedstruct    : 9
 Printed journal events : 0
 Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 0
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first :
-Datetime printed last  :
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
-Channel Receive ok     : 2
+Datetime printed first : 2024-02-25 16:35:33 +08:00 (2024-02-25 08:35:33.024702 +00:00)
+Datetime printed last  : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.794868 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 11
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0

@@ -76,6 +76,11 @@ echo >&2
 (set -x; "${PROGRAM}" --version)
 echo >&2
 
+# setup venv if not already done
+if [[ ! -e "${S4_VENV_PIP}" ]]; then
+    "${PROGRAM}" --venv
+fi
+
 #
 # run s4 program
 #
@@ -159,7 +164,7 @@ fi
 total_diff_stdout=true
 if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     ret=1
-    echo "Output of total stdout are not the same. (ಠ_ಠ)"
+    echo -e "\e[31mOutput of total stdout are not the same. (ಠ_ಠ)\e[0m"
     echo
     echo "Difference Preview of total stdout:"
     set +o pipefail
@@ -179,7 +184,7 @@ fi
 total_diff_stderr=true
 if ! "${DIFF}" --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
     ret=1
-    echo "Output of total stderr is not the same. (ಠ_ಠ)"
+    echo -e "\e[31mOutput of total stderr is not the same. (ಠ_ಠ)\e[0m"
     echo
     echo "Difference Preview of total stderr:"
     set +o pipefail

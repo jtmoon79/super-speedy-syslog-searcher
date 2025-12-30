@@ -1,0 +1,68 @@
+
+Files:
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Personal/Install_2025-12-21_121401_2552-1756.loggz
+  About:
+      filetype       : TEXT UTF16 (GZIP) (text log)
+      logmessagetype : text log lines
+      Processing Err : no syslog lines found in file
+  Printed:
+      bytes         : 0
+      flushes       : 0
+      lines         : 0
+      syslines      : 0
+      datetime first: None Found
+      datetime last : None Found
+  Processed:
+      file size compressed  : 5380 (0x1504) (bytes)
+      file size uncompressed: 41938 (0xA3D2) (bytes)
+      bytes         : 256 (0x100)
+      bytes total   : 41938 (0xA3D2)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 164 (41984 bytes)
+      lines         : 1
+      syslines      : 0
+      syslines high : 0
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
+      copying: SyslineReader::get_boxptrs()                        : sgl 175, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  14, miss   0, 100.0%, largest skipped 156
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 161,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 161
+  Processing Drops:
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 0
+Printed bytes          : 0
+Printed flushes        : 0
+Printed lines          : 0
+Printed syslines       : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Printed ODL events     : 0
+Regex patterns known   : 175
+Regex patterns compiled: 161
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first :
+Datetime printed last  :
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 2
+Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0
+Temporary files created: 0
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

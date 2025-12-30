@@ -1,0 +1,8 @@
+./logs/other/tests/dtf16e.log┋20230831T210105.000000000┋Thu. Aug 31 16:01:05 2023 EST[ERROR] dev-disk-a error 0x08320105
+⇳
+./logs/other/tests/dtf16e.log┋20230831T210105.000000000┋Thu. Aug 31 16:01:05 2023 EST[ERROR] dev-disk-a error 0x08320102
+./logs/other/tests/dtf16e.log┋20230831T210105.000000000┋IDs [] [] 99185892
+⇳
+./logs/other/tests/dtf16e.log┋20230831T210109.000000000┋Thu. Aug 31 16:01:09 2023 EST[WARNING] dev-disk-a disconnected.
+./logs/other/tests/dtf16e.log┋20230831T210109.000000000┋
+⇳

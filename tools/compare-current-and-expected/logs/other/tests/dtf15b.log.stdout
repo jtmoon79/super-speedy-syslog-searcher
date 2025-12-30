@@ -1,0 +1,8 @@
+./logs/other/tests/dtf15b.log┋20230831T200105.000000000┋Thu. Aug. 31 12:01:05 PST 2023 [ERROR] dev-disk-a error 0x08320105
+⇳
+./logs/other/tests/dtf15b.log┋20230831T200105.000000000┋Thu. Aug. 31 12:01:05 PST 2023 [ERROR] dev-disk-a error 0x08320102
+./logs/other/tests/dtf15b.log┋20230831T200105.000000000┋IDs [] [] 99185892
+⇳
+./logs/other/tests/dtf15b.log┋20230831T200109.000000000┋Thu. Aug. 31 12:01:09 PST 2023 [WARNING] dev-disk-a disconnected.
+./logs/other/tests/dtf15b.log┋20230831T200109.000000000┋
+⇳

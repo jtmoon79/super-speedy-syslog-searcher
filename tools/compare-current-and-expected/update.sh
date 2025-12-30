@@ -25,6 +25,11 @@ TZ_HERE='America/New_York'
 (set -x; "${PROGRAM}" --version)
 echo >&2
 
+# setup venv if not already done
+if [[ ! -e "${S4_VENV_PIP}" ]]; then
+    "${PROGRAM}" --venv
+fi
+
 touch "${EXPECT_OUT}" "${EXPECT_ERR}" || true
 
 if ! chmod +w -- "${EXPECT_OUT}"; then

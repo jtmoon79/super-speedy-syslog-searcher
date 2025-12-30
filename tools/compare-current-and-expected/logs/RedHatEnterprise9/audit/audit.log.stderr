@@ -6,12 +6,12 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 3474
-      flushes       : 10
-      lines         : 10
-      syslines      : 10
+      bytes         : 6271
+      flushes       : 19
+      lines         : 19
+      syslines      : 19
       datetime first: 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
-      datetime last : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.293000 +00:00)
+      datetime last : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
   Processed:
       file size     : 4922 (0x133A) (bytes)
       bytes         : 4922 (0x133A)
@@ -31,8 +31,8 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       caching: LineReader::find_line() LRU cache                   : hit   1, miss  40,  2.4%, put  38
       copying: SyslineReader::get_boxptrs()                        : sgl 107, dbl    9, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  11, miss  20, 35.5%, put  19
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  31,  0.0%, put  30
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  19, miss  20, 48.7%, put  19
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  39,  0.0%, put  38
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  18, miss  20, 47.4%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   1, miss  23,  4.2%, largest skipped 21
@@ -46,10 +46,10 @@ Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
-Printed bytes          : 3514
-Printed flushes        : 20
-Printed lines          : 10
-Printed syslines       : 10
+Printed bytes          : 6348
+Printed flushes        : 39
+Printed lines          : 19
+Printed syslines       : 19
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
@@ -59,9 +59,9 @@ Regex patterns known   : 175
 Regex patterns compiled: 94
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
-Datetime printed last  : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.293000 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
-Channel Receive ok     : 12
+Datetime printed last  : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 21
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0

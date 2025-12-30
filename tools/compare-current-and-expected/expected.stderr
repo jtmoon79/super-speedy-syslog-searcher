@@ -6,21 +6,90 @@ File: ./logs/CentOS7/x86_64/btmp
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 958
+      flushes       : 3
+      entries       : 3
+  Processed:
+      file size     : 1152 (0x480) (bytes)
+      bytes         : 1152 (0x480)
+      bytes total   : 1152 (0x480)
+      block size    : 256 (0x100)
+      blocks        : 5
+      blocks total  : 5 (1280 bytes)
+      entries       : 3
+      entry size    : 384 (bytes)
+      entry hi-score: 96
+      first entry   : @0
+      entry high    : 3
+      peak map size : 3
+      out of order? : 0
+      datetime first     : 2023-04-23 03:44:33 +08:00 (2023-04-22 19:44:33.042030 +00:00)
+      datetime last      : 2023-04-23 04:03:09 +08:00 (2023-04-22 20:03:09.193274 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/CentOS7/x86_64/lastlog
   About:
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Lastlog
+  Printed:
+      bytes         : 407
+      flushes       : 2
+      entries       : 2
+  Processed:
+      file size     : 292584 (0x476E8) (bytes)
+      bytes         : 292584 (0x476E8)
+      bytes total   : 292584 (0x476E8)
+      block size    : 256 (0x100)
+      blocks        : 1143
+      blocks total  : 1143 (292608 bytes)
+      entries       : 2
+      entry size    : 292 (bytes)
+      entry hi-score: 75
+      first entry   : @0
+      entry high    : 2
+      peak map size : 2
+      out of order? : 1
+      datetime first     : 2023-12-15 16:10:21 +08:00 (2023-12-15 08:10:21.000000 +00:00)
+      datetime last      : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
+  Processing Drops:
 
 File: ./logs/CentOS7/x86_64/utmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1330
+      flushes       : 4
+      entries       : 4
+  Processed:
+      file size     : 1536 (0x600) (bytes)
+      bytes         : 1536 (0x600)
+      bytes total   : 1536 (0x600)
+      block size    : 256 (0x100)
+      blocks        : 6
+      blocks total  : 6 (1536 bytes)
+      entries       : 4
+      entry size    : 384 (bytes)
+      entry hi-score: 145
+      first entry   : @0
+      entry high    : 4
+      peak map size : 4
+      out of order? : 1
+      datetime first     : 2024-03-03 15:02:08 +08:00 (2024-03-03 07:02:08.517000 +00:00)
+      datetime last      : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.068556 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  4, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/CentOS7/x86_64/wtmp
   About:
@@ -29,27 +98,27 @@ File: ./logs/CentOS7/x86_64/wtmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 997
-      flushes       : 3
-      entries       : 3
+      bytes         : 17726
+      flushes       : 54
+      entries       : 54
   Processed:
       file size     : 25728 (0x6480) (bytes)
-      bytes         : 17792 (0x4580)
+      bytes         : 24704 (0x6080)
       bytes total   : 25728 (0x6480)
       block size    : 256 (0x100)
-      blocks        : 70
+      blocks        : 97
       blocks total  : 101 (25856 bytes)
-      entries       : 3
+      entries       : 54
       entry size    : 384 (bytes)
       entry hi-score: 145
       first entry   : @0
-      entry high    : 3
-      peak map size : 3
+      entry high    : 4
+      peak map size : 54
       out of order? : 0
       datetime first     : 2023-04-11 05:54:58 +08:00 (2023-04-10 21:54:58.759000 +00:00)
-      datetime last      : 2023-04-11 05:55:40 +08:00 (2023-04-10 21:55:40.502962 +00:00)
+      datetime last      : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.068556 +00:00)
   Processing Stores:
-      storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%
+      storage: FixedStructReader::find_entry()                     : hit   4, miss  50,  7.4%
   Processing Drops:
 
 File: ./logs/CentOS9/x86_64/btmp
@@ -57,14 +126,60 @@ File: ./logs/CentOS9/x86_64/btmp
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 339
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 384 (0x180) (bytes)
+      bytes         : 384 (0x180)
+      bytes total   : 384 (0x180)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      entries       : 1
+      entry size    : 384 (bytes)
+      entry hi-score: 124
+      first entry   : @0
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2023-12-15 13:17:08 +08:00 (2023-12-15 05:17:08.000000 +00:00)
+      datetime last      : 2023-12-15 13:17:08 +08:00 (2023-12-15 05:17:08.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  1, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/CentOS9/x86_64/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 17764
+      flushes       : 54
+      entries       : 54
+  Processed:
+      file size     : 20736 (0x5100) (bytes)
+      bytes         : 20736 (0x5100)
+      bytes total   : 20736 (0x5100)
+      block size    : 256 (0x100)
+      blocks        : 81
+      blocks total  : 81 (20736 bytes)
+      entries       : 54
+      entry size    : 384 (bytes)
+      entry hi-score: 133
+      first entry   : @0
+      entry high    : 5
+      peak map size : 54
+      out of order? : 3
+      datetime first     : 2023-04-23 05:55:14 +08:00 (2023-04-22 21:55:14.144000 +00:00)
+      datetime last      : 2023-12-15 13:17:13 +08:00 (2023-12-15 05:17:13.613264 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit   5, miss  49,  9.3%
+  Processing Drops:
 
 File: ./logs/CentOS7/yum.log
   About:
@@ -186,91 +301,390 @@ File: ./logs/Debian11/aarch64_ARM64/lastlog
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_Arm64Aarch64_Lastlog
+  Printed:
+      bytes         : 207
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 296296 (0x48568) (bytes)
+      bytes         : 296296 (0x48568)
+      bytes total   : 296296 (0x48568)
+      block size    : 256 (0x100)
+      blocks        : 1158
+      blocks total  : 1158 (296448 bytes)
+      entries       : 1
+      entry size    : 296 (bytes)
+      entry hi-score: 81
+      first entry   : @296000
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.000000 +00:00)
+      datetime last      : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit    1, miss    0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/aarch64_ARM64/utmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_Arm64Aarch64_Utmpx
+  Printed:
+      bytes         : 1868
+      flushes       : 6
+      entries       : 6
+  Processed:
+      file size     : 2400 (0x960) (bytes)
+      bytes         : 2400 (0x960)
+      bytes total   : 2400 (0x960)
+      block size    : 256 (0x100)
+      blocks        : 10
+      blocks total  : 10 (2560 bytes)
+      entries       : 6
+      entry size    : 400 (bytes)
+      entry hi-score: 126
+      first entry   : @0
+      entry high    : 5
+      peak map size : 6
+      out of order? : 3
+      datetime first     : 2023-12-11 06:45:53 +08:00 (2023-12-10 22:45:53.034179 +00:00)
+      datetime last      : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
+  Processing Drops:
 
 File: ./logs/Debian11/aarch64_ARM64/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_Arm64Aarch64_Utmpx
+  Printed:
+      bytes         : 1561
+      flushes       : 5
+      entries       : 5
+  Processed:
+      file size     : 2000 (0x7D0) (bytes)
+      bytes         : 2000 (0x7D0)
+      bytes total   : 2000 (0x7D0)
+      block size    : 256 (0x100)
+      blocks        : 8
+      blocks total  : 8 (2048 bytes)
+      entries       : 5
+      entry size    : 400 (bytes)
+      entry hi-score: 104
+      first entry   : @0
+      entry high    : 5
+      peak map size : 5
+      out of order? : 0
+      datetime first     : 2024-02-18 05:01:23 +08:00 (2024-02-17 21:01:23.767336 +00:00)
+      datetime last      : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/aarch64_ARMv6/lastlog
   About:
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Lastlog
+  Printed:
+      bytes         : 420
+      flushes       : 2
+      entries       : 2
+  Processed:
+      file size     : 292292 (0x475C4) (bytes)
+      bytes         : 292292 (0x475C4)
+      bytes total   : 292292 (0x475C4)
+      block size    : 256 (0x100)
+      blocks        : 1142
+      blocks total  : 1142 (292352 bytes)
+      entries       : 2
+      entry size    : 292 (bytes)
+      entry hi-score: 87
+      first entry   : @0
+      entry high    : 2
+      peak map size : 2
+      out of order? : 0
+      datetime first     : 2024-02-18 05:16:51 +08:00 (2024-02-17 21:16:51.000000 +00:00)
+      datetime last      : 2024-02-18 05:19:05 +08:00 (2024-02-17 21:19:05.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/aarch64_ARMv6/utmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 2607
+      flushes       : 8
+      entries       : 8
+  Processed:
+      file size     : 3456 (0xD80) (bytes)
+      bytes         : 3456 (0xD80)
+      bytes total   : 3456 (0xD80)
+      block size    : 256 (0x100)
+      blocks        : 14
+      blocks total  : 14 (3584 bytes)
+      entries       : 8
+      entry size    : 384 (bytes)
+      entry hi-score: 133
+      first entry   : @384
+      entry high    : 4
+      peak map size : 8
+      out of order? : 2
+      datetime first     : 2023-11-27 13:07:44 +08:00 (2023-11-27 05:07:44.534149 +00:00)
+      datetime last      : 2024-02-18 05:19:07 +08:00 (2024-02-17 21:19:07.971570 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  4, miss  4, 50.0%
+  Processing Drops:
 
 File: ./logs/Debian11/aarch64_ARMv6/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1000
+      flushes       : 3
+      entries       : 3
+  Processed:
+      file size     : 1152 (0x480) (bytes)
+      bytes         : 1152 (0x480)
+      bytes total   : 1152 (0x480)
+      block size    : 256 (0x100)
+      blocks        : 5
+      blocks total  : 5 (1280 bytes)
+      entries       : 3
+      entry size    : 384 (bytes)
+      entry hi-score: 141
+      first entry   : @0
+      entry high    : 3
+      peak map size : 3
+      out of order? : 0
+      datetime first     : 2024-02-18 05:16:51 +08:00 (2024-02-17 21:16:51.703488 +00:00)
+      datetime last      : 2024-02-18 05:19:07 +08:00 (2024-02-17 21:19:07.973088 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/armv6l_ARMv6/lastlog
   About:
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Lastlog
+  Printed:
+      bytes         : 408
+      flushes       : 2
+      entries       : 2
+  Processed:
+      file size     : 292292 (0x475C4) (bytes)
+      bytes         : 292292 (0x475C4)
+      bytes total   : 292292 (0x475C4)
+      block size    : 256 (0x100)
+      blocks        : 1142
+      blocks total  : 1142 (292352 bytes)
+      entries       : 2
+      entry size    : 292 (bytes)
+      entry hi-score: 87
+      first entry   : @0
+      entry high    : 2
+      peak map size : 2
+      out of order? : 0
+      datetime first     : 2024-02-18 12:29:57 +08:00 (2024-02-18 04:29:57.000000 +00:00)
+      datetime last      : 2024-02-18 12:36:17 +08:00 (2024-02-18 04:36:17.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/armv6l_ARMv6/utmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1308
+      flushes       : 4
+      entries       : 4
+  Processed:
+      file size     : 1920 (0x780) (bytes)
+      bytes         : 1920 (0x780)
+      bytes total   : 1920 (0x780)
+      block size    : 256 (0x100)
+      blocks        : 8
+      blocks total  : 8 (2048 bytes)
+      entries       : 4
+      entry size    : 384 (bytes)
+      entry hi-score: 133
+      first entry   : @384
+      entry high    : 4
+      peak map size : 4
+      out of order? : 0
+      datetime first     : 2024-01-22 09:03:29 +08:00 (2024-01-22 01:03:29.664254 +00:00)
+      datetime last      : 2024-02-18 12:36:53 +08:00 (2024-02-18 04:36:53.034532 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  4, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/armv6l_ARMv6/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1642
+      flushes       : 5
+      entries       : 5
+  Processed:
+      file size     : 1920 (0x780) (bytes)
+      bytes         : 1920 (0x780)
+      bytes total   : 1920 (0x780)
+      block size    : 256 (0x100)
+      blocks        : 8
+      blocks total  : 8 (2048 bytes)
+      entries       : 5
+      entry size    : 384 (bytes)
+      entry hi-score: 133
+      first entry   : @0
+      entry high    : 5
+      peak map size : 5
+      out of order? : 0
+      datetime first     : 2024-02-18 12:25:58 +08:00 (2024-02-18 04:25:58.820047 +00:00)
+      datetime last      : 2024-02-18 12:36:53 +08:00 (2024-02-18 04:36:53.034810 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/armv7l_ARMv6/lastlog
   About:
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Lastlog
+  Printed:
+      bytes         : 408
+      flushes       : 2
+      entries       : 2
+  Processed:
+      file size     : 292292 (0x475C4) (bytes)
+      bytes         : 292292 (0x475C4)
+      bytes total   : 292292 (0x475C4)
+      block size    : 256 (0x100)
+      blocks        : 1142
+      blocks total  : 1142 (292352 bytes)
+      entries       : 2
+      entry size    : 292 (bytes)
+      entry hi-score: 87
+      first entry   : @0
+      entry high    : 2
+      peak map size : 2
+      out of order? : 0
+      datetime first     : 2024-02-18 12:44:55 +08:00 (2024-02-18 04:44:55.000000 +00:00)
+      datetime last      : 2024-02-18 12:56:17 +08:00 (2024-02-18 04:56:17.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/armv7l_ARMv6/utmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1636
+      flushes       : 5
+      entries       : 5
+  Processed:
+      file size     : 2304 (0x900) (bytes)
+      bytes         : 2304 (0x900)
+      bytes total   : 2304 (0x900)
+      block size    : 256 (0x100)
+      blocks        : 9
+      blocks total  : 9 (2304 bytes)
+      entries       : 5
+      entry size    : 384 (bytes)
+      entry hi-score: 133
+      first entry   : @384
+      entry high    : 4
+      peak map size : 5
+      out of order? : 1
+      datetime first     : 2023-11-27 12:17:48 +08:00 (2023-11-27 04:17:48.994767 +00:00)
+      datetime last      : 2024-02-18 12:56:44 +08:00 (2024-02-18 04:56:44.731607 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  4, miss  1, 80.0%
+  Processing Drops:
 
 File: ./logs/Debian11/armv7l_ARMv6/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1647
+      flushes       : 5
+      entries       : 5
+  Processed:
+      file size     : 1920 (0x780) (bytes)
+      bytes         : 1920 (0x780)
+      bytes total   : 1920 (0x780)
+      block size    : 256 (0x100)
+      blocks        : 8
+      blocks total  : 8 (2048 bytes)
+      entries       : 5
+      entry size    : 384 (bytes)
+      entry hi-score: 133
+      first entry   : @0
+      entry high    : 5
+      peak map size : 5
+      out of order? : 0
+      datetime first     : 2024-02-18 12:43:31 +08:00 (2024-02-18 04:43:31.043856 +00:00)
+      datetime last      : 2024-02-18 12:56:44 +08:00 (2024-02-18 04:56:44.731755 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1647
+      flushes       : 5
+      entries       : 5
+  Processed:
+      file size     : 1920 (0x780) (bytes)
+      bytes         : 1920 (0x780)
+      bytes total   : 1920 (0x780)
+      block size    : 256 (0x100)
+      blocks        : 8
+      blocks total  : 8 (2048 bytes)
+      entries       : 5
+      entry size    : 384 (bytes)
+      entry hi-score: 133
+      first entry   : @0
+      entry high    : 5
+      peak map size : 5
+      out of order? : 0
+      datetime first     : 2024-02-18 12:43:31 +08:00 (2024-02-18 04:43:31.043856 +00:00)
+      datetime last      : 2024-02-18 12:56:44 +08:00 (2024-02-18 04:56:44.731755 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/Debian11/alternatives.log
   About:
@@ -2186,7 +2600,30 @@ File: ./logs/NetBSD9.3/x86_32/lastlog
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Lastlog
+  Printed:
+      bytes         : 210
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 32 (0x20) (bytes)
+      bytes         : 32 (0x20)
+      bytes total   : 32 (0x20)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      entries       : 1
+      entry size    : 32 (bytes)
+      entry hi-score: 77
+      first entry   : @0
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
+      datetime last      : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit 1, miss 0, 100.0%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_32/lastlogx
   About:
@@ -2200,42 +2637,180 @@ File: ./logs/NetBSD9.3/x86_32/utmp
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Utmp
+  Printed:
+      bytes         : 225
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 760 (0x2F8) (bytes)
+      bytes         : 760 (0x2F8)
+      bytes total   : 760 (0x2F8)
+      block size    : 256 (0x100)
+      blocks        : 3
+      blocks total  : 3 (768 bytes)
+      entries       : 1
+      entry size    : 40 (bytes)
+      entry hi-score: 96
+      first entry   : @720
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
+      datetime last      : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  1, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_32/utmpx
   About:
       filetype       : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8632_Utmpx
+  Printed:
+      bytes         : 2851
+      flushes       : 9
+      entries       : 9
+  Processed:
+      file size     : 5160 (0x1428) (bytes)
+      bytes         : 5160 (0x1428)
+      bytes total   : 5160 (0x1428)
+      block size    : 256 (0x100)
+      blocks        : 21
+      blocks total  : 21 (5376 bytes)
+      entries       : 9
+      entry size    : 516 (bytes)
+      entry hi-score: 155
+      first entry   : @516
+      entry high    : 4
+      peak map size : 9
+      out of order? : 0
+      datetime first     : 2024-02-25 16:15:04 +08:00 (2024-02-25 08:15:04.020154 +00:00)
+      datetime last      : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.275011 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  4, miss  5, 44.4%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_32/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Utmp
+  Printed:
+      bytes         : 1711
+      flushes       : 8
+      entries       : 8
+  Processed:
+      file size     : 320 (0x140) (bytes)
+      bytes         : 320 (0x140)
+      bytes total   : 320 (0x140)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      entries       : 8
+      entry size    : 40 (bytes)
+      entry hi-score: 96
+      first entry   : @0
+      entry high    : 5
+      peak map size : 8
+      out of order? : 0
+      datetime first     : 2024-02-17 10:06:17 +08:00 (2024-02-17 02:06:17.000000 +00:00)
+      datetime last      : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  3, 62.5%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_32/wtmpx
   About:
       filetype       : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8632_Utmpx
+  Printed:
+      bytes         : 3701
+      flushes       : 12
+      entries       : 12
+  Processed:
+      file size     : 6192 (0x1830) (bytes)
+      bytes         : 6192 (0x1830)
+      bytes total   : 6192 (0x1830)
+      block size    : 256 (0x100)
+      blocks        : 25
+      blocks total  : 25 (6400 bytes)
+      entries       : 12
+      entry size    : 516 (bytes)
+      entry hi-score: 150
+      first entry   : @0
+      entry high    : 5
+      peak map size : 12
+      out of order? : 0
+      datetime first     : 2024-02-17 10:06:17 +08:00 (2024-02-17 02:06:17.461908 +00:00)
+      datetime last      : 2024-02-25 16:16:01 +08:00 (2024-02-25 08:16:01.275011 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  7, 41.7%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_32/wtmpx.0
   About:
       filetype       : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8632_Utmpx
+  Printed:
+      bytes         : 2137
+      flushes       : 7
+      entries       : 7
+  Processed:
+      file size     : 3612 (0xE1C) (bytes)
+      bytes         : 3612 (0xE1C)
+      bytes total   : 3612 (0xE1C)
+      block size    : 256 (0x100)
+      blocks        : 15
+      blocks total  : 15 (3840 bytes)
+      entries       : 7
+      entry size    : 516 (bytes)
+      entry hi-score: 100
+      first entry   : @0
+      entry high    : 5
+      peak map size : 7
+      out of order? : 0
+      datetime first     : 2023-12-24 03:51:20 +08:00 (2023-12-23 19:51:20.538714 +00:00)
+      datetime last      : 2024-02-17 09:56:07 +08:00 (2024-02-17 01:56:07.877199 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  2, 71.4%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_64/lastlog
   About:
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Lastlog
+  Printed:
+      bytes         : 210
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 32 (0x20) (bytes)
+      bytes         : 32 (0x20)
+      bytes total   : 32 (0x20)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      entries       : 1
+      entry size    : 32 (bytes)
+      entry hi-score: 77
+      first entry   : @0
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.000000 +00:00)
+      datetime last      : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit 1, miss 0, 100.0%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_64/lastlogx
   About:
@@ -2249,49 +2824,210 @@ File: ./logs/NetBSD9.3/x86_64/utmp
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Utmp
+  Printed:
+      bytes         : 225
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 760 (0x2F8) (bytes)
+      bytes         : 760 (0x2F8)
+      bytes total   : 760 (0x2F8)
+      block size    : 256 (0x100)
+      blocks        : 3
+      blocks total  : 3 (768 bytes)
+      entries       : 1
+      entry size    : 40 (bytes)
+      entry hi-score: 96
+      first entry   : @720
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.000000 +00:00)
+      datetime last      : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  1, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_64/utmpx
   About:
       filetype       : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Utmpx
+  Printed:
+      bytes         : 2762
+      flushes       : 9
+      entries       : 9
+  Processed:
+      file size     : 5200 (0x1450) (bytes)
+      bytes         : 5200 (0x1450)
+      bytes total   : 5200 (0x1450)
+      block size    : 256 (0x100)
+      blocks        : 21
+      blocks total  : 21 (5376 bytes)
+      entries       : 9
+      entry size    : 520 (bytes)
+      entry hi-score: 155
+      first entry   : @520
+      entry high    : 4
+      peak map size : 9
+      out of order? : 0
+      datetime first     : 2024-02-25 16:35:33 +08:00 (2024-02-25 08:35:33.024702 +00:00)
+      datetime last      : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.794868 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  4, miss  5, 44.4%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_64/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Utmp
+  Printed:
+      bytes         : 643
+      flushes       : 3
+      entries       : 3
+  Processed:
+      file size     : 120 (0x78) (bytes)
+      bytes         : 120 (0x78)
+      bytes total   : 120 (0x78)
+      block size    : 256 (0x100)
+      blocks        : 1
+      blocks total  : 1 (256 bytes)
+      entries       : 3
+      entry size    : 40 (bytes)
+      entry hi-score: 96
+      first entry   : @0
+      entry high    : 3
+      peak map size : 3
+      out of order? : 0
+      datetime first     : 2024-02-17 12:13:18 +08:00 (2024-02-17 04:13:18.000000 +00:00)
+      datetime last      : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit 3, miss 0, 100.0%
+  Processing Drops:
 
 File: ./logs/NetBSD9.3/x86_64/wtmpx
   About:
       filetype       : UTMPX/WTMPX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmpx
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Netbsd_x8664_Utmpx
+  Printed:
+      bytes         : 2067
+      flushes       : 7
+      entries       : 7
+  Processed:
+      file size     : 3640 (0xE38) (bytes)
+      bytes         : 3640 (0xE38)
+      bytes total   : 3640 (0xE38)
+      block size    : 256 (0x100)
+      blocks        : 15
+      blocks total  : 15 (3840 bytes)
+      entries       : 7
+      entry size    : 520 (bytes)
+      entry hi-score: 100
+      first entry   : @0
+      entry high    : 5
+      peak map size : 7
+      out of order? : 0
+      datetime first     : 2024-02-17 12:13:18 +08:00 (2024-02-17 04:13:18.552890 +00:00)
+      datetime last      : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.794868 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  2, 71.4%
+  Processing Drops:
 
 File: ./logs/OpenBSD7.2/x86_32/lastlog
   About:
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Openbsd_x86_Lastlog
+  Printed:
+      bytes         : 192
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 272 (0x110) (bytes)
+      bytes         : 272 (0x110)
+      bytes total   : 272 (0x110)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      entries       : 1
+      entry size    : 272 (bytes)
+      entry hi-score: 50
+      first entry   : @0
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
+      datetime last      : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit 1, miss 0, 100.0%
+  Processing Drops:
 
 File: ./logs/OpenBSD7.2/x86_32/lastlog.1
   About:
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Openbsd_x86_Lastlog
+  Printed:
+      bytes         : 210
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 272 (0x110) (bytes)
+      bytes         : 272 (0x110)
+      bytes total   : 272 (0x110)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      entries       : 1
+      entry size    : 272 (bytes)
+      entry hi-score: 87
+      first entry   : @0
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2023-12-01 15:59:31 +08:00 (2023-12-01 07:59:31.000000 +00:00)
+      datetime last      : 2023-12-01 15:59:31 +08:00 (2023-12-01 07:59:31.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit 1, miss 0, 100.0%
+  Processing Drops:
 
 File: ./logs/OpenBSD7.2/x86_32/utmp.1
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Openbsd_x86_Utmp
+  Printed:
+      bytes         : 437
+      flushes       : 2
+      entries       : 2
+  Processed:
+      file size     : 7600 (0x1DB0) (bytes)
+      bytes         : 7600 (0x1DB0)
+      bytes total   : 7600 (0x1DB0)
+      block size    : 256 (0x100)
+      blocks        : 30
+      blocks total  : 30 (7680 bytes)
+      entries       : 2
+      entry size    : 304 (bytes)
+      entry hi-score: 96
+      first entry   : @6992
+      entry high    : 2
+      peak map size : 2
+      out of order? : 0
+      datetime first     : 2023-12-01 15:50:41 +08:00 (2023-12-01 07:50:41.000000 +00:00)
+      datetime last      : 2023-12-01 15:59:31 +08:00 (2023-12-01 07:59:31.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit   2, miss   0, 100.0%
+  Processing Drops:
 
 File: ./logs/OpenBSD7.2/x86_32/wtmp
   About:
@@ -2300,27 +3036,27 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Utmp
   Printed:
-      bytes         : 1487
-      flushes       : 7
-      entries       : 7
+      bytes         : 4014
+      flushes       : 19
+      entries       : 19
   Processed:
       file size     : 5776 (0x1690) (bytes)
-      bytes         : 5264 (0x1490)
+      bytes         : 5776 (0x1690)
       bytes total   : 5776 (0x1690)
       block size    : 256 (0x100)
-      blocks        : 21
+      blocks        : 23
       blocks total  : 23 (5888 bytes)
-      entries       : 7
+      entries       : 19
       entry size    : 304 (bytes)
       entry hi-score: 96
       first entry   : @0
       entry high    : 5
-      peak map size : 7
+      peak map size : 19
       out of order? : 0
       datetime first     : 2023-03-29 05:17:37 +08:00 (2023-03-28 21:17:37.000000 +00:00)
-      datetime last      : 2023-03-30 02:23:55 +08:00 (2023-03-29 18:23:55.000000 +00:00)
+      datetime last      : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
   Processing Stores:
-      storage: FixedStructReader::find_entry()                     : hit  5, miss  2, 71.4%
+      storage: FixedStructReader::find_entry()                     : hit  5, miss 14, 26.3%
   Processing Drops:
 
 File: ./logs/OpenBSD7.2/x86_32/wtmp.1
@@ -2330,27 +3066,27 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp.1
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Utmp
   Printed:
-      bytes         : 1487
-      flushes       : 7
-      entries       : 7
+      bytes         : 5726
+      flushes       : 27
+      entries       : 27
   Processed:
       file size     : 8208 (0x2010) (bytes)
-      bytes         : 7184 (0x1C10)
+      bytes         : 8208 (0x2010)
       bytes total   : 8208 (0x2010)
       block size    : 256 (0x100)
-      blocks        : 29
+      blocks        : 33
       blocks total  : 33 (8448 bytes)
-      entries       : 7
+      entries       : 27
       entry size    : 304 (bytes)
       entry hi-score: 96
       first entry   : @0
       entry high    : 5
-      peak map size : 7
+      peak map size : 27
       out of order? : 0
       datetime first     : 2023-03-29 05:17:37 +08:00 (2023-03-28 21:17:37.000000 +00:00)
-      datetime last      : 2023-03-30 02:23:55 +08:00 (2023-03-29 18:23:55.000000 +00:00)
+      datetime last      : 2023-12-01 15:59:31 +08:00 (2023-12-01 07:59:31.000000 +00:00)
   Processing Stores:
-      storage: FixedStructReader::find_entry()                     : hit  5, miss  2, 71.4%
+      storage: FixedStructReader::find_entry()                     : hit  5, miss 22, 18.5%
   Processing Drops:
 
 File: ./logs/OpenBSD7.4/x86_64/lastlog
@@ -2358,21 +3094,90 @@ File: ./logs/OpenBSD7.4/x86_64/lastlog
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Openbsd_x86_Lastlog
+  Printed:
+      bytes         : 210
+      flushes       : 1
+      entries       : 1
+  Processed:
+      file size     : 272 (0x110) (bytes)
+      bytes         : 272 (0x110)
+      bytes total   : 272 (0x110)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      entries       : 1
+      entry size    : 272 (bytes)
+      entry hi-score: 87
+      first entry   : @0
+      entry high    : 1
+      peak map size : 1
+      out of order? : 0
+      datetime first     : 2024-01-29 08:18:26 +08:00 (2024-01-29 00:18:26.000000 +00:00)
+      datetime last      : 2024-01-29 08:18:26 +08:00 (2024-01-29 00:18:26.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit 1, miss 0, 100.0%
+  Processing Drops:
 
 File: ./logs/OpenBSD7.4/x86_64/utmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Openbsd_x86_Utmp
+  Printed:
+      bytes         : 435
+      flushes       : 2
+      entries       : 2
+  Processed:
+      file size     : 6992 (0x1B50) (bytes)
+      bytes         : 6992 (0x1B50)
+      bytes total   : 6992 (0x1B50)
+      block size    : 256 (0x100)
+      blocks        : 28
+      blocks total  : 28 (7168 bytes)
+      entries       : 2
+      entry size    : 304 (bytes)
+      entry hi-score: 96
+      first entry   : @608
+      entry high    : 2
+      peak map size : 2
+      out of order? : 0
+      datetime first     : 2024-01-29 08:17:22 +08:00 (2024-01-29 00:17:22.000000 +00:00)
+      datetime last      : 2024-01-29 08:18:26 +08:00 (2024-01-29 00:18:26.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  2, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/OpenBSD7.4/x86_64/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Openbsd_x86_Utmp
+  Printed:
+      bytes         : 1059
+      flushes       : 5
+      entries       : 5
+  Processed:
+      file size     : 1520 (0x5F0) (bytes)
+      bytes         : 1520 (0x5F0)
+      bytes total   : 1520 (0x5F0)
+      block size    : 256 (0x100)
+      blocks        : 6
+      blocks total  : 6 (1536 bytes)
+      entries       : 5
+      entry size    : 304 (bytes)
+      entry hi-score: 96
+      first entry   : @0
+      entry high    : 5
+      peak map size : 5
+      out of order? : 0
+      datetime first     : 2024-01-29 08:12:38 +08:00 (2024-01-29 00:12:38.000000 +00:00)
+      datetime last      : 2024-01-29 08:18:26 +08:00 (2024-01-29 00:18:26.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/OpenSUSE15/lightdm.log
   About:
@@ -3946,12 +4751,12 @@ File: ./logs/other/tests/dtf14a.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 990
+      flushes       : 4
+      lines         : 5
+      syslines      : 4
+      datetime first: 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last : 2023-08-31 20:01:10 +00:00 (2023-08-31 20:01:10.000000 +00:00)
   Processed:
       file size     : 250 (0xFA) (bytes)
       bytes         : 250 (0xFA)
@@ -3959,24 +4764,24 @@ File: ./logs/other/tests/dtf14a.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 4
+      syslines high : 4
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 20:01:10 +00:00 (2023-08-31 20:01:10.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 95, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  4, miss  6, 40.0%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 98, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  4,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  4,  0.0%, put  4
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  4, 20.0%, put  4
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  3, miss  5, 37.5%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 91,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 95
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 94,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 98
   Processing Drops:
 
 File: ./logs/other/tests/dtf15a.log
@@ -3984,12 +4789,12 @@ File: ./logs/other/tests/dtf15a.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 954
+      flushes       : 3
+      lines         : 5
+      syslines      : 3
+      datetime first: 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last : 2023-08-31 20:01:09 +00:00 (2023-08-31 20:01:09.000000 +00:00)
   Processed:
       file size     : 214 (0xD6) (bytes)
       bytes         : 214 (0xD6)
@@ -3997,24 +4802,24 @@ File: ./logs/other/tests/dtf15a.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 3
+      syslines high : 3
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 20:01:09 +00:00 (2023-08-31 20:01:09.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 82, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss  6, 33.3%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 84, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  3,  0.0%, put  3
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  3, 25.0%, put  3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 78,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 82
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 80,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 84
   Processing Drops:
 
 File: ./logs/other/tests/dtf15b.log
@@ -4022,12 +4827,12 @@ File: ./logs/other/tests/dtf15b.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 960
+      flushes       : 3
+      lines         : 5
+      syslines      : 3
+      datetime first: 2023-08-31 12:01:05 -08:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last : 2023-08-31 12:01:09 -08:00 (2023-08-31 20:01:09.000000 +00:00)
   Processed:
       file size     : 220 (0xDC) (bytes)
       bytes         : 220 (0xDC)
@@ -4035,24 +4840,24 @@ File: ./logs/other/tests/dtf15b.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 3
+      syslines high : 3
       datetime first     : 2023-08-31 12:01:05 -08:00 (2023-08-31 20:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 12:01:05 -08:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 12:01:09 -08:00 (2023-08-31 20:01:09.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 82, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss  6, 33.3%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 84, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  3,  0.0%, put  3
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  3, 25.0%, put  3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 78,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 82
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 80,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 84
   Processing Drops:
 
 File: ./logs/other/tests/dtf16a.log
@@ -4060,12 +4865,12 @@ File: ./logs/other/tests/dtf16a.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 954
+      flushes       : 3
+      lines         : 5
+      syslines      : 3
+      datetime first: 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last : 2023-08-31 20:01:09 +00:00 (2023-08-31 20:01:09.000000 +00:00)
   Processed:
       file size     : 214 (0xD6) (bytes)
       bytes         : 214 (0xD6)
@@ -4073,24 +4878,24 @@ File: ./logs/other/tests/dtf16a.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 3
+      syslines high : 3
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 20:01:09 +00:00 (2023-08-31 20:01:09.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 86, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss  6, 33.3%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  3,  0.0%, put  3
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  3, 25.0%, put  3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 82,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 86
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 84,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 88
   Processing Drops:
 
 File: ./logs/other/tests/dtf16b.log
@@ -4098,12 +4903,12 @@ File: ./logs/other/tests/dtf16b.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 960
+      flushes       : 3
+      lines         : 5
+      syslines      : 3
+      datetime first: 2023-08-31 12:01:05 -08:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last : 2023-08-31 12:01:09 -08:00 (2023-08-31 20:01:09.000000 +00:00)
   Processed:
       file size     : 220 (0xDC) (bytes)
       bytes         : 220 (0xDC)
@@ -4111,24 +4916,24 @@ File: ./logs/other/tests/dtf16b.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 3
+      syslines high : 3
       datetime first     : 2023-08-31 12:01:05 -08:00 (2023-08-31 20:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 12:01:05 -08:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 12:01:09 -08:00 (2023-08-31 20:01:09.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 86, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss  6, 33.3%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  3,  0.0%, put  3
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  3, 25.0%, put  3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 82,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 86
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 84,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 88
   Processing Drops:
 
 File: ./logs/other/tests/dtf16c.log
@@ -4136,12 +4941,12 @@ File: ./logs/other/tests/dtf16c.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 963
+      flushes       : 3
+      lines         : 5
+      syslines      : 3
+      datetime first: 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last : 2023-08-31 20:01:09 +00:00 (2023-08-31 20:01:09.000000 +00:00)
   Processed:
       file size     : 223 (0xDF) (bytes)
       bytes         : 223 (0xDF)
@@ -4149,24 +4954,24 @@ File: ./logs/other/tests/dtf16c.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 3
+      syslines high : 3
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 20:01:09 +00:00 (2023-08-31 20:01:09.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 86, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss  6, 33.3%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  3,  0.0%, put  3
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  3, 25.0%, put  3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 82,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 86
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 84,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 88
   Processing Drops:
 
 File: ./logs/other/tests/dtf16d.log
@@ -4174,12 +4979,12 @@ File: ./logs/other/tests/dtf16d.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 963
+      flushes       : 3
+      lines         : 5
+      syslines      : 3
+      datetime first: 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
+      datetime last : 2023-08-31 16:01:09 -05:00 (2023-08-31 21:01:09.000000 +00:00)
   Processed:
       file size     : 223 (0xDF) (bytes)
       bytes         : 223 (0xDF)
@@ -4187,24 +4992,24 @@ File: ./logs/other/tests/dtf16d.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 3
+      syslines high : 3
       datetime first     : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 16:01:09 -05:00 (2023-08-31 21:01:09.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 86, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss  6, 33.3%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  3,  0.0%, put  3
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  3, 25.0%, put  3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 82,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 86
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 84,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 88
   Processing Drops:
 
 File: ./logs/other/tests/dtf16e.log
@@ -4212,12 +5017,12 @@ File: ./logs/other/tests/dtf16e.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 954
+      flushes       : 3
+      lines         : 5
+      syslines      : 3
+      datetime first: 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
+      datetime last : 2023-08-31 16:01:09 -05:00 (2023-08-31 21:01:09.000000 +00:00)
   Processed:
       file size     : 214 (0xD6) (bytes)
       bytes         : 214 (0xD6)
@@ -4225,24 +5030,24 @@ File: ./logs/other/tests/dtf16e.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 5
+      syslines      : 3
+      syslines high : 3
       datetime first     : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
-      datetime last      : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
+      datetime last      : 2023-08-31 16:01:09 -05:00 (2023-08-31 21:01:09.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 86, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss  6, 33.3%, put  5
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  3,  0.0%, put  3
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  3, 25.0%, put  3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  2, miss  5, 28.6%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 82,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 86
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 84,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 88
   Processing Drops:
 
 File: ./logs/other/tests/dtf2-2.log
@@ -7502,12 +8307,12 @@ File: ./logs/other/tests/simple-11s_b.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 160
+      flushes       : 1
+      lines         : 1
+      syslines      : 1
+      datetime first: 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.000000 +00:00)
+      datetime last : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.000000 +00:00)
   Processed:
       file size     : 12 (0xC) (bytes)
       bytes         : 12 (0xC)
@@ -7689,12 +8494,12 @@ File: ./logs/other/tests/simple-14s_b.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 164
+      flushes       : 1
+      lines         : 1
+      syslines      : 1
+      datetime first: 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
+      datetime last : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
   Processed:
       file size     : 16 (0x10) (bytes)
       bytes         : 16 (0x10)
@@ -8228,6 +9033,121 @@ File: ./logs/other/tests/zero100.log
       process: regex captures attempted                            : 0
   Processing Drops:
 
+File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
+  About:
+      filetype       : ETL (Windows Event Trace Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 13111
+      flushes       : 21
+      events        : 21
+      datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+  Processed:
+      file size          : 16384 (0x4000) (bytes)
+      events processed   : 21
+      events accepted    : 21
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last      : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+
+File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
+  About:
+      filetype       : ETL (BZIP2) (Windows Event Trace Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 13111
+      flushes       : 21
+      events        : 21
+      datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+  Processed:
+      file size          : 16384 (0x4000) (bytes)
+      events processed   : 21
+      events accepted    : 21
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last      : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+
+File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
+  About:
+      filetype       : ETL (GZIP) (Windows Event Trace Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 13111
+      flushes       : 21
+      events        : 21
+      datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+  Processed:
+      file size          : 16384 (0x4000) (bytes)
+      events processed   : 21
+      events accepted    : 21
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last      : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+
+File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
+  About:
+      filetype       : ETL (LZMA4) (Windows Event Trace Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 13111
+      flushes       : 21
+      events        : 21
+      datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+  Processed:
+      file size          : 16384 (0x4000) (bytes)
+      events processed   : 21
+      events accepted    : 21
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last      : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+
+File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
+  About:
+      filetype       : ETL (XZ) (Windows Event Trace Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 13111
+      flushes       : 21
+      events        : 21
+      datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+  Processed:
+      file size          : 16384 (0x4000) (bytes)
+      events processed   : 21
+      events accepted    : 21
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last      : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+
 File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
   About:
       filetype       : TEXT UTF8/ASCII (text log)
@@ -8362,12 +9282,12 @@ File: ./logs/programs/flask/server.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 832
+      flushes       : 4
+      lines         : 4
+      syslines      : 4
+      datetime first: 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
+      datetime last : 2024-03-22 15:11:55 +08:00 (2024-03-22 07:11:55.000000 +00:00)
   Processed:
       file size     : 240 (0xF0) (bytes)
       bytes         : 240 (0xF0)
@@ -8375,24 +9295,24 @@ File: ./logs/programs/flask/server.log
       block size    : 256 (0x100)
       blocks        : 1
       blocks total  : 1 (256 bytes)
-      lines         : 2
-      syslines      : 1
-      syslines high : 1
+      lines         : 4
+      syslines      : 4
+      syslines high : 4
       datetime first     : 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
-      datetime last      : 2024-03-22 15:11:33 +08:00 (2024-03-22 07:11:33.000000 +00:00)
+      datetime last      : 2024-03-22 15:11:55 +08:00 (2024-03-22 07:11:55.000000 +00:00)
   Parsers:
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 52, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
-      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
+      storage: LineReader::find_line() lines                       : hit  0, miss  7,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  4, miss  5, 44.4%, put  4
+      copying: SyslineReader::get_boxptrs()                        : sgl 54, dbl   0, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  4,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  4,  0.0%, put  4
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  4, 20.0%, put  4
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  3, miss  4, 42.9%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 48,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 52
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 50,  0.0%, largest skipped 0
+      process: regex captures attempted                            : 54
   Processing Drops:
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
@@ -8661,6 +9581,167 @@ File: ./logs/programs/proftpd/xferlog
       optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 87,  0.0%, largest skipped 0
       process: regex captures attempted                            : 91
   Processing Drops:
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
+  About:
+      filetype       : ODL (OneDrive Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 2722
+      flushes       : 11
+      events        : 11
+      datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+  Processed:
+      file size          : 1961 (0x7A9) (bytes)
+      events processed   : 11
+      events accepted    : 11
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last      : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.bz2
+  About:
+      filetype       : ODL (BZIP2) (OneDrive Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 2722
+      flushes       : 11
+      events        : 11
+      datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+  Processed:
+      file size          : 1961 (0x7A9) (bytes)
+      events processed   : 11
+      events accepted    : 11
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last      : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.gz
+  About:
+      filetype       : ODL (GZIP) (OneDrive Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 2722
+      flushes       : 11
+      events        : 11
+      datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+  Processed:
+      file size          : 1961 (0x7A9) (bytes)
+      events processed   : 11
+      events accepted    : 11
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last      : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.lz4
+  About:
+      filetype       : ODL (LZMA4) (OneDrive Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 2722
+      flushes       : 11
+      events        : 11
+      datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+  Processed:
+      file size          : 1961 (0x7A9) (bytes)
+      events processed   : 11
+      events accepted    : 11
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last      : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.xz
+  About:
+      filetype       : ODL (XZ) (OneDrive Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 2722
+      flushes       : 11
+      events        : 11
+      datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+  Processed:
+      file size          : 1961 (0x7A9) (bytes)
+      events processed   : 11
+      events accepted    : 11
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last      : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
+  About:
+      filetype       : ODLGZ (OneDrive Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 192451
+      flushes       : 619
+      events        : 615
+      datetime first: 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
+      datetime last : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
+  Processed:
+      file size          : 20499 (0x5013) (bytes)
+      events processed   : 615
+      events accepted    : 615
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
+      datetime last      : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
+  About:
+      filetype       : AODL (OneDrive Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 202677
+      flushes       : 829
+      events        : 829
+      datetime first: 2025-12-24 00:18:40 +08:00 (2025-12-23 16:18:40.364000 +00:00)
+      datetime last : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
+  Processed:
+      file size          : 130902 (0x1FF56) (bytes)
+      events processed   : 829
+      events accepted    : 829
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-12-24 00:18:40 +08:00 (2025-12-23 16:18:40.364000 +00:00)
+      datetime last      : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
 
 File: ./logs/programs/tomcat/catalina.out
   About:
@@ -9409,12 +10490,12 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 4244
-      flushes       : 10
-      lines         : 10
-      syslines      : 10
+      bytes         : 7734
+      flushes       : 19
+      lines         : 19
+      syslines      : 19
       datetime first: 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
-      datetime last : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.293000 +00:00)
+      datetime last : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
   Processed:
       file size     : 4922 (0x133A) (bytes)
       bytes         : 4922 (0x133A)
@@ -9434,8 +10515,8 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       caching: LineReader::find_line() LRU cache                   : hit   1, miss  40,  2.4%, put  38
       copying: SyslineReader::get_boxptrs()                        : sgl 107, dbl    9, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  11, miss  20, 35.5%, put  19
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  31,  0.0%, put  30
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  19, miss  20, 48.7%, put  19
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  39,  0.0%, put  38
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  18, miss  20, 47.4%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   1, miss  23,  4.2%, largest skipped 21
@@ -17283,21 +18364,90 @@ File: ./logs/Ubuntu16/x86_32/btmp
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 1017
+      flushes       : 3
+      entries       : 3
+  Processed:
+      file size     : 1152 (0x480) (bytes)
+      bytes         : 1152 (0x480)
+      bytes total   : 1152 (0x480)
+      block size    : 256 (0x100)
+      blocks        : 5
+      blocks total  : 5 (1280 bytes)
+      entries       : 3
+      entry size    : 384 (bytes)
+      entry hi-score: 124
+      first entry   : @0
+      entry high    : 3
+      peak map size : 3
+      out of order? : 0
+      datetime first     : 2023-12-15 16:50:06 +08:00 (2023-12-15 08:50:06.000000 +00:00)
+      datetime last      : 2024-02-17 07:54:17 +08:00 (2024-02-16 23:54:17.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%
+  Processing Drops:
 
 File: ./logs/Ubuntu16/x86_32/lastlog
   About:
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Lastlog
+  Printed:
+      bytes         : 404
+      flushes       : 2
+      entries       : 2
+  Processed:
+      file size     : 292292 (0x475C4) (bytes)
+      bytes         : 292292 (0x475C4)
+      bytes total   : 292292 (0x475C4)
+      block size    : 256 (0x100)
+      blocks        : 1142
+      blocks total  : 1142 (292352 bytes)
+      entries       : 2
+      entry size    : 292 (bytes)
+      entry hi-score: 87
+      first entry   : @0
+      entry high    : 2
+      peak map size : 2
+      out of order? : 0
+      datetime first     : 2023-12-15 16:47:16 +08:00 (2023-12-15 08:47:16.000000 +00:00)
+      datetime last      : 2023-12-15 16:55:48 +08:00 (2023-12-15 08:55:48.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
+  Processing Drops:
 
 File: ./logs/Ubuntu16/x86_32/wtmp
   About:
       filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Utmpx
+  Printed:
+      bytes         : 6135
+      flushes       : 19
+      entries       : 19
+  Processed:
+      file size     : 8448 (0x2100) (bytes)
+      bytes         : 8448 (0x2100)
+      bytes total   : 8448 (0x2100)
+      block size    : 256 (0x100)
+      blocks        : 33
+      blocks total  : 33 (8448 bytes)
+      entries       : 19
+      entry size    : 384 (bytes)
+      entry hi-score: 125
+      first entry   : @0
+      entry high    : 4
+      peak map size : 19
+      out of order? : 3
+      datetime first     : 2023-12-15 16:40:54 +08:00 (2023-12-15 08:40:54.500000 +00:00)
+      datetime last      : 2023-12-15 16:55:48 +08:00 (2023-12-15 08:55:48.887567 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit  4, miss 15, 21.1%
+  Processing Drops:
 
 File: ./logs/Ubuntu18/apt/history.log
   About:
@@ -18503,7 +19653,30 @@ File: ./logs/Ubuntu20/x86_64/lastlog
       filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
-      Processing Err : no fixed-structure records found in date/time range
+      fixedstructtype: Fs_Linux_x86_Lastlog
+  Printed:
+      bytes         : 414
+      flushes       : 2
+      entries       : 2
+  Processed:
+      file size     : 292292 (0x475C4) (bytes)
+      bytes         : 292292 (0x475C4)
+      bytes total   : 292292 (0x475C4)
+      block size    : 256 (0x100)
+      blocks        : 1142
+      blocks total  : 1142 (292352 bytes)
+      entries       : 2
+      entry size    : 292 (bytes)
+      entry hi-score: 87
+      first entry   : @0
+      entry high    : 2
+      peak map size : 2
+      out of order? : 0
+      datetime first     : 2023-12-15 16:14:23 +08:00 (2023-12-15 08:14:23.000000 +00:00)
+      datetime last      : 2023-12-15 16:18:35 +08:00 (2023-12-15 08:18:35.000000 +00:00)
+  Processing Stores:
+      storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
+  Processing Drops:
 
 File: ./logs/Ubuntu22/alternatives.log.1
   About:
@@ -19274,9 +20447,9 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 1702
-      flushes       : 5
-      entries       : 5
+      bytes         : 2041
+      flushes       : 6
+      entries       : 6
   Processed:
       file size     : 2304 (0x900) (bytes)
       bytes         : 2304 (0x900)
@@ -19284,17 +20457,17 @@ File: ./logs/Ubuntu22/x86_64/btmp.1
       block size    : 256 (0x100)
       blocks        : 9
       blocks total  : 9 (2304 bytes)
-      entries       : 5
+      entries       : 6
       entry size    : 384 (bytes)
       entry hi-score: 126
       first entry   : @0
       entry high    : 5
-      peak map size : 5
+      peak map size : 6
       out of order? : 0
       datetime first     : 2023-04-02 15:08:47 +08:00 (2023-04-02 07:08:47.000000 +00:00)
-      datetime last      : 2023-04-08 13:06:52 +08:00 (2023-04-08 05:06:52.000000 +00:00)
+      datetime last      : 2023-04-13 13:25:59 +08:00 (2023-04-13 05:25:59.000000 +00:00)
   Processing Stores:
-      storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
+      storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%
   Processing Drops:
 
 File: ./logs/Ubuntu22/x86_64/wtmp
@@ -19304,27 +20477,27 @@ File: ./logs/Ubuntu22/x86_64/wtmp
       logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Utmpx
   Printed:
-      bytes         : 24781
-      flushes       : 76
-      entries       : 76
+      bytes         : 30345
+      flushes       : 93
+      entries       : 93
   Processed:
       file size     : 35712 (0x8B80) (bytes)
-      bytes         : 33408 (0x8280)
+      bytes         : 35712 (0x8B80)
       bytes total   : 35712 (0x8B80)
       block size    : 256 (0x100)
-      blocks        : 131
+      blocks        : 140
       blocks total  : 140 (35840 bytes)
-      entries       : 76
+      entries       : 93
       entry size    : 384 (bytes)
       entry hi-score: 125
       first entry   : @0
       entry high    : 5
-      peak map size : 76
+      peak map size : 93
       out of order? : 3
       datetime first     : 2023-03-16 05:42:15 +08:00 (2023-03-15 21:42:15.412000 +00:00)
-      datetime last      : 2023-04-11 04:59:22 +08:00 (2023-04-10 20:59:22.240222 +00:00)
+      datetime last      : 2023-12-03 03:42:11 +08:00 (2023-12-02 19:42:11.638162 +00:00)
   Processing Stores:
-      storage: FixedStructReader::find_entry()                     : hit   5, miss  71,  6.6%
+      storage: FixedStructReader::find_entry()                     : hit   5, miss  88,  5.4%
   Processing Drops:
 
 File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
@@ -20410,12 +21583,12 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 25840
+      flushes       : 96
+      lines         : 96
+      syslines      : 96
+      datetime first: 2024-02-26 05:27:26 +08:00 (2024-02-25 21:27:26.000000 +00:00)
+      datetime last : 2024-03-22 21:45:54 +08:00 (2024-03-22 13:45:54.000000 +00:00)
   Processed:
       file size     : 11632 (0x2D70) (bytes)
       bytes         : 11632 (0x2D70)
@@ -20435,8 +21608,8 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       caching: LineReader::find_line() LRU cache                   : hit   1, miss 194,  0.5%, put 193
       copying: SyslineReader::get_boxptrs()                        : sgl 175, dbl   45, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  97,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  97,  1.0%, put  97
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  98,  0.0%, put  98
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  96, miss  97, 49.7%, put  97
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 193,  0.0%, put 193
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  95, miss  98, 49.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss 107,  0.0%, largest skipped 0
@@ -20480,29 +21653,29 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
-Paths considered       : 618
+Paths considered       : 630
 Paths not processed    : 33
-Files processed        : 585
-Files printed          : 449
-Printed bytes          : 8287812
-Printed flushes        : 27860
-Printed lines          : 14404
-Printed syslines       : 11945
-Printed ETL events     : 0
+Files processed        : 597
+Files printed          : 512
+Printed bytes          : 8902323
+Printed flushes        : 31978
+Printed lines          : 14555
+Printed syslines       : 12081
+Printed ETL events     : 105
 Printed EVTX events    : 681
-Printed fixedstruct    : 116
+Printed fixedstruct    : 431
 Printed journal events : 18
-Printed ODL events     : 0
+Printed ODL events     : 1499
 Regex patterns known   : 175
 Regex patterns compiled: 175
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
-Datetime printed last  : 2023-04-11 05:55:40 +08:00 (2023-04-10 21:55:40.502962 +00:00)
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
-Channel Receive ok     : 13932
+Datetime printed last  : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 16011
 Channel Receive err    : 0
-Threads Spawned        : 586
+Threads Spawned        : 598
 Thread Spawn errors    : 0
-Temporary files created: 7
+Temporary files created: 15
 Platform               : x86_64-unknown-linux-gnu
 Allocator              : system

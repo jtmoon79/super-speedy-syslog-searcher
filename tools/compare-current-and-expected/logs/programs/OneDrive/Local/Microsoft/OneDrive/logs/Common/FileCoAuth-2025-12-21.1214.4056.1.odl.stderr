@@ -1,0 +1,54 @@
+
+Files:
+
+File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
+  About:
+      filetype       : ODL (OneDrive Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 2524
+      flushes       : 11
+      events        : 11
+      datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+  Processed:
+      file size          : 1961 (0x7A9) (bytes)
+      events processed   : 11
+      events accepted    : 11
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last      : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 2568
+Printed flushes        : 22
+Printed lines          : 0
+Printed syslines       : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Printed ODL events     : 11
+Regex patterns known   : 175
+Regex patterns compiled: 0
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+Datetime printed last  : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 13
+Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0
+Temporary files created: 0
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

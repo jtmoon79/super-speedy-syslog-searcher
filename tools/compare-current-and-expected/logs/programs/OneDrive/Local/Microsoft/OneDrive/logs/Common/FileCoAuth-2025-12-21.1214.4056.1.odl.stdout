@@ -1,0 +1,22 @@
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.875000000┋1766319245875 TelemetryProxyConfigurationFile.cpp:TelemetryProxyConfigurationFile::Initialize; JokeYakLog:\RodOafGad\PieFarAwe\TaxZigPen\WarPewMuch\PenFoxRag\MuchGadSea\WolfSeaJoy\ForthRatWry\QuillTheCan.txt
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.875000000┋1766319245875 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::CreateLoggingTelemetrySession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.875000000┋1766319245875 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::HasGroupPolicyConfiguringTelemetryUploadLocation;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.876000000┋1766319245876 WinTelemetryDllHandler.cpp:WinTelemetryDllHandler::ShouldUseExperimentalDll;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.897000000┋1766319245897 BinaryLoggingSession.cpp:BinaryLoggingSession::StartLoggingSession;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.897000000┋1766319245897 winmain.cpp:wWinMain;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.897000000┋1766319245897 UpdateRingSettingsManager.cpp:UpdateRingSettingsManager::ApplyRampOverrides;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.897000000┋1766319245897 UpdateRingSettingsManager.cpp:UpdateRingSettingsManager::GetKillSwitchSetFromSettingsMap;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.897000000┋1766319245897 UpdateRingSettingsLoader.cpp:UpdateRingSettingsLoader::GetFileStreamFromCache;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.897000000┋1766319245897 UpdateRingSettingsLoader.cpp:UpdateRingSettingsLoader::LoadFromCache;
+⇳
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl┋20251221T121405.897000000┋1766319245897 UpdateRingSettingsManager.cpp:UpdateRingSettingsManager::LoadSettingsFromCache;
+⇳

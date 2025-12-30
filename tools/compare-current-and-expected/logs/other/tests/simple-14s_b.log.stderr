@@ -6,12 +6,12 @@ File: ./logs/other/tests/simple-14s_b.log
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 82
+      flushes       : 1
+      lines         : 1
+      syslines      : 1
+      datetime first: 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
+      datetime last : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
   Processed:
       file size     : 16 (0x10) (bytes)
       bytes         : 16 (0x10)
@@ -45,11 +45,11 @@ Program Summary:
 Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
-Printed lines          : 0
-Printed syslines       : 0
+Files printed          : 1
+Printed bytes          : 87
+Printed flushes        : 3
+Printed lines          : 1
+Printed syslines       : 1
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
@@ -58,10 +58,10 @@ Printed ODL events     : 0
 Regex patterns known   : 175
 Regex patterns compiled: 98
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first :
-Datetime printed last  :
-Datetime filter -b     : 2023-04-10 22:10:32 +00:00 (2023-04-10 22:10:32.000000 +00:00)
-Channel Receive ok     : 2
+Datetime printed first : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
+Datetime printed last  : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 3
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0

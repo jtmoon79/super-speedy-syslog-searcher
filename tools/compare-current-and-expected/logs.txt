@@ -266,6 +266,11 @@
 ./logs/other/tests/simple-9.log
 ./logs/other/tests/unknown
 ./logs/other/tests/zero100.log
+./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
+./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
+./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
+./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
+./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
@@ -282,6 +287,13 @@
 ./logs/programs/proftpd/controls.log
 ./logs/programs/proftpd/proftpd.log
 ./logs/programs/proftpd/xferlog
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.bz2
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.gz
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.lz4
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.xz
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
 ./logs/programs/tomcat/catalina.out
 ./logs/programs/tomcat/catalina-access.log
 ./logs/programs/utmp/host-entry1.wtmp

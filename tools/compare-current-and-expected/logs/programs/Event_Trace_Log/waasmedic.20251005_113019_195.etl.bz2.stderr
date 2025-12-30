@@ -1,0 +1,54 @@
+
+Files:
+
+File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
+  About:
+      filetype       : ETL (BZIP2) (Windows Event Trace Log)
+      logmessagetype : Python parsed events (ETL/ODL)
+  Printed:
+      bytes         : 12103
+      flushes       : 21
+      events        : 21
+      datetime first: 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+  Processed:
+      file size          : 16384 (0x4000) (bytes)
+      events processed   : 21
+      events accepted    : 21
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+      datetime last      : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 12187
+Printed flushes        : 42
+Printed lines          : 0
+Printed syslines       : 0
+Printed ETL events     : 21
+Printed EVTX events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Printed ODL events     : 0
+Regex patterns known   : 175
+Regex patterns compiled: 0
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
+Datetime printed last  : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 23
+Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0
+Temporary files created: 1
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system
