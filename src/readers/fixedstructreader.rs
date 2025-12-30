@@ -563,8 +563,7 @@ impl FixedStructReader {
                     if fixedstructreader
                         .map_tvpair_fo
                         .iter()
-                        .find(|(_tv_pair, fo2)| &fo == *fo2)
-                        .is_some()
+                        .any(|(_tv_pair, fo2)| &fo == fo2)
                     {
                         def1o!("insert entry at fo {}", fo);
                         fixedstructreader.insert_cache_entry(fixedstruct);
@@ -1233,7 +1232,7 @@ impl FixedStructReader {
                 ResultReadDataToBuffer::Found(_readn) => {
                     defo!("read {} bytes at fileoffset {}", _readn, beg);
                     debug_assert_eq!(
-                        _readn, tv_sz as usize,
+                        _readn, tv_sz,
                         "read {} bytes, expected {} bytes (size of a time value)",
                         _readn, tv_sz,
                     );
@@ -1435,7 +1434,7 @@ impl FixedStructReader {
         let fs: FixedStruct = match FixedStruct::new(
             fileoffset,
             &self.tz_offset,
-            &slice_,
+            slice_,
             self.fixedstruct_type(),
         ) {
             Ok(val) => val,

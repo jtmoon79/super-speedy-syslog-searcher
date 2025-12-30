@@ -151,7 +151,7 @@ impl Evtx {
         record: &EvtxRS,
     ) -> Evtx {
         let id: RecordId = record.event_record_id;
-        let dt: DateTimeL = record.timestamp.clone().into();
+        let dt: DateTimeL = record.timestamp.into();
         // add a newline to the `data` so it easily prints in a line-oriented
         // fashion
         let data: String = record.data.clone() + NLs;
@@ -252,7 +252,7 @@ impl Evtx {
         raw: bool,
     ) -> String {
         match raw {
-            true => buffer_to_String_noraw(&self.data.as_bytes()),
+            true => buffer_to_String_noraw(self.data.as_bytes()),
             false => self.data.clone(),
         }
     }

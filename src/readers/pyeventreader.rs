@@ -280,7 +280,7 @@ impl PyEventReader {
         let named_temp_file: Option<NamedTempFile>;
         let mtime_opt: Option<SystemTime>;
 
-        (named_temp_file, mtime_opt) = match decompress_to_ntf(&path_std, &file_type) {
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_std, &file_type) {
             Ok(ntf_mtime) => match ntf_mtime {
                 Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
                 None => (None, None),
@@ -597,7 +597,7 @@ impl PyEventReader {
             let stdout_data: Bytes;
             let mut _stderr_data: Bytes;
 
-            loop {
+            'block: {
                 self.write_read_calls += 1;
 
                 // send a count + newline to the script
@@ -640,7 +640,7 @@ impl PyEventReader {
 
                 if self.exited {
                     def1o!("exited, break");
-                    break;
+                    break 'block;
                 }
                 // if stdout_data.is_empty() {
                 //     // ignore `stderr_data` for now.
@@ -649,7 +649,6 @@ impl PyEventReader {
                 //     continue;
                 // }
                 def1o!("not exited, has data, break");
-                break;
             }
 
             def1o!("Python process is {}", if self.exited {"exited"} else {"running"});
@@ -743,7 +742,7 @@ impl PyEventReader {
                             self.pyrunner.exit_status());
                         return ResultNextPyDataEvent::Done;
                     }
-                    def1o!("empty fill_buffer, process not exited or exhausted, continue...");
+                    def1o!("empty fill_buffer, process not exited or exhausted, continue…");
                     continue;
                 }
             };

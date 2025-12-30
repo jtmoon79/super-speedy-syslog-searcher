@@ -4985,10 +4985,8 @@ impl FixedStruct
     ) -> Result<FixedStruct, Error>
     {
         defn!("fixedstructptr {:?}", fixedstructptr);
-        let dt: DateTimeL;
         let tv_sec: tv_sec_type;
         let tv_usec: tv_usec_type;
-        let tv_pair: tv_pair_type;
         let fixedstructtype: FixedStructType = fixedstructptr.fixedstruct_type();
         let filetypefixedstruct: FileTypeFixedStruct;
         match fixedstructtype {
@@ -5098,9 +5096,9 @@ impl FixedStruct
                 tv_usec = 0;
             }
         }
-        dt = tv_to_datetime_or_err!(tv_sec, tv_usec, tz_offset);
+        let dt: DateTimeL = tv_to_datetime_or_err!(tv_sec, tv_usec, tz_offset);
         defo!("FixedStruct {{ dt {:?} }}", dt);
-        tv_pair = tv_pair_type(tv_sec, tv_usec);
+        let tv_pair: tv_pair_type = tv_pair_type(tv_sec, tv_usec);
         defx!("FixedStruct {{ tv_pair {:?} }}", tv_pair);
         Result::Ok(
             FixedStruct {

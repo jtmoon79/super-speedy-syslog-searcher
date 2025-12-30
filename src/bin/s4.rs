@@ -1166,113 +1166,92 @@ fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)>
         }
     };
 
-    match captures.name(CGN_DUR_OFFSET_TYPE) {
-        Some(match_) => {
-            defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_TYPE, match_.as_str());
-            duration_offset_type = offset_match_to_offset_duration_type(match_.as_str());
-        }
-        None => {}
+    if let Some(match_) = captures.name(CGN_DUR_OFFSET_TYPE) {
+        defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_TYPE, match_.as_str());
+        duration_offset_type = offset_match_to_offset_duration_type(match_.as_str());
     }
 
-    match captures.name(CGN_DUR_OFFSET_ADDSUB) {
-        Some(match_) => {
-            defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_ADDSUB, match_.as_str());
-            duration_addsub = offset_match_to_offset_addsub(match_.as_str());
-        }
-        None => {}
+    if let Some(match_) = captures.name(CGN_DUR_OFFSET_ADDSUB) {
+        defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_ADDSUB, match_.as_str());
+        duration_addsub = offset_match_to_offset_addsub(match_.as_str());
     }
 
     let addsub: i64 = duration_addsub as i64;
 
-    match captures.name(CGN_DUR_OFFSET_SECONDS) {
-        Some(match_) => {
-            defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_SECONDS, match_.as_str());
-            let s_count = match_
-                .as_str()
-                .replace('s', "");
-            match i64::from_str_radix(s_count.as_str(), 10) {
-                Ok(val) => {
-                    seconds = val * addsub;
-                }
-                Err(err) => {
-                    e_err!("Unable to parse seconds from {:?} {}", match_.as_str(), err);
-                    std::process::exit(EXIT_ERR);
-                }
+    if let Some(match_) = captures.name(CGN_DUR_OFFSET_SECONDS) {
+        defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_SECONDS, match_.as_str());
+        let s_count = match_
+            .as_str()
+            .replace('s', "");
+        match i64::from_str_radix(s_count.as_str(), 10) {
+            Ok(val) => {
+                seconds = val * addsub;
+            }
+            Err(err) => {
+                e_err!("Unable to parse seconds from {:?} {}", match_.as_str(), err);
+                std::process::exit(EXIT_ERR);
             }
         }
-        None => {}
     }
-    match captures.name(CGN_DUR_OFFSET_MINUTES) {
-        Some(match_) => {
-            defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_MINUTES, match_.as_str());
-            let s_count = match_
-                .as_str()
-                .replace('m', "");
-            match i64::from_str_radix(s_count.as_str(), 10) {
-                Ok(val) => {
-                    minutes = val * addsub;
-                }
-                Err(err) => {
-                    e_err!("Unable to parse minutes from {:?} {}", match_.as_str(), err);
-                    std::process::exit(EXIT_ERR);
-                }
+    if let Some(match_) = captures.name(CGN_DUR_OFFSET_MINUTES) {
+        defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_MINUTES, match_.as_str());
+        let s_count = match_
+            .as_str()
+            .replace('m', "");
+        match i64::from_str_radix(s_count.as_str(), 10) {
+            Ok(val) => {
+                minutes = val * addsub;
+            }
+            Err(err) => {
+                e_err!("Unable to parse minutes from {:?} {}", match_.as_str(), err);
+                std::process::exit(EXIT_ERR);
             }
         }
-        None => {}
     }
-    match captures.name(CGN_DUR_OFFSET_HOURS) {
-        Some(match_) => {
-            defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_HOURS, match_.as_str());
-            let s_count = match_
-                .as_str()
-                .replace('h', "");
-            match i64::from_str_radix(s_count.as_str(), 10) {
-                Ok(val) => {
-                    hours = val * addsub;
-                }
-                Err(err) => {
-                    e_err!("Unable to parse hours from {:?} {}", match_.as_str(), err);
-                    std::process::exit(EXIT_ERR);
-                }
+    if let Some(match_) = captures.name(CGN_DUR_OFFSET_HOURS) {
+        defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_HOURS, match_.as_str());
+        let s_count = match_
+            .as_str()
+            .replace('h', "");
+        match i64::from_str_radix(s_count.as_str(), 10) {
+            Ok(val) => {
+                hours = val * addsub;
+            }
+            Err(err) => {
+                e_err!("Unable to parse hours from {:?} {}", match_.as_str(), err);
+                std::process::exit(EXIT_ERR);
             }
         }
-        None => {}
     }
-    match captures.name(CGN_DUR_OFFSET_DAYS) {
-        Some(match_) => {
-            defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_DAYS, match_.as_str());
-            let s_count = match_
-                .as_str()
-                .replace('d', "");
-            match i64::from_str_radix(s_count.as_str(), 10) {
-                Ok(val) => {
-                    days = val * addsub;
-                }
-                Err(err) => {
-                    e_err!("Unable to parse days from {:?} {}", match_.as_str(), err);
-                    std::process::exit(EXIT_ERR);
-                }
+    if let Some(match_) = captures.name(CGN_DUR_OFFSET_DAYS) {
+        defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_DAYS, match_.as_str());
+        let s_count = match_
+            .as_str()
+            .replace('d', "");
+        match i64::from_str_radix(s_count.as_str(), 10) {
+            Ok(val) => {
+                days = val * addsub;
+            }
+            Err(err) => {
+                e_err!("Unable to parse days from {:?} {}", match_.as_str(), err);
+                std::process::exit(EXIT_ERR);
             }
         }
-        None => {}
     }
-    match captures.name(CGN_DUR_OFFSET_WEEKS) {
-        Some(match_) => {
-            defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_WEEKS, match_.as_str());
-            let s_count = match_
-                .as_str()
-                .replace('w', "");
-            match i64::from_str_radix(s_count.as_str(), 10) {
-                Ok(val) => {
-                    weeks = val * addsub;
-                }
-                Err(err) => {
-                    e_err!("Unable to parse weeks from {:?} {}", match_.as_str(), err);
-                    std::process::exit(EXIT_ERR);
-                }
+    if let Some(match_) = captures.name(CGN_DUR_OFFSET_WEEKS) {
+        defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_WEEKS, match_.as_str());
+        let s_count = match_
+            .as_str()
+            .replace('w', "");
+        match i64::from_str_radix(s_count.as_str(), 10) {
+            Ok(val) => {
+                weeks = val * addsub;
+            }
+            Err(err) => {
+                e_err!("Unable to parse weeks from {:?} {}", match_.as_str(), err);
+                std::process::exit(EXIT_ERR);
             }
         }
-        None => {}
     }
 
     let duration = match (
@@ -1454,8 +1433,7 @@ fn process_dt(
     } // end for … in CLI_FILTER_PATTERNS
     // could not match specific datetime pattern
     // try relative offset pattern matching, e.g. `"-30m5s"`, `"+2d"`
-    dto = string_to_rel_offset_datetime(dts, tz_offset, dt_other, now_utc)
-        .map(|dto| dto);
+    dto = string_to_rel_offset_datetime(dts, tz_offset, dt_other, now_utc);
     defx!("return {:?}", dto);
 
     dto
@@ -1499,7 +1477,7 @@ mod unescape {
         s: std::str::Chars<'a>,
     }
 
-    impl<'a> Iterator for InterpretEscapedString<'a> {
+    impl Iterator for InterpretEscapedString<'_> {
         type Item = Result<char, EscapeError>;
 
         fn next(&mut self) -> Option<Self::Item> {
@@ -3410,7 +3388,7 @@ fn processing_loop(
     #[inline(always)]
     fn recv_many_chan<'a>(
         pathid_chans: &'a MapPathIdChanRecvDatum,
-        map_index_pathid: &mut MapIndexToPathId,
+        map_index_pathid: &'a mut MapIndexToPathId,
         filter_: &SetPathId,
     ) -> Option<(PathId, RecvResult4)> {
         def1n!("(pathid_chans {} entries, map_index_pathid {} entries, filter_ {} entries)",
@@ -3594,7 +3572,7 @@ fn processing_loop(
                             defo!("B1 file_processing_result {:?}", file_processing_result);
                             defo!("B1 map_pathid_modified_time.insert({:?}, {:?})",
                                   pathid, dt_opt);
-                            if let Some(_) = map_pathid_modified_time.insert(pathid, dt_opt) {
+                            if map_pathid_modified_time.insert(pathid, dt_opt).is_some() {
                                 debug_panic!("Already had stored DateTimeLOpt for PathID {:?}", pathid)
                             }
                             defo!("B1 received file_processing_result {:?} for {:?}", file_processing_result, pathid);
@@ -4225,21 +4203,18 @@ fn processing_loop(
         // some errors may occur later in processing, e.g. File Permissions errors,
         // so update `map_pathid_results` and `map_pathid_results_invalid`
         for (pathid, summary) in map_pathid_summary.iter() {
-            match &summary.error {
-                Some(_) => {
-                    if !summary.readerdata.is_dummy()
-                        && summary.has_blockreader()
-                        && summary.blockreader().unwrap().blockreader_blocks == 0
-                        && !map_pathid_results_invalid.contains_key(pathid)
-                        && map_pathid_results.contains_key(pathid)
-                    {
-                        let result = map_pathid_results
-                            .remove(pathid)
-                            .unwrap();
-                        map_pathid_results_invalid.insert(*pathid, result);
-                    }
+            if summary.error.is_some() {
+                if !summary.readerdata.is_dummy()
+                    && summary.has_blockreader()
+                    && summary.blockreader().unwrap().blockreader_blocks == 0
+                    && !map_pathid_results_invalid.contains_key(pathid)
+                    && map_pathid_results.contains_key(pathid)
+                {
+                    let result = map_pathid_results
+                        .remove(pathid)
+                        .unwrap();
+                    map_pathid_results_invalid.insert(*pathid, result);
                 }
-                None => {}
             }
         }
         let named_temp_files_count: usize = count_temporary_files();

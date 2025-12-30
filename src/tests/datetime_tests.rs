@@ -660,15 +660,12 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
         let mut cgn_full = String::from('<');
         cgn_full.push_str(cgn);
         cgn_full.push('>');
-        match regpat.find(cgn_full.as_str()) {
-            Some(i) => {
-                if i < cgn_first_i {
-                    cgn_first_s = cgn;
-                    cgn_first_i = i;
-                }
-                eprintln!();
+        if let Some(i) = regpat.find(cgn_full.as_str()) {
+            if i < cgn_first_i {
+                cgn_first_s = cgn;
+                cgn_first_i = i;
             }
-            None => {}
+            eprintln!();
         }
     }
     assert_eq!(cgn_first_s, dtpd.cgn_first, "cgn_first is {:?}, but analysis of the regexp found the first capture named group {:?}; declared at line {}", dtpd.cgn_first, cgn_first_s, dtpd._line_num);
@@ -703,30 +700,28 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
         }
     }
     assert_eq!(cgn_last_s, dtpd.cgn_last, "cgn_last is {:?}, but analysis of the regexp found the last capture named group {:?}; declared at line {}", dtpd.cgn_last, cgn_last_s, dtpd._line_num);
+
+    // LAST WORKING HERE 2025/12/29 clippy lints
+    // need to commit fixes for pyrunner_tests end="\n" and then separate commit for clippy changes
+    // then push and see how CI works out
+    // also need to add tests in compare-current-and-expected.sh for .etl .odl
+    // also need to add check for ODL and ETL when venv is not created, and print warning at end of output.
+
     // check left-brackets and right-brackets are equally present and on correct sides
-    match regpat.find(RP_LB) {
-        Some(lb_i) => {
-            let rb_i = match regpat.find(RP_RB) {
-                Some(i) => i,
-                None => {
-                    panic!(
-                        "regex pattern has RP_LB at {} but no RP_RB found; declared at line {}",
-                        lb_i, dtpd._line_num
-                    );
-                }
-            };
-            assert_lt!(lb_i, rb_i, "regex pattern has RP_LB (left bracket) at {}, RP_RB (right bracket) at {}; declared at line {}", lb_i, rb_i, dtpd._line_num);
-        }
-        None => {}
-    }
-    match regpat.find(RP_RB) {
-        Some(_) => match regpat.find(RP_LB) {
-            Some(_) => {}
+    if let Some(lb_i) = regpat.find(RP_LB) {
+        let rb_i = match regpat.find(RP_RB) {
+            Some(i) => i,
             None => {
-                panic!("regex pattern has RP_RB (right bracket) no RP_LB (left bracket) found; declared at line {}", dtpd._line_num);
+                panic!(
+                    "regex pattern has RP_LB at {} but no RP_RB found; declared at line {}",
+                    lb_i, dtpd._line_num
+                );
             }
-        },
-        None => {}
+        };
+        assert_lt!(lb_i, rb_i, "regex pattern has RP_LB (left bracket) at {}, RP_RB (right bracket) at {}; declared at line {}", lb_i, rb_i, dtpd._line_num);
+    }
+    if regpat.find(RP_RB).is_some() && regpat.find(RP_LB).is_none() {
+        panic!("regex pattern has RP_RB (right bracket) no RP_LB (left bracket) found; declared at line {}", dtpd._line_num);
     }
 
     //
@@ -1220,7 +1215,7 @@ fn test_dt_after_or_before() {
     }
 
     fn DTLz(s: &str, tz_offset: &FixedOffset) -> DateTimeL {
-        datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, &tz_offset).unwrap()
+        datetime_parse_from_str(s, "%Y%m%dT%H%M%S%z", true, tz_offset).unwrap()
     }
 
     for (dt, da, exp_result) in [

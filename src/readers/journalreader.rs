@@ -1024,7 +1024,7 @@ impl<'a> JournalReader {
         let named_temp_file: Option<NamedTempFile>;
         let mtime_opt: Option<SystemTime>;
 
-        (named_temp_file, mtime_opt) = match decompress_to_ntf(&path_std, &file_type) {
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_std, &file_type) {
             Ok(ntf_mtime) => match ntf_mtime {
                 Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
                 None => (None, None),
@@ -1985,7 +1985,7 @@ impl<'a> JournalReader {
                 }
                 _ => {}
             }
-            match (
+            if let (true, true, true, _, true, true) = (
                 key_hostname_found,
                 key_syslog_identifier_found,
                 key_syslog_pid_found,
@@ -1993,15 +1993,12 @@ impl<'a> JournalReader {
                 key_pid_found,
                 key_message_found,
             ) {
-                (true, true, true, _, true, true) => {
-                    // if all the keys are found then break out of the loop
-                    // if all the keys except `_COMM` are found
-                    // then break out of the loop (key `_COMM` is only used if
-                    // `SYSLOG_IDENTIFIER` is not available)
-                    def1o!("all needed keys were found; break");
-                    break;
-                }
-                _ => {}
+                // if all the keys are found then break out of the loop
+                // if all the keys except `_COMM` are found
+                // then break out of the loop (key `_COMM` is only used if
+                // `SYSLOG_IDENTIFIER` is not available)
+                def1o!("all needed keys were found; break");
+                break;
             }
         } // end while
 
@@ -2017,7 +2014,7 @@ impl<'a> JournalReader {
             def1o!("write field 1 Datetime");
             debug_assert_ne!(datetime_format, "", "datetime_format must not be empty");
             let dts: String = dt.format(datetime_format).to_string();
-            let dtsb: &[u8] = dts.as_str().as_bytes();
+            let dtsb: &[u8] = dts.as_bytes();
             buffer.push_str(dtsb);
             dt_a = 0;
             dt_b = dtsb.len();
@@ -2219,7 +2216,7 @@ impl<'a> JournalReader {
         buffer.push_str(KEY__REALTIME_TIMESTAMP);
         buffer.push(FIELD_MID_U8);
         // TODO: cost-savings: use crate `numtoa` to convert number to readable bytes
-        buffer.push_str(&realtime_timestamp.to_string());
+        buffer.push_str(realtime_timestamp.to_string());
         buffer.push(FIELD_END_U8);
 
         // line 3 `__MONOTONIC_TIMESTAMP`
@@ -2551,7 +2548,7 @@ impl<'a> JournalReader {
             &source_realtime_timestamp,
         );
         let dts: String = dt.format(DATETIME_FORMAT_VERBOSE).to_string();
-        let dtsb: &[u8] = dts.as_str().as_bytes();
+        let dtsb: &[u8] = dts.as_bytes();
         def1o!("field 1 datetime");
         buffer.push_str(dtsb);
         let dt_a: usize = 0;
@@ -2590,16 +2587,13 @@ impl<'a> JournalReader {
 
         // write the remaining lines in order of `FIELD_ORDER_VERBOSE`
         for field in &Self::FIELD_ORDER_VERBOSE {
-            match fields.remove(field) {
-                Some(value) => {
-                    def1o!("field from fields {:?}", field.as_bstr());
-                    buffer.push_str(FIELD_BEG_VERBOSE);
-                    buffer.push_str(field);
-                    buffer.push(FIELD_MID_U8);
-                    buffer.push_str(value);
-                    buffer.push(FIELD_END_U8);
-                }
-                None => {}
+            if let Some(value) = fields.remove(field) {
+                def1o!("field from fields {:?}", field.as_bstr());
+                buffer.push_str(FIELD_BEG_VERBOSE);
+                buffer.push_str(field);
+                buffer.push(FIELD_MID_U8);
+                buffer.push_str(value);
+                buffer.push(FIELD_END_U8);
             }
         }
 
@@ -2615,18 +2609,15 @@ impl<'a> JournalReader {
         }
 
         // write `_SOURCE_REALTIME_TIMESTAMP` last
-        match source_realtime_timestamp_field {
-            Some(s) => {
-                def1o!("field (second-to-last) {:?}", KEY_SOURCE_REALTIME_TIMESTAMP);
-                buffer.push_str(FIELD_BEG_VERBOSE);
-                buffer.push_str(KEY_SOURCE_REALTIME_TIMESTAMP);
-                buffer.push(FIELD_MID_U8);
-                buffer.push_str(s);
-                buffer.push(FIELD_END_U8);
-            }
-            None => {
-                de_err!("failed to write _SOURCE_REALTIME_TIMESTAMP to buffer");
-            }
+        if let Some(s) = source_realtime_timestamp_field {
+            def1o!("field (second-to-last) {:?}", KEY_SOURCE_REALTIME_TIMESTAMP);
+            buffer.push_str(FIELD_BEG_VERBOSE);
+            buffer.push_str(KEY_SOURCE_REALTIME_TIMESTAMP);
+            buffer.push(FIELD_MID_U8);
+            buffer.push_str(s);
+            buffer.push(FIELD_END_U8);
+        } else {
+            de_err!("failed to write _SOURCE_REALTIME_TIMESTAMP to buffer");
         }
         def1x!();
 

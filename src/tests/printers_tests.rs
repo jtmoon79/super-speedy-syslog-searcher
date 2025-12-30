@@ -266,7 +266,7 @@ fn test_PrinterLogMessage_print_fixedstruct(
         prepend_offset,
     );
 
-    let mut buffer: &mut [u8] = &mut [0; ENTRY_SZ_MAX];
+    let buffer: &mut [u8] = &mut [0; ENTRY_SZ_MAX];
     let mut fixedstructreader = match FixedStructReader::new(
         path.clone(),
         FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmpx },
@@ -283,7 +283,7 @@ fn test_PrinterLogMessage_print_fixedstruct(
     let mut printed_bytes: usize = 0;
     let mut printed_flushed: usize = 0;
     loop {
-        let (fo_next, fs) = match fixedstructreader.process_entry_at(fo, &mut buffer) {
+        let (fo_next, fs) = match fixedstructreader.process_entry_at(fo, buffer) {
             ResultFindFixedStruct::Found((fo_, fixedstruct_)) => {
                 defo!("ResultFindFixedStruct::Found({}, …)", fo_);
                 (fo_, fixedstruct_)

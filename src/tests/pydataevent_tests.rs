@@ -20,7 +20,7 @@ fn test_pydataevent() {
     e_data.extend_from_slice(b"2024-10-05 11:30:19.195Z Sample py data event data");
     let pydataevent: PyDataEvent = PyDataEvent::new(
         e_data,
-        dt.clone(),
+        dt,
         DtBegEndPairOpt::Some((0, 24)),
     );
     assert_eq!(pydataevent.len(), 50);

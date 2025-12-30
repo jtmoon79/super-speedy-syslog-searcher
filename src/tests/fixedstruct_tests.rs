@@ -194,54 +194,54 @@ fn test_convert_tvpair_to_datetime(
 
 #[test]
 fn test_fixedstructptr_new_00() {
-    if let Some(_) = buffer_to_fixedstructptr(
+    if buffer_to_fixedstructptr(
         &[0; linux_x86::UTMPX_SZ],
         FixedStructType::Fs_Linux_x86_Utmpx,
-    ) {
+    ).is_some() {
         panic!("passed 0x00 bytes, should have failed");
     };
 }
 
 #[test]
 fn test_fixedstructptr_new_FF() {
-    if let Some(_) = buffer_to_fixedstructptr(
+    if buffer_to_fixedstructptr(
         &[0xFF; linux_x86::UTMPX_SZ],
         FixedStructType::Fs_Linux_x86_Utmpx,
-    ) {
+    ).is_some() {
         panic!("passed 0xFF bytes, should have failed");
     };
 }
 
 #[test]
 fn test_fixedstructptr_new_toosmall() {
-    if let Some(_) = buffer_to_fixedstructptr(
+    if buffer_to_fixedstructptr(
         &[0; 1],
         FixedStructType::Fs_Linux_x86_Utmpx,
-    ) {
+    ).is_some() {
         panic!("passed 1 byte, should have failed");
     }
 }
 
 #[test]
 fn test_FixedStruct_new_00() {
-    if let Ok(_) = FixedStruct::new(
+    if FixedStruct::new(
         0,
         &FO_0,
         &[0; linux_x86::UTMPX_SZ],
         FixedStructType::Fs_Linux_x86_Utmpx,
-    ) {
+    ).is_ok() {
         panic!("passed 0x00 bytes, should have failed to create FixedStruct");
     }
 }
 
 #[test]
 fn test_FixedStruct_new_FF() {
-    if let Ok(_) = FixedStruct::new(
+    if FixedStruct::new(
         0,
         &FO_0,
         &[0xFF; linux_x86::UTMPX_SZ],
         FixedStructType::Fs_Linux_x86_Utmpx,
-    ) {
+    ).is_ok() {
         panic!("passed 0xFF bytes, should have failed to create FixedStruct");
     }
 }

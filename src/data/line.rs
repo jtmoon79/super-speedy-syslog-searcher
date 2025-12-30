@@ -238,7 +238,7 @@ impl LinePart {
 
     /// Length of `LinePart` starting at index `blocki_beg` in bytes.
     pub fn len(&self) -> usize {
-        (self.blocki_end - self.blocki_beg) as usize
+        self.blocki_end - self.blocki_beg
     }
 
     /// Clippy recommends `fn is_empty` since there is a `len()`.
@@ -481,7 +481,7 @@ pub enum LinePartPtrs<'a> {
     MultiPtr(Vec<Box<&'a [u8]>>),
 }
 
-impl<'a> LinePartPtrs<'a> {
+impl LinePartPtrs<'_> {
     /// To aid testing.
     #[cfg(test)]
     pub const fn is_no_ptr(&self) -> bool {
@@ -777,7 +777,7 @@ impl Line {
         }
         // handle special case where `b` is beyond last `lineparts` but `a` data is
         // within last `linepart`
-        if let Some(..) = bptr_a {
+        if bptr_a.is_some() {
             defx!("special case: return SinglePtr({})", a1);
             return LinePartPtrs::SinglePtr(bptr_a.unwrap());
         }

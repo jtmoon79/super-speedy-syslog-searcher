@@ -1449,20 +1449,17 @@ fn test_process_path_tar_dir_tar1_file_abcdefghi() {
     // and each "subpath" needs to go from `/tmp/ntf-abcdefghi.tar|fileA` to
     // path `/tmp/tmp.dir.1Baer3/ntf-abcdefghi.tar|fileA`
 
-    defo!("NTF_TAR_ABCDEFGHI {:?}", (&*NTF_TAR_ABCDEFGHI).path());
-    let replace1 = (&*NTF_TAR_ABCDEFGHI).path().parent().unwrap();
+    defo!("NTF_TAR_ABCDEFGHI {:?}", NTF_TAR_ABCDEFGHI.path());
+    let replace1 = NTF_TAR_ABCDEFGHI.path().parent().unwrap();
     let replace1_fpath = path_to_fpath(replace1);
     defo!("replace1          {:?}", replace1_fpath);
     let tmpdir = create_temp_dir();
     defo!("tmpdir            {:?}", tmpdir.path());
     let tmpdir_fpath = &path_to_fpath(tmpdir.path());
-    let dest = tmpdir.path().join((&*NTF_TAR_ABCDEFGHI).path().file_name().unwrap_or_default());
+    let dest = tmpdir.path().join(NTF_TAR_ABCDEFGHI.path().file_name().unwrap_or_default());
     defo!("dest              {:?}", dest);
-    match copy((&*NTF_TAR_ABCDEFGHI).path(), dest) {
-        Ok(_) => {},
-        Err(e) => {
-            panic!("Failed to copy {:?} to {:?}: {}", &*NTF_TAR_ABCDEFGHI.path(), tmpdir.path(), e);
-        },
+    if let Err(err) = copy(NTF_TAR_ABCDEFGHI.path(), dest) {
+        panic!("Failed to copy {:?} to {:?}: {}", NTF_TAR_ABCDEFGHI.path(), tmpdir.path(), err);
     }
 
     let check: Vec<ProcessPathResult> = vec![

@@ -215,7 +215,7 @@ pub const COLOR_THEME_DEFAULT: ColorTheme = ColorTheme::Dark;
 
 /// Global setting for the color theme.
 #[allow(non_upper_case_globals)]
-pub const ColorThemeGlobal: RwLock<ColorTheme> = RwLock::new(COLOR_THEME_DEFAULT);
+pub static ColorThemeGlobal: RwLock<ColorTheme> = RwLock::new(COLOR_THEME_DEFAULT);
 
 /// "Cached" indexing value for `color_rand`.
 ///

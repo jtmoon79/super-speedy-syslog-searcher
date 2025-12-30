@@ -190,7 +190,7 @@ fn test_realtime_or_source_realtime_timestamp_to_datetimel(
 ) {
     let dt =
         realtime_or_source_realtime_timestamp_to_datetimel(
-            &fixed_offset,
+            fixed_offset,
             &em,
             &em2,
         );

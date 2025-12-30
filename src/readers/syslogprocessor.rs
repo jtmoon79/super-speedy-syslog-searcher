@@ -682,24 +682,21 @@ impl SyslogProcessor {
             // check if datetime has suddenly jumped backwards.
             // if date has jumped backwards, then remove sysline, update the year, and
             // process the file from that fileoffset again
-            match syslinep_prev_opt {
-                Some(syslinep_prev) => {
-                    // normally `dt_cur` should have a datetime *before or equal* to `dt_prev`
-                    // but if not, then there was probably a year rollover
-                    if (*syslinep).dt() > (*syslinep_prev).dt() {
-                        let diff: Duration = *(*syslinep).dt() - *(*syslinep_prev).dt();
-                        if diff > BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR {
-                            year_opt = Some(year_opt.unwrap() - 1);
-                            defo!("year_opt updated {:?}", year_opt);
-                            self.syslinereader
-                                .remove_sysline(fo_prev);
-                            fo_prev = fo_prev_prev;
-                            syslinep_prev_opt = Some(syslinep_prev.clone());
-                            continue;
-                        }
+            if let Some(syslinep_prev) = syslinep_prev_opt {
+                // normally `dt_cur` should have a datetime *before or equal* to `dt_prev`
+                // but if not, then there was probably a year rollover
+                if (*syslinep).dt() > (*syslinep_prev).dt() {
+                    let diff: Duration = *(*syslinep).dt() - *(*syslinep_prev).dt();
+                    if diff > BACKWARDS_TIME_JUMP_MEANS_NEW_YEAR {
+                        year_opt = Some(year_opt.unwrap() - 1);
+                        defo!("year_opt updated {:?}", year_opt);
+                        self.syslinereader
+                            .remove_sysline(fo_prev);
+                        fo_prev = fo_prev_prev;
+                        syslinep_prev_opt = Some(syslinep_prev.clone());
+                        continue;
                     }
                 }
-                None => {}
             }
             if fo_prev < charsz_fo {
                 defo!("fo_prev {} break;", fo_prev);
@@ -1218,12 +1215,9 @@ impl SyslogProcessor {
                     fo_next
                 }
                 (ResultFindLine::Done, partial) => {
-                    match partial {
-                        Some(_) => {
-                            found += 1;
-                            _partial_found = true;
-                        }
-                        None => {}
+                    if partial.is_some() {
+                        found += 1;
+                        _partial_found = true;
                     }
                     break;
                 }
@@ -1242,9 +1236,10 @@ impl SyslogProcessor {
             }
         }
 
-        let fpr: FileProcessingResultBlockZero = match found >= found_min {
-            true => FileProcessingResultBlockZero::FileOk,
-            false => FileProcessingResultBlockZero::FileErrNoLinesFound,
+        let fpr: FileProcessingResultBlockZero = if found >= found_min {
+            FileProcessingResultBlockZero::FileOk
+        } else {
+            FileProcessingResultBlockZero::FileErrNoLinesFound
         };
 
         defx!("found {} lines, partial_found {}, require {} lines, return {:?}", found, _partial_found, found_min, fpr);

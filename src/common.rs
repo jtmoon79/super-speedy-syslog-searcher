@@ -89,7 +89,7 @@ pub fn summary_stats_enable() {
 #[inline(always)]
 pub fn summary_stats_enabled() -> bool {
     unsafe {
-        return SUMMARY_STATS_ENABLED;
+        SUMMARY_STATS_ENABLED
     }
 }
 
@@ -101,7 +101,7 @@ pub fn summary_stats_enabled() -> bool {
 #[macro_export]
 macro_rules! summary_stat {
     ($($arg:expr)*) => (
-        if crate::common::summary_stats_enabled() {
+        if $crate::common::summary_stats_enabled() {
             $($arg)*;
         }
     )
@@ -116,7 +116,7 @@ pub use summary_stat;
 #[macro_export]
 macro_rules! summary_stat_set {
     ($($arg_if_true:expr)*, $($arg_if_false:expr)*) => (
-        if crate::common::summary_stats_enabled() {
+        if $crate::common::summary_stats_enabled() {
             $($arg_if_true)*
         } else {
             $($arg_if_false)*
@@ -161,25 +161,13 @@ macro_rules! debug_panic {
 }
 pub use debug_panic;
 
-/// Assert if the any of the arguments are `None`, only in debug builds.
-#[macro_export]
-macro_rules! debug_assert_nones {
-    // TODO: change this to allow passing format arguments
-    ($($arg:expr),+) => {
-        $(
-            debug_assert!(matches!($arg, None), "'{}' is not None", stringify!($arg));
-        )+
-    };
-}
-pub use debug_assert_nones;
-
 /// Assert if the the argument is `None`, allow optional message, only in debug builds.
 #[macro_export]
 macro_rules! debug_assert_none {
     ($arg:expr) => {
         if cfg!(any(debug_assertions, test))
         {
-            if !matches!($arg, None) {
+            if ! $arg.is_none() {
                 panic!("'{}' is not None", stringify!($arg));
             }
         }
@@ -187,13 +175,25 @@ macro_rules! debug_assert_none {
     ($arg:expr, $($extra_message:tt)*) => {
         if cfg!(any(debug_assertions, test))
         {
-            if !matches!($arg, None) {
+            if ! $arg.is_none() {
                 panic!("'{}' is not None; {}", stringify!($arg), format_args!($($extra_message)*));
             }
         }
     };
 }
 pub use debug_assert_none;
+
+/// Assert if the any of the arguments are `None`, only in debug builds.
+#[macro_export]
+macro_rules! debug_assert_nones {
+    // TODO: change this to allow passing format arguments
+    ($($arg:expr),+) => {
+        $(
+            $crate::debug_assert_none!($arg);
+        )+
+    };
+}
+pub use debug_assert_nones;
 
 pub const FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
 

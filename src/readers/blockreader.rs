@@ -2109,7 +2109,7 @@ impl BlockReader {
                     .unwrap()
                     .mtime;
                 if mtime != 0 {
-                    let seconds = mtime as u64;
+                    let seconds = mtime;
                     let st = seconds_to_systemtime(&seconds);
                     defñ!("{:?}: mtime {} -> {:?}", self.filetype, mtime, st);
 
@@ -2643,28 +2643,21 @@ impl BlockReader {
             self.file_offset_at_block_offset_self(blockoffset),
             self.file_offset_at_block_offset_self(blockoffset) + (*blockp).len() as FileOffset,
         );
-        #[allow(clippy::single_match)]
-        match self
+        if let Some(_bp) = self
             .blocks
             .insert(blockoffset, blockp.clone())
         {
-            Some(_bp) => {
-                de_wrn!(
-                    "blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p} for file {:?}",
-                    blockoffset,
-                    blockp,
-                    _bp,
-                    self.path,
-                );
-            }
-            _ => {}
+            de_wrn!(
+                "blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p} for file {:?}",
+                blockoffset,
+                blockp,
+                _bp,
+                self.path,
+            );
         }
         self.read_blocks_put += 1;
         self.blocks_highest = std::cmp::max(self.blocks_highest, self.blocks.len());
-        if let false = self
-            .blocks_read
-            .insert(blockoffset)
-        {
+        if ! self.blocks_read.insert(blockoffset) {
             debug_panic!(
                 "BlockReader::store_blocks_in_storage blockreader.blocks_read({}) already had a entry, for file {:?}",
                 blockoffset,
@@ -2734,7 +2727,7 @@ impl BlockReader {
         };
         self.count_bytes_read += buffer.len() as Count;
         defo!("count_bytes_read={}", self.count_bytes_read);
-        if buffer.len() == 0 {
+        if buffer.is_empty() {
             defx!("read_block_File({}): return Done for file {:?}", blockoffset, self.path);
             return ResultFindReadBlock::Done;
         }
@@ -3418,7 +3411,7 @@ impl BlockReader {
             // `resize` will force `block` to have a length of `blocksz_u`
             // otherwise `as_mut_slice` is a zero-length slice
             block.resize(blocksz_u, 0);
-            match reader.read(&mut block.as_mut_slice()) {
+            match reader.read(block.as_mut_slice()) {
                 Ok(size) => {
                     defo!(
                         "({}): FrameDecoder.read((capacity {})) returned Ok({:?}), blocksz {}",

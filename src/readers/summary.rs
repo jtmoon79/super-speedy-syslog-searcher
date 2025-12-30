@@ -100,10 +100,7 @@ pub enum SummaryReaderData {
 
 impl SummaryReaderData {
     pub fn is_dummy(&self) -> bool {
-        match self {
-            SummaryReaderData::Dummy => true,
-            _ => false,
-        }
+        matches!(self, SummaryReaderData::Dummy)
     }
 }
 

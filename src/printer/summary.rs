@@ -344,177 +344,131 @@ impl SummaryPrinted {
         };
         eprintln!("{}Printed:", indent1);
 
-        match summaryblockreader_opt {
-            Some(summaryblockreader) => {
-                eprint!("{}bytes         : ", indent2);
-                let is_err: bool = self.bytes == 0 && summaryblockreader.blockreader_bytes != 0;
+        if let Some(summaryblockreader) = summaryblockreader_opt {
+            eprint!("{}bytes         : ", indent2);
+            let is_err: bool = self.bytes == 0 && summaryblockreader.blockreader_bytes != 0;
+            eprintln_display_color_error(
+                &self.bytes,
+                |_| is_err,
+                &color_choice_opt.unwrap_or_default(),
+            );
+
+            eprintln!("{}flushes       : {}", indent2, self.flushed);
+
+            if summarylinereader_opt.is_some() {
+                eprint!("{}lines         : ", indent2);
+                let is_err: bool = self.lines == 0 && summaryblockreader.blockreader_bytes != 0;
                 eprintln_display_color_error(
-                    &self.bytes,
-                    |_| is_err,
-                    &color_choice_opt.unwrap_or_default(),
-                );
-
-                eprintln!("{}flushes       : {}", indent2, self.flushed);
-
-                if summarylinereader_opt.is_some() {
-                    eprint!("{}lines         : ", indent2);
-                    let is_err: bool = self.lines == 0 && summaryblockreader.blockreader_bytes != 0;
-                    eprintln_display_color_error(
-                        &self.lines,
-                        |_| is_err,
-                        &color_choice_opt.unwrap_or_default(),
-                    );
-                }
-            }
-            None => {}
-        }
-
-        match summaryfixedstructreader_opt {
-            Some(summaryfixedstructreader) => {
-                eprint!("{}entries       : ", indent2);
-                let is_err: bool = self.fixedstructentries == 0 && summaryfixedstructreader.fixedstructreader_utmp_entries != 0;
-                eprintln_display_color_error(
-                    &self.fixedstructentries,
+                    &self.lines,
                     |_| is_err,
                     &color_choice_opt.unwrap_or_default(),
                 );
             }
-            None => {}
         }
 
-        match summarylinereader_opt {
+        if let Some(summaryfixedstructreader) = summaryfixedstructreader_opt {
+            eprint!("{}entries       : ", indent2);
+            let is_err: bool = self.fixedstructentries == 0 && summaryfixedstructreader.fixedstructreader_utmp_entries != 0;
+            eprintln_display_color_error(
+                &self.fixedstructentries,
+                |_| is_err,
+                &color_choice_opt.unwrap_or_default(),
+            );
+        }
+
+        if let Some(summarylinereader) = summarylinereader_opt {
             // if lines were processed but no syslines were processed
             // then hint at an error with colored text
-            Some(summarylinereader) => {
-                eprint!("{}syslines      : ", indent2);
-                let is_err: bool = self.syslines == 0 && summarylinereader.linereader_lines != 0;
-                eprintln_display_color_error(
-                    &self.syslines,
-                    |_| is_err,
-                    &color_choice_opt.unwrap_or_default(),
+            eprint!("{}syslines      : ", indent2);
+            let is_err: bool = self.syslines == 0 && summarylinereader.linereader_lines != 0;
+            eprintln_display_color_error(
+                &self.syslines,
+                |_| is_err,
+                &color_choice_opt.unwrap_or_default(),
+            );
+        }
+
+        if let Some(summarylinereader) = summarylinereader_opt {
+            if self.dt_first.is_none() && summarylinereader.linereader_lines != 0 {
+                // if no datetime_first was processed but lines were processed
+                // then hint at an error with colored text
+                eprint!("{}datetime first: ", indent2);
+                print_colored_stderr(
+                    COLOR_ERROR,
+                    color_choice_opt,
+                    "None Found".as_bytes(),
                 );
+                eprintln!();
+            } else if let Some(dt) = self.dt_first {
+                eprint!("{}datetime first: ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
             }
-            None => {}
+            if self.dt_last.is_none() && summarylinereader.linereader_lines != 0 {
+                // if no datetime_last was processed but lines were processed
+                // then hint at an error with colored text
+                eprint!("{}datetime last : ", indent2);
+                print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes());
+                eprintln!();
+            } else if let Some(dt) = self.dt_last {
+                eprint!("{}datetime last : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
+            }
         }
 
-        match summarylinereader_opt {
-            Some(summarylinereader) => {
-                if self.dt_first.is_none() && summarylinereader.linereader_lines != 0 {
-                    // if no datetime_first was processed but lines were processed
-                    // then hint at an error with colored text
-                    eprint!("{}datetime first: ", indent2);
-                    print_colored_stderr(
-                        COLOR_ERROR,
-                        color_choice_opt,
-                        "None Found".as_bytes(),
-                    );
-                    eprintln!();
-                } else {
-                    match self.dt_first {
-                        Some(dt) => {
-                            eprint!("{}datetime first: ", indent2);
-                            print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
-                            eprintln!();
-                        }
-                        None => {}
-                    }
-                }
-                if self.dt_last.is_none() && summarylinereader.linereader_lines != 0 {
-                    // if no datetime_last was processed but lines were processed
-                    // then hint at an error with colored text
+        if let Some(summarypyeventreader) = summarypyeventreader_opt {
+            eprintln!("{}bytes         : {}", indent2, self.bytes);
+            eprintln!("{}flushes       : {}", indent2, self.flushed);
+            eprintln!("{}events        : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
+            if let Some(dt) = summarypyeventreader.pyeventreader_datetime_first_accepted {
+                eprint!("{}datetime first: ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
+            }
+            match summarypyeventreader.pyeventreader_datetime_last_accepted {
+                Some(dt) => {
                     eprint!("{}datetime last : ", indent2);
-                    print_colored_stderr(COLOR_ERROR, color_choice_opt, "None Found".as_bytes());
+                    print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
                     eprintln!();
-                } else {
-                    match self.dt_last {
-                        Some(dt) => {
-                            eprint!("{}datetime last : ", indent2);
-                            print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
-                            eprintln!();
-                        }
-                        None => {}
-                    }
+                    debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_some());
+                }
+                None => {
+                    debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_none());
                 }
             }
-            None => {}
         }
 
-        match summarypyeventreader_opt {
-            Some(summarypyeventreader) => {
-                eprintln!("{}bytes         : {}", indent2, self.bytes);
-                eprintln!("{}flushes       : {}", indent2, self.flushed);
-                eprintln!("{}events        : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
-                match summarypyeventreader.pyeventreader_datetime_first_accepted {
-                    Some(dt) => {
-                        eprint!("{}datetime first: ", indent2);
-                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
-                        eprintln!();
-                    }
-                    None => {}
-                }
-                match summarypyeventreader.pyeventreader_datetime_last_accepted {
-                    Some(dt) => {
-                        eprint!("{}datetime last : ", indent2);
-                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
-                        eprintln!();
-                        debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_some());
-                    }
-                    None => {
-                        debug_assert!(summarypyeventreader.pyeventreader_datetime_first_accepted.is_none());
-                    }
-                }
+        if let Some(summaryevtxreader) = summaryevtxreader_opt {
+            eprintln!("{}bytes         : {}", indent2, self.bytes);
+            eprintln!("{}flushes       : {}", indent2, self.flushed);
+            eprintln!("{}Events        : {}", indent2, self.evtxentries);
+            if let Some(dt) = summaryevtxreader.evtxreader_datetime_first_accepted {
+                eprint!("{}datetime first: ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
             }
-            None => {}
+            if let Some(dt) = summaryevtxreader.evtxreader_datetime_last_accepted {
+                eprint!("{}datetime last : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
+            }
         }
 
-        match summaryevtxreader_opt {
-            Some(summaryevtxreader) => {
-                eprintln!("{}bytes         : {}", indent2, self.bytes);
-                eprintln!("{}flushes       : {}", indent2, self.flushed);
-                eprintln!("{}Events        : {}", indent2, self.evtxentries);
-                match summaryevtxreader.evtxreader_datetime_first_accepted {
-                    Some(dt) => {
-                        eprint!("{}datetime first: ", indent2);
-                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
-                        eprintln!();
-                    }
-                    None => {}
-                }
-                match summaryevtxreader.evtxreader_datetime_last_accepted {
-                    Some(dt) => {
-                        eprint!("{}datetime last : ", indent2);
-                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
-                        eprintln!();
-                    }
-                    None => {}
-                }
+        if let Some(summaryjournalreader) = summaryjournalreader_opt {
+            eprintln!("{}bytes         : {}", indent2, self.bytes);
+            eprintln!("{}flushes       : {}", indent2, self.flushed);
+            eprintln!("{}journal events: {}", indent2, self.journalentries);
+            if let Some(dt) = summaryjournalreader.journalreader_datetime_first_accepted {
+                eprint!("{}datetime first: ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
             }
-            None => {}
-        }
-
-        match summaryjournalreader_opt {
-            Some(summaryjournalreader) => {
-                eprintln!("{}bytes         : {}", indent2, self.bytes);
-                eprintln!("{}flushes       : {}", indent2, self.flushed);
-                eprintln!("{}journal events: {}", indent2, self.journalentries);
-                match summaryjournalreader.journalreader_datetime_first_accepted {
-                    Some(dt) => {
-                        eprint!("{}datetime first: ", indent2);
-                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
-                        eprintln!();
-                    }
-                    None => {}
-                }
-                match summaryjournalreader.journalreader_datetime_last_accepted {
-                    Some(dt) => {
-                        eprint!("{}datetime last : ", indent2);
-                        print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
-                        eprintln!();
-                    }
-                    None => {}
-                }
+            if let Some(dt) = summaryjournalreader.journalreader_datetime_last_accepted {
+                eprint!("{}datetime last : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, color_choice_opt);
+                eprintln!();
             }
-            None => {}
         }
     }
 
@@ -817,6 +771,7 @@ pub fn summary_update(
 
 /// Print the entire `--summary`.
 /// This is the "entry point" for print the summary of all files.
+#[allow(clippy::too_many_arguments)]
 pub fn print_summary(
     map_pathid_results: MapPathIdToProcessPathResult,
     map_pathid_results_invalid: MapPathIdToProcessPathResultOrdered,
@@ -934,7 +889,7 @@ pub fn print_summary(
         Some(dt) => {
             let dt_s = dt.format(DATETIMEFMT);
             eprint!(" {} ", dt_s);
-            print_datetime_utc_dimmed(&dt, Some(color_choice));
+            print_datetime_utc_dimmed(dt, Some(color_choice));
             eprintln!();
         }
         None => eprintln!(),
@@ -958,29 +913,22 @@ pub fn print_summary(
     print_datetime_utc_dimmed(&utc_now, Some(color_choice));
     eprintln!();
     // print the python executables that were run
-    match PythonPathsRan.read() {
-        Ok(python_exes_ran) => {
-            for python_exe in python_exes_ran.iter() {
-                eprint!("Python Interpreter     : {}", python_exe);
-                // print the realpath if different than `python_exe`
-                let path_: PathBuf = PathBuf::from(python_exe);
-                match path_.canonicalize() {
-                    Ok(pathbuf) => match pathbuf.to_str() {
-                        Some(path_s) => {
-                            if path_s != python_exe.as_str() {
-                                print_dimmed(&format!(" ({})", path_s), Some(color_choice));
-                            }
-                        }
-                        None => {}
-                    },
-                    Err(_err) => {
-                        de_err!("canonicalize failed for {:?}; {}", path_, _err);
+    if let Ok(python_exes_ran) = PythonPathsRan.read() {
+        for python_exe in python_exes_ran.iter() {
+            eprint!("Python Interpreter     : {}", python_exe);
+            // print the realpath if different than `python_exe`
+            let path_: PathBuf = PathBuf::from(python_exe);
+            if let Ok(pathbuf) = path_.canonicalize() {
+                if let Some(path_s) = pathbuf.to_str() {
+                    if path_s != python_exe.as_str() {
+                        print_dimmed(&format!(" ({})", path_s), Some(color_choice));
                     }
                 }
-                eprintln!();
+            } else {
+                de_err!("Unable to canonicalize python exe path {:?}", path_);
             }
+            eprintln!();
         }
-        Err(_) => {}
     }
     // print basic stats about the channel
     eprintln!("Channel Receive ok     : {}", chan_recv_ok);
@@ -1009,6 +957,7 @@ pub fn print_summary(
 //       entire file was read, which is not true in most cases).
 
 /// Print the file _About_ section (multiple lines).
+#[allow(clippy::too_many_arguments)]
 fn print_file_about(
     path: &FPath,
     modified_time: &DateTimeLOpt,
@@ -1035,44 +984,28 @@ fn print_file_about(
         // e.g. `"path/to/file.tar"` from `"path/to/file.tar|inner/file.txt"`
         (path1, subpath) = path1.split_once(SUBPATH_SEP).unwrap_or((path.as_str(), ""));
     }
-    match std::fs::canonicalize(path1) {
-        Ok(pathb) => match pathb.to_str() {
-            Some(s) => {
-                if s != path.as_str() {
-                    eprint!("{}real path      : {}", OPT_SUMMARY_PRINT_INDENT2, s);
-                    eprintln!();
-                }
+    if let Ok(pathb) = std::fs::canonicalize(path1) {
+        if let Some(s) = pathb.to_str() {
+            if s != path.as_str() {
+                eprintln!("{}real path      : {}", OPT_SUMMARY_PRINT_INDENT2, s);
             }
-            None => {}
-        },
-        Err(_err) => {
-            de_err!("canonicalize failed for {:?}; {}", path1, _err);
         }
+    } else {
+        de_err!("Unable to canonicalize path {:?}", path1);
     }
     if !subpath.is_empty() {
-        eprint!("{}archive subpath: {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
-        eprintln!();
+        eprintln!("{}archive subpath: {}", OPT_SUMMARY_PRINT_INDENT2, subpath);
     }
-    match summary_opt {
-        Some(summary) => {
-            match &summary.path_ntf {
-                Some(path_ntf) => {
-                    eprint!("{}temporary path : {}", OPT_SUMMARY_PRINT_INDENT2, path_ntf);
-                    eprintln!();
-                }
-                None => {}
-            }
+    if let Some(summary) = summary_opt {
+        if let Some(path_ntf) = &summary.path_ntf {
+            eprintln!("{}temporary path : {}", OPT_SUMMARY_PRINT_INDENT2, path_ntf);
         }
-        None => {}
     }
     // print other facts
-    match modified_time {
-        Some(dt) => {
-            eprint!("{}modified time  : ", OPT_SUMMARY_PRINT_INDENT2);
-            print_datetime_asis_utc_dimmed(dt, Some(*color_choice));
-            eprintln!();
-        }
-        None => {}
+    if let Some(dt) = modified_time {
+        eprint!("{}modified time  : ", OPT_SUMMARY_PRINT_INDENT2);
+        print_datetime_asis_utc_dimmed(dt, Some(*color_choice));
+        eprintln!();
     }
     // if `FileProcessingResultBlockZero::FileErrEmpty` then print the error
     // and be done printing the summary for this file
@@ -1102,7 +1035,7 @@ fn print_file_about(
         | FileType::Etl { .. }
         | FileType::Evtx { .. }
         | FileType::Journal { .. }
-        | FileType::Unparsable { .. }
+        | FileType::Unparsable
         => {
             eprint!("{}", filetype);
         }
@@ -1130,35 +1063,27 @@ fn print_file_about(
     // print the descriptive pretty name
     eprintln!(" ({})", filetype.pretty_name());
     // print about FixedStruct types if applicable
-    match filetype {
-        FileType::FixedStruct { archival_type: _, fixedstruct_type: fst } => {
-            eprintln!("{}fixedstructtype: {:?}", OPT_SUMMARY_PRINT_INDENT2, fst);
-        }
-        _ => {}
+    if let FileType::FixedStruct { archival_type: _, fixedstruct_type: fst } = filetype {
+        eprintln!("{}fixedstructtype: {:?}", OPT_SUMMARY_PRINT_INDENT2, fst);
     }
     // print log message type
     eprintln!("{}logmessagetype : {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
 
-    match summary_opt {
-        Some(summary) => {
-            match &summary.readerdata {
-                SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => {
-                    match summaryfixedstructreader.fixedstructreader_fixedstructtype_opt {
-                        Some(fst) => {
-                            eprintln!(
-                                "{}fixedstructtype: {:?}",
-                                OPT_SUMMARY_PRINT_INDENT2,
-                                fst,
-                            );
-                        }
-                        None => {}
-                    }
+    if let Some(summary) = summary_opt {
+        match &summary.readerdata {
+            SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => {
+                if let Some(fst) = summaryfixedstructreader.fixedstructreader_fixedstructtype_opt {
+                    eprintln!(
+                        "{}fixedstructtype: {:?}",
+                        OPT_SUMMARY_PRINT_INDENT2,
+                        fst,
+                    );
                 }
-                _ => {}
             }
+            _ => {}
         }
-        None => {}
     }
+
     // print `FileProcessingResult` if it was not okay
     if let Some(result) = file_processing_result {
         if !result.is_ok() {
@@ -1353,21 +1278,15 @@ fn print_summary_opt_processed(
                 |x| *x != 0,
                 color_choice,
             );
-            match summaryevtxreader.evtxreader_datetime_first_processed {
-                Some(dt) => {
-                    eprint!("{}datetime first     : ", indent2);
-                    print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
-                    eprintln!();
-                }
-                None => {}
+            if let Some(dt) = summaryevtxreader.evtxreader_datetime_first_processed {
+                eprint!("{}datetime first     : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
             }
-            match summaryevtxreader.evtxreader_datetime_last_processed {
-                Some(dt) => {
-                    eprint!("{}datetime last      : ", indent2);
-                    print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
-                    eprintln!();
-                }
-                None => {}
+            if let Some(dt) = summaryevtxreader.evtxreader_datetime_last_processed {
+                eprint!("{}datetime last      : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
             }
             // for evtx files, nothing left to print about it so return
             return;
@@ -1399,21 +1318,15 @@ fn print_summary_opt_processed(
                 |n| *n != 0,
                 color_choice,
             );
-            match summaryjournalreader.journalreader_datetime_first_processed {
-                Some(dt) => {
-                    eprint!("{}datetime first: ", indent2);
-                    print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
-                    eprintln!();
-                }
-                None => {}
+            if let Some(dt) = summaryjournalreader.journalreader_datetime_first_processed {
+                eprint!("{}datetime first: ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
             }
-            match summaryjournalreader.journalreader_datetime_last_processed {
-                Some(dt) => {
-                    eprint!("{}datetime last : ", indent2);
-                    print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
-                    eprintln!();
-                }
-                None => {}
+            if let Some(dt) = summaryjournalreader.journalreader_datetime_last_processed {
+                eprint!("{}datetime last : ", indent2);
+                print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
+                eprintln!();
             }
             return;
         }
@@ -1421,23 +1334,17 @@ fn print_summary_opt_processed(
 
     // print datetime first processed
     let dt_first = summary.datetime_first_processed();
-    match dt_first {
-        Some(dt_first) => {
-            eprint!("{}datetime first     : ", indent2);
-            print_datetime_asis_utc_dimmed(&dt_first, Some(*color_choice));
-            eprintln!();
-        }
-        None => {}
+    if let Some(dt_first_) = dt_first {
+        eprint!("{}datetime first     : ", indent2);
+        print_datetime_asis_utc_dimmed(dt_first_, Some(*color_choice));
+        eprintln!();
     }
     // print datetime last processed
     let dt_last = summary.datetime_last_processed();
-    match dt_last {
-        Some(dt_last) => {
-            eprint!("{}datetime last      : ", indent2);
-            print_datetime_asis_utc_dimmed(&dt_last, Some(*color_choice));
-            eprintln!();
-        }
-        None => {}
+    if let Some(dt_last_) = dt_last {
+        eprint!("{}datetime last      : ", indent2);
+        print_datetime_asis_utc_dimmed(dt_last_, Some(*color_choice));
+        eprintln!();
     }
     // assert that both are None or both are Some
     debug_assert!((dt_first.is_none() || dt_last.is_none()) || (dt_first.is_some() || dt_last.is_some()));
@@ -1461,14 +1368,11 @@ fn print_summary_opt_processed(
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
                 eprintln!("{}@[{}] uses {} {:?}", indent2, patt.0, patt.1, dtpd);
             }
-            match summarysyslogprocessor.syslogprocessor_missing_year {
-                Some(year) => {
-                    eprintln!(
-                        "{}datetime format missing year; estimated year of last sysline {:?}",
-                        OPT_SUMMARY_PRINT_INDENT3, year
-                    );
-                }
-                None => {}
+            if let Some(year) = summarysyslogprocessor.syslogprocessor_missing_year {
+                eprintln!(
+                    "{}datetime format missing year; estimated year of last sysline {:?}",
+                    OPT_SUMMARY_PRINT_INDENT3, year
+                );
             }
         }
         _ => {}
@@ -1942,17 +1846,14 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
         .max_drop()
         .to_string()
         .len();
-    match summary.blockreader() {
-        Some(summaryblockreader) => {
-            eprintln!(
-                "{}streaming: BlockReader::drop_block()      : Ok {:wide$}, Err {:wide$}",
-                OPT_SUMMARY_PRINT_INDENT2,
-                summaryblockreader.blockreader_blocks_dropped_ok,
+    if let Some(summaryblockreader) = summary.blockreader() {
+        eprintln!(
+            "{}streaming: BlockReader::drop_block()      : Ok {:wide$}, Err {:wide$}",
+            OPT_SUMMARY_PRINT_INDENT2,
+            summaryblockreader.blockreader_blocks_dropped_ok,
                 summaryblockreader.blockreader_blocks_dropped_err,
                 wide = wide,
             );
-        }
-        None => {}
     }
     match &summary.readerdata {
         SummaryReaderData::Syslog((
@@ -2004,26 +1905,22 @@ fn print_error_summary(
     summary_opt: &SummaryOpt,
     color_choice: &ColorChoice,
 ) {
-    match summary_opt.as_ref() {
-        Some(summary_) => match &summary_.error {
-            Some(err_string) => {
-                eprint!("{}Error:", OPT_SUMMARY_PRINT_INDENT1);
-                if err_string.contains("\n") {
-                    eprintln!();
-                } else {
-                    eprint!(" ");
-                }
-                #[allow(clippy::single_match)]
-                print_colored_stderr(
-                    COLOR_ERROR,
-                    Some(*color_choice),
-                    err_string.as_bytes(),
-                );
+    if let Some(summary_) = summary_opt.as_ref() {
+        if let Some(err_string) = &summary_.error {
+            eprint!("{}Error:", OPT_SUMMARY_PRINT_INDENT1);
+            if err_string.contains("\n") {
                 eprintln!();
+            } else {
+                eprint!(" ");
             }
-            None => {}
-        },
-        None => {}
+            #[allow(clippy::single_match)]
+            print_colored_stderr(
+                COLOR_ERROR,
+                Some(*color_choice),
+                err_string.as_bytes(),
+            );
+            eprintln!();
+        }
     }
 }
 

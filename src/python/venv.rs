@@ -108,7 +108,7 @@ pub fn venv_path() -> PathBuf {
 pub fn deploy_pyproject_s4_event_readers() -> Result<TempDir> {
     defn!();
 
-    let tmpdir: TempDir = match TempDir::with_prefix(&format!("{}_", PROJECT_NAME)) {
+    let tmpdir: TempDir = match TempDir::with_prefix(format!("{}_", PROJECT_NAME)) {
         Ok(td) => td,
         Err(err) => {
             defx!("TempDir::new() error: {}", err);

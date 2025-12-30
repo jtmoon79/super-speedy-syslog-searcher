@@ -196,7 +196,8 @@ pub fn find_python_executable(python_to_use: PythonToUse) -> &'static Option<FPa
                 }
             );
             defx!("{:?}, return {:?}", python_to_use, ret);
-            return ret;
+
+            ret
         }
         PythonToUse::Path => {
             let ret: &Option<FPath> = PythonPathPath.get_or_init(||{
@@ -204,13 +205,10 @@ pub fn find_python_executable(python_to_use: PythonToUse) -> &'static Option<FPa
                 // check PATH for python executable
                 for name in PYTHON_NAMES.iter() {
                     defo!("find_executable_in_path({:?})", name);
-                    match find_executable_in_path(name) {
-                        Some(p) => {
-                            defo!("find_executable_in_path returned {:?}", p);
-                            python_path = Some(p);
-                            break;
-                        },
-                        None => {},
+                    if let Some(p) = find_executable_in_path(name) {
+                        defo!("find_executable_in_path returned {:?}", p);
+                        python_path = Some(p);
+                        break;
                     };
                 }
                 if let Some(p) = python_path {
@@ -220,7 +218,8 @@ pub fn find_python_executable(python_to_use: PythonToUse) -> &'static Option<FPa
                 }
             });
             defx!("{:?}, return {:?}", python_to_use, ret);
-            return ret;
+
+            ret
         }
         PythonToUse::EnvPath => {
             // try Env then try Path
@@ -231,7 +230,8 @@ pub fn find_python_executable(python_to_use: PythonToUse) -> &'static Option<FPa
             }
             let p = find_python_executable(PythonToUse::Path);
             defx!("{:?}, return {:?}", python_to_use, p);
-            return p;
+
+            p
         }
         PythonToUse::Venv => {
             let ret: &Option<FPath> = PythonPathVenv.get_or_init(||{
@@ -262,7 +262,8 @@ pub fn find_python_executable(python_to_use: PythonToUse) -> &'static Option<FPa
                 None
             });
             defx!("{:?}, return {:?}", python_to_use, ret);
-            return ret;
+
+            ret
         }
         PythonToUse::EnvVenv => {
             // try Env then try Venv
@@ -273,11 +274,13 @@ pub fn find_python_executable(python_to_use: PythonToUse) -> &'static Option<FPa
             }
             let p = find_python_executable(PythonToUse::Venv);
             defx!("{:?}, return {:?}", python_to_use, p);
-            return p;
+
+            p
         }
         PythonToUse::Value => {
             debug_panic!("PythonToUse::Value should not be used in find_python_executable");
-            return &None;
+
+            &None
         }
     }
 }
@@ -351,19 +354,18 @@ impl PipeStreamReader {
                     let mut _recv_bytes: usize = 0;
                     let mut reads: usize = 0;
                     let mut _sends: usize = 0;
-                    let pipe_sz_u: usize = pipe_sz as usize;
                     let mut delim_found: bool = false;
-                    let mut buf = Bytes::with_capacity(pipe_sz_u);
+                    let mut buf = Bytes::with_capacity(pipe_sz);
                     let buf_chunk1_sz: usize = match chunk_delimiter_opt {
-                        Some(_delim) => pipe_sz_u,
+                        Some(_delim) => pipe_sz,
                         None => 0, // `buf_chunk1` not used
                     };
                     let mut buf_chunk1: Bytes = Bytes::with_capacity(buf_chunk1_sz);
-                    //let mut buf_chunk2: Bytes = Bytes::with_capacity(pipe_sz_u);
+                    //let mut buf_chunk2: Bytes = Bytes::with_capacity(pipe_sz);
                     loop {
                         reads += 1;
                         buf.clear();
-                        buf.resize(pipe_sz_u, 0);
+                        buf.resize(pipe_sz, 0);
 
                         def2o!("{_d_p} stream_child_proc.read(buf capacity {}, len {})…", buf.capacity(), buf.len());
                         /*
@@ -518,7 +520,7 @@ impl PipeStreamReader {
                                         let slice_ = &buf[..len];
                                         let blen = slice_.len();
                                         let mut chunk_send: Bytes = Vec::<u8>::with_capacity(blen);
-                                        chunk_send.extend_from_slice(&slice_);
+                                        chunk_send.extend_from_slice(slice_);
                                         let data_send = PipedChunk::Chunk(chunk_send);
                                         delim_found = false;
                                         def2o!("{_d_p} (read #{reads}) read {} bytes of {} total; no delimiter configured, send Chunk {} bytes",
@@ -790,7 +792,7 @@ impl PyRunner {
                 let s = format!("Python process stdout was None; pid {}", pid);
                 def1x!("{}", s);
                 return Result::Err(
-                    Error::new(ErrorKind::Other, s)
+                    Error::other(s)
                 );
             }
         };
@@ -800,7 +802,7 @@ impl PyRunner {
                 let s = format!("Python process stderr was None; pid {}", pid);
                 def1x!("{}", s);
                 return Result::Err(
-                    Error::new(ErrorKind::Other, s)
+                    Error::other(s)
                 );
             }
         };
@@ -1013,11 +1015,8 @@ impl PyRunner {
         let _d_p = format!("Python process {}", self.pid_);
         def1n!("{_d_p} input_data: {} bytes", _len);
 
-        match self.poll() {
-            Some(_exit_status) => {
-                def1o!("{_d_p} already exited before read");
-            }
-            None => {}
+        if let Some(_exit_status) = self.poll() {
+            def1o!("{_d_p} already exited before read");
         }
 
         // write string, read from stdout and stderr after poll as there may still be data to read
@@ -1026,7 +1025,7 @@ impl PyRunner {
         // write to stdin
         if !self.exited() {
             if let Some(input_data_) = input_data {
-                if input_data_.len() > 0 {
+                if !input_data_.is_empty() {
                     match self.process.stdin.as_mut() {
                         Some(stdin) => {
                             def1o!(
@@ -1129,7 +1128,7 @@ impl PyRunner {
                                         summary_stat!(self.count_proc_reads_stdout = reads);
                                         def1o!("{_d_p} stdout Done({} reads, {} remaining bytes)",
                                                reads, remaining_bytes.len());
-                                        if remaining_bytes.len() > 0 {
+                                        if !remaining_bytes.is_empty() {
                                             stdout_data = Some(Vec::with_capacity(remaining_bytes.len() + 1));
                                             let data = stdout_data.as_mut().unwrap();
                                             data.extend_from_slice(remaining_bytes.as_slice());
@@ -1179,7 +1178,7 @@ impl PyRunner {
                                         summary_stat!(self.count_proc_reads_stderr = reads);
                                         def1o!("{_d_p} stderr Done({} reads, {} remaining bytes)",
                                                reads, remaining_bytes.len());
-                                        if remaining_bytes.len() > 0 {
+                                        if !remaining_bytes.is_empty() {
                                             let mut data: Bytes = Bytes::with_capacity(remaining_bytes.len());
                                             data.extend_from_slice(remaining_bytes.as_slice());
                                             self.stderr_all_add(&data);
@@ -1280,9 +1279,7 @@ impl PyRunner {
     ///
     /// Returns `None` if the process is not yet known to have exited.
     pub fn duration(&self) -> Option<Duration> {
-        if self.time_end.is_none() {
-            return None;
-        }
+        self.time_end?;
         match self.time_end {
             Some(time_end) => Some(time_end - self.time_beg),
             None => {
@@ -1376,28 +1373,22 @@ impl PyRunner {
             ) = self.write_read(None);
             def1o!("{_d_p} exited? {:?}", _exited);
             // print stdout to stdout
-            match out_data {
-                Some(data) => {
-                    stdout_data.extend_from_slice(data.as_slice());
-                    if ! data.is_empty() && print_stdout {
-                        let mut lock = stdout().lock();
-                        let _ = lock.write(data.as_slice());
-                        let _ = lock.flush();
-                    }
+            if let Some(data) = out_data {
+                stdout_data.extend_from_slice(data.as_slice());
+                if ! data.is_empty() && print_stdout {
+                    let mut lock = stdout().lock();
+                    let _ = lock.write(data.as_slice());
+                    let _ = lock.flush();
                 }
-                None => {},
             }
             // print stderr to stderr
-            match err_data {
-                Some(data) => {
-                    stderr_data.extend_from_slice(data.as_slice());
-                    if ! data.is_empty() && print_stderr {
-                        let mut lock = stderr().lock();
-                        let _ = lock.write(data.as_slice());
-                        let _ = lock.flush();
-                    }
+            if let Some(data) = err_data {
+                stderr_data.extend_from_slice(data.as_slice());
+                if ! data.is_empty() && print_stderr {
+                    let mut lock = stderr().lock();
+                    let _ = lock.write(data.as_slice());
+                    let _ = lock.flush();
                 }
-                None => {},
             }
             if _exited {
                 break;
@@ -1410,7 +1401,7 @@ impl PyRunner {
                     let s = format!("Python process {} exited with non-zero status {:?}", self.pid_, status);
                     def1x!("{}", s);
                     return Result::Err(
-                        Error::new(ErrorKind::Other, s)
+                        Error::other(s)
                     )
                 }
             }

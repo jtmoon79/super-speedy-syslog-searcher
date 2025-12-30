@@ -197,12 +197,9 @@ fn test_BlockReader_helpers(
 
     assert_eq!(br.blocksz_at_blockoffset(&0), blocksz_0, "bad blocksz_0 {:?}", path);
     assert_eq!(br.file_offset_at_block_offset_self(0), 0, "bad file_offset_at_block_offset_self(0) {:?}", path);
-    match blocksz_1 {
-        Some(b) => {
-            assert_eq!(br.blocksz_at_blockoffset(&1), b, "bad blocksz_1 {:?}", path);
-            assert_eq!(br.file_offset_at_block_offset_self(1), BSZ, "bad file_offset_at_block_offset_self(1) {:?}", path);
-        }
-        None => {}
+    if let Some(b) = blocksz_1 {
+        assert_eq!(br.blocksz_at_blockoffset(&1), b, "bad blocksz_1 {:?}", path);
+        assert_eq!(br.file_offset_at_block_offset_self(1), BSZ, "bad file_offset_at_block_offset_self(1) {:?}", path);
     }
     assert_eq!(br.blocksz(), BSZ);
     assert_eq!(br.filesz(), filesz, "bad filesz {:?}", path);

@@ -331,7 +331,7 @@ const O_0: fos = 0;
 // Offset Local
 // symbolic value for Local time, replaced at runtime
 #[cfg(test)]
-pub(crate) const O_L: fos = i32::max_value();
+pub(crate) const O_L: fos = i32::MAX;
 // Offset Minus (or West)
 #[cfg(test)]
 const O_M1: fos = -3600;
@@ -6046,7 +6046,7 @@ pub(crate) fn captures_to_buffer_bytes(
             };
             defo!("buf_uptime_s {:?}", buf_uptime_s);
             // extract the uptime string to an `Uptime` value
-            let uptime_val: Uptime = match Uptime::from_str_radix(buf_uptime_s, 10) {
+            let uptime_val: Uptime = match buf_uptime_s.parse::<Uptime>() {
                 Ok(uptime_) => uptime_,
                 Err(_err) => {
                     de_err!("uptime parse error: {}", _err);
@@ -8336,10 +8336,7 @@ pub fn slice_contains_X_2_jetscii(
     slice_: &[u8],
     search: &[u8; 2],
 ) -> bool {
-    match jetscii::bytes!(search[0], search[1]).find(&slice_) {
-        Some(_) => true,
-        None => false,
-    }
+    jetscii::bytes!(search[0], search[1]).find(slice_).is_some()
 }
 
 /// `memchr` implementation of `slice.contains` for a byte slice and a
@@ -8427,19 +8424,12 @@ pub fn slice_contains_D2_jetscii(
     let mut atn: usize = 0;
     let mut lastn: isize = -1;
     let bytes_ = jetscii::bytes!(b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9');
-    loop {
-        match bytes_.find(
-            &slice_[atn..]
-        ) {
-            Some(n) => {
-                if lastn != -1 && atn + n == ((lastn + 1) as usize) {
-                    return true;
-                }
-                lastn = (atn + n) as isize;
-                atn = atn + n + 1;
-            }
-            None => break,
+    while let Some(n) = bytes_.find(&slice_[atn..]) {
+        if lastn != -1 && atn + n == ((lastn + 1) as usize) {
+            return true;
         }
+        lastn = (atn + n) as isize;
+        atn = atn + n + 1;
     }
 
     false
@@ -8456,20 +8446,12 @@ pub fn slice_contains_D2_stringzilla(
 ) -> bool {
     let mut atn: usize = 0;
     let mut lastn: isize = -1;
-    loop {
-        match stringzilla::sz::find_char_from(
-            &slice_[atn..],
-            b"0123456789",
-        ) {
-            Some(n) => {
-                if lastn != -1 && atn + n == ((lastn + 1) as usize) {
-                    return true;
-                }
-                lastn = (atn + n) as isize;
-                atn = atn + n + 1;
-            }
-            None => break,
+    while let Some(n) = stringzilla::sz::find_char_from(&slice_[atn..], b"0123456789") {
+        if lastn != -1 && atn + n == ((lastn + 1) as usize) {
+            return true;
         }
+        lastn = (atn + n) as isize;
+        atn = atn + n + 1;
     }
 
     false

@@ -90,6 +90,11 @@ impl PyDataEvent {
         self.data.len()
     }
 
+    // XXX: clippy recommends `fn is_empty` since there is a `len()`.
+    pub fn is_empty(&self) -> bool {
+        self.data.is_empty()
+    }
+
     pub const fn dt(&self) -> &DateTimeL {
         &self.dt
     }

@@ -138,11 +138,11 @@ fn canonicalize_fpath(fpath: &FPath) -> FPath {
     match path.canonicalize() {
         Ok(pathbuf) => {
             let s = FPath::from_str(pathbuf.to_str().unwrap());
-            return s.unwrap();
+            s.unwrap()
         }
         Err(_) => {
             // best effort: return the value passed-in
-            return fpath.clone();
+            fpath.clone()
         }
     }
 }
@@ -163,26 +163,31 @@ pub(crate) fn copy_process_path_result_canonicalize_path(ppr: ProcessPathResult)
     match ppr {
         ProcessPathResult::FileValid(fpath, f) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileValid(fpath_c, f);
+
+            ProcessPathResult::FileValid(fpath_c, f)
         }
         ProcessPathResult::FileErrNoPermissions(fpath) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileErrNoPermissions(fpath_c);
+
+            ProcessPathResult::FileErrNoPermissions(fpath_c)
         }
         ProcessPathResult::FileErrNotSupported(fpath, message) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileErrNotSupported(fpath_c, message);
+
+            ProcessPathResult::FileErrNotSupported(fpath_c, message)
         }
         ProcessPathResult::FileErrNotAFile(fpath) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileErrNotAFile(fpath_c);
+
+            ProcessPathResult::FileErrNotAFile(fpath_c)
         }
         ProcessPathResult::FileErrNotExist(fpath) => {
             let fpath_c = canonicalize_fpath(&fpath);
-            return ProcessPathResult::FileErrNotExist(fpath_c);
+
+            ProcessPathResult::FileErrNotExist(fpath_c)
         }
         ret => {
-            return ret;
+            ret
         }
     }
 }
@@ -850,12 +855,7 @@ pub fn fpath_to_filetype(path: &FPath, unparseable_are_text: bool) -> PathToFile
 
 /// Helper to `process_path_tar`
 fn error_to_string(error: &std::io::Error, path: &FPath) -> String {
-    String::from(
-        format!(
-            "{}: {} for file {:?}",
-            error.kind(), error.to_string(), path,
-        )
-    )
+    format!("{}: {} for file {:?}", error.kind(), error, path)
 }
 
 /// Return a `ProcessPathResult` for each parseable file within
@@ -967,9 +967,7 @@ pub fn process_path_tar(
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
-                            Some(String::from(
-                                format!("cannot extract {} type from a tar archived file", at)
-                            ))
+                            Some(format!("cannot extract {} type from a tar archived file", at))
                         );
                     }
                     FileType::Etl { archival_type: FileTypeArchive::Normal, .. }
@@ -987,9 +985,7 @@ pub fn process_path_tar(
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
-                            Some(String::from(
-                                format!("cannot extract {} type from a tar archived file", at)
-                            ))
+                            Some(format!("cannot extract {} type from a tar archived file", at))
                         );
                     }
                     FileType::Evtx { archival_type: FileTypeArchive::Normal, .. }
@@ -1007,9 +1003,7 @@ pub fn process_path_tar(
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
-                            Some(String::from(
-                                format!("cannot extract {} type from a tar archived file", at)
-                            ))
+                            Some(format!("cannot extract {} type from a tar archived file", at))
                         );
                     }
                     FileType::FixedStruct { archival_type: FileTypeArchive::Normal, fixedstruct_type: ft }
@@ -1029,9 +1023,7 @@ pub fn process_path_tar(
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
-                            Some(String::from(
-                                format!("cannot extract {} type from a tar archived file", at)
-                            ))
+                            Some(format!("cannot extract {} type from a tar archived file", at))
                         );
                     }
                     FileType::Odl { archival_type: FileTypeArchive::Normal, odl_sub_type }
@@ -1049,9 +1041,7 @@ pub fn process_path_tar(
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
-                            Some(String::from(
-                                format!("cannot extract {} type from a tar archived file", at)
-                            ))
+                            Some(format!("cannot extract {} type from a tar archived file", at))
                         );
                     }
                     FileType::Journal { archival_type: FileTypeArchive::Normal }
@@ -1071,9 +1061,7 @@ pub fn process_path_tar(
                     => {
                         result = ProcessPathResult::FileErrNotSupported(
                             fullpath,
-                            Some(String::from(
-                                format!("cannot extract {} type from a tar archived file", at)
-                            ))
+                            Some(format!("cannot extract {} type from a tar archived file", at))
                         );
                     }
                     FileType::Text { archival_type: FileTypeArchive::Normal, encoding_type: et }
@@ -1148,7 +1136,7 @@ pub fn process_path(
                 defx!("return FileErr({:?}, {:?})", path, err_string);
                 return vec![ProcessPathResult::FileErr(path.clone(), err_string)];
             }
-        },
+        }
     };
     deo!("std_path {:?}", std_path);
 
@@ -1226,14 +1214,14 @@ pub fn process_path(
         let filetype: FileType = match result {
             PathToFiletypeResult::Filetype(filetype) => filetype,
             PathToFiletypeResult::Archive(archive, fta) => {
-                let results: Vec<ProcessPathResult>;
-                match archive {
+                let results: Vec<ProcessPathResult> = match archive {
                     FileTypeArchiveMultiple::Tar => {
                         // getting here means `std_path` is a `.tar` file
                         defo!("std_path_entry is a .tar file {:?}", std_path_entry);
-                        results = process_path_tar(&path_to_fpath(std_path_entry), unparseable_are_text, fta);
+
+                        process_path_tar(&path_to_fpath(std_path_entry), unparseable_are_text, fta)
                     }
-                }
+                };
                 for result in results.into_iter() {
                     paths.push(result);
                 }

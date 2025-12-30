@@ -330,9 +330,7 @@ impl EvtxReader {
         let path_std: &Path = Path::new(&path);
         let named_temp_file: Option<NamedTempFile>;
         let mtime_opt: Option<SystemTime>;
-        (named_temp_file, mtime_opt) = match decompress_to_ntf(
-            &path_std, &filetype
-        ) {
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_std, &filetype) {
             Ok(ntf_mtime) => {
                 match ntf_mtime {
                     Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
@@ -393,7 +391,7 @@ impl EvtxReader {
         // create the EvtxParser
         let settings = ParserSettings::default().num_threads(0);
         def1o!("EvtxParser::from_path({:?})", path_actual);
-        let evtxparser: EvtxParser<File> = match EvtxParser::from_path(&path_actual) {
+        let evtxparser: EvtxParser<File> = match EvtxParser::from_path(path_actual) {
             Ok(evtxparser) => evtxparser.with_configuration(settings),
             Err(err) => {
                 return Err(Error::new(ErrorKind::Other, format!("EvtxParser::from_path({:?}): {}", path_actual, err)));

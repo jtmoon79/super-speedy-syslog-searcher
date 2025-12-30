@@ -3961,7 +3961,6 @@ pub const NETBSD_X8664_LASTLOGX_BUFFER1: [u8; netbsd_x8664::LASTLOGX_SZ] = [
 // netbsd_x8664::utmp
 
 /// 40 bytes
-
 pub const NETBSD_X8664_UTMP_BUFFER1: [u8; netbsd_x8664::UTMP_SZ] = [
     0x70, 0x74, 0x73, 0x2f, 0x32, 0x00, 0x00, 0x00, 0x72, 0x6f,
     0x6f, 0x74, 0x00, 0x00, 0x00, 0x00, 0x31, 0x39, 0x32, 0x2e,
@@ -4113,7 +4112,7 @@ lazy_static! {
     pub static ref ETL_1_FPATH: FPath = FPath::from(ETL_1_STR_PATH);
     pub static ref ETL_1_GZ_FPATH: FPath = FPath::from(ETL_1_GZ_STR_PATH);
     pub static ref ETL_1_GZ_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1759660280))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1759660280)
     };
 }
 
@@ -4128,7 +4127,7 @@ lazy_static! {
     pub static ref ODL_1_EVENT_COUNT: Count = 11;
     pub static ref ODL_1_GZ_FPATH: FPath = FPath::from(ODL_1_GZ_STR_PATH);
     pub static ref ODL_1_GZ_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1766319245))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1766319245)
     };
 }
 
@@ -4239,7 +4238,7 @@ lazy_static! {
     pub static ref EVTX_KPNP_BZ2_FPATH: FPath = FPath::from(EVTX_KPNP_BZ2_STR_PATH_PROJD);
     /// set by `./tools/log-files-time-update.sh`
     pub static ref EVTX_KPNP_BZ2_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678535460))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1678535460)
     };
     pub static ref EVTX_KPNP_BZ2_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_BZ2_F: File =
@@ -4254,7 +4253,7 @@ lazy_static! {
     pub static ref EVTX_KPNP_GZ_FPATH: FPath = FPath::from(EVTX_KPNP_GZ_STR_PATH_PROJD);
     /// set by `./tools/log-files-time-update.sh`
     pub static ref EVTX_KPNP_GZ_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980)
     };
     pub static ref EVTX_KPNP_GZ_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_GZ_F: File =
@@ -4269,7 +4268,7 @@ lazy_static! {
     pub static ref EVTX_KPNP_LZ4_FPATH: FPath = FPath::from(EVTX_KPNP_LZ4_STR_PATH_PROJD);
     /// set by `./tools/log-files-time-update.sh`
     pub static ref EVTX_KPNP_LZ4_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678708380))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1678708380)
     };
     pub static ref EVTX_KPNP_LZ4_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_LZ4_F: File =
@@ -4284,7 +4283,7 @@ lazy_static! {
     pub static ref EVTX_KPNP_TAR_FPATH: FPath = FPath::from(EVTX_KPNP_TAR_STR_PATH_PROJD);
     /// set by `./tools/log-files-time-update.sh`
     pub static ref EVTX_KPNP_TAR_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1678448980)
     };
     pub static ref EVTX_KPNP_TAR_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_TAR_F: File =
@@ -4299,7 +4298,7 @@ lazy_static! {
     pub static ref EVTX_KPNP_XZ_FPATH: FPath = FPath::from(EVTX_KPNP_XZ_STR_PATH_PROJD);
     /// set by `./tools/log-files-time-update.sh`
     pub static ref EVTX_KPNP_XZ_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1678794840))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1678794840)
     };
     pub static ref EVTX_KPNP_XZ_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_XZ_F: File =
@@ -4324,7 +4323,7 @@ lazy_static! {
     // empty file with suffix .journal
 
     pub static ref NTF_JOURNAL_EMPTY: NamedTempFile = {
-        create_temp_file_with_suffix(&"", &String::from(".journal"))
+        create_temp_file_with_suffix("", &String::from(".journal"))
     };
     pub static ref NTF_JOURNAL_EMPTY_FPATH: FPath = {
         path_to_fpath(NTF_JOURNAL_EMPTY.path())
@@ -4336,7 +4335,7 @@ lazy_static! {
         FPath::from("./logs/programs/journal/RHE_91_system.journal");
     /// set by `./tools/log-files-time-update.sh`
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655)
     };
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_FPATH);
@@ -4355,7 +4354,7 @@ lazy_static! {
         FPath::from("./logs/programs/journal/RHE_91_system.journal.bz2");
     /// set by `./tools/log-files-time-update.sh`
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681254655))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1681254655)
     };
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_BZ2_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH);
@@ -4374,7 +4373,7 @@ lazy_static! {
         FPath::from("./logs/programs/journal/RHE_91_system.journal.gz");
     /// set by `./tools/log-files-time-update.sh`
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634)
     };
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_GZ_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_GZ_FPATH);
@@ -4399,7 +4398,7 @@ lazy_static! {
         );
     /// set by `./tools/log-files-time-update.sh`
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1681164634)
     };
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_TAR_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_TAR_FPATH);
@@ -4418,7 +4417,7 @@ lazy_static! {
         FPath::from("./logs/programs/journal/RHE_91_system.journal.lz4");
     /// set by `./tools/log-files-time-update.sh`
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1681428655)
     };
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_LZ4_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_LZ4_FPATH);
@@ -4437,7 +4436,7 @@ lazy_static! {
         FPath::from("./logs/programs/journal/RHE_91_system.journal.xz");
     /// set by `./tools/log-files-time-update.sh`
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_MTIME: SystemTime = {
-        SystemTime::from(SystemTime::UNIX_EPOCH + Duration::from_secs(1681164774))
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1681164774)
     };
     pub static ref JOURNAL_FILE_RHE_91_SYSTEM_XZ_PATH: &'static Path =
         fpath_to_path(&JOURNAL_FILE_RHE_91_SYSTEM_XZ_FPATH);

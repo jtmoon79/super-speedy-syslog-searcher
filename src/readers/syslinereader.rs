@@ -1561,7 +1561,7 @@ impl SyslineReader {
         let max_ = self
             .dt_patterns_counts
             .iter()
-            .fold(std::u64::MIN, |a, b| a.max(*(b.1)));
+            .fold(u64::MIN, |a, b| a.max(*(b.1)));
         if max_ == 0 {
             // no datetime patterns were found
             defx!("return false");
@@ -1711,7 +1711,7 @@ impl SyslineReader {
             &mut self.ezcheck12d2_hit,
             &mut self.ezcheck12d2_miss,
             &mut self.ezcheck12d2_hit_max,
-            &self.linereader.path(),
+            self.linereader.path(),
         );
         let data: FindDateTimeData = match result {
             Ok(val) => val,
@@ -2016,23 +2016,20 @@ impl SyslineReader {
                 }
                 ResultFindLine::Done => {
                     defo!("({}): A from LineReader.find_line_in_block({}), partial {:?}", fileoffset, fo1, partial,);
-                    match partial {
-                        Some(line) => {
-                            // received Done but also a partial Line (the terminating Newline was
-                            // not found in the current Block). Try to match a datetime on this
-                            // partial Line. Do not store this Line, do not create a new Sysline.
-                            let result = self.parse_datetime_in_line_cached(&LineP::new(line), self.charsz(), year_opt);
-                            defo!("({}): partial parse_datetime_in_line_cached returned {:?}", fileoffset, result);
-                            match result {
-                                Err(_) => {}
-                                Ok((_dt_beg, _dt_end, _dt, _index)) => {
-                                    defo!("({}): partial Line datetime found: {:?}", fileoffset, _dt);
-                                    defx!("({}): return ResultFindSysline::Done, true", fileoffset);
-                                    return (ResultFindSysline::Done, true);
-                                }
+                    if let Some(line) = partial {
+                        // received Done but also a partial Line (the terminating Newline was
+                        // not found in the current Block). Try to match a datetime on this
+                        // partial Line. Do not store this Line, do not create a new Sysline.
+                        let result = self.parse_datetime_in_line_cached(&LineP::new(line), self.charsz(), year_opt);
+                        defo!("({}): partial parse_datetime_in_line_cached returned {:?}", fileoffset, result);
+                        match result {
+                            Err(_) => {}
+                            Ok((_dt_beg, _dt_end, _dt, _index)) => {
+                                defo!("({}): partial Line datetime found: {:?}", fileoffset, _dt);
+                                defx!("({}): return ResultFindSysline::Done, true", fileoffset);
+                                return (ResultFindSysline::Done, true);
                             }
                         }
-                        None => {}
                     }
                     defx!("({}): return ResultFindSysline::Done, false", fileoffset);
                     return (ResultFindSysline::Done, false);
@@ -2775,8 +2772,8 @@ impl SyslineReader {
                     (*syslinep_next).dt(),
                     (*syslinep_next).to_String_noraw()
                 );
-                let syslinep_compare = dt_after_or_before(&(*syslinep).dt(), dt_filter);
-                let syslinep_next_compare = dt_after_or_before(&(*syslinep_next).dt(), dt_filter);
+                let syslinep_compare = dt_after_or_before((*syslinep).dt(), dt_filter);
+                let syslinep_next_compare = dt_after_or_before((*syslinep_next).dt(), dt_filter);
                 defo!("match({:?}, {:?})", syslinep_compare, syslinep_next_compare);
                 syslinep = match (syslinep_compare, syslinep_next_compare) {
                     (_, Result_Filter_DateTime1::Pass) | (Result_Filter_DateTime1::Pass, _) => {
@@ -2939,12 +2936,11 @@ impl SyslineReader {
     ) -> ResultFindSysline {
         defn!("({}, {:?}, {:?})", fileoffset, dt_filter_after, dt_filter_before);
 
-        let result: ResultFindSysline;
-        if self.is_streamed_file() {
-            result = self.find_sysline_at_datetime_filter_linear_search(fileoffset, dt_filter_after);
+        let result: ResultFindSysline = if self.is_streamed_file() {
+            self.find_sysline_at_datetime_filter_linear_search(fileoffset, dt_filter_after)
         } else {
-            result = self.find_sysline_at_datetime_filter_binary_search(fileoffset, dt_filter_after);
-        }
+            self.find_sysline_at_datetime_filter_binary_search(fileoffset, dt_filter_after)
+        };
         defo!("returned {:?}", result);
 
         match result {

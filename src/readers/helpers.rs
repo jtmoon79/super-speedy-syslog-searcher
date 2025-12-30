@@ -102,7 +102,7 @@ pub fn filename_count_extensions(path: &std::path::Path) -> usize {
 /// Testing helper.
 #[doc(hidden)]
 #[cfg(test)]
-pub fn randomize(v_: &mut Vec<FileOffset>) {
+pub fn randomize(v_: &mut [FileOffset]) {
     let mut rng = rand::rng();
     v_.shuffle(&mut rng);
 }
