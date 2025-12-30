@@ -38,10 +38,7 @@ cargo build
 cargo build --profile release
 cargo build --profile mimalloc --features mimalloc
 cargo build --profile jemalloc --features jemalloc
-# BUG: fails to build
-#          /usr/bin/ld: cannot find -ltcmalloc: No such file or directory
-#      I installed recommended packages. Not sure.
-# cargo build --profile tcmalloc --features tcmalloc
+cargo build --profile tcmalloc --features tcmalloc
 ./tools/log-files-time-update.sh
 cargo test
 cargo check --all-targets

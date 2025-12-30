@@ -1,6 +1,6 @@
 # dependencies.apt
 #
-# apt packages required for scripts under `tools/` and other commands
+# apt packages required for scripts under `tools/` and other cargo commands
 
 # cargo clippy
 pkg-config
@@ -26,6 +26,7 @@ libsystemd-dev
 jq
 lnav
 
-# for build --feature=tcmalloc
+# build --profile=tcmalloc --feature=tcmalloc
 libtcmalloc-minimal4
 google-perftools
+libgoogle-perftools-dev
