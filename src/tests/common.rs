@@ -2,8 +2,12 @@
 //
 // predefined data and functions for use in various tests
 
-use std::fs::File;
+use std::fs::{
+    File,
+    OpenOptions,
+};
 use std::io::Read;
+use std::io;
 use std::time::Duration;
 
 use ::const_format::concatcp;
@@ -4567,4 +4571,15 @@ pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
         at_block += 1;
     }
     eprintln!("{}", HORZ_LINE);
+}
+
+/// Helper to create an empty file at `path`.
+/// Fails if the file already exists or cannot be created.
+pub fn touch(path: &Path) -> io::Result<()> {
+    OpenOptions::new()
+        .create_new(true) // Create the file if it doesn't exist, failing if it does
+        .write(true)  // Open the file for writing
+        .open(path)?;
+
+    Ok(())
 }

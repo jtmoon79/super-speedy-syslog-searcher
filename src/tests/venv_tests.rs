@@ -8,6 +8,7 @@
 #![allow(non_camel_case_types)]
 
 use std::io::ErrorKind;
+use std::path::PathBuf;
 
 #[allow(unused_imports)]
 use ::si_trace_print::printers::{
@@ -15,12 +16,17 @@ use ::si_trace_print::printers::{
     defo,
     defx,
     defñ,
+    def2o,
     def2n,
     def2x,
     def2ñ,
 };
+use ::tempfile::env::temp_dir;
 
-use crate::common::Bytes;
+use crate::common::{
+    Bytes,
+    threadid_to_u64,
+};
 use crate::debug::printers::buffer_to_String_noraw;
 use crate::python::venv::{
     create,
@@ -28,27 +34,58 @@ use crate::python::venv::{
     extract_compare_version,
     venv_path,
 };
+use crate::tests::common::touch;
 
-type VENV_LOCK_TYPE<'a> = std::sync::Mutex<()>;
-/// Tests should call `venv_setup()` to ensure the virtual environment is created before using it.
-static VENV_TESTS_LOCK: VENV_LOCK_TYPE<'static> = VENV_LOCK_TYPE::new(());
-/// Indicates if the virtual environment has been created.
-/// Protected by `VENV_TESTS_LOCK`.
-static VENV_ENV_CREATED: std::sync::OnceLock<()> = std::sync::OnceLock::new();
-
-/// setup the Python virtual environment for tests, do this once
+/// setup the Python virtual environment for tests, do this once per parent process (once per nextest run)
 pub fn venv_setup() {
-    let _lock = VENV_TESTS_LOCK.lock().unwrap();
-    if VENV_ENV_CREATED.get().is_none() {
-        let pid = std::process::id();
-        def2n!("creating venv (PID {})…", pid);
-        let create_result = create();
-        assert!(create_result.is_ok(), "venv creation failed in venv_setup()");
-        VENV_ENV_CREATED.set(()).unwrap();
-        def2x!("venv created.");
-    } else {
-        def2ñ!("venv already created.");
+    let tid = threadid_to_u64(std::thread::current().id());
+    let pid = std::process::id();
+    #[cfg(target_family = "unix")]
+    let ppid: u32 = std::os::unix::process::parent_id();
+    #[cfg(not(target_family = "unix"))]
+    let ppid: u32 = 0;
+    let ppid_s = ppid.to_string();
+
+    def2n!("TID {tid}, PID {pid}, PPID {ppid_s}…");
+
+    let venv_pmutex: PathBuf = temp_dir().join("tmp-s4-test-python-venv-mutex");
+
+    _ = std::fs::create_dir_all(&venv_pmutex);
+    if ! venv_pmutex.exists() {
+        panic!("path {:?} does not exist after create_dir_all()", venv_pmutex);
     }
+
+    // XXX: hacky but functional method to coordinate multi-process test runs.
+    //      If touch fails then another process controlled by the same parent process
+    //      has already created the "pmutex" file.
+    //      This is pretty close to a multi-platform inter-process mutex lock.
+    //      This is to workaround nextest creating multiple processes for tests
+    //      but we only want one creation of the Python venv per nextest run.
+    // XXX: I tried using crate `process-sync` and `SharedMutex` but `Send` is not implemented for
+    //      `SharedMutex` so it does not supported multi-threaded coordination.
+    let venv_pmutex_claim: PathBuf = venv_pmutex.join(format!("venv_setup-claim-{}", ppid_s));
+    let venv_pmutex_ready: PathBuf = venv_pmutex.join(format!("venv_setup-ready-{}", ppid_s));
+    if touch(&venv_pmutex_claim.as_path()).is_err() {
+        def2o!("Claim pmutex file already exists: {:?}", venv_pmutex_claim);
+        // XXX: polling sleep
+        while !venv_pmutex_ready.exists() {
+            std::thread::sleep(std::time::Duration::from_millis(100));
+        }
+        def2x!("Ready pmutex file exists: {:?}", venv_pmutex_ready);
+        return;
+    }
+    def2o!("touched Claim pmutex file {:?}", venv_pmutex_claim);
+
+    def2o!("creating venv (TID {}, PID {}, PPID {})…", tid, pid, ppid_s);
+    let create_result = create();
+    assert!(create_result.is_ok(), "venv creation failed in venv_setup()");
+
+    if let Err(err) = touch(&venv_pmutex_ready.as_path()) {
+        panic!("failed to touch Ready pmutex file {:?} in venv_setup(); {}", venv_pmutex_ready, err);
+    }
+    def2o!("touched Ready pmutex file {:?}", venv_pmutex_ready);
+
+    def2x!("venv created (TID {}, PID {}, PPID {}).", tid, pid, ppid_s);
 }
 
 #[test]

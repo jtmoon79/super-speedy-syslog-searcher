@@ -95,7 +95,7 @@ pub fn venv_path() -> PathBuf {
     if cfg!(test) {
         // for tests, use a temporary path
         home = temp_dir();
-        home.push("tmp_s4_test_venv");
+        home.push("tmp-s4-test-python-venv");
     }
 
     defñ!("return {:?}", home);
@@ -312,7 +312,7 @@ pub fn create() -> Result3E<()> {
     ) {
         Ok(_) => {},
         Result::Err(err) => {
-            e_err!("Failed to create Python virtual environment: {}", err);
+            e_err!("Failed to create Python virtual environment; venv command failed: {}", err);
             def1x!("pyrunner.run() returned {:?}", err);
             return Result3E::ErrNoReprint(err);
         }
@@ -542,6 +542,14 @@ pub fn create() -> Result3E<()> {
     ) {
         e_err!("Failed to run s4_event_readers module test: {}", err);
         def1x!("PyRunner::new failed {:?}", err);
+        return Result3E::ErrNoReprint(err);
+    }
+
+    // touch special flag file to mark the venv is fully created
+    let flag_path: PathBuf = venv_path().join("done");
+    if let Err(err) = std::fs::write(&flag_path, b"created by s4") {
+        e_err!("Failed to create {:?}: {}", flag_path, err);
+        def1x!("std::fs::write returned {:?}", err);
         return Result3E::ErrNoReprint(err);
     }
 
