@@ -28,6 +28,7 @@ use crate::common::{
     FileSz,
     FileType,
     ResultFind,
+    summary_stats_enable,
 };
 use crate::data::datetime::systemtime_year;
 use crate::debug::helpers::{
@@ -1797,6 +1798,8 @@ fn test_SummaryBlockReader(
     blockreader_blocks_dropped_ok: Count,
     blockreader_blocks_dropped_err: Count,
 ) {
+    summary_stats_enable();
+
     let mut blockreader = new_BlockReader(path, filetype, blocksz);
     for bo in 0..blockreader.blockoffset_last() {
         match blockreader.read_block(bo) {

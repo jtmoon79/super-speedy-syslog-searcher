@@ -88,6 +88,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
     SUBPATH_SEP,
+    summary_stat,
 };
 use crate::common::{
     File,
@@ -468,24 +469,34 @@ pub struct BlockReader {
     ///
     /// Users should call functions `LRU_cache_enable` or `LRU_cache_disable`.
     read_block_lru_cache_enabled: bool,
+    /// Summary statistic.
     /// Internal LRU cache `Count` of lookup hits.
     pub(crate) read_block_cache_lru_hit: Count,
+    /// Summary statistic.
     /// Internal LRU cache `Count` of lookup misses.
     pub(crate) read_block_cache_lru_miss: Count,
+    /// Summary statistic.
     /// Internal LRU cache `Count` of lookup `.put`.
     pub(crate) read_block_cache_lru_put: Count,
+    /// Summary statistic.
     /// Internal storage `Count` of lookup hit during `fn read_block()`.
     pub(crate) read_blocks_hit: Count,
+    /// Summary statistic.
     /// Internal storage `Count` of lookup miss during `fn read_block()`.
     pub(crate) read_blocks_miss: Count,
+    /// Summary statistic.
     /// Internal storage `Count` of calls to `self.blocks.insert`.
     pub(crate) read_blocks_put: Count,
+    /// Summary statistic.
     /// Internal storage `Count` of previously read block being read again.
     pub(crate) read_blocks_reread_error: Count,
+    /// Summary statistic.
     /// Internal tracking of "high watermark" of `self.blocks` size
     pub(crate) blocks_highest: usize,
+    /// Summary statistic.
     /// Internal count of `Block`s dropped
     pub(crate) dropped_blocks_ok: Count,
+    /// Summary statistic.
     /// Internal count of `Block`s dropped failed
     pub(crate) dropped_blocks_err: Count,
     /// Internal memory of blocks dropped.
@@ -508,12 +519,7 @@ impl fmt::Debug for BlockReader {
             .field("blocks currently stored", &self.blocks.len())
             .field("blocks read", &self.blocks_read.len())
             .field("bytes read", &self.count_bytes_read)
-            .field("cache LRU hit", &self.read_block_cache_lru_hit)
             .field("miss", &self.read_block_cache_lru_miss)
-            .field("put", &self.read_block_cache_lru_put)
-            .field("cache hit", &self.read_blocks_hit)
-            .field("miss", &self.read_blocks_miss)
-            .field("insert", &self.read_blocks_put)
             .finish()
     }
 }
@@ -1761,7 +1767,7 @@ impl BlockReader {
                         if let Some(bp_) = blocks.insert(blockoffset, blockp.clone()) {
                             debug_panic!("blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}, path {:?}", blockoffset, blockp, bp_, path_std);
                         }
-                        read_blocks_put += 1;
+                        summary_stat!(read_blocks_put += 1);
                         count_bytes_read += (*blockp).len() as Count;
                         def1o!("FileXz: count_bytes_read={}", count_bytes_read);
                         blocks_read.insert(blockoffset);
@@ -2585,7 +2591,7 @@ impl BlockReader {
                         blockoffset * self.blocksz,
                         blockoffset * self.blocksz + (_block.len() as BlockOffset),
                     );
-                    self.dropped_blocks_ok += 1;
+                    summary_stat!(self.dropped_blocks_ok += 1);
                     #[cfg(test)]
                     {
                         self.dropped_blocks
@@ -2593,7 +2599,7 @@ impl BlockReader {
                     }
                 }
                 Err(_blockp) => {
-                    self.dropped_blocks_err += 1;
+                    summary_stat!(self.dropped_blocks_err += 1);
                     deo!(
                         "failed to drop block {} @0x{:p}, len {}, strong_count {}",
                         blockoffset,
@@ -2626,7 +2632,7 @@ impl BlockReader {
         }
         self.read_block_lru_cache
             .put(blockoffset, blockp.clone());
-        self.read_block_cache_lru_put += 1;
+        summary_stat!(self.read_block_cache_lru_put += 1);
     }
 
     /// Store clone of `BlockP` in `self.blocks` storage.
@@ -2655,8 +2661,8 @@ impl BlockReader {
                 self.path,
             );
         }
-        self.read_blocks_put += 1;
-        self.blocks_highest = std::cmp::max(self.blocks_highest, self.blocks.len());
+        summary_stat!(self.read_blocks_put += 1);
+        summary_stat!(self.blocks_highest = std::cmp::max(self.blocks_highest, self.blocks.len()));
         if ! self.blocks_read.insert(blockoffset) {
             debug_panic!(
                 "BlockReader::store_blocks_in_storage blockreader.blocks_read({}) already had a entry, for file {:?}",
@@ -2790,7 +2796,7 @@ impl BlockReader {
                 .blocks_read
                 .contains(&bo_at)
             {
-                self.read_blocks_hit += 1;
+                summary_stat!(self.read_blocks_hit += 1);
                 if bo_at == blockoffset {
                     defx!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
@@ -2814,7 +2820,7 @@ impl BlockReader {
                     "blocks has element {} not in blocks_read",
                     bo_at
                 );
-                self.read_blocks_miss += 1;
+                summary_stat!(self.read_blocks_miss += 1);
             }
 
             let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
@@ -3020,7 +3026,7 @@ impl BlockReader {
                 .blocks_read
                 .contains(&bo_at)
             {
-                self.read_blocks_hit += 1;
+                summary_stat!(self.read_blocks_hit += 1);
                 if bo_at == blockoffset {
                     defx!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
@@ -3044,7 +3050,7 @@ impl BlockReader {
                     "blocks has element {} not in blocks_read",
                     bo_at
                 );
-                self.read_blocks_miss += 1;
+                summary_stat!(self.read_blocks_miss += 1);
             }
 
             // decompress the gzip data. This is tedious because the `GzDecoder` can stall
@@ -3369,7 +3375,7 @@ impl BlockReader {
                 .blocks_read
                 .contains(&bo_at)
             {
-                self.read_blocks_hit += 1;
+                summary_stat!(self.read_blocks_hit += 1);
                 if bo_at == blockoffset {
                     defx!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
@@ -3393,7 +3399,7 @@ impl BlockReader {
                     "blocks has element {} not in blocks_read",
                     bo_at
                 );
-                self.read_blocks_miss += 1;
+                summary_stat!(self.read_blocks_miss += 1);
             }
 
             let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
@@ -3565,7 +3571,7 @@ impl BlockReader {
                 .blocks_read
                 .contains(&bo_at)
             {
-                self.read_blocks_hit += 1;
+                summary_stat!(self.read_blocks_hit += 1);
                 if bo_at == blockoffset {
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
                     //      which could happen during streaming stage
@@ -3595,7 +3601,7 @@ impl BlockReader {
                     "blocks has element {} not in blocks_read",
                     bo_at
                 );
-                self.read_blocks_miss += 1;
+                summary_stat!(self.read_blocks_miss += 1);
             }
 
             let blocksz_u: usize = self.blocksz_at_blockoffset(&bo_at) as usize;
@@ -3918,7 +3924,7 @@ impl BlockReader {
                     .get(&blockoffset)
                 {
                     Some(bp) => {
-                        self.read_block_cache_lru_hit += 1;
+                        summary_stat!(self.read_block_cache_lru_hit += 1);
                         defx!(
                             "return Found(Block); hit LRU cache Block[{}] @[{}, {}) len {}",
                             &blockoffset,
@@ -3929,7 +3935,7 @@ impl BlockReader {
                         return ResultFindReadBlock::Found(bp.clone());
                     }
                     None => {
-                        self.read_block_cache_lru_miss += 1;
+                        summary_stat!(self.read_block_cache_lru_miss += 1);
                         defo!("blockoffset {} not found LRU cache", blockoffset);
                     }
                 }
@@ -3939,7 +3945,7 @@ impl BlockReader {
                 .blocks_read
                 .contains(&blockoffset)
             {
-                self.read_blocks_hit += 1;
+                summary_stat!(self.read_blocks_hit += 1);
                 defo!("blocks_read.contains({})", blockoffset);
                 // XXX: `loop` is only here to allow a rare call to `break`
                 #[allow(clippy::never_loop)]
@@ -3966,8 +3972,8 @@ impl BlockReader {
                                 blockoffset,
                                 self.path,
                             );
-                            self.read_blocks_reread_error += 1;
-                            self.read_blocks_miss += 1;
+                            summary_stat!(self.read_blocks_reread_error += 1);
+                            summary_stat!(self.read_blocks_miss += 1);
                             self.blocks_read
                                 .remove(&blockoffset);
                             break;
@@ -3984,7 +3990,7 @@ impl BlockReader {
                     return ResultFindReadBlock::Found(blockp);
                 }
             } else {
-                self.read_blocks_miss += 1;
+                summary_stat!(self.read_blocks_miss += 1);
                 defo!("blockoffset {} not found in blocks_read", blockoffset);
                 debug_assert!(
                     !self

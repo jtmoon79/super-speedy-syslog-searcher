@@ -27,6 +27,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
     LogMessageType,
+    summary_stats_enable,
 };
 use crate::data::common::DtBegEndPairOpt;
 use crate::data::datetime::DateTimeLOpt;
@@ -240,6 +241,8 @@ fn test_EvtxReader_next_summary(
     datetime_first_processed: DateTimeLOpt,
     datetime_last_processed: DateTimeLOpt,
 ) {
+    summary_stats_enable();
+
     match filetype {
         FileType::Evtx { archival_type } => {
             match archival_type {
@@ -268,10 +271,8 @@ fn test_EvtxReader_next_summary(
     }
 
     // assert EvtxReader
-    assert_eq!(evtxreader.count_events_processed(), events_processed,
-        "count_events_processed");
-    assert_eq!(evtxreader.count_events_accepted(), events_accepted,
-        "count_events_accepted");
+    assert_eq!(evtxreader.events_processed, events_processed, "count_events_processed");
+    assert_eq!(evtxreader.events_accepted, events_accepted, "count_events_accepted");
     assert_eq!(evtxreader.filesz(), filesz, "filesz");
 
     // assert SummaryEvtxReader

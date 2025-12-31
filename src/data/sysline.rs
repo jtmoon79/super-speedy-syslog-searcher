@@ -268,7 +268,7 @@ impl Sysline {
     /// Inefficient. Only for testing.
     #[doc(hidden)]
     #[cfg(test)]
-    pub fn get_slices(self: &Sysline) -> Slices {
+    pub fn get_slices(self: &Sysline) -> Slices<'_> {
         let mut count: usize = 0;
         for linep in &self.lines {
             count += linep.count_slices() as usize;

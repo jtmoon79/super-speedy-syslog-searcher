@@ -78,7 +78,7 @@ static mut SUMMARY_STATS_INITIALIZED: bool = false;
 pub fn summary_stats_enable() {
     unsafe {
         SUMMARY_STATS_ENABLED = true;
-        if SUMMARY_STATS_INITIALIZED {
+        if ! cfg!(test) && SUMMARY_STATS_INITIALIZED {
             panic!("summary_stats_enable() called more than once");
         }
         SUMMARY_STATS_INITIALIZED = true;

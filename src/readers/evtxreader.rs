@@ -70,6 +70,7 @@ use crate::common::{
     FileOpenOptions,
     FileSz,
     FileType,
+    summary_stat,
 };
 use crate::data::datetime::{
     DateTimeL,
@@ -225,45 +226,36 @@ pub struct EvtxReader {
     path: FPath,
     /// If necessary, the extracted evtx file as a temporary file.
     named_temp_file: Option<NamedTempFile>,
+    /// Summary statistic.
     /// `Count` of [`Evtx`s] processed.
     ///
     /// [`Evtx`s]: crate::data::evtx::Evtx
     //pub(super) events_processed: Box<Count>,
-    pub(super) events_processed: Count,
+    pub(crate) events_processed: Count,
+    /// Summary statistic.
     /// `Count` of [`Evtx`s] accepted by the datetime filters.
     ///
     /// [`Evtx`s]: crate::data::evtx::Evtx
-    pub(super) events_accepted: Count,
+    pub(crate) events_accepted: Count,
+    /// Summary statistic.
     /// First (soonest) processed [`Timestamp`].
-    ///
-    /// Intended for `--summary`.
-    ///
-    /// [`Timestamp`]: Timestamp
-    pub(super) ts_first_processed: TimestampOpt,
+    pub(crate) ts_first_processed: TimestampOpt,
+    /// Summary statistic.
     /// Last (latest) processed [`Timestamp`].
-    ///
-    /// Intended for `--summary`.
-    ///
-    /// [`Timestamp`]: Timestamp
-    pub(super) ts_last_processed: TimestampOpt,
+    pub(crate) ts_last_processed: TimestampOpt,
+    /// Summary statistic.
     /// First (soonest) accepted (printed) [`Timestamp`].
-    ///
-    /// Intended for `--summary`.
-    ///
-    /// [`Timestamp`]: Timestamp
-    pub(super) ts_first_accepted: TimestampOpt,
+    pub(crate) ts_first_accepted: TimestampOpt,
+    /// Summary statistic.
     /// Last (latest) accepted (printed) [`Timestamp`].
-    ///
-    /// Intended for `--summary`.
-    ///
-    /// [`Timestamp`]: Timestamp
-    pub(super) ts_last_accepted: TimestampOpt,
+    pub(crate) ts_last_accepted: TimestampOpt,
     /// File Type
     filetype: FileType,
     /// File Size of the file being read in bytes.
     filesz: FileSz,
     /// file Last Modified time from file-system metadata
     mtime: SystemTime,
+    /// Summary statistic.
     /// Count of EVTX entries found to be out of order.
     out_of_order: Count,
     /// has `self.analyze()` been called?
@@ -285,10 +277,6 @@ impl fmt::Debug for EvtxReader {
     ) -> fmt::Result {
         f.debug_struct("EvtxReader")
             .field("Path", &self.path)
-            .field("Events Processed", &self.events_processed)
-            .field("Events Accepted", &self.events_accepted)
-            .field("ts_first_accepted", &self.ts_first_accepted)
-            .field("ts_last_accepted", &self.ts_last_accepted)
             .field("Error?", &self.error)
             .finish()
     }
@@ -444,35 +432,38 @@ impl EvtxReader {
         {
             match result {
                 Ok(record) => {
-                    // update fields *processed
-                    self.events_processed += 1;
-                    match self
-                        .ts_first_processed
-                        .as_ref()
-                    {
-                        Some(ts_first_) => {
-                            if ts_first_ > &record.timestamp {
-                                self.ts_first_processed = Some(record.timestamp);
+
+                    summary_stat!(self.events_processed += 1);
+
+                    summary_stat!(
+                        match self.ts_first_processed.as_ref()
+                        {
+                            Some(ts_first_) => {
+                                if ts_first_ > &record.timestamp {
+                                    self.ts_first_processed = Some(record.timestamp);
+                                }
                             }
+                            None => self.ts_first_processed = Some(record.timestamp),
                         }
-                        None => self.ts_first_processed = Some(record.timestamp),
-                    }
-                    match self
-                        .ts_last_processed
-                        .as_ref()
-                    {
-                        Some(ts_last_) => {
-                            if ts_last_ < &record.timestamp {
-                                self.ts_last_processed = Some(record.timestamp);
+                    );
+                    summary_stat!(
+                        match self.ts_last_processed.as_ref()
+                        {
+                            Some(ts_last_) => {
+                                if ts_last_ < &record.timestamp {
+                                    self.ts_last_processed = Some(record.timestamp);
+                                }
                             }
+                            None => self.ts_last_processed = Some(record.timestamp),
                         }
-                        None => self.ts_last_processed = Some(record.timestamp),
-                    }
+                    );
                     // update "out of order" counter
                     if let Some(ts_last_) = timestamp_last.as_ref() {
-                        if ts_last_ > &record.timestamp {
-                            self.out_of_order += 1;
-                        }
+                        summary_stat!(
+                            if ts_last_ > &record.timestamp {
+                                self.out_of_order += 1;
+                            }
+                        );
                     }
                     timestamp_last = Some(record.timestamp);
 
@@ -496,27 +487,27 @@ impl EvtxReader {
                     self.events
                         .insert((timestamp, index), evtx);
 
-                    // update fields *accepted
-                    self.events_accepted += 1;
-                    match self
-                        .ts_first_accepted
-                        .as_ref()
-                    {
-                        Some(ts_first_) => {
-                            if ts_first_ > &timestamp {
-                                self.ts_first_accepted = Some(timestamp);
+                    summary_stat!(self.events_accepted += 1);
+
+                    summary_stat!(
+                        match self.ts_first_accepted.as_ref()
+                        {
+                            Some(ts_first_) => {
+                                if ts_first_ > &timestamp {
+                                    self.ts_first_accepted = Some(timestamp);
+                                }
                             }
+                            None => self.ts_first_accepted = Some(timestamp),
                         }
-                        None => self.ts_first_accepted = Some(timestamp),
-                    }
-                    match self.ts_last_accepted.as_ref() {
-                        Some(ts_last_) => {
-                            if ts_last_ < &timestamp {
-                                self.ts_last_accepted = Some(timestamp);
+                        match self.ts_last_accepted.as_ref() {
+                            Some(ts_last_) => {
+                                if ts_last_ < &timestamp {
+                                    self.ts_last_accepted = Some(timestamp);
+                                }
                             }
+                            None => self.ts_last_accepted = Some(timestamp),
                         }
-                        None => self.ts_last_accepted = Some(timestamp),
-                    }
+                    );
                 }
                 Err(err) => {
                     self.error = Some(err.to_string());
@@ -535,18 +526,6 @@ impl EvtxReader {
         self.events
             .pop_first()
             .map(|(_key, evtx)| evtx)
-    }
-
-    /// `Count` of `Evtx`s processed by this `EvtxReader`
-    /// (i.e. `self.events_processed`).
-    #[inline(always)]
-    pub fn count_events_processed(&self) -> Count {
-        self.events_processed
-    }
-
-    #[inline(always)]
-    pub fn count_events_accepted(&self) -> Count {
-        self.events_accepted
     }
 
     #[inline(always)]
@@ -602,8 +581,8 @@ impl EvtxReader {
     /// `EvtxReader`.
     #[allow(non_snake_case)]
     pub fn summary(&self) -> SummaryEvtxReader {
-        let evtxreader_events_processed: Count = self.count_events_processed();
-        let evtxreader_events_accepted: Count = self.count_events_accepted();
+        let evtxreader_events_processed: Count = self.events_processed;
+        let evtxreader_events_accepted: Count = self.events_accepted;
         let evtxreader_datetime_first_processed = self.dt_first_processed();
         let evtxreader_datetime_last_processed = self.dt_last_processed();
         let evtxreader_datetime_first_accepted = self.dt_first_accepted();
