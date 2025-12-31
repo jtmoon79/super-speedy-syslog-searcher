@@ -60,7 +60,6 @@ use ::si_trace_print::{
 };
 
 use crate::common::{
-    debug_panic,
     Count,
     FPath,
     FileOffset,
@@ -68,6 +67,9 @@ use crate::common::{
     FileType,
     FileTypeFixedStruct,
     ResultFind,
+    debug_panic,
+    summary_stat,
+    summary_stats_enabled,
 };
 use crate::data::datetime::{
     dt_after_or_before,
@@ -250,26 +252,20 @@ pub struct FixedStructReader {
     ///
     /// Distinct from `self.cache_entries.len()` as that may have contents removed.
     pub(super) entries_processed: Count,
+    /// Summary statistic.
     /// First (soonest) processed [`DateTimeL`] (not necessarily printed,
     /// not representative of the entire file).
-    ///
-    /// Intended for `--summary`.
-    ///
-    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     pub(super) dt_first: DateTimeLOpt,
+    /// Summary statistic.
     /// Last (latest) processed [`DateTimeL`] (not necessarily printed,
     /// not representative of the entire file).
-    ///
-    /// Intended for `--summary`.
-    ///
-    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     pub(super) dt_last: DateTimeLOpt,
+    /// Summary statistic.
     /// `Count` of dropped `FixedStruct`.
     pub(super) drop_entry_ok: Count,
+    /// Summary statistic.
     /// `Count` of failed drop attempts of `FixedStruct`.
     pub(super) drop_entry_errors: Count,
-    /// Largest `BlockOffset` of successfully dropped blocks.
-    pub(super) blockoffset_drop_last: BlockOffset,
     /// testing-only tracker of successfully dropped `FixedStruct`
     #[cfg(test)]
     pub(crate) dropped_blocks: DroppedBlocks,
@@ -294,8 +290,6 @@ impl fmt::Debug for FixedStructReader {
             .field("Path", &self.path())
             .field("Entries", &self.cache_entries.len())
             .field("tz_offset", &self.tz_offset)
-            .field("dt_first", &self.dt_first)
-            .field("dt_last", &self.dt_last)
             .field("Error?", &self.error)
             .finish()
     }
@@ -543,7 +537,6 @@ impl FixedStructReader {
             dt_last: DateTimeLOpt::None,
             drop_entry_ok: 0,
             drop_entry_errors: 0,
-            blockoffset_drop_last: 0,
             #[cfg(test)]
             dropped_blocks: DroppedBlocks::new(),
             map_tvpair_fo_max_len: map_max_len,
@@ -842,10 +835,10 @@ impl FixedStructReader {
         &mut self,
         datetime: &DateTimeL,
     ) {
+        if !summary_stats_enabled() {
+            return;
+        }
         defñ!("({:?})", datetime);
-        // TODO: cost-savings: the `dt_first` and `dt_last` are only for `--summary`,
-        //       no need to always copy datetimes.
-        //       Would be good to only run this when `if self.do_summary {...}`
         match self.dt_first {
             Some(dt_first_) => {
                 if &dt_first_ > datetime {
@@ -915,9 +908,6 @@ impl FixedStructReader {
                                 BlockReader::file_offset_at_block_offset(bo_at, bsz),
                                 BlockReader::file_offset_at_block_offset(bo_end + 1, bsz),
                             );
-                            // the largest blockoffset that has been dropped should also
-                            // imply that all prior blockoffsets have been dropped
-                            self.blockoffset_drop_last = std::cmp::max(bo_at, self.blockoffset_drop_last);
                             self.block_use_count.remove(&bo_at);
                             #[cfg(test)]
                             self.dropped_blocks.push_back(bo_at);
@@ -937,12 +927,16 @@ impl FixedStructReader {
             }
             bo_at += 1;
         }
-        if dropped_ok > 0 {
-            self.drop_entry_ok += 1;
-        }
-        if dropped_err > 0 {
-            self.drop_entry_errors += 1;
-        }
+        summary_stat!(
+            if dropped_ok > 0 {
+                self.drop_entry_ok += 1;
+            }
+        );
+        summary_stat!(
+            if dropped_err > 0 {
+                self.drop_entry_errors += 1;
+            }
+        );
         defx!("return {}", dropped_ok);
 
         dropped_ok
@@ -1380,7 +1374,7 @@ impl FixedStructReader {
 
         // check if the entry is already stored
         if let Some(fixedstruct) = self.remove_cache_entry(fileoffset) {
-            self.dt_first_last_update(fixedstruct.dt());
+            summary_stat!(self.dt_first_last_update(fixedstruct.dt()));
             // try to drop blocks associated with the entry
             self.drop_entry(&fixedstruct);
             defx!("remove_cache_entry found fixedstruct at fileoffset {}; return Found({}, …)", fileoffset, fo_next,);
@@ -1446,7 +1440,7 @@ impl FixedStructReader {
         // update various statistics/counters
         self.entries_processed += 1;
         defo!("entries_processed = {}", self.entries_processed);
-        self.dt_first_last_update(fs.dt());
+        summary_stat!(self.dt_first_last_update(fs.dt()));
         // try to drop blocks associated with the entry
         self.drop_entry(&fs);
 

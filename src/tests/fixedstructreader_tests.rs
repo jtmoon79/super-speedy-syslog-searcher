@@ -26,6 +26,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
     FileTypeFixedStruct,
+    summary_stats_enable,
 };
 use crate::data::datetime::FixedOffset;
 use crate::data::fixedstruct::{
@@ -374,6 +375,8 @@ fn test_FixedStructReader_process_entry_at(
 /// and `FixedStructReader::summary_complete`
 #[test]
 fn test_FixedStructReader_process_entry_at_2_summary() {
+    summary_stats_enable();
+
     defn!();
     let mut fixedstructreader = new_FixedStructReader(
         &NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
@@ -1088,6 +1091,8 @@ fn test_FixedStructReader_summary(
     expect_summaryblockreader: SummaryBlockReader,
     expect_fixedstructreadersummary: SummaryFixedStructReader,
 ) {
+    summary_stats_enable();
+
     let mut buffer: [u8; ENTRY_SZ_MAX] = [0; ENTRY_SZ_MAX];
     let mut fixedstructreader = new_FixedStructReader(&path, blocksz, FO_P8);
 

@@ -72,7 +72,7 @@ static mut SUMMARY_STATS_ENABLED: bool = false;
 /// sanity check
 static mut SUMMARY_STATS_INITIALIZED: bool = false;
 
-/// enable summary statistics
+/// Enable summary statistics.
 ///
 /// only call this from the main thread once; multi-thread unsafe!
 pub fn summary_stats_enable() {
@@ -98,6 +98,8 @@ pub fn summary_stats_enabled() -> bool {
 /// This macro wraps expressions that update summary statistics. This
 /// reduces a trivial amount of overhead and more
 /// importantly clarifies which expressions are related to summary statistics.
+///
+/// Enable with `summary_stats_enable()`
 #[macro_export]
 macro_rules! summary_stat {
     ($($arg:expr)*) => (
