@@ -86,7 +86,7 @@ if [[ "${PROGRAM_LNAV-}" = '' ]] && ! which lnav &>/dev/null; then
 fi
 PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
 
-HRUNS=30
+readonly HRUNS=30
 
 # make sure Python packages are installed to expected versions
 (
@@ -105,10 +105,17 @@ PYSITE_PKG_PATH=$("${PYTHON}" -c "import sysconfig; print(sysconfig.get_path('pu
     "${PYTHON}" -m compileall -q "${PYSITE_PKG_PATH}"
 )
 
-declare -a files=(
+declare -ar files=(
     './tools/compare-log-mergers/gen-5000-1-facesA.log'
     './tools/compare-log-mergers/gen-5000-1-facesB.log'
     './tools/compare-log-mergers/gen-5000-1-facesC.log'
+    './tools/compare-log-mergers/gen-5000-1-facesD.log'
+    './tools/compare-log-mergers/gen-5000-1-facesE.log'
+    './tools/compare-log-mergers/gen-5000-1-facesF.log'
+    './tools/compare-log-mergers/gen-5000-1-facesG.log'
+    './tools/compare-log-mergers/gen-5000-1-facesH.log'
+    './tools/compare-log-mergers/gen-5000-1-facesI.log'
+    './tools/compare-log-mergers/gen-5000-1-facesJ.log'
 )
 
 tmpA=$(mktemp -t "compare-log-mergers_XXXXX.out")
@@ -413,7 +420,7 @@ PROGRAM_LD=${PROGRAM_LD-logdissect}
 echo
 
 (
-    echo "TODO: figure out how to use logdissect. I'm unable to get it to match on ANY files."
+    echo "TODO: figure out how to use logdissect. I'm unable to get it to match on ANY files." >&2
     exit 0
     files_caching
     set -x
