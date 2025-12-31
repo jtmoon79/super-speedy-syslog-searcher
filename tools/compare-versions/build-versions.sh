@@ -91,21 +91,21 @@ for GIT_REF in "${@}"; do
     (set -x; cp -av "${PROJECT_DIR}/target/release/s4" "${OUTDIR}/${BIN_NAME}")
     echo -e "${BIN_NAME}\t${GIT_REF}\t${GIT_DATE}\trelease" >> "${INFO}"
     # build jemalloc
-    if grep -qEe '^jemalloc = ' -- Cargo.toml; then
+    if grep -qEe '^\[profile.jemalloc\]' -- Cargo.toml; then
         (set -x; cargo build --profile jemalloc --features jemalloc)
         BIN_NAME="s4_${GIT_REF}_jemalloc"
         (set -x; cp -av "${PROJECT_DIR}/target/jemalloc/s4" "${OUTDIR}/${BIN_NAME}")
         echo -e "${BIN_NAME}\t${GIT_REF}\t${GIT_DATE}\tjemalloc" >> "${INFO}"
     fi
     # build mimalloc
-    if grep -qEe '^mimalloc = ' -- Cargo.toml; then
+    if grep -qEe '^\[profile.mimalloc\]' -- Cargo.toml; then
         (set -x; cargo build --profile mimalloc --features mimalloc)
         BIN_NAME="s4_${GIT_REF}_mimalloc"
         (set -x; cp -av "${PROJECT_DIR}/target/mimalloc/s4" "${OUTDIR}/${BIN_NAME}")
         echo -e "${BIN_NAME}\t${GIT_REF}\t${GIT_DATE}\tmimalloc" >> "${INFO}"
     fi
     # build tcmalloc
-    if grep -qEe '^tcmalloc = ' -- Cargo.toml; then
+    if grep -qEe '^\[profile.tcmalloc\]' -- Cargo.toml; then
         (set -x; cargo build --profile tcmalloc --features tcmalloc)
         BIN_NAME="s4_${GIT_REF}_tcmalloc"
         (set -x; cp -av "${PROJECT_DIR}/target/tcmalloc/s4" "${OUTDIR}/${BIN_NAME}")
