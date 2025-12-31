@@ -6,6 +6,9 @@
 pkg-config
 libssl-dev
 
+# compare-current-and-expected/compare.sh
+colordiff
+
 # flamegraph.sh
 llvm
 linux-tools-common
