@@ -42,6 +42,7 @@ use crate::common::{
     FileType,
     NLu8,
     ResultFind,
+    summary_stat,
 };
 use crate::data::datetime::SystemTime;
 use crate::data::line::{
@@ -468,7 +469,7 @@ impl LineReader {
         self.lines
             .insert(fo_beg, linep.clone());
         deo!("foend_to_fobeg.insert({}, {})", fo_end, fo_beg);
-        self.lines_stored_highest = std::cmp::max(self.lines_stored_highest, self.lines.len());
+        summary_stat!(self.lines_stored_highest = std::cmp::max(self.lines_stored_highest, self.lines.len()));
         debug_assert!(
             !self
                 .foend_to_fobeg
@@ -478,7 +479,7 @@ impl LineReader {
         );
         self.foend_to_fobeg
             .insert(fo_end, fo_beg);
-        self.lines_processed += 1;
+        summary_stat!(self.lines_processed += 1);
         defx!("returning LineP");
 
         linep
@@ -547,7 +548,7 @@ impl LineReader {
                     line.blockoffset_first(),
                     line.blockoffset_last()
                 );
-                self.drop_line_ok += 1;
+                summary_stat!(self.drop_line_ok += 1);
                 #[cfg(test)]
                 {
                     self.dropped_lines
@@ -575,7 +576,7 @@ impl LineReader {
             }
             Err(_linep) => {
                 defo!("Arc::try_unwrap(linep) failed to drop Line, strong_count {}", Arc::strong_count(&_linep));
-                self.drop_line_errors += 1;
+                summary_stat!(self.drop_line_errors += 1);
             }
         }
         defx!("return {}", ret);
@@ -657,7 +658,7 @@ impl LineReader {
         {
             Some(rlp) => {
                 defn!("({}): found LRU cached for offset {}", fileoffset, fileoffset);
-                self.find_line_lru_cache_hit += 1;
+                summary_stat!(self.find_line_lru_cache_hit += 1);
                 // `find_line_lru_cache.get(&fileoffset)` returns reference so must create new `ResultFindLine` here
                 // and return that
                 match rlp {
@@ -686,7 +687,7 @@ impl LineReader {
                 }
             }
             None => {
-                self.find_line_lru_cache_miss += 1;
+                summary_stat!(self.find_line_lru_cache_miss += 1);
                 defñ!("fileoffset {} not found in LRU cache", fileoffset);
             }
         }
@@ -709,7 +710,7 @@ impl LineReader {
             .lines
             .contains_key(&fileoffset)
         {
-            self.lines_hits += 1;
+            summary_stat!(self.lines_hits += 1);
             deo!("hit self.lines for FileOffset {}", fileoffset);
             debug_assert!(
                 self.lines_contains(&fileoffset),
@@ -720,7 +721,7 @@ impl LineReader {
             let fo_next: FileOffset = (*linep).fileoffset_end() + charsz_fo;
             if self.is_line_last(&linep) {
                 if self.find_line_lru_cache_enabled {
-                    self.find_line_lru_cache_put += 1;
+                    summary_stat!(self.find_line_lru_cache_put += 1);
                     deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -735,7 +736,7 @@ impl LineReader {
                 return Some(ResultFindLine::Found((fo_next, linep)));
             }
             if self.find_line_lru_cache_enabled {
-                self.find_line_lru_cache_put += 1;
+                summary_stat!(self.find_line_lru_cache_put += 1);
                 deo!("LRU Cache put({}, Found({}, …))", fileoffset, fo_next);
                 self.find_line_lru_cache
                     .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -749,7 +750,7 @@ impl LineReader {
             );
             return Some(ResultFindLine::Found((fo_next, linep)));
         } else {
-            self.lines_miss += 1;
+            summary_stat!(self.lines_miss += 1);
         }
         // second, check if there is a `Line` at a preceding offset
         match self.get_linep(&fileoffset) {
@@ -759,7 +760,7 @@ impl LineReader {
                 let fo_next: FileOffset = (*linep).fileoffset_end() + charsz_fo;
                 if self.is_line_last(&linep) {
                     if self.find_line_lru_cache_enabled {
-                        self.find_line_lru_cache_put += 1;
+                        summary_stat!(self.find_line_lru_cache_put += 1);
                         deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                         self.find_line_lru_cache
                             .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -774,7 +775,7 @@ impl LineReader {
                     return Some(ResultFindLine::Found((fo_next, linep)));
                 }
                 if self.find_line_lru_cache_enabled {
-                    self.find_line_lru_cache_put += 1;
+                    summary_stat!(self.find_line_lru_cache_put += 1);
                     deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -1102,7 +1103,7 @@ impl LineReader {
             );
             if !nl_b_eof {
                 if self.find_line_lru_cache_enabled {
-                    self.find_line_lru_cache_put += 1;
+                    summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -1118,7 +1119,7 @@ impl LineReader {
                 return (ResultFindLine::Found((fo_next, linep)), None);
             } else {
                 if self.find_line_lru_cache_enabled {
-                    self.find_line_lru_cache_put += 1;
+                    summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -1148,7 +1149,7 @@ impl LineReader {
         if fileoffset >= charsz_fo {
             let fo_: FileOffset = fileoffset - charsz_fo;
             if !partial_line && self.lines.contains_key(&fo_) {
-                self.lines_hits += 1;
+                summary_stat!(self.lines_hits += 1);
                 defo!("({}) A1a: hit in self.lines for FileOffset {} (before part A)", fileoffset, fo_);
                 fo_nl_a = fo_;
                 let linep_prev: LineP = self.lines[&fo_nl_a].clone();
@@ -1173,7 +1174,7 @@ impl LineReader {
                 let fo_next: FileOffset = fo_nl_b + charsz_fo;
                 if nl_b_eof {
                     if self.find_line_lru_cache_enabled {
-                        self.find_line_lru_cache_put += 1;
+                        summary_stat!(self.find_line_lru_cache_put += 1);
                         defo!(
                             "({}) A1a: LRU Cache put({}, Found({}, …)) {:?}",
                             fileoffset,
@@ -1195,7 +1196,7 @@ impl LineReader {
                     return (ResultFindLine::Found((fo_next, linep)), None);
                 }
                 if self.find_line_lru_cache_enabled {
-                    self.find_line_lru_cache_put += 1;
+                    summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!(
                         "({}) A1a: LRU Cache put({}, Found({}, …)) {:?}",
                         fileoffset,
@@ -1216,7 +1217,7 @@ impl LineReader {
                 );
                 return (ResultFindLine::Found((fo_next, linep)), None);
             } else {
-                self.lines_miss += 1;
+                summary_stat!(self.lines_miss += 1);
                 defo!("({}) A1a: miss in self.lines for FileOffset {} (quick check before part A)", fileoffset, fo_);
             }
 
@@ -1255,7 +1256,7 @@ impl LineReader {
                                 self.path()
                             );
                             if self.find_line_lru_cache_enabled {
-                                self.find_line_lru_cache_put += 1;
+                                summary_stat!(self.find_line_lru_cache_put += 1);
                                 defo!(
                                     "({}) A1b: LRU Cache put({}, Found({}, …)) {:?}",
                                     fileoffset,
@@ -1278,7 +1279,7 @@ impl LineReader {
                         }
                         debug_assert!(!self.is_line_last(&linep), "nl_b_eof true yet !is_line_last(linep)");
                         if self.find_line_lru_cache_enabled {
-                            self.find_line_lru_cache_put += 1;
+                            summary_stat!(self.find_line_lru_cache_put += 1);
                             defo!(
                                 "({}) A1b: LRU Cache put({}, Found({}, …)) {:?}",
                                 fileoffset,
@@ -1840,7 +1841,7 @@ impl LineReader {
             );
             if !nl_b_eof {
                 if self.find_line_lru_cache_enabled {
-                    self.find_line_lru_cache_put += 1;
+                    summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -1856,7 +1857,7 @@ impl LineReader {
                 return ResultFindLine::Found((fo_next, linep));
             } else {
                 if self.find_line_lru_cache_enabled {
-                    self.find_line_lru_cache_put += 1;
+                    summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -1881,7 +1882,7 @@ impl LineReader {
         if fileoffset >= charsz_fo {
             let fo_: FileOffset = fileoffset - charsz_fo;
             if self.lines.contains_key(&fo_) {
-                self.lines_hits += 1;
+                summary_stat!(self.lines_hits += 1);
                 defo!("A1a: hit in self.lines for FileOffset {} (before part A)", fo_);
                 fo_nl_a = fo_;
                 let linep_prev: LineP = self.lines[&fo_nl_a].clone();
@@ -1905,7 +1906,7 @@ impl LineReader {
                 let linep: LineP = self.insert_line(line);
                 let fo_next: FileOffset = fo_nl_b + charsz_fo;
                 if self.find_line_lru_cache_enabled {
-                    self.find_line_lru_cache_put += 1;
+                    summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
                         .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
@@ -1920,7 +1921,7 @@ impl LineReader {
                 );
                 return ResultFindLine::Found((fo_next, linep));
             } else {
-                self.lines_miss += 1;
+                summary_stat!(self.lines_miss += 1);
                 defo!("A1a: miss in self.lines for FileOffset {} (quick check before part A)", fo_);
             }
             match self.get_linep(&fo_) {
@@ -1950,7 +1951,7 @@ impl LineReader {
                     let linep: LineP = self.insert_line(line);
                     let fo_next: FileOffset = fo_nl_b + charsz_fo;
                     if self.find_line_lru_cache_enabled {
-                        self.find_line_lru_cache_put += 1;
+                        summary_stat!(self.find_line_lru_cache_put += 1);
                         defo!(
                             "A1b: LRU Cache put({}, Found({}, …)) {:?}",
                             fileoffset,
@@ -2192,7 +2193,7 @@ impl LineReader {
         defo!("C: line.count() is {}", line.count_lineparts());
         if line.count_lineparts() == 0 {
             if self.find_line_lru_cache_enabled {
-                self.find_line_lru_cache_put += 1;
+                summary_stat!(self.find_line_lru_cache_put += 1);
                 defo!("C: LRU Cache put({}, Done)", fileoffset);
                 self.find_line_lru_cache
                     .put(fileoffset, ResultFindLine::Done);
@@ -2205,7 +2206,7 @@ impl LineReader {
         let fo_end: FileOffset = line.fileoffset_end();
         let linep: LineP = self.insert_line(line);
         if self.find_line_lru_cache_enabled {
-            self.find_line_lru_cache_put += 1;
+            summary_stat!(self.find_line_lru_cache_put += 1);
             defo!("D: LRU Cache put({}, Found({}, …))", fileoffset, fo_end + 1);
             self.find_line_lru_cache
                 .put(fileoffset, ResultFindLine::Found((fo_end + 1, linep.clone())));
