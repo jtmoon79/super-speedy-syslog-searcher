@@ -217,6 +217,8 @@ use crate::common::{
     FileTypeArchive,
     ResultFind,
     ResultFind4,
+    summary_stat,
+    summary_stats_enabled,
 };
 use crate::data::datetime::{
     DateTimeL,
@@ -913,30 +915,23 @@ pub struct JournalReader {
     journal_output: JournalOutput,
     /// The `FixedOffset` used for `DateTime` creation.
     fixed_offset: FixedOffset,
-    /// `Count` of [`JournalEntry`s] processed.
-    ///
-    /// [`JournalEntry`s]: crate::data::journal::JournalEntry
-    //pub(super) events_processed: Box<Count>,
+    /// Summary statistic.
+    /// `Count` of `JournalEntry`s processed.
     pub(super) events_processed: Count,
-    /// `Count` of [`JournalEntry`s] accepted by the datetime filters.
-    ///
-    /// [`JournalEntry`s]: crate::data::journal::JournalEntry
+    /// Summary statistic.
+    /// `Count` of `JournalEntry`s accepted by the datetime filters.
     pub(super) events_accepted: Count,
+    /// Summary statistic.
     /// First (soonest) accepted (printed) `EpochMicroseconds`.
-    ///
-    /// Intended for `--summary`.
     pub(super) ts_first_accepted: EpochMicrosecondsOpt,
+    /// Summary statistic.
     /// Last (latest) accepted (printed) `EpochMicroseconds`.
-    ///
-    /// Intended for `--summary`.
     pub(super) ts_last_accepted: EpochMicrosecondsOpt,
+    /// Summary statistic.
     /// First (soonest) processed `EpochMicroseconds`.
-    ///
-    /// Intended for `--summary`.
     pub(super) ts_first_processed: EpochMicrosecondsOpt,
+    /// Summary statistic.
     /// Last (latest) processed `EpochMicroseconds`.
-    ///
-    /// Intended for `--summary`.
     pub(super) ts_last_processed: EpochMicrosecondsOpt,
     /// File Size of the file being read in bytes.
     filesz: FileSz,
@@ -944,10 +939,13 @@ pub struct JournalReader {
     mtime: SystemTime,
     /// Has `self.analyze()` been called?
     analyzed: bool,
+    /// Summary statistic.
     /// Number of systemd API calls (calls using `journal_api_ptr`).
     api_calls: Count,
+    /// Summary statistic.
     /// Number of systemd API calls that returned an unexpected error.
     api_call_errors: Count,
+    /// Summary statistic.
     /// Out of chronological order.
     out_of_order: Count,
     /// The last [`Error`], if any, as a `String`
@@ -1171,7 +1169,7 @@ impl<'a> JournalReader {
                     );
                     let e = Errno::from_raw(r.abs());
                     def1o!("sd_journal_seek_realtime_usec returned {}, {:?}", r, e);
-                    self.api_calls += 1;
+                    summary_stat!(self.api_calls += 1);
                     if r < 0 {
                         let err = Error::new(
                             errno_to_errorkind(&e),
@@ -1194,7 +1192,7 @@ impl<'a> JournalReader {
                     let r: i32 = (*self.journal_api_ptr).sd_journal_seek_head(self.journal_handle_ptr);
                     let e = Errno::from_raw(r.abs());
                     def1o!("sd_journal_seek_head returned {}, {:?}", r, e);
-                    self.api_calls += 1;
+                    summary_stat!(self.api_calls += 1);
                     if r < 0 {
                         self.api_call_errors += 1;
                         let err = Error::new(
@@ -1246,12 +1244,12 @@ impl<'a> JournalReader {
             let r: i32 = (*journal_api_ptr).sd_journal_next(*journal_handle_ptr);
             let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_next returned {}, {:?}", r, e);
-            *api_calls += 1;
+            summary_stat!(*api_calls += 1);
             if r == 0 {
                 def1x!("return Done");
                 return ResultFind::Done;
             } else if r < 0 {
-                *api_call_errors += 1;
+                summary_stat!(*api_call_errors += 1);
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_next", path);
                 def1x!("return {:?}", err);
                 return ResultFind::Err(err);
@@ -1291,9 +1289,9 @@ impl<'a> JournalReader {
             );
             let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_realtime_usec returned {}, {:?}", r, e);
-            *api_calls += 1;
+            summary_stat!(*api_calls += 1);
             if r < 0 {
-                *api_call_errors += 1;
+                summary_stat!(*api_call_errors += 1);
                 de_err!("sd_journal_get_realtime_usec() returned {}; {:?}", r, e);
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_get_realtime_usec", path);
                 return Result::Err(err);
@@ -1323,7 +1321,7 @@ impl<'a> JournalReader {
             Result::Ok(data) => data,
             Result::Err(_e) => {
                 // XXX: kludge: cover up the error from this particular API call
-                self.api_call_errors -= 1;
+                summary_stat!(self.api_call_errors -= 1);
                 return None;
             }
         };
@@ -1382,11 +1380,11 @@ impl<'a> JournalReader {
             let ppdata: *mut *const std::os::raw::c_void = &mut pdata;
             def1o!("sd_journal_get_data(@{:p}, @{:p}, @{:p}, @{:p})", journal_handle_ptr, pcfield, ppdata, plength);
             let r: i32 = (*journal_api_ptr).sd_journal_get_data(*journal_handle_ptr, pcfield, ppdata, plength);
-            *api_calls += 1;
+            summary_stat!(*api_calls += 1);
             let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_data returned {}, {:?}", r, e);
             if r < 0 {
-                *api_call_errors += 1;
+                summary_stat!(*api_call_errors += 1);
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_get_data", path);
                 def1x!("return Err");
                 return Result::Err(err);
@@ -1429,7 +1427,7 @@ impl<'a> JournalReader {
                 ppdata,
                 plength,
             );
-            *api_calls += 1;
+            summary_stat!(*api_calls += 1);
             let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_enumerate_available_data returned {}, {:?}", r, e);
             if r == 0 {
@@ -1437,7 +1435,7 @@ impl<'a> JournalReader {
                 return ResultFind::Done;
             }
             if r < 0 {
-                *api_call_errors += 1;
+                summary_stat!(*api_call_errors += 1);
                 de_err!("sd_journal_enumerate_available_data() returned {}; {:?}", r, e);
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_enumerate_available_data", path);
                 def1x!("return Err");
@@ -1482,9 +1480,9 @@ impl<'a> JournalReader {
             );
             let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_monotonic_usec returned {}, {:?}", r, e);
-            *api_calls += 1;
+            summary_stat!(*api_calls += 1);
             if r < 0 {
-                *api_call_errors += 1;
+                summary_stat!(*api_call_errors += 1);
                 de_err!("sd_journal_get_monotonic_usec() returned {}; {:?}", r, e);
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_get_monotonic_usec", path);
                 def1x!("return Err");
@@ -1526,9 +1524,9 @@ impl<'a> JournalReader {
             );
             let e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_monotonic_usec returned {}, {:?}", r, e);
-            *api_calls += 1;
+            summary_stat!(*api_calls += 1);
             if r < 0 {
-                *api_call_errors += 1;
+                summary_stat!(*api_call_errors += 1);
                 de_err!("sd_journal_get_monotonic_usec() returned {}; {:?}", r, e);
                 let err = Self::Error_from_Errno(r, &e, "sd_journal_get_monotonic_usec", path);
                 def1x!("return Err");
@@ -1561,11 +1559,11 @@ impl<'a> JournalReader {
                 *journal_handle_ptr,
                 pcursor,
             );
-            *api_calls += 1;
+            summary_stat!(*api_calls += 1);
             let _e = Errno::from_raw(r.abs());
             def1o!("sd_journal_get_cursor returned {}, {:?}", r, _e);
             if r < 0 {
-                *api_call_errors += 1;
+                summary_stat!(*api_call_errors += 1);
                 def1x!("return None");
                 return None;
             }
@@ -1765,7 +1763,7 @@ impl<'a> JournalReader {
                 return ResultNextCommon::Err(err);
             }
         }
-        self.events_processed += 1;
+        summary_stat!(self.events_processed += 1);
 
         // get the realtime usec (epoch microseconds)
 
@@ -1838,7 +1836,7 @@ impl<'a> JournalReader {
             //      but when I reviewed that code I couldn't find such a call.
             (*self.journal_api_ptr).sd_journal_restart_data(self.journal_handle_ptr);
         }
-        self.api_calls += 1;
+        summary_stat!(self.api_calls += 1);
         def1x!("return Found({})", realtime_timestamp);
 
         ResultNextCommon::Found((realtime_timestamp, source_realtime_timestamp, dt_uses_source))
@@ -2103,7 +2101,7 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
-        self.events_accepted += 1;
+        summary_stat!(self.events_accepted += 1);
         def1x!();
 
         ResultNext::Found(
@@ -2267,7 +2265,7 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
-        self.events_accepted += 1;
+        summary_stat!(self.events_accepted += 1);
         def1x!();
 
         ResultNext::Found(
@@ -2534,7 +2532,7 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
-        self.events_accepted += 1;
+        summary_stat!(self.events_accepted += 1);
 
         // write it all to one buffer
         let mut buffer: Vec<u8> = Vec::with_capacity(Self::BUF_DEFAULT_LARGE_SZ);
@@ -2718,7 +2716,7 @@ impl<'a> JournalReader {
             &realtime_timestamp,
             &source_realtime_timestamp,
         );
-        self.events_accepted += 1;
+        summary_stat!(self.events_accepted += 1);
         def1x!();
 
         // `journalctl` format `cat` does not have a datetime substring
@@ -2734,19 +2732,6 @@ impl<'a> JournalReader {
                 0,
             )
         )
-    }
-
-    /// `Count` of `JournalEntry`s processed (or attempted to) by
-    /// this `JournalReader` instance.
-    #[inline(always)]
-    pub fn count_events_processed(&self) -> Count {
-        self.events_processed
-    }
-
-    /// `Count` of `JournalEntry`s processed and accepted.
-    #[inline(always)]
-    pub fn count_events_accepted(&self) -> Count {
-        self.events_accepted
     }
 
     #[inline(always)]
@@ -2775,10 +2760,10 @@ impl<'a> JournalReader {
         &mut self,
         em: &EpochMicroseconds,
     ) {
+        if ! summary_stats_enabled() {
+            return;
+        }
         defñ!("({:?})", em);
-        // TODO: the `ts_first` and `ts_last` are only for `--summary`,
-        //       no need to always copy datetimes.
-        //       Would be good to only run this when `if self.do_summary {...}`
         match self.ts_first_accepted {
             Some(first) => {
                 if &first > em {
@@ -2833,14 +2818,13 @@ impl<'a> JournalReader {
     /// Similar to [`dt_first_last_update`].
     ///
     /// [`dt_first_last_update`]: crate::readers::syslinereader::SyslineReader#method.dt_first_last_update
-    // TODO: [2024/04] track log messages not in chronological order, similar to
-    //       tracking done in `FixedStructReader::entries_out_of_order` and
-    //       `EvtxReader::out_of_order`
-    //       Print the result in the `--summary` output.
     fn em_first_last_update_processed(
         &mut self,
         em: &EpochMicroseconds,
     ) {
+        if ! summary_stats_enabled() {
+            return;
+        }
         defñ!("({:?})", em);
         // TODO: the `em_first` and `em_last` are only for `--summary`,
         //       no need to always copy datetimes.
@@ -2848,7 +2832,7 @@ impl<'a> JournalReader {
         match self.ts_first_processed {
             Some(first) => {
                 if &first > em {
-                    self.out_of_order += 1;
+                    summary_stat!(self.out_of_order += 1);
                     self.ts_first_processed = Some(*em);
                 }
             }
@@ -2861,7 +2845,7 @@ impl<'a> JournalReader {
                 if &last < em {
                     self.ts_last_processed = Some(*em);
                 } else if &last > em {
-                    self.out_of_order += 1;
+                    summary_stat!(self.out_of_order += 1);
                 }
             }
             None => {
@@ -2924,8 +2908,8 @@ impl<'a> JournalReader {
     /// `JournalReader`.
     #[allow(non_snake_case)]
     pub fn summary(&self) -> SummaryJournalReader {
-        let journalreader_events_processed: Count = self.count_events_processed();
-        let journalreader_events_accepted: Count = self.count_events_accepted();
+        let journalreader_events_processed: Count = self.events_processed;
+        let journalreader_events_accepted: Count = self.events_accepted;
         let journalreader_datetime_first_accepted = self.dt_first_accepted();
         let journalreader_datetime_last_accepted = self.dt_last_accepted();
         let journalreader_datetime_first_processed = self.dt_first_processed();

@@ -27,6 +27,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
     LogMessageType,
+    summary_stats_enable,
 };
 use crate::data::datetime::{
     DateTimeLOpt,
@@ -531,6 +532,7 @@ fn test_JournalReader_next_summary(
         defñ!("skip");
         return;
     }
+    summary_stats_enable();
     // XXX: placed here to cuase error when new `FileTypeArchive` is added
     match filetype {
         FileType::Journal { archival_type } => {
