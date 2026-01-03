@@ -234,11 +234,6 @@ pub struct SyslogProcessor {
     syslinereader: SyslineReader,
     /// Current `ProcessingStage`.
     processingstage: ProcessingStage,
-    /// `FPath`.
-    // TODO: remove this, use the `BlockReader` path, (DRY)
-    path: FPath,
-    // TODO: remove this, use the `BlockReader` blocksz, (DRY)
-    blocksz: BlockSz,
     /// `FixedOffset` timezone for datetime formats without a timezone.
     tz_offset: FixedOffset,
     /// Optional filter, syslines _after_ this `DateTimeL`.
@@ -269,9 +264,9 @@ impl Debug for SyslogProcessor {
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
         f.debug_struct("SyslogProcessor")
-            .field("Path", &self.path)
+            .field("Path", &self.path())
             .field("Processing Stage", &self.processingstage)
-            .field("BlockSz", &self.blocksz)
+            .field("BlockSz", &self.blocksz())
             .field("TimeOffset", &self.tz_offset)
             .field("filter_dt_after_opt", &self.filter_dt_after_opt)
             .field("filter_dt_before_opt", &self.filter_dt_before_opt)
@@ -360,7 +355,6 @@ impl SyslogProcessor {
                 ),
             ));
         }
-        let path_ = path.clone();
         let mut slr = match SyslineReader::new(path, filetype, blocksz, tz_offset) {
             Ok(val) => val,
             Err(err) => {
@@ -383,8 +377,6 @@ impl SyslogProcessor {
         Result::Ok(SyslogProcessor {
             syslinereader: slr,
             processingstage: ProcessingStage::Stage0ValidFileCheck,
-            path: path_,
-            blocksz,
             tz_offset,
             filter_dt_after_opt,
             filter_dt_before_opt,
