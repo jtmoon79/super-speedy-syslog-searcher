@@ -30,6 +30,7 @@ use crate::common::{
     Count,
     FPath,
     FileOffset,
+    summary_stats_enable,
 };
 use crate::data::line::{
     LineIndex,
@@ -195,6 +196,7 @@ fn do_test_LineReader_count(
     data: &str,
     line_count: usize,
 ) {
+    summary_stats_enable();
     defn!("do_test_LineReader_count(…, {:?})", line_count);
     let blocksz: BlockSz = 64;
     let ntf = create_temp_file(data);
@@ -2013,6 +2015,7 @@ fn test_SummaryLineReader(
     linereader_drop_line_ok: Count,
     linereader_drop_line_errors: Count,
 ) {
+    summary_stats_enable();
     // create a `LineReader` and read all the lines in the file
     let mut lr = new_LineReader(path, blocksz);
     let mut fo: FileOffset = 0;
