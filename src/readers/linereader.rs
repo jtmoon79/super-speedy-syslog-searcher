@@ -112,16 +112,20 @@ pub struct LineReader {
     ///
     /// [`Line`]: crate::data::line::Line
     pub(crate) lines: FoToLine,
+    /// Summary statistic.
     /// Internal stats - "high watermark" of Lines stored in `self.lines`
     lines_stored_highest: usize,
+    /// Summary statistic.
     /// Internal stats - hits of `self.lines` in `find_line()`
     /// and other functions.
     pub(super) lines_hits: Count,
+    /// Summary statistic.
     /// Internal stats - misses of `self.lines` in `find_line()`
     /// and other functions.
     pub(super) lines_miss: Count,
     /// For all `Lines`, map `Line.fileoffset_end` to `Line.fileoffset_beg`.
     foend_to_fobeg: FoToFo,
+    /// Summary statistic.
     /// `Count` of `Line`s processed.
     ///
     /// Distinct from `self.lines.len()` as that may have contents removed
@@ -140,15 +144,20 @@ pub struct LineReader {
     ///
     /// [`find_line`]: self::LineReader#method.find_line
     pub(super) find_line_lru_cache: LinesLRUCache,
+    /// Summary statistic.
     /// Internal LRU cache `Count` of lookup hit.
     pub(super) find_line_lru_cache_hit: Count,
+    /// Summary statistic.
     /// Internal LRU cache `Count` of lookup miss.
     pub(super) find_line_lru_cache_miss: Count,
+    /// Summary statistic.
     /// Internal LRU cache `Count` of `.put`.
     pub(super) find_line_lru_cache_put: Count,
+    /// Summary statistic.
     /// Count of Ok to Arc::try_unwrap(linep), effectively `Count` of
     /// dropped `Line`.
     pub(super) drop_line_ok: Count,
+    /// Summary statistic.
     /// `Count` of failures to Arc::try_unwrap(linep).
     /// A failure does not mean an error.
     pub(super) drop_line_errors: Count,
