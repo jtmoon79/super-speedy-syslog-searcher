@@ -488,7 +488,7 @@ impl LineReader {
         );
         self.foend_to_fobeg
             .insert(fo_end, fo_beg);
-        summary_stat!(self.lines_processed += 1);
+        self.lines_processed += 1;
         defx!("returning LineP");
 
         linep
