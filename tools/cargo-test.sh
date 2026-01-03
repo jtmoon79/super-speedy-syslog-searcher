@@ -25,14 +25,6 @@ for a in "${@}"; do
     args2[${#args2[@]}]=${a}
 done
 
-function exit_() {
-    # manually cleanup NamedTempFile
-    # See https://github.com/Stebalien/tempfile/issues/183
-    rm -f /tmp/tmp-s4-test-*
-}
-
-trap exit_ EXIT
-
 # if `nextest` is installed then run it
 if (set -x; cargo nextest --version) 2>/dev/null; then
     (

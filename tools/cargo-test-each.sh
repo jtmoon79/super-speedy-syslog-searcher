@@ -10,14 +10,6 @@ cd "$(dirname -- "${0}")/.."
 
 export RUST_BACKTRACE=1
 
-function exit_() {
-    # manually cleanup NamedTempFile
-    # See https://github.com/Stebalien/tempfile/issues/183
-    rm -f /tmp/tmp-s4-test-*
-}
-
-trap exit_ EXIT
-
 tmpf=$(mktemp /tmp/tmp-s4-test-cargo-test-each-list-XXXXXX.txt)
 
 (
@@ -40,7 +32,14 @@ tmpf=$(mktemp /tmp/tmp-s4-test-cargo-test-each-list-XXXXXX.txt)
 #     ...
 #
 
+function echo_line() {
+    python -Bc "print('─' * ${COLUMNS:-100})"
+    echo
+}
+
 filter=${1-}
+declare -i test_count=0
+declare -i failed_tests=0
 
 while read line; do
     echo "Processing line: '${line}'" >&2
@@ -63,5 +62,22 @@ while read line; do
             "${testname}" \
             -- \
             --test-threads=1
-    )
+    ) || {
+        let failed_tests+=1 || true
+        echo "Failed test '${testname}'" >&2
+    }
+    let test_count+=1 || true
+    echo >&2
+    echo_line
 done <<< "$(cat "${tmpf}")"
+
+echo >&2
+echo "Total tests run: ${test_count}" >&2
+echo "Total failed tests: ${failed_tests}" >&2
+
+declare -i ret=0
+if [[ ${failed_tests} -ne 0 ]]; then
+    ret=1
+fi
+
+exit ${ret}
