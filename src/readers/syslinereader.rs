@@ -1699,7 +1699,8 @@ impl SyslineReader {
         //
         // TODO: [2022/06/26] cost-savings: create the `indexes` once in an analysis update function
         //       or somewhere else, Issue #84
-        let mut indexes: DateTimeParseDatasIndexes = DateTimeParseDatasIndexes::new();
+        let mut indexes: DateTimeParseDatasIndexes =
+            DateTimeParseDatasIndexes::with_capacity(self.dt_patterns_counts.len());
         // get copy of indexes sorted by value
         indexes.extend(
             self.dt_patterns_counts
