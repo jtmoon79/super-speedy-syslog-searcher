@@ -61,6 +61,8 @@ use crate::common::{
     FileSz,
     FileType,
     ResultFind,
+    summary_stat,
+    summary_stats_enabled,
 };
 use crate::data::datetime::{
     bytes_to_regex_to_datetime,
@@ -209,31 +211,31 @@ pub struct SyslineReader {
     /// i.e. `\[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`.
     /// The stored value can be used as a key for `self.syslines`.
     syslines_by_range: SyslinesRangeMap,
+    /// Summary statistic.
     /// `Count` of `self.syslines_by_range` lookup hit.
     pub(super) syslines_by_range_hit: Count,
+    /// Summary statistic.
     /// `Count` of `self.syslines_by_range` lookup miss.
     pub(super) syslines_by_range_miss: Count,
+    /// Summary statistic.
     /// `Count` of `self.syslines_by_range.insert`.
     pub(super) syslines_by_range_put: Count,
+    /// Summary statistic.
     /// First (soonest) processed [`DateTimeL`] (not necessarily printed,
     /// not representative of the entire file).
-    ///
-    /// Intended for `--summary`.
-    ///
-    /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    // TODO: [2022/07/27] cost-savings: save the ref
     // TODO: [2023/03/22] change behavior to be "first printed" instead of "first processed"
     pub(super) dt_first: DateTimeLOpt,
+    /// Summary statistic.
+    /// Helper for `dt_first`.
     pub(super) dt_first_prev: DateTimeLOpt,
+    /// Summary statistic.
     /// Last (latest) processed [`DateTimeL`] (not necessarily printed,
     /// not representative of the entire file).
-    ///
-    /// Intended for `--summary`.
-    ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
-    // TODO: [2022/07/27] cost-savings: save the ref
     // TODO: [2023/03/22] change behavior to be "last printed" instead of "last processed"
     pub(super) dt_last: DateTimeLOpt,
+    /// Summary statistic.
+    /// Helper for `dt_last`.
     pub(super) dt_last_prev: DateTimeLOpt,
     /// `Count`s found patterns stored in `dt_patterns`.
     /// "mirrors" the global [`DATETIME_PARSE_DATAS`].
@@ -277,10 +279,13 @@ pub struct SyslineReader {
     /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
     // TODO: remove `pub(super)`
     pub(super) find_sysline_lru_cache: SyslinesLRUCache,
+    /// Summary statistic.
     /// `Count` of internal LRU cache lookup hits.
     pub(super) find_sysline_lru_cache_hit: Count,
+    /// Summary statistic.
     /// `Count` of internal LRU cache lookup misses.
     pub(super) find_sysline_lru_cache_miss: Count,
+    /// Summary statistic.
     /// `Count` of internal LRU cache lookup `.put`.
     pub(super) find_sysline_lru_cache_put: Count,
     /// Enable or disable `parse_datetime_in_line_lru_cache`.
@@ -291,16 +296,22 @@ pub struct SyslineReader {
     ///
     /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
     parse_datetime_in_line_lru_cache: LineParsedCache,
+    /// Summary statistic.
     /// `Count` of `self.parse_datetime_in_line_lru_cache` lookup hit.
     pub(super) parse_datetime_in_line_lru_cache_hit: Count,
+    /// Summary statistic.
     /// `Count` of `self.parse_datetime_in_line_lru_cache` lookup miss.
     pub(super) parse_datetime_in_line_lru_cache_miss: Count,
+    /// Summary statistic.
     /// `Count` of `self.parse_datetime_in_line_lru_cache.put`.
     pub(super) parse_datetime_in_line_lru_cache_put: Count,
+    // Summary statistic.
     /// `Count` of `line.get_boxptrs` returning `SinglePtr`.
     pub(super) get_boxptrs_singleptr: Count,
+    /// Summary statistic.
     /// `Count` of `line.get_boxptrs` returning `DoublePtr`.
     pub(super) get_boxptrs_doubleptr: Count,
+    /// Summary statistic.
     /// `Count` of `line.get_boxptrs` returning `MultiPtr`.
     pub(super) get_boxptrs_multiptr: Count,
     /// Has `self.file_analysis` completed?
@@ -317,20 +328,24 @@ pub struct SyslineReader {
     ///
     /// [`DATETIME_PARSE_DATAS_REGEX_VEC`]: static@crate::data::datetime::DATETIME_PARSE_DATAS_REGEX_VEC
     analyzed: bool,
+    /// Summary statistic.
     /// `Count` of RegEx::captures` attempts.
     pub(super) regex_captures_attempted: Count,
+    /// Summary statistic.
     /// `Count` of `Ok` to [`Arc::try_unwrap(syslinep)`], effectively a count of
     /// [`Sysline`] dropped.
     ///
     /// [`Arc::try_unwrap(syslinep)`]: std::sync::Arc#method.try_unwrap
     /// [`Sysline`]: crate::data::sysline::Sysline
     pub(super) drop_sysline_ok: Count,
+    /// Summary statistic.
     /// `Count` of failures to [`Arc::try_unwrap(syslinep)`].
     ///
     /// A small count is typically okay.
     ///
     /// [`Arc::try_unwrap(syslinep)`]: std::sync::Arc#method.try_unwrap
     pub(super) drop_sysline_errors: Count,
+    /// Summary statistic.
     /// `Count` of EZCHECK12 attempts that "hit".
     ///
     /// EZCHECK12 is a simple hack to skipping regular expression matching for
@@ -338,10 +353,13 @@ pub struct SyslineReader {
     ///
     /// This hack is only applicable to ASCII/UTF-8 encoded text files.
     pub(super) ezcheck12_hit: Count,
+    /// Summary statistic.
     /// `Count` of EZCHECK12 attempts that missed.
     pub(super) ezcheck12_miss: Count,
+    /// Summary statistic.
     /// Highest EXCHECK12 `Line` byte length ignored.
     pub(super) ezcheck12_hit_max: LineIndex,
+    /// Summary statistic.
     /// `Count` of EZCHECKD2 attempts that "hit".
     ///
     /// EZCHECKD2 is a simple hack to skipping regular expression matching for
@@ -349,18 +367,23 @@ pub struct SyslineReader {
     ///
     /// This hack is only applicable to ASCII/UTF-8 encoded text files.
     pub(super) ezcheckd2_hit: Count,
+    /// Summary statistic.
     /// `Count` of EZCHECKD2 attempts that missed.
     pub(super) ezcheckd2_miss: Count,
+    /// Summary statistic.
     /// Highest EXCHECKD2 `Line` byte length ignored.
     pub(super) ezcheckd2_hit_max: LineIndex,
+    /// Summary statistic.
     /// `Count` of EZCHECK12D2 attempts that "hit".
     ///
     /// EZCHECK12D2 combines both EZCHECK12 and EZCHECKD2 in one function.
     ///
     /// This hack is only applicable to ASCII/UTF-8 encoded text files.
     pub(super) ezcheck12d2_hit: Count,
+    /// Summary statistic.
     /// `Count` of EZCHECK12D2 attempts that missed.
     pub(super) ezcheck12d2_miss: Count,
+    /// Summary statistic.
     /// Highest EXCHECK12D2 `Line` byte length ignored.
     pub(super) ezcheck12d2_hit_max: LineIndex,
     /// testing-only tracker of successfully dropped `Sysline`
@@ -391,14 +414,11 @@ where
     K: Eq,
     V: std::fmt::Debug,
 {
-    #[cfg(any(debug_assertions, test))]
-    {
-        eprintln!("[");
-        for (key, val) in cache.iter() {
-            eprintln!(" Key: {:?}, Value: {:?};", key, val);
-        }
-        eprintln!("]");
+    eprintln!("[");
+    for (key, val) in cache.iter() {
+        eprintln!(" Key: {:?}, Value: {:?};", key, val);
     }
+    eprintln!("]");
 }
 
 // TODO: [2023/04] remove redundant variable prefix name `syslinereader_`
@@ -893,10 +913,10 @@ impl SyslineReader {
         let cache_enable = self.LRU_cache_disable();
         self.syslines.clear();
         self.syslines_by_range = SyslinesRangeMap::new();
-        self.dt_first = None;
-        self.dt_first_prev = None;
-        self.dt_last = None;
-        self.dt_last_prev = None;
+        summary_stat!(self.dt_first = None);
+        summary_stat!(self.dt_first_prev = None);
+        summary_stat!(self.dt_last = None);
+        summary_stat!(self.dt_last_prev = None);
         if cache_enable {
             self.LRU_cache_enable();
         }
@@ -934,8 +954,8 @@ impl SyslineReader {
                 defo!("syslines_by_range remove {:?}", range);
                 self.syslines_by_range
                     .remove(range);
-                self.dt_first = self.dt_first_prev;
-                self.dt_last = self.dt_last_prev;
+                summary_stat!(self.dt_first = self.dt_first_prev);
+                summary_stat!(self.dt_last = self.dt_last_prev);
             }
             None => {
                 defo!("syslines failed to remove {}", fileoffset);
@@ -975,7 +995,7 @@ impl SyslineReader {
         defx!("syslines_by_range.insert([{}‥{}), {})", fo_beg, fo_end1, fo_beg);
         self.syslines_by_range
             .insert(fo_beg..fo_end1, fo_beg);
-        self.syslines_by_range_put += 1;
+        summary_stat!(self.syslines_by_range_put += 1);
 
         syslinep
     }
@@ -1086,7 +1106,7 @@ impl SyslineReader {
                     sysline.blockoffset_first(),
                     sysline.blockoffset_last()
                 );
-                self.drop_sysline_ok += 1;
+                summary_stat!(self.drop_sysline_ok += 1);
                 #[cfg(test)]
                 {
                     self.dropped_syslines.insert(sysline.fileoffset_begin());
@@ -1097,7 +1117,7 @@ impl SyslineReader {
             }
             Err(_syslinep) => {
                 defo!("Arc::try_unwrap(syslinep) failed to drop Sysline, strong_count {}", Arc::strong_count(&_syslinep));
-                self.drop_sysline_errors += 1;
+                summary_stat!(self.drop_sysline_errors += 1);
             }
         }
         defx!("return {}", ret);
@@ -1160,12 +1180,12 @@ impl SyslineReader {
                         *ezcheck12_min = slice_.len() - charsz;
                         defo!("ezcheck12_min = {}", ezcheck12_min);
                     }
-                    *ezcheck12_hit += 1;
-                    *ezcheck12_hit_max = max(*ezcheck12_hit_max, *ezcheck12_min);
+                    summary_stat!(*ezcheck12_hit += 1);
+                    summary_stat!(*ezcheck12_hit_max = max(*ezcheck12_hit_max, *ezcheck12_min));
                     defx!("return true (EZCHECK12)");
                     return true;
                 } else {
-                    *ezcheck12_miss += 1;
+                    summary_stat!(*ezcheck12_miss += 1);
                 }
             }
             (false, true) => {
@@ -1184,12 +1204,12 @@ impl SyslineReader {
                         *ezcheckd2_min = slice_.len() - charsz;
                         defo!("ezcheckd2_min = {}", ezcheckd2_min);
                     }
-                    *ezcheckd2_hit += 1;
-                    *ezcheckd2_hit_max = max(*ezcheckd2_hit_max, *ezcheckd2_min);
+                    summary_stat!(*ezcheckd2_hit += 1);
+                    summary_stat!(*ezcheckd2_hit_max = max(*ezcheckd2_hit_max, *ezcheckd2_min));
                     defx!("return true (EZCHECKD2)");
                     return true;
                 } else {
-                    *ezcheckd2_miss += 1;
+                    summary_stat!(*ezcheckd2_miss += 1);
                 }
             }
             (true, true) => {
@@ -1204,12 +1224,12 @@ impl SyslineReader {
                         *ezcheck12d2_min = slice_.len() - charsz;
                         defo!("ezcheck12d2_min = {}", ezcheck12d2_min);
                     }
-                    *ezcheck12d2_hit += 1;
-                    *ezcheck12d2_hit_max = max(*ezcheck12d2_hit_max, *ezcheck12d2_min);
+                    summary_stat!(*ezcheck12d2_hit += 1);
+                    summary_stat!(*ezcheck12d2_hit_max = max(*ezcheck12d2_hit_max, *ezcheck12d2_min));
                     defx!("return true (EZCHECK12D2)");
                     return true;
                 } else {
-                    *ezcheck12d2_miss += 1;
+                    summary_stat!(*ezcheck12d2_miss += 1);
                 }
             }
             (false, false) => {}
@@ -1288,19 +1308,19 @@ impl SyslineReader {
             }
             if line.len() <= ezcheck12_min {
                 // the Line is shorter than ezcheck for "12"
-                *ezcheck12_hit += 1;
+                summary_stat!(*ezcheck12_hit += 1);
                 defo!("line len {} ≤ {} ezcheck12_min; continue", line.len(), ezcheck12_min);
                 continue;
             }
             if line.len() <= ezcheckd2_min {
                 // the Line is shorter than ezcheck for two digits
-                *ezcheckd2_hit += 1;
+                summary_stat!(*ezcheckd2_hit += 1);
                 defo!("line len {} ≤ {} ezcheckd2_min; continue", line.len(), ezcheckd2_min);
                 continue;
             }
             if line.len() <= ezcheck12d2_min {
                 // the Line is shorter than ezchecks
-                *ezcheck12d2_hit += 1;
+                summary_stat!(*ezcheck12d2_hit += 1);
                 defo!("line len {} ≤ {} ezcheckd2_min; continue", line.len(), ezcheckd2_min);
                 continue;
             }
@@ -1327,14 +1347,14 @@ impl SyslineReader {
                 }
                 LinePartPtrs::SinglePtr(box_slice) => {
                     slice_ = *box_slice;
-                    *get_boxptrs_singleptr += 1;
+                    summary_stat!(*get_boxptrs_singleptr += 1);
                 }
                 LinePartPtrs::DoublePtr(box_slice1, box_slice2) => {
                     hack_slice = Bytes::with_capacity(box_slice1.len() + box_slice2.len());
                     hack_slice.extend_from_slice(*box_slice1);
                     hack_slice.extend_from_slice(*box_slice2);
                     slice_ = hack_slice.as_slice();
-                    *get_boxptrs_doubleptr += 1;
+                    summary_stat!(*get_boxptrs_doubleptr += 1);
                 }
                 LinePartPtrs::MultiPtr(vec_box_slice) => {
                     // inefficient case, hopefully very rarely occurs
@@ -1347,7 +1367,7 @@ impl SyslineReader {
                         hack_slice.extend_from_slice(*box_);
                     }
                     slice_ = hack_slice.as_slice();
-                    *get_boxptrs_multiptr += 1;
+                    summary_stat!(*get_boxptrs_multiptr += 1);
                 }
             };
 
@@ -1391,7 +1411,7 @@ impl SyslineReader {
             }
 
             // find the datetime string using `Regex`, convert to a `DateTimeL`
-            *regex_captures_attempted += 1;
+            summary_stat!(*regex_captures_attempted += 1);
             let dt: DateTimeL;
             let dt_beg: LineIndex;
             let dt_end: LineIndex;
@@ -1426,10 +1446,10 @@ impl SyslineReader {
         &mut self,
         datetime: &DateTimeL,
     ) {
+        if ! summary_stats_enabled() {
+            return;
+        }
         defñ!("({:?})", datetime);
-        // TODO: the `dt_first` and `dt_last` are only for `--summary`,
-        //       no need to always copy datetimes.
-        //       Would be good to only run this when `if self.do_summary {...}`
         match self.dt_first {
             Some(dt_first_) => {
                 if &dt_first_ > datetime {
@@ -1743,11 +1763,11 @@ impl SyslineReader {
                 .get(&linep.fileoffset_begin())
             {
                 Some(val) => {
-                    self.parse_datetime_in_line_lru_cache_hit += 1;
+                    summary_stat!(self.parse_datetime_in_line_lru_cache_hit += 1);
                     return ResultParseDateTime::Ok(*val);
                 }
                 _ => {
-                    self.parse_datetime_in_line_lru_cache_miss += 1;
+                    summary_stat!(self.parse_datetime_in_line_lru_cache_miss += 1);
                 }
             }
         }
@@ -1812,7 +1832,7 @@ impl SyslineReader {
                 .get(&fileoffset)
             {
                 Some(result) => {
-                    self.find_sysline_lru_cache_hit += 1;
+                    summary_stat!(self.find_sysline_lru_cache_hit += 1);
                     defo!("found LRU cached for fileoffset {}", fileoffset);
                     // the `.get` returns a reference `&ResultFindSysline` so must return a new `ResultFindSysline`
                     match result {
@@ -1842,7 +1862,7 @@ impl SyslineReader {
                     }
                 }
                 None => {
-                    self.find_sysline_lru_cache_miss += 1;
+                    summary_stat!(self.find_sysline_lru_cache_miss += 1);
                     defo!("fileoffset {} not found in LRU cache", fileoffset);
                 }
             }
@@ -1860,7 +1880,7 @@ impl SyslineReader {
                     _range,
                     fo,
                 );
-                self.syslines_by_range_hit += 1;
+                summary_stat!(self.syslines_by_range_hit += 1);
                 let syslinep: SyslineP = self.syslines[fo].clone();
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 let fo_next: FileOffset = (*syslinep).fileoffset_next();
@@ -1873,13 +1893,13 @@ impl SyslineReader {
                         (*syslinep).fileoffset_end(),
                         (*syslinep).to_String_noraw()
                     );
-                    self.find_sysline_lru_cache_put += 1;
+                    summary_stat!(self.find_sysline_lru_cache_put += 1);
                     self.find_sysline_lru_cache
                         .put(fileoffset, ResultFindSysline::Found((fo_next, syslinep.clone())));
                     SyslineReader::debug_assert_gt_fo_syslineend(&fo_next, &syslinep);
                     return Some(ResultFindSysline::Found((fo_next, syslinep)));
                 }
-                self.find_sysline_lru_cache_put += 1;
+                summary_stat!(self.find_sysline_lru_cache_put += 1);
                 self.find_sysline_lru_cache
                     .put(fileoffset, ResultFindSysline::Found((fo_next, syslinep.clone())));
                 defx!(
@@ -1894,7 +1914,7 @@ impl SyslineReader {
                 return Some(ResultFindSysline::Found((fo_next, syslinep)));
             }
             None => {
-                self.syslines_by_range_miss += 1;
+                summary_stat!(self.syslines_by_range_miss += 1);
                 defo!("fileoffset {} not found in self.syslines_by_range", fileoffset);
             }
         }
@@ -1920,13 +1940,13 @@ impl SyslineReader {
                     (*syslinep).fileoffset_end(),
                     (*syslinep).to_String_noraw()
                 );
-                self.find_sysline_lru_cache_put += 1;
+                summary_stat!(self.find_sysline_lru_cache_put += 1);
                 self.find_sysline_lru_cache
                     .put(fileoffset, ResultFindSysline::Found((fo_next, syslinep.clone())));
                 return Some(ResultFindSysline::Found((fo_next, syslinep)));
             }
             if self.find_sysline_lru_cache_enabled {
-                self.find_sysline_lru_cache_put += 1;
+                summary_stat!(self.find_sysline_lru_cache_put += 1);
                 self.find_sysline_lru_cache
                     .put(fileoffset, ResultFindSysline::Found((fo_next, syslinep.clone())));
             }
@@ -2070,7 +2090,7 @@ impl SyslineReader {
                     if self.is_sysline_last(&sysline) {
                         let syslinep: SyslineP = self.insert_sysline(sysline);
                         if self.find_sysline_lru_cache_enabled {
-                            self.find_sysline_lru_cache_put += 1;
+                            summary_stat!(self.find_sysline_lru_cache_put += 1);
                             defo!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo1);
                             self.find_sysline_lru_cache
                                 .put(fileoffset, ResultFindSysline::Found((fo1, syslinep.clone())));
@@ -2190,7 +2210,7 @@ impl SyslineReader {
 
         let syslinep: SyslineP = self.insert_sysline(sysline);
         if self.find_sysline_lru_cache_enabled {
-            self.find_sysline_lru_cache_put += 1;
+            summary_stat!(self.find_sysline_lru_cache_put += 1);
             defo!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo_b);
             self.find_sysline_lru_cache
                 .put(fileoffset, ResultFindSysline::Found((fo_b, syslinep.clone())));
@@ -2302,7 +2322,7 @@ impl SyslineReader {
                 }
                 ResultFindLine::Done => {
                     if self.find_sysline_lru_cache_enabled {
-                        self.find_sysline_lru_cache_put += 1;
+                        summary_stat!(self.find_sysline_lru_cache_put += 1);
                         defo!("({}): LRU cache put({}, Done)", fileoffset, fileoffset);
                         self.find_sysline_lru_cache
                             .put(fileoffset, ResultFindSysline::Done);
@@ -2463,7 +2483,7 @@ impl SyslineReader {
         let syslinep: SyslineP = self.insert_sysline(sysline);
 
         if self.find_sysline_lru_cache_enabled {
-            self.find_sysline_lru_cache_put += 1;
+            summary_stat!(self.find_sysline_lru_cache_put += 1);
             defo!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo_b);
             self.find_sysline_lru_cache
                 .put(fileoffset, ResultFindSysline::Found((fo_b, syslinep.clone())));

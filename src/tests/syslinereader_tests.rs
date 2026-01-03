@@ -31,6 +31,7 @@ use crate::common::{
     FPath,
     FileOffset,
     ResultFind,
+    summary_stats_enable,
 };
 use crate::data::datetime::{
     datetime_parse_from_str,
@@ -5259,6 +5260,7 @@ fn datetime_soonest2(vec_dt: &Vec<DateTimeL>) -> Option<(usize, DateTimeL)> {
 /// test function `datetime_soonest2`
 #[test]
 fn test_datetime_soonest2() {
+    summary_stats_enable();
     defn!();
     let vec0 = Vec::<DateTimeL>::with_capacity(0);
     let val = datetime_soonest2(&vec0);
@@ -5483,6 +5485,7 @@ fn test_ezcheck_slice(
     expect_ezcheck12d2_hit_max: LineIndex,
     expect_result: bool,
 ) {
+    summary_stats_enable();
     assert_le!(index, DATETIME_PARSE_DATAS_LEN, "bad index {}", index);
     eprintln!("test_ezcheck_slice: index: {:?}", index);
     let dtpd = &DATETIME_PARSE_DATAS[index];
@@ -5815,6 +5818,7 @@ fn test_syslinereadersummary(
     syslinereader_ezcheck12d2_miss: Count,
     syslinereader_ezcheck12d2_hit_max: LineIndex,
 ) {
+    summary_stats_enable();
     eprintln!(
         "test_syslinereadersummary(path={:?}, blocksz={}, tzo={:?}, cache={}, dt_filter_after={:?}, dt_filter_before={:?})",
         path, blocksz, tzo, cache, dt_filter_after, dt_filter_before
