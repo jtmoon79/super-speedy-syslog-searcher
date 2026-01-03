@@ -25,6 +25,7 @@ use crate::common::{
     Count,
     FPath,
     FileOffset,
+    summary_stats_enable,
 };
 use crate::data::datetime::{
     datetime_parse_from_str,
@@ -1225,6 +1226,7 @@ fn test_Reader_summary(
     expect_summarysyslinereader: SummarySyslineReader,
     expect_summarysyslogprocessor: SummarySyslogProcessor,
 ) {
+    summary_stats_enable();
     let mut syslogprocessor = new_SyslogProcessor(
         path,
         blocksz,
