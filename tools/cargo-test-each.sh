@@ -40,6 +40,8 @@ tmpf=$(mktemp /tmp/tmp-s4-test-cargo-test-each-list-XXXXXX.txt)
 #     ...
 #
 
+filter=${1-}
+
 while read line; do
     echo "Processing line: '${line}'" >&2
     if ! (echo -n "${line}" | grep -E -q '^tests::|^bindings::'); then
@@ -47,6 +49,9 @@ while read line; do
     fi
     testname=$(echo -n "${line}" | sed -Ee 's/^(.*): test$/\1/')
     if [[ -z "${testname}" ]]; then
+        continue
+    fi
+    if [[ ! -z "${filter}" ]] && [[ "${testname}" != *"${filter}"* ]]; then
         continue
     fi
     (
