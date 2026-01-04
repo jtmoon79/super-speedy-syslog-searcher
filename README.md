@@ -90,6 +90,7 @@ and Apple System Logs (`.asl`).
     - [Microsoft Windows 10](#microsoft-windows-10)
   - [Summary](#summary)
 - [Further Reading](#further-reading)
+- [Licenses](#licenses)
 - [Stargazers](#stargazers)
 
 <!-- toc end -->
@@ -1216,6 +1217,16 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
 
 [`CHANGELOG.md`]: ./CHANGELOG.md
 [`Extended-Thoughts.md`]: ./Extended-Thoughts.md
+
+## Licenses
+
+- Code in this repository is licensed under [the MIT License](./LICENSE.txt).
+- Code in `src/python/s4_event_readers/s4_event_readers/ccl_asldb.py`
+  is [licensed under a shareable copyright](src/python/s4_event_readers/s4_event_readers/LICENSE-ccl_asldb.txt).
+- Code in `src/python/s4_event_readers/s4_event_readers/etl_reader_etl_parser.py`
+  is [licensed under the Apache License, Version 2.0](src/python/s4_event_readers/s4_event_readers/LICENSE-etl_reader_etl_parser.txt).
+- Code in `src/python/s4_event_readers/s4_event_readers/odl_reader.py`
+  is [licensed under the MIT License](src/python/s4_event_readers/s4_event_readers/LICENSE-odl_reader.txt).
 
 ## Stargazers
 
