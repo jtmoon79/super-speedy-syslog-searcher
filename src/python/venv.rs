@@ -4,7 +4,10 @@
 
 #[allow(deprecated)]
 use std::env::home_dir;
-use std::fs::create_dir_all;
+use std::fs::{
+    create_dir_all,
+    remove_dir_all,
+};
 use std::io::{
     ErrorKind,
     Error,
@@ -259,10 +262,25 @@ pub fn create() -> Result3E<()> {
     // remember the python path used
     let python_path = pyrunner.python_path;
 
-    // create the venv directory including parent directories if it does not exist
-    // using found Python interpreter
+    // rm the prior venv
     let venv_path_pb: PathBuf = venv_path();
+    if venv_path_pb.exists() {
+        def1o!("remove_dir_all({:?})", venv_path_pb);
+        eprintln!("remove_dir_all({})\n", venv_path_pb.display());
+        match remove_dir_all(venv_path_pb.as_path()) {
+            Result::Ok(_) => {},
+            Result::Err(err) => {
+                e_err!("Failed to remove virtual environment directory {:?}: {}", venv_path_pb, err);
+                def1x!("remove_dir_all returned {:?}", err);
+                return Result3E::ErrNoReprint(err);
+            }
+        }
+    }
+
+    // create the venv directory including parent directories
+    // using found Python interpreter
     def1o!("create_dir_all({:?})", venv_path_pb);
+    eprintln!("create_dir_all({})\n", venv_path_pb.display());
     match create_dir_all(venv_path_pb.as_path()) {
         Result::Ok(_) => {},
         Result::Err(err) => {

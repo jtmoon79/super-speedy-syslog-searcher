@@ -66,7 +66,6 @@ from pathlib import Path
 from typing import (
     Dict,
     List,
-    LiteralString,
     Optional,
     Tuple,
     Union,
@@ -92,11 +91,6 @@ from Crypto.Util.Padding import unpad
 from . import (
     s4_event_bytes,
     __version__,
-)
-from .__init__ import (
-    DELIMITER_EVENT_END,
-    DELIMITER_EVENTS,
-    DELIMITER_TS_EVENT,
 )
 
 global PRINTS
@@ -163,7 +157,7 @@ global no_color
 no_color: bool = False
 
 
-def print_color(color: Union[str, LiteralString], *args, **kwargs):
+def print_color(color: str, *args, **kwargs):
     """
     Print to stderr with color.
     Wrapper for `print` to `stderr` and with color if enabled via `--no-color` option.
@@ -300,7 +294,8 @@ def decrypt(cipher_text: str) -> Optional[str]:
     if remainder == 1:
         # invalid b64 or it was not encrypted
         if PRINTS:
-            printe(f"ERROR: invalid cipher_text length {len(cipher_text)}; return cipher_text={cipher_text_fallback!r}")
+            printe(f"ERROR: invalid cipher_text length {len(cipher_text)}; "
+                   "return cipher_text={cipher_text_fallback!r}")
         return cipher_text_fallback
     elif remainder in (2, 3):
         cipher_text += "=" * (4 - remainder)
@@ -314,7 +309,8 @@ def decrypt(cipher_text: str) -> Optional[str]:
 
     if len(cipher_bytes) % 16 != 0:
         if PRINTS:
-            printe(f"ERROR: invalid cipher bytes length {len(cipher_bytes)}; return cipher_text={cipher_text_fallback!r}")
+            printe(f"ERROR: invalid cipher bytes length {len(cipher_bytes)}; "
+                   "return cipher_text={cipher_text_fallback!r}")
         return cipher_text_fallback
 
     try:
@@ -338,7 +334,8 @@ def decrypt(cipher_text: str) -> Optional[str]:
         return cipher_text_fallback
 
     if PRINTS:
-        printi(f"INFO: Decrypted {len(cipher_text)} bytes of cipher_text to {len(plain_text_str)} bytes of plain_text_str")
+        printi(f"INFO: Decrypted {len(cipher_text)} bytes of cipher_text to {len(plain_text_str)} bytes of "
+               "plain_text_str")
 
     return plain_text_str
 
@@ -418,7 +415,8 @@ def read_obfuscation_map(obfuscation_map_path: Path, store_all_key_values: bool)
                 # printe('Error? ' + str(terms))
     if repeated_items_found:
         if PRINTS:
-            printw(f"WARNING: Multiple instances of some keys were found in the ObfuscationMap at {obfuscation_map_path}")
+            printw("WARNING: Multiple instances of some keys were found in the "
+                   f"ObfuscationMap at {obfuscation_map_path}")
 
     return map
 
@@ -929,7 +927,6 @@ def main() -> int:
         printd(f"DEBUG: wait_input_per_prints={wait_input_per_prints}, no_color={no_color}, "
                f"PRINTS={PRINTS}, human_readable={human_readable}")
 
-
     if not odl_file.is_file():
         printe(f"ERROR: path '{odl_file}' is not a file")
         return 1
@@ -960,7 +957,7 @@ def main() -> int:
     elif not obfuscation_map_path.exists():
         if PRINTS:
             printw(f"WARNING: file {obfuscation_map_path.name!r} not found in '{obfuscation_map_path.parent}'.\n"
-                    "         Use empty obfuscation map.")
+                   "         Use empty obfuscation map.")
     else:
         map: MapObfuscationType = read_obfuscation_map(obfuscation_map_path, args.all_key_values)
         if PRINTS:
