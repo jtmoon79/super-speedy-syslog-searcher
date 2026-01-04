@@ -73,6 +73,7 @@
 ./logs/FedoraRemix29/dnf.log
 ./logs/FedoraRemix29/hawkeye.log
 ./logs/FreeBSD13.1/devd.log
+./logs/MacOS11/powermanagement/2023.10.26.asl
 ./logs/MinGW64/pacman.log
 ./logs/NetBSD9.3/x86_32/lastlog
 ./logs/NetBSD9.3/x86_32/lastlogx

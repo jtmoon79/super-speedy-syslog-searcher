@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
   About:
       filetype       : AODL (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 196045
       flushes       : 829

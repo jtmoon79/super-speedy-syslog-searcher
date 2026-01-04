@@ -160,6 +160,10 @@ if [[ "${COLUMNS+x}" ]]; then
     width=$COLUMNS
 fi
 
+echo >&2
+echo "Command: ${PROGRAM} ${S4_ARGS[*]} - < ${LOGS}" >&2
+echo >&2
+
 # compare total stdout
 total_diff_stdout=true
 if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
@@ -230,6 +234,7 @@ while read -r log_file; do
         ret=1
         echo >&2
         echo "    Different stdout ${log_file_stdout}" >&2
+        echo "    Command: ${PROGRAM} ${S4_ARGS[*]} ${log_file}" >&2
         (
             (set -x +e;
                 "${DIFF}" --text -y --width=${width} --suppress-common-lines "${log_file_stdout}" "${tmp1}"
@@ -248,6 +253,7 @@ while read -r log_file; do
         ret=1
         echo >&2
         echo "    Different stderr ${log_file_stderr}" >&2
+        echo "    Command: ${PROGRAM} ${S4_ARGS[*]} ${log_file}" >&2
         (
             (set -x +e;
                 "${DIFF}" --text -y --width=${width} --suppress-common-lines "${log_file_stderr}" "${tmp2}"

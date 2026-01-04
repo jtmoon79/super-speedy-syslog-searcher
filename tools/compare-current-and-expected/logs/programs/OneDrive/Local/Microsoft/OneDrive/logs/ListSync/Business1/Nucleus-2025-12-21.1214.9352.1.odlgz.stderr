@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
   About:
       filetype       : ODLGZ (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 188146
       flushes       : 619

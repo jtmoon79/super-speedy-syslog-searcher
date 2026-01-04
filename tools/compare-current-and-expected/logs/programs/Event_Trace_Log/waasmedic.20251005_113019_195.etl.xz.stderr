@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
   About:
       filetype       : ETL (XZ) (Windows Event Trace Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 12082
       flushes       : 21

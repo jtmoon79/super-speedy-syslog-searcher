@@ -2557,6 +2557,29 @@ File: ./logs/FreeBSD13.1/devd.log
       process: regex captures attempted                            : 44
   Processing Drops:
 
+File: ./logs/MacOS11/powermanagement/2023.10.26.asl
+  About:
+      filetype       : ASL (Apple System Log)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
+  Printed:
+      bytes         : 5419
+      flushes       : 10
+      events        : 10
+      datetime first: 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
+      datetime last : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
+  Processed:
+      file size          : 3366 (0xD26) (bytes)
+      events processed   : 10
+      events accepted    : 10
+      events out of order: 0
+      events read max    : 1
+      events queue high  : 1
+      Python pipe size stdout    : 256
+      Python pipe size stderr    : 256
+      Python exit status         : 0
+      datetime first     : 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
+      datetime last      : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
+
 File: ./logs/MinGW64/pacman.log
   About:
       filetype       : TEXT UTF8/ASCII (text log)
@@ -9036,7 +9059,7 @@ File: ./logs/other/tests/zero100.log
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
   About:
       filetype       : ETL (Windows Event Trace Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 13111
       flushes       : 21
@@ -9059,7 +9082,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
   About:
       filetype       : ETL (BZIP2) (Windows Event Trace Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 13111
       flushes       : 21
@@ -9082,7 +9105,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
   About:
       filetype       : ETL (GZIP) (Windows Event Trace Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 13111
       flushes       : 21
@@ -9105,7 +9128,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
   About:
       filetype       : ETL (LZMA4) (Windows Event Trace Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 13111
       flushes       : 21
@@ -9128,7 +9151,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.lz4
 File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
   About:
       filetype       : ETL (XZ) (Windows Event Trace Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 13111
       flushes       : 21
@@ -9585,7 +9608,7 @@ File: ./logs/programs/proftpd/xferlog
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
   About:
       filetype       : ODL (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 2722
       flushes       : 11
@@ -9608,7 +9631,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.bz2
   About:
       filetype       : ODL (BZIP2) (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 2722
       flushes       : 11
@@ -9631,7 +9654,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.gz
   About:
       filetype       : ODL (GZIP) (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 2722
       flushes       : 11
@@ -9654,7 +9677,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.lz4
   About:
       filetype       : ODL (LZMA4) (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 2722
       flushes       : 11
@@ -9677,7 +9700,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.xz
   About:
       filetype       : ODL (XZ) (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 2722
       flushes       : 11
@@ -9700,7 +9723,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-21.1214.9352.1.odlgz
   About:
       filetype       : ODLGZ (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 192451
       flushes       : 619
@@ -9723,7 +9746,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/Nucleus-2025-12-23.1618.7692.3.aodl
   About:
       filetype       : AODL (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 202677
       flushes       : 829
@@ -21653,12 +21676,12 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
-Paths considered       : 630
+Paths considered       : 631
 Paths not processed    : 33
-Files processed        : 597
-Files printed          : 512
-Printed bytes          : 8902323
-Printed flushes        : 31978
+Files processed        : 598
+Files printed          : 513
+Printed bytes          : 8907782
+Printed flushes        : 31998
 Printed lines          : 14555
 Printed syslines       : 12081
 Printed ETL events     : 105
@@ -21672,9 +21695,9 @@ Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 
 Datetime printed first : 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
 Datetime printed last  : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 16011
+Channel Receive ok     : 16023
 Channel Receive err    : 0
-Threads Spawned        : 598
+Threads Spawned        : 599
 Thread Spawn errors    : 0
 Temporary files created: 15
 Platform               : x86_64-unknown-linux-gnu

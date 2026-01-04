@@ -26,6 +26,7 @@ declare -rg EXPECT_ERR="${_HERE}/expected.stderr"
 declare -rg LOGS="${_HERE}/logs.txt"
 LOGS_COUNT=$(cat "${LOGS}" | sed '/^$/d' | wc -l)
 declare -ir LOGS_COUNT
+export TZ='America/New_York'
 
 declare -arg S4_ARGS=(
     --color=never

@@ -4,7 +4,7 @@ Files:
 File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl.lz4
   About:
       filetype       : ODL (LZMA4) (OneDrive Log)
-      logmessagetype : Python parsed events (ETL/ODL)
+      logmessagetype : Python parsed events (ASL/ETL/ODL)
   Printed:
       bytes         : 2568
       flushes       : 11
