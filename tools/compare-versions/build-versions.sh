@@ -80,6 +80,9 @@ for GIT_REF in "${@}"; do
     (set -x; cargo clean)
     (set -x; git checkout "${GIT_REF}")
 
+    rust_version=$(grep -m1 -Ee '^rust-version\s*=' -- Cargo.toml | cut -f2 -d '=' | tr -d ' "')
+    (set -x; rustup override set "${rust_version}")
+
     echo
 
     GIT_DATE=$(print_git_ref_date "${GIT_REF}")
