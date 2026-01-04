@@ -121,6 +121,8 @@ pub const PYTHON_SUBDIRS: [&str; 3] = [
 
 pub const PROMPT_DEFAULT: &str = "$ ";
 
+pub const CHANNEL_CAPACITY: usize = 16;
+
 /// Environment variable that refers to the exact path to a Python interpreter
 /// executable
 pub const PYTHON_ENV: &str = "S4_PYTHON";
@@ -337,9 +339,11 @@ impl PipeStreamReader {
         mut stream_child_proc: Box<dyn Read + Send>
     ) -> PipeStreamReader
     {
-        def1n!("PipeStreamReader new(pipe_sz={}, name={:?}, chunk_delimiter_opt={:?})", pipe_sz, name, chunk_delimiter_opt);
-        def1o!("PipeStreamReader {:?} create unbounded channel", name);
-        let (tx_exit, rx_exit) = ::crossbeam_channel::unbounded();
+        def1n!("PipeStreamReader new(pipe_sz={}, name={:?}, chunk_delimiter_opt={:?})",
+               pipe_sz, name, chunk_delimiter_opt);
+        def1o!("PipeStreamReader {:?} create bounded({}) channel", name, CHANNEL_CAPACITY);
+        let (tx_exit, rx_exit) =
+            ::crossbeam_channel::bounded(CHANNEL_CAPACITY);
 
         PipeStreamReader {
             chunk_receiver: {
@@ -352,9 +356,9 @@ impl PipeStreamReader {
                     "PipeStreamReader {:?} PID {:?} PTID {:?}",
                     name, pid, _tidn_p
                 );
-                def1o!("{_d_p} create unbounded channel");
-                // TODO: make this bounded
-                let (tx_parent, rx_parent) = ::crossbeam_channel::unbounded();
+                def1o!("{_d_p} create bounded({}) channel", CHANNEL_CAPACITY);
+                let (tx_parent, rx_parent) =
+                    ::crossbeam_channel::bounded(CHANNEL_CAPACITY);
 
                 let thread_pipe = thread::Builder::new().name(thread_name.clone());
 
