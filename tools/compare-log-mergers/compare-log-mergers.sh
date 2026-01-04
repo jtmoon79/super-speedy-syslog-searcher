@@ -214,9 +214,9 @@ echo
 cat "${tmpA}" | wc -l -
 echo
 
-# Super Speedy Syslog Searcher (S4) (system)
-
 echo_line
+
+# Super Speedy Syslog Searcher (S4) (system)
 
 PROGRAM_S4_SYSTEM=${PROGRAM_S4_SYSTEM-./target/release/s4}
 (set -x; "${PROGRAM_S4_SYSTEM}" --version)
@@ -246,9 +246,9 @@ echo
 cat "${tmpA}" | wc -l -
 echo
 
-# Super Speedy Syslog Searcher (S4) (jemalloc)
-
 echo_line
+
+# Super Speedy Syslog Searcher (S4) (jemalloc)
 
 PROGRAM_S4_JEMALLOC=${PROGRAM_S4_JEMALLOC-./target/jemalloc/s4}
 (set -x; "${PROGRAM_S4_JEMALLOC}" --version)
@@ -277,12 +277,12 @@ echo
 cat "${tmpA}" | wc -l -
 echo
 
+echo_line
+
 # Super Speedy Syslog Searcher (S4) (mimalloc)
 
 PROGRAM_S4_MIMALLOC=${PROGRAM_S4_MIMALLOC-./target/mimalloc/s4}
 (set -x; "${PROGRAM_S4_MIMALLOC}" --version)
-
-echo_line
 
 (
     files_caching
@@ -307,12 +307,12 @@ echo
 cat "${tmpA}" | wc -l -
 echo
 
+echo_line
+
 # Super Speedy Syslog Searcher (S4) (tcmalloc)
 
 PROGRAM_S4_TCMALLOC=${PROGRAM_S4_TCMALLOC-./target/tcmalloc/s4}
 (set -x; "${PROGRAM_S4_TCMALLOC}" --version)
-
-echo_line
 
 (
     files_caching
@@ -336,6 +336,8 @@ echo_line
 echo
 cat "${tmpA}" | wc -l -
 echo
+
+echo_line
 
 # lnav
 
@@ -365,9 +367,9 @@ echo
 cat "${tmpA}" | wc -l -
 echo
 
-# logmerger
-
 echo_line
+
+# logmerger
 
 PROGRAM_LM=${PROGRAM_LM-logmerger}
 # XXX: logmerger does not have a `--version` option
@@ -410,9 +412,9 @@ echo
 cat "${tmpA}" | wc -l -
 echo
 
-# logdissect
-
 echo_line
+
+# logdissect
 
 PROGRAM_LD=${PROGRAM_LD-logdissect}
 (set -x; "${PROGRAM_LD}" --version)
@@ -434,9 +436,9 @@ echo
 echo
 # cat "${tmpA}" | wc -l -
 
-# TooLong
-
 echo_line
+
+# TooLong
 
 # TODO: how to force toolong to not create a TUI window so it doesn't need
 #       to be forcefully killed?
@@ -487,6 +489,8 @@ echo '{
     "exit_codes": [0]
   } ]
 }' > "${json7}"
+
+echo_line
 
 #
 # merge separate files into one final markdown file
