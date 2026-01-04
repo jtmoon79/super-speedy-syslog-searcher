@@ -932,8 +932,11 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     color_theme_light: bool,
 
     /// Create a Python virtual environment exclusively for s4.
-    /// This is only necessary for parsing Windows Event Tracing Log
-    /// (.etl) files. This only needs to be done once.
+    /// This is only necessary for parsing
+    /// Windows Event Tracing Log (.etl) files,
+    /// OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files,
+    /// and Apple System Log (.asl) files.
+    /// This only needs to be created once.
     /// When this option is used, no other options may be passed.
     /// The Python interpreter used may be set by environment variable
     /// S4_PYTHON.

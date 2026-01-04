@@ -31,7 +31,11 @@ and can read many non-standardized ad-hoc log message formats,
 including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
-systemd journal logs (`.journal`), and Microsoft Event Logs (`.evtx`).
+systemd journal logs (`.journal`),
+Microsoft Event Logs (`.evtx`),
+Microsoft Event Trace Logs (`.etl`),
+OneDrive Log files (`.odl`, `.aodl`, `.odlgz`, `.odlsent`),
+and Apple System Logs (`.asl`).
 `s4` can read logs that are compressed (`.bz2`, `.gz`, `.lz4`, `.xz`), or archived logs (`.tar`).
 
 `s4` aims to be very fast.
@@ -400,6 +404,14 @@ Options:
           [default: short]
           [possible values: short, short-precise, short-iso, short-iso-precise,
           short-full, short-monotonic, short-unix, verbose, export, cat]
+      --etl-parser
+          For parsing Windows Event Tracing Log (.etl) files, use Python library
+          etl-parser. By default, Python library dissect.etl is used.
+          The etl-parser library may have more complete information but is slower
+          than dissect.etl.
+          Requires prior creation of a Python virtual environment with
+          the --venv option. Or use environment variable S4_PYTHON set to
+          a Python interpreter path with necessary packages installed.
   -c, --color <COLOR_CHOICE>
           Choose to print using colors.
           [default: auto]
@@ -408,6 +420,16 @@ Options:
           Print text using darker colors for a lighter terminal background.
           By default, a dark color theme is used (print text with lighter colors).
           Has no effect if --color is not "always" or "auto".
+      --venv
+          Create a Python virtual environment exclusively for s4.
+          This is only necessary for parsing
+          Windows Event Tracing Log (.etl) files,
+          OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files,
+          and Apple System Log (.asl) files.
+          This only needs to be created once.
+          When this option is used, no other options may be passed.
+          The Python interpreter used may be set by environment variable
+          S4_PYTHON.
       --blocksz <BLOCKSZ>
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).
@@ -505,6 +527,11 @@ DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
 
+The Python interpreter used during `--venv` requires Python 3.7 or higher.
+This installs to ~/.config/s4/venv
+The Python interpreter used may be overridden by setting environment variable
+S4_PYTHON to the path of the Python interpreter.
+
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 ```
@@ -563,8 +590,11 @@ See the real-world example rationale in the section below,
   - binary user accounting records files
     ([`acct`, `pacct`], [`lastlog`], [`utmp`, `utmpx`])
     from multiple Operating Systems and CPU architectures
-  - binary [Windows Event Log] files
+  - binary [Apple System Log] files (`.asl`)
+  - binary [Windows Event Log] files (`.evtx`)
+  - binary [Windows Event Trace Log] files (`.etl`)
   - binary [systemd journal] files with printing options matching [`journalctl`]
+  - binary [OneDrive Log] files (`.odl`, `.aodl`, `.odlgz`, `.odlsent`)
   - many varying text log messages with ad-hoc datetime formats
   - multi-line log messages
 - Inspects `.tar` archive files for parseable log files <sup><a href="#f2">\[2\]</a></sup>
@@ -589,7 +619,10 @@ See the real-world example rationale in the section below,
 [ISO 8601]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1113067353#General_principles
 [Red Hat Audit Log]: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security_guide/sec-understanding_audit_log_files
 [strace]: https://www.man7.org/linux/man-pages/man1/strace.1.html
+[Apple System Log]: https://kb.binalyze.com/air/features/acquisition/acquisition-profiles/macos-collections/apple-system-logs-asl
+[OneDrive Log]: https://support.microsoft.com/en-us/topic/understanding-the-user-activity-logs-report-80d0b3b1-1ee3-4777-8c68-6c0dedf1f980
 [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
+[Windows Event Trace Log]: https://learn.microsoft.com/en-us/windows-hardware/test/wpt/opening-and-analyzing-etl-files-in-wpa
 [systemd journal]: https://systemd.io/JOURNAL_FILE_FORMAT/
 [`journalctl`]: https://www.man7.org/linux/man-pages/man1/journalctl.1.html
 [`./logs/`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/logs
