@@ -77,11 +77,11 @@ trap exit_ EXIT
 for GIT_REF in "${@}"; do
     echo_line
 
-    (set -x; cargo clean)
     (set -x; git checkout "${GIT_REF}")
 
     rust_version=$(grep -m1 -Ee '^rust-version\s*=' -- Cargo.toml | cut -f2 -d '=' | tr -d ' "')
     (set -x; rustup override set "${rust_version}")
+    (set -x; cargo clean)
 
     echo
 
