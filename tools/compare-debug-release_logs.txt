@@ -21,8 +21,23 @@
 ./logs/Debian11/armv7l_ARMv6/wtmp
 ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
 ./logs/Debian9/clamav/clamd.log
+./logs/Debian9/user.log.1
+./logs/Debian9/user.log.1.bz2
+./logs/Debian9/user.log.1.gz
+./logs/Debian9/user.log.1.lz
+./logs/Debian9/user.log.1.lz4
+./logs/Debian9/user.log.1.lzo
+./logs/Debian9/user.log.1.xz
+./logs/Debian9/user.log.1.zst
+./logs/Debian9/user.log.tar
+./logs/Debian9/user.log.tar.gz
+./logs/Debian9/user.log.tar.lz
+./logs/Debian9/user.log.tar.lzo
+./logs/Debian9/user.log.tar.xz
+./logs/Debian9/user.log.zip
 ./logs/Debian9/Xorg.0.log.old
 ./logs/FedoraRemix29/dnf.librepo.log
+./logs/MacOS11/powermanagement/2023.10.26.asl
 ./logs/MinGW64/pacman.log
 ./logs/NetBSD9.3/x86_32/lastlog
 ./logs/NetBSD9.3/x86_32/lastlogx
@@ -153,6 +168,7 @@
 ./logs/other/tests/syslog.1.log
 ./logs/other/tests/unknown
 ./logs/other/tests/zero100.log
+./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.bz2
 ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
@@ -175,6 +191,7 @@
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
 ./logs/programs/journal/Ubuntu22-user-1000x3.tar
+./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
 ./logs/programs/proftpd/proftpd.log
 ./logs/programs/utmp/empty (invalid).wtmp
 ./logs/programs/utmp/host-entry1_(all_0x00).wtmp
