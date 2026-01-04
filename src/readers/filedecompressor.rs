@@ -79,6 +79,7 @@ use crate::{
 type BufReaderLz4 = BufReader<File>;
 type Lz4FrameReader = lz4_flex::frame::FrameDecoder<BufReaderLz4>;
 
+const SUFFIX_ASL: &str = ".asl";
 const SUFFIX_ETL: &str = ".etl";
 const SUFFIX_EVTX: &str = ".evtx";
 const SUFFIX_FIXEDSTRUCT: &str = ".wtmp";
@@ -142,6 +143,11 @@ pub fn decompress_to_ntf(
     let mut mtime_opt: Option<SystemTime> = None;
     let suffix: &str;
     let file_type_archive: &FileTypeArchive = match file_type {
+        FileType::Asl { archival_type } => {
+            suffix = SUFFIX_ASL;
+
+            archival_type
+        }
         FileType::Etl { archival_type } => {
             suffix = SUFFIX_ETL;
 

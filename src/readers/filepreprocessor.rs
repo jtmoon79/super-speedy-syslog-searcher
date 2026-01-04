@@ -353,6 +353,15 @@ fn pathbuf_to_filetype_impl(
 
     defo!("match file_suffix {:?}", file_suffix.as_str());
     match file_suffix.as_str() {
+        "asl" => {
+            let ret = PathToFiletypeResult::Filetype(
+                FileType::Asl {
+                    archival_type: fta,
+                }
+            );
+            defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
+            return ret;
+        }
         "bz2" => {
             defo!("file_suffix {:?} is a bz2", file_suffix);
             let ret = pathbuf_to_filetype_impl(
@@ -956,6 +965,13 @@ pub fn process_path_tar(
         match pathtofileresult {
             PathToFiletypeResult::Filetype(filetype) => {
                 match filetype {
+                    // Asl
+                    FileType::Asl { .. } => {
+                        result = ProcessPathResult::FileValid(
+                            fullpath,
+                            FileType::Asl { archival_type: FileTypeArchive::Tar }
+                        );
+                    }
                     // Etl
                     FileType::Etl { archival_type: at @ FileTypeArchive::Bz2, .. }
                     | FileType::Etl { archival_type: at @ FileTypeArchive::Gz, .. }
@@ -1227,7 +1243,13 @@ pub fn process_path(
             }
         };
         match filetype {
-            FileType::Etl{ archival_type: FileTypeArchive::Normal }
+            FileType::Asl{ archival_type: FileTypeArchive::Normal }
+            | FileType::Asl{ archival_type: FileTypeArchive::Bz2 }
+            | FileType::Asl{ archival_type: FileTypeArchive::Gz }
+            | FileType::Asl{ archival_type: FileTypeArchive::Lz4 }
+            | FileType::Asl{ archival_type: FileTypeArchive::Tar }
+            | FileType::Asl{ archival_type: FileTypeArchive::Xz }
+            | FileType::Etl{ archival_type: FileTypeArchive::Normal }
             | FileType::Etl{ archival_type: FileTypeArchive::Bz2 }
             | FileType::Etl{ archival_type: FileTypeArchive::Gz }
             | FileType::Etl{ archival_type: FileTypeArchive::Lz4 }

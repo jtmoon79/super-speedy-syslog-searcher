@@ -21,8 +21,10 @@ Issues = "https://github.com/jtmoon79/super-speedy-syslog-searcher/issues"
 Changelog = "https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/master/CHANGELOG.md"
 
 [project.scripts]
+ccl_asldb = "s4_event_readers.ccl_asldb:main"
 etl_reader_dissect_etl = "s4_event_readers.etl_reader_dissect_etl:main"
 etl_reader_etl_parser = "s4_event_readers.etl_reader_etl_parser:main"
+odl_reader = "s4_event_readers.odl_reader:main"
 
 [build-system]
 requires = ["setuptools >= 77.0.3"]
@@ -36,14 +38,14 @@ dependencies = { file = ["requirements.txt"] }
 optional-dependencies.dev = { file = ["requirements-dev.txt"] }
 
 [tool.black]
-line-length = 100
+line-length = 120
 
 [tool.isort]
 profile = "black"
 
 # flake8 requires Flake8-pyproject to read from this pyproject.toml
 [tool.flake8]
-max-line-length = 100
+max-line-length = 120
 exclude = [
     ".git",
     "__pycache__",
@@ -51,6 +53,8 @@ exclude = [
     "dist",
     ".venv",
     ".mpy_cache",
+    "s4_event_readers.egg-info",
+    ".pytest_cache",
 ]
 
 [tool.mypy]

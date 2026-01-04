@@ -20,6 +20,7 @@ use crate::common::{
     FPath,
     FileType,
     FileTypeArchive,
+    OdlSubType,
 };
 use crate::data::datetime::{
     DateTimeLOpt,
@@ -32,10 +33,12 @@ use crate::readers::pyeventreader::{
     ResultNextPyDataEvent,
 };
 use crate::tests::common::{
+    ASL_1_FPATH,
     FO_0,
     ETL_1_FPATH,
     ETL_1_EVENT_COUNT,
     ETL_1_FILESZ,
+    ODL_1_FPATH,
 };
 use crate::tests::venv_tests::venv_setup;
 
@@ -47,7 +50,7 @@ fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
 
     let per = PyEventReader::new(
         path,
-        EtlParserUsed::DissectEtl,
+        Some(EtlParserUsed::DissectEtl),
         FileType::Etl { archival_type: FileTypeArchive::Normal },
         FO_0,
         pipe_sz,
@@ -64,6 +67,40 @@ fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
     defx!();
 }
 
+#[test_case(
+    ASL_1_FPATH.clone(),
+    Some(EtlParserUsed::DissectEtl),
+    FileType::Asl { archival_type: FileTypeArchive::Normal } => panics;
+    "asl panic"
+)]
+#[test_case(
+    ODL_1_FPATH.clone(),
+    Some(EtlParserUsed::DissectEtl),
+    FileType::Odl { archival_type: FileTypeArchive::Normal, odl_sub_type: OdlSubType::Odl } => panics;
+    "odl panic"
+)]
+#[test_case(
+    ASL_1_FPATH.clone(),
+    None,
+    FileType::Asl { archival_type: FileTypeArchive::Normal };
+    "asl no panic"
+)]
+#[test_case(
+    ODL_1_FPATH.clone(),
+    None,
+    FileType::Odl { archival_type: FileTypeArchive::Normal, odl_sub_type: OdlSubType::Odl };
+    "odl no panic"
+)]
+fn test_PyEventReader_new_asl_odl_panic(path: FPath, etl_parser_used: Option<EtlParserUsed>, filetype: FileType) {
+    PyEventReader::new(
+        path,
+        etl_parser_used,
+        filetype,
+        FO_0,
+        1024,
+    ).unwrap();
+}
+
 #[test]
 fn test_PyEventReader_ts_data_to_datetime_ok() {
     defn!();
@@ -71,7 +108,7 @@ fn test_PyEventReader_ts_data_to_datetime_ok() {
 
     let per = PyEventReader::new(
         ETL_1_FPATH.clone(),
-        EtlParserUsed::DissectEtl,
+        Some(EtlParserUsed::DissectEtl),
         FileType::Etl { archival_type: FileTypeArchive::Normal },
         FO_0,
         1,
@@ -94,7 +131,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 
     let per = PyEventReader::new(
         ETL_1_FPATH.clone(),
-        EtlParserUsed::DissectEtl,
+        Some(EtlParserUsed::DissectEtl),
         FileType::Etl { archival_type: FileTypeArchive::Normal },
         FO_0,
         1,
@@ -110,7 +147,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 #[test_case(
     ETL_1_FPATH.clone(),
     8,
-    EtlParserUsed::DissectEtl,
+    Some(EtlParserUsed::DissectEtl),
     FileType::Etl { archival_type: FileTypeArchive::Normal },
     &DateTimeLOpt::None,
     &DateTimeLOpt::None,
@@ -120,7 +157,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 #[test_case(
     ETL_1_FPATH.clone(),
     2056,
-    EtlParserUsed::DissectEtl,
+    Some(EtlParserUsed::DissectEtl),
     FileType::Etl { archival_type: FileTypeArchive::Normal },
     &DateTimeLOpt::None,
     &DateTimeLOpt::None,
@@ -130,7 +167,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 #[test_case(
     ETL_1_FPATH.clone(),
     64,
-    EtlParserUsed::DissectEtl,
+    Some(EtlParserUsed::DissectEtl),
     FileType::Etl { archival_type: FileTypeArchive::Normal },
     // 2025-10-05 11:30:19.300+00:00
     &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2025, 10, 5, 11, 30, 19, 300)),
@@ -141,7 +178,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 #[test_case(
     ETL_1_FPATH.clone(),
     64,
-    EtlParserUsed::DissectEtl,
+    Some(EtlParserUsed::DissectEtl),
     FileType::Etl { archival_type: FileTypeArchive::Normal },
     &DateTimeLOpt::None,
     // 2025-10-05 11:30:19.300+00:00
@@ -152,7 +189,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 #[test_case(
     ETL_1_FPATH.clone(),
     64,
-    EtlParserUsed::DissectEtl,
+    Some(EtlParserUsed::DissectEtl),
     FileType::Etl { archival_type: FileTypeArchive::Normal },
     // 2030-01-01 12:00:00.000+00:00
     &DateTimeLOpt::Some(ymdhmsl(&FO_0, 2030, 1, 1, 12, 0, 0, 0)),
@@ -163,7 +200,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 #[test_case(
     ETL_1_FPATH.clone(),
     64,
-    EtlParserUsed::DissectEtl,
+    Some(EtlParserUsed::DissectEtl),
     FileType::Etl { archival_type: FileTypeArchive::Normal },
     &DateTimeLOpt::None,
     // 2030-01-01 12:00:00.000+00:00
@@ -174,7 +211,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
 fn test_PyEventReader_next(
     path: FPath,
     pipe_sz: PipeSz,
-    etl_parser_used: EtlParserUsed,
+    etl_parser_used: Option<EtlParserUsed>,
     file_type: FileType,
     dt_filter_after: &DateTimeLOpt,
     dt_filter_before: &DateTimeLOpt,

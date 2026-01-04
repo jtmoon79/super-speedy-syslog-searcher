@@ -79,7 +79,10 @@ use crate::data::pydataevent::{
     EtlParserUsed,
     EventBytes,
 };
-use crate::de_err;
+use crate::{
+    debug_panic,
+    de_err,
+};
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::buffer_to_String_noraw;
 use crate::python::pyrunner::{
@@ -118,8 +121,9 @@ type EntryBuffer = VecDeque<PyDataEvent>;
 /// The PyEventReader supports these `FileType`s
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PyEventType {
-    Odl,
+    Asl,
     Etl,
+    Odl,
 }
 
 /// A wrapper for running a `PyRunner` instance that calls
@@ -254,7 +258,7 @@ impl PyEventReader {
     /// Create a new `PyEventReader`.
     pub fn new(
         path: FPath,
-        etl_parser_used: EtlParserUsed,
+        etl_parser_used: Option<EtlParserUsed>,
         file_type: FileType,
         fixed_offset: FixedOffset,
         pipe_sz: PipeSz,
@@ -346,23 +350,43 @@ impl PyEventReader {
             }
         };
 
-        // TODO: how to make a wrong `FileType` a compile-time error?
+        // TODO: how to make a wrong `FileType` a compile-time error? i.e. how to be more rustic?
         let event_type: PyEventType = match file_type {
-            FileType::Odl { .. } => PyEventType::Odl,
+            FileType::Asl { .. } => PyEventType::Asl,
             FileType::Etl { .. } => PyEventType::Etl,
-            _ => panic!("PyEventReader only supports FileType::Odl and FileType::Etl"),
+            FileType::Odl { .. } => PyEventType::Odl,
+            _ => panic!("PyEventReader only supports FileType::Asl, FileType::Etl, FileType::Odl"),
         };
 
         let s4_python_module: String;
         let mut extra_args: Vec<&str> = Vec::with_capacity(3);
         match event_type {
+            PyEventType::Asl => {
+                s4_python_module = String::from("s4_event_readers.ccl_asldb");
+                extra_args.push("--quiet");
+                extra_args.push("-t");
+                extra_args.push("s4");
+                if etl_parser_used.is_some() {
+                    debug_panic!("etl_parser_used is Some for ASL file");
+                }
+            },
             PyEventType::Etl => {
                 match etl_parser_used {
-                    EtlParserUsed::DissectEtl => {
+                    Some(EtlParserUsed::DissectEtl) => {
                         s4_python_module = String::from("s4_event_readers.etl_reader_dissect_etl");
                     }
-                    EtlParserUsed::EtlParser => {
+                    Some(EtlParserUsed::EtlParser) => {
                         s4_python_module = String::from("s4_event_readers.etl_reader_etl_parser");
+                    }
+                    None => {
+                        debug_panic!("etl_parser_used is None for ETL file");
+                        def1x!("etl_parser_used is None for ETL file, return Error");
+                        return Err(
+                            Error::new(
+                                ErrorKind::InvalidInput,
+                                "etl_parser_used must be Some(EtlParserUsed) for ETL files",
+                            )
+                        );
                     }
                 }
             },
@@ -371,6 +395,9 @@ impl PyEventReader {
                 extra_args.push("--no-color");
                 extra_args.push("--all_key_values");
                 extra_args.push("--all_data");
+                if etl_parser_used.is_some() {
+                    debug_panic!("etl_parser_used is Some for ODL file");
+                }
             }
         };
         let wait_input_per_prints: String = format!("--wait-input-per-prints={}", WAIT_INPUT_PER_PRINTS + 1);

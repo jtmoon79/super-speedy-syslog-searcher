@@ -554,7 +554,7 @@ pub fn create() -> Result3E<()> {
     }
 
     eprintln!("Python virtual environment created at {}", venv_path_pb.display());
-    eprintln!("This environment will be automatically used by s4 for Python-based event readers, i.e. for .etl, .odl files.");
+    eprintln!("This environment will be automatically used by s4 for Python-based event readers, i.e. for .asl, .etl, .odl files.");
 
     def1x!("return Ok");
 

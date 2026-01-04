@@ -117,6 +117,22 @@ const FTTXZ8: PathToFiletypeResult = PathToFiletypeResult::Filetype(
         encoding_type: FileTypeTextEncoding::Utf8Ascii,
     }
 );
+// Asl
+const FTASL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Asl { archival_type: FileTypeArchive::Normal }
+);
+const FTASLBZ2: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Asl { archival_type: FileTypeArchive::Bz2 }
+);
+const FTASLGZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Asl { archival_type: FileTypeArchive::Gz }
+);
+const FTASLLZ4: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Asl { archival_type: FileTypeArchive::Lz4 }
+);
+const FTASLXZ: PathToFiletypeResult = PathToFiletypeResult::Filetype(
+    FileType::Asl { archival_type: FileTypeArchive::Xz }
+);
 // Etl
 const FTETL: PathToFiletypeResult = PathToFiletypeResult::Filetype(
     FileType::Etl { archival_type: FileTypeArchive::Normal }
@@ -423,7 +439,6 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("soap_agent", FTTN8, true)]
 #[test_case("soap_agent.old", FTTN8, true)]
 #[test_case("soap_agent.old.old", FTTN8, true)]
-#[test_case("2023.10.26.asl", FTTN8, true)]
 #[test_case("-", FTTN8, true; "dash")]
 #[test_case("-", FTUNPARSABLE, false; "dash false")]
 #[test_case("$", FTTN8, true; "dollar")]
@@ -537,6 +552,19 @@ const FTUTMPXX: PathToFiletypeResult = PathToFiletypeResult::Filetype(
 #[test_case("data.tar.gz", AMTARG, true)]
 // xz
 #[test_case("data.tar.xz", AMTARX, true)]
+//
+// ASL
+//
+#[test_case("2023.10.26.asl", FTASL, true; ".asl true")]
+#[test_case("2023.10.26.asl", FTASL, false; ".asl false")]
+#[test_case("2023.10.26.asl.bz2", FTASLBZ2, true; ".asl.bz2 true")]
+#[test_case("2023.10.26.asl.bz2", FTASLBZ2, false; ".asl.bz2 false")]
+#[test_case("2023.10.26.asl.gz", FTASLGZ, true; "asl.gz true")]
+#[test_case("2023.10.26.asl.gz", FTASLGZ, false; "asl.gz false")]
+#[test_case("2023.10.26.asl.lz4", FTASLLZ4, true; "asl.lz4 true")]
+#[test_case("2023.10.26.asl.lz4", FTASLLZ4, false; "asl.lz4 false")]
+#[test_case("2023.10.26.asl.xz", FTASLXZ, true; "asl.xz true")]
+#[test_case("2023.10.26.asl.xz", FTASLXZ, false; "asl.xz false")]
 //
 // ETL
 //

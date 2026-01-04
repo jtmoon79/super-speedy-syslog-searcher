@@ -15,9 +15,13 @@ use crate::common::{
 use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::helpers::fpath_to_path;
 use crate::tests::common::{
+    // asl
+    ASL_1_FILESZ,
+    ASL_1_GZ_FPATH,
+    ASL_1_GZ_MTIME,
+    // evtx bz2, normal, gz, lz4, tar, xz
     EVTX_KPNP_BZ2_FPATH,
     EVTX_KPNP_BZ2_MTIME,
-    // evtx
     EVTX_KPNP_FILESZ,
     EVTX_KPNP_FPATH,
     EVTX_KPNP_GZ_FPATH,
@@ -28,6 +32,7 @@ use crate::tests::common::{
     EVTX_KPNP_TAR_MTIME,
     EVTX_KPNP_XZ_FPATH,
     EVTX_KPNP_XZ_MTIME,
+    // journal bz2
     JOURNAL_FILE_RHE_91_SYSTEM_BZ2_FPATH,
     JOURNAL_FILE_RHE_91_SYSTEM_BZ2_MTIME,
     // etl
@@ -100,6 +105,16 @@ use crate::tests::common::{
     EVTX_KPNP_FILESZ;
     "evtx.xz"
 )]
+// asl files
+#[test_case(
+    &ASL_1_GZ_FPATH,
+    FileType::Asl { archival_type: FileTypeArchive::Gz },
+    Some(*ASL_1_GZ_MTIME),
+    ASL_1_FILESZ;
+    "asl.gz"
+)]
+// TODO: [2025/12] add other decompression types for ASL files
+//       this is low priority as I have never seen ASL files compressed
 // etl files
 #[test_case(
     &ETL_1_GZ_FPATH,
@@ -169,7 +184,8 @@ fn test_decompress_to_ntf_ok_some(
         FileType::Unparsable => {
             panic!();
         }
-        FileType::Etl { archival_type }
+        FileType::Asl { archival_type }
+        | FileType::Etl { archival_type }
         | FileType::Evtx { archival_type }
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }
@@ -249,7 +265,8 @@ fn test_decompress_to_ntf_ok_none(
         FileType::Unparsable => {
             panic!();
         }
-        FileType::Etl { archival_type }
+        FileType::Asl { archival_type }
+        | FileType::Etl { archival_type }
         | FileType::Evtx { archival_type }
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }
@@ -317,7 +334,8 @@ fn test_decompress_to_ntf_panic(fpath: &FPath, filetype: FileType) {
     // XXX: catch error for newly added FileType or FileTypeArchive variants not yet handled
     match filetype {
         FileType::Unparsable => {}
-        FileType::Etl { archival_type }
+        FileType::Asl { archival_type }
+        | FileType::Etl { archival_type }
         | FileType::Evtx { archival_type }
         | FileType::FixedStruct { archival_type, .. }
         | FileType::Journal { archival_type }

@@ -871,6 +871,8 @@ impl std::fmt::Display for OdlSubType {
 //       Can they be removed?
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
 pub enum FileType {
+    /// _Apple System Log_ file
+    Asl { archival_type: FileTypeArchive },
     /// a Windows [Event Trace Log] file
     ///
     /// [Event Trace Log]: https://learn.microsoft.com/en-us/windows-hardware/test/wpt/opening-and-analyzing-etl-files-in-wpa
@@ -888,6 +890,7 @@ pub enum FileType {
     ///
     /// [systemd Journal file]: https://systemd.io/JOURNAL_FILE_FORMAT/
     Journal { archival_type: FileTypeArchive },
+    /// OneDrive log file
     Odl { archival_type: FileTypeArchive, odl_sub_type: OdlSubType },
     /// a plain vanilla file, e.g. `file.log`. Presumed to be a "syslog" file
     /// as the term is loosely used in this project.
@@ -905,6 +908,7 @@ impl std::fmt::Display for FileType {
         f: &mut std::fmt::Formatter,
     ) -> std::fmt::Result {
         match self {
+            FileType::Asl{ .. } => write!(f, "ASL"),
             FileType::Etl{ .. } => write!(f, "ETL"),
             FileType::Evtx{ .. } => write!(f, "EVTX"),
             FileType::FixedStruct{ fixedstruct_type:FileTypeFixedStruct::Acct, .. } => write!(f, "ACCT"),
@@ -925,6 +929,12 @@ impl FileType {
     /// Returns `true` if this is a compressed file
     pub const fn is_compressed(&self) -> bool {
         match self {
+            FileType::Asl{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Asl{ archival_type: FileTypeArchive::Bz2 } => true,
+            FileType::Asl{ archival_type: FileTypeArchive::Gz } => true,
+            FileType::Asl{ archival_type: FileTypeArchive::Lz4 } => true,
+            FileType::Asl{ archival_type: FileTypeArchive::Tar } => false,
+            FileType::Asl{ archival_type: FileTypeArchive::Xz } => true,
             FileType::Etl{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Etl{ archival_type: FileTypeArchive::Bz2 } => true,
             FileType::Etl{ archival_type: FileTypeArchive::Gz } => true,
@@ -968,6 +978,12 @@ impl FileType {
     /// Returns `true` if the file is within an archived file
     pub const fn is_archived(&self) -> bool {
         match self {
+            FileType::Asl{ archival_type: FileTypeArchive::Normal } => false,
+            FileType::Asl{ archival_type: FileTypeArchive::Bz2 } => false,
+            FileType::Asl{ archival_type: FileTypeArchive::Gz } => false,
+            FileType::Asl{ archival_type: FileTypeArchive::Lz4 } => false,
+            FileType::Asl{ archival_type: FileTypeArchive::Tar } => true,
+            FileType::Asl{ archival_type: FileTypeArchive::Xz } => false,
             FileType::Etl{ archival_type: FileTypeArchive::Normal } => false,
             FileType::Etl{ archival_type: FileTypeArchive::Bz2 } => false,
             FileType::Etl{ archival_type: FileTypeArchive::Gz } => false,
@@ -1011,6 +1027,7 @@ impl FileType {
     /// Returns `true` if the file is processable
     pub const fn is_supported(&self) -> bool {
         match self {
+            FileType::Asl { .. } => true,
             FileType::Etl { .. } => true,
             FileType::Evtx { .. } => true,
             FileType::FixedStruct { .. } => true,
@@ -1024,6 +1041,7 @@ impl FileType {
     /// convert a `FileType` to it's corresponding `LogMessageType`
     pub const fn to_logmessagetype(&self) -> LogMessageType {
         match self {
+            FileType::Asl { .. } => LogMessageType::PyEvent,
             FileType::Etl { .. } => LogMessageType::PyEvent,
             FileType::Evtx { .. } => LogMessageType::Evtx,
             FileType::FixedStruct { .. } => LogMessageType::FixedStruct,
@@ -1041,6 +1059,7 @@ impl FileType {
     /// convert a `FileType` to it's inner `FileTypeArchive`
     pub const fn to_filetypearchive(&self) -> FileTypeArchive {
         match self {
+            FileType::Asl { archival_type } => *archival_type,
             FileType::Etl { archival_type } => *archival_type,
             FileType::Evtx { archival_type } => *archival_type,
             FileType::FixedStruct { archival_type, .. } => *archival_type,
@@ -1053,6 +1072,10 @@ impl FileType {
                 FileTypeArchive::Normal
             }
         }
+    }
+
+    pub const fn is_asl(&self) -> bool {
+        matches!(self, FileType::Asl { .. })
     }
 
     pub const fn is_etl(&self) -> bool {
@@ -1085,6 +1108,7 @@ impl FileType {
 
     pub const fn archival_type(&self) -> FileTypeArchive {
         match self {
+            FileType::Asl { archival_type } => *archival_type,
             FileType::Etl { archival_type } => *archival_type,
             FileType::Evtx { archival_type } => *archival_type,
             FileType::FixedStruct { archival_type, .. } => *archival_type,
@@ -1104,6 +1128,7 @@ impl FileType {
 
     pub const fn pretty_name(&self) -> &'static str {
         match self {
+            FileType::Asl { .. } => "Apple System Log",
             FileType::Etl { .. } => "Windows Event Trace Log",
             FileType::Evtx { .. } => "Windows XML EventLog",
             FileType::FixedStruct { .. } => "Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx)",
@@ -1166,7 +1191,7 @@ impl std::fmt::Display for LogMessageType {
             LogMessageType::Evtx => write!(f, "EVTX entries (Windows XML EventLog)"),
             LogMessageType::FixedStruct => write!(f, "fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)"),
             LogMessageType::Journal => write!(f, "systemd journal entries"),
-            LogMessageType::PyEvent => write!(f, "Python parsed events (ETL/ODL)"),
+            LogMessageType::PyEvent => write!(f, "Python parsed events (ASL/ETL/ODL)"),
             LogMessageType::Sysline => write!(f, "text log lines"),
             LogMessageType::All => write!(f, "ALL"),
         }

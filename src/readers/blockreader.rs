@@ -701,6 +701,9 @@ impl BlockReader {
         let mut read_blocks_put: Count = 0;
 
         match filetype {
+            FileType::Asl { .. } => {
+                panic!("BlockerReader::new FileType::Asl does not use a BlockReader")
+            }
             FileType::Etl { .. } => {
                 panic!("BlockerReader::new FileType::Etl does not use a BlockReader")
             }
@@ -1862,8 +1865,30 @@ impl BlockReader {
     ///
     /// Users of this struct should always use this instead of accessing
     /// `self.filesz` or `self.filesz_actual` directly.
+    // TODO: this function handles FileType that are not supported by BlockReader.
+    //       see code in `BlockReader::new` where unsupported FileType result in panic.
+    //       The unsupported FileType variants here should debug_panic or something to
+    //       indicate to the reader they are not supported.
     pub const fn filesz(&self) -> FileSz {
         match self.filetype {
+            FileType::Asl {
+                archival_type: FileTypeArchive::Normal,
+            } => self.filesz,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Bz2,
+            } => self.filesz_actual,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Gz,
+            } => self.filesz_actual,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Lz4,
+            } => self.filesz_actual,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Tar,
+            } => self.filesz_actual,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Xz,
+            } => self.filesz_actual,
             FileType::Etl {
                 archival_type: FileTypeArchive::Normal,
             } => self.filesz,
@@ -2028,6 +2053,9 @@ impl BlockReader {
     // TODO: it would be nice to cache the value from this but that would require passing `mut`
     pub fn mtime(&self) -> SystemTime {
         match self.filetype {
+            FileType::Asl { .. } => {
+                panic!("BlockerReader::mtime FileType::Asl does not use a BlockReader")
+            }
             FileType::Etl { .. } => {
                 panic!("BlockerReader::mtime FileType::Etl does not use a BlockReader")
             }
@@ -2371,8 +2399,30 @@ impl BlockReader {
     ///
     /// If `false` then no presumptions are made about the value of
     /// `blockoffset` passed to `read_block_File`.
+    // TODO: this function handles FileType that are not supported by BlockReader.
+    //       see code in `BlockReader::new` where unsupported FileType result in panic.
+    //       The unsupported FileType variants here should debug_panic or something to
+    //       indicate to the reader they are not supported.
     pub const fn is_streamed_file(&self) -> bool {
         match self.filetype {
+            FileType::Asl {
+                archival_type: FileTypeArchive::Normal,
+            } => false,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Bz2,
+            } => true,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Gz,
+            } => true,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Lz4,
+            } => true,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Tar,
+            } => true,
+            FileType::Asl {
+                archival_type: FileTypeArchive::Xz,
+            } => true,
             FileType::Etl {
                 archival_type: FileTypeArchive::Normal,
             } => false,
@@ -4003,6 +4053,12 @@ impl BlockReader {
         }
 
         match self.filetype {
+            FileType::Asl { .. } => {
+                panic!(
+                    "BlockReader::read_block unsupported filetype {:?}; path {:?}",
+                    self.filetype, self.path,
+                )
+            }
             FileType::Etl { .. } => {
                 panic!(
                     "BlockReader::read_block unsupported filetype {:?}; path {:?}",

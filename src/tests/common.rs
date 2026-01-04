@@ -4103,7 +4103,22 @@ pub const OPENBSD_X86_UTMP_BUFFER1: [u8; openbsd_x86::UTMP_SZ] = [
 
 // -------------------------------------------------------------------------------------------------
 
-// Python event data; .etl .odl
+// Python event data; .asl .etl .odl
+
+// .asl data
+
+pub const ASL_1_STR_PATH: &str = "./logs/MacOS11/powermanagement/2023.10.26.asl";
+pub const ASL_1_FILESZ: FileSz = 3366;
+pub const ASL_1_GZ_STR_PATH: &str = "./logs/MacOS11/powermanagement/2023.10.26.asl.gz";
+pub const ASL_1_EVENT_COUNT: Count = 10;
+
+lazy_static! {
+    pub static ref ASL_1_FPATH: FPath = FPath::from(ASL_1_STR_PATH);
+    pub static ref ASL_1_GZ_FPATH: FPath = FPath::from(ASL_1_GZ_STR_PATH);
+    pub static ref ASL_1_GZ_MTIME: SystemTime = {
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1698298291)
+    };
+}
 
 // .etl data
 

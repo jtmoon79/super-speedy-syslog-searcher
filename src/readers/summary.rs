@@ -711,7 +711,8 @@ impl fmt::Debug for Summary {
                                 )
                                 .finish(),
                             // Summary::default()
-                            FileType::Etl { archival_type: _ }
+                            FileType::Asl { archival_type: _ }
+                            | FileType::Etl { archival_type: _ }
                             | FileType::Evtx { archival_type: _ }
                             | FileType::Journal { archival_type: _ }
                             | FileType::Odl { archival_type: _, odl_sub_type: _ }

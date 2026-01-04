@@ -166,13 +166,15 @@ pub struct SummaryPrinted {
     pub syslines: Count,
     /// count of `FixedStruct` printed
     pub fixedstructentries: Count,
-    /// count of `PyDataEvent` printed
+    /// count of `PyDataEvent` printed for .asl files
+    pub aslentries: Count,
+    /// count of `PyDataEvent` printed for .etl files
     pub etlentries: Count,
     /// count of `Evtx` printed
     pub evtxentries: Count,
     /// count of `JournalEntry` printed
     pub journalentries: Count,
-    /// count of `Odl` printed
+    /// count of `PyDataEvent` printed for .odl files
     pub odlentries: Count,
     /// last datetime printed
     pub dt_first: DateTimeLOpt,
@@ -232,6 +234,7 @@ impl SummaryPrinted {
             lines: 0,
             syslines: 0,
             fixedstructentries: 0,
+            aslentries: 0,
             etlentries: 0,
             evtxentries: 0,
             journalentries: 0,
@@ -552,6 +555,9 @@ impl SummaryPrinted {
             "Unexpected LogMessageType {:?}", self.logmessagetype,
         );
         match pyevent_type {
+            PyEventType::Asl { .. } => {
+                self.aslentries += 1;
+            }
             PyEventType::Etl { .. } => {
                 self.etlentries += 1;
             }
@@ -1031,7 +1037,8 @@ fn print_file_about(
         | FileType::Odl { archival_type: _ , odl_sub_type: ot} => {
             eprint!("{}", ot);
         }
-        FileType::FixedStruct { .. }
+        FileType::Asl { .. }
+        | FileType::FixedStruct { .. }
         | FileType::Etl { .. }
         | FileType::Evtx { .. }
         | FileType::Journal { .. }
@@ -1042,7 +1049,8 @@ fn print_file_about(
     }
     // print the filetype archival type if applicable
     match filetype {
-        FileType::Etl { archival_type: at }
+        FileType::Asl { archival_type: at }
+        | FileType::Etl { archival_type: at }
         | FileType::Evtx { archival_type: at }
         | FileType::FixedStruct { archival_type: at, .. }
         | FileType::Journal { archival_type: at }
@@ -1444,7 +1452,8 @@ fn print_summary_opt_processed_summaryblockreader(
                 indent, summaryblockreader.blockreader_filesz_actual
             );
         }
-        FileType::Etl{..}
+        FileType::Asl{..}
+        | FileType::Etl{..}
         | FileType::Evtx{..}
         | FileType::Journal{..}
         | FileType::Odl { .. }
@@ -1831,7 +1840,8 @@ fn print_drop_stats(summary_opt: &SummaryOpt) {
     match summary.filetype {
         None => debug_panic!("unexpected None for summary.filetype"),
         Some(filetype_) => match filetype_ {
-            FileType::Etl { .. }
+            FileType::Asl { .. }
+            | FileType::Etl { .. }
             | FileType::Evtx { .. }
             | FileType::Journal { .. }
             | FileType::Odl { .. } => {

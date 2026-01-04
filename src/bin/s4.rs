@@ -650,9 +650,6 @@ DateTimes supported language is English.
 
 The Python interpreter used during `--venv` requires Python 3.7 or higher.
 This installs to "#, PYTHON_VENV_PATH_DEFAULT, r#"
-These Python packages are installed:
-  dissect-etl==3.14
-  etl-parser==1.0.1
 The Python interpreter used may be overridden by setting environment variable
 "#, PYTHON_ENV, r#" to the path of the Python interpreter.
 
@@ -2688,11 +2685,11 @@ fn exec_pyeventprocessor(
         tz_offset,
     ) = thread_init_data;
     defn!("{:?}({}): ({:?}, {:?}, {:?})", _tid, _tname, path, filetype, tz_offset);
-    debug_assert!(filetype.is_etl() || filetype.is_odl());
-    
-    let etl_parser_used: EtlParserUsed = match filetypeexecdata {
-        FileTypeExecData::Etl(etl_parser_used) => etl_parser_used,
-        FileTypeExecData::None => EtlParserUsed::EtlParser,
+    debug_assert!(filetype.is_etl() || filetype.is_odl() || filetype.is_asl());
+
+    let etl_parser_used: Option<EtlParserUsed> = match filetypeexecdata {
+        FileTypeExecData::Etl(etl_parser_used) => Some(etl_parser_used),
+        FileTypeExecData::None => None,
         FileTypeExecData::Journal { .. } => {
             debug_panic!(
                 "exec_pyeventprocessor called with filetypeexecdata {:?} for path {:?}",
@@ -2705,12 +2702,9 @@ fn exec_pyeventprocessor(
     };
 
     let pyevent_type: PyEventType = match filetype {
-        FileType::Etl { .. } => {
-            PyEventType::Etl
-        }
-        FileType::Odl { .. } => {
-            PyEventType::Odl
-        }
+        FileType::Asl { .. } => PyEventType::Asl,
+        FileType::Etl { .. } => PyEventType::Etl,
+        FileType::Odl { .. } => PyEventType::Odl,
         _ => {
             debug_panic!(
                 "exec_pyeventprocessor called with wrong filetype {:?} for path {:?}",
@@ -2980,13 +2974,15 @@ fn exec_fileprocessor_thread(
     let tname: &str = "";
 
     match thread_init_data.2 {
+        FileType::Asl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::FixedStruct { .. } => exec_fixedstructprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Etl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Evtx { .. } => exec_evtxprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Journal { .. } => exec_journalprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Odl { .. } => exec_pyeventprocessor(chan_send_dt, thread_init_data, tname, tid),
         FileType::Text { .. } => exec_syslogprocessor(chan_send_dt, thread_init_data, tname, tid),
-        _ => {
+        FileType::Unparsable
+        => {
             debug_panic!("exec_fileprocessor_thread called with unexpected filetype {:?}", thread_init_data.2);
             e_err!("exec_fileprocessor_thread called with unexpected filetype {:?}", thread_init_data.2);
         }
