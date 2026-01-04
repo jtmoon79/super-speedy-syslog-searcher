@@ -143,7 +143,7 @@ done
 echo_line
 
 {
-    echo -e "REF\tDATE\tBINARY\tprofile"
+    echo -e "BIN_NAME\tGIT_REF\tGIT_DATE\tPROFILE"
     cat "${INFO}"
 } | column -t -s $'\t'
 echo
