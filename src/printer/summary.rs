@@ -845,6 +845,7 @@ pub fn print_summary(
     eprintln!("Printed flushes        : {}", summaryprinted.flushed);
     eprintln!("Printed lines          : {}", summaryprinted.lines);
     eprintln!("Printed syslines       : {}", summaryprinted.syslines);
+    eprintln!("Printed ASL events     : {}", summaryprinted.aslentries);
     eprintln!("Printed ETL events     : {}", summaryprinted.etlentries);
     eprintln!("Printed EVTX events    : {}", summaryprinted.evtxentries);
     // TODO: [2023/03/26] eprint count of EVTX files "out of order".
