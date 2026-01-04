@@ -67,6 +67,15 @@ if [[ -z "${FILES-}" ]]; then
         ./logs/other/tests/gen-200-1-jajaja.log
         ./logs/other/tests/gen-400-4-shamrock.log
         ./logs/other/tests/gen-99999-1-Motley_Crue.log
+        ./tools/compare-log-mergers/gen-5000-1-facesA.log
+        ./tools/compare-log-mergers/gen-5000-1-facesB.log
+        ./tools/compare-log-mergers/gen-5000-1-facesC.log
+        ./tools/compare-log-mergers/gen-5000-1-facesD.log
+        ./tools/compare-log-mergers/gen-5000-1-facesE.log
+        ./tools/compare-log-mergers/gen-5000-1-facesF.log
+        ./tools/compare-log-mergers/gen-5000-1-facesH.log
+        ./tools/compare-log-mergers/gen-5000-1-facesI.log
+        ./tools/compare-log-mergers/gen-5000-1-facesJ.log
     )
 else
     # user can export `FILES` as a string of filenames separated by spaces
