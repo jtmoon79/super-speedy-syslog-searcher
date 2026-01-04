@@ -482,45 +482,6 @@ jobs:
           export NEXTEST_TEST_THREADS="num-cpus"
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
-  job_test_linux_each:
-    # this job downloads and builds dependency crates
-    name: test Linux individually
-    needs: [job_rust_msrv_os]
-    runs-on: ubuntu-latest
-    steps:
-      - name: git checkout
-        uses: actions/checkout@v4
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
-      - name: Install libsystemd
-        shell: bash
-        run: |
-          set -eux
-          uname -a
-          sudo apt update || true
-          (find / -xdev \
-                  \( -type f -o -type l \) \
-                  -name 'libsystemd*' 2>/dev/null || true) \
-              | sort
-          sudo apt install --yes libsystemd0
-          (find / -xdev \
-                  \( -type f -o -type l \) \
-                  -name 'libsystemd*' 2>/dev/null || true) \
-              | sort
-      - name: set log file filesystem Modified Times
-        shell: bash
-        run: |
-          set -eux
-          grep --version
-          chmod -v +x ./tools/log-files-time-update.sh
-          ./tools/log-files-time-update.sh
-      - name: test (all each)
-        shell: bash
-        run: |
-          set -eux
-          cargo --version
-          chmod -v +x ./tools/cargo-test-each.sh
-          ./tools/cargo-test-each.sh
-
   job_test_macos:
     name: test Mac
     needs: [job_rust_msrv_os]
