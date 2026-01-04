@@ -46,6 +46,8 @@ exclude = [
     "tests/*",
     "rustfmt.toml",
 ]
+# TODO: need to create build script to rebuild if `src/python/s4_event_readers` changes
+#       see https://doc.rust-lang.org/cargo/reference/build-scripts.html#rerun-if-changed
 
 [dependencies]
 anyhow = "1.0.100"
