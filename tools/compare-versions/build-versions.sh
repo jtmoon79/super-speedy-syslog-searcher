@@ -58,11 +58,22 @@ function echo_line() {
     echo
 }
 
+function grep_rust_version() {
+    grep -m1 -Ee '^rust-version\s*=' -- Cargo.toml | cut -f2 -d '=' | tr -d ' "'
+}
+
+rust_version1=$(grep_rust_version)
+
 function exit_() {
     echo_line
+    echo
     echo "checkout back to original git commit ${GIT_CURRENT}"
+    echo
+    set +e
     set -x
+    git restore 'src/readers/blockreader.rs'
     git checkout "${GIT_CURRENT}"
+    rustup override set "${rust_version1}"
 }
 
 for GIT_REF in "${@}"; do
@@ -77,11 +88,19 @@ trap exit_ EXIT
 for GIT_REF in "${@}"; do
     echo_line
 
+    (set -x; git restore 'src/readers/blockreader.rs')
+
     (set -x; git checkout "${GIT_REF}")
 
-    rust_version=$(grep -m1 -Ee '^rust-version\s*=' -- Cargo.toml | cut -f2 -d '=' | tr -d ' "')
+    rust_version=$(grep_rust_version)
     (set -x; rustup override set "${rust_version}")
     (set -x; cargo clean)
+
+    # patch source code to add flush to BlockReader
+    # very inexplicably, older versions fail to compile due to missing `flush` method
+    # ... very strange problem
+    echo '
+use std::io::Write;' >> 'src/readers/blockreader.rs'
 
     echo
 
