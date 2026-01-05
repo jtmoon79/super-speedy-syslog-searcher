@@ -19,6 +19,9 @@ export FREQ=8000
 
 for FLAMGRAPHOUT_S4FILE in \
     "flamegraph-evtx.svg|./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx" \
+    "flamegraph-asl.svg|./logs/MacOS11/DiagnosticMessages/2023.10.31.asl" \
+    "flamegraph-etl.svg|./logs/programs/Event_Trace_Log/WindowsUpdate.20251008.140245.443.8.etl" \
+    "flamegraph-odl.svg|./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1216.11020.2.odl" \
     "flamegraph-journal.svg|./logs/programs/journal/RHE_91_system.journal" \
     "flamegraph-journal-bz2.svg|./logs/programs/journal/RHE_91_system.journal.bz2" \
     "flamegraph-journal-gz.svg|./logs/programs/journal/RHE_91_system.journal.gz" \
