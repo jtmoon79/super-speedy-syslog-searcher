@@ -6,7 +6,7 @@ authors = [
 ]
 name = "s4_event_readers"
 # XXX: `version` should match Cargo.toml:package:version
-version = "0.7.79"
+version = "0.8.80"
 description = "ETL readers designed for use with Super Speedy Syslog Searcher (s4). Not intended to be used standalone."
 dynamic = ["dependencies"]
 # python dependencies in requirements.in and requirements.txt must be compatible
