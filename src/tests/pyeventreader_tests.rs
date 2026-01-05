@@ -92,7 +92,9 @@ fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
     "odl no panic"
 )]
 fn test_PyEventReader_new_asl_odl_panic(path: FPath, etl_parser_used: Option<EtlParserUsed>, filetype: FileType) {
-    PyEventReader::new(
+    venv_setup();
+
+    _ = PyEventReader::new(
         path,
         etl_parser_used,
         filetype,
