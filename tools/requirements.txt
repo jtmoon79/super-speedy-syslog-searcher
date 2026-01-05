@@ -5,11 +5,6 @@
 # valgrind-callgrind.sh
 gprof2dot==2024.06.06
 
-# compare-log-mergers.sh
-logdissect==3.1.1
-logmerger==0.12.0
-toolong==1.4.0
-
 # journal_print.py
 systemd-python==235
 
