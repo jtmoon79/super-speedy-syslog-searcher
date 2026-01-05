@@ -120,6 +120,7 @@ use ::clap::{
     ValueEnum,
 };
 use ::const_format::concatcp;
+use ::current_platform::CURRENT_PLATFORM;
 use ::lazy_static::lazy_static;
 use ::regex::Regex;
 
@@ -661,6 +662,7 @@ https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 Version: "#, env!("CARGO_PKG_VERSION"), r#"
 MSRV: "#, env!("CARGO_PKG_RUST_VERSION"), r#"
 Allocator: "#, CLI_HELP_AFTER_ALLOCATOR, r#"
+Platform: "#, CURRENT_PLATFORM, r#"
 License: "#, env!("CARGO_PKG_LICENSE"), r#"
 Repository: "#, env!("CARGO_PKG_REPOSITORY"), r#"
 Author: "#, env!("CARGO_PKG_AUTHORS"), r#"
@@ -693,6 +695,7 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         env!("CARGO_PKG_VERSION_PATCH"), "\n",
         "MSRV: ", env!("CARGO_PKG_RUST_VERSION"), "\n",
         "Allocator: ", CLI_HELP_AFTER_ALLOCATOR , "\n",
+        "Platform: ", CURRENT_PLATFORM, "\n",
         "License: ", env!("CARGO_PKG_LICENSE"), "\n",
         "Repository: ", env!("CARGO_PKG_REPOSITORY"), "\n",
         "Author: ", env!("CARGO_PKG_AUTHORS"), "\n",
