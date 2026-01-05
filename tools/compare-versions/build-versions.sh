@@ -126,6 +126,13 @@ use std::io::Write;' >> 'src/readers/blockreader.rs'
         (set -x; cp -av "${PROJECT_DIR}/target/mimalloc/s4" "${OUTDIR}/${BIN_NAME}")
         echo -e "${BIN_NAME}\t${GIT_REF}\t${GIT_DATE}\tmimalloc" >> "${INFO}"
     fi
+    # build rpmalloc
+    if grep -qEe '^\[profile.rpmalloc\]' -- Cargo.toml; then
+        (set -x; cargo build --profile rpmalloc --features rpmalloc)
+        BIN_NAME="s4_${GIT_REF}_rpmalloc"
+        (set -x; cp -av "${PROJECT_DIR}/target/rpmalloc/s4" "${OUTDIR}/${BIN_NAME}")
+        echo -e "${BIN_NAME}\t${GIT_REF}\t${GIT_DATE}\trpmalloc" >> "${INFO}"
+    fi
     # build tcmalloc
     if grep -qEe '^\[profile.tcmalloc\]' -- Cargo.toml; then
         (set -x; cargo build --profile tcmalloc --features tcmalloc)

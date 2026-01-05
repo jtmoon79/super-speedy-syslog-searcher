@@ -132,7 +132,8 @@ pub enum AllocatorChosen {
     System = 1,
     Jemalloc = 2,
     Mimalloc = 3,
-    TCMalloc = 4,
+    Rpmalloc = 4,
+    TCMalloc = 5,
 }
 
 impl std::fmt::Display for AllocatorChosen {
@@ -144,6 +145,7 @@ impl std::fmt::Display for AllocatorChosen {
             AllocatorChosen::System => write!(f, "system"),
             AllocatorChosen::Jemalloc => write!(f, "jemalloc"),
             AllocatorChosen::Mimalloc => write!(f, "mimalloc"),
+            AllocatorChosen::Rpmalloc => write!(f, "rpmalloc"),
             AllocatorChosen::TCMalloc => write!(f, "tcmalloc"),
         }
     }

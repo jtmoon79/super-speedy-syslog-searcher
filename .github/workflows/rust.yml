@@ -114,14 +114,21 @@ jobs:
           rustc --print cfg
           cargo build --locked
           cargo build --locked --profile release
-          ./target/release/s4 --help
+          ./target/release/s4 --version
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile mimalloc
         shell: bash
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
-          cargo build --locked --profile mimalloc
-          ./target/mimalloc/s4 --help
+          cargo build --locked --profile mimalloc --features mimalloc
+          ./target/mimalloc/s4 --version
+      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile rpmalloc
+        shell: bash
+        run: |
+          set -eux
+          export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
+          cargo build --locked --profile rpmalloc --features rpmalloc
+          ./target/rpmalloc/s4 --version
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile jemalloc
         shell: bash
         # jemalloc builds fails on github Windows
@@ -129,8 +136,9 @@ jobs:
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
-          cargo build --locked --profile jemalloc
-          ./target/jemalloc/s4 --help
+          cargo build --locked --profile jemalloc --features jemalloc
+          ./target/jemalloc/s4 --version
+      # skip tcmalloc as it requires too particular installed libraries
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'windows-latest' && matrix.msrv == env.MSRV_UPLOAD }}
         uses: actions/upload-artifact@v4

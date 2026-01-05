@@ -39,6 +39,7 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
     cargo build --locked --profile release
     cargo build --locked --profile jemalloc --features jemalloc
     cargo build --locked --profile mimalloc --features mimalloc
+    cargo build --locked --profile rpmalloc --features rpmalloc
     cargo build --locked --profile tcmalloc --features tcmalloc
 )
 

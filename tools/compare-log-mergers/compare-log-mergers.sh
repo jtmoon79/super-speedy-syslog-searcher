@@ -127,6 +127,7 @@ json5=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json6=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json7=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json8=$(mktemp -t "compare-log_mergers_XXXXX.json")
+json9=$(mktemp -t "compare-log_mergers_XXXXX.json")
 tm1=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm2=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm3=$(mktemp -t "compare-log_mergers_XXXXX.txt")
@@ -135,6 +136,7 @@ tm5=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm6=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm7=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm8=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tm9=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 mdfinal=$(mktemp -t "compare-log_mergers_final_XXXXX.md")
 
 function exit_() {
@@ -297,6 +299,37 @@ PROGRAM_S4_MIMALLOC=${PROGRAM_S4_MIMALLOC-./target/mimalloc/s4}
     $time --format="${TIME_FORMAT}" --output="${tm4}" \
         -- \
         "${PROGRAM_S4_MIMALLOC}" \
+        "-a=${after_dt}" \
+        "-b=${befor_dt}" \
+        "--color=never" \
+        "${files[@]}" > "${tmpA}"
+)
+
+echo
+cat "${tmpA}" | wc -l -
+echo
+
+echo_line
+
+# Super Speedy Syslog Searcher (S4) (rpmalloc)
+
+PROGRAM_S4_RPMALLOC=${PROGRAM_S4_RPMALLOC-./target/rpmalloc/s4}
+(set -x; "${PROGRAM_S4_RPMALLOC}" --version)
+
+(
+    files_caching
+    set -x
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json9}" -N -n "s4 (rpmalloc)" \
+        -- \
+        "'${PROGRAM_S4_RPMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+)
+
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" --output="${tm9}" \
+        -- \
+        "${PROGRAM_S4_RPMALLOC}" \
         "-a=${after_dt}" \
         "-b=${befor_dt}" \
         "--color=never" \
@@ -550,6 +583,7 @@ for files_ in \
     "${json2}|${tm2}" \
     "${json3}|${tm3}" \
     "${json4}|${tm4}" \
+    "${json9}|${tm9}" \
     "${json5}|${tm5}" \
     "${json6}|${tm6}" \
     "${json7}|${tm7}" \

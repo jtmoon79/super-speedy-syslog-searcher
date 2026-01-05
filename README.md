@@ -47,7 +47,7 @@ and Apple System Logs (`.asl`).
 <!-- toc start -->
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
-    - [allocator `mimalloc` or `jemalloc`](#allocator-mimalloc-or-jemalloc)
+    - [allocator `mimalloc`, `jemalloc`, or `rpmalloc`](#allocator-mimalloc-jemalloc-or-rpmalloc)
       - [Alpine](#alpine)
       - [Debian and Ubuntu](#debian-and-ubuntu)
       - [OpenSUSE](#opensuse)
@@ -111,11 +111,13 @@ A C compiler is required.
 
 [rust is installed]: https://www.rust-lang.org/tools/install
 
-#### allocator `mimalloc` or `jemalloc`
+#### allocator `mimalloc`, `jemalloc`, or `rpmalloc`
 
 The default allocator is the System allocator.
 
-Allocator [`mimalloc`] is feature `mimalloc` and allocator [`jemalloc`] is feature `jemalloc`.
+Allocator [`mimalloc`] is feature `mimalloc`,
+allocator [`jemalloc`] is feature `jemalloc`,
+and allocator [`rpmalloc`] is feature `rpmalloc`.
 Allocator `mimalloc` [is the fastest according to `mimalloc` project benchmarks].
 `jemalloc` is also very good.
 See the [Speed Comparison](#speed-comparison).
@@ -147,15 +149,24 @@ cargo install --locked super_speedy_syslog_searcher --features jemalloc
 
 <br/>
 
+`rpmalloc`
+
+```lang-text
+cargo install --locked super_speedy_syslog_searcher --features rpmalloc
+```
+
+<br/>
+
 [`jemalloc`]: http://jemalloc.net/
 [`mimalloc`]: https://microsoft.github.io/mimalloc/bench.html
+[`rpmalloc`]: https://crates.io/crates/rpmalloc
 [is the fastest according to `mimalloc` project benchmarks]: https://github.com/microsoft/mimalloc#Performance
 [`tcmalloc`]: https://github.com/jmcomets/tcmalloc-rs
 
 <br/>
 
-Here are the packages for building `super_speedy_syslog_searcher` with `jemalloc` or `mimalloc`
-on various Operating Systems.
+Here are the packages for building `super_speedy_syslog_searcher`
+with `jemalloc`, `mimalloc`, or `rpmalloc` on various Operating Systems.
 
 ##### Alpine
 
