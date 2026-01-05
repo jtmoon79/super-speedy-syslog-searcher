@@ -1,0 +1,108 @@
++ git log -n1 --oneline -1
++ cat -
+dc8f3631 (LIB) add feature rpmalloc
++ /usr/bin/time --version
+time (GNU Time) UNKNOWN
++ python --version
+Python 3.9.25
++ hyperfine --version
+hyperfine 1.20.0
++ python -m pip install --upgrade --no-python-version-warning --disable-pip-version-check --quiet -r ./tools/compare-log-mergers/requirements.txt
++ python -m compileall -q /home/ulug/Projects/super-speedy-syslog-searcher/.venv/lib/python3.9/site-packages
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ /usr/bin/grep --version
+grep (GNU grep) 3.11
++ /usr/bin/sort --version
+sort (GNU coreutils) 9.4
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_HJEVF.json --shell sh -n grep+sort -- '/usr/bin/grep -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log | /usr/bin/sort -t '\'' '\'' -k 1 -s > /dev/null'
+Benchmark 1: grep+sort
+  Time (mean ± σ):      67.8 ms ±   1.7 ms    [User: 50.9 ms, System: 25.7 ms]
+  Range (min … max):    65.4 ms …  73.5 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_ALE1r.txt -- sh -c ''\''/usr/bin/grep'\'' -hEe '\''^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'\'' -- ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log | '\''/usr/bin/sort'\'' -t '\'' '\'' -k 1 -s'
+
+18010 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ ./target/release/s4 --version
+s4 (Super Speedy Syslog Searcher)
+Version: 0.8.80
+MSRV: 1.85.0
+Allocator: system
+Platform: x86_64-unknown-linux-gnu
+License: MIT
+Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Author: James Thomas Moon
+
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_dB5wD.json -N -n 's4 (system)' -- ''\''./target/release/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log > /dev/null'
+Benchmark 1: s4 (system)
+  Time (mean ± σ):     186.5 ms ±   5.0 ms    [User: 157.1 ms, System: 322.2 ms]
+  Range (min … max):   181.0 ms … 210.1 ms    30 runs
+ 
+  Warning: Statistical outliers were detected. Consider re-running this benchmark on a quiet system without any interferences from other programs. It might help to use the '--warmup' or '--prepare' options.
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_mCwTA.txt -- ./target/release/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log
+
+18010 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ ./target/jemalloc/s4 --version
+s4 (Super Speedy Syslog Searcher)
+Version: 0.8.80
+MSRV: 1.85.0
+Allocator: jemalloc
+Platform: x86_64-unknown-linux-gnu
+License: MIT
+Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Author: James Thomas Moon
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_1be11.json -N -n 's4 (jemalloc)' -- ''\''./target/jemalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log > /dev/null'
+Benchmark 1: s4 (jemalloc)
+  Time (mean ± σ):     183.4 ms ±   3.8 ms    [User: 159.9 ms, System: 315.9 ms]
+  Range (min … max):   177.5 ms … 196.4 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_63DEH.txt -- ./target/jemalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log
+
+18010 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ ./target/mimalloc/s4 --version
+s4 (Super Speedy Syslog Searcher)
+Version: 0.8.80
+MSRV: 1.85.0
+Allocator: mimalloc
+Platform: x86_64-unknown-linux-gnu
+License: MIT
+Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Author: James Thomas Moon
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_skLUX.json -N -n 's4 (mimalloc)' -- ''\''./target/mimalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log > /dev/null'
+Benchmark 1: s4 (mimalloc)
+  Time (mean ± σ):     177.6 ms ±   5.0 ms    [User: 172.7 ms, System: 268.7 ms]
+  Range (min … max):   166.1 ms … 191.2 ms    30 runs
+ 
++ /usr/bin/time '--format=%M|%P|%E' --output=/tmp/compare-log_mergers_lRpqe.txt -- ./target/mimalloc/s4 -a=2000-01-01T00:20:00 -b=2000-01-01T00:50:00 --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log
+
+18010 -
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
++ ./target/rpmalloc/s4 --version
+s4 (Super Speedy Syslog Searcher)
+Version: 0.8.80
+MSRV: 1.85.0
+Allocator: rpmalloc
+Platform: x86_64-unknown-linux-gnu
+License: MIT
+Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Author: James Thomas Moon
+
++ /home/ulug/.cargo/bin/hyperfine --warmup=2 --style=basic --runs=30 --export-json /tmp/compare-log_mergers_7Duf4.json -N -n 's4 (rpmalloc)' -- ''\''./target/rpmalloc/s4'\'' -a='\''2000-01-01T00:20:00'\'' -b='\''2000-01-01T00:50:00'\'' --color=never ./tools/compare-log-mergers/gen-5000-1-facesA.log ./tools/compare-log-mergers/gen-5000-1-facesB.log ./tools/compare-log-mergers/gen-5000-1-facesC.log ./tools/compare-log-mergers/gen-5000-1-facesD.log ./tools/compare-log-mergers/gen-5000-1-facesE.log ./tools/compare-log-mergers/gen-5000-1-facesF.log ./tools/compare-log-mergers/gen-5000-1-facesG.log ./tools/compare-log-mergers/gen-5000-1-facesH.log ./tools/compare-log-mergers/gen-5000-1-facesI.log ./tools/compare-log-mergers/gen-5000-1-facesJ.log > /dev/null'
+Benchmark 1: s4 (rpmalloc)
+Error: The process has been terminated by a signal in benchmark iteration 13. Use the '-i'/'--ignore-failure' option if you want to ignore this. Alternatively, use the '--show-output' option to debug what went wrong.
