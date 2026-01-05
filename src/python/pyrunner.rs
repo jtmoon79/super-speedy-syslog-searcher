@@ -360,9 +360,9 @@ impl PipeStreamReader {
                     "PipeStreamReader {:?} PID {:?} PTID {:?}",
                     name, pid, _tidn_p
                 );
-                def1o!("{_d_p} create bounded({}) channel", CHANNEL_CAPACITY);
+                def1o!("{_d_p} create unbounded() channel");
                 let (tx_parent, rx_parent) =
-                    ::crossbeam_channel::bounded(CHANNEL_CAPACITY);
+                    ::crossbeam_channel::unbounded();
 
                 let thread_pipe = thread::Builder::new().name(thread_name.clone());
 
