@@ -136,7 +136,7 @@ FLAMEGRAPH_VERSION=$(cargo flamegraph --version)
 RUST_VERSION_SHORT=$(rustc -vV | sed -n 's|release: ||p')
 RUST_HOST=$(rustc -vV | sed -n 's|host: ||p')
 
-NOTES=$("${PROGRAM}" --version)
+NOTES=$("${PROGRAM}" --version | grep -Ee '^Version|^Allocator|^Platform' | tr '\n' ';' | sed -Ee 's|;|; |g')
 if GITLOG_HASH1=$(git log -n1 --pretty=format:%h 2>/dev/null); then
     NOTES+="; git: ${GITLOG_HASH1}"
 fi
