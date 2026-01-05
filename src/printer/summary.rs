@@ -1253,6 +1253,8 @@ fn print_summary_opt_processed(
             eprintln!("{}Python pipe recv stderr    : {}", indent2, summarypyeventreader.pyeventreader_python_count_pipe_recv_stderr);
             eprintln!("{}Python pipe size stdout    : {}", indent2, summarypyeventreader.pyeventreader_pipe_sz_stdout);
             eprintln!("{}Python pipe size stderr    : {}", indent2, summarypyeventreader.pyeventreader_pipe_sz_stderr);
+            eprintln!("{}Python pipe chan max stdout: {}", indent2, summarypyeventreader.pyeventreader_pipe_channel_max_stdout);
+            eprintln!("{}Python pipe chan max stderr: {}", indent2, summarypyeventreader.pyeventreader_pipe_channel_max_stderr);
             // drop sub-milliseconds data, milliseconds is precise enough
             let dur_ms_wait: Duration = Duration::from_millis(summarypyeventreader.pyeventreader_duration_proc_wait.as_millis() as u64);
             eprintln!("{}Python process waits       : {:?}", indent2, dur_ms_wait);

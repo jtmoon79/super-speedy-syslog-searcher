@@ -4,6 +4,10 @@
 //! over threaded `PipeStreamReader`s connected to stdout, stderr, and stdin.
 //! It uses `std::process::Child` to start and manage the Python process.
 
+use std::cmp::{
+    max,
+    min,
+};
 use std::collections::{
     HashSet,
     VecDeque,
@@ -423,13 +427,15 @@ impl PipeStreamReader {
                                 //      `ProcessStatus::Exited`.
                                 //      Using `recv_timeout(5ms)` softens this busy loop.
                                 //      It's ugly but it works.
-                                def2o!("{_d_p} rx_exit.recv_timeout({:?})…", recv_timeout);
+                                def2o!("{_d_p} rx_exit.recv_timeout({:?}) (len {})…", recv_timeout, rx_exit.len());
                                 let rx_result = rx_exit.recv_timeout(recv_timeout);
                                 match rx_result {
                                     Ok(ProcessStatus::Exited) => {
                                         def2o!("{_d_p} rx_exit ProcessStatus::Exited; send Done({}, buf_chunk1 {} bytes) and break",
                                                reads, buf_chunk1.len());
                                         _sends += 1;
+                                        def2o!("{_d_p} tx_parent.send(Ok(PipedChunk::Done({}, buf_chunk1 {} bytes))) (channel len {})…",
+                                               reads, buf_chunk1.len(), tx_parent.len());
                                         match tx_parent.send(Ok(PipedChunk::Done(reads as u64, buf_chunk1))) {
                                             Ok(_) => {}
                                             Err(_err) => {
@@ -498,7 +504,8 @@ impl PipeStreamReader {
                                                     def2o!("{_d_p} (read #{reads} loop {_loop}) chunk_send.extend_from_slice(&buf_chunk1 len {}) (chunk_send capacity {})",
                                                         buf_chunk1.len(), chunk_send.capacity());
                                                     chunk_send.extend_from_slice(&buf_chunk1);
-                                                    def2o!("{_d_p} (read #{reads} loop {_loop}) chunk_send: '{}'", buffer_to_String_noraw(&chunk_send));
+                                                    def2o!("{_d_p} (read #{reads} loop {_loop}) chunk_send: '{}' (channel len {})",
+                                                           buffer_to_String_noraw(&chunk_send), tx_parent.len());
                                                     let data_send = PipedChunk::Chunk(chunk_send);
                                                     _sends += 1;
                                                     match tx_parent.send(Ok(data_send)) {
@@ -655,6 +662,12 @@ pub struct PyRunner {
     ///
     /// oldest stderr data nearest the front
     stderr_all: Option<VecDeque<u8>>,
+    /// Summary statistic.
+    /// Maximum number of messages seen in the pipe_stdout channel.
+    pub(crate) pipe_channel_max_stdout: Count,
+    /// Summary statistic.
+    /// Maximum number of messages seen in the pipe_stderr channel.
+    pub(crate) pipe_channel_max_stderr: Count,
     /// Summary statistic.
     /// count of reads performed by pipeline thread reading Python process stdout
     pub(crate) count_proc_reads_stdout: Count,
@@ -844,7 +857,7 @@ impl PyRunner {
         );
         def1o!("{_d_p} PipeStreamReader::new() stderr");
         // stderr pipe capped at 5096 bytes
-        let pipe_sz_stderr: usize = std::cmp::min(pipe_sz, 5096);
+        let pipe_sz_stderr: usize = min(pipe_sz, 5096);
         let pipe_stderr = PipeStreamReader::new(
             String::from("stderr"),
             pid,
@@ -875,6 +888,8 @@ impl PyRunner {
             stderr_all: None,
             time_beg,
             time_end: None,
+            pipe_channel_max_stdout: 0,
+            pipe_channel_max_stderr: 0,
             count_proc_reads_stdout: 0,
             count_proc_reads_stderr: 0,
             count_pipe_recv_stdout: 0,
@@ -999,7 +1014,7 @@ impl PyRunner {
                     // append the new data
                     se_prior.extend(stderr_data.iter());
                 }
-            },
+            }
             None => {
                 let mut v = VecDeque::<u8>::with_capacity(
                     if stderr_data.len() > MAX_STDERR_ALL_BYTES {
@@ -1020,7 +1035,8 @@ impl PyRunner {
         if self.pipe_sent_exit {
             return;
         }
-        def2ñ!("{} pipes_exit_sender({:?})", self._d_p, pe);
+        def2ñ!("{} pipes_exit_sender({:?}) (channels len {}, {})",
+               self._d_p, pe, self.pipe_stdout.exit_sender.len(), self.pipe_stderr.exit_sender.len());
         self.pipe_stdout.exit_sender.send(pe).unwrap_or(());
         self.pipe_stderr.exit_sender.send(pe).unwrap_or(());
         self.pipe_sent_exit = true;
@@ -1109,7 +1125,7 @@ impl PyRunner {
         def1o!("{_d_p} wait on {} selects…", _sel_counts);
         let d1: Instant = Instant::now();
         let sel_oper = sel.select();
-        self.duration_proc_wait += d1.elapsed();
+        summary_stat!(self.duration_proc_wait += d1.elapsed());
         let sel_index: usize = sel_oper.index() + 1; // avoid zero index
         def1o!("{_d_p} selected {}", sel_index);
 
@@ -1136,6 +1152,12 @@ impl PyRunner {
             //       between stdout and stderr ?
             i if i == sel_out && sel_out != 0 => {
                 // read stdout
+                summary_stat!(self.pipe_channel_max_stdout =
+                    max(
+                        self.pipe_channel_max_stdout,
+                        self.pipe_stdout.chunk_receiver.len() as Count
+                    )
+                );
                 def1o!("{} recv(&pipe_stdout.chunk_receiver)…", self._d_p);
                 summary_stat!(self.count_pipe_recv_stdout += 1);
                 match sel_oper.recv(&self.pipe_stdout.chunk_receiver) {
@@ -1185,6 +1207,12 @@ impl PyRunner {
             }
             i if i == sel_err && sel_err != 0 => {
                 // read stderr
+                summary_stat!(self.pipe_channel_max_stderr =
+                    max(
+                        self.pipe_channel_max_stderr,
+                        self.pipe_stderr.chunk_receiver.len() as Count
+                    )
+                );
                 def1o!("{} recv(&pipe_stderr.chunk_receiver)…", self._d_p);
                 summary_stat!(self.count_pipe_recv_stderr += 1);
                 match sel_oper.recv(&self.pipe_stderr.chunk_receiver) {
@@ -1271,11 +1299,11 @@ impl PyRunner {
                    self.exit_status.unwrap());
             return Ok(self.exit_status.unwrap());
         }
-        // XXX: should `wait` be passed a timeout?
         def1n!("{_d_p} wait()");
         let d1: Instant = Instant::now();
+        // XXX: should `wait` be passed a timeout?
         let rc = self.process.wait();
-        self.duration_proc_wait += d1.elapsed();
+        summary_stat!(self.duration_proc_wait += d1.elapsed());
         match rc {
             Ok(exit_status) => {
                 debug_assert_none!(self.time_end, "time_end should not be set since exited() was false");

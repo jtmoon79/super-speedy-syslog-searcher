@@ -242,6 +242,8 @@ pub struct SummaryPyEventReader {
     pub pyeventreader_datetime_last_processed: DateTimeLOpt,
     pub pyeventreader_pipe_sz_stdout: PipeSz,
     pub pyeventreader_pipe_sz_stderr: PipeSz,
+    pub pyeventreader_pipe_channel_max_stdout: Count,
+    pub pyeventreader_pipe_channel_max_stderr: Count,
     pub pyeventreader_filesz: FileSz,
     pub pyeventreader_events_read_max: Count,
     pub pyeventreader_events_held_max: Count,
@@ -898,6 +900,8 @@ impl PyEventReader {
         let pyeventreader_datetime_last_processed = self.dt_last_processed;
         let pyeventreader_pipe_sz_stdout: PipeSz = self.pipe_sz_stdout();
         let pyeventreader_pipe_sz_stderr: PipeSz = self.pipe_sz_stderr();
+        let pyeventreader_pipe_channel_max_stdout: Count = self.pyrunner.pipe_channel_max_stdout;
+        let pyeventreader_pipe_channel_max_stderr: Count = self.pyrunner.pipe_channel_max_stderr;
         let pyeventreader_filesz: FileSz = self.filesz();
         let pyeventreader_events_read_max: Count = self.events_read_max;
         let pyeventreader_events_held_max: Count = self.events_held_max;
@@ -922,6 +926,8 @@ impl PyEventReader {
             pyeventreader_datetime_last_processed,
             pyeventreader_pipe_sz_stdout,
             pyeventreader_pipe_sz_stderr,
+            pyeventreader_pipe_channel_max_stdout,
+            pyeventreader_pipe_channel_max_stderr,
             pyeventreader_filesz,
             pyeventreader_events_read_max,
             pyeventreader_events_held_max,

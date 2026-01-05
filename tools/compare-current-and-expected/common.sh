@@ -83,6 +83,8 @@ function stderr_clean () {
         -e '/^[ ]+Python process polls[ ]*:.*$/d' \
         -e '/^[ ]+Python process waits[ ]*:.*$/d' \
         -e '/^[ ]+Python process runtime[ ]*:.*$/d' \
+        -e '/^[ ]+Python pipe chan max stdout[ ]*:.*$/d' \
+        -e '/^[ ]+Python pipe chan max stderr[ ]*:.*$/d' \
         -e '/^[ ]+Python script arguments[ ]*:.*$/d' \
         -e '/^[ ]+realpath .*$/d' \
         -e '/^[ ]+real path .*$/d' \

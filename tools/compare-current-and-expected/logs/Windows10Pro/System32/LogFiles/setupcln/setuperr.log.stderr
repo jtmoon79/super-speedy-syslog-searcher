@@ -49,6 +49,7 @@ Printed bytes          : 25128
 Printed flushes        : 210
 Printed lines          : 105
 Printed syslines       : 105
+Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
