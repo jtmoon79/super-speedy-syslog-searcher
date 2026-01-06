@@ -31,7 +31,7 @@ export GIT_PAGER=
 #
 #   ([c3e42d74f6d4ae9cfe2701566843830cb4a6d0de]) becomes ([c3e42d7])
 while read -r hash_long; do
-    hash_short=$(git log -n1 '--pretty=%h' "${hash_long}") || {
+    hash_short=$(git log -n1 '--pretty=%h' "${hash_long}" --) || {
         echo "Warning: failed to get short hash for ${hash_long}" >&2
         continue
     }
@@ -124,7 +124,7 @@ grep -oEe '\[[[:alnum:]\._]+\.\.[[:alnum:]\._]+\]' -- "${tmp_CHANGELOG}" \
 #    [607a23c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/607a23c00aff0d9b34fb3d678bdfd5c14290582d
 #
 while read -r hash_short; do
-    hash_long=$(git log -n1 '--pretty=%H' "${hash_short}") || continue
+    hash_long=$(git log -n1 '--pretty=%H' "${hash_short}" --) || continue
     echo "[${hash_short}]: ${URL_PROJECT}/commit/${hash_long}" >> "${tmp_links}"
 done < <(grep -oEe '\(\[[[:xdigit:]]{6,8}\]\)' -- "${tmp_CHANGELOG}" | grep -oEe '[[:xdigit:]]+' | sort | uniq)
 
