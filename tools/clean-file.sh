@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# quick helper to remove specific names from a file
 
 set -euo pipefail
 
