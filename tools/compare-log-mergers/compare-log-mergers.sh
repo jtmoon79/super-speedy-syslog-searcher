@@ -521,7 +521,7 @@ echo '{
     "times": [0.0],
     "exit_codes": [0]
   } ]
-}' > "${json7}"
+}' > "${json8}"
 
 echo_line
 
