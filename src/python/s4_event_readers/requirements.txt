@@ -20,7 +20,7 @@ dissect-util==3.22
     # via dissect-etl
 etl-parser==1.0.1
     # via -r requirements.in
-pycryptodome==3.23.0
+inputimeout==1.0.4
     # via -r requirements.in
-wheel==0.45.1
+pycryptodome==3.23.0
     # via -r requirements.in

@@ -18,7 +18,7 @@ Thanks to Airbus CERT Team for this great tool!
 import os
 import sys
 from io import BufferedWriter
-from queue import Queue
+from queue import Empty, Queue
 from threading import Event as Event_Thread
 from threading import (
     Lock,
@@ -71,6 +71,7 @@ from etl.perf import PerfInfo
 from etl.system import SystemTraceRecord
 from etl.trace import Trace
 from etl.wintrace import WinTrace
+from inputimeout import inputimeout, TimeoutOccurred
 
 from . import s4_event_bytes
 
@@ -454,7 +455,17 @@ def main(argv: List[str]) -> int:
     events = 0
 
     while not parser_done_event.is_set():
-        element = element_queue.get()
+        # BUG: the timeout is a bandaid fix to avoid a blocking bug that occurs here
+        #      when run by s4
+        #      this fails:
+        #         ./target/release/s4 -s --etl-parser /mnt/c/Windows/Logs/SIH/SIH.20260102.233447.425.1.etl
+        #      yet this succeeds:
+        #         ~/.config/s4/venv/bin/python3 -OO -m s4_event_readers.etl_reader_etl_parser \
+        #         /mnt/c/Windows/Logs/SIH/SIH.20260102.233447.425.1.etl --wait-input-per-prints=6
+        try:
+            element = element_queue.get(timeout=0.1)
+        except Empty:
+            continue
         try:
             write_element(
                 element,
@@ -465,7 +476,12 @@ def main(argv: List[str]) -> int:
             pass
         events += 1
         if wait_input_per_prints != 0 and events % wait_input_per_prints == 0:
-            _ = input()
+            # wait for stdin input to continue
+            # XXX: with timeout to avoid blocking forever (latent bugs)
+            try:
+                _ = inputimeout(timeout=0.2)
+            except TimeoutOccurred:
+                pass
 
     parser_thread.join()
 
@@ -481,7 +497,12 @@ def main(argv: List[str]) -> int:
             pass
         events += 1
         if wait_input_per_prints != 0 and events % wait_input_per_prints == 0:
-            _ = input()
+            # wait for stdin input to continue
+            # XXX: with timeout to avoid blocking forever (latent bugs)
+            try:
+                _ = inputimeout(timeout=0.2)
+            except TimeoutOccurred:
+                pass
 
     if output is not None:
         output_file.close()

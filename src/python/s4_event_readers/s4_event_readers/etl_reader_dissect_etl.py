@@ -27,6 +27,7 @@ from typing import List, Optional
 
 from dissect.etl import ETL
 from dissect.etl.etl import Event, EventRecord  # noqa: F401
+from inputimeout import inputimeout, TimeoutOccurred
 
 from . import s4_event_bytes
 
@@ -171,7 +172,12 @@ def main(argv: List[str]) -> int:
                     output_file.write(b"\n")
                     output_file.flush()
                     if wait_input_per_prints > 0 and count % wait_input_per_prints == 0:
-                        _ = input()
+                        # wait for stdin input to continue
+                        # XXX: with timeout to avoid blocking forever (latent bugs)
+                        try:
+                            _ = inputimeout(timeout=0.2)
+                        except TimeoutOccurred:
+                            pass
                     continue
 
                 # it was found that scanning the string for "timestamp="
@@ -217,7 +223,12 @@ def main(argv: List[str]) -> int:
                     if debug_file_path:
                         log(logf, f"Waiting for input after {count} events")
                     # wait for stdin input to continue
-                    _in = input()
+                    # XXX: with timeout to avoid blocking forever (latent bugs)
+                    _in = ""
+                    try:
+                        _in = inputimeout(timeout=0.2)
+                    except TimeoutOccurred:
+                        pass
                     if debug_file_path:
                         log(logf, f"Received input {_in!r}")
             except ValueError as ve:

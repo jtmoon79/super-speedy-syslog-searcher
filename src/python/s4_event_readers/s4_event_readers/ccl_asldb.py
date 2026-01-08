@@ -39,6 +39,8 @@ import sys
 from pathlib import Path
 from typing import BinaryIO, Dict, Generator, List, Optional, Tuple
 
+from inputimeout import inputimeout, TimeoutOccurred
+
 try:
     from . import s4_event_bytes
 except ImportError:
@@ -502,7 +504,12 @@ def main() -> int:
             if wait_input_per_prints > 0 and (i + 1) % wait_input_per_prints == 0:
                 if not QUIET:
                     print_log(f"Processed {i + 1} records, waiting for user input to continue...")
-                input()
+                # wait for stdin input to continue
+                # XXX: with timeout to avoid blocking forever (latent bugs)
+                try:
+                    _ = inputimeout(timeout=0.2)
+                except TimeoutOccurred:
+                    pass
 
         f.close()
 
