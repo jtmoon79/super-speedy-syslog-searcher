@@ -32,8 +32,8 @@ including multi-line log messages.
 It also parses binary accounting records acct, lastlog, and utmp
 (`acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, `wtmp`),
 systemd journal logs (`.journal`),
-Microsoft Event Logs (`.evtx`),
-Microsoft Event Trace Logs (`.etl`),
+Windows Event Logs (`.evtx`),
+Windows Event Trace Logs (`.etl`),
 OneDrive Log files (`.odl`, `.aodl`, `.odlgz`, `.odlsent`),
 and Apple System Logs (`.asl`).
 `s4` can read logs that are compressed (`.bz2`, `.gz`, `.lz4`, `.xz`), or archived logs (`.tar`).
@@ -108,6 +108,15 @@ cargo install --locked super_speedy_syslog_searcher
 ```
 
 A C compiler is required.
+
+It is recommended to create a Python virtual environment for parsing
+.asl, .etl, and .odl files by running
+
+```lang-text
+s4 --venv
+```
+
+Python 3.9 or higher is required.
 
 [rust is installed]: https://www.rust-lang.org/tools/install
 
@@ -739,6 +748,13 @@ See [the Github Action].
 - <span id="f2"><sup>\[2\]</sup></span> Cannot process archive files or compressed files within
   other archive files or compressed files ([Issue #14])<br/>
   e.g. cannot process `logs.tar.xz`, nor file `log.gz` within `logs.tar`
+- `.asl`, `.etl`, and `.odl` files are processed by a Python script
+  run by a child process Python interpreter. _This is not super or speedy_.
+  It does implement support for these file types which are common on Windows
+  and Mac.
+  Someday it would be great to have a Rust implementation of those python-based
+  parsers ([Issue #443]).
+  See [`src/python/s4_event_readers/s4_event_readers`](src/python/s4_event_readers/s4_event_readers).
 
 [Issue #8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/8
 [Issue #11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/11
@@ -746,6 +762,7 @@ See [the Github Action].
 [Issue #12]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/12
 [Issue #39]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/39
 [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
+[Issue #443]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/443
 [ISO descriptive format]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Calendar_dates
 [_Ordinal dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Ordinal_dates
 [_Week dates_]: https://en.wikipedia.org/w/index.php?title=ISO_8601&oldid=1114310323#Week_dates
@@ -755,11 +772,14 @@ See [the Github Action].
 
 - Entire `.bz2` files are read once before processing ([Issue #300])
 - Entire `.lz4` files are read once before processing ([Issue #293])
+- Ad-hoc text log files without a year in the date are read once before
+  processing.
 - Entire `.xz` files are read into memory before printing ([Issue #12])
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
 - Entire files within a `.tar` file are read into memory before printing ([Issue #13])
 - Entire [user accounting record files are read into memory] before printing
-- Compressed `.journal` and `.evtx` files are extracted to a temporary file ([Issue #284])
+- Compressed `.asl`, `.etl`, `.odl`, `.journal`, and `.evtx` files are extracted
+  to a temporary file ([Issue #284])
 
 [user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
 [Issue #13]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13
@@ -907,6 +927,10 @@ Here are two typical log messages from a contrived log file:
 ```
 
 ##### Table of speed comparison results
+
+<!--
+Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
+-->
 
 |Command        |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
 |:---           |---:        |---:    |---:    |---:        |---: |
