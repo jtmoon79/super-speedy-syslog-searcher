@@ -6,19 +6,19 @@ Speedily search and merge log messages by datetime.
 * Must update parameters `branch=` and `version=` per release; replace the version
 -->
 
-[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.7.79?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.7.79/Cargo.toml#L21)
+[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.8.80?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.8.80/Cargo.toml#L21)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
-[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.7.79?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.7.79/)
+[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.8.80?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.8.80/)
 
-[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.7.79&version=0.7.79)](https://crates.io/crates/super-speedy-syslog-searcher/0.7.79)
+[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.8.80&version=0.8.80)](https://crates.io/crates/super-speedy-syslog-searcher/0.8.80)
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher#:~:text=Downloads%20all%20time)
-[![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.7.79?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.7.79)
+[![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.8.80?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.8.80)
 [![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#0779)
 [![lib.rs](https://img.shields.io/badge/lib.rs-white?style=flat-square&logo=rust&logoColor=202020)](https://lib.rs/crates/super_speedy_syslog_searcher/)
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.7.79&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
-[![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.7.79&version=0.7.79)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.7.79)
-[![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.7.79.svg?logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
+[![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.8.80&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust)
+[![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.8.80&version=0.8.80)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.8.80)
+[![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.8.80.svg?logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
@@ -732,7 +732,7 @@ _Tier 2_
 
 See [the Github Action].
 
-[the Github Action]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.7.79/.github/workflows/rust.yml
+[the Github Action]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.8.80/.github/workflows/rust.yml
 
 ### Limitations
 
@@ -921,8 +921,8 @@ All programs besides `s4` fail to merge different text log formats.
 
 #### Speed Comparison
 
-A comparison of merging three large contrived log files.
-The three log files have 5000 single-line log messages, 2158138 bytes (≈2.1 MB) each,
+A comparison of merging [ten large contrived log files](https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.79/tools/compare-log-mergers).
+The ten log files have 5000 single-line log messages, 2158138 bytes (≈2.1 MB) each,
 with high-plane unicode.
 There is filtering on a a range of datetime values that prints 1800 single-line
 log messages.
@@ -942,13 +942,15 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 
 |Command        |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
 |:---           |---:        |---:    |---:    |---:        |---: |
-|`grep\|sort`   |17.6 ± 0.5  |16.8    |18.9    |4736        |95%  |
-|`s4 (system)`  |44.5 ± 1.1  |42.8    |47.9    |47172       |182% |
-|`s4 (jemalloc)`|41.6 ± 1.5  |39.0    |44.8    |52736       |184% |
-|`s4 (mimalloc)`|29.3 ± 1.4  |26.9    |34.0    |77160       |173% |
-|`lnav`         |262.1 ± 9.0 |242.4   |283.6   |36736       |73%  |
-|`logmerger`    |200.1 ± 2.6 |195.1   |205.1   |48648       |99%  |
-|`toolong`      |2100.0 ± 0.0|        |        |52816       |30%  |
+|`grep+sort`    |61.3 ± 1.3  |59.3    |65.8    |11904       |113% |
+|`s4 (system)`  |172.1 ± 2.1 |167.9   |177.2   |137204      |245% |
+|`s4 (jemalloc)`|171.2 ± 2.3 |168.3   |176.7   |150272      |246% |
+|`s4 (mimalloc)`|153.8 ± 2.0 |151.7   |159.0   |227804      |244% |
+|`s4 (rpmalloc)`|178.4 ± 2.8 |175.4   |188.3   |157696      |236% |
+|`s4 (tcmalloc)`|180.5 ± 2.3 |177.2   |185.9   |154368      |250% |
+|`lnav`         |255.8 ± 11.6|245.8   |291.1   |56516       |105% |
+|`logmerger`    |329.9 ± 3.5 |324.3   |338.4   |79768       |98%  |
+|`toolong`      |3240.0 ± 0.0|        |        |63068       |28%  |
 
 <sup style="font-size: xx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xx-small">• _Min_ is minimum runtime in milliseconds</sup>
@@ -959,7 +961,7 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 Programs tested:
 
 - GNU `grep` 3.7, GNU `sort` 8.32
-- `s4` 0.7.79 compiled with rustc 1.81.0
+- `s4` 0.8.80 compiled with rustc 1.85.0
 - `lnav` 0.11.2
 - `logmerger` 0.12.0 on Python 3.10.12
 - `tl` (_toolong_) 1.5.0 on Python 3.10.12
@@ -971,7 +973,7 @@ Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
 See archived results in [`compare-log-mergers.txt`].
 
-[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.77/releases/0.7.77
+[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.8.80/releases/0.8.80
 
 ---
 
