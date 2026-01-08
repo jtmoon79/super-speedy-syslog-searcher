@@ -350,6 +350,14 @@ datetime (with the help of GNU `date`)
 s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ```
 
+Process files only modified in the past 24 hours (with the help of `find`),
+and print the last 5 minutes.
+This is useful for paths with many log files.
+
+```lang-text
+find -mtime 1 -type f | s4 - -a=-5m
+```
+
 [Windows Event logs]: https://github.com/libyal/libevtx/blob/126297f7f0e325f9e2cd27b0b60d3cf02ffdfd04/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
 [Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 [Issue #270]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/270
