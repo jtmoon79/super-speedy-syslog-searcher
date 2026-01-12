@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #
+# graph memory usage of `s4` when processing increasing number of log files.
 
 set -euo pipefail
 
