@@ -37,7 +37,8 @@
 ./logs/Debian9/user.log.zip
 ./logs/Debian9/Xorg.0.log.old
 ./logs/FedoraRemix29/dnf.librepo.log
-./logs/MacOS11/powermanagement/2023.10.26.asl
+# this next file fails sometimes, see Issue #445
+#./logs/MacOS11/powermanagement/2023.10.26.asl
 ./logs/MinGW64/pacman.log
 ./logs/NetBSD9.3/x86_32/lastlog
 ./logs/NetBSD9.3/x86_32/lastlogx
