@@ -300,7 +300,7 @@ _MSRV 1.85.0_
 - (LIB) MSRV 1.83.0 ([aa1ece79])
 - (LIB) bump MSRV 1.85.0 ([e94f9e81])
 - (LIB) bump numtoa 0.3.1 ([6215abed])
-- (LIB) Apply summary_stat! macro and docstring comments to linereader.rs (#437) ([10622640])
+- (LIB) Apply summary_stat! macro and docstring comments to linereader.rs [Issue #437] ([10622640])
 - (LIB) filedecompressor.rs decompress_to_ntf replace '\0' ([9ef5f4bb])
 - (LIB) filedecompressor.rs more explicit File open_options ([2215ce8f])
 - (LIB) fixedstructreader.rs summary_stat! ([4b582114])
@@ -411,7 +411,7 @@ _MSRV 1.81.0_
 - (DOCS) README more examples of -a -b usage ([3dc2d474])
 - (DOCS) README note 0.7.79 ([a9d0009a])
 - (DOCS) README tweak wording on comparison ([da32db19])
-- (LIB) dependabot: bump lz4_flex from 0.11.3 to 0.11.5 (#419) ([c734d635])
+- (LIB) dependabot: bump lz4_flex from 0.11.3 to 0.11.5 [Issue #419] ([c734d635])
 - (LIB) apply misc clippy suggestions ([5390f7fa])
 - (LIB BIN) SUBPATH_SEP='\0' SUBPATH_SEP_DISPLAY ([835cdde6])
 - (LIB) bump clap 4.5.48 ([eb02c426])
@@ -490,16 +490,16 @@ _MSRV 1.73.0_
 - (DOCS) README update compare table 0.7.76 ([51f0a78b])
 - (LIB) dependabot: bump anyhow from 1.0.97 to 1.0.98 ([755c269b])
 - (LIB) dependabot: bump cfg-if from 1.0.0 to 1.0.1 ([8c1cd0b9])
-- (LIB) dependabot: bump chrono from 0.4.40 to 0.4.41 (#404) ([df5ff095])
-- (LIB) dependabot: bump libc from 0.2.171 to 0.2.174 (#411) ([05ca7b4d])
+- (LIB) dependabot: bump chrono from 0.4.40 to 0.4.41 [Issue #404] ([df5ff095])
+- (LIB) dependabot: bump libc from 0.2.171 to 0.2.174 [Issue #411] ([05ca7b4d])
 - (LIB) dependabot: bump lru from 0.13.0 to 0.16.0 ([53419617])
 - (LIB) dependabot: bump lz4_flex from 0.11.3 to 0.11.5 ([9f942b0e])
-- (LIB) dependabot: bump mimalloc from 0.1.45 to 0.1.47 (#414) ([7a4558e9])
-- (LIB) dependabot: bump nix from 0.29.0 to 0.30.1 (#415) ([03b6e216])
+- (LIB) dependabot: bump mimalloc from 0.1.45 to 0.1.47 [Issue #414] ([7a4558e9])
+- (LIB) dependabot: bump nix from 0.29.0 to 0.30.1 [Issue #415] ([03b6e216])
 - (LIB) dependabot: bump numtoa from 0.2.4 to 0.3.1 ([5914ce02])
 - (LIB) downgrade numtoa to 0.2.4 to avoid rustc errors ([ecd0e724])
 - (LIB) dependabot: bump phf from 0.11.3 to 0.12.1 ([a967d783])
-- (LIB) dependabot: bump rangemap from 1.5.1 to 1.6.0 (#412) ([2b62c402])
+- (LIB) dependabot: bump rangemap from 1.5.1 to 1.6.0 [Issue #412] ([2b62c402])
 - (LIB) dependabot: bump unicode-width from 0.2.0 to 0.2.1 ([34cd9539])
 - (LIB) specify extern fn as "C" ([a961e626])
 - (LIB) Uptime is i32 ([437eeb96])
@@ -2417,7 +2417,14 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #305]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/305
 [Issue #360]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/360
 [Issue #401]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/401
+[Issue #404]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/404
+[Issue #411]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/411
+[Issue #412]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/412
+[Issue #414]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/414
+[Issue #415]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/415
 [Issue #416]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/416
+[Issue #419]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/419
+[Issue #437]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/437
 [Issue #445]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/445
 [PR #311]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/311
 [PR #312]: https://github.com/jtmoon79/super-speedy-syslog-searcher/pull/312
