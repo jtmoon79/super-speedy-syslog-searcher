@@ -36,6 +36,7 @@ for FLAMGRAPHOUT_S4FILE in \
     "flamegraph-syslog-lz4.svg|./logs/other/tests/gen-1000-3-foobar.log.lz4" \
     "flamegraph-syslog-xz.svg|./logs/other/tests/gen-1000-3-foobar.log.xz" \
     "flamegraph-syslog-tar.svg|./logs/other/tests/gen-1000-3-foobar.log.tar" \
+    "flamegraph-syslog-noyear.svg|./logs/other/tests/gen-1000-3-foobar-noyear.log" \
     "flamegraph-utmp.svg|./logs/CentOS7/x86_64/wtmp" \
 ; do
     (
