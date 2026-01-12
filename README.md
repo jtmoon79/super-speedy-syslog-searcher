@@ -73,6 +73,7 @@ and Apple System Logs (`.asl`).
     - [Archive Formats Supported](#archive-formats-supported)
     - [Speed Comparison](#speed-comparison)
       - [Table of speed comparison results](#table-of-speed-comparison-results)
+      - [Max RSS per file](#max-rss-per-file)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
   - [Requesting Support For DateTime Formats; your particular log file](#requesting-support-for-datetime-formats-your-particular-log-file)
@@ -974,6 +975,17 @@ Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 See archived results in [`compare-log-mergers.txt`].
 
 [`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.8.80/releases/0.8.80
+
+##### Max RSS per file
+
+`s4` process Maximum resident Set Size (MSS) per additional file is high `s4`.
+For a file of size 2.1 MB, `s4` MAX RSS is about 4.5 MB, or an average MSS difference of ×2.2.
+
+[![Maximum RSS per file](releases/0.8.80/x86_64-unknown-linux-gnu/compare-mem-mss.svg)](releases/0.8.80/x86_64-unknown-linux-gnu/compare-mem-mss.svg)
+
+See archived results in [`compare-mem-mss.txt`].
+
+[`compare-mem-mss.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.8.80/releases/0.8.80
 
 ---
 
