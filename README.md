@@ -972,18 +972,22 @@ Each program had 30 runs except `toolong`.
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
 Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
-See archived results in [`compare-log-mergers.txt`].
+See archived results in file [`compare-log-mergers.txt`].
 
 [`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.8.80/releases/0.8.80
 
 ##### Max RSS per file
 
 `s4` process Maximum resident Set Size (MSS) per additional file is high `s4`.
-For a file of size 2.1 MB, `s4` MAX RSS is about 4.5 MB, or an average MSS difference of ×2.2.
+For an ad-hoc text file of size 2.1 MB, `s4` Max RSS is about 4.5 MB,
+or an average MSS multiple of ×2.2.
 
 [![Maximum RSS per file](releases/0.8.80/x86_64-unknown-linux-gnu/compare-mem-mss.svg)](releases/0.8.80/x86_64-unknown-linux-gnu/compare-mem-mss.svg)
 
-See archived results in [`compare-mem-mss.txt`].
+The MSS multiple is highest after the first file and then levels off to about ×2.2.
+Not ideal in any case that it's ever so high.
+
+See archived results in file [`compare-mem-mss.txt`].
 
 [`compare-mem-mss.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.8.80/releases/0.8.80
 
