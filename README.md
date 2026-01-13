@@ -885,13 +885,13 @@ XXX: I could not get `logdissect.py` to work for any "parser" for any standard R
 
 Binary formats supported:
 
-|Program        |journal|`acct`/`lastlog`/`utmp`|`.evtx`|`.pcap`/`.pcapng`|`.jsonl`|
-|-              |-      |-                      |-      |-                |-       |
-|`grep \| sort` |✗      |✗                     |✗      |✗               |✗       |
-|`s4`           |✔      |✔                     |✔      |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/255)|✔ |
-|`lnav`         |✗      |✗                     |✗      |✔               |✗       |
-|`logmerger`    |✗      |✗                     |✗      |✔               |✗       |
-|`tl`           |✗      |✗                     |✗      |✗               |✔       |
+|Program        |journal|`acct`/`lastlog`/`utmp`|`.evtx`|`.pcap`/`.pcapng`|`.jsonl`|`.asl`|`.etl`|`.odl`|
+|-              |-      |-                      |-      |-                |-       |-     |-     |-     |
+|`grep \| sort` |✗      |✗                     |✗      |✗               |✗       |✗    |✗     |✗     |
+|`s4`           |✔      |✔                     |✔      |[✗](https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/255)|✔ |✔ |✔ |✔ |
+|`lnav`         |✗      |✗                     |✗      |✔               |✗       |✗    |✗     |✗     |
+|`logmerger`    |✗      |✗                     |✗      |✔               |✗       |✗    |✗     |✗     |
+|`tl`           |✗      |✗                     |✗      |✗               |✔       |✗    |✗     |✗     |
 
 Ad-hoc text formats:
 
