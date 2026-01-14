@@ -6,7 +6,7 @@ set -euo pipefail
 
 cd "$(dirname "${0}")/.."
 
-OUTDIR=${OUTDIR-"."}
+DIROUT=${DIROUT-"."}
 
 # check for hyperfine
 hyperfine=$(which hyperfine) || {
@@ -34,7 +34,8 @@ fi
 
 readonly HRUNS=5
 
-declare -ar FILE='./tools/compare-log-mergers/gen-5000-1-facesA.log'
+declare -r FILE=${FILE-'./tools/compare-log-mergers/gen-5000-1-facesA.log'}
+declare -r FILE_NAME=$(basename -- "${FILE}")
 declare -ir FILE_SZ=$(stat --printf='%s' "${FILE}")
 
 # the upcoming `git checkout` may remove some of the above log files
@@ -103,10 +104,10 @@ first=true
 declare -a mss_values=()
 declare -a fnum_values=()
 declare -a mss_diff_values=()
-declare -ir fnum_max=100
+declare -ir FNUM_MAX=${FNUM_MAX-100}
 declare -r s4_command="'${S4_PROGRAM}' -a='${after_dt}' -b='${befor_dt}' --color=never"
 # markdown table rows
-for fnum in $(seq 1 ${fnum_max}); do
+for fnum in $(seq 1 ${FNUM_MAX}); do
     echo_line
 
     echo "Testing '${S4_PROGRAM}' with ${fnum} file(s)" >&2
@@ -212,52 +213,90 @@ mss_diff_max=$(printf "%s\n" "${mss_diff_values[@]}" | sort -nr | head -n1)
 mss_diff_min=$(printf "%s\n" "${mss_diff_values[@]}" | sort -n | head -n1)
 mss_diff_avg=$(echo -n "${mss_diff_values[@]}" | awk '{sum=0; for(i=1;i<=NF;i++) sum+=$i; print sum/NF}')
 FILE_SZ_KB=$((FILE_SZ / 1024))
-mss_diff_multiple=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_avg} / ${FILE_SZ_KB}))")
+mss_diff_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_avg} / ${FILE_SZ_KB}))")
+mss_diff_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_max} / ${FILE_SZ_KB}))")
+mss_diff_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_min} / ${FILE_SZ_KB}))")
 
 let mss_max_x=$((mss_max + 20000))
 let mss_min_x=$((mss_min - 20000))
+
+Data=$(for i in "${!mss_values[@]}"; do echo "${mss_values[$i]} ${fnum_values[$i]}"; done)
+
+ytics_step=1
+if [[ $FNUM_MAX -gt 30 ]]; then
+    ytics_step=2
+fi
+if [[ $FNUM_MAX -gt 100 ]]; then
+    ytics_step=4
+fi
+
+FILE_SZ_KB_s="${FILE_SZ_KB}"
+xtics_step="${FILE_SZ_KB_s:0:1}$(repeat $((${#FILE_SZ_KB_s} - 1)) 0)"
 
 echo "${PS4}gnuplot terminal output:" >&2
 gnuplot <<EOF
 set terminal dumb size $COLUMNS, 30
 set key off
-set xlabel "MSS (KB)"
+set xlabel "Max Resident Set Size (KB)"
 set ylabel "File count"
-set ytics 2
+set xtics ${xtics_step}
+set ytics ${ytics_step}
 set grid xtics
-set xrange [${mss_min_x}:${mss_max_x}]
-set title "command: ${s4_command} …\n\nMSS (KB) per additional file of size ${FILE_SZ_KB} KB"
-plot '-' with linespoints
-$(paste <(printf "%s\n" "${mss_values[@]}") <(printf "%s\n" "${fnum_values[@]}"))
-end
+set grid ytics
+set xrange [0:${mss_max_x}]
+set yrange [0:$((${FNUM_MAX} + 1))]
+set title "command: ${s4_command} ${FILE_NAME}…\n\nMax Resident Set Size (KB) per additional file of size ${FILE_SZ_KB} KB"
+\$Data << EOD
+$Data
+EOD
+plot \$Data with linespoints
 EOF
 
 echo >&2
 
 (
-    #echo "MSS diffs (KB)|${mss_diff_values[*]}"
-    echo "Max MSS diff (KB)|${mss_diff_max}"
-    echo "Min MSS diff (KB)|${mss_diff_min}"
-    echo "Avg MSS diff (KB)|${mss_diff_avg}"
+    echo "Max RSS diff (KB)|${mss_diff_max}"
+    echo "Min RSS diff (KB)|${mss_diff_min}"
+    echo "Avg RSS diff (KB)|${mss_diff_avg}"
     echo "File Size (KB) |${FILE_SZ_KB}"
-    echo "MSS diff multiple|${mss_diff_multiple}"
+    echo "RSS diff multiple (avg)|${mss_diff_multiple_avg}"
+    echo "RSS diff multiple (max)|${mss_diff_multiple_max}"
+    echo "RSS diff multiple (min)|${mss_diff_multiple_min}"
 ) | column -t -s '|' -o ':' --table-columns='Info,Data' --table-right='Data' --table-noheadings
 
-OUT_SVG="${OUTDIR}/compare-mem-mss.svg"
+function repeat() {
+    declare -i start=1
+    declare -i end=${1:-80}
+    declare str=${2}
+    for i in $(seq $start $end); do
+        echo -n "${str}"
+    done
+}
+
+OUT_SVG="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.svg"
 echo >&2
-gnuplot <<EOF
+
+(
+    set -x
+    gnuplot <<EOF
 set terminal svg size 1152, 864 fname 'Arial,12'
 set key off
 set output '${OUT_SVG}'
-set xlabel "MSS (KB)"
-set ylabel "File count"
-set ytics 2
+set xlabel "Max Resident Set Size (KB)"
+set ylabel "File count (${FILE_NAME})"
+set xtics ${xtics_step}
+set ytics ${ytics_step}
 set grid xtics
-set xrange [${mss_min_x}:${mss_max_x}]
-set title "command: ${s4_command} …\n\nMSS (KB) per additional file of size ${FILE_SZ_KB} KB"
-plot '-' with linespoints
-$(paste <(printf "%s\n" "${mss_values[@]}") <(printf "%s\n" "${fnum_values[@]}"))
-end
+set grid ytics
+set xrange [0:${mss_max_x}]
+set yrange [0:$((${FNUM_MAX} + 1))]
+set title "command: ${s4_command} ${FILE_NAME}…\n\nFile Size ${FILE_SZ_KB} KB\nMax max RSS diff ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS diff ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS diff ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n"
+\$Data << EOD
+$Data
+EOD
+plot \$Data with linespoints, \
+    \$Data using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,0 notitle
 EOF
+)
 
 echo "SVG output written to: ${OUT_SVG}" >&2
