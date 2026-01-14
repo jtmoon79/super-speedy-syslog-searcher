@@ -126,9 +126,11 @@ use ::clap::{
     Parser,
     ValueEnum,
 };
+use ::const_env;
 use ::const_format::concatcp;
 use ::current_platform::CURRENT_PLATFORM;
 use ::lazy_static::lazy_static;
+use ::opt_level::OPT_LEVEL;
 use ::regex::Regex;
 
 use ::s4lib::common::{
@@ -530,6 +532,8 @@ const CLI_PREPEND_SEP: &str = ":";
 /// default CLI datetime format printed for CLI options `-u` or `-l`.
 const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z";
 
+const RUSTFLAGS: &str = const_env::env_lit!("RUSTFLAGS", "");
+
 #[cfg(debug_assertions)]
 const CLI_HELP_AFTER_NOTE_DEBUG: &str = "\nDEBUG BUILD";
 #[cfg(not(debug_assertions))]
@@ -670,6 +674,8 @@ Version: "#, env!("CARGO_PKG_VERSION"), r#"
 MSRV: "#, env!("CARGO_PKG_RUST_VERSION"), r#"
 Allocator: "#, CLI_HELP_AFTER_ALLOCATOR, r#"
 Platform: "#, CURRENT_PLATFORM, r#"
+Rust Build Flags: "#, RUSTFLAGS, r#"
+Optimization Level: "#, OPT_LEVEL, r#"
 License: "#, env!("CARGO_PKG_LICENSE"), r#"
 Repository: "#, env!("CARGO_PKG_REPOSITORY"), r#"
 Author: "#, env!("CARGO_PKG_AUTHORS"), r#"
@@ -703,6 +709,8 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         "MSRV: ", env!("CARGO_PKG_RUST_VERSION"), "\n",
         "Allocator: ", CLI_HELP_AFTER_ALLOCATOR , "\n",
         "Platform: ", CURRENT_PLATFORM, "\n",
+        "Rust Build Flags: ", RUSTFLAGS, "\n",
+        "Optimization Level: ", OPT_LEVEL, "\n",
         "License: ", env!("CARGO_PKG_LICENSE"), "\n",
         "Repository: ", env!("CARGO_PKG_REPOSITORY"), "\n",
         "Author: ", env!("CARGO_PKG_AUTHORS"), "\n",
