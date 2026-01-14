@@ -55,7 +55,6 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
     ./tools/valgrind-callgrind.sh > "${DIROUT}/callgrind.txt"
 )
 rm -v "${DIROUT}/callgrind.out" "${DIROUT}/callgrind.dot" || true
-
 clean_file "${DIROUT}/callgrind.txt"
 
 (
@@ -63,8 +62,12 @@ clean_file "${DIROUT}/callgrind.txt"
     ./tools/valgrind-massif.sh > "${DIROUT}/massif.txt"
 )
 rm -v "${DIROUT}/massif.out" || true
-
 clean_file "${DIROUT}/massif.txt"
+
+(
+    set -x
+    ./tools/heaptrack.sh ./tools/compare-log-mergers/*.log
+)
 
 (
     # XXX: cargo does not respect color settings
