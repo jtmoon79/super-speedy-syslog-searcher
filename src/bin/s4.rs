@@ -449,6 +449,8 @@ const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = 
     ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true, true, true),
     ("%Y/%m/%d %H:%M:%S.%3f %Z", true, true, true, true, true, true),
     ("%Y/%m/%d %H:%M:%S.%6f %Z", true, true, true, true, true, true),
+    // TODO: add partial date+time patterns
+    //       %m/%d %H:%M, %m/%d %H:%M:%S, %m-%d %H:%M, %m-%d %H:%M:%S, etc.
     // YYYYmmdd
     ("%Y%m%d", true, false, false, false, false, true),
     // YYYY-mm-dd
