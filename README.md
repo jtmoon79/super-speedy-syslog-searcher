@@ -47,14 +47,15 @@ and Apple System Logs (`.asl`).
 <!-- toc start -->
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
-    - [allocator `mimalloc`, `jemalloc`, or `rpmalloc`](#allocator-mimalloc-jemalloc-or-rpmalloc)
-      - [Alpine](#alpine)
-      - [Debian and Ubuntu](#debian-and-ubuntu)
-      - [OpenSUSE](#opensuse)
-      - [Red Hat and CentOS](#red-hat-and-centos)
-      - [Windows](#windows)
-    - [allocator `tcmalloc`](#allocator-tcmalloc)
-      - [Debian and Ubuntu](#debian-and-ubuntu-1)
+    - [allocators](#allocators)
+      - [`mimalloc`, `jemalloc`, or `rpmalloc`](#mimalloc-jemalloc-or-rpmalloc)
+        - [Alpine](#alpine)
+        - [Debian and Ubuntu](#debian-and-ubuntu)
+        - [OpenSUSE](#opensuse)
+        - [Red Hat and CentOS](#red-hat-and-centos)
+        - [Windows](#windows)
+      - [allocator `tcmalloc`](#allocator-tcmalloc)
+        - [Debian and Ubuntu](#debian-and-ubuntu-1)
   - [Run `s4`](#run-s4)
   - [`--help`](#--help)
 - [About](#about)
@@ -121,18 +122,25 @@ Python 3.9 or higher is required.
 
 [rust is installed]: https://www.rust-lang.org/tools/install
 
-#### allocator `mimalloc`, `jemalloc`, or `rpmalloc`
+#### allocators
 
 The default allocator is the System allocator.
 
-Allocator [`mimalloc`] is feature `mimalloc`,
-allocator [`jemalloc`] is feature `jemalloc`,
-and allocator [`rpmalloc`] is feature `rpmalloc`.
-Allocator `mimalloc` [is the fastest according to `mimalloc` project benchmarks].
-`jemalloc` is also very good.
+A different allocator can be installed by passing a feature flag during installation,
+e.g. `--features mimalloc`.
+
+- allocator [`mimalloc`] is feature `mimalloc`.<br/>
+  `mimalloc` performed the fastest with higher memory use.
+- allocator [`jemalloc`] is feature `jemalloc`.<br/>
+  `jemalloc` performed about the same as the system allocator with slightly higher memory use.
+- allocator [`rpmalloc`] is feature `rpmalloc`.<br/>
+  `rpmalloc` performed about the same as the system allocator with slighly higher memory use.
+- allocator [`tcmalloc`] is feature `tcmalloc`.<br/>
+  `tcmalloc` performed poorer than the system allocator with slightly higher memory use.
+
 See the [Speed Comparison](#speed-comparison).
 
-<br/>
+##### `mimalloc`, `jemalloc`, or `rpmalloc`
 
 `mimalloc`
 
@@ -178,13 +186,13 @@ cargo install --locked super_speedy_syslog_searcher --features rpmalloc
 Here are the packages for building `super_speedy_syslog_searcher`
 with `jemalloc`, `mimalloc`, or `rpmalloc` on various Operating Systems.
 
-##### Alpine
+###### Alpine
 
 ```lang-text
 apk add gcc make musl-dev
 ```
 
-##### Debian and Ubuntu
+###### Debian and Ubuntu
 
 ```lang-text
 apt install gcc make libc6-dev
@@ -196,26 +204,26 @@ or
 apt install build-essential
 ```
 
-##### OpenSUSE
+###### OpenSUSE
 
 ```lang-text
 zypper install gcc glibc-devel make
 ```
 
-##### Red Hat and CentOS
+###### Red Hat and CentOS
 
 ```lang-text
 yum install gcc glibc-devel make
 ```
 
-##### Windows
+###### Windows
 
 Compiling `mimalloc` on Windows requires `lib.exe` which is part of _Visual Studio Build Tools_.
 Instructions at [rustup.rs].
 
 [rustup.rs]: https://rustup.rs/
 
-#### allocator `tcmalloc`
+##### allocator `tcmalloc`
 
 Allocator [`tcmalloc`] performs poorer than the system allocator in testing.
 See the [Speed Comparison](#speed-comparison).
@@ -226,7 +234,7 @@ To install
 cargo install --locked super_speedy_syslog_searcher --features tcmalloc
 ```
 
-##### Debian and Ubuntu
+###### Debian and Ubuntu
 
 On Ubuntu, `tcmalloc` requires these apt packages
 
@@ -945,8 +953,8 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 |:---           |---:        |---:    |---:    |---:        |---: |
 |`grep+sort`    |61.3 ± 1.3  |59.3    |65.8    |11904       |113% |
 |`s4 (system)`  |172.1 ± 2.1 |167.9   |177.2   |137204      |245% |
-|`s4 (jemalloc)`|171.2 ± 2.3 |168.3   |176.7   |150272      |246% |
 |`s4 (mimalloc)`|153.8 ± 2.0 |151.7   |159.0   |227804      |244% |
+|`s4 (jemalloc)`|171.2 ± 2.3 |168.3   |176.7   |150272      |246% |
 |`s4 (rpmalloc)`|178.4 ± 2.8 |175.4   |188.3   |157696      |236% |
 |`s4 (tcmalloc)`|180.5 ± 2.3 |177.2   |185.9   |154368      |250% |
 |`lnav`         |255.8 ± 11.6|245.8   |291.1   |56516       |105% |
