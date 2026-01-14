@@ -982,7 +982,7 @@ Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
 See archived results in file [`compare-log-mergers.txt`].
 
-[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.8.80/releases/0.8.80
+[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/releases/0.8.80
 
 ##### Max RSS per file
 
@@ -1001,7 +1001,7 @@ Not ideal in any case that it's ever so high.
 
 See archived results in file [`compare-mem-mss.txt`].
 
-[`compare-mem-mss.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.8.80/releases/0.8.80
+[`compare-mem-mss.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/releases/0.8.80
 
 ---
 
