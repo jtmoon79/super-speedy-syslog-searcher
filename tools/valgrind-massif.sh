@@ -27,7 +27,7 @@ if ! ms_print=$(which ms_print); then
     exit 1
 fi
 
-declare -r PROGRAM=${PROGRAM-./target/release/s4}
+declare -r PROGRAM=${PROGRAM-./target/valgrind/s4}
 
 (set -x; uname -a)
 (set -x; git log -n1 --format='%h %D' 2>/dev/null) || true
