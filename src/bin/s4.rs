@@ -670,17 +670,6 @@ The Python interpreter used may be overridden by setting environment variable
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
 
----
-
-Version: "#, env!("CARGO_PKG_VERSION"), r#"
-MSRV: "#, env!("CARGO_PKG_RUST_VERSION"), r#"
-Allocator: "#, CLI_HELP_AFTER_ALLOCATOR, r#"
-Platform: "#, CURRENT_PLATFORM, r#"
-Rust Build Flags: "#, RUSTFLAGS, r#"
-Optimization Level: "#, OPT_LEVEL, r#"
-License: "#, env!("CARGO_PKG_LICENSE"), r#"
-Repository: "#, env!("CARGO_PKG_REPOSITORY"), r#"
-Author: "#, env!("CARGO_PKG_AUTHORS"), r#"
 "#,
     CLI_HELP_AFTER_NOTE_DEBUG,
     CLI_HELP_AFTER_NOTE_TEST
@@ -744,7 +733,7 @@ struct CLI_Args {
         short = 'a',
         long,
         verbatim_doc_comment,
-        // TODO: env="S4_DT_AFTER"
+        env="S4_DT_AFTER",
     )]
     dt_after: Option<String>,
 
@@ -755,7 +744,7 @@ struct CLI_Args {
         short = 'b',
         long,
         verbatim_doc_comment,
-        // TODO: env="S4_DT_BEFORE"
+        env="S4_DT_BEFORE",
     )]
     dt_before: Option<String>,
 
@@ -773,7 +762,7 @@ struct CLI_Args {
         verbatim_doc_comment,
         value_parser = cli_process_tz_offset,
         default_value_t=LOCAL_NOW_OFFSET.with(|lno| *lno),
-        // TODO: env="S4_TZ_OFFSET"
+        env="S4_TZ_OFFSET"
     )]
     tz_offset: FixedOffset,
 
@@ -787,7 +776,7 @@ struct CLI_Args {
             "group_prepend_dt",
         ],
         value_parser = cli_process_tz_offset,
-        // TODO: env="S4_PREPEND_TZ"
+        env="S4_PREPEND_TZ"
     )]
     prepend_tz: Option<FixedOffset>,
 
@@ -801,7 +790,7 @@ struct CLI_Args {
         groups = &[
             "group_prepend_dt",
         ],
-        // TODO: env="S4_PREPEND_UTC"
+        env="S4_PREPEND_UTC"
     )]
     prepend_utc: bool,
 
@@ -816,7 +805,7 @@ struct CLI_Args {
         groups = &[
             "group_prepend_dt",
         ],
-        // TODO: env="S4_PREPEND_LOCAL"
+        env="S4_PREPEND_LOCAL"
     )]
     prepend_local: bool,
 
@@ -835,7 +824,7 @@ i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset value
 is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         value_parser = cli_parser_prepend_dt_format,
         default_value = None,
-        // TODO: env="S4_PREPEND_DT_FORMAT"
+        env="S4_PREPEND_DT_FORMAT"
     )]
     prepend_dt_format: Option<String>,
 
@@ -846,8 +835,8 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         groups = &[
             "group_prepend_file",
-        ]
-        // TODO: env="S4_PREPEND_FILENAME"
+        ],
+        env="S4_PREPEND_FILENAME",
     )]
     prepend_filename: bool,
 
@@ -858,8 +847,8 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         groups = &[
             "group_prepend_file",
-        ]
-        // TODO: env="S4_PREPEND_FILEPATH"
+        ],
+        env="S4_PREPEND_FILEPATH"
     )]
     prepend_filepath: bool,
 
@@ -869,7 +858,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         long = "prepend-file-align",
         verbatim_doc_comment,
         requires = "group_prepend_file",
-        // TODO: env="S4_PREPEND_FILE_ALIGN"
+        env="S4_PREPEND_FILE_ALIGN"
     )]
     prepend_file_align: bool,
 
@@ -878,8 +867,8 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         long = "prepend-separator",
         verbatim_doc_comment,
         // TODO: how to require `any("prepend_file", "prepend_dt")`
-        default_value_t = String::from(CLI_PREPEND_SEP)
-        // TODO: env="S4_PREPEND_SEPARATOR"
+        default_value_t = String::from(CLI_PREPEND_SEP),
+        env="S4_PREPEND_SEPARATOR",
     )]
     prepend_separator: String,
 
@@ -895,20 +884,19 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         default_value_t = String::from(""),
         hide_default_value = true,
-        // TODO: env="S4_SEPARATOR"
+        env="S4_SEPARATOR",
     )]
     log_message_separator: String,
 
     /// The format for .journal file log messages.
     /// Matches journalctl --output options.
-    /// :
     #[clap(
         long = "journal-output",
         required = false,
         verbatim_doc_comment,
         value_enum,
         default_value_t = JournalOutput::Short,
-        // TODO: env="S4_JOURNAL_OUTPUT"
+        env="S4_JOURNAL_OUTPUT",
     )]
     journal_output: JournalOutput,
 
@@ -923,7 +911,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         long = "etl-parser",
         verbatim_doc_comment,
         default_value_t = false,
-        // TODO: env = "S4_ETL_PARSER",
+        env = "S4_ETL_PARSER",
     )]
     etl_parser: bool,
 
@@ -935,7 +923,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         value_enum,
         default_value_t = CLI_Color_Choice::auto,
-        // TODO: env="S4_COLOR"
+        env="S4_COLOR",
     )]
     color_choice: CLI_Color_Choice,
 
@@ -947,15 +935,15 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         long = "light-theme",
         verbatim_doc_comment,
         default_value_t = false,
-        // TODO: env="S4_COLOR_THEME_LIGHT"
+        env="S4_LIGHT_THEME",
     )]
     color_theme_light: bool,
 
     /// Create a Python virtual environment exclusively for s4.
     /// This is only necessary for parsing
-    /// Windows Event Tracing Log (.etl) files,
-    /// OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files,
-    /// and Apple System Log (.asl) files.
+    /// Apple System Log (.asl) files,
+    /// OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files, and
+    /// Windows Event Tracing Log (.etl) files.
     /// This only needs to be created once.
     /// When this option is used, no other options may be passed.
     /// The Python interpreter used may be set by environment variable
@@ -970,6 +958,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         ],
         conflicts_with = "paths",
         exclusive = true,
+        help_heading = "Python Virtual Environment Mode",
     )]
     python_venv: bool,
 
@@ -983,7 +972,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         verbatim_doc_comment,
         default_value_t = BLOCKSZ_DEF.to_string(),
         value_parser = cli_parse_blocksz,
-        // TODO: env="S4_BLOCKSZ"
+        env="S4_BLOCKSZ",
     )]
     blocksz: String,
 
@@ -993,7 +982,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
         short,
         long,
         verbatim_doc_comment,
-        // TODO: env="S4_SUMMARY"
+        env="S4_SUMMARY",
     )]
     summary: bool,
 }

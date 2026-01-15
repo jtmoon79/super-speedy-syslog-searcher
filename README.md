@@ -378,7 +378,10 @@ Speedily search and merge log messages by datetime.
 DateTime filters may be passed to narrow the search.
 s4 aims to be very fast.
 
-Usage: s4 [OPTIONS] <PATHS>...
+Usage:
+  s4 [OPTIONS] <PATHS>...
+
+  s4 --venv
 
 Arguments:
   <PATHS>...  Path(s) of log files or directories.
@@ -390,10 +393,12 @@ Options:
   -a, --dt-after <DT_AFTER>
           DateTime Filter After: print log messages with a datetime that is at
           or after this datetime. For example, "20200102T120000" or "-5d".
+          [env: S4_DT_AFTER=]
   -b, --dt-before <DT_BEFORE>
           DateTime Filter Before: print log messages with a datetime that is at
           or before this datetime.
           For example, "2020-01-03T23:00:00.321-05:30" or "@+1d+11h"
+          [env: S4_DT_BEFORE=]
   -t, --tz-offset <TZ_OFFSET>
           Default timezone offset for datetimes without a timezone.
           For example, log message "[20200102T120000] Starting service" has a
@@ -403,45 +408,57 @@ Options:
           Example values, "+12", "-0800", "+02:00", or "EDT".
           To pass a value with leading "-" use "=" notation, e.g. "-t=-0800".
           If not passed then the local system timezone offset is used.
-          [default: -07:00]
+          [default: -08:00]
+          [env: S4_TZ_OFFSET=]
   -z, --prepend-tz <PREPEND_TZ>
           Prepend a DateTime in the timezone PREPEND_TZ for every line.
           Used in PREPEND_DT_FORMAT.
+          [env: S4_PREPEND_TZ=]
   -u, --prepend-utc
           Prepend a DateTime in the UTC timezone offset for every line.
           This is the same as "--prepend-tz Z".
           Used in PREPEND_DT_FORMAT.
+          [env: S4_PREPEND_UTC=]
   -l, --prepend-local
           Prepend DateTime in the local system timezone offset for every line.
           This is the same as "--prepend-tz +XX" where +XX is the local system
           timezone offset.
           Used in PREPEND_DT_FORMAT.
+          [env: S4_PREPEND_LOCAL=]
   -d, --prepend-dt-format <PREPEND_DT_FORMAT>
           Prepend a DateTime using the strftime format string.
           If PREPEND_TZ is set then that value is used for any timezone offsets,
           i.e. strftime "%z" "%:z" "%Z" values, otherwise the timezone offset value
           is the local system timezone offset.
           [Default: %Y%m%dT%H%M%S%.3f%z]
+          [env: S4_PREPEND_DT_FORMAT=]
   -n, --prepend-filename
           Prepend file basename to every line.
+          [env: S4_PREPEND_FILENAME=]
   -p, --prepend-filepath
           Prepend file full path to every line.
+          [env: S4_PREPEND_FILEPATH=]
   -w, --prepend-file-align
           Align column widths of prepended data.
+          [env: S4_PREPEND_FILE_ALIGN=]
       --prepend-separator <PREPEND_SEPARATOR>
           Separator string for prepended data.
           [default: :]
+          [env: S4_PREPEND_SEPARATOR=]
       --separator <LOG_MESSAGE_SEPARATOR>
           An extra separator string between printed log messages.
           Per log message not per line of text.
           Accepts a basic set of backslash escape sequences,
           e.g. "\0" for the null character, "\t" for tab, etc.
+          [env: S4_SEPARATOR=]
       --journal-output <JOURNAL_OUTPUT>
           The format for .journal file log messages.
           Matches journalctl --output options.
           [default: short]
-          [possible values: short, short-precise, short-iso, short-iso-precise,
-          short-full, short-monotonic, short-unix, verbose, export, cat]
+          [possible values:
+            short, short-precise, short-iso, short-iso-precise, short-full,
+            short-monotonic, short-unix, verbose, export, cat]
+          [env: S4_JOURNAL_OUTPUT=]
       --etl-parser
           For parsing Windows Event Tracing Log (.etl) files, use Python library
           etl-parser. By default, Python library dissect.etl is used.
@@ -450,37 +467,43 @@ Options:
           Requires prior creation of a Python virtual environment with
           the --venv option. Or use environment variable S4_PYTHON set to
           a Python interpreter path with necessary packages installed.
+          [env: S4_ETL_PARSER=]
   -c, --color <COLOR_CHOICE>
           Choose to print using colors.
           [default: auto]
           [possible values: always, auto, never]
+          [env: S4_COLOR=]
       --light-theme
           Print text using darker colors for a lighter terminal background.
           By default, a dark color theme is used (print text with lighter colors).
           Has no effect if --color is not "always" or "auto".
-      --venv
-          Create a Python virtual environment exclusively for s4.
-          This is only necessary for parsing
-          Windows Event Tracing Log (.etl) files,
-          OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files,
-          and Apple System Log (.asl) files.
-          This only needs to be created once.
-          When this option is used, no other options may be passed.
-          The Python interpreter used may be set by environment variable
-          S4_PYTHON.
+          [env: S4_LIGHT_THEME=]
       --blocksz <BLOCKSZ>
           Read blocks of this size in bytes.
           May pass value as any radix (hexadecimal, decimal, octal, binary).
           Using the default value is recommended.
           Most useful for developers.
           [default: 65536]
+          [env: S4_BLOCKSZ=]
   -s, --summary
           Print a summary of files processed to stderr.
           Most useful for developers.
+          [env: S4_SUMMARY=]
   -h, --help
           Print help
   -V, --version
           Print version
+
+Python Virtual Environment Mode:
+      --venv  Create a Python virtual environment exclusively for s4.
+              This is only necessary for parsing
+              Apple System Log (.asl) files,
+              OneDrive Log (.odl, .aodl, .odlgz, .odlsent) files, and
+              Windows Event Tracing Log (.etl) files.
+              This only needs to be created once.
+              When this option is used, no other options may be passed.
+              The Python interpreter used may be set by environment variable
+              S4_PYTHON.
 
 Given a file path, the file format will be processed based on a best guess of
 the file name.
