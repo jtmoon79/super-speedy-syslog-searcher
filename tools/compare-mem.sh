@@ -1,6 +1,26 @@
 #!/usr/bin/env bash
 #
-# graph memory usage of `s4` when processing increasing number of log files.
+# gnuplot memory usage of `s4` when processing increasing number of log files.
+#
+# user should set:
+#   FILE         - path to a log file to be used for testing
+#   FNUM_MAX     - maximum number of files to test (default: 100)
+#   S4_PROGRAM   - path to the `s4` binary to test (default: ./target/release/s4)
+#   DIROUT       - output directory for markdown and SVG files (default: current directory)
+#   PYTHON       - python3 interpreter (default: python3)
+# requires:
+#   hyperfine
+#   jq
+#   gnuplot
+#   python3
+# usage:
+#   FILE=path/to/log FNUM_MAX=N ./tools/compare-mem.sh [<s4-args>]
+# example:
+#   FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FNUM_MAX=200 ./tools/compare-mem.sh --color=never
+# outputs:
+#   compare-mem-rss__<log-file-name>__<FNUM_MAX>.md
+#   compare-mem-rss__<log-file-name>__<FNUM_MAX>.svg
+#
 
 set -euo pipefail
 
@@ -44,15 +64,18 @@ TDIR_LOGS=/tmp/s4-compare-mem
 mkdir -vp "${TDIR_LOGS}"
 
 function echo_line() {
-    python -Bc "print('─' * ${COLUMNS:-100})"
-    echo
+    # print a line as wide as the terminal
+    python -Bc "import sys; print('─' * ${COLUMNS:-100}, file=sys.stderr)"
+    echo >&2
 }
 
 function file_size() {
+    # print file size in bytes
     stat --printf='%s' "${1}"
 }
 
 function file_isempty() {
+    # return 0 if file is empty or does not exist, 1 otherwise
     if [[ ! -f "${1}" ]]; then
         return 1
     fi
@@ -75,14 +98,24 @@ function to_milliseconds() {
     "${PYTHON}" -c "print('%d' % int(${data} * 1000))"
 }
 
+function repeat() {
+    # print $2 string $1 times
+    declare -i start=1
+    declare -i end=${1:-80}
+    declare str=${2}
+    for i in $(seq $start $end); do
+        echo -n "${str}"
+    done
+}
+
+
 S4_PROGRAM=${S4_PROGRAM-"./target/release/s4"}
-build_profile=${build_profile-"release"}
+# very presumptive that the profile name will be the 3rd path component
+# e.g. ./target/release/s4 -> release
+#      ./target/debug/s4   -> debug
+BUILD_PROFILE=$(echo "${S4_PROGRAM}" | cut -f3 -d'/')
 
 (set -x; "${S4_PROGRAM}" --version)
-
-# datetime range for s4
-declare -r after_dt="2000-01-01T00:20:00"
-declare -r befor_dt="2000-01-01T00:50:00"
 
 tmpD=$(mktemp -d -t "compare-mem_XXXXX")
 
@@ -105,24 +138,29 @@ declare -a mss_values=()
 declare -a fnum_values=()
 declare -a mss_diff_values=()
 declare -ir FNUM_MAX=${FNUM_MAX-100}
-declare -r s4_command="'${S4_PROGRAM}' -a='${after_dt}' -b='${befor_dt}' --color=never"
+declare s4_command=$(printf "%q" "${S4_PROGRAM}")
+for arg in "${@}"; do
+    arg_escaped=$(printf "%q" "$arg")
+    s4_command+=" ${arg_escaped}"
+done
 # markdown table rows
 for fnum in $(seq 1 ${FNUM_MAX}); do
     echo_line
 
     echo "Testing '${S4_PROGRAM}' with ${fnum} file(s)" >&2
-    echo
+    echo >&2
 
     json="${tmpD}/${fnum}.json"
 
     declare -a current_files=()
     for ((i=0; i < fnum; i++)); do
+        # XXX: presuming there are no spaces in the file name
         current_files+=("${FILE}")
     done
     (
         set -x
         ${hyperfine} \
-            --warmup=2 \
+            --warmup=0 \
             --style=color \
             --time-unit=millisecond \
             --runs=${HRUNS} \
@@ -132,7 +170,7 @@ for fnum in $(seq 1 ${FNUM_MAX}); do
             -- \
                 "${s4_command} ${current_files[*]}"
     )
-    echo
+    echo >&2
 
     # example hyperfine JSON output:
     #
@@ -182,7 +220,7 @@ for fnum in $(seq 1 ${FNUM_MAX}); do
         fi
     fi
     cpup=$($JQ '.results[0].user + .results[0].system' < "${json}" | to_3f)
-    echo "|${fnum}|${build_profile}|${mean} ± ${stddev}|${min}|${max}|${mss}|${mss_diff}|${cpup}|" >> "${mddraft}"
+    echo "|${fnum}|${BUILD_PROFILE}|${mean} ± ${stddev}|${min}|${max}|${mss}|${mss_diff}|${cpup}|" >> "${mddraft}"
 
     mss_values+=("${mss}")
     fnum_values+=("${fnum}")
@@ -192,17 +230,14 @@ done
 
 echo_line
 
-mdfinal="/tmp/compare-mem.md"
+mdfinal="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.md"
 
 cat "${mddraft}" | column -t -s '|' -o '|' > "${mdfinal}"
-
-(set -x; cat "${mdfinal}")
 
 if which glow &>/dev/null; then
     glow --width=${COLUMNS} --preserve-new-lines "${mdfinal}"
 else
-    echo "install 'glow' for pretty markdown viewing" >&2
-    echo "    go install github.com/charmbracelet/glow/v2@latest" >&2
+    cat "${mdfinal}"
 fi
 
 echo >&2
@@ -217,25 +252,40 @@ mss_diff_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_avg} / ${FILE
 mss_diff_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_max} / ${FILE_SZ_KB}))")
 mss_diff_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_min} / ${FILE_SZ_KB}))")
 
-let mss_max_x=$((mss_max + 20000))
+let mss_max_x=$((mss_max + 10000))
 let mss_min_x=$((mss_min - 20000))
 
 Data=$(for i in "${!mss_values[@]}"; do echo "${mss_values[$i]} ${fnum_values[$i]}"; done)
 
-ytics_step=1
-if [[ $FNUM_MAX -gt 30 ]]; then
+if [[ $FNUM_MAX -le 50 ]]; then
+    ytics_step=1
+elif [[ $FNUM_MAX -le 100 ]]; then
     ytics_step=2
-fi
-if [[ $FNUM_MAX -gt 100 ]]; then
+elif [[ $FNUM_MAX -le 200 ]]; then
     ytics_step=4
+else
+    ytics_step=10
 fi
 
-FILE_SZ_KB_s="${FILE_SZ_KB}"
-xtics_step="${FILE_SZ_KB_s:0:1}$(repeat $((${#FILE_SZ_KB_s} - 1)) 0)"
+if [[ ${mss_max_x} -lt 100 ]]; then
+    xtics_step=1
+elif [[ ${mss_max_x} -lt 1000 ]]; then
+    xtics_step=10
+elif [[ ${mss_max_x} -lt 10000 ]]; then
+    xtics_step=1000
+elif [[ ${mss_max_x} -lt 100000 ]]; then
+    xtics_step=10000
+elif [[ ${mss_max_x} -lt 500000 ]]; then
+    xtics_step=15000
+elif [[ ${mss_max_x} -lt 1000000 ]]; then
+    xtics_step=100000
+else
+    xtics_step=200000
+fi
 
-echo "${PS4}gnuplot terminal output:" >&2
-gnuplot <<EOF
-set terminal dumb size $COLUMNS, 30
+GNUPLOT_TERMINAL=$(cat <<EOF
+set terminal dumb size $COLUMNS, $(($COLUMNS / 2))
+set color
 set key off
 set xlabel "Max Resident Set Size (KB)"
 set ylabel "File count"
@@ -251,6 +301,12 @@ $Data
 EOD
 plot \$Data with linespoints
 EOF
+)
+
+(
+    set -x
+    echo "$GNUPLOT_TERMINAL" | gnuplot
+)
 
 echo >&2
 
@@ -264,39 +320,45 @@ echo >&2
     echo "RSS diff multiple (min)|${mss_diff_multiple_min}"
 ) | column -t -s '|' -o ':' --table-columns='Info,Data' --table-right='Data' --table-noheadings
 
-function repeat() {
-    declare -i start=1
-    declare -i end=${1:-80}
-    declare str=${2}
-    for i in $(seq $start $end); do
-        echo -n "${str}"
-    done
-}
-
 OUT_SVG="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.svg"
-echo >&2
 
-(
-    set -x
-    gnuplot <<EOF
-set terminal svg size 1152, 864 fname 'Arial,12'
+SVG_WIDTH=1280
+SVG_HEIGHT=1080
+FONT_SIZE_TEXT=12
+FONT_SIZE_LABELS=8
+if [[ $FNUM_MAX -lt 20 ]]; then
+    SVG_WIDTH=768
+    SVG_HEIGHT=480
+    FONT_SIZE_LABELS=10
+fi
+
+GNUPLOT_SVG=$(cat <<EOF
+set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname 'Arial,${FONT_SIZE_LABELS}'
+set color
 set key off
 set output '${OUT_SVG}'
-set xlabel "Max Resident Set Size (KB)"
-set ylabel "File count (${FILE_NAME})"
-set xtics ${xtics_step}
-set ytics ${ytics_step}
+set xlabel "Max Resident Set Size (KB)" font 'Arial,${FONT_SIZE_TEXT}'
+set ylabel "File count (${FILE_NAME})\n" font 'Arial,${FONT_SIZE_TEXT}'
+set xtics ${xtics_step} font 'Arial,${FONT_SIZE_TEXT}'
+set ytics ${ytics_step} font 'Arial,${FONT_SIZE_TEXT}'
 set grid xtics
 set grid ytics
 set xrange [0:${mss_max_x}]
 set yrange [0:$((${FNUM_MAX} + 1))]
-set title "command: ${s4_command} ${FILE_NAME}…\n\nFile Size ${FILE_SZ_KB} KB\nMax max RSS diff ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS diff ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS diff ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n"
+set title "command: ${s4_command} ${FILE_NAME}…\n\nFile Name ${FILE_NAME}\nFile Size ${FILE_SZ_KB} KB\nMax max RSS diff ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS diff ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS diff ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
+    font 'Arial,${FONT_SIZE_TEXT}'
 \$Data << EOD
 $Data
 EOD
 plot \$Data with linespoints, \
-    \$Data using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,0 notitle
+     \$Data using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,-1 title "File Count, Max RSS"
 EOF
 )
 
+(
+    set -x
+    echo "$GNUPLOT_SVG" | gnuplot
+)
+
+echo >&2
 echo "SVG output written to: ${OUT_SVG}" >&2
