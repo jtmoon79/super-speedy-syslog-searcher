@@ -543,7 +543,7 @@ jobs:
           Get-Command -All python.exe
           python.exe --version
           ./target/release/s4 --venv
-      - name: nextest (all)
+      - name: test (all)
         shell: powershell
         run: |
           Set-PSDebug -Trace 1
