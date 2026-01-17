@@ -345,13 +345,14 @@ set grid xtics
 set grid ytics
 set xrange [0:${mss_max_x}]
 set yrange [0:$((${FNUM_MAX} + 1))]
-set title "command: ${s4_command} ${FILE_NAME}…\n\nFile Name ${FILE_NAME}\nFile Size ${FILE_SZ_KB} KB\nMax max RSS diff ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS diff ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS diff ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
+set title "command: ${s4_command} ${FILE_NAME}…\n\nBuild profile ${BUILD_PROFILE}\n\nFile ${FILE}\nFile Size ${FILE_SZ_KB} KB\nMax max RSS diff ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS diff ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS diff ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
     font 'Arial,${FONT_SIZE_TEXT}'
 \$Data << EOD
 $Data
 EOD
 plot \$Data with linespoints, \
      \$Data using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,-1 title "File Count, Max RSS"
+     # TODO: add labels to each point see https://stackoverflow.com/a/63194918/471376
 EOF
 )
 
@@ -359,6 +360,9 @@ EOF
     set -x
     echo "$GNUPLOT_SVG" | gnuplot
 )
+
+# replace plain <title> with something interesting
+sed -i -Ee "s|<title>.*</title>|<title>Max RSS per N file for '${FILE_NAME}'</title>|" -- "${OUT_SVG}"
 
 echo >&2
 echo "SVG output written to: ${OUT_SVG}" >&2
