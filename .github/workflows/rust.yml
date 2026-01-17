@@ -526,7 +526,6 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v4
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
-      - run: cargo install --locked cargo-nextest
       - name: set log file filesystem Modified Times
         shell: bash
         run: |
@@ -548,10 +547,9 @@ jobs:
         shell: powershell
         run: |
           Set-PSDebug -Trace 1
-          cargo.exe nextest --version
-          # XXX: Windows nextest is more fragile with multiple processes
-          ${env:NEXTEST_TEST_THREADS}="1"
-          cargo.exe nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
+          # XXX: do not use nextest as it is buggy on Windows
+          #      see Issue #218
+          cargo.exe test --locked --bins --lib --no-fail-fast
 
   job_flamegraph:
     # check that `flamegraph.sh` runs
