@@ -38,13 +38,16 @@ sleep 1
 declare -r PROGRAM=${PROGRAM:-"./target/valgrind/s4"}
 declare -r BIN_TARGET=$(basename -- "${PROGRAM}")
 declare -r DIROUT=${DIROUT-"."}
-declare -r OUT=${DIROUT}/heaptrack.${BIN_TARGET}.data
-declare -r OUT_ZST_DATA=${OUT}.zst
-declare -r OUT_TXT_DATA=${OUT}.txt
-declare -r OUT_SVG=${OUT}.svg
+declare -r OUT_DATA=${DIROUT}/heaptrack.${BIN_TARGET}.data
+# heaptrack automatically creates a .zst compressed version of the data file
+declare -r OUT_ZST_DATA=${OUT_DATA}.zst
+declare -r OUT_TXT_DATA=${DIROUT}/heaptrack.txt
+declare -r OUT_TXT_HISTOGRAM=${DIROUT}/heaptrack.histogram.txt
+declare -r OUT_FLAMEGRAPH_DATA=${DIROUT}/heaptrack.flamegraph.txt
+declare -r OUT_SVG=${DIROUT}/heaptrack.svg
 
 rm -f -- \
-    "${OUT}" \
+    "${OUT_DATA}" \
     "${OUT_ZST_DATA}" \
     "${OUT_TXT_DATA}" \
 
@@ -53,18 +56,19 @@ export RUST_BACKTRACE=1
 (
     set -x
 
-    # heaptrack appends `.zst` to the output file name
-    heaptrack --output "${OUT}" "${PROGRAM}" -p --color=never "${@}" 1>/dev/null
-    heaptrack --analyze -F "${OUT_TXT_DATA}" "${OUT_ZST_DATA}"
+    "${PROGRAM}" --version
 
-    heaptrack_print "${OUT_ZST_DATA}" --print-flamegraph "${OUT_TXT_DATA}"
-    #heaptrack_print "${OUT_ZST_DATA}" --print-histogram "${OUT_TXT_H}"
+    heaptrack --output "${OUT_DATA}" "${PROGRAM}" -p --color=never "${@}" 1>/dev/null
+    heaptrack --analyze -F "${OUT_FLAMEGRAPH_DATA}" "${OUT_ZST_DATA}"
+
+    #heaptrack_print "${OUT_ZST_DATA}" --print-flamegraph "${OUT_FLAMEGRAPH_DATA}"
+    heaptrack_print "${OUT_ZST_DATA}" --print-histogram "${OUT_TXT_HISTOGRAM}"
     #heaptrack_print "${OUT_ZST_DATA}" --print-massif "${OUT_TXT_MASSIF}"
 
     flamegraph.pl \
         --countname "allocations" \
         --title "allocations (${BIN_TARGET} -p --color=never ${*})" \
-        "${OUT_TXT_DATA}" > "${OUT_SVG}"
+        "${OUT_FLAMEGRAPH_DATA}" > "${OUT_SVG}"
 
     # the title is now a long string so make the font smaller
     sed -i -Ee 's/<text id="title" /<text id="title" style="font-size:xx-small" /' --  "${OUT_SVG}"
