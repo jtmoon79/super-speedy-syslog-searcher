@@ -4,6 +4,7 @@
 //!
 //! [`dlopen2`]: https://docs.rs/dlopen2/0.4.1/dlopen2/index.html
 
+use std::env;
 use std::fmt;
 use std::sync::{
     Arc,
@@ -33,6 +34,9 @@ type size_t = ::std::os::raw::c_ulong;
 
 /// `libsystemd` library short file name
 pub const LIB_SNAME_SYSTEMD: &str = "libsystemd";
+
+/// environment variable to specify user-defined path to `libsystemd` library.
+pub const ENV_LIBSYSTEMD: &str = "S4_LIBSYSTEMD";
 
 /// User-friendly file name for the `libsystemd` library, used in error messages.
 #[cfg(not(windows))]
@@ -459,6 +463,25 @@ pub fn load_library_systemd() -> LoadLibraryError {
     defn!();
 
     // load the library!
+    // try user-specified path first
+    if let Ok(user_libsystemd_path) = env::var(ENV_LIBSYSTEMD) {
+        defo!("Container::load(user specified path: {:?})", user_libsystemd_path);
+        match unsafe { JournalApiContainer::load(&user_libsystemd_path) }
+        {
+            Ok(container) => {
+                defx!("loaded user-specified library {:?}", user_libsystemd_path);
+                set_systemd_journal_api(container);
+                return LoadLibraryError::Ok;
+            }
+            Err(err) => {
+                defo!("failed to load library from user specified path: {}", err);
+                *LOAD_LIBRARY_SYSTEMD_OK.write().unwrap() = Some(false);
+                return LoadLibraryError::Err(err);
+            }
+        }
+    }
+
+    // try standard library names/paths
     for (index, libname) in LIB_NAME_SYSTEMD_NAMES.iter().enumerate() {
         defo!("Container::load({:?})", libname);
         match unsafe { JournalApiContainer::load(libname) }

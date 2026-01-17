@@ -173,6 +173,7 @@ use ::s4lib::debug::printers::{
 // `s4lib` is the local compiled `[lib]` of super_speedy_syslog_searcher
 use ::s4lib::debug_panic;
 use ::s4lib::libload::systemd_dlopen2::{
+    ENV_LIBSYSTEMD,
     load_library_systemd,
     LoadLibraryError,
     LIB_NAME_SYSTEMD,
@@ -666,6 +667,11 @@ The Python interpreter used during `--venv` requires Python 3.7 or higher.
 This installs to "#, PYTHON_VENV_PATH_DEFAULT, r#"
 The Python interpreter used may be overridden by setting environment variable
 "#, PYTHON_ENV, r#" to the path of the Python interpreter.
+
+The user may specify the path to the systemd shared library by setting
+environment variable "#, ENV_LIBSYSTEMD, r#". This library is used to read
+.journal files. Otherwise, s4 will attempt to locate and load
+the systemd shared library automatically.
 
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
