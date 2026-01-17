@@ -1009,14 +1009,14 @@ See archived results in file [`compare-log-mergers.txt`].
 
 ##### Max RSS per file
 
-`s4` process _Maximum resident Set Size_ (MSS) per additional file is high `s4`.
+`s4` process _Maximum Resident Set Size_ (Max RSS) per additional file is high `s4`.
 For an ad-hoc text file of size 2.1 MB, `s4` Max RSS is about 4.5 MB,
-or an average MSS multiple of ×2.2.
+or an average Max RSS multiple of ×2.2.
 In other words, for each additional 2.1 MB file processed, `s4` uses an additional 4.5 MB of memory.
 
 [![Maximum RSS per file](releases/0.8.80/x86_64-unknown-linux-gnu/compare-mem-mss.svg)](releases/0.8.80/x86_64-unknown-linux-gnu/compare-mem-mss.svg)
 
-The MSS multiple is very highest after the first file, an additional 13 MB of RSS for the second
+The Max RSS multiple is very highest after the first file, an additional 13 MB of RSS for the second
 2.1 MB file (×6.2 multiple).
 As the number of 2.1 MB files nears 50, the multiple levels off to about ×2.2.
 
