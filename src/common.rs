@@ -654,13 +654,13 @@ where
                 write!(f, "no syslog lines found in file")
             }
             FileProcessingResult::FileErrNoSyslinesInDtRange => {
-                write!(f, "no syslog lines found in date/time range")
+                write!(f, "no syslog lines found in datetime range")
             }
             FileProcessingResult::FileErrNoValidFixedStruct => {
                 write!(f, "no valid fixed-structure records found in file")
             }
             FileProcessingResult::FileErrNoFixedStructInDtRange => {
-                write!(f, "no fixed-structure records found in date/time range")
+                write!(f, "no fixed-structure records found in datetime range")
             }
             FileProcessingResult::FileErrIo(err) => {
                 write!(f, "{}", err)
