@@ -1022,9 +1022,9 @@ As the number of 2.1 MB files nears 50, the multiple levels off to about ×2.2.
 
 Not ideal in any case that it's ever so high.
 
-See archived results in file [`compare-mem-mss.txt`].
+See archived results in files [`compare-mem-*`].
 
-[`compare-mem-mss.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/releases/0.8.80
+[`compare-mem-*`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/releases/0.8.80
 
 ---
 
