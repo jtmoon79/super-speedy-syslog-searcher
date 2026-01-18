@@ -29,6 +29,11 @@ libsystemd-dev
 jq
 lnav
 
+# compare-mem.sh
+gnuplot
+gnuplot-doc
+#jq
+
 # build --profile=tcmalloc --feature=tcmalloc
 libtcmalloc-minimal4
 google-perftools
