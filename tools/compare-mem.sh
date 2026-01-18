@@ -52,11 +52,20 @@ if ! which "${PYTHON}" &>/dev/null; then
     exit 1
 fi
 
-readonly HRUNS=5
+# check for gnuplot
+gnuplot=$(which gnuplot) || {
+    echo "ERROR: gnuplot not found in PATH" >&2
+    echo "install:" >&2
+    echo "    sudo apt install gnuplot" >&2
+    exit 1
+}
+(set -x; gnuplot --version)
 
 declare -r FILE=${FILE-'./tools/compare-log-mergers/gen-5000-1-facesA.log'}
 declare -r FILE_NAME=$(basename -- "${FILE}")
-declare -ir FILE_SZ=$(stat --printf='%s' "${FILE}")
+
+# hyperfine runs
+declare -ir HYPERFINE_RUNS=${HYPERFINE_RUNS-5}
 
 # the upcoming `git checkout` may remove some of the above log files
 # so copy them to the temporary directory
@@ -108,14 +117,94 @@ function repeat() {
     done
 }
 
+function print_cpu_model () {
+    # print CPU model name
+    grep -m1 -Fe 'model name' /proc/cpuinfo | cut -f2 -d':' | sed -Ee 's/^[[:space:]]+//'
+}
+
+function max() {
+    # print max of the arguments which are alphanumeric
+    echo -n "$@" | tr ' ' '\n' | sort -nr | head -n1
+}
+
+function print_time_now_ms() {
+    # print current time in milliseconds
+    echo -n "${EPOCHREALTIME//./}" | cut -b1-13
+}
+
+function xml_escape() {
+    # escape XML special characters
+    echo -n "${@}" | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e "s/'/\&apos;/g" -e 's/"/\&quot;/g'
+}
+
+function regex_escape() {
+    # escape regex special characters
+    echo -n "${@}" | "$PYTHON" -c 'import re, sys; print(re.escape(sys.stdin.read().rstrip()))'
+}
+
+if [[ ! -f "${FILE}" ]]; then
+    echo "FILE not found or not a file '${FILE}'" >&2
+    exit 1
+fi
+
+declare -ir FILE_SZ=$(file_size "${FILE}")
+declare -ir FILE_SZ_KB=$((FILE_SZ / 1024 + 1))
+
+# get file size of compressed files, e.g. .gz, .xz, etc.
+declare -i FILE_SZ_UNCOMPRESSED=0
+if [[ "${FILE}" == *.bz2 ]]; then
+    FILE_SZ_UNCOMPRESSED=$((set -x; bzip2 -k -d -c "${FILE}") | wc -c)
+elif [[ "${FILE}" == *.gz ]]; then
+    FILE_SZ_UNCOMPRESSED=$((set -x; gzip -k -d -c "${FILE}") | wc -c)
+elif [[ "${FILE}" == *.lz4 ]]; then
+    FILE_SZ_UNCOMPRESSED=$((set -x; lz4 -k -d -c "${FILE}") | wc -c)
+elif [[ "${FILE}" == *.xz ]]; then
+    FILE_SZ_UNCOMPRESSED=$((set -x; xz -k -d -c "${FILE}") | wc -c)
+elif [[ "${FILE}" == *.zst ]]; then
+    FILE_SZ_UNCOMPRESSED=$((set -x; zstd -k -d -c "${FILE}") | wc -c)
+fi
+declare -i FILE_SZ_UNCOMPRESSED_KB=0
+if [[ ${FILE_SZ_UNCOMPRESSED} -ne 0 ]]; then
+    FILE_SZ_UNCOMPRESSED_KB=$((FILE_SZ_UNCOMPRESSED / 1024 + 1))
+fi
 
 S4_PROGRAM=${S4_PROGRAM-"./target/release/s4"}
 # very presumptive that the profile name will be the 3rd path component
 # e.g. ./target/release/s4 -> release
 #      ./target/debug/s4   -> debug
 BUILD_PROFILE=$(echo "${S4_PROGRAM}" | cut -f3 -d'/')
+if [[ -z "${BUILD_PROFILE}" ]]; then
+    BUILD_PROFILE="unknown"
+fi
 
+# example --version output
+#
+# $ ./target/release/s4 --version
+# s4 (Super Speedy Syslog Searcher)
+# Version: 0.8.80
+# MSRV: 1.85.0
+# Allocator: system
+# Platform: x86_64-unknown-linux-gnu
+# Rust Build Flags: 
+# Optimization Level: 3
+# License: MIT
+# Repository: https://github.com/jtmoon79/super-speedy-syslog-searcher
+# Author: James Thomas Moon
+#
+
+# sanity check S4_PROGRAM
 (set -x; "${S4_PROGRAM}" --version)
+
+# parse version info, OS info, CPU model
+version_out=$("${S4_PROGRAM}" --version 2>&1)
+Version=$(echo "${version_out}" | grep -m1 -Ee '^Version:' | cut -f2 -d' ' | tr -d '\n')
+Allocator=$(echo "${version_out}" | grep -m1 -Ee '^Allocator:' | cut -f2 -d' ' | tr -d '\n')
+Platform=$(echo "${version_out}" | grep -m1 -Ee '^Platform:' | cut -f2 -d' ' | tr -d '\n')
+OptimizationLevel=$(echo "${version_out}" | grep -m1 -Ee '^Optimization Level:' | cut -f3 -d' ' | tr -d '\n')
+Msrv=$(echo "${version_out}" | grep -m1 -Ee '^MSRV:' | cut -f2 -d' ' | tr -d '\n')
+CpuModel=$(print_cpu_model)
+source /etc/os-release
+OsName="${NAME} ${VERSION_ID}"
 
 tmpD=$(mktemp -d -t "compare-mem_XXXXX")
 
@@ -123,17 +212,23 @@ function exit_() {
     rm -rf "${tmpD}"
 }
 
-mddraft="${tmpD}/compare-mem-draft.md"
-
 trap exit_ EXIT
+
+# start the markdown draft file
+
+MD_DRAFT="${tmpD}/compare-mem-draft.md"
 
 # markdown table header
 echo "\
-|Files       |Profile|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|Max RSS (KB) diff|CPU %|
-|:---        |:---   |---:     |---:    |---:    |---:        |---:             |---: |" > "${mddraft}"
+|Files       |Profile|Mean (ms)|Min (ms)|Max (ms)|Diff (ms)|Max RSS (KB)|Max RSS (KB) diff|CPU %|
+|:---        |:---   |---:     |---:    |---:    |---:     |---:        |---:             |---: |" > "${MD_DRAFT}"
+
+#
+# run the tests for each file count
+#
 
 first=true
-
+declare -a time_values=()
 declare -a mss_values=()
 declare -a fnum_values=()
 declare -a mss_diff_values=()
@@ -157,19 +252,22 @@ for fnum in $(seq 1 ${FNUM_MAX}); do
         # XXX: presuming there are no spaces in the file name
         current_files+=("${FILE}")
     done
+    declare -i proc_time_beg=$(print_time_now_ms)
     (
         set -x
         ${hyperfine} \
             --warmup=0 \
             --style=color \
             --time-unit=millisecond \
-            --runs=${HRUNS} \
+            --runs=${HYPERFINE_RUNS} \
             --export-json "${json}" \
             -N \
             --command-name "s4 ${fnum} files" \
             -- \
                 "${s4_command} ${current_files[*]}"
     )
+    declare -i proc_time_end=$(print_time_now_ms)
+    declare -i proc_time_diff=$((proc_time_end - proc_time_beg))
     echo >&2
 
     # example hyperfine JSON output:
@@ -203,59 +301,101 @@ for fnum in $(seq 1 ${FNUM_MAX}); do
     #     }
     #   ]
     # }
+    cat "${json}" | jq .
 
+    # memory_usage_byte is explained at
+    # https://github.com/sharkdp/hyperfine/discussions/846
+
+    time_last=${mean-0}
     mean=$($JQ '.results[0].mean' < "${json}" | to_milliseconds)
     stddev=$($JQ '.results[0].stddev' < "${json}" | to_milliseconds)
     min=$($JQ '.results[0].min' < "${json}" | to_milliseconds)
     max=$($JQ '.results[0].max' < "${json}" | to_milliseconds)
     mss_last=${mss-0}
     mss=$($JQ '.results[0].memory_usage_byte | max / 1024' < "${json}")
+
     if ${first}; then
-        mss_diff="-"
+        mss_diff='-'
+        time_diff='-'
     else
-        mss_diff=$((mss - mss_last))
+        declare -i mss_diff=$((mss - mss_last))
         mss_diff_values+=("${mss_diff}")
         if [[ "${mss_diff}" -gt 0 ]]; then
             mss_diff="+${mss_diff}"
         fi
+
+        declare -i time_diff=$((mean - time_last))
+        time_diff_values+=("${time_diff}")
+        if [[ "${time_diff}" -gt 0 ]]; then
+            time_diff="+${time_diff}"
+        fi
     fi
     cpup=$($JQ '.results[0].user + .results[0].system' < "${json}" | to_3f)
-    echo "|${fnum}|${BUILD_PROFILE}|${mean} ± ${stddev}|${min}|${max}|${mss}|${mss_diff}|${cpup}|" >> "${mddraft}"
+    echo "|${fnum}|${BUILD_PROFILE}|${mean} ± ${stddev}|${min}|${max}|${time_diff}|${mss}|${mss_diff}|${cpup}|" >> "${MD_DRAFT}"
 
-    mss_values+=("${mss}")
     fnum_values+=("${fnum}")
+    mss_values+=("${mss}")
+    time_values+=("${mean}")
+
+    echo >&2
+    echo "For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss} KB" >&2
 
     first=false
 done
 
 echo_line
 
-mdfinal="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.md"
+#
+# create the final prettified markdown file of the results
+#
+MD_FINAL="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.md"
 
-cat "${mddraft}" | column -t -s '|' -o '|' > "${mdfinal}"
+# prettify the markdown table with aligned columns
+cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
 
 if which glow &>/dev/null; then
-    glow --width=${COLUMNS} --preserve-new-lines "${mdfinal}"
+    glow --width=${COLUMNS} --preserve-new-lines "${MD_FINAL}"
 else
-    cat "${mdfinal}"
+    cat "${MD_FINAL}"
 fi
 
 echo >&2
+
+#
+# print an ASCII graph for file count vs max RSS
+#
 
 mss_max=$(printf "%s\n" "${mss_values[@]}" | sort -nr | head -n1)
 mss_min=$(printf "%s\n" "${mss_values[@]}" | sort -n | head -n1)
 mss_diff_max=$(printf "%s\n" "${mss_diff_values[@]}" | sort -nr | head -n1)
 mss_diff_min=$(printf "%s\n" "${mss_diff_values[@]}" | sort -n | head -n1)
 mss_diff_avg=$(echo -n "${mss_diff_values[@]}" | awk '{sum=0; for(i=1;i<=NF;i++) sum+=$i; print sum/NF}')
-FILE_SZ_KB=$((FILE_SZ / 1024))
-mss_diff_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_avg} / ${FILE_SZ_KB}))")
-mss_diff_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_max} / ${FILE_SZ_KB}))")
-mss_diff_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_min} / ${FILE_SZ_KB}))")
 
-let mss_max_x=$((mss_max + 10000))
-let mss_min_x=$((mss_min - 20000))
+declare -i FILE_SZ_MULTIPLE_DENOMINATOR=${FILE_SZ_KB}
+if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
+    FILE_SZ_MULTIPLE_DENOMINATOR=${FILE_SZ_UNCOMPRESSED_KB}
+fi
+mss_diff_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_max} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
+mss_diff_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_min} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
+mss_diff_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_avg} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
 
-Data=$(for i in "${!mss_values[@]}"; do echo "${mss_values[$i]} ${fnum_values[$i]}"; done)
+time_diff_max=$(printf "%s\n" "${time_diff_values[@]}" | sort -nr | head -n1)
+time_diff_min=$(printf "%s\n" "${time_diff_values[@]}" | sort -n | head -n1)
+time_diff_avg=$(echo -n "${time_diff_values[@]}" | awk '{sum=0; for(i=1;i<=NF;i++) sum+=$i; print sum/NF}')
+
+let mss_max_x=$((mss_max + 10000)) || true
+let mss_min_x=$((mss_min - 20000)) || true
+
+# sanity check
+if [[ ${#mss_values[@]} -ne ${#fnum_values[@]} ]]; then
+    echo "Mismatched mss_values fnum_values; ${#mss_values[@]} ${#fnum_values[@]}" >&2
+    exit 1
+fi
+
+DataMss=$(for i in "${!mss_values[@]}"; do echo "${mss_values[$i]} ${fnum_values[$i]}"; done)
+
+declare -i ytics_step=0
+declare -i xtics_step=0
 
 if [[ $FNUM_MAX -le 50 ]]; then
     ytics_step=1
@@ -287,8 +427,8 @@ GNUPLOT_TERMINAL=$(cat <<EOF
 set terminal dumb size $COLUMNS, $(($COLUMNS / 2))
 set color
 set key off
-set xlabel "Max Resident Set Size (KB)"
-set ylabel "File count"
+set xlabel "Max Resident Set Size (KB)" noenhanced
+set ylabel "File count" noenhanced
 set xtics ${xtics_step}
 set ytics ${ytics_step}
 set grid xtics
@@ -297,7 +437,7 @@ set xrange [0:${mss_max_x}]
 set yrange [0:$((${FNUM_MAX} + 1))]
 set title "command: ${s4_command} ${FILE_NAME}…\n\nMax Resident Set Size (KB) per additional file of size ${FILE_SZ_KB} KB"
 \$Data << EOD
-$Data
+$DataMss
 EOD
 plot \$Data with linespoints
 EOF
@@ -305,8 +445,21 @@ EOF
 
 (
     set -x
-    echo "$GNUPLOT_TERMINAL" | gnuplot
+    echo "$GNUPLOT_TERMINAL" | "${gnuplot}"
 )
+
+function gnuplot_svg_title_replace() {
+    local file="${1}"
+    shift
+    # replace the non-descriptive '<title>Gnuplot</title>' with something interesting
+    sed -i -e "s|$(regex_escape "<title>Gnuplot</title>")|$(regex_escape "<title>$(xml_escape "${@}")</title>")|" -- "${file}"
+}
+
+#
+# create SVG for file count vs max RSS
+#
+
+OUT_SVG_RSS="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.svg"
 
 echo >&2
 
@@ -315,43 +468,51 @@ echo >&2
     echo "Min RSS diff (KB)|${mss_diff_min}"
     echo "Avg RSS diff (KB)|${mss_diff_avg}"
     echo "File Size (KB) |${FILE_SZ_KB}"
+    if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
+        FILE_SZ_UNCOMPRESSED_KB=$((FILE_SZ_UNCOMPRESSED / 1024))
+        echo "Uncompressed File Size (KB) |${FILE_SZ_UNCOMPRESSED_KB}"
+    fi
     echo "RSS diff multiple (avg)|${mss_diff_multiple_avg}"
     echo "RSS diff multiple (max)|${mss_diff_multiple_max}"
     echo "RSS diff multiple (min)|${mss_diff_multiple_min}"
 ) | column -t -s '|' -o ':' --table-columns='Info,Data' --table-right='Data' --table-noheadings
 
-OUT_SVG="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.svg"
-
-SVG_WIDTH=1280
-SVG_HEIGHT=1080
-FONT_SIZE_TEXT=12
-FONT_SIZE_LABELS=8
+declare -i SVG_WIDTH=1280
+declare -i SVG_HEIGHT=1080
+declare -i FONT_SIZE_TEXT=12
+declare -i FONT_SIZE_LABELS=8
 if [[ $FNUM_MAX -lt 20 ]]; then
     SVG_WIDTH=768
     SVG_HEIGHT=480
     FONT_SIZE_LABELS=10
 fi
 
+FILE_SZ_MESG="File Size ${FILE_SZ_KB} KB (${FILE_SZ} bytes)"
+if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
+    FILE_SZ_MESG+=", Uncompressed Size ${FILE_SZ_UNCOMPRESSED_KB} KB (${FILE_SZ_UNCOMPRESSED} bytes)"
+fi
+
 GNUPLOT_SVG=$(cat <<EOF
 set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname 'Arial,${FONT_SIZE_LABELS}'
 set color
 set key off
-set output '${OUT_SVG}'
-set xlabel "Max Resident Set Size (KB)" font 'Arial,${FONT_SIZE_TEXT}'
-set ylabel "File count (${FILE_NAME})\n" font 'Arial,${FONT_SIZE_TEXT}'
+set output '${OUT_SVG_RSS}'
+set xlabel "Max Resident Set Size (KB)" font 'Arial,${FONT_SIZE_TEXT}' noenhanced
+set ylabel "File count (${FILE_NAME})\n" font 'Arial,${FONT_SIZE_TEXT}' noenhanced
 set xtics ${xtics_step} font 'Arial,${FONT_SIZE_TEXT}'
 set ytics ${ytics_step} font 'Arial,${FONT_SIZE_TEXT}'
 set grid xtics
 set grid ytics
 set xrange [0:${mss_max_x}]
 set yrange [0:$((${FNUM_MAX} + 1))]
-set title "command: ${s4_command} ${FILE_NAME}…\n\nBuild profile ${BUILD_PROFILE}\n\nFile ${FILE}\nFile Size ${FILE_SZ_KB} KB\nMax max RSS diff ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS diff ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS diff ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
-    font 'Arial,${FONT_SIZE_TEXT}'
+set title "command: ${s4_command} ${FILE_NAME}…\n\nBuild profile ${BUILD_PROFILE}, Version ${Version}, Allocator ${Allocator}, Platform ${Platform}, Optimization Level ${OptimizationLevel}, MSRV ${Msrv}\nRun on ${OsName} using a ${CpuModel}\n\nFile ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point ${HYPERFINE_RUNS}\nMax max RSS difference per 1 File ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS difference per 1 File ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS difference per 1 File ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
+    font 'Arial,${FONT_SIZE_TEXT}' \
+    noenhanced
 \$Data << EOD
-$Data
+$DataMss
 EOD
 plot \$Data with linespoints, \
-     \$Data using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,-1 title "File Count, Max RSS"
+     \$Data every 1 using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,-0.5 title "File Count, Max RSS (KB)"
      # TODO: add labels to each point see https://stackoverflow.com/a/63194918/471376
 EOF
 )
@@ -361,8 +522,69 @@ EOF
     echo "$GNUPLOT_SVG" | gnuplot
 )
 
-# replace plain <title> with something interesting
-sed -i -Ee "s|<title>.*</title>|<title>Max RSS per N file for '${FILE_NAME}'</title>|" -- "${OUT_SVG}"
+gnuplot_svg_title_replace "${OUT_SVG_RSS}" "Max RSS (KB) per N file for '${FILE_NAME}'"
 
 echo >&2
-echo "SVG output written to: ${OUT_SVG}" >&2
+echo "SVG output written to: ${OUT_SVG_RSS}" >&2
+
+#
+# create SVG for file count vs time
+#
+
+OUT_SVG_TIME="${DIROUT}/compare-time__${FILE_NAME}__${FNUM_MAX}.svg"
+
+DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${fnum_values[$i]}"; done)
+time_max_x=0
+time_max_x=$(max "${time_values[@]}")
+time_max_x=$((time_max_x + 1))
+
+if [[ ${time_max_x} -lt 100 ]]; then
+    xtics_step=1
+elif [[ ${time_max_x} -lt 1000 ]]; then
+    xtics_step=10
+elif [[ ${time_max_x} -lt 10000 ]]; then
+    xtics_step=1000
+else
+    xtics_step=200000
+fi
+
+declare -i FONT_SIZE_TEXT=12
+declare -i FONT_SIZE_LABELS=8
+if [[ $FNUM_MAX -ge 120 ]]; then
+    FONT_SIZE_LABELS=6
+fi
+
+GNUPLOT_SVG=$(cat <<EOF
+set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname 'Arial,${FONT_SIZE_LABELS}'
+set color
+set key off
+set output '${OUT_SVG_TIME}'
+set xlabel "Time (ms) mean" font 'Arial,${FONT_SIZE_TEXT}' noenhanced
+set ylabel "File count (${FILE_NAME})\n" font 'Arial,${FONT_SIZE_TEXT}' noenhanced
+set xtics ${xtics_step} font 'Arial,${FONT_SIZE_TEXT}'
+set ytics ${ytics_step} font 'Arial,${FONT_SIZE_TEXT}'
+set grid xtics
+set grid ytics
+set xrange [0:${time_max_x}]
+set yrange [0:$((${FNUM_MAX} + 1))]
+set title "command: ${s4_command} ${FILE_NAME}…\nBuild profile ${BUILD_PROFILE}, Version ${Version}, Allocator ${Allocator}, Platform ${Platform}, Optimization Level ${OptimizationLevel}, MSRV ${Msrv}\nRun on ${OsName} using a ${CpuModel}\n\nFile ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+    font 'Arial,${FONT_SIZE_TEXT}' \
+    noenhanced
+\$Data << EOD
+$DataTime
+EOD
+plot \$Data with linespoints, \
+     \$Data using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,-1 title "File Count, Time (ms) mean"
+     # TODO: add labels to each point see https://stackoverflow.com/a/63194918/471376
+EOF
+)
+
+(
+    set -x
+    echo "$GNUPLOT_SVG" | "${gnuplot}"
+)
+
+gnuplot_svg_title_replace "${OUT_SVG_TIME}" "Time (ms) mean per N file for '${FILE_NAME}'"
+
+echo >&2
+echo "SVG output written to: ${OUT_SVG_TIME}" >&2
