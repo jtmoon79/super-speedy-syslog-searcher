@@ -15,7 +15,8 @@ FILES=(
     ./logs/other/tests/gen-1000-3-foobar.log.xz
     ./logs/other/tests/gen-1000-3-foobar-noyear.log
     ./logs/programs/journal/RHE_91_system.journal
-    "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx"
+    # TODO: remove %4 from this name, it causes problems for Gnuplot
+    # "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx"
     ./logs/OpenBSD7.4/x86_64/utmp
     ./logs/NetBSD9.3/Xorg.0.log
     ./logs/RedHatEnterprise9/audit/audit.log

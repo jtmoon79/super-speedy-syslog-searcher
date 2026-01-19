@@ -184,8 +184,10 @@ elif [[ "${FILE}" == *.zst ]]; then
     FILE_SZ_UNCOMPRESSED=$((set -x; zstd -k -d -c "${FILE}") | wc -c)
 fi
 declare -i FILE_SZ_UNCOMPRESSED_KB=0
+declare -i FILE_SZ_UNCOMPRESSED_BLOCKS=0
 if [[ ${FILE_SZ_UNCOMPRESSED} -ne 0 ]]; then
     FILE_SZ_UNCOMPRESSED_KB=$((FILE_SZ_UNCOMPRESSED / 1024 + 1))
+    FILE_SZ_UNCOMPRESSED_BLOCKS=$((FILE_SZ_UNCOMPRESSED / 65536 + 1))
 fi
 
 declare -r S4_PROGRAM=${S4_PROGRAM-"./target/release/s4"}
@@ -226,6 +228,11 @@ CpuModel=$(print_cpu_model)
 source /etc/os-release
 OsName="${NAME} ${VERSION_ID}"
 GitTagLast=$(git describe --tags --abbrev=0 || echo "unknown")
+# matches default blocksz
+# XXX: presumes user did not pass --blocksz
+declare -ir S4_BLOCKSZ=${S4_BLOCKSZ-65535}
+declare -ir S4_BLOCKSZ_KB=$((S4_BLOCKSZ / 1024))
+declare -ir FILE_SZ_BLOCKS=$((FILE_SZ / 65536 + 1))
 
 tmpD=$(mktemp -d -t "s4-performance-plot_XXXXX")
 
@@ -327,22 +334,22 @@ for fnum in $(seq 1 ${FNUM_MAX}); do
     # }
     cat "${json}" | "${JQ}" .
 
-    # memory_usage_byte is explained at
-    # https://github.com/sharkdp/hyperfine/discussions/846
+    # memory_usage_byte is in bytes, explained at https://github.com/sharkdp/hyperfine/discussions/846
 
     time_last=${mean-0}
     mean=$($JQ '.results[0].mean' < "${json}" | to_milliseconds)
     stddev=$($JQ '.results[0].stddev' < "${json}" | to_milliseconds)
     min=$($JQ '.results[0].min' < "${json}" | to_milliseconds)
     max=$($JQ '.results[0].max' < "${json}" | to_milliseconds)
-    mss_last=${mss-0}
-    mss=$($JQ '.results[0].memory_usage_byte | max / 1024' < "${json}")
+    mss_last=${mss_KB-0}
+    # convert to KiB
+    mss_KB=$($JQ '.results[0].memory_usage_byte | max / 1024' < "${json}")
 
     if ${first}; then
         mss_diff='-'
         time_diff='-'
     else
-        declare -i mss_diff=$((mss - mss_last))
+        declare -i mss_diff=$((mss_KB - mss_last))
         mss_diff_values+=("${mss_diff}")
         if [[ "${mss_diff}" -gt 0 ]]; then
             mss_diff="+${mss_diff}"
@@ -355,14 +362,14 @@ for fnum in $(seq 1 ${FNUM_MAX}); do
         fi
     fi
     cpup=$($JQ '.results[0].user + .results[0].system' < "${json}" | to_3f)
-    echo "|${fnum}|${BUILD_PROFILE}|${mean} ± ${stddev}|${min}|${max}|${time_diff}|${mss}|${mss_diff}|${cpup}|" >> "${MD_DRAFT}"
+    echo "|${fnum}|${BUILD_PROFILE}|${mean} ± ${stddev}|${min}|${max}|${time_diff}|${mss_KB}|${mss_diff}|${cpup}|" >> "${MD_DRAFT}"
 
     fnum_values+=("${fnum}")
-    mss_values+=("${mss}")
+    mss_values+=("${mss_KB}")
     time_values+=("${mean}")
 
     echo >&2
-    echo "For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss} KB (current datetime $(date))" >&2
+    echo "For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss_KB} KB (current datetime $(date))" >&2
 
     first=false
 done
@@ -402,6 +409,10 @@ fi
 mss_diff_multiple_max=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_max} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
 mss_diff_multiple_min=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_min} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
 mss_diff_multiple_avg=$("${PYTHON}" -c "print('%.1f' % (${mss_diff_avg} / ${FILE_SZ_MULTIPLE_DENOMINATOR}))")
+
+mss_diff_blocksz_multiple_max=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_max} * 1024) / ${S4_BLOCKSZ}))")
+mss_diff_blocksz_multiple_min=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_min} * 1024) / ${S4_BLOCKSZ}))")
+mss_diff_blocksz_multiple_avg=$("${PYTHON}" -c "print('%.1f' % ((${mss_diff_avg} * 1024) / ${S4_BLOCKSZ}))")
 
 time_diff_max=$(printf "%s\n" "${time_diff_values[@]}" | sort -nr | head -n1)
 time_diff_min=$(printf "%s\n" "${time_diff_values[@]}" | sort -n | head -n1)
@@ -499,23 +510,26 @@ echo >&2
     echo "Min RSS diff (KB)|${mss_diff_min}"
     echo "Avg RSS diff (KB)|${mss_diff_avg}"
     echo "File Size (KB) |${FILE_SZ_KB}"
+    echo "Block Size (Bytes) |${S4_BLOCKSZ}"
+    echo "File Size (Blocks) |${FILE_SZ_BLOCKS}"
     if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
         FILE_SZ_UNCOMPRESSED_KB=$((FILE_SZ_UNCOMPRESSED / 1024))
         echo "Uncompressed File Size (KB) |${FILE_SZ_UNCOMPRESSED_KB}"
+        echo "Uncompressed File Size (Blocks) |${FILE_SZ_UNCOMPRESSED_BLOCKS}"
     fi
     echo "RSS diff multiple (avg)|${mss_diff_multiple_avg}"
     echo "RSS diff multiple (max)|${mss_diff_multiple_max}"
     echo "RSS diff multiple (min)|${mss_diff_multiple_min}"
 ) | column -t -s '|' -o ':' --table-columns='Info,Data' --table-right='Data' --table-noheadings
 
-declare -i SVG_HEIGHT=1080
+declare -i SVG_HEIGHT=1280
 declare -i SVG_WIDTH=1280
 if [[ $FNUM_MAX -le 20 ]]; then
-    SVG_HEIGHT=480
+    SVG_HEIGHT=520
     SVG_WIDTH=768
 elif [[ $FNUM_MAX -ge 200 ]]; then
     SVG_HEIGHT=1536
-    SVG_WIDTH=1920
+    SVG_WIDTH=1280
 fi
 
 declare -i FONT_SIZE_OUTER=12
@@ -538,13 +552,14 @@ FONT_NAME_OUTER="Arial"
 FONT_NAME_TICS="Monospace"
 FONT_NAME_POINTS="Monospace"
 
-FILE_SZ_MESG="File Size: ${FILE_SZ_KB} KB (${FILE_SZ} bytes)"
+FILE_SZ_MESG="File Size: ${FILE_SZ_KB} KB (${FILE_SZ} bytes) (${FILE_SZ_BLOCKS} blocks)"
 if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
-    FILE_SZ_MESG+=", Uncompressed Size: ${FILE_SZ_UNCOMPRESSED_KB} KB (${FILE_SZ_UNCOMPRESSED} bytes)"
+    FILE_SZ_MESG+=", Uncompressed Size: ${FILE_SZ_UNCOMPRESSED_KB} KB (${FILE_SZ_UNCOMPRESSED} bytes) (${FILE_SZ_UNCOMPRESSED_BLOCKS} blocks)"
 fi
 
 COLOR_1="dark-magenta"
 COLOR_2="blue"
+COLOR_3="green"
 
 GNUPLOT_SVG=$(cat <<EOF
 set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}"
@@ -552,7 +567,7 @@ set encoding utf8
 set color
 set key off
 set output "${OUT_SVG_RSS}"
-set title "Command: ${s4_command} ${FILE_NAME} …\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
+set title "Command: ${s4_command} ${FILE_NAME} …\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nFile: ${FILE}\nBlock Size: ${S4_BLOCKSZ_KB} KB (${S4_BLOCKSZ} Bytes)\n${FILE_SZ_MESG}\n\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size) (×${mss_diff_blocksz_multiple_max} Blocks)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size) (×${mss_diff_blocksz_multiple_avg} Blocks)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size) (×${mss_diff_blocksz_multiple_min} Blocks)\n\n" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set format "%.0f"
@@ -618,7 +633,7 @@ set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FO
 set encoding utf8
 set color
 set key off
-set title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+set title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set output "${OUT_SVG_TIME}"
