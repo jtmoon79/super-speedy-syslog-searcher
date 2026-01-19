@@ -225,6 +225,7 @@ Msrv=$(echo "${version_out}" | grep -m1 -Ee '^MSRV:' | cut -f2 -d' ' | tr -d '\n
 CpuModel=$(print_cpu_model)
 source /etc/os-release
 OsName="${NAME} ${VERSION_ID}"
+GitTagLast=$(git describe --tags --abbrev=0 || echo "unknown")
 
 tmpD=$(mktemp -d -t "s4-performance-plot_XXXXX")
 
@@ -371,7 +372,7 @@ echo_line
 #
 # create the final markdown file of results
 #
-declare -r MD_FINAL="${DIROUT}/performance-plot-data__${FILE_NAME}__${FNUM_MAX}.md"
+declare -r MD_FINAL="${DIROUT}/performance-plot-${FILE_NAME}__${FNUM_MAX}__data.md"
 
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
@@ -459,7 +460,7 @@ set grid xtics
 set grid ytics
 set xrange [0:${mss_max_x}]
 set yrange [0:$((${FNUM_MAX} + 1))]
-set title "command: ${s4_command} ${FILE_NAME}…\n\nMax Resident Set Size (KB) per additional file of size ${FILE_SZ_KB} KB"
+set title "command: ${s4_command} ${FILE_NAME}…\n\nMax Resident Set Size (KB) per additional file of size ${FILE_SZ_KB} KB\nGit Tag: ${GitTagLast}"
 \$Data << EOD
 $DataRss
 EOD
@@ -489,7 +490,7 @@ function xml_format() {
 # gnuplot create SVG for file count vs max RSS
 #
 
-declare -r OUT_SVG_RSS="${DIROUT}/performance-plot-rss__${FILE_NAME}__${FNUM_MAX}.svg"
+declare -r OUT_SVG_RSS="${DIROUT}/performance-plot__${FILE_NAME}__${FNUM_MAX}__rss.svg"
 
 echo >&2
 
@@ -507,12 +508,13 @@ echo >&2
     echo "RSS diff multiple (min)|${mss_diff_multiple_min}"
 ) | column -t -s '|' -o ':' --table-columns='Info,Data' --table-right='Data' --table-noheadings
 
-declare -i SVG_WIDTH=1280
 declare -i SVG_HEIGHT=1080
+declare -i SVG_WIDTH=1280
 if [[ $FNUM_MAX -le 20 ]]; then
-    SVG_WIDTH=768
     SVG_HEIGHT=480
+    SVG_WIDTH=768
 elif [[ $FNUM_MAX -ge 200 ]]; then
+    SVG_HEIGHT=1536
     SVG_WIDTH=1920
 fi
 
@@ -546,14 +548,16 @@ COLOR_2="blue"
 
 GNUPLOT_SVG=$(cat <<EOF
 set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}"
+set encoding utf8
 set color
 set key off
 set output "${OUT_SVG_RSS}"
-set title "Command: ${s4_command} ${FILE_NAME}…\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Allocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}, MSRV: ${Msrv}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
+set title "Command: ${s4_command} ${FILE_NAME}…\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
+set format "%.0f"
 set xlabel left "Max Resident Set Size (KB)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
-set ylabel "File count ${FNUM_MAX} (${FILE_NAME})\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set ylabel "File count ${FNUM_MAX}\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
 set xtics ${xtics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set ytics ${ytics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set grid xtics
@@ -590,7 +594,7 @@ echo "SVG output written to: ${OUT_SVG_RSS}" >&2
 # gnuplot create SVG for file count vs time
 #
 
-declare -r OUT_SVG_TIME="${DIROUT}/performance-plot-time__${FILE_NAME}__${FNUM_MAX}.svg"
+declare -r OUT_SVG_TIME="${DIROUT}/performance-plot__${FILE_NAME}__${FNUM_MAX}__time.svg"
 
 DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${fnum_values[$i]}"; done)
 DataTimeDiffs=$(for i in "${!time_diff_values[@]}"; do echo "${time_diff_values[$i]} ${fnum_values[$i+1]}"; done)
@@ -611,14 +615,16 @@ fi
 
 GNUPLOT_SVG=$(cat <<EOF
 set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}"
+set encoding utf8
 set color
 set key off
-set title "Command: ${s4_command} ${FILE_NAME}…\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Allocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}, MSRV: ${Msrv}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+set title "Command: ${s4_command} ${FILE_NAME}…\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set output "${OUT_SVG_TIME}"
+set format "%.0f"
 set xlabel "Time (ms)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
-set ylabel "File count ${FNUM_MAX} (${FILE_NAME})\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set ylabel "File count ${FNUM_MAX}\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
 set xtics ${xtics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set ytics ${ytics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set grid xtics
