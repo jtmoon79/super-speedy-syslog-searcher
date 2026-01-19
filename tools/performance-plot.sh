@@ -552,7 +552,7 @@ set encoding utf8
 set color
 set key off
 set output "${OUT_SVG_RSS}"
-set title "Command: ${s4_command} ${FILE_NAME}…\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
+set title "Command: ${s4_command} ${FILE_NAME} …\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set format "%.0f"
@@ -618,7 +618,7 @@ set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FO
 set encoding utf8
 set color
 set key off
-set title "Command: ${s4_command} ${FILE_NAME}…\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+set title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFILE}, Version: ${Version} (git tag ${GitTagLast}), MSRV: ${Msrv}\nAllocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set output "${OUT_SVG_TIME}"
