@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 #
-# gnuplot memory usage of `s4` when processing increasing number of log files.
+# gnuplot `s4` performance when processing increasing number of log files, specifically Max RSS and mean time.
 #
-# user should set:
+# user must set:
 #   FILE         - path to a log file to be used for testing
 #   FNUM_MAX     - maximum number of files to test (default: 100)
+# user may set:
 #   S4_PROGRAM   - path to the `s4` binary to test (default: ./target/release/s4)
 #   DIROUT       - output directory for markdown and SVG files (default: current directory)
 #   PYTHON       - python3 interpreter (default: python3)
@@ -15,13 +16,13 @@
 #   python3
 #   xmllint
 # usage:
-#   FILE=path/to/log FNUM_MAX=N ./tools/compare-mem.sh [<s4-args>]
+#   FILE=path/to/log FNUM_MAX=N ./tools/performance-plot.sh [<s4-args>]
 # example:
-#   FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FNUM_MAX=200 ./tools/compare-mem.sh --color=never
+#   FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FNUM_MAX=200 ./tools/performance-plot.sh --color=never
 # outputs:
-#   compare-mem-data__<log-file-name>__<FNUM_MAX>.md
-#   compare-mem-rss__<log-file-name>__<FNUM_MAX>.svg
-#   compare-mem-time__<log-file-name>__<FNUM_MAX>.svg
+#   performance-plot-data__<log-file-name>__<FNUM_MAX>.md
+#   performance-plot-rss__<log-file-name>__<FNUM_MAX>.svg
+#   performance-plot-time__<log-file-name>__<FNUM_MAX>.svg
 #
 
 set -euo pipefail
@@ -81,7 +82,7 @@ declare -ir HYPERFINE_RUNS=${HYPERFINE_RUNS-5}
 
 # the upcoming `git checkout` may remove some of the above log files
 # so copy them to the temporary directory
-TDIR_LOGS=/tmp/s4-compare-mem
+TDIR_LOGS=/tmp/s4-performance-plot
 mkdir -vp "${TDIR_LOGS}"
 
 function echo_line() {
@@ -225,7 +226,7 @@ CpuModel=$(print_cpu_model)
 source /etc/os-release
 OsName="${NAME} ${VERSION_ID}"
 
-tmpD=$(mktemp -d -t "s4-compare-mem_XXXXX")
+tmpD=$(mktemp -d -t "s4-performance-plot_XXXXX")
 
 function exit_() {
     rm -rf "${tmpD}"
@@ -237,7 +238,7 @@ trap exit_ EXIT
 # start the markdown draft file
 #
 
-declare -r MD_DRAFT="${tmpD}/compare-mem-draft.md"
+declare -r MD_DRAFT="${tmpD}/performance-plot-draft.md"
 
 # markdown table header
 echo "\
@@ -370,7 +371,7 @@ echo_line
 #
 # create the final markdown file of results
 #
-declare -r MD_FINAL="${DIROUT}/compare-mem-data__${FILE_NAME}__${FNUM_MAX}.md"
+declare -r MD_FINAL="${DIROUT}/performance-plot-data__${FILE_NAME}__${FNUM_MAX}.md"
 
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
@@ -488,7 +489,7 @@ function xml_format() {
 # gnuplot create SVG for file count vs max RSS
 #
 
-declare -r OUT_SVG_RSS="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.svg"
+declare -r OUT_SVG_RSS="${DIROUT}/performance-plot-rss__${FILE_NAME}__${FNUM_MAX}.svg"
 
 echo >&2
 
@@ -511,16 +512,24 @@ declare -i SVG_HEIGHT=1080
 if [[ $FNUM_MAX -le 20 ]]; then
     SVG_WIDTH=768
     SVG_HEIGHT=480
-elif [[ $FNUM_MAX -ge 201 ]]; then
+elif [[ $FNUM_MAX -ge 200 ]]; then
     SVG_WIDTH=1920
 fi
 
 declare -i FONT_SIZE_OUTER=12
 declare -i FONT_SIZE_TICS=8
 declare -i FONT_SIZE_LABELS=8
+declare -i FONT_SIZE_POINTS=8
 if [[ $FNUM_MAX -ge 50 ]]; then
     FONT_SIZE_TICS=8
     FONT_SIZE_LABELS=6
+    FONT_SIZE_POINTS=6
+fi
+if [[ $FNUM_MAX -gt 100 ]]; then
+    FONT_SIZE_OUTER=12
+    FONT_SIZE_TICS=6
+    FONT_SIZE_LABELS=5
+    FONT_SIZE_POINTS=5
 fi
 
 FONT_NAME_OUTER="Arial"
@@ -544,7 +553,7 @@ set title "Command: ${s4_command} ${FILE_NAME}…\n\nBuild profile: ${BUILD_PROF
     font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
     noenhanced
 set xlabel left "Max Resident Set Size (KB)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
-set ylabel "File count (${FILE_NAME})\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set ylabel "File count ${FNUM_MAX} (${FILE_NAME})\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
 set xtics ${xtics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set ytics ${ytics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set grid xtics
@@ -581,7 +590,7 @@ echo "SVG output written to: ${OUT_SVG_RSS}" >&2
 # gnuplot create SVG for file count vs time
 #
 
-declare -r OUT_SVG_TIME="${DIROUT}/compare-time__${FILE_NAME}__${FNUM_MAX}.svg"
+declare -r OUT_SVG_TIME="${DIROUT}/performance-plot-time__${FILE_NAME}__${FNUM_MAX}.svg"
 
 DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${fnum_values[$i]}"; done)
 DataTimeDiffs=$(for i in "${!time_diff_values[@]}"; do echo "${time_diff_values[$i]} ${fnum_values[$i+1]}"; done)
@@ -609,7 +618,7 @@ set title "Command: ${s4_command} ${FILE_NAME}…\nBuild profile: ${BUILD_PROFIL
     noenhanced
 set output "${OUT_SVG_TIME}"
 set xlabel "Time (ms)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
-set ylabel "File count (${FILE_NAME})\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set ylabel "File count ${FNUM_MAX} (${FILE_NAME})\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
 set xtics ${xtics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set ytics ${ytics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set grid xtics
@@ -623,9 +632,9 @@ EOD
 $DataTimeDiffs
 EOD
 plot \$DataTime with lines linecolor rgbcolor "${COLOR_1}" title "Time (ms) mean among ${HYPERFINE_RUNS} runs", \
-     \$DataTime using 1:2:(sprintf("%d ms", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-1 font "${FONT_NAME_POINTS},${FONT_SIZE_LABELS}" title "File Count, Time (ms) mean", \
+     \$DataTime using 1:2:(sprintf("%d ms", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_POINTS}" title "File Count, Time (ms) mean", \
      \$DataTimeDiffs with lines linecolor rgbcolor "${COLOR_2}" title "Time (ms) Diff from processing N files to processing N+1 files", \
-     \$DataTimeDiffs using 1:2:(sprintf("%d ms (diff)", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-1 font "${FONT_NAME_POINTS},${FONT_SIZE_LABELS}" title "File Count, Time (ms) Diff from processing N files to processing N+1 files"
+     \$DataTimeDiffs using 1:2:(sprintf("%d ms (diff)", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_POINTS}" title "File Count, Time (ms) Diff from processing N files to processing N+1 files"
 EOF
 )
 
