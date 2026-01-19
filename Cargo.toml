@@ -98,7 +98,7 @@ stringzilla = { version = "3.12.6", optional = true }
 tar = "0.4.44"
 tempfile = "3.24.0"
 termcolor = "1.4.1"
-unicode-width = "0.2.1"
+unicode-width = "0.2.2"
 unroll = "0.1.5"
 utf8_iter = "1.0.4"
 version-compare = "0.2.1"
