@@ -13,20 +13,22 @@
 #   jq
 #   gnuplot
 #   python3
+#   xmllint
 # usage:
 #   FILE=path/to/log FNUM_MAX=N ./tools/compare-mem.sh [<s4-args>]
 # example:
 #   FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FNUM_MAX=200 ./tools/compare-mem.sh --color=never
 # outputs:
-#   compare-mem-rss__<log-file-name>__<FNUM_MAX>.md
+#   compare-mem-data__<log-file-name>__<FNUM_MAX>.md
 #   compare-mem-rss__<log-file-name>__<FNUM_MAX>.svg
+#   compare-mem-time__<log-file-name>__<FNUM_MAX>.svg
 #
 
 set -euo pipefail
 
 cd "$(dirname "${0}")/.."
 
-DIROUT=${DIROUT-"."}
+declare -r DIROUT=${DIROUT-"."}
 
 # check for hyperfine
 hyperfine=$(which hyperfine) || {
@@ -37,20 +39,30 @@ hyperfine=$(which hyperfine) || {
 }
 (set -x; hyperfine --version)
 
+which xmllint &>/dev/null || {
+    echo "ERROR: xmllint not found in PATH" >&2
+    echo "install:" >&2
+    echo "    sudo apt install libxml2-utils" >&2
+    exit 1
+}
+(set -x; xmllint --version | head -n1)
+
 # check for jq
-if ! which jq &>/dev/null; then
+JQ=$(which jq) || {
     echo "ERROR: jq not found in PATH" >&2
     echo "install:" >&2
     echo "    sudo apt install jq" >&2
     exit 1
-fi
-JQ=$(which jq)
+}
+(set -x; "${JQ}" --version)
 
+# check for python
 PYTHON=${PYTHON-"python3"}
 if ! which "${PYTHON}" &>/dev/null; then
     echo "ERROR: python3 not found in PATH" >&2
     exit 1
 fi
+(set -x; "${PYTHON}" --version)
 
 # check for gnuplot
 gnuplot=$(which gnuplot) || {
@@ -142,8 +154,15 @@ function regex_escape() {
     echo -n "${@}" | "$PYTHON" -c 'import re, sys; print(re.escape(sys.stdin.read().rstrip()))'
 }
 
+# check if FILE exists
 if [[ ! -f "${FILE}" ]]; then
     echo "FILE not found or not a file '${FILE}'" >&2
+    exit 1
+fi
+
+# check if file name has spaces
+if [[ "${FILE}" =~ [[:space:]] ]]; then
+    echo "FILE name has spaces which is not supported: '${FILE}'" >&2
     exit 1
 fi
 
@@ -168,7 +187,7 @@ if [[ ${FILE_SZ_UNCOMPRESSED} -ne 0 ]]; then
     FILE_SZ_UNCOMPRESSED_KB=$((FILE_SZ_UNCOMPRESSED / 1024 + 1))
 fi
 
-S4_PROGRAM=${S4_PROGRAM-"./target/release/s4"}
+declare -r S4_PROGRAM=${S4_PROGRAM-"./target/release/s4"}
 # very presumptive that the profile name will be the 3rd path component
 # e.g. ./target/release/s4 -> release
 #      ./target/debug/s4   -> debug
@@ -206,7 +225,7 @@ CpuModel=$(print_cpu_model)
 source /etc/os-release
 OsName="${NAME} ${VERSION_ID}"
 
-tmpD=$(mktemp -d -t "compare-mem_XXXXX")
+tmpD=$(mktemp -d -t "s4-compare-mem_XXXXX")
 
 function exit_() {
     rm -rf "${tmpD}"
@@ -214,9 +233,11 @@ function exit_() {
 
 trap exit_ EXIT
 
+#
 # start the markdown draft file
+#
 
-MD_DRAFT="${tmpD}/compare-mem-draft.md"
+declare -r MD_DRAFT="${tmpD}/compare-mem-draft.md"
 
 # markdown table header
 echo "\
@@ -229,6 +250,7 @@ echo "\
 
 first=true
 declare -a time_values=()
+declare -a time_diff_values=()
 declare -a mss_values=()
 declare -a fnum_values=()
 declare -a mss_diff_values=()
@@ -301,7 +323,7 @@ for fnum in $(seq 1 ${FNUM_MAX}); do
     #     }
     #   ]
     # }
-    cat "${json}" | jq .
+    cat "${json}" | "${JQ}" .
 
     # memory_usage_byte is explained at
     # https://github.com/sharkdp/hyperfine/discussions/846
@@ -338,7 +360,7 @@ for fnum in $(seq 1 ${FNUM_MAX}); do
     time_values+=("${mean}")
 
     echo >&2
-    echo "For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss} KB" >&2
+    echo "For ${HYPERFINE_RUNS} runs of ${fnum} files: time ${proc_time_diff} ms, Max RSS ${mss} KB (current datetime $(date))" >&2
 
     first=false
 done
@@ -346,9 +368,9 @@ done
 echo_line
 
 #
-# create the final prettified markdown file of the results
+# create the final markdown file of results
 #
-MD_FINAL="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.md"
+declare -r MD_FINAL="${DIROUT}/compare-mem-data__${FILE_NAME}__${FNUM_MAX}.md"
 
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
@@ -362,7 +384,7 @@ fi
 echo >&2
 
 #
-# print an ASCII graph for file count vs max RSS
+# gnuplot an ASCII graph for file count vs max RSS
 #
 
 mss_max=$(printf "%s\n" "${mss_values[@]}" | sort -nr | head -n1)
@@ -392,7 +414,8 @@ if [[ ${#mss_values[@]} -ne ${#fnum_values[@]} ]]; then
     exit 1
 fi
 
-DataMss=$(for i in "${!mss_values[@]}"; do echo "${mss_values[$i]} ${fnum_values[$i]}"; done)
+DataRss=$(for i in "${!mss_values[@]}"; do echo "${mss_values[$i]} ${fnum_values[$i]}"; done)
+DataRssDiffs=$(for i in "${!mss_diff_values[@]}"; do echo "${mss_diff_values[$i]} ${fnum_values[$i+1]}"; done)
 
 declare -i ytics_step=0
 declare -i xtics_step=0
@@ -437,7 +460,7 @@ set xrange [0:${mss_max_x}]
 set yrange [0:$((${FNUM_MAX} + 1))]
 set title "command: ${s4_command} ${FILE_NAME}…\n\nMax Resident Set Size (KB) per additional file of size ${FILE_SZ_KB} KB"
 \$Data << EOD
-$DataMss
+$DataRss
 EOD
 plot \$Data with linespoints
 EOF
@@ -455,11 +478,17 @@ function gnuplot_svg_title_replace() {
     sed -i -e "s|$(regex_escape "<title>Gnuplot</title>")|$(regex_escape "<title>$(xml_escape "${@}")</title>")|" -- "${file}"
 }
 
+function xml_format() {
+    local file="${1}"
+    xmllint --format "${file}" --output "${tmpD}/${file}.tmp"
+    mv -f "${tmpD}/${file}.tmp" "${file}"
+}
+
 #
-# create SVG for file count vs max RSS
+# gnuplot create SVG for file count vs max RSS
 #
 
-OUT_SVG_RSS="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.svg"
+declare -r OUT_SVG_RSS="${DIROUT}/compare-mem-rss__${FILE_NAME}__${FNUM_MAX}.svg"
 
 echo >&2
 
@@ -479,43 +508,63 @@ echo >&2
 
 declare -i SVG_WIDTH=1280
 declare -i SVG_HEIGHT=1080
-declare -i FONT_SIZE_TEXT=12
-declare -i FONT_SIZE_LABELS=8
-if [[ $FNUM_MAX -lt 20 ]]; then
+if [[ $FNUM_MAX -le 20 ]]; then
     SVG_WIDTH=768
     SVG_HEIGHT=480
-    FONT_SIZE_LABELS=10
+elif [[ $FNUM_MAX -ge 201 ]]; then
+    SVG_WIDTH=1920
 fi
 
-FILE_SZ_MESG="File Size ${FILE_SZ_KB} KB (${FILE_SZ} bytes)"
-if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
-    FILE_SZ_MESG+=", Uncompressed Size ${FILE_SZ_UNCOMPRESSED_KB} KB (${FILE_SZ_UNCOMPRESSED} bytes)"
+declare -i FONT_SIZE_OUTER=12
+declare -i FONT_SIZE_TICS=8
+declare -i FONT_SIZE_LABELS=8
+if [[ $FNUM_MAX -ge 50 ]]; then
+    FONT_SIZE_TICS=8
+    FONT_SIZE_LABELS=6
 fi
+
+FONT_NAME_OUTER="Arial"
+FONT_NAME_TICS="Monospace"
+FONT_NAME_POINTS="Monospace"
+
+FILE_SZ_MESG="File Size: ${FILE_SZ_KB} KB (${FILE_SZ} bytes)"
+if [[ ${FILE_SZ_UNCOMPRESSED} -gt 0 ]]; then
+    FILE_SZ_MESG+=", Uncompressed Size: ${FILE_SZ_UNCOMPRESSED_KB} KB (${FILE_SZ_UNCOMPRESSED} bytes)"
+fi
+
+COLOR_1="dark-magenta"
+COLOR_2="blue"
 
 GNUPLOT_SVG=$(cat <<EOF
-set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname 'Arial,${FONT_SIZE_LABELS}'
+set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}"
 set color
 set key off
-set output '${OUT_SVG_RSS}'
-set xlabel "Max Resident Set Size (KB)" font 'Arial,${FONT_SIZE_TEXT}' noenhanced
-set ylabel "File count (${FILE_NAME})\n" font 'Arial,${FONT_SIZE_TEXT}' noenhanced
-set xtics ${xtics_step} font 'Arial,${FONT_SIZE_TEXT}'
-set ytics ${ytics_step} font 'Arial,${FONT_SIZE_TEXT}'
+set output "${OUT_SVG_RSS}"
+set title "Command: ${s4_command} ${FILE_NAME}…\n\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Allocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}, MSRV: ${Msrv}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\nMax max RSS difference per 1 File: ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS difference per 1 File: ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS difference per 1 File: ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
+    font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
+    noenhanced
+set xlabel left "Max Resident Set Size (KB)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
+set ylabel "File count (${FILE_NAME})\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set xtics ${xtics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
+set ytics ${ytics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set grid xtics
 set grid ytics
 set xrange [0:${mss_max_x}]
 set yrange [0:$((${FNUM_MAX} + 1))]
-set title "command: ${s4_command} ${FILE_NAME}…\n\nBuild profile ${BUILD_PROFILE}, Version ${Version}, Allocator ${Allocator}, Platform ${Platform}, Optimization Level ${OptimizationLevel}, MSRV ${Msrv}\nRun on ${OsName} using a ${CpuModel}\n\nFile ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point ${HYPERFINE_RUNS}\nMax max RSS difference per 1 File ${mss_diff_max} KB (×${mss_diff_multiple_max} file size)\nAvg max RSS difference per 1 File ${mss_diff_avg} KB (×${mss_diff_multiple_avg} file size)\nMin max RSS difference per 1 File ${mss_diff_min} KB (×${mss_diff_multiple_min} file size)\n\n" \
-    font 'Arial,${FONT_SIZE_TEXT}' \
-    noenhanced
-\$Data << EOD
-$DataMss
+\$DataRss << EOD
+$DataRss
 EOD
-plot \$Data with linespoints, \
-     \$Data every 1 using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,-0.5 title "File Count, Max RSS (KB)"
-     # TODO: add labels to each point see https://stackoverflow.com/a/63194918/471376
+\$DataRssDiffs << EOD
+$DataRssDiffs
+EOD
+plot \$DataRss with lines linecolor rgbcolor "${COLOR_1}" title "Max RSS (KB)", \
+     \$DataRss every 1 using 1:2:(sprintf("%d", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 5,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_LABELS}" title "Max RSS (KB)", \
+     \$DataRssDiffs with lines linecolor rgbcolor "${COLOR_2}" title "Max RSS Diff (KB) from processing N files to processing N+1 files", \
+     \$DataRssDiffs every 1 using 1:2:(sprintf("%d (diff)", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 5,-0.5 font "${FONT_NAME_POINTS},${FONT_SIZE_LABELS}" title "Max RSS Diff (KB) from processing N files to processing N+1 files"
 EOF
 )
+# TODO: add labels to each point see https://stackoverflow.com/a/63194918/471376 ?
+#       cannot get this to work after many varied attempts
 
 (
     set -x
@@ -523,18 +572,21 @@ EOF
 )
 
 gnuplot_svg_title_replace "${OUT_SVG_RSS}" "Max RSS (KB) per N file for '${FILE_NAME}'"
+xml_format "${OUT_SVG_RSS}"
 
 echo >&2
 echo "SVG output written to: ${OUT_SVG_RSS}" >&2
 
 #
-# create SVG for file count vs time
+# gnuplot create SVG for file count vs time
 #
 
-OUT_SVG_TIME="${DIROUT}/compare-time__${FILE_NAME}__${FNUM_MAX}.svg"
+declare -r OUT_SVG_TIME="${DIROUT}/compare-time__${FILE_NAME}__${FNUM_MAX}.svg"
 
 DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${fnum_values[$i]}"; done)
-time_max_x=0
+DataTimeDiffs=$(for i in "${!time_diff_values[@]}"; do echo "${time_diff_values[$i]} ${fnum_values[$i+1]}"; done)
+
+declare -i time_max_x=0
 time_max_x=$(max "${time_values[@]}")
 time_max_x=$((time_max_x + 1))
 
@@ -548,34 +600,32 @@ else
     xtics_step=200000
 fi
 
-declare -i FONT_SIZE_TEXT=12
-declare -i FONT_SIZE_LABELS=8
-if [[ $FNUM_MAX -ge 120 ]]; then
-    FONT_SIZE_LABELS=6
-fi
-
 GNUPLOT_SVG=$(cat <<EOF
-set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname 'Arial,${FONT_SIZE_LABELS}'
+set terminal svg size ${SVG_WIDTH}, ${SVG_HEIGHT} fname "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}"
 set color
 set key off
-set output '${OUT_SVG_TIME}'
-set xlabel "Time (ms) mean" font 'Arial,${FONT_SIZE_TEXT}' noenhanced
-set ylabel "File count (${FILE_NAME})\n" font 'Arial,${FONT_SIZE_TEXT}' noenhanced
-set xtics ${xtics_step} font 'Arial,${FONT_SIZE_TEXT}'
-set ytics ${ytics_step} font 'Arial,${FONT_SIZE_TEXT}'
+set title "Command: ${s4_command} ${FILE_NAME}…\nBuild profile: ${BUILD_PROFILE}, Version: ${Version}, Allocator: ${Allocator}, Platform: ${Platform}, Optimization Level: ${OptimizationLevel}, MSRV: ${Msrv}\nRun on: ${OsName}, CPU: ${CpuModel}\n\nFile: ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point: ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
+    font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" \
+    noenhanced
+set output "${OUT_SVG_TIME}"
+set xlabel "Time (ms)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
+set ylabel "File count (${FILE_NAME})\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set xtics ${xtics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
+set ytics ${ytics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set grid xtics
 set grid ytics
 set xrange [0:${time_max_x}]
 set yrange [0:$((${FNUM_MAX} + 1))]
-set title "command: ${s4_command} ${FILE_NAME}…\nBuild profile ${BUILD_PROFILE}, Version ${Version}, Allocator ${Allocator}, Platform ${Platform}, Optimization Level ${OptimizationLevel}, MSRV ${Msrv}\nRun on ${OsName} using a ${CpuModel}\n\nFile ${FILE}\n${FILE_SZ_MESG}\nHyperfine runs per data point ${HYPERFINE_RUNS}\n\nTime Difference per 1 File Max ${time_diff_max} ms\nTime Difference per 1 File Avg ${time_diff_avg} ms\nTime Difference per 1 File Min ${time_diff_min} ms" \
-    font 'Arial,${FONT_SIZE_TEXT}' \
-    noenhanced
-\$Data << EOD
+\$DataTime << EOD
 $DataTime
 EOD
-plot \$Data with linespoints, \
-     \$Data using 1:2:(sprintf("%d", \$1)) with labels point pt 7 offset char 3,-1 title "File Count, Time (ms) mean"
-     # TODO: add labels to each point see https://stackoverflow.com/a/63194918/471376
+\$DataTimeDiffs << EOD
+$DataTimeDiffs
+EOD
+plot \$DataTime with lines linecolor rgbcolor "${COLOR_1}" title "Time (ms) mean among ${HYPERFINE_RUNS} runs", \
+     \$DataTime using 1:2:(sprintf("%d ms", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-1 font "${FONT_NAME_POINTS},${FONT_SIZE_LABELS}" title "File Count, Time (ms) mean", \
+     \$DataTimeDiffs with lines linecolor rgbcolor "${COLOR_2}" title "Time (ms) Diff from processing N files to processing N+1 files", \
+     \$DataTimeDiffs using 1:2:(sprintf("%d ms (diff)", \$1)) with labels point pointtype 7 pointsize 0.5 offset char 3,-1 font "${FONT_NAME_POINTS},${FONT_SIZE_LABELS}" title "File Count, Time (ms) Diff from processing N files to processing N+1 files"
 EOF
 )
 
@@ -585,6 +635,7 @@ EOF
 )
 
 gnuplot_svg_title_replace "${OUT_SVG_TIME}" "Time (ms) mean per N file for '${FILE_NAME}'"
+xml_format "${OUT_SVG_TIME}"
 
 echo >&2
 echo "SVG output written to: ${OUT_SVG_TIME}" >&2
