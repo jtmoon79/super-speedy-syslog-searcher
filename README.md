@@ -313,6 +313,18 @@ Print the log messages on for the 5 minute period ending 1 minute ago
 s4 /var/log -a=@-5m -b=-1m
 ```
 
+Print the log messages after 12:05 today and before 12:15 today
+
+```lang-text
+s4 /var/log -a 12:05 -b=@+10m
+```
+
+Print the log messages on the day of January 1 this year
+
+```lang-text
+s4 /var/log -a 01-01 -b=@+1d
+```
+
 Print the record-keeping log messages from up to a day ago
 (with the help of `find`)
 
@@ -519,12 +531,21 @@ DateTime Filters may be strftime specifier patterns:
     "%Y%m%d"
     "%Y-%m-%d"
     "%Y/%m/%d"
+    "%m-%d"
     "%H:%M:%S"
     "%H:%M"
     "+%s"
-Each trailing * is an optional trailing 3-digit fractional sub-seconds,
-or 6-digit fractional sub-seconds, and/or timezone.
-
+Each trailing * is an optional trailing 3-digit fractional sub-seconds (milliseconds, ".%3f"),
+or 6-digit fractional sub-seconds (microseconds, ".%6f"),
+and/or timezone ("%z", "%:z", "%::z", or "%Z").
+Patterns "%Y" is a 4-digit year, "%m" is a 2-digit month, "%d" is a 2-digit day of month,
+"%H" is a 2-digit hour, "%M" is a 2-digit minute, "%S" is a 2-digit second,
+".%3f" is a 3-digit fractional sub-second (milliseconds),
+".%6f" is a 6-digit fractional sub-second (microseconds),
+"%z" is a timezone offset in format "+0900" or "-0900",
+"%:z" is a timezone offset in format "+09:00" or "-09:00",
+"%::z" is a timezone offset in format "+09:00:00" or "-09:00:00",
+"%Z" is a named timezone, e.g. "UTC", "JST", etc.
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is January 1, 2000 at 00:00, GMT.
 

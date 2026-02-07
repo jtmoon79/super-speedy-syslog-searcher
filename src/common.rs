@@ -200,6 +200,8 @@ macro_rules! debug_assert_nones {
 pub use debug_assert_nones;
 
 pub const FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+#[allow(non_upper_case_globals)]
+pub const FIXEDOFFSETp0900: FixedOffset = FixedOffset::east_opt(9 * 3600).unwrap();
 
 // --------------------------------------------------
 // custom Results enums for various *Reader functions

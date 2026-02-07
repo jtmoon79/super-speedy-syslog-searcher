@@ -149,6 +149,11 @@ use ::s4lib::common::{
     SUBPATH_SEP,
     SUBPATH_SEP_DISPLAY_STR,
     summary_stats_enable,
+    FIXEDOFFSET0,
+};
+#[cfg(test)]
+use ::s4lib::common::{
+    FIXEDOFFSETp0900,
 };
 use ::s4lib::data::common::LogMessage;
 use ::s4lib::data::datetime::{
@@ -287,6 +292,14 @@ const PATHS_ON_STDIN: &str = "-";
 /// general error exit value
 const EXIT_ERR: i32 = 1;
 
+/// shorter name
+#[cfg(test)]
+const FO0: FixedOffset = FIXEDOFFSET0;
+/// shorter name
+#[cfg(test)]
+#[allow(non_upper_case_globals)]
+const FOp0900: FixedOffset = FIXEDOFFSETp0900;
+
 thread_local! {
     /// for user-passed strings of a duration that will be offset from the
     /// current datetime.
@@ -312,12 +325,32 @@ thread_local! {
 
         LOCAL_NOW_OFFSET.with(|local_now_offset| local_now_offset.to_string())
     };
-    pub static FIXEDOFFSET0: FixedOffset = {
-        defo!("thread_local! FIXEDOFFSET0::new()");
+    static UTC_NOW_YEAR: i32 = {
+        defo!("thread_local! UTC_NOW_YEAR::new()");
 
-        FixedOffset::east_opt(0).unwrap()
-    }
+        UTC_NOW.with(|now| now.year())
+    };
+    static UTC_NOW_MONTH: u32 = {
+        defo!("thread_local! UTC_NOW_MONTH::new()");
+
+        UTC_NOW.with(|now| now.month())
+    };
+    static UTC_NOW_DAY: u32 = {
+        defo!("thread_local! UTC_NOW_DAY::new()");
+
+        UTC_NOW.with(|now| now.day())
+    };
 }
+
+#[cfg(test)]
+/// signifier to set to current year
+const T_NOW_YEAR: i32 = i32::MAX;
+#[cfg(test)]
+/// signifier to set to current month
+const T_NOW_MONTH: u32 = u32::MAX;
+#[cfg(test)]
+/// signifier to set to current day
+const T_NOW_DAY: u32 = u32::MAX;
 
 /// CLI enum that maps to [`termcolor::ColorChoice`].
 ///
@@ -338,17 +371,89 @@ enum CLI_Color_Choice {
     never,
 }
 
-/// Subset of [`DateTimeParseInstr`] for calls to
-/// function [`datetime_parse_from_str`].
-///
-/// (DateTimePattern_str, has_year, has_timezone, has_Z, has_time, has_time_sec, has_date)
+// TODO: [2026/02] create nutypes for year, month, day, etc.
+//       define them in s4lib::data::datetime and use them wherever possible.
+
+#[cfg(test)]
+type zymdhmsf_ = (
+    FixedOffset,
+    i32, // year
+    u32, // month
+    u32, // day
+    u32, // hour
+    u32, // minute
+    u32, // second
+    u32, // fractional seconds in microseconds
+);
+
+#[cfg(test)]
+const fn zymdhms(
+    fixedoffset: FixedOffset,
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    min: u32,
+    sec: u32,
+) -> zymdhmsf_ {
+    (fixedoffset, year, month, day, hour, min, sec, 0)
+}
+
+#[cfg(test)]
+const fn zymdhmsf3(
+    fixedoffset: FixedOffset,
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    min: u32,
+    sec: u32,
+    frac_milli: u32,
+) -> zymdhmsf_ {
+    (fixedoffset, year, month, day, hour, min, sec, frac_milli * 1_000)
+}
+
+#[cfg(test)]
+const fn zymdhmsf6(
+    fixedoffset: FixedOffset,
+    year: i32,
+    month: u32,
+    day: u32,
+    hour: u32,
+    min: u32,
+    sec: u32,
+    frac_micro: u32,
+) -> zymdhmsf_ {
+    (fixedoffset, year, month, day, hour, min, sec, frac_micro)
+}
+
+/// Subset of [`DateTimeParseInstr`] for calls to function [`datetime_parse_from_str`].
 ///
 /// [`DateTimeParseInstr`]: s4lib::data::datetime::DateTimeParseInstr
 /// [`datetime_parse_from_str`]: s4lib::data::datetime#fn.datetime_parse_from_str
-#[allow(non_camel_case_types)]
-type CLI_DT_Filter_Pattern<'b> = (&'b DateTimePattern_str, bool, bool, bool, bool, bool, bool);
+#[derive(Hash)]
+pub struct CLI_DT_Filter_Pattern<'a> {
+    /// strftime pattern string.
+    pub pattern: &'a DateTimePattern_str,
+    #[allow(non_snake_case)]
+    pub has_named_tz: bool,
+    pub add_tz: bool,
+    pub add_date_y: bool,
+    pub add_date_m: bool,
+    pub add_date_d: bool,
+    pub add_time_h: bool,
+    pub add_time_m: bool,
+    pub add_time_s: bool,
+    /// Hardcoded self-test cases.
+    #[cfg(test)]
+    pub _test_cases: &'a [(&'a str, zymdhmsf_)],
+    /// Source code line number of declaration.
+    /// Only to aid humans reviewing failing tests.
+    #[cfg(test)]
+    pub _line_num: u32,
+}
 
-const CLI_FILTER_PATTERNS_COUNT: usize = 78;
+const CLI_FILTER_PATTERNS_COUNT: usize = 80;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
 // XXX: this is a an inelegant brute-force approach to matching potential
@@ -358,112 +463,1746 @@ const CLI_FILTER_PATTERNS_COUNT: usize = 78;
 const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
     // XXX: use of `%Z` must be at the end of the `DateTimePattern_str` value
     //      as this is an assumption of the `process_dt` function.
+    // TODO: validate the prior comment in a test.
+
     // YYYYmmddTHH:MM:SS*
-    ("%Y%m%dT%H%M%S", true, false, false, true, true, true),
-    ("%Y%m%dT%H%M%S.%3f", true, false, false, true, true, true),
-    ("%Y%m%dT%H%M%S.%6f", true, false, false, true, true, true),
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%3f",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%6f",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123456",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %z
-    ("%Y%m%dT%H%M%S%z", true, true, false, true, true, true),
-    ("%Y%m%dT%H%M%S.%3f%z", true, true, false, true, true, true),
-    ("%Y%m%dT%H%M%S.%6f%z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S%z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%3f%z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%6f%z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %:z
-    ("%Y%m%dT%H%M%S%:z", true, true, false, true, true, true),
-    ("%Y%m%dT%H%M%S.%3f%:z", true, true, false, true, true, true),
-    ("%Y%m%dT%H%M%S.%6f%:z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S%:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405+09:00",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%3f%:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123+09:00",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%6f%:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123456+09:00",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %#z
-    ("%Y%m%dT%H%M%S%#z", true, true, false, true, true, true),
-    ("%Y%m%dT%H%M%S.%3f%#z", true, true, false, true, true, true),
-    ("%Y%m%dT%H%M%S.%6f%#z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S%#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%3f%#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%6f%#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %Z
-    ("%Y%m%dT%H%M%S%Z", true, true, true, true, true, true),
-    ("%Y%m%dT%H%M%S.%3f%Z", true, true, true, true, true, true),
-    ("%Y%m%dT%H%M%S.%6f%Z", true, true, true, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S%Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405UTC",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%3f%Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123UTC",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%dT%H%M%S.%6f%Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102T030405.123456UTC",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // YYYY-mm-dd HH:MM:SS*
-    ("%Y-%m-%d %H:%M:%S", true, false, false, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%3f", true, false, false, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%6f", true, false, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%3f",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%6f",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123456",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %z
-    ("%Y-%m-%d %H:%M:%S %z", true, true, false, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%3f %z", true, true, false, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%6f %z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%3f %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%6f %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %:z
-    ("%Y-%m-%d %H:%M:%S %:z", true, true, false, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%3f %:z", true, true, false, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%6f %:z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05 +09:00",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%3f %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123+09:00",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%6f %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123456+09:00",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %#z
-    ("%Y-%m-%d %H:%M:%S %#z", true, true, false, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%3f %#z", true, true, false, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%6f %#z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%3f %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%6f %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %Z
-    ("%Y-%m-%d %H:%M:%S %Z", true, true, true, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%3f %Z", true, true, true, true, true, true),
-    ("%Y-%m-%d %H:%M:%S.%6f %Z", true, true, true, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05 UTC",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%3f %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123 UTC",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d %H:%M:%S.%6f %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02 03:04:05.123456 UTC",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // YYYY-mm-ddTHH:MM:SS*
-    ("%Y-%m-%dT%H:%M:%S", true, false, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f", true, false, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f", true, false, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %z
-    ("%Y-%m-%dT%H:%M:%S%z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S %z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f %z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f %z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f%z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S%z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05 +0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123 +0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456 +0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f%z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f%z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %:z
-    ("%Y-%m-%dT%H:%M:%S%:z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%:z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f%:z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S %:z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f %:z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f %:z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S%:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05+09:00",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f%:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123+09:00",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f%:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456+09:00",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05 +09:00",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123 +09:00",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456 +09:00",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %#z
-    ("%Y-%m-%dT%H:%M:%S%#z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%#z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f%#z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S %#z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f %#z", true, true, false, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f %#z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S%#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f%#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f%#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %Z
-    ("%Y-%m-%dT%H:%M:%S%Z", true, true, true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f%Z", true, true, true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f%Z", true, true, true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S %Z", true, true, true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%3f %Z", true, true, true, true, true, true),
-    ("%Y-%m-%dT%H:%M:%S.%6f %Z", true, true, true, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S%Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05UTC",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f%Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123UTC",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f%Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456UTC",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05 UTC",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%3f %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123 UTC",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%dT%H:%M:%S.%6f %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02T03:04:05.123456 UTC",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // YYYY/mm/dd HH:MM:SS*
-    ("%Y/%m/%d %H:%M:%S", true, false, false, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%3f", true, false, false, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%6f", true, false, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%3f",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%6f",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123456",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %z
-    ("%Y/%m/%d %H:%M:%S %z", true, true, false, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%3f %z", true, true, false, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%6f %z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%3f %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%6f %z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %:z
-    ("%Y/%m/%d %H:%M:%S %:z", true, true, false, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%3f %:z", true, true, false, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%6f %:z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05+09:00",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%3f %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123+09:00",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%6f %:z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123456+09:00",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %#z
-    ("%Y/%m/%d %H:%M:%S %#z", true, true, false, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%3f %#z", true, true, false, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%6f %#z", true, true, false, true, true, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05+0900",
+                zymdhms(FOp0900, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%3f %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123+0900",
+                zymdhmsf3(FOp0900, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%6f %#z",
+        has_named_tz: false,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123456+0900",
+                zymdhmsf6(FOp0900, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    //
     // %Z
-    ("%Y/%m/%d %H:%M:%S %Z", true, true, true, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%3f %Z", true, true, true, true, true, true),
-    ("%Y/%m/%d %H:%M:%S.%6f %Z", true, true, true, true, true, true),
-    // TODO: add partial date+time patterns
-    //       %m/%d %H:%M, %m/%d %H:%M:%S, %m-%d %H:%M, %m-%d %H:%M:%S, etc.
-    // YYYYmmdd
-    ("%Y%m%d", true, false, false, false, false, true),
-    // YYYY-mm-dd
-    ("%Y-%m-%d", true, false, false, false, false, true),
-    // YYYY/mm/dd
-    ("%Y/%m/%d", true, false, false, false, false, true),
-    // HH:mm:ss
-    ("%H:%M:%S", true, false, false, true, true, false),
-    // HH:mm
-    ("%H:%M", true, false, false, true, false, false),
-    // s
-    ("+%s", false, false, false, true, false, true),
+    //
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05UTC",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%3f %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123 UTC",
+                zymdhmsf3(FO0, 2000, 1, 2, 3, 4, 5, 123),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d %H:%M:%S.%6f %Z",
+        has_named_tz: true,
+        add_tz: false,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02 03:04:05.123456 UTC",
+                zymdhmsf6(FO0, 2000, 1, 2, 3, 4, 5, 123_456),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y%m%d",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: true,
+        add_time_m: true,
+        add_time_s: true,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "20000102",
+                zymdhms(FO0, 2000, 1, 2, 0, 0, 0),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y-%m-%d",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: true,
+        add_time_m: true,
+        add_time_s: true,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000-01-02",
+                zymdhms(FO0, 2000, 1, 2, 0, 0, 0),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%Y/%m/%d",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: true,
+        add_time_m: true,
+        add_time_s: true,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "2000/01/02",
+                zymdhms(FO0, 2000, 1, 2, 0, 0, 0),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%m-%d",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: true,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: true,
+        add_time_m: true,
+        add_time_s: true,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "01-02",
+                zymdhms(FO0, T_NOW_YEAR, 1, 2, 0, 0, 0),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%m/%d",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: true,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: true,
+        add_time_m: true,
+        add_time_s: true,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "01/02",
+                zymdhms(FO0, T_NOW_YEAR, 1, 2, 0, 0, 0),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%H:%M:%S",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: true,
+        add_date_m: true,
+        add_date_d: true,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "23:55:59",
+                zymdhms(FO0, T_NOW_YEAR, T_NOW_MONTH, T_NOW_DAY, 23, 55, 59),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "%H:%M",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: true,
+        add_date_m: true,
+        add_date_d: true,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: true,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "23:55",
+                zymdhms(FO0, T_NOW_YEAR, T_NOW_MONTH, T_NOW_DAY, 23, 55, 0),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
+
+    CLI_DT_Filter_Pattern {
+        pattern: "+%s",
+        has_named_tz: false,
+        add_tz: true,
+        add_date_y: false,
+        add_date_m: false,
+        add_date_d: false,
+        add_time_h: false,
+        add_time_m: false,
+        add_time_s: false,
+        #[cfg(test)]
+        _test_cases: &[
+            (
+                "+946782245",
+                zymdhms(FO0, 2000, 1, 2, 3, 4, 5),
+            ),
+        ],
+        #[cfg(test)]
+        _line_num: line!(),
+    },
 ];
 
 const CGN_DUR_OFFSET_TYPE: &str = "offset_type";
@@ -518,17 +2257,6 @@ enum DUR_OFFSET_ADDSUB {
     Sub = -1,
 }
 
-/// CLI time to append in `fn process_dt` when `has_time` is `false`.
-const CLI_DT_FILTER_APPEND_TIME_VALUE: &str = " T000000";
-
-/// CLI strftime format pattern to append in function `process_dt`
-/// when `has_time` is `false`.
-const CLI_DT_FILTER_APPEND_TIME_PATTERN: &str = " T%H%M%S";
-
-/// CLI strftime format pattern to append in function `process_dt`
-/// when `has_date` is `false`.
-const CLI_DT_FILTER_APPEND_DATE_PATTERN: &str = "%Y%m%dT";
-
 /// default separator for prepended strings
 const CLI_PREPEND_SEP: &str = ":";
 
@@ -558,39 +2286,53 @@ extensions will be skipped.
 
 DateTime Filters may be strftime specifier patterns:
     \"",
-    CLI_FILTER_PATTERNS[0].0,
+    CLI_FILTER_PATTERNS[0].pattern,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[15].0,
+    CLI_FILTER_PATTERNS[15].pattern,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[30].0,
+    CLI_FILTER_PATTERNS[30].pattern,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[57].0,
+    CLI_FILTER_PATTERNS[57].pattern,
     "*\"
     \"",
-    CLI_FILTER_PATTERNS[72].0,
+    CLI_FILTER_PATTERNS[72].pattern,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[73].0,
+    CLI_FILTER_PATTERNS[73].pattern,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[74].0,
+    CLI_FILTER_PATTERNS[74].pattern,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[75].0,
+    CLI_FILTER_PATTERNS[75].pattern,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[76].0,
+    CLI_FILTER_PATTERNS[76].pattern,
     "\"
     \"",
-    CLI_FILTER_PATTERNS[77].0,
+    CLI_FILTER_PATTERNS[77].pattern,
+    "\"
+    \"",
+    CLI_FILTER_PATTERNS[78].pattern,
+    "\"
+    \"",
+    CLI_FILTER_PATTERNS[79].pattern,
     "\"",
     r#"
-Each trailing * is an optional trailing 3-digit fractional sub-seconds,
-or 6-digit fractional sub-seconds, and/or timezone.
-
+Each trailing * is an optional trailing 3-digit fractional sub-seconds (milliseconds, ".%3f"),
+or 6-digit fractional sub-seconds (microseconds, ".%6f"),
+and/or timezone ("%z", "%:z", "%::z", or "%Z").
+Patterns "%Y" is a 4-digit year, "%m" is a 2-digit month, "%d" is a 2-digit day of month,
+"%H" is a 2-digit hour, "%M" is a 2-digit minute, "%S" is a 2-digit second,
+".%3f" is a 3-digit fractional sub-second (milliseconds),
+".%6f" is a 6-digit fractional sub-second (microseconds),
+"%z" is a timezone offset in format "+0900" or "-0900",
+"%:z" is a timezone offset in format "+09:00" or "-09:00",
+"%::z" is a timezone offset in format "+09:00:00" or "-09:00:00",
+"%Z" is a named timezone, e.g. "UTC", "JST", etc.
 Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is January 1, 2000 at 00:00, GMT.
 
@@ -1362,85 +3104,115 @@ fn process_dt(
             return None;
         }
     };
+    let local_now = LOCAL_NOW.with(|ln| *ln);
     let dto: DateTimeLOpt;
     // try to match user-passed string to chrono strftime format strings
     #[allow(non_snake_case)]
-    for (
-        pattern_,
-        _has_year,
-        has_tz,
-        has_tzZ,
-        has_time,
-        _has_time_sec,
-        has_date,
-    ) in CLI_FILTER_PATTERNS.iter() {
+    for dtf_pattern in CLI_FILTER_PATTERNS.iter() {
+        let pattern_ = dtf_pattern.pattern;
+        let has_named_tz = dtf_pattern.has_named_tz;
+        let add_tz = dtf_pattern.add_tz;
+        let add_date_y = dtf_pattern.add_date_y;
+        let add_date_m = dtf_pattern.add_date_m;
+        let add_date_d = dtf_pattern.add_date_d;
+        let add_time_h = dtf_pattern.add_time_h;
+        let add_time_m = dtf_pattern.add_time_m;
+        let add_time_s = dtf_pattern.add_time_s;
         defo!(
-            "(pattern {:?}, has_year {:?}, has_tz {:?}, has_tzZ {:?}, has_time {:?}, has_time_sec {:?}, has_date {:?})",
+            "(pattern {:?}, add_date_y {:?}, add_date_m {:?}, add_date_d {:?}, add_time_h {:?}, add_time_m {:?}, add_time_s {:?}, has_named_tz {:?}, add_tz {:?})",
             pattern_,
-            _has_year,
-            has_tz,
-            has_tzZ,
-            has_time,
-            _has_time_sec,
-            has_date
+            add_date_y,
+            add_date_m,
+            add_date_d,
+            add_time_h,
+            add_time_m,
+            add_time_s,
+            has_named_tz,
+            add_tz
         );
-        let mut pattern: String = String::from(*pattern_);
+        let mut pattern: String = String::from(pattern_);
         let mut dts_: String = dts.clone();
-        // if !has_tzZ then modify trailing string timezone (e.g. "PDT") to
-        // numeric timezone (e.g. "-0700")
-        // modify pattern `%Z` to `%z`
+        // if trailing string timezone (e.g. "PDT") then convert
+        // to numeric timezone (e.g. "-0700"),
+        // i.e. modify pattern `%Z` to `%z`
         // XXX: presumes %Z and %Z value is at end of `pattern_`
-        if *has_tzZ {
-            defo!("has_tzZ {:?}", dts_);
-            let mut val_Z: String = String::with_capacity(5);
-            while dts_
-                .chars()
-                .next_back()
-                .unwrap_or('\0')
-                .is_alphabetic()
+        if has_named_tz {
+            defo!("has_named_tz: input: {:?}", dts_);
+            let mut val_Z: String = String::with_capacity(6);
+            for c in dts_.chars().rev().take_while(|x| x.is_alphabetic())
             {
-                match dts_.pop() {
-                    Some(c) => val_Z.insert(0, c),
-                    None => continue,
-                }
+                val_Z.insert(0, c);
             }
+            defo!("has_named_tz: val_Z: {:?}", val_Z);
+            if val_Z.is_empty() {
+                defo!("has_named_tz: failed to find a trailing alphabetic string for timezone");
+                continue;
+            }
+            // remove the trailing alphabetic timezone substring
+            dts_.truncate(dts_.len() - val_Z.len());
+            defo!("has_named_tz: input: {:?} (truncated alphabetic timezone)", dts_);
             if MAP_TZZ_TO_TZz.contains_key(val_Z.as_str()) {
+                // append the numeric timezone substring
                 dts_.push_str(
                     MAP_TZZ_TO_TZz
                         .get(val_Z.as_str())
                         .unwrap(),
                 );
+                defo!("has_named_tz: input: {:?} (appended numeric timezone)", dts_);
             } else {
-                defo!("has_tzZ WARNING failed to find MAP_TZZ_TO_TZz({:?})", val_Z);
+                defo!("has_named_tz: failed to find MAP_TZZ_TO_TZz({:?})", val_Z);
                 continue;
             }
-            defo!("has_tzZ replaced Z value {:?}", dts_);
-
             pattern = pattern_.replacen("%Z", "%z", 1);
-            defo!(r#"has_tzZ replaced "%Z" with "%z" {:?}"#, pattern);
+            defo!(r#"has_named_tz: pattern: {:?} (replaced "%Z" with "%z")"#, pattern);
         }
-        // if !has_time then modify the value and pattern
-        // e.g. `"20220101"` becomes `"20220101 T000000"`
-        //      `"%Y%d%m"` becomes `"%Y%d%m T%H%M%S"`
-        if !has_time {
-            dts_.push_str(CLI_DT_FILTER_APPEND_TIME_VALUE);
-            pattern.push_str(CLI_DT_FILTER_APPEND_TIME_PATTERN);
-            defo!("appended {:?}, {:?}", CLI_DT_FILTER_APPEND_TIME_VALUE, CLI_DT_FILTER_APPEND_TIME_PATTERN);
+        if !has_named_tz && add_tz {
+            dts_.push_str(&tz_offset.to_string());
+            pattern.push_str(" %z");
+            defo!("add_tz: input: {:?} (appended tz_offset)", dts_);
+            defo!("add_tz: pattern: {:?} (appended \"%z\" to pattern)", pattern);
         }
-        if !has_date {
-            let mut ymd = String::with_capacity(11);
-            LOCAL_NOW.with(|ln| {
-                let y = ln.year();
-                let m = ln.month();
-                let d = ln.day();
-                ymd = format!("{:04}{:02}{:02}T", y, m, d);
-                dts_.insert_str(0, &ymd);
-            });
-            pattern.insert_str(0, CLI_DT_FILTER_APPEND_DATE_PATTERN);
-            defo!("prepended {:?}, {:?}", ymd, CLI_DT_FILTER_APPEND_DATE_PATTERN);
-        }
-        defo!("datetime_parse_from_str({:?}, {:?}, {:?}, {:?})", dts_, pattern, has_tz, tz_offset);
-        if let Some(val) = datetime_parse_from_str(dts_.as_str(), pattern.as_str(), *has_tz, tz_offset) {
+        if add_date_y {
+            dts_.push_str(&format!(" {}", local_now.year()));
+            pattern.push_str(" %Y");
+            defo!("add_date_y: input: {:?} (appended year)", dts_);
+            defo!("add_date_y: pattern: {:?} (appended \"%Y\" to pattern)", pattern);
+        };
+        if add_date_m {
+            dts_.push_str(&format!(" {}", local_now.month()));
+            pattern.push_str(" %m");
+            defo!("add_date_m: input: {:?} (appended month)", dts_);
+            defo!("add_date_m: pattern: {:?} (appended \"%m\" to pattern)", pattern);
+        };
+        if add_date_d {
+            dts_.push_str(&format!(" {}", local_now.day()));
+            pattern.push_str(" %d");
+            defo!("add_date_d: input: {:?} (appended day)", dts_);
+            defo!("add_date_d: pattern: {:?} (appended \"%d\" to pattern)", pattern);
+        };
+        if add_time_h {
+            dts_.push_str(" 0");
+            pattern.push_str(" %H");
+            defo!("add_time_h: input: {:?} (appended hour)", dts_);
+            defo!("add_time_h: pattern: {:?} (appended \"%H\" to pattern)", pattern);
+        };
+        if add_time_m {
+            dts_.push_str(" 0");
+            pattern.push_str(" %M");
+            defo!("add_time_m: input: {:?} (appended minute)", dts_);
+            defo!("add_time_m: pattern: {:?} (appended \"%M\" to pattern)", pattern);
+        };
+        if add_time_s {
+            dts_.push_str(" 0");
+            pattern.push_str(" %S");
+            defo!("add_time_s: input: {:?} (appended second)", dts_);
+            defo!("add_time_s: pattern: {:?} (appended \"%S\" to pattern)", pattern);
+        };
+        let has_tz = has_named_tz || !add_tz;
+        defo!("datetime_parse_from_str({dts_:?}, {pattern:?}, {has_tz:?}, {tz_offset:?})");
+        if let Some(val) = datetime_parse_from_str(
+            dts_.as_str(), pattern.as_str(), has_tz, tz_offset
+        ) {
             dto = Some(val);
             defx!("return {:?}", dto);
             return dto;
@@ -1448,6 +3220,7 @@ fn process_dt(
     } // end for … in CLI_FILTER_PATTERNS
     // could not match specific datetime pattern
     // try relative offset pattern matching, e.g. `"-30m5s"`, `"+2d"`
+    defo!("string_to_rel_offset_datetime({dts:?}, {tz_offset:?}, {dt_other:?}, {now_utc:?})");
     dto = string_to_rel_offset_datetime(dts, tz_offset, dt_other, now_utc);
     defx!("return {:?}", dto);
 
@@ -1732,7 +3505,7 @@ fn cli_process_args() -> (
             }
         }
     } else if args.prepend_utc {
-        cli_opt_prepend_offset = FIXEDOFFSET0.with(|fo0| *fo0);
+        cli_opt_prepend_offset = FIXEDOFFSET0;
         if prepend_dt_format.is_none() {
             prepend_dt_format = Some(String::from(CLI_OPT_PREPEND_FMT));
         }
@@ -1820,17 +3593,14 @@ pub fn main() -> ExitCode {
     }
 
     if python_venv {
-        let exitcode: ExitCode;
-        match venv_create() {
-            Result3E::Ok(_) => exitcode = ExitCode::SUCCESS,
+        let exitcode: ExitCode = match venv_create() {
+            Result3E::Ok(_) => ExitCode::SUCCESS,
             Result3E::Err(err) => {
                 e_err!("{}", err);
-                exitcode = ExitCode::FAILURE;
+                ExitCode::FAILURE
             }
-            Result3E::ErrNoReprint(_err) => {
-                exitcode = ExitCode::FAILURE;
-            }
-        }
+            Result3E::ErrNoReprint(_err) => ExitCode::FAILURE,
+        };
         defx!("exitcode {:?}", exitcode);
 
         return exitcode;
@@ -3634,11 +5404,8 @@ fn processing_loop(
                             {
                                 defo!("B4 map_pathid_file_processing_result.insert({:?}, {:?})",
                                       pathid, file_processing_result);
-                                match map_pathid_file_processing_result.insert(pathid, file_processing_result) {
-                                    Some(_old) => {
-                                        defo!("B4 replaced old FileProcessingResult for {:?}; {:?}", pathid, _old);
-                                    }
-                                    None => {}
+                                if let Some(_old) = map_pathid_file_processing_result.insert(pathid, file_processing_result) {
+                                    defo!("B4 replaced old FileProcessingResult for {:?}; {:?}", pathid, _old);
                                 }
                             }
                             defx!("B4");
@@ -3924,11 +5691,6 @@ fn processing_loop(
             //      and whether the user should be be informed is a lot of tedious work.
             //      Additionally, printing errors about errors is likely going to itself fail
             //      because printing is probably permanently in a bad state.
-
-            // TODO: [2024/03/19] cost-savings: It would be easy to add `if summary` around
-            //       all summary updates within this function. Only update Summary data
-            //       when needed.
-            //       (it's a little more work to do this in the various `*Readers`.)
 
             // this `match` statement is where the actual printing takes place in this
             // main thread or "printing thread"
@@ -4282,23 +6044,32 @@ fn processing_loop(
     ret
 }
 
-// TODO: move this section to a s4_tests.rs file
+// TODO: move this section to a new file `s4_tests.rs`
 #[cfg(test)]
 mod tests {
-    use s4lib::data::datetime::{
+    #[cfg(test)]
+    mod s4 {
+
+    use ::s4lib::data::datetime::{
+        ymdhms,
         ymdhmsl,
         ymdhmsm,
         DateTimeL,
         DateTimePattern_string,
+        FixedOffset,
     };
+    use ::test_case::test_case;
+    use super::super::*;
 
-    use super::*;
+    // XXX: these are defined in tests/common.rs but importing that fails
+    //      unexpectedly
+    const FO0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+    const FO_E1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
 
-    mod s4 {
-        use ::test_case::test_case;
-        use super::*;
-
-    const FIXEDOFFSET0: FixedOffset = FixedOffset::east_opt(0).unwrap();
+    lazy_static! {
+        /// 1970-01-01T01:00:00+01:00
+        pub static ref DT_0_E1: DateTimeL = ymdhms(&FO_E1, 0, 0, 0, 1, 0, 0);
+    }
 
     #[test_case("500", true)]
     #[test_case("0x2", true)]
@@ -4348,9 +6119,9 @@ mod tests {
         }
     }
 
-    #[test_case("+00", FIXEDOFFSET0; "+00 east(0)")]
-    #[test_case("+0000", FIXEDOFFSET0; "+0000 east(0)")]
-    #[test_case("+00:00", FIXEDOFFSET0; "+00:00 east(0)")]
+    #[test_case("+00", FO0; "+00 east(0)")]
+    #[test_case("+0000", FO0; "+0000 east(0)")]
+    #[test_case("+00:00", FO0; "+00:00 east(0)")]
     #[test_case("+00:01", FixedOffset::east_opt(60).unwrap(); "+00:01 east(60)")]
     #[test_case("+01:00", FixedOffset::east_opt(3600).unwrap(); "+01:00 east(3600) A")]
     #[test_case("-01:00", FixedOffset::east_opt(-3600).unwrap(); "-01:00 east(-3600) B")]
@@ -4358,9 +6129,9 @@ mod tests {
     #[test_case("+02:30", FixedOffset::east_opt(9000).unwrap(); "+02:30 east(9000)")]
     #[test_case("+02:35", FixedOffset::east_opt(9300).unwrap(); "+02:30 east(9300)")]
     #[test_case("+23:00", FixedOffset::east_opt(82800).unwrap(); "+23:00 east(82800)")]
-    #[test_case("gmt", FIXEDOFFSET0; "GMT (0)")]
-    #[test_case("UTC", FIXEDOFFSET0; "UTC east(0)")]
-    #[test_case("Z", FIXEDOFFSET0; "Z (0)")]
+    #[test_case("gmt", FO0; "GMT (0)")]
+    #[test_case("UTC", FO0; "UTC east(0)")]
+    #[test_case("Z", FO0; "Z (0)")]
     #[test_case("vlat", FixedOffset::east_opt(36000).unwrap(); "vlat east(36000)")]
     #[test_case("IDLW", FixedOffset::east_opt(-43200).unwrap(); "IDLW east(-43200)")]
     fn test_cli_process_tz_offset(
@@ -4387,129 +6158,211 @@ mod tests {
         assert!(cli_parser_prepend_dt_format(input).is_ok());
     }
 
+    const FO_M0130: &FixedOffset = &FixedOffset::east_opt(-5400).unwrap();
+    const FO_M0100: &FixedOffset = &FixedOffset::east_opt(-3600).unwrap();
+
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05")), FIXEDOFFSET0,
-        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        Some(String::from("2000-01-02T03:04:05")),
+        FO0,
+        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678")), FIXEDOFFSET0,
-        Some(ymdhmsl(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678));
+        Some(String::from("2000-01-02T03:04:05.678")),
+        FO0,
+        Some(ymdhmsl(&FO0, 2000, 1, 2, 3, 4, 5, 678));
         "2000-01-02T03:04:05.678"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000-01-02T03:04:05.678901")),
+        FO0,
+        Some(ymdhmsm(&FO0, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-01")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000-01-02T03:04:05.678901-01")),
+        FO0,
+        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901-01"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-0100")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000-01-02T03:04:05.678901-0100")),
+        FO0,
+        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901-0100"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-01:00")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000-01-02T03:04:05.678901-01:00")),
+        FO0,
+        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901-01:00"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901 -01:00")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000-01-02T03:04:05.678901 -01:00")),
+        FO0,
+        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901 -01:00_"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901 AZOT")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000-01-02T03:04:05.678901 AZOT")),
+        FO0,
+        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02T03:04:05.678901 AZOT"
     )]
     #[test_case(
-        Some(String::from("+946782245")), FIXEDOFFSET0,
-        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        Some(String::from("+946782245")),
+        FO0,
+        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "+946782245"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05 -0100")), FIXEDOFFSET0,
-        Some(FixedOffset::east_opt(-3600).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        Some(String::from("2000-01-02T03:04:05 -0100")),
+        FO0,
+        Some(FO_M0100.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05 -0100"
     )]
     #[test_case(
-        Some(String::from("2000-01-02T03:04:05PDT")), FIXEDOFFSET0,
+        Some(String::from("2000-01-02T03:04:05PDT")),
+        FO0,
         Some(FixedOffset::east_opt(-25200).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05PDT"
     )]
     #[test_case(
         // bad timezone
-        Some(String::from("2000-01-02T03:04:05FOOO")), FIXEDOFFSET0, None;
+        Some(String::from("2000-01-02T03:04:05FOOO")),
+        FO0,
+        None;
         "2000-01-02T03:04:05FOOO"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05")), FIXEDOFFSET0,
-        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
+        Some(String::from("2000/01/02 03:04:05")),
+        FO0,
+        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
         "2000-01-02T03:04:05 (no TZ)"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678")), FIXEDOFFSET0,
-        Some(ymdhmsl(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678));
+        Some(String::from("2000/01/02 03:04:05.678")),
+        FO0,
+        Some(ymdhmsl(&FO0, 2000, 1, 2, 3, 4, 5, 678));
         "2000-01-02 03:04:05.678"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FIXEDOFFSET0, 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000/01/02 03:04:05.678901")),
+        FO0,
+        Some(ymdhmsm(&FO0, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02 03:04:05.678901"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -01")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FixedOffset::east_opt(-3600).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000/01/02 03:04:05.678901 -01")),
+        FO0,
+        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02 03:04:05.678901 -01"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -01:30")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FixedOffset::east_opt(-5400).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000/01/02 03:04:05.678901 -01:30")),
+        FO0,
+        Some(ymdhmsm(&FO_M0130, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02 03:04:05.678901 -01:30"
     )]
     #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -0130")), FIXEDOFFSET0,
-        Some(ymdhmsm(&FixedOffset::east_opt(-5400).unwrap(), 2000, 1, 2, 3, 4, 5, 678901));
+        Some(String::from("2000/01/02 03:04:05.678901 -0130")),
+        FO0,
+        Some(ymdhmsm(&FO_M0130, 2000, 1, 2, 3, 4, 5, 678901));
         "2000-01-02 03:04:05.678901 -0130"
+    )]
+    #[test_case(
+        Some(String::from("2026-01-02")),
+        *FO_M0130,
+        Some(ymdhms(&FO_M0130, 2026, 1, 2, 0, 0, 0));
+        "2026-01-02 YMD only A"
+    )]
+    #[test_case(
+        Some(String::from("2026/01/02")),
+        *FO_M0130,
+        Some(ymdhms(&FO_M0130, 2026, 1, 2, 0, 0, 0));
+        "2026/01/02 YMD only B"
+    )]    
+    #[test_case(
+        Some(String::from("2026-01-02 1")),
+        *FO_M0130,
+        None;
+        "2026-01-02 1 YMD failure"
+    )]
+    #[test_case(
+        Some(String::from("01-02")),
+        *FO_M0130,
+        Some(ymdhms(&FO_M0130, UTC_NOW_YEAR.with(|y| *y), 1, 2, 0, 0, 0));
+        "01-02 MD only"
+    )]
+    #[test_case(
+        Some(String::from("01-02 1")),
+        *FO_M0130,
+        None;
+        "01-02 1 MD failure"
+    )]
+    #[test_case(
+        Some(String::from("23:55")),
+        *FO_M0130,
+        Some(ymdhms(&FO_M0130, UTC_NOW_YEAR.with(|y| *y), UTC_NOW_MONTH.with(|m| *m), UTC_NOW_DAY.with(|d| *d), 23, 55, 0));
+        "23:55 HM only"
+    )]
+    #[test_case(
+        Some(String::from("23:555")),
+        *FO_M0130,
+        None;
+        "23:555 HM failure"
+    )]
+    #[test_case(
+        Some(String::from("23:55+")),
+        *FO_M0130,
+        None;
+        "23:55p HM failure"
+    )]
+    #[test_case(
+        Some(String::from("23:55@")),
+        *FO_M0130,
+        None;
+        "23:55a HM failure"
+    )]
+    #[test_case(
+        Some(String::from("23:55:59")),
+        *FO_M0130,
+        Some(ymdhms(&FO_M0130, UTC_NOW_YEAR.with(|y| *y), UTC_NOW_MONTH.with(|m| *m), UTC_NOW_DAY.with(|d| *d), 23, 55, 59));
+        "23:55:59 HMS only"
     )]
     fn test_process_dt(
         dts: Option<String>,
         tz_offset: FixedOffset,
         expect: DateTimeLOpt,
     ) {
-        eprintln!(
-            "test_process_dt: process_dt({:?}, {:?}, &None, UTC_NOW: {:?})",
-            dts, tz_offset, UTC_NOW.with(|utc_now| *utc_now),
+        defo!("test_process_dt({:?}, {:?})", dts, tz_offset);
+        let utc_now = UTC_NOW.with(|utc_now| *utc_now);
+        let dt = process_dt(&dts, &tz_offset, &None, &utc_now);
+        assert_eq!(
+            dt, expect,
+            "\nexpect {expect:?}\nactual {dt:?}\nfor process_dt({dts:?}, {tz_offset:?}, &None, UTC_NOW: {utc_now:?})",
         );
-        let dt = process_dt(&dts, &tz_offset, &None, &UTC_NOW.with(|utc_now| *utc_now));
-        eprintln!("test_process_dt: process_dt returned {:?}", dt);
-        assert_eq!(dt, expect);
     }
 
     #[test_case(
         Some(String::from("@+1s")),
-        FIXEDOFFSET0,
-        FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
-        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 6).unwrap());
+        FO0,
+        FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 6).unwrap());
         "2000-01-02T03:04:05 add 1s"
     )]
     #[test_case(
         Some(String::from("@-1s")),
-        FIXEDOFFSET0,
-        FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
-        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 4).unwrap());
+        FO0,
+        FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 4).unwrap());
         "2000-01-02T03:04:04 add 1s"
     )]
     #[test_case(
         Some(String::from("@+4h1d")),
-        FIXEDOFFSET0,
-        FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
-        Some(FIXEDOFFSET0.with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
+        FO0,
+        FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+        Some(FO0.with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
         "2000-01-02T03:04:05 sub 4h1d"
     )]
     #[test_case(
@@ -4525,84 +6378,264 @@ mod tests {
         dt_other: DateTimeL,
         expect: DateTimeLOpt,
     ) {
-        let dt = process_dt(&dts, &tz_offset, &Some(dt_other), &UTC_NOW.with(|utc_now| *utc_now));
+        let dt = process_dt(
+            &dts,
+            &tz_offset,
+            &Some(dt_other),
+            &UTC_NOW.with(|utc_now| *utc_now),
+        );
         assert_eq!(dt, expect);
     }
 
+    /// helper to print patterns at index for humans debugging stuff.
+    /// run with:
+    /// `cargo test tests::s4::test_cli_filter_patterns_print_indexes -- --nocapture`
     #[test]
-    fn test_cli_filter_patterns() {
+    fn test_cli_filter_patterns_print_indexes() {
+        stack_offset_set(None);
+        defn!();
+        for i in 0..CLI_FILTER_PATTERNS.len() {
+            let dtf_pattern = &CLI_FILTER_PATTERNS[i];
+            defo!(
+                "CLI_FILTER_PATTERNS[{i}] pattern: {:?}", dtf_pattern.pattern,
+            );
+        }
+        defx!();
+    }
+
+    #[test_case(0)]
+    #[test_case(1)]
+    #[test_case(2)]
+    #[test_case(3)]
+    #[test_case(4)]
+    #[test_case(5)]
+    #[test_case(6)]
+    #[test_case(7)]
+    #[test_case(8)]
+    #[test_case(9)]
+    #[test_case(10)]
+    #[test_case(11)]
+    #[test_case(12)]
+    #[test_case(13)]
+    #[test_case(14)]
+    #[test_case(15)]
+    #[test_case(16)]
+    #[test_case(17)]
+    #[test_case(18)]
+    #[test_case(19)]
+    #[test_case(20)]
+    #[test_case(21)]
+    #[test_case(22)]
+    #[test_case(23)]
+    #[test_case(24)]
+    #[test_case(25)]
+    #[test_case(26)]
+    #[test_case(27)]
+    #[test_case(28)]
+    #[test_case(29)]
+    #[test_case(30)]
+    #[test_case(31)]
+    #[test_case(32)]
+    #[test_case(33)]
+    #[test_case(34)]
+    #[test_case(35)]
+    #[test_case(36)]
+    #[test_case(37)]
+    #[test_case(38)]
+    #[test_case(39)]
+    #[test_case(40)]
+    #[test_case(41)]
+    #[test_case(42)]
+    #[test_case(43)]
+    #[test_case(44)]
+    #[test_case(45)]
+    #[test_case(46)]
+    #[test_case(47)]
+    #[test_case(48)]
+    #[test_case(49)]
+    #[test_case(50)]
+    #[test_case(51)]
+    #[test_case(52)]
+    #[test_case(53)]
+    #[test_case(54)]
+    #[test_case(55)]
+    #[test_case(56)]
+    #[test_case(57)]
+    #[test_case(58)]
+    #[test_case(59)]
+    #[test_case(60)]
+    #[test_case(61)]
+    #[test_case(62)]
+    #[test_case(63)]
+    #[test_case(64)]
+    #[test_case(65)]
+    #[test_case(66)]
+    #[test_case(67)]
+    #[test_case(68)]
+    #[test_case(69)]
+    #[test_case(70)]
+    #[test_case(71)]
+    #[test_case(72)]
+    #[test_case(73)]
+    #[test_case(74)]
+    #[test_case(75)]
+    #[test_case(76)]
+    #[test_case(77)]
+    #[test_case(78)]
+    #[test_case(79)]
+    // test_case indexes must be up to CLI_FILTER_PATTERNS.len() - 1 (CLI_FILTER_PATTERNS_COUNT - 1)
+    fn test_cli_filter_patterns_test_cases(index: usize) {
+        stack_offset_set(None);
+        defn!("test_cli_filter_patterns_test_cases index: {}", index);
+        let utc_now = UTC_NOW.with(|utc_now| *utc_now);
+        let dtf_pattern = &CLI_FILTER_PATTERNS[index];
+        for (input_, dt_data_expect) in dtf_pattern._test_cases.iter() {
+            defo!(
+                "test_cli_filter_patterns_test_cases index: {}, pattern: {:?}, input: {:?}",
+                index,
+                dtf_pattern.pattern,
+                input_,
+            );
+            let (
+                fo,
+                mut y,
+                mut m,
+                mut d,
+                h,
+                min,
+                s,
+                frac6_micro,
+            ) = *dt_data_expect;
+            if y == T_NOW_YEAR {
+                y = utc_now.year();
+            }
+            if m == T_NOW_MONTH {
+                m = utc_now.month();
+            }
+            if d == T_NOW_DAY {
+                d = utc_now.day();
+            }
+            let dt_expect = ymdhmsm(
+                &fo,
+                y,
+                m,
+                d,
+                h,
+                min,
+                s,
+                frac6_micro as i64,
+            );
+            let result: DateTimeLOpt = process_dt(
+                &Some(String::from(*input_)),
+                &fo,
+                &None,
+                &UTC_NOW.with(|utc_now| *utc_now),
+            );
+            assert_eq!(
+                result,
+                Some(dt_expect),
+                "\npattern {:?}\ninput {:?}\nexpect {:?}\nactual {:?}\nfor pattern on line {}",
+                dtf_pattern.pattern,
+                input_,
+                dt_expect,
+                result,
+                dtf_pattern._line_num,
+            );
+        }
+        defx!("test_cli_filter_patterns_test_cases index: {} passed", index);
+    }
+
+    #[test]
+    fn test_cli_filter_patterns_static() {
         #[allow(non_snake_case)]
-        for (
-            pattern_,
-            _has_year,
-            has_tz,
-            has_tzZ,
-            has_time,
-            has_time_sec,
-            has_date,
-        ) in CLI_FILTER_PATTERNS.iter() {
-            let pattern: DateTimePattern_string = DateTimePattern_string::from(*pattern_);
-
-            let has_tz_actual = pattern.contains("%z")
-                || pattern.contains("%:z")
-                || pattern.contains("%#z")
-                || pattern.contains("%Z");
-            assert!(
-                has_tz == &has_tz_actual,
-                "has_tz: {} != {} actual in pattern {:?}",
-                has_tz, has_tz_actual, pattern
-            );
-
-            let has_tzZ_actual = pattern.contains("%Z");
-            assert!(
-                has_tzZ == &has_tzZ_actual,
-                "has_tzZ: {} != {} actual in {:?}",
-                has_tzZ, has_tzZ_actual, pattern
-            );
-            if has_tzZ_actual {
+        for dtf_pattern in CLI_FILTER_PATTERNS.iter() {
+            let pattern: DateTimePattern_string = DateTimePattern_string::from(dtf_pattern.pattern);
+            // timezone / fixedoffset
+            if dtf_pattern.has_named_tz {
+                assert!(pattern.contains("%Z"));
+                for (input, _) in dtf_pattern._test_cases.iter() {
+                    let mut tz_name_found: bool = false;
+                    for (tz_name, _) in &MAP_TZZ_TO_TZz {
+                        if input.contains(tz_name) {
+                            tz_name_found = true;
+                            break;
+                        }
+                    }
+                    assert!(
+                        tz_name_found,
+                        "input {:?} must contain a named timezone because has_named_tz is true; line {}",
+                        input,
+                        dtf_pattern._line_num,
+                    );
+                }
+            }
+            if dtf_pattern.add_tz {
                 assert!(
-                    pattern.ends_with("%z")
-                    || pattern.ends_with("%:z")
-                    || pattern.ends_with("%#z")
-                    || pattern.ends_with("%Z"),
-                    "has_tz pattern must end with timezone strftime specifier in {:?}",
-                    pattern
+                    !pattern.contains("%z")
+                    && !pattern.contains("%:z")
+                    && !pattern.contains("%::z")
+                    && !pattern.contains("%Z"),
+                    "pattern {pattern:?} should not contain timezone specifiers because add_tz is true; line {}",
+                    dtf_pattern._line_num,
                 );
             }
-
-            assert!(!(*has_tzZ && !has_tz), "has_tzZ && !has_tz");
-
-            let has_time_actual = pattern.contains("%H")
-                && pattern.contains("%M")
-                || pattern.contains("+%s");
-            assert!(
-                has_time == &has_time_actual,
-                "has_time: {} != {} actual in {:?}",
-                has_time,
-                has_time_actual,
-                pattern
-            );
-
-            let has_time_sec_actual = pattern.contains("%S");
-            assert!(
-                has_time_sec == &has_time_sec_actual,
-                "has_time_sec: {} != {} actual in {:?}",
-                has_time_sec,
-                has_time_sec_actual,
-                pattern
-            );
-
-            let has_date_actual = pattern.contains("%Y")
-                && pattern.contains("%m")
-                && pattern.contains("%d")
-                || pattern.contains("+%s");
-            assert!(
-                has_date == &has_date_actual,
-                "has_date: {} != {} actual in {:?}",
-                has_date,
-                has_date_actual,
-                pattern
-            );
+            // year
+            if dtf_pattern.add_date_y {
+                assert!(
+                    !pattern.contains("%Y") && !pattern.contains("%y"),
+                    "pattern {pattern:?} should not contain year specifiers because add_date_y is true; line {}",
+                    dtf_pattern._line_num,
+                );
+            }
+            // month
+            if dtf_pattern.add_date_m {
+                assert!(
+                    !pattern.contains("%m") && !pattern.contains("%b") && !pattern.contains("%B"),
+                    "pattern {pattern:?} should not contain month specifiers because add_date_m is true; line {}",
+                    dtf_pattern._line_num,
+                );
+            }
+            // day
+            if dtf_pattern.add_date_d {
+                assert!(
+                    !pattern.contains("%d") && !pattern.contains("%e"),
+                    "pattern {pattern:?} should not contain day specifiers because add_date_d is true; line {}",
+                    dtf_pattern._line_num,
+                );
+            }
+            // hour
+            if dtf_pattern.add_time_h {
+                assert!(
+                    !pattern.contains("%H")
+                    && !pattern.contains("%I")
+                    && !pattern.contains("%k")
+                    && !pattern.contains("%l"),
+                    "pattern {pattern:?} should not contain hour specifiers because add_time_h is true; line {}",
+                    dtf_pattern._line_num,
+                );
+            }
+            // minute
+            if dtf_pattern.add_time_m {
+                assert!(
+                    !pattern.contains("%M"),
+                    "pattern {pattern:?} should not contain minute specifiers because add_time_m is true; line {}",
+                    dtf_pattern._line_num,
+                );
+            }
+            // second
+            if dtf_pattern.add_time_s {
+                assert!(
+                    !pattern.contains("%S"),
+                    "pattern {pattern:?} should not contain second specifier because add_time_s is true; line {}",
+                    dtf_pattern._line_num,
+                );
+                assert!(
+                    !pattern.contains("%s"),
+                    "pattern {pattern:?} should not contain timestamp specifier because add_time_s is true; line {}",
+                    dtf_pattern._line_num,
+                );
+            }
+            // fractional
         }
     }
 
@@ -4681,5 +6714,5 @@ mod tests {
         }
     }
 
-    }
+    } // mod s4
 }
