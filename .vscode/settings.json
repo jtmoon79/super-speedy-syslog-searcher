@@ -16,7 +16,7 @@
         // This value should be the same as `rust-version` in `Cargo.toml`
         // XXX: for whatever reason the rust-analyzer may insist on using
         //      a different toolchain despite `rustup override` being set.
-        "RUSTUP_TOOLCHAIN": "1.85.0"
+        "RUSTUP_TOOLCHAIN": "1.86.0"
     },
     "evenBetterToml.formatter.allowedBlankLines": 2,
     "evenBetterToml.formatter.columnWidth": 100,
