@@ -1519,11 +1519,13 @@ impl PyRunner {
         match pyrunner.run(print_argv, true, true) {
             Ok((stdout_data, stderr_data)) => {
                 def1x!("PyRunner::run Ok");
-                return Result::Ok((pyrunner, stdout_data, stderr_data));
+
+                Result::Ok((pyrunner, stdout_data, stderr_data))
             }
             Err(err) => {
                 def1x!("PyRunner::run Error {:?}", err);
-                return Result::Err(err);
+
+                Result::Err(err)
             }
         }
     }

@@ -1657,7 +1657,8 @@ impl BlockReader {
                     }
 
                     def2x!("read_multibyte_integer {0:?} (0x{0:08X}) among {1} bytes", num, i);
-                    return Some(num);
+
+                    Some(num)
                 }
 
                 if block0_flag_compressed_size {

@@ -1257,19 +1257,16 @@ impl FixedStructReader {
                 fo += entry_sz;
                 continue;
             }
-            match tv_pair_prev {
-                Some(tv_pair_prev) => {
-                    if tv_pair < tv_pair_prev {
-                        out_of_order += 1;
-                        defo!(
-                            "out_of_order = {}; tv_pair = {:?}, tv_pair_prev = {:?}",
-                            out_of_order,
-                            tv_pair,
-                            tv_pair_prev,
-                        );
-                    }
+            if let Some(tv_pair_prev) = tv_pair_prev {
+                if tv_pair < tv_pair_prev {
+                    out_of_order += 1;
+                    defo!(
+                        "out_of_order = {}; tv_pair = {:?}, tv_pair_prev = {:?}",
+                        out_of_order,
+                        tv_pair,
+                        tv_pair_prev,
+                    );
                 }
-                None => {}
             }
             tv_pair_prev = Some(tv_pair);
             total_entries += 1;

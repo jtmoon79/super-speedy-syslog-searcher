@@ -65,7 +65,7 @@ pub fn venv_setup() {
     //      `SharedMutex` so it does not supported multi-threaded coordination.
     let venv_pmutex_claim: PathBuf = venv_pmutex.join(format!("venv_setup-claim-{}", ppid_s));
     let venv_pmutex_ready: PathBuf = venv_pmutex.join(format!("venv_setup-ready-{}", ppid_s));
-    if touch(&venv_pmutex_claim.as_path()).is_err() {
+    if touch(venv_pmutex_claim.as_path()).is_err() {
         def2o!("Claim pmutex file already exists: {:?}", venv_pmutex_claim);
         // XXX: polling sleep
         while !venv_pmutex_ready.exists() {
@@ -80,7 +80,7 @@ pub fn venv_setup() {
     let create_result = create();
     assert!(create_result.is_ok(), "venv creation failed in venv_setup()");
 
-    if let Err(err) = touch(&venv_pmutex_ready.as_path()) {
+    if let Err(err) = touch(venv_pmutex_ready.as_path()) {
         panic!("failed to touch Ready pmutex file {:?} in venv_setup(); {}", venv_pmutex_ready, err);
     }
     def2o!("touched Ready pmutex file {:?}", venv_pmutex_ready);
