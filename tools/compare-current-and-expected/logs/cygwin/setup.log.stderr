@@ -20,6 +20,7 @@ File: ./logs/cygwin/setup.log
       blocks        : 24
       blocks total  : 24 (6144 bytes)
       lines         : 77
+      line parts    : 100
       syslines      : 76
       syslines high : 13
       datetime first     : 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)

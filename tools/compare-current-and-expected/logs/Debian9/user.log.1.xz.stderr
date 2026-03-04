@@ -21,6 +21,7 @@ File: ./logs/Debian9/user.log.1.xz
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 4
       syslines high : 3
       datetime first     : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)

@@ -200,6 +200,7 @@ File: ./logs/CentOS7/yum.log
       blocks        : 34
       blocks total  : 34 (8704 bytes)
       lines         : 145
+      line parts    : 177
       syslines      : 146
       syslines high : 142
       datetime first     : 2019-04-12 14:00:30 +08:00 (2019-04-12 06:00:30.000000 +00:00)
@@ -239,6 +240,7 @@ File: ./logs/cygwin/setup.log
       blocks        : 24
       blocks total  : 24 (6144 bytes)
       lines         : 77
+      line parts    : 100
       syslines      : 76
       syslines high : 13
       datetime first     : 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)
@@ -277,6 +279,7 @@ File: ./logs/cygwin/setup.log.full
       blocks        : 16
       blocks total  : 16 (4096 bytes)
       lines         : 77
+      line parts    : 92
       syslines      : 12
       syslines high : 11
       datetime first     : 2022-03-23 14:00:20 +08:00 (2022-03-23 06:00:20.000000 +00:00)
@@ -705,6 +708,7 @@ File: ./logs/Debian11/alternatives.log
       blocks        : 17
       blocks total  : 17 (4352 bytes)
       lines         : 15
+      line parts    : 32
       syslines      : 15
       syslines high : 8
       datetime first     : 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
@@ -743,6 +747,7 @@ File: ./logs/Debian11/apache2/access.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 5
+      line parts    : 8
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-10-11 00:10:26 +00:00 (2022-10-11 00:10:26.000000 +00:00)
@@ -781,6 +786,7 @@ File: ./logs/Debian11/apache2/error.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 5
+      line parts    : 8
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-10-10 23:56:29 +08:00 (2022-10-10 15:56:29.204202 +00:00)
@@ -819,6 +825,7 @@ File: ./logs/Debian11/dpkg.log
       blocks        : 12
       blocks total  : 12 (3072 bytes)
       lines         : 49
+      line parts    : 60
       syslines      : 48
       syslines high : 15
       datetime first     : 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
@@ -857,6 +864,7 @@ File: ./logs/Debian11/kern.log
       blocks        : 14
       blocks total  : 14 (3584 bytes)
       lines         : 21
+      line parts    : 35
       syslines      : 20
       syslines high : 20
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
@@ -896,6 +904,7 @@ File: ./logs/Debian11/messages
       blocks        : 13
       blocks total  : 13 (3328 bytes)
       lines         : 21
+      line parts    : 34
       syslines      : 20
       syslines high : 20
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
@@ -935,6 +944,7 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 5
+      line parts    : 7
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
@@ -973,6 +983,7 @@ File: ./logs/Debian11/user.log
       blocks        : 13
       blocks total  : 13 (3328 bytes)
       lines         : 25
+      line parts    : 37
       syslines      : 26
       syslines high : 25
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
@@ -1012,6 +1023,7 @@ File: ./logs/Debian9/alternatives.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 14
       syslines high : 7
       datetime first     : 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
@@ -1050,6 +1062,7 @@ File: ./logs/Debian9/apport.log.1
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 6
+      line parts    : 8
       syslines      : 6
       syslines high : 6
       datetime first     : 2020-02-20 00:59:59 +08:00 (2020-02-19 16:59:59.000000 +00:00)
@@ -1089,6 +1102,7 @@ File: ./logs/Debian9/apt/eipp.log
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 12
+      line parts    : 13
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -1124,6 +1138,7 @@ File: ./logs/Debian9/apt/history.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 10
+      line parts    : 11
       syslines      : 4
       syslines high : 4
       datetime first     : 2019-09-13 19:20:11 +08:00 (2019-09-13 11:20:11.000000 +00:00)
@@ -1162,6 +1177,7 @@ File: ./logs/Debian9/aptitude.4
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-09-12 22:23:40 -07:00 (2019-09-13 05:23:40.000000 +00:00)
@@ -1200,6 +1216,7 @@ File: ./logs/Debian9/apt/term.log
       blocks        : 69
       blocks total  : 69 (17664 bytes)
       lines         : 292
+      line parts    : 361
       syslines      : 7
       syslines high : 5
       datetime first     : 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
@@ -1238,6 +1255,7 @@ File: ./logs/Debian9/auth.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 20
       syslines high : 19
       datetime first     : 2020-02-23 06:37:40 +08:00 (2020-02-22 22:37:40.000000 +00:00)
@@ -1278,6 +1296,7 @@ File: ./logs/Debian9/boot.log
       blocks        : 1
       blocks total  : 5 (1280 bytes)
       lines         : 4
+      line parts    : 5
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -1313,6 +1332,7 @@ File: ./logs/Debian9/clamav/clamd.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 8
+      line parts    : 10
       syslines      : 8
       syslines high : 8
       datetime first     : 2019-10-04 13:21:36 +08:00 (2019-10-04 05:21:36.000000 +00:00)
@@ -1351,6 +1371,7 @@ File: ./logs/Debian9/dpkg.log.1
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2020-02-23 16:38:30 +08:00 (2020-02-23 08:38:30.000000 +00:00)
@@ -1389,6 +1410,7 @@ File: ./logs/Debian9/kern.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 20
       syslines high : 19
       datetime first     : 2022-03-06 17:54:49 +08:00 (2022-03-06 09:54:49.000000 +00:00)
@@ -1428,6 +1450,7 @@ File: ./logs/Debian9/messages.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 2
       syslines high : 1
       datetime first     : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
@@ -1467,6 +1490,7 @@ File: ./logs/Debian9/nginx/access.log
       blocks        : 17
       blocks total  : 17 (4352 bytes)
       lines         : 19
+      line parts    : 36
       syslines      : 19
       syslines high : 6
       datetime first     : 2020-03-06 06:30:43 -08:00 (2020-03-06 14:30:43.000000 +00:00)
@@ -1505,6 +1529,7 @@ File: ./logs/Debian9/nginx/access.log.1
       blocks        : 17
       blocks total  : 17 (4352 bytes)
       lines         : 19
+      line parts    : 36
       syslines      : 19
       syslines high : 6
       datetime first     : 2020-03-05 06:30:45 -08:00 (2020-03-05 14:30:45.000000 +00:00)
@@ -1543,6 +1568,7 @@ File: ./logs/Debian9/nginx/error.log
       blocks        : 16
       blocks total  : 16 (4096 bytes)
       lines         : 19
+      line parts    : 35
       syslines      : 19
       syslines high : 6
       datetime first     : 2020-03-06 06:30:43 +08:00 (2020-03-05 22:30:43.000000 +00:00)
@@ -1581,6 +1607,7 @@ File: ./logs/Debian9/nginx/error.log.1
       blocks        : 16
       blocks total  : 16 (4096 bytes)
       lines         : 19
+      line parts    : 35
       syslines      : 19
       syslines high : 6
       datetime first     : 2020-03-05 06:30:45 +08:00 (2020-03-04 22:30:45.000000 +00:00)
@@ -1619,6 +1646,7 @@ File: ./logs/Debian9/samba/log.192.168.0.1
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.816000 +00:00)
@@ -1657,6 +1685,7 @@ File: ./logs/Debian9/samba/log.192.168.0.2
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.944900 +00:00)
@@ -1695,6 +1724,7 @@ File: ./logs/Debian9/samba/log.host1
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-04-21 20:41:09 +08:00 (2019-04-21 12:41:09.173000 +00:00)
@@ -1733,6 +1763,7 @@ File: ./logs/Debian9/samba/log.host2
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-04-21 20:41:09 +08:00 (2019-04-21 12:41:09.816000 +00:00)
@@ -1771,6 +1802,7 @@ File: ./logs/Debian9/samba/log.nmbd
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 1
       syslines high : 1
       datetime first     : 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)
@@ -1809,6 +1841,7 @@ File: ./logs/Debian9/samba/log.nmbd.1
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 6
       syslines high : 5
       datetime first     : 2020-03-02 04:48:05 +08:00 (2020-03-01 20:48:05.426000 +00:00)
@@ -1847,6 +1880,7 @@ File: ./logs/Debian9/samba/log.nmbd.old
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 6
       syslines high : 5
       datetime first     : 2020-03-06 17:17:14 +08:00 (2020-03-06 09:17:14.296200 +00:00)
@@ -1885,6 +1919,7 @@ File: ./logs/Debian9/samba/log.smbd.1
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 1
       syslines high : 1
       datetime first     : 2020-02-06 03:17:33 +08:00 (2020-02-05 19:17:33.158300 +00:00)
@@ -1923,6 +1958,7 @@ File: ./logs/Debian9/syslog
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 19
       datetime first     : 2022-03-06 06:25:04 +08:00 (2022-03-05 22:25:04.000000 +00:00)
@@ -1962,6 +1998,7 @@ File: ./logs/Debian9/user.log.1
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 4
       syslines high : 3
       datetime first     : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
@@ -2002,6 +2039,7 @@ File: ./logs/Debian9/user.log.1.bz2
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 4
       syslines high : 3
       datetime first     : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
@@ -2042,6 +2080,7 @@ File: ./logs/Debian9/user.log.1.gz
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 4
       syslines high : 3
       datetime first     : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
@@ -2080,6 +2119,7 @@ File: ./logs/Debian9/user.log.1.lz
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -2116,6 +2156,7 @@ File: ./logs/Debian9/user.log.1.lz4
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 4
       syslines high : 3
       datetime first     : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
@@ -2156,6 +2197,7 @@ File: ./logs/Debian9/user.log.1.lzo
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -2192,6 +2234,7 @@ File: ./logs/Debian9/user.log.1.xz
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 4
       syslines high : 3
       datetime first     : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
@@ -2232,6 +2275,7 @@ File: ./logs/Debian9/user.log.1.zst
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -2269,6 +2313,7 @@ File: ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 4
       syslines high : 3
       datetime first     : 2022-02-06 03:17:11 +08:00 (2022-02-05 19:17:11.000000 +00:00)
@@ -2309,6 +2354,7 @@ File: ./logs/Debian9/user.log.zip
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -2345,6 +2391,7 @@ File: ./logs/Debian9/Xorg.0.log
       blocks        : 2
       blocks total  : 5 (1280 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 2
       syslines high : 2
       datetime first     : 1970-01-01 00:01:31 +08:00 (1969-12-31 16:01:31.203000 +00:00)
@@ -2384,6 +2431,7 @@ File: ./logs/Debian9/Xorg.0.log.old
       blocks        : 2
       blocks total  : 5 (1280 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 2
       syslines high : 2
       datetime first     : 1970-01-01 00:01:48 +08:00 (1969-12-31 16:01:48.360000 +00:00)
@@ -2422,6 +2470,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       blocks        : 13
       blocks total  : 13 (3328 bytes)
       lines         : 27
+      line parts    : 40
       syslines      : 27
       syslines high : 9
       datetime first     : 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
@@ -2460,6 +2509,7 @@ File: ./logs/FedoraRemix29/dnf.log
       blocks        : 144
       blocks total  : 144 (36864 bytes)
       lines         : 476
+      line parts    : 617
       syslines      : 226
       syslines high : 13
       datetime first     : 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
@@ -2498,6 +2548,7 @@ File: ./logs/FedoraRemix29/hawkeye.log
       blocks        : 14
       blocks total  : 14 (3584 bytes)
       lines         : 37
+      line parts    : 50
       syslines      : 37
       syslines high : 36
       datetime first     : 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
@@ -2537,6 +2588,7 @@ File: ./logs/FreeBSD13.1/devd.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 10
       syslines high : 9
       datetime first     : 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
@@ -2599,6 +2651,7 @@ File: ./logs/MinGW64/pacman.log
       blocks        : 23
       blocks total  : 23 (5888 bytes)
       lines         : 102
+      line parts    : 124
       syslines      : 102
       syslines high : 15
       datetime first     : 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
@@ -3222,6 +3275,7 @@ File: ./logs/OpenSUSE15/lightdm.log
       blocks        : 2
       blocks total  : 5 (1280 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.000000 +00:00)
@@ -3260,6 +3314,7 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 20
+      line parts    : 28
       syslines      : 20
       syslines high : 10
       datetime first     : 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)
@@ -3298,6 +3353,7 @@ File: ./logs/OpenSUSE15/zypper.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 30
       syslines      : 19
       syslines high : 9
       datetime first     : 2019-05-23 16:53:43 +08:00 (2019-05-23 08:53:43.000000 +00:00)
@@ -3336,6 +3392,7 @@ File: ./logs/OpenSUSE15/zypp/history
       blocks        : 19
       blocks total  : 19 (4864 bytes)
       lines         : 39
+      line parts    : 58
       syslines      : 19
       syslines high : 7
       datetime first     : 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
@@ -3374,6 +3431,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 9
+      line parts    : 11
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-04-04 16:37:20 +08:00 (2022-04-04 08:37:20.000000 +00:00)
@@ -3412,6 +3470,7 @@ File: ./logs/Orbi/tmp/dal_ash.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 9
+      line parts    : 12
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-05-10 17:20:40 +08:00 (2022-05-10 09:20:40.000000 +00:00)
@@ -3450,6 +3509,7 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2022-04-04 16:35:39 +08:00 (2022-04-04 08:35:39.000000 +00:00)
@@ -3488,6 +3548,7 @@ File: ./logs/Orbi/tmp/UpAgent.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 18
       syslines high : 10
       datetime first     : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
@@ -3526,6 +3587,7 @@ File: ./logs/Orbi/tmp/xagent.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2022-04-04 23:36:06 +08:00 (2022-04-04 15:36:06.000000 +00:00)
@@ -3564,6 +3626,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 17
       syslines high : 10
       datetime first     : 2022-05-10 16:19:12 +08:00 (2022-05-10 08:19:12.000000 +00:00)
@@ -3602,6 +3665,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 17
       syslines high : 10
       datetime first     : 2022-05-10 13:24:56 +08:00 (2022-05-10 05:24:56.000000 +00:00)
@@ -3640,6 +3704,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 28
       syslines      : 19
       syslines high : 9
       datetime first     : 2022-05-10 14:22:57 +08:00 (2022-05-10 06:22:57.000000 +00:00)
@@ -3678,6 +3743,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2022-05-01 14:24:13 +08:00 (2022-05-01 06:24:13.000000 +00:00)
@@ -3717,6 +3783,7 @@ File: ./logs/other/tests/empty.7z
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -3757,6 +3824,7 @@ File: ./logs/other/tests/empty.log.zip
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -3793,6 +3861,7 @@ File: ./logs/other/tests/empty.zip
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -3828,6 +3897,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 55
+      line parts    : 59
       syslines      : 55
       syslines high : 37
       datetime first     : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
@@ -3866,6 +3936,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats-longlines.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 55
+      line parts    : 61
       syslines      : 55
       syslines high : 32
       datetime first     : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
@@ -3904,6 +3975,7 @@ File: ./logs/other/tests/basic-basic-dt20.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 20
+      line parts    : 21
       syslines      : 20
       syslines high : 20
       datetime first     : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
@@ -3942,6 +4014,7 @@ File: ./logs/other/tests/basic-dt1.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -3980,6 +4053,7 @@ File: ./logs/other/tests/basic-dt27.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 27
+      line parts    : 30
       syslines      : 27
       syslines high : 27
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -4018,6 +4092,7 @@ File: ./logs/other/tests/basic-dt2b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -4056,6 +4131,7 @@ File: ./logs/other/tests/basic-dt2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -4094,6 +4170,7 @@ File: ./logs/other/tests/basic-dt6.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 6
+      line parts    : 6
       syslines      : 6
       syslines high : 6
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -4132,6 +4209,7 @@ File: ./logs/other/tests/basic-dt-u.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 54
+      line parts    : 58
       syslines      : 27
       syslines high : 22
       datetime first     : 2020-01-01 00:00:00 +08:00 (2019-12-31 16:00:00.000000 +00:00)
@@ -4170,6 +4248,7 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 64
+      line parts    : 66
       syslines      : 10
       syslines high : 10
       datetime first     : 2020-01-01 00:00:00 +08:00 (2019-12-31 16:00:00.000000 +00:00)
@@ -4210,6 +4289,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf11-A.
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 13
+      line parts    : 14
       syslines      : 13
       syslines high : 13
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -4250,6 +4330,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13a.l
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
@@ -4290,6 +4371,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13b.l
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
@@ -4330,6 +4412,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13c.l
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
@@ -4370,6 +4453,7 @@ File: ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|./logs/other/tests/dtf13d.l
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
@@ -4408,6 +4492,7 @@ File: ./logs/other/tests/dtf10-10a.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line parts    : 9
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
@@ -4446,6 +4531,7 @@ File: ./logs/other/tests/dtf10-10b.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 13
+      line parts    : 14
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)
@@ -4484,6 +4570,7 @@ File: ./logs/other/tests/dtf11-A.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 13
+      line parts    : 14
       syslines      : 13
       syslines high : 13
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -4522,6 +4609,7 @@ File: ./logs/other/tests/dtf12a-x2_patts.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line parts    : 9
       syslines      : 5
       syslines high : 4
       datetime first     : 2022-01-31 00:00:01 +00:30 (2022-01-30 23:30:01.000000 +00:00)
@@ -4560,6 +4648,7 @@ File: ./logs/other/tests/dtf12b-x2_patts.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line parts    : 9
       syslines      : 5
       syslines high : 4
       datetime first     : 2022-01-31 00:00:02 +00:30 (2022-01-30 23:30:02.000000 +00:00)
@@ -4598,6 +4687,7 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 12
+      line parts    : 13
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-01-01 00:00:01 +08:00 (2021-12-31 16:00:01.000000 +00:00)
@@ -4636,6 +4726,7 @@ File: ./logs/other/tests/dtf13a.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626322 +00:00)
@@ -4674,6 +4765,7 @@ File: ./logs/other/tests/dtf13b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616300 +00:00)
@@ -4712,6 +4804,7 @@ File: ./logs/other/tests/dtf13c.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
@@ -4750,6 +4843,7 @@ File: ./logs/other/tests/dtf13d.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
@@ -4788,6 +4882,7 @@ File: ./logs/other/tests/dtf14a.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 4
       syslines high : 4
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
@@ -4826,6 +4921,7 @@ File: ./logs/other/tests/dtf15a.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 3
       syslines high : 3
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
@@ -4864,6 +4960,7 @@ File: ./logs/other/tests/dtf15b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 3
       syslines high : 3
       datetime first     : 2023-08-31 12:01:05 -08:00 (2023-08-31 20:01:05.000000 +00:00)
@@ -4902,6 +4999,7 @@ File: ./logs/other/tests/dtf16a.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 3
       syslines high : 3
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
@@ -4940,6 +5038,7 @@ File: ./logs/other/tests/dtf16b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 3
       syslines high : 3
       datetime first     : 2023-08-31 12:01:05 -08:00 (2023-08-31 20:01:05.000000 +00:00)
@@ -4978,6 +5077,7 @@ File: ./logs/other/tests/dtf16c.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 3
       syslines high : 3
       datetime first     : 2023-08-31 20:01:05 +00:00 (2023-08-31 20:01:05.000000 +00:00)
@@ -5016,6 +5116,7 @@ File: ./logs/other/tests/dtf16d.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 3
       syslines high : 3
       datetime first     : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
@@ -5054,6 +5155,7 @@ File: ./logs/other/tests/dtf16e.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 3
       syslines high : 3
       datetime first     : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)
@@ -5092,6 +5194,7 @@ File: ./logs/other/tests/dtf2-2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5131,6 +5234,7 @@ File: ./logs/other/tests/dtf2-2.bz2
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5171,6 +5275,7 @@ File: ./logs/other/tests/dtf2-2_(contains_dtf2_2_log___dtf2-2_xz).tar|dtf2-2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5210,6 +5315,7 @@ File: ./logs/other/tests/dtf2-2.gz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5249,6 +5355,7 @@ File: ./logs/other/tests/dtf2-2.log.bz2
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5288,6 +5395,7 @@ File: ./logs/other/tests/dtf2-2.log.gz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5327,6 +5435,7 @@ File: ./logs/other/tests/dtf2-2.log.lz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -5363,6 +5472,7 @@ File: ./logs/other/tests/dtf2-2.log.lz4
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5403,6 +5513,7 @@ File: ./logs/other/tests/dtf2-2.log.tar|dtf2-2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5442,6 +5553,7 @@ File: ./logs/other/tests/dtf2-2.log.xz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5481,6 +5593,7 @@ File: ./logs/other/tests/dtf2-2.lz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -5517,6 +5630,7 @@ File: ./logs/other/tests/dtf2-2.lz4
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5557,6 +5671,7 @@ File: ./logs/other/tests/dtf2-2.tar|dtf2-2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5596,6 +5711,7 @@ File: ./logs/other/tests/dtf2-2.xz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5634,6 +5750,7 @@ File: ./logs/other/tests/dtf3-1.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5672,6 +5789,7 @@ File: ./logs/other/tests/dtf3-2a.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5710,6 +5828,7 @@ File: ./logs/other/tests/dtf3-2b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.002000 +00:00)
@@ -5748,6 +5867,7 @@ File: ./logs/other/tests/dtf4-2a.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5786,6 +5906,7 @@ File: ./logs/other/tests/dtf4-2b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:02 +08:00 (1999-12-31 16:00:02.000000 +00:00)
@@ -5824,6 +5945,7 @@ File: ./logs/other/tests/dtf5-1.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5862,6 +5984,7 @@ File: ./logs/other/tests/dtf5-2a.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5900,6 +6023,7 @@ File: ./logs/other/tests/dtf5-2b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5938,6 +6062,7 @@ File: ./logs/other/tests/dtf5-2c.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 6
+      line parts    : 6
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -5976,6 +6101,7 @@ File: ./logs/other/tests/dtf5-3-LF-CR.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6014,6 +6140,7 @@ File: ./logs/other/tests/dtf5-3-r-n.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 6
+      line parts    : 6
       syslines      : 3
       syslines high : 3
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6052,6 +6179,7 @@ File: ./logs/other/tests/dtf5-6a.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 6
+      line parts    : 6
       syslines      : 6
       syslines high : 6
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6090,6 +6218,7 @@ File: ./logs/other/tests/dtf5-6a.log.1
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 6
+      line parts    : 6
       syslines      : 6
       syslines high : 6
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6129,6 +6258,7 @@ File: ./logs/other/tests/dtf5-6a.log.gz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 6
+      line parts    : 6
       syslines      : 6
       syslines high : 6
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6167,6 +6297,7 @@ File: ./logs/other/tests/dtf5-6a.log.old
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 6
+      line parts    : 6
       syslines      : 6
       syslines high : 6
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6206,6 +6337,7 @@ File: ./logs/other/tests/dtf5-6a.log.xz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 6
+      line parts    : 6
       syslines      : 6
       syslines high : 6
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6244,6 +6376,7 @@ File: ./logs/other/tests/dtf5-6b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 12
+      line parts    : 12
       syslines      : 6
       syslines high : 6
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6282,6 +6415,7 @@ File: ./logs/other/tests/dtf5-6c.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 32
+      line parts    : 34
       syslines      : 11
       syslines high : 11
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -6320,6 +6454,7 @@ File: ./logs/other/tests/dtf6z-1.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6358,6 +6493,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6397,6 +6533,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.gz
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6436,6 +6573,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -6471,6 +6609,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6510,6 +6649,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.old.gz
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6550,6 +6690,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.tar|./logs/other/tests/dtf7-20-LEVEL
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6589,6 +6730,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6627,6 +6769,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 20
+      line parts    : 25
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6665,6 +6808,7 @@ File: ./logs/other/tests/dtf7-5-LEVELS.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6704,6 +6848,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).7z
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -6740,6 +6885,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, BZip2, 9).zip
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -6776,6 +6922,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate64, 9).zip
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -6812,6 +6959,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -6848,6 +6996,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 1s).zi
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -6884,6 +7033,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9).zip
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -6921,6 +7071,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -6961,6 +7112,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7001,6 +7153,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7041,6 +7194,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7081,6 +7235,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7121,6 +7276,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 s).tar|dtf7
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7160,6 +7316,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9).7z
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -7196,6 +7353,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA2, 9, store all times).7z
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -7232,6 +7390,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).7z
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -7268,6 +7427,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -7305,6 +7465,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7345,6 +7506,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 100 ns).tar
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7385,6 +7547,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7425,6 +7588,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 ns).tar|d
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7465,6 +7629,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7505,6 +7670,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, POSIX, time precision 1 s).tar|dt
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -7544,6 +7710,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).7z
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -7580,6 +7747,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -7615,6 +7783,7 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 20
+      line parts    : 25
       syslines      : 20
       syslines high : 14
       datetime first     : 2000-01-01 00:00:20 -02:00 (2000-01-01 02:00:20.000000 +00:00)
@@ -7653,6 +7822,7 @@ File: ./logs/other/tests/dtf9a-2.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 2
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2022-07-17 00:00:11 +08:00 (2022-07-16 16:00:11.000000 +00:00)
@@ -7691,6 +7861,7 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
       blocks        : 1
       blocks total  : 14 (3584 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -7725,6 +7896,7 @@ File: ./logs/other/tests/dtf9c-12-baddate.log
       blocks        : 1
       blocks total  : 14 (3584 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -7762,6 +7934,7 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 25
+      line parts    : 26
       syslines      : 25
       syslines high : 23
       datetime first     : 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
@@ -7801,6 +7974,7 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 25
+      line parts    : 26
       syslines      : 25
       syslines high : 23
       datetime first     : 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)
@@ -7840,6 +8014,7 @@ File: ./logs/other/tests/dtf9d-12x3-37.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 38
+      line parts    : 41
       syslines      : 42
       syslines high : 37
       datetime first     : 2000-01-01 01:00:00 -09:00 (2000-01-01 10:00:00.000000 +00:00)
@@ -7879,6 +8054,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 24
+      line parts    : 26
       syslines      : 45
       syslines high : 23
       datetime first     : 2001-11-11 11:00:00 -09:00 (2001-11-11 20:00:00.000000 +00:00)
@@ -7918,6 +8094,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 25
+      line parts    : 27
       syslines      : 25
       syslines high : 23
       datetime first     : 2021-01-01 01:00:00 -09:00 (2021-01-01 10:00:00.000000 +00:00)
@@ -7957,6 +8134,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       blocks        : 4
       blocks total  : 5 (1280 bytes)
       lines         : 23
+      line parts    : 25
       syslines      : 22
       syslines high : 20
       datetime first     : 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)
@@ -7996,6 +8174,7 @@ File: ./logs/other/tests/dtf-varying-10.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 10
+      line parts    : 11
       syslines      : 4
       syslines high : 4
       datetime first     : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
@@ -8034,6 +8213,7 @@ File: ./logs/other/tests/dt-mix1.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 21
+      line parts    : 22
       syslines      : 10
       syslines high : 10
       datetime first     : 2020-01-01 00:00:01 +08:00 (2019-12-31 16:00:01.000000 +00:00)
@@ -8072,6 +8252,7 @@ File: ./logs/other/tests/invalid.gz
       blocks        : 0
       blocks total  : 672842 (172247552 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8122,6 +8303,7 @@ File: ./logs/other/tests/invalid2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -8160,6 +8342,7 @@ File: ./logs/other/tests/invalid3.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -8198,6 +8381,7 @@ File: ./logs/other/tests/invalid4.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
@@ -8237,6 +8421,7 @@ File: ./logs/other/tests/simple-10.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8273,6 +8458,7 @@ File: ./logs/other/tests/simple-10s.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8309,6 +8495,7 @@ File: ./logs/other/tests/simple-11.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8344,6 +8531,7 @@ File: ./logs/other/tests/simple-11s_b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 2
       syslines high : 1
       datetime first     : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.000000 +00:00)
@@ -8384,6 +8572,7 @@ File: ./logs/other/tests/simple-11s.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8419,6 +8608,7 @@ File: ./logs/other/tests/simple-12.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2001-01-03 01:09:24 +08:00 (2001-01-02 17:09:24.000000 +00:00)
@@ -8458,6 +8648,7 @@ File: ./logs/other/tests/simple-13.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8493,6 +8684,7 @@ File: ./logs/other/tests/simple-14.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
@@ -8531,6 +8723,7 @@ File: ./logs/other/tests/simple-14s_b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 2
       syslines high : 1
       datetime first     : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
@@ -8571,6 +8764,7 @@ File: ./logs/other/tests/simple-14s_.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8606,6 +8800,7 @@ File: ./logs/other/tests/simple-15.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
@@ -8644,6 +8839,7 @@ File: ./logs/other/tests/simple-16.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2001-10-31 09:24:57 +08:00 (2001-10-31 01:24:57.000000 +00:00)
@@ -8682,6 +8878,7 @@ File: ./logs/other/tests/simple-1.log.gz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8717,6 +8914,7 @@ File: ./logs/other/tests/simple-1.log.lz4
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8752,6 +8950,7 @@ File: ./logs/other/tests/simple-1.log.xz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8788,6 +8987,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8824,6 +9024,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8860,6 +9061,7 @@ File: ./logs/other/tests/simple-6.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8896,6 +9098,7 @@ File: ./logs/other/tests/simple-7.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8932,6 +9135,7 @@ File: ./logs/other/tests/simple-8.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -8968,6 +9172,7 @@ File: ./logs/other/tests/simple-9.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -9003,6 +9208,7 @@ File: ./logs/other/tests/unknown
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 4
       syslines high : 4
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626000 +00:00)
@@ -9040,6 +9246,7 @@ File: ./logs/other/tests/zero100.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -9190,6 +9397,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       blocks        : 16
       blocks total  : 16 (4096 bytes)
       lines         : 33
+      line parts    : 48
       syslines      : 30
       syslines high : 9
       datetime first     : 2022-10-08 06:18:26 +08:00 (2022-10-07 22:18:26.935000 +00:00)
@@ -9229,6 +9437,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       blocks        : 1
       blocks total  : 26 (6656 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -9319,6 +9528,7 @@ File: ./logs/programs/flask/server.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 4
       syslines high : 4
       datetime first     : 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)
@@ -9472,6 +9682,7 @@ File: ./logs/programs/pacman/pacman.log
       blocks        : 48
       blocks total  : 48 (12288 bytes)
       lines         : 195
+      line parts    : 241
       syslines      : 195
       syslines high : 14
       datetime first     : 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
@@ -9510,6 +9721,7 @@ File: ./logs/programs/proftpd/controls.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 6
+      line parts    : 8
       syslines      : 6
       syslines high : 6
       datetime first     : 2020-10-03 11:24:11 +08:00 (2020-10-03 03:24:11.475000 +00:00)
@@ -9548,6 +9760,7 @@ File: ./logs/programs/proftpd/proftpd.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 10
       datetime first     : 2020-10-03 11:24:09 +08:00 (2020-10-03 03:24:09.447000 +00:00)
@@ -9586,6 +9799,7 @@ File: ./logs/programs/proftpd/xferlog
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 3
       syslines high : 3
       datetime first     : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.000000 +00:00)
@@ -9785,6 +9999,7 @@ File: ./logs/programs/tomcat/catalina.out
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 21
+      line parts    : 28
       syslines      : 7
       syslines high : 7
       datetime first     : 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
@@ -9823,6 +10038,7 @@ File: ./logs/programs/tomcat/catalina-access.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 2
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2023-02-14 14:30:20 +00:00 (2023-02-14 14:30:20.483000 +00:00)
@@ -9956,6 +10172,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -10031,6 +10248,7 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
@@ -10069,6 +10287,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 10
+      line parts    : 13
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-10-10 20:23:26 +00:00 (2022-10-10 20:23:26.000000 +00:00)
@@ -10107,6 +10326,7 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-10-09 21:31:41 +00:00 (2022-10-09 21:31:41.000000 +00:00)
@@ -10145,6 +10365,7 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 21
+      line parts    : 29
       syslines      : 18
       syslines high : 12
       datetime first     : 2022-10-10 20:23:22 +00:00 (2022-10-10 20:23:22.000000 +00:00)
@@ -10183,6 +10404,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       blocks        : 12
       blocks total  : 12 (3072 bytes)
       lines         : 21
+      line parts    : 32
       syslines      : 18
       syslines high : 9
       datetime first     : 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
@@ -10221,6 +10443,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 21
+      line parts    : 27
       syslines      : 20
       syslines high : 13
       datetime first     : 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)
@@ -10259,6 +10482,7 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 21
+      line parts    : 26
       syslines      : 18
       syslines high : 11
       datetime first     : 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)
@@ -10297,6 +10521,7 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 10
+      line parts    : 13
       syslines      : 10
       syslines high : 10
       datetime first     : 2022-10-10 20:23:14 +00:00 (2022-10-10 20:23:14.000000 +00:00)
@@ -10335,6 +10560,7 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
       blocks        : 18
       blocks total  : 18 (4608 bytes)
       lines         : 45
+      line parts    : 63
       syslines      : 45
       syslines high : 9
       datetime first     : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
@@ -10373,6 +10599,7 @@ File: ./logs/RancherOS-1.5.8/docker.log
       blocks        : 37
       blocks total  : 37 (9472 bytes)
       lines         : 67
+      line parts    : 103
       syslines      : 66
       syslines high : 8
       datetime first     : 2022-10-09 21:33:15 +00:00 (2022-10-09 21:33:15.541012 +00:00)
@@ -10411,6 +10638,7 @@ File: ./logs/RancherOS-1.5.8/messages
       blocks        : 107
       blocks total  : 107 (27392 bytes)
       lines         : 234
+      line parts    : 341
       syslines      : 231
       syslines high : 231
       datetime first     : 2022-10-09 21:31:38 +08:00 (2022-10-09 13:31:38.000000 +00:00)
@@ -10450,6 +10678,7 @@ File: ./logs/RancherOS-1.5.8/syslog
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 10
+      line parts    : 14
       syslines      : 11
       syslines high : 10
       datetime first     : 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
@@ -10489,6 +10718,7 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 21
+      line parts    : 31
       syslines      : 1
       syslines high : 1
       datetime first     : 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)
@@ -10527,6 +10757,7 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       blocks        : 20
       blocks total  : 20 (5120 bytes)
       lines         : 19
+      line parts    : 39
       syslines      : 19
       syslines high : 19
       datetime first     : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
@@ -10566,6 +10797,7 @@ File: ./logs/RockyLinux9/cron
       blocks        : 49
       blocks total  : 49 (12544 bytes)
       lines         : 116
+      line parts    : 164
       syslines      : 117
       syslines high : 116
       datetime first     : 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
@@ -10605,6 +10837,7 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       blocks        : 64
       blocks total  : 64 (16384 bytes)
       lines         : 104
+      line parts    : 166
       syslines      : 104
       syslines high : 8
       datetime first     : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
@@ -10643,6 +10876,7 @@ File: ./logs/RockyLinux9/dnf.log
       blocks        : 223
       blocks total  : 223 (57088 bytes)
       lines         : 763
+      line parts    : 984
       syslines      : 677
       syslines high : 13
       datetime first     : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
@@ -10681,6 +10915,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 39
+      line parts    : 48
       syslines      : 36
       syslines high : 12
       datetime first     : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
@@ -10719,6 +10954,7 @@ File: ./logs/RockyLinux9/hawkey.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 28
+      line parts    : 34
       syslines      : 28
       syslines high : 15
       datetime first     : 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
@@ -10757,6 +10993,7 @@ File: ./logs/RockyLinux9/messages
       blocks        : 1001
       blocks total  : 1001 (256256 bytes)
       lines         : 2432
+      line parts    : 3427
       syslines      : 2432
       syslines high : 2432
       datetime first     : 2002-10-08 06:18:20 +08:00 (2002-10-07 22:18:20.000000 +00:00)
@@ -10796,6 +11033,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       blocks        : 21
       blocks total  : 21 (5376 bytes)
       lines         : 37
+      line parts    : 58
       syslines      : 37
       syslines high : 37
       datetime first     : 2022-10-08 06:18:58 +08:00 (2022-10-07 22:18:58.000000 +00:00)
@@ -10835,6 +11073,7 @@ File: ./logs/RockyLinux9/nginx/access.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 4
+      line parts    : 6
       syslines      : 4
       syslines high : 4
       datetime first     : 2022-10-08 22:26:35 +00:00 (2022-10-08 22:26:35.000000 +00:00)
@@ -10873,6 +11112,7 @@ File: ./logs/RockyLinux9/nginx/error.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 2
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2022-10-08 22:27:40 +08:00 (2022-10-08 14:27:40.000000 +00:00)
@@ -10911,6 +11151,7 @@ File: ./logs/RockyLinux9/secure
       blocks        : 287
       blocks total  : 287 (73472 bytes)
       lines         : 546
+      line parts    : 831
       syslines      : 546
       syslines high : 545
       datetime first     : 2022-10-08 06:18:38 +08:00 (2022-10-07 22:18:38.000000 +00:00)
@@ -10950,6 +11191,7 @@ File: ./logs/synology-DS6/apparmor.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
@@ -10988,6 +11230,7 @@ File: ./logs/synology-DS6/auth.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 9
       datetime first     : 2016-12-05 20:31:55 -08:00 (2016-12-06 04:31:55.000000 +00:00)
@@ -11026,6 +11269,7 @@ File: ./logs/synology-DS6/checker.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2019-07-10 02:34:20 -07:00 (2019-07-10 09:34:20.000000 +00:00)
@@ -11064,6 +11308,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 7
+      line parts    : 11
       syslines      : 7
       syslines high : 7
       datetime first     : 2018-02-09 21:25:05 +08:00 (2018-02-09 13:25:05.000000 +00:00)
@@ -11103,6 +11348,7 @@ File: ./logs/synology-DS6/datascrubbing.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 19
       syslines high : 8
       datetime first     : 2018-08-01 14:16:54 -07:00 (2018-08-01 21:16:54.000000 +00:00)
@@ -11141,6 +11387,7 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
@@ -11179,6 +11426,7 @@ File: ./logs/synology-DS6/disk.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 28
       syslines      : 19
       syslines high : 9
       datetime first     : 2017-05-08 08:35:08 -07:00 (2017-05-08 15:35:08.000000 +00:00)
@@ -11217,6 +11465,7 @@ File: ./logs/synology-DS6/dmesg
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)
@@ -11255,6 +11504,7 @@ File: ./logs/synology-DS6/downloadstation.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 9
       datetime first     : 2019-08-31 14:59:46 -07:00 (2019-08-31 21:59:46.000000 +00:00)
@@ -11293,6 +11543,7 @@ File: ./logs/synology-DS6/dpkg.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 13
       datetime first     : 2016-12-05 21:38:43 +08:00 (2016-12-05 13:38:43.000000 +00:00)
@@ -11331,6 +11582,7 @@ File: ./logs/synology-DS6/dpkg_upgrade.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 5
       syslines high : 5
       datetime first     : 2016-12-05 21:34:43 +08:00 (2016-12-05 13:34:43.000000 +00:00)
@@ -11369,6 +11621,7 @@ File: ./logs/synology-DS6/esynoscheduler.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 3
       syslines high : 3
       datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
@@ -11407,6 +11660,7 @@ File: ./logs/synology-DS6/fsck/root.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 66
+      line parts    : 74
       syslines      : 3
       syslines high : 3
       datetime first     : 2020-03-07 03:19:50 +08:00 (2020-03-06 19:19:50.000000 +00:00)
@@ -11445,6 +11699,7 @@ File: ./logs/synology-DS6/ha.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 19
       syslines high : 8
       datetime first     : 2017-05-08 08:35:45 -07:00 (2017-05-08 15:35:45.000000 +00:00)
@@ -11483,6 +11738,7 @@ File: ./logs/synology-DS6/iscsi.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 19
       syslines high : 9
       datetime first     : 2016-12-05 20:31:40 -08:00 (2016-12-06 04:31:40.000000 +00:00)
@@ -11521,6 +11777,7 @@ File: ./logs/synology-DS6/kern.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 28
       syslines      : 19
       syslines high : 9
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
@@ -11559,6 +11816,7 @@ File: ./logs/synology-DS6/messages
       blocks        : 15
       blocks total  : 15 (3840 bytes)
       lines         : 19
+      line parts    : 34
       syslines      : 19
       syslines high : 7
       datetime first     : 2020-03-08 14:25:30 -07:00 (2020-03-08 21:25:30.000000 +00:00)
@@ -11597,6 +11855,7 @@ File: ./logs/synology-DS6/opentftp.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 21
+      line parts    : 25
       syslines      : 21
       syslines high : 17
       datetime first     : 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
@@ -11635,6 +11894,7 @@ File: ./logs/synology-DS6/packages/CloudSync.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2019-06-23 21:13:17 +08:00 (2019-06-23 13:13:17.000000 +00:00)
@@ -11673,6 +11933,7 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-06-23 21:13:34 +08:00 (2019-06-23 13:13:34.000000 +00:00)
@@ -11711,6 +11972,7 @@ File: ./logs/synology-DS6/packages/FileStation.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 12
       datetime first     : 2019-06-23 21:11:54 +08:00 (2019-06-23 13:11:54.000000 +00:00)
@@ -11749,6 +12011,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 3
       syslines high : 3
       datetime first     : 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
@@ -11787,6 +12050,7 @@ File: ./logs/synology-DS6/packages/HyperBackup.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 16
       syslines high : 9
       datetime first     : 2019-06-23 21:13:21 +08:00 (2019-06-23 13:13:21.000000 +00:00)
@@ -11825,6 +12089,7 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 10
       syslines high : 8
       datetime first     : 2019-06-23 21:13:33 +08:00 (2019-06-23 13:13:33.000000 +00:00)
@@ -11863,6 +12128,7 @@ File: ./logs/synology-DS6/packages/LogCenter.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 5
       syslines high : 5
       datetime first     : 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
@@ -11901,6 +12167,7 @@ File: ./logs/synology-DS6/packages/Node.js_v4.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
@@ -11939,6 +12206,7 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2019-08-31 23:51:57 +08:00 (2019-08-31 15:51:57.000000 +00:00)
@@ -11977,6 +12245,7 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 7
       syslines high : 7
       datetime first     : 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
@@ -12015,6 +12284,7 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 3
       syslines high : 3
       datetime first     : 2019-06-23 21:13:20 +08:00 (2019-06-23 13:13:20.000000 +00:00)
@@ -12053,6 +12323,7 @@ File: ./logs/synology-DS6/packages/SynoFinder.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 12
       datetime first     : 2019-06-23 21:12:28 +08:00 (2019-06-23 13:12:28.000000 +00:00)
@@ -12091,6 +12362,7 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 5
       syslines high : 5
       datetime first     : 2019-06-23 21:14:11 +08:00 (2019-06-23 13:14:11.000000 +00:00)
@@ -12129,6 +12401,7 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 13
       syslines high : 9
       datetime first     : 2019-06-23 21:14:45 +08:00 (2019-06-23 13:14:45.000000 +00:00)
@@ -12167,6 +12440,7 @@ File: ./logs/synology-DS6/packages/SynologyMoments.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 3
       syslines high : 3
       datetime first     : 2019-06-23 21:15:15 +08:00 (2019-06-23 13:15:15.000000 +00:00)
@@ -12205,6 +12479,7 @@ File: ./logs/synology-DS6/packages/USBCopy.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2019-06-23 21:13:36 +08:00 (2019-06-23 13:13:36.000000 +00:00)
@@ -12243,6 +12518,7 @@ File: ./logs/synology-DS6/postgresql.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line parts    : 28
       syslines      : 19
       syslines high : 9
       datetime first     : 2016-12-05 20:32:59 -08:00 (2016-12-06 04:32:59.000000 +00:00)
@@ -12281,6 +12557,7 @@ File: ./logs/synology-DS6/router.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 10
       datetime first     : 2016-12-05 21:12:04 +08:00 (2016-12-05 13:12:04.000000 +00:00)
@@ -12319,6 +12596,7 @@ File: ./logs/synology-DS6/samba/log.nmbd
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 8
       syslines high : 8
       datetime first     : 2016-12-05 20:31:45 +08:00 (2016-12-05 12:31:45.000000 +00:00)
@@ -12357,6 +12635,7 @@ File: ./logs/synology-DS6/samba/log.smbd
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 8
       syslines high : 8
       datetime first     : 2016-12-05 20:31:45 +08:00 (2016-12-05 12:31:45.000000 +00:00)
@@ -12395,6 +12674,7 @@ File: ./logs/synology-DS6/scemd.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 19
       syslines high : 8
       datetime first     : 2016-12-05 20:31:29 -08:00 (2016-12-06 04:31:29.000000 +00:00)
@@ -12433,6 +12713,7 @@ File: ./logs/synology-DS6/sfdisk.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2017-04-06 01:07:40 -07:00 (2017-04-06 08:07:40.000000 +00:00)
@@ -12471,6 +12752,7 @@ File: ./logs/synology-DS6/smart_extend_log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line parts    : 9
       syslines      : 4
       syslines high : 4
       datetime first     : 2019-12-20 00:00:03 +08:00 (2019-12-19 16:00:03.000000 +00:00)
@@ -12509,6 +12791,7 @@ File: ./logs/synology-DS6/smart_quick_log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line parts    : 9
       syslines      : 4
       syslines high : 4
       datetime first     : 2020-03-05 00:00:03 +08:00 (2020-03-04 16:00:03.000000 +00:00)
@@ -12547,6 +12830,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line parts    : 28
       syslines      : 21
       syslines high : 19
       datetime first     : 2017-01-03 01:38:36 +08:00 (2017-01-02 17:38:36.000000 +00:00)
@@ -12586,6 +12870,7 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 20
       syslines high : 19
       datetime first     : 2022-12-15 21:30:29 +08:00 (2022-12-15 13:30:29.000000 +00:00)
@@ -12625,6 +12910,7 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 20
       syslines high : 19
       datetime first     : 2022-09-18 14:18:39 +08:00 (2022-09-18 06:18:39.000000 +00:00)
@@ -12664,6 +12950,7 @@ File: ./logs/synology-DS6/surveillance/surveillance.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 20
       syslines high : 19
       datetime first     : 2020-02-09 19:00:11 +08:00 (2020-02-09 11:00:11.000000 +00:00)
@@ -12703,6 +12990,7 @@ File: ./logs/synology-DS6/synobackup.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 15
+      line parts    : 21
       syslines      : 14
       syslines high : 10
       datetime first     : 2017-02-21 21:36:10 +08:00 (2017-02-21 13:36:10.000000 +00:00)
@@ -12741,6 +13029,7 @@ File: ./logs/synology-DS6/synocmsclient.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 11
       syslines high : 11
       datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
@@ -12779,6 +13068,7 @@ File: ./logs/synology-DS6/synocontentextractd.log
       blocks        : 15
       blocks total  : 15 (3840 bytes)
       lines         : 19
+      line parts    : 34
       syslines      : 19
       syslines high : 6
       datetime first     : 2019-01-07 00:12:20 -08:00 (2019-01-07 08:12:20.000000 +00:00)
@@ -12818,6 +13108,7 @@ File: ./logs/synology-DS6/synocrond-execute.log
       blocks        : 1
       blocks total  : 10 (2560 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -12853,6 +13144,7 @@ File: ./logs/synology-DS6/synocrond.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 11
+      line parts    : 18
       syslines      : 11
       syslines high : 8
       datetime first     : 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
@@ -12891,6 +13183,7 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
       blocks        : 14
       blocks total  : 14 (3584 bytes)
       lines         : 19
+      line parts    : 33
       syslines      : 19
       syslines high : 7
       datetime first     : 2016-12-05 20:36:36 -08:00 (2016-12-06 04:36:36.000000 +00:00)
@@ -12929,6 +13222,7 @@ File: ./logs/synology-DS6/synoindex.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 8
+      line parts    : 14
       syslines      : 8
       syslines high : 7
       datetime first     : 2018-12-06 02:30:31 -08:00 (2018-12-06 10:30:31.000000 +00:00)
@@ -12967,6 +13261,7 @@ File: ./logs/synology-DS6/synolog/synobackup.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 16
+      line parts    : 22
       syslines      : 15
       syslines high : 10
       datetime first     : 2017-02-21 21:36:10 +08:00 (2017-02-21 13:36:10.000000 +00:00)
@@ -13005,6 +13300,7 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 9
       datetime first     : 2018-12-25 00:04:54 +08:00 (2018-12-24 16:04:54.000000 +00:00)
@@ -13043,6 +13339,7 @@ File: ./logs/synology-DS6/synologydrive.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 18
+      line parts    : 27
       syslines      : 17
       syslines high : 9
       datetime first     : 2018-12-06 02:27:57 -08:00 (2018-12-06 10:27:57.000000 +00:00)
@@ -13081,6 +13378,7 @@ File: ./logs/synology-DS6/synophoto.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 30
       syslines      : 19
       syslines high : 8
       datetime first     : 2018-12-06 14:36:24 -08:00 (2018-12-06 22:36:24.000000 +00:00)
@@ -13119,6 +13417,7 @@ File: ./logs/synology-DS6/synopkg.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 10
       syslines high : 6
       datetime first     : 2016-12-05 20:47:00 +08:00 (2016-12-05 12:47:00.000000 +00:00)
@@ -13157,6 +13456,7 @@ File: ./logs/synology-DS6/synopoweroff.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 30
       syslines      : 19
       syslines high : 8
       datetime first     : 2016-12-05 21:00:54 -08:00 (2016-12-06 05:00:54.000000 +00:00)
@@ -13195,6 +13495,7 @@ File: ./logs/synology-DS6/synorelayd.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2016-12-05 20:45:15 +08:00 (2016-12-05 12:45:15.000000 +00:00)
@@ -13233,6 +13534,7 @@ File: ./logs/synology-DS6/synoreport.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 16
       datetime first     : 2017-05-14 04:00:07 +08:00 (2017-05-13 20:00:07.000000 +00:00)
@@ -13271,6 +13573,7 @@ File: ./logs/synology-DS6/synoscheduler.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 18
+      line parts    : 26
       syslines      : 18
       syslines high : 10
       datetime first     : 2016-12-05 20:37:01 -08:00 (2016-12-06 04:37:01.000000 +00:00)
@@ -13309,6 +13612,7 @@ File: ./logs/synology-DS6/synoservice.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2020-02-11 03:24:26 -08:00 (2020-02-11 11:24:26.000000 +00:00)
@@ -13347,6 +13651,7 @@ File: ./logs/synology-DS6/synotifyd.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 12
       datetime first     : 2016-12-05 21:00:54 -08:00 (2016-12-06 05:00:54.000000 +00:00)
@@ -13385,6 +13690,7 @@ File: ./logs/synology-DS6/synoupdate.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2016-12-05 21:34:42 +08:00 (2016-12-05 13:34:42.000000 +00:00)
@@ -13423,6 +13729,7 @@ File: ./logs/synology-DS6/syslog.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 9
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
@@ -13461,6 +13768,7 @@ File: ./logs/synology-DS6/sysnotify.log
       blocks        : 12
       blocks total  : 12 (3072 bytes)
       lines         : 19
+      line parts    : 31
       syslines      : 19
       syslines high : 7
       datetime first     : 2018-08-03 04:02:47 -07:00 (2018-08-03 11:02:47.000000 +00:00)
@@ -13499,6 +13807,7 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 13
       datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
@@ -13537,6 +13846,7 @@ File: ./logs/synology-DS6/upstart/apparmor.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2016-12-05 21:00:59 -08:00 (2016-12-06 05:00:59.000000 +00:00)
@@ -13575,6 +13885,7 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line parts    : 9
       syslines      : 8
       syslines high : 8
       datetime first     : 2018-10-15 14:09:31 -07:00 (2018-10-15 21:09:31.000000 +00:00)
@@ -13613,6 +13924,7 @@ File: ./logs/synology-DS6/upstart/avahi.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2016-12-05 20:31:30 -08:00 (2016-12-06 04:31:30.000000 +00:00)
@@ -13651,6 +13963,7 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 6
+      line parts    : 7
       syslines      : 5
       syslines high : 5
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
@@ -13689,6 +14002,7 @@ File: ./logs/synology-DS6/upstart/crond.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 18
       datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
@@ -13727,6 +14041,7 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       blocks        : 23
       blocks total  : 23 (5888 bytes)
       lines         : 178
+      line parts    : 200
       syslines      : 3
       syslines high : 3
       datetime first     : 2020-03-06 20:18:20 -08:00 (2020-03-07 04:18:20.000000 +00:00)
@@ -13765,6 +14080,7 @@ File: ./logs/synology-DS6/upstart/dbus-system.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
@@ -13803,6 +14119,7 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 12
+      line parts    : 17
       syslines      : 12
       syslines high : 8
       datetime first     : 2017-05-08 08:32:33 -07:00 (2017-05-08 15:32:33.000000 +00:00)
@@ -13841,6 +14158,7 @@ File: ./logs/synology-DS6/upstart/DiskHealthCk.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
@@ -13879,6 +14197,7 @@ File: ./logs/synology-DS6/upstart/dsm-services.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
@@ -13917,6 +14236,7 @@ File: ./logs/synology-DS6/upstart/dsmupdate.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 13
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
@@ -13955,6 +14275,7 @@ File: ./logs/synology-DS6/upstart/eaupgrade.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
@@ -13993,6 +14314,7 @@ File: ./logs/synology-DS6/upstart/findhostd.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 18
       syslines high : 14
       datetime first     : 2016-12-05 20:31:35 -08:00 (2016-12-06 04:31:35.000000 +00:00)
@@ -14031,6 +14353,7 @@ File: ./logs/synology-DS6/upstart/ftpd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 18
       syslines high : 18
       datetime first     : 2016-12-08 18:56:16 -08:00 (2016-12-09 02:56:16.000000 +00:00)
@@ -14069,6 +14392,7 @@ File: ./logs/synology-DS6/upstart/hotplugd.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 4
+      line parts    : 7
       syslines      : 4
       syslines high : 4
       datetime first     : 2017-09-17 10:12:07 -07:00 (2017-09-17 17:12:07.000000 +00:00)
@@ -14107,6 +14431,7 @@ File: ./logs/synology-DS6/upstart/inetd.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 11
       syslines high : 11
       datetime first     : 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
@@ -14145,6 +14470,7 @@ File: ./logs/synology-DS6/upstart/iptablesTc.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
@@ -14183,6 +14509,7 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 17
       syslines high : 13
       datetime first     : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
@@ -14221,6 +14548,7 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)
@@ -14259,6 +14587,7 @@ File: ./logs/synology-DS6/upstart/is_plugind.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line parts    : 28
       syslines      : 19
       syslines high : 8
       datetime first     : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
@@ -14297,6 +14626,7 @@ File: ./logs/synology-DS6/upstart/job-monitor-handler.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 18
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
@@ -14335,6 +14665,7 @@ File: ./logs/synology-DS6/upstart/md-sb-not-clean-notify.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2019-06-23 21:10:43 -07:00 (2019-06-24 04:10:43.000000 +00:00)
@@ -14373,6 +14704,7 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 18
       syslines high : 16
       datetime first     : 2016-12-05 20:31:35 -08:00 (2016-12-06 04:31:35.000000 +00:00)
@@ -14411,6 +14743,7 @@ File: ./logs/synology-DS6/upstart/mkcert.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 15
       syslines high : 10
       datetime first     : 2016-12-05 20:31:15 -08:00 (2016-12-06 04:31:15.000000 +00:00)
@@ -14449,6 +14782,7 @@ File: ./logs/synology-DS6/upstart/mkdhparam.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 12
+      line parts    : 14
       syslines      : 8
       syslines high : 8
       datetime first     : 2016-12-05 20:32:06 -08:00 (2016-12-06 04:32:06.000000 +00:00)
@@ -14487,6 +14821,7 @@ File: ./logs/synology-DS6/upstart/netatalk.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 17
       syslines high : 17
       datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
@@ -14525,6 +14860,7 @@ File: ./logs/synology-DS6/upstart/network.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 7
       syslines high : 7
       datetime first     : 2016-12-05 20:31:23 -08:00 (2016-12-06 04:31:23.000000 +00:00)
@@ -14563,6 +14899,7 @@ File: ./logs/synology-DS6/upstart/nfsd-adapter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2019-02-25 19:29:31 -08:00 (2019-02-26 03:29:31.000000 +00:00)
@@ -14601,6 +14938,7 @@ File: ./logs/synology-DS6/upstart/nginx.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2016-12-05 20:31:46 -08:00 (2016-12-06 04:31:46.000000 +00:00)
@@ -14639,6 +14977,7 @@ File: ./logs/synology-DS6/upstart/nmbd.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
@@ -14677,6 +15016,7 @@ File: ./logs/synology-DS6/upstart/opentftp.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 19
       syslines high : 19
       datetime first     : 2017-02-22 21:24:20 -08:00 (2017-02-23 05:24:20.000000 +00:00)
@@ -14715,6 +15055,7 @@ File: ./logs/synology-DS6/upstart/pgsql-adapter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 13
       datetime first     : 2016-12-05 20:32:50 -08:00 (2016-12-06 04:32:50.000000 +00:00)
@@ -14753,6 +15094,7 @@ File: ./logs/synology-DS6/upstart/pgsql.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 15
       syslines high : 11
       datetime first     : 2016-12-05 20:32:59 -08:00 (2016-12-06 04:32:59.000000 +00:00)
@@ -14791,6 +15133,7 @@ File: ./logs/synology-DS6/upstart/php_timezone_update.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 19
       datetime first     : 2018-08-01 14:16:54 -07:00 (2018-08-01 21:16:54.000000 +00:00)
@@ -14829,6 +15172,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 12
       datetime first     : 2017-05-24 19:15:29 -07:00 (2017-05-25 02:15:29.000000 +00:00)
@@ -14867,6 +15211,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 14
       datetime first     : 2016-12-05 20:47:41 -08:00 (2016-12-06 04:47:41.000000 +00:00)
@@ -14905,6 +15250,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 16
       datetime first     : 2017-02-23 14:52:36 -08:00 (2017-02-23 22:52:36.000000 +00:00)
@@ -14943,6 +15289,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2018-11-29 23:49:44 -08:00 (2018-11-30 07:49:44.000000 +00:00)
@@ -14981,6 +15328,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackup.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2017-02-21 21:30:38 -08:00 (2017-02-22 05:30:38.000000 +00:00)
@@ -15019,6 +15367,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2018-11-29 23:50:14 -08:00 (2018-11-30 07:50:14.000000 +00:00)
@@ -15057,6 +15406,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2018-09-04 14:55:42 -07:00 (2018-09-04 21:55:42.000000 +00:00)
@@ -15095,6 +15445,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v4.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2018-12-06 02:23:00 -08:00 (2018-12-06 10:23:00.000000 +00:00)
@@ -15133,6 +15484,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 13
       datetime first     : 2019-08-31 23:52:25 -07:00 (2019-09-01 06:52:25.000000 +00:00)
@@ -15171,6 +15523,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2018-08-01 14:19:02 -07:00 (2018-08-01 21:19:02.000000 +00:00)
@@ -15209,6 +15562,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2016-12-05 20:47:06 -08:00 (2016-12-06 04:47:06.000000 +00:00)
@@ -15247,6 +15601,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
@@ -15285,6 +15640,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynoFinder.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2017-02-23 14:52:49 -08:00 (2017-02-23 22:52:49.000000 +00:00)
@@ -15323,6 +15679,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 13
       datetime first     : 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)
@@ -15361,6 +15718,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyDrive.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2018-12-06 02:27:37 -08:00 (2018-12-06 10:27:37.000000 +00:00)
@@ -15399,6 +15757,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2018-12-06 02:31:15 -08:00 (2018-12-06 10:31:15.000000 +00:00)
@@ -15437,6 +15796,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-USBCopy.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 12
       datetime first     : 2017-05-24 19:14:38 -07:00 (2017-05-25 02:14:38.000000 +00:00)
@@ -15475,6 +15835,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 18
       syslines high : 10
       datetime first     : 2018-09-04 15:01:08 -07:00 (2018-09-04 22:01:08.000000 +00:00)
@@ -15513,6 +15874,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-syslog.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 13
       datetime first     : 2018-09-04 14:55:44 -07:00 (2018-09-04 21:55:44.000000 +00:00)
@@ -15551,6 +15913,7 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 14
+      line parts    : 16
       syslines      : 4
       syslines high : 4
       datetime first     : 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
@@ -15589,6 +15952,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2018-12-06 02:26:02 -08:00 (2018-12-06 10:26:02.000000 +00:00)
@@ -15627,6 +15991,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-session_watcher
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 17
       datetime first     : 2019-08-31 23:53:52 -07:00 (2019-09-01 06:53:52.000000 +00:00)
@@ -15665,6 +16030,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-VapidSendServer
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2018-12-06 02:26:06 -08:00 (2018-12-06 10:26:06.000000 +00:00)
@@ -15703,6 +16069,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2019-01-30 13:11:28 -08:00 (2019-01-30 21:11:28.000000 +00:00)
@@ -15741,6 +16108,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2018-12-06 02:31:42 -08:00 (2018-12-06 10:31:42.000000 +00:00)
@@ -15779,6 +16147,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-concept.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 12
       datetime first     : 2018-12-06 02:31:29 -08:00 (2018-12-06 10:31:29.000000 +00:00)
@@ -15817,6 +16186,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-face-extraction.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2018-12-06 02:31:29 -08:00 (2018-12-06 10:31:29.000000 +00:00)
@@ -15855,6 +16225,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-filter.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 12
       datetime first     : 2019-01-30 13:11:28 -08:00 (2019-01-30 21:11:28.000000 +00:00)
@@ -15893,6 +16264,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2018-12-06 02:31:29 -08:00 (2018-12-06 10:31:29.000000 +00:00)
@@ -15931,6 +16303,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2019-01-30 13:11:28 -08:00 (2019-01-30 21:11:28.000000 +00:00)
@@ -15969,6 +16342,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-notify-center.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2019-01-30 13:11:39 -08:00 (2019-01-30 21:11:39.000000 +00:00)
@@ -16007,6 +16381,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-person-clustering.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2018-12-06 02:31:29 -08:00 (2018-12-06 10:31:29.000000 +00:00)
@@ -16045,6 +16420,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2018-12-06 02:31:27 -08:00 (2018-12-06 10:31:27.000000 +00:00)
@@ -16083,6 +16459,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumb.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 12
       datetime first     : 2018-12-06 02:31:29 -08:00 (2018-12-06 10:31:29.000000 +00:00)
@@ -16121,6 +16498,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-thumbnail-provider.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2018-12-06 02:31:31 -08:00 (2018-12-06 10:31:31.000000 +00:00)
@@ -16159,6 +16537,7 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 9
       datetime first     : 2017-01-03 01:40:55 -08:00 (2017-01-03 09:40:55.000000 +00:00)
@@ -16197,6 +16576,7 @@ File: ./logs/synology-DS6/upstart/pppoerelay.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 12
       datetime first     : 2016-12-05 20:36:44 -08:00 (2016-12-06 04:36:44.000000 +00:00)
@@ -16235,6 +16615,7 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)
@@ -16273,6 +16654,7 @@ File: ./logs/synology-DS6/upstart/rc.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 16
       syslines high : 14
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
@@ -16311,6 +16693,7 @@ File: ./logs/synology-DS6/upstart/rc-sysinit.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
@@ -16349,6 +16732,7 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 1
       syslines high : 1
       datetime first     : 2016-12-05 20:30:58 -08:00 (2016-12-06 04:30:58.000000 +00:00)
@@ -16387,6 +16771,7 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2016-12-08 18:54:18 -08:00 (2016-12-09 02:54:18.000000 +00:00)
@@ -16425,6 +16810,7 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 19
       datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
@@ -16463,6 +16849,7 @@ File: ./logs/synology-DS6/upstart/scemd.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 14
       datetime first     : 2017-02-23 14:53:03 -08:00 (2017-02-23 22:53:03.000000 +00:00)
@@ -16501,6 +16888,7 @@ File: ./logs/synology-DS6/upstart/scrubbing-conf-sync.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2018-08-01 14:16:55 -07:00 (2018-08-01 21:16:55.000000 +00:00)
@@ -16539,6 +16927,7 @@ File: ./logs/synology-DS6/upstart/smallupdate.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 6
+      line parts    : 7
       syslines      : 6
       syslines high : 6
       datetime first     : 2016-12-05 21:38:43 -08:00 (2016-12-06 05:38:43.000000 +00:00)
@@ -16577,6 +16966,7 @@ File: ./logs/synology-DS6/upstart/smbd.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 16
       syslines high : 11
       datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
@@ -16615,6 +17005,7 @@ File: ./logs/synology-DS6/upstart/sshd.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 6
       syslines high : 6
       datetime first     : 2016-12-08 18:54:05 -08:00 (2016-12-09 02:54:05.000000 +00:00)
@@ -16653,6 +17044,7 @@ File: ./logs/synology-DS6/upstart/ssh-sftp.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 18
       datetime first     : 2016-12-08 18:56:18 -08:00 (2016-12-09 02:56:18.000000 +00:00)
@@ -16691,6 +17083,7 @@ File: ./logs/synology-DS6/upstart/ssh-shell.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2016-12-08 18:57:05 -08:00 (2016-12-09 02:57:05.000000 +00:00)
@@ -16729,6 +17122,7 @@ File: ./logs/synology-DS6/upstart/syno-auth-check.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 18
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
@@ -16767,6 +17161,7 @@ File: ./logs/synology-DS6/upstart/synocgid.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 19
       datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
@@ -16805,6 +17200,7 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2016-12-05 20:31:49 -08:00 (2016-12-06 04:31:49.000000 +00:00)
@@ -16843,6 +17239,7 @@ File: ./logs/synology-DS6/upstart/synoconfd.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 13
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
@@ -16881,6 +17278,7 @@ File: ./logs/synology-DS6/upstart/synocrond.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 19
       datetime first     : 2018-08-01 14:16:54 -07:00 (2018-08-01 21:16:54.000000 +00:00)
@@ -16919,6 +17317,7 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2017-02-23 14:52:13 -08:00 (2017-02-23 22:52:13.000000 +00:00)
@@ -16957,6 +17356,7 @@ File: ./logs/synology-DS6/upstart/synoindexd.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2018-12-06 02:30:30 -08:00 (2018-12-06 10:30:30.000000 +00:00)
@@ -16995,6 +17395,7 @@ File: ./logs/synology-DS6/upstart/synologand.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 17
       datetime first     : 2018-08-01 14:16:55 -07:00 (2018-08-01 21:16:55.000000 +00:00)
@@ -17033,6 +17434,7 @@ File: ./logs/synology-DS6/upstart/synologd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 18
       datetime first     : 2016-12-08 18:56:17 -08:00 (2016-12-09 02:56:17.000000 +00:00)
@@ -17071,6 +17473,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 16
+      line parts    : 19
       syslines      : 16
       syslines high : 16
       datetime first     : 2016-12-05 21:16:11 -08:00 (2016-12-06 05:16:11.000000 +00:00)
@@ -17109,6 +17512,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 18
       datetime first     : 2016-12-08 18:56:16 -08:00 (2016-12-09 02:56:16.000000 +00:00)
@@ -17147,6 +17551,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-ftpd-ssl.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 18
       datetime first     : 2016-12-08 18:56:16 -08:00 (2016-12-09 02:56:16.000000 +00:00)
@@ -17185,6 +17590,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 9
+      line parts    : 10
       syslines      : 9
       syslines high : 9
       datetime first     : 2016-12-05 21:16:10 -08:00 (2016-12-06 05:16:10.000000 +00:00)
@@ -17223,6 +17629,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 7
+      line parts    : 8
       syslines      : 7
       syslines high : 7
       datetime first     : 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)
@@ -17261,6 +17668,7 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 15
+      line parts    : 18
       syslines      : 15
       syslines high : 15
       datetime first     : 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
@@ -17299,6 +17707,7 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 16
+      line parts    : 20
       syslines      : 16
       syslines high : 14
       datetime first     : 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
@@ -17337,6 +17746,7 @@ File: ./logs/synology-DS6/upstart/synomount.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 18
       syslines high : 18
       datetime first     : 2016-12-05 20:31:46 -08:00 (2016-12-06 04:31:46.000000 +00:00)
@@ -17375,6 +17785,7 @@ File: ./logs/synology-DS6/upstart/syno-move-coredump.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 14
       datetime first     : 2018-10-15 14:09:07 -07:00 (2018-10-15 21:09:07.000000 +00:00)
@@ -17413,6 +17824,7 @@ File: ./logs/synology-DS6/upstart/synonetd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 18
       syslines high : 18
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
@@ -17451,6 +17863,7 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 15
       syslines high : 9
       datetime first     : 2016-12-05 20:31:34 -08:00 (2016-12-06 04:31:34.000000 +00:00)
@@ -17489,6 +17902,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-launcher.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)
@@ -17527,6 +17941,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 12
       datetime first     : 2017-02-23 14:53:02 -08:00 (2017-02-23 22:53:02.000000 +00:00)
@@ -17565,6 +17980,7 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 18
       syslines high : 9
       datetime first     : 2016-12-05 20:31:55 -08:00 (2016-12-06 04:31:55.000000 +00:00)
@@ -17603,6 +18019,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
@@ -17641,6 +18058,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 19
       datetime first     : 2018-08-01 14:16:24 -07:00 (2018-08-01 21:16:24.000000 +00:00)
@@ -17679,6 +18097,7 @@ File: ./logs/synology-DS6/upstart/syno-share-check.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 16
       syslines high : 11
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)
@@ -17717,6 +18136,7 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 13
+      line parts    : 17
       syslines      : 13
       syslines high : 12
       datetime first     : 2017-02-23 14:52:10 -08:00 (2017-02-23 22:52:10.000000 +00:00)
@@ -17755,6 +18175,7 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 1
       syslines high : 1
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)
@@ -17793,6 +18214,7 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 17
       datetime first     : 2016-12-05 21:00:59 -08:00 (2016-12-06 05:00:59.000000 +00:00)
@@ -17831,6 +18253,7 @@ File: ./logs/synology-DS6/upstart/synostoraged.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)
@@ -17869,6 +18292,7 @@ File: ./logs/synology-DS6/upstart/synovpnclient.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 19
       datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
@@ -17907,6 +18331,7 @@ File: ./logs/synology-DS6/upstart/synowifid-handler.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
@@ -17945,6 +18370,7 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 2
       syslines high : 2
       datetime first     : 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)
@@ -17983,6 +18409,7 @@ File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2019-06-28 19:41:51 -07:00 (2019-06-29 02:41:51.000000 +00:00)
@@ -18021,6 +18448,7 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 5
       syslines high : 5
       datetime first     : 2019-06-23 21:10:22 -07:00 (2019-06-24 04:10:22.000000 +00:00)
@@ -18059,6 +18487,7 @@ File: ./logs/synology-DS6/upstart/syslog-ng.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
@@ -18097,6 +18526,7 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 16
       syslines high : 16
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
@@ -18135,6 +18565,7 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2018-08-01 14:16:55 -07:00 (2018-08-01 21:16:55.000000 +00:00)
@@ -18173,6 +18604,7 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 15
       syslines high : 15
       datetime first     : 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
@@ -18211,6 +18643,7 @@ File: ./logs/synology-DS6/upstart/umount-root-fs.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 17
       datetime first     : 2016-12-05 21:01:12 -08:00 (2016-12-06 05:01:12.000000 +00:00)
@@ -18249,6 +18682,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 11
       syslines high : 11
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
@@ -18287,6 +18721,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-remote.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 18
       syslines high : 16
       datetime first     : 2016-12-05 20:31:21 -08:00 (2016-12-06 04:31:21.000000 +00:00)
@@ -18325,6 +18760,7 @@ File: ./logs/synology-DS6/upstart/WDidle3Dis.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 18
       syslines high : 14
       datetime first     : 2016-12-05 21:00:55 -08:00 (2016-12-06 05:00:55.000000 +00:00)
@@ -18363,6 +18799,7 @@ File: ./logs/synology-DS6/usbcopyd.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2017-05-24 19:14:38 -07:00 (2017-05-25 02:14:38.000000 +00:00)
@@ -18491,6 +18928,7 @@ File: ./logs/Ubuntu18/apt/history.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 6
+      line parts    : 9
       syslines      : 2
       syslines high : 2
       datetime first     : 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)
@@ -18529,6 +18967,7 @@ File: ./logs/Ubuntu18/apt/term.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 1
       syslines high : 1
       datetime first     : 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)
@@ -18567,6 +19006,7 @@ File: ./logs/Ubuntu18/cups/access_log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2020-03-15 00:08:26 -07:00 (2020-03-15 07:08:26.000000 +00:00)
@@ -18605,6 +19045,7 @@ File: ./logs/Ubuntu18/cups/access_log.1
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 6
+      line parts    : 8
       syslines      : 6
       syslines high : 6
       datetime first     : 2020-03-14 00:07:47 -07:00 (2020-03-14 07:07:47.000000 +00:00)
@@ -18643,6 +19084,7 @@ File: ./logs/Ubuntu18/cups/error_log.1
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-08-09 00:09:01 -07:00 (2019-08-09 07:09:01.000000 +00:00)
@@ -18682,6 +19124,7 @@ File: ./logs/Ubuntu18/fontconfig.log
       blocks        : 1
       blocks total  : 7 (1792 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -18718,6 +19161,7 @@ File: ./logs/Ubuntu18/gpu-manager.log
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 4
+      line parts    : 5
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -18754,6 +19198,7 @@ File: ./logs/Ubuntu18/gpu-manager-switch.log
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 4
+      line parts    : 5
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -18790,6 +19235,7 @@ File: ./logs/Ubuntu18/installer/initial-status
       blocks        : 1
       blocks total  : 4 (1024 bytes)
       lines         : 9
+      line parts    : 10
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -18826,6 +19272,7 @@ File: ./logs/Ubuntu18/installer/media-info
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -18860,6 +19307,7 @@ File: ./logs/Ubuntu18/installer/telemetry
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -18895,6 +19343,7 @@ File: ./logs/Ubuntu18/kern.log.1
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 20
       syslines high : 19
       datetime first     : 2019-03-09 08:10:29 +08:00 (2019-03-09 00:10:29.000000 +00:00)
@@ -18934,6 +19383,7 @@ File: ./logs/Ubuntu18/nvidia-installer.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-05-31 13:49:08 +08:00 (2019-05-31 05:49:08.000000 +00:00)
@@ -18973,6 +19423,7 @@ File: ./logs/Ubuntu18/prime-offload.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -19009,6 +19460,7 @@ File: ./logs/Ubuntu18/prime-supported.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -19044,6 +19496,7 @@ File: ./logs/Ubuntu18/samba/log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 6
       syslines high : 6
       datetime first     : 2020-03-05 12:16:44 +08:00 (2020-03-05 04:16:44.434700 +00:00)
@@ -19082,6 +19535,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.1
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 10
       syslines high : 8
       datetime first     : 2020-03-08 06:23:48 +08:00 (2020-03-07 22:23:48.100000 +00:00)
@@ -19120,6 +19574,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.2
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 10
       syslines high : 9
       datetime first     : 2020-03-05 12:45:08 +08:00 (2020-03-05 04:45:08.592000 +00:00)
@@ -19158,6 +19613,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 10
       syslines high : 8
       datetime first     : 2020-03-14 15:47:41 +08:00 (2020-03-14 07:47:41.875900 +00:00)
@@ -19196,6 +19652,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 10
       syslines high : 8
       datetime first     : 2020-03-05 16:00:49 +08:00 (2020-03-05 08:00:49.601800 +00:00)
@@ -19234,6 +19691,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.5
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 10
       syslines high : 9
       datetime first     : 2020-03-05 12:21:13 +08:00 (2020-03-05 04:21:13.764800 +00:00)
@@ -19272,6 +19730,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 10
       syslines high : 9
       datetime first     : 2020-03-05 12:17:59 +08:00 (2020-03-05 04:17:59.350300 +00:00)
@@ -19310,6 +19769,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.7
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 10
       syslines high : 9
       datetime first     : 2020-03-05 12:17:59 +08:00 (2020-03-05 04:17:59.551300 +00:00)
@@ -19348,6 +19808,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 10
       syslines high : 7
       datetime first     : 2020-03-15 22:17:15 +08:00 (2020-03-15 14:17:15.120200 +00:00)
@@ -19386,6 +19847,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 7
       syslines high : 7
       datetime first     : 2020-03-08 00:04:56 +08:00 (2020-03-07 16:04:56.324940 +00:00)
@@ -19424,6 +19886,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 10
       syslines high : 7
       datetime first     : 2020-03-15 22:06:49 +08:00 (2020-03-15 14:06:49.174910 +00:00)
@@ -19462,6 +19925,7 @@ File: ./logs/Ubuntu18/samba/log.smbd
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 4
       syslines high : 4
       datetime first     : 2020-03-08 00:07:47 +08:00 (2020-03-07 16:07:47.990800 +00:00)
@@ -19500,6 +19964,7 @@ File: ./logs/Ubuntu18/samba/log.smbd.1
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 7
       syslines high : 7
       datetime first     : 2020-03-05 11:57:04 +08:00 (2020-03-05 03:57:04.343000 +00:00)
@@ -19538,6 +20003,7 @@ File: ./logs/Ubuntu18/vmware/hostd-62.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 19
       syslines high : 8
       datetime first     : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
@@ -19576,6 +20042,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 19
       syslines high : 8
       datetime first     : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)
@@ -19614,6 +20081,7 @@ File: ./logs/Ubuntu18/vmware-installer
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 18
+      line parts    : 24
       syslines      : 18
       syslines high : 14
       datetime first     : 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.032000 +00:00)
@@ -19652,6 +20120,7 @@ File: ./logs/Ubuntu18/xrdp.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 12
       datetime first     : 2020-01-13 11:03:06 +08:00 (2020-01-13 03:03:06.000000 +00:00)
@@ -19720,6 +20189,7 @@ File: ./logs/Ubuntu22/alternatives.log.1
       blocks        : 27
       blocks total  : 27 (6912 bytes)
       lines         : 13
+      line parts    : 39
       syslines      : 13
       syslines high : 7
       datetime first     : 2022-10-04 06:22:31 +08:00 (2022-10-03 22:22:31.000000 +00:00)
@@ -19758,6 +20228,7 @@ File: ./logs/Ubuntu22/apport.log.1
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 5
+      line parts    : 7
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-09-20 23:15:39 +08:00 (2022-09-20 15:15:39.000000 +00:00)
@@ -19797,6 +20268,7 @@ File: ./logs/Ubuntu22/apt/eipp.log
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 13
+      line parts    : 14
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -19832,6 +20304,7 @@ File: ./logs/Ubuntu22/apt/history.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 20
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
@@ -19870,6 +20343,7 @@ File: ./logs/Ubuntu22/apt/term.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 20
       syslines      : 1
       syslines high : 1
       datetime first     : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
@@ -19908,6 +20382,7 @@ File: ./logs/Ubuntu22/auth.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 19
       syslines      : 15
       syslines high : 14
       datetime first     : 2022-10-03 21:52:12 +08:00 (2022-10-03 13:52:12.000000 +00:00)
@@ -19947,6 +20422,7 @@ File: ./logs/Ubuntu22/auth.log.1
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 19
       syslines      : 15
       syslines high : 14
       datetime first     : 2022-09-18 07:00:12 +08:00 (2022-09-17 23:00:12.000000 +00:00)
@@ -19986,6 +20462,7 @@ File: ./logs/Ubuntu22/cloud-init.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 19
       syslines      : 14
       syslines high : 10
       datetime first     : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.002000 +00:00)
@@ -20024,6 +20501,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 20
       syslines      : 1
       syslines high : 1
       datetime first     : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.084000 +00:00)
@@ -20063,6 +20541,7 @@ File: ./logs/Ubuntu22/dmesg
       blocks        : 2
       blocks total  : 5 (1280 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 1
       syslines high : 1
       datetime first     : 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.000000 +00:00)
@@ -20102,6 +20581,7 @@ File: ./logs/Ubuntu22/dmesg-+0400
       blocks        : 2
       blocks total  : 4 (1024 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 1
       syslines high : 1
       datetime first     : 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.000000 +00:00)
@@ -20141,6 +20621,7 @@ File: ./logs/Ubuntu22/dmesg.0
       blocks        : 2
       blocks total  : 5 (1280 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 1
       syslines high : 1
       datetime first     : 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.342000 +00:00)
@@ -20181,6 +20662,7 @@ File: ./logs/Ubuntu22/dmesg.0.gz
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 1
       syslines high : 1
       datetime first     : 1970-01-01 00:00:00 +08:00 (1969-12-31 16:00:00.342000 +00:00)
@@ -20219,6 +20701,7 @@ File: ./logs/Ubuntu22/dpkg.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 14
+      line parts    : 17
       syslines      : 14
       syslines high : 13
       datetime first     : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
@@ -20257,6 +20740,7 @@ File: ./logs/Ubuntu22/dpkg.log.1
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 14
+      line parts    : 17
       syslines      : 14
       syslines high : 14
       datetime first     : 2022-09-01 06:21:01 +08:00 (2022-08-31 22:21:01.000000 +00:00)
@@ -20296,6 +20780,7 @@ File: ./logs/Ubuntu22/droplet-agent.update.log
       blocks        : 1
       blocks total  : 4 (1024 bytes)
       lines         : 6
+      line parts    : 7
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -20331,6 +20816,7 @@ File: ./logs/Ubuntu22/kern.log
       blocks        : 12
       blocks total  : 12 (3072 bytes)
       lines         : 14
+      line parts    : 25
       syslines      : 15
       syslines high : 14
       datetime first     : 2022-10-03 21:48:26 +08:00 (2022-10-03 13:48:26.000000 +00:00)
@@ -20369,6 +20855,7 @@ File: ./logs/Ubuntu22/kern.log.1
       blocks        : 1
       blocks total  : 6 (1536 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -20404,6 +20891,7 @@ File: ./logs/Ubuntu22/syslog
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 19
       syslines      : 15
       syslines high : 14
       datetime first     : 2022-10-03 21:48:21 +08:00 (2022-10-03 13:48:21.000000 +00:00)
@@ -20443,6 +20931,7 @@ File: ./logs/Ubuntu22/syslog.1
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 14
+      line parts    : 18
       syslines      : 15
       syslines high : 14
       datetime first     : 2022-09-18 07:00:10 +08:00 (2022-09-17 23:00:10.000000 +00:00)
@@ -20542,6 +21031,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 12
+      line parts    : 15
       syslines      : 12
       syslines high : 12
       datetime first     : 2022-10-03 22:47:11 +08:00 (2022-10-03 14:47:11.886000 +00:00)
@@ -20580,6 +21070,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 14
+      line parts    : 18
       syslines      : 14
       syslines high : 12
       datetime first     : 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
@@ -20618,6 +21109,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 20
       syslines      : 1
       syslines high : 1
       datetime first     : 2022-10-04 06:22:28 +08:00 (2022-10-03 22:22:28.000000 +00:00)
@@ -20656,6 +21148,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 14
+      line parts    : 18
       syslines      : 14
       syslines high : 11
       datetime first     : 2022-10-03 22:47:12 +08:00 (2022-10-03 14:47:12.455000 +00:00)
@@ -20694,6 +21187,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       blocks        : 77
       blocks total  : 77 (19712 bytes)
       lines         : 159
+      line parts    : 235
       syslines      : 152
       syslines high : 10
       datetime first     : 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)
@@ -20733,6 +21227,7 @@ File: ./logs/Windows10Pro/comsetup.log
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -20768,6 +21263,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 49
+      line parts    : 54
       syslines      : 5
       syslines high : 5
       datetime first     : 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
@@ -20807,6 +21303,7 @@ File: ./logs/Windows10Pro/DirectX.log
       blocks        : 1
       blocks total  : 11 (2816 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -20842,6 +21339,7 @@ File: ./logs/Windows10Pro/DISM/dism.log
       blocks        : 61
       blocks total  : 61 (15616 bytes)
       lines         : 111
+      line parts    : 172
       syslines      : 94
       syslines high : 7
       datetime first     : 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)
@@ -20881,6 +21379,7 @@ File: ./logs/Windows10Pro/DtcInstall.log
       blocks        : 1
       blocks total  : 4 (1024 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -20916,6 +21415,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 50
+      line parts    : 59
       syslines      : 4
       syslines high : 4
       datetime first     : 2020-05-27 12:23:20 +08:00 (2020-05-27 04:23:20.500000 +00:00)
@@ -20954,6 +21454,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       blocks        : 15
       blocks total  : 15 (3840 bytes)
       lines         : 50
+      line parts    : 65
       syslines      : 2
       syslines high : 2
       datetime first     : 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
@@ -20992,6 +21493,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.20191207_091437.log
       blocks        : 50
       blocks total  : 50 (12800 bytes)
       lines         : 161
+      line parts    : 211
       syslines      : 9
       syslines high : 5
       datetime first     : 2019-12-07 07:36:49 +08:00 (2019-12-06 23:36:49.142000 +00:00)
@@ -21030,6 +21532,7 @@ File: ./logs/Windows10Pro/INF/setupapi.offline.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 27
+      line parts    : 35
       syslines      : 6
       syslines high : 5
       datetime first     : 2020-05-27 11:29:27 +08:00 (2020-05-27 03:29:27.787000 +00:00)
@@ -21068,6 +21571,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       blocks        : 29
       blocks total  : 29 (7424 bytes)
       lines         : 129
+      line parts    : 158
       syslines      : 5
       syslines high : 5
       datetime first     : 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)
@@ -21107,6 +21611,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -21143,6 +21648,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.log
       blocks        : 1
       blocks total  : 1299 (332544 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -21179,6 +21685,7 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v4.0.30319/ngen.old.log
       blocks        : 1
       blocks total  : 73 (18688 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -21214,6 +21721,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       blocks        : 21
       blocks total  : 21 (5376 bytes)
       lines         : 55
+      line parts    : 75
       syslines      : 35
       syslines high : 9
       datetime first     : 2022-10-14 05:56:46 +08:00 (2022-10-13 21:56:46.000000 +00:00)
@@ -21252,6 +21760,7 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setuperr.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 33
+      line parts    : 43
       syslines      : 15
       syslines high : 10
       datetime first     : 2022-10-14 05:56:47 +08:00 (2022-10-13 21:56:47.000000 +00:00)
@@ -21290,6 +21799,7 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       blocks        : 25
       blocks total  : 25 (6400 bytes)
       lines         : 74
+      line parts    : 99
       syslines      : 3
       syslines high : 3
       datetime first     : 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
@@ -21329,6 +21839,7 @@ File: ./logs/Windows10Pro/PFRO.log
       blocks        : 1
       blocks total  : 88 (22528 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -21365,6 +21876,7 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
       blocks        : 1
       blocks total  : 51 (13056 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -21399,6 +21911,7 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
       blocks        : 1
       blocks total  : 356 (91136 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -21434,6 +21947,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       blocks        : 490
       blocks total  : 490 (125440 bytes)
       lines         : 1300
+      line parts    : 1786
       syslines      : 1205
       syslines high : 11
       datetime first     : 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
@@ -21472,6 +21986,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       blocks        : 60
       blocks total  : 60 (15360 bytes)
       lines         : 105
+      line parts    : 164
       syslines      : 105
       syslines high : 7
       datetime first     : 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
@@ -21511,6 +22026,7 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
       blocks        : 1
       blocks total  : 6 (1536 bytes)
       lines         : 4
+      line parts    : 5
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -21546,6 +22062,7 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       blocks        : 20
       blocks total  : 20 (5120 bytes)
       lines         : 42
+      line parts    : 61
       syslines      : 40
       syslines high : 9
       datetime first     : 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
@@ -21585,6 +22102,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       blocks        : 1
       blocks total  : 465 (119040 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -21620,6 +22138,7 @@ File: ./logs/Windows11Pro/Temp/cv_debug.log
       blocks        : 46
       blocks total  : 46 (11776 bytes)
       lines         : 96
+      line parts    : 141
       syslines      : 97
       syslines high : 96
       datetime first     : 2024-02-26 05:27:26 +08:00 (2024-02-25 21:27:26.000000 +00:00)

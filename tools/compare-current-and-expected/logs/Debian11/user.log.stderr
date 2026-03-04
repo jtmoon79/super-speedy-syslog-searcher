@@ -20,6 +20,7 @@ File: ./logs/Debian11/user.log
       blocks        : 13
       blocks total  : 13 (3328 bytes)
       lines         : 25
+      line parts    : 37
       syslines      : 26
       syslines high : 25
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)

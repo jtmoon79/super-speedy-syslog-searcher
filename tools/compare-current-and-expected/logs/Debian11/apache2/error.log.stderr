@@ -20,6 +20,7 @@ File: ./logs/Debian11/apache2/error.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 5
+      line parts    : 8
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-10-10 23:56:29 +08:00 (2022-10-10 15:56:29.204202 +00:00)

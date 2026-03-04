@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/synoreport.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 16
       datetime first     : 2017-05-14 04:00:07 +08:00 (2017-05-13 20:00:07.000000 +00:00)

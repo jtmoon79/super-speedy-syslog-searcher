@@ -20,6 +20,7 @@ File: ./logs/RancherOS-1.5.8/boot/respawn.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 21
+      line parts    : 27
       syslines      : 20
       syslines high : 13
       datetime first     : 2021-02-05 19:27:13 +00:00 (2021-02-05 19:27:13.000000 +00:00)

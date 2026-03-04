@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/syslog-ng.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)

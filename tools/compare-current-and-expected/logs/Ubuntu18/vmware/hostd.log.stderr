@@ -20,6 +20,7 @@ File: ./logs/Ubuntu18/vmware/hostd.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 19
       syslines high : 8
       datetime first     : 2019-07-26 10:40:29 -07:00 (2019-07-26 17:40:29.678000 +00:00)

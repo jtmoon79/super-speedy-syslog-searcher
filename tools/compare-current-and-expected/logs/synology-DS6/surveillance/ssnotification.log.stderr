@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/surveillance/ssnotification.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 20
       syslines high : 19
       datetime first     : 2022-12-15 21:30:29 +08:00 (2022-12-15 13:30:29.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 21
+      line parts    : 29
       syslines      : 18
       syslines high : 12
       datetime first     : 2022-10-10 20:23:22 +00:00 (2022-10-10 20:23:22.000000 +00:00)

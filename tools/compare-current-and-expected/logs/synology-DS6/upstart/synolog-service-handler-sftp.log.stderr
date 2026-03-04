@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-sftp.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 7
+      line parts    : 8
       syslines      : 7
       syslines high : 7
       datetime first     : 2016-12-08 18:56:19 -08:00 (2016-12-09 02:56:19.000000 +00:00)

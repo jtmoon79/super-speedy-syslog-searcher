@@ -20,6 +20,7 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.6
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 10
       syslines high : 9
       datetime first     : 2020-03-05 12:17:59 +08:00 (2020-03-05 04:17:59.350300 +00:00)

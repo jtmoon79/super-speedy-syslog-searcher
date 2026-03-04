@@ -20,6 +20,7 @@ File: ./logs/Debian9/dpkg.log.1
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2020-02-23 16:38:30 +08:00 (2020-02-23 08:38:30.000000 +00:00)

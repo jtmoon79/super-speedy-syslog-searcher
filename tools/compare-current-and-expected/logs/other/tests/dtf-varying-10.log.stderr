@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf-varying-10.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 10
+      line parts    : 11
       syslines      : 4
       syslines high : 4
       datetime first     : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)

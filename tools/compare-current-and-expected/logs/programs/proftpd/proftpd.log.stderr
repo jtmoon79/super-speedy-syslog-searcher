@@ -20,6 +20,7 @@ File: ./logs/programs/proftpd/proftpd.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 10
       datetime first     : 2020-10-03 11:24:09 +08:00 (2020-10-03 03:24:09.447000 +00:00)

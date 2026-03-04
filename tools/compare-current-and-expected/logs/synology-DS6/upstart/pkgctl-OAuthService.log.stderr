@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-OAuthService.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2018-08-01 14:19:02 -07:00 (2018-08-01 21:19:02.000000 +00:00)

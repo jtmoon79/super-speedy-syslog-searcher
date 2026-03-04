@@ -21,6 +21,7 @@ File: ./logs/Ubuntu18/fontconfig.log
       blocks        : 1
       blocks total  : 7 (1792 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:

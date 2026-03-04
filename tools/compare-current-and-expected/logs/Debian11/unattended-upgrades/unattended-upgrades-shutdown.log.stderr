@@ -20,6 +20,7 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 5
+      line parts    : 7
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)

@@ -21,6 +21,7 @@ File: ./logs/Windows10Pro/security/logs/sceupgrade.log
       blocks        : 1
       blocks total  : 51 (13056 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:

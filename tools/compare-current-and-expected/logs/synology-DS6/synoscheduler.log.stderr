@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/synoscheduler.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 18
+      line parts    : 26
       syslines      : 18
       syslines high : 10
       datetime first     : 2016-12-05 20:37:01 -08:00 (2016-12-06 04:37:01.000000 +00:00)

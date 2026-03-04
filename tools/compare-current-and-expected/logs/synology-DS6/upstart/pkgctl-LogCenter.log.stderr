@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-LogCenter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2018-09-04 14:55:42 -07:00 (2018-09-04 21:55:42.000000 +00:00)

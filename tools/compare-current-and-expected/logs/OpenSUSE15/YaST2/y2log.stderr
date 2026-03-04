@@ -20,6 +20,7 @@ File: ./logs/OpenSUSE15/YaST2/y2log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 20
+      line parts    : 28
       syslines      : 20
       syslines high : 10
       datetime first     : 2019-09-16 07:39:16 +08:00 (2019-09-15 23:39:16.000000 +00:00)

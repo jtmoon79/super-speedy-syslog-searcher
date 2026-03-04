@@ -20,6 +20,7 @@ File: ./logs/Debian11/dpkg.log
       blocks        : 12
       blocks total  : 12 (3072 bytes)
       lines         : 49
+      line parts    : 60
       syslines      : 48
       syslines high : 15
       datetime first     : 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)

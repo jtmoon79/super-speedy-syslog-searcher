@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/downloadstation.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 9
       datetime first     : 2019-08-31 14:59:46 -07:00 (2019-08-31 21:59:46.000000 +00:00)

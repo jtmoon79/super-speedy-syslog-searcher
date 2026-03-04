@@ -19,6 +19,7 @@ File: ./logs/Ubuntu22/kern.log.1
       blocks        : 1
       blocks total  : 6 (1536 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:

@@ -20,6 +20,7 @@ File: ./logs/other/tests/basic-dt-u-mixnl.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 64
+      line parts    : 66
       syslines      : 10
       syslines high : 10
       datetime first     : 2020-01-01 00:00:00 +08:00 (2019-12-31 16:00:00.000000 +00:00)

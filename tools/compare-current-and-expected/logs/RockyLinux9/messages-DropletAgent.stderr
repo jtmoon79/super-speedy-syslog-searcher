@@ -20,6 +20,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       blocks        : 21
       blocks total  : 21 (5376 bytes)
       lines         : 37
+      line parts    : 58
       syslines      : 37
       syslines high : 37
       datetime first     : 2022-10-08 06:18:58 +08:00 (2022-10-07 22:18:58.000000 +00:00)

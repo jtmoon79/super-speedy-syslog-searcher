@@ -20,6 +20,7 @@ File: ./logs/Ubuntu22/apport.log.1
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 5
+      line parts    : 7
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-09-20 23:15:39 +08:00 (2022-09-20 15:15:39.000000 +00:00)

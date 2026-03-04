@@ -20,6 +20,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       blocks        : 60
       blocks total  : 60 (15360 bytes)
       lines         : 105
+      line parts    : 164
       syslines      : 105
       syslines high : 7
       datetime first     : 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)

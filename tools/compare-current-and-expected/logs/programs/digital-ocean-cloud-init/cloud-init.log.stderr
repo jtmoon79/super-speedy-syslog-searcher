@@ -20,6 +20,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       blocks        : 16
       blocks total  : 16 (4096 bytes)
       lines         : 33
+      line parts    : 48
       syslines      : 30
       syslines high : 9
       datetime first     : 2022-10-08 06:18:26 +08:00 (2022-10-07 22:18:26.935000 +00:00)

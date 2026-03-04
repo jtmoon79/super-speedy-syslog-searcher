@@ -21,6 +21,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:

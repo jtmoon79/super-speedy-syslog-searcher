@@ -20,6 +20,7 @@ File: ./logs/Debian11/messages
       blocks        : 13
       blocks total  : 13 (3328 bytes)
       lines         : 21
+      line parts    : 34
       syslines      : 20
       syslines high : 20
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)

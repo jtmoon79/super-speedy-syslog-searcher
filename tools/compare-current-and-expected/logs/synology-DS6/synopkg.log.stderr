@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/synopkg.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 10
       syslines high : 6
       datetime first     : 2016-12-05 20:47:00 +08:00 (2016-12-05 12:47:00.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/other/tests/invalid.gz
       blocks        : 0
       blocks total  : 672842 (172247552 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:

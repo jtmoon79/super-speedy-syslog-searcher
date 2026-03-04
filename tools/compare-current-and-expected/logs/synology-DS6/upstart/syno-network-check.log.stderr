@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 15
       syslines high : 9
       datetime first     : 2016-12-05 20:31:34 -08:00 (2016-12-06 04:31:34.000000 +00:00)

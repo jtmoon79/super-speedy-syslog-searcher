@@ -20,6 +20,7 @@ File: ./logs/Debian11/kern.log
       blocks        : 14
       blocks total  : 14 (3584 bytes)
       lines         : 21
+      line parts    : 35
       syslines      : 20
       syslines high : 20
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)

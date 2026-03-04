@@ -20,6 +20,7 @@ File: ./logs/Ubuntu18/samba/log.nmbd.1
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 7
       syslines high : 7
       datetime first     : 2020-03-08 00:04:56 +08:00 (2020-03-07 16:04:56.324940 +00:00)

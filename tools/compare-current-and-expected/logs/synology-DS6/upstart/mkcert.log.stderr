@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/mkcert.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 15
       syslines high : 10
       datetime first     : 2016-12-05 20:31:15 -08:00 (2016-12-06 04:31:15.000000 +00:00)

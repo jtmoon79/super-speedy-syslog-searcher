@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/smart_extend_log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line parts    : 9
       syslines      : 4
       syslines high : 4
       datetime first     : 2019-12-20 00:00:03 +08:00 (2019-12-19 16:00:03.000000 +00:00)

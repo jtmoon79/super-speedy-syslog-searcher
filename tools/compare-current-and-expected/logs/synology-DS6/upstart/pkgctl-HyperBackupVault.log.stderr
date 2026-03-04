@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 14
       datetime first     : 2018-11-29 23:50:14 -08:00 (2018-11-30 07:50:14.000000 +00:00)

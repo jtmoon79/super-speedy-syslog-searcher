@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 13
       syslines high : 9
       datetime first     : 2019-06-23 21:14:45 +08:00 (2019-06-23 13:14:45.000000 +00:00)

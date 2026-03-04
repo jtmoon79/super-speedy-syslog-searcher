@@ -21,6 +21,7 @@ File: ./logs/Windows10Pro/DtcInstall.log
       blocks        : 1
       blocks total  : 4 (1024 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:

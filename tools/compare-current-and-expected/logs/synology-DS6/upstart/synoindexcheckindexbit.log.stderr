@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synoindexcheckindexbit.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2017-02-23 14:52:13 -08:00 (2017-02-23 22:52:13.000000 +00:00)

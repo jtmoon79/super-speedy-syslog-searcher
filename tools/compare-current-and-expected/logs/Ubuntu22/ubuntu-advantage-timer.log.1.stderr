@@ -20,6 +20,7 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 14
+      line parts    : 18
       syslines      : 14
       syslines high : 12
       datetime first     : 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)

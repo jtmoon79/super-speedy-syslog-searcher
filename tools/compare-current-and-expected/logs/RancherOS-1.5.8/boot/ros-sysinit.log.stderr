@@ -20,6 +20,7 @@ File: ./logs/RancherOS-1.5.8/boot/ros-sysinit.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 21
+      line parts    : 26
       syslines      : 18
       syslines high : 11
       datetime first     : 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 21
+      line parts    : 31
       syslines      : 1
       syslines high : 1
       datetime first     : 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)

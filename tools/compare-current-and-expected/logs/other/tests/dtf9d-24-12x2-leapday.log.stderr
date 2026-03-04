@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 25
+      line parts    : 27
       syslines      : 25
       syslines high : 23
       datetime first     : 2021-01-01 01:00:00 -09:00 (2021-01-01 10:00:00.000000 +00:00)

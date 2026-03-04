@@ -19,6 +19,7 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
       blocks        : 1
       blocks total  : 14 (3584 bytes)
       lines         : 0
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:

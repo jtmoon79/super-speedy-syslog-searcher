@@ -21,6 +21,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, LZMA, 9).zip
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 2
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:

@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/synolog/synobackup.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 16
+      line parts    : 22
       syslines      : 15
       syslines high : 10
       datetime first     : 2017-02-21 21:36:10 +08:00 (2017-02-21 13:36:10.000000 +00:00)

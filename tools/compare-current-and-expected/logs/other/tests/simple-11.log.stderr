@@ -21,6 +21,7 @@ File: ./logs/other/tests/simple-11.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 0
       syslines high : 0
   Processing Stores:

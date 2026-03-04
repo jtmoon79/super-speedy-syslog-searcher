@@ -20,6 +20,7 @@ File: ./logs/Debian9/alternatives.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 29
       syslines      : 14
       syslines high : 7
       datetime first     : 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)

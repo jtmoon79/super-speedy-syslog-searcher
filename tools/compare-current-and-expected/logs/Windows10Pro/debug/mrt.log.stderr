@@ -20,6 +20,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 49
+      line parts    : 54
       syslines      : 5
       syslines high : 5
       datetime first     : 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)

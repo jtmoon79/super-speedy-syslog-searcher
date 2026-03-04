@@ -20,6 +20,7 @@ File: ./logs/programs/flask/server.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 4
       syslines high : 4
       datetime first     : 2024-03-22 15:11:28 +08:00 (2024-03-22 07:11:28.000000 +00:00)

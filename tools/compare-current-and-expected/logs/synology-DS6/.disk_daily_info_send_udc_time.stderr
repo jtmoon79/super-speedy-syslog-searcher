@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)

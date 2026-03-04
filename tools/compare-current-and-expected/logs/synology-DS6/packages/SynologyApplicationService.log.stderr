@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 5
       syslines high : 5
       datetime first     : 2019-06-23 21:14:11 +08:00 (2019-06-23 13:14:11.000000 +00:00)

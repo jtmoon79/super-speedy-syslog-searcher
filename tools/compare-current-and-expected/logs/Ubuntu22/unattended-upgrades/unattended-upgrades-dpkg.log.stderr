@@ -20,6 +20,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades-dpkg.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 20
       syslines      : 1
       syslines high : 1
       datetime first     : 2022-10-04 06:22:28 +08:00 (2022-10-03 22:22:28.000000 +00:00)

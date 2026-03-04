@@ -20,6 +20,7 @@ File: ./logs/programs/tomcat/catalina-access.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 2
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2023-02-14 14:30:20 +00:00 (2023-02-14 14:30:20.483000 +00:00)

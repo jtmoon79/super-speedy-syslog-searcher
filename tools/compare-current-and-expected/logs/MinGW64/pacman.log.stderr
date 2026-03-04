@@ -20,6 +20,7 @@ File: ./logs/MinGW64/pacman.log
       blocks        : 23
       blocks total  : 23 (5888 bytes)
       lines         : 102
+      line parts    : 124
       syslines      : 102
       syslines high : 15
       datetime first     : 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)

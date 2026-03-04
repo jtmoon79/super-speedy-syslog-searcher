@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/inetd.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 11
       syslines high : 11
       datetime first     : 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)

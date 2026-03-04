@@ -20,6 +20,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       blocks        : 12
       blocks total  : 12 (3072 bytes)
       lines         : 21
+      line parts    : 32
       syslines      : 18
       syslines high : 9
       datetime first     : 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)

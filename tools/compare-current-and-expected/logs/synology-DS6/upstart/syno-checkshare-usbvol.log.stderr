@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/syno-checkshare-usbvol.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2016-12-05 20:31:49 -08:00 (2016-12-06 04:31:49.000000 +00:00)

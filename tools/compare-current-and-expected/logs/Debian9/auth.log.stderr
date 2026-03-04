@@ -20,6 +20,7 @@ File: ./logs/Debian9/auth.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 20
       syslines high : 19
       datetime first     : 2020-02-23 06:37:40 +08:00 (2020-02-22 22:37:40.000000 +00:00)

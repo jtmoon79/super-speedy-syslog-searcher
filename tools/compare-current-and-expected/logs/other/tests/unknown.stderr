@@ -20,6 +20,7 @@ File: ./logs/other/tests/unknown
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 4
       syslines high : 4
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626000 +00:00)

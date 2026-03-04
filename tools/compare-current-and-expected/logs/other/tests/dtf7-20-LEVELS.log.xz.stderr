@@ -21,6 +21,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.xz
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)

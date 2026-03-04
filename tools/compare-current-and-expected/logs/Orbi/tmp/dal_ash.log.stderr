@@ -20,6 +20,7 @@ File: ./logs/Orbi/tmp/dal_ash.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 9
+      line parts    : 12
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-05-10 17:20:40 +08:00 (2022-05-10 09:20:40.000000 +00:00)

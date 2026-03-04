@@ -20,6 +20,7 @@ File: ./logs/other/tests/basic-dt27.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 27
+      line parts    : 30
       syslines      : 27
       syslines high : 27
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)

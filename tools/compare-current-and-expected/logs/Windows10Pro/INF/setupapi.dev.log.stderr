@@ -20,6 +20,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       blocks        : 15
       blocks total  : 15 (3840 bytes)
       lines         : 50
+      line parts    : 65
       syslines      : 2
       syslines high : 2
       datetime first     : 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/synocontentextractd.log
       blocks        : 15
       blocks total  : 15 (3840 bytes)
       lines         : 19
+      line parts    : 34
       syslines      : 19
       syslines high : 6
       datetime first     : 2019-01-07 00:12:20 -08:00 (2019-01-07 08:12:20.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf13c.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 3
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/Debian9/samba/log.host1
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-04-21 20:41:09 +08:00 (2019-04-21 12:41:09.173000 +00:00)

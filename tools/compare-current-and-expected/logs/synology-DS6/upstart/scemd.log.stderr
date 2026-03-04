@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/scemd.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 14
       datetime first     : 2017-02-23 14:53:03 -08:00 (2017-02-23 22:53:03.000000 +00:00)

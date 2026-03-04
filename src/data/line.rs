@@ -100,7 +100,7 @@ pub type LineP = Arc<Line>;
 ///
 /// [`Block`]: crate::readers::blockreader::Block
 pub struct LinePart {
-    /// The `Block` pointer.
+    /// The *`Block`* *p*ointer.
     pub blockp: BlockP,
     /// Index into the `blockp`, index at beginning used as-is in slice notation
     /// (inclusive).

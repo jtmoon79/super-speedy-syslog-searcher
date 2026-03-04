@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/syno-share-check.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 16
       syslines high : 11
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)

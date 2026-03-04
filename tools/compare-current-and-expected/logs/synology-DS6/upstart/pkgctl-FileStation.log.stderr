@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 16
       datetime first     : 2017-02-23 14:52:36 -08:00 (2017-02-23 22:52:36.000000 +00:00)

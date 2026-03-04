@@ -20,6 +20,7 @@ File: ./logs/CentOS7/yum.log
       blocks        : 34
       blocks total  : 34 (8704 bytes)
       lines         : 145
+      line parts    : 177
       syslines      : 146
       syslines high : 142
       datetime first     : 2019-04-12 14:00:30 +08:00 (2019-04-12 06:00:30.000000 +00:00)

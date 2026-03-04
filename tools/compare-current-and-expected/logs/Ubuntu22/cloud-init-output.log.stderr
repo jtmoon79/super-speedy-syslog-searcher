@@ -20,6 +20,7 @@ File: ./logs/Ubuntu22/cloud-init-output.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 20
       syslines      : 1
       syslines high : 1
       datetime first     : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.084000 +00:00)

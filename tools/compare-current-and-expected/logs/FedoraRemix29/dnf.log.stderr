@@ -20,6 +20,7 @@ File: ./logs/FedoraRemix29/dnf.log
       blocks        : 144
       blocks total  : 144 (36864 bytes)
       lines         : 476
+      line parts    : 617
       syslines      : 226
       syslines high : 13
       datetime first     : 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)

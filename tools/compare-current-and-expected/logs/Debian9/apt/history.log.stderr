@@ -20,6 +20,7 @@ File: ./logs/Debian9/apt/history.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 10
+      line parts    : 11
       syslines      : 4
       syslines high : 4
       datetime first     : 2019-09-13 19:20:11 +08:00 (2019-09-13 11:20:11.000000 +00:00)

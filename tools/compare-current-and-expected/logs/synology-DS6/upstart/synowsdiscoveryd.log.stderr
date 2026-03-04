@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synowsdiscoveryd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 2
       syslines high : 2
       datetime first     : 2019-06-28 21:14:49 -07:00 (2019-06-29 04:14:49.000000 +00:00)

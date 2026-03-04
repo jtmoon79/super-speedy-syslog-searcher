@@ -20,6 +20,7 @@ File: ./logs/RockyLinux9/nginx/error.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 2
+      line parts    : 4
       syslines      : 2
       syslines high : 2
       datetime first     : 2022-10-08 22:27:40 +08:00 (2022-10-08 14:27:40.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/other/tests/dt-mix1.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 21
+      line parts    : 22
       syslines      : 10
       syslines high : 10
       datetime first     : 2020-01-01 00:00:01 +08:00 (2019-12-31 16:00:01.000000 +00:00)

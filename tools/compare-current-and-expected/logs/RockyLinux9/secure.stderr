@@ -20,6 +20,7 @@ File: ./logs/RockyLinux9/secure
       blocks        : 287
       blocks total  : 287 (73472 bytes)
       lines         : 546
+      line parts    : 831
       syslines      : 546
       syslines high : 545
       datetime first     : 2022-10-08 06:18:38 +08:00 (2022-10-07 22:18:38.000000 +00:00)

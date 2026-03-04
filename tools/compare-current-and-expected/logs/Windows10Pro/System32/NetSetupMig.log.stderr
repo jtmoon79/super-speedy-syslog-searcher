@@ -21,6 +21,7 @@ File: ./logs/Windows10Pro/System32/NetSetupMig.log
       blocks        : 1
       blocks total  : 6 (1536 bytes)
       lines         : 4
+      line parts    : 5
       syslines      : 0
       syslines high : 0
   Processing Stores:

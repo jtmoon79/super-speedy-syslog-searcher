@@ -20,6 +20,7 @@ File: ./logs/Orbi/var/log/soapclient/soap_agent.old
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2022-05-01 14:24:13 +08:00 (2022-05-01 06:24:13.000000 +00:00)

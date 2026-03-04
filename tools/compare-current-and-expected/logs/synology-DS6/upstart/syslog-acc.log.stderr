@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/syslog-acc.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 5
       syslines high : 5
       datetime first     : 2019-06-23 21:10:22 -07:00 (2019-06-24 04:10:22.000000 +00:00)

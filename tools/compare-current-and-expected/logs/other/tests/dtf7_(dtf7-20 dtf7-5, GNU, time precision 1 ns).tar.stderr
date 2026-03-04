@@ -22,6 +22,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 20
+      line parts    : 24
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
@@ -62,6 +63,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 1 ns).tar|dtf
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 5
+      line parts    : 6
       syslines      : 5
       syslines high : 5
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)

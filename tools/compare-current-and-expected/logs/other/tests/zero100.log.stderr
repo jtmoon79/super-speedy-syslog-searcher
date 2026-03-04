@@ -19,6 +19,7 @@ File: ./logs/other/tests/zero100.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:

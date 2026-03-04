@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/telnetd.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 15
       syslines high : 15
       datetime first     : 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)

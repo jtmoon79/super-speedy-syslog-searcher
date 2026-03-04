@@ -20,6 +20,7 @@ File: ./logs/programs/tomcat/catalina.out
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 21
+      line parts    : 28
       syslines      : 7
       syslines high : 7
       datetime first     : 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)

@@ -21,6 +21,7 @@ File: ./logs/other/tests/empty.7z
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 4
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:

@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/disk.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 28
       syslines      : 19
       syslines high : 9
       datetime first     : 2017-05-08 08:35:08 -07:00 (2017-05-08 15:35:08.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 25
+      line parts    : 26
       syslines      : 25
       syslines high : 23
       datetime first     : 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)

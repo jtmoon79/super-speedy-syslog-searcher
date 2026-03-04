@@ -1196,6 +1196,9 @@ fn print_summary_opt_processed(
                 "{}lines high    : {}",
                 indent2, summarylinereader.linereader_lines_stored_highest
             );
+            eprintln!(
+                "{}line parts    : {}", indent2, summarylinereader.linereader_line_parts_created,
+            );
             eprintln!("{}syslines      : {}", indent2, summarysyslinereader.syslinereader_syslines);
             eprintln!(
                 "{}syslines high : {}",

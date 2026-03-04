@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/synofeasibilitycheck.log
       blocks        : 14
       blocks total  : 14 (3584 bytes)
       lines         : 19
+      line parts    : 33
       syslines      : 19
       syslines high : 7
       datetime first     : 2016-12-05 20:36:36 -08:00 (2016-12-06 04:36:36.000000 +00:00)

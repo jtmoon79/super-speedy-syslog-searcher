@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/dmesg
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 11
       datetime first     : 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/Ubuntu22/apt/history.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 14
+      line parts    : 20
       syslines      : 5
       syslines high : 5
       datetime first     : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)

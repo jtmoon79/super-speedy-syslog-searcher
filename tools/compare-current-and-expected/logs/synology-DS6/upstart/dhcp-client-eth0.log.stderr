@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/dhcp-client-eth0.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 12
+      line parts    : 17
       syslines      : 12
       syslines high : 8
       datetime first     : 2017-05-08 08:32:33 -07:00 (2017-05-08 15:32:33.000000 +00:00)

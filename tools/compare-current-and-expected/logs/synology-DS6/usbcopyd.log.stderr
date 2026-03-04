@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/usbcopyd.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 10
       datetime first     : 2017-05-24 19:14:38 -07:00 (2017-05-25 02:14:38.000000 +00:00)

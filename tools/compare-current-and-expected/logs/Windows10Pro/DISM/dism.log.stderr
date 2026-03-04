@@ -20,6 +20,7 @@ File: ./logs/Windows10Pro/DISM/dism.log
       blocks        : 61
       blocks total  : 61 (15616 bytes)
       lines         : 111
+      line parts    : 172
       syslines      : 94
       syslines high : 7
       datetime first     : 2022-02-22 12:18:13 +08:00 (2022-02-22 04:18:13.000000 +00:00)

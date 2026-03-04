@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synomkthumbd.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 16
+      line parts    : 20
       syslines      : 16
       syslines high : 14
       datetime first     : 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)

@@ -1980,6 +1980,7 @@ fn test_LineReader_summary_empty(
     1,
     0,
     1,
+    1,
     0,
     2,
     1,
@@ -1993,6 +1994,7 @@ fn test_LineReader_summary_empty(
     2,
     0,
     3,
+    45,
     0,
     3,
     2,
@@ -2009,6 +2011,7 @@ fn test_SummaryLineReader(
     linereader_lines_stored_highest: usize,
     linereader_lines_hits: Count,
     linereader_lines_miss: Count,
+    linereader_line_parts_created: Count,
     linereader_find_line_lru_cache_hit: Count,
     linereader_find_line_lru_cache_miss: Count,
     linereader_find_line_lru_cache_put: Count,
@@ -2055,28 +2058,33 @@ fn test_SummaryLineReader(
         "linereader_lines_miss 4"
     );
     assert_eq!(
+        summary.linereader_line_parts_created,
+        linereader_line_parts_created,
+        "linereader_line_parts_created 5"
+    );
+    assert_eq!(
         summary.linereader_find_line_lru_cache_hit,
         linereader_find_line_lru_cache_hit,
-        "linereader_find_line_lru_cache_hit 5"
+        "linereader_find_line_lru_cache_hit 6"
     );
     assert_eq!(
         summary.linereader_find_line_lru_cache_miss,
         linereader_find_line_lru_cache_miss,
-        "linereader_find_line_lru_cache_miss 6"
+        "linereader_find_line_lru_cache_miss 7"
     );
     assert_eq!(
         summary.linereader_find_line_lru_cache_put,
         linereader_find_line_lru_cache_put,
-        "linereader_find_line_lru_cache_put 7"
+        "linereader_find_line_lru_cache_put 8"
     );
     assert_eq!(
         summary.linereader_drop_line_ok,
         linereader_drop_line_ok,
-        "linereader_drop_line_ok 8"
+        "linereader_drop_line_ok 9"
     );
     assert_eq!(
         summary.linereader_drop_line_errors,
         linereader_drop_line_errors,
-        "linereader_drop_line_errors 9"
+        "linereader_drop_line_errors 10"
     );
 }

@@ -20,6 +20,7 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 10
+      line parts    : 13
       syslines      : 10
       syslines high : 10
       datetime first     : 2022-10-10 20:23:14 +00:00 (2022-10-10 20:23:14.000000 +00:00)

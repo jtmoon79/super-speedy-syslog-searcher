@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-task-center.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2018-12-06 02:31:27 -08:00 (2018-12-06 10:31:27.000000 +00:00)

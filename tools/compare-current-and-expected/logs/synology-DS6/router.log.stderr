@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/router.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 10
       datetime first     : 2016-12-05 21:12:04 +08:00 (2016-12-05 13:12:04.000000 +00:00)

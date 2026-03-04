@@ -20,6 +20,7 @@ File: ./logs/Debian9/samba/log.nmbd
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 1
       syslines high : 1
       datetime first     : 2020-03-02 06:26:11 +08:00 (2020-03-01 22:26:11.256350 +00:00)

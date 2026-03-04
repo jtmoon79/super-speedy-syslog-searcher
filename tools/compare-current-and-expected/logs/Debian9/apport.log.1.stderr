@@ -20,6 +20,7 @@ File: ./logs/Debian9/apport.log.1
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 6
+      line parts    : 8
       syslines      : 6
       syslines high : 6
       datetime first     : 2020-02-20 00:59:59 +08:00 (2020-02-19 16:59:59.000000 +00:00)

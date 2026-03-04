@@ -20,6 +20,7 @@ File: ./logs/RockyLinux9/hawkey.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 28
+      line parts    : 34
       syslines      : 28
       syslines high : 15
       datetime first     : 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)

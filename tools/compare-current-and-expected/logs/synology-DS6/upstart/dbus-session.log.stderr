@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/dbus-session.log
       blocks        : 23
       blocks total  : 23 (5888 bytes)
       lines         : 178
+      line parts    : 200
       syslines      : 3
       syslines high : 3
       datetime first     : 2020-03-06 20:18:20 -08:00 (2020-03-07 04:18:20.000000 +00:00)

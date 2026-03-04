@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-inclination.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 19
       syslines high : 12
       datetime first     : 2019-01-30 13:11:28 -08:00 (2019-01-30 21:11:28.000000 +00:00)

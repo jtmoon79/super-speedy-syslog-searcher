@@ -21,6 +21,7 @@ File: ./logs/Debian9/user.log.1.zst
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 3
+      line parts    : 3
       syslines      : 0
       syslines high : 0
   Processing Stores:

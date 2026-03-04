@@ -20,6 +20,7 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       blocks        : 25
       blocks total  : 25 (6400 bytes)
       lines         : 74
+      line parts    : 99
       syslines      : 3
       syslines high : 3
       datetime first     : 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)

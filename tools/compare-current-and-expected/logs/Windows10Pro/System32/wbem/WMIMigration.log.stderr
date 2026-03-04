@@ -20,6 +20,7 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
       blocks        : 20
       blocks total  : 20 (5120 bytes)
       lines         : 42
+      line parts    : 61
       syslines      : 40
       syslines high : 9
       datetime first     : 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)

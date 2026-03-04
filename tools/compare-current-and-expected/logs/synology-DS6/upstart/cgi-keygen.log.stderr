@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 6
+      line parts    : 7
       syslines      : 5
       syslines high : 5
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)

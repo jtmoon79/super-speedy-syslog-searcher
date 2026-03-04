@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/sysnotify.log
       blocks        : 12
       blocks total  : 12 (3072 bytes)
       lines         : 19
+      line parts    : 31
       syslines      : 19
       syslines high : 7
       datetime first     : 2018-08-03 04:02:47 -07:00 (2018-08-03 11:02:47.000000 +00:00)

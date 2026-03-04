@@ -20,6 +20,7 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 55
+      line parts    : 59
       syslines      : 55
       syslines high : 37
       datetime first     : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)

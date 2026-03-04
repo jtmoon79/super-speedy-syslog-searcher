@@ -21,6 +21,7 @@ File: ./logs/Windows10Pro/PFRO.log
       blocks        : 1
       blocks total  : 88 (22528 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:

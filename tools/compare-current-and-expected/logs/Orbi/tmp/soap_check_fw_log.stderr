@@ -20,6 +20,7 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 15
       datetime first     : 2022-04-04 16:35:39 +08:00 (2022-04-04 08:35:39.000000 +00:00)

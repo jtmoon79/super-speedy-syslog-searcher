@@ -20,6 +20,7 @@ File: ./logs/Ubuntu18/vmware-installer
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 18
+      line parts    : 24
       syslines      : 18
       syslines high : 14
       datetime first     : 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.032000 +00:00)

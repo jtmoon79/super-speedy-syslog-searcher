@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synosharesnapshot_clear_subvol.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 13
+      line parts    : 17
       syslines      : 13
       syslines high : 12
       datetime first     : 2017-02-23 14:52:10 -08:00 (2017-02-23 22:52:10.000000 +00:00)

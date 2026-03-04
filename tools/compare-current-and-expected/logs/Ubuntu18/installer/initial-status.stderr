@@ -21,6 +21,7 @@ File: ./logs/Ubuntu18/installer/initial-status
       blocks        : 1
       blocks total  : 4 (1024 bytes)
       lines         : 9
+      line parts    : 10
       syslines      : 0
       syslines high : 0
   Processing Stores:

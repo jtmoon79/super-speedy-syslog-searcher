@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/space_operation_error.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 19
+      line parts    : 28
       syslines      : 21
       syslines high : 19
       datetime first     : 2017-01-03 01:38:36 +08:00 (2017-01-02 17:38:36.000000 +00:00)

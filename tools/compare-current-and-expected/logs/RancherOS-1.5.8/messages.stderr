@@ -20,6 +20,7 @@ File: ./logs/RancherOS-1.5.8/messages
       blocks        : 107
       blocks total  : 107 (27392 bytes)
       lines         : 234
+      line parts    : 341
       syslines      : 231
       syslines high : 231
       datetime first     : 2022-10-09 21:31:38 +08:00 (2022-10-09 13:31:38.000000 +00:00)

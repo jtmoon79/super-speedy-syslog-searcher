@@ -21,6 +21,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, PPMd, 9).zip
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:

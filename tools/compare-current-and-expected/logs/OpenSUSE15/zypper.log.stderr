@@ -20,6 +20,7 @@ File: ./logs/OpenSUSE15/zypper.log
       blocks        : 11
       blocks total  : 11 (2816 bytes)
       lines         : 19
+      line parts    : 30
       syslines      : 19
       syslines high : 9
       datetime first     : 2019-05-23 16:53:43 +08:00 (2019-05-23 08:53:43.000000 +00:00)

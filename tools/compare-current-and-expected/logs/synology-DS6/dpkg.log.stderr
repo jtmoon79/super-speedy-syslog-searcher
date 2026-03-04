@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/dpkg.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 13
       datetime first     : 2016-12-05 21:38:43 +08:00 (2016-12-05 13:38:43.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 17
       syslines high : 10
       datetime first     : 2022-05-10 16:19:12 +08:00 (2022-05-10 08:19:12.000000 +00:00)

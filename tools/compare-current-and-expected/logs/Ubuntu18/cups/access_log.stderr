@@ -20,6 +20,7 @@ File: ./logs/Ubuntu18/cups/access_log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2020-03-15 00:08:26 -07:00 (2020-03-15 07:08:26.000000 +00:00)

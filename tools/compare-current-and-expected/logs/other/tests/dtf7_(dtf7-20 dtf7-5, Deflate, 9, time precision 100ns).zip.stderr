@@ -21,6 +21,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 3
+      line parts    : 4
       syslines      : 0
       syslines high : 0
   Processing Stores:

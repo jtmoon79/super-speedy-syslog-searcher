@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synologand.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 17
       datetime first     : 2018-08-01 14:16:55 -07:00 (2018-08-01 21:16:55.000000 +00:00)

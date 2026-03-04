@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/synocrond.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 11
+      line parts    : 18
       syslines      : 11
       syslines high : 8
       datetime first     : 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)

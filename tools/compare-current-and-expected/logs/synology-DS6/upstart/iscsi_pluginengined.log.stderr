@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 17
       syslines high : 13
       datetime first     : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)

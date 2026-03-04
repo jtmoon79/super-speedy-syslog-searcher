@@ -20,6 +20,7 @@ File: ./logs/Ubuntu18/apt/term.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 1
       syslines high : 1
       datetime first     : 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/packages/GlacierBackup.log
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 3
       syslines high : 3
       datetime first     : 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)

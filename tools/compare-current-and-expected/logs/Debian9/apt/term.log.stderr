@@ -20,6 +20,7 @@ File: ./logs/Debian9/apt/term.log
       blocks        : 69
       blocks total  : 69 (17664 bytes)
       lines         : 292
+      line parts    : 361
       syslines      : 7
       syslines high : 5
       datetime first     : 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)

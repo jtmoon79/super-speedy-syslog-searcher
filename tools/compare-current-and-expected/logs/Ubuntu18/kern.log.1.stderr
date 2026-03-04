@@ -20,6 +20,7 @@ File: ./logs/Ubuntu18/kern.log.1
       blocks        : 7
       blocks total  : 7 (1792 bytes)
       lines         : 19
+      line parts    : 25
       syslines      : 20
       syslines high : 19
       datetime first     : 2019-03-09 08:10:29 +08:00 (2019-03-09 00:10:29.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synocgid.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 19
       datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)

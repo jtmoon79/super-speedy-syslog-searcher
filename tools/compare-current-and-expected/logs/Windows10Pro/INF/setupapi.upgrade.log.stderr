@@ -20,6 +20,7 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       blocks        : 29
       blocks total  : 29 (7424 bytes)
       lines         : 129
+      line parts    : 158
       syslines      : 5
       syslines high : 5
       datetime first     : 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)

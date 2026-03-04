@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synosnmp-service-handler.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 22
       syslines      : 19
       syslines high : 17
       datetime first     : 2016-12-05 21:00:59 -08:00 (2016-12-06 05:00:59.000000 +00:00)

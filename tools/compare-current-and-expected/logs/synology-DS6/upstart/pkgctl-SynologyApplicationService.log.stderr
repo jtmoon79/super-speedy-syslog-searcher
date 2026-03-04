@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 13
       datetime first     : 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)

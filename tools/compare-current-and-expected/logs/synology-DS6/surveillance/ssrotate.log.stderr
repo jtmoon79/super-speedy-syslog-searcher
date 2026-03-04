@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 20
       syslines high : 19
       datetime first     : 2022-09-18 14:18:39 +08:00 (2022-09-18 06:18:39.000000 +00:00)

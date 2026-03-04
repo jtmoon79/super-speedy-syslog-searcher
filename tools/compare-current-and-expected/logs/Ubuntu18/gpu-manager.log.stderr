@@ -21,6 +21,7 @@ File: ./logs/Ubuntu18/gpu-manager.log
       blocks        : 1
       blocks total  : 3 (768 bytes)
       lines         : 4
+      line parts    : 5
       syslines      : 0
       syslines high : 0
   Processing Stores:

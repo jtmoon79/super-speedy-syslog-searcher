@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/root-file-system.log
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 1
       syslines high : 1
       datetime first     : 2016-12-05 20:30:58 -08:00 (2016-12-06 04:30:58.000000 +00:00)

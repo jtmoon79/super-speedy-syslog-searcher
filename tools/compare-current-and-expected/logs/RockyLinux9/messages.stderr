@@ -20,6 +20,7 @@ File: ./logs/RockyLinux9/messages
       blocks        : 1001
       blocks total  : 1001 (256256 bytes)
       lines         : 2432
+      line parts    : 3427
       syslines      : 2432
       syslines high : 2432
       datetime first     : 2002-10-08 06:18:20 +08:00 (2002-10-07 22:18:20.000000 +00:00)

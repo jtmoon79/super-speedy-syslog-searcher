@@ -1175,6 +1175,7 @@ fn test_SyslogProcessor_summary_empty(
         linereader_lines_stored_highest: 5,
         linereader_lines_hits: 0,
         linereader_lines_miss: 9,
+        linereader_line_parts_created: 6,
         linereader_find_line_lru_cache_hit: 4,
         linereader_find_line_lru_cache_miss: 7,
         linereader_find_line_lru_cache_put: 5,
@@ -1279,18 +1280,22 @@ fn test_Reader_summary(
     assert_eq!(
         summaryblockreader,
         expect_summaryblockreader,
+        "summaryblockreader does not match expected summaryblockreader"
     );
     assert_eq!(
         summarylinereader,
         expect_summarylinereader,
+        "summarylinereader does not match expected summarylinereader"
     );
     assert_eq!(
         summarysyslinereader,
         expect_summarysyslinereader,
+        "summarysyslinereader does not match expected summarysyslinereader"
     );
     assert_eq!(
         summarysyslogreader,
         expect_summarysyslogprocessor,
+        "summarysyslogreader does not match expected summarysyslogprocessor"
     );
 
     let summarysyslogreader2 = syslogprocessor.summary();

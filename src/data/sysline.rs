@@ -7,9 +7,12 @@
 use std::fmt;
 use std::sync::Arc;
 
+#[cfg(any(debug_assertions, test))]
 use ::more_asserts::{
     assert_le,
     assert_lt,
+};
+use ::more_asserts::{
     debug_assert_ge,
 };
 #[allow(unused_imports)]
@@ -43,9 +46,10 @@ use crate::data::line::{
     LineIndex,
     LineP,
     LinePart,
-    LinePartPtrs,
     Lines,
 };
+#[cfg(any(debug_assertions, test))]
+use crate::data::line::LinePartPtrs;
 #[allow(unused_imports)]
 use crate::debug::printers::{
     de_err,
@@ -330,6 +334,7 @@ impl Sysline {
     /// Return a new `Bytes` that is the subset of the line that is the datetime bytes.
     ///
     /// Not memory efficient. Only intended for rare special cases.
+    #[cfg(any(debug_assertions, test))]
     pub fn dt_bytes(self: &Sysline) -> Bytes {
         defn!();
         assert!(!self.lines.is_empty(),

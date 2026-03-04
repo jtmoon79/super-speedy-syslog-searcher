@@ -20,6 +20,7 @@ File: ./logs/FedoraRemix29/dnf.librepo.log
       blocks        : 13
       blocks total  : 13 (3328 bytes)
       lines         : 27
+      line parts    : 40
       syslines      : 27
       syslines high : 9
       datetime first     : 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)

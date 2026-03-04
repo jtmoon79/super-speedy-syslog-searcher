@@ -21,6 +21,7 @@ File: ./logs/Debian9/user.log.zip
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 1
+      line parts    : 2
       syslines      : 0
       syslines high : 0
   Processing Stores:

@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/update-apppriv-local.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 11
       syslines high : 11
       datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)

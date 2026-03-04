@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 10
       syslines high : 8
       datetime first     : 2019-06-23 21:13:33 +08:00 (2019-06-23 13:13:33.000000 +00:00)

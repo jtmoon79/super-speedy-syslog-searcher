@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkg-synoreport.log
       blocks        : 9
       blocks total  : 9 (2304 bytes)
       lines         : 19
+      line parts    : 27
       syslines      : 19
       syslines high : 9
       datetime first     : 2017-01-03 01:40:55 -08:00 (2017-01-03 09:40:55.000000 +00:00)

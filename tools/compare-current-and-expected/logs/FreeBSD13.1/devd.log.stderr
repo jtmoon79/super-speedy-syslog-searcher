@@ -20,6 +20,7 @@ File: ./logs/FreeBSD13.1/devd.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 19
+      line parts    : 21
       syslines      : 10
       syslines high : 9
       datetime first     : 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)

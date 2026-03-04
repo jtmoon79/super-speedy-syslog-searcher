@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkg-surveillance-apid.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 14
+      line parts    : 16
       syslines      : 4
       syslines high : 4
       datetime first     : 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)

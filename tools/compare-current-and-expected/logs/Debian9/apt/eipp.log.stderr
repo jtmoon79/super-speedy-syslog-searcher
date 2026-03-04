@@ -21,6 +21,7 @@ File: ./logs/Debian9/apt/eipp.log
       blocks        : 1
       blocks total  : 2 (512 bytes)
       lines         : 12
+      line parts    : 13
       syslines      : 0
       syslines high : 0
   Processing Stores:

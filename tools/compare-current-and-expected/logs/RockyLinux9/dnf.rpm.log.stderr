@@ -20,6 +20,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       blocks        : 10
       blocks total  : 10 (2560 bytes)
       lines         : 39
+      line parts    : 48
       syslines      : 36
       syslines high : 12
       datetime first     : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)

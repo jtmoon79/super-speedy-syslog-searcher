@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synopkgctl-wait-bootup.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 12
       datetime first     : 2017-02-23 14:53:02 -08:00 (2017-02-23 22:53:02.000000 +00:00)

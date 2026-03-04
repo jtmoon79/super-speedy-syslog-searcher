@@ -20,6 +20,7 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       blocks        : 20
       blocks total  : 20 (5120 bytes)
       lines         : 19
+      line parts    : 39
       syslines      : 19
       syslines high : 19
       datetime first     : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)

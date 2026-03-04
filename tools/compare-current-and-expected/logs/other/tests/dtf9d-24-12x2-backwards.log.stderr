@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 24
+      line parts    : 26
       syslines      : 45
       syslines high : 23
       datetime first     : 2001-11-11 11:00:00 -09:00 (2001-11-11 20:00:00.000000 +00:00)

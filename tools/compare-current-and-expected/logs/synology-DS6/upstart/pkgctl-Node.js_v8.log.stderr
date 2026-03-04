@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       blocks        : 8
       blocks total  : 8 (2048 bytes)
       lines         : 19
+      line parts    : 26
       syslines      : 19
       syslines high : 13
       datetime first     : 2019-08-31 23:52:25 -07:00 (2019-09-01 06:52:25.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
       blocks        : 5
       blocks total  : 5 (1280 bytes)
       lines         : 19
+      line parts    : 23
       syslines      : 19
       syslines high : 16
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)

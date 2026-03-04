@@ -21,6 +21,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:
@@ -57,6 +58,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:

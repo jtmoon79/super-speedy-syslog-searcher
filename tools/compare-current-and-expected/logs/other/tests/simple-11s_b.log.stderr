@@ -20,6 +20,7 @@ File: ./logs/other/tests/simple-11s_b.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 2
       syslines high : 1
       datetime first     : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.000000 +00:00)

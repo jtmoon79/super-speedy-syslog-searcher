@@ -21,6 +21,7 @@ File: ./logs/Debian9/Xorg.0.log
       blocks        : 2
       blocks total  : 5 (1280 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 2
       syslines high : 2
       datetime first     : 1970-01-01 00:01:31 +08:00 (1969-12-31 16:01:31.203000 +00:00)

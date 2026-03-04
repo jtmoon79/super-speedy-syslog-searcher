@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 20
+      line parts    : 25
       syslines      : 20
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)

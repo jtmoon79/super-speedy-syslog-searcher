@@ -20,6 +20,7 @@ File: ./logs/Windows10Pro/CBS/CBS.log
       blocks        : 77
       blocks total  : 77 (19712 bytes)
       lines         : 159
+      line parts    : 235
       syslines      : 152
       syslines high : 10
       datetime first     : 2022-09-14 22:18:06 +08:00 (2022-09-14 14:18:06.000000 +00:00)

@@ -20,6 +20,7 @@ File: ./logs/RockyLinux9/dnf.librepo.log
       blocks        : 64
       blocks total  : 64 (16384 bytes)
       lines         : 104
+      line parts    : 166
       syslines      : 104
       syslines high : 8
       datetime first     : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)

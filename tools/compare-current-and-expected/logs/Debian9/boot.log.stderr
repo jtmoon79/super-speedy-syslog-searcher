@@ -21,6 +21,7 @@ File: ./logs/Debian9/boot.log
       blocks        : 1
       blocks total  : 5 (1280 bytes)
       lines         : 4
+      line parts    : 5
       syslines      : 0
       syslines high : 0
   Processing Stores:

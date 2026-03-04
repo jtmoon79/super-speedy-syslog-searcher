@@ -20,6 +20,7 @@ File: ./logs/other/tests/simple-1.log.gz
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 0
+      line parts    : 0
       syslines      : 0
       syslines high : 0
   Processing Stores:

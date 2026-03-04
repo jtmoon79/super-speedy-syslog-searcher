@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 8
+      line parts    : 9
       syslines      : 8
       syslines high : 8
       datetime first     : 2018-10-15 14:09:31 -07:00 (2018-10-15 21:09:31.000000 +00:00)

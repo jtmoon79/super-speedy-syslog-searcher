@@ -20,6 +20,7 @@ File: ./logs/Ubuntu18/xrdp.log
       blocks        : 6
       blocks total  : 6 (1536 bytes)
       lines         : 19
+      line parts    : 24
       syslines      : 19
       syslines high : 12
       datetime first     : 2020-01-13 11:03:06 +08:00 (2020-01-13 03:03:06.000000 +00:00)

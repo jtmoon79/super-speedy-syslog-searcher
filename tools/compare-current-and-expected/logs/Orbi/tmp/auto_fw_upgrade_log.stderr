@@ -20,6 +20,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       blocks        : 3
       blocks total  : 3 (768 bytes)
       lines         : 9
+      line parts    : 11
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-04-04 16:37:20 +08:00 (2022-04-04 08:37:20.000000 +00:00)

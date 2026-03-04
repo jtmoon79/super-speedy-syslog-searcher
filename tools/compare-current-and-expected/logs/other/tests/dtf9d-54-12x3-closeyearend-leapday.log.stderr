@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
       blocks        : 4
       blocks total  : 5 (1280 bytes)
       lines         : 23
+      line parts    : 25
       syslines      : 22
       syslines high : 20
       datetime first     : 1972-01-01 00:00:00 -02:00 (1972-01-01 02:00:00.000000 +00:00)

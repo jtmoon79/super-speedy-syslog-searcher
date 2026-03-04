@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf10-10b.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 13
+      line parts    : 14
       syslines      : 8
       syslines high : 8
       datetime first     : 2022-06-28 01:51:17 +04:00 (2022-06-27 21:51:17.000000 +00:00)

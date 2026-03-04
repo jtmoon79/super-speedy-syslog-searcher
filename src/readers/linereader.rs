@@ -133,6 +133,7 @@ pub struct LineReader {
     ///
     /// [streaming stage]: crate::readers::syslogprocessor::ProcessingStage#variant.Stage3StreamSyslines
     pub(super) lines_processed: Count,
+    pub(super) line_parts_created: Count,
     /// Smallest size character in bytes.
     // XXX: Issue #16 only handles UTF-8/ASCII encoding
     charsz_: CharSz,
@@ -194,6 +195,8 @@ pub struct SummaryLineReader {
     pub linereader_lines_hits: Count,
     /// `LineReader::lines_miss` for `self.lines`
     pub linereader_lines_miss: Count,
+    /// `LineReader::line_parts_created` for `self.lines`
+    pub linereader_line_parts_created: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
     pub linereader_find_line_lru_cache_hit: Count,
     /// `LineReader::find_line()` `self._find_line_lru_cache`
@@ -264,6 +267,7 @@ impl LineReader {
             lines_miss: 0,
             foend_to_fobeg: FoToFo::new(),
             lines_processed: 0,
+            line_parts_created: 0,
             charsz_: CHARSZ,
             find_line_lru_cache_enabled: LineReader::CACHE_ENABLE_DEFAULT,
             find_line_lru_cache: LinesLRUCache::new(
@@ -467,7 +471,7 @@ impl LineReader {
         let fo_beg: FileOffset = line.fileoffset_begin();
         let fo_end: FileOffset = line.fileoffset_end();
         let linep: LineP = LineP::new(line);
-        deo!("lines.insert({})", fo_beg);
+        defo!("lines.insert({})", fo_beg);
         debug_assert!(
             !self
                 .lines
@@ -1084,6 +1088,7 @@ impl LineReader {
                 self.block_offset_at_file_offset(fo_nl_a),
                 self.blocksz(),
             );
+            summary_stat!(self.line_parts_created += 1);
             line.prepend(li);
 
             if partial_line {
@@ -1178,6 +1183,7 @@ impl LineReader {
                     self.block_offset_at_file_offset(fileoffset),
                     self.blocksz(),
                 );
+                summary_stat!(self.line_parts_created += 1);
                 line.prepend(li);
                 let linep: LineP = self.insert_line(line);
                 let fo_next: FileOffset = fo_nl_b + charsz_fo;
@@ -1255,6 +1261,7 @@ impl LineReader {
                             self.block_offset_at_file_offset(fileoffset),
                             self.blocksz(),
                         );
+                        summary_stat!(self.line_parts_created += 1);
                         line.prepend(li);
                         let linep: LineP = self.insert_line(line);
                         let fo_next: FileOffset = fo_nl_b + charsz_fo;
@@ -1398,7 +1405,15 @@ impl LineReader {
             return (ResultFindLine::Done, None);
         }
 
-        let li: LinePart = LinePart::new(bptr_middle, bi_at, bi_middle_end + 1, fo_nl_a1, bo_middle, self.blocksz());
+        let li: LinePart = LinePart::new(
+            bptr_middle,
+            bi_at,
+            bi_middle_end + 1,
+            fo_nl_a1,
+            bo_middle,
+            self.blocksz()
+        );
+        summary_stat!(self.line_parts_created += 1);
         line.prepend(li);
 
         if partial_line {
@@ -1456,7 +1471,8 @@ impl LineReader {
     /// This function has the densest number of byte↔char handling and
     /// transitions within this program.
     ///
-    /// Correllary to functions `find_sysline`, `read_block`.
+    /// Correllary to functions `SyslineReader::find_sysline`,
+    /// `BlockReader::read_block`.
     ///
     /// Throughout this function, _newline A_ points to the line beginning,
     /// _newline B_ points to line ending. Both are inclusive.
@@ -1757,6 +1773,7 @@ impl LineReader {
                             bof,
                             self.blocksz(),
                         );
+                        summary_stat!(self.line_parts_created += 1);
                         line.append(li);
                         break;
                     } else {
@@ -1778,6 +1795,7 @@ impl LineReader {
                     bof,
                     self.blocksz(),
                 );
+                summary_stat!(self.line_parts_created += 1);
                 line.append(li);
                 bof += 1;
             } // end while bof <= blockoffset_last
@@ -1838,6 +1856,7 @@ impl LineReader {
                 self.block_offset_at_file_offset(fo_nl_a),
                 self.blocksz(),
             );
+            summary_stat!(self.line_parts_created += 1);
             line.prepend(li);
             let linep: LineP = self.insert_line(line);
             let fo_next: FileOffset = fo_nl_b + charsz_fo;
@@ -1911,6 +1930,7 @@ impl LineReader {
                     self.block_offset_at_file_offset(fileoffset),
                     self.blocksz(),
                 );
+                summary_stat!(self.line_parts_created += 1);
                 line.prepend(li);
                 let linep: LineP = self.insert_line(line);
                 let fo_next: FileOffset = fo_nl_b + charsz_fo;
@@ -1956,6 +1976,7 @@ impl LineReader {
                         self.block_offset_at_file_offset(fileoffset),
                         self.blocksz(),
                     );
+                    summary_stat!(self.line_parts_created += 1);
                     line.prepend(li);
                     let linep: LineP = self.insert_line(line);
                     let fo_next: FileOffset = fo_nl_b + charsz_fo;
@@ -2037,7 +2058,15 @@ impl LineReader {
                 self.file_offset_at_block_offset_index(bo_middle, bi_at)
             };
             let li: LinePart =
-                LinePart::new(bptr_middle.clone(), bi_at, bi_middle_end + 1, fo_, bo_middle, self.blocksz());
+                LinePart::new(
+                    BlockP::clone(&bptr_middle),
+                    bi_at,
+                    bi_middle_end + 1,
+                    fo_,
+                    bo_middle,
+                    self.blocksz()
+                );
+            summary_stat!(self.line_parts_created += 1);
             line.prepend(li);
             if bof != 0 {
                 defo!("A2a: blockoffset set to {}", bof);
@@ -2058,6 +2087,7 @@ impl LineReader {
                 bo_middle,
                 self.blocksz(),
             );
+            summary_stat!(self.line_parts_created += 1);
             line.prepend(li);
         }
 
@@ -2140,6 +2170,7 @@ impl LineReader {
                                 bof,
                                 self.blocksz(),
                             );
+                            summary_stat!(self.line_parts_created += 1);
                             line.prepend(li);
                         } else if !line.stores_blockoffset(bof_a1) {
                             // newline A and first line char does cross block boundary
@@ -2153,6 +2184,7 @@ impl LineReader {
                                 bof_a1,
                                 self.blocksz(),
                             );
+                            summary_stat!(self.line_parts_created += 1);
                             line.prepend(li);
                         } else {
                             // newline A and first line char does cross block boundary
@@ -2178,6 +2210,7 @@ impl LineReader {
                     bof,
                     self.blocksz(),
                 );
+                summary_stat!(self.line_parts_created += 1);
                 line.prepend(li);
                 if bof != 0 {
                     // newline A not found
@@ -2237,6 +2270,7 @@ impl LineReader {
         let linereader_lines_stored_highest = self.lines_stored_highest();
         let linereader_lines_hits = self.lines_hits;
         let linereader_lines_miss = self.lines_miss;
+        let linereader_line_parts_created = self.line_parts_created;
         let linereader_find_line_lru_cache_hit = self.find_line_lru_cache_hit;
         let linereader_find_line_lru_cache_miss = self.find_line_lru_cache_miss;
         let linereader_find_line_lru_cache_put = self.find_line_lru_cache_put;
@@ -2248,6 +2282,7 @@ impl LineReader {
             linereader_lines_stored_highest,
             linereader_lines_hits,
             linereader_lines_miss,
+            linereader_line_parts_created,
             linereader_find_line_lru_cache_hit,
             linereader_find_line_lru_cache_miss,
             linereader_find_line_lru_cache_put,

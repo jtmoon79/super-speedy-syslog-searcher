@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 9
+      line parts    : 10
       syslines      : 9
       syslines high : 9
       datetime first     : 2016-12-05 21:16:10 -08:00 (2016-12-06 05:16:10.000000 +00:00)

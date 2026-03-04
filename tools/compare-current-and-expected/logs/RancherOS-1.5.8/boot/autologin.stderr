@@ -20,6 +20,7 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 2
       syslines high : 2
       datetime first     : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)

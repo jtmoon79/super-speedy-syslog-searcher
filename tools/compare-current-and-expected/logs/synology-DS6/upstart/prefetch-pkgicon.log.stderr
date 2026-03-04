@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/prefetch-pkgicon.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 1
+      line parts    : 1
       syslines      : 1
       syslines high : 1
       datetime first     : 2019-08-31 14:25:07 -07:00 (2019-08-31 21:25:07.000000 +00:00)

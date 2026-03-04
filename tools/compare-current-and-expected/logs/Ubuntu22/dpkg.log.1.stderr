@@ -20,6 +20,7 @@ File: ./logs/Ubuntu22/dpkg.log.1
       blocks        : 4
       blocks total  : 4 (1024 bytes)
       lines         : 14
+      line parts    : 17
       syslines      : 14
       syslines high : 14
       datetime first     : 2022-09-01 06:21:01 +08:00 (2022-08-31 22:21:01.000000 +00:00)

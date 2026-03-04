@@ -20,6 +20,7 @@ File: ./logs/synology-DS6/upstart/synosnmpcd.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 2
+      line parts    : 2
       syslines      : 1
       syslines high : 1
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)

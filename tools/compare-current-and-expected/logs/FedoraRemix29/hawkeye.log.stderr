@@ -20,6 +20,7 @@ File: ./logs/FedoraRemix29/hawkeye.log
       blocks        : 14
       blocks total  : 14 (3584 bytes)
       lines         : 37
+      line parts    : 50
       syslines      : 37
       syslines high : 36
       datetime first     : 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)

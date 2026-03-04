@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf16d.log
       blocks        : 1
       blocks total  : 1 (256 bytes)
       lines         : 5
+      line parts    : 5
       syslines      : 3
       syslines high : 3
       datetime first     : 2023-08-31 16:01:05 -05:00 (2023-08-31 21:01:05.000000 +00:00)

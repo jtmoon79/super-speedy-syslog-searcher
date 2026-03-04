@@ -20,6 +20,7 @@ File: ./logs/other/tests/dtf11-A.log
       blocks        : 2
       blocks total  : 2 (512 bytes)
       lines         : 13
+      line parts    : 14
       syslines      : 13
       syslines high : 13
       datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
