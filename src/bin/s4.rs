@@ -308,23 +308,6 @@ thread_local! {
 
         Utc::now()
     };
-    static LOCAL_NOW: DateTime<Local> = {
-        defo!("thread_local! LOCAL_NOW::new()");
-
-        UTC_NOW.with(|utc_now| {
-            DateTime::from(utc_now.with_timezone(&Local))
-        })
-    };
-    static LOCAL_NOW_OFFSET: FixedOffset = {
-        defo!("thread_local! LOCAL_NOW_OFFSET::new()");
-
-        LOCAL_NOW.with(|local_now| *local_now.offset())
-    };
-    static LOCAL_NOW_OFFSET_STR: String = {
-        defo!("thread_local! LOCAL_NOW_OFFSET_STR::new()");
-
-        LOCAL_NOW_OFFSET.with(|local_now_offset| local_now_offset.to_string())
-    };
     static UTC_NOW_YEAR: i32 = {
         defo!("thread_local! UTC_NOW_YEAR::new()");
 
@@ -340,6 +323,64 @@ thread_local! {
 
         UTC_NOW.with(|now| now.day())
     };
+
+    static LOCAL_NOW: DateTime<Local> = {
+        defo!("thread_local! LOCAL_NOW::new()");
+
+        UTC_NOW.with(|utc_now| {
+            utc_now.with_timezone(&Local)
+        })
+    };
+    static LOCAL_NOW_OFFSET: FixedOffset = {
+        defo!("thread_local! LOCAL_NOW_OFFSET::new()");
+
+        LOCAL_NOW.with(|local_now| *local_now.offset())
+    };
+    static LOCAL_NOW_OFFSET_STR: String = {
+        defo!("thread_local! LOCAL_NOW_OFFSET_STR::new()");
+
+        LOCAL_NOW_OFFSET.with(|local_now_offset| local_now_offset.to_string())
+    };
+    static LOCAL_NOW_YEAR: i32 = {
+        defo!("thread_local! LOCAL_NOW_YEAR::new()");
+
+        LOCAL_NOW.with(|now| now.year())
+    };
+    static LOCAL_NOW_MONTH: u32 = {
+        defo!("thread_local! LOCAL_NOW_MONTH::new()");
+
+        LOCAL_NOW.with(|now| now.month())
+    };
+    static LOCAL_NOW_DAY: u32 = {
+        defo!("thread_local! LOCAL_NOW_DAY::new()");
+
+        LOCAL_NOW.with(|now| now.day())
+    };
+
+    static M0130_NOW: DateTime<FixedOffset> = {
+        defo!("thread_local! M0130_NOW::new()");
+        const FO_M0130: &FixedOffset = &FixedOffset::east_opt(-5400).unwrap();
+
+        UTC_NOW.with(|utc_now| {
+            utc_now.with_timezone(FO_M0130)
+        })
+    };
+    static M0130_NOW_YEAR: i32 = {
+        defo!("thread_local! M0130_NOW_YEAR::new()");
+
+        M0130_NOW.with(|now| now.year())
+    };
+    static M0130_NOW_MONTH: u32 = {
+        defo!("thread_local! M0130_NOW_MONTH::new()");
+
+        M0130_NOW.with(|now| now.month())
+    };
+    static M0130_NOW_DAY: u32 = {
+        defo!("thread_local! M0130_NOW_DAY::new()");
+
+        M0130_NOW.with(|now| now.day())
+    };
+
 }
 
 #[cfg(test)]
@@ -6291,7 +6332,7 @@ mod tests {
     #[test_case(
         Some(String::from("01-02")),
         *FO_M0130,
-        Some(ymdhms(&FO_M0130, UTC_NOW_YEAR.with(|y| *y), 1, 2, 0, 0, 0));
+        Some(ymdhms(&FO_M0130, LOCAL_NOW_YEAR.with(|y| *y), 1, 2, 0, 0, 0));
         "01-02 MD only"
     )]
     #[test_case(
@@ -6303,7 +6344,15 @@ mod tests {
     #[test_case(
         Some(String::from("23:55")),
         *FO_M0130,
-        Some(ymdhms(&FO_M0130, UTC_NOW_YEAR.with(|y| *y), UTC_NOW_MONTH.with(|m| *m), UTC_NOW_DAY.with(|d| *d), 23, 55, 0));
+        Some(ymdhms(
+            &FO_M0130,
+            LOCAL_NOW_YEAR.with(|y| *y),
+            LOCAL_NOW_MONTH.with(|m| *m),
+            LOCAL_NOW_DAY.with(|d| *d),
+            23,
+            55,
+            0
+        ));
         "23:55 HM only"
     )]
     #[test_case(
@@ -6327,7 +6376,15 @@ mod tests {
     #[test_case(
         Some(String::from("23:55:59")),
         *FO_M0130,
-        Some(ymdhms(&FO_M0130, UTC_NOW_YEAR.with(|y| *y), UTC_NOW_MONTH.with(|m| *m), UTC_NOW_DAY.with(|d| *d), 23, 55, 59));
+        Some(ymdhms(
+            &FO_M0130,
+            LOCAL_NOW_YEAR.with(|y| *y),
+            LOCAL_NOW_MONTH.with(|m| *m),
+            LOCAL_NOW_DAY.with(|d| *d),
+            23,
+            55,
+            59
+        ));
         "23:55:59 HMS only"
     )]
     fn test_process_dt(
@@ -6335,13 +6392,19 @@ mod tests {
         tz_offset: FixedOffset,
         expect: DateTimeLOpt,
     ) {
-        defo!("test_process_dt({:?}, {:?})", dts, tz_offset);
+        defn!("test_process_dt({:?}, {:?}, {:?})", dts, tz_offset, expect);
         let utc_now = UTC_NOW.with(|utc_now| *utc_now);
+        defo!("utc_now: {:?}", utc_now);
+        let local_now = LOCAL_NOW.with(|local_now| *local_now);
+        defo!("local_now: {:?}", local_now);
+        let m0130_now = M0130_NOW.with(|m0130_now| *m0130_now);
+        defo!("m0130_now: {:?}", m0130_now);
         let dt = process_dt(&dts, &tz_offset, &None, &utc_now);
         assert_eq!(
             dt, expect,
             "\nexpect {expect:?}\nactual {dt:?}\nfor process_dt({dts:?}, {tz_offset:?}, &None, UTC_NOW: {utc_now:?})",
         );
+        defx!();
     }
 
     #[test_case(
@@ -6487,7 +6550,7 @@ mod tests {
     fn test_cli_filter_patterns_test_cases(index: usize) {
         stack_offset_set(None);
         defn!("test_cli_filter_patterns_test_cases index: {}", index);
-        let utc_now = UTC_NOW.with(|utc_now| *utc_now);
+        let local_now = LOCAL_NOW.with(|local_now| *local_now);
         let dtf_pattern = &CLI_FILTER_PATTERNS[index];
         for (input_, dt_data_expect) in dtf_pattern._test_cases.iter() {
             defo!(
@@ -6507,13 +6570,13 @@ mod tests {
                 frac6_micro,
             ) = *dt_data_expect;
             if y == T_NOW_YEAR {
-                y = utc_now.year();
+                y = local_now.year();
             }
             if m == T_NOW_MONTH {
-                m = utc_now.month();
+                m = local_now.month();
             }
             if d == T_NOW_DAY {
-                d = utc_now.day();
+                d = local_now.day();
             }
             let dt_expect = ymdhmsm(
                 &fo,

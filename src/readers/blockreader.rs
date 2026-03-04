@@ -127,6 +127,7 @@ pub type BlockOffset = u64;
 /// A _block_ of bytes read from some file.
 pub type Block = Vec<u8>;
 
+/// _Block_ *P*ointer:
 /// Thread-safe [Atomic Reference Counting Pointer] to a [`Block`].
 ///
 /// [Atomic Reference Counting Pointer]: std::sync::Arc
