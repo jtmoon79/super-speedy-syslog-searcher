@@ -32,14 +32,39 @@ declare -ar S4_TEST_FILES=(
 
 set -x
 
-cargo clean
-cargo msrv verify  # cargo install cargo-msrv
-cargo build
-cargo build --profile release
-cargo build --profile mimalloc --features mimalloc
-cargo build --profile jemalloc --features jemalloc
-cargo build --profile rpmalloc --features rpmalloc
-cargo build --profile tcmalloc --features tcmalloc
+do_clean=true
+do_build=true
+for arg in "${@}"; do
+    if [[ "${arg}" == "--skip-clean" ]]; then
+        do_clean=false
+    elif [[ "${arg}" == "--skip-build" ]]; then
+        do_build=false
+    elif [[ "${arg}" == "--help" ]]; then
+        echo "Usage: ${0} [--skip-clean] [--skip-build]"
+        echo "    --skip-clean: skip 'cargo clean'"
+        echo "    --skip-build: skip 'cargo build' and related commands"
+        exit 0
+    else
+        echo "Unknown argument: ${arg}" >&2
+        echo "Usage: ${0} [--skip-clean] [--skip-build]" >&2
+        exit 1
+    fi
+done
+
+if ${do_clean}; then
+    cargo clean
+fi
+if ${do_build}; then
+    cargo msrv verify  # cargo install cargo-msrv
+    cargo build
+    cargo build --profile release
+    cargo build --profile mimalloc --features mimalloc
+    cargo build --profile jemalloc --features jemalloc
+    cargo build --profile rpmalloc --features rpmalloc
+    cargo build --profile tcmalloc --features tcmalloc
+    cargo build --profile flamegraph
+    cargo build --profile valgrind
+fi
 ./tools/log-files-time-update.sh
 cargo test
 cargo check --all-targets
