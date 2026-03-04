@@ -685,7 +685,7 @@ impl SyslogProcessor {
                         self.syslinereader
                             .remove_sysline(fo_prev);
                         fo_prev = fo_prev_prev;
-                        syslinep_prev_opt = Some(syslinep_prev.clone());
+                        syslinep_prev_opt = Some(SyslineP::clone(&syslinep_prev));
                         continue;
                     }
                 }
@@ -716,7 +716,7 @@ impl SyslogProcessor {
                 // must break otherwise end up in an infinite loop
                 break;
             }
-            syslinep_prev_opt = Some(syslinep.clone());
+            syslinep_prev_opt = Some(SyslineP::clone(&syslinep));
         } // end loop
         defx!("return FileOk");
 

@@ -986,8 +986,7 @@ impl SyslineReader {
             (*syslinep).fileoffset_end(),
             (*syslinep).dt()
         );
-        self.syslines
-            .insert(fo_beg, syslinep.clone());
+        self.syslines.insert(fo_beg, SyslineP::clone(&syslinep));
         self.syslines_count += 1;
         self.syslines_stored_highest = max(self.syslines.len(), self.syslines_stored_highest);
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
@@ -1844,7 +1843,9 @@ impl SyslineReader {
                                 val.1.fileoffset_begin(),
                                 val.1.fileoffset_end()
                             );
-                            return Some(ResultFindSysline::Found((val.0, val.1.clone())));
+                            return Some(
+                                ResultFindSysline::Found((val.0, SyslineP::clone(&val.1)))
+                            );
                         }
                         ResultFindSysline::Done => {
                             defx!("return ResultFindSysline::Done from LRU cache");
@@ -1882,7 +1883,7 @@ impl SyslineReader {
                     fo,
                 );
                 summary_stat!(self.syslines_by_range_hit += 1);
-                let syslinep: SyslineP = self.syslines[fo].clone();
+                let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(fo).unwrap());
                 // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 let fo_next: FileOffset = (*syslinep).fileoffset_next();
                 if self.is_sysline_last(&syslinep) {
@@ -1896,13 +1897,17 @@ impl SyslineReader {
                     );
                     summary_stat!(self.find_sysline_lru_cache_put += 1);
                     self.find_sysline_lru_cache
-                        .put(fileoffset, ResultFindSysline::Found((fo_next, syslinep.clone())));
+                        .put(fileoffset, ResultFindSysline::Found(
+                            (fo_next, SyslineP::clone(&syslinep))
+                        ));
                     SyslineReader::debug_assert_gt_fo_syslineend(&fo_next, &syslinep);
                     return Some(ResultFindSysline::Found((fo_next, syslinep)));
                 }
                 summary_stat!(self.find_sysline_lru_cache_put += 1);
                 self.find_sysline_lru_cache
-                    .put(fileoffset, ResultFindSysline::Found((fo_next, syslinep.clone())));
+                    .put(fileoffset, ResultFindSysline::Found(
+                        (fo_next, SyslineP::clone(&syslinep))
+                    ));
                 defx!(
                     "is_sysline_last() false; return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] from self.syslines_by_range {:?}",
                     fo_next,
@@ -1929,7 +1934,7 @@ impl SyslineReader {
             debug_assert!(self.syslines_by_range.contains_key(&fileoffset), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
             self.syslines_hit += 1;
             defo!("hit self.syslines for FileOffset {}", fileoffset);
-            let syslinep: SyslineP = self.syslines[&fileoffset].clone();
+            let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(&fileoffset).unwrap());
             // XXX: Issue #16 only handles UTF-8/ASCII encoding
             let fo_next: FileOffset = (*syslinep).fileoffset_end() + (self.charsz() as FileOffset);
             if self.is_sysline_last(&syslinep) {
@@ -1943,13 +1948,17 @@ impl SyslineReader {
                 );
                 summary_stat!(self.find_sysline_lru_cache_put += 1);
                 self.find_sysline_lru_cache
-                    .put(fileoffset, ResultFindSysline::Found((fo_next, syslinep.clone())));
+                    .put(fileoffset, ResultFindSysline::Found(
+                        (fo_next, SyslineP::clone(&syslinep))
+                    ));
                 return Some(ResultFindSysline::Found((fo_next, syslinep)));
             }
             if self.find_sysline_lru_cache_enabled {
                 summary_stat!(self.find_sysline_lru_cache_put += 1);
                 self.find_sysline_lru_cache
-                    .put(fileoffset, ResultFindSysline::Found((fo_next, syslinep.clone())));
+                    .put(fileoffset, ResultFindSysline::Found(
+                        (fo_next, SyslineP::clone(&syslinep))
+                    ));
             }
             defx!(
                 "return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] from self.syslines {:?}",
@@ -2094,7 +2103,9 @@ impl SyslineReader {
                             summary_stat!(self.find_sysline_lru_cache_put += 1);
                             defo!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo1);
                             self.find_sysline_lru_cache
-                                .put(fileoffset, ResultFindSysline::Found((fo1, syslinep.clone())));
+                                .put(fileoffset, ResultFindSysline::Found(
+                                    (fo1, SyslineP::clone(&syslinep))
+                                ));
                         }
                         defx!(
                             "({}): return ResultFindSysline::Found({}, {:p}), false; @[{}, {}]; A found here and LineReader.find_line({})",
@@ -2106,7 +2117,10 @@ impl SyslineReader {
                             fo1,
                         );
                         SyslineReader::debug_assert_gt_fo_syslineend(&fo1, &syslinep);
-                        return (ResultFindSysline::Found((fo1, syslinep)), false);
+                        return (ResultFindSysline::Found(
+                            (fo1, SyslineP::clone(&syslinep))),
+                            false
+                        );
                     }
                     break;
                 }
@@ -2214,7 +2228,9 @@ impl SyslineReader {
             summary_stat!(self.find_sysline_lru_cache_put += 1);
             defo!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo_b);
             self.find_sysline_lru_cache
-                .put(fileoffset, ResultFindSysline::Found((fo_b, syslinep.clone())));
+                .put(fileoffset, ResultFindSysline::Found(
+                    (fo_b, SyslineP::clone(&syslinep))
+                ));
         }
         defx!(
             "({}): return ResultFindSysline::Found(({}, SyslineP@{:p})), false; @[{}, {}] E {:?}",
@@ -2487,7 +2503,9 @@ impl SyslineReader {
             summary_stat!(self.find_sysline_lru_cache_put += 1);
             defo!("({}): LRU cache put({}, Found({}, …))", fileoffset, fileoffset, fo_b);
             self.find_sysline_lru_cache
-                .put(fileoffset, ResultFindSysline::Found((fo_b, syslinep.clone())));
+                .put(fileoffset, ResultFindSysline::Found(
+                    (fo_b, SyslineP::clone(&syslinep))
+                ));
         }
         defx!(
             "({}): return ResultFindSysline::Found(({}, SyslineP@{:p})) @[{}, {}] F {:?}",

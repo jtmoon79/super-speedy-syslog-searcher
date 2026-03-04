@@ -1769,7 +1769,9 @@ impl BlockReader {
                         def1o!("FileXz: block.extend_from_slice(&buffer[{}‥{}])", a, b);
                         block.extend_from_slice(&buffer[a..b]);
                         let blockp: BlockP = BlockP::new(block);
-                        if let Some(bp_) = blocks.insert(blockoffset, blockp.clone()) {
+                        if let Some(bp_) = blocks.insert(
+                            blockoffset, BlockP::clone(&blockp)
+                        ) {
                             debug_panic!("blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p}, path {:?}", blockoffset, blockp, bp_, path_std);
                         }
                         summary_stat!(read_blocks_put += 1);
@@ -2683,7 +2685,7 @@ impl BlockReader {
             return;
         }
         self.read_block_lru_cache
-            .put(blockoffset, blockp.clone());
+            .put(blockoffset, BlockP::clone(&blockp));
         summary_stat!(self.read_block_cache_lru_put += 1);
     }
 
@@ -2703,7 +2705,7 @@ impl BlockReader {
         );
         if let Some(_bp) = self
             .blocks
-            .insert(blockoffset, blockp.clone())
+            .insert(blockoffset, BlockP::clone(&blockp))
         {
             de_wrn!(
                 "blockreader.blocks.insert({}, BlockP@{:p}) already had a entry BlockP@{:p} for file {:?}",
@@ -2853,11 +2855,10 @@ impl BlockReader {
                     defx!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
                     //      which could happen if streaming stage occurs too soon
-                    let blockp: BlockP = self
+                    let blockp: BlockP = BlockP::clone(self
                         .blocks
                         .get_mut(&bo_at)
-                        .unwrap()
-                        .clone();
+                        .unwrap());
                     self.store_block_in_LRU_cache(bo_at, &blockp);
                     return ResultFindReadBlock::Found(blockp);
                 }
@@ -3083,11 +3084,10 @@ impl BlockReader {
                     defx!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
                     //      which could happen if streaming stage occurs too soon
-                    let blockp: BlockP = self
+                    let blockp: BlockP = BlockP::clone(self
                         .blocks
                         .get_mut(&bo_at)
-                        .unwrap()
-                        .clone();
+                        .unwrap());
                     self.store_block_in_LRU_cache(bo_at, &blockp);
                     return ResultFindReadBlock::Found(blockp);
                 }
@@ -3432,11 +3432,10 @@ impl BlockReader {
                     defx!("({}): return Found", blockoffset);
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
                     //      which could happen if streaming stage occurs too soon
-                    let blockp: BlockP = self
+                    let blockp: BlockP = BlockP::clone(self
                         .blocks
                         .get_mut(&bo_at)
-                        .unwrap()
-                        .clone();
+                        .unwrap());
                     self.store_block_in_LRU_cache(bo_at, &blockp);
                     return ResultFindReadBlock::Found(blockp);
                 }
@@ -3627,11 +3626,10 @@ impl BlockReader {
                 if bo_at == blockoffset {
                     // XXX: this will panic if the key+value in `self.blocks` was dropped
                     //      which could happen during streaming stage
-                    let blockp: BlockP = self
+                    let blockp: BlockP = BlockP::clone(self
                         .blocks
                         .get_mut(&bo_at)
-                        .unwrap()
-                        .clone();
+                        .unwrap());
                     // drop "old" blocks
                     let mut bo_drop = bo_at;
                     while bo_drop > 0 && bo_drop <= blockoffset {
@@ -3909,7 +3907,7 @@ impl BlockReader {
 
         // return only the block requested
         let blockp: BlockP = match self.blocks.get(&blockoffset) {
-            Some(blockp_) => blockp_.clone(),
+            Some(blockp_) => BlockP::clone(blockp_),
             None => {
                 defx!("self.blocks.get({}), returned None, return Err(UnexpectedEof)", blockoffset);
                 return ResultFindReadBlock::Err(Error::new(
@@ -3984,7 +3982,7 @@ impl BlockReader {
                             BlockReader::file_offset_at_block_offset(blockoffset + 1, self.blocksz),
                             (*bp).len(),
                         );
-                        return ResultFindReadBlock::Found(bp.clone());
+                        return ResultFindReadBlock::Found(BlockP::clone(&bp));
                     }
                     None => {
                         summary_stat!(self.read_block_cache_lru_miss += 1);
@@ -4006,7 +4004,7 @@ impl BlockReader {
                         .blocks
                         .get_mut(&blockoffset)
                     {
-                        Some(blockp) => blockp.clone(),
+                        Some(blockp) => BlockP::clone(&blockp),
                         None => {
                             // BUG: getting here means something is wrong
                             //      with the internal state of `BlockReader` and likely
@@ -4432,7 +4430,7 @@ impl BlockReader {
         Ok(TarHandle::new(file_tar))
     }
 
-    /// For testing only, very inefficient!
+    /// For testing only, very memory inefficient!
     #[cfg(test)]
     pub(crate) fn get_block(
         &self,

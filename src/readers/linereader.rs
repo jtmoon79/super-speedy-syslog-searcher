@@ -73,7 +73,7 @@ use crate::readers::blockreader::{
 /// [`Line`]: crate::data::line::Line
 pub type FoToLine = BTreeMap<FileOffset, LineP>;
 
-/// Map [`FileOffset`] To `FileOffset`
+/// Map [`FileOffset`] To [`FileOffset`].
 pub type FoToFo = BTreeMap<FileOffset, FileOffset>;
 
 /// [`LineReader.find_line()`] searching results.
@@ -480,9 +480,11 @@ impl LineReader {
             fo_beg
         );
         self.lines
-            .insert(fo_beg, linep.clone());
-        deo!("foend_to_fobeg.insert({}, {})", fo_end, fo_beg);
-        summary_stat!(self.lines_stored_highest = std::cmp::max(self.lines_stored_highest, self.lines.len()));
+            .insert(fo_beg, LineP::clone(&linep));
+        defo!("foend_to_fobeg.insert({}, {})", fo_end, fo_beg);
+        summary_stat!(
+            self.lines_stored_highest = std::cmp::max(self.lines_stored_highest, self.lines.len())
+        );
         debug_assert!(
             !self
                 .foend_to_fobeg
@@ -646,9 +648,10 @@ impl LineReader {
         if fileoffset < fo_beg {
             return None;
         }
+
         #[allow(clippy::manual_map)]
         match self.lines.get(fo_beg) {
-            Some(lp) => Some(lp.clone()),
+            Some(lp) => Some(LineP::clone(lp)),
             None => None,
         }
     }
@@ -683,7 +686,7 @@ impl LineReader {
                             val.1.fileoffset_end(),
                             val.1.to_String_noraw()
                         );
-                        return Some(ResultFindLine::Found((val.0, val.1.clone())));
+                        return Some(ResultFindLine::Found((val.0, LineP::clone(&val.1))));
                     }
                     ResultFindLine::Done => {
                         defx!("return ResultFindLine::Done");
@@ -730,14 +733,16 @@ impl LineReader {
                 "self.lines and self.lines_by_range are out of synch on key {} (before part A)",
                 fileoffset
             );
-            let linep: LineP = self.lines[&fileoffset].clone();
+            let linep: LineP = LineP::clone(&self.lines[&fileoffset]);
             let fo_next: FileOffset = (*linep).fileoffset_end() + charsz_fo;
             if self.is_line_last(&linep) {
                 if self.find_line_lru_cache_enabled {
                     summary_stat!(self.find_line_lru_cache_put += 1);
                     deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                        .put(fileoffset, ResultFindLine::Found(
+                            (fo_next, LineP::clone(&linep))
+                        ));
                 }
                 dex!(
                     "return ResultFindLine::Found({}, LineP) @[{}, {}] {:?}",
@@ -752,7 +757,9 @@ impl LineReader {
                 summary_stat!(self.find_line_lru_cache_put += 1);
                 deo!("LRU Cache put({}, Found({}, …))", fileoffset, fo_next);
                 self.find_line_lru_cache
-                    .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                    .put(fileoffset, ResultFindLine::Found(
+                        (fo_next, LineP::clone(&linep))
+                    ));
             }
             dex!(
                 "return ResultFindLine::Found({}, LineP)  @[{}, {}] {:?}",
@@ -776,7 +783,7 @@ impl LineReader {
                         summary_stat!(self.find_line_lru_cache_put += 1);
                         deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                         self.find_line_lru_cache
-                            .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                            .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                     }
                     defx!(
                         "return ResultFindLine::Found({}, LineP) @[{}, {}] {:?}",
@@ -791,7 +798,7 @@ impl LineReader {
                     summary_stat!(self.find_line_lru_cache_put += 1);
                     deo!("LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                        .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                 }
                 defx!(
                     "return ResultFindLine::Found({}, LineP) @[{}, {}] {:?}",
@@ -1120,7 +1127,7 @@ impl LineReader {
                     summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                        .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                 }
                 defx!(
                     "({}) A0: return ResultFindLine::Found(({}, LineP)), None; @[{}, {}] {:?}",
@@ -1136,7 +1143,7 @@ impl LineReader {
                     summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("({}) A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fileoffset, fo_next, linep);
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                        .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                 }
                 defx!(
                     "({}) A0: return ResultFindLine::Found(({}, LineP)), None; @[{}, {}] {:?}",
@@ -1166,7 +1173,7 @@ impl LineReader {
                 summary_stat!(self.lines_hits += 1);
                 defo!("({}) A1a: hit in self.lines for FileOffset {} (before part A)", fileoffset, fo_);
                 fo_nl_a = fo_;
-                let linep_prev: LineP = self.lines[&fo_nl_a].clone();
+                let linep_prev: LineP = LineP::clone(self.lines.get(&fo_nl_a).unwrap());
                 debug_assert_eq!(
                     fo_nl_a,
                     (*linep_prev).fileoffset_end(),
@@ -1198,7 +1205,7 @@ impl LineReader {
                             (*linep).to_String_noraw()
                         );
                         self.find_line_lru_cache
-                            .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                            .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                     }
                     defx!(
                         "({}): return ResultFindLine::Found({}, LineP), None;  @[{}, {}] {:?}",
@@ -1208,7 +1215,7 @@ impl LineReader {
                         (*linep).fileoffset_end(),
                         (*linep).to_String_noraw()
                     );
-                    return (ResultFindLine::Found((fo_next, linep)), None);
+                    return (ResultFindLine::Found((fo_next, LineP::clone(&linep))), None);
                 }
                 if self.find_line_lru_cache_enabled {
                     summary_stat!(self.find_line_lru_cache_put += 1);
@@ -1220,7 +1227,7 @@ impl LineReader {
                         (*linep).to_String_noraw()
                     );
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                        .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                 }
                 defx!(
                     "({}): return ResultFindLine::Found({}, LineP), None;  @[{}, {}] {:?}",
@@ -1230,7 +1237,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return (ResultFindLine::Found((fo_next, linep)), None);
+                return (ResultFindLine::Found((fo_next, LineP::clone(&linep))), None);
             } else {
                 summary_stat!(self.lines_miss += 1);
                 defo!("({}) A1a: miss in self.lines for FileOffset {} (quick check before part A)", fileoffset, fo_);
@@ -1281,7 +1288,7 @@ impl LineReader {
                                     (*linep).to_String_noraw()
                                 );
                                 self.find_line_lru_cache
-                                    .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                                    .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                             }
                             defx!(
                                 "({}): return ResultFindLine::Found(({}, LineP)), None;  @[{}, {}] {:?}",
@@ -1304,7 +1311,7 @@ impl LineReader {
                                 (*linep).to_String_noraw()
                             );
                             self.find_line_lru_cache
-                                .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                                .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                         }
                         defx!(
                             "({}): return ResultFindLine::Found(({}, LineP)), None;  @[{}, {}] {:?}",
@@ -1314,7 +1321,7 @@ impl LineReader {
                             (*linep).fileoffset_end(),
                             (*linep).to_String_noraw()
                         );
-                        return (ResultFindLine::Found((fo_next, linep)), None);
+                        return (ResultFindLine::Found((fo_next, LineP::clone(&linep))), None);
                     }
                     None => {
                         defo!(
@@ -1766,7 +1773,7 @@ impl LineReader {
                             byte_to_char_noraw((*bptr)[bi_beg]),
                         );
                         let li: LinePart = LinePart::new(
-                            bptr.clone(),
+                            BlockP::clone(&bptr),
                             0,
                             bi_beg + 1,
                             self.file_offset_at_block_offset_index(bof, 0),
@@ -1788,7 +1795,7 @@ impl LineReader {
                 }
                 // newline B was not found in this `Block`, but must save this `Block` information as a `LinePart.
                 let li: LinePart = LinePart::new(
-                    bptr.clone(),
+                    BlockP::clone(&bptr),
                     0,
                     bi_beg,
                     self.file_offset_at_block_offset_index(bof, 0),
@@ -1872,7 +1879,7 @@ impl LineReader {
                     summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                        .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                 }
                 defx!(
                     "({}) A0: return ResultFindLine::Found(({}, LineP)) @[{}, {}] {:?}",
@@ -1888,7 +1895,7 @@ impl LineReader {
                     summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("A0: LRU cache put({}, Found(({}, @{:p})))", fileoffset, fo_next, linep);
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                        .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                 }
                 defx!(
                     "({}) A0: return ResultFindLine::Found(({}, LineP)) @[{}, {}] {:?}",
@@ -1898,7 +1905,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultFindLine::Found((fo_next, linep));
+                return ResultFindLine::Found((fo_next, LineP::clone(&linep)));
             };
         }
         assert!(!found_nl_a, "already found newline A; was finding it once not good enough? file {:?}", self.path());
@@ -1913,7 +1920,7 @@ impl LineReader {
                 summary_stat!(self.lines_hits += 1);
                 defo!("A1a: hit in self.lines for FileOffset {} (before part A)", fo_);
                 fo_nl_a = fo_;
-                let linep_prev: LineP = self.lines[&fo_nl_a].clone();
+                let linep_prev: LineP = LineP::clone(&self.lines.get(&fo_nl_a).unwrap());
                 debug_assert_eq!(
                     fo_nl_a,
                     (*linep_prev).fileoffset_end(),
@@ -1938,7 +1945,7 @@ impl LineReader {
                     summary_stat!(self.find_line_lru_cache_put += 1);
                     defo!("A1a: LRU Cache put({}, Found({}, …)) {:?}", fileoffset, fo_next, (*linep).to_String_noraw());
                     self.find_line_lru_cache
-                        .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                        .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                 }
                 defx!(
                     "({}): return ResultFindLine::Found({}, LineP)  @[{}, {}] {:?}",
@@ -1948,7 +1955,7 @@ impl LineReader {
                     (*linep).fileoffset_end(),
                     (*linep).to_String_noraw()
                 );
-                return ResultFindLine::Found((fo_next, linep));
+                return ResultFindLine::Found((fo_next, LineP::clone(&linep)));
             } else {
                 summary_stat!(self.lines_miss += 1);
                 defo!("A1a: miss in self.lines for FileOffset {} (quick check before part A)", fo_);
@@ -1989,7 +1996,7 @@ impl LineReader {
                             (*linep).to_String_noraw()
                         );
                         self.find_line_lru_cache
-                            .put(fileoffset, ResultFindLine::Found((fo_next, linep.clone())));
+                            .put(fileoffset, ResultFindLine::Found((fo_next, LineP::clone(&linep))));
                     }
                     defx!(
                         "({}): return ResultFindLine::Found({}, LineP)  @[{}, {}] {:?}",
@@ -1999,7 +2006,7 @@ impl LineReader {
                         (*linep).fileoffset_end(),
                         (*linep).to_String_noraw()
                     );
-                    return ResultFindLine::Found((fo_next, linep));
+                    return ResultFindLine::Found((fo_next, LineP::clone(&linep)));
                 }
                 None => {
                     defo!("A1b: self.get_linep({}) returned None (quick check before part A)", fo_);
@@ -2080,7 +2087,7 @@ impl LineReader {
             // the charsz shift backward to begin search for newline A crossed block boundary
             // so save linepart from "middle" block before searching further
             let li: LinePart = LinePart::new(
-                bptr_middle.clone(),
+                BlockP::clone(&bptr_middle),
                 0,
                 bi_middle_end + 1,
                 self.file_offset_at_block_offset_index(bo_middle, 0),
@@ -2163,7 +2170,7 @@ impl LineReader {
                             // newline A and first line char does not cross block boundary
                             defo!("A5: store current blockoffset {}", bof);
                             let li = LinePart::new(
-                                bptr.clone(),
+                                BlockP::clone(&bptr),
                                 bi_at,
                                 bi_start + 1,
                                 fo_nl_a1,
@@ -2177,7 +2184,7 @@ impl LineReader {
                             defo!("A5: store prior blockoffset {}", bof_a1);
                             // use prior block data
                             let li = LinePart::new(
-                                bptr_prior,
+                                BlockP::clone(&bptr_prior),
                                 0,
                                 bi_start_prior + 1,
                                 fo_nl_a1,
@@ -2203,7 +2210,7 @@ impl LineReader {
                 }
                 defo!("A5: store blockoffset {}", bof);
                 let li = LinePart::new(
-                    bptr.clone(),
+                    BlockP::clone(&bptr),
                     BI_STOP,
                     bi_start + 1,
                     self.file_offset_at_block_offset_index(bof, 0),
@@ -2251,7 +2258,10 @@ impl LineReader {
             summary_stat!(self.find_line_lru_cache_put += 1);
             defo!("D: LRU Cache put({}, Found({}, …))", fileoffset, fo_end + 1);
             self.find_line_lru_cache
-                .put(fileoffset, ResultFindLine::Found((fo_end + 1, linep.clone())));
+                .put(
+                    fileoffset,
+                    ResultFindLine::Found((fo_end + 1, LineP::clone(&linep)))
+                );
         }
         defx!(
             "({}) D: return ResultFindLine::Found(({}, LineP)) @[{}, {}] {:?}",
