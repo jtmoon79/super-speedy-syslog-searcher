@@ -1432,7 +1432,12 @@ impl SyslineReader {
         } // end for(pattern, …)
 
         defx!("return Err(ErrorKind::NotFound); tried {} DateTimeParseInstr", _attempts);
-        ResultFindDateTime::Err(Error::new(ErrorKind::NotFound, format!("No datetime found in Line! file {:?}", path,)))
+        ResultFindDateTime::Err(
+            Error::new(
+                ErrorKind::NotFound,
+                format!("No datetime found in Line! file {:?}", path,)
+            )
+        )
     }
 
     /// Update the two statistic `DateTimeL` of

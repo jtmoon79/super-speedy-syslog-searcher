@@ -1512,11 +1512,17 @@ impl LineReader {
     /// ```text
     ///     012
     ///     x␊y
+    /// ```
+    ///
+    /// ```text
+    ///     A=Line.fileoffset_begin();
+    ///     B=Line.fileoffset_end();
+    ///     Val=Line.to_string();
     ///
     ///                     A,B  Val
-    ///     fine_line(0) -> 0,1 "x␊"
-    ///     fine_line(1) -> 0,1 "x␊"
-    ///     fine_line(2) -> 2,2 "y"
+    ///     find_line(0) -> 0,1 "x␊"
+    ///     find_line(1) -> 0,1 "x␊"
+    ///     find_line(2) -> 2,2 "y"
     /// ```
     ///
     /// XXX: returning the "next fileoffset (along with `LineP`) is jenky. Just return the `LineP`.
