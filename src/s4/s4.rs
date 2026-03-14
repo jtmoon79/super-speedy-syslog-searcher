@@ -4448,6 +4448,7 @@ fn exec_evtxprocessor(
     let mut evtxreader: EvtxReader = match EvtxReader::new(
         path.clone(),
         filetype,
+        tz_offset,
     ) {
         Ok(val) => val,
         Err(err) => {
@@ -5402,6 +5403,7 @@ fn processing_loop(
 
     // track which paths had syslines
     let mut paths_printed_logmessages: SetPathId = SetPathId::with_capacity(file_count);
+    let mut _messages_printed: usize = 0;
 
     //
     // the main processing loop (e.g. the "game loop")
@@ -5861,6 +5863,7 @@ fn processing_loop(
                             summaryprinted.flushed += 1;
                         }
                     }
+                    _messages_printed += 1;
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
@@ -5905,6 +5908,7 @@ fn processing_loop(
                             summaryprinted.flushed += 1;
                         }
                     }
+                    _messages_printed += 1;
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
@@ -5946,6 +5950,7 @@ fn processing_loop(
                             summaryprinted.flushed += 1;
                         }
                     }
+                    _messages_printed += 1;
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
@@ -5987,6 +5992,7 @@ fn processing_loop(
                             summaryprinted.flushed += 1;
                         }
                     }
+                    _messages_printed += 1;
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
@@ -6047,6 +6053,7 @@ fn processing_loop(
                             summaryprinted.flushed += 1;
                         }
                     }
+                    _messages_printed += 1;
                     if cli_opt_summary {
                         paths_printed_logmessages.insert(*pathid);
                         // update the per processing file `SummaryPrinted`
