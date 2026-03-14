@@ -26,10 +26,6 @@ use std::io::{
 };
 use std::path::Path;
 
-use ::chrono::{
-    DateTime,
-    Utc,
-};
 use ::evtx::{
     EvtxParser,
     ParserSettings,
@@ -63,6 +59,7 @@ use ::si_trace_print::{
 use ::tempfile::NamedTempFile;
 
 use crate::common::{
+    debug_panic,
     Count,
     FPath,
     File,
@@ -79,7 +76,13 @@ use crate::data::datetime::{
     Result_Filter_DateTime2,
     SystemTime,
 };
-use crate::data::evtx::Evtx;
+use crate::data::evtx::{
+    Evtx,
+    Timestamp,
+    TimestampOpt,
+    timestamp_to_datetimelopt,
+    datetimelopt_to_timestampopt,
+};
 use crate::de_err;
 use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::helpers::path_to_fpath;
@@ -88,49 +91,9 @@ use crate::readers::summary::Summary;
 // ----------
 // EvtxReader
 
-/// The `DateTime` used by [`EvtxParser`], field [`EvtxRecord.timestamp`] which
-/// is referred to as a "timestamp".
-///
-/// [`EvtxParser`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxParser.html
-/// [`EvtxRecord.timestamp`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html#structfield.timestamp
-pub type Timestamp = DateTime<Utc>;
-/// Optional [`Timestamp`].
-pub type TimestampOpt = Option<Timestamp>;
-
 // TODO: change to a typed `struct EventsKey(...)`
-pub type EventsKey = (Timestamp, usize);
+pub type EventsKey = (DateTimeL, usize);
 pub type Events = BTreeMap<EventsKey, Evtx>;
-
-/// Convert a `evtx` "timestamp" (`DateTime<Utc>`)
-/// to a `s4` "datetime" (`DateTimeL`).
-pub fn timestamp_to_datetimel(
-    timestamp: &Timestamp,
-) -> DateTimeL {
-    timestamp.with_timezone(
-        &FixedOffset::east_opt(0).unwrap()
-    )
-}
-
-/// Convert a `s4` "datetime" (`DateTimeL`)
-/// to a `evtx` "timestamp" (`DateTime<Utc>`).
-pub fn datetimel_to_timestamp(
-    datetime: &DateTimeL,
-) -> Timestamp {
-    datetime.with_timezone(&Utc)
-}
-
-/// Convert a `s4` "datetime" (`DateTimeL`)
-/// to a `evtx` "timestamp" (`DateTime<Utc>`).
-pub fn datetimelopt_to_timestampopt(
-    datetimeopt: &DateTimeLOpt,
-) -> TimestampOpt {
-    match datetimeopt {
-        Some(dt) => {
-            Some(datetimel_to_timestamp(dt))
-        }
-        None => None,
-    }
-}
 
 /// A version of [`dt_pass_filters`] that takes a `Timestamp` instead of a
 /// [`DateTimeL`].
@@ -224,6 +187,8 @@ pub struct EvtxReader {
     ///
     /// [`FPath`]: crate::common::FPath
     path: FPath,
+    /// The `FixedOffset` to use for converting `Timestamp`s to `DateTimeL`s.
+    fixed_offset: FixedOffset,
     /// If necessary, the extracted evtx file as a temporary file.
     named_temp_file: Option<NamedTempFile>,
     /// Summary statistic.
@@ -312,6 +277,7 @@ impl EvtxReader {
     pub fn new(
         path: FPath,
         filetype: FileType,
+        fixed_offset: FixedOffset,
     ) -> Result<EvtxReader> {
         def1n!("({:?}, {:?})", path, filetype);
 
@@ -391,6 +357,7 @@ impl EvtxReader {
             evtxparser,
             events: Events::new(),
             path,
+            fixed_offset,
             named_temp_file,
             events_processed: 0,
             events_accepted: 0,
@@ -422,8 +389,8 @@ impl EvtxReader {
         dt_filter_before: &DateTimeLOpt,
     ) {
         defn!("({:?}, {:?})", dt_filter_after, dt_filter_before);
-        let ts_filter_after = datetimelopt_to_timestampopt(dt_filter_after);
-        let ts_filter_before = datetimelopt_to_timestampopt(dt_filter_before);
+        let ts_filter_after: TimestampOpt = datetimelopt_to_timestampopt(dt_filter_after);
+        let ts_filter_before: TimestampOpt = datetimelopt_to_timestampopt(dt_filter_before);
         let mut timestamp_last: TimestampOpt = TimestampOpt::None;
         for (index, result) in self
             .evtxparser
@@ -439,33 +406,33 @@ impl EvtxReader {
                         match self.ts_first_processed.as_ref()
                         {
                             Some(ts_first_) => {
-                                if ts_first_ > &record.timestamp {
-                                    self.ts_first_processed = Some(record.timestamp);
+                                if ts_first_ > &record.timestamp.into() {
+                                    self.ts_first_processed = Some(record.timestamp.into());
                                 }
                             }
-                            None => self.ts_first_processed = Some(record.timestamp),
+                            None => self.ts_first_processed = Some(record.timestamp.into()),
                         }
                     );
                     summary_stat!(
                         match self.ts_last_processed.as_ref()
                         {
                             Some(ts_last_) => {
-                                if ts_last_ < &record.timestamp {
-                                    self.ts_last_processed = Some(record.timestamp);
+                                if ts_last_ < &record.timestamp.into() {
+                                    self.ts_last_processed = Some(record.timestamp.into());
                                 }
                             }
-                            None => self.ts_last_processed = Some(record.timestamp),
+                            None => self.ts_last_processed = Some(record.timestamp.into()),
                         }
                     );
                     // update "out of order" counter
                     if let Some(ts_last_) = timestamp_last.as_ref() {
                         summary_stat!(
-                            if ts_last_ > &record.timestamp {
+                            if ts_last_ > &record.timestamp.into() {
                                 self.out_of_order += 1;
                             }
                         );
                     }
-                    timestamp_last = Some(record.timestamp);
+                    timestamp_last = Some(record.timestamp.into());
 
                     // filter by date
                     match ts_pass_filters(&record.timestamp, &ts_filter_after, &ts_filter_before) {
@@ -482,10 +449,21 @@ impl EvtxReader {
                         }
                     }
 
-                    let timestamp = record.timestamp;
-                    let evtx = Evtx::from_evtxrs(&record);
-                    self.events
-                        .insert((timestamp, index), evtx);
+                    let datetime_opt: DateTimeLOpt = timestamp_to_datetimelopt(
+                        &record.timestamp, &self.fixed_offset
+                    );
+                    let datetime_: DateTimeL = match datetime_opt {
+                        DateTimeLOpt::None => {
+                            de_err!("timestamp_to_datetimelopt() returned None for timestamp {:?}", record.timestamp);
+                            continue;
+                        }
+                        DateTimeLOpt::Some(dt) => dt,
+                    };
+                    let evtx: Evtx = Evtx::from_evtxrs(&record, &self.fixed_offset);
+                    let key: EventsKey = (datetime_, index);
+                    if let Some(e) = self.events.insert(key, evtx) {
+                        debug_panic!("Duplicate key {:?} found in events BTreeMap, this should not happen: {:?}", key, e);
+                    }
 
                     summary_stat!(self.events_accepted += 1);
 
@@ -493,19 +471,19 @@ impl EvtxReader {
                         match self.ts_first_accepted.as_ref()
                         {
                             Some(ts_first_) => {
-                                if ts_first_ > &timestamp {
-                                    self.ts_first_accepted = Some(timestamp);
+                                if ts_first_ > &record.timestamp {
+                                    self.ts_first_accepted = Some(record.timestamp);
                                 }
                             }
-                            None => self.ts_first_accepted = Some(timestamp),
+                            None => self.ts_first_accepted = Some(record.timestamp),
                         }
                         match self.ts_last_accepted.as_ref() {
                             Some(ts_last_) => {
-                                if ts_last_ < &timestamp {
-                                    self.ts_last_accepted = Some(timestamp);
+                                if ts_last_ < &record.timestamp {
+                                    self.ts_last_accepted = Some(record.timestamp);
                                 }
                             }
-                            None => self.ts_last_accepted = Some(timestamp),
+                            None => self.ts_last_accepted = Some(record.timestamp),
                         }
                     );
                 }
@@ -547,7 +525,8 @@ impl EvtxReader {
     pub fn dt_first_processed(&self) -> DateTimeLOpt {
         match self.ts_first_processed {
             TimestampOpt::None => DateTimeLOpt::None,
-            TimestampOpt::Some(ts) => DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+            TimestampOpt::Some(ts) =>
+                timestamp_to_datetimelopt(&ts, &self.fixed_offset),
         }
     }
 
@@ -555,7 +534,8 @@ impl EvtxReader {
     pub fn dt_last_processed(&self) -> DateTimeLOpt {
         match self.ts_last_processed {
             TimestampOpt::None => DateTimeLOpt::None,
-            TimestampOpt::Some(ts) => DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+            TimestampOpt::Some(ts) =>
+                timestamp_to_datetimelopt(&ts, &self.fixed_offset),
         }
     }
 
@@ -564,7 +544,8 @@ impl EvtxReader {
     pub fn dt_first_accepted(&self) -> DateTimeLOpt {
         match self.ts_first_accepted {
             TimestampOpt::None => DateTimeLOpt::None,
-            TimestampOpt::Some(ts) => DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+            TimestampOpt::Some(ts) =>
+                timestamp_to_datetimelopt(&ts, &self.fixed_offset),
         }
     }
 
@@ -573,7 +554,8 @@ impl EvtxReader {
     pub fn dt_last_accepted(&self) -> DateTimeLOpt {
         match self.ts_last_accepted {
             TimestampOpt::None => DateTimeLOpt::None,
-            TimestampOpt::Some(ts) => DateTimeLOpt::Some(timestamp_to_datetimel(&ts)),
+            TimestampOpt::Some(ts) =>
+                timestamp_to_datetimelopt(&ts, &self.fixed_offset),
         }
     }
 

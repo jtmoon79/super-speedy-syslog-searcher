@@ -11,7 +11,10 @@ use std::io::{
 };
 
 pub(crate) use ::evtx::err::EvtxError;
-pub(crate) use ::evtx::SerializedEvtxRecord;
+pub(crate) use ::evtx::{
+    SerializedEvtxRecord,
+    Timestamp,
+};
 #[allow(unused_imports)]
 use ::more_asserts::{
     assert_ge,
@@ -37,13 +40,23 @@ use ::si_trace_print::{
 
 #[doc(hidden)]
 use crate::common::{
+    debug_panic,
     NLc,
     NLs,
 };
+use crate::de_err;
 use crate::data::common::DtBegEndPairOpt;
-use crate::data::datetime::DateTimeL;
+use crate::data::datetime::{
+    DateTime,
+    DateTimeL,
+    DateTimeLOpt,
+    FixedOffset,
+    Utc,
+};
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::buffer_to_String_noraw;
+
+pub type TimestampOpt = Option<Timestamp>;
 
 /// From private `evtx::evtx_record::RecordId`.
 ///
@@ -61,6 +74,52 @@ pub type ResultEvtxRS = std::result::Result<EvtxRS, EvtxError>;
 
 const TIMECREATED_BEG_SUBSTR: &str = "<TimeCreated SystemTime=\"";
 const TIMECREATED_END_SUBCHAR: char = '\"';
+
+/// Convert a `evtx` "timestamp" (`jiff::Timestamp`)
+/// to a `s4` "datetime" (`chrono::DateTime<Local>`).
+pub fn timestamp_to_datetimelopt(
+    timestamp: &Timestamp,
+    fixed_offset: &FixedOffset,
+) -> DateTimeLOpt {
+    let ns128: i128 = timestamp.as_nanosecond();
+    let ns64: i64 = match i64::try_from(ns128) {
+        Ok(ns) => ns,
+        Err(err) => {
+            debug_panic!("timestamp.as_nanosecond() value {:?} does not fit in i64: {}", ns128, err);
+            return DateTimeLOpt::None;
+        }
+    };
+    let dt_utc = DateTime::<Utc>::from_timestamp_nanos(ns64);
+    let dt_fo = dt_utc.with_timezone(fixed_offset);
+
+    DateTimeLOpt::Some(dt_fo)
+}
+
+/// Convert a `s4` "datetime" (`DateTimeL`)
+/// to a `evtx` "timestamp" (`jiff::Timestamp`).
+pub fn datetimelopt_to_timestampopt(
+    datetimeopt: &DateTimeLOpt,
+) -> TimestampOpt {
+    let dt: &DateTimeL = match datetimeopt {
+        DateTimeLOpt::None => return TimestampOpt::None,
+        DateTimeLOpt::Some(dt) => dt,
+    };
+    let ns: i64 = match dt.timestamp_nanos_opt() {
+        Some(ns) => ns,
+        None => {
+            de_err!("datetime.timestamp_nanos_opt() returned None for datetime {:?}", dt);
+            return TimestampOpt::None;
+        }
+    };
+
+    match Timestamp::from_nanosecond(ns as i128) {
+        Ok(ts) => TimestampOpt::Some(ts),
+        Err(err) => {
+            de_err!("Timestamp::from_nanosecond({:?}) returned Err {}", ns, err);
+            TimestampOpt::None
+        }
+    }
+}
 
 /// A `Evtx` holds information taken from an [`EvtxRecord`], a
 /// [Windows Event Log] record.
@@ -130,10 +189,16 @@ impl Evtx {
     /// Create a new `Evtx`.
     pub fn from_resultserializedrecord(
         record: &ResultEvtxRS,
+        fixed_offset: &FixedOffset,
     ) -> Result<Evtx, Error> {
         match record {
             Ok(record) => {
-                Result::Ok(Self::from_evtxrs(record))
+                Result::Ok(
+                    Self::from_evtxrs(
+                        record,
+                        fixed_offset,
+                    )
+                )
             }
             Err (err) => {
                 Err(
@@ -149,9 +214,20 @@ impl Evtx {
     /// Create a new `Evtx`.
     pub fn from_evtxrs(
         record: &EvtxRS,
+        fixed_offset: &FixedOffset,
     ) -> Evtx {
         let id: RecordId = record.event_record_id;
-        let dt: DateTimeL = record.timestamp.into();
+        let dt: DateTimeL = match timestamp_to_datetimelopt(
+            &record.timestamp,
+            fixed_offset,
+        ) {
+            DateTimeLOpt::None => {
+                debug_panic!("timestamp_to_datetimelopt returned None for timestamp {:?}", record.timestamp);
+
+                DateTime::<Utc>::from_timestamp_nanos(0).with_timezone(fixed_offset)
+            }
+            DateTimeLOpt::Some(dt) => dt,
+        };
         // add a newline to the `data` so it easily prints in a line-oriented
         // fashion
         let data: String = record.data.clone() + NLs;
