@@ -71,7 +71,7 @@ ere_automator_procmacro = { version = "=0.0.9950", path = "subprojects/ere/ere_a
 ere_datetimes_impl = { version = "=0.0.9960", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
 # TODO: [2025/12] update `evtx` and use `RecordId` when Issue 234 is merged and released
 #       https://github.com/omerbenamram/evtx/issues/234
-evtx = { version = "=0.8.5", features = ["multithreading"] }
+evtx = { version = "=0.11.2", features = ["multithreading"] }
 flate2 = "=1.1.9"
 include_dir = "=0.7.4"
 itertools = "=0.14.0"
