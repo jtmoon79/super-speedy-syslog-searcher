@@ -137,7 +137,7 @@ cross = "0.2.5"
 filepath = "0.2.0"
 filetime = "0.2.26"
 # XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
-flamegraph = "=0.6.10"
+flamegraph = "=0.6.11"
 test-case = "3.3.1"
 
 [features]
