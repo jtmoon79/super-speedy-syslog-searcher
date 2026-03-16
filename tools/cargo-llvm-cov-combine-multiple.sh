@@ -41,7 +41,7 @@ declare -a S4_TEST_FILES=(
     ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
     ./logs/other/tests/gen-20-2-2-faces.log
     ./logs/programs/AWS/elasticloadbalancer.log
-    ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+    ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
     ./logs/programs/journal/RHE_91_system.journal
     ./logs/programs/journal/RHE_91_system.journal.gz
     ./logs/programs/pacman/pacman.log

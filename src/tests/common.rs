@@ -4160,7 +4160,7 @@ pub const EVTX_NE_STR_PATH_PROJD: &str = "./logs/programs/evtx/NoEvents.evtx";
 
 /*
 
-File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx (EVTX) (evtx entries)
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx (EVTX) (evtx entries)
   Summary Printed:
       bytes          321782
       Events         227
@@ -4176,16 +4176,16 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx (EVT
 
 */
 
-pub const EVTX_KPNP_STR_PATH: &str = "../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx";
-pub const EVTX_KPNP_DATA: &[u8] = include_bytes!("../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx");
+pub const EVTX_KPNP_STR_PATH: &str = "../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx";
+pub const EVTX_KPNP_DATA: &[u8] = include_bytes!("../../logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx");
 pub const EVTX_KPNP_FILESZ: FileSz = 1052672;
-pub const EVTX_KPNP_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx";
-pub const EVTX_KPNP_BZ2_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.bz2";
-pub const EVTX_KPNP_GZ_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz";
-pub const EVTX_KPNP_LZ4_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.lz4";
+pub const EVTX_KPNP_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx";
+pub const EVTX_KPNP_BZ2_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.bz2";
+pub const EVTX_KPNP_GZ_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz";
+pub const EVTX_KPNP_LZ4_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.lz4";
 pub const EVTX_KPNP_TAR_STR_PATH_PROJD: &str =
-    concatcp!("./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar", SUBPATH_SEP, "Microsoft-Windows-Kernel-PnP%4Configuration.evtx");
-pub const EVTX_KPNP_XZ_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.xz";
+    concatcp!("./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar", SUBPATH_SEP, "Microsoft-Windows-Kernel-PnP__Configuration.evtx");
+pub const EVTX_KPNP_XZ_STR_PATH_PROJD: &str = "./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.xz";
 /// the first Event in the file
 pub const EVTX_KPNP_DATA1_S: &str = r#"
 <?xml version="1.0" encoding="utf-8"?>

@@ -167,7 +167,7 @@ else
                 echo './logs/programs/journal/CentOS_7_system.journal'
                 echo './logs/programs/journal/RHE_91_system.journal'
                 echo './logs/programs/journal/Ubuntu22-user-1000.journal'
-                echo './logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx'
+                echo './logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx'
                )
 fi
 

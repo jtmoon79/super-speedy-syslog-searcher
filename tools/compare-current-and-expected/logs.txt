@@ -274,9 +274,9 @@
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.xz
 ./logs/programs/digital-ocean-cloud-init/cloud-init.log
 ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar
 ./logs/programs/flask/server.log
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal
 ./logs/programs/journal/Ubuntu22-user-1000x3.journal.bz2

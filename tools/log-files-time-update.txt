@@ -811,13 +811,13 @@
 ./logs/programs/Event_Trace_Log/WindowsUpdate.20251008.140245.443.8.tar.lzo|2025-10-08 13:13:28.000000000 -0700
 ./logs/programs/Event_Trace_Log/WindowsUpdate.20251008.140245.443.8.tar.xz|2025-10-08 13:13:28.000000000 -0700
 ./logs/programs/Event_Trace_Log/WindowsUpdate.20251008.140245.443.8.zip|2025-10-08 13:13:28.000000000 -0700
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx|2023-03-10T03:49:40 -0800
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.bz2|2023-03-11 03:51:00 -0800
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz|2023-03-12 03:52:00 -0800
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.lz4|2023-03-13 03:53:00 -0800
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.xz|2023-03-14 03:54:00 -0800
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|2023-03-15 03:55:00 -0800
-./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.zip|2023-03-16 03:56:00 -0800
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx|2023-03-10T03:49:40 -0800
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.bz2|2023-03-11 03:51:00 -0800
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz|2023-03-12 03:52:00 -0800
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.lz4|2023-03-13 03:53:00 -0800
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.xz|2023-03-14 03:54:00 -0800
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|2023-03-15 03:55:00 -0800
+./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.zip|2023-03-16 03:56:00 -0800
 ./logs/programs/evtx/NoEvents.evtx|2023-02-01T00:00:00
 ./logs/programs/flask/server.log|2024-03-22 15:11:55 -0700
 ./logs/programs/journal/CentOS_7_system.journal|2023-04-10T15:14:12

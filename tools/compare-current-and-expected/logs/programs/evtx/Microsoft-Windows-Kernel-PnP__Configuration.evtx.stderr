@@ -1,7 +1,7 @@
 
 Files:
 
-File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
       filetype       : EVTX (Windows XML EventLog)
       logmessagetype : EVTX entries (Windows XML EventLog)

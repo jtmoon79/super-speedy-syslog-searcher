@@ -9454,7 +9454,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init-output.log
       process: regex captures attempted                            : 350
   Processing Drops:
 
-File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
       filetype       : EVTX (Windows XML EventLog)
       logmessagetype : EVTX entries (Windows XML EventLog)
@@ -9472,7 +9472,7 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
       datetime first     : 2023-03-10 03:49:43 +00:00 (2023-03-10 03:49:43.558721 +00:00)
       datetime last      : 2023-03-17 21:21:46 +00:00 (2023-03-17 21:21:46.786681 +00:00)
 
-File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
   About:
       filetype       : EVTX (GZIP) (Windows XML EventLog)
       logmessagetype : EVTX entries (Windows XML EventLog)
@@ -9490,9 +9490,9 @@ File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx.gz
       datetime first     : 2023-03-10 03:49:43 +00:00 (2023-03-10 03:49:43.558721 +00:00)
       datetime last      : 2023-03-17 21:21:46 +00:00 (2023-03-17 21:21:46.786681 +00:00)
 
-File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
-      archive subpath: Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+      archive subpath: Microsoft-Windows-Kernel-PnP__Configuration.evtx
       filetype       : EVTX (TAR) (Windows XML EventLog)
       logmessagetype : EVTX entries (Windows XML EventLog)
   Printed:

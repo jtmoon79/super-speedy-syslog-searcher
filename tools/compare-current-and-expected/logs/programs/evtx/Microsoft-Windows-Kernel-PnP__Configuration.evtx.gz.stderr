@@ -1,14 +1,13 @@
 
 Files:
 
-File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.tar|Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
   About:
-      archive subpath: Microsoft-Windows-Kernel-PnP%4Configuration.evtx
-      filetype       : EVTX (TAR) (Windows XML EventLog)
+      filetype       : EVTX (GZIP) (Windows XML EventLog)
       logmessagetype : EVTX entries (Windows XML EventLog)
   Printed:
-      bytes         : 1561282
-      flushes       : 905
+      bytes         : 1184407
+      flushes       : 678
       Events        : 227
       datetime first: 2023-03-10 03:49:43 +00:00 (2023-03-10 03:49:43.558721 +00:00)
       datetime last : 2023-03-17 21:21:46 +00:00 (2023-03-17 21:21:46.786681 +00:00)
@@ -26,8 +25,8 @@ Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
-Printed bytes          : 1562190
-Printed flushes        : 1132
+Printed bytes          : 1185315
+Printed flushes        : 905
 Printed lines          : 0
 Printed syslines       : 0
 Printed ASL events     : 0

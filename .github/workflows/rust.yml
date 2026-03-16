@@ -49,7 +49,7 @@ env:
     ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
     ./logs/other/tests/gen-20-2-2-faces.log
     ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
-    ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP%4Configuration.evtx
+    ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
     ./logs/programs/journal/RHE_91_system.journal
     ./logs/programs/journal/RHE_91_system.journal.gz
     ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
