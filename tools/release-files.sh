@@ -45,6 +45,11 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
 (
     set -x
+    ./tools/cargo-bloat.sh -n 100
+)
+
+(
+    set -x
     RUSTFLAGS=-g cargo build --profile flamegraph
     ./tools/flamegraphs.sh
 )
