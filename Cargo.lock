@@ -1211,7 +1211,7 @@ dependencies = [
  "libc",
  "mio 0.7.14",
  "parking_lot 0.11.2",
- "signal-hook",
+ "signal-hook 0.3.17",
  "signal-hook-mio",
  "winapi",
 ]
@@ -1615,9 +1615,9 @@ checksum = "0ce7134b9999ecaf8bcd65542e436736ef32ddca1b3e06094cb6ec5755203b80"
 
 [[package]]
 name = "flamegraph"
-version = "0.6.10"
+version = "0.6.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9cd16b516465c8fc1483cfd4955ac392a867728972bcdc6c5bd5ce3774f6aff4"
+checksum = "08b6da442f70c790348380cd6d45f0bae93b76dfdd005d9bea8cabd49ebbc609"
 dependencies = [
  "anyhow",
  "blondie",
@@ -1629,7 +1629,7 @@ dependencies = [
  "opener",
  "rustc-demangle",
  "shlex",
- "signal-hook",
+ "signal-hook 0.4.3",
 ]
 
 [[package]]
@@ -3719,6 +3719,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "signal-hook"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3b57709da74f9ff9f4a27dce9526eec25ca8407c45a7887243b031a58935fb8e"
+dependencies = [
+ "libc",
+ "signal-hook-registry",
+]
+
+[[package]]
 name = "signal-hook-mio"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3726,7 +3736,7 @@ checksum = "b75a19a7a740b25bc7944bdee6172368f988763b744e3d4dfe753f6b4ece40cc"
 dependencies = [
  "libc",
  "mio 0.7.14",
- "signal-hook",
+ "signal-hook 0.3.17",
 ]
 
 [[package]]
