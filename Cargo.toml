@@ -136,7 +136,7 @@ cargo-msrv = "0.15.1"
 criterion = "0.5.1"
 cross = "0.2.5"
 filepath = "0.2.0"
-filetime = "0.2.26"
+filetime = "0.2.27"
 # XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
 flamegraph = "=0.6.11"
 test-case = "3.3.1"
