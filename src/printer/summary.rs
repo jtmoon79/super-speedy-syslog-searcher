@@ -805,6 +805,10 @@ pub fn print_summary(
     thread_count: usize,
     thread_err_count: usize,
     allocator_chosen: AllocatorChosen,
+    allocator_allocated: usize,
+    allocator_deallocated: usize,
+    allocator_current: usize,
+    allocator_calls: usize,
 ) {
     let finish_time = Instant::now();
     // reset the text color to default
@@ -956,6 +960,19 @@ pub fn print_summary(
     eprintln!("Temporary files created: {}", named_temp_files_count);
     eprintln!("Platform               : {}", CURRENT_PLATFORM);
     eprintln!("Allocator              : {}", allocator_chosen);
+    match allocator_chosen {
+        AllocatorChosen::System
+        | AllocatorChosen::Jemalloc
+        | AllocatorChosen::Mimalloc
+        | AllocatorChosen::Rpmalloc
+        | AllocatorChosen::TCMalloc => {}
+        AllocatorChosen::SystemDebug => {
+            eprintln!("Allocator bytes allocated  : {}", allocator_allocated);
+            eprintln!("Allocator bytes deallocated: {}", allocator_deallocated);
+            eprintln!("Allocator bytes current    : {}", allocator_current);
+            eprintln!("Allocator calls            : {}", allocator_calls);
+        }
+    }
 }
 
 // TODO: [2023/04/05] move printing of `file size` from per-file "Processed:"

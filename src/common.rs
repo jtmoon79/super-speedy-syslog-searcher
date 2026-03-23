@@ -134,6 +134,7 @@ pub enum AllocatorChosen {
     Mimalloc = 3,
     Rpmalloc = 4,
     TCMalloc = 5,
+    SystemDebug = 6,
 }
 
 impl std::fmt::Display for AllocatorChosen {
@@ -147,6 +148,7 @@ impl std::fmt::Display for AllocatorChosen {
             AllocatorChosen::Mimalloc => write!(f, "mimalloc"),
             AllocatorChosen::Rpmalloc => write!(f, "rpmalloc"),
             AllocatorChosen::TCMalloc => write!(f, "tcmalloc"),
+            AllocatorChosen::SystemDebug => write!(f, "system_debug"),
         }
     }
 }
