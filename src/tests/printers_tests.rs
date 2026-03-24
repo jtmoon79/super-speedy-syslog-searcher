@@ -323,15 +323,15 @@ fn test_PrinterLogMessage_print_fixedstruct(
     );
 }
 
-#[test_case(CCA, CLR, None, None, None, 321782, 1589; "a")]
-#[test_case(CCU, CLR, None, None, None, 321782, 1589; "b")]
-#[test_case(CCN, CLR, None, None, None, 321782, 227; "c")]
-#[test_case(CCA, CLR, Some(FILEU), None, None, 388782, 34409; "d")]
-#[test_case(CCU, CLR, None, Some(DATE), None, 447407, 34409; "e")]
-#[test_case(CCN, CLR, None, None, Some(FO_P8), 321782, 227; "f")]
-#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None, 514407, 34409; "g")]
-#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(FO_P8), 514407, 34409; "h")]
-#[test_case(CCN, CLR, None, Some(DATE), Some(FO_P8), 447407, 339; "i")]
+#[test_case(CCA, CLR, None, None, None, 322009, 1589; "a")]
+#[test_case(CCU, CLR, None, None, None, 322009, 1589; "b")]
+#[test_case(CCN, CLR, None, None, None, 322009, 227; "c")]
+#[test_case(CCA, CLR, Some(FILEU), None, None, 390825, 35317; "d")]
+#[test_case(CCU, CLR, None, Some(DATE), None, 451039, 35317; "e")]
+#[test_case(CCN, CLR, None, None, Some(FO_P8), 322009, 227; "f")]
+#[test_case(CCA, CLR, Some(FILEU), Some(DATE), None, 519855, 35317; "g")]
+#[test_case(CCU, CLR, Some(FILEU), Some(DATE), Some(FO_P8), 519855, 35317; "h")]
+#[test_case(CCN, CLR, None, Some(DATE), Some(FO_P8), 451039, 340; "i")]
 fn test_PrinterLogMessage_print_evtx(
     colorchoice: ColorChoice,
     color: Color,
@@ -352,6 +352,7 @@ fn test_PrinterLogMessage_print_evtx(
     let mut er = EvtxReader::new(
         EVTX_KPNP_FPATH.clone(),
         FT_EVTX_NORM,
+        FO_P8,
     ).unwrap();
     let mut prints: usize = 0;
     let mut printed_bytes: usize = 0;

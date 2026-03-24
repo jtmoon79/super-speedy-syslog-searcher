@@ -4245,12 +4245,15 @@ lazy_static! {
     pub static ref EVTX_KPNP_FPATH: FPath = FPath::from(EVTX_KPNP_STR_PATH_PROJD);
     pub static ref EVTX_KPNP_F: File =
         File::open(fpath_to_path(&EVTX_KPNP_FPATH)).unwrap();
+
+    pub static ref EVTX_KPNP_ENTRY_FO: FixedOffset = FO_0;
+
     /// Entry 1 datetime
     pub static ref EVTX_KPNP_ENTRY1_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 10, 3, 49, 43, 558721);
+        ymdhmsm(&EVTX_KPNP_ENTRY_FO, 2023, 3, 10, 3, 49, 43, 558721);
     /// Entry last datetime
     pub static ref EVTX_KPNP_ENTRY227_DT: DateTimeL =
-        ymdhmsm(&FO_0, 2023, 3, 17, 21, 21, 46, 786681);
+        ymdhmsn(&EVTX_KPNP_ENTRY_FO, 2023, 3, 17, 21, 21, 46, 786681900);
 
     // EVTX_KPNP bz2
 

@@ -42,6 +42,7 @@ use crate::tests::common::{
     EVTX_KPNP_ENTRY227_DT,
     EVTX_KPNP_EVENT_COUNT,
     EVTX_KPNP_FPATH,
+    EVTX_KPNP_ENTRY_FO,
     EVTX_KPNP_GZ_ENTRY1_DT,
     EVTX_KPNP_GZ_ENTRY227_DT,
     EVTX_KPNP_GZ_EVENT_COUNT,
@@ -60,6 +61,7 @@ use crate::tests::common::{
     EVTX_KPNP_XZ_FPATH,
     EVTX_NE_FPATH,
     NTF_LOG_EMPTY_FPATH,
+    FO_E8,
 };
 
 /// Error, broken data
@@ -104,7 +106,7 @@ fn test_EvtxReader_new(
     path: &FPath,
     ok: bool,
 ) {
-    match EvtxReader::new(path.clone(), FT_NORM) {
+    match EvtxReader::new(path.clone(), FT_NORM, FO_E8) {
         Ok(_) => {
             assert!(ok, "EvtxReader::new({:?}) should have failed", path);
         }
@@ -120,7 +122,7 @@ fn test_new_EvtxReader_no_file_permissions() {
     let ntf = create_temp_file_no_permissions(".evtx");
     let path = ntf.path();
     let fpath = path_to_fpath(path);
-    match EvtxReader::new(fpath.clone(), FT_NORM) {
+    match EvtxReader::new(fpath.clone(), FT_NORM, FO_E8) {
         Ok(_) => {
             panic!("no permissions to read {:?}", path);
         }
@@ -134,7 +136,7 @@ fn test_new_EvtxReader_no_file_permissions() {
 #[test_case(&EVTX_NE_FPATH)]
 #[test_case(&EVTX_KPNP_FPATH)]
 fn test_mtime(path: &FPath) {
-    let er1 = EvtxReader::new(path.clone(), FT_NORM).unwrap();
+    let er1 = EvtxReader::new(path.clone(), FT_NORM, FO_E8).unwrap();
     // merely run the function
     _ = er1.mtime();
 }
@@ -144,7 +146,7 @@ fn test_mtime(path: &FPath) {
 #[test_case(&EVTX_NE_FPATH)]
 #[test_case(&EVTX_KPNP_FPATH)]
 fn test_EvtxReader_summary_empty(path: &FPath) {
-    let evtxreader = EvtxReader::new(path.clone(), FT_NORM).unwrap();
+    let evtxreader = EvtxReader::new(path.clone(), FT_NORM, FO_E8).unwrap();
     _ = evtxreader.summary();
     _ = evtxreader.summary_complete();
 }
@@ -246,7 +248,6 @@ fn test_EvtxReader_next_summary(
     match filetype {
         FileType::Evtx { archival_type } => {
             match archival_type {
-                // XXX: forces error if new FileTypeArchive is added
                 FileTypeArchive::Normal
                 | FileTypeArchive::Bz2
                 | FileTypeArchive::Gz
@@ -264,6 +265,7 @@ fn test_EvtxReader_next_summary(
     let mut evtxreader = EvtxReader::new(
         path.clone(),
         filetype,
+        *EVTX_KPNP_ENTRY_FO,
     ).unwrap();
     evtxreader.analyze(&None, &None);
     while let Some(evtx_) = evtxreader.next() {
@@ -285,13 +287,25 @@ fn test_EvtxReader_next_summary(
     assert_eq!(summary.evtxreader_out_of_order, out_of_order,
         "summary.out_of_order");
     assert_eq!(summary.evtxreader_datetime_first_accepted, datetime_first_accepted,
-        "summary.datetime_first_accepted");
+        "summary.datetime_first_accepted\nexpect {}\nactual {}\n",
+        datetime_first_accepted.unwrap_or_default(),
+        summary.evtxreader_datetime_first_accepted.unwrap_or_default(),
+    );
     assert_eq!(summary.evtxreader_datetime_last_accepted, datetime_last_accepted,
-        "summary.datetime_last_accepted");
+        "summary.datetime_last_accepted\nexpect {}\nactual {}\n",
+        datetime_last_accepted.unwrap_or_default(),
+        summary.evtxreader_datetime_last_accepted.unwrap_or_default(),
+    );
     assert_eq!(summary.evtxreader_datetime_first_processed, datetime_first_processed,
-        "summary.datetime_first_processed");
+        "summary.datetime_first_processed\nexpect {}\nactual {}\n",
+        datetime_first_processed.unwrap_or_default(),
+        summary.evtxreader_datetime_first_processed.unwrap_or_default(),
+    );
     assert_eq!(summary.evtxreader_datetime_last_processed, datetime_last_processed,
-        "summary.datetime_last_processed");
+        "summary.datetime_last_processed\nexpect {}\nactual {}\n",
+        datetime_last_processed.unwrap_or_default(),
+        summary.evtxreader_datetime_last_processed.unwrap_or_default(),
+    );
 
     // assert Summary
     let summary_c = evtxreader.summary_complete();
