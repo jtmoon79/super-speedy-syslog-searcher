@@ -46,6 +46,7 @@ set -x
     ./CHANGELOG.md \
     ./deny.toml \
     ./Extended-Thoughts.md \
+    ./.git/ \
     ./.gitattributes \
     ./.git_hooks/ \
     ./.github/ \
