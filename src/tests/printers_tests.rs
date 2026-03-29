@@ -502,10 +502,6 @@ fn test_print_summary_empty() {
         1,
         0,
         AllocatorChosen::System,
-        0,
-        0,
-        0,
-        0,
     );
 }
 
