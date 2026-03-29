@@ -103,7 +103,7 @@ jobs:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
       - run: |
           git config --global core.protectNTFS false
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: rustup toolchain install ${{ matrix.msrv }} --profile minimal
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile release
         shell: bash
@@ -153,19 +153,19 @@ jobs:
           ./target/sysalloc_debug/s4 --version
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'windows-latest' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: s4.exe ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4.exe
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'ubuntu-22.04' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'macos-latest' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4
@@ -186,7 +186,7 @@ jobs:
     steps:
       # build & upload debug
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: Build Debug
         shell: bash
@@ -196,7 +196,7 @@ jobs:
           cargo build --locked --verbose
           cp -av ./target/debug/s4 ./s4_debug
       - name: Upload debug binary for test
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: s4_debug
           path: ./s4_debug
@@ -209,12 +209,12 @@ jobs:
           cargo build --locked --release
           cp -av ./target/release/s4 ./s4_release
       - name: Upload release binary for test
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: s4_release
           path: ./s4_release
       - name: Upload release binary (Ubuntu Linux)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: s4
           path: ./target/release/s4
@@ -296,7 +296,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
       - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
@@ -323,7 +323,7 @@ jobs:
     runs-on: macos-13
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
       - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
@@ -346,7 +346,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
       - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
@@ -361,7 +361,7 @@ jobs:
   # job_test_wasm:
   #  runs-on: ubuntu-latest
   #  steps:
-  #    - uses: actions/checkout@v4
+  #    - uses: actions/checkout@v6
   #    - uses: moonrepo/setup-rust@v1
   #      with:
   #        channel: ${{ env.MSRV_UPLOAD }}
@@ -381,7 +381,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: Check
         shell: bash
@@ -399,7 +399,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - run: cargo install --locked cargo-deny
       - name: Run cargo-deny.sh
@@ -414,7 +414,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile default
       - name: Clippy
         shell: bash
@@ -431,7 +431,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: Bench Dry Run
         shell: bash
@@ -447,7 +447,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - run: cargo install --locked cargo-nextest
       - name: Install libsystemd
@@ -508,7 +508,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - run: cargo install --locked cargo-nextest
       # XXX: MacOS tools do not support `touch` arguments run in
@@ -536,7 +536,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: set log file filesystem Modified Times
         shell: bash
@@ -570,7 +570,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
@@ -598,7 +598,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Build Documentation
         run: cargo doc --locked --release --no-deps -v
       - name: Publish Dry Run
@@ -616,7 +616,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Use Python 3.10
         uses: actions/setup-python@v5
         with:
@@ -647,7 +647,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Run codecov-validate.sh
         run: ./tools/codecov-validate.sh -v
 
@@ -670,7 +670,7 @@ jobs:
     steps:
       # checkout for the log files
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: set log file filesystem Modified Times
         shell: bash
@@ -1059,7 +1059,7 @@ jobs:
       COVERALLS_FILE: ./coveralls.lcov
     steps:
       - name: git checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.VERSION_LLVM_COV }} --profile minimal
       - run: rustup component add llvm-tools-preview
       - run: cargo install --locked cargo-llvm-cov
