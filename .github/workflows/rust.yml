@@ -422,7 +422,7 @@ jobs:
           set -eux
           cargo --version
           cargo clippy --version
-          cargo clippy --locked --no-deps --verbose --all-targets --all-features
+          cargo clippy --locked --no-deps --all-targets --all-features
 
   job_bench:
     # this job downloads and builds dependency crates
