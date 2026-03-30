@@ -139,12 +139,13 @@ jobs:
           cargo build --locked --profile jemalloc --features jemalloc
           ./target/jemalloc/s4 --version
       # skip tcmalloc as it requires too particular installed libraries
-      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile sysalloc_debug_release
+      - name: Build and run using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile sysalloc_debug_release
         shell: bash
         run: |
           set -eux
           cargo build --locked --profile sysalloc_debug_release --features sysalloc_debug
-          ./target/sysalloc_debug_release/s4 --version
+          env S4_SYSALLOC_DEBUG_PRINT=1 ./target/sysalloc_debug_release/s4 --version
+          env S4_SYSALLOC_DEBUG_TRACKING=1 ./target/sysalloc_debug_release/s4 ./logs/other/tests/dtf2-2.log
       - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile sysalloc_debug
         shell: bash
         run: |
