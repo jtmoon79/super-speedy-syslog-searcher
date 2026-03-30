@@ -13,6 +13,7 @@ exec env \
     S4_SYSALLOC_DEBUG_TRACKING=${S4_SYSALLOC_DEBUG_TRACKING-1} \
     cargo \
     run \
+    --quiet \
     --profile sysalloc_debug_release \
     --features sysalloc_debug \
     -- "$@"
