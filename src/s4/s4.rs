@@ -89,442 +89,12 @@ cfg_if::cfg_if! {
         const CLI_HELP_AFTER_ALLOCATOR: &str = "tcmalloc";
     }
     else if #[cfg(feature = "sysalloc_debug")] {
-        // this block implement a custom global allocator that wraps the system allocator and tracks call sites of
-        // allocations. Provides functions to print a summary at program exit.
+        //use std::alloc::{GlobalAlloc, System, Layout};
 
-        use ::s4lib::common::threadid_to_u64;
-        use std::alloc::{
-            System,
-            GlobalAlloc,
-            Layout,
-        };
-        use std::io::Write as StdWrite;
-        use std::sync::atomic::{
-            AtomicUsize,
-            Ordering::Relaxed,
-        };
-        use ::backtrace::SymbolName;
-        use ::rustc_demangle::demangle;
-
-        /// alloc error exit value (ENOMEM)
-        const EXIT_ALLOC_ERR: i32 = 12;
-
-        /// A simple fixed-size buffer that most importantly can be written to by `core::fmt::write`.
-        /// Safe for using within `alloc`.
-        /// It is recommended to use the provided API so `.len` is correctly updated.
-        struct FmtBuf<const N: usize> {
-            buf: [u8; N],
-            len: usize,
-        }
-
-        impl<const N: usize> FmtBuf<N> {
-            fn new() -> Self {
-                Self {
-                    buf: [0u8; N],
-                    len: 0,
-                }
-            }
-
-            fn as_bytes(&self) -> &[u8] {
-                &self.buf[..self.len]
-            }
-
-            fn append_bytes(&mut self, bytes: &[u8]) -> core::fmt::Result {
-                let remaining = self.buf.len().saturating_sub(self.len);
-                if bytes.len() > remaining {
-                    return Err(core::fmt::Error);
-                }
-                let end: usize = self.len + bytes.len();
-                self.buf[self.len..end].copy_from_slice(bytes);
-                self.len = end;
-
-                Ok(())
-            }
-
-            fn clear(&mut self) {
-                self.buf.fill(0);
-                self.len = 0;
-            }
-        }
-
-        impl<const N: usize> core::fmt::Write for FmtBuf<N> {
-            fn write_str(&mut self, s: &str) -> core::fmt::Result {
-                self.append_bytes(s.as_bytes())
-            }
-        }
-
-        /// Dummy struct necessary for overriding the global allocator.
-        struct Counter;
-
-        /// *(file, function, line, column, threadname, threadid)* uniquely identifies an allocation call site.
-        // TODO: these Strings are often repeats. It would be good to have a global cache of strings.
-        //       Then these keys would hold `Pin<Arc<String>>` or something like that.
-        type AllocatorDebugTrackingKey = (String, String, u32, u32, String, u64);
-        /// *(allocator call count, total allocated bytes)* for a given call site.
-        type AllocatorDebugTrackingValue = (usize, usize);
-        type AllocatorDebugTrackingMap = HashMap<AllocatorDebugTrackingKey, AllocatorDebugTrackingValue>;
-
-        std::thread_local! {
-            /// Thread global state for allocator function. Guards against infinite loops within `alloc`.
-            static ALLOCATOR_DEBUG_GUARD: RwLock<bool> = RwLock::new(false);
-            /// Thread global buffer for printing debug info about the allocator backtrace.
-            static ALLOCATOR_DEBUG_FMT_BUF: RwLock<FmtBuf<10_000>> = RwLock::new(FmtBuf::<10_000>::new());
-            /// Print allocator backtraces?
-            static ALLOCATOR_DEBUG_DO_PRINT: RwLock<bool> = RwLock::new(false);
-            /// Track allocator statistics?
-            static ALLOCATOR_DEBUG_DO_TRACKING: RwLock<bool> = RwLock::new(false);
-            /// Cache this to prevent a weird infinite loop in `alloc`.
-            static ALLOCATOR_DEBUG_TID: u64 = threadid_to_u64(std::thread::current().id());
-            static ALLOCATOR_DEBUG_TNAME: String = std::thread::current().name().unwrap_or("<unnamed>").to_string();
-        }
-        /// User-set environment variable to enable printing of allocator backtraces.
-        const ENV_ALLOCATOR_DEBUG_PRINT: &str = "S4_SYSALLOC_DEBUG_PRINT";
-        /// User-set environment variable to enable tracking of allocator call sites.
-        const ENV_ALLOCATOR_DEBUG_TRACKING: &str = "S4_SYSALLOC_DEBUG_TRACKING";
-
-        fn allocator_debug_print() -> bool {
-            std::env::var(ENV_ALLOCATOR_DEBUG_PRINT).map(|val| !val.is_empty()).unwrap_or(false)
-        }
-
-        fn allocator_debug_tracking() -> bool {
-            std::env::var(ENV_ALLOCATOR_DEBUG_TRACKING).map(|val| !val.is_empty()).unwrap_or(false)
-        }
-
-        /// Must call this once per thead.
-        fn allocator_debug_enable() {
-            // secret environment variable option to print the stack strace of each sysalloc
-            if allocator_debug_print() {
-                eprintln!("Environment variable {} is set; enabling sysalloc debug logging", ENV_ALLOCATOR_DEBUG_PRINT);
-                ALLOCATOR_DEBUG_DO_PRINT.with(|adep| match adep.write() {
-                    Ok(mut adepw) => *adepw = true,
-                    Err(err) => {
-                        e_err!("ALLOCATOR_DEBUG_DO_PRINT.write() failed: {:?}", err);
-                        std::process::exit(EXIT_ERR);
-                    }
-                });
-            }
-            if allocator_debug_tracking() {
-                ALLOCATOR_DEBUG_DO_TRACKING.with(|adet| match adet.write() {
-                    Ok(mut adetw) => *adetw = true,
-                    Err(err) => {
-                        e_err!("ALLOCATOR_DEBUG_DO_TRACKING.write() failed: {:?}", err);
-                        std::process::exit(EXIT_ERR);
-                    }
-                });
-            }
-            // start sysalloc debug logging
-            allocator_debug_guard_enable();
-        }
-
-        /// enable the guard (allow allocation debug activity)
-        #[inline(always)]
-        fn allocator_debug_guard_enable() {
-            // force ThreadId and ThreadName to get set once early on
-            ALLOCATOR_DEBUG_TID.with(|_| {});
-            ALLOCATOR_DEBUG_TNAME.with(|_| {});
-            // set the guard
-            ALLOCATOR_DEBUG_GUARD.with(|ap| match ap.write() {
-                Ok(mut apw) => *apw = true,
-                Err(_err) => {
-                    e_err!("ALLOCATOR_DEBUG_GUARD.write() failed");
-                    std::process::exit(EXIT_ERR);
-                }
-            });
-        }
-        /// disable the guard (disallow allocation debug activity)
-        #[inline(always)]
-        fn allocator_debug_guard_disable() {
-            ALLOCATOR_DEBUG_GUARD.with(|ap| match ap.write() {
-                Ok(mut apw) => *apw = false,
-                Err(_err) => {
-                    e_err!("ALLOCATOR_DEBUG_GUARD.write() failed");
-                    std::process::exit(EXIT_ERR);
-                }
-            });
-        }
-
-        // Global allocator statistics
-        static ALLOCATOR_ALLOCATED: AtomicUsize = AtomicUsize::new(0);
-        static ALLOCATOR_DEALLOCATED: AtomicUsize = AtomicUsize::new(0);
-        static ALLOCATOR_CURRENT: AtomicUsize = AtomicUsize::new(0);
-        static ALLOCATOR_CALLS: AtomicUsize = AtomicUsize::new(0);
-
-        const ALLOCATOR_DEBUG_MAX_TRACKED_CALL_SITES: usize = 1024;
-        lazy_static! {
-            /// Global map for tracking allocator call sites and their statistics. Only used if `ALLOCATOR_DEBUG_DO_TRACKING` is true.
-            static ref ALLOCATOR_DEBUG_TRACKING_MAP: RwLock<AllocatorDebugTrackingMap> =
-                RwLock::new(AllocatorDebugTrackingMap::with_capacity(ALLOCATOR_DEBUG_MAX_TRACKED_CALL_SITES));
-
-            static ref PROJECT_ROOT: String = match ::project_root::get_project_root() {
-                Ok(root) => root.to_string_lossy().to_string(),
-                Err(_) => String::from(""),
-            };
-            static ref PROJECT_ROOT_SRC: String = {
-                PROJECT_ROOT.clone() + "/src/"
-            };
-        }
-
-        /// Exit with code, print the `mesg` and optional `err` without allocating.
-        /// Intended for errors within `alloc`.
-        fn alloc_exit(mesg: &str, err: Option<&dyn std::error::Error>) -> ! {
-            let mut stderr_lock = std::io::stderr().lock();
-            _ = stderr_lock.write(mesg.as_bytes());
-            if let Some(e) = err {
-                _ = stderr_lock.write(b": ");
-                // prefer `description` instead of `Debug` or `Display` to avoid potential call to `alloc`
-                #[allow(deprecated)]
-                let d = e.description();
-                _ = stderr_lock.write(d.as_bytes());
-            }
-            _ = stderr_lock.write(b"\n");
-            drop(stderr_lock);
-            std::process::exit(EXIT_ALLOC_ERR);
-        }
-
-        /// Try to get the demangled name, fallback to the raw name if demangling fails.
-        fn demangle_name(symbol_name: &SymbolName) -> String {
-            let name_b = symbol_name.as_bytes();
-            let name_s = str::from_utf8(name_b).unwrap_or("");
-            let demangled = demangle(name_s);
-            let demangled_name: String = format!("{}", demangled);
-            if ! demangled_name.is_empty() {
-                demangled_name
-            }
-            else {
-                name_s.to_string()
-            }
-        }
-
-        unsafe impl GlobalAlloc for Counter {
-            unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-                // update stats
-                ALLOCATOR_CALLS.fetch_add(1, Relaxed);
-                let sz: usize = layout.size();
-                let ret = unsafe {
-                    // do the actual allocation
-                    System.alloc(layout)
-                };
-                // update stats again
-                if !ret.is_null() {
-                    ALLOCATOR_ALLOCATED.fetch_add(sz, Relaxed);
-                    ALLOCATOR_CURRENT.fetch_add(sz, Relaxed);
-                }
-
-                // fn find_subsequence(haystack: &[u8], needle: &[u8]) -> Option<usize> {
-                //     haystack.windows(needle.len()).position(|window| window == needle)
-                // }
-
-                let allocator_debug_guard: bool = ALLOCATOR_DEBUG_GUARD.with(|ap|
-                    match ap.read() {
-                        Ok(ap) => *ap,
-                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.read() failed", Some(&err)),
-                    }
-                );
-                let allocator_debug_do_print: bool = ALLOCATOR_DEBUG_DO_PRINT.with(|ap|
-                    match ap.read() {
-                        Ok(ap) => *ap,
-                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_DO_PRINT.read() failed", Some(&err)),
-                    }
-                );
-                if allocator_debug_guard {
-                    ALLOCATOR_DEBUG_GUARD.with(|ap|
-                        match ap.write() {
-                            Ok(mut apw) => *apw = false,
-                            Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.write() failed", Some(&err)),
-                        }
-                    );
-                    ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                        match ap.write() {
-                            Ok(mut apw) => apw.clear(),
-                            Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
-                        }
-                    });
-                    let allocator_debug_do_track: bool = ALLOCATOR_DEBUG_DO_TRACKING.with(|ap|
-                        match ap.read() {
-                            Ok(ap) => *ap,
-                            Err(err) => alloc_exit("ALLOCATOR_DEBUG_DO_TRACKING.read() failed", Some(&err)),
-                        }
-                    );
-
-                    let mut frames_skipped: usize = 0;
-                    let mut frames_project: usize = 0;
-                    let mut frame_tracked: bool = false;
-                    ::backtrace::trace(|frame| {
-                        // XXX: `resolve_frame` allocates, hence the need for `ALLOCATOR_DEBUG_GUARD`
-                        ::backtrace::resolve_frame(frame, |symbol| {
-                            match symbol.filename_raw() {
-                                Some(filename) => {
-                                    if ! filename.to_str_lossy().starts_with(PROJECT_ROOT_SRC.as_str()) {
-                                        // this frame is not project source code, skip it
-                                        frames_skipped += 1;
-                                        return;
-                                    }
-                                }
-                                None => return,
-                            }
-                            frames_project += 1;
-                            if frames_project < 3 {
-                                // skip first two frames which always refer to this allocator code and the backtrace code
-                                return;
-                            }
-                            if allocator_debug_do_print {
-                                // accumulate info to print about this frame in the thread-local buffer
-                                ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                                    match ap.write() {
-                                        Ok(mut apw) => {
-                                            _ = apw.append_bytes(b"  frame: ");
-                                            let ip = frame.ip();
-                                            _ = apw.append_bytes(format!("ip={:?}", ip).as_bytes());
-                                            let sp = frame.sp();
-                                            _ = apw.append_bytes(format!(" sp={:?}", sp).as_bytes());
-                                            let symbol_address = frame.symbol_address();
-                                            _ = apw.append_bytes(format!(" symbol_address=@{:?}", symbol_address).as_bytes());
-                                            let module_base_address = frame.module_base_address();
-                                            if module_base_address.is_some() {
-                                                _ = apw.append_bytes(format!(" module_base_address=@{:?}", module_base_address).as_bytes());
-                                            }
-                                            _ = apw.append_bytes(b"\n");
-                                            if let Some(name) = symbol.name() {
-                                                _ = apw.append_bytes(b"         name=");
-                                                let demangled_name = demangle_name(&name);
-                                                _ = apw.append_bytes(demangled_name.as_bytes());
-                                                _ = apw.append_bytes(b"\n");
-                                            }
-                                            let mut nl = false;
-                                            if let Some(filename) = symbol.filename_raw() {
-                                                _ = apw.append_bytes(b"         filename=");
-                                                _ = apw.append_bytes(filename.to_str_lossy().as_bytes());
-                                                nl = true;
-                                            }
-                                            if let Some(lineno) = symbol.lineno() {
-                                                _ = apw.append_bytes(format!("  lineno={}", lineno).as_bytes());
-                                                nl = true;
-                                            }
-                                            if let Some(colno) = symbol.colno() {
-                                                _ = apw.append_bytes(format!("  colno={}", colno).as_bytes());
-                                                nl = true;
-                                            }
-                                            if nl {
-                                                _ = apw.append_bytes(b"\n");
-                                            }
-                                        }
-                                        Err(_err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", None),
-                                    }
-                                });
-                            }
-                            if allocator_debug_do_track && !frame_tracked {
-                                // only track this frame, which should be the last frame of control from this
-                                // project's source code into some other module's code.
-                                frame_tracked = true;
-                                // track this allocation call site in the thread-local map
-                                let mut apw = match ALLOCATOR_DEBUG_TRACKING_MAP.write() {
-                                    Ok(apw) => apw,
-                                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_TRACKING_MAP.write() failed", Some(&err)),
-                                };
-                                let filename: String = symbol.filename_raw().map(|f| f.to_str_lossy().to_string()).unwrap_or_else(|| "<unknown>".to_string());
-                                let function: String = match symbol.name() {
-                                    Some(name) => demangle_name(&name),
-                                    None => "<unknown>".to_string(),
-                                };
-                                let lineno: u32 = symbol.lineno().unwrap_or(0);
-                                let colno: u32 = symbol.colno().unwrap_or(0);
-                                let tid = ALLOCATOR_DEBUG_TID.with(|ap| *ap);
-                                let threadname = ALLOCATOR_DEBUG_TNAME.with(|ap| ap.clone());
-                                let key: AllocatorDebugTrackingKey = (filename, function, lineno, colno, threadname, tid);
-                                let mut filename_slice = key.0.as_str();
-                                // remove leading project root from file path to make it more readable
-                                let pr_str = (*PROJECT_ROOT).as_str();
-                                if let Some(i) = filename_slice.find(pr_str) {
-                                    filename_slice = &filename_slice[i + pr_str.len()..];
-                                };
-                                ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                                    match ap.write() {
-                                        Ok(mut apw) => {
-                                            _ = apw.append_bytes(
-                                                format!("           tracked allocation call site:\n             {}:{}:{}  [{}]\n             thread [{}]: {}\n",
-                                                        filename_slice, key.2, key.3, key.1, key.5, key.4
-                                                    ).as_bytes()
-                                            );
-                                        }
-                                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
-                                    }
-                                });
-                                let value: &mut AllocatorDebugTrackingValue = apw.entry(key).or_insert((0, 0));
-                                ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                                    match ap.write() {
-                                        Ok(mut apw) => {
-                                            _ = apw.append_bytes(
-                                                format!(
-                                                    "               {:>8} allocations, {:>10} bytes\n", value.0, value.1
-                                                ).as_bytes()
-                                            );
-                                        }
-                                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
-                                    }
-                                });
-                                value.0 += 1;
-                                value.1 += sz;
-
-                            }
-                        });
-
-                        true // continue to the next frame
-                    });
-
-                    ALLOCATOR_DEBUG_GUARD.with(|ap|
-                        match ap.write() {
-                            Ok(mut ap) => *ap = allocator_debug_guard,
-                            Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.write() failed", Some(&err)),
-                        }
-                    );
-                } // allocator_debug_guard
-
-                // print debug info
-                if allocator_debug_guard {
-                    if allocator_debug_do_print {
-                        let mut buf = FmtBuf::<256>::new();
-                        let a = ALLOCATOR_ALLOCATED.load(Relaxed);
-                        let tid = ALLOCATOR_DEBUG_TID.with(|ap| *ap);
-                        _ = core::fmt::write(
-                            &mut buf,
-                            format_args!(
-                                "system_alloc_debug: (TID {}) @{:?} sz={:2} align={:2} total_allocated={}\n",
-                                tid, ret, sz, layout.align(), a,
-                            )
-                        );
-                        let mut stderr_lock = std::io::stderr().lock();
-                        _ = stderr_lock.write(&buf.as_bytes());
-                        ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                            match ap.read() {
-                                Ok(ap) => _ = stderr_lock.write(ap.as_bytes()),
-                                Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.read() failed", Some(&err)),
-                            }
-                        });
-                        _ = stderr_lock.flush();
-                        drop(stderr_lock);
-                        ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                            match ap.write() {
-                                Ok(mut apw) => apw.clear(),
-                                Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
-                            }
-                        });
-                    }
-                }
-
-                ret
-            }
-
-            unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
-                unsafe {
-                    System.dealloc(ptr, layout);
-                }
-                ALLOCATOR_DEALLOCATED.fetch_add(layout.size(), Relaxed);
-                ALLOCATOR_CURRENT.fetch_sub(layout.size(), Relaxed);
-            }
-        }
-
+        /// implemented in module `sysalloc_debug` below
+        struct SysAllocDebugImpl;
         #[global_allocator]
-        static A: Counter = Counter;
+        static GLOBAL: SysAllocDebugImpl = SysAllocDebugImpl;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::SystemDebug;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "system_debug";
     }
@@ -592,9 +162,8 @@ use ::s4lib::common::{
     FIXEDOFFSET0,
 };
 #[cfg(test)]
-use ::s4lib::common::{
-    FIXEDOFFSETp0900,
-};
+use ::s4lib::common::FIXEDOFFSETp0900;
+
 use ::s4lib::data::common::LogMessage;
 use ::s4lib::data::datetime::{
     datetime_parse_from_str,
@@ -743,61 +312,61 @@ const FOp0900: FixedOffset = FIXEDOFFSETp0900;
 thread_local! {
     /// for user-passed strings of a duration that will be offset from the
     /// current datetime.
-    static UTC_NOW: DateTime<Utc> = {
+    pub(crate) static UTC_NOW: DateTime<Utc> = {
         defo!("thread_local! UTC_NOW::new()");
 
         Utc::now()
     };
-    static UTC_NOW_YEAR: i32 = {
+    pub(crate) static UTC_NOW_YEAR: i32 = {
         defo!("thread_local! UTC_NOW_YEAR::new()");
 
         UTC_NOW.with(|now| now.year())
     };
-    static UTC_NOW_MONTH: u32 = {
+    pub(crate) static UTC_NOW_MONTH: u32 = {
         defo!("thread_local! UTC_NOW_MONTH::new()");
 
         UTC_NOW.with(|now| now.month())
     };
-    static UTC_NOW_DAY: u32 = {
+    pub(crate) static UTC_NOW_DAY: u32 = {
         defo!("thread_local! UTC_NOW_DAY::new()");
 
         UTC_NOW.with(|now| now.day())
     };
 
-    static LOCAL_NOW: DateTime<Local> = {
+    pub(crate) static LOCAL_NOW: DateTime<Local> = {
         defo!("thread_local! LOCAL_NOW::new()");
 
         UTC_NOW.with(|utc_now| {
             utc_now.with_timezone(&Local)
         })
     };
-    static LOCAL_NOW_OFFSET: FixedOffset = {
+    pub(crate) static LOCAL_NOW_OFFSET: FixedOffset = {
         defo!("thread_local! LOCAL_NOW_OFFSET::new()");
 
         LOCAL_NOW.with(|local_now| *local_now.offset())
     };
-    static LOCAL_NOW_OFFSET_STR: String = {
+    pub(crate) static LOCAL_NOW_OFFSET_STR: String = {
         defo!("thread_local! LOCAL_NOW_OFFSET_STR::new()");
 
         LOCAL_NOW_OFFSET.with(|local_now_offset| local_now_offset.to_string())
     };
-    static LOCAL_NOW_YEAR: i32 = {
+    pub(crate) static LOCAL_NOW_YEAR: i32 = {
         defo!("thread_local! LOCAL_NOW_YEAR::new()");
 
         LOCAL_NOW.with(|now| now.year())
     };
-    static LOCAL_NOW_MONTH: u32 = {
+    pub(crate) static LOCAL_NOW_MONTH: u32 = {
         defo!("thread_local! LOCAL_NOW_MONTH::new()");
 
         LOCAL_NOW.with(|now| now.month())
     };
-    static LOCAL_NOW_DAY: u32 = {
+    pub(crate) static LOCAL_NOW_DAY: u32 = {
         defo!("thread_local! LOCAL_NOW_DAY::new()");
 
         LOCAL_NOW.with(|now| now.day())
     };
 
-    static M0130_NOW: DateTime<FixedOffset> = {
+    pub(crate) static M0130_NOW: DateTime<FixedOffset> = {
         defo!("thread_local! M0130_NOW::new()");
         const FO_M0130: &FixedOffset = &FixedOffset::east_opt(-5400).unwrap();
 
@@ -805,17 +374,17 @@ thread_local! {
             utc_now.with_timezone(FO_M0130)
         })
     };
-    static M0130_NOW_YEAR: i32 = {
+    pub(crate) static M0130_NOW_YEAR: i32 = {
         defo!("thread_local! M0130_NOW_YEAR::new()");
 
         M0130_NOW.with(|now| now.year())
     };
-    static M0130_NOW_MONTH: u32 = {
+    pub(crate) static M0130_NOW_MONTH: u32 = {
         defo!("thread_local! M0130_NOW_MONTH::new()");
 
         M0130_NOW.with(|now| now.month())
     };
-    static M0130_NOW_DAY: u32 = {
+    pub(crate) static M0130_NOW_DAY: u32 = {
         defo!("thread_local! M0130_NOW_DAY::new()");
 
         M0130_NOW.with(|now| now.day())
@@ -825,13 +394,13 @@ thread_local! {
 
 #[cfg(test)]
 /// signifier to set to current year
-const T_NOW_YEAR: i32 = i32::MAX;
+pub(crate) const T_NOW_YEAR: i32 = i32::MAX;
 #[cfg(test)]
 /// signifier to set to current month
-const T_NOW_MONTH: u32 = u32::MAX;
+pub(crate) const T_NOW_MONTH: u32 = u32::MAX;
 #[cfg(test)]
 /// signifier to set to current day
-const T_NOW_DAY: u32 = u32::MAX;
+pub(crate) const T_NOW_DAY: u32 = u32::MAX;
 
 /// CLI enum that maps to [`termcolor::ColorChoice`].
 ///
@@ -934,14 +503,14 @@ pub struct CLI_DT_Filter_Pattern<'a> {
     pub _line_num: u32,
 }
 
-const CLI_FILTER_PATTERNS_COUNT: usize = 80;
+pub(crate) const CLI_FILTER_PATTERNS_COUNT: usize = 80;
 
 /// CLI acceptable datetime filter patterns for the user-passed `-a` or `-b`
 // XXX: this is a an inelegant brute-force approach to matching potential
 //      datetime patterns in the user-passed `-a` or `-b` arguments. But it
 //      works and in ad-hoc experiments it didn't appear to add any significant
 //      run-time.
-const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
+pub(crate) const CLI_FILTER_PATTERNS: [CLI_DT_Filter_Pattern; CLI_FILTER_PATTERNS_COUNT] = [
     // XXX: use of `%Z` must be at the end of the `DateTimePattern_str` value
     //      as this is an assumption of the `process_dt` function.
     // TODO: validate the prior comment in a test.
@@ -2726,23 +2295,23 @@ thread_local! {
 /// Either relative offset from now (program run-time) or relative offset
 /// from the other CLI option.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
-enum DUR_OFFSET_TYPE {
+pub(crate) enum DUR_OFFSET_TYPE {
     Now,
     Other,
 }
 
 /// Duration offset is added or subtracted from a `DateTime`?
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
-enum DUR_OFFSET_ADDSUB {
+pub(crate) enum DUR_OFFSET_ADDSUB {
     Add = 1,
     Sub = -1,
 }
 
 /// default separator for prepended strings
-const CLI_PREPEND_SEP: &str = ":";
+pub(crate) const CLI_PREPEND_SEP: &str = ":";
 
 /// default CLI datetime format printed for CLI options `-u` or `-l`.
-const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z";
+pub(crate) const CLI_OPT_PREPEND_FMT: &str = "%Y%m%dT%H%M%S%.3f%z";
 
 const RUSTFLAGS: &str = const_env::env_lit!("RUSTFLAGS", "");
 
@@ -3240,7 +2809,7 @@ macro_rules! exit_early_check {
 /// flexibility for how the user may pass a number
 /// e.g. "0xF00", or "0b10100", etc.
 // XXX: clap Enhancement Issue https://github.com/clap-rs/clap/issues/4564
-fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
+pub (crate) fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     // TODO: there must be a more concise way to parse numbers with radix formatting
     let blocksz_: BlockSz;
     let errs = format!("Unable to parse a number for --blocksz {:?}", blockszs);
@@ -3276,7 +2845,7 @@ fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
 }
 
 /// `clap` argument parser for `--blocksz`.
-fn cli_parse_blocksz(blockszs: &str) -> std::result::Result<String, String> {
+pub(crate) fn cli_parse_blocksz(blockszs: &str) -> std::result::Result<String, String> {
     match cli_process_blocksz(&String::from(blockszs)) {
         Ok(val) => Ok(val.to_string()),
         Err(err) => Err(err),
@@ -3284,7 +2853,7 @@ fn cli_parse_blocksz(blockszs: &str) -> std::result::Result<String, String> {
 }
 
 /// CLI argument processing
-fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> {
+pub(crate) fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> {
     let tzo_ = match MAP_TZZ_TO_TZz.get(tzo) {
         Some(tz_offset) => {
             match tz_offset.is_empty() {
@@ -3327,7 +2896,7 @@ fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffset, String> 
 ///
 /// Returning `Ok(None)` means that the user did not pass a value for
 /// `--prepend-dt-format`.
-fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<String, String> {
+pub(crate) fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::result::Result<String, String> {
     defñ!("cli_parser_prepend_dt_format({:?})", prepend_dt_format);
     unsafe {
         PREPEND_DT_FORMAT_PASSED = true;
@@ -3379,7 +2948,7 @@ fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
 /// regular expression processing of a user-passed duration string like
 /// `"-4m2s"` becomes duration of 4 minutes + 2 seconds
 /// helper function to `process_dt`
-fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)> {
+pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)> {
     defn!("({:?})", val);
 
     if val.is_empty() {
@@ -3571,7 +3140,7 @@ fn string_to_rel_offset_datetime(
 /// Helper function to function `cli_process_args`.
 ///
 /// [`DateTimeL`]: s4lib::data::datetime::DateTimeL
-fn process_dt(
+pub(crate) fn process_dt(
     dts_opt: &Option<String>,
     tz_offset: &FixedOffset,
     dt_other: &DateTimeLOpt,
@@ -3713,7 +3282,7 @@ fn process_dt(
 /// Wrapper to `process_dt`. Exits if `process_dt` returns `None`.
 ///
 /// [`DateTimeL`]: s4lib::data::datetime::DateTimeL
-fn process_dt_exit(
+pub(crate) fn process_dt_exit(
     dts_opt: &Option<String>,
     tz_offset: &FixedOffset,
     dt_other: &DateTimeLOpt,
@@ -3733,11 +3302,11 @@ fn process_dt_exit(
     }
 }
 
-mod unescape {
+pub(crate) mod unescape {
     // this mod ripped from https://stackoverflow.com/a/58555097/471376
 
     #[derive(Debug, PartialEq)]
-    pub(super) enum EscapeError {
+    pub(crate) enum EscapeError {
         EscapeAtEndOfString,
         InvalidEscapedChar(char),
     }
@@ -3785,7 +3354,7 @@ mod unescape {
     pub(super) const BACKSLASH_ESCAPE_SEQUENCES8: &str = r"\t";
     pub(super) const BACKSLASH_ESCAPE_SEQUENCES9: &str = r"\v";
 
-    pub(super) fn unescape_str(s: &str) -> Result<String, EscapeError> {
+    pub(crate) fn unescape_str(s: &str) -> Result<String, EscapeError> {
         (InterpretEscapedString { s: s.chars() }).collect()
     }
 }
@@ -4049,7 +3618,7 @@ pub fn main() -> ExitCode {
     }
     #[cfg(feature = "sysalloc_debug")]
     {
-        allocator_debug_enable();
+        sysalloc_debug::allocator_debug_enable();
     }
 
     defn!();
@@ -4130,25 +3699,27 @@ pub fn main() -> ExitCode {
 }
 
 cfg_if::cfg_if! {
-    if #[cfg(feature = "sysalloc_debug")] {
+    if #[cfg(feature = "sysalloc_debug")]
+    {
         /// Prints the contents of the `ALLOCATOR_DEBUG_TRACKING_MAP` in a user-friendly way.
         /// This special print function sits outside of the normal `--summary` stuff.
         /// It is presumed this will be called last before program exit.
         fn print_allocator_debug_track_map() {
             // disable the allocator debug guard to prevent infinite recursion
             // presumably the user does not need any more allocator debugging
-            allocator_debug_guard_disable();
+            sysalloc_debug::allocator_debug_guard_disable();
 
-            if !allocator_debug_tracking() {
+            if !sysalloc_debug::allocator_debug_tracking() {
                 return;
             }
 
-            let project_root_ = (*PROJECT_ROOT).clone();
-            let ap = match ALLOCATOR_DEBUG_TRACKING_MAP.write() {
+            let project_root_ = (*sysalloc_debug::PROJECT_ROOT).clone();
+            let ap = match sysalloc_debug::ALLOCATOR_DEBUG_TRACKING_MAP.write() {
                 Ok(ap) => ap,
                 Err(_err) => std::process::exit(11),
             };
-            let mut entries: Vec<(&AllocatorDebugTrackingKey, &AllocatorDebugTrackingValue)> = ap.iter().collect();
+            let mut entries: Vec<(&sysalloc_debug::AllocatorDebugTrackingKey, &sysalloc_debug::AllocatorDebugTrackingValue)>
+                = ap.iter().collect();
             entries.sort_by_key(|(_key, value)| value.0);
             entries.reverse();
             eprintln!("system_alloc_debug: allocation call site counts ({} entries):", entries.len());
@@ -4173,10 +3744,10 @@ cfg_if::cfg_if! {
             }
             eprintln!();
 
-            let allocator_allocated = ALLOCATOR_ALLOCATED.load(std::sync::atomic::Ordering::Relaxed);
-            let allocator_deallocated = ALLOCATOR_DEALLOCATED.load(std::sync::atomic::Ordering::Relaxed);
-            let allocator_current = ALLOCATOR_CURRENT.load(std::sync::atomic::Ordering::Relaxed);
-            let allocator_calls = ALLOCATOR_CALLS.load(std::sync::atomic::Ordering::Relaxed);
+            let allocator_allocated = sysalloc_debug::ALLOCATOR_ALLOCATED.load(std::sync::atomic::Ordering::Relaxed);
+            let allocator_deallocated = sysalloc_debug::ALLOCATOR_DEALLOCATED.load(std::sync::atomic::Ordering::Relaxed);
+            let allocator_current = sysalloc_debug::ALLOCATOR_CURRENT.load(std::sync::atomic::Ordering::Relaxed);
+            let allocator_calls = sysalloc_debug::ALLOCATOR_CALLS.load(std::sync::atomic::Ordering::Relaxed);
             eprintln!("total allocated  : {:>10}", allocator_allocated);
             eprintln!("total deallocated: {:>10}", allocator_deallocated);
             eprintln!("total difference : {:>10}", allocator_allocated as isize - allocator_deallocated as isize);
@@ -5297,7 +4868,7 @@ fn exec_fileprocessor_thread(
     }
     #[cfg(feature = "sysalloc_debug")]
     {
-        allocator_debug_enable();
+        sysalloc_debug::allocator_debug_enable();
     }
 
     let thread_cur: thread::Thread = thread::current();
@@ -5677,10 +5248,9 @@ fn processing_loop(
         // No threads were created. This can happen if user passes only paths
         // that do not exist.
         if !cli_opt_summary {
-            cfg_if::cfg_if! {
-                if #[cfg(feature = "sysalloc_debug")] {
-                    print_allocator_debug_track_map();
-                }
+            #[cfg(feature = "sysalloc_debug")]
+            {
+                print_allocator_debug_track_map();
             }
             return false;
         }
@@ -5718,11 +5288,11 @@ fn processing_loop(
             thread_err_count,
             ALLOCATOR_CHOSEN,
         );
-        cfg_if::cfg_if! {
-            if #[cfg(feature = "sysalloc_debug")] {
-                print_allocator_debug_track_map();
-            }
+        #[cfg(feature = "sysalloc_debug")]
+        {
+            print_allocator_debug_track_map();
         }
+
         return false;
     }
 
@@ -6602,10 +6172,9 @@ fn processing_loop(
         ret = false;
     }
 
-    cfg_if::cfg_if! {
-        if #[cfg(feature = "sysalloc_debug")] {
-            print_allocator_debug_track_map();
-        }
+    #[cfg(feature = "sysalloc_debug")]
+    {
+        print_allocator_debug_track_map();
     }
 
     defx!("return {:?}", ret);
@@ -6613,697 +6182,448 @@ fn processing_loop(
     ret
 }
 
-// TODO: move this section to a new file `s4_tests.rs`
-#[cfg(test)]
-mod tests {
-    #[cfg(test)]
-    mod s4 {
+#[cfg(feature = "sysalloc_debug")]
+mod sysalloc_debug {
+    // this block implement a custom global allocator that wraps the system allocator and tracks call sites of
+    // allocations. Provides functions to print a summary at program exit.
 
-    use ::s4lib::data::datetime::{
-        ymdhms,
-        ymdhmsl,
-        ymdhmsm,
-        DateTimeL,
-        DateTimePattern_string,
-        FixedOffset,
+    use std::alloc::{
+        System,
+        GlobalAlloc,
+        Layout,
     };
-    use ::test_case::test_case;
-    use super::super::*;
+    use std::io::Write as StdWrite;
+    use std::sync::atomic::{
+        AtomicUsize,
+        Ordering::Relaxed,
+    };
 
-    // XXX: these are defined in tests/common.rs but importing that fails
-    //      unexpectedly
-    const FO0: FixedOffset = FixedOffset::east_opt(0).unwrap();
-    const FO_E1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
+    use ::s4lib::common::threadid_to_u64;
+    use ::s4lib::debug::printers::{
+        de_err,
+        de_wrn,
+        e_err,
+        e_wrn,
+    };
 
+    use ::backtrace::SymbolName;
+    use ::lazy_static::lazy_static;
+    use ::rustc_demangle::demangle;
+
+    use super::*;
+
+    /// alloc error exit value (ENOMEM)
+    const EXIT_ALLOC_ERR: i32 = 12;
+
+    /// A simple fixed-size buffer that most importantly can be written to by `core::fmt::write`.
+    /// Safe for using within `alloc`.
+    /// It is recommended to use the provided API so `.len` is correctly updated.
+    struct FmtBuf<const N: usize> {
+        buf: [u8; N],
+        len: usize,
+    }
+
+    impl<const N: usize> FmtBuf<N> {
+        fn new() -> Self {
+            Self {
+                buf: [0u8; N],
+                len: 0,
+            }
+        }
+
+        fn as_bytes(&self) -> &[u8] {
+            &self.buf[..self.len]
+        }
+
+        fn append_bytes(&mut self, bytes: &[u8]) -> core::fmt::Result {
+            let remaining = self.buf.len().saturating_sub(self.len);
+            if bytes.len() > remaining {
+                return Err(core::fmt::Error);
+            }
+            let end: usize = self.len + bytes.len();
+            self.buf[self.len..end].copy_from_slice(bytes);
+            self.len = end;
+
+            Ok(())
+        }
+
+        fn clear(&mut self) {
+            self.buf.fill(0);
+            self.len = 0;
+        }
+    }
+
+    impl<const N: usize> core::fmt::Write for FmtBuf<N> {
+        fn write_str(&mut self, s: &str) -> core::fmt::Result {
+            self.append_bytes(s.as_bytes())
+        }
+    }
+
+
+    /// *(file, function, line, column, threadname, threadid)* uniquely identifies an allocation call site.
+    // TODO: these Strings are often repeats. It would be good to have a global cache of strings.
+    //       Then these keys would hold `Pin<Arc<String>>` or something like that.
+    pub type AllocatorDebugTrackingKey = (String, String, u32, u32, String, u64);
+    /// *(allocator call count, total allocated bytes)* for a given call site.
+    pub type AllocatorDebugTrackingValue = (usize, usize);
+    pub type AllocatorDebugTrackingMap = HashMap<AllocatorDebugTrackingKey, AllocatorDebugTrackingValue>;
+
+    std::thread_local! {
+        /// Thread global state for allocator function. Guards against infinite loops within `alloc`.
+        static ALLOCATOR_DEBUG_GUARD: RwLock<bool> = RwLock::new(false);
+        /// Thread global buffer for printing debug info about the allocator backtrace.
+        static ALLOCATOR_DEBUG_FMT_BUF: RwLock<FmtBuf<10_000>> = RwLock::new(FmtBuf::<10_000>::new());
+        /// Print allocator backtraces?
+        static ALLOCATOR_DEBUG_DO_PRINT: RwLock<bool> = RwLock::new(false);
+        /// Track allocator statistics?
+        static ALLOCATOR_DEBUG_DO_TRACKING: RwLock<bool> = RwLock::new(false);
+        /// Cache this to prevent a weird infinite loop in `alloc`.
+        static ALLOCATOR_DEBUG_TID: u64 = threadid_to_u64(std::thread::current().id());
+        static ALLOCATOR_DEBUG_TNAME: String = std::thread::current().name().unwrap_or("<unnamed>").to_string();
+    }
+    /// User-set environment variable to enable printing of allocator backtraces.
+    const ENV_ALLOCATOR_DEBUG_PRINT: &str = "S4_SYSALLOC_DEBUG_PRINT";
+    /// User-set environment variable to enable tracking of allocator call sites.
+    const ENV_ALLOCATOR_DEBUG_TRACKING: &str = "S4_SYSALLOC_DEBUG_TRACKING";
+
+    pub fn allocator_debug_print() -> bool {
+        std::env::var(ENV_ALLOCATOR_DEBUG_PRINT).map(|val| !val.is_empty()).unwrap_or(false)
+    }
+
+    pub fn allocator_debug_tracking() -> bool {
+        std::env::var(ENV_ALLOCATOR_DEBUG_TRACKING).map(|val| !val.is_empty()).unwrap_or(false)
+    }
+
+    /// Must call this once per thead.
+    pub fn allocator_debug_enable() {
+        // secret environment variable option to print the stack strace of each sysalloc
+        if allocator_debug_print() {
+            eprintln!("Environment variable {} is set; enabling sysalloc debug logging", ENV_ALLOCATOR_DEBUG_PRINT);
+            ALLOCATOR_DEBUG_DO_PRINT.with(|adep| match adep.write() {
+                Ok(mut adepw) => *adepw = true,
+                Err(err) => {
+                    e_err!("ALLOCATOR_DEBUG_DO_PRINT.write() failed: {:?}", err);
+                    std::process::exit(EXIT_ERR);
+                }
+            });
+        }
+        if allocator_debug_tracking() {
+            ALLOCATOR_DEBUG_DO_TRACKING.with(|adet| match adet.write() {
+                Ok(mut adetw) => *adetw = true,
+                Err(err) => {
+                    e_err!("ALLOCATOR_DEBUG_DO_TRACKING.write() failed: {:?}", err);
+                    std::process::exit(EXIT_ERR);
+                }
+            });
+        }
+        // start sysalloc debug logging
+        allocator_debug_guard_enable();
+    }
+
+    /// enable the guard (allow allocation debug activity)
+    #[inline(always)]
+    pub fn allocator_debug_guard_enable() {
+        // force ThreadId and ThreadName to get set once early on
+        ALLOCATOR_DEBUG_TID.with(|_| {});
+        ALLOCATOR_DEBUG_TNAME.with(|_| {});
+        // set the guard
+        ALLOCATOR_DEBUG_GUARD.with(|ap| match ap.write() {
+            Ok(mut apw) => *apw = true,
+            Err(_err) => {
+                e_err!("ALLOCATOR_DEBUG_GUARD.write() failed");
+                std::process::exit(EXIT_ERR);
+            }
+        });
+    }
+    /// disable the guard (disallow allocation debug activity)
+    #[inline(always)]
+    pub fn allocator_debug_guard_disable() {
+        ALLOCATOR_DEBUG_GUARD.with(|ap| match ap.write() {
+            Ok(mut apw) => *apw = false,
+            Err(_err) => {
+                e_err!("ALLOCATOR_DEBUG_GUARD.write() failed");
+                std::process::exit(EXIT_ERR);
+            }
+        });
+    }
+
+    // Global allocator statistics
+    pub(super) static ALLOCATOR_ALLOCATED: AtomicUsize = AtomicUsize::new(0);
+    pub(super) static ALLOCATOR_DEALLOCATED: AtomicUsize = AtomicUsize::new(0);
+    pub(super) static ALLOCATOR_CURRENT: AtomicUsize = AtomicUsize::new(0);
+    pub(super) static ALLOCATOR_CALLS: AtomicUsize = AtomicUsize::new(0);
+
+    const ALLOCATOR_DEBUG_MAX_TRACKED_CALL_SITES: usize = 1024;
     lazy_static! {
-        /// 1970-01-01T01:00:00+01:00
-        pub static ref DT_0_E1: DateTimeL = ymdhms(&FO_E1, 0, 0, 0, 1, 0, 0);
+        /// Global map for tracking allocator call sites and their statistics. Only used if `ALLOCATOR_DEBUG_DO_TRACKING` is true.
+        pub(super)static ref ALLOCATOR_DEBUG_TRACKING_MAP: RwLock<AllocatorDebugTrackingMap> =
+            RwLock::new(AllocatorDebugTrackingMap::with_capacity(ALLOCATOR_DEBUG_MAX_TRACKED_CALL_SITES));
+
+        pub(super) static ref PROJECT_ROOT: String = match ::project_root::get_project_root() {
+            Ok(root) => root.to_string_lossy().to_string(),
+            Err(_) => String::from(""),
+        };
+        static ref PROJECT_ROOT_SRC: String = {
+            PROJECT_ROOT.clone() + "/src/"
+        };
     }
 
-    #[test_case("500", true)]
-    #[test_case("0x2", true)]
-    #[test_case("0x4", true)]
-    #[test_case("0xFFFFFF", true)]
-    #[test_case("BAD_BLOCKSZ_VALUE", false)]
-    #[test_case("", false)]
-    fn test_cli_parse_blocksz(
-        blocksz_str: &str,
-        is_ok: bool,
-    ) {
-        match is_ok {
-            true => assert!(cli_parse_blocksz(blocksz_str).is_ok()),
-            false => assert!(!cli_parse_blocksz(blocksz_str).is_ok()),
+    /// Exit with code, print the `mesg` and optional `err` without allocating.
+    /// Intended for errors within `alloc`.
+    fn alloc_exit(mesg: &str, err: Option<&dyn std::error::Error>) -> ! {
+        let mut stderr_lock = std::io::stderr().lock();
+        _ = stderr_lock.write(mesg.as_bytes());
+        if let Some(e) = err {
+            _ = stderr_lock.write(b": ");
+            // prefer `description` instead of `Debug` or `Display` to avoid potential call to `alloc`
+            #[allow(deprecated)]
+            let d = e.description();
+            _ = stderr_lock.write(d.as_bytes());
+        }
+        _ = stderr_lock.write(b"\n");
+        drop(stderr_lock);
+        std::process::exit(EXIT_ALLOC_ERR);
+    }
+
+    /// Try to get the demangled name, fallback to the raw name if demangling fails.
+    fn demangle_name(symbol_name: &SymbolName) -> String {
+        let name_b = symbol_name.as_bytes();
+        let name_s = str::from_utf8(name_b).unwrap_or("");
+        let demangled = demangle(name_s);
+        let demangled_name: String = format!("{}", demangled);
+        if ! demangled_name.is_empty() {
+            demangled_name
+        }
+        else {
+            name_s.to_string()
         }
     }
 
-    #[test_case(
-        "0b10101010101",
-        Some(0b10101010101)
-    )]
-    #[test_case("0o44", Some(0o44))]
-    #[test_case("00500", Some(500))]
-    #[test_case("500", Some(500))]
-    #[test_case("0x4", Some(0x4))]
-    #[test_case("0xFFFFFF", Some(0xFFFFFF))]
-    #[test_case("BAD_BLOCKSZ_VALUE", None)]
-    #[test_case("", None)]
-    fn test_cli_process_blocksz(
-        blocksz_str: &str,
-        expect_: Option<BlockSz>,
-    ) {
-        match expect_ {
-            Some(val_exp) => {
-                let val_ret = cli_process_blocksz(&String::from(blocksz_str)).unwrap();
-                assert_eq!(val_ret, val_exp);
+    unsafe impl GlobalAlloc for SysAllocDebugImpl {
+        unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+            // update stats
+            ALLOCATOR_CALLS.fetch_add(1, Relaxed);
+            let sz: usize = layout.size();
+            let ret = unsafe {
+                // do the actual allocation
+                System.alloc(layout)
+            };
+            // update stats again
+            if !ret.is_null() {
+                ALLOCATOR_ALLOCATED.fetch_add(sz, Relaxed);
+                ALLOCATOR_CURRENT.fetch_add(sz, Relaxed);
             }
-            None => {
-                let ret = cli_process_blocksz(&String::from(blocksz_str));
-                assert!(
-                    ret.is_err(),
-                    "Expected an Error for cli_process_blocksz({:?}), instead got {:?}",
-                    blocksz_str,
-                    ret
-                );
-            }
-        }
-    }
 
-    #[test_case("+00", FO0; "+00 east(0)")]
-    #[test_case("+0000", FO0; "+0000 east(0)")]
-    #[test_case("+00:00", FO0; "+00:00 east(0)")]
-    #[test_case("+00:01", FixedOffset::east_opt(60).unwrap(); "+00:01 east(60)")]
-    #[test_case("+01:00", FixedOffset::east_opt(3600).unwrap(); "+01:00 east(3600) A")]
-    #[test_case("-01:00", FixedOffset::east_opt(-3600).unwrap(); "-01:00 east(-3600) B")]
-    #[test_case("+02:00", FixedOffset::east_opt(7200).unwrap(); "+02:00 east(7200)")]
-    #[test_case("+02:30", FixedOffset::east_opt(9000).unwrap(); "+02:30 east(9000)")]
-    #[test_case("+02:35", FixedOffset::east_opt(9300).unwrap(); "+02:30 east(9300)")]
-    #[test_case("+23:00", FixedOffset::east_opt(82800).unwrap(); "+23:00 east(82800)")]
-    #[test_case("gmt", FO0; "GMT (0)")]
-    #[test_case("UTC", FO0; "UTC east(0)")]
-    #[test_case("Z", FO0; "Z (0)")]
-    #[test_case("vlat", FixedOffset::east_opt(36000).unwrap(); "vlat east(36000)")]
-    #[test_case("IDLW", FixedOffset::east_opt(-43200).unwrap(); "IDLW east(-43200)")]
-    fn test_cli_process_tz_offset(
-        in_: &str,
-        out_fo: FixedOffset,
-    ) {
-        let input: String = String::from(in_);
-        let result = cli_process_tz_offset(&input);
-        match result {
-            Ok(fo) => {
-                assert_eq!(out_fo, fo, "cli_process_tz_offset returned FixedOffset {:?}, expected {:?}", fo, out_fo);
-            }
-            Err(err) => {
-                panic!("Error {}", err);
-            }
-        }
-    }
+            // fn find_subsequence(haystack: &[u8], needle: &[u8]) -> Option<usize> {
+            //     haystack.windows(needle.len()).position(|window| window == needle)
+            // }
 
-    #[test_case("")]
-    #[test_case("abc")]
-    #[test_case(CLI_OPT_PREPEND_FMT)]
-    #[test_case("%Y%Y%Y%Y%Y%Y%Y%%%%")]
-    fn test_cli_parser_prepend_dt_format(input: &str) {
-        assert!(cli_parser_prepend_dt_format(input).is_ok());
-    }
-
-    const FO_M0130: &FixedOffset = &FixedOffset::east_opt(-5400).unwrap();
-    const FO_M0100: &FixedOffset = &FixedOffset::east_opt(-3600).unwrap();
-
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05")),
-        FO0,
-        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
-        "2000-01-02T03:04:05"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678")),
-        FO0,
-        Some(ymdhmsl(&FO0, 2000, 1, 2, 3, 4, 5, 678));
-        "2000-01-02T03:04:05.678"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901")),
-        FO0,
-        Some(ymdhmsm(&FO0, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02T03:04:05.678901"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-01")),
-        FO0,
-        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02T03:04:05.678901-01"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-0100")),
-        FO0,
-        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02T03:04:05.678901-0100"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901-01:00")),
-        FO0,
-        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02T03:04:05.678901-01:00"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901 -01:00")),
-        FO0,
-        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02T03:04:05.678901 -01:00_"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05.678901 AZOT")),
-        FO0,
-        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02T03:04:05.678901 AZOT"
-    )]
-    #[test_case(
-        Some(String::from("+946782245")),
-        FO0,
-        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
-        "+946782245"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05 -0100")),
-        FO0,
-        Some(FO_M0100.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
-        "2000-01-02T03:04:05 -0100"
-    )]
-    #[test_case(
-        Some(String::from("2000-01-02T03:04:05PDT")),
-        FO0,
-        Some(FixedOffset::east_opt(-25200).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
-        "2000-01-02T03:04:05PDT"
-    )]
-    #[test_case(
-        // bad timezone
-        Some(String::from("2000-01-02T03:04:05FOOO")),
-        FO0,
-        None;
-        "2000-01-02T03:04:05FOOO"
-    )]
-    #[test_case(
-        Some(String::from("2000/01/02 03:04:05")),
-        FO0,
-        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap());
-        "2000-01-02T03:04:05 (no TZ)"
-    )]
-    #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678")),
-        FO0,
-        Some(ymdhmsl(&FO0, 2000, 1, 2, 3, 4, 5, 678));
-        "2000-01-02 03:04:05.678"
-    )]
-    #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901")),
-        FO0,
-        Some(ymdhmsm(&FO0, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02 03:04:05.678901"
-    )]
-    #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -01")),
-        FO0,
-        Some(ymdhmsm(FO_M0100, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02 03:04:05.678901 -01"
-    )]
-    #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -01:30")),
-        FO0,
-        Some(ymdhmsm(&FO_M0130, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02 03:04:05.678901 -01:30"
-    )]
-    #[test_case(
-        Some(String::from("2000/01/02 03:04:05.678901 -0130")),
-        FO0,
-        Some(ymdhmsm(&FO_M0130, 2000, 1, 2, 3, 4, 5, 678901));
-        "2000-01-02 03:04:05.678901 -0130"
-    )]
-    #[test_case(
-        Some(String::from("2026-01-02")),
-        *FO_M0130,
-        Some(ymdhms(&FO_M0130, 2026, 1, 2, 0, 0, 0));
-        "2026-01-02 YMD only A"
-    )]
-    #[test_case(
-        Some(String::from("2026/01/02")),
-        *FO_M0130,
-        Some(ymdhms(&FO_M0130, 2026, 1, 2, 0, 0, 0));
-        "2026/01/02 YMD only B"
-    )]    
-    #[test_case(
-        Some(String::from("2026-01-02 1")),
-        *FO_M0130,
-        None;
-        "2026-01-02 1 YMD failure"
-    )]
-    #[test_case(
-        Some(String::from("01-02")),
-        *FO_M0130,
-        Some(ymdhms(&FO_M0130, LOCAL_NOW_YEAR.with(|y| *y), 1, 2, 0, 0, 0));
-        "01-02 MD only"
-    )]
-    #[test_case(
-        Some(String::from("01-02 1")),
-        *FO_M0130,
-        None;
-        "01-02 1 MD failure"
-    )]
-    #[test_case(
-        Some(String::from("23:55")),
-        *FO_M0130,
-        Some(ymdhms(
-            &FO_M0130,
-            LOCAL_NOW_YEAR.with(|y| *y),
-            LOCAL_NOW_MONTH.with(|m| *m),
-            LOCAL_NOW_DAY.with(|d| *d),
-            23,
-            55,
-            0
-        ));
-        "23:55 HM only"
-    )]
-    #[test_case(
-        Some(String::from("23:555")),
-        *FO_M0130,
-        None;
-        "23:555 HM failure"
-    )]
-    #[test_case(
-        Some(String::from("23:55+")),
-        *FO_M0130,
-        None;
-        "23:55p HM failure"
-    )]
-    #[test_case(
-        Some(String::from("23:55@")),
-        *FO_M0130,
-        None;
-        "23:55a HM failure"
-    )]
-    #[test_case(
-        Some(String::from("23:55:59")),
-        *FO_M0130,
-        Some(ymdhms(
-            &FO_M0130,
-            LOCAL_NOW_YEAR.with(|y| *y),
-            LOCAL_NOW_MONTH.with(|m| *m),
-            LOCAL_NOW_DAY.with(|d| *d),
-            23,
-            55,
-            59
-        ));
-        "23:55:59 HMS only"
-    )]
-    fn test_process_dt(
-        dts: Option<String>,
-        tz_offset: FixedOffset,
-        expect: DateTimeLOpt,
-    ) {
-        defn!("test_process_dt({:?}, {:?}, {:?})", dts, tz_offset, expect);
-        let utc_now = UTC_NOW.with(|utc_now| *utc_now);
-        defo!("utc_now: {:?}", utc_now);
-        let local_now = LOCAL_NOW.with(|local_now| *local_now);
-        defo!("local_now: {:?}", local_now);
-        let m0130_now = M0130_NOW.with(|m0130_now| *m0130_now);
-        defo!("m0130_now: {:?}", m0130_now);
-        let dt = process_dt(&dts, &tz_offset, &None, &utc_now);
-        assert_eq!(
-            dt, expect,
-            "\nexpect {expect:?}\nactual {dt:?}\nfor process_dt({dts:?}, {tz_offset:?}, &None, UTC_NOW: {utc_now:?})",
-        );
-        defx!();
-    }
-
-    #[test_case(
-        Some(String::from("@+1s")),
-        FO0,
-        FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
-        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 6).unwrap());
-        "2000-01-02T03:04:05 add 1s"
-    )]
-    #[test_case(
-        Some(String::from("@-1s")),
-        FO0,
-        FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
-        Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 4).unwrap());
-        "2000-01-02T03:04:04 add 1s"
-    )]
-    #[test_case(
-        Some(String::from("@+4h1d")),
-        FO0,
-        FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
-        Some(FO0.with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
-        "2000-01-02T03:04:05 sub 4h1d"
-    )]
-    #[test_case(
-        Some(String::from("@+4h1d")),
-        FixedOffset::east_opt(-3630).unwrap(),
-        FixedOffset::east_opt(-3630).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
-        Some(FixedOffset::east_opt(-3630).unwrap().with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
-        "2000-01-02T03:04:05 sub 4h1d offset -3600"
-    )]
-    fn test_process_dt_other(
-        dts: Option<String>,
-        tz_offset: FixedOffset,
-        dt_other: DateTimeL,
-        expect: DateTimeLOpt,
-    ) {
-        let dt = process_dt(
-            &dts,
-            &tz_offset,
-            &Some(dt_other),
-            &UTC_NOW.with(|utc_now| *utc_now),
-        );
-        assert_eq!(dt, expect);
-    }
-
-    /// helper to print patterns at index for humans debugging stuff.
-    /// run with:
-    /// `cargo test tests::s4::test_cli_filter_patterns_print_indexes -- --nocapture`
-    #[test]
-    fn test_cli_filter_patterns_print_indexes() {
-        stack_offset_set(None);
-        defn!();
-        for i in 0..CLI_FILTER_PATTERNS.len() {
-            let dtf_pattern = &CLI_FILTER_PATTERNS[i];
-            defo!(
-                "CLI_FILTER_PATTERNS[{i}] pattern: {:?}", dtf_pattern.pattern,
+            let allocator_debug_guard: bool = ALLOCATOR_DEBUG_GUARD.with(|ap|
+                match ap.read() {
+                    Ok(ap) => *ap,
+                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.read() failed", Some(&err)),
+                }
             );
-        }
-        defx!();
-    }
-
-    #[test_case(0)]
-    #[test_case(1)]
-    #[test_case(2)]
-    #[test_case(3)]
-    #[test_case(4)]
-    #[test_case(5)]
-    #[test_case(6)]
-    #[test_case(7)]
-    #[test_case(8)]
-    #[test_case(9)]
-    #[test_case(10)]
-    #[test_case(11)]
-    #[test_case(12)]
-    #[test_case(13)]
-    #[test_case(14)]
-    #[test_case(15)]
-    #[test_case(16)]
-    #[test_case(17)]
-    #[test_case(18)]
-    #[test_case(19)]
-    #[test_case(20)]
-    #[test_case(21)]
-    #[test_case(22)]
-    #[test_case(23)]
-    #[test_case(24)]
-    #[test_case(25)]
-    #[test_case(26)]
-    #[test_case(27)]
-    #[test_case(28)]
-    #[test_case(29)]
-    #[test_case(30)]
-    #[test_case(31)]
-    #[test_case(32)]
-    #[test_case(33)]
-    #[test_case(34)]
-    #[test_case(35)]
-    #[test_case(36)]
-    #[test_case(37)]
-    #[test_case(38)]
-    #[test_case(39)]
-    #[test_case(40)]
-    #[test_case(41)]
-    #[test_case(42)]
-    #[test_case(43)]
-    #[test_case(44)]
-    #[test_case(45)]
-    #[test_case(46)]
-    #[test_case(47)]
-    #[test_case(48)]
-    #[test_case(49)]
-    #[test_case(50)]
-    #[test_case(51)]
-    #[test_case(52)]
-    #[test_case(53)]
-    #[test_case(54)]
-    #[test_case(55)]
-    #[test_case(56)]
-    #[test_case(57)]
-    #[test_case(58)]
-    #[test_case(59)]
-    #[test_case(60)]
-    #[test_case(61)]
-    #[test_case(62)]
-    #[test_case(63)]
-    #[test_case(64)]
-    #[test_case(65)]
-    #[test_case(66)]
-    #[test_case(67)]
-    #[test_case(68)]
-    #[test_case(69)]
-    #[test_case(70)]
-    #[test_case(71)]
-    #[test_case(72)]
-    #[test_case(73)]
-    #[test_case(74)]
-    #[test_case(75)]
-    #[test_case(76)]
-    #[test_case(77)]
-    #[test_case(78)]
-    #[test_case(79)]
-    // test_case indexes must be up to CLI_FILTER_PATTERNS.len() - 1 (CLI_FILTER_PATTERNS_COUNT - 1)
-    fn test_cli_filter_patterns_test_cases(index: usize) {
-        stack_offset_set(None);
-        defn!("test_cli_filter_patterns_test_cases index: {}", index);
-        let local_now = LOCAL_NOW.with(|local_now| *local_now);
-        let dtf_pattern = &CLI_FILTER_PATTERNS[index];
-        for (input_, dt_data_expect) in dtf_pattern._test_cases.iter() {
-            defo!(
-                "test_cli_filter_patterns_test_cases index: {}, pattern: {:?}, input: {:?}",
-                index,
-                dtf_pattern.pattern,
-                input_,
+            let allocator_debug_do_print: bool = ALLOCATOR_DEBUG_DO_PRINT.with(|ap|
+                match ap.read() {
+                    Ok(ap) => *ap,
+                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_DO_PRINT.read() failed", Some(&err)),
+                }
             );
-            let (
-                fo,
-                mut y,
-                mut m,
-                mut d,
-                h,
-                min,
-                s,
-                frac6_micro,
-            ) = *dt_data_expect;
-            if y == T_NOW_YEAR {
-                y = local_now.year();
-            }
-            if m == T_NOW_MONTH {
-                m = local_now.month();
-            }
-            if d == T_NOW_DAY {
-                d = local_now.day();
-            }
-            let dt_expect = ymdhmsm(
-                &fo,
-                y,
-                m,
-                d,
-                h,
-                min,
-                s,
-                frac6_micro as i64,
-            );
-            let result: DateTimeLOpt = process_dt(
-                &Some(String::from(*input_)),
-                &fo,
-                &None,
-                &UTC_NOW.with(|utc_now| *utc_now),
-            );
-            assert_eq!(
-                result,
-                Some(dt_expect),
-                "\npattern {:?}\ninput {:?}\nexpect {:?}\nactual {:?}\nfor pattern on line {}",
-                dtf_pattern.pattern,
-                input_,
-                dt_expect,
-                result,
-                dtf_pattern._line_num,
-            );
-        }
-        defx!("test_cli_filter_patterns_test_cases index: {} passed", index);
-    }
-
-    #[test]
-    fn test_cli_filter_patterns_static() {
-        #[allow(non_snake_case)]
-        for dtf_pattern in CLI_FILTER_PATTERNS.iter() {
-            let pattern: DateTimePattern_string = DateTimePattern_string::from(dtf_pattern.pattern);
-            // timezone / fixedoffset
-            if dtf_pattern.has_named_tz {
-                assert!(pattern.contains("%Z"));
-                for (input, _) in dtf_pattern._test_cases.iter() {
-                    let mut tz_name_found: bool = false;
-                    for (tz_name, _) in &MAP_TZZ_TO_TZz {
-                        if input.contains(tz_name) {
-                            tz_name_found = true;
-                            break;
-                        }
+            if allocator_debug_guard {
+                ALLOCATOR_DEBUG_GUARD.with(|ap|
+                    match ap.write() {
+                        Ok(mut apw) => *apw = false,
+                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.write() failed", Some(&err)),
                     }
-                    assert!(
-                        tz_name_found,
-                        "input {:?} must contain a named timezone because has_named_tz is true; line {}",
-                        input,
-                        dtf_pattern._line_num,
+                );
+                ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
+                    match ap.write() {
+                        Ok(mut apw) => apw.clear(),
+                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
+                    }
+                });
+                let allocator_debug_do_track: bool = ALLOCATOR_DEBUG_DO_TRACKING.with(|ap|
+                    match ap.read() {
+                        Ok(ap) => *ap,
+                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_DO_TRACKING.read() failed", Some(&err)),
+                    }
+                );
+
+                let mut frames_skipped: usize = 0;
+                let mut frames_project: usize = 0;
+                let mut frame_tracked: bool = false;
+                ::backtrace::trace(|frame| {
+                    // XXX: `resolve_frame` allocates, hence the need for `ALLOCATOR_DEBUG_GUARD`
+                    ::backtrace::resolve_frame(frame, |symbol| {
+                        match symbol.filename_raw() {
+                            Some(filename) => {
+                                if ! filename.to_str_lossy().starts_with(PROJECT_ROOT_SRC.as_str()) {
+                                    // this frame is not project source code, skip it
+                                    frames_skipped += 1;
+                                    return;
+                                }
+                            }
+                            None => return,
+                        }
+                        frames_project += 1;
+                        if frames_project < 3 {
+                            // skip first two frames which always refer to this allocator code and the backtrace code
+                            return;
+                        }
+                        if allocator_debug_do_print {
+                            // accumulate info to print about this frame in the thread-local buffer
+                            ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
+                                match ap.write() {
+                                    Ok(mut apw) => {
+                                        _ = apw.append_bytes(b"  frame: ");
+                                        let ip = frame.ip();
+                                        _ = apw.append_bytes(format!("ip={:?}", ip).as_bytes());
+                                        let sp = frame.sp();
+                                        _ = apw.append_bytes(format!(" sp={:?}", sp).as_bytes());
+                                        let symbol_address = frame.symbol_address();
+                                        _ = apw.append_bytes(format!(" symbol_address=@{:?}", symbol_address).as_bytes());
+                                        let module_base_address = frame.module_base_address();
+                                        if module_base_address.is_some() {
+                                            _ = apw.append_bytes(format!(" module_base_address=@{:?}", module_base_address).as_bytes());
+                                        }
+                                        _ = apw.append_bytes(b"\n");
+                                        if let Some(name) = symbol.name() {
+                                            _ = apw.append_bytes(b"         name=");
+                                            let demangled_name = demangle_name(&name);
+                                            _ = apw.append_bytes(demangled_name.as_bytes());
+                                            _ = apw.append_bytes(b"\n");
+                                        }
+                                        let mut nl = false;
+                                        if let Some(filename) = symbol.filename_raw() {
+                                            _ = apw.append_bytes(b"         filename=");
+                                            _ = apw.append_bytes(filename.to_str_lossy().as_bytes());
+                                            nl = true;
+                                        }
+                                        if let Some(lineno) = symbol.lineno() {
+                                            _ = apw.append_bytes(format!("  lineno={}", lineno).as_bytes());
+                                            nl = true;
+                                        }
+                                        if let Some(colno) = symbol.colno() {
+                                            _ = apw.append_bytes(format!("  colno={}", colno).as_bytes());
+                                            nl = true;
+                                        }
+                                        if nl {
+                                            _ = apw.append_bytes(b"\n");
+                                        }
+                                    }
+                                    Err(_err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", None),
+                                }
+                            });
+                        }
+                        if allocator_debug_do_track && !frame_tracked {
+                            // only track this frame, which should be the last frame of control from this
+                            // project's source code into some other module's code.
+                            frame_tracked = true;
+                            // track this allocation call site in the thread-local map
+                            let mut apw = match ALLOCATOR_DEBUG_TRACKING_MAP.write() {
+                                Ok(apw) => apw,
+                                Err(err) => alloc_exit("ALLOCATOR_DEBUG_TRACKING_MAP.write() failed", Some(&err)),
+                            };
+                            let filename: String = symbol.filename_raw().map(|f| f.to_str_lossy().to_string()).unwrap_or_else(|| "<unknown>".to_string());
+                            let function: String = match symbol.name() {
+                                Some(name) => demangle_name(&name),
+                                None => "<unknown>".to_string(),
+                            };
+                            let lineno: u32 = symbol.lineno().unwrap_or(0);
+                            let colno: u32 = symbol.colno().unwrap_or(0);
+                            let tid = ALLOCATOR_DEBUG_TID.with(|ap| *ap);
+                            let threadname = ALLOCATOR_DEBUG_TNAME.with(|ap| ap.clone());
+                            let key: AllocatorDebugTrackingKey = (filename, function, lineno, colno, threadname, tid);
+                            let mut filename_slice = key.0.as_str();
+                            // remove leading project root from file path to make it more readable
+                            let pr_str = (*PROJECT_ROOT).as_str();
+                            if let Some(i) = filename_slice.find(pr_str) {
+                                filename_slice = &filename_slice[i + pr_str.len()..];
+                            };
+                            ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
+                                match ap.write() {
+                                    Ok(mut apw) => {
+                                        _ = apw.append_bytes(
+                                            format!("           tracked allocation call site:\n             {}:{}:{}  [{}]\n             thread [{}]: {}\n",
+                                                    filename_slice, key.2, key.3, key.1, key.5, key.4
+                                                ).as_bytes()
+                                        );
+                                    }
+                                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
+                                }
+                            });
+                            let value: &mut AllocatorDebugTrackingValue = apw.entry(key).or_insert((0, 0));
+                            ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
+                                match ap.write() {
+                                    Ok(mut apw) => {
+                                        _ = apw.append_bytes(
+                                            format!(
+                                                "               {:>8} allocations, {:>10} bytes\n", value.0, value.1
+                                            ).as_bytes()
+                                        );
+                                    }
+                                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
+                                }
+                            });
+                            value.0 += 1;
+                            value.1 += sz;
+
+                        }
+                    });
+
+                    true // continue to the next frame
+                });
+
+                ALLOCATOR_DEBUG_GUARD.with(|ap|
+                    match ap.write() {
+                        Ok(mut ap) => *ap = allocator_debug_guard,
+                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.write() failed", Some(&err)),
+                    }
+                );
+            } // allocator_debug_guard
+
+            // print debug info
+            if allocator_debug_guard {
+                if allocator_debug_do_print {
+                    let mut buf = FmtBuf::<256>::new();
+                    let a = ALLOCATOR_ALLOCATED.load(Relaxed);
+                    let tid = ALLOCATOR_DEBUG_TID.with(|ap| *ap);
+                    _ = core::fmt::write(
+                        &mut buf,
+                        format_args!(
+                            "system_alloc_debug: (TID {}) @{:?} sz={:2} align={:2} total_allocated={}\n",
+                            tid, ret, sz, layout.align(), a,
+                        )
                     );
+                    let mut stderr_lock = std::io::stderr().lock();
+                    _ = stderr_lock.write(&buf.as_bytes());
+                    ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
+                        match ap.read() {
+                            Ok(ap) => _ = stderr_lock.write(ap.as_bytes()),
+                            Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.read() failed", Some(&err)),
+                        }
+                    });
+                    _ = stderr_lock.flush();
+                    drop(stderr_lock);
+                    ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
+                        match ap.write() {
+                            Ok(mut apw) => apw.clear(),
+                            Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
+                        }
+                    });
                 }
             }
-            if dtf_pattern.add_tz {
-                assert!(
-                    !pattern.contains("%z")
-                    && !pattern.contains("%:z")
-                    && !pattern.contains("%::z")
-                    && !pattern.contains("%Z"),
-                    "pattern {pattern:?} should not contain timezone specifiers because add_tz is true; line {}",
-                    dtf_pattern._line_num,
-                );
+
+            ret
+        }
+
+        unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
+            unsafe {
+                System.dealloc(ptr, layout);
             }
-            // year
-            if dtf_pattern.add_date_y {
-                assert!(
-                    !pattern.contains("%Y") && !pattern.contains("%y"),
-                    "pattern {pattern:?} should not contain year specifiers because add_date_y is true; line {}",
-                    dtf_pattern._line_num,
-                );
-            }
-            // month
-            if dtf_pattern.add_date_m {
-                assert!(
-                    !pattern.contains("%m") && !pattern.contains("%b") && !pattern.contains("%B"),
-                    "pattern {pattern:?} should not contain month specifiers because add_date_m is true; line {}",
-                    dtf_pattern._line_num,
-                );
-            }
-            // day
-            if dtf_pattern.add_date_d {
-                assert!(
-                    !pattern.contains("%d") && !pattern.contains("%e"),
-                    "pattern {pattern:?} should not contain day specifiers because add_date_d is true; line {}",
-                    dtf_pattern._line_num,
-                );
-            }
-            // hour
-            if dtf_pattern.add_time_h {
-                assert!(
-                    !pattern.contains("%H")
-                    && !pattern.contains("%I")
-                    && !pattern.contains("%k")
-                    && !pattern.contains("%l"),
-                    "pattern {pattern:?} should not contain hour specifiers because add_time_h is true; line {}",
-                    dtf_pattern._line_num,
-                );
-            }
-            // minute
-            if dtf_pattern.add_time_m {
-                assert!(
-                    !pattern.contains("%M"),
-                    "pattern {pattern:?} should not contain minute specifiers because add_time_m is true; line {}",
-                    dtf_pattern._line_num,
-                );
-            }
-            // second
-            if dtf_pattern.add_time_s {
-                assert!(
-                    !pattern.contains("%S"),
-                    "pattern {pattern:?} should not contain second specifier because add_time_s is true; line {}",
-                    dtf_pattern._line_num,
-                );
-                assert!(
-                    !pattern.contains("%s"),
-                    "pattern {pattern:?} should not contain timestamp specifier because add_time_s is true; line {}",
-                    dtf_pattern._line_num,
-                );
-            }
-            // fractional
+            ALLOCATOR_DEALLOCATED.fetch_add(layout.size(), Relaxed);
+            ALLOCATOR_CURRENT.fetch_sub(layout.size(), Relaxed);
         }
     }
-
-    const NOW: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Now;
-    const OTHER: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Other;
-
-    #[test_case(String::from(""), None)]
-    #[test_case(String::from("1s"), None; "1s")]
-    #[test_case(String::from("@1s"), None; "at_1s")]
-    #[test_case(String::from("-0s"), Some((Duration::try_seconds(0).unwrap(), NOW)))]
-    #[test_case(String::from("@+0s"), Some((Duration::try_seconds(0).unwrap(), OTHER)))]
-    #[test_case(String::from("-1s"), Some((Duration::try_seconds(-1).unwrap(), NOW)); "minus_1s")]
-    #[test_case(String::from("+1s"), Some((Duration::try_seconds(1).unwrap(), NOW)); "plus_1s")]
-    #[test_case(String::from("@-1s"), Some((Duration::try_seconds(-1).unwrap(), OTHER)); "at_minus_1s")]
-    #[test_case(String::from("@+1s"), Some((Duration::try_seconds(1).unwrap(), OTHER)); "at_plus_1s")]
-    #[test_case(String::from("@+9876s"), Some((Duration::try_seconds(9876).unwrap(), OTHER)); "other_plus_9876")]
-    #[test_case(String::from("@-9876s"), Some((Duration::try_seconds(-9876).unwrap(), OTHER)); "other_minus_9876")]
-    #[test_case(String::from("-9876s"), Some((Duration::try_seconds(-9876).unwrap(), NOW)); "now_minus_9876")]
-    #[test_case(String::from("-3h"), Some((Duration::try_hours(-3).unwrap(), NOW)))]
-    #[test_case(String::from("-4d"), Some((Duration::try_days(-4).unwrap(), NOW)))]
-    #[test_case(String::from("-5w"), Some((Duration::try_weeks(-5).unwrap(), NOW)))]
-    #[test_case(String::from("@+5w"), Some((Duration::try_weeks(5).unwrap(), OTHER)))]
-    #[test_case(String::from("-2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap(), NOW)); "minus_2m1s")]
-    #[test_case(String::from("-2d1h"), Some((Duration::try_hours(-1).unwrap() + Duration::try_days(-2).unwrap(), NOW)); "minus_2d1h")]
-    #[test_case(String::from("+2d1h"), Some((Duration::try_hours(1).unwrap() + Duration::try_days(2).unwrap(), NOW)); "plus_2d1h")]
-    #[test_case(String::from("@+2d1h"), Some((Duration::try_hours(1).unwrap() + Duration::try_days(2).unwrap(), OTHER)); "at_plus_2d1h")]
-    // "reverse" order should not matter
-    #[test_case(String::from("-1h2d"), Some((Duration::try_hours(-1).unwrap() + Duration::try_days(-2).unwrap(), NOW)); "minus_1h2d")]
-    #[test_case(String::from("-4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
-    // "mixed" order should not matter
-    #[test_case(String::from("-3d4w1s2m"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
-    // repeat values; only last is used
-    #[test_case(String::from("-6w5w4w"), Some((Duration::try_weeks(-4).unwrap(), NOW)))]
-    // repeat values; only last is used
-    #[test_case(String::from("-5w4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
-    // repeat values; only last is used
-    #[test_case(String::from("-6w5w4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
-    fn test_string_wdhms_to_duration(
-        input: String,
-        expect: Option<(Duration, DUR_OFFSET_TYPE)>,
-    ) {
-        let actual = string_wdhms_to_duration(&input);
-        assert_eq!(actual, expect);
-    }
-
-    #[test_case("", Some(""))]
-    #[test_case("a", Some("a"))]
-    #[test_case("abc", Some("abc"))]
-    #[test_case(r"\t", Some("\t"))]
-    #[test_case(r"\v", Some("\u{0B}"))]
-    #[test_case(r"\e", Some("\u{1B}"))]
-    #[test_case(r"\0", Some("\u{00}"))]
-    #[test_case(r"-\0-", Some("-\u{00}-"); "dash null dash")]
-    #[test_case(r":\t|", Some(":\t|"); "colon tab vertical pipe")]
-    #[test_case(r":\t\\|", Some(":\t\\|"); "colon tab escape vertical pipe")]
-    #[test_case(r"\\\t", Some("\\\t"); "escape tab")]
-    #[test_case(r"\\t", Some("\\t"); "escape t")]
-    #[test_case(r"\", None)]
-    #[test_case(r"\X", None)]
-    fn test_unescape_str(
-        input: &str,
-        expect: Option<&str>,
-    ) {
-        let result = unescape::unescape_str(input);
-        match (result, expect) {
-            (Ok(actual_s), Some(expect_s)) => {
-                assert_eq!(actual_s, expect_s, "\nExpected {:?}\nActual   {:?}\n", expect_s, actual_s);
-            }
-            (Ok(actual_s), None) => {
-                panic!("Expected Error, got {:?}", actual_s);
-            }
-            (Err(err), Some(_)) => {
-                panic!("Got Error {:?}", err);
-            }
-            (Err(_), None) => {}
-        }
-    }
-
-    } // mod s4
 }

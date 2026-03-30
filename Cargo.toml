@@ -91,7 +91,7 @@ pathsearch = "=0.2.0"
 phf = { version = "=0.13.1", features = ["macros"] }
 rand = { version = "=0.9.2", features = ["thread_rng"] }
 rangemap = "=1.7.1"
-regex = { version = "=1.12.3", default-features = false, features = ["perf", "std", "unicode-case"] }
+regex = { version = "=1.12.3", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
 shell-escape = "=0.1.5"
 si_trace_print = "=0.3.12"
 stringzilla = { version = "=3.12.6", optional = true }
@@ -126,7 +126,7 @@ libc = "0.2.176"
 
 [[bin]]
 name = "s4"
-path = "src/bin/s4.rs"
+path = "src/s4/mod.rs"
 test = true
 doc = true
 bench = false
