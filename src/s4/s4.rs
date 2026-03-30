@@ -56,6 +56,9 @@
 
 #![allow(non_camel_case_types)]
 
+#[cfg(feature = "sysalloc_debug")]
+struct SysAllocDebugImpl;
+
 // first setup the custom global allocator
 use ::s4lib::common::AllocatorChosen;
 
@@ -89,10 +92,7 @@ cfg_if::cfg_if! {
         const CLI_HELP_AFTER_ALLOCATOR: &str = "tcmalloc";
     }
     else if #[cfg(feature = "sysalloc_debug")] {
-        //use std::alloc::{GlobalAlloc, System, Layout};
-
-        /// implemented in module `sysalloc_debug` below
-        struct SysAllocDebugImpl;
+        // `SysAllocDebugImpl` is implemented in module `sysalloc_debug` below
         #[global_allocator]
         static GLOBAL: SysAllocDebugImpl = SysAllocDebugImpl;
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::SystemDebug;
@@ -6192,25 +6192,25 @@ mod sysalloc_debug {
         GlobalAlloc,
         Layout,
     };
+    use std::collections::HashMap;
     use std::io::Write as StdWrite;
     use std::sync::atomic::{
         AtomicUsize,
         Ordering::Relaxed,
     };
+    use std::sync::RwLock;
 
     use ::s4lib::common::threadid_to_u64;
-    use ::s4lib::debug::printers::{
-        de_err,
-        de_wrn,
-        e_err,
-        e_wrn,
-    };
 
     use ::backtrace::SymbolName;
     use ::lazy_static::lazy_static;
     use ::rustc_demangle::demangle;
 
-    use super::*;
+    use ::s4lib::e_err;
+    use super::{
+        EXIT_ERR,
+        SysAllocDebugImpl,
+    };
 
     /// alloc error exit value (ENOMEM)
     const EXIT_ALLOC_ERR: i32 = 12;
@@ -6298,7 +6298,6 @@ mod sysalloc_debug {
     pub fn allocator_debug_enable() {
         // secret environment variable option to print the stack strace of each sysalloc
         if allocator_debug_print() {
-            eprintln!("Environment variable {} is set; enabling sysalloc debug logging", ENV_ALLOCATOR_DEBUG_PRINT);
             ALLOCATOR_DEBUG_DO_PRINT.with(|adep| match adep.write() {
                 Ok(mut adepw) => *adepw = true,
                 Err(err) => {
