@@ -134,7 +134,7 @@ pub enum AllocatorChosen {
     Mimalloc = 3,
     Rpmalloc = 4,
     TCMalloc = 5,
-    SystemDebug = 6,
+    AllocTracker = 6,
 }
 
 impl std::fmt::Display for AllocatorChosen {
@@ -148,7 +148,7 @@ impl std::fmt::Display for AllocatorChosen {
             AllocatorChosen::Mimalloc => write!(f, "mimalloc"),
             AllocatorChosen::Rpmalloc => write!(f, "rpmalloc"),
             AllocatorChosen::TCMalloc => write!(f, "tcmalloc"),
-            AllocatorChosen::SystemDebug => write!(f, "system_debug"),
+            AllocatorChosen::AllocTracker => write!(f, "alloc_tracker"),
         }
     }
 }
@@ -1210,7 +1210,7 @@ impl std::fmt::Display for LogMessageType {
 /// Offset into a file in bytes. Zero-based.
 pub type FileOffset = u64;
 
-/// A [`Vec`](std::vec::Vec) of `u8`.
+/// A `Vec` of `u8`.
 pub type Bytes = Vec<u8>;
 
 /// Separator `char` symbol for a filesystem path and subpath within a

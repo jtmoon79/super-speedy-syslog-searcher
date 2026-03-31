@@ -108,10 +108,11 @@ mimalloc = { version = "=0.1.48", optional = true }
 rpmalloc = { version = "=0.2.2", optional = true }
 tcmalloc = { version = "=0.3.0", optional = true }
 tikv-jemallocator = { version = "=0.6.1", optional = true }
-# allocator sysalloc debug
+# custom allocator `alloc_tracker` debug
 backtrace = { version = "=0.3.76", optional = true }
 project-root = { version = "=0.2.2", optional = true }
 rustc-demangle = { version = "=0.1.27", optional = true }
+thousands = { version = "=0.2.0", optional = true }
 
 [lib]
 name = "s4lib"
@@ -159,7 +160,7 @@ rpmalloc = ["dep:rpmalloc"]
 tcmalloc = ["dep:tcmalloc"]
 # system allocator in custom debug mode,
 # tracks call sites of allocations and prints a summary at program exit; runs extremely slow
-sysalloc_debug = ["dep:backtrace", "dep:project-root", "dep:rustc-demangle"]
+alloc_tracker = ["dep:backtrace", "dep:project-root", "dep:rustc-demangle", "dep:thousands"]
 
 # release build optimizations
 # from https://github.com/johnthagen/min-sized-rust
@@ -207,11 +208,7 @@ inherits = "release"
 [profile.tcmalloc]
 inherits = "release"
 
-[profile.sysalloc_debug]
-inherits = "dev"
-opt-level = 0
-
-[profile.sysalloc_debug_release]
+[profile.alloc_tracker]
 inherits = "release"
 opt-level = 0
 debug = 2

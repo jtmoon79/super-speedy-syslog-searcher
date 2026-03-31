@@ -62,8 +62,8 @@ if ${do_build}; then
     cargo build --profile jemalloc --features jemalloc
     cargo build --profile rpmalloc --features rpmalloc
     cargo build --profile tcmalloc --features tcmalloc
-    cargo build --profile sysalloc_debug_release --features sysalloc_debug
-    cargo build --profile sysalloc_debug --features sysalloc_debug
+    cargo build --profile alloc_tracker --features alloc_tracker
+    cargo build --profile alloc_tracker --features alloc_tracker
     cargo build --profile flamegraph
     cargo build --profile valgrind
 fi

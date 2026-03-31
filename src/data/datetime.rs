@@ -189,11 +189,11 @@ const YEAR_FALLBACKDUMMY: &str = "1972";
 
 /// Calls to `regex::bytes::Regex::new`.
 // XXX: overlaps with `DateTimeParseDatasCompiledCount`
-//      only used during `sysalloc_debug`
+//      only used during `alloc_tracker`
 pub static REGEX_CREATED: AtomicUsize = AtomicUsize::new(0);
 /// Calls to `regex::bytes::Regex::captures`.
 // XXX: overlaps with `syslinereader_regex_captures_attempted`
-//      only used during `sysalloc_debug`
+//      only used during `alloc_tracker`
 pub static REGEX_CAPTURES: AtomicUsize = AtomicUsize::new(0);
 
 /// Convert a `T` to a [`SystemTime`].

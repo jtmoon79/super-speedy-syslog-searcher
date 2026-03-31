@@ -56,8 +56,8 @@
 
 #![allow(non_camel_case_types)]
 
-#[cfg(feature = "sysalloc_debug")]
-struct SysAllocDebugImpl;
+#[cfg(feature = "alloc_tracker")]
+use crate::alloc_tracker::AllocTrackerImpl;
 
 // first setup the custom global allocator
 use ::s4lib::common::AllocatorChosen;
@@ -91,12 +91,12 @@ cfg_if::cfg_if! {
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::TCMalloc;
         const CLI_HELP_AFTER_ALLOCATOR: &str = "tcmalloc";
     }
-    else if #[cfg(feature = "sysalloc_debug")] {
-        // `SysAllocDebugImpl` is implemented in module `sysalloc_debug` below
+    else if #[cfg(feature = "alloc_tracker")] {
+        // `AllocTrackerImpl` is implemented in module `alloc_tracker` below
         #[global_allocator]
-        static GLOBAL: SysAllocDebugImpl = SysAllocDebugImpl;
-        const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::SystemDebug;
-        const CLI_HELP_AFTER_ALLOCATOR: &str = "system_debug";
+        static GLOBAL: AllocTrackerImpl = AllocTrackerImpl;
+        const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::AllocTracker;
+        const CLI_HELP_AFTER_ALLOCATOR: &str = "alloc_tracker";
     }
     else {
         const ALLOCATOR_CHOSEN: AllocatorChosen = AllocatorChosen::System;
@@ -288,6 +288,9 @@ use ::si_trace_print::{
     deo,
 };
 
+#[cfg(feature = "alloc_tracker")]
+use crate::alloc_tracker;
+
 use ::anyhow;
 use ::crossbeam_channel;
 use ::unicode_width;
@@ -299,7 +302,7 @@ use ::unicode_width;
 const PATHS_ON_STDIN: &str = "-";
 
 /// general error exit value
-const EXIT_ERR: i32 = 1;
+pub(crate) const EXIT_ERR: i32 = 1;
 
 /// shorter name
 #[cfg(test)]
@@ -3616,9 +3619,9 @@ pub fn main() -> ExitCode {
     if cfg!(debug_assertions) {
         stack_offset_set(Some(0));
     }
-    #[cfg(feature = "sysalloc_debug")]
+    #[cfg(feature = "alloc_tracker")]
     {
-        sysalloc_debug::allocator_debug_enable();
+        alloc_tracker::allocator_tracker_enable();
     }
 
     defn!();
@@ -3696,70 +3699,6 @@ pub fn main() -> ExitCode {
     defx!("exitcode {:?}", exitcode);
 
     exitcode
-}
-
-cfg_if::cfg_if! {
-    if #[cfg(feature = "sysalloc_debug")]
-    {
-        /// Prints the contents of the `ALLOCATOR_DEBUG_TRACKING_MAP` in a user-friendly way.
-        /// This special print function sits outside of the normal `--summary` stuff.
-        /// It is presumed this will be called last before program exit.
-        fn print_allocator_debug_track_map() {
-            // disable the allocator debug guard to prevent infinite recursion
-            // presumably the user does not need any more allocator debugging
-            sysalloc_debug::allocator_debug_guard_disable();
-
-            if !sysalloc_debug::allocator_debug_tracking() {
-                return;
-            }
-
-            let project_root_ = (*sysalloc_debug::PROJECT_ROOT).clone();
-            let ap = match sysalloc_debug::ALLOCATOR_DEBUG_TRACKING_MAP.write() {
-                Ok(ap) => ap,
-                Err(_err) => std::process::exit(11),
-            };
-            let mut entries: Vec<(&sysalloc_debug::AllocatorDebugTrackingKey, &sysalloc_debug::AllocatorDebugTrackingValue)>
-                = ap.iter().collect();
-            entries.sort_by_key(|(_key, value)| value.0);
-            entries.reverse();
-            eprintln!("system_alloc_debug: allocation call site counts ({} entries):", entries.len());
-            for (key, value) in entries {
-                // remove leading project root from file path to make it more readable
-                let file_path: &String = if key.0.starts_with(&project_root_) {
-                    &key.0[project_root_.len()..].to_string()
-                } else {
-                    &key.0
-                };
-                // attempt to print some user-friendly columns
-                let function_name = &key.1;
-                let line_number = &key.2;
-                let column_number = &key.3;
-                let thread_name = &key.4;
-                let thread_id = &key.5;
-                let s = format!("{}:{:<4}:{:<3}", file_path, line_number, column_number);
-                let t = format!("thread [{}]: {}", thread_id, thread_name);
-                let allocations = &value.0;
-                let bytes = &value.1;
-                eprintln!("{s:<50} │ {t:<35} │ {function_name:<100} │ {allocations:>8} allocations, {bytes:>10} bytes");
-            }
-            eprintln!();
-
-            let allocator_allocated = sysalloc_debug::ALLOCATOR_ALLOCATED.load(std::sync::atomic::Ordering::Relaxed);
-            let allocator_deallocated = sysalloc_debug::ALLOCATOR_DEALLOCATED.load(std::sync::atomic::Ordering::Relaxed);
-            let allocator_current = sysalloc_debug::ALLOCATOR_CURRENT.load(std::sync::atomic::Ordering::Relaxed);
-            let allocator_calls = sysalloc_debug::ALLOCATOR_CALLS.load(std::sync::atomic::Ordering::Relaxed);
-            eprintln!("total allocated  : {:>10}", allocator_allocated);
-            eprintln!("total deallocated: {:>10}", allocator_deallocated);
-            eprintln!("total difference : {:>10}", allocator_allocated as isize - allocator_deallocated as isize);
-            eprintln!("current allocated: {:>10}", allocator_current);
-            eprintln!("total allocation calls: {}", allocator_calls);
-
-            let regex_captures = ::s4lib::data::datetime::REGEX_CAPTURES.load(std::sync::atomic::Ordering::Relaxed);
-            let regex_created = ::s4lib::data::datetime::REGEX_CREATED.load(std::sync::atomic::Ordering::Relaxed);
-            eprintln!("datetime regex captures: {:>3}", regex_captures);
-            eprintln!("datetime regex created : {:>3}", regex_created);
-        }
-    }
 }
 
 lazy_static! {
@@ -4866,9 +4805,9 @@ fn exec_fileprocessor_thread(
     if cfg!(debug_assertions) {
         stack_offset_set(Some(2));
     }
-    #[cfg(feature = "sysalloc_debug")]
+    #[cfg(feature = "alloc_tracker")]
     {
-        sysalloc_debug::allocator_debug_enable();
+        alloc_tracker::allocator_tracker_enable();
     }
 
     let thread_cur: thread::Thread = thread::current();
@@ -5248,9 +5187,9 @@ fn processing_loop(
         // No threads were created. This can happen if user passes only paths
         // that do not exist.
         if !cli_opt_summary {
-            #[cfg(feature = "sysalloc_debug")]
+            #[cfg(feature = "alloc_tracker")]
             {
-                print_allocator_debug_track_map();
+                alloc_tracker::print_tracking_map();
             }
             return false;
         }
@@ -5288,9 +5227,9 @@ fn processing_loop(
             thread_err_count,
             ALLOCATOR_CHOSEN,
         );
-        #[cfg(feature = "sysalloc_debug")]
+        #[cfg(feature = "alloc_tracker")]
         {
-            print_allocator_debug_track_map();
+            alloc_tracker::print_tracking_map();
         }
 
         return false;
@@ -6172,457 +6111,12 @@ fn processing_loop(
         ret = false;
     }
 
-    #[cfg(feature = "sysalloc_debug")]
+    #[cfg(feature = "alloc_tracker")]
     {
-        print_allocator_debug_track_map();
+        alloc_tracker::print_tracking_map();
     }
 
     defx!("return {:?}", ret);
 
     ret
-}
-
-#[cfg(feature = "sysalloc_debug")]
-mod sysalloc_debug {
-    // this block implement a custom global allocator that wraps the system allocator and tracks call sites of
-    // allocations. Provides functions to print a summary at program exit.
-
-    use std::alloc::{
-        System,
-        GlobalAlloc,
-        Layout,
-    };
-    use std::collections::HashMap;
-    use std::io::Write as StdWrite;
-    use std::sync::atomic::{
-        AtomicUsize,
-        Ordering::Relaxed,
-    };
-    use std::sync::RwLock;
-
-    use ::s4lib::common::threadid_to_u64;
-
-    use ::backtrace::SymbolName;
-    use ::lazy_static::lazy_static;
-    use ::rustc_demangle::demangle;
-
-    use ::s4lib::e_err;
-    use super::{
-        EXIT_ERR,
-        SysAllocDebugImpl,
-    };
-
-    /// alloc error exit value (ENOMEM)
-    const EXIT_ALLOC_ERR: i32 = 12;
-
-    /// A simple fixed-size buffer that most importantly can be written to by `core::fmt::write`.
-    /// Safe for using within `alloc`.
-    /// It is recommended to use the provided API so `.len` is correctly updated.
-    struct FmtBuf<const N: usize> {
-        buf: [u8; N],
-        len: usize,
-    }
-
-    impl<const N: usize> FmtBuf<N> {
-        fn new() -> Self {
-            Self {
-                buf: [0u8; N],
-                len: 0,
-            }
-        }
-
-        fn as_bytes(&self) -> &[u8] {
-            &self.buf[..self.len]
-        }
-
-        fn append_bytes(&mut self, bytes: &[u8]) -> core::fmt::Result {
-            let remaining = self.buf.len().saturating_sub(self.len);
-            if bytes.len() > remaining {
-                return Err(core::fmt::Error);
-            }
-            let end: usize = self.len + bytes.len();
-            self.buf[self.len..end].copy_from_slice(bytes);
-            self.len = end;
-
-            Ok(())
-        }
-
-        fn clear(&mut self) {
-            self.buf.fill(0);
-            self.len = 0;
-        }
-    }
-
-    impl<const N: usize> core::fmt::Write for FmtBuf<N> {
-        fn write_str(&mut self, s: &str) -> core::fmt::Result {
-            self.append_bytes(s.as_bytes())
-        }
-    }
-
-
-    /// *(file, function, line, column, threadname, threadid)* uniquely identifies an allocation call site.
-    // TODO: these Strings are often repeats. It would be good to have a global cache of strings.
-    //       Then these keys would hold `Pin<Arc<String>>` or something like that.
-    pub type AllocatorDebugTrackingKey = (String, String, u32, u32, String, u64);
-    /// *(allocator call count, total allocated bytes)* for a given call site.
-    pub type AllocatorDebugTrackingValue = (usize, usize);
-    pub type AllocatorDebugTrackingMap = HashMap<AllocatorDebugTrackingKey, AllocatorDebugTrackingValue>;
-
-    std::thread_local! {
-        /// Thread global state for allocator function. Guards against infinite loops within `alloc`.
-        static ALLOCATOR_DEBUG_GUARD: RwLock<bool> = RwLock::new(false);
-        /// Thread global buffer for printing debug info about the allocator backtrace.
-        static ALLOCATOR_DEBUG_FMT_BUF: RwLock<FmtBuf<10_000>> = RwLock::new(FmtBuf::<10_000>::new());
-        /// Print allocator backtraces?
-        static ALLOCATOR_DEBUG_DO_PRINT: RwLock<bool> = RwLock::new(false);
-        /// Track allocator statistics?
-        static ALLOCATOR_DEBUG_DO_TRACKING: RwLock<bool> = RwLock::new(false);
-        /// Cache this to prevent a weird infinite loop in `alloc`.
-        static ALLOCATOR_DEBUG_TID: u64 = threadid_to_u64(std::thread::current().id());
-        static ALLOCATOR_DEBUG_TNAME: String = std::thread::current().name().unwrap_or("<unnamed>").to_string();
-    }
-    /// User-set environment variable to enable printing of allocator backtraces.
-    const ENV_ALLOCATOR_DEBUG_PRINT: &str = "S4_SYSALLOC_DEBUG_PRINT";
-    /// User-set environment variable to enable tracking of allocator call sites.
-    const ENV_ALLOCATOR_DEBUG_TRACKING: &str = "S4_SYSALLOC_DEBUG_TRACKING";
-
-    pub fn allocator_debug_print() -> bool {
-        std::env::var(ENV_ALLOCATOR_DEBUG_PRINT).map(|val| !val.is_empty()).unwrap_or(false)
-    }
-
-    pub fn allocator_debug_tracking() -> bool {
-        std::env::var(ENV_ALLOCATOR_DEBUG_TRACKING).map(|val| !val.is_empty()).unwrap_or(false)
-    }
-
-    /// Must call this once per thead.
-    pub fn allocator_debug_enable() {
-        // secret environment variable option to print the stack strace of each sysalloc
-        if allocator_debug_print() {
-            ALLOCATOR_DEBUG_DO_PRINT.with(|adep| match adep.write() {
-                Ok(mut adepw) => *adepw = true,
-                Err(err) => {
-                    e_err!("ALLOCATOR_DEBUG_DO_PRINT.write() failed: {:?}", err);
-                    std::process::exit(EXIT_ERR);
-                }
-            });
-        }
-        if allocator_debug_tracking() {
-            ALLOCATOR_DEBUG_DO_TRACKING.with(|adet| match adet.write() {
-                Ok(mut adetw) => *adetw = true,
-                Err(err) => {
-                    e_err!("ALLOCATOR_DEBUG_DO_TRACKING.write() failed: {:?}", err);
-                    std::process::exit(EXIT_ERR);
-                }
-            });
-        }
-        // start sysalloc debug logging
-        allocator_debug_guard_enable();
-    }
-
-    /// enable the guard (allow allocation debug activity)
-    #[inline(always)]
-    pub fn allocator_debug_guard_enable() {
-        // force ThreadId and ThreadName to get set once early on
-        ALLOCATOR_DEBUG_TID.with(|_| {});
-        ALLOCATOR_DEBUG_TNAME.with(|_| {});
-        // set the guard
-        ALLOCATOR_DEBUG_GUARD.with(|ap| match ap.write() {
-            Ok(mut apw) => *apw = true,
-            Err(_err) => {
-                e_err!("ALLOCATOR_DEBUG_GUARD.write() failed");
-                std::process::exit(EXIT_ERR);
-            }
-        });
-    }
-    /// disable the guard (disallow allocation debug activity)
-    #[inline(always)]
-    pub fn allocator_debug_guard_disable() {
-        ALLOCATOR_DEBUG_GUARD.with(|ap| match ap.write() {
-            Ok(mut apw) => *apw = false,
-            Err(_err) => {
-                e_err!("ALLOCATOR_DEBUG_GUARD.write() failed");
-                std::process::exit(EXIT_ERR);
-            }
-        });
-    }
-
-    // Global allocator statistics
-    pub(super) static ALLOCATOR_ALLOCATED: AtomicUsize = AtomicUsize::new(0);
-    pub(super) static ALLOCATOR_DEALLOCATED: AtomicUsize = AtomicUsize::new(0);
-    pub(super) static ALLOCATOR_CURRENT: AtomicUsize = AtomicUsize::new(0);
-    pub(super) static ALLOCATOR_CALLS: AtomicUsize = AtomicUsize::new(0);
-
-    const ALLOCATOR_DEBUG_MAX_TRACKED_CALL_SITES: usize = 1024;
-    lazy_static! {
-        /// Global map for tracking allocator call sites and their statistics. Only used if `ALLOCATOR_DEBUG_DO_TRACKING` is true.
-        pub(super)static ref ALLOCATOR_DEBUG_TRACKING_MAP: RwLock<AllocatorDebugTrackingMap> =
-            RwLock::new(AllocatorDebugTrackingMap::with_capacity(ALLOCATOR_DEBUG_MAX_TRACKED_CALL_SITES));
-
-        pub(super) static ref PROJECT_ROOT: String = match ::project_root::get_project_root() {
-            Ok(root) => root.to_string_lossy().to_string(),
-            Err(_) => String::from(""),
-        };
-        static ref PROJECT_ROOT_SRC: String = {
-            PROJECT_ROOT.clone() + "/src/"
-        };
-    }
-
-    /// Exit with code, print the `mesg` and optional `err` without allocating.
-    /// Intended for errors within `alloc`.
-    fn alloc_exit(mesg: &str, err: Option<&dyn std::error::Error>) -> ! {
-        let mut stderr_lock = std::io::stderr().lock();
-        _ = stderr_lock.write(mesg.as_bytes());
-        if let Some(e) = err {
-            _ = stderr_lock.write(b": ");
-            // prefer `description` instead of `Debug` or `Display` to avoid potential call to `alloc`
-            #[allow(deprecated)]
-            let d = e.description();
-            _ = stderr_lock.write(d.as_bytes());
-        }
-        _ = stderr_lock.write(b"\n");
-        drop(stderr_lock);
-        std::process::exit(EXIT_ALLOC_ERR);
-    }
-
-    /// Try to get the demangled name, fallback to the raw name if demangling fails.
-    fn demangle_name(symbol_name: &SymbolName) -> String {
-        let name_b = symbol_name.as_bytes();
-        let name_s = str::from_utf8(name_b).unwrap_or("");
-        let demangled = demangle(name_s);
-        let demangled_name: String = format!("{}", demangled);
-        if ! demangled_name.is_empty() {
-            demangled_name
-        }
-        else {
-            name_s.to_string()
-        }
-    }
-
-    unsafe impl GlobalAlloc for SysAllocDebugImpl {
-        unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-            // update stats
-            ALLOCATOR_CALLS.fetch_add(1, Relaxed);
-            let sz: usize = layout.size();
-            let ret = unsafe {
-                // do the actual allocation
-                System.alloc(layout)
-            };
-            // update stats again
-            if !ret.is_null() {
-                ALLOCATOR_ALLOCATED.fetch_add(sz, Relaxed);
-                ALLOCATOR_CURRENT.fetch_add(sz, Relaxed);
-            }
-
-            // fn find_subsequence(haystack: &[u8], needle: &[u8]) -> Option<usize> {
-            //     haystack.windows(needle.len()).position(|window| window == needle)
-            // }
-
-            let allocator_debug_guard: bool = ALLOCATOR_DEBUG_GUARD.with(|ap|
-                match ap.read() {
-                    Ok(ap) => *ap,
-                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.read() failed", Some(&err)),
-                }
-            );
-            let allocator_debug_do_print: bool = ALLOCATOR_DEBUG_DO_PRINT.with(|ap|
-                match ap.read() {
-                    Ok(ap) => *ap,
-                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_DO_PRINT.read() failed", Some(&err)),
-                }
-            );
-            if allocator_debug_guard {
-                ALLOCATOR_DEBUG_GUARD.with(|ap|
-                    match ap.write() {
-                        Ok(mut apw) => *apw = false,
-                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.write() failed", Some(&err)),
-                    }
-                );
-                ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                    match ap.write() {
-                        Ok(mut apw) => apw.clear(),
-                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
-                    }
-                });
-                let allocator_debug_do_track: bool = ALLOCATOR_DEBUG_DO_TRACKING.with(|ap|
-                    match ap.read() {
-                        Ok(ap) => *ap,
-                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_DO_TRACKING.read() failed", Some(&err)),
-                    }
-                );
-
-                let mut frames_skipped: usize = 0;
-                let mut frames_project: usize = 0;
-                let mut frame_tracked: bool = false;
-                ::backtrace::trace(|frame| {
-                    // XXX: `resolve_frame` allocates, hence the need for `ALLOCATOR_DEBUG_GUARD`
-                    ::backtrace::resolve_frame(frame, |symbol| {
-                        match symbol.filename_raw() {
-                            Some(filename) => {
-                                if ! filename.to_str_lossy().starts_with(PROJECT_ROOT_SRC.as_str()) {
-                                    // this frame is not project source code, skip it
-                                    frames_skipped += 1;
-                                    return;
-                                }
-                            }
-                            None => return,
-                        }
-                        frames_project += 1;
-                        if frames_project < 3 {
-                            // skip first two frames which always refer to this allocator code and the backtrace code
-                            return;
-                        }
-                        if allocator_debug_do_print {
-                            // accumulate info to print about this frame in the thread-local buffer
-                            ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                                match ap.write() {
-                                    Ok(mut apw) => {
-                                        _ = apw.append_bytes(b"  frame: ");
-                                        let ip = frame.ip();
-                                        _ = apw.append_bytes(format!("ip={:?}", ip).as_bytes());
-                                        let sp = frame.sp();
-                                        _ = apw.append_bytes(format!(" sp={:?}", sp).as_bytes());
-                                        let symbol_address = frame.symbol_address();
-                                        _ = apw.append_bytes(format!(" symbol_address=@{:?}", symbol_address).as_bytes());
-                                        let module_base_address = frame.module_base_address();
-                                        if module_base_address.is_some() {
-                                            _ = apw.append_bytes(format!(" module_base_address=@{:?}", module_base_address).as_bytes());
-                                        }
-                                        _ = apw.append_bytes(b"\n");
-                                        if let Some(name) = symbol.name() {
-                                            _ = apw.append_bytes(b"         name=");
-                                            let demangled_name = demangle_name(&name);
-                                            _ = apw.append_bytes(demangled_name.as_bytes());
-                                            _ = apw.append_bytes(b"\n");
-                                        }
-                                        let mut nl = false;
-                                        if let Some(filename) = symbol.filename_raw() {
-                                            _ = apw.append_bytes(b"         filename=");
-                                            _ = apw.append_bytes(filename.to_str_lossy().as_bytes());
-                                            nl = true;
-                                        }
-                                        if let Some(lineno) = symbol.lineno() {
-                                            _ = apw.append_bytes(format!("  lineno={}", lineno).as_bytes());
-                                            nl = true;
-                                        }
-                                        if let Some(colno) = symbol.colno() {
-                                            _ = apw.append_bytes(format!("  colno={}", colno).as_bytes());
-                                            nl = true;
-                                        }
-                                        if nl {
-                                            _ = apw.append_bytes(b"\n");
-                                        }
-                                    }
-                                    Err(_err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", None),
-                                }
-                            });
-                        }
-                        if allocator_debug_do_track && !frame_tracked {
-                            // only track this frame, which should be the last frame of control from this
-                            // project's source code into some other module's code.
-                            frame_tracked = true;
-                            // track this allocation call site in the thread-local map
-                            let mut apw = match ALLOCATOR_DEBUG_TRACKING_MAP.write() {
-                                Ok(apw) => apw,
-                                Err(err) => alloc_exit("ALLOCATOR_DEBUG_TRACKING_MAP.write() failed", Some(&err)),
-                            };
-                            let filename: String = symbol.filename_raw().map(|f| f.to_str_lossy().to_string()).unwrap_or_else(|| "<unknown>".to_string());
-                            let function: String = match symbol.name() {
-                                Some(name) => demangle_name(&name),
-                                None => "<unknown>".to_string(),
-                            };
-                            let lineno: u32 = symbol.lineno().unwrap_or(0);
-                            let colno: u32 = symbol.colno().unwrap_or(0);
-                            let tid = ALLOCATOR_DEBUG_TID.with(|ap| *ap);
-                            let threadname = ALLOCATOR_DEBUG_TNAME.with(|ap| ap.clone());
-                            let key: AllocatorDebugTrackingKey = (filename, function, lineno, colno, threadname, tid);
-                            let mut filename_slice = key.0.as_str();
-                            // remove leading project root from file path to make it more readable
-                            let pr_str = (*PROJECT_ROOT).as_str();
-                            if let Some(i) = filename_slice.find(pr_str) {
-                                filename_slice = &filename_slice[i + pr_str.len()..];
-                            };
-                            ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                                match ap.write() {
-                                    Ok(mut apw) => {
-                                        _ = apw.append_bytes(
-                                            format!("           tracked allocation call site:\n             {}:{}:{}  [{}]\n             thread [{}]: {}\n",
-                                                    filename_slice, key.2, key.3, key.1, key.5, key.4
-                                                ).as_bytes()
-                                        );
-                                    }
-                                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
-                                }
-                            });
-                            let value: &mut AllocatorDebugTrackingValue = apw.entry(key).or_insert((0, 0));
-                            ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                                match ap.write() {
-                                    Ok(mut apw) => {
-                                        _ = apw.append_bytes(
-                                            format!(
-                                                "               {:>8} allocations, {:>10} bytes\n", value.0, value.1
-                                            ).as_bytes()
-                                        );
-                                    }
-                                    Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
-                                }
-                            });
-                            value.0 += 1;
-                            value.1 += sz;
-
-                        }
-                    });
-
-                    true // continue to the next frame
-                });
-
-                ALLOCATOR_DEBUG_GUARD.with(|ap|
-                    match ap.write() {
-                        Ok(mut ap) => *ap = allocator_debug_guard,
-                        Err(err) => alloc_exit("ALLOCATOR_DEBUG_GUARD.write() failed", Some(&err)),
-                    }
-                );
-            } // allocator_debug_guard
-
-            // print debug info
-            if allocator_debug_guard {
-                if allocator_debug_do_print {
-                    let mut buf = FmtBuf::<256>::new();
-                    let a = ALLOCATOR_ALLOCATED.load(Relaxed);
-                    let tid = ALLOCATOR_DEBUG_TID.with(|ap| *ap);
-                    _ = core::fmt::write(
-                        &mut buf,
-                        format_args!(
-                            "system_alloc_debug: (TID {}) @{:?} sz={:2} align={:2} total_allocated={}\n",
-                            tid, ret, sz, layout.align(), a,
-                        )
-                    );
-                    let mut stderr_lock = std::io::stderr().lock();
-                    _ = stderr_lock.write(&buf.as_bytes());
-                    ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                        match ap.read() {
-                            Ok(ap) => _ = stderr_lock.write(ap.as_bytes()),
-                            Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.read() failed", Some(&err)),
-                        }
-                    });
-                    _ = stderr_lock.flush();
-                    drop(stderr_lock);
-                    ALLOCATOR_DEBUG_FMT_BUF.with(|ap| {
-                        match ap.write() {
-                            Ok(mut apw) => apw.clear(),
-                            Err(err) => alloc_exit("ALLOCATOR_DEBUG_FMT_BUF.write() failed", Some(&err)),
-                        }
-                    });
-                }
-            }
-
-            ret
-        }
-
-        unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
-            unsafe {
-                System.dealloc(ptr, layout);
-            }
-            ALLOCATOR_DEALLOCATED.fetch_add(layout.size(), Relaxed);
-            ALLOCATOR_CURRENT.fetch_sub(layout.size(), Relaxed);
-        }
-    }
 }
