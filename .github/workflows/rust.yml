@@ -95,9 +95,15 @@ jobs:
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
         msrv: [
-          "1.88.0",
+          "1.88.0", # MSRV
           "1.90.0",
         ]
+        exclude:
+          # for mac and windows, only run MSRV
+          - os: macos-latest
+            msrv: "1.90.0"
+          - os: windows-latest
+            msrv: "1.90.0"
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
