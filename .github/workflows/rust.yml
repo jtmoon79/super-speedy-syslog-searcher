@@ -152,6 +152,8 @@ jobs:
       # skip tcmalloc as it requires too particular installed libraries
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile alloc_tracker
         shell: bash
+        # skip on mac-os, Issue #467
+        if: matrix.os != 'macos-latest'
         run: |
           set -eux
           cargo build --locked --profile alloc_tracker --features alloc_tracker

@@ -127,6 +127,9 @@ fn allocator_tracking() -> bool {
 /// Tracking and printing will begin after this is called.
 /// Must call this for each thread to track.
 pub fn allocator_tracker_enable() {
+    // force ThreadId and ThreadName to get set once early on
+    ALLOCATOR_TID.with(|_| {});
+    ALLOCATOR_TNAME.with(|_| {});
     // secret environment variable option to print the stack strace of each alloc_tracker
     if allocator_print() {
         ALLOCATOR_DO_PRINT.with(|adep| match adep.write() {
@@ -150,28 +153,50 @@ pub fn allocator_tracker_enable() {
     allocator_guard_enable();
 }
 
+/// get the value of the guard
+#[inline(always)]
+fn allocator_guard() -> bool {
+    ALLOCATOR_GUARD.with(|ap| match ap.read() {
+        Ok(apr) => *apr,
+        Err(_err) => {
+            e_err!("ALLOCATOR_GUARD.read() failed in allocator_guard");
+            std::process::exit(EXIT_ERR);
+        }
+    })
+}
+
 /// Enable the guard (allow allocation debug activity)
 #[inline(always)]
 fn allocator_guard_enable() {
-    // force ThreadId and ThreadName to get set once early on
-    ALLOCATOR_TID.with(|_| {});
-    ALLOCATOR_TNAME.with(|_| {});
     // set the guard
     ALLOCATOR_GUARD.with(|ap| match ap.write() {
         Ok(mut apw) => *apw = true,
         Err(_err) => {
-            e_err!("ALLOCATOR_GUARD.write() failed");
+            e_err!("ALLOCATOR_GUARD.write() failed in allocator_guard_enable");
             std::process::exit(EXIT_ERR);
         }
     });
 }
+
 /// Disable the guard (disallow allocation debug activity)
 #[inline(always)]
 fn allocator_guard_disable() {
     ALLOCATOR_GUARD.with(|ap| match ap.write() {
         Ok(mut apw) => *apw = false,
         Err(_err) => {
-            e_err!("ALLOCATOR_GUARD.write() failed");
+            e_err!("ALLOCATOR_GUARD.write() failed in allocator_guard_disable");
+            std::process::exit(EXIT_ERR);
+        }
+    });
+}
+
+/// Restore the guard to the value
+#[inline(always)]
+fn allocator_guard_restore(allocator_guard: bool) {
+    ALLOCATOR_GUARD.with(|ap| match ap.write() {
+        Ok(mut apw) => *apw = allocator_guard,
+        Err(_err) => {
+            e_err!("ALLOCATOR_GUARD.write() failed in allocator_guard_restore");
             std::process::exit(EXIT_ERR);
         }
     });
@@ -185,16 +210,19 @@ static ALLOCATOR_CURRENT: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_CALLS: AtomicUsize = AtomicUsize::new(0);
 
 lazy_static! {
-    /// Global map for tracking allocator call sites and their statistics. Only used if `ALLOCATOR_DO_TRACKING` is true.
+    /// Global map for tracking allocator call sites and their statistics.
     pub(super)static ref ALLOCATOR_TRACKING_MAP: RwLock<AllocatorDebugTrackingMap> =
         RwLock::new(AllocatorDebugTrackingMap::with_capacity(2056));
     /// Global table of all file names seen while resolving backtrace frames.
+    /// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
     pub(super) static ref ALLOCATOR_TRACKING_FILENAMES: RwLock<Vec<String>> =
         RwLock::new(Vec::with_capacity(100));
     /// Global table of all function names seen while resolving backtrace frames.
+    /// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
     pub(super) static ref ALLOCATOR_TRACKING_FUNCTIONS: RwLock<Vec<String>> =
         RwLock::new(Vec::with_capacity(100));
     /// Global table of all thread names seen while resolving backtrace frames.
+    /// Indexes to this table are saved in `ALLOCATOR_TRACKING_MAP`
     pub(super) static ref ALLOCATOR_TRACKING_THREADNAMES: RwLock<Vec<String>> =
         RwLock::new(Vec::with_capacity(50));
 
@@ -220,7 +248,7 @@ fn alloc_exit(mesg: &str, err: Option<&dyn std::error::Error>) -> ! {
         _ = stderr_lock.write(d.as_bytes());
     }
     _ = stderr_lock.write(b"\n");
-    drop(stderr_lock);
+    _ = stderr_lock.flush();
     std::process::exit(EXIT_ALLOC_ERR);
 }
 
@@ -270,224 +298,201 @@ pub struct AllocTrackerImpl;
 
 unsafe impl GlobalAlloc for AllocTrackerImpl {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        // update stats
         ALLOCATOR_CALLS.fetch_add(1, Ordering::Relaxed);
         let ret = unsafe {
             // do the actual allocation
             System.alloc(layout)
         };
-        // update stats again
-        let sz: usize = layout.size();
-        if !ret.is_null() {
-            ALLOCATOR_ALLOCATED.fetch_add(sz, Ordering::Relaxed);
-            ALLOCATOR_CURRENT.fetch_add(sz, Ordering::Relaxed);
-        } else {
-            let mut stderr_lock = std::io::stderr().lock();
-            _ = stderr_lock.write(b"System.alloc() failed");
-            _ = stderr_lock.flush();
-            drop(stderr_lock);
-            std::process::exit(EXIT_ALLOC_ERR);
+        if ret.is_null() {
+            alloc_exit("System.alloc() returned null", None);
         }
+        let sz: usize = layout.size();
+        ALLOCATOR_ALLOCATED.fetch_add(sz, Ordering::Relaxed);
+        ALLOCATOR_CURRENT.fetch_add(sz, Ordering::Relaxed);
 
-        let allocator_guard: bool = ALLOCATOR_GUARD.with(|ap|
-            match ap.read() {
-                Ok(ap) => *ap,
-                Err(err) => alloc_exit("ALLOCATOR_GUARD.read() failed", Some(&err)),
+        let allocator_guard_: bool = allocator_guard();
+        if ! allocator_guard_ {
+            return ret;
+        }
+        allocator_guard_disable();
+
+        ALLOCATOR_FMT_BUF.with(|ap| {
+            match ap.write() {
+                Ok(mut apw) => apw.clear(),
+                Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", Some(&err)),
             }
-        );
+        });
         let allocator_do_print: bool = ALLOCATOR_DO_PRINT.with(|ap|
             match ap.read() {
                 Ok(ap) => *ap,
                 Err(err) => alloc_exit("ALLOCATOR_DO_PRINT.read() failed", Some(&err)),
             }
         );
-        if allocator_guard {
-            ALLOCATOR_GUARD.with(|ap|
-                match ap.write() {
-                    Ok(mut apw) => *apw = false,
-                    Err(err) => alloc_exit("ALLOCATOR_GUARD.write() failed", Some(&err)),
+        let allocator_do_track: bool = ALLOCATOR_DO_TRACKING.with(|ap|
+            match ap.read() {
+                Ok(ap) => *ap,
+                Err(err) => alloc_exit("ALLOCATOR_DO_TRACKING.read() failed", Some(&err)),
+            }
+        );
+
+        let mut frames_skipped: usize = 0;
+        let mut frames_project: usize = 0;
+        let mut frame_tracked: bool = false;
+        ::backtrace::trace(|frame| {
+            ::backtrace::resolve_frame(frame, |symbol| {
+                match symbol.filename_raw() {
+                    Some(filename) => {
+                        if ! filename.to_str_lossy().starts_with(PROJECT_ROOT_SRC.as_str()) {
+                            // this frame is not project source code, skip it
+                            frames_skipped += 1;
+                            return;
+                        }
+                    }
+                    None => return,
                 }
+                frames_project += 1;
+                if frames_project < 3 {
+                    // skip first two frames which always refer to this allocator code and the backtrace code
+                    return;
+                }
+                if allocator_do_print {
+                    // accumulate info to print about this frame in the thread-local buffer
+                    ALLOCATOR_FMT_BUF.with(|ap| {
+                        match ap.write() {
+                            Ok(mut apw) => {
+                                _ = apw.append_bytes(b"  frame: ");
+                                let ip = frame.ip();
+                                _ = apw.append_bytes(format!("ip={:?}", ip).as_bytes());
+                                let sp = frame.sp();
+                                _ = apw.append_bytes(format!(" sp={:?}", sp).as_bytes());
+                                let symbol_address = frame.symbol_address();
+                                _ = apw.append_bytes(format!(" symbol_address=@{:?}", symbol_address).as_bytes());
+                                let module_base_address = frame.module_base_address();
+                                if module_base_address.is_some() {
+                                    _ = apw.append_bytes(format!(" module_base_address=@{:?}", module_base_address).as_bytes());
+                                }
+                                _ = apw.append_bytes(b"\n");
+                                if let Some(name) = symbol.name() {
+                                    _ = apw.append_bytes(b"         name=");
+                                    let demangled_name = demangle_name(&name);
+                                    _ = apw.append_bytes(demangled_name.as_bytes());
+                                    _ = apw.append_bytes(b"\n");
+                                }
+                                let mut nl = false;
+                                if let Some(filename) = symbol.filename_raw() {
+                                    _ = apw.append_bytes(b"         filename=");
+                                    _ = apw.append_bytes(filename.to_str_lossy().as_bytes());
+                                    nl = true;
+                                }
+                                if let Some(lineno) = symbol.lineno() {
+                                    _ = apw.append_bytes(format!("  lineno={}", lineno).as_bytes());
+                                    nl = true;
+                                }
+                                if let Some(colno) = symbol.colno() {
+                                    _ = apw.append_bytes(format!("  colno={}", colno).as_bytes());
+                                    nl = true;
+                                }
+                                if nl {
+                                    _ = apw.append_bytes(b"\n");
+                                }
+                            }
+                            Err(_err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", None),
+                        }
+                    });
+                }
+                if allocator_do_track && !frame_tracked {
+                    // only track this frame, which should be the last frame of control from this
+                    // project's source code into some other module's code.
+                    frame_tracked = true;
+                    ALLOCATOR_ALLOCATED_TRACKED_FRAME.fetch_add(sz, Ordering::Relaxed);
+                    // track this allocation call site in the thread-local map
+                    let mut apw = match ALLOCATOR_TRACKING_MAP.write() {
+                        Ok(apw) => apw,
+                        Err(err) => alloc_exit("ALLOCATOR_TRACKING_MAP.write() failed", Some(&err)),
+                    };
+                    let filename: String = symbol.filename_raw().map(|f| f.to_str_lossy().to_string()).unwrap_or_else(|| "<unknown>".to_string());
+                    let function: String = match symbol.name() {
+                        Some(name) => demangle_name(&name),
+                        None => "<unknown>".to_string(),
+                    };
+                    let filename_idx: usize = tracking_filename_index(&filename);
+                    let function_idx: usize = tracking_function_index(&function);
+                    let lineno: u32 = symbol.lineno().unwrap_or(0);
+                    let colno: u32 = symbol.colno().unwrap_or(0);
+                    let tid = ALLOCATOR_TID.with(|ap| *ap);
+                    let threadname = ALLOCATOR_TNAME.with(|ap| ap.clone());
+                    let threadname_idx: usize = tracking_threadname_index(&threadname);
+                    let key: AllocatorDebugTrackingKey = (filename_idx, function_idx, lineno, colno, threadname_idx, tid);
+                    let mut filename_slice = filename.as_str();
+                    // remove leading project root from file path to make it more readable
+                    let pr_str = (*PROJECT_ROOT).as_str();
+                    if let Some(i) = filename_slice.find(pr_str) {
+                        filename_slice = &filename_slice[i + pr_str.len()..];
+                    };
+                    ALLOCATOR_FMT_BUF.with(|ap| {
+                        match ap.write() {
+                            Ok(mut apw) => {
+                                _ = apw.append_bytes(
+                                    format!("           tracked allocation call site:\n             {}:{}:{}  [{}]\n             thread [{}]: {}\n",
+                                        filename_slice, key.2, key.3, function, key.5, threadname
+                                        ).as_bytes()
+                                );
+                            }
+                            Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", Some(&err)),
+                        }
+                    });
+                    let value: &mut AllocatorDebugTrackingValue = apw.entry(key).or_insert((0, 0));
+                    ALLOCATOR_FMT_BUF.with(|ap| {
+                        match ap.write() {
+                            Ok(mut apw) => {
+                                _ = apw.append_bytes(
+                                    format!(
+                                        "               {:>8} allocations, {:>10} bytes\n", value.0, value.1
+                                    ).as_bytes()
+                                );
+                            }
+                            Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", Some(&err)),
+                        }
+                    });
+                    value.0 += 1;
+                    value.1 += sz;
+                }
+            });
+
+            // `true` means continue to next frame, else stop bracktrace traversal.
+            allocator_do_print || (allocator_do_track && !frame_tracked)
+        });
+        if allocator_do_print {
+            let mut buf = FmtBuf::<256>::new();
+            let a = ALLOCATOR_ALLOCATED.load(Ordering::Relaxed);
+            let tid = ALLOCATOR_TID.with(|ap| *ap);
+            _ = core::fmt::write(
+                &mut buf,
+                format_args!(
+                    "system_alloc_debug: (TID {}) @{:?} sz={:2} align={:2} total_allocated={}\n",
+                    tid, ret, sz, layout.align(), a,
+                )
             );
+            let mut stderr_lock = std::io::stderr().lock();
+            _ = stderr_lock.write(&buf.as_bytes());
+            ALLOCATOR_FMT_BUF.with(|ap| {
+                match ap.read() {
+                    Ok(ap) => _ = stderr_lock.write(ap.as_bytes()),
+                    Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.read() failed", Some(&err)),
+                }
+            });
+            _ = stderr_lock.flush();
+            drop(stderr_lock);
             ALLOCATOR_FMT_BUF.with(|ap| {
                 match ap.write() {
                     Ok(mut apw) => apw.clear(),
                     Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", Some(&err)),
                 }
             });
-            let allocator_do_track: bool = ALLOCATOR_DO_TRACKING.with(|ap|
-                match ap.read() {
-                    Ok(ap) => *ap,
-                    Err(err) => alloc_exit("ALLOCATOR_DO_TRACKING.read() failed", Some(&err)),
-                }
-            );
-
-            let mut frames_skipped: usize = 0;
-            let mut frames_project: usize = 0;
-            let mut frame_tracked: bool = false;
-            ::backtrace::trace(|frame| {
-                ::backtrace::resolve_frame(frame, |symbol| {
-                    match symbol.filename_raw() {
-                        Some(filename) => {
-                            if ! filename.to_str_lossy().starts_with(PROJECT_ROOT_SRC.as_str()) {
-                                // this frame is not project source code, skip it
-                                frames_skipped += 1;
-                                return;
-                            }
-                        }
-                        None => return,
-                    }
-                    frames_project += 1;
-                    if frames_project < 3 {
-                        // skip first two frames which always refer to this allocator code and the backtrace code
-                        return;
-                    }
-                    if allocator_do_print {
-                        // accumulate info to print about this frame in the thread-local buffer
-                        ALLOCATOR_FMT_BUF.with(|ap| {
-                            match ap.write() {
-                                Ok(mut apw) => {
-                                    _ = apw.append_bytes(b"  frame: ");
-                                    let ip = frame.ip();
-                                    _ = apw.append_bytes(format!("ip={:?}", ip).as_bytes());
-                                    let sp = frame.sp();
-                                    _ = apw.append_bytes(format!(" sp={:?}", sp).as_bytes());
-                                    let symbol_address = frame.symbol_address();
-                                    _ = apw.append_bytes(format!(" symbol_address=@{:?}", symbol_address).as_bytes());
-                                    let module_base_address = frame.module_base_address();
-                                    if module_base_address.is_some() {
-                                        _ = apw.append_bytes(format!(" module_base_address=@{:?}", module_base_address).as_bytes());
-                                    }
-                                    _ = apw.append_bytes(b"\n");
-                                    if let Some(name) = symbol.name() {
-                                        _ = apw.append_bytes(b"         name=");
-                                        let demangled_name = demangle_name(&name);
-                                        _ = apw.append_bytes(demangled_name.as_bytes());
-                                        _ = apw.append_bytes(b"\n");
-                                    }
-                                    let mut nl = false;
-                                    if let Some(filename) = symbol.filename_raw() {
-                                        _ = apw.append_bytes(b"         filename=");
-                                        _ = apw.append_bytes(filename.to_str_lossy().as_bytes());
-                                        nl = true;
-                                    }
-                                    if let Some(lineno) = symbol.lineno() {
-                                        _ = apw.append_bytes(format!("  lineno={}", lineno).as_bytes());
-                                        nl = true;
-                                    }
-                                    if let Some(colno) = symbol.colno() {
-                                        _ = apw.append_bytes(format!("  colno={}", colno).as_bytes());
-                                        nl = true;
-                                    }
-                                    if nl {
-                                        _ = apw.append_bytes(b"\n");
-                                    }
-                                }
-                                Err(_err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", None),
-                            }
-                        });
-                    }
-                    if allocator_do_track && !frame_tracked {
-                        // only track this frame, which should be the last frame of control from this
-                        // project's source code into some other module's code.
-                        frame_tracked = true;
-                        ALLOCATOR_ALLOCATED_TRACKED_FRAME.fetch_add(sz, Ordering::Relaxed);
-                        // track this allocation call site in the thread-local map
-                        let mut apw = match ALLOCATOR_TRACKING_MAP.write() {
-                            Ok(apw) => apw,
-                            Err(err) => alloc_exit("ALLOCATOR_TRACKING_MAP.write() failed", Some(&err)),
-                        };
-                        let filename: String = symbol.filename_raw().map(|f| f.to_str_lossy().to_string()).unwrap_or_else(|| "<unknown>".to_string());
-                        let function: String = match symbol.name() {
-                            Some(name) => demangle_name(&name),
-                            None => "<unknown>".to_string(),
-                        };
-                        let filename_idx: usize = tracking_filename_index(&filename);
-                        let function_idx: usize = tracking_function_index(&function);
-                        let lineno: u32 = symbol.lineno().unwrap_or(0);
-                        let colno: u32 = symbol.colno().unwrap_or(0);
-                        let tid = ALLOCATOR_TID.with(|ap| *ap);
-                        let threadname = ALLOCATOR_TNAME.with(|ap| ap.clone());
-                        let threadname_idx: usize = tracking_threadname_index(&threadname);
-                        let key: AllocatorDebugTrackingKey = (filename_idx, function_idx, lineno, colno, threadname_idx, tid);
-                        let mut filename_slice = filename.as_str();
-                        // remove leading project root from file path to make it more readable
-                        let pr_str = (*PROJECT_ROOT).as_str();
-                        if let Some(i) = filename_slice.find(pr_str) {
-                            filename_slice = &filename_slice[i + pr_str.len()..];
-                        };
-                        ALLOCATOR_FMT_BUF.with(|ap| {
-                            match ap.write() {
-                                Ok(mut apw) => {
-                                    _ = apw.append_bytes(
-                                        format!("           tracked allocation call site:\n             {}:{}:{}  [{}]\n             thread [{}]: {}\n",
-                                            filename_slice, key.2, key.3, function, key.5, threadname
-                                            ).as_bytes()
-                                    );
-                                }
-                                Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", Some(&err)),
-                            }
-                        });
-                        let value: &mut AllocatorDebugTrackingValue = apw.entry(key).or_insert((0, 0));
-                        ALLOCATOR_FMT_BUF.with(|ap| {
-                            match ap.write() {
-                                Ok(mut apw) => {
-                                    _ = apw.append_bytes(
-                                        format!(
-                                            "               {:>8} allocations, {:>10} bytes\n", value.0, value.1
-                                        ).as_bytes()
-                                    );
-                                }
-                                Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", Some(&err)),
-                            }
-                        });
-                        value.0 += 1;
-                        value.1 += sz;
-                    }
-                });
-
-                // `true` means continue to next frame, else stop bracktrace traversal.
-                allocator_do_print || (allocator_do_track && !frame_tracked)
-            });
-
-            ALLOCATOR_GUARD.with(|ap|
-                match ap.write() {
-                    Ok(mut ap) => *ap = allocator_guard,
-                    Err(err) => alloc_exit("ALLOCATOR_GUARD.write() failed", Some(&err)),
-                }
-            );
-        } // allocator_guard
-
-        // print debug info
-        if allocator_guard {
-            if allocator_do_print {
-                let mut buf = FmtBuf::<256>::new();
-                let a = ALLOCATOR_ALLOCATED.load(Ordering::Relaxed);
-                let tid = ALLOCATOR_TID.with(|ap| *ap);
-                _ = core::fmt::write(
-                    &mut buf,
-                    format_args!(
-                        "system_alloc_debug: (TID {}) @{:?} sz={:2} align={:2} total_allocated={}\n",
-                        tid, ret, sz, layout.align(), a,
-                    )
-                );
-                let mut stderr_lock = std::io::stderr().lock();
-                _ = stderr_lock.write(&buf.as_bytes());
-                ALLOCATOR_FMT_BUF.with(|ap| {
-                    match ap.read() {
-                        Ok(ap) => _ = stderr_lock.write(ap.as_bytes()),
-                        Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.read() failed", Some(&err)),
-                    }
-                });
-                _ = stderr_lock.flush();
-                drop(stderr_lock);
-                ALLOCATOR_FMT_BUF.with(|ap| {
-                    match ap.write() {
-                        Ok(mut apw) => apw.clear(),
-                        Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", Some(&err)),
-                    }
-                });
-            }
         }
+
+        // restore the guard
+        allocator_guard_restore(allocator_guard_);
 
         ret
     }
@@ -576,16 +581,16 @@ pub fn print_tracking_map() {
     let allocator_allocated_tracked_frame = ALLOCATOR_ALLOCATED_TRACKED_FRAME.load(Ordering::Relaxed);
     let allocator_current = ALLOCATOR_CURRENT.load(Ordering::Relaxed);
     let allocator_calls = ALLOCATOR_CALLS.load(Ordering::Relaxed);
-    eprintln!("call sites tracked: {} (rows in the table above)", entry_len);
+    eprintln!("call sites tracked: {:>14} (rows in the table above)", entry_len);
     eprintln!("total allocated   : {:>14}", allocator_allocated.separate_with_commas());
     eprintln!("total deallocated : {:>14}", allocator_deallocated.separate_with_commas());
     eprintln!("total difference  : {:>14}",
         (allocator_allocated as isize - allocator_deallocated as isize).separate_with_commas());
     eprintln!("current allocated : {:>14}", allocator_current.separate_with_commas());
-    eprintln!("total allocation calls: {}", allocator_calls.separate_with_commas());
-    eprintln!("total allocated in tracked frames     : {:>14}",
+    eprintln!("total allocation calls: {:>10}", allocator_calls.separate_with_commas());
+    eprintln!("total allocated in tracked frames     : {:>12}",
         allocator_allocated_tracked_frame.separate_with_commas());
-    eprintln!("total allocated outside tracked frames: {:>14}",
+    eprintln!("total allocated outside tracked frames: {:>12}",
         (allocator_allocated - allocator_allocated_tracked_frame).separate_with_commas());
 
     let regex_captures = ::s4lib::data::datetime::REGEX_CAPTURES.load(Ordering::Relaxed);
