@@ -111,7 +111,7 @@ jobs:
           git config --global core.protectNTFS false
       - uses: actions/checkout@v6
       - run: rustup toolchain install ${{ matrix.msrv }} --profile minimal
-      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile release
+      - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile release
         shell: bash
         run: |
           set -eux
@@ -121,21 +121,21 @@ jobs:
           cargo build --locked
           cargo build --locked --profile release
           ./target/release/s4 --version
-      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile mimalloc
+      - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile mimalloc
         shell: bash
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
           cargo build --locked --profile mimalloc --features mimalloc
           ./target/mimalloc/s4 --version
-      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile rpmalloc
+      - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile rpmalloc
         shell: bash
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
           cargo build --locked --profile rpmalloc --features rpmalloc
           ./target/rpmalloc/s4 --version
-      - name: Build using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile jemalloc
+      - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile jemalloc
         shell: bash
         # jemalloc builds fails on github Windows
         if: ${{ matrix.os != 'windows-latest' }}
@@ -145,7 +145,7 @@ jobs:
           cargo build --locked --profile jemalloc --features jemalloc
           ./target/jemalloc/s4 --version
       # skip tcmalloc as it requires too particular installed libraries
-      - name: Build and run using rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile alloc_tracker
+      - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile alloc_tracker
         shell: bash
         run: |
           set -eux
