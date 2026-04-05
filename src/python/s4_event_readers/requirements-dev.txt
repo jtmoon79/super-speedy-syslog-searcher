@@ -67,7 +67,7 @@ pyproject-hooks==1.2.0
     # via
     #   build
     #   pip-tools
-pytokens==0.3.0
+pytokens==0.4.0
     # via black
 tomli==2.3.0
     # via
