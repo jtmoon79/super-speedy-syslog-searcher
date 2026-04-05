@@ -14,6 +14,11 @@ set -euo pipefail
 
 cd "$(dirname -- "${0}")/.."
 
+if [[ ! "${DIROUT+x}" ]]; then
+    echo "Must set DIROUT environment variable" >&2
+    exit 1
+fi
+
 export DIROUT=${DIROUT-.}
 
 if [[ ! "${VIRTUAL_ENV+x}" ]]; then
@@ -41,6 +46,11 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
     cargo build --locked --profile mimalloc --features mimalloc
     cargo build --locked --profile rpmalloc --features rpmalloc
     cargo build --locked --profile tcmalloc --features tcmalloc
+)
+
+(
+    set -x
+    ./tools/s4-alloc_trackers.sh
 )
 
 (
