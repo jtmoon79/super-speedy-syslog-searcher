@@ -182,6 +182,10 @@ lto = false
 panic = "unwind"
 split-debuginfo = "unpacked"
 strip = false
+# TRACKING: https://github.com/rust-lang/cargo/issues/10271
+#           uncomment `rustflags` when feature `profile-rustflags` is stabilized
+#           see https://doc.rust-lang.org/nightly/cargo/reference/unstable.html#profile-rustflags-option
+# rustflags = ["-g"]
 
 [profile.valgrind]
 inherits = "release"
