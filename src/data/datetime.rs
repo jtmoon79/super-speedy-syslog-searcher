@@ -36,10 +36,6 @@
 use std::convert::TryFrom; // for passing array slices as references
 use std::fmt;
 use std::sync::RwLock;
-use std::sync::atomic::{
-    AtomicUsize,
-    Ordering::Relaxed,
-};
 #[cfg(any(debug_assertions, test))]
 use std::thread;
 use std::time::Duration as StdDuration;
@@ -186,15 +182,6 @@ pub(crate) const YEAR_FALLBACKDUMMY_VAL: i32 = 1972;
 ///      year but it is not guaranteed. It depends on the file modified time
 ///      (i.e. [`blockreader.mtime()`](BlockReader)) being true.
 const YEAR_FALLBACKDUMMY: &str = "1972";
-
-/// Calls to `regex::bytes::Regex::new`.
-// XXX: overlaps with `DateTimeParseDatasCompiledCount`
-//      only used during `alloc_tracker`
-pub static REGEX_CREATED: AtomicUsize = AtomicUsize::new(0);
-/// Calls to `regex::bytes::Regex::captures`.
-// XXX: overlaps with `syslinereader_regex_captures_attempted`
-//      only used during `alloc_tracker`
-pub static REGEX_CAPTURES: AtomicUsize = AtomicUsize::new(0);
 
 /// Convert a `T` to a [`SystemTime`].
 ///
@@ -6495,7 +6482,6 @@ pub fn bytes_to_regex_to_datetime(
                 );
             }
             let regex_: DateTimeRegex = DateTimeRegex::new(regex_pattern).unwrap();
-            REGEX_CREATED.fetch_add(1, Relaxed);
 
             Ok(regex_)
         }
@@ -6508,8 +6494,6 @@ pub fn bytes_to_regex_to_datetime(
             return None;
         }
     };
-
-    REGEX_CAPTURES.fetch_add(1, Relaxed);
 
     // The regular expression matching call. According to `tools/flamegraph.sh`
     // this is a very expensive function call.
