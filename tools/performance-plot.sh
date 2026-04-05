@@ -40,6 +40,7 @@ hyperfine=$(which hyperfine) || {
 }
 (set -x; hyperfine --version)
 
+# check for xmllint
 which xmllint &>/dev/null || {
     echo "ERROR: xmllint not found in PATH" >&2
     echo "install:" >&2
