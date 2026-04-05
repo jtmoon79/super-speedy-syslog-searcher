@@ -2,7 +2,7 @@
 #
 # run `cargo test` with code coverage report with llvm
 #
-# instructions from https://doc.rust-lang.org/rustc/instrument-coverage.html
+# instructions from https://doc.rust-lang.org/1.64.0/rustc/instrument-coverage.html
 
 set -eu
 

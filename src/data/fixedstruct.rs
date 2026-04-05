@@ -2380,7 +2380,7 @@ pub type FixedStructDynPtr = Box<dyn FixedStructTrait>;
 ///
 /// `std::marker::Sync` required for `lazy_static!`
 ///
-/// See <https://doc.rust-lang.org/reference/items/traits.html#object-safety>
+/// See <https://doc.rust-lang.org/1.66.0/reference/items/traits.html#object-safety>
 pub trait FixedStructTrait
 where Self: Send,
       Self: std::marker::Sync,

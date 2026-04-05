@@ -5725,7 +5725,7 @@ fn processing_loop(
             // by datetime.
             // In case of tie datetime values, the tie-breaker will be order of `BTreeMap::iter_mut`
             // which iterates in order of key sort.
-            // https://doc.rust-lang.org/stable/std/collections/struct.BTreeMap.html#method.iter_mut
+            // https://doc.rust-lang.org/1.66.0/std/collections/struct.BTreeMap.html#method.iter_mut
             //
             // XXX: my small investigation into `min`, `max`, `min_by`, `max_by`
             //      https://play.rust-lang.org/?version=stable&mode=debug&edition=2018&gist=a6d307619a7797b97ef6cfc1635c3d33

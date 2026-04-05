@@ -1056,7 +1056,7 @@ pub struct DateTimeParseInstr<'a> {
     /// (assuming the `regex_pattern` is correct).
     ///
     /// Attempting a `Regex` match on a smaller subset slice of a `Line`,
-    /// instead of the entire `Line`, can significantly improve run-time
+    /// instead of the entire `Line`, may improve run-time
     /// performance.
     ///
     /// [`Line`]: crate::data::line::Line
@@ -8208,7 +8208,7 @@ const fn slice_contains_99_2(
 /// Runs very fast according to benches in `src/benches/slice_contains.rs`.
 ///
 /// [`unroll`]: https://docs.rs/unroll/0.1.5/unroll/index.html
-/// [`slice.contains`]: https://doc.rust-lang.org/std/primitive.slice.html#method.contains
+/// [`slice.contains`]: https://doc.rust-lang.org/1.66.0/std/primitive.slice.html#method.contains
 //
 // slice index values for the `DTPD!` declarations can be reviewed with:
 //

@@ -47,7 +47,7 @@ exclude = [
     "rustfmt.toml",
 ]
 # TODO: need to create build script to rebuild if `src/python/s4_event_readers` changes
-#       see https://doc.rust-lang.org/cargo/reference/build-scripts.html#rerun-if-changed
+#       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
 
 [dependencies]
 anyhow = "=1.0.102"
@@ -164,7 +164,7 @@ alloc_tracker = ["dep:backtrace", "dep:project-root", "dep:rustc-demangle", "dep
 
 # release build optimizations
 # from https://github.com/johnthagen/min-sized-rust
-# also see https://doc.rust-lang.org/cargo/reference/profiles.html
+# also see https://doc.rust-lang.org/1.66.0/cargo/reference/profiles.html
 [profile.release]
 codegen-units = 1
 panic = "abort"

@@ -556,8 +556,8 @@ pub struct SummaryBlockReader {
 /// The rust built-in [`u32::from_be_bytes`] and [`u32::from_le_bytes`] failed
 /// for test file compressed with GNU gzip 1.10.
 ///
-/// [`u32::from_be_bytes`]: https://doc.rust-lang.org/std/primitive.u32.html#method.from_be_bytes
-/// [`u32::from_le_bytes`]: https://doc.rust-lang.org/std/primitive.u32.html#method.from_le_bytes
+/// [`u32::from_be_bytes`]: https://doc.rust-lang.org/1.66.0/std/primitive.u32.html#method.from_be_bytes
+/// [`u32::from_le_bytes`]: https://doc.rust-lang.org/1.66.0/std/primitive.u32.html#method.from_le_bytes
 const fn dword_to_u32(buf: &[u8; 4]) -> u32 {
     let mut buf_: [u8; 4] = [0; 4];
     buf_[0] = buf[3];
