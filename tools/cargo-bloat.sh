@@ -2,10 +2,18 @@
 #
 # run `cargo bloat` with preferred options
 #
+# install with:
+#    cargo install --locked cargo-bloat
+#
 
 set -eu
 
 DIROUT=${DIROUT-.}
+
+(
+    set -x
+    cargo bloat --version
+)
 
 export OUT="${DIROUT}/bloat.txt"
 (
