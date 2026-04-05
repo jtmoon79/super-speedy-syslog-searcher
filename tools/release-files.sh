@@ -66,6 +66,16 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
 (
     set -x
+    ./tools/performance-plots.sh
+)
+
+(
+    set -x
+    ./tools/osv-scanner.sh --format=markdown --output="${DIROUT}/osv-scanner.md"
+)
+
+(
+    set -x
     RUSTFLAGS=-g cargo build --profile valgrind
     ./tools/valgrind-callgrind.sh > "${DIROUT}/callgrind.txt"
 )
