@@ -7,13 +7,23 @@ set -euo pipefail
 
 if [[ $# -lt 1 ]]; then
     echo "Usage: ${0} <file> [...]" >&2
+    echo >&2
+    echo "Compress the passed file with the various compression and archive tools." >&2
     exit 1
 fi
+
+for tool in bzip2 gzip lzip lz4c lzop xz zstd zip tar; do
+    if ! command -v "${tool}" &>/dev/null 2>&1; then
+        echo "WARNING: ${tool} not found in the PATH." >&2
+        sleep 0.5
+    fi
+done
 
 echo '# BZ2'
 echo
 echo
 
+# compress
 (
     set -x
     bzip2 -zf9kvv -- "${@}"
@@ -21,6 +31,7 @@ echo
 
 echo
 
+# check results
 for file in "${@}"; do
     if [[ -f "${file}.bz2" ]]; then
         (
@@ -36,6 +47,7 @@ echo '# GZIP'
 echo
 echo
 
+# compress
 (
     set -x
     gzip -f9kvv -- "${@}"
@@ -43,6 +55,7 @@ echo
 
 echo
 
+# check results
 for file in "${@}"; do
     (
         set -x
@@ -56,6 +69,7 @@ echo '# LZ'
 echo
 echo
 
+# compress
 (
     set -x
     lzip -f9kvv -- "${@}"
@@ -63,6 +77,7 @@ echo
 
 echo
 
+# check results
 for file in "${@}"; do
     (
         set -x
@@ -76,6 +91,7 @@ echo '# LZ4'
 echo
 echo
 
+# compress
 for file in "${@}"; do
     (
         set -x
@@ -87,6 +103,7 @@ done
 
 echo
 
+# check results
 for file in "${@}"; do
     (
         set -x
@@ -101,6 +118,7 @@ echo '# LZOP'
 echo
 echo
 
+# compress
 for file in "${@}"; do
     (
         set -x
@@ -111,6 +129,7 @@ done
 
 echo
 
+# check results
 for file in "${@}"; do
     (
         set -x
@@ -125,6 +144,7 @@ echo '# XZ'
 echo
 echo
 
+# compress
 (
     set -x
     xz -zfkve -T0 -- "${@}"
@@ -132,6 +152,7 @@ echo
 
 echo
 
+# check results
 for file in "${@}"; do
     (
         set -x
@@ -146,6 +167,7 @@ echo '# ZSTD'
 echo
 echo
 
+# compress
 (
     set -x
     zstd -f19kvv -- "${@}"
@@ -153,6 +175,7 @@ echo
 
 echo
 
+# check results
 for file in "${@}"; do
     (
         set -x
@@ -166,6 +189,7 @@ echo '# ZIP'
 echo
 echo
 
+# compress
 zip_dir=$(dirname -- "${1}")
 zip_out=''
 for file in "${@}"; do
@@ -179,6 +203,7 @@ zip_out="${zip_dir}/${zip_out#_}.zip"
 
 echo
 
+# check results
 (
     set -x
     zipinfo -vl -- "${zip_out}"
@@ -195,6 +220,8 @@ echo '# TAR'
 echo
 echo
 
+# compress
+# create multiple types of compressed tar files
 tar_dir=$(dirname -- "${1}")
 tar_out=''
 for file in "${@}"; do
@@ -233,6 +260,7 @@ done
 
 echo
 
+# check results
 for tar in "${tar_out}" "${tar_gz_out}" "${tar_lz_out}" "${tar_lzo_out}" "${tar_xz_out}"; do
     (
         set -x
