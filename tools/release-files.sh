@@ -26,17 +26,6 @@ if [[ ! "${VIRTUAL_ENV+x}" ]]; then
     exit 1
 fi
 
-function clean_file () {
-    # remove specific names from the passed file path $1
-    sed -i \
-        -e "s|$(realpath .)|.|g" \
-        -e "s|${HOME}|/home|g" \
-        -e "s|$(hostname)|host|g" \
-        -e "s|${USER}|user|g" \
-        -- \
-        "${1}"
-}
-
 sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
 (
@@ -80,14 +69,14 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
     ./tools/valgrind-callgrind.sh > "${DIROUT}/callgrind.txt"
 )
 rm -v "${DIROUT}/callgrind.out" "${DIROUT}/callgrind.dot" || true
-clean_file "${DIROUT}/callgrind.txt"
+./scripts/clean-file.sh "${DIROUT}/callgrind.txt"
 
 (
     set -x
     ./tools/valgrind-massif.sh > "${DIROUT}/massif.txt"
 )
 rm -v "${DIROUT}/massif.out" || true
-clean_file "${DIROUT}/massif.txt"
+./scripts/clean-file.sh "${DIROUT}/massif.txt"
 
 (
     set -x
@@ -118,10 +107,10 @@ clean_file "${DIROUT}/massif.txt"
     export PROGRAM=./target/mimalloc/s4
     ./tools/compare-grep-sort.sh &> "${DIROUT}/compare-grep-sort.txt"
 )
-clean_file "${DIROUT}/compare-grep-sort.txt"
+./scripts/clean-file.sh "${DIROUT}/compare-grep-sort.txt"
 
 (
     set -x
     ./tools/compare-log-mergers/compare-log-mergers.sh --skip-tl &> "${DIROUT}/compare-log-mergers.txt"
 )
-clean_file "${DIROUT}/compare-log-mergers.txt"
+./scripts/clean-file.sh "${DIROUT}/compare-log-mergers.txt"
