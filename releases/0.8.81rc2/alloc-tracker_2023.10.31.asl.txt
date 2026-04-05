@@ -1,0 +1,133 @@
++ exec env S4_ALLOC_TRACKER_PRINT= S4_ALLOC_TRACKER_TRACKING=1 cargo run --quiet --profile alloc_tracker --features alloc_tracker -- ./logs/MacOS11/DiagnosticMessages/2023.10.31.asl
+File                                     |  Line:Col |  ID:Name (thread)    | Function                                                                                             | Allocations |         Bytes
+src/s4/s4.rs                             |  3387: 16 |   1:main             | s4::s4::cli_process_args::h5b76c099812ee6ae                                                          |         208 |        25,493
+src/python/pyrunner.rs                   |  1105: 23 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::write_read::h5e6975ed3af3114d                                     |         193 |        24,704
+src/s4/s4.rs                             |  5254: 53 |   1:main             | s4::s4::processing_loop::recv_many_chan::hc4a7f93743b85011                                           |         193 |        24,704
+src/python/pyrunner.rs                   |  1171: 60 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::write_read::h5e6975ed3af3114d                                     |         191 |        88,331
+src/readers/pyeventreader.rs             |   567: 13 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::process_bytes_to_pydataevent::h6e1addc763d1d476        |         191 |        84,320
+src/readers/pyeventreader.rs             |   593: 32 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::ts_data_to_datetime::hc10ac6052571fb41                 |         191 |         1,910
+src/readers/pyeventreader.rs             |   499: 30 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::process_bytes_to_pydataevent::h6e1addc763d1d476        |         191 |           382
+src/readers/pyeventreader.rs             |   494: 30 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::process_bytes_to_pydataevent::h6e1addc763d1d476        |         191 |           191
+src/s4/s4.rs                             |  2489: 10 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |          52 |        48,546
+src/readers/pyeventreader.rs             |   635: 36 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::next::he2850e3ce1fc20b1                                |          38 |           304
+src/readers/pyeventreader.rs             |   638: 30 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::next::he2850e3ce1fc20b1                                |          38 |           132
+src/python/pyrunner.rs                   |   795: 22 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |          18 |           903
+src/python/pyrunner.rs                   |   370: 30 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PipeStreamReader::new::h3867670e11e797fe                                    |          10 |           592
+src/python/pyrunner.rs                   |   818: 23 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           9 |           152
+src/s4/s4.rs                             |  3732:  5 |   1:main             | s4::s4::set_signal_handler::hc66c30077e27624e                                                        |           6 |           173
+src/s4/s4.rs                             |  5169: 15 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           5 |           279
+src/python/pyrunner.rs                   |   350: 13 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PipeStreamReader::new::h3867670e11e797fe                                    |           4 |         1,792
+src/s4/s4.rs                             |   343: 13 |   1:main             | s4::s4::LOCAL_NOW::__init::{{closure}}::h36c0d9af8bbced3c                                            |           3 |         5,924
+src/python/pyrunner.rs                   |  1127: 24 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::write_read::h5e6975ed3af3114d                                     |           3 |           240
+src/s4/s4.rs                             |  5165: 13 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           2 |         3,720
+src/python/pyrunner.rs                   |   365: 21 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PipeStreamReader::new::h3867670e11e797fe                                    |           2 |         1,024
+src/s4/s4.rs                             |  2818: 16 |   1:main             | s4::s4::cli_process_blocksz::h72e228251617218e                                                       |           2 |           156
+src/s4/s4.rs                             |  5283: 59 |   1:main             | s4::s4::processing_loop::recv_many_chan::hc4a7f93743b85011                                           |           2 |           144
+src/python/pyrunner.rs                   |   359: 28 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PipeStreamReader::new::h3867670e11e797fe                                    |           2 |           112
+src/s4/s4.rs                             |  5155: 13 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           2 |            96
+src/python/pyrunner.rs                   |   354: 43 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PipeStreamReader::new::h3867670e11e797fe                                    |           2 |            68
+src/python/pyrunner.rs                   |   367: 63 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PipeStreamReader::new::h3867670e11e797fe                                    |           2 |            46
+src/python/pyrunner.rs                   |   355: 45 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PipeStreamReader::new::h3867670e11e797fe                                    |           2 |            46
+src/s4/s4.rs                             |  5112: 34 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |         2,388
+src/printer/printers.rs                  |   784: 21 |   1:main             | s4lib::printer::printers::PrinterLogMessage::new::h477ff899b31f250b                                  |           1 |         2,056
+src/s4/s4.rs                             |  5448: 29 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |         1,248
+src/printer/printers.rs                  |   750: 22 |   1:main             | s4lib::printer::printers::PrinterLogMessage::new::h477ff899b31f250b                                  |           1 |         1,024
+src/s4/s4.rs                             |  5329: 34 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           884
+src/readers/pyeventreader.rs             |   439: 26 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::new::h88b8940d15018c90                                 |           1 |           512
+src/s4/s4.rs                             |  5027: 17 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           368
+src/s4/s4.rs                             |  5167:  9 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           280
+src/s4/s4.rs                             |  4912: 34 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           276
+src/s4/s4.rs                             |  3669: 51 |   1:main             | s4::s4::main::hf8d09a3b45e7feb1                                                                      |           1 |           224
+src/python/pyrunner.rs                   |   816: 37 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           1 |           216
+src/readers/pyeventreader.rs             |   413:  9 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::new::h88b8940d15018c90                                 |           1 |           160
+src/s4/s4.rs                             |  4918: 49 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           148
+src/python/pyrunner.rs                   |   767: 36 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           1 |           144
+src/s4/s4.rs                             |  4920: 40 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           116
+src/s4/s4.rs                             |  2529: 12 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::FromArgMatches>::from_arg_matches_mut::{{closure}}::ha6bc967a9eab3dea |           1 |            96
+src/readers/filepreprocessor.rs          |  1137: 22 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            94
+src/s4/s4.rs                             |  5122: 28 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
+src/s4/s4.rs                             |  4937: 41 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
+src/s4/s4.rs                             |  4933: 44 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
+src/s4/s4.rs                             |  5110: 32 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
+src/s4/s4.rs                             |  4935: 35 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
+src/readers/pyeventreader.rs             |   406: 24 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::new::h88b8940d15018c90                                 |           1 |            80
+src/python/pyrunner.rs                   |   259: 25 |   3:2023.10.31.asl   | s4lib::python::pyrunner::find_python_executable::{{closure}}::h7423375e4efc4e6f                      |           1 |            58
+src/readers/filepreprocessor.rs          |  1167: 53 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            56
+src/s4/s4.rs                             |  5627: 62 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            52
+src/s4/s4.rs                             |  5319: 26 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            52
+src/s4/s4.rs                             |  5335: 52 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            52
+src/python/pyrunner.rs                   |   255: 25 |   3:2023.10.31.asl   | s4lib::python::pyrunner::find_python_executable::{{closure}}::h7423375e4efc4e6f                      |           1 |            50
+src/readers/pyeventreader.rs             |   405: 45 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::new::h88b8940d15018c90                                 |           1 |            48
+src/readers/pyeventreader.rs             |   945: 20 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::summary_complete::h2de6c434a8203714                    |           1 |            48
+src/readers/pyeventreader.rs             |   364: 41 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::new::h88b8940d15018c90                                 |           1 |            48
+src/s4/s4.rs                             |  4566:  9 |   3:2023.10.31.asl   | s4::s4::exec_pyeventprocessor::hb0ab97695e56a66f                                                     |           1 |            48
+src/s4/s4.rs                             |  5027: 56 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            48
+src/s4/s4.rs                             |  3405: 33 |   1:main             | s4::s4::cli_process_args::h5b76c099812ee6ae                                                          |           1 |            48
+src/readers/filepreprocessor.rs          |  1133: 33 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            48
+src/readers/filepreprocessor.rs          |  1167: 87 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            48
+src/s4/s4.rs                             |  3432: 29 |   1:main             | s4::s4::cli_process_args::h5b76c099812ee6ae                                                          |           1 |            48
+src/s4/s4.rs                             |  2881:  5 |   1:main             | s4::s4::cli_process_tz_offset::h5517a123feeb877d                                                     |           1 |            40
+src/python/pyrunner.rs                   |   878: 26 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           1 |            37
+src/readers/helpers.rs                   |    36:  5 |   3:2023.10.31.asl   | s4lib::readers::helpers::path_to_fpath::hd32e15fd50e78b4c                                            |           1 |            37
+src/python/venv.rs                       |    95:  5 |   3:2023.10.31.asl   | s4lib::python::venv::venv_path::h0b20b167affeef7e                                                    |           1 |            36
+src/python/pyrunner.rs                   |   824: 20 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           1 |            30
+src/python/pyrunner.rs                   |   258: 45 |   3:2023.10.31.asl   | s4lib::python::pyrunner::find_python_executable::{{closure}}::h7423375e4efc4e6f                      |           1 |            29
+src/readers/pyeventreader.rs             |   367: 36 |   3:2023.10.31.asl   | s4lib::readers::pyeventreader::PyEventReader::new::h88b8940d15018c90                                 |           1 |            26
+src/python/pyrunner.rs                   |   253: 40 |   3:2023.10.31.asl   | s4lib::python::pyrunner::find_python_executable::{{closure}}::h7423375e4efc4e6f                      |           1 |            25
+src/s4/s4.rs                             |  2880: 28 |   1:main             | s4::s4::cli_process_tz_offset::h5517a123feeb877d                                                     |           1 |            20
+src/python/venv.rs                       |    94:  5 |   3:2023.10.31.asl   | s4lib::python::venv::venv_path::h0b20b167affeef7e                                                    |           1 |            18
+src/s4/s4.rs                             |  2666:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2584:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2719:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2743:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2570:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2704:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2552:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2692:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2766:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2632:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2731:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2780:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2656:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2518:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2678:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2531:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2541:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2598:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2614:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2644:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/readers/helpers.rs                   |    30:  5 |   1:main             | s4lib::readers::helpers::basename::h2738d59ac52b6485                                                 |           1 |            14
+src/s4/s4.rs                             |  5170: 19 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            14
+src/s4/s4.rs                             |  5168: 32 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            14
+src/printer/printers.rs                  |   751: 28 |   1:main             | s4lib::printer::printers::PrinterLogMessage::new::h477ff899b31f250b                                  |           1 |            14
+src/python/venv.rs                       |    87: 35 |   3:2023.10.31.asl   | s4lib::python::venv::venv_path::h0b20b167affeef7e                                                    |           1 |             9
+src/s4/s4.rs                             |  2853: 23 |   1:main             | s4::s4::cli_parse_blocksz::hc73438687cead8d9                                                         |           1 |             8
+src/s4/s4.rs                             |  2565:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::ha6902addfe0c188f       |           1 |             8
+src/s4/s4.rs                             |  5345: 26 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |             8
+src/s4/s4.rs                             |  2774: 27 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h097e67fbb66fa0c5       |           1 |             8
+src/python/pyrunner.rs                   |   851: 13 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           1 |             6
+src/python/pyrunner.rs                   |   862: 13 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           1 |             6
+src/s4/s4.rs                             |  2852: 32 |   1:main             | s4::s4::cli_parse_blocksz::hc73438687cead8d9                                                         |           1 |             5
+src/s4/s4.rs                             |  2738:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::heb2507757feb844e       |           1 |             5
+src/s4/s4.rs                             |  2699:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h8e91986192e53d16       |           1 |             5
+src/s4/s4.rs                             |  2774:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h097e67fbb66fa0c5       |           1 |             5
+src/s4/s4.rs                             |  2756:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h9b5049320eae14f8       |           1 |             5
+src/s4/s4.rs                             |  2714:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h6a73e2884507a32a       |           1 |             5
+src/python/pyrunner.rs                   |   856: 13 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           1 |             4
+src/python/pyrunner.rs                   |   867: 13 |   3:2023.10.31.asl   | s4lib::python::pyrunner::PyRunner::new::h117174762d883c1c                                            |           1 |             4
+src/s4/s4.rs                             |  2726:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h2ea9ce64032213a3       |           1 |             4
+src/readers/filepreprocessor.rs          |   334: 31 |   1:main             | s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl::he7cb45e159af5bb1                        |           1 |             3
+src/s4/s4.rs                             |  2671: 27 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h33a6cb723f5d32a1       |           1 |             1
+src/s4/s4.rs                             |  2671:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h33a6cb723f5d32a1       |           1 |             1
+
+
+allocator tracking summary:
+  call sites   :            119 (rows in the table above)
+  allocations  :        326,744 bytes in        1,844 calls
+  deallocations:     80,996,371 bytes in      136,377 calls (includes while tracking)
+  from tracking:    112,641,137 bytes in      194,394 calls
+  current      :     31,971,512 bytes
+  ratio tracking to normal: 100 to 0 bytes (100 to 1 calls)
+  cached filenames  :   7 unique
+  cached functions  :  35 unique
+  cached threadnames:   2 unique
