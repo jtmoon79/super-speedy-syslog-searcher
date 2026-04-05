@@ -9,8 +9,10 @@ set -eu
 
 cd "$(dirname -- "${0}")/.."
 
-export PATH=${PATH}:~/.cargo/bin
+export PATH="${PATH}:${HOME}/.cargo/bin"
+
 set -x
 
-osv-scanner help
-exec osv-scanner scan -r --call-analysis=rust .
+which osv-scanner
+osv-scanner --version
+exec osv-scanner scan --recursive --call-analysis=rust "$@" .
