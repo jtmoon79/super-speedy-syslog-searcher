@@ -115,6 +115,8 @@ jobs:
       - run: |
           git config --global core.protectNTFS false
       - uses: actions/checkout@v6
+      # TODO: use `https://github.com/actions-rust-lang/setup-rust-toolchain`?
+      #       why did I stop using it?
       - run: rustup toolchain install ${{ matrix.msrv }} --profile minimal
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile release
         shell: bash
