@@ -7,7 +7,7 @@
 /// Users can control it with environment variables:
 /// - `S4_ALLOC_TRACKER_PRINT` to print a backtrace of each allocation and
 /// - `S4_ALLOC_TRACKER_TRACKING` to track allocator statistics.
-/// - `S4_ALLOC_DEPTH` to set the number of call-stack frames above the
+/// - `S4_ALLOC_TRACKER_DEPTH` to set the number of call-stack frames above the
 ///   innermost project frame to include in the tracking key (default `1`,
 ///   maximum `16`).
 
@@ -19,6 +19,7 @@ use std::alloc::{
 use std::collections::HashMap;
 use std::io::Write as StdWrite;
 use std::sync::atomic::{
+    AtomicBool,
     AtomicUsize,
     Ordering,
 };
@@ -34,11 +35,6 @@ use ::rustc_demangle::{
 use ::thousands::Separable;
 
 use ::s4lib::common::threadid_to_u64;
-use ::s4lib::e_err;
-
-use crate::s4::{
-    EXIT_ERR,
-};
 
 /// alloc error exit value (ENOMEM)
 const EXIT_ALLOC_ERR: i32 = 12;
@@ -149,11 +145,11 @@ macro_rules! alloc_stderr_write_fmt {
 /// `function index` is for `ALLOCATOR_TRACKING_FUNCTIONS`
 pub type AllocatorDebugTrackingFrameKey = (usize, usize, u32, u32);
 /// Maximum number of call-stack frames that can be included in a tracking key.
-pub const MAX_ALLOC_DEPTH: usize = 16;
-/// `([per-frame keys; MAX_ALLOC_DEPTH], threadname index, threadid)` uniquely identifies an allocation call site.
+pub const ALLOCATOR_DEPTH_MAX: usize = 16;
+/// `([per-frame keys; ALLOCATOR_DEPTH_MAX], threadname index, threadid)` uniquely identifies an allocation call site.
 /// `threadname index` is for `ALLOCATOR_TRACKING_THREADNAMES`
 /// Unused frame slots are filled with `(usize::MAX, usize::MAX, u32::MAX, u32::MAX)`.
-pub type AllocatorDebugTrackingKey = ([AllocatorDebugTrackingFrameKey; MAX_ALLOC_DEPTH], usize, u64);
+pub type AllocatorDebugTrackingKey = ([AllocatorDebugTrackingFrameKey; ALLOCATOR_DEPTH_MAX], usize, u64);
 /// `(allocator call count, total allocated bytes)` for a given call site.
 pub type AllocatorDebugTrackingValue = (usize, usize);
 pub type AllocatorDebugTrackingMap = HashMap<AllocatorDebugTrackingKey, AllocatorDebugTrackingValue>;
@@ -172,15 +168,17 @@ std::thread_local! {
     static ALLOCATOR_TID: u64 = threadid_to_u64(std::thread::current().id());
     /// Cache the thread name to avoid allocs.
     static ALLOCATOR_TNAME: String = std::thread::current().name().unwrap_or("<unnamed>").to_string();
+    /// Sanity check
+    static ALLOCATOR_TRACKER_ENABLED: AtomicBool = AtomicBool::new(false);
 }
 /// User-set environment variable to enable printing of allocator backtraces.
 const ENV_ALLOCATOR_PRINT: &str = "S4_ALLOC_TRACKER_PRINT";
 /// User-set environment variable to enable tracking of allocator call sites.
 const ENV_ALLOCATOR_TRACKING: &str = "S4_ALLOC_TRACKER_TRACKING";
 /// User-set environment variable to set the call-stack depth for tracking.
-const ENV_ALLOC_DEPTH: &str = "S4_ALLOC_DEPTH";
+const ENV_ALLOCATOR_DEPTH: &str = "S4_ALLOC_TRACKER_DEPTH";
 /// Default depth: track only the innermost project frame.
-const DEFAULT_ALLOC_DEPTH: usize = 1;
+const DEFAULT_ALLOCATOR_DEPTH: usize = 1;
 
 // Global allocator statistics
 static ALLOCATOR_ALLOCATED_TRACKING_OFF: AtomicUsize = AtomicUsize::new(0);
@@ -192,8 +190,8 @@ static ALLOCATOR_ALLOCATED_TRACKED_FRAME: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_CALLS_TRACKING_OFF: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_CALLS_TRACKING_ON: AtomicUsize = AtomicUsize::new(0);
 /// Number of project call-stack frames to include in the tracking key.
-/// Set once from `S4_ALLOC_DEPTH` in `allocator_tracker_enable()`.
-static ALLOC_DEPTH: OnceLock<usize> = OnceLock::new();
+/// Set once from `S4_ALLOC_TRACKER_DEPTH` in `allocator_tracker_enable()`.
+static ALLOCATOR_DEPTH: OnceLock<usize> = OnceLock::new();
 
 lazy_static! {
     /// Global map for tracking allocator call sites and their statistics.
@@ -220,54 +218,82 @@ lazy_static! {
 }
 
 /// Checks environment variable `S4_ALLOC_TRACKER_PRINT` to see if we should print allocator backtraces.
-fn allocator_print() -> bool {
+/// Called once by `allocator_tracker_enable()`.
+fn allocator_print_env() -> bool {
     std::env::var(ENV_ALLOCATOR_PRINT).map(|val| !val.is_empty()).unwrap_or(false)
+}
+
+/// wrapper to get value of `ALLOCATOR_DO_PRINT`
+fn allocator_print() -> bool {
+    ALLOCATOR_DO_PRINT.with(|ap| match ap.read() {
+        Ok(ap) => *ap,
+        Err(err) => {
+            alloc_exit("ALLOCATOR_DO_PRINT.read() failed in allocator_print", Some(&err));
+        }
+    })
 }
 
 /// Checks environment variable `S4_ALLOC_TRACKER_TRACKING` to determine if
 /// tracking allocator call sites and their statistics should be enabled.
-fn allocator_tracking() -> bool {
+/// Called once by `allocator_tracker_enable()`.
+fn allocator_tracking_env() -> bool {
     std::env::var(ENV_ALLOCATOR_TRACKING).map(|val| !val.is_empty()).unwrap_or(false)
 }
 
-/// Reads `S4_ALLOC_DEPTH` from the environment, clamps to `[1, MAX_ALLOC_DEPTH]`,
-/// and returns the value. Returns `DEFAULT_ALLOC_DEPTH` if the variable is absent
+/// wrapper to get value of `ALLOCATOR_DO_TRACKING`
+fn allocator_tracking() -> bool {
+    ALLOCATOR_DO_TRACKING.with(|ap| match ap.read() {
+        Ok(ap) => *ap,
+        Err(err) => {
+            alloc_exit("ALLOCATOR_DO_TRACKING.read() failed in allocator_tracking", Some(&err));
+        }
+    })
+}
+
+/// Reads `S4_ALLOC_TRACKER_DEPTH` from the environment, clamps to `[1, ALLOCATOR_DEPTH_MAX]`,
+/// and returns the value. Returns `DEFAULT_ALLOCATOR_DEPTH` if the variable is absent
 /// or cannot be parsed.
-fn allocator_depth() -> usize {
-    std::env::var(ENV_ALLOC_DEPTH)
+/// Called once by `allocator_tracker_enable()`.
+fn allocator_depth_env() -> usize {
+    std::env::var(ENV_ALLOCATOR_DEPTH)
         .ok()
         .and_then(|s| s.parse::<usize>().ok())
-        .map(|v| v.clamp(1, MAX_ALLOC_DEPTH))
-        .unwrap_or(DEFAULT_ALLOC_DEPTH)
+        .map(|v| v.clamp(1, ALLOCATOR_DEPTH_MAX))
+        .unwrap_or(DEFAULT_ALLOCATOR_DEPTH)
+}
+
+/// wrapper to get value of `ALLOCATOR_DEPTH`
+fn allocator_depth() -> usize {
+    ALLOCATOR_DEPTH.get().copied().unwrap_or(DEFAULT_ALLOCATOR_DEPTH)
 }
 
 /// Tracking and printing will begin after this is called.
 /// Must call this for each thread to track.
 pub fn allocator_tracker_enable() {
+    if ALLOCATOR_TRACKER_ENABLED.with(|ap| ap.load(Ordering::Relaxed)) {
+        _ = alloc_stderr_write_fmt!(
+            &mut FmtBuf::<128>::new(),
+            "Warning: allocator_tracker_enable() called but allocator tracking is already enabled for this thread.\n",
+        );
+    }
     // force ThreadId and ThreadName to get set once early on
     ALLOCATOR_TID.with(|_| {});
     ALLOCATOR_TNAME.with(|_| {});
-    // read S4_ALLOC_DEPTH once (it does not change after program start)
-    ALLOC_DEPTH.get_or_init(|| allocator_depth());
-    // secret environment variable option to print the stack strace of each alloc_tracker
-    if allocator_print() {
-        ALLOCATOR_DO_PRINT.with(|adep| match adep.write() {
-            Ok(mut adepw) => *adepw = true,
-            Err(err) => {
-                e_err!("ALLOCATOR_DO_PRINT.write() failed: {:?}", err);
-                std::process::exit(EXIT_ERR);
-            }
-        });
-    }
-    if allocator_tracking() {
-        ALLOCATOR_DO_TRACKING.with(|adet| match adet.write() {
-            Ok(mut adetw) => *adetw = true,
-            Err(err) => {
-                e_err!("ALLOCATOR_DO_TRACKING.write() failed: {:?}", err);
-                std::process::exit(EXIT_ERR);
-            }
-        });
-    }
+    // read environment variables once
+    ALLOCATOR_DEPTH.get_or_init(|| allocator_depth_env());
+    ALLOCATOR_DO_PRINT.with(|ap| match ap.write() {
+        Ok(mut apw) => *apw = allocator_print_env(),
+        Err(err) => {
+            alloc_exit("ALLOCATOR_DO_PRINT.write() failed in allocator_tracker_enable", Some(&err));
+        }
+    });
+    ALLOCATOR_DO_TRACKING.with(|ap| match ap.write() {
+        Ok(mut apw) => *apw = allocator_tracking_env(),
+        Err(err) => {
+            alloc_exit("ALLOCATOR_DO_TRACKING.write() failed in allocator_tracker_enable", Some(&err));
+        }
+    });
+    ALLOCATOR_TRACKER_ENABLED.with(|ap| ap.store(true, Ordering::Relaxed));
     // start alloc_tracker debug logging
     allocator_guard_enable();
 }
@@ -277,9 +303,8 @@ pub fn allocator_tracker_enable() {
 fn allocator_guard() -> bool {
     ALLOCATOR_GUARD.with(|ap| match ap.read() {
         Ok(apr) => *apr,
-        Err(_err) => {
-            e_err!("ALLOCATOR_GUARD.read() failed in allocator_guard");
-            std::process::exit(EXIT_ERR);
+        Err(err) => {
+            alloc_exit("ALLOCATOR_GUARD.read() failed in allocator_guard", Some(&err));
         }
     })
 }
@@ -290,9 +315,8 @@ fn allocator_guard_enable() {
     // set the guard
     ALLOCATOR_GUARD.with(|ap| match ap.write() {
         Ok(mut apw) => *apw = true,
-        Err(_err) => {
-            e_err!("ALLOCATOR_GUARD.write() failed in allocator_guard_enable");
-            std::process::exit(EXIT_ERR);
+        Err(err) => {
+            alloc_exit("ALLOCATOR_GUARD.write() failed in allocator_guard_enable", Some(&err));
         }
     });
 }
@@ -302,9 +326,8 @@ fn allocator_guard_enable() {
 fn allocator_guard_disable() {
     ALLOCATOR_GUARD.with(|ap| match ap.write() {
         Ok(mut apw) => *apw = false,
-        Err(_err) => {
-            e_err!("ALLOCATOR_GUARD.write() failed in allocator_guard_disable");
-            std::process::exit(EXIT_ERR);
+        Err(err) => {
+            alloc_exit("ALLOCATOR_GUARD.write() failed in allocator_guard_disable", Some(&err));
         }
     });
 }
@@ -314,15 +337,15 @@ fn allocator_guard_disable() {
 fn allocator_guard_restore(allocator_guard: bool) {
     ALLOCATOR_GUARD.with(|ap| match ap.write() {
         Ok(mut apw) => *apw = allocator_guard,
-        Err(_err) => {
-            e_err!("ALLOCATOR_GUARD.write() failed in allocator_guard_restore");
-            std::process::exit(EXIT_ERR);
+        Err(err) => {
+            alloc_exit("ALLOCATOR_GUARD.write() failed in allocator_guard_restore", Some(&err));
         }
     });
 }
 
-/// Exit with code, print the `mesg` and optional `err` without allocating.
-/// Intended for errors within `alloc`.
+/// Exits. Print the `mesg` and optional `err`, exit with special code.
+/// Does not allocate.
+/// Intended for errors within this module and especially during `alloc`.
 fn alloc_exit(mesg: &str, err: Option<&dyn std::error::Error>) -> ! {
     let mut stderr_lock = std::io::stderr().lock();
     _ = stderr_lock.write(mesg.as_bytes());
@@ -413,18 +436,8 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                 Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", Some(&err)),
             }
         });
-        let allocator_do_print: bool = ALLOCATOR_DO_PRINT.with(|ap|
-            match ap.read() {
-                Ok(ap) => *ap,
-                Err(err) => alloc_exit("ALLOCATOR_DO_PRINT.read() failed", Some(&err)),
-            }
-        );
-        let allocator_do_track: bool = ALLOCATOR_DO_TRACKING.with(|ap|
-            match ap.read() {
-                Ok(ap) => *ap,
-                Err(err) => alloc_exit("ALLOCATOR_DO_TRACKING.read() failed", Some(&err)),
-            }
-        );
+        let allocator_do_print: bool = allocator_print();
+        let allocator_do_track: bool = allocator_tracking();
 
         const FILENAME_LEN_MAX: usize = 512;
         const FUNCTION_LEN_MAX: usize = 256;
@@ -436,9 +449,9 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
         // Stack-allocated array of per-frame keys; unused slots hold the sentinel
         // `(usize::MAX, usize::MAX, u32::MAX, u32::MAX)` so that different depths
         // produce different (non-colliding) keys without any heap allocation.
-        let mut collected_frame_keys: [AllocatorDebugTrackingFrameKey; MAX_ALLOC_DEPTH] =
-            [(usize::MAX, usize::MAX, u32::MAX, u32::MAX); MAX_ALLOC_DEPTH];
-        let depth: usize = ALLOC_DEPTH.get().copied().unwrap_or(DEFAULT_ALLOC_DEPTH);
+        let mut collected_frame_keys: [AllocatorDebugTrackingFrameKey; ALLOCATOR_DEPTH_MAX] =
+            [(usize::MAX, usize::MAX, u32::MAX, u32::MAX); ALLOCATOR_DEPTH_MAX];
+        let depth = allocator_depth();
 
         // Traverse the backtrace frames for this allocation
         // looking for the first frame that refers to this project's source code
@@ -799,6 +812,7 @@ pub fn print_tracking_map() {
     let filenames_len = filenames.len();
     let functions_len = functions.len();
     let threadnames_len = threadnames.len();
+    let depth = allocator_depth();
 
     // last thing to get is current allocated so it's nearest to final value at program exit
     let a_t_current = ALLOCATOR_ALLOCATED_CURRENT.load(Ordering::Relaxed);
@@ -809,13 +823,13 @@ pub fn print_tracking_map() {
     const W_CC: usize = 3; // width caches
     _ = alloc_stderr_write_fmt!(
         &mut buf,
-        "allocator tracking summary:
+        "allocator tracking summary, depth {depth}:
   call sites   : {entry_len:>W_B$} (rows in the table above)
   allocations  : {a_t_on_bytes_s:>W_B$} bytes in {a_t_on_calls_s:>W_C$} calls
   deallocations: {d_s:>W_B$} bytes in {d_calls_s:>W_C$} calls (includes while tracking)
   from tracking: {a_t_off_bytes_s:>W_B$} bytes in {a_t_off_calls_s:>W_C$} calls
   current      : {a_t_current_s:>W_B$} bytes
-  ratio tracking to normal: 100 to {ratio_on_off_int} bytes (100 to {ratio_on_off_calls_int} calls)
+  ratio tracking to normal: 100 to {ratio_on_off_int} bytes, 100 to {ratio_on_off_calls_int} calls
   cached file names    : {filenames_len:>W_CC$}
   cached function names: {functions_len:>W_CC$}
   cached thread names  : {threadnames_len:>W_CC$}
