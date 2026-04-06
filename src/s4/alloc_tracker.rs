@@ -146,9 +146,12 @@ macro_rules! alloc_stderr_write_fmt {
 pub type AllocatorDebugTrackingFrameKey = (usize, usize, u32, u32);
 /// Maximum number of call-stack frames that can be included in a tracking key.
 pub const ALLOCATOR_DEPTH_MAX: usize = 16;
+/// Sentinel value for an unused `AllocatorDebugTrackingFrameKey` slot.
+pub const ALLOCATOR_FRAME_SENTINEL: AllocatorDebugTrackingFrameKey =
+    (usize::MAX, usize::MAX, u32::MAX, u32::MAX);
 /// `([per-frame keys; ALLOCATOR_DEPTH_MAX], threadname index, threadid)` uniquely identifies an allocation call site.
 /// `threadname index` is for `ALLOCATOR_TRACKING_THREADNAMES`
-/// Unused frame slots are filled with `(usize::MAX, usize::MAX, u32::MAX, u32::MAX)`.
+/// Unused frame slots are filled with `ALLOCATOR_FRAME_SENTINEL`.
 pub type AllocatorDebugTrackingKey = ([AllocatorDebugTrackingFrameKey; ALLOCATOR_DEPTH_MAX], usize, u64);
 /// `(allocator call count, total allocated bytes)` for a given call site.
 pub type AllocatorDebugTrackingValue = (usize, usize);
@@ -450,7 +453,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
         // `(usize::MAX, usize::MAX, u32::MAX, u32::MAX)` so that different depths
         // produce different (non-colliding) keys without any heap allocation.
         let mut collected_frame_keys: [AllocatorDebugTrackingFrameKey; ALLOCATOR_DEPTH_MAX] =
-            [(usize::MAX, usize::MAX, u32::MAX, u32::MAX); ALLOCATOR_DEPTH_MAX];
+            [ALLOCATOR_FRAME_SENTINEL; ALLOCATOR_DEPTH_MAX];
         let depth = allocator_depth();
 
         // Traverse the backtrace frames for this allocation
@@ -742,16 +745,28 @@ pub fn print_tracking_map() {
         "File", "Line", "Col", "ID", "Name (thread)", "Function", "Allocations", "Bytes"
     );
     for (key, value) in entries.into_iter() {
-        // Use the first frame's info for the table (innermost project call site).
+        // Count the number of valid (non-sentinel) frames in this key.
+        let frame_count = key.0.iter()
+            .take_while(|frame| **frame != ALLOCATOR_FRAME_SENTINEL)
+            .count()
+            .max(1);
+
+        let thread_name = match threadnames.get(key.1) {
+            Some(name) => name.as_str(),
+            None => "<unknown>",
+        };
+        let thread_id: &u64 = &key.2;
+        let allocations = &value.0;
+        let allocations_s = allocations.separate_with_commas();
+        let bytes = &value.1;
+        let bytes_s = bytes.separate_with_commas();
+
+        // Print the first (innermost) frame with full info including allocations and bytes.
         let file_name = match filenames.get(key.0[0].0) {
             Some(name) => name.as_str(),
             None => "<unknown>",
         };
         let function_name = match functions.get(key.0[0].1) {
-            Some(name) => name.as_str(),
-            None => "<unknown>",
-        };
-        let thread_name = match threadnames.get(key.1) {
             Some(name) => name.as_str(),
             None => "<unknown>",
         };
@@ -761,19 +776,36 @@ pub fn print_tracking_map() {
         } else {
             file_name
         };
-        // attempt to print some user-friendly columns
         let line_number = &key.0[0].2;
         let column_number = &key.0[0].3;
-        let thread_id: &u64 = &key.2;
-        let allocations = &value.0;
-        let allocations_s = allocations.separate_with_commas();
-        let bytes = &value.1;
-        let bytes_s = bytes.separate_with_commas();
         buf.clear();
         _ = alloc_stderr_write_fmt!(
             &mut buf,
             "{file_path:<40} | {line_number:>5}:{column_number:>3} | {thread_id:>3}:{thread_name:<16} | {function_name:<100} | {allocations_s:>11} | {bytes_s:>13}\n"
         );
+
+        // Print additional frames (outer callers) without allocations/bytes columns.
+        for i in 1..frame_count {
+            let (fi, func_i, lineno, colno) = key.0[i];
+            let file_name_i = match filenames.get(fi) {
+                Some(name) => name.as_str(),
+                None => "<unknown>",
+            };
+            let function_name_i = match functions.get(func_i) {
+                Some(name) => name.as_str(),
+                None => "<unknown>",
+            };
+            let file_path_i: &str = if file_name_i.starts_with(&project_root_) {
+                &file_name_i[project_root_.len() + 1..]
+            } else {
+                file_name_i
+            };
+            buf.clear();
+            _ = alloc_stderr_write_fmt!(
+                &mut buf,
+                "{file_path_i:<40} | {lineno:>5}:{colno:>3} | {thread_id:>3}:{thread_name:<16} | {function_name_i}\n"
+            );
+        }
     }
     buf.clear();
     _ = alloc_stderr_write_fmt!(&mut buf, "\n");
