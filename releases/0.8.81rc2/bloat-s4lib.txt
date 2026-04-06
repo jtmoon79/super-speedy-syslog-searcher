@@ -1,0 +1,468 @@
+ File  .text     Size                     Crate Name
+ 0.5%   1.6%  54.8KiB                     s4lib s4lib::data::fixedstruct::FixedStruct::as_bytes
+ 0.3%   1.0%  34.1KiB                     s4lib s4lib::data::fixedstruct::FixedStruct::score_fixedstruct
+ 0.2%   0.6%  21.8KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependfile_prependdate_color
+ 0.2%   0.6%  21.2KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependdate_color
+ 0.2%   0.6%  21.0KiB                     s4lib s4lib::printer::summary::print_summary
+ 0.2%   0.6%  20.9KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependfile_color
+ 0.2%   0.6%  20.5KiB                     s4lib s4lib::readers::fixedstructreader::FixedStructReader::new
+ 0.2%   0.6%  20.2KiB                     s4lib s4lib::python::pyrunner::PyRunner::new
+ 0.2%   0.6%  19.6KiB                     s4lib s4lib::printer::summary::print_file_summary
+ 0.2%   0.5%  18.0KiB                     s4lib s4lib::data::datetime::bytes_to_regex_to_datetime
+ 0.1%   0.5%  16.4KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_color
+ 0.1%   0.4%  14.8KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_journalentry_prepend_color
+ 0.1%   0.4%  13.9KiB                     s4lib s4lib::readers::evtxreader::EvtxReader::analyze
+ 0.1%   0.4%  13.3KiB                     s4lib s4lib::readers::filepreprocessor::process_path
+ 0.1%   0.4%  13.0KiB                     s4lib s4lib::readers::filedecompressor::decompress_to_ntf
+ 0.1%   0.4%  12.6KiB                     s4lib s4lib::readers::blockreader::BlockReader::new
+ 0.1%   0.4%  12.6KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_evtx_prepend_color
+ 0.1%   0.4%  12.6KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_pyevent_prepend_color
+ 0.1%   0.2%   8.5KiB                     s4lib s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached
+ 0.1%   0.2%   8.0KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependfile_prependdate_color
+ 0.1%   0.2%   7.2KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependdate_color
+ 0.1%   0.2%   6.3KiB                     s4lib s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl
+ 0.1%   0.2%   6.3KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependfile_color
+ 0.1%   0.2%   5.9KiB                     s4lib s4lib::python::pyrunner::PyRunner::run
+ 0.0%   0.2%   5.6KiB                     s4lib s4lib::readers::linereader::LineReader::insert_line
+ 0.0%   0.2%   5.3KiB                     s4lib s4lib::readers::linereader::LineReader::find_line
+ 0.0%   0.2%   5.2KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_color
+ 0.0%   0.1%   5.1KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_journalentry_color
+ 0.0%   0.1%   5.1KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_evtx_color
+ 0.0%   0.1%   5.1KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_pyevent_color
+ 0.0%   0.1%   5.0KiB                     s4lib s4lib::readers::journalreader::JournalReader::next_short
+ 0.0%   0.1%   4.8KiB                     s4lib s4lib::readers::filepreprocessor::process_path_tar
+ 0.0%   0.1%   4.7KiB                     s4lib s4lib::readers::blockreader::BlockReader::read_block_FileTar
+ 0.0%   0.1%   4.5KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependfile_prependdate
+ 0.0%   0.1%   4.4KiB                     s4lib s4lib::readers::fixedstructreader::FixedStructReader::preprocess_timevalues
+ 0.0%   0.1%   4.3KiB                     s4lib <s4lib::readers::summary::Summary as core::fmt::Debug>::fmt
+ 0.0%   0.1%   4.1KiB                     s4lib s4lib::printer::summary::SummaryPrinted::print_colored_stderr
+ 0.0%   0.1%   4.1KiB                     s4lib core::slice::sort::stable::quicksort::quicksort
+ 0.0%   0.1%   4.0KiB                     s4lib s4lib::readers::syslogprocessor::SyslogProcessor::drop_data_try
+ 0.0%   0.1%   3.8KiB                     s4lib s4lib::python::pyrunner::PyRunner::write_read
+ 0.0%   0.1%   3.8KiB                     s4lib s4lib::readers::linereader::LineReader::find_line_in_block
+ 0.0%   0.1%   3.8KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependdate
+ 0.0%   0.1%   3.8KiB                     s4lib s4lib::readers::blockreader::BlockReader::read_block_FileGz
+ 0.0%   0.1%   3.6KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_journalentry_prepend
+ 0.0%   0.1%   3.6KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_evtx_prepend
+ 0.0%   0.1%   3.6KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_pyevent_prepend
+ 0.0%   0.1%   3.5KiB                     s4lib s4lib::readers::blockreader::BlockReader::read_data_to_buffer
+ 0.0%   0.1%   3.4KiB                     s4lib s4lib::readers::syslinereader::SyslineReader::find_sysline_between_datetime_filters
+ 0.0%   0.1%   3.4KiB                     s4lib <s4lib::data::datetime::DTFSSet as core::fmt::Debug>::fmt
+ 0.0%   0.1%   3.4KiB                     s4lib core::slice::sort::stable::quicksort::quicksort
+ 0.0%   0.1%   3.4KiB                     s4lib s4lib::readers::syslogprocessor::SyslogProcessor::summary_complete
+ 0.0%   0.1%   3.3KiB                     s4lib std::sys::backtrace::__rust_begin_short_backtrace
+ 0.0%   0.1%   3.2KiB                     s4lib s4lib::readers::blockreader::BlockReader::read_block_FileBz2
+ 0.0%   0.1%   3.1KiB                     s4lib s4lib::readers::syslinereader::SyslineReader::insert_sysline
+ 0.0%   0.1%   3.1KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependfile_prependdate
+ 0.0%   0.1%   3.0KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependfile
+ 0.0%   0.1%   3.0KiB                     s4lib s4lib::readers::syslinereader::SyslineReader::find_sysline_in_block_year
+ 0.0%   0.1%   2.9KiB                     s4lib s4lib::readers::blockreader::BlockReader::read_block_FileLz4
+ 0.0%   0.1%   2.7KiB                     s4lib core::slice::sort::stable::quicksort::quicksort
+ 0.0%   0.1%   2.7KiB                     s4lib core::slice::sort::stable::quicksort::quicksort
+ 0.0%   0.1%   2.6KiB                     s4lib core::slice::sort::stable::quicksort::quicksort
+ 0.0%   0.1%   2.5KiB                     s4lib s4lib::readers::blockreader::BlockReader::read_block_FileXz
+ 0.0%   0.1%   2.5KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependdate
+ 0.0%   0.1%   2.4KiB                     s4lib s4lib::python::pyrunner::PipeStreamReader::new
+ 0.0%   0.1%   2.3KiB                     s4lib s4lib::readers::blockreader::BlockReader::read_block
+ 0.0%   0.1%   2.3KiB                     s4lib s4lib::readers::syslinereader::SyslineReader::LRU_cache_enable
+ 0.0%   0.1%   2.1KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_
+ 0.0%   0.1%   2.0KiB                     s4lib s4lib::python::venv::deploy_pyproject_s4_event_readers
+ 0.0%   0.1%   1.9KiB                     s4lib s4lib::readers::syslinereader::SyslineReader::clear_syslines
+ 0.0%   0.1%   1.8KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependfile
+ 0.0%   0.1%   1.7KiB                     s4lib s4lib::data::line::LinePart::new
+ 0.0%   0.0%   1.7KiB                     s4lib s4lib::readers::syslinereader::SyslineReader::check_store
+ 0.0%   0.0%   1.7KiB                     s4lib s4lib::readers::syslinereader::SyslineReader::find_sysline_year
+ 0.0%   0.0%   1.6KiB                     s4lib hashbrown::raw::RawTable<T,A>::reserve_rehash
+ 0.0%   0.0%   1.6KiB                     s4lib hashbrown::raw::RawTable<T,A>::reserve_rehash
+ 0.0%   0.0%   1.5KiB                     s4lib hashbrown::raw::RawTable<T,A>::reserve_rehash
+ 0.0%   0.0%   1.5KiB                     s4lib s4lib::readers::summary::Summary::new
+ 0.0%   0.0%   1.4KiB                     s4lib s4lib::readers::pyeventreader::PyEventReader::summary_complete
+ 0.0%   0.0%   1.4KiB                     s4lib s4lib::data::datetime::datetime_from_str_workaround_Issue660
+ 0.0%   0.0%   1.4KiB                     s4lib s4lib::readers::journalreader::JournalReader::summary_complete
+ 0.0%   0.0%   1.4KiB                     s4lib s4lib::readers::fixedstructreader::FixedStructReader::summary_complete
+ 0.0%   0.0%   1.3KiB                     s4lib s4lib::printer::printers::print_colored_stderr
+ 0.0%   0.0%   1.2KiB                     s4lib s4lib::readers::blockreader::BlockReader::store_block_in_LRU_cache
+ 0.0%   0.0%   1.2KiB                     s4lib s4lib::printer::summary::print_datetime_asis_utc_dimmed
+ 0.0%   0.0%   1.2KiB                     s4lib s4lib::readers::journalreader::JournalReader::next_common
+ 0.0%   0.0%   1.2KiB                     s4lib s4lib::readers::blockreader::BlockReader::drop_block
+ 0.0%   0.0%   1.2KiB                     s4lib hashbrown::raw::RawTable<T,A>::reserve_rehash
+ 0.0%   0.0%   1.2KiB                     s4lib s4lib::printer::summary::print_cache_stats_summaryblockreader
+ 0.0%   0.0%   1.2KiB                     s4lib s4lib::readers::fixedstructreader::FixedStructReader::drop_entry
+ 0.0%   0.0%   1.2KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_
+ 0.0%   0.0%   1.1KiB                     s4lib s4lib::printer::printers::PrinterLogMessage::print_evtx_
+ 0.0%   0.0%   1.1KiB                     s4lib <s4lib::libload::systemd_dlopen2::SdJournalHApi as dlopen2::wrapper::api::WrapperApi>::load
+ 0.0%   0.0%     980B                     s4lib s4lib::data::datetime::datetime_parse_from_str
+ 0.0%   0.0%     968B                     s4lib s4lib::data::fixedstruct::FixedStruct::from_fixedstructptr
+ 0.0%   0.0%     961B                     s4lib s4lib::readers::fixedstructreader::FixedStructReader::fileoffset_first
+ 0.0%   0.0%     961B                     s4lib s4lib::data::fixedstruct::buffer_to_fixedstructptr
+ 0.0%   0.0%     933B                     s4lib s4lib::python::pyrunner::PyRunner::stderr_all_add
+ 0.0%   0.0%     912B                     s4lib s4lib::readers::syslinereader::SyslineReader::datetime_parse_data
+ 0.0%   0.0%     874B                     s4lib s4lib::readers::linereader::LineReader::get_linep
+ 0.0%   0.0%     845B                     s4lib s4lib::printer::summary::print_datetime_utc_dimmed
+ 0.0%   0.0%     844B                     s4lib s4lib::readers::blockreader::BlockReader::read_block_File
+ 0.0%   0.0%     811B                     s4lib s4lib::libload::systemd_dlopen2::set_systemd_journal_api
+ 0.0%   0.0%     788B                     s4lib s4lib::readers::syslogprocessor::SyslogProcessor::set_error
+ 0.0%   0.0%     788B                     s4lib s4lib::readers::fixedstructreader::FixedStructReader::set_error
+ 0.0%   0.0%     736B                     s4lib s4lib::readers::filedecompressor::remove_temporary_files
+ 0.0%   0.0%     682B                     s4lib s4lib::python::venv::venv_path
+ 0.0%   0.0%     641B                     s4lib s4lib::printer::printers::write_stdout
+ 0.0%   0.0%     611B                     s4lib s4lib::printer::printers::fpath_to_prependname
+ 0.0%   0.0%     511B                     s4lib s4lib::printer::printers::fpath_to_prependpath
+ 0.0%   0.0%     507B                     s4lib s4lib::readers::blockreader::BlockReader::mtime
+ 0.0%   0.0%     473B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_map_update_pyevent
+ 0.0%   0.0%     462B                     s4lib s4lib::data::line::Line::append
+ 0.0%   0.0%     449B                     s4lib s4lib::readers::blockreader::BlockReader::blocksz_at_blockoffset
+ 0.0%   0.0%     436B                     s4lib s4lib::python::pyrunner::PyRunner::stderr_all
+ 0.0%   0.0%     398B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_map_update_sysline
+ 0.0%   0.0%     382B                     s4lib s4lib::data::line::Line::prepend
+ 0.0%   0.0%     377B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_map_update_journalentry
+ 0.0%   0.0%     377B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_map_update_evtx
+ 0.0%   0.0%     377B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_map_update_fixedstruct
+ 0.0%   0.0%     364B                     s4lib <s4lib::common::FileType as core::fmt::Display>::fmt
+ 0.0%   0.0%     362B                     s4lib s4lib::readers::syslinereader::SyslineReader::dt_patterns_indexes_refresh
+ 0.0%   0.0%     360B                     s4lib s4lib::readers::journalreader::JournalReader::get_monotonic_usec
+ 0.0%   0.0%     328B                     s4lib s4lib::common::err_from_err_path
+ 0.0%   0.0%     313B                     s4lib <s4lib::data::line::LinePart as core::fmt::Debug>::fmt
+ 0.0%   0.0%     294B                     s4lib s4lib::readers::journalreader::JournalReader::Error_from_Errno
+ 0.0%   0.0%     278B                     s4lib s4lib::readers::syslinereader::SyslineReader::is_sysline_last
+ 0.0%   0.0%     255B                     s4lib s4lib::python::pyrunner::PyRunner::run_once
+ 0.0%   0.0%     255B                     s4lib core::slice::sort::stable::driftsort_main
+ 0.0%   0.0%     255B                     s4lib core::slice::sort::stable::driftsort_main
+ 0.0%   0.0%     255B                     s4lib core::slice::sort::stable::driftsort_main
+ 0.0%   0.0%     255B                     s4lib core::slice::sort::stable::driftsort_main
+ 0.0%   0.0%     253B                     s4lib std::io::buffered::bufwriter::BufWriter<W>::write_all_cold
+ 0.0%   0.0%     230B                     s4lib s4lib::printer::printers::color_theme_to_index
+ 0.0%   0.0%     220B                     s4lib s4lib::readers::filedecompressor::count_temporary_files
+ 0.0%   0.0%     220B                     s4lib core::slice::sort::stable::driftsort_main
+ 0.0%   0.0%     186B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     186B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     186B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     183B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     182B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     182B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     182B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     182B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     182B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     182B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     182B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     179B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     178B                     s4lib alloc::raw_vec::RawVec<T,A>::grow_one
+ 0.0%   0.0%     164B                     s4lib s4lib::data::journal::datetimelopt_to_realtime_timestamp_opt
+ 0.0%   0.0%     160B                     s4lib s4lib::readers::helpers::path_filesz
+ 0.0%   0.0%     152B                     s4lib s4lib::readers::blockreader::BlockReader::new::read_multibyte_integer
+ 0.0%   0.0%     150B                     s4lib s4lib::data::sysline::Sysline::fileoffset_end
+ 0.0%   0.0%     148B                     s4lib s4lib::readers::summary::Summary::blockreader
+ 0.0%   0.0%     143B                     s4lib alloc::sync::Arc<T,A>::drop_slow
+ 0.0%   0.0%     142B                     s4lib alloc::sync::Arc<T,A>::drop_slow
+ 0.0%   0.0%     137B                     s4lib alloc::sync::Arc<T,A>::drop_slow
+ 0.0%   0.0%     136B                     s4lib s4lib::data::sysline::Sysline::ends_with_newline
+ 0.0%   0.0%     129B                     s4lib alloc::sync::Arc<T,A>::drop_slow
+ 0.0%   0.0%     128B                     s4lib s4lib::readers::summary::Summary::has_blockreader
+ 0.0%   0.0%     128B                     s4lib alloc::collections::vec_deque::VecDeque<T,A>::grow
+ 0.0%   0.0%     128B                     s4lib std::io::buffered::bufwriter::BufWriter<W>::write_cold
+ 0.0%   0.0%     128B                     s4lib std::io::buffered::bufwriter::BufWriter<W>::write_cold
+ 0.0%   0.0%     126B                     s4lib s4lib::readers::blockreader::BlockReader::open_tar
+ 0.0%   0.0%     122B                     s4lib alloc::sync::Arc<T,A>::drop_slow
+ 0.0%   0.0%     120B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_update_sysline
+ 0.0%   0.0%     117B                     s4lib s4lib::data::line::LinePart::block_boxptr_b
+ 0.0%   0.0%     116B                     s4lib s4lib::readers::linereader::LineReader::is_fileoffset_last
+ 0.0%   0.0%     116B                     s4lib s4lib::readers::fixedstructreader::FixedStructReader::dt_first_last_update
+ 0.0%   0.0%     116B                     s4lib <s4lib::common::AllocatorChosen as core::fmt::Display>::fmt
+ 0.0%   0.0%     114B                     s4lib <s4lib::common::FileTypeArchive as core::fmt::Display>::fmt
+ 0.0%   0.0%     111B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_update_pyevent
+ 0.0%   0.0%     107B                     s4lib s4lib::readers::blockreader::BlockReader::filesz
+ 0.0%   0.0%      97B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_update_journalentry
+ 0.0%   0.0%      97B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_update_evtx
+ 0.0%   0.0%      97B                     s4lib s4lib::printer::summary::SummaryPrinted::summaryprint_update_fixedstruct
+ 0.0%   0.0%      96B                     s4lib alloc::sync::Arc<T,A>::drop_slow
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct_v3
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%      59B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%      54B                     s4lib s4lib::data::line::Line::fileoffset_end
+ 0.0%   0.0%      50B                     s4lib s4lib::python::pyrunner::PyRunner::pipes_exit_sender
+ 0.0%   0.0%      27B                     s4lib s4lib::data::line::Line::fileoffset_begin
+ 0.0%   0.0%      27B                     s4lib alloc::sync::Arc<T,A>::drop_slow
+ 0.0%   0.0%      27B                     s4lib alloc::sync::Arc<T,A>::drop_slow
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       6B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::size
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_utmp
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_openbsd_x86_lastlog
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmpx
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_utmp
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlogx
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8664_lastlog
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_utmpx
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_lastlogx
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_netbsd_x8632_acct
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_utmpx
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_lastlog
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_x86_acct
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_utmpx
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::as_linux_arm64aarch64_lastlog
+ 0.0%   0.0%       4B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::as_freebsd_x8664_utmpx
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::utmp as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::openbsd_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::utmp as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::netbsd_x8664::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::lastlogx as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::netbsd_x8632::acct as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::linux_x86::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::linux_x86::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct_v3 as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::linux_x86::acct as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::linux_arm64aarch64::lastlog as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type
+ 0.0%   0.0%       3B                     s4lib <s4lib::data::fixedstruct::freebsd_x8664::utmpx as s4lib::data::fixedstruct::FixedStructTrait>::fixedstruct_type

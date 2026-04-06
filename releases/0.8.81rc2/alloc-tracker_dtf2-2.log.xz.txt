@@ -21,21 +21,21 @@ src/readers/blockreader.rs               |  1834: 35 |   3:dtf2-2.log.xz    | s4
 src/data/line.rs                         |   513: 24 |   3:dtf2-2.log.xz    | <s4lib::data::line::Line as core::default::Default>::default::h6cf8235c3c4c4869                      |           3 |           144
 src/readers/linereader.rs                |   473: 28 |   3:dtf2-2.log.xz    | s4lib::readers::linereader::LineReader::insert_line::h4feb54e1f42c0c5f                               |           3 |           120
 src/s4/s4.rs                             |  5165: 13 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           2 |         3,720
-src/readers/syslinereader.rs             |  3039:  9 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::summary::he90cba24e7fcf6df                             |           2 |           384
 src/readers/syslinereader.rs             |  3045:  9 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::summary::he90cba24e7fcf6df                             |           2 |           384
+src/readers/syslinereader.rs             |  3039:  9 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::summary::he90cba24e7fcf6df                             |           2 |           384
 src/s4/s4.rs                             |  2818: 16 |   1:main             | s4::s4::cli_process_blocksz::h72e228251617218e                                                       |           2 |           156
 src/readers/filepreprocessor.rs          |   471: 18 |   1:main             | s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl::he7cb45e159af5bb1                        |           2 |           154
 src/readers/syslinereader.rs             |   981: 34 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::insert_sysline::he1c2b8011f31daad                      |           2 |           144
 src/s4/s4.rs                             |  5283: 59 |   1:main             | s4::s4::processing_loop::recv_many_chan::hc4a7f93743b85011                                           |           2 |           144
-src/readers/syslinereader.rs             |  1784: 27 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached::h6af7dd33730e223b       |           2 |           128
 src/readers/syslinereader.rs             |  3046: 13 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::summary::he90cba24e7fcf6df                             |           2 |           128
+src/readers/syslinereader.rs             |  1784: 27 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached::h6af7dd33730e223b       |           2 |           128
 src/readers/syslogprocessor.rs           |  1467: 20 |   3:dtf2-2.log.xz    | s4lib::readers::syslogprocessor::SyslogProcessor::summary_complete::h5ff4bc3d5f285be1                |           2 |            64
 src/s4/s4.rs                             |  5155: 13 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           2 |            64
 src/readers/syslinereader.rs             |  1282: 44 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::find_datetime_in_line::h6c2824f5fba13f07               |           2 |            48
 src/data/sysline.rs                      |   144: 20 |   3:dtf2-2.log.xz    | s4lib::data::sysline::Sysline::new_no_lines::hde86e325f406c151                                       |           2 |            16
 src/readers/filepreprocessor.rs          |   334: 31 |   1:main             | s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl::he7cb45e159af5bb1                        |           2 |             5
-src/readers/blockreader.rs               |  1716: 34 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |        65,536
 src/readers/blockreader.rs               |  1766: 48 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |        65,536
+src/readers/blockreader.rs               |  1716: 34 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |        65,536
 src/readers/blockreader.rs               |  1715: 50 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |         8,192
 src/data/datetime.rs                     |  5445: 54 |   3:dtf2-2.log.xz    | <s4lib::data::datetime::DATETIME_PARSE_DATAS_REGEX_VEC as core::ops::deref::Deref>::deref::__static_ref_initialize::h7d17b388069eeb9e |           1 |         7,000
 src/s4/s4.rs                             |  5112: 34 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |         2,388
@@ -45,85 +45,85 @@ src/s4/s4.rs                             |  5448: 29 |   1:main             | s4
 src/printer/printers.rs                  |   750: 22 |   1:main             | s4lib::printer::printers::PrinterLogMessage::new::h477ff899b31f250b                                  |           1 |         1,024
 src/s4/s4.rs                             |  5329: 34 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           884
 src/s4/s4.rs                             |  5027: 17 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           368
-src/readers/syslogprocessor.rs           |   174:  9 |   3:dtf2-2.log.xz    | <s4lib::readers::syslogprocessor::BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP as core::ops::deref::Deref>::deref::__static_ref_initialize::hee8eeec39de278e3 |           1 |           280
 src/readers/syslogprocessor.rs           |   189:  9 |   3:dtf2-2.log.xz    | <s4lib::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP as core::ops::deref::Deref>::deref::__static_ref_initialize::h659d74a7c9924719 |           1 |           280
+src/readers/syslogprocessor.rs           |   174:  9 |   3:dtf2-2.log.xz    | <s4lib::readers::syslogprocessor::BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP as core::ops::deref::Deref>::deref::__static_ref_initialize::hee8eeec39de278e3 |           1 |           280
 src/readers/syslinereader.rs             |   995:  9 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::insert_sysline::he1c2b8011f31daad                      |           1 |           280
 src/s4/s4.rs                             |  5167:  9 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           280
 src/s4/s4.rs                             |  4912: 34 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           276
 src/s4/s4.rs                             |  3669: 51 |   1:main             | s4::s4::main::hf8d09a3b45e7feb1                                                                      |           1 |           224
 src/readers/linereader.rs                |   495:  9 |   3:dtf2-2.log.xz    | s4lib::readers::linereader::LineReader::insert_line::h4feb54e1f42c0c5f                               |           1 |           192
-src/readers/syslinereader.rs             |   989:  9 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::insert_sysline::he1c2b8011f31daad                      |           1 |           192
 src/readers/blockreader.rs               |  1772: 44 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |           192
 src/readers/linereader.rs                |   482:  9 |   3:dtf2-2.log.xz    | s4lib::readers::linereader::LineReader::insert_line::h4feb54e1f42c0c5f                               |           1 |           192
+src/readers/syslinereader.rs             |   989:  9 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::insert_sysline::he1c2b8011f31daad                      |           1 |           192
 src/s4/s4.rs                             |  4918: 49 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           148
 src/s4/s4.rs                             |  4920: 40 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |           116
 src/readers/syslinereader.rs             |  1284: 17 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::find_datetime_in_line::h6c2824f5fba13f07               |           1 |           112
 src/readers/blockreader.rs               |  1780: 25 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |           104
 src/readers/blockreader.rs               |  1604: 32 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |           100
 src/s4/s4.rs                             |  2529: 12 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::FromArgMatches>::from_arg_matches_mut::{{closure}}::ha6bc967a9eab3dea |           1 |            96
-src/s4/s4.rs                             |  4933: 44 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
-src/s4/s4.rs                             |  4937: 41 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
 src/s4/s4.rs                             |  5122: 28 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
+src/s4/s4.rs                             |  4933: 44 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
 src/s4/s4.rs                             |  4935: 35 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
+src/s4/s4.rs                             |  4937: 41 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
 src/s4/s4.rs                             |  5110: 32 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            84
 src/readers/filepreprocessor.rs          |  1137: 22 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            78
 src/readers/filepreprocessor.rs          |  1167: 53 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            56
-src/s4/s4.rs                             |  5335: 52 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            52
 src/s4/s4.rs                             |  5319: 26 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            52
+src/s4/s4.rs                             |  5335: 52 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            52
 src/s4/s4.rs                             |  5627: 62 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            52
-src/readers/linereader.rs                |  1129: 21 |   3:dtf2-2.log.xz    | s4lib::readers::linereader::LineReader::find_line_in_block::hd2fff0bbc3bdd26c                        |           1 |            48
-src/readers/linereader.rs                |  1207: 25 |   3:dtf2-2.log.xz    | s4lib::readers::linereader::LineReader::find_line_in_block::hd2fff0bbc3bdd26c                        |           1 |            48
 src/readers/syslinereader.rs             |  2510: 13 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::find_sysline_year::h8af52c4146465ef4                   |           1 |            48
 src/readers/linereader.rs                |  1313: 29 |   3:dtf2-2.log.xz    | s4lib::readers::linereader::LineReader::find_line_in_block::hd2fff0bbc3bdd26c                        |           1 |            48
+src/readers/linereader.rs                |  1129: 21 |   3:dtf2-2.log.xz    | s4lib::readers::linereader::LineReader::find_line_in_block::hd2fff0bbc3bdd26c                        |           1 |            48
+src/readers/linereader.rs                |  1207: 25 |   3:dtf2-2.log.xz    | s4lib::readers::linereader::LineReader::find_line_in_block::hd2fff0bbc3bdd26c                        |           1 |            48
 src/readers/syslinereader.rs             |  2235: 13 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::find_sysline_in_block_year::hb81b716858ac108d          |           1 |            48
 src/s4/s4.rs                             |  3405: 33 |   1:main             | s4::s4::cli_process_args::h5b76c099812ee6ae                                                          |           1 |            48
 src/readers/blockreader.rs               |  1771: 46 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |            40
 src/s4/s4.rs                             |  2881:  5 |   1:main             | s4::s4::cli_process_tz_offset::h5517a123feeb877d                                                     |           1 |            40
-src/readers/blockreader.rs               |  2687:  9 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::store_block_in_LRU_cache::h75a87b64b29f032f                |           1 |            32
-src/s4/s4.rs                             |  3946:  9 |   3:dtf2-2.log.xz    | s4::s4::exec_syslogprocessor::h3a46aa30ebb8d614                                                      |           1 |            32
-src/data/sysline.rs                      |   192:  9 |   3:dtf2-2.log.xz    | s4lib::data::sysline::Sysline::push::h16b49782e8bd5bb5                                               |           1 |            32
 src/readers/blockreader.rs               |   617: 35 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |            32
+src/data/sysline.rs                      |   192:  9 |   3:dtf2-2.log.xz    | s4lib::data::sysline::Sysline::push::h16b49782e8bd5bb5                                               |           1 |            32
+src/readers/blockreader.rs               |  2687:  9 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::store_block_in_LRU_cache::h75a87b64b29f032f                |           1 |            32
 src/readers/blockreader.rs               |   649: 20 |   3:dtf2-2.log.xz    | s4lib::readers::blockreader::BlockReader::new::h6a6286765140d793                                     |           1 |            32
-src/readers/filepreprocessor.rs          |  1133: 33 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            32
+src/s4/s4.rs                             |  3946:  9 |   3:dtf2-2.log.xz    | s4::s4::exec_syslogprocessor::h3a46aa30ebb8d614                                                      |           1 |            32
 src/s4/s4.rs                             |  3432: 29 |   1:main             | s4::s4::cli_process_args::h5b76c099812ee6ae                                                          |           1 |            32
 src/readers/filepreprocessor.rs          |  1167: 87 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            32
 src/s4/s4.rs                             |  5027: 56 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            32
+src/readers/filepreprocessor.rs          |  1133: 33 |   1:main             | s4lib::readers::filepreprocessor::process_path::h74a9384fff7ac3d4                                    |           1 |            32
 src/s4/s4.rs                             |  2880: 28 |   1:main             | s4::s4::cli_process_tz_offset::h5517a123feeb877d                                                     |           1 |            20
-src/s4/s4.rs                             |  2632:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2531:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2704:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2780:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2719:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2584:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2666:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2656:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2644:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2731:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2743:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2570:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2614:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2518:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2541:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2678:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2552:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
-src/s4/s4.rs                             |  2766:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
 src/s4/s4.rs                             |  2692:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2552:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2780:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2632:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
 src/s4/s4.rs                             |  2598:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2704:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2570:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2541:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2531:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2743:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2518:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2678:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2656:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2666:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2644:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2766:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2584:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2731:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2614:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
+src/s4/s4.rs                             |  2719:  5 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::hc6ee4607e4a65b6f                    |           1 |            16
 src/printer/printers.rs                  |   751: 28 |   1:main             | s4lib::printer::printers::PrinterLogMessage::new::h477ff899b31f250b                                  |           1 |            14
 src/readers/helpers.rs                   |    30:  5 |   1:main             | s4lib::readers::helpers::basename::h2738d59ac52b6485                                                 |           1 |            13
-src/s4/s4.rs                             |  5170: 19 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            13
 src/s4/s4.rs                             |  5168: 32 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            13
+src/s4/s4.rs                             |  5170: 19 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |            13
 src/readers/syslinereader.rs             |   563: 31 |   3:dtf2-2.log.xz    | s4lib::readers::syslinereader::SyslineReader::new::hd2b10accdf9ca60f                                 |           1 |             8
 src/s4/s4.rs                             |  2853: 23 |   1:main             | s4::s4::cli_parse_blocksz::hc73438687cead8d9                                                         |           1 |             8
 src/s4/s4.rs                             |  2774: 27 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h097e67fbb66fa0c5       |           1 |             8
-src/s4/s4.rs                             |  2565:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::ha6902addfe0c188f       |           1 |             8
 src/s4/s4.rs                             |  5345: 26 |   1:main             | s4::s4::processing_loop::h8bb6d577617d90c0                                                           |           1 |             8
-src/s4/s4.rs                             |  2699:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h8e91986192e53d16       |           1 |             5
-src/s4/s4.rs                             |  2756:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h9b5049320eae14f8       |           1 |             5
+src/s4/s4.rs                             |  2565:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::ha6902addfe0c188f       |           1 |             8
 src/s4/s4.rs                             |  2738:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::heb2507757feb844e       |           1 |             5
+src/s4/s4.rs                             |  2852: 32 |   1:main             | s4::s4::cli_parse_blocksz::hc73438687cead8d9                                                         |           1 |             5
 src/s4/s4.rs                             |  2714:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h6a73e2884507a32a       |           1 |             5
 src/s4/s4.rs                             |  2774:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h097e67fbb66fa0c5       |           1 |             5
-src/s4/s4.rs                             |  2852: 32 |   1:main             | s4::s4::cli_parse_blocksz::hc73438687cead8d9                                                         |           1 |             5
+src/s4/s4.rs                             |  2756:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h9b5049320eae14f8       |           1 |             5
+src/s4/s4.rs                             |  2699:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h8e91986192e53d16       |           1 |             5
 src/s4/s4.rs                             |  2726:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h2ea9ce64032213a3       |           1 |             4
 src/s4/s4.rs                             |  2671:  9 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h33a6cb723f5d32a1       |           1 |             1
 src/s4/s4.rs                             |  2671: 27 |   1:main             | <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h33a6cb723f5d32a1       |           1 |             1
@@ -132,8 +132,8 @@ src/s4/s4.rs                             |  2671: 27 |   1:main             | <s
 allocator tracking summary:
   call sites   :            127 (rows in the table above)
   allocations  :     92,278,713 bytes in      463,940 calls
-  deallocations:    219,558,122 bytes in    2,428,824 calls (includes while tracking)
-  from tracking:    163,785,109 bytes in    2,043,656 calls
+  deallocations:    219,558,151 bytes in    2,428,827 calls (includes while tracking)
+  from tracking:    163,785,138 bytes in    2,043,659 calls
   current      :     36,505,703 bytes
   ratio tracking to normal: 100 to 56 bytes (100 to 23 calls)
   cached filenames  :  11 unique

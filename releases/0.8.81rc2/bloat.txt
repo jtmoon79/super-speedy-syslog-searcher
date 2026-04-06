@@ -1,0 +1,103 @@
+ File  .text     Size             Crate Name
+ 1.0%   3.3% 112.4KiB    regex_automata regex_automata::meta::strategy::new
+ 0.6%   2.0%  69.6KiB                s4 s4::s4::processing_loop
+ 0.5%   1.8%  61.1KiB                s4 s4::s4::exec_fileprocessor_thread
+ 0.5%   1.6%  54.8KiB             s4lib s4lib::data::fixedstruct::FixedStruct::as_bytes
+ 0.3%   1.1%  39.0KiB               s4? <s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args
+ 0.3%   1.0%  34.1KiB             s4lib s4lib::data::fixedstruct::FixedStruct::score_fixedstruct
+ 0.2%   0.6%  21.8KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependfile_prependdate_color
+ 0.2%   0.6%  21.8KiB      clap_builder clap_builder::parser::parser::Parser::get_matches_with
+ 0.2%   0.6%  21.2KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependdate_color
+ 0.2%   0.6%  21.0KiB             s4lib s4lib::printer::summary::print_summary
+ 0.2%   0.6%  20.9KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_prependfile_color
+ 0.2%   0.6%  20.5KiB             s4lib s4lib::readers::fixedstructreader::FixedStructReader::new
+ 0.2%   0.6%  20.2KiB             s4lib s4lib::python::pyrunner::PyRunner::new
+ 0.2%   0.6%  20.2KiB          bzip2_rs bzip2_rs::huffman::HuffmanTree::new
+ 0.2%   0.6%  20.0KiB                s4 s4::s4::cli_process_args
+ 0.2%   0.6%  19.6KiB             s4lib s4lib::printer::summary::print_file_summary
+ 0.2%   0.6%  19.2KiB    regex_automata regex_automata::nfa::thompson::compiler::Compiler::c
+ 0.2%   0.5%  18.9KiB      clap_builder clap_builder::parser::validator::Validator::validate
+ 0.2%   0.5%  18.6KiB              evtx evtx::binxml::value_variant::BinXmlValue::deserialize_value_type
+ 0.2%   0.5%  18.0KiB             s4lib s4lib::data::datetime::bytes_to_regex_to_datetime
+ 0.2%   0.5%  17.8KiB               std std::backtrace_rs::symbolize::gimli::Cache::with_global
+ 0.1%   0.5%  16.6KiB    regex_automata regex_automata::meta::regex::Builder::build
+ 0.1%   0.5%  16.5KiB         [Unknown] malloc_conf_init_helper
+ 0.1%   0.5%  16.4KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_sysline_color
+ 0.1%   0.5%  15.8KiB           lzma_rs lzma_rs::decode::xz::decode_stream
+ 0.1%   0.4%  14.8KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_journalentry_prepend_color
+ 0.1%   0.4%  13.9KiB             s4lib s4lib::readers::evtxreader::EvtxReader::analyze
+ 0.1%   0.4%  13.3KiB             s4lib s4lib::readers::filepreprocessor::process_path
+ 0.1%   0.4%  13.0KiB             s4lib s4lib::readers::filedecompressor::decompress_to_ntf
+ 0.1%   0.4%  12.8KiB    regex_automata regex_automata::nfa::thompson::compiler::Compiler::compile
+ 0.1%   0.4%  12.8KiB                s4 s4::s4::exec_pyeventprocessor
+ 0.1%   0.4%  12.7KiB                s4 s4::main
+ 0.1%   0.4%  12.6KiB             s4lib s4lib::readers::blockreader::BlockReader::new
+ 0.1%   0.4%  12.6KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_evtx_prepend_color
+ 0.1%   0.4%  12.6KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_pyevent_prepend_color
+ 0.1%   0.4%  12.1KiB               std std::backtrace_rs::symbolize::gimli::Context::new
+ 0.1%   0.3%  12.0KiB      regex_syntax <regex_syntax::hir::translate::TranslatorI as regex_syntax::ast::visitor::Visitor>::visit_post
+ 0.1%   0.3%  11.8KiB              evtx evtx::evtx_record::EvtxRecord::into_xml
+ 0.1%   0.3%  10.8KiB    regex_automata regex_automata::hybrid::search::find_fwd
+ 0.1%   0.3%  10.1KiB    regex_automata regex_automata::nfa::thompson::pikevm::PikeVM::search_imp
+ 0.1%   0.3%   9.7KiB             gimli gimli::read::dwarf::Unit<R>::new
+ 0.1%   0.3%   9.7KiB         lz4_flex? <lz4_flex::frame::decompress::FrameDecoder<R> as std::io::Read>::read
+ 0.1%   0.3%   9.5KiB      clap_builder clap_builder::output::help_template::HelpTemplate::write_templated_help
+ 0.1%   0.3%   9.5KiB    regex_automata regex_automata::nfa::thompson::pikevm::PikeVM::which_overlapping_imp
+ 0.1%   0.3%   9.4KiB         bzip2_rs? <bzip2_rs::decoder::reader::DecoderReader<R> as std::io::Read>::read
+ 0.1%   0.3%   9.3KiB            chrono chrono::format::formatting::DelayedFormat<I>::write_to
+ 0.1%   0.3%   9.2KiB             rayon <&rayon::iter::par_bridge::IterParallelProducer<Iter> as rayon::iter::plumbing::UnindexedProducer>::fold_with
+ 0.1%   0.3%   9.2KiB               std <T as alloc::string::SpecToString>::spec_to_string
+ 0.1%   0.3%   9.0KiB      clap_builder clap_builder::builder::command::Command::_build_self
+ 0.1%   0.3%   9.0KiB         addr2line addr2line::line::LazyLines::borrow
+ 0.1%   0.3%   8.9KiB      clap_builder clap_builder::parser::parser::Parser::match_arg_error
+ 0.1%   0.3%   8.8KiB      clap_builder clap_builder::output::help_template::HelpTemplate::write_args
+ 0.1%   0.3%   8.7KiB              evtx evtx::binxml::value_variant::BinXmlValue::as_cow_str
+ 0.1%   0.2%   8.5KiB             s4lib s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached
+ 0.1%   0.2%   8.4KiB       miniz_oxide miniz_oxide::inflate::core::decompress
+ 0.1%   0.2%   8.4KiB      clap_builder clap_builder::parser::parser::Parser::react
+ 0.1%   0.2%   8.2KiB      regex_syntax <regex_syntax::hir::translate::TranslatorI as regex_syntax::ast::visitor::Visitor>::visit_class_set_item_post
+ 0.1%   0.2%   8.2KiB           lzma_rs lzma_rs::decode::xz::decode_filter
+ 0.1%   0.2%   8.0KiB                s4 s4::s4::process_dt_exit
+ 0.1%   0.2%   8.0KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependfile_prependdate_color
+ 0.1%   0.2%   7.9KiB           lzma_rs lzma_rs::decode::xz::decode_filter
+ 0.1%   0.2%   7.9KiB                s4 s4::s4::string_wdhms_to_duration
+ 0.1%   0.2%   7.5KiB         [Unknown] stats_general_print
+ 0.1%   0.2%   7.4KiB             rayon rayon::iter::plumbing::bridge_producer_consumer::helper
+ 0.1%   0.2%   7.4KiB             evtx? <evtx::binxml::value_variant::BinXmlValue as core::fmt::Debug>::fmt
+ 0.1%   0.2%   7.2KiB                s4 s4::alloc_tracker::print_tracking_map
+ 0.1%   0.2%   7.2KiB      clap_builder clap_builder::error::Error<F>::print
+ 0.1%   0.2%   7.2KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependdate_color
+ 0.1%   0.2%   7.1KiB      clap_builder clap_builder::output::usage::Usage::write_arg_usage
+ 0.1%   0.2%   7.0KiB       miniz_oxide miniz_oxide::inflate::core::decompress
+ 0.1%   0.2%   7.0KiB      regex_syntax regex_syntax::hir::Hir::alternation
+ 0.1%   0.2%   6.9KiB               std std::thread::available_parallelism
+ 0.1%   0.2%   6.7KiB         addr2line addr2line::unit::ResUnit<R>::find_function_or_location::{{closure}}
+ 0.1%   0.2%   6.5KiB tikv_jemalloc_sys _rjem_je_arena_ralloc
+ 0.1%   0.2%   6.5KiB      clap_builder clap_builder::output::help_template::HelpTemplate::write_subcommands
+ 0.1%   0.2%   6.3KiB      aho_corasick aho_corasick::util::prefilter::Builder::build
+ 0.1%   0.2%   6.3KiB             s4lib s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl
+ 0.1%   0.2%   6.3KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_prependfile_color
+ 0.1%   0.2%   6.1KiB           lzma_rs lzma_rs::decode::rangecoder::LenDecoder::reset
+ 0.1%   0.2%   6.0KiB      aho_corasick aho_corasick::automaton::try_find_fwd
+ 0.1%   0.2%   5.9KiB             s4lib s4lib::python::pyrunner::PyRunner::run
+ 0.1%   0.2%   5.9KiB            chrono chrono::offset::local::inner::current_zone
+ 0.0%   0.2%   5.6KiB             s4lib s4lib::readers::linereader::LineReader::insert_line
+ 0.0%   0.2%   5.5KiB    regex_automata regex_automata::nfa::thompson::backtrack::BoundedBacktracker::search_imp
+ 0.0%   0.2%   5.5KiB             regex regex::error::Error::from_meta_build_error
+ 0.0%   0.2%   5.4KiB      regex_syntax regex_syntax::hir::literal::Extractor::extract
+ 0.0%   0.2%   5.3KiB             s4lib s4lib::readers::linereader::LineReader::find_line
+ 0.0%   0.2%   5.3KiB            chrono <chrono::format::strftime::StrftimeItems as core::iter::traits::iterator::Iterator>::next
+ 0.0%   0.2%   5.3KiB      aho_corasick <aho_corasick::packed::teddy::builder::x86_64::SlimAVX2<4_usize> as aho_corasick::packed::teddy::builder::SearcherT>::find
+ 0.0%   0.2%   5.3KiB      aho_corasick aho_corasick::dfa::Builder::build_from_noncontiguous
+ 0.0%   0.2%   5.2KiB    regex_automata regex_automata::hybrid::dfa::Lazy::cache_next_state
+ 0.0%   0.2%   5.2KiB     clap_builder? <clap_builder::builder::command::Command as core::clone::Clone>::clone
+ 0.0%   0.2%   5.2KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_fixedstruct_color
+ 0.0%   0.2%   5.2KiB      clap_builder clap_builder::parser::parser::Parser::did_you_mean_error
+ 0.0%   0.1%   5.1KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_journalentry_color
+ 0.0%   0.1%   5.1KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_evtx_color
+ 0.0%   0.1%   5.1KiB             s4lib s4lib::printer::printers::PrinterLogMessage::print_pyevent_color
+ 0.0%   0.1%   5.0KiB      aho_corasick <aho_corasick::packed::teddy::builder::x86_64::SlimAVX2<3_usize> as aho_corasick::packed::teddy::builder::SearcherT>::find
+ 0.0%   0.1%   5.0KiB             s4lib s4lib::readers::journalreader::JournalReader::next_short
+ 0.0%   0.1%   5.0KiB        rayon_core rayon_core::registry::Registry::new
+18.2%  59.9%   2.0MiB                   And 4452 smaller methods. Use -n N to show more.
+30.4% 100.0%   3.4MiB                   .text section size, the file size is 11.0MiB
