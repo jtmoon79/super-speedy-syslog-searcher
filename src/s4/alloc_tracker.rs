@@ -7,6 +7,9 @@
 /// Users can control it with environment variables:
 /// - `S4_ALLOC_TRACKER_PRINT` to print a backtrace of each allocation and
 /// - `S4_ALLOC_TRACKER_TRACKING` to track allocator statistics.
+/// - `S4_ALLOC_DEPTH` to set the number of call-stack frames above the
+///   innermost project frame to include in the tracking key (default `1`,
+///   maximum `16`).
 
 use std::alloc::{
     GlobalAlloc,
@@ -19,6 +22,7 @@ use std::sync::atomic::{
     AtomicUsize,
     Ordering,
 };
+use std::sync::OnceLock;
 use std::sync::RwLock;
 
 use ::backtrace::SymbolName;
@@ -140,11 +144,16 @@ macro_rules! alloc_stderr_write_fmt {
     }};
 }
 
-/// `(file index, function index, line, column, threadname index, threadid)` uniquely identifies an allocation call site.
+/// `(file index, function index, line, column)` for a single call-stack frame.
 /// `file index` is for `ALLOCATOR_TRACKING_FILENAMES`
 /// `function index` is for `ALLOCATOR_TRACKING_FUNCTIONS`
+pub type AllocatorDebugTrackingFrameKey = (usize, usize, u32, u32);
+/// Maximum number of call-stack frames that can be included in a tracking key.
+pub const MAX_ALLOC_DEPTH: usize = 16;
+/// `([per-frame keys; MAX_ALLOC_DEPTH], threadname index, threadid)` uniquely identifies an allocation call site.
 /// `threadname index` is for `ALLOCATOR_TRACKING_THREADNAMES`
-pub type AllocatorDebugTrackingKey = (usize, usize, u32, u32, usize, u64);
+/// Unused frame slots are filled with `(usize::MAX, usize::MAX, u32::MAX, u32::MAX)`.
+pub type AllocatorDebugTrackingKey = ([AllocatorDebugTrackingFrameKey; MAX_ALLOC_DEPTH], usize, u64);
 /// `(allocator call count, total allocated bytes)` for a given call site.
 pub type AllocatorDebugTrackingValue = (usize, usize);
 pub type AllocatorDebugTrackingMap = HashMap<AllocatorDebugTrackingKey, AllocatorDebugTrackingValue>;
@@ -168,6 +177,10 @@ std::thread_local! {
 const ENV_ALLOCATOR_PRINT: &str = "S4_ALLOC_TRACKER_PRINT";
 /// User-set environment variable to enable tracking of allocator call sites.
 const ENV_ALLOCATOR_TRACKING: &str = "S4_ALLOC_TRACKER_TRACKING";
+/// User-set environment variable to set the call-stack depth for tracking.
+const ENV_ALLOC_DEPTH: &str = "S4_ALLOC_DEPTH";
+/// Default depth: track only the innermost project frame.
+const DEFAULT_ALLOC_DEPTH: usize = 1;
 
 // Global allocator statistics
 static ALLOCATOR_ALLOCATED_TRACKING_OFF: AtomicUsize = AtomicUsize::new(0);
@@ -178,6 +191,9 @@ static ALLOCATOR_ALLOCATED_CURRENT: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_ALLOCATED_TRACKED_FRAME: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_CALLS_TRACKING_OFF: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_CALLS_TRACKING_ON: AtomicUsize = AtomicUsize::new(0);
+/// Number of project call-stack frames to include in the tracking key.
+/// Set once from `S4_ALLOC_DEPTH` in `allocator_tracker_enable()`.
+static ALLOC_DEPTH: OnceLock<usize> = OnceLock::new();
 
 lazy_static! {
     /// Global map for tracking allocator call sites and their statistics.
@@ -214,12 +230,25 @@ fn allocator_tracking() -> bool {
     std::env::var(ENV_ALLOCATOR_TRACKING).map(|val| !val.is_empty()).unwrap_or(false)
 }
 
+/// Reads `S4_ALLOC_DEPTH` from the environment, clamps to `[1, MAX_ALLOC_DEPTH]`,
+/// and returns the value. Returns `DEFAULT_ALLOC_DEPTH` if the variable is absent
+/// or cannot be parsed.
+fn allocator_depth() -> usize {
+    std::env::var(ENV_ALLOC_DEPTH)
+        .ok()
+        .and_then(|s| s.parse::<usize>().ok())
+        .map(|v| v.clamp(1, MAX_ALLOC_DEPTH))
+        .unwrap_or(DEFAULT_ALLOC_DEPTH)
+}
+
 /// Tracking and printing will begin after this is called.
 /// Must call this for each thread to track.
 pub fn allocator_tracker_enable() {
     // force ThreadId and ThreadName to get set once early on
     ALLOCATOR_TID.with(|_| {});
     ALLOCATOR_TNAME.with(|_| {});
+    // read S4_ALLOC_DEPTH once (it does not change after program start)
+    ALLOC_DEPTH.get_or_init(|| allocator_depth());
     // secret environment variable option to print the stack strace of each alloc_tracker
     if allocator_print() {
         ALLOCATOR_DO_PRINT.with(|adep| match adep.write() {
@@ -402,7 +431,14 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
 
         let mut frames_skipped: usize = 0;
         let mut frames_project: usize = 0;
-        let mut frame_tracked: bool = false;
+        // Number of project frames collected so far for the tracking key.
+        let mut frames_captured: usize = 0;
+        // Stack-allocated array of per-frame keys; unused slots hold the sentinel
+        // `(usize::MAX, usize::MAX, u32::MAX, u32::MAX)` so that different depths
+        // produce different (non-colliding) keys without any heap allocation.
+        let mut collected_frame_keys: [AllocatorDebugTrackingFrameKey; MAX_ALLOC_DEPTH] =
+            [(usize::MAX, usize::MAX, u32::MAX, u32::MAX); MAX_ALLOC_DEPTH];
+        let depth: usize = ALLOC_DEPTH.get().copied().unwrap_or(DEFAULT_ALLOC_DEPTH);
 
         // Traverse the backtrace frames for this allocation
         // looking for the first frame that refers to this project's source code
@@ -488,19 +524,13 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                         }
                     });
                 }
-                if allocator_do_track && !frame_tracked {
-                    // only track this frame, which should be the last frame of control from this
-                    // project's source code before it calls into some other module's code.
-                    frame_tracked = true;
-                    ALLOCATOR_ALLOCATED_TRACKED_FRAME.fetch_add(sz, Ordering::Relaxed);
-                    // track this allocation call site in the thread-local map
-                    let mut apw = match ALLOCATOR_TRACKING_MAP.write() {
-                        Ok(apw) => apw,
-                        Err(err) => alloc_exit("ALLOCATOR_TRACKING_MAP.write() failed", Some(&err)),
-                    };
+                if allocator_do_track && frames_captured < depth {
+                    // Collect the indices for this project frame so we can build
+                    // the composite tracking key after the backtrace completes.
+                    // This avoids holding the ALLOCATOR_TRACKING_MAP lock inside
+                    // the backtrace traversal callback.
 
                     // get filename
-                    const FILENAME_LEN_MAX: usize = 512;
                     let mut filename_buf = FmtBuf::<FILENAME_LEN_MAX>::new();
                     match symbol.filename_raw() {
                         Some(symbol_filename) => {
@@ -526,64 +556,87 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                     };
                     let function_s = unsafe { str::from_utf8_unchecked(function_buf.as_bytes()) };
 
-                    let filename_idx: usize = tracking_filename_index(filename_s);
-                    let function_idx: usize = tracking_function_index(function_s);
                     let lineno: u32 = symbol.lineno().unwrap_or(0);
                     let colno: u32 = symbol.colno().unwrap_or(0);
-                    let tid = ALLOCATOR_TID.with(|ap| *ap);
-                    let threadname = ALLOCATOR_TNAME.with(|ap| ap.clone());
-                    let threadname_idx: usize = tracking_threadname_index(&threadname);
-                    let key: AllocatorDebugTrackingKey = (filename_idx, function_idx, lineno, colno, threadname_idx, tid);
-                    let mut filename_slice: &[u8] = filename_buf.as_bytes();
-                    // remove leading project root from file path to make it more readable
-                    let pr_bytes: &[u8] = &PROJECT_ROOT_BYTES;
-                    if filename_buf.starts_with(pr_bytes) {
-                        filename_slice = &filename_slice[pr_bytes.len()..];
-                    };
-                    ALLOCATOR_FMT_BUF.with(|ap| {
-                        match ap.write() {
-                            Ok(mut apw) => {
-                                let s = unsafe { str::from_utf8_unchecked(filename_slice) };
-                                core::fmt::write(
-                                    &mut *apw,
-                                    format_args!(
-                                        "\
-           tracked allocation call site:
-             {s}:{lineno}:{colno}  [{function_s}]
-             thread [{tid}]: {threadname}\n",
-                                    )
-                                ).unwrap_or_else(
-                                    |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF.write() A", Some(&err))
-                                );
-                            }
-                            Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed A", Some(&err)),
-                        }
-                    });
-                    let value: &mut AllocatorDebugTrackingValue = apw.entry(key).or_insert((0, 0));
-                    ALLOCATOR_FMT_BUF.with(|ap| {
-                        match ap.write() {
-                            Ok(mut apw) => {
-                                core::fmt::write(
-                                    &mut *apw,
-                                    format_args!(
-                                        "\
-               {:>8} allocations, {:>10} bytes\n", value.0, value.1
-                                    )
-                                ).unwrap_or_else(
-                                    |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF.write() B", Some(&err))
-                                );
-                            }
-                            Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed B", Some(&err)),
-                        }
-                    });
-                    value.0 += 1;
-                    value.1 += sz;
+                    let filename_idx: usize = tracking_filename_index(filename_s);
+                    let function_idx: usize = tracking_function_index(function_s);
+                    collected_frame_keys[frames_captured] = (filename_idx, function_idx, lineno, colno);
+                    frames_captured += 1;
                 }
             });
 
-            // `true` means continue to next frame, else stop bracktrace traversal.
-            allocator_do_print || (allocator_do_track && !frame_tracked)
+            // `true` means continue to next frame, else stop backtrace traversal.
+            allocator_do_print || (allocator_do_track && frames_captured < depth)
         });
+        // After the backtrace: if any project frames were collected, update the
+        // tracking map and (if printing) append the call-site summary to FMT_BUF.
+        if allocator_do_track && frames_captured > 0 {
+            ALLOCATOR_ALLOCATED_TRACKED_FRAME.fetch_add(sz, Ordering::Relaxed);
+
+            let tid = ALLOCATOR_TID.with(|ap| *ap);
+            let threadname = ALLOCATOR_TNAME.with(|ap| ap.clone());
+            let threadname_idx: usize = tracking_threadname_index(&threadname);
+
+            let key: AllocatorDebugTrackingKey = (collected_frame_keys, threadname_idx, tid);
+
+            // Insert/update the map entry and capture the previous counts for printing.
+            let (prev_count, prev_bytes) = {
+                let mut apw = match ALLOCATOR_TRACKING_MAP.write() {
+                    Ok(apw) => apw,
+                    Err(err) => alloc_exit("ALLOCATOR_TRACKING_MAP.write() failed", Some(&err)),
+                };
+                let value: &mut AllocatorDebugTrackingValue = apw.entry(key).or_insert((0, 0));
+                let prev = (value.0, value.1);
+                value.0 += 1;
+                value.1 += sz;
+                prev
+            };
+
+            if allocator_do_print {
+                let filenames = match ALLOCATOR_TRACKING_FILENAMES.read() {
+                    Ok(f) => f,
+                    Err(err) => alloc_exit("ALLOCATOR_TRACKING_FILENAMES.read() failed", Some(&err)),
+                };
+                let functions = match ALLOCATOR_TRACKING_FUNCTIONS.read() {
+                    Ok(f) => f,
+                    Err(err) => alloc_exit("ALLOCATOR_TRACKING_FUNCTIONS.read() failed", Some(&err)),
+                };
+                ALLOCATOR_FMT_BUF.with(|ap| {
+                    match ap.write() {
+                        Ok(mut apw) => {
+                            _ = apw.append_bytes(b"   tracked allocation call site:\n");
+                            let pr = PROJECT_ROOT.as_str();
+                            for i in 0..frames_captured {
+                                let (fidx, funcidx, lineno, colno) = collected_frame_keys[i];
+                                let fname = filenames.get(fidx).map(|s| s.as_str()).unwrap_or("<unknown file>");
+                                let funcname = functions.get(funcidx).map(|s| s.as_str()).unwrap_or("<unknown function>");
+                                // remove leading project root from file path to make it more readable
+                                let fname = if fname.starts_with(pr) { &fname[pr.len()..] } else { fname };
+                                core::fmt::write(
+                                    &mut *apw,
+                                    format_args!("     {fname}:{lineno}:{colno}  [{funcname}]\n"),
+                                ).unwrap_or_else(
+                                    |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF tracked site", Some(&err))
+                                );
+                            }
+                            core::fmt::write(
+                                &mut *apw,
+                                format_args!("     thread [{tid}]: {threadname}\n"),
+                            ).unwrap_or_else(
+                                |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF thread info", Some(&err))
+                            );
+                            core::fmt::write(
+                                &mut *apw,
+                                format_args!("        {:>8} allocations, {:>10} bytes\n", prev_count, prev_bytes),
+                            ).unwrap_or_else(
+                                |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF alloc stats", Some(&err))
+                            );
+                        }
+                        Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed in tracked site", Some(&err)),
+                    }
+                });
+            }
+        }
         if allocator_do_print {
             let mut buf = FmtBuf::<256>::new();
             let aa = ALLOCATOR_ALLOCATED_TRACKING_ON.load(Ordering::Relaxed);
@@ -650,7 +703,7 @@ pub fn print_tracking_map() {
     let mut entries: Vec<(&AllocatorDebugTrackingKey, &AllocatorDebugTrackingValue)>
         = ap.iter().collect();
     let entry_len = entries.len();
-    entries.sort_by_key(|(key, value)| (value.0, value.1, key.5));
+    entries.sort_by_key(|(key, value)| (value.0, value.1, key.2));
     entries.reverse();
     let filenames = match ALLOCATOR_TRACKING_FILENAMES.read() {
         Ok(filenames) => filenames,
@@ -676,15 +729,16 @@ pub fn print_tracking_map() {
         "File", "Line", "Col", "ID", "Name (thread)", "Function", "Allocations", "Bytes"
     );
     for (key, value) in entries.into_iter() {
-        let file_name = match filenames.get(key.0) {
+        // Use the first frame's info for the table (innermost project call site).
+        let file_name = match filenames.get(key.0[0].0) {
             Some(name) => name.as_str(),
             None => "<unknown>",
         };
-        let function_name = match functions.get(key.1) {
+        let function_name = match functions.get(key.0[0].1) {
             Some(name) => name.as_str(),
             None => "<unknown>",
         };
-        let thread_name = match threadnames.get(key.4) {
+        let thread_name = match threadnames.get(key.1) {
             Some(name) => name.as_str(),
             None => "<unknown>",
         };
@@ -695,9 +749,9 @@ pub fn print_tracking_map() {
             file_name
         };
         // attempt to print some user-friendly columns
-        let line_number = &key.2;
-        let column_number = &key.3;
-        let thread_id: &u64 = &key.5;
+        let line_number = &key.0[0].2;
+        let column_number = &key.0[0].3;
+        let thread_id: &u64 = &key.2;
         let allocations = &value.0;
         let allocations_s = allocations.separate_with_commas();
         let bytes = &value.1;
