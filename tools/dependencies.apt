@@ -9,6 +9,11 @@ libssl-dev
 # compare-current-and-expected/compare.sh
 colordiff
 
+# compressions.sh
+bzip2
+lz4
+zstd
+
 # flamegraph.sh
 llvm
 linux-tools-common
