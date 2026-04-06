@@ -201,10 +201,6 @@ lazy_static! {
         Err(_) => String::from(""),
     };
     pub(super) static ref PROJECT_ROOT_BYTES: Vec<u8> = PROJECT_ROOT.as_bytes().to_vec();
-    // static ref PROJECT_ROOT_SRC: String = {
-    //     PROJECT_ROOT.clone() + "/src/"
-    // };
-    // pub(super) static ref PROJECT_ROOT_SRC_BYTES: Vec<u8> = PROJECT_ROOT_SRC.as_bytes().to_vec();
 }
 
 /// Checks environment variable `S4_ALLOC_TRACKER_PRINT` to see if we should print allocator backtraces.
@@ -766,8 +762,8 @@ pub fn print_tracking_map() {
   from tracking: {a_t_off_bytes_s:>W_B$} bytes in {a_t_off_calls_s:>W_C$} calls
   current      : {a_t_current_s:>W_B$} bytes
   ratio tracking to normal: 100 to {ratio_on_off_int} bytes (100 to {ratio_on_off_calls_int} calls)
-  cached filenames  : {filenames_len:>W_CC$} unique
-  cached functions  : {functions_len:>W_CC$} unique
-  cached threadnames: {threadnames_len:>W_CC$} unique
+  cached file names    : {filenames_len:>W_CC$}
+  cached function names: {functions_len:>W_CC$}
+  cached thread names  : {threadnames_len:>W_CC$}
 ");
 }
