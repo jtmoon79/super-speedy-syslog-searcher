@@ -4,7 +4,7 @@
 #
 # user must set:
 #   FILE         - path to a log file to be used for testing
-#   FNUM_MAX     - maximum number of files to test (default: 100)
+#   FILE_NUM     - maximum number of files to test (default: 100)
 # user may set:
 #   S4_PROGRAM   - path to the `s4` binary to test (default: ./target/release/s4)
 #   DIROUT       - output directory for markdown and SVG files (default: current directory)
@@ -16,13 +16,13 @@
 #   python3
 #   xmllint
 # usage:
-#   FILE=path/to/log FNUM_MAX=N ./tools/performance-plot.sh [<s4-args>]
+#   FILE=path/to/log FILE_NUM=N ./tools/performance-plot.sh [<s4-args>]
 # example:
-#   FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FNUM_MAX=200 ./tools/performance-plot.sh --color=never
+#   FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FILE_NUM=200 ./tools/performance-plot.sh --color=never
 # outputs:
-#   performance-plot-data__<log-file-name>__<FNUM_MAX>.md
-#   performance-plot-rss__<log-file-name>__<FNUM_MAX>.svg
-#   performance-plot-time__<log-file-name>__<FNUM_MAX>.svg
+#   performance-plot-data__<log-file-name>__<FILE_NUM>.md
+#   performance-plot-rss__<log-file-name>__<FILE_NUM>.svg
+#   performance-plot-time__<log-file-name>__<FILE_NUM>.svg
 #
 
 set -euo pipefail
@@ -264,14 +264,14 @@ declare -a time_diff_values=()
 declare -a mss_values=()
 declare -a fnum_values=()
 declare -a mss_diff_values=()
-declare -ir FNUM_MAX=${FNUM_MAX-100}
+declare -ir FILE_NUM=${FILE_NUM-100}
 declare s4_command=$(printf "%q" "${S4_PROGRAM}")
 for arg in "${@}"; do
     arg_escaped=$(printf "%q" "$arg")
     s4_command+=" ${arg_escaped}"
 done
 # markdown table rows
-for fnum in $(seq 1 ${FNUM_MAX}); do
+for fnum in $(seq 1 ${FILE_NUM}); do
     echo_line
 
     echo "Testing '${S4_PROGRAM}' with ${fnum} file(s)" >&2
@@ -380,7 +380,7 @@ echo_line
 #
 # create the final markdown file of results
 #
-declare -r MD_FINAL="${DIROUT}/performance-plot-${FILE_NAME}__${FNUM_MAX}__data.md"
+declare -r MD_FINAL="${DIROUT}/performance-plot-${FILE_NAME}__${FILE_NUM}__data.md"
 
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
@@ -434,11 +434,11 @@ DataRssDiffs=$(for i in "${!mss_diff_values[@]}"; do echo "${mss_diff_values[$i]
 declare -i ytics_step=0
 declare -i xtics_step=0
 
-if [[ $FNUM_MAX -le 50 ]]; then
+if [[ $FILE_NUM -le 50 ]]; then
     ytics_step=1
-elif [[ $FNUM_MAX -le 100 ]]; then
+elif [[ $FILE_NUM -le 100 ]]; then
     ytics_step=2
-elif [[ $FNUM_MAX -le 200 ]]; then
+elif [[ $FILE_NUM -le 200 ]]; then
     ytics_step=4
 else
     ytics_step=10
@@ -471,7 +471,7 @@ set ytics ${ytics_step}
 set grid xtics
 set grid ytics
 set xrange [0:${mss_max_x}]
-set yrange [0:$((${FNUM_MAX} + 1))]
+set yrange [0:$((${FILE_NUM} + 1))]
 set title "command: ${s4_command} ${FILE_NAME}…\n\nMax Resident Set Size (KB) per additional file of size ${FILE_SZ_KB} KB\nGit Tag: ${GitTagLast}"
 \$Data << EOD
 $DataRss
@@ -494,15 +494,16 @@ function gnuplot_svg_title_replace() {
 
 function xml_format() {
     local file="${1}"
-    xmllint --format "${file}" --output "${tmpD}/${file}.tmp"
-    mv -f "${tmpD}/${file}.tmp" "${file}"
+    local tmp_file="${tmpD}/$(basename "${file}").tmp"
+    xmllint --format "${file}" --output "${tmp_file}"
+    mv -f "${tmp_file}" "${file}"
 }
 
 #
 # gnuplot create SVG for file count vs max RSS
 #
 
-declare -r OUT_SVG_RSS="${DIROUT}/performance-plot__${FILE_NAME}__${FNUM_MAX}__rss.svg"
+declare -r OUT_SVG_RSS="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__rss.svg"
 
 echo >&2
 
@@ -525,10 +526,10 @@ echo >&2
 
 declare -i SVG_HEIGHT=1280
 declare -i SVG_WIDTH=1280
-if [[ $FNUM_MAX -le 20 ]]; then
+if [[ $FILE_NUM -le 20 ]]; then
     SVG_HEIGHT=520
     SVG_WIDTH=768
-elif [[ $FNUM_MAX -ge 200 ]]; then
+elif [[ $FILE_NUM -ge 200 ]]; then
     SVG_HEIGHT=1536
     SVG_WIDTH=1280
 fi
@@ -537,12 +538,12 @@ declare -i FONT_SIZE_OUTER=12
 declare -i FONT_SIZE_TICS=8
 declare -i FONT_SIZE_LABELS=8
 declare -i FONT_SIZE_POINTS=8
-if [[ $FNUM_MAX -ge 50 ]]; then
+if [[ $FILE_NUM -ge 50 ]]; then
     FONT_SIZE_TICS=8
     FONT_SIZE_LABELS=6
     FONT_SIZE_POINTS=6
 fi
-if [[ $FNUM_MAX -gt 100 ]]; then
+if [[ $FILE_NUM -gt 100 ]]; then
     FONT_SIZE_OUTER=12
     FONT_SIZE_TICS=6
     FONT_SIZE_LABELS=5
@@ -573,13 +574,13 @@ set title "Command: ${s4_command} ${FILE_NAME} …\n\nBuild profile: ${BUILD_PRO
     noenhanced
 set format "%.0f"
 set xlabel left "Max Resident Set Size (KB)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
-set ylabel "File count ${FNUM_MAX}\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set ylabel "File count ${FILE_NUM}\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
 set xtics ${xtics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set ytics ${ytics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set grid xtics
 set grid ytics
 set xrange [0:${mss_max_x}]
-set yrange [0:$((${FNUM_MAX} + 1))]
+set yrange [0:$((${FILE_NUM} + 1))]
 \$DataRss << EOD
 $DataRss
 EOD
@@ -610,7 +611,7 @@ echo "SVG output written to: ${OUT_SVG_RSS}" >&2
 # gnuplot create SVG for file count vs time
 #
 
-declare -r OUT_SVG_TIME="${DIROUT}/performance-plot__${FILE_NAME}__${FNUM_MAX}__time.svg"
+declare -r OUT_SVG_TIME="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__time.svg"
 
 DataTime=$(for i in "${!time_values[@]}"; do echo "${time_values[$i]} ${fnum_values[$i]}"; done)
 DataTimeDiffs=$(for i in "${!time_diff_values[@]}"; do echo "${time_diff_values[$i]} ${fnum_values[$i+1]}"; done)
@@ -640,13 +641,13 @@ set title "Command: ${s4_command} ${FILE_NAME} …\nBuild profile: ${BUILD_PROFI
 set output "${OUT_SVG_TIME}"
 set format "%.0f"
 set xlabel "Time (ms)" textcolor rgbcolor "${COLOR_1}" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" enhanced
-set ylabel "File count ${FNUM_MAX}\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
+set ylabel "File count ${FILE_NUM}\n" font "${FONT_NAME_OUTER},${FONT_SIZE_OUTER}" noenhanced
 set xtics ${xtics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set ytics ${ytics_step} font "${FONT_NAME_TICS},${FONT_SIZE_TICS}" noenhanced
 set grid xtics
 set grid ytics
 set xrange [0:${time_max_x}]
-set yrange [0:$((${FNUM_MAX} + 1))]
+set yrange [0:$((${FILE_NUM} + 1))]
 \$DataTime << EOD
 $DataTime
 EOD

@@ -20,11 +20,11 @@ FILES=(
     ./logs/NetBSD9.3/Xorg.0.log
     ./logs/RedHatEnterprise9/audit/audit.log
 )
-FNUM_MAX=${FNUM_MAX:-300}
+FILE_NUM=${FILE_NUM:-300}
 
 for FILE_ in "${FILES[@]}"; do
     (
         set -x
-        env FILE="${FILE_}" FNUM_MAX="${FNUM_MAX}" ./tools/performance-plot.sh "${@}"
+        env FILE="${FILE_}" FILE_NUM="${FILE_NUM}" ./tools/performance-plot.sh "${@}"
     )
 done
