@@ -12,5 +12,6 @@
         "rust-lang.rust-analyzer",
         "tamasfe.even-better-toml",
         "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
     ]
 }
