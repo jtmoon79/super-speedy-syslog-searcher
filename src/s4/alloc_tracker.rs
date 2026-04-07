@@ -773,7 +773,7 @@ pub fn print_tracking_map() {
     _ = alloc_stderr_write_fmt!(
         &mut buf,
         "{:<40} | {:>5}:{:>3} | {:>3}:{:<16} | {:<100} | {:>10} | {:>13}\n",
-        "File", "Line", "Col", "ID", "Name (thread)", "Function", "Allocations", "Bytes"
+        "File", "Line", "Col", "ID", "Name (thread)", "Call Site", "Allocations", "Bytes"
     );
     for (key, value) in entries.into_iter() {
         // Count the number of valid (non-sentinel) frames in this key.
