@@ -173,6 +173,11 @@ std::thread_local! {
     static ALLOCATOR_TNAME: String = std::thread::current().name().unwrap_or("<unnamed>").to_string();
     /// Sanity check
     static ALLOCATOR_TRACKER_ENABLED: AtomicBool = AtomicBool::new(false);
+    /// Per-thread count of bytes allocated while the guard is disabled (i.e. tracking is off).
+    /// Used to accurately measure backtrace-related allocations for this thread only,
+    /// avoiding races with other threads that also increment the global
+    /// `ALLOCATOR_ALLOCATED_TRACKING_OFF`.
+    static ALLOCATOR_ALLOCATED_TRACKING_OFF_LOCAL: AtomicUsize = AtomicUsize::new(0);
 }
 /// User-set environment variable to enable printing of allocator backtraces.
 const ENV_ALLOCATOR_PRINT: &str = "S4_ALLOC_TRACKER_PRINT";
@@ -433,6 +438,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
         if ! allocator_guard_ {
             ALLOCATOR_ALLOCATED_TRACKING_OFF.fetch_add(sz, Ordering::Relaxed);
             ALLOCATOR_CALLS_TRACKING_OFF.fetch_add(1, Ordering::Relaxed);
+            ALLOCATOR_ALLOCATED_TRACKING_OFF_LOCAL.with(|ap| ap.fetch_add(sz, Ordering::Relaxed));
             return ret;
         }
         allocator_guard_disable();
@@ -467,7 +473,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
         // and tracking it as the call site of this allocation.
         // `backtrace::resolve_frame` allocates hence the need for `allocator_guard()`
         // to prevent infinite loops.
-        let backtrace_off_before: usize = ALLOCATOR_ALLOCATED_TRACKING_OFF.load(Ordering::Relaxed);
+        let backtrace_off_before: usize = ALLOCATOR_ALLOCATED_TRACKING_OFF_LOCAL.with(|ap| ap.load(Ordering::Relaxed));
         ::backtrace::trace(|frame| {
             ::backtrace::resolve_frame(frame, |symbol| {
                 match symbol.filename_raw() {
@@ -595,7 +601,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
             // `true` means continue to next frame, else stop backtrace traversal.
             allocator_do_print || (allocator_do_track && frames_captured < depth)
         });
-        let backtrace_off_after: usize = ALLOCATOR_ALLOCATED_TRACKING_OFF.load(Ordering::Relaxed);
+        let backtrace_off_after: usize = ALLOCATOR_ALLOCATED_TRACKING_OFF_LOCAL.with(|ap| ap.load(Ordering::Relaxed));
         ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE.fetch_add(
             backtrace_off_after.saturating_sub(backtrace_off_before),
             Ordering::Relaxed,
