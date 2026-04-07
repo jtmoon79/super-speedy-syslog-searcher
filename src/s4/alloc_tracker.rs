@@ -174,9 +174,8 @@ std::thread_local! {
     /// Sanity check
     static ALLOCATOR_TRACKER_ENABLED: AtomicBool = AtomicBool::new(false);
     /// Per-thread count of bytes allocated while the guard is disabled (i.e. tracking is off).
-    /// Used to accurately measure backtrace-related allocations for this thread only,
-    /// avoiding races with other threads that also increment the global
-    /// `ALLOCATOR_ALLOCATED_TRACKING_OFF`.
+    /// Used to accurately measure backtrace-related allocations, which are globally tracked by
+    /// `ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE`.
     static ALLOCATOR_ALLOCATED_TRACKING_OFF_LOCAL: AtomicUsize = AtomicUsize::new(0);
 }
 /// User-set environment variable to enable printing of allocator backtraces.
@@ -221,10 +220,13 @@ lazy_static! {
     pub(super) static ref ALLOCATOR_TRACKING_THREADNAMES: RwLock<Vec<String>> =
         RwLock::new(Vec::with_capacity(50));
 
+    /// The root path of the project, used to determine if a backtrace frame
+    /// is from project source code and should be tracked.
     pub(super) static ref PROJECT_ROOT: String = match ::project_root::get_project_root() {
         Ok(root) => root.to_string_lossy().to_string(),
         Err(_) => String::from(""),
     };
+    /// `PROJECT_ROOT` as bytes.
     pub(super) static ref PROJECT_ROOT_BYTES: Vec<u8> = PROJECT_ROOT.as_bytes().to_vec();
 }
 
@@ -234,7 +236,7 @@ fn allocator_print_env() -> bool {
     std::env::var(ENV_ALLOCATOR_PRINT).map(|val| !val.is_empty()).unwrap_or(false)
 }
 
-/// wrapper to get value of `ALLOCATOR_DO_PRINT`
+/// wrapper to read value of `ALLOCATOR_DO_PRINT`
 fn allocator_print() -> bool {
     ALLOCATOR_DO_PRINT.with(|ap| match ap.read() {
         Ok(ap) => *ap,
@@ -251,7 +253,7 @@ fn allocator_tracking_env() -> bool {
     std::env::var(ENV_ALLOCATOR_TRACKING).map(|val| !val.is_empty()).unwrap_or(false)
 }
 
-/// wrapper to get value of `ALLOCATOR_DO_TRACKING`
+/// wrapper to read value of `ALLOCATOR_DO_TRACKING`
 fn allocator_tracking() -> bool {
     ALLOCATOR_DO_TRACKING.with(|ap| match ap.read() {
         Ok(ap) => *ap,
@@ -273,7 +275,7 @@ fn allocator_depth_env() -> usize {
         .unwrap_or(DEFAULT_ALLOCATOR_DEPTH)
 }
 
-/// wrapper to get value of `ALLOCATOR_DEPTH`
+/// wrapper to read value of `ALLOCATOR_DEPTH`
 fn allocator_depth() -> usize {
     ALLOCATOR_DEPTH.get().copied().unwrap_or(DEFAULT_ALLOCATOR_DEPTH)
 }
@@ -763,6 +765,8 @@ pub fn print_tracking_map() {
 
     // print a rudimentary table of the tracked allocator call sites and their stats
     // sorted by allocated bytes descending
+    let mut allocations_bytes_table: usize = 0;
+    let mut allocations_calls_table: usize = 0;
 
     let mut buf = FmtBuf::<2056>::new();
     buf.clear();
@@ -783,10 +787,13 @@ pub fn print_tracking_map() {
             None => "<unknown>",
         };
         let thread_id: &u64 = &key.2;
-        let allocations = &value.0;
+        let allocations: &usize = &value.0;
         let allocations_s = allocations.separate_with_commas();
-        let bytes = &value.1;
+        let bytes: &usize = &value.1;
         let bytes_s = bytes.separate_with_commas();
+
+        allocations_bytes_table += *bytes;
+        allocations_calls_table += *allocations;
 
         // Print the first (innermost) frame with full info including allocations and bytes.
         let file_name = match filenames.get(key.0[0].0) {
@@ -853,6 +860,14 @@ pub fn print_tracking_map() {
     let a_t_off_calls_s = a_t_off_calls.separate_with_commas();
     let a_t_off_backtrace_bytes = ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE.load(Ordering::Relaxed);
     let a_t_off_backtrace_bytes_s = a_t_off_backtrace_bytes.separate_with_commas();
+    let a_t_off_other_bytes = a_t_off_bytes.saturating_sub(a_t_off_backtrace_bytes);
+    let a_t_off_other_bytes_s = a_t_off_other_bytes.separate_with_commas();
+
+    // double-check the math of totals vs. what is stored in the `ALLOCATOR_TRACKING_MAP`
+    let diff_table_vs_total_bytes: usize = allocations_bytes_table.saturating_sub(a_t_on_bytes);
+    let diff_table_vs_total_bytes_s = diff_table_vs_total_bytes.separate_with_commas();
+    let diff_table_vs_total_calls: usize = allocations_calls_table.saturating_sub(a_t_on_calls);
+    let diff_table_vs_total_calls_s = diff_table_vs_total_calls.separate_with_commas();
 
     // ratio tracking on vs off
     // bytes
@@ -883,17 +898,23 @@ pub fn print_tracking_map() {
     const W_C: usize = 12; // width calls
     const W_CC: usize = 3; // width caches
     _ = alloc_stderr_write_fmt!(
+        // the strange alignment of right-side explanatory text here should print in a vertically aligned manner in most cases
         &mut buf,
-        "allocator tracking summary, depth {depth}:
-  call sites   : {entry_len:>W_B$} (rows in the table above)
-  allocations  : {a_t_on_bytes_s:>W_B$} bytes in {a_t_on_calls_s:>W_C$} calls
-  deallocations: {d_s:>W_B$} bytes in {d_calls_s:>W_C$} calls (includes while tracking)
-  from tracking: {a_t_off_bytes_s:>W_B$} bytes in {a_t_off_calls_s:>W_C$} calls
-  from backtrace: {a_t_off_backtrace_bytes_s:>W_B$} bytes (backtrace::trace and backtrace::resolve_frame)
-  current      : {a_t_current_s:>W_B$} bytes
-  ratio tracking to normal: 100 to {ratio_on_off_int} bytes, 100 to {ratio_on_off_calls_int} calls
-  cached file names    : {filenames_len:>W_CC$}
-  cached function names: {functions_len:>W_CC$}
-  cached thread names  : {threadnames_len:>W_CC$}
+        "\
+allocator tracking summary:
+  normal allocations      : {a_t_on_bytes_s:>W_B$} bytes in {a_t_on_calls_s:>W_C$} calls  (normal program allocations; this is the most useful number)
+  total deallocations     : {d_s:>W_B$} bytes in {d_calls_s:>W_C$} calls  (includes normal program deallocations and tracking deallocations)
+  current outstanding     : {a_t_current_s:>W_B$} bytes                        (outstanding allocated bytes as of this print)
+tracking internals:
+  frame depth             : {depth:>W_CC$}                                         (max depth of backtraced frames for each allocation call site)
+  call sites              : {entry_len:>W_CC$}                                         (entries in the table above)
+  cached file names       : {filenames_len:>W_CC$}
+  cached function names   : {functions_len:>W_CC$}
+  cached thread names     : {threadnames_len:>W_CC$}
+  total from tracking     : {a_t_off_bytes_s:>W_B$} bytes in {a_t_off_calls_s:>W_C$} calls  (tracking allocations; not part of the normal program allocations)
+  tracking from backtrace : {a_t_off_backtrace_bytes_s:>W_B$} bytes                        (tracking allocations specifically for `backtrace::trace` and `backtrace::resolve_frame`; subset of \"total from tracking\")
+  tracking from other     : {a_t_off_other_bytes_s:>W_B$} bytes                        (other tracking allocations, not \"from backtrace\"; subset of \"total from tracking\")
+  ratio tracking to normal: 100 to {ratio_on_off_int} bytes, 100 to {ratio_on_off_calls_int} calls            (ratio of tracking allocations/calls to normal program allocations/calls)
+  diff table vs total     : {diff_table_vs_total_bytes_s:>W_B$} bytes in {diff_table_vs_total_calls_s:>W_C$} calls  (sanity check of total numbers and table numbers; should be 0)
 ");
 }
