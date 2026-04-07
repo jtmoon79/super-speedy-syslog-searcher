@@ -157,6 +157,10 @@ pub type AllocatorDebugTrackingKey = ([AllocatorDebugTrackingFrameKey; ALLOCATOR
 pub type AllocatorDebugTrackingValue = (usize, usize);
 pub type AllocatorDebugTrackingMap = HashMap<AllocatorDebugTrackingKey, AllocatorDebugTrackingValue>;
 
+// TODO: how to only require user to call `allocator_tracker_enable` only once in the main thread?
+//       Perhaps also it should be split up to `allocator_tracker_enable_global` and
+//       current behavior `allocator_tracker_enable_thread`?
+
 std::thread_local! {
     /// Guards against infinite loops within `fn alloc` that are caused by allocations
     /// within `fn alloc` (e.g. by `backtrace::resolve_frame` or by formatting the debug info).
