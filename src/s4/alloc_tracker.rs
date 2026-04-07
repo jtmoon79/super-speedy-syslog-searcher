@@ -146,7 +146,7 @@ macro_rules! alloc_stderr_write_fmt {
 pub type AllocatorDebugTrackingFrameKey = (usize, usize, u32, u32);
 /// Maximum number of call-stack frames that can be included in a tracking key.
 pub const ALLOCATOR_DEPTH_MAX: usize = 16;
-/// Sentinel value for an unused `AllocatorDebugTrackingFrameKey` slot.
+/// Sentinel value for an unused `AllocatorDebugTrackingFrameKey` slot within a fixed-size array.
 pub const ALLOCATOR_FRAME_SENTINEL: AllocatorDebugTrackingFrameKey =
     (usize::MAX, usize::MAX, u32::MAX, u32::MAX);
 /// `([per-frame keys; ALLOCATOR_DEPTH_MAX], threadname index, threadid)` uniquely identifies an allocation call site.
@@ -183,7 +183,8 @@ const ENV_ALLOCATOR_DEPTH: &str = "S4_ALLOC_TRACKER_DEPTH";
 /// Default depth: track only the innermost project frame.
 const DEFAULT_ALLOCATOR_DEPTH: usize = 1;
 
-// Global allocator statistics
+// Global allocator statistics.
+// Separate from the `s4 --summary` statistics.
 static ALLOCATOR_ALLOCATED_TRACKING_OFF: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_ALLOCATED_TRACKING_ON: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_DEALLOCATED: AtomicUsize = AtomicUsize::new(0);
@@ -410,6 +411,9 @@ fn tracking_threadname_index(threadname: &str) -> usize {
 pub struct AllocTrackerImpl;
 
 unsafe impl GlobalAlloc for AllocTrackerImpl {
+    /// The allocator impementation. Calls the System allocator, then if enabled does the
+    /// work of tracking the call site of this allocation and/or printing about the allocations.
+    /// It tries to avoid allocations to reduce noise and to avoid large stack sizes.
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
         let ret = unsafe {
             // do the actual allocation
@@ -449,8 +453,8 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
         let mut frames_project: usize = 0;
         // Number of project frames collected so far for the tracking key.
         let mut frames_captured: usize = 0;
-        // Stack-allocated array of per-frame keys; unused slots hold the sentinel
-        // `(usize::MAX, usize::MAX, u32::MAX, u32::MAX)` so that different depths
+        // Stack-allocated array of per-frame keys.
+        // Unused slots hold the sentinel value so that different depths
         // produce different (non-colliding) keys without any heap allocation.
         let mut collected_frame_keys: [AllocatorDebugTrackingFrameKey; ALLOCATOR_DEPTH_MAX] =
             [ALLOCATOR_FRAME_SENTINEL; ALLOCATOR_DEPTH_MAX];
@@ -459,8 +463,8 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
         // Traverse the backtrace frames for this allocation
         // looking for the first frame that refers to this project's source code
         // and tracking it as the call site of this allocation.
-        // Also print info about each frame if `allocator_do_print` is true.
-        // `backtrace::resolve_frame` allocates, hence the need for `allocator_guard` to prevent infinite loops.
+        // `backtrace::resolve_frame` allocates hence the need for `allocator_guard()`
+        // to prevent infinite loops.
         ::backtrace::trace(|frame| {
             ::backtrace::resolve_frame(frame, |symbol| {
                 match symbol.filename_raw() {
@@ -544,7 +548,8 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                     // Collect the indices for this project frame so we can build
                     // the composite tracking key after the backtrace completes.
                     // This avoids holding the ALLOCATOR_TRACKING_MAP lock inside
-                    // the backtrace traversal callback.
+                    // the backtrace traversal callback. This also only saves stack-friendly
+                    // numbers instead of many copies of the same string.
 
                     // get filename
                     let mut filename_buf = FmtBuf::<FILENAME_LEN_MAX>::new();
@@ -574,8 +579,11 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
 
                     let lineno: u32 = symbol.lineno().unwrap_or(0);
                     let colno: u32 = symbol.colno().unwrap_or(0);
+                    // lookup vector index based on filename
                     let filename_idx: usize = tracking_filename_index(filename_s);
+                    // lookup vector index based on function name
                     let function_idx: usize = tracking_function_index(function_s);
+                    // save the numbers in an tuple (a manner that avoids for example cloning a String)
                     collected_frame_keys[frames_captured] = (filename_idx, function_idx, lineno, colno);
                     frames_captured += 1;
                 }
@@ -584,14 +592,14 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
             // `true` means continue to next frame, else stop backtrace traversal.
             allocator_do_print || (allocator_do_track && frames_captured < depth)
         });
+
         // After the backtrace: if any project frames were collected, update the
         // tracking map and (if printing) append the call-site summary to FMT_BUF.
         if allocator_do_track && frames_captured > 0 {
             ALLOCATOR_ALLOCATED_TRACKED_FRAME.fetch_add(sz, Ordering::Relaxed);
 
             let tid = ALLOCATOR_TID.with(|ap| *ap);
-            let threadname = ALLOCATOR_TNAME.with(|ap| ap.clone());
-            let threadname_idx: usize = tracking_threadname_index(&threadname);
+            let threadname_idx: usize = ALLOCATOR_TNAME.with(|ap| tracking_threadname_index(&ap));
 
             let key: AllocatorDebugTrackingKey = (collected_frame_keys, threadname_idx, tid);
 
@@ -620,32 +628,33 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                 ALLOCATOR_FMT_BUF.with(|ap| {
                     match ap.write() {
                         Ok(mut apw) => {
-                            _ = apw.append_bytes(b"   tracked allocation call site:\n");
-                            let pr = PROJECT_ROOT.as_str();
+                            let sz_t = sz + prev_bytes;
+                            let al_t = prev_count + 1;
+                            core::fmt::write(
+                                &mut *apw,
+                                format_args!("  tracked allocation call site: [thread {tid:>2}] {sz:>4} bytes requested here, {sz_t:>9} bytes total requested here, {al_t:4} allocations here\n")
+                            ).unwrap_or_else(
+                                |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF tracked site", Some(&err))
+                            );
+                            let pr: &str = PROJECT_ROOT.as_str();
                             for i in 0..frames_captured {
                                 let (fidx, funcidx, lineno, colno) = collected_frame_keys[i];
-                                let fname = filenames.get(fidx).map(|s| s.as_str()).unwrap_or("<unknown file>");
-                                let funcname = functions.get(funcidx).map(|s| s.as_str()).unwrap_or("<unknown function>");
+                                let fname: &str = filenames.get(fidx).map(|s| s.as_str()).unwrap_or("<unknown file>");
+                                let funcname: &str = functions.get(funcidx).map(|s| s.as_str()).unwrap_or("<unknown function>");
                                 // remove leading project root from file path to make it more readable
-                                let fname = if fname.starts_with(pr) { &fname[pr.len()..] } else { fname };
+                                let fname: &str = if fname.starts_with(pr) { &fname[pr.len()..] } else { fname };
                                 core::fmt::write(
                                     &mut *apw,
-                                    format_args!("     {fname}:{lineno}:{colno}  [{funcname}]\n"),
+                                    format_args!("    {fname}:{lineno}:{colno}  [{funcname}]\n"),
                                 ).unwrap_or_else(
                                     |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF tracked site", Some(&err))
                                 );
                             }
                             core::fmt::write(
                                 &mut *apw,
-                                format_args!("     thread [{tid}]: {threadname}\n"),
+                                format_args!("\n"),
                             ).unwrap_or_else(
-                                |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF thread info", Some(&err))
-                            );
-                            core::fmt::write(
-                                &mut *apw,
-                                format_args!("        {:>8} allocations, {:>10} bytes\n", prev_count, prev_bytes),
-                            ).unwrap_or_else(
-                                |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF alloc stats", Some(&err))
+                                |err| alloc_exit("core::fmt::write() failed in ALLOCATOR_FMT_BUF newline", Some(&err))
                             );
                         }
                         Err(err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed in tracked site", Some(&err)),
@@ -653,17 +662,21 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                 });
             }
         }
+
+        // here is the live printing of allocations
         if allocator_do_print {
             let mut buf = FmtBuf::<256>::new();
-            let aa = ALLOCATOR_ALLOCATED_TRACKING_ON.load(Ordering::Relaxed);
-            let tid = ALLOCATOR_TID.with(|ap| *ap);
+            let aa: usize = ALLOCATOR_ALLOCATED_TRACKING_ON.load(Ordering::Relaxed);
+            let calls: usize = ALLOCATOR_CALLS_TRACKING_ON.load(Ordering::Relaxed);
+            let tid: u64 = ALLOCATOR_TID.with(|ap| *ap);
             // write this message
             let align = layout.align();
             let mut stderr_lock = alloc_stderr_write_fmt!(
                 &mut buf,
-                "system_alloc_debug: (TID {tid}) @{ret:?} sz={sz:2} align={align:2} total_allocated={aa}\n",
+                "allocation stack: [thread {tid:>2}] @{ret:?} requested {sz:>3} bytes, align {align:>2}; total {aa:>9} bytes, total calls {calls:>6}\n",
             );
-            // then write the built-up message in `ALLOCATOR_FMT_BUF` during the backtrace traversal
+            // then write the built-up message in `ALLOCATOR_FMT_BUF` created during
+            // `backtrace::trace` and `backtrace::resolve_frame` calls.
             ALLOCATOR_FMT_BUF.with(|ap| {
                 match ap.read() {
                     Ok(ap) => _ = stderr_lock.write(ap.as_bytes()),
@@ -672,7 +685,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
             });
             _ = stderr_lock.flush();
             drop(stderr_lock);
-            // clear `ALLOCATOR_FMT_BUF` for next allocation debug info
+            // lastly clear `ALLOCATOR_FMT_BUF`
             ALLOCATOR_FMT_BUF.with(|ap| {
                 match ap.write() {
                     Ok(mut apw) => apw.clear(),
@@ -687,6 +700,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
         ret
     }
 
+    /// The deallocation implementation. Calls the System deallocator, updates the global stats.
     unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
         unsafe {
             System.dealloc(ptr, layout);
@@ -698,9 +712,8 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
     }
 }
 
-
 /// Prints the contents of the `ALLOCATOR_TRACKING_MAP` in a user-friendly way.
-/// This special print function sits outside of the normal `--summary` stuff.
+/// This special print function sits outside of the normal `s4 --summary` stuff.
 /// It is presumed this will be called last before program exit.
 /// Avoids allocations.
 pub fn print_tracking_map() {
@@ -711,7 +724,7 @@ pub fn print_tracking_map() {
         return;
     }
 
-    let project_root_ = (*PROJECT_ROOT).clone();
+    let project_root_: &str = PROJECT_ROOT.as_str();
     let ap = match ALLOCATOR_TRACKING_MAP.write() {
         Ok(ap) => ap,
         Err(err) => alloc_exit("ALLOCATOR_TRACKING_MAP.write() failed in print_tracking_map", Some(&err)),
