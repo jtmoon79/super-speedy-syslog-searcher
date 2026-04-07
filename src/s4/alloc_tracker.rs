@@ -193,6 +193,8 @@ static ALLOCATOR_ALLOCATED_CURRENT: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_ALLOCATED_TRACKED_FRAME: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_CALLS_TRACKING_OFF: AtomicUsize = AtomicUsize::new(0);
 static ALLOCATOR_CALLS_TRACKING_ON: AtomicUsize = AtomicUsize::new(0);
+/// Bytes allocated during `backtrace::trace` and `backtrace::resolve_frame` calls.
+static ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE: AtomicUsize = AtomicUsize::new(0);
 /// Number of project call-stack frames to include in the tracking key.
 /// Set once from `S4_ALLOC_TRACKER_DEPTH` in `allocator_tracker_enable()`.
 static ALLOCATOR_DEPTH: OnceLock<usize> = OnceLock::new();
@@ -465,6 +467,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
         // and tracking it as the call site of this allocation.
         // `backtrace::resolve_frame` allocates hence the need for `allocator_guard()`
         // to prevent infinite loops.
+        let backtrace_off_before: usize = ALLOCATOR_ALLOCATED_TRACKING_OFF.load(Ordering::Relaxed);
         ::backtrace::trace(|frame| {
             ::backtrace::resolve_frame(frame, |symbol| {
                 match symbol.filename_raw() {
@@ -592,6 +595,11 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
             // `true` means continue to next frame, else stop backtrace traversal.
             allocator_do_print || (allocator_do_track && frames_captured < depth)
         });
+        let backtrace_off_after: usize = ALLOCATOR_ALLOCATED_TRACKING_OFF.load(Ordering::Relaxed);
+        ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE.fetch_add(
+            backtrace_off_after.saturating_sub(backtrace_off_before),
+            Ordering::Relaxed,
+        );
 
         // After the backtrace: if any project frames were collected, update the
         // tracking map and (if printing) append the call-site summary to FMT_BUF.
@@ -837,6 +845,8 @@ pub fn print_tracking_map() {
     let a_t_off_bytes_s = a_t_off_bytes.separate_with_commas();
     let a_t_off_calls = ALLOCATOR_CALLS_TRACKING_OFF.load(Ordering::Relaxed);
     let a_t_off_calls_s = a_t_off_calls.separate_with_commas();
+    let a_t_off_backtrace_bytes = ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE.load(Ordering::Relaxed);
+    let a_t_off_backtrace_bytes_s = a_t_off_backtrace_bytes.separate_with_commas();
 
     // ratio tracking on vs off
     // bytes
@@ -873,6 +883,7 @@ pub fn print_tracking_map() {
   allocations  : {a_t_on_bytes_s:>W_B$} bytes in {a_t_on_calls_s:>W_C$} calls
   deallocations: {d_s:>W_B$} bytes in {d_calls_s:>W_C$} calls (includes while tracking)
   from tracking: {a_t_off_bytes_s:>W_B$} bytes in {a_t_off_calls_s:>W_C$} calls
+  from backtrace: {a_t_off_backtrace_bytes_s:>W_B$} bytes (backtrace::trace and backtrace::resolve_frame)
   current      : {a_t_current_s:>W_B$} bytes
   ratio tracking to normal: 100 to {ratio_on_off_int} bytes, 100 to {ratio_on_off_calls_int} calls
   cached file names    : {filenames_len:>W_CC$}
