@@ -123,7 +123,7 @@ doc = true
 doctest = true
 bench = false
 [target.'cfg(windows)'.dependencies]
-libc = "0.2.176"
+libc = "0.2.185"
 
 [[bin]]
 name = "s4"
