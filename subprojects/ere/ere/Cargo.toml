@@ -1,0 +1,33 @@
+[workspace]
+members = ["ere-core", "ere-macros"]
+resolver = "2"
+
+[package]
+name = "ere"
+description = "A compile-time alternative for POSIX extended regular expressions."
+version = "0.2.4"
+edition = "2021"
+license = "MIT"
+authors = ["2kai2kai2"]
+categories = ["text-processing"]
+readme = "README.md"
+repository = "https://github.com/2kai2kai2/ere"
+
+[dependencies]
+ere-core = { version = "0.2.4", path = "./ere-core" }
+ere-macros = { version = "0.2.4", path = "./ere-macros" }
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+pprof = { version = "0.15", features = ["flamegraph", "criterion"] }
+regex = { version = "1.12.2" }                                       # for benchmark comparison
+
+[features]
+unstable-attr-regex = [
+    "ere-core/unstable-attr-regex",
+    "ere-macros/unstable-attr-regex",
+]
+
+[[bench]]
+name = "ere_benchmark"
+harness = false        # use criterion

@@ -1,0 +1,19 @@
+[package]
+name = "ere-macros"
+description = "A compile-time alternative for POSIX extended regular expressions."
+version = "0.2.4"
+edition = "2021"
+license = "MIT"
+authors = ["2kai2kai2"]
+repository = "https://github.com/2kai2kai2/ere"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+ere-core = { version = "0.2.4", path = "../ere-core" }
+quote = "1.0.38"
+syn = { version = "2.0.96", features = ["parsing"] }
+
+[features]
+unstable-attr-regex = ["ere-core/unstable-attr-regex"]
