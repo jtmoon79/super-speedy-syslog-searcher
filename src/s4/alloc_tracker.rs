@@ -1,15 +1,15 @@
 // src/s4/alloc_tracker.rs
 
-/// A custom global allocator that wraps the system allocator and tracks call
-/// sites of allocations.
-/// Provides functions to print a summary at program exit.
-/// 
-/// Users can control it with environment variables:
-/// - `S4_ALLOC_TRACKER_PRINT` to print a backtrace of each allocation and
-/// - `S4_ALLOC_TRACKER_TRACKING` to track allocator statistics.
-/// - `S4_ALLOC_TRACKER_DEPTH` to set the number of call-stack frames above the
-///   innermost project frame to include in the tracking key (default `1`,
-///   maximum `16`).
+//! A custom global allocator that wraps the system allocator and tracks call
+//! sites of allocations.
+//! Provides functions to print a summary at program exit.
+//!
+//! Users can control it with environment variables:
+//! - `S4_ALLOC_TRACKER_PRINT` to print a backtrace of each allocation and
+//! - `S4_ALLOC_TRACKER_TRACKING` to track allocator statistics.
+//! - `S4_ALLOC_TRACKER_DEPTH` to set the number of call-stack frames above the
+//!   innermost project frame to include in the tracking key (default `1`,
+//!   maximum `16`).
 
 use std::alloc::{
     GlobalAlloc,
@@ -23,8 +23,10 @@ use std::sync::atomic::{
     AtomicUsize,
     Ordering,
 };
-use std::sync::OnceLock;
-use std::sync::RwLock;
+use std::sync::{
+    OnceLock,
+    RwLock,
+};
 
 use ::backtrace::SymbolName;
 use ::lazy_static::lazy_static;
@@ -36,7 +38,7 @@ use ::thousands::Separable;
 
 use ::s4lib::common::threadid_to_u64;
 
-/// alloc error exit value (ENOMEM)
+/// alloc error exit value (`ENOMEM` on Linux).
 const EXIT_ALLOC_ERR: i32 = 12;
 
 /// A simple fixed-size buffer that most importantly can be written to by
@@ -49,7 +51,7 @@ struct FmtBuf<const N: usize> {
 }
 
 impl<const N: usize> FmtBuf<N> {
-    pub fn new() -> Self {
+    pub const fn new() -> Self {
         Self {
             buf: [0u8; N],
             len: 0,
@@ -160,23 +162,23 @@ pub type AllocatorDebugTrackingMap = HashMap<AllocatorDebugTrackingKey, Allocato
 std::thread_local! {
     /// Guards against infinite loops within `fn alloc` that are caused by allocations
     /// within `fn alloc` (e.g. by `backtrace::resolve_frame` or by formatting the debug info).
-    static ALLOCATOR_GUARD: RwLock<bool> = RwLock::new(false);
+    static ALLOCATOR_GUARD: RwLock<bool> = const { RwLock::new(false) };
     /// Thread global buffer for printing debug info about the allocator backtrace.
-    static ALLOCATOR_FMT_BUF: RwLock<FmtBuf<10_000>> = RwLock::new(FmtBuf::<10_000>::new());
+    static ALLOCATOR_FMT_BUF: RwLock<FmtBuf<10_000>> = const { RwLock::new(FmtBuf::<10_000>::new()) };
     /// Print allocator backtraces?
-    static ALLOCATOR_DO_PRINT: RwLock<bool> = RwLock::new(false);
+    static ALLOCATOR_DO_PRINT: RwLock<bool> = const { RwLock::new(false) };
     /// Track allocator statistics?
-    static ALLOCATOR_DO_TRACKING: RwLock<bool> = RwLock::new(false);
+    static ALLOCATOR_DO_TRACKING: RwLock<bool> = const { RwLock::new(false) };
     /// Cache the thread ID to avoid allocs.
     static ALLOCATOR_TID: u64 = threadid_to_u64(std::thread::current().id());
     /// Cache the thread name to avoid allocs.
     static ALLOCATOR_TNAME: String = std::thread::current().name().unwrap_or("<unnamed>").to_string();
     /// Sanity check
-    static ALLOCATOR_TRACKER_ENABLED: AtomicBool = AtomicBool::new(false);
+    static ALLOCATOR_TRACKER_ENABLED: AtomicBool = const { AtomicBool::new(false) };
     /// Per-thread count of bytes allocated while the guard is disabled (i.e. tracking is off).
     /// Used to accurately measure backtrace-related allocations, which are globally tracked by
     /// `ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE`.
-    static ALLOCATOR_ALLOCATED_TRACKING_OFF_LOCAL: AtomicUsize = AtomicUsize::new(0);
+    static ALLOCATOR_ALLOCATED_TRACKING_OFF_LOCAL: AtomicUsize = const { AtomicUsize::new(0) };
 }
 /// User-set environment variable to enable printing of allocator backtraces.
 const ENV_ALLOCATOR_PRINT: &str = "S4_ALLOC_TRACKER_PRINT";
@@ -189,19 +191,19 @@ const DEFAULT_ALLOCATOR_DEPTH: usize = 1;
 
 // Global allocator statistics.
 // Separate from the `s4 --summary` statistics.
-static ALLOCATOR_ALLOCATED_TRACKING_OFF: AtomicUsize = AtomicUsize::new(0);
-static ALLOCATOR_ALLOCATED_TRACKING_ON: AtomicUsize = AtomicUsize::new(0);
-static ALLOCATOR_DEALLOCATED: AtomicUsize = AtomicUsize::new(0);
-static ALLOCATOR_CALLS_DEALLOCATED: AtomicUsize = AtomicUsize::new(0);
-static ALLOCATOR_ALLOCATED_CURRENT: AtomicUsize = AtomicUsize::new(0);
-static ALLOCATOR_ALLOCATED_TRACKED_FRAME: AtomicUsize = AtomicUsize::new(0);
-static ALLOCATOR_CALLS_TRACKING_OFF: AtomicUsize = AtomicUsize::new(0);
-static ALLOCATOR_CALLS_TRACKING_ON: AtomicUsize = AtomicUsize::new(0);
+static ALLOCATOR_ALLOCATED_TRACKING_OFF: AtomicUsize = const { AtomicUsize::new(0) };
+static ALLOCATOR_ALLOCATED_TRACKING_ON: AtomicUsize = const { AtomicUsize::new(0) };
+static ALLOCATOR_DEALLOCATED: AtomicUsize = const { AtomicUsize::new(0) };
+static ALLOCATOR_CALLS_DEALLOCATED: AtomicUsize = const { AtomicUsize::new(0) };
+static ALLOCATOR_ALLOCATED_CURRENT: AtomicUsize = const { AtomicUsize::new(0) };
+static ALLOCATOR_ALLOCATED_TRACKED_FRAME: AtomicUsize = const { AtomicUsize::new(0) };
+static ALLOCATOR_CALLS_TRACKING_OFF: AtomicUsize = const { AtomicUsize::new(0) };
+static ALLOCATOR_CALLS_TRACKING_ON: AtomicUsize = const { AtomicUsize::new(0) };
 /// Bytes allocated during `backtrace::trace` and `backtrace::resolve_frame` calls.
-static ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE: AtomicUsize = AtomicUsize::new(0);
+static ALLOCATOR_ALLOCATED_TRACKING_OFF_BACKTRACE: AtomicUsize = const { AtomicUsize::new(0) };
 /// Number of project call-stack frames to include in the tracking key.
 /// Set once from `S4_ALLOC_TRACKER_DEPTH` in `allocator_tracker_enable()`.
-static ALLOCATOR_DEPTH: OnceLock<usize> = OnceLock::new();
+static ALLOCATOR_DEPTH: OnceLock<usize> = const { OnceLock::new() };
 
 lazy_static! {
     /// Global map for tracking allocator call sites and their statistics.
@@ -293,7 +295,7 @@ pub fn allocator_tracker_enable() {
     ALLOCATOR_TID.with(|_| {});
     ALLOCATOR_TNAME.with(|_| {});
     // read environment variables once
-    ALLOCATOR_DEPTH.get_or_init(|| allocator_depth_env());
+    ALLOCATOR_DEPTH.get_or_init(allocator_depth_env);
     ALLOCATOR_DO_PRINT.with(|ap| match ap.write() {
         Ok(mut apw) => *apw = allocator_print_env(),
         Err(err) => {
@@ -386,7 +388,7 @@ fn demangle_name<const N: usize>(
         Err(_) => return out.append_bytes(name_b),
     };
     let demangled: Demangle = demangle(name_s);
-    core::fmt::write(out, format_args!("{}", demangled))
+    core::fmt::write(out, format_args!("{demangled}"))
 }
 
 /// Intern a string into a global table and return its index.
@@ -492,7 +494,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                             ::backtrace::BytesOrWideString::Wide(w) => {
                                 // XXX: jenky copy of UTF16
                                 let mut filename_bytes: FmtBuf<FILENAME_LEN_MAX> = FmtBuf::new();
-                                match filename_bytes.append_wide_string(&w) {
+                                match filename_bytes.append_wide_string(w) {
                                     Ok(()) => {},
                                     Err(_err) => alloc_exit("filename_bytes.append_wide_string() failed", None),
                                 };
@@ -615,7 +617,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
             ALLOCATOR_ALLOCATED_TRACKED_FRAME.fetch_add(sz, Ordering::Relaxed);
 
             let tid = ALLOCATOR_TID.with(|ap| *ap);
-            let threadname_idx: usize = ALLOCATOR_TNAME.with(|ap| tracking_threadname_index(&ap));
+            let threadname_idx: usize = ALLOCATOR_TNAME.with(|ap| tracking_threadname_index(ap));
 
             let key: AllocatorDebugTrackingKey = (collected_frame_keys, threadname_idx, tid);
 
@@ -728,10 +730,10 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
     }
 }
 
-/// Prints the contents of the `ALLOCATOR_TRACKING_MAP` in a user-friendly way.
+/// Prints the contents of the `ALLOCATOR_TRACKING_MAP` as markdown.
 /// This special print function sits outside of the normal `s4 --summary` stuff.
 /// It is presumed this will be called last before program exit.
-/// Avoids allocations.
+/// Tries to avoid allocations.
 pub fn print_tracking_map() {
     // must turn off to avoid stack overflow
     allocator_guard_disable();
@@ -768,13 +770,20 @@ pub fn print_tracking_map() {
     let mut allocations_bytes_table: usize = 0;
     let mut allocations_calls_table: usize = 0;
 
-    let mut buf = FmtBuf::<2056>::new();
+    let mut buf = FmtBuf::<5095>::new();
+    _ = alloc_stderr_write_fmt!(
+        &mut buf,
+        "## Allocator Tracking results\n\n"
+    );
     buf.clear();
     _ = alloc_stderr_write_fmt!(
         &mut buf,
-        "{:<40} | {:>5}:{:>3} | {:>3}:{:<16} | {:<100} | {:>10} | {:>13}\n",
-        "File", "Line", "Col", "ID", "Name (thread)", "Call Site", "Allocations", "Bytes"
+        "\
+| ***File:line:col***<br/>***Call Site*** | Thread<br/>ID | Thread<br/>Name | Allocations | Bytes | Bytes<br/>per Allocation |
+| :-- | ---: | :--- | ---: | ---: | ---: |
+",
     );
+    buf.clear();
     for (key, value) in entries.into_iter() {
         // Count the number of valid (non-sentinel) frames in this key.
         let frame_count = key.0.iter()
@@ -791,6 +800,8 @@ pub fn print_tracking_map() {
         let allocations_s = allocations.separate_with_commas();
         let bytes: &usize = &value.1;
         let bytes_s = bytes.separate_with_commas();
+        let bytes_per_allocation: usize = if *allocations > 0 { bytes / allocations } else { 0 };
+        let bytes_per_allocation_s = bytes_per_allocation.separate_with_commas();
 
         allocations_bytes_table += *bytes;
         allocations_calls_table += *allocations;
@@ -805,7 +816,7 @@ pub fn print_tracking_map() {
             None => "<unknown>",
         };
         // remove leading project root from file path to make it more readable
-        let file_path: &str = if file_name.starts_with(&project_root_) {
+        let file_path: &str = if file_name.starts_with(project_root_) {
             &file_name[project_root_.len() + 1..]
         } else {
             file_name
@@ -815,10 +826,11 @@ pub fn print_tracking_map() {
         buf.clear();
         _ = alloc_stderr_write_fmt!(
             &mut buf,
-            "{file_path:<40} | {line_number:>5}:{column_number:>3} | {thread_id:>3}:{thread_name:<16} | {function_name:<100} | {allocations_s:>11} | {bytes_s:>13}\n"
+            "| `{file_path}:{line_number}:{column_number}`<br/>`{function_name}` | {thread_id} | `{thread_name}` | {allocations_s} | {bytes_s} | {bytes_per_allocation_s} |\n",
         );
 
         // Print additional frames (outer callers) without allocations/bytes columns.
+        let mut printed_more_rows: bool = false;
         for i in 1..frame_count {
             let (fi, func_i, lineno, colno) = key.0[i];
             let file_name_i = match filenames.get(fi) {
@@ -829,7 +841,7 @@ pub fn print_tracking_map() {
                 Some(name) => name.as_str(),
                 None => "<unknown>",
             };
-            let file_path_i: &str = if file_name_i.starts_with(&project_root_) {
+            let file_path_i: &str = if file_name_i.starts_with(project_root_) {
                 &file_name_i[project_root_.len() + 1..]
             } else {
                 file_name_i
@@ -837,7 +849,16 @@ pub fn print_tracking_map() {
             buf.clear();
             _ = alloc_stderr_write_fmt!(
                 &mut buf,
-                "{file_path_i:<40} | {lineno:>5}:{colno:>3} | {thread_id:>3}:{thread_name:<16} | {function_name_i}\n"
+                "| `{file_path_i}:{lineno}:{colno}`<br/>`{function_name_i}` | {thread_id} | `{thread_name}` | | | |\n",
+            );
+            printed_more_rows = true;
+        }
+        if printed_more_rows {
+            // print an empty row, easier visual separator between related rows
+            buf.clear();
+            _ = alloc_stderr_write_fmt!(
+                &mut buf,
+                "| | | | | | | | |\n",
             );
         }
     }
@@ -894,27 +915,34 @@ pub fn print_tracking_map() {
     let a_t_current = ALLOCATOR_ALLOCATED_CURRENT.load(Ordering::Relaxed);
     let a_t_current_s = a_t_current.separate_with_commas();
 
-    const W_B: usize = 14; // width bytes
-    const W_C: usize = 12; // width calls
-    const W_CC: usize = 3; // width caches
     _ = alloc_stderr_write_fmt!(
         // the strange alignment of right-side explanatory text here should print in a vertically aligned manner in most cases
         &mut buf,
-        "\
-allocator tracking summary:
-  normal allocations      : {a_t_on_bytes_s:>W_B$} bytes in {a_t_on_calls_s:>W_C$} calls  (normal program allocations; this is the most useful number)
-  total deallocations     : {d_s:>W_B$} bytes in {d_calls_s:>W_C$} calls  (includes normal program deallocations and tracking deallocations)
-  current outstanding     : {a_t_current_s:>W_B$} bytes                        (outstanding allocated bytes as of this print)
-tracking internals:
-  frame depth             : {depth:>W_CC$}                                         (max depth of backtraced frames for each allocation call site)
-  call sites              : {entry_len:>W_CC$}                                         (entries in the table above)
-  cached file names       : {filenames_len:>W_CC$}
-  cached function names   : {functions_len:>W_CC$}
-  cached thread names     : {threadnames_len:>W_CC$}
-  total from tracking     : {a_t_off_bytes_s:>W_B$} bytes in {a_t_off_calls_s:>W_C$} calls  (tracking allocations; not part of the normal program allocations)
-  tracking from backtrace : {a_t_off_backtrace_bytes_s:>W_B$} bytes                        (tracking allocations specifically for `backtrace::trace` and `backtrace::resolve_frame`; subset of \"total from tracking\")
-  tracking from other     : {a_t_off_other_bytes_s:>W_B$} bytes                        (other tracking allocations, not \"from backtrace\"; subset of \"total from tracking\")
-  ratio tracking to normal: 100 to {ratio_on_off_int} bytes, 100 to {ratio_on_off_calls_int} calls            (ratio of tracking allocations/calls to normal program allocations/calls)
-  diff table vs total     : {diff_table_vs_total_bytes_s:>W_B$} bytes in {diff_table_vs_total_calls_s:>W_C$} calls  (sanity check of total numbers and table numbers; should be 0)
+        "
+## Allocator Tracking summary
+
+| tracked | bytes | calls | about |
+| :--- | ---: | ---: | :--- |
+| normal allocations | {a_t_on_bytes_s} | {a_t_on_calls_s} | normal program allocations; this is the most useful number |
+| total deallocations | {d_s} | {d_calls_s} | includes normal program deallocations and tracking deallocations |
+| current outstanding | {a_t_current_s} | | outstanding allocated bytes as of this print |
+
+## Allocator Tracking internals
+
+| tracked | bytes | calls | about |
+| :--- | ---: | ---: | :--- |
+| total from tracking | {a_t_off_bytes_s} | {a_t_off_calls_s} | tracking allocations; not part of the normal program allocations |
+| tracking from backtrace | {a_t_off_backtrace_bytes_s} | | tracking allocations specifically for `backtrace::trace` and `backtrace::resolve_frame`; subset of \"total from tracking\" |
+| tracking from other | {a_t_off_other_bytes_s} | | other tracking allocations, not \"from backtrace\"; subset of \"total from tracking\" |
+| ratio tracking to normal| 100 to {ratio_on_off_int} | 100 to {ratio_on_off_calls_int} | ratio of tracking allocations/calls to normal program allocations/calls |
+| diff table vs total | {diff_table_vs_total_bytes_s} | {diff_table_vs_total_calls_s} | sanity check of total numbers and table numbers; should be 0 |
+
+| parameter | value | about |
+| :--- | ---: | :--- |
+| frame depth | {depth} | max depth of backtraced frames for each allocation call site; env var {ENV_ALLOCATOR_DEPTH:?} |
+| call sites | {entry_len} | entries in the table above |
+| cached file names | {filenames_len} | |
+| cached function names | {functions_len} | |
+| cached thread names | {threadnames_len} | |
 ");
 }
