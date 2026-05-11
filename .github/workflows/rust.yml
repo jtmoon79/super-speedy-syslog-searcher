@@ -548,6 +548,8 @@ jobs:
         shell: bash
         run: |
           set -eux
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --release
           which python
           python --version
@@ -583,6 +585,8 @@ jobs:
         shell: powershell
         run: |
           Set-PSDebug -Trace 1
+          ${env:S4_BUILD_REGEX}=1
+          ${env:S4_BUILD_REGEX_PRINT}=1
           cargo.exe build --locked --release
           Get-Command -All python.exe
           python.exe --version
