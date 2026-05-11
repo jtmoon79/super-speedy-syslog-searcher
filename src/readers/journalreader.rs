@@ -1223,7 +1223,7 @@ impl<'a> JournalReader {
         funcname: &str,
         path: &FPath,
     ) -> Error {
-        Error::new(errno_to_errorkind(e), format!("{} returned {}; {:?} file {:?}", funcname, r, e, path))
+        Error::new(errno_to_errorkind(e), format!("{funcname} returned {r}; {e:?} file {path:?}"))
     }
 
     // The following `fn call_*` functions have a somewhat awkward
