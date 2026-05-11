@@ -105,7 +105,6 @@ declare -r BIN=${BIN-s4}
 export CARGO_PROFILE_RELEASE_DEBUG=true
 export RUSTFLAGS=-g
 export RUST_BACKTRACE=1
-#export RUSTC_LINKER=$(which clang)
 
 OUT=${OUT-flamegraph.svg}
 
