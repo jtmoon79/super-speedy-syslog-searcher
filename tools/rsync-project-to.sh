@@ -39,6 +39,8 @@ exec \
     --archive \
     --copy-links \
     --exclude 'subprojects/bindgen/target/' \
+    --exclude 'subprojects/ere/ere/target/' \
+    --exclude 'subprojects/ere/ere_automator_procmacro/target/' \
     ./benches \
     ./Cargo.toml \
     ./Cargo.lock \
