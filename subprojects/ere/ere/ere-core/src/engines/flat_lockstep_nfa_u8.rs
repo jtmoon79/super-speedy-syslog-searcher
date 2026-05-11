@@ -311,7 +311,7 @@ mod impl_test {
             let transition_epsilons_test = TransitionEpsilons(nfa);
 
             tokens.extend(quote! {
-                fn test(text: &str) -> bool {
+                fn test(text: &[u8]) -> bool {
                     #[derive(Clone, Copy, PartialEq, Eq, Debug)]
                     enum VMStates {
                         #(#enum_states,)*
@@ -325,7 +325,7 @@ mod impl_test {
                     list[0] = true;
 
                     transition_epsilons_test(&mut list, 0, text.len());
-                    for (i, c) in text.bytes().enumerate() {
+                    for (i, c) in text.iter().copied().enumerate() {
                         transition_symbols_test(&list, &mut new_list, c);
                         if new_list.iter().all(|b| !b) {
                             return false;
@@ -572,7 +572,7 @@ mod impl_exec {
             let transition_epsilons_exec = impl_exec::TransitionEpsilons(&nfa);
 
             tokens.extend(quote! {
-                fn exec<'a>(text: &'a str) -> Option<[Option<&'a str>; #capture_groups]> {
+                fn exec<'a>(text: &'a [u8]) -> Option<[Option<&'a [u8]>; #capture_groups]> {
                     #[derive(Clone, Copy, PartialEq, Eq, Debug)]
                     enum VMStates {
                         #(#enum_states,)*
@@ -591,7 +591,7 @@ mod impl_exec {
                     transition_epsilons_exec(&threads, &mut new_threads,0, text.len());
                     ::std::mem::swap(&mut threads, &mut new_threads);
 
-                    for (i, c) in text.bytes().enumerate() {
+                    for (i, c) in text.iter().copied().enumerate() {
                         new_threads.clear();
                         transition_symbols_exec(&threads, &mut new_threads, c);
                         ::std::mem::swap(&mut threads, &mut new_threads);

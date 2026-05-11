@@ -23,14 +23,22 @@ pub use engines::*;
 /// The const generic `N` represents the number of capture groups (including capture group 0 which is the entire expression).
 /// It defaults to `1` (for just capture group 0), but you will need to specify it in the type for expressions with more capture groups.
 pub struct Regex<const N: usize = 1> {
-    test_fn: fn(&str) -> bool,
-    exec_fn: for<'a> fn(&'a str) -> Option<[Option<&'a str>; N]>,
+    test_fn: Option<fn(&str) -> bool>,
+    exec_fn: Option<for<'a> fn(&'a str) -> Option<[Option<&'a str>; N]>>,
+    test_bytes_fn: Option<fn(&[u8]) -> bool>,
+    exec_bytes_fn: Option<for<'a> fn(&'a [u8]) -> Option<[Option<&'a [u8]>; N]>>,
 }
 impl<const N: usize> Regex<N> {
     /// Returns whether or not the text is matched by the regular expression.
     #[inline]
     pub fn test(&self, text: &str) -> bool {
-        return (self.test_fn)(text);
+        if let Some(test_fn) = self.test_fn {
+            return test_fn(text);
+        }
+        let Some(test_bytes_fn) = self.test_bytes_fn else {
+            return false;
+        };
+        return test_bytes_fn(text.as_bytes());
     }
     /// Executes the regular expression against `text` and returns the captures if it matches.
     ///
@@ -42,7 +50,50 @@ impl<const N: usize> Regex<N> {
     /// Returns `None` when the regular expression does not match `text`.
     #[inline]
     pub fn exec<'a>(&self, text: &'a str) -> Option<[Option<&'a str>; N]> {
-        return (self.exec_fn)(text);
+        if let Some(exec_fn) = self.exec_fn {
+            return exec_fn(text);
+        }
+        let exec_bytes_fn = self.exec_bytes_fn?;
+        let captures = exec_bytes_fn(text.as_bytes())?;
+        let mut out = [None; N];
+        for (i, capture) in captures.into_iter().enumerate() {
+            out[i] = match capture {
+                None => None,
+                Some(bytes) => std::str::from_utf8(bytes).ok(),
+            };
+        }
+        return Some(out);
+    }
+
+    /// Returns whether or not the bytes are matched by the regular expression.
+    #[inline]
+    pub fn test_bytes(&self, text: &[u8]) -> bool {
+        if let Some(test_bytes_fn) = self.test_bytes_fn {
+            return test_bytes_fn(text);
+        }
+        let Some(test_fn) = self.test_fn else {
+            return false;
+        };
+        let Ok(text) = std::str::from_utf8(text) else {
+            return false;
+        };
+        return test_fn(text);
+    }
+
+    /// Executes the regular expression against bytes and returns byte-slice captures if it matches.
+    #[inline]
+    pub fn exec_bytes<'a>(&self, text: &'a [u8]) -> Option<[Option<&'a [u8]>; N]> {
+        if let Some(exec_bytes_fn) = self.exec_bytes_fn {
+            return exec_bytes_fn(text);
+        }
+        let exec_fn = self.exec_fn?;
+        let text_str = std::str::from_utf8(text).ok()?;
+        let captures = exec_fn(text_str)?;
+        let mut out = [None; N];
+        for (i, capture) in captures.into_iter().enumerate() {
+            out[i] = capture.map(str::as_bytes);
+        }
+        return Some(out);
     }
 }
 
@@ -55,9 +106,77 @@ pub const fn __construct_regex<const N: usize>(
     ),
 ) -> Regex<N> {
     return Regex {
-        test_fn: fn_pair.0,
-        exec_fn: fn_pair.1,
+        test_fn: Some(fn_pair.0),
+        exec_fn: Some(fn_pair.1),
+        test_bytes_fn: None,
+        exec_bytes_fn: None,
     };
+}
+
+/// Intended to be used in macros only.
+#[inline]
+pub const fn __construct_regex_u8<const N: usize>(
+    fn_pair: (
+        fn(&[u8]) -> bool,
+        for<'a> fn(&'a [u8]) -> Option<[Option<&'a [u8]>; N]>,
+    ),
+) -> Regex<N> {
+    return Regex {
+        test_fn: None,
+        exec_fn: None,
+        test_bytes_fn: Some(fn_pair.0),
+        exec_bytes_fn: Some(fn_pair.1),
+    };
+}
+
+/// Intended to be used in macros only.
+#[inline]
+pub const fn __construct_regex_with_bytes<const N: usize>(
+    str_fn_pair: (
+        fn(&str) -> bool,
+        for<'a> fn(&'a str) -> Option<[Option<&'a str>; N]>,
+    ),
+    u8_fn_pair: (
+        fn(&[u8]) -> bool,
+        for<'a> fn(&'a [u8]) -> Option<[Option<&'a [u8]>; N]>,
+    ),
+) -> Regex<N> {
+    return Regex {
+        test_fn: Some(str_fn_pair.0),
+        exec_fn: Some(str_fn_pair.1),
+        test_bytes_fn: Some(u8_fn_pair.0),
+        exec_bytes_fn: Some(u8_fn_pair.1),
+    };
+}
+
+fn serialize_u8_engine_as_str(
+    u8_engine: proc_macro2::TokenStream,
+    capture_groups: usize,
+) -> proc_macro2::TokenStream {
+    return quote! {{
+        const __ERE_TEST_BYTES: fn(&[u8]) -> bool = #u8_engine.0;
+        const __ERE_EXEC_BYTES: for<'a> fn(&'a [u8]) -> Option<[Option<&'a [u8]>; #capture_groups]> = #u8_engine.1;
+
+        #[inline]
+        fn test(text: &str) -> bool {
+            return __ERE_TEST_BYTES(text.as_bytes());
+        }
+
+        #[inline]
+        fn exec<'a>(text: &'a str) -> Option<[Option<&'a str>; #capture_groups]> {
+            let captures = __ERE_EXEC_BYTES(text.as_bytes())?;
+            return Some(captures.map(|capture| {
+                capture.and_then(|bytes| ::core::str::from_utf8(bytes).ok())
+            }));
+        }
+
+        (test, exec)
+    }};
+}
+
+fn build_u8_search_nfa(tree: &simplified_tree::SimplifiedTreeNode) -> working_u8_nfa::U8NFA {
+    let nfa = working_nfa::WorkingNFA::new_loop_opt(tree, false, false);
+    return working_u8_nfa::U8NFA::new_loop_opt(&nfa, true, true);
 }
 
 /// Tries to pick the best engine that doesn't rely on sub-engines.
@@ -104,8 +223,10 @@ This allows us to use an efficient [`::ere::one_pass_u8`] implementation.";
             return (dfa_u8::serialize_u8_dfa_token_stream(&dfa), DFA_DESC);
         }
         if is_ascii {
+            let u8_engine =
+                flat_lockstep_nfa_u8::serialize_flat_lockstep_nfa_u8_token_stream(&u8_nfa);
             return (
-                flat_lockstep_nfa_u8::serialize_flat_lockstep_nfa_u8_token_stream(&u8_nfa),
+                serialize_u8_engine_as_str(u8_engine, u8_nfa.num_capture_groups()),
                 FLAT_LOCKSTEP_NFA_U8_DESC,
             );
         }
@@ -150,10 +271,14 @@ Because of this, we can skip a complex `exec` implementation, and instead simply
 /// Tries to pick the best engine.
 pub fn __compile_regex(stream: TokenStream) -> TokenStream {
     let ere: parse_tree::ERE = syn::parse_macro_input!(stream);
-    let (fn_pair, _) = pick_engine(ere);
+    let (str_fn_pair, _) = pick_engine(ere.clone());
+
+    let tree = simplified_tree::SimplifiedTreeNode::from(ere);
+    let nfa = build_u8_search_nfa(&tree);
+    let u8_fn_pair = flat_lockstep_nfa_u8::serialize_flat_lockstep_nfa_u8_token_stream(&nfa);
     return quote! {
         {
-            ::ere::__construct_regex(#fn_pair)
+            ::ere::__construct_regex_with_bytes(#str_fn_pair, #u8_fn_pair)
         }
     }
     .into();
@@ -202,11 +327,10 @@ pub fn __compile_regex_engine_flat_lockstep_nfa(stream: TokenStream) -> TokenStr
 pub fn __compile_regex_engine_flat_lockstep_nfa_u8(stream: TokenStream) -> TokenStream {
     let ere: parse_tree::ERE = syn::parse_macro_input!(stream);
     let tree = simplified_tree::SimplifiedTreeNode::from(ere);
-    let nfa = working_nfa::WorkingNFA::new(&tree);
-    let nfa = working_u8_nfa::U8NFA::new(&nfa);
+    let nfa = build_u8_search_nfa(&tree);
     let fn_pair = flat_lockstep_nfa_u8::serialize_flat_lockstep_nfa_u8_token_stream(&nfa);
     return quote! {
-        ::ere::__construct_regex(#fn_pair)
+        ::ere::__construct_regex_u8(#fn_pair)
     }
     .into();
 }
@@ -263,7 +387,7 @@ pub fn __compile_regex_engine_fixed_offset(stream: TokenStream) -> TokenStream {
 /// Which matching engine to use for the compiled regex.
 #[cfg(feature = "unstable-attr-regex")]
 #[derive(Clone, Copy)]
-enum Engine {
+pub enum Engine {
     /// Automatically select the best engine (default).
     Auto,
     /// One-pass DFA over bytes. Single linear scan, no backtracking.
@@ -281,7 +405,7 @@ enum Engine {
 /// Controls how strictly capture groups must be bound to struct fields.
 #[cfg(feature = "unstable-attr-regex")]
 #[derive(Clone, Copy)]
-enum GroupBind {
+pub enum GroupBind {
     /// All capture groups (named and unnamed) must have a corresponding field.
     Strict,
     /// Only named capture groups must have a corresponding field.
@@ -295,16 +419,26 @@ struct RegexAttr {
     ere_litstr: syn::LitStr,
     bind: GroupBind,
     engine: Engine,
-    ascii_case_insensitive: bool,
 }
 
 #[cfg(feature = "unstable-attr-regex")]
 impl syn::parse::Parse for RegexAttr {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
-        let ere_litstr: syn::LitStr = input.parse()?;
+        // Accept either a string literal ("...") or a byte string literal (b"...").
+        // Byte strings must be valid UTF-8; their content is used identically to a
+        // string literal once parsed.
+        let ere_litstr: syn::LitStr = if input.peek(syn::LitByteStr) {
+            let byte_lit: syn::LitByteStr = input.parse()?;
+            let bytes = byte_lit.value();
+            let s = std::str::from_utf8(&bytes).map_err(|e| {
+                syn::Error::new(byte_lit.span(), format!("byte string pattern is not valid UTF-8: {e}"))
+            })?;
+            syn::LitStr::new(s, byte_lit.span())
+        } else {
+            input.parse()?
+        };
         let mut bind = GroupBind::Named;
         let mut engine = Engine::Auto;
-        let mut ascii_case_insensitive = false;
 
         while input.peek(syn::Token![,]) {
             input.parse::<syn::Token![,]>()?;
@@ -312,10 +446,6 @@ impl syn::parse::Parse for RegexAttr {
                 break; // trailing comma
             }
             let key: syn::Ident = input.parse()?;
-            if key == "ascii_case_insensitive" {
-                ascii_case_insensitive = true;
-                continue;
-            }
             input.parse::<syn::Token![=]>()?;
             let value: syn::Ident = input.parse()?;
             if key == "bind" {
@@ -336,29 +466,26 @@ impl syn::parse::Parse for RegexAttr {
                     _ => return Err(syn::Error::new_spanned(&value, "Expected `Auto`, `OnePassU8`, `DfaU8`, `FlatLockstepNfaU8`, `FlatLockstepNfa`, or `FixedOffset`.")),
                 };
             } else {
-                return Err(syn::Error::new_spanned(&key, format!("Unknown attribute `{key}`. Expected `bind`, `engine`, or `ascii_case_insensitive`.")));
+                return Err(syn::Error::new_spanned(&key, format!("Unknown attribute `{key}`. Expected `bind` or `engine`.")));
             }
         }
 
-        Ok(RegexAttr { ere_litstr, bind, engine, ascii_case_insensitive })
+        Ok(RegexAttr { ere_litstr, bind, engine })
     }
 }
 
 #[cfg(feature = "unstable-attr-regex")]
 pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStream {
-    let RegexAttr { ere_litstr, bind, engine, ascii_case_insensitive } = syn::parse_macro_input!(attr as RegexAttr);
+    let RegexAttr { ere_litstr, bind, engine } = syn::parse_macro_input!(attr as RegexAttr);
     let ere_str = ere_litstr.value();
-    let mut ere = match parse_tree::ERE::parse_str_syn(&ere_str, ere_litstr.span()) {
+    let ere = match parse_tree::ERE::parse_str_syn(&ere_str, ere_litstr.span()) {
         Ok(ere) => ere,
         Err(compile_err) => return compile_err.into_compile_error().into(),
     };
 
-    if ascii_case_insensitive {
-        ere.apply_ascii_case_insensitive();
-    }
-
     let tree = simplified_tree::SimplifiedTreeNode::from(ere.clone());
     let nfa = working_nfa::WorkingNFA::new(&tree);
+    let u8_nfa = build_u8_search_nfa(&tree);
 
     let capture_groups = nfa.num_capture_groups();
     let optional_captures: Vec<bool> = (0..capture_groups)
@@ -378,7 +505,6 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
     let (fn_pair, description) = match engine {
         Engine::Auto => pick_engine(ere.clone()),
         Engine::OnePassU8 => {
-            let u8_nfa = working_u8_nfa::U8NFA::new(&nfa);
             let Some(fp) = one_pass_u8::serialize_one_pass_token_stream(&u8_nfa) else {
                 return syn::parse::Error::new_spanned(
                     &ere_litstr,
@@ -390,7 +516,6 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
             (fp, "Uses the `one_pass_u8` engine.".to_string())
         }
         Engine::DfaU8 => {
-            let u8_nfa = working_u8_nfa::U8NFA::new(&nfa);
             let dfa_state_limit = working_u8_dfa::U8TDFA::default_bound(u8_nfa.states.len());
             let Some(dfa) = working_u8_dfa::U8TDFA::from_nfa(&u8_nfa, dfa_state_limit) else {
                 return syn::parse::Error::new_spanned(
@@ -403,8 +528,8 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
             (dfa_u8::serialize_u8_dfa_token_stream(&dfa), "Uses the `dfa_u8` engine.".to_string())
         }
         Engine::FlatLockstepNfaU8 => {
-            let u8_nfa = working_u8_nfa::U8NFA::new(&nfa);
-            let fp = flat_lockstep_nfa_u8::serialize_flat_lockstep_nfa_u8_token_stream(&u8_nfa);
+            let u8_fp = flat_lockstep_nfa_u8::serialize_flat_lockstep_nfa_u8_token_stream(&u8_nfa);
+            let fp = serialize_u8_engine_as_str(u8_fp, capture_groups);
             (fp, "Uses the `flat_lockstep_nfa_u8` engine.".to_string())
         }
         Engine::FlatLockstepNfa => {
@@ -429,20 +554,13 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
             (fp, "Uses the `fixed_offset` engine.".to_string())
         }
     };
+    let fn_pair_bytes = flat_lockstep_nfa_u8::serialize_flat_lockstep_nfa_u8_token_stream(&u8_nfa);
     let struct_name = regex_struct.ident.clone();
     let ere_display_doc = format!("`{ere_str}`");
     let struct_name_link_doc = format!("[`{}`]", struct_name.to_string());
 
     let constructor = match &mut data_struct.fields {
         syn::Fields::Unnamed(fields) => {
-            if !matches!(bind, GroupBind::Named) {
-                return syn::parse::Error::new_spanned(
-                    &ere_litstr,
-                    "The `bind` parameter is only supported on named structs, not tuple structs.",
-                )
-                .to_compile_error()
-                .into();
-            }
             if fields.unnamed.len() != optional_captures.len() {
                 return syn::parse::Error::new_spanned(
                     &fields.unnamed,
@@ -463,7 +581,7 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
                     quote! {
                         result[#group_num]
                         .expect(
-                            "ere bug: non-optional capture was None — please report this"
+                            "If you are seeing this, there is probably an internal bug in the `ere-core` crate where a capture group was mistakenly marked as non-optional. Please report the bug."
                         ),
                     }
                 })
@@ -485,23 +603,10 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
                 let ident = field.ident.as_ref().unwrap();
 
                 // Parse #[group(N)] attribute if present, then strip it
-                let group_attr = field.attrs.iter().find(|a| a.path().is_ident("group"));
-                let explicit_group: Option<usize> = match group_attr {
-                    Some(attr) => {
-                        let lit: syn::LitInt = match attr.parse_args() {
-                            Ok(lit) => lit,
-                            Err(_) => return syn::parse::Error::new_spanned(
-                                attr, "#[group(N)] requires a non-negative integer.",
-                            ).to_compile_error().into(),
-                        };
-                        match lit.base10_parse() {
-                            Ok(n) => Some(n),
-                            Err(e) => return syn::parse::Error::new_spanned(&lit, e)
-                                .to_compile_error().into(),
-                        }
-                    }
-                    None => None,
-                };
+                let explicit_group: Option<usize> = field.attrs.iter()
+                    .find(|a| a.path().is_ident("group"))
+                    .and_then(|a| a.parse_args::<syn::LitInt>().ok())
+                    .and_then(|lit| lit.base10_parse().ok());
                 field.attrs.retain(|a| !a.path().is_ident("group"));
 
                 let group_num = if let Some(n) = explicit_group {
@@ -510,12 +615,6 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
                     let name = ident.to_string();
                     match name_to_group.get(&name) {
                         Some(&n) => n,
-                        None if matches!(bind, GroupBind::None) => {
-                            // Field has no matching capture group — assign None.
-                            // The compiler will enforce the field type is Option<T>.
-                            field_args.push(quote! { #ident: None, });
-                            continue;
-                        }
                         None => {
                             return syn::parse::Error::new_spanned(
                                 ident,
@@ -542,18 +641,10 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
                 let opt = optional_captures[group_num];
                 let arg = if opt {
                     quote! { #ident: result[#group_num], }
-                } else if matches!(bind, GroupBind::None) {
-                    // In bind=None mode, use .into() so the field can be either
-                    // &str or Option<&str> (via From<T> for Option<T>).
-                    quote! {
-                        #ident: result[#group_num]
-                            .expect("ere bug: non-optional capture was None — please report this")
-                            .into(),
-                    }
                 } else {
                     quote! {
                         #ident: result[#group_num]
-                            .expect("ere bug: non-optional capture was None — please report this"),
+                            .expect("If you are seeing this, there is probably an internal bug in the `ere-core` crate where a capture group was mistakenly marked as non-optional. Please report the bug."),
                     }
                 };
                 field_args.push(arg);
@@ -605,6 +696,10 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
                 fn(&str) -> bool,
                 fn(&'a str) -> ::core::option::Option<[::core::option::Option<&'a str>; #capture_groups]>,
             ) = #fn_pair;
+            const ENGINE_BYTES: (
+                fn(&[u8]) -> bool,
+                fn(&'a [u8]) -> ::core::option::Option<[::core::option::Option<&'a [u8]>; #capture_groups]>,
+            ) = #fn_pair_bytes;
             /// Returns `true` if the regular expression
             #[doc = #ere_display_doc]
             /// matches the string.
@@ -615,6 +710,14 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
             #[inline]
             pub fn test(text: &str) -> bool {
                 return (Self::ENGINE.0)(text);
+            }
+            /// Returns `true` if the regular expression
+            #[doc = #ere_display_doc]
+            /// matches the bytes.
+            /// Otherwise, returns `false`.
+            #[inline]
+            pub fn test_bytes(text: &[u8]) -> bool {
+                return (Self::ENGINE_BYTES.0)(text);
             }
             /// Returns an instance of
             #[doc = #struct_name_link_doc]
@@ -627,6 +730,19 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
             #[doc = #description]
             pub fn exec(text: &'a str) -> ::core::option::Option<#struct_name<'a>> {
                 let result: [::core::option::Option<&'a str>; #capture_groups] = (Self::ENGINE.1)(text)?;
+                return ::core::option::Option::<#struct_name<'a>>::Some(#constructor);
+            }
+            /// Returns an instance of
+            #[doc = #struct_name_link_doc]
+            /// containing capture groups if
+            #[doc = #ere_display_doc]
+            /// matches the bytes and all captured slices are valid UTF-8.
+            /// Otherwise, returns `None`.
+            pub fn exec_bytes(text: &'a [u8]) -> ::core::option::Option<#struct_name<'a>> {
+                let result_bytes: [::core::option::Option<&'a [u8]>; #capture_groups] = (Self::ENGINE_BYTES.1)(text)?;
+                let result: [::core::option::Option<&'a str>; #capture_groups] = result_bytes.map(|capture| {
+                    capture.and_then(|bytes| ::core::str::from_utf8(bytes).ok())
+                });
                 return ::core::option::Option::<#struct_name<'a>>::Some(#constructor);
             }
         }

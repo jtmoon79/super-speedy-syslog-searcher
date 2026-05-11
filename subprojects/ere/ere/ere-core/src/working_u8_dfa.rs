@@ -828,7 +828,10 @@ mod tests {
         working_nfa::WorkingNFA,
     };
 
-    use super::*;
+    use super::{
+        U8DFA,
+        U8NFA,
+    };
 
     #[test]
     fn phone_number() {

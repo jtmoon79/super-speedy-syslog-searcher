@@ -4,11 +4,11 @@ error: #[group(99)] is out of range: the regular expression only has 3 capture g
 15 |         invalid: &'a str,
    |         ^^^^^^^
 
-error[E0425]: cannot find type `Date` in this scope
- --> tests/ui/group_index_out_of_bounds.rs:6:12
+error[E0412]: cannot find type `Date` in this scope
+ --> tests/ui/group_index_out_of_bounds.rs:4:14
   |
-6 |     struct Date<'a> {
-  |            ^^^^ not found in this scope
+4 |     #[derive(Debug)]
+  |              ^^^^^ not found in this scope
 
 error[E0433]: failed to resolve: use of undeclared type `Date`
   --> tests/ui/group_index_out_of_bounds.rs:18:13

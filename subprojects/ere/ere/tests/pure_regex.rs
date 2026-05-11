@@ -81,6 +81,62 @@ fn byte_value_exec() {
 }
 
 #[test]
+fn compile_regex_test_bytes_invalid_utf8_begin_anchored() {
+    const RE: Regex<2> = compile_regex!(r"^(abc)$");
+
+    let input = b"\xFFabc";
+    assert!(!RE.test_bytes(input));
+
+    let input = b"abc";
+    assert!(RE.test_bytes(input));
+    assert_eq!(RE.exec_bytes(input), Some([Some(&input[..]), Some(&input[..])]))
+}
+
+#[test]
+fn compile_regex_test_bytes_invalid_utf8_begin_noanchored() {
+    const RE: Regex<2> = compile_regex!(r"(abc)$");
+
+    let input = b"\xFFabc";
+    assert!(RE.test_bytes(input));
+    assert_eq!(RE.exec_bytes(input), Some([Some(&input[1..]), Some(&input[1..])]));
+
+    let input = b"abc";
+    assert!(RE.test_bytes(input));
+    assert_eq!(RE.exec_bytes(input), Some([Some(&input[..]), Some(&input[..])]))
+}
+
+#[test]
+fn compile_regex_bytes_with_invalid_utf8_middle() {
+    const RE: Regex<1> = compile_regex!(r"^bar$");
+
+    let input = b"foo\xFF\xFEbar";
+    assert!(!RE.test_bytes(input));
+    assert_eq!(RE.exec_bytes(input), None);
+}
+
+#[test]
+fn compile_regex_test_bytes_invalid_utf8_end_anchored() {
+    const RE: Regex<2> = compile_regex!(r"^(abc)$");
+
+    let input = b"abc\xF0";
+    assert!(!RE.test_bytes(input));
+
+    let input = b"abc";
+    assert!(RE.test_bytes(input));
+    assert_eq!(RE.exec_bytes(input), Some([Some(&input[..]), Some(&input[..])]));
+}
+
+#[test]
+fn compile_regex_test_bytes_invalid_utf8_end_noanchored() {
+    const RE: Regex<2> = compile_regex!(r"^(abc)");
+
+    let input = b"abc\xF0";
+    assert!(RE.test_bytes(input));
+    assert_eq!(RE.exec_bytes(input), Some([Some(&input[..3]), Some(&input[..3])]));
+}
+
+
+#[test]
 fn ipv4_exec() {
     const REGEXES: [Regex<5>; 3] = [
         compile_regex_dfa_u8!(
@@ -705,6 +761,70 @@ fn compile_regex_group_extensions() {
         );
 
         assert_nomatch!(regex, "2024-3-15", "2024-00-15", "2024-13-15", "abc");
+    }
+}
+
+#[test]
+fn compile_regex_group_extensions_python_named() {
+    // Same behavior as (?<name>...), using Python-style group name prefix.
+    const REGEXES: [Regex<3>; 4] = [
+        compile_regex_dfa_u8!(r"^(?P<year>[0-9]{4})-(?:0[1-9]|1[0-2])-(?P<day>[0-9]{2})$"),
+        compile_regex_flat_lockstep_nfa!(r"^(?P<year>[0-9]{4})-(?:0[1-9]|1[0-2])-(?P<day>[0-9]{2})$"),
+        compile_regex_flat_lockstep_nfa_u8!(r"^(?P<year>[0-9]{4})-(?:0[1-9]|1[0-2])-(?P<day>[0-9]{2})$"),
+        compile_regex_u8onepass!(r"^(?P<year>[0-9]{4})-(?:0[1-9]|1[0-2])-(?P<day>[0-9]{2})$"),
+    ];
+
+    for regex in REGEXES {
+        assert_match!(
+            regex,
+            "2024-03-15",
+            [Some("2024-03-15"), Some("2024"), Some("15")]
+        );
+        assert_match!(
+            regex,
+            "1999-12-31",
+            [Some("1999-12-31"), Some("1999"), Some("31")]
+        );
+
+        assert_nomatch!(regex, "2024-3-15", "2024-00-15", "2024-13-15", "abc");
+    }
+}
+
+#[test]
+fn compile_regex_posix_bracket_classes() {
+    const REGEXES: [Regex<1>; 4] = [
+        compile_regex_dfa_u8!(r"^[[:digit:]]+$"),
+        compile_regex_flat_lockstep_nfa!(r"^[[:digit:]]+$"),
+        compile_regex_flat_lockstep_nfa_u8!(r"^[[:digit:]]+$"),
+        compile_regex_u8onepass!(r"^[[:digit:]]+$"),
+    ];
+
+    for regex in REGEXES {
+        assert_match!(regex, "1234567890", [Some("1234567890")]);
+        assert_nomatch!(regex, "123a", "", "abc");
+    }
+
+    const ALPHA: Regex<1> = compile_regex!(r"^[[:alpha:]]+$");
+    assert_match!(ALPHA, "AbCdEf", [Some("AbCdEf")]);
+    assert_nomatch!(ALPHA, "abc123", "_abc");
+
+    const ALNUM: Regex<1> = compile_regex!(r"^[[:alnum:]]+$");
+    assert_match!(ALNUM, "A1b2C3", [Some("A1b2C3")]);
+    assert_nomatch!(ALNUM, "a-b", "hello world");
+}
+
+#[test]
+fn compile_regex_posix_negated_bracket_class() {
+    const REGEXES: [Regex<1>; 4] = [
+        compile_regex_dfa_u8!(r"^[[:^alpha:]]+$"),
+        compile_regex_flat_lockstep_nfa!(r"^[[:^alpha:]]+$"),
+        compile_regex_flat_lockstep_nfa_u8!(r"^[[:^alpha:]]+$"),
+        compile_regex_u8onepass!(r"^[[:^alpha:]]+$"),
+    ];
+
+    for regex in REGEXES {
+        assert_match!(regex, "123_?!", [Some("123_?!")]);
+        assert_nomatch!(regex, "a", "Test1", "ABC");
     }
 }
 

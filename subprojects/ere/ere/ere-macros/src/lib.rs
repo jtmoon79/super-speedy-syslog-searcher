@@ -255,9 +255,7 @@ pub fn compile_regex_fixed_offset(stream: TokenStream) -> TokenStream {
 ///
 /// - `bind = Strict` — all capture groups (named and unnamed) must have fields
 /// - `bind = Named` — only named groups must have fields (the default)
-/// - `bind = None` — no groups are required; only declared fields are populated.
-///   Additionally, named struct fields without a matching capture group are assigned `None`
-///   (the field must be `Option<T>`).
+/// - `bind = None` — no groups are required; only declared fields are populated
 ///
 /// If a required group has no corresponding field, compilation fails with an error
 /// identifying the unbound group.
@@ -399,23 +397,6 @@ pub fn compile_regex_fixed_offset(stream: TokenStream) -> TokenStream {
 ///     Color::exec("ff0080"),
 ///     Some(Color { matched: "ff0080", r: "ff", g: "00", b: "80" }),
 /// );
-/// ```
-///
-/// The `ascii_case_insensitive` flag makes the regex match ASCII letters regardless of case.
-/// Note: POSIX character classes like `[:lower:]` and `[:upper:]` are not affected by this flag.
-///
-/// ```
-/// use ere_macros::regex;
-///
-/// #[derive(Debug, PartialEq, Eq)]
-/// #[regex(r"^hello world$", ascii_case_insensitive)]
-/// pub struct Greeting<'a>(&'a str);
-///
-/// assert!(Greeting::test("hello world"));
-/// assert!(Greeting::test("Hello World"));
-/// assert!(Greeting::test("HELLO WORLD"));
-/// assert!(Greeting::test("hElLo WoRlD"));
-/// assert!(!Greeting::test("héllo world"));
 /// ```
 ///
 /// ---

@@ -55,7 +55,7 @@ pub enum RegexParseError {
     /// Should only happen in debug settings, since it happens only when we call `Atom::take("")`
     #[error("An atom was expected but was not found due to the end of the string.")]
     UnexpectedEOF,
-    #[error("A named capture group `(?<name>...)` has a malformed or empty name.")]
+    #[error("A named capture group `(?<name>...)` or `(?P<name>...)` has a malformed or empty name.")]
     InvalidGroupName,
 }
 
@@ -110,21 +110,6 @@ impl ERE {
                 match part {
                     EREPart::Single(expr) | EREPart::Quantified(expr, _) => {
                         expr.collect_group_names(names);
-                    }
-                    EREPart::Start | EREPart::End => {}
-                }
-            }
-        }
-    }
-
-    /// Transforms the parse tree so ASCII letters match both cases.
-    #[cfg(feature = "unstable-attr-regex")]
-    pub(crate) fn apply_ascii_case_insensitive(&mut self) {
-        for branch in &mut self.0 {
-            for part in &mut branch.0 {
-                match part {
-                    EREPart::Single(expr) | EREPart::Quantified(expr, _) => {
-                        expr.apply_ascii_case_insensitive();
                     }
                     EREPart::Start | EREPart::End => {}
                 }
@@ -212,7 +197,7 @@ impl EREPart {
         let (rest, expr) = if let Some(rest) = rest.strip_prefix('(') {
             let (kind, rest) = if let Some(rest) = rest.strip_prefix("?:") {
                 (None, rest) // non-capturing
-            } else if let Some(rest) = rest.strip_prefix("?<") {
+            } else if let Some(rest) = rest.strip_prefix("?<").or_else(|| rest.strip_prefix("?P<")) {
                 let Some((name, rest)) = rest.split_once('>') else {
                     return Err(RegexParseError::InvalidGroupName);
                 };
@@ -287,17 +272,6 @@ impl EREExpression {
             }
             EREExpression::NonCapturingSubexpression(inner) => {
                 inner.collect_group_names(names);
-            }
-        }
-    }
-    #[cfg(feature = "unstable-attr-regex")]
-    fn apply_ascii_case_insensitive(&mut self) {
-        match self {
-            EREExpression::Atom(atom) => atom.apply_ascii_case_insensitive(),
-            EREExpression::Subexpression(inner)
-            | EREExpression::NonCapturingSubexpression(inner)
-            | EREExpression::NamedSubexpression(inner, _) => {
-                inner.apply_ascii_case_insensitive();
             }
         }
     }
@@ -472,70 +446,6 @@ pub enum Atom {
     /// A nonmatching bracket expression
     NonmatchingList(Vec<BracketExpressionTerm>),
 }
-impl Atom {
-    /// Transforms this atom so ASCII letters match both cases.
-    /// - `NormalChar('a')` becomes `MatchingList([Single('a'), Single('A')])`
-    /// - Bracket expressions get expanded: `Single('a')` adds `Single('A')`,
-    ///   `Range('a','f')` adds `Range('A','F')`.
-    /// - `CharClass` variants like `[:alpha:]` already match both cases.
-    /// - `NonmatchingList` terms are expanded the same way (excluding both cases).
-    #[cfg(feature = "unstable-attr-regex")]
-    fn apply_ascii_case_insensitive(&mut self) {
-        match self {
-            Atom::NormalChar(c) if c.is_ascii_alphabetic() => {
-                let lower = c.to_ascii_lowercase();
-                let upper = c.to_ascii_uppercase();
-                *self = Atom::MatchingList(vec![
-                    BracketExpressionTerm::Single(lower),
-                    BracketExpressionTerm::Single(upper),
-                ]);
-            }
-            Atom::MatchingList(terms) | Atom::NonmatchingList(terms) => {
-                let mut extra = Vec::new();
-                for term in terms.iter() {
-                    match term {
-                        BracketExpressionTerm::Single(c) if c.is_ascii_alphabetic() => {
-                            let folded = if c.is_ascii_lowercase() {
-                                c.to_ascii_uppercase()
-                            } else {
-                                c.to_ascii_lowercase()
-                            };
-                            extra.push(BracketExpressionTerm::Single(folded));
-                        }
-                        BracketExpressionTerm::Range(a, b) => {
-                            // Clamp the range to each ASCII letter sub-range and fold.
-                            // e.g. [0-f] overlaps a-f (lowercase), so we add A-F.
-                            let lo = *a as u8;
-                            let hi = *b as u8;
-                            // Check overlap with lowercase a-z
-                            if lo <= b'z' && hi >= b'a' {
-                                let clamped_lo = lo.max(b'a');
-                                let clamped_hi = hi.min(b'z');
-                                let folded_lo = (clamped_lo as char).to_ascii_uppercase();
-                                let folded_hi = (clamped_hi as char).to_ascii_uppercase();
-                                extra.push(BracketExpressionTerm::Range(folded_lo, folded_hi));
-                            }
-                            // Check overlap with uppercase A-Z
-                            if lo <= b'Z' && hi >= b'A' {
-                                let clamped_lo = lo.max(b'A');
-                                let clamped_hi = hi.min(b'Z');
-                                let folded_lo = (clamped_lo as char).to_ascii_lowercase();
-                                let folded_hi = (clamped_hi as char).to_ascii_lowercase();
-                                extra.push(BracketExpressionTerm::Range(folded_lo, folded_hi));
-                            }
-                        }
-                        // NOTE: POSIX character classes like [:lower:] and [:upper:] are
-                        // not affected by ascii_case_insensitive.
-                        _ => {}
-                    }
-                }
-                terms.extend(extra);
-            }
-            _ => {}
-        }
-    }
-}
-
 impl From<char> for Atom {
     fn from(value: char) -> Self {
         return Atom::NormalChar(value);
@@ -688,7 +598,7 @@ impl Atom {
                             terms.push(*a..=*b);
                         }
                         crate::parse_tree::BracketExpressionTerm::CharClass(class) => {
-                            terms.extend_from_slice(class.to_ranges());
+                            terms.extend(class.to_ranges());
                         }
                     }
                 }
@@ -795,28 +705,109 @@ pub enum BracketCharClass {
     Punctuation,
     /// `[:xdigit:]`
     HexDigit,
+    /// `[:^alnum:]`
+    NotAlphanumeric,
+    /// `[:^cntrl:]`
+    NotControl,
+    /// `[:^lower:]`
+    NotLower,
+    /// `[:^space:]`
+    NotSpace,
+    /// `[:^alpha:]`
+    NotAlphabet,
+    /// `[:^digit:]`
+    NotDigit,
+    /// `[:^print:]`
+    NotPrint,
+    /// `[:^upper:]`
+    NotUpper,
+    /// `[:^blank:]`
+    NotBlank,
+    /// `[:^graph:]`
+    NotGraphic,
+    /// `[:^punct:]`
+    NotPunctuation,
+    /// `[:^xdigit:]`
+    NotHexDigit,
 }
 impl BracketCharClass {
-    pub const fn to_ranges(&self) -> &'static [RangeInclusive<char>] {
+    const fn positive_ranges(&self) -> &'static [RangeInclusive<char>] {
         return match self {
-            BracketCharClass::Alphanumeric => &['0'..='9', 'A'..='Z', 'a'..='z'],
-            BracketCharClass::Control => &['\0'..='\x1f', '\x7f'..='\x7f'],
-            BracketCharClass::Lower => &['a'..='z'],
-            BracketCharClass::Space => &['\t'..='\t', '\x0a'..='\x0d', ' '..=' '],
-            BracketCharClass::Alphabet => &['A'..='Z', 'a'..='z'],
-            BracketCharClass::Digit => &['0'..='9'],
-            BracketCharClass::Print => &['\x20'..='\x7E'],
-            BracketCharClass::Upper => &['A'..='Z'],
-            BracketCharClass::Blank => &['\t'..='\t', ' '..=' '],
-            BracketCharClass::Graphic => &['\x21'..='\x7e'],
-            BracketCharClass::Punctuation => &[
+            BracketCharClass::Alphanumeric | BracketCharClass::NotAlphanumeric => {
+                &['0'..='9', 'A'..='Z', 'a'..='z']
+            }
+            BracketCharClass::Control | BracketCharClass::NotControl => {
+                &['\0'..='\x1f', '\x7f'..='\x7f']
+            }
+            BracketCharClass::Lower | BracketCharClass::NotLower => &['a'..='z'],
+            BracketCharClass::Space | BracketCharClass::NotSpace => {
+                &['\t'..='\t', '\x0a'..='\x0d', ' '..=' ']
+            }
+            BracketCharClass::Alphabet | BracketCharClass::NotAlphabet => &['A'..='Z', 'a'..='z'],
+            BracketCharClass::Digit | BracketCharClass::NotDigit => &['0'..='9'],
+            BracketCharClass::Print | BracketCharClass::NotPrint => &['\x20'..='\x7E'],
+            BracketCharClass::Upper | BracketCharClass::NotUpper => &['A'..='Z'],
+            BracketCharClass::Blank | BracketCharClass::NotBlank => &['\t'..='\t', ' '..=' '],
+            BracketCharClass::Graphic | BracketCharClass::NotGraphic => &['\x21'..='\x7e'],
+            BracketCharClass::Punctuation | BracketCharClass::NotPunctuation => &[
                 '\x21'..='\x2f',
                 '\x3a'..='\x40',
                 '\x5b'..='\x60',
                 '\x7b'..='\x7e',
             ],
-            BracketCharClass::HexDigit => &['0'..='9', 'A'..='F', 'a'..='f'],
+            BracketCharClass::HexDigit | BracketCharClass::NotHexDigit => &['0'..='9', 'A'..='F', 'a'..='f'],
         };
+    }
+    const fn is_negated(&self) -> bool {
+        return matches!(
+            self,
+            BracketCharClass::NotAlphanumeric
+                | BracketCharClass::NotControl
+                | BracketCharClass::NotLower
+                | BracketCharClass::NotSpace
+                | BracketCharClass::NotAlphabet
+                | BracketCharClass::NotDigit
+                | BracketCharClass::NotPrint
+                | BracketCharClass::NotUpper
+                | BracketCharClass::NotBlank
+                | BracketCharClass::NotGraphic
+                | BracketCharClass::NotPunctuation
+                | BracketCharClass::NotHexDigit
+        );
+    }
+    pub fn to_ranges(&self) -> Vec<RangeInclusive<char>> {
+        let positive = self.positive_ranges();
+        if !self.is_negated() {
+            return positive.to_vec();
+        }
+
+        let mut ranges = vec!['\0'..=char::MAX];
+        for term in positive {
+            ranges = ranges
+                .iter()
+                .flat_map(|range| {
+                    if term.end() < range.start() || range.end() < term.start() {
+                        return vec![range.clone()];
+                    }
+
+                    let mut out = Vec::new();
+                    if range.start() < term.start() {
+                        let mut new_range = *range.start()..=*term.start();
+                        new_range.next_back();
+                        out.push(new_range);
+                    }
+                    if term.end() < range.end() {
+                        let mut new_range = *term.end()..=*range.end();
+                        new_range.next();
+                        out.push(new_range);
+                    }
+                    out
+                })
+                .collect();
+        }
+
+        ranges.sort_by_key(|range: &RangeInclusive<char>| *range.start());
+        ranges
     }
     /// Checks matches to the char classes.
     pub const fn check_ascii(&self, c: char) -> bool {
@@ -833,11 +824,35 @@ impl BracketCharClass {
             BracketCharClass::Graphic => c.is_ascii_graphic(),
             BracketCharClass::Punctuation => c.is_ascii_punctuation(),
             BracketCharClass::HexDigit => c.is_ascii_hexdigit(),
+            BracketCharClass::NotAlphanumeric => !c.is_ascii_alphanumeric(),
+            BracketCharClass::NotControl => !c.is_ascii_control(),
+            BracketCharClass::NotLower => !c.is_ascii_lowercase(),
+            BracketCharClass::NotSpace => !(c.is_ascii_whitespace() || c == '\x0b'),
+            BracketCharClass::NotAlphabet => !c.is_ascii_alphabetic(),
+            BracketCharClass::NotDigit => !c.is_ascii_digit(),
+            BracketCharClass::NotPrint => !matches!(c, '\x20'..='\x7E'),
+            BracketCharClass::NotUpper => !c.is_ascii_uppercase(),
+            BracketCharClass::NotBlank => !(c == ' ' || c == '\t'),
+            BracketCharClass::NotGraphic => !c.is_ascii_graphic(),
+            BracketCharClass::NotPunctuation => !c.is_ascii_punctuation(),
+            BracketCharClass::NotHexDigit => !c.is_ascii_hexdigit(),
         };
     }
     fn take<'a>(rest: &'a str) -> Option<(&'a str, BracketCharClass)> {
         let rest = rest.strip_prefix("[:")?;
         return match_prefix!(rest, {
+            "^alnum:]" => BracketCharClass::NotAlphanumeric,
+            "^cntrl:]" => BracketCharClass::NotControl,
+            "^lower:]" => BracketCharClass::NotLower,
+            "^space:]" => BracketCharClass::NotSpace,
+            "^alpha:]" => BracketCharClass::NotAlphabet,
+            "^digit:]" => BracketCharClass::NotDigit,
+            "^print:]" => BracketCharClass::NotPrint,
+            "^upper:]" => BracketCharClass::NotUpper,
+            "^blank:]" => BracketCharClass::NotBlank,
+            "^graph:]" => BracketCharClass::NotGraphic,
+            "^punct:]" => BracketCharClass::NotPunctuation,
+            "^xdigit:]" => BracketCharClass::NotHexDigit,
             "alnum:]" => BracketCharClass::Alphanumeric,
             "cntrl:]" => BracketCharClass::Control,
             "lower:]" => BracketCharClass::Lower,
@@ -868,6 +883,18 @@ impl Display for BracketCharClass {
             BracketCharClass::Graphic => f.write_str("[:graph:]"),
             BracketCharClass::Punctuation => f.write_str("[:punct:]"),
             BracketCharClass::HexDigit => f.write_str("[:xdigit:]"),
+            BracketCharClass::NotAlphanumeric => f.write_str("[:^alnum:]"),
+            BracketCharClass::NotControl => f.write_str("[:^cntrl:]"),
+            BracketCharClass::NotLower => f.write_str("[:^lower:]"),
+            BracketCharClass::NotSpace => f.write_str("[:^space:]"),
+            BracketCharClass::NotAlphabet => f.write_str("[:^alpha:]"),
+            BracketCharClass::NotDigit => f.write_str("[:^digit:]"),
+            BracketCharClass::NotPrint => f.write_str("[:^print:]"),
+            BracketCharClass::NotUpper => f.write_str("[:^upper:]"),
+            BracketCharClass::NotBlank => f.write_str("[:^blank:]"),
+            BracketCharClass::NotGraphic => f.write_str("[:^graph:]"),
+            BracketCharClass::NotPunctuation => f.write_str("[:^punct:]"),
+            BracketCharClass::NotHexDigit => f.write_str("[:^xdigit:]"),
         };
     }
 }
@@ -910,6 +937,42 @@ impl ToTokens for BracketCharClass {
             BracketCharClass::HexDigit => {
                 tokens.extend(quote! {::ere::parse_tree::BracketCharClass::XDigit})
             }
+            BracketCharClass::NotAlphanumeric => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotAlphanumeric})
+            }
+            BracketCharClass::NotControl => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotControl})
+            }
+            BracketCharClass::NotLower => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotLower})
+            }
+            BracketCharClass::NotSpace => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotSpace})
+            }
+            BracketCharClass::NotAlphabet => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotAlphabet})
+            }
+            BracketCharClass::NotDigit => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotDigit})
+            }
+            BracketCharClass::NotPrint => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotPrint})
+            }
+            BracketCharClass::NotUpper => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotUpper})
+            }
+            BracketCharClass::NotBlank => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotBlank})
+            }
+            BracketCharClass::NotGraphic => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotGraphic})
+            }
+            BracketCharClass::NotPunctuation => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotPunctuation})
+            }
+            BracketCharClass::NotHexDigit => {
+                tokens.extend(quote! {::ere::parse_tree::BracketCharClass::NotHexDigit})
+            }
         }
     }
 }
@@ -932,9 +995,7 @@ impl BracketExpressionTerm {
         return match self {
             BracketExpressionTerm::Single(c) => vec![*c..=*c],
             BracketExpressionTerm::Range(a, b) => vec![*a..=*b],
-            BracketExpressionTerm::CharClass(bracket_char_class) => {
-                bracket_char_class.to_ranges().to_vec()
-            }
+            BracketExpressionTerm::CharClass(bracket_char_class) => bracket_char_class.to_ranges(),
         };
     }
 }
@@ -1249,5 +1310,23 @@ mod tests {
             Atom::take("[a-z]").unwrap().1,
             Atom::take("[A-Z]").unwrap().1
         )
+    }
+
+    #[test]
+    fn parse_atom_negated_bracket_char_class() {
+        let (_, atom) = Atom::take("[[:^alpha:]]").unwrap();
+        assert!(atom.check('1'));
+        assert!(atom.check('_'));
+        assert!(!atom.check('a'));
+        assert!(!atom.check('Z'));
+    }
+
+    #[test]
+    fn parse_named_groups_accepts_python_style() {
+        let ere_default = ERE::parse_str(r"(?<year>[0-9]{4})").expect("default named group should parse");
+        let ere_python = ERE::parse_str(r"(?P<year>[0-9]{4})").expect("python-style named group should parse");
+
+        assert_eq!(ere_default.to_string(), r"(?<year>[0-9]{4})");
+        assert_eq!(ere_python.to_string(), r"(?<year>[0-9]{4})");
     }
 }
