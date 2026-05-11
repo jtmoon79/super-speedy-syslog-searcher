@@ -9,7 +9,7 @@ set -eu
 
 cd "$(dirname -- "${0}")/.."
 
-export PATH="${PATH}:${HOME}/.cargo/bin"
+export PATH="${PATH}:${HOME}/go/bin"
 
 set -x
 
