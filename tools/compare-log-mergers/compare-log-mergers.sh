@@ -13,6 +13,8 @@
 # pass `--skip-tl` to skip processing toolong which takes over the console
 # window and stalls non-interactive consoles
 #
+# Set PROGRAM_S4_OPTIONAL for any other s4 program to compare
+#
 
 set -eu
 
@@ -118,7 +120,7 @@ declare -ar files=(
     './tools/compare-log-mergers/gen-5000-1-facesJ.log'
 )
 
-tmpA=$(mktemp -t "compare-log-mergers_XXXXX.out")
+tmpOut=$(mktemp -t "compare-log-mergers_XXXXX.out")
 json1=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json2=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json3=$(mktemp -t "compare-log_mergers_XXXXX.json")
@@ -128,6 +130,7 @@ json6=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json7=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json8=$(mktemp -t "compare-log_mergers_XXXXX.json")
 json9=$(mktemp -t "compare-log_mergers_XXXXX.json")
+jsonA=$(mktemp -t "compare-log_mergers_XXXXX.json")
 tm1=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm2=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm3=$(mktemp -t "compare-log_mergers_XXXXX.txt")
@@ -137,13 +140,14 @@ tm6=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm7=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm8=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 tm9=$(mktemp -t "compare-log_mergers_XXXXX.txt")
+tmA=$(mktemp -t "compare-log_mergers_XXXXX.txt")
 mdfinal=$(mktemp -t "compare-log_mergers_final_XXXXX.md")
 
 function exit_() {
     rm -f \
-        "${tmpA}" \
-        "${json1}" "${json2}" "${json3}" "${json4}" "${json5}" "${json6}" "${json7}" "${json8}" \
-        "${tm1}" "${tm2}" "${tm3}" "${tm4}" "${tm5}" "${tm6}" "${tm7}" "${tm8}" \
+        "${tmpOut}" \
+        "${json1}" "${json2}" "${json3}" "${json4}" "${json5}" "${json6}" "${json7}" "${json8}" "${json9}" "${jsonA}" \
+        "${tm1}" "${tm2}" "${tm3}" "${tm4}" "${tm5}" "${tm6}" "${tm7}" "${tm8}" "${tm9}" "${tmA}" \
         "${mdfinal}"
 }
 trap exit_ EXIT
@@ -161,7 +165,7 @@ declare -r regex_dt='^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'
 function files_caching() {
     # force reading of files from disk to allow any possible caching.
     # crude but possibly better than nothing
-    cat "${files[@]}" > "${tmpA}"
+    cat "${files[@]}" > "${tmpOut}"
 }
 
 function echo_line() {
@@ -209,11 +213,11 @@ echo
     set -x
     $time --format="${TIME_FORMAT}" --output="${tm1}" \
         -- \
-        sh -c "'$grep' -hEe '${regex_dt}' -- ${files[*]} | '$sort' -t ' ' -k 1 -s" > "${tmpA}"
+        sh -c "'$grep' -hEe '${regex_dt}' -- ${files[*]} | '$sort' -t ' ' -k 1 -s" > "${tmpOut}"
 )
 
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 
 echo_line
@@ -241,11 +245,11 @@ echo
         "-a=${after_dt}" \
         "-b=${befor_dt}" \
         "--color=never" \
-        "${files[@]}" > "${tmpA}"
+        "${files[@]}" > "${tmpOut}"
 )
 
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 
 echo_line
@@ -272,11 +276,11 @@ PROGRAM_S4_JEMALLOC=${PROGRAM_S4_JEMALLOC-./target/jemalloc/s4}
         "-a=${after_dt}" \
         "-b=${befor_dt}" \
         "--color=never" \
-        "${files[@]}" > "${tmpA}"
+        "${files[@]}" > "${tmpOut}"
 )
 
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 
 echo_line
@@ -302,11 +306,11 @@ PROGRAM_S4_MIMALLOC=${PROGRAM_S4_MIMALLOC-./target/mimalloc/s4}
         "-a=${after_dt}" \
         "-b=${befor_dt}" \
         "--color=never" \
-        "${files[@]}" > "${tmpA}"
+        "${files[@]}" > "${tmpOut}"
 )
 
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 
 echo_line
@@ -333,11 +337,11 @@ PROGRAM_S4_RPMALLOC=${PROGRAM_S4_RPMALLOC-./target/rpmalloc/s4}
         "-a=${after_dt}" \
         "-b=${befor_dt}" \
         "--color=never" \
-        "${files[@]}" > "${tmpA}"
+        "${files[@]}" > "${tmpOut}"
 )
 
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 
 echo_line
@@ -363,14 +367,45 @@ PROGRAM_S4_TCMALLOC=${PROGRAM_S4_TCMALLOC-./target/tcmalloc/s4}
         "-a=${after_dt}" \
         "-b=${befor_dt}" \
         "--color=never" \
-        "${files[@]}" > "${tmpA}"
+        "${files[@]}" > "${tmpOut}"
 )
 
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 
 echo_line
+
+# Super Speedy Syslog Searcher (user optional s4 program)
+
+if [[ "${PROGRAM_S4_OPTIONAL-}" ]]; then
+    (set -x; "${PROGRAM_S4_OPTIONAL}" --version)
+(
+    files_caching
+    set -x
+    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${jsonA}" -N -n "s4 (optional)" \
+        -- \
+        "'${PROGRAM_S4_OPTIONAL}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+)
+(
+    files_caching
+    set -x
+    $time --format="${TIME_FORMAT}" --output="${tmA}" \
+        -- \
+        "${PROGRAM_S4_OPTIONAL}" \
+        "-a=${after_dt}" \
+        "-b=${befor_dt}" \
+        "--color=never" \
+        "${files[@]}" > "${tmpOut}"
+)
+fi
+
+echo
+cat "${tmpOut}" | wc -l -
+echo
+
+echo_line
+
 
 # lnav
 
@@ -393,11 +428,11 @@ ${files[*]}"
         -- \
         "${PROGRAM_LNAV}" -N -n \
             -c ";SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('${after_dt}') AND Datetime('${befor_dt}')" \
-            "${files[@]}" > "${tmpA}"
+            "${files[@]}" > "${tmpOut}"
 )
 
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 
 echo_line
@@ -438,11 +473,11 @@ echo
         "--end" \
         "${befor_dt}" \
         "${files[@]}" \
-         > "${tmpA}"
+         > "${tmpOut}"
 ) || true
 
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 
 echo_line
@@ -464,10 +499,10 @@ echo
         "${PROGRAM_LD}" \
         --range "${after_dt_ld}-${befor_dt_ld}" \
         "${files[@]}" \
-        > "${tmpA}"
+        > "${tmpOut}"
 )
 echo
-# cat "${tmpA}" | wc -l -
+# cat "${tmpOut}" | wc -l -
 
 echo_line
 
@@ -496,7 +531,7 @@ if ! ${skip_tl}; then
             -- \
             "${PROGRAM_TL}" \
             --merge \
-            --output-merge "${tmpA}" \
+            --output-merge "${tmpOut}" \
             "${files[@]}"
     )
 else
@@ -505,7 +540,7 @@ else
     echo '0|0|0:0' > "${tm8}"
 fi
 echo
-cat "${tmpA}" | wc -l -
+cat "${tmpOut}" | wc -l -
 echo
 cat "${tm8}"
 echo
@@ -574,8 +609,8 @@ function to_milliseconds() {
 }
 
 # markdown table header
-echo '|Command|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpA}"
-echo '|:---|---:|---:|---:|---:|---:|' >> "${tmpA}"
+echo '|Command|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
+echo '|:---|---:|---:|---:|---:|---:|' >> "${tmpOut}"
 
 # markdown table rows
 for files_ in \
@@ -585,6 +620,7 @@ for files_ in \
     "${json4}|${tm4}" \
     "${json9}|${tm9}" \
     "${json5}|${tm5}" \
+    "${jsonA}|${tmA}" \
     "${json6}|${tm6}" \
     "${json7}|${tm7}" \
     "${json8}|${tm8}" \
@@ -608,10 +644,10 @@ for files_ in \
         mss=$(cat "${tm}" | cut -d'|' -f1)
         cpup=$(cat "${tm}" | cut -d'|' -f2)
         echo "|\`${command}\`|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
-    ) >> "${tmpA}"
+    ) >> "${tmpOut}"
 done
 
-cat "${tmpA}" | column -t -s '|' -o '|' > "${mdfinal}"
+cat "${tmpOut}" | column -t -s '|' -o '|' > "${mdfinal}"
 
 (set -x; cat "${mdfinal}")
 
