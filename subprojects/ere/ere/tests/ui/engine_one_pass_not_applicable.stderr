@@ -1,0 +1,20 @@
+error: Regex is not one-pass and could not be optimized to become one-pass. Try a different engine.
+ --> tests/ui/engine_one_pass_not_applicable.rs:4:13
+  |
+4 |     #[regex(r"(a+)(a+)", engine = OnePassU8)]
+  |             ^^^^^^^^^^^
+
+error[E0433]: failed to resolve: use of undeclared type `Greedy`
+ --> tests/ui/engine_one_pass_not_applicable.rs:7:13
+  |
+7 |     let _ = Greedy::exec("aaa");
+  |             ^^^^^^ use of undeclared type `Greedy`
+  |
+help: there is an enum variant `ere::config::AmbiguousSubmatchMode::Greedy` and 1 other; try using the variant's enum
+  |
+7 -     let _ = Greedy::exec("aaa");
+7 +     let _ = ere::config::AmbiguousSubmatchMode::exec("aaa");
+  |
+7 -     let _ = Greedy::exec("aaa");
+7 +     let _ = ere_core::config::AmbiguousSubmatchMode::exec("aaa");
+  |

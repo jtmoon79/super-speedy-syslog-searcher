@@ -305,7 +305,7 @@ mod impl_test {
                     false => Some(ImplVMStateLabel(i)),
                 });
             let state_count = u8_nfa.states.len();
-            let accept_state = ImplVMStateLabel(state_count - 1);
+            let _accept_state = ImplVMStateLabel(state_count - 1);
 
             let transition_symbols_test = TransitionSymbols(nfa);
             let transition_epsilons_test = TransitionEpsilons(nfa);

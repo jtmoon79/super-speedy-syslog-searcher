@@ -7,7 +7,7 @@ use std::fmt::Write as _;
 
 use crate::{
     parse_tree::{Atom, BracketExpressionTerm, CharClass},
-    working_nfa::{EpsilonTransition, EpsilonType, WorkingNFA, WorkingState, WorkingTransition},
+    working_nfa::{EpsilonTransition, EpsilonType},
 };
 use quote::quote;
 
@@ -91,17 +91,6 @@ impl NFATransitionStatic {
     pub const fn __load(to: usize, symbol: AtomStatic) -> NFATransitionStatic {
         return NFATransitionStatic { to, symbol };
     }
-    fn serialize_as_token_stream(transition: &WorkingTransition) -> proc_macro2::TokenStream {
-        let WorkingTransition { to, symbol } = transition;
-        let symbol = AtomStatic::serialize_as_token_stream(symbol);
-        return quote! {
-            ::ere::nfa_static::NFATransitionStatic::__load(
-                #to,
-                #symbol,
-            )
-        }
-        .into();
-    }
 }
 impl std::fmt::Display for NFATransitionStatic {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -123,24 +112,6 @@ impl NFAStateStatic {
             transitions,
             epsilons,
         };
-    }
-    fn serialize_as_token_stream(state: &WorkingState) -> proc_macro2::TokenStream {
-        let WorkingState {
-            transitions,
-            epsilons,
-        } = state;
-        let transitions = transitions
-            .iter()
-            .map(NFATransitionStatic::serialize_as_token_stream);
-        return quote! {{
-            const transitions: &'static [::ere::nfa_static::NFATransitionStatic] = &[#(#transitions),*];
-            const epsilons: &'static [::ere::working_nfa::EpsilonTransition] = &[#(#epsilons),*];
-            ::ere::nfa_static::NFAStateStatic::__load(
-                transitions,
-                epsilons,
-            )
-        }}
-        .into();
     }
 }
 
@@ -223,16 +194,3 @@ impl<const N: usize> std::fmt::Display for NFAStatic<N> {
     }
 }
 
-/// Converts a [`WorkingNFA`] into a format that, when returned by a proc macro, will
-/// create the corresponding [`NFAStatic`].
-pub(crate) fn serialize_nfa_as_token_stream(nfa: &WorkingNFA) -> proc_macro2::TokenStream {
-    let WorkingNFA { states } = nfa;
-
-    let capture_groups = nfa.num_capture_groups();
-    let state_defs = states.iter().map(NFAStateStatic::serialize_as_token_stream);
-    return quote! {{
-        const states: &'static [::ere::nfa_static::NFAStateStatic] = &[#(#state_defs),*];
-
-        ::ere::nfa_static::NFAStatic::<#capture_groups>::__load(states)
-    }};
-}

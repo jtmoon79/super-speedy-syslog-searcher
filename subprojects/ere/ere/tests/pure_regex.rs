@@ -680,6 +680,34 @@ fn uri_with_authority() {
     }
 }
 
+#[test]
+fn compile_regex_group_extensions() {
+    // Named groups same N as unnamed equivalent; non-capturing group excluded from N
+    // Pattern has 3 capture groups: group 0 (whole match), group 1 (year), group 2 (day)
+    // The month (?:...) is non-capturing and does NOT add to N
+    const REGEXES: [Regex<3>; 4] = [
+        compile_regex_dfa_u8!(r"^(?<year>[0-9]{4})-(?:0[1-9]|1[0-2])-(?<day>[0-9]{2})$"),
+        compile_regex_flat_lockstep_nfa!(r"^(?<year>[0-9]{4})-(?:0[1-9]|1[0-2])-(?<day>[0-9]{2})$"),
+        compile_regex_flat_lockstep_nfa_u8!(r"^(?<year>[0-9]{4})-(?:0[1-9]|1[0-2])-(?<day>[0-9]{2})$"),
+        compile_regex_u8onepass!(r"^(?<year>[0-9]{4})-(?:0[1-9]|1[0-2])-(?<day>[0-9]{2})$"),
+    ];
+
+    for regex in REGEXES {
+        assert_match!(
+            regex,
+            "2024-03-15",
+            [Some("2024-03-15"), Some("2024"), Some("15")]
+        );
+        assert_match!(
+            regex,
+            "1999-12-31",
+            [Some("1999-12-31"), Some("1999"), Some("31")]
+        );
+
+        assert_nomatch!(regex, "2024-3-15", "2024-00-15", "2024-13-15", "abc");
+    }
+}
+
 /// Anchor interaction with greedy priority ambiguous submatching
 ///
 /// Where priority is set via alternation

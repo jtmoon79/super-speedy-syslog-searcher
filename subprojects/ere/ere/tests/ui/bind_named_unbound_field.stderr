@@ -1,0 +1,11 @@
+error: No capture group named `month` found in the regular expression.
+  --> tests/ui/bind_named_unbound_field.rs:11:9
+   |
+11 |         month: Option<&'a str>,
+   |         ^^^^^
+
+error[E0433]: failed to resolve: use of undeclared type `YearOnly`
+  --> tests/ui/bind_named_unbound_field.rs:14:13
+   |
+14 |     let _ = YearOnly::exec("2024");
+   |             ^^^^^^^^ use of undeclared type `YearOnly`

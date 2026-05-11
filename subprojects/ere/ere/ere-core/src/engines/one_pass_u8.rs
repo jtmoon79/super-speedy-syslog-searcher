@@ -154,7 +154,6 @@ enum Tag {
 /// This also potentially allows for vectorization and simd, by organizing related sequences more closely.
 #[derive(Clone)]
 struct Run {
-    start_state: usize,
     symbols: Vec<std::ops::RangeInclusive<u8>>,
     /// `(offset, tag)` where `offset == 0` would refer to the location of the first matched symbol
     tags: Vec<(usize, Tag)>,
@@ -261,7 +260,6 @@ fn compute_runs(
             continue;
         }
         out[start_state] = StateRunInclusion::Start(Run {
-            start_state,
             symbols,
             tags,
             end_state: state,

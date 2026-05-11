@@ -32,6 +32,14 @@ impl<const N: usize> Regex<N> {
     pub fn test(&self, text: &str) -> bool {
         return (self.test_fn)(text);
     }
+    /// Executes the regular expression against `text` and returns the captures if it matches.
+    ///
+    /// The returned array has `N` elements: index `0` is the entire match, and indices `1..N`
+    /// are the individual capture groups in the order they appear in the pattern.
+    /// Each element is `Some(&str)` when the group participated in the match and `None` when it
+    /// did not (for example, an optional group that was not taken).
+    ///
+    /// Returns `None` when the regular expression does not match `text`.
     #[inline]
     pub fn exec<'a>(&self, text: &'a str) -> Option<[Option<&'a str>; N]> {
         return (self.exec_fn)(text);
@@ -252,14 +260,102 @@ pub fn __compile_regex_engine_fixed_offset(stream: TokenStream) -> TokenStream {
     .into();
 }
 
+/// Which matching engine to use for the compiled regex.
+#[cfg(feature = "unstable-attr-regex")]
+#[derive(Clone, Copy)]
+enum Engine {
+    /// Automatically select the best engine (default).
+    Auto,
+    /// One-pass DFA over bytes. Single linear scan, no backtracking.
+    OnePassU8,
+    /// Deterministic finite automaton over bytes.
+    DfaU8,
+    /// NFA simulation over bytes via lockstep parallel execution.
+    FlatLockstepNfaU8,
+    /// NFA simulation over Unicode chars via lockstep parallel execution.
+    FlatLockstepNfa,
+    /// Extracts captures by fixed string offsets. Wraps the auto-selected base engine.
+    FixedOffset,
+}
+
+/// Controls how strictly capture groups must be bound to struct fields.
+#[cfg(feature = "unstable-attr-regex")]
+#[derive(Clone, Copy)]
+enum GroupBind {
+    /// All capture groups (named and unnamed) must have a corresponding field.
+    Strict,
+    /// Only named capture groups must have a corresponding field.
+    Named,
+    /// No capture groups are required to have a corresponding field.
+    None,
+}
+
+#[cfg(feature = "unstable-attr-regex")]
+struct RegexAttr {
+    ere_litstr: syn::LitStr,
+    bind: GroupBind,
+    engine: Engine,
+    ascii_case_insensitive: bool,
+}
+
+#[cfg(feature = "unstable-attr-regex")]
+impl syn::parse::Parse for RegexAttr {
+    fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
+        let ere_litstr: syn::LitStr = input.parse()?;
+        let mut bind = GroupBind::Named;
+        let mut engine = Engine::Auto;
+        let mut ascii_case_insensitive = false;
+
+        while input.peek(syn::Token![,]) {
+            input.parse::<syn::Token![,]>()?;
+            if input.is_empty() {
+                break; // trailing comma
+            }
+            let key: syn::Ident = input.parse()?;
+            if key == "ascii_case_insensitive" {
+                ascii_case_insensitive = true;
+                continue;
+            }
+            input.parse::<syn::Token![=]>()?;
+            let value: syn::Ident = input.parse()?;
+            if key == "bind" {
+                bind = match value.to_string().as_str() {
+                    "Strict" => GroupBind::Strict,
+                    "Named" => GroupBind::Named,
+                    "None" => GroupBind::None,
+                    _ => return Err(syn::Error::new_spanned(&value, "Expected `Strict`, `Named`, or `None`.")),
+                };
+            } else if key == "engine" {
+                engine = match value.to_string().as_str() {
+                    "Auto" => Engine::Auto,
+                    "OnePassU8" => Engine::OnePassU8,
+                    "DfaU8" => Engine::DfaU8,
+                    "FlatLockstepNfaU8" => Engine::FlatLockstepNfaU8,
+                    "FlatLockstepNfa" => Engine::FlatLockstepNfa,
+                    "FixedOffset" => Engine::FixedOffset,
+                    _ => return Err(syn::Error::new_spanned(&value, "Expected `Auto`, `OnePassU8`, `DfaU8`, `FlatLockstepNfaU8`, `FlatLockstepNfa`, or `FixedOffset`.")),
+                };
+            } else {
+                return Err(syn::Error::new_spanned(&key, format!("Unknown attribute `{key}`. Expected `bind`, `engine`, or `ascii_case_insensitive`.")));
+            }
+        }
+
+        Ok(RegexAttr { ere_litstr, bind, engine, ascii_case_insensitive })
+    }
+}
+
 #[cfg(feature = "unstable-attr-regex")]
 pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStream {
-    let ere_litstr: syn::LitStr = syn::parse_macro_input!(attr);
+    let RegexAttr { ere_litstr, bind, engine, ascii_case_insensitive } = syn::parse_macro_input!(attr as RegexAttr);
     let ere_str = ere_litstr.value();
-    let ere = match parse_tree::ERE::parse_str_syn(&ere_str, ere_litstr.span()) {
+    let mut ere = match parse_tree::ERE::parse_str_syn(&ere_str, ere_litstr.span()) {
         Ok(ere) => ere,
         Err(compile_err) => return compile_err.into_compile_error().into(),
     };
+
+    if ascii_case_insensitive {
+        ere.apply_ascii_case_insensitive();
+    }
 
     let tree = simplified_tree::SimplifiedTreeNode::from(ere.clone());
     let nfa = working_nfa::WorkingNFA::new(&tree);
@@ -269,9 +365,8 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
         .map(|group_num| nfa.capture_group_is_optional(group_num))
         .collect();
 
-    let input_copy = input.clone();
-    let regex_struct: syn::DeriveInput = syn::parse_macro_input!(input_copy);
-    let syn::Data::Struct(data_struct) = regex_struct.data else {
+    let mut regex_struct: syn::DeriveInput = syn::parse_macro_input!(input);
+    let syn::Data::Struct(ref mut data_struct) = regex_struct.data else {
         return syn::parse::Error::new_spanned(
             regex_struct,
             "Attribute regexes currently only support structs.",
@@ -279,66 +374,231 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
         .to_compile_error()
         .into();
     };
-    let syn::Fields::Unnamed(fields) = data_struct.fields else {
-        return syn::parse::Error::new_spanned(
-            data_struct.fields,
-            "Attribute regexes currently require unnamed structs (tuple syntax).",
-        )
-        .to_compile_error()
-        .into();
+
+    let (fn_pair, description) = match engine {
+        Engine::Auto => pick_engine(ere.clone()),
+        Engine::OnePassU8 => {
+            let u8_nfa = working_u8_nfa::U8NFA::new(&nfa);
+            let Some(fp) = one_pass_u8::serialize_one_pass_token_stream(&u8_nfa) else {
+                return syn::parse::Error::new_spanned(
+                    &ere_litstr,
+                    "Regex is not one-pass and could not be optimized to become one-pass. Try a different engine.",
+                )
+                .to_compile_error()
+                .into();
+            };
+            (fp, "Uses the `one_pass_u8` engine.".to_string())
+        }
+        Engine::DfaU8 => {
+            let u8_nfa = working_u8_nfa::U8NFA::new(&nfa);
+            let dfa_state_limit = working_u8_dfa::U8TDFA::default_bound(u8_nfa.states.len());
+            let Some(dfa) = working_u8_dfa::U8TDFA::from_nfa(&u8_nfa, dfa_state_limit) else {
+                return syn::parse::Error::new_spanned(
+                    &ere_litstr,
+                    format!("Failed to convert NFA into DFA: exceeded DFA state limit of {dfa_state_limit}. Try a different engine."),
+                )
+                .to_compile_error()
+                .into();
+            };
+            (dfa_u8::serialize_u8_dfa_token_stream(&dfa), "Uses the `dfa_u8` engine.".to_string())
+        }
+        Engine::FlatLockstepNfaU8 => {
+            let u8_nfa = working_u8_nfa::U8NFA::new(&nfa);
+            let fp = flat_lockstep_nfa_u8::serialize_flat_lockstep_nfa_u8_token_stream(&u8_nfa);
+            (fp, "Uses the `flat_lockstep_nfa_u8` engine.".to_string())
+        }
+        Engine::FlatLockstepNfa => {
+            let fp = flat_lockstep_nfa::serialize_flat_lockstep_nfa_token_stream(&nfa);
+            (fp, "Uses the `flat_lockstep_nfa` engine.".to_string())
+        }
+        Engine::FixedOffset => {
+            let (base_engine, _, _, u8_nfa, _) = pick_base_engine(ere.clone());
+            let Some(offsets) = fixed_offset::get_fixed_offsets(&u8_nfa) else {
+                return syn::parse::Error::new_spanned(
+                    &ere_litstr,
+                    "Regex capture groups are not at fixed offsets. Try a different engine.",
+                )
+                .to_compile_error()
+                .into();
+            };
+            let fp = fixed_offset::serialize_fixed_offset_token_stream(
+                base_engine,
+                offsets,
+                u8_nfa.num_capture_groups(),
+            );
+            (fp, "Uses the `fixed_offset` engine.".to_string())
+        }
     };
-    if fields.unnamed.len() != optional_captures.len() {
-        return syn::parse::Error::new_spanned(
-            fields.unnamed,
-            format!(
-                "Expected struct to have {} unnamed fields, based on number of captures in regular expression.",
-                optional_captures.len()
-            ),
-        )
-        .to_compile_error()
-        .into();
-    }
-    // for field in &fields.unnamed {
-    //     if let syn::Type::Reference(ty) = &field.ty {
-    //         if matches!(*ty.elem, syn::parse_quote!(str)) {
-    //             continue;
-    //         }
-    //     }
-    // }
-
-    let mut out: proc_macro2::TokenStream = input.into();
-
-    // Currently use a conservative check: only use u8 engines when it will only match ascii strings
-    fn is_state_ascii(state: &working_nfa::WorkingState) -> bool {
-        return state
-            .transitions
-            .iter()
-            .flat_map(|t| t.symbol.to_ranges())
-            .all(|range| range.end().is_ascii());
-    }
-    let is_ascii = nfa.states.iter().all(is_state_ascii);
-
-    let struct_args: proc_macro2::TokenStream = optional_captures
-        .iter()
-        .enumerate()
-        .map(|(group_num, opt)| if *opt {
-            quote! { result[#group_num], }
-        } else {
-            quote! {
-                result[#group_num]
-                .expect(
-                    "If you are seeing this, there is probably an internal bug in the `ere-core` crate where a capture group was mistakenly marked as non-optional. Please report the bug."
-                ),
-            }
-        })
-        .collect();
-
-    // TODO: is it possible to more naturally extract struct args as optional or not?
-    let (fn_pair, description) = pick_engine(ere);
-    let struct_name = regex_struct.ident;
-
+    let struct_name = regex_struct.ident.clone();
     let ere_display_doc = format!("`{ere_str}`");
     let struct_name_link_doc = format!("[`{}`]", struct_name.to_string());
+
+    let constructor = match &mut data_struct.fields {
+        syn::Fields::Unnamed(fields) => {
+            if !matches!(bind, GroupBind::Named) {
+                return syn::parse::Error::new_spanned(
+                    &ere_litstr,
+                    "The `bind` parameter is only supported on named structs, not tuple structs.",
+                )
+                .to_compile_error()
+                .into();
+            }
+            if fields.unnamed.len() != optional_captures.len() {
+                return syn::parse::Error::new_spanned(
+                    &fields.unnamed,
+                    format!(
+                        "Expected struct to have {} unnamed fields, based on number of captures in regular expression.",
+                        optional_captures.len()
+                    ),
+                )
+                .to_compile_error()
+                .into();
+            }
+            let args: proc_macro2::TokenStream = optional_captures
+                .iter()
+                .enumerate()
+                .map(|(group_num, opt)| if *opt {
+                    quote! { result[#group_num], }
+                } else {
+                    quote! {
+                        result[#group_num]
+                        .expect(
+                            "ere bug: non-optional capture was None — please report this"
+                        ),
+                    }
+                })
+                .collect();
+            quote! { #struct_name(#args) }
+        }
+        syn::Fields::Named(ref mut fields) => {
+            let group_names = ere.group_names();
+            let name_to_group: std::collections::HashMap<String, usize> = group_names
+                .iter()
+                .enumerate()
+                .filter_map(|(i, name)| name.as_ref().map(|n| (n.clone(), i + 1)))
+                .collect();
+
+            let mut field_args = Vec::new();
+            let mut used_groups = std::collections::HashSet::new();
+            used_groups.insert(0usize); // group 0 is implicitly always present
+            for field in fields.named.iter_mut() {
+                let ident = field.ident.as_ref().unwrap();
+
+                // Parse #[group(N)] attribute if present, then strip it
+                let group_attr = field.attrs.iter().find(|a| a.path().is_ident("group"));
+                let explicit_group: Option<usize> = match group_attr {
+                    Some(attr) => {
+                        let lit: syn::LitInt = match attr.parse_args() {
+                            Ok(lit) => lit,
+                            Err(_) => return syn::parse::Error::new_spanned(
+                                attr, "#[group(N)] requires a non-negative integer.",
+                            ).to_compile_error().into(),
+                        };
+                        match lit.base10_parse() {
+                            Ok(n) => Some(n),
+                            Err(e) => return syn::parse::Error::new_spanned(&lit, e)
+                                .to_compile_error().into(),
+                        }
+                    }
+                    None => None,
+                };
+                field.attrs.retain(|a| !a.path().is_ident("group"));
+
+                let group_num = if let Some(n) = explicit_group {
+                    n
+                } else {
+                    let name = ident.to_string();
+                    match name_to_group.get(&name) {
+                        Some(&n) => n,
+                        None if matches!(bind, GroupBind::None) => {
+                            // Field has no matching capture group — assign None.
+                            // The compiler will enforce the field type is Option<T>.
+                            field_args.push(quote! { #ident: None, });
+                            continue;
+                        }
+                        None => {
+                            return syn::parse::Error::new_spanned(
+                                ident,
+                                format!("No capture group named `{name}` found in the regular expression."),
+                            )
+                            .to_compile_error()
+                            .into();
+                        }
+                    }
+                };
+                if group_num >= capture_groups {
+                    return syn::parse::Error::new_spanned(
+                        ident,
+                        format!(
+                            "#[group({group_num})] is out of range: the regular expression only has {} capture group(s) (groups 0..{}).",
+                            capture_groups,
+                            capture_groups,
+                        ),
+                    )
+                    .to_compile_error()
+                    .into();
+                }
+                used_groups.insert(group_num);
+                let opt = optional_captures[group_num];
+                let arg = if opt {
+                    quote! { #ident: result[#group_num], }
+                } else if matches!(bind, GroupBind::None) {
+                    // In bind=None mode, use .into() so the field can be either
+                    // &str or Option<&str> (via From<T> for Option<T>).
+                    quote! {
+                        #ident: result[#group_num]
+                            .expect("ere bug: non-optional capture was None — please report this")
+                            .into(),
+                    }
+                } else {
+                    quote! {
+                        #ident: result[#group_num]
+                            .expect("ere bug: non-optional capture was None — please report this"),
+                    }
+                };
+                field_args.push(arg);
+            }
+
+            // Check for unbound capture groups based on the bind mode.
+            for group_num in 0..capture_groups {
+                if used_groups.contains(&group_num) {
+                    continue;
+                }
+                let is_named = name_to_group.iter().find(|(_, &g)| g == group_num);
+                match (bind, is_named) {
+                    (GroupBind::None, _) | (GroupBind::Named, Option::None) => {}
+                    (GroupBind::Named | GroupBind::Strict, Some((name, _))) => {
+                        return syn::parse::Error::new_spanned(
+                            &ere_litstr,
+                            format!("Named capture group `{name}` has no corresponding field in the struct."),
+                        )
+                        .to_compile_error()
+                        .into();
+                    }
+                    (GroupBind::Strict, Option::None) => {
+                        return syn::parse::Error::new_spanned(
+                            &ere_litstr,
+                            format!("Capture group {group_num} has no corresponding field in the struct. Add a field like `#[group({group_num})] captured: &'a str`."),
+                        )
+                        .to_compile_error()
+                        .into();
+                    }
+                }
+            }
+
+            let args: proc_macro2::TokenStream = field_args.into_iter().collect();
+            quote! { #struct_name { #args } }
+        }
+        syn::Fields::Unit => {
+            return syn::parse::Error::new_spanned(
+                &struct_name,
+                "Attribute regexes require a struct with fields.",
+            )
+            .to_compile_error()
+            .into();
+        }
+    };
+
     let implementation = quote! {
         impl<'a> #struct_name<'a> {
             const ENGINE: (
@@ -367,13 +627,12 @@ pub fn __compile_regex_attr(attr: TokenStream, input: TokenStream) -> TokenStrea
             #[doc = #description]
             pub fn exec(text: &'a str) -> ::core::option::Option<#struct_name<'a>> {
                 let result: [::core::option::Option<&'a str>; #capture_groups] = (Self::ENGINE.1)(text)?;
-                return ::core::option::Option::<#struct_name<'a>>::Some(#struct_name(
-                    #struct_args
-                ));
+                return ::core::option::Option::<#struct_name<'a>>::Some(#constructor);
             }
         }
     };
-    out.extend(implementation);
-
-    return out.into();
+    return quote! {
+        #regex_struct
+        #implementation
+    }.into();
 }

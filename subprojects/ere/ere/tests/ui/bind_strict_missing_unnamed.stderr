@@ -1,0 +1,11 @@
+error: Capture group 1 has no corresponding field in the struct. Add a field like `#[group(1)] captured: &'a str`.
+ --> tests/ui/bind_strict_missing_unnamed.rs:4:13
+  |
+4 |     #[regex(r"^(.)\. Simpson$", bind = Strict)]
+  |             ^^^^^^^^^^^^^^^^^^
+
+error[E0433]: failed to resolve: use of undeclared type `HomerSimpson`
+  --> tests/ui/bind_strict_missing_unnamed.rs:10:13
+   |
+10 |     let _ = HomerSimpson::exec("J. Simpson");
+   |             ^^^^^^^^^^^^ use of undeclared type `HomerSimpson`

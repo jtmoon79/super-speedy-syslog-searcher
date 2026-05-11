@@ -654,10 +654,6 @@ impl U8DFA {
             initial: false,
             accept: true,
         };
-        fn make_label(nfa_indices: &[SubNFAStateID]) -> String {
-            let nfa_indices: Vec<_> = nfa_indices.iter().map(|s| s.0.to_string()).collect();
-            return nfa_indices.join(",");
-        }
         let map_state =
             |(i, state): (usize, &U8DFAState)| -> crate::visualization::LatexGraphState {
                 let transitions =

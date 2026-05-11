@@ -45,6 +45,7 @@ impl EpsilonTransition {
             special: EpsilonType::None,
         };
     }
+    #[allow(dead_code)]
     pub(crate) const fn with_offset(self, offset: usize) -> EpsilonTransition {
         return EpsilonTransition {
             to: self.to + offset,
@@ -91,6 +92,7 @@ impl WorkingTransition {
     pub fn new(to: usize, symbol: Atom) -> WorkingTransition {
         return WorkingTransition { to, symbol };
     }
+    #[allow(dead_code)]
     pub fn with_offset(mut self, offset: usize) -> WorkingTransition {
         self.inplace_offset(offset);
         return self;

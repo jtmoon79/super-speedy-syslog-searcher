@@ -15,7 +15,7 @@ pub trait BuildLayout {
 pub struct DAGLayout<'a> {
     depths: Vec<usize>,
     max_depth: usize,
-    graph: &'a LatexGraph,
+    _graph: &'a LatexGraph,
 }
 impl<'a> DAGLayout<'a> {
     fn check_dag(graph: &'a LatexGraph) -> bool {
@@ -83,7 +83,7 @@ impl<'a> DAGLayout<'a> {
         return Some(DAGLayout {
             max_depth,
             depths,
-            graph,
+            _graph: graph,
         });
     }
 }
@@ -91,6 +91,7 @@ impl<'a> BuildLayout for DAGLayout<'a> {
     fn layout(&self) -> Vec<(f64, f64)> {
         let unique_depths = self.max_depth + 1;
 
+        #[allow(dead_code)]
         enum LayerNode {
             Real {
                 node: usize,

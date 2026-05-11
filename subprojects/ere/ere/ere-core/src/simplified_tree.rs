@@ -240,7 +240,7 @@ impl SimplifiedTreeNode {
     ) -> (SimplifiedTreeNode, usize) {
         return match value {
             EREExpression::Atom(atom) => (atom.clone().into(), group_num),
-            EREExpression::Subexpression(ere) => {
+            EREExpression::Subexpression(ere) | EREExpression::NamedSubexpression(ere, _) => {
                 let (capture, next_group_num) =
                     SimplifiedTreeNode::from_sub_ere(ere, group_num + 1, config);
                 (
@@ -248,17 +248,15 @@ impl SimplifiedTreeNode {
                     next_group_num,
                 )
             }
+            EREExpression::NonCapturingSubexpression(ere) => {
+                SimplifiedTreeNode::from_sub_ere(ere, group_num, config)
+            }
         };
     }
     /// Returns the simplified tree, along with the number of capture groups (full expression is group 0)
     pub fn from_ere(value: &ERE, config: &Config) -> (SimplifiedTreeNode, usize) {
         let (root, groups) = SimplifiedTreeNode::from_sub_ere(value, 1, config);
         return (SimplifiedTreeNode::Capture(Box::new(root), 0), groups);
-    }
-
-    /// [`SimplifiedTreeNode::from_ere`] except it doesn't wrap in the capture group 0
-    pub(crate) fn from_ere_no_group0(value: &ERE, config: &Config) -> (SimplifiedTreeNode, usize) {
-        return SimplifiedTreeNode::from_sub_ere(value, 1, config);
     }
 }
 impl From<ERE> for SimplifiedTreeNode {

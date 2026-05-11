@@ -21,6 +21,7 @@ ere-macros = { version = "0.2.4", path = "./ere-macros" }
 criterion = { version = "0.5", features = ["html_reports"] }
 pprof = { version = "0.15", features = ["flamegraph", "criterion"] }
 regex = { version = "1.12.2" }                                       # for benchmark comparison
+trybuild = { version = "1.0", features = ["diff"] }
 
 [features]
 unstable-attr-regex = [

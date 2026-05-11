@@ -66,6 +66,7 @@ impl U8Transition {
     pub fn new(to: usize, symbol: U8Atom) -> U8Transition {
         return U8Transition { to, symbol };
     }
+    #[allow(dead_code)]
     pub fn with_offset(mut self, offset: usize) -> U8Transition {
         self.inplace_offset(offset);
         return self;
@@ -151,27 +152,9 @@ pub struct U8NFA {
     pub(crate) states: Vec<U8State>,
 }
 impl U8NFA {
-    /// Makes an NFA that matches with zero length.
-    fn nfa_empty() -> U8NFA {
-        let states = vec![U8State::new()];
-        return U8NFA { states };
-    }
     /// Makes an NFA matching a byte range.
     fn nfa_byte(c: &U8Atom) -> U8NFA {
         let states = vec![U8State::new().with_transition(1, c.clone()), U8State::new()];
-        return U8NFA { states };
-    }
-    /// Makes an NFA matching a specific char.
-    fn nfa_symbol_char(c: char) -> U8NFA {
-        let mut bytes = [0u8; 4];
-        c.encode_utf8(&mut bytes);
-        let states = bytes
-            .iter()
-            .take(c.len_utf8())
-            .enumerate()
-            .map(|(i, byte)| U8State::new().with_transition(i + 1, (*byte).into()))
-            .chain(std::iter::once(U8State::new()))
-            .collect();
         return U8NFA { states };
     }
     /// Makes an NFA matching a some symbol.
@@ -221,48 +204,6 @@ impl U8NFA {
 
         return U8NFA { states };
     }
-    /// Makes a union of NFAs.
-    fn nfa_union(nodes: &[U8NFA]) -> U8NFA {
-        let states_count = 2 + nodes.iter().map(|n| n.states.len()).sum::<usize>();
-        let mut states = vec![U8State::new()];
-        for nfa in nodes {
-            let sub_nfa_start = states.len();
-            states[0]
-                .epsilons
-                .push(EpsilonTransition::new(sub_nfa_start));
-            states.extend(
-                nfa.states
-                    .iter()
-                    .map(|state| state.add_offset(sub_nfa_start)),
-            );
-            states
-                .last_mut()
-                .unwrap()
-                .epsilons
-                .push(EpsilonTransition::new(states_count - 1));
-        }
-        states.push(U8State::new());
-        assert_eq!(states_count, states.len());
-
-        return U8NFA { states };
-    }
-    /// Wraps an NFA part in a capture group.
-    fn nfa_capture(nfa: &U8NFA, group_num: usize) -> U8NFA {
-        let states_count = 2 + nfa.states.len();
-        let mut states: Vec<U8State> = std::iter::once(
-            U8State::new().with_epsilon_special(1, EpsilonType::StartCapture(group_num)),
-        )
-        .chain(nfa.states.iter().map(|state| state.add_offset(1)))
-        .chain(std::iter::once(U8State::new()))
-        .collect();
-        assert_eq!(states_count, states.len());
-        states[states_count - 2].epsilons.push(EpsilonTransition {
-            to: states_count - 1,
-            special: EpsilonType::EndCapture(group_num),
-        });
-
-        return U8NFA { states };
-    }
     /// Makes an NFA that matches a concatenation of NFAs.
     fn nfa_concat<T: IntoIterator<Item = U8NFA>>(nodes: T) -> U8NFA {
         let mut states = vec![U8State::new().with_epsilon(1)];
@@ -283,52 +224,6 @@ impl U8NFA {
         }
 
         states.push(U8State::new());
-        return U8NFA { states };
-    }
-    /// Makes an NFA that matches some NFA concatenated with itself multiple times.
-    fn nfa_repeat(nfa: &U8NFA, times: usize) -> U8NFA {
-        return U8NFA::nfa_concat(std::iter::repeat(nfa).cloned().take(times));
-    }
-    /// Makes an NFA that matches some NFA concatenated with itself up to some number of times.
-    fn nfa_upto(nfa: &U8NFA, times: usize, longest: bool) -> U8NFA {
-        let end_state_idx = 1 + (nfa.states.len() + 1) * times;
-
-        let mut states = vec![U8State::new()
-            .with_epsilon(1)
-            .with_epsilon(end_state_idx - 1)];
-        for i in 0..times {
-            let states_count = states.len();
-            states.extend(
-                nfa.states
-                    .iter()
-                    .map(|state| state.add_offset(states_count)),
-            );
-            let transition_state_idx = states.len();
-            states
-                .last_mut()
-                .unwrap()
-                .epsilons
-                .push(EpsilonTransition::new(transition_state_idx));
-            let mut transition_state = U8State::new();
-            if i + 1 != times {
-                if longest {
-                    transition_state
-                        .epsilons
-                        .push(EpsilonTransition::new(states.len() + 1));
-                }
-
-                transition_state
-                    .epsilons
-                    .push(EpsilonTransition::new(end_state_idx - 1));
-                if !longest {
-                    transition_state
-                        .epsilons
-                        .push(EpsilonTransition::new(states.len() + 1));
-                }
-            }
-            states.push(transition_state);
-        }
-
         return U8NFA { states };
     }
     /// Makes an NFA that matches some NFA concatenated with itself any number of times.
@@ -353,27 +248,6 @@ impl U8NFA {
         states[end_state_idx - 1]
             .epsilons
             .push(EpsilonTransition::new(0));
-        return U8NFA { states };
-    }
-    /// Makes an NFA that matches zero length but only at the text start
-    fn nfa_start() -> U8NFA {
-        let states = vec![
-            U8State::new().with_epsilon_special(1, EpsilonType::StartAnchor),
-            U8State::new(),
-        ];
-        return U8NFA { states };
-    }
-    /// Makes an NFA that matches zero length but only at the text end
-    fn nfa_end() -> U8NFA {
-        let states = vec![
-            U8State::new().with_epsilon_special(1, EpsilonType::EndAnchor),
-            U8State::new(),
-        ];
-        return U8NFA { states };
-    }
-    /// Makes an NFA that never matches.
-    fn nfa_never() -> U8NFA {
-        let states = vec![U8State::new(), U8State::new()];
         return U8NFA { states };
     }
     /// Converts from a char-based NFA
