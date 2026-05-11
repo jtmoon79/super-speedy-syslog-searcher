@@ -53,6 +53,7 @@ use crate::data::datetime::{
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
 use crate::data::journal::JournalEntry;
+use crate::libload::systemd_dlopen2::LOAD_LIBRARY_SYSTEMD_PATH;
 use crate::data::pydataevent::PyDataEvent;
 use crate::data::sysline::SyslineP;
 use crate::debug::printers::{
@@ -949,6 +950,13 @@ pub fn print_summary(
         }
     }
     eprintln!("Temporary files created: {}", named_temp_files_count);
+    if let Ok(path) = LOAD_LIBRARY_SYSTEMD_PATH.read() {
+        let path_s: String = match &*path {
+            Some(p) => p.clone(),
+            None => String::from("not loaded"),
+        };
+        eprintln!("Path libsystemd        : {}", path_s);
+    }
     eprintln!("Platform               : {}", CURRENT_PLATFORM);
     eprintln!("Allocator              : {}", allocator_chosen);
 }

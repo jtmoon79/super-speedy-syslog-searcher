@@ -345,6 +345,13 @@ lazy_static! {
 
         RwLock::new(None)
     };
+
+    /// Path to loaded `libsystemd` library, if any.
+    pub static ref LOAD_LIBRARY_SYSTEMD_PATH: RwLock<Option<String>> = {
+        defñ!("lazy_static! LOAD_LIBRARY_SYSTEMD_PATH::new()");
+
+        RwLock::new(None)
+    };
 }
 
 /// Helpful accessor for lazy_static [`SYSTEMD_JOURNAL_API`].
@@ -433,10 +440,11 @@ impl LoadLibraryError {
 }
 
 /// Wrapper to set the global static variables.
-fn set_systemd_journal_api(container: JournalApiContainer) {
+fn set_systemd_journal_api(container: JournalApiContainer, path: String) {
     defñ!();
     *SYSTEMD_JOURNAL_API.write().unwrap() = Some(Arc::new(container));
     *LOAD_LIBRARY_SYSTEMD_OK.write().unwrap() = Some(true);
+    *LOAD_LIBRARY_SYSTEMD_PATH.write().unwrap() = Some(path);
 }
 
 /// Load the shared library `libsystemd`. Store in the global static
@@ -470,7 +478,7 @@ pub fn load_library_systemd() -> LoadLibraryError {
         {
             Ok(container) => {
                 defx!("loaded user-specified library {:?}", user_libsystemd_path);
-                set_systemd_journal_api(container);
+                set_systemd_journal_api(container, user_libsystemd_path);
                 return LoadLibraryError::Ok;
             }
             Err(err) => {
@@ -488,7 +496,7 @@ pub fn load_library_systemd() -> LoadLibraryError {
         {
             Ok(container) => {
                 defx!("loaded library {:?}", libname);
-                set_systemd_journal_api(container);
+                set_systemd_journal_api(container, libname.to_string());
                 return LoadLibraryError::Ok;
             }
             Err(err) => {

@@ -97,6 +97,7 @@ function stderr_clean () {
         -e '/^Datetime Now[ ]*:.*$/d' \
         -e '/^Python Interpreter [ ]*:.*$/d' \
         -e '/^Program Run Time[ ]+: .*$/d' \
+        -e '/^Path libsystemd[ ]+: .*$/d' \
         -e '/^ERROR: .*$/d' \
         -e '/.*DateTimeParseInstr:.*/d' \
         "${1}"
