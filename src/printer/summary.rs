@@ -44,7 +44,7 @@ use crate::data::common::LogMessage;
 use crate::data::datetime::{
     DateTimeL,
     DateTimeLOpt,
-    DateTimeParseDatasCompiledCount,
+    //DateTimeParseDatasCompiledCount,
     DateTimeParseInstr,
     Utc,
     DATETIME_PARSE_DATAS,
@@ -852,14 +852,9 @@ pub fn print_summary(
     eprintln!("Printed fixedstruct    : {}", summaryprinted.fixedstructentries);
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
     eprintln!("Printed journal events : {}", summaryprinted.journalentries);
-    let count: isize = match DateTimeParseDatasCompiledCount.read() {
-        Ok(count) => *count as isize,
-        // XXX: hacky hint that the count is not available
-        Err(_) => -1,
-    };
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
     eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN);
-    eprintln!("Regex patterns compiled: {}", count);
+    eprintln!("Regex patterns compiled: {}", DATETIME_PARSE_DATAS_LEN);
 
     eprint!("Datetime filter -a     :");
     match filter_dt_after_opt {
@@ -1383,7 +1378,10 @@ fn print_summary_opt_processed(
                 .iter()
             {
                 let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*patt.0];
-                eprintln!("{}@[{}] uses {} {:?}", indent2, patt.0, patt.1, dtpd);
+                eprintln!(
+                    "{}@[{}] regex #{} (count {}), uses {} {:?}",
+                    indent2, dtpd.regex_id, dtpd._counter, patt.0, patt.1, dtpd
+                );
             }
             if let Some(year) = summarysyslogprocessor.syslogprocessor_missing_year {
                 eprintln!(
@@ -1723,10 +1721,16 @@ fn print_cache_stats_summarysyslinereader(
         widep = WIDEP,
     );
     // SyslineReader::regex_captures_attempted
+    let rc_diff: Count = if summarysyslinereader.syslinereader_regex_captures_attempted >= summarysyslinereader.syslinereader_regex_captures_matched {
+        summarysyslinereader.syslinereader_regex_captures_attempted - summarysyslinereader.syslinereader_regex_captures_matched
+    } else {
+        0
+    };
     eprintln!(
-        "{}process: regex captures attempted                            : {:?}",
+        "{}process: regex captures                                      : hit {:wide$}, miss {:wide$}",
         indent,
-        summarysyslinereader.syslinereader_regex_captures_attempted,
+        summarysyslinereader.syslinereader_regex_captures_matched,  
+        rc_diff,
     );
 }
 

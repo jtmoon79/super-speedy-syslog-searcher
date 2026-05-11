@@ -116,5 +116,5 @@ for TARGET in \
     x86_64-unknown-redox \
     `# mips64-unknown-linux-gnuabi64` \
 ; do
-    cross check --lib --bins --target $TARGET
+    S4_BUILD_REGEX=1 cross check --lib --bins --target $TARGET
 done

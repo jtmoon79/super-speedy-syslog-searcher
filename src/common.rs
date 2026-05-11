@@ -1,5 +1,7 @@
 // src/common.rs
 
+// … ‥
+
 //! Common imports, type aliases, and other globals for _s4lib_.
 
 use std::collections::HashSet;
@@ -60,34 +62,32 @@ pub type PathId = usize;
 /// a set of [`PathId`]
 pub type SetPathId = HashSet<PathId>;
 
-/// status of whether summary statistics are enabled
+/// Status of whether summary statistics are enabled.
 ///
-/// only access via `summary_stats_enabled()` function. unsafe global variable!
+/// Only access via `summary_stats_enabled()` function.
+/// unsafe global variable!
 ///
 /// _XXX:_ skips use `LazyStatic`, `OnceCell`, etc. for better performance as it
 ///      is accessed often.
 ///
-/// TODO: prove the prior statement with a benchmark
+// TODO: prove the prior statement with a benchmark?
 static mut SUMMARY_STATS_ENABLED: bool = false;
-/// sanity check
-static mut SUMMARY_STATS_INITIALIZED: bool = false;
 
 /// Enable summary statistics.
 ///
-/// only call this from the main thread once; multi-thread unsafe!
-pub fn summary_stats_enable() {
+/// call this from the main thread only once before new threads are spawned.
+/// multi-thread unsafe!
+pub const fn summary_stats_enable() {
     unsafe {
+        #[cfg(all(debug_assertions, not(test)))]
+        assert!(!SUMMARY_STATS_ENABLED, "summary_stats_enable() called more than once");
         SUMMARY_STATS_ENABLED = true;
-        if ! cfg!(test) && SUMMARY_STATS_INITIALIZED {
-            panic!("summary_stats_enable() called more than once");
-        }
-        SUMMARY_STATS_INITIALIZED = true;
     }
 }
 
 /// Check if summary statistics are enabled.
 #[inline(always)]
-pub fn summary_stats_enabled() -> bool {
+pub const fn summary_stats_enabled() -> bool {
     unsafe {
         SUMMARY_STATS_ENABLED
     }
@@ -96,8 +96,8 @@ pub fn summary_stats_enabled() -> bool {
 /// Only execute the given expression if summary statistics are enabled.
 ///
 /// This macro wraps expressions that update summary statistics. This
-/// reduces a trivial amount of overhead and more
-/// importantly clarifies which expressions are related to summary statistics.
+/// reduces a trivial amount of overhead. More importantly
+/// it clarifies which expressions are related to summary statistics.
 ///
 /// Enable with `summary_stats_enable()`
 #[macro_export]
@@ -113,8 +113,8 @@ pub use summary_stat;
 /// If summary statistics are enabled, do the first expression, else do the second.
 ///
 /// This macro wraps expressions that update summary statistics. This
-/// reduces a trivial amount of overhead and more
-/// importantly clarifies which expressions are related to summary statistics.
+/// reduces a trivial amount of overhead. More importantly
+/// it clarifies which expressions are related to summary statistics.
 #[macro_export]
 macro_rules! summary_stat_set {
     ($($arg_if_true:expr)*, $($arg_if_false:expr)*) => (
@@ -156,16 +156,36 @@ impl std::fmt::Display for AllocatorChosen {
 /// panics in debug builds, otherwise a no-op
 #[macro_export]
 macro_rules! debug_panic {
-    ($($arg:tt)*) => (
+    ($($args:tt)*) => (
         // XXX: use `if cfg!` instead of `#[cfg(...)]` to avoid
         //      `unreachable_code` warning
         if cfg!(any(debug_assertions, test))
         {
-            panic!($($arg)*);
+            panic!($($args)*);
         }
     )
 }
 pub use debug_panic;
+
+/// panics in debug builds if `conditional` is true, otherwise a no-op
+// TODO: [2026/04/23] find places where `debug_panic_if` may be used to simplify code.
+#[macro_export]
+macro_rules! debug_panic_if {
+    ($conditional:expr, $($args:tt)+) => (
+        // XXX: use `if cfg!` instead of `#[cfg(...)]` to avoid
+        //      `unreachable_code` warning
+        if cfg!(any(debug_assertions, test))
+        {
+            // place next `if` statement inside the prior `if cfg!` to improve
+            // the chances of the entire `if` block getting optimized out in release builds.
+            // XXX: that's just a guess about optimizer behavior.
+            if $conditional {
+                panic!($($args)*);
+            }
+        }
+    )
+}
+pub use debug_panic_if;
 
 /// Assert if the the argument is `None`, allow optional message, only in debug builds.
 #[macro_export]

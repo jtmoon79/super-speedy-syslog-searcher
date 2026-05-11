@@ -123,6 +123,8 @@ jobs:
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo --version
           rustc --print cfg
           cargo build --locked
@@ -133,6 +135,8 @@ jobs:
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile mimalloc --features mimalloc
           ./target/mimalloc/s4 --version
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile rpmalloc
@@ -140,6 +144,8 @@ jobs:
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile rpmalloc --features rpmalloc
           ./target/rpmalloc/s4 --version
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile jemalloc
@@ -149,6 +155,8 @@ jobs:
         run: |
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile jemalloc --features jemalloc
           ./target/jemalloc/s4 --version
       # skip tcmalloc as it requires too particular installed libraries
@@ -158,6 +166,8 @@ jobs:
         if: matrix.os != 'macos-latest'
         run: |
           set -eux
+          export S4_BUILD_REGEX=79
+          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile alloc_tracker --features alloc_tracker
           env S4_ALLOC_TRACKER_PRINT=1 ./target/alloc_tracker/s4 --version
           env S4_ALLOC_TRACKER_TRACKING=1 ./target/alloc_tracker/s4 ./logs/other/tests/dtf2-2.log
@@ -315,6 +325,8 @@ jobs:
           uname -a
           rustup show
           cross --version
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cross check --locked --lib --bins --target ${{ matrix.target }}
 
   job_cross_targets_macos:
@@ -342,6 +354,8 @@ jobs:
           uname -a
           rustup show
           cross --version
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cross check --locked --lib --bins --target ${{ matrix.target }}
 
   job_cross_targets_windows:
@@ -366,6 +380,8 @@ jobs:
           Set-PSDebug -Trace 1
           rustup.exe show
           cross.exe --version
+          ${env:S4_BUILD_REGEX}=1
+          ${env:S4_BUILD_REGEX_PRINT}=1
           cross.exe check --locked --lib --bins --target ${{ matrix.target }}
 
   # job_test_wasm:
@@ -400,6 +416,8 @@ jobs:
         run: |
           set -eux
           cargo --version
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo check --locked --all-targets
           cargo check --locked --all-targets --release
 
@@ -448,6 +466,8 @@ jobs:
         run: |
           set -eux
           cargo --version
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo bench --locked --no-run --features bench_jetscii,bench_memchr,bench_stringzilla
 
   job_test_linux:
@@ -538,6 +558,8 @@ jobs:
           set -eux
           cargo nextest --version
           export NEXTEST_TEST_THREADS="num-cpus"
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_windows:

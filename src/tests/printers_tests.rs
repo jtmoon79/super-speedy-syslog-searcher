@@ -25,11 +25,13 @@ use crate::common::{
     FileTypeFixedStruct,
     LogMessageType,
     SetPathId,
+    summary_stats_enable,
 };
 use crate::data::datetime::{
     FixedOffset,
     Local,
     Utc,
+    regex_id_compiled,
 };
 use crate::data::fixedstruct::ENTRY_SZ_MAX;
 use crate::debug::helpers::{
@@ -100,6 +102,8 @@ const NTF5_DATA_LINE3: &str = "[20200113-11:13:59] [DEBUG] Certification found
     FOUND CERTIFICATE!\n";
 const NTF5_DATA_LINE4: &str = "[20200113-11:13:59] [DEBUG] Certification complete.\n";
 const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
+
+const REGEX_ID_NTF5: usize = 137;
 
 const FT_EVTX_NORM: FileType = FileType::Evtx { archival_type: FileTypeArchive::Normal };
 
@@ -186,6 +190,11 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
     expected_printed_bytes: usize,
     expected_flushed: usize,
 ) {
+    if !regex_id_compiled(REGEX_ID_NTF5) {
+        eprintln!("Regex #{} not compiled; skip test", REGEX_ID_NTF5);
+        return;
+    }
+    summary_stats_enable();
     let mut plm = new_PrinterLogMessage(
         colorchoice,
         color,
@@ -386,6 +395,9 @@ fn test_PrinterLogMessage_print_evtx(
 }
 
 const FILEJ: &str = "foo.JOURNAL";
+
+// TODO: [2026/04] the `JOURNAL_FILE_RHE_91_SYSTEM_FPATH` has *way* too much
+//        data and it's all printed; test with a .journal with less data
 
 #[test_case(CCA, CLR, None, None, None, JournalOutput::Short, 197149, 12486; "a")]
 #[test_case(CCU, CLR, None, None, None, JournalOutput::ShortPrecise, 211716, 12486; "b")]

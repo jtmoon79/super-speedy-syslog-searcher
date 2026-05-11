@@ -122,6 +122,7 @@ use std::{
     thread_local,
 };
 
+use ::anyhow;
 use ::chrono::{
     DateTime,
     Datelike,
@@ -138,10 +139,24 @@ use ::clap::{
 };
 use ::const_env;
 use ::const_format::concatcp;
+use ::crossbeam_channel;
 use ::current_platform::CURRENT_PLATFORM;
 use ::lazy_static::lazy_static;
 use ::opt_level::OPT_LEVEL;
 use ::regex::Regex;
+use ::si_trace_print::stack::stack_offset_set;
+use ::si_trace_print::{
+    def1n,
+    def1o,
+    def1x,
+    def1ñ,
+    defn,
+    defo,
+    defx,
+    defñ,
+    deo,
+};
+use ::unicode_width;
 
 use ::s4lib::common::{
     Count,
@@ -275,25 +290,12 @@ use ::s4lib::readers::syslogprocessor::{
     FileProcessingResultBlockZero,
     SyslogProcessor,
 };
-use ::si_trace_print::stack::stack_offset_set;
-use ::si_trace_print::{
-    def1n,
-    def1o,
-    def1x,
-    def1ñ,
-    defn,
-    defo,
-    defx,
-    defñ,
-    deo,
-};
 
 #[cfg(feature = "alloc_tracker")]
 use crate::alloc_tracker;
 
-use ::anyhow;
-use ::crossbeam_channel;
-use ::unicode_width;
+/// ripped from https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html
+const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/timestamp.rs"));
 
 // --------------------
 // command-line parsing
@@ -2501,8 +2503,12 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         "MSRV: ", env!("CARGO_PKG_RUST_VERSION"), "\n",
         "Allocator: ", CLI_HELP_AFTER_ALLOCATOR , "\n",
         "Platform: ", CURRENT_PLATFORM, "\n",
+        "Target OS: ", std::env::consts::OS, "\n",
+        "Target OS Family: ", std::env::consts::FAMILY, "\n",
+        "Arch: ", std::env::consts::ARCH, "\n",
         "Rust Build Flags: ", RUSTFLAGS, "\n",
         "Optimization Level: ", OPT_LEVEL, "\n",
+        "Build Date: ", BUILD_TIME,  "\n",
         "License: ", env!("CARGO_PKG_LICENSE"), "\n",
         "Repository: ", env!("CARGO_PKG_REPOSITORY"), "\n",
         "Author: ", env!("CARGO_PKG_AUTHORS"), "\n",
@@ -2815,33 +2821,33 @@ macro_rules! exit_early_check {
 pub (crate) fn cli_process_blocksz(blockszs: &String) -> std::result::Result<u64, String> {
     // TODO: there must be a more concise way to parse numbers with radix formatting
     let blocksz_: BlockSz;
-    let errs = format!("Unable to parse a number for --blocksz {:?}", blockszs);
+    let errs = format!("Unable to parse a number for --blocksz {blockszs:?}");
 
     if blockszs.starts_with("0x") {
         blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0x"), 16) {
             Ok(val) => val,
-            Err(err) => return Err(format!("{} {}", errs, err)),
+            Err(err) => return Err(format!("{errs} {err}")),
         };
     } else if blockszs.starts_with("0o") {
         blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0o"), 8) {
             Ok(val) => val,
-            Err(err) => return Err(format!("{} {}", errs, err)),
+            Err(err) => return Err(format!("{errs} {err}")),
         };
     } else if blockszs.starts_with("0b") {
         blocksz_ = match BlockSz::from_str_radix(blockszs.trim_start_matches("0b"), 2) {
             Ok(val) => val,
-            Err(err) => return Err(format!("{} {}", errs, err)),
+            Err(err) => return Err(format!("{errs} {err}")),
         };
     } else {
         blocksz_ = match blockszs.parse::<BlockSz>() {
             Ok(val) => val,
-            Err(err) => return Err(format!("{} {}", errs, err)),
+            Err(err) => return Err(format!("{errs} {err}")),
         };
     }
 
     let max_min = std::cmp::max(BLOCKSZ_MIN, SyslogProcessor::BLOCKSZ_MIN);
     if !(max_min <= blocksz_ && blocksz_ <= BLOCKSZ_MAX) {
-        return Err(format!("--blocksz must be {} ≤ BLOCKSZ ≤ {}, it was {:?}", max_min, BLOCKSZ_MAX, blockszs));
+        return Err(format!("--blocksz must be {max_min} ≤ BLOCKSZ ≤ {BLOCKSZ_MAX}, it was {blockszs:?}"));
     }
 
     Ok(blocksz_)
@@ -2892,7 +2898,7 @@ pub(crate) fn cli_process_tz_offset(tzo: &str) -> std::result::Result<FixedOffse
         }
     }
 
-    Err(format!("Unable to parse a timezone offset for --tz-offset {:?}", tzo))
+    Err(format!("Unable to parse a timezone offset for --tz-offset {tzo:?}"))
 }
 
 /// `clap` argument validator for `--prepend-dt-format`.
@@ -2943,7 +2949,7 @@ fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
         Some('+') => DUR_OFFSET_ADDSUB::Add,
         Some('-') => DUR_OFFSET_ADDSUB::Sub,
         _ => {
-            panic!("Bad match offset_str {:?}, cannot determine DUR_OFFSET_ADDSUB", offset_str);
+            panic!("Bad match offset_str {offset_str:?}, cannot determine DUR_OFFSET_ADDSUB");
         }
     }
 }
@@ -3423,7 +3429,7 @@ fn cli_process_args() -> (
                         }
                         Err(err) => {
                             // don't continue if there was an error
-                            eprintln!("ERROR reading stdin; {}", err);
+                            e_err!("failed reading stdin: {err}");
                             break;
                         }
                     }
@@ -4046,7 +4052,7 @@ fn exec_syslogprocessor(
             );
             if is_last {
                 // XXX: sanity check
-                assert!(
+                debug_assert!(
                     !sent_is_last,
                     "is_last {}, yet sent_is_last was also {} (is_last was already sent!)",
                     is_last, sent_is_last
@@ -4108,7 +4114,7 @@ fn exec_syslogprocessor(
                 fo1 = fo;
                 // XXX: sanity check
                 if is_last {
-                    assert!(
+                    debug_assert!(
                         !sent_is_last,
                         "is_last {}, yet sent_is_last was also {} (is_last was already sent!)",
                         is_last, sent_is_last
@@ -5143,7 +5149,7 @@ fn processing_loop(
                 }
             },
             None => {
-                panic!("bad pathid {} for path {:?}", pathid, path);
+                panic!("bad pathid {pathid} for path {path:?}");
             }
         };
         let filetypeexecdata = match filetype {
@@ -5161,6 +5167,62 @@ fn processing_loop(
             *filter_dt_before_opt,
             tz_offset,
         );
+        // TODO: [2026/04] how to get stack size for this platform at runtime?
+        //       https://stackoverflow.com/questions/79924143/get-rust-default-stack-size-at-runtime
+
+        // values derived from experiments with `tools/build-regex-times.sh`
+        let mut stack_size = match (cfg!(debug_assertions), filetype) {
+            (true, _) =>
+                // ere regex + debug requires a very large stack size
+                12 * 1024 * 1024, // 12 MB
+            (false, FileType::Asl {..})
+            | (false, FileType::Etl {..})
+            | (false, FileType::Odl {..}) =>
+                // experiments showed 89Ki, not compressed
+                1024 * 110,
+            (false, FileType::Evtx {..}) =>
+                // experiments showed 87 KiB, not compressed
+                1024 * 110,
+            (false, FileType::FixedStruct {..}) =>
+                // experiments showed 61Ki, not compressed
+                1024 * 100,
+            (false, FileType::Journal {..}) =>
+                // experiments showed 87 KiB, not compressed
+                1024 * 110,
+            (false, FileType::Text {..}) =>
+                // experiments showed 59 KiB, not compressed
+                1024 * 100,
+            (_, FileType::Unparsable) => {
+                debug_panic!("Unhandled file_type {filetype} for stack_size setting");
+                1024 * 512
+            }
+        };
+        // adjustments
+        if cfg!(feature = "alloc_tracker") {
+            stack_size += 12 * 1024 * 1024;
+        } else if cfg!(debug_assertions) {
+            stack_size *= 2;
+        }
+        // compressed versions of files add between 0 to 60KB, depending
+        // upon the compression type. This did not vary due to log file size.
+        if filetype.is_compressed () {
+            stack_size += 1024 * 75;
+        }
+        // archive versions of files add ~50KB
+        if filetype.is_archived () {
+            stack_size += 1024 * 55;
+        }
+        // Allow the standard environment override.
+        // Described at https://doc.rust-lang.org/1.88.0/std/thread/#stack-size
+        let mut _from_env: bool = false;
+        if let Ok(val) = std::env::var("RUST_MIN_STACK") {
+            if let Ok(parsed) = val.parse::<usize>() {
+                stack_size = parsed;
+                _from_env = true;
+            }
+        }
+        defo!("stack_size={stack_size}{}", _from_env.then_some(" (from RUST_MIN_STACK env. var.)").unwrap_or(""));
+
         let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) =
             crossbeam_channel::bounded(CHANNEL_CAPACITY);
         defo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
@@ -5168,6 +5230,7 @@ fn processing_loop(
         let basename_: FPath = basename(path).replace(SUBPATH_SEP, SUBPATH_SEP_DISPLAY_STR);
         match thread::Builder::new()
             .name(basename_.clone())
+            .stack_size(stack_size)
             .spawn(move || exec_fileprocessor_thread(chan_send_dt, thread_data))
         {
             Ok(_joinhandle) => {
@@ -5251,6 +5314,8 @@ fn processing_loop(
         // order should match index numeric value returned by `select`
         map_index_pathid.clear();
         // Build a list of operations
+        // TODO: 2026/05/02 only create this `Select` once. It is a large allocation
+        //       done once per log message.
         let mut select: crossbeam_channel::Select = crossbeam_channel::Select::new();
         let mut index: usize = 0;
         for pathid_chan in pathid_chans.iter() {
@@ -5287,6 +5352,7 @@ fn processing_loop(
         let pathid: &PathId = match map_index_pathid.get(&index) {
             Some(pathid_) => pathid_,
             None => {
+                debug_panic!("failed to map_index_pathid.get({})", index);
                 e_err!("BUG: failed to map_index_pathid.get({})", index);
                 return None;
             }
@@ -5295,6 +5361,7 @@ fn processing_loop(
         let chan: &ChanRecvDatum = match pathid_chans.get(pathid) {
             Some(chan_) => chan_,
             None => {
+                debug_panic!("failed to pathid_chans.get({})", pathid);
                 e_err!("BUG: failed to pathid_chans.get({})", pathid);
                 return None;
             }

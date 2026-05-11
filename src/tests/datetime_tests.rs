@@ -6,7 +6,6 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
 
-use std::collections::HashSet;
 use std::str;
 use std::time::UNIX_EPOCH;
 
@@ -39,35 +38,17 @@ use crate::data::datetime::{
     bytes_to_regex_to_datetime,
     datetime_from_str_workaround_Issue660,
     datetime_parse_from_str,
-    dt_after_or_before,
-    dt_pass_filters,
-    slice_contains_12_D2,
-    slice_contains_D2,
-    slice_contains_D2_custom,
-    slice_contains_X_2,
-    slice_contains_X_2_memchr,
-    slice_contains_X_2_unroll,
-    ymdhms,
-    ymdhmsm,
-    ymdhmsn,
-    ymdhmsn_args,
-    CGP_YEARy,
-    DTFSSet,
-    DTFS_Epoch,
-    DTFS_Tz,
-    DTFS_Uptime,
-    DTFS_Year,
     DateTimeL,
     DateTimeLOpt,
-    DateTimeParseInstr,
-    DateTimePattern_str,
-    DateTimeRegex_str,
+    dt_after_or_before,
+    dt_pass_filters,
     FixedOffset,
     LineIndex,
     MAP_TZZ_TO_TZz,
     Result_Filter_DateTime1,
     Result_Filter_DateTime2,
     SystemTime,
+    YEAR_FALLBACKDUMMY_VAL,
     Year,
     ymdhms,
     ymdhmsm,
@@ -95,36 +76,40 @@ use ::ere_datetimes_impl::{
     CGN_ALL,
     CGP_DAY_ALL,
     CGP_EPOCH,
-    CGP_FRACTIONAL,
+    CGP_FRACTIONAL19,
     CGP_FRACTIONAL23,
     CGP_FRACTIONAL3,
     CGP_FRACTIONAL39,
     CGP_FRACTIONAL6,
     CGP_FRACTIONAL9,
+    CGP_FRACTIONAL369,
     CGP_HOUR_ALL,
     CGP_MINUTE,
     CGP_MONTH_ALL,
     CGP_SECOND,
-    CGP_TZZ,
     CGP_TZ_ALL,
+    CGP_TZZ,
     CGP_YEAR,
-    DATETIME_PARSE_DATAS,
+    CGP_YEARy,
+    DateTimePattern_str,
+    DateTimeRegex_str,
+    DTFS_Epoch,
+    DTFS_Tz,
+    DTFS_Uptime,
+    DTFS_Year,
+    DTFSSet,
+    DTP_BdHMS,
+    DTP_mdHMYZc,
+    DTP_s,
+    DTP_sf,
     DTP_ALL,
+    DTFSS_ALL,
     DUMMY_ARGS,
     O_L,
+    DATETIME_PARSE_DATAS,
     RP_LB,
     RP_RB,
-    YEAR_FALLBACKDUMMY_VAL,
-};
-#[cfg(feature = "bench_jetscii")]
-use crate::data::datetime::{
-    slice_contains_D2_jetscii,
-    slice_contains_X_2_jetscii,
-};
-#[cfg(feature = "bench_stringzilla")]
-use crate::data::datetime::{
-    slice_contains_D2_stringzilla,
-    slice_contains_X_2_stringzilla,
+    ymdhmsn_args,
 };
 use crate::debug::printers::buffer_to_String_noraw;
 use crate::tests::common::{
@@ -189,12 +174,13 @@ pub fn regex_pattern_has_second(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a fractional second?
 pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_FRACTIONAL)
+    pattern.contains(CGP_FRACTIONAL19)
     || pattern.contains(CGP_FRACTIONAL23)
     || pattern.contains(CGP_FRACTIONAL3)
     || pattern.contains(CGP_FRACTIONAL6)
     || pattern.contains(CGP_FRACTIONAL9)
     || pattern.contains(CGP_FRACTIONAL39)
+    || pattern.contains(CGP_FRACTIONAL369)
 }
 
 /// does regex pattern have a timezone?
@@ -273,63 +259,106 @@ pub fn dt_pattern_has_epoch(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%s")
 }
 
-// ripped from https://stackoverflow.com/a/46767732/471376
-fn has_unique_elements<T>(iter: T) -> bool
-where
-    T: IntoIterator,
-    T::Item: Eq + std::hash::Hash,
-{
-    let mut uniq = HashSet::new();
-    iter.into_iter()
-        .all(move |x| uniq.insert(x))
-}
-
 #[test]
-fn test_DTP_ALL() {
+fn test_DTP_ALL_patterns() {
     stack_offset_set(Some(2));
-    for dt_format in DTP_ALL.iter() {
-        assert!(dt_pattern_has_year(dt_format), "built-in dt_format missing year {:?}", dt_format);
-        assert!(dt_pattern_has_month(dt_format), "built-in dt_format missing month {:?}", dt_format);
-        assert!(dt_pattern_has_day(dt_format), "built-in dt_format missing day {:?}", dt_format);
-        assert!(dt_pattern_has_hour(dt_format), "built-in dt_format missing hour {:?}", dt_format);
-        assert!(dt_pattern_has_minute(dt_format), "built-in dt_format missing minute {:?}", dt_format);
-        assert!(dt_pattern_has_second(dt_format), "built-in dt_format missing second {:?}", dt_format);
-        assert!(dt_pattern_has_tz(dt_format), "built-in dt_format missing timezone {:?}", dt_format);
+    for (i, dt_format) in DTP_ALL.iter().enumerate() {
+        if *dt_format == DTP_s || *dt_format == DTP_sf {
+            continue;
+        }
+        if *dt_format != DTP_BdHMS {
+            assert!(dt_pattern_has_year(dt_format), "DTP_ALL[{}] missing year {:?}", i, dt_format);
+        }
+        assert!(dt_pattern_has_month(dt_format), "DTP_ALL[{}] missing month {:?}", i, dt_format);
+        assert!(dt_pattern_has_day(dt_format), "DTP_ALL[{}] missing day {:?}", i, dt_format);
+        assert!(dt_pattern_has_hour(dt_format), "DTP_ALL[{}] missing hour {:?}", i, dt_format);
+        assert!(dt_pattern_has_minute(dt_format), "DTP_ALL[{}] missing minute {:?}", i, dt_format);
+        if *dt_format != DTP_mdHMYZc {
+            assert!(dt_pattern_has_second(dt_format), "DTP_ALL[{}] missing second {:?}", i, dt_format);
+        }
+        assert!(dt_pattern_has_tz(dt_format), "DTP_ALL[{}] missing timezone {:?}", i, dt_format);
     }
 }
 
-/// santy check of the built-in `const DATETIME_PARSE_DATAS` values
-/// does each `DateTimeParseInstr` parameter agree with other parameters?
+/// O(n^2) check for duplicate `DateTimePattern_str`
 #[test]
-fn test_DATETIME_PARSE_DATAS_builtin() {
+fn test_DTP_ALL_duplicates() {
     stack_offset_set(Some(2));
-    // check for duplicates
-    let mut check: Vec<DateTimeParseInstr> = Vec::<DateTimeParseInstr>::from(DATETIME_PARSE_DATAS);
-    let check_orig: Vec<DateTimeParseInstr> = Vec::<DateTimeParseInstr>::from(DATETIME_PARSE_DATAS);
-    check.sort_unstable();
-    check.dedup();
-    if check.len() != DATETIME_PARSE_DATAS.len() {
-        for (i, (co, cd)) in check_orig
-            .iter()
-            .zip(check.iter())
-            .enumerate()
-        {
-            eprintln!("entry {} {:?} {:?}", i, co, cd);
+    for i in 0..DTP_ALL.len() {
+        for j in 0..DTP_ALL.len() {
+            if i == j {
+                continue;
+            }
+            assert_ne!(
+                DTP_ALL[i], DTP_ALL[j],
+                "duplicate DTP_ALL[{}] == DTP_ALL[{}]; {:?} == {:?}",
+                i, j, DTP_ALL[i], DTP_ALL[j],
+            );
         }
-        for (co, cd) in check_orig
-            .iter()
-            .zip(check.iter())
-        {
-            assert_eq!(co, cd, "entry {:?} appears to be a duplicate", co);
+    }
+}
+
+/// O(n^2) check for duplicate `DTFSSet`
+#[test]
+fn test_DTFSS_ALL_duplicates() {
+    for i in 0..DTFSS_ALL.len() {
+        for j in 0..DTFSS_ALL.len() {
+            if i == j {
+                continue;
+            }
+            let dtfss_i = DTFSS_ALL[i].0;
+            let dtfss_j = DTFSS_ALL[j].0;
+            let dtfss_i_s = DTFSS_ALL[i].1;
+            let dtfss_j_s = DTFSS_ALL[j].1;
+            assert_ne!(
+                dtfss_i, dtfss_j,
+                "duplicate DTFSS_ALL[{}] == DTFSS_ALL[{}] ({} == {})",
+                i, j, dtfss_i_s, dtfss_j_s,
+            );
         }
-    };
-    assert_eq!(check.len(), DATETIME_PARSE_DATAS.len(),
-        "the deduplicated DATETIME_PARSE_DATAS_VEC is different len than original; there are duplicates in DATETIME_PARSE_DATAS_VEC but the test could not determine which entry.");
-    // another check for duplicates
-    assert!(
-        has_unique_elements(check),
-        "DATETIME_PARSE_DATAS has repeat element(s); this should have been caught"
-    );
+    }
+}
+
+/// O(n^2) check for duplicate `DATETIME_PARSE_DATAS`
+#[test]
+fn test_DATETIME_PARSE_DATAS_duplicates() {
+    stack_offset_set(Some(2));
+
+    for i in 0..DATETIME_PARSE_DATAS.len() {
+        for j in 0..DATETIME_PARSE_DATAS.len() {
+            if i == j {
+                continue;
+            }
+            let patt_i = DATETIME_PARSE_DATAS[i].regex_pattern;
+            let patt_j = DATETIME_PARSE_DATAS[j].regex_pattern;
+            assert_ne!(
+                patt_i, patt_j,
+                "duplicate DTFSS_ALL[{}] == DTFSS_ALL[{}] ({:?} == {:?})",
+                i, j, patt_i, patt_j,
+            );
+        }
+    }
+}
+
+/// O(n^2) check for duplicate regex id in `DATETIME_PARSE_DATAS`
+#[test]
+fn test_DATETIME_PARSE_DATAS_regex_id_duplicates() {
+    stack_offset_set(Some(2));
+
+    for i in 0..DATETIME_PARSE_DATAS.len() {
+        for j in 0..DATETIME_PARSE_DATAS.len() {
+            if i == j {
+                continue;
+            }
+            let regex_id_i = DATETIME_PARSE_DATAS[i].regex_id;
+            let regex_id_j = DATETIME_PARSE_DATAS[j].regex_id;
+            assert_ne!(
+                regex_id_i, regex_id_j,
+                "duplicate regex_id DTFSS_ALL[{}] == DTFSS_ALL[{}] ({} == {})",
+                i, j, regex_id_i, regex_id_j,
+            );
+        }
+    }
 }
 
 /// match the regexp built-in test cases for all entries in
@@ -338,13 +367,19 @@ fn test_DATETIME_PARSE_DATAS_builtin() {
 /// Must manually update the `test_matrix` range end value to the same as
 /// `DATETIME_PARSE_DATAS_LEN`.
 #[allow(clippy::zero_prefixed_literal)]
-#[test_matrix(0..175)]
-fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
+#[test_matrix(0..176)]
+fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: usize) {
     stack_offset_set(Some(2));
 
-    let dtpd = &DATETIME_PARSE_DATAS[index];
+    let (index, dtpd) = match DATETIME_PARSE_DATAS.iter().enumerate().find(|(_, dtpd)| dtpd.regex_id == regex_id) {
+        Some(dtpd) => dtpd,
+        None => {
+            eprintln!("No DateTimeParseInstr found for regex_id {}", regex_id);
+            return;
+        }
+    };
 
-    eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
+    eprintln!("Testing regex #{} DTPD declared at line {} …", dtpd.regex_id, dtpd._line_num);
 
     //
     // cross-check as much as possible
@@ -559,7 +594,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     let dp_ss = dt_pattern_has_second(dtpat);
     assert_eq!(
         rp_ss, dp_ss,
-        "regex_pattern has second {}, datetime pattern has second {}; they must agree; second {:?}, declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}\n",
+        "regex pattern has second {}, datetime pattern has second {}; they must agree; second {:?}, declared at line {}\n  regex pattern: {:?}\n  datetime pattern: {:?}\n",
         rp_ss, dp_ss,
         dtfs.second,
         dtpd._line_num,
@@ -572,7 +607,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     let dp_ss = dt_pattern_has_fractional(dtpat);
     assert_eq!(
         rp_ss, dp_ss,
-        "regex_pattern has fractional {}, datetime pattern has fractional {}; they must agree; fractional {:?}, declared at line {}\n  regex pattern: {:?}\n  dt_pattern {:?}\n",
+        "regex pattern has fractional {}, datetime pattern has fractional {}; they must agree; fractional {:?}, declared at line {}\n  regex pattern: {:?}\n  datetime pattern: {:?}\n",
         rp_ss, dp_ss,
         dtfs.fractional,
         dtpd._line_num,
@@ -754,24 +789,27 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
     //
     // regex matching tests
     //
-    eprintln!("Test Regex self-tests …");
+    eprintln!("Test Regex self-tests regex #{} …", dtpd.regex_id);
     eprintln!("  Regex Pattern         : {:?}", dtpd.regex_pattern);
     let r_noraw = buffer_to_String_noraw(dtpd.regex_pattern.as_bytes());
     eprintln!("  Regex Pattern (no raw): {}", r_noraw);
     eprintln!("  DateTime Pattern  : {:?}", dtpd.dtfs.pattern);
     let dummy_fpath: FPath = FPath::from("test_DATETIME_PARSE_DATAS_test_cases");
-    for test_case_ in dtpd._test_cases {
-        eprintln!("  Test Data all          : {:?}", test_case_);
+    for (i, test_case_) in dtpd._test_cases.iter().enumerate() {
+        eprintln!("  Test Data[{i:3}] all?      : {:?}", test_case_);
+        let test_case_s: String = buffer_to_String_noraw(test_case_.3);
+        eprintln!("  Test Data[{i:3}]           : ({})", test_case_s);
+        let test_case_str: &str = unsafe { str::from_utf8_unchecked(test_case_.3) };
+        eprintln!("  Test Data[{i:3}]           : ({})", test_case_str);
         let data = test_case_.3.as_bytes();
-        eprintln!("  Test Data              : {:?}", test_case_.3);
         let slice_a: usize = std::cmp::min(dtpd.range_regex.start, data.len());
         let slice_b: usize = std::cmp::min(dtpd.range_regex.end, data.len());
         let slice_ = &data[slice_a..slice_b];
-        eprintln!("  Test Data slice [{:2},{:2}]: {:?}", dtpd.range_regex.start, dtpd.range_regex.end, slice_.as_bstr());
+        eprintln!("  Test Data slice [{:2},{:4}]: {:?}", dtpd.range_regex.start, dtpd.range_regex.end, slice_.as_bstr());
         let dta: LineIndex = test_case_.0;
         let dtb: LineIndex = test_case_.1;
         assert_lt!(dta, dtb, "bad indexes");
-        eprintln!("  Test Data expect[{:2},{:2}]: {:?}", dta, dtb, &data[dta..dtb].as_bstr());
+        eprintln!("  Test Data expect[{:2},{:2}]  : {:?}", dta, dtb, &data[dta..dtb].as_bstr());
         let mut year_opt: Option<Year> = None;
         if !dtpd.dtfs.has_year() {
             year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
@@ -794,19 +832,19 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
         ) {
             Some(capdata) => {
                 eprintln!(
-                    "Passed dtpd declared at line {} result {:?}, test data {:?}",
-                    dtpd._line_num, capdata, s
+                    "Passed regex #{} dtpd declared at line {} result {:?}, test data {:?}",
+                    dtpd.regex_id, dtpd._line_num, capdata, s
                 );
                 let a: LineIndex = capdata.0;
                 let b: LineIndex = capdata.1;
-                assert_lt!(a, b, "bad a {} b {}", a, b);
+                assert_lt!(a, b, "regex #{} bad a {} b {}", dtpd.regex_id, a, b);
                 // verify indexes returned by the regex
                 let s_a_b = buffer_to_String_noraw(data[a..b].as_bstr());
                 let s_dta_dtb = buffer_to_String_noraw(data[dta..dtb].as_bstr());
                 assert_eq!(
                     (dta, dtb), (a, b),
-                    "For dtpd at line {:?} unexpected index returned\n  test data {:?}\n  expect {:?} {:?}\n  actual {:?} {:?}\n",
-                    dtpd._line_num, s, (dta, dtb), &s_dta_dtb, (a, b), &s_a_b,
+                    "For regex #{} dtpd at line {:?} unexpected index returned\n  test data \"{}\"\n  expect {:?} {:?}\n  actual {:?} {:?}\n",
+                    dtpd.regex_id, dtpd._line_num, s, (dta, dtb), &s_dta_dtb, (a, b), &s_a_b,
                 );
                 let ymdhmsn_args_: ymdhmsn_args = test_case_.2;
                 if ymdhmsn_args_ != DUMMY_ARGS {
@@ -829,15 +867,15 @@ fn test_DATETIME_PARSE_DATAS_test_cases(index: usize) {
                     );
                     assert_eq!(
                         dt, capdata.2,
-                        "For dtpd at line {:?} unexpected datetime returned\n  test data {:?}\n  expect {:?}\n  actual {:?}\n",
-                        dtpd._line_num, s, dt, capdata.2,
+                        "For regex #{} dtpd at line {:?} unexpected datetime returned\n  test data {:?}\n  expect {:?}\n  actual {:?}\n",
+                        dtpd.regex_id, dtpd._line_num, s, dt, capdata.2,
                     );
                 }
             }
             None => {
                 panic!(
-                    "Failed dtpd declared at line {}\ntest data {:?}\nregex \"{}\"",
-                    dtpd._line_num, s, dtpd.regex_pattern
+                    "Failed regex #{} dtpd declared at line {}\ntest data {:?}\nregex \"{}\"",
+                    dtpd.regex_id, dtpd._line_num, s, dtpd.regex_pattern
                 );
             }
         }
@@ -895,39 +933,6 @@ fn test_Map_TZ_names() {
     assert!(end.is_some(), "CGP_TZZ does not contain end ')'");
     for val in CGP_TZZ[start.unwrap() + 1..end.unwrap()].split('|') {
         assert!(MAP_TZZ_TO_TZz.contains_key(val), "Substring {:?} from regex CGP_TZZ not found in MAP_TZZ_TO_TZz", val);
-    }
-}
-
-//#[test]
-#[allow(dead_code)]
-/// Check that the built-in test data is caught by the same DTPD in which it is
-/// declared.
-fn _test_DATETIME_PARSE_DATAS_test_cases_indexing() {
-    stack_offset_set(Some(2));
-    let _tz = FO_P1;
-    for (index, dtpd) in DATETIME_PARSE_DATAS
-        .iter()
-        .enumerate()
-    {
-        eprintln!("Testing dtpd declared at line {} …", dtpd._line_num);
-        eprintln!("  Regex Pattern   : {:?}", dtpd.regex_pattern);
-        eprintln!("  DateTime Pattern: {:?}", dtpd.dtfs.pattern);
-        for test_case in dtpd._test_cases {
-            eprintln!("  Test Data       : {:?}", test_case);
-            let _data = test_case.3.as_bytes();
-            let mut _year_opt: Option<Year> = None;
-            if !dtpd.dtfs.has_year() {
-                _year_opt = Some(YEAR_FALLBACKDUMMY_VAL);
-            }
-            for (index_, _dtpd) in DATETIME_PARSE_DATAS
-                .iter()
-                .enumerate()
-            {
-                if index_ > index {
-                    break;
-                }
-            }
-        }
     }
 }
 

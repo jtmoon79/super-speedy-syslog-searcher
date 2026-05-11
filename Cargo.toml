@@ -58,11 +58,15 @@ chrono = "=0.4.42"
 clap = { version = "=4.5.48", features = ["derive", "env"] }
 const_env = "=0.1.5"
 const_format = { version = "=0.2.35", features = ["assertcp", "rust_1_83"] }
+const-str = "=1.1.0"
 crossbeam-channel = "=0.5.15"
 ctrlc = "=3.4.7"
 current_platform = "=0.2.0"
 dlopen2 = "=0.8"
 encoding_rs = "=0.8.35"
+ere = { path = "subprojects/ere/ere" }
+ere_automator_procmacro = { path = "subprojects/ere/ere_automator_procmacro" }
+ere_datetimes_impl = { path = "subprojects/ere/ere_datetimes_impl" }
 # TODO: [2025/12] update `evtx` and use `RecordId` when Issue 234 is merged and released
 #       https://github.com/omerbenamram/evtx/issues/234
 evtx = { version = "=0.8.5", features = ["multithreading"] }
@@ -95,6 +99,7 @@ regex = { version = "=1.12.3", default-features = false, features = ["perf", "st
 shell-escape = "=0.1.5"
 si_trace_print = "=0.3.12"
 stringzilla = { version = "=3.12.6", optional = true }
+static_assertions = "=1.1.0"
 tar = "=0.4.45"
 tempfile = "=3.24.0"
 termcolor = "=1.4.1"
@@ -113,6 +118,10 @@ backtrace = { version = "=0.3.76", optional = true }
 project-root = { version = "=0.2.2", optional = true }
 rustc-demangle = { version = "=0.1.27", optional = true }
 thousands = { version = "=0.2.0", optional = true }
+
+[build-dependencies]
+chrono = "=0.4.42"
+dotenv = "=0.15.0"
 
 [lib]
 name = "s4lib"
@@ -143,10 +152,10 @@ filepath = "0.2.0"
 filetime = "0.2.27"
 # XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
 flamegraph = "=0.6.11"
+regex-automata = "=0.4.14"
 test-case = "3.3.1"
 
 [features]
-# to run more benchmarks pass `--features bench_*` to `cargo bench`
 bench_jetscii = ["dep:jetscii"]
 bench_memchr = []
 bench_stringzilla = ["dep:stringzilla"]
@@ -158,8 +167,9 @@ mimalloc = ["dep:mimalloc"]
 rpmalloc = ["dep:rpmalloc"]
 # allocator tcmalloc
 tcmalloc = ["dep:tcmalloc"]
-# system allocator in custom debug mode,
-# tracks call sites of allocations and prints a summary at program exit; runs extremely slow
+# custom tracking allocator, for diagnosing memory usage
+# tracks call sites of allocations and prints a summary at program exit
+# runs extremely slow
 alloc_tracker = ["dep:backtrace", "dep:project-root", "dep:rustc-demangle", "dep:thousands"]
 
 # release build optimizations
@@ -168,11 +178,11 @@ alloc_tracker = ["dep:backtrace", "dep:project-root", "dep:rustc-demangle", "dep
 [profile.release]
 codegen-units = 1
 panic = "abort"
-strip = true
+strip = "symbols"
 lto = true
 opt-level = 3
 debug = 0
-split-debuginfo = "unpacked"
+split-debuginfo = "packed"
 
 [profile.flamegraph]
 inherits = "release"
@@ -195,10 +205,6 @@ lto = false
 panic = "abort"
 split-debuginfo = "unpacked"
 strip = false
-
-# XXX: profiles `jemalloc` and `mimalloc` are merely named different for distinguishment.
-#      setting `features` in a profile has no effect; must still do:
-#      `cargo build --profile jemalloc --features jemalloc`
 
 [profile.jemalloc]
 inherits = "release"
@@ -227,6 +233,10 @@ harness = false
 
 [[bench]]
 name = "bench_prints"
+harness = false
+
+[[bench]]
+name = "bench_regex"
 harness = false
 
 [[bench]]

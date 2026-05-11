@@ -46,6 +46,7 @@ use crate::common::{
     NLu8,
     SUBPATH_SEP,
     SUBPATH_SEP_DISPLAY_STR,
+    summary_stat,
 };
 use crate::data::datetime::{
     DateTimeL,
@@ -218,6 +219,7 @@ pub const COLOR_THEME_DEFAULT: ColorTheme = ColorTheme::Dark;
 pub static ColorThemeGlobal: RwLock<ColorTheme> = RwLock::new(COLOR_THEME_DEFAULT);
 
 /// "Cached" indexing value for `color_rand`.
+/// Use this unsafe approach because it is fast.
 ///
 /// XXX: not thread-aware, not recommended
 #[doc(hidden)]
@@ -225,6 +227,7 @@ pub static ColorThemeGlobal: RwLock<ColorTheme> = RwLock::new(COLOR_THEME_DEFAUL
 static mut _color_at: usize = 0;
 
 /// "Cached" setting for `color_rand`.
+/// Use this unsafe approach because it is fast.
 ///
 /// XXX: not thread-aware, not recommended
 #[doc(hidden)]
@@ -232,6 +235,7 @@ static mut _color_at: usize = 0;
 static mut _color_theme: Option<ColorTheme> = None;
 
 /// Return a random color from either `COLORS_TEXT_*T`.
+/// Use this unsafe approach because it is fast.
 ///
 /// unsafe; not thread-aware; not recommended.
 #[allow(static_mut_refs)]
@@ -259,6 +263,7 @@ pub fn color_rand() -> Color {
 }
 
 /// unsafe; not thread-aware; not recommended.
+/// Use this unsafe approach because it is fast.
 #[allow(static_mut_refs)]
 fn color_theme_to_index() -> usize {
     let index: usize;
@@ -363,6 +368,9 @@ pub struct PrinterLogMessage {
 }
 
 /// Aliased `Result` returned by various [`PrinterLogMessage`] functions.
+/// Returns `Ok(printed, flushed)` which are used for `--summary` statistics.
+/// - `printed` is the number of bytes printed
+/// - `flushed` is the number of flushes that occurred
 pub type PrinterLogMessageResult = Result<(usize, usize)>;
 
 // XXX: this subsection of custom-made buffering may have been more work than
@@ -381,7 +389,7 @@ macro_rules! buffer_flush_or_seterr {
         if !$buffer.is_empty() {
             match $stdout.write_all($buffer.as_slice()) {
                 Ok(_) => {
-                    $printed += $buffer.len();
+                    summary_stat!($printed += $buffer.len());
                     $buffer.clear();
                     match $stdout.flush() {
                         Ok(_) => {}
@@ -389,7 +397,7 @@ macro_rules! buffer_flush_or_seterr {
                             $error_ret = Some(err);
                         }
                     }
-                    $flushed += 1;
+                    summary_stat!($flushed += 1);
                 }
                 Err(err) => {
                     // XXX: this will print when this program stdout is truncated, like when piping
@@ -405,7 +413,7 @@ macro_rules! buffer_flush_or_seterr {
                     );
                     $error_ret = Some(err);
                     _ = $stdout.flush();
-                    $flushed += 1;
+                    summary_stat!($flushed += 1);
                 }
             }
         }
@@ -444,7 +452,7 @@ macro_rules! buffer_write_or_return {
         if !BUFFER_USE {
             match $stdout.write_all($slice_) {
                 Ok(_) => {
-                    $printed += $slice_.len();
+                    summary_stat!($printed += $slice_.len());
                 }
                 Err(err) => {
                     de_err!(
@@ -463,7 +471,7 @@ macro_rules! buffer_write_or_return {
                     error_ret = Some(err);
                 }
             }
-            $flushed += 1;
+            summary_stat!($flushed += 1);
             match error_ret {
                 Some(err) => return PrinterLogMessageResult::Err(err),
                 None => {}
@@ -480,8 +488,8 @@ macro_rules! buffer_write_or_return {
                 // buffer is full, write it
                 match $stdout.write_all($buffer.as_slice()) {
                     Ok(_) => {
-                        $printed += $buffer.len();
-                        $flushed += 1;
+                        summary_stat!($printed += $buffer.len());
+                        summary_stat!($flushed += 1);
                         $buffer.clear();
                     }
                     Err(err) => {
@@ -501,7 +509,7 @@ macro_rules! buffer_write_or_return {
                             Ok(_) => {}
                             Err(_) => {}
                         }
-                        $flushed += 1;
+                        summary_stat!($flushed += 1);
                         error_ret = Some(err);
                     }
                 }
@@ -520,7 +528,7 @@ macro_rules! buffer_write_or_return {
                         if $slice_.len() > cap {
                             match $stdout.write_all($slice_) {
                                 Ok(_) => {
-                                    $printed += $slice_.len();
+                                    summary_stat!($printed += $slice_.len());
                                 }
                                 Err(err) => {
                                     de_err!(
@@ -539,7 +547,7 @@ macro_rules! buffer_write_or_return {
                                     error_ret = Some(err);
                                 }
                             }
-                            $flushed += 1;
+                            summary_stat!($flushed += 1);
                         } else {
                             $buffer.extend_from_slice($slice_);
                         }
@@ -577,7 +585,7 @@ macro_rules! setcolor_or_return {
             if let Result::Err(err) = $stdout.flush() {
                 return PrinterLogMessageResult::Err(err);
             }
-            $flushed += 1;
+            summary_stat!($flushed += 1);
             $color_spec_last = $color_spec.clone();
         }
     }};
@@ -748,6 +756,7 @@ impl PrinterLogMessage {
         );
         // get a stdout handle once
         let stdout = std::io::stdout();
+        // get a termcolor handle to stdout once
         let stdout_color = StandardStream::stdout(color_choice);
         let do_color: bool = match color_choice {
             ColorChoice::Never => false,
@@ -906,6 +915,7 @@ impl PrinterLogMessage {
     ) -> String {
         // write the `syslinep.dt` into a `String` once
         //
+        // TODO: [2022] cost-savings...
         // XXX: would be cool if `chrono::DateTime` offered a format that returned
         //      `[u8; 100]` on the stack (where `100` is maximum possible length).
         //      That would be much faster than heap allocating a new `String`.
@@ -1040,8 +1050,8 @@ impl PrinterLogMessage {
         for linep in (*syslinep).lines.iter() {
             match self.print_line(linep, &mut stdout_lock) {
                 PrinterLogMessageResult::Ok((p, f)) => {
-                    printed += p;
-                    flushed += f;
+                    summary_stat!(printed += p);
+                    summary_stat!(flushed += f);
                 }
                 PrinterLogMessageResult::Err(err) => {
                     buffer_flush_nostats!(stdout_lock, self.buffer);
@@ -1071,8 +1081,8 @@ impl PrinterLogMessage {
             buffer_write_or_return!(stdout_lock, self.buffer, dtb, printed, flushed);
             match self.print_line(linep, &mut stdout_lock) {
                 PrinterLogMessageResult::Ok((p, f)) => {
-                    printed += p;
-                    flushed += f;
+                    summary_stat!(printed += p);
+                    summary_stat!(flushed += f);
                 }
                 PrinterLogMessageResult::Err(err) => {
                     buffer_flush_nostats!(stdout_lock, self.buffer);
@@ -1100,8 +1110,8 @@ impl PrinterLogMessage {
             buffer_write_or_return!(stdout_lock, self.buffer, self.prepend_file.as_ref().unwrap().as_bytes(), printed, flushed);
             match self.print_line(linep, &mut stdout_lock) {
                 PrinterLogMessageResult::Ok((p, f)) => {
-                    printed += p;
-                    flushed += f;
+                    summary_stat!(printed += p);
+                    summary_stat!(flushed += f);
                 }
                 PrinterLogMessageResult::Err(err) => {
                     buffer_flush_nostats!(stdout_lock, self.buffer);
@@ -1133,8 +1143,8 @@ impl PrinterLogMessage {
             buffer_write_or_return!(stdout_lock, self.buffer, dtb, printed, flushed);
             match self.print_line(linep, &mut stdout_lock) {
                 PrinterLogMessageResult::Ok((p, f)) => {
-                    printed += p;
-                    flushed += f;
+                    summary_stat!(printed += p);
+                    summary_stat!(flushed += f);
                 }
                 PrinterLogMessageResult::Err(err) => {
                     buffer_flush_nostats!(stdout_lock, self.buffer);
@@ -1623,7 +1633,7 @@ impl PrinterLogMessage {
             }
             false => &[],
         };
-        let data = pyevent.as_bytes();
+        let data: &[u8] = pyevent.as_bytes();
         let mut a: usize = 0;
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
@@ -1658,7 +1668,7 @@ impl PrinterLogMessage {
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
-        let data = pyevent.as_bytes();
+        let data: &[u8] = pyevent.as_bytes();
         let stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
 
@@ -1710,7 +1720,7 @@ impl PrinterLogMessage {
             None => (0, 0),
         };
         debug_assert_le!(beg, end, "beg: {}, end: {}", beg, end);
-        let data = pyevent.as_bytes();
+        let data: &[u8] = pyevent.as_bytes();
         let mut at: usize = 0;
         let mut a: usize = 0;
         let stdout_lock = self.stdout.lock();
@@ -1801,7 +1811,7 @@ impl PrinterLogMessage {
             }
             false => &[],
         };
-        let data = evtx.as_bytes();
+        let data: &[u8] = evtx.as_bytes();
         let mut a: usize = 0;
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
@@ -2212,7 +2222,7 @@ pub fn print_colored_stderr(
     match print_colored(color, value, &mut stderr) {
         Ok(_) => {}
         Err(e) => {
-            eprintln!("\nERROR: print_colored_stderr {:?}", e);
+            eprintln!("\nERROR: print_colored_stderr {e:?}");
         }
     }
 }
@@ -2271,7 +2281,7 @@ pub fn write_stderr(buffer: &[u8]) {
             // XXX: this will print when this program stdout is truncated, like to due to `program | head`
             //          Broken pipe (os error 32)
             //      Not sure if anything should be done about it
-            de_err!("stderr flushing error {}", _err);
+            de_err!("stderr flushing error {_err}");
         }
     }
     drop(stdout_lock);

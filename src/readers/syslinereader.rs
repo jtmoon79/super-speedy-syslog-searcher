@@ -334,6 +334,9 @@ pub struct SyslineReader {
     /// `Count` of RegEx::captures` attempts.
     pub(super) regex_captures_attempted: Count,
     /// Summary statistic.
+    /// `Count` of RegEx::captures` attempts matched.
+    pub(super) regex_captures_matched: Count,
+    /// Summary statistic.
     /// `Count` of `Ok` to [`Arc::try_unwrap(syslinep)`], effectively a count of
     /// [`Sysline`] dropped.
     ///
@@ -469,6 +472,8 @@ pub struct SummarySyslineReader {
     pub syslinereader_get_boxptrs_multiptr: Count,
     /// `SyslineReader::regex_captures_attempted`
     pub syslinereader_regex_captures_attempted: Count,
+    /// `SyslineReader::regex_captures_matched`
+    pub syslinereader_regex_captures_matched: Count,
     /// `SyslineReader::drop_sysline_ok`
     pub syslinereader_drop_sysline_ok: Count,
     /// `SyslineReader::drop_sysline_errors`
@@ -584,6 +589,7 @@ impl SyslineReader {
             get_boxptrs_multiptr: 0,
             analyzed: false,
             regex_captures_attempted: 0,
+            regex_captures_matched: 0,
             drop_sysline_ok: 0,
             drop_sysline_errors: 0,
             ezcheck12_hit: 0,
@@ -994,6 +1000,15 @@ impl SyslineReader {
         // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
         defx!("syslines_by_range.insert([{}‥{}), {})", fo_beg, fo_end1, fo_beg);
+        // XXX: this `insert` call uses ~6% of thread processing time for
+        //      processing a single syslog file, according to flamegraph as of 2026/04
+        //      Relates to Issue #84
+        // TODO: [2026/04] rangemaps are not needed when processing beyond
+        //       Stage2 which may be a binary search or a linear search.
+        //       Stage3 processing, the bulk of processing, is done linearly so
+        //       this RangeMap would not be useful then.
+        //       The SyslogProcessor should set a flag within SyslineReader
+        //       to enable and disable the use of `syslines_by_range`
         self.syslines_by_range
             .insert(fo_beg..fo_end1, fo_beg);
         summary_stat!(self.syslines_by_range_put += 1);
@@ -1153,7 +1168,7 @@ impl SyslineReader {
         ezcheck12d2_miss: &mut Count,
         ezcheck12d2_hit_max: &mut LineIndex,
     ) -> bool {
-        defn!();
+        defn!("dtpd.dtfs.has_year4()={}, dtpd.dtfs.has_d2()={}", dtpd.dtfs.has_year4(), dtpd.dtfs.has_d2());
         // EZCHECK12 is a fun hack to bypass regex checks.
         // Lines without `'1'` or `'2'` within some range from the start of the
         // line probably do not have a datetime.
@@ -1264,6 +1279,7 @@ impl SyslineReader {
         get_boxptrs_doubleptr: &mut Count,
         get_boxptrs_multiptr: &mut Count,
         regex_captures_attempted: &mut Count,
+        regex_captures_matched: &mut Count,
         ezcheck12_hit: &mut Count,
         ezcheck12_miss: &mut Count,
         ezcheck12_hit_max: &mut LineIndex,
@@ -1373,7 +1389,7 @@ impl SyslineReader {
             };
 
             defo!(
-                "slice len {} [{}, {}) (requested [{}, {})) using DTPD from {}, data {:?}",
+                "slice len {} [{}, {}) (requested [{}, {})) using DTPD from line {}, data {:?}",
                 slice_.len(),
                 dtpd.range_regex.start,
                 slice_end,
@@ -1429,6 +1445,7 @@ impl SyslineReader {
                 None => continue,
                 Some(val) => val,
             };
+            summary_stat!(*regex_captures_matched += 1);
             defx!("return Ok({}, {}, {}, {});", dt_beg, dt_end, &dt, index);
             return ResultFindDateTime::Ok((dt_beg, dt_end, dt, *index));
         } // end for(pattern, …)
@@ -1729,6 +1746,7 @@ impl SyslineReader {
             &mut self.get_boxptrs_doubleptr,
             &mut self.get_boxptrs_multiptr,
             &mut self.regex_captures_attempted,
+            &mut self.regex_captures_matched,
             &mut self.ezcheck12_hit,
             &mut self.ezcheck12_miss,
             &mut self.ezcheck12_hit_max,
@@ -3059,6 +3077,7 @@ impl SyslineReader {
         let syslinereader_get_boxptrs_doubleptr = self.get_boxptrs_doubleptr;
         let syslinereader_get_boxptrs_multiptr = self.get_boxptrs_multiptr;
         let syslinereader_regex_captures_attempted = self.regex_captures_attempted;
+        let syslinereader_regex_captures_matched = self.regex_captures_matched;
         let syslinereader_drop_sysline_ok = self.drop_sysline_ok;
         let syslinereader_drop_sysline_errors = self.drop_sysline_errors;
         let syslinereader_ezcheck12_hit = self.ezcheck12_hit;
@@ -3092,6 +3111,7 @@ impl SyslineReader {
             syslinereader_get_boxptrs_doubleptr,
             syslinereader_get_boxptrs_multiptr,
             syslinereader_regex_captures_attempted,
+            syslinereader_regex_captures_matched,
             syslinereader_drop_sysline_ok,
             syslinereader_drop_sysline_errors,
             syslinereader_ezcheck12_hit,

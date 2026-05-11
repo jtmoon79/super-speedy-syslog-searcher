@@ -115,4 +115,5 @@ pub mod fixedstruct;
 pub mod journal;
 pub mod line;
 pub mod pydataevent;
+pub mod slice_contains;
 pub mod sysline;

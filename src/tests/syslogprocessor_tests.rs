@@ -9,7 +9,7 @@ use ::const_format::concatcp;
 use ::filetime;
 use ::lazy_static::lazy_static;
 use ::more_asserts::{
-    assert_ge,
+    //assert_ge,
     assert_gt,
 };
 #[allow(unused_imports)]
@@ -33,10 +33,12 @@ use crate::data::datetime::{
     ymdhms0,
     DateTimeL,
     DateTimeLOpt,
-    DateTimeParseDatasCompiledCount,
+    //DateTimeParseDatasCompiledCount,
     DateTimePattern_str,
     FixedOffset,
     SystemTime,
+    REGEX_ALL,
+    regex_id_compiled,
 };
 use crate::data::sysline::SyslineP;
 use crate::debug::helpers::{
@@ -94,6 +96,8 @@ const NTF1S_A_DATA: &str = concatcp!(NTF1S_A_DATA_LINE0,);
 /// Unix epoch time for time `NTF1S_A_DATA_LINE0` year 2001 at UTC
 const NTF1S_A_MTIME_UNIXEPOCH: i64 = 978381296;
 
+const REGEX_ID_NTF1S_A: usize = 33;
+
 //
 // NTF1S_B
 //
@@ -107,6 +111,8 @@ const NTF1S_B_DATA: &str = concatcp!(NTF1S_B_DATA_LINE0,);
 
 /// Unix epoch time for time `NTF1S_B_DATA_LINE0` year 2001 at UTC
 const NTF1S_B_MTIME_UNIXEPOCH: i64 = 978381296;
+
+const REGEX_ID_NTF1S_B: usize = 33;
 
 //
 // NTF1S_C - deliberately short data
@@ -134,6 +140,8 @@ const NTF2S_A_DATA: &str = concatcp!(NTF2S_A_DATA_LINE0, NTF2S_A_DATA_LINE1,);
 /// Unix epoch time for time `NTF1S_B_DATA_LINE0` year 2001 at UTC
 const NTF2S_A_MTIME_UNIXEPOCH: i64 = 978381296;
 
+const REGEX_ID_NTF2S_A: usize = 33;
+
 //
 // NTF5
 //
@@ -144,6 +152,8 @@ const NTF5_DATA_LINE1: &str = "Feb 29 02:00:22 5b\n";
 const NTF5_DATA_LINE2: &str = "Mar 3 03:00:33 5c\n";
 const NTF5_DATA_LINE3: &str = "Apr 4 04:00:44 5d\n";
 const NTF5_DATA_LINE4: &str = "May 5 05:00:55 5e\n";
+
+const REGEX_ID_NTF5: usize = 33;
 
 /// Unix epoch time for time `NTF5_DATA_LINE4` at UTC
 const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
@@ -171,6 +181,8 @@ const NTF5X4_DATA_LINE2: &str = "2000-03-13T03:00:33 5X4c\n";
 const NTF5X4_DATA_LINE3: &str = "2000-04-14T04:00:44 5X4d\n";
 const NTF5X4_DATA_LINE4: &str = "2000-05-15T05:00:55 5X4e\n";
 
+const REGEX_ID_NTF5X4: usize = 33;
+
 /// Unix epoch time for time `NTF5X4_DATA_LINE4` at UTC
 const NTF5X4_MTIME_UNIXEPOCH: i64 = 958392055;
 
@@ -189,6 +201,8 @@ const NTF5X4_DATA: &str = concatcp!(
 const NTF3_DATA_LINE0: &str = "Jan 1 01:00:00 2000 A3\n";
 const NTF3_DATA_LINE1: &str = "Feb 2 02:00:00 2000 B3\n";
 const NTF3_DATA_LINE2: &str = "Mar 3 03:00:00 2000 C3\n";
+
+const REGEX_ID_NTF3: usize = 31;
 
 const NTF3_DATA: &str = concatcp!(NTF3_DATA_LINE0, NTF3_DATA_LINE1, NTF3_DATA_LINE2,);
 
@@ -217,6 +231,8 @@ const NTF9_DATA_LINE7: &str = "Aug 18 05:38:28 2000 9hhhhhhhh\n";
 const NTF9_DATA_LINE8: &str = "Sep 19 05:39:29 2000 9ììììììììì\n";
 const NTF9_DATA_LINE9: &str = "Oct 20 05:39:30 2000 10λλλλλλλλλλ\n";
 const NTF9_DATA_LINE10: &str = "Nov 21 05:39:31 2000 11ΜΜΜΜΜΜΜΜΜΜΜ\n";
+
+const REGEX_ID_NTF9: usize = 31;
 
 const NTF9_DATA: &str = concatcp!(
     NTF9_DATA_LINE0,
@@ -269,6 +285,8 @@ const NTF7_2_DATA_LINE12: &str = "Jan 31 01:02:03 2001 6-3 KKKKKKKKKK\n";
 const NTF7_2_DATA_LINE13: &str = "ΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛ\n";
 const NTF7_2_DATA_LINE14: &str = "Feb 2 02:03:04 2001 6-3 mmmmmmmmmmmm\n";
 const NTF7_2_DATA_LINE15: &str = "ηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηη\n";
+
+const REGEX_ID_NTF7_2: usize = 31;
 
 const NTF7_2_DATA: &str = concatcp!(
     NTF7_2_DATA_LINE0,
@@ -671,6 +689,10 @@ fn test_process_missing_year_1972() {
 
 #[test]
 fn test_find_sysline() {
+    if !regex_id_compiled(REGEX_ID_NTF5) {
+        eprintln!("Regex #{} not compiled; skip test", REGEX_ID_NTF5);
+        return;
+    }
     let mut slp = new_SyslogProcessor(&NTF5_PATH, SZ);
     let mut fo: FileOffset = 0;
     loop {
@@ -683,7 +705,7 @@ fn test_find_sysline() {
                 break;
             }
             ResultFindSysline::Err(err) => {
-                panic!("Error {}", err);
+                panic!("Error {err}");
             }
         }
     }
@@ -691,6 +713,10 @@ fn test_find_sysline() {
 
 #[test]
 fn test_find_sysline_between_datetime_filters_Found() {
+    if !regex_id_compiled(REGEX_ID_NTF5) {
+        eprintln!("Regex #{} not compiled; skip test", REGEX_ID_NTF5);
+        return;
+    }
     let mut slp = new_SyslogProcessor(&NTF5_PATH, SZ);
 
     let result = slp.find_sysline_between_datetime_filters(0);
@@ -700,13 +726,17 @@ fn test_find_sysline_between_datetime_filters_Found() {
             panic!("Unexpected Done");
         }
         ResultFindSysline::Err(err) => {
-            panic!("Error {}", err);
+            panic!("Error {err}");
         }
     }
 }
 
 #[test]
 fn test_find_sysline_between_datetime_filters_Done() {
+    if !regex_id_compiled(REGEX_ID_NTF5) {
+        eprintln!("Regex #{} not compiled; skip test", REGEX_ID_NTF5);
+        return;
+    }
     let mut slp = new_SyslogProcessor(&NTF5_PATH, SZ);
     let fo: FileOffset = NTF5_DATA.len() as FileOffset;
 
@@ -717,7 +747,7 @@ fn test_find_sysline_between_datetime_filters_Done() {
         }
         ResultFindSysline::Done => {}
         ResultFindSysline::Err(err) => {
-            panic!("Error {}", err);
+            panic!("Error {err}");
         }
     }
 }
@@ -759,98 +789,107 @@ fn test_process_stage0(
 
 #[test_case(
     &*NTF7_2_PATH,
+    REGEX_ID_NTF7_2,
     (NTF7_2_DATA_LINE1_OFFSET + (NTF7_2_DATA_LINE1_OFFSET % 2)) as BlockSz,
     FILEOK;
     "NTF7_2_PATH NTF7_2_DATA_LINE1_OFFSET"
 )]
 #[test_case(
     &*NTF7_2_PATH,
+    REGEX_ID_NTF7_2,
     (NTF7_2_DATA_LINE2_OFFSET + (NTF7_2_DATA_LINE2_OFFSET % 2)) as BlockSz,
     FILEOK;
     "NTF7_2_PATH NTF7_2_DATA_LINE2_OFFSET"
 )]
 #[test_case(
     &*NTF7_2_PATH,
+    REGEX_ID_NTF7_2,
     (NTF7_2_DATA_LINE3_OFFSET + (NTF7_2_DATA_LINE3_OFFSET % 2)) as BlockSz,
     FILEOK;
     "NTF7_2_PATH NTF7_2_DATA_LINE3_OFFSET"
 )]
 #[test_case(
     &*NTF7_2_PATH,
+    REGEX_ID_NTF7_2,
     (NTF7_2_DATA_LINE4_OFFSET + (NTF7_2_DATA_LINE4_OFFSET % 2)) as BlockSz,
     FILEOK;
     "NTF7_2_PATH NTF7_2_DATA_LINE4_OFFSET"
 )]
-#[test_case(&*NTF7_2_PATH, 0x10, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF7_2_PATH, 0x100, FILEOK)]
-#[test_case(&*NTF7_2_PATH, 0x200, FILEOK)]
-#[test_case(&*NTF7_2_PATH, 0x1000, FILEOK)]
-#[test_case(&*NTF3_PATH, 0x10, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF3_PATH, 0x14, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF3_PATH, 0x16, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF3_PATH, 0x18, FILEOK)]
-#[test_case(&*NTF3_PATH, 0x1A, FILEOK)]
-#[test_case(&*NTF3_PATH, 0x20, FILEOK)]
-#[test_case(&*NTF3_PATH, 0x40, FILEOK)]
-#[test_case(&*NTF3_PATH, 0x1000, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x2, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF5X4_PATH, 0x10, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF5X4_PATH, 0x20, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x30, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x40, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x50, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x60, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x70, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x80, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x100, FILEOK)]
-#[test_case(&*NTF5X4_PATH, 0x200, FILEOK)]
-#[test_case(&*NTF0X12000_PATH, 0x10, FILENULLBYTES)]
-#[test_case(&*NTF0X12000_PATH, SYSLOG_SZ_MAX_BSZ * 2, FILENULLBYTES)]
-#[test_case(&*NTF1S_A_PATH, 0x2, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_A_PATH, 0x4, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_A_PATH, 0xA, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_A_PATH, 0xB, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_A_PATH, 0xC, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_A_PATH, 0xD, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_A_PATH, 0xE, FILEOK)]
-#[test_case(&*NTF1S_A_PATH, 0xF, FILEOK)]
-#[test_case(&*NTF1S_A_PATH, 0x10, FILEOK)]
-#[test_case(&*NTF1S_A_PATH, 0x100, FILEOK)]
-#[test_case(&*NTF1S_B_PATH, 0x2, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_B_PATH, 0x4, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_B_PATH, 0xA, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_B_PATH, 0xB, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_B_PATH, 0xC, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_B_PATH, 0xD, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_B_PATH, 0xE, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_B_PATH, 0xF, FILEOK)]
-#[test_case(&*NTF1S_B_PATH, 0x10, FILEOK)]
-#[test_case(&*NTF1S_B_PATH, 0x100, FILEOK)]
-#[test_case(&*NTF1S_C_PATH, 0x2, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_C_PATH, 0x4, FILETOOSMALL)]
-#[test_case(&*NTF1S_C_PATH, 0xA, FILETOOSMALL)]
-#[test_case(&*NTF1S_C_PATH, 0xB, FILETOOSMALL)]
-#[test_case(&*NTF1S_C_PATH, 0xC, FILETOOSMALL)]
-#[test_case(&*NTF1S_C_PATH, 0xD, FILETOOSMALL)]
-#[test_case(&*NTF1S_C_PATH, 0xE, FILETOOSMALL)]
-#[test_case(&*NTF1S_C_PATH, 0xF, FILETOOSMALL)]
-#[test_case(&*NTF1S_C_PATH, 0x10, FILETOOSMALL)]
-#[test_case(&*NTF1S_C_PATH, 0x100, FILETOOSMALL)]
-#[test_case(&*NTF2S_A_PATH, 0x2, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF2S_A_PATH, 0x4, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF2S_A_PATH, 0xA, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF2S_A_PATH, 0xB, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF2S_A_PATH, 0xC, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF2S_A_PATH, 0xD, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF2S_A_PATH, 0xE, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF2S_A_PATH, 0xF, FILEOK)]
-#[test_case(&*NTF2S_A_PATH, 0x10, FILEOK)]
-#[test_case(&*NTF2S_A_PATH, 0x100, FILEOK)]
+#[test_case(&*NTF7_2_PATH, REGEX_ID_NTF7_2, 0x10, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF7_2_PATH, REGEX_ID_NTF7_2, 0x100, FILEOK)]
+#[test_case(&*NTF7_2_PATH, REGEX_ID_NTF7_2, 0x200, FILEOK)]
+#[test_case(&*NTF7_2_PATH, REGEX_ID_NTF7_2, 0x1000, FILEOK)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x10, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x14, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x16, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x18, FILEOK)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x1A, FILEOK)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x20, FILEOK)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x40, FILEOK)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x1000, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x10, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x20, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x30, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x40, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x50, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x60, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x70, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x80, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x100, FILEOK)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x200, FILEOK)]
+#[test_case(&*NTF0X12000_PATH, 0, 0x10, FILENULLBYTES)]
+#[test_case(&*NTF0X12000_PATH, 0, SYSLOG_SZ_MAX_BSZ * 2, FILENULLBYTES)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0x4, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xA, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xB, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xC, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xD, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xE, FILEOK)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xF, FILEOK)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0x10, FILEOK)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0x100, FILEOK)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0x4, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xA, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xB, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xC, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xD, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xE, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xF, FILEOK)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0x10, FILEOK)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0x100, FILEOK)]
+#[test_case(&*NTF1S_C_PATH, 0, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_C_PATH, 0, 0x4, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0, 0xA, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0, 0xB, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0, 0xC, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0, 0xD, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0, 0xE, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0, 0xF, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0, 0x10, FILETOOSMALL)]
+#[test_case(&*NTF1S_C_PATH, 0, 0x100, FILETOOSMALL)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x4, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xA, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xB, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xC, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xD, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xE, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xF, FILEOK)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x10, FILEOK)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x100, FILEOK)]
 fn test_process_stage1_blockzero_analysis_varying(
     path: &FPath,
+    regex_id: usize,
     blocksz: BlockSz,
     fprbz_expect: FileProcessingResultBlockZero,
 ) {
+    if !regex_id_compiled(regex_id) {
+        eprintln!("Regex #{} not compiled; skip test", regex_id);
+        return;
+    }
     eprint_file_blocks(path, blocksz);
     let mut slp = new_SyslogProcessor(path, blocksz);
 
@@ -869,13 +908,18 @@ fn test_process_stage1_blockzero_analysis_varying(
     );
 }
 
-#[test_case(&*NTF3_PATH, 0x200, FILEOK, &NTF3_DATA_SYSLINES)]
+#[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x200, FILEOK, &NTF3_DATA_SYSLINES)]
 fn test_process_stages_0to5(
     path: &FPath,
+    regex_id: usize,
     blocksz: BlockSz,
     fprbz_expect: FileProcessingResultBlockZero,
     syslines_expect: &[&str],
 ) {
+    if ! regex_id_compiled(regex_id) {
+        eprintln!("Regex #{} not compiled; skip test", regex_id);
+        return;
+    }
     let mut slp = new_SyslogProcessor(path, blocksz);
 
     match slp.process_stage0_valid_file_check() {
@@ -940,7 +984,7 @@ fn test_process_stages_0to5(
                 break;
             }
             ResultFindSysline::Err(err) => {
-                panic!("Error {}", err);
+                panic!("Error {err}");
             }
         }
         check_counter += 1;
@@ -958,15 +1002,21 @@ fn test_process_stages_0to5(
 
 // test files without a year and a `dt_filter_after_opt` do not process
 // the entire file, only back to `dt_filter_after_opt`
-#[test_case(&*NTF5_PATH, &None, 5)]
-#[test_case(&*NTF5_PATH, &NTF5_DATA_LINE2_BEFORE, 4)]
-#[test_case(&*NTF5_PATH, &NTF5_DATA_LINE4_AFTER, 1)]
-#[test_case(&*NTF1S_A_PATH, &NTF1S_A_DATA_LINE0_AFTER, 1)]
+#[test_case(&*NTF5_PATH, REGEX_ID_NTF5, &None, 5)]
+#[test_case(&*NTF5_PATH, REGEX_ID_NTF5, &NTF5_DATA_LINE2_BEFORE, 4)]
+#[test_case(&*NTF5_PATH, REGEX_ID_NTF5, &NTF5_DATA_LINE4_AFTER, 1)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, &NTF1S_A_DATA_LINE0_AFTER, 1)]
 fn test_process_stage2_find_dt_and_missing_year(
     path: &FPath,
+    regex_id: usize,
     filter_dt_after_opt: &DateTimeLOpt,
     count_syslines_expect: Count,
 ) {
+    if !regex_id_compiled(regex_id) {
+        eprintln!("Regex #{} not compiled; skip test", regex_id);
+        return;
+    }
+
     eprint_file(path);
     let mut slp = new_SyslogProcessor(path, 0xFFFF);
 
@@ -996,14 +1046,20 @@ fn test_process_stage2_find_dt_and_missing_year(
 
 // -------------------------------------------------------------------------------------------------
 
-#[test_case(&NTF9_PATH, NTF9_BLOCKSZ_MIN, FILEOK)]
-#[test_case(&NTF7_2_PATH, NTF7_2_BLOCKSZ_MIN, FILENOSYSLINESFOUND)]
-#[test_case(&NTF7_2_PATH, NTF7_2_BLOCKSZ_MIN * 2, FILEOK)]
+#[test_case(&NTF9_PATH, REGEX_ID_NTF9, NTF9_BLOCKSZ_MIN, FILEOK)]
+#[test_case(&NTF7_2_PATH, REGEX_ID_NTF7_2, NTF7_2_BLOCKSZ_MIN, FILENOSYSLINESFOUND)]
+#[test_case(&NTF7_2_PATH, REGEX_ID_NTF7_2, NTF7_2_BLOCKSZ_MIN * 2, FILEOK)]
 fn test_process_stage0to3_drop_data(
     path: &FPath,
+    regex_id: usize,
     blocksz: BlockSz,
     fprbz_expect: FileProcessingResultBlockZero,
 ) {
+    if ! regex_id_compiled(regex_id) {
+        eprintln!("Regex #{} not compiled; skip test", regex_id);
+        return;
+    }
+
     eprint_file(path);
     let mut slp = new_SyslogProcessor(path, blocksz);
 
@@ -1078,60 +1134,6 @@ fn test_process_stage0to3_drop_data(
     assert_gt!(dropped_blocks.len(), 0, "Expected *some* dropped Blocks but zero were dropped, blocksz {:?}, filesz {:?}", blocksz, slp.filesz());
 }
 
-/// It is difficult to test `DateTimeParseDatasCompiledCount` because it is a
-/// global singleton. And since the ordering of tests is not predictable
-/// then it's value cannot be predicted except to be greater than some number after
-/// exercising a `SyslogProcessor` (or `SyslineReader`).
-/// Setting and resetting the global singletons `DATETIME_PARSE_DATAS_REGEX_VEC`
-/// and `DateTimeParseDatasCompiledCount` requires an associated global mutex.
-/// If there was a global mutex then _every_ test function that effects those
-/// global singletons would need to use that global mutex lock.
-/// This is too much boilerplate to require for so many tests.
-/// So just test `DateTimeParseDatasCompiledCount` is greater than some number
-/// after processing the file with a `SyslogProcessor` instance.
-#[test_case(&NTF1S_A_PATH, 34)]
-#[test_case(&NTF1S_B_PATH, 34)]
-#[test_case(&NTF1S_C_PATH, 0)]
-#[test_case(&NTF5_PATH, 34)]
-#[test_case(&NTF5X4_PATH, 79)]
-#[test_case(&NTF3_PATH, 32)]
-#[test_case(&NTF9_PATH, 32)]
-#[test_case(&NTF7_2_PATH, 32)]
-fn test_datetime_parse_datas_compiled_count(
-    path: &FPath,
-    count_ge: usize,
-) {
-    let mut syslogprocessor = new_SyslogProcessor(path, SZ);
-
-    // find all the entries
-    let mut fo: FileOffset = 0;
-    loop {
-        match syslogprocessor.find_sysline(fo) {
-            ResultFindSysline::Found((fo_, _syslinep)) => {
-                fo = fo_;
-            }
-            ResultFindSysline::Done => {
-                break;
-            }
-            ResultFindSysline::Err(err) => {
-                panic!("Error {}", err);
-            }
-        }
-    }
-
-    let count = match DateTimeParseDatasCompiledCount.read() {
-        Ok(count) => *count,
-        Err(err) => {
-            panic!("Error DateTimeParseDatasCompiledCount.read() failed {}", err);
-        }
-    };
-    eprintln!("DateTimeParseDatasCompiledCount {}", count);
-    assert_ge!(
-        count, count_ge,
-        "DateTimeParseDatasCompiledCount expected >={}, actual {}", count_ge, count
-    );
-}
-
 /// test `SyslogProcessor::summary` and `SyslogProcessor::summary_complete`
 /// before doing any processing
 #[test_case(&NTF_LOG_EMPTY_FPATH, 0x100)]
@@ -1190,7 +1192,7 @@ fn test_SyslogProcessor_summary_empty(
         syslinereader_syslines_by_range_hit: 0,
         syslinereader_syslines_by_range_miss: 6,
         syslinereader_syslines_by_range_put: 5,
-        syslinereader_patterns: DateTimePatternCounts::from([(33, 1), (79, 4)]),
+        syslinereader_patterns: DateTimePatternCounts::from([(32, 1), (78, 4)]),
         syslinereader_datetime_first: Some(ymdhms0(1972, 1, 1, 1, 0, 11)),
         syslinereader_datetime_last: Some(ymdhms0(2000, 5, 15, 5, 0, 55)),
         syslinereader_find_sysline_lru_cache_hit: 0,
@@ -1199,10 +1201,11 @@ fn test_SyslogProcessor_summary_empty(
         syslinereader_parse_datetime_in_line_lru_cache_hit: 4,
         syslinereader_parse_datetime_in_line_lru_cache_miss: 5,
         syslinereader_parse_datetime_in_line_lru_cache_put: 0,
-        syslinereader_get_boxptrs_singleptr: 117,
+        syslinereader_get_boxptrs_singleptr: 115,
         syslinereader_get_boxptrs_doubleptr: 1,
         syslinereader_get_boxptrs_multiptr: 0,
-        syslinereader_regex_captures_attempted: 118,
+        syslinereader_regex_captures_attempted: 116,
+        syslinereader_regex_captures_matched: 5,
         syslinereader_drop_sysline_ok: 0,
         syslinereader_drop_sysline_errors: 0,
         syslinereader_ezcheck12_hit: 0,
@@ -1212,7 +1215,7 @@ fn test_SyslogProcessor_summary_empty(
         syslinereader_ezcheckd2_miss: 9,
         syslinereader_ezcheckd2_hit_max: 0,
         syslinereader_ezcheck12d2_hit: 0,
-        syslinereader_ezcheck12d2_miss: 109,
+        syslinereader_ezcheck12d2_miss: 107,
         syslinereader_ezcheck12d2_hit_max: 0,
     },
     SummarySyslogProcessor {
@@ -1227,6 +1230,10 @@ fn test_Reader_summary(
     expect_summarysyslinereader: SummarySyslineReader,
     expect_summarysyslogprocessor: SummarySyslogProcessor,
 ) {
+    if !REGEX_ALL {
+        eprintln!("not all regex compiled; skip");
+        return;
+    }
     summary_stats_enable();
     let mut syslogprocessor = new_SyslogProcessor(
         path,
@@ -1245,7 +1252,7 @@ fn test_Reader_summary(
                 break;
             }
             ResultFindSysline::Err(err) => {
-                panic!("Error {}", err);
+                panic!("Error {err}");
             }
         }
     }

@@ -1,5 +1,7 @@
 // src/s4/s4_tests.rs
 
+//! Tests for `s4.rs`
+
 use ::s4lib::common::{
     FIXEDOFFSET0,
 };
@@ -43,7 +45,6 @@ use ::chrono::{
     Datelike,
     Duration,
     TimeZone,
-    //Timelike,
 };
 use ::lazy_static::lazy_static;
 use ::si_trace_print::stack::stack_offset_set;
@@ -66,7 +67,6 @@ const FO0: FixedOffset = FIXEDOFFSET0;
 
 // XXX: these are defined in tests/common.rs but importing that fails
 //      unexpectedly
-//const FO0: FixedOffset = FixedOffset::east_opt(0).unwrap();
 const FO_E1: FixedOffset = FixedOffset::east_opt(3600).unwrap();
 
 lazy_static! {
@@ -145,10 +145,10 @@ fn test_cli_process_tz_offset(
     let result = cli_process_tz_offset(&input);
     match result {
         Ok(fo) => {
-            assert_eq!(out_fo, fo, "cli_process_tz_offset returned FixedOffset {:?}, expected {:?}", fo, out_fo);
+            assert_eq!(out_fo, fo, "cli_process_tz_offset returned FixedOffset {fo:?}, expected {out_fo:?}");
         }
         Err(err) => {
-            panic!("Error {}", err);
+            panic!("Error {err}");
         }
     }
 }
@@ -730,10 +730,10 @@ fn test_unescape_str(
             assert_eq!(actual_s, expect_s, "\nExpected {:?}\nActual   {:?}\n", expect_s, actual_s);
         }
         (Ok(actual_s), None) => {
-            panic!("Expected Error, got {:?}", actual_s);
+            panic!("Expected Error, got {actual_s:?}");
         }
         (Err(err), Some(_)) => {
-            panic!("Got Error {:?}", err);
+            panic!("Got Error {err:?}");
         }
         (Err(_), None) => {}
     }
