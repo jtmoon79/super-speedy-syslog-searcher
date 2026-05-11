@@ -30,15 +30,15 @@ File: ./logs/Debian11/user.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 24, miss 51, 32.0%
       caching: LineReader::find_line() LRU cache                   : hit  1, miss 52,  1.9%, put 51
-      copying: SyslineReader::get_boxptrs()                        : sgl 57, dbl   3, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 56, dbl   3, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 26,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 25, miss 26, 49.0%, put 26
       caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 51,  0.0%, put 51
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 24, miss 27, 47.1%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss 30,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 30,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 60
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 27, miss 32
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 34
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
 Datetime printed last  : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)

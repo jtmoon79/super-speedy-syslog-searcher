@@ -30,15 +30,15 @@ File: ./logs/RockyLinux9/secure
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  544, miss 1093, 33.2%
       caching: LineReader::find_line() LRU cache                   : hit    2, miss 1093,  0.2%, put 1092
-      copying: SyslineReader::get_boxptrs()                        : sgl  548, dbl    32, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl  547, dbl    32, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss  546,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  545, miss  546, 50.0%, put  546
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss 1091,  0.0%, put 1091
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  544, miss  549, 49.8%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit    0, miss  550,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss   30,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 580
+      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss   29,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  547, miss   32
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 34
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-08 06:18:38 +08:00 (2022-10-07 22:18:38.000000 +00:00)
 Datetime printed last  : 2022-10-08 22:31:17 +08:00 (2022-10-08 14:31:17.000000 +00:00)

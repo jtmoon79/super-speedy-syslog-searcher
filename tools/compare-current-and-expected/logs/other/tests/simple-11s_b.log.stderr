@@ -38,7 +38,7 @@ File: ./logs/other/tests/simple-11s_b.log
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss  92,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 102
+      process: regex captures                                      : hit   2, miss 100
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 101
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.000000 +00:00)
 Datetime printed last  : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.000000 +00:00)

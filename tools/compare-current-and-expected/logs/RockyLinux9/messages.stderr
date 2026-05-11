@@ -10,8 +10,8 @@ File: ./logs/RockyLinux9/messages
       flushes       : 2432
       lines         : 2432
       syslines      : 2432
-      datetime first: 2002-10-08 06:18:20 +08:00 (2002-10-07 22:18:20.000000 +00:00)
-      datetime last : 2002-10-08 22:26:52 +08:00 (2002-10-08 14:26:52.000000 +00:00)
+      datetime first: 2022-10-08 06:18:20 +08:00 (2022-10-07 22:18:20.000000 +00:00)
+      datetime last : 2022-10-08 22:26:52 +08:00 (2022-10-08 14:26:52.000000 +00:00)
   Processed:
       file size     : 256136 (0x3E888) (bytes)
       bytes         : 256136 (0x3E888)
@@ -23,22 +23,22 @@ File: ./logs/RockyLinux9/messages
       line parts    : 3427
       syslines      : 2432
       syslines high : 2432
-      datetime first     : 2002-10-08 06:18:20 +08:00 (2002-10-07 22:18:20.000000 +00:00)
-      datetime last      : 2002-10-08 22:26:52 +08:00 (2002-10-08 14:26:52.000000 +00:00)
+      datetime first     : 2022-10-08 06:18:20 +08:00 (2022-10-07 22:18:20.000000 +00:00)
+      datetime last      : 2022-10-08 22:26:52 +08:00 (2022-10-08 14:26:52.000000 +00:00)
   Parsers:
-                   datetime format missing year; estimated year of last sysline 2002
+                   datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 2431, miss 4866, 33.3%
       caching: LineReader::find_line() LRU cache                   : hit    1, miss 4866,  0.0%, put 4864
-      copying: SyslineReader::get_boxptrs()                        : sgl 2284, dbl   182, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 2283, dbl   182, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss 2433,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 2432, miss 2433, 50.0%, put 2432
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss 4865,  0.0%, put 4864
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 2431, miss 2433, 50.0%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit    0, miss 2436,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss   30,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 2466
+      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss   29,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 2433, miss   32
   Processing Drops:
 
 Program Summary:
@@ -57,11 +57,11 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 34
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first : 2002-10-08 06:18:20 +08:00 (2002-10-07 22:18:20.000000 +00:00)
-Datetime printed last  : 2002-10-08 22:26:52 +08:00 (2002-10-08 14:26:52.000000 +00:00)
+Datetime printed first : 2022-10-08 06:18:20 +08:00 (2022-10-07 22:18:20.000000 +00:00)
+Datetime printed last  : 2022-10-08 22:26:52 +08:00 (2022-10-08 14:26:52.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
 Channel Receive ok     : 2434
 Channel Receive err    : 0

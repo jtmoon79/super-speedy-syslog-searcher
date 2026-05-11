@@ -37,7 +37,7 @@ File: ./logs/Debian9/samba/log.nmbd.1
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   7, miss   7, 50.0%, largest skipped 28
       optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 184,  1.1%, largest skipped 24
-      process: regex captures attempted                            : 191
+      process: regex captures                                      : hit   6, miss 185
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 166
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-02 04:48:05 +08:00 (2020-03-01 20:48:05.426000 +00:00)
 Datetime printed last  : 2020-03-02 05:13:26 +08:00 (2020-03-01 21:13:26.426000 +00:00)

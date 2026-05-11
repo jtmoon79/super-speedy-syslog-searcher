@@ -37,7 +37,7 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 128,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 138
+      process: regex captures                                      : hit   2, miss 136
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 137
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
 Datetime printed last  : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)

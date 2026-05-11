@@ -37,7 +37,7 @@ File: ./logs/synology-DS6/upstart/cgi-keygen.log
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   7, miss  11, 38.9%, largest skipped 28
       optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 235,  0.8%, largest skipped 24
-      process: regex captures attempted                            : 246
+      process: regex captures                                      : hit   5, miss 241
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 167
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
 Datetime printed last  : 2016-12-05 20:32:15 -08:00 (2016-12-06 04:32:15.000000 +00:00)

@@ -29,15 +29,15 @@ File: ./logs/synology-DS6/synoindex.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 17,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  9, miss 10, 47.4%, put  8
-      copying: SyslineReader::get_boxptrs()                        : sgl 84, dbl   0, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 83, dbl   0, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  9,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  9,  0.0%, put  8
       caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  9,  0.0%, put  8
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  8, miss  8, 50.0%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 80,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 84
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 79,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  8, miss 75
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 77
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2018-12-06 02:30:31 -08:00 (2018-12-06 10:30:31.000000 +00:00)
 Datetime printed last  : 2018-12-06 04:15:48 -08:00 (2018-12-06 12:15:48.000000 +00:00)

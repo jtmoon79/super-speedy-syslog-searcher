@@ -36,8 +36,8 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  16, miss  19, 45.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  14, miss   4, 77.8%, largest skipped 40
-      optimize:SyslineReader::ezcheck12d2                          : hit 162, miss  88, 64.8%, largest skipped 40
-      process: regex captures attempted                            : 92
+      optimize:SyslineReader::ezcheck12d2                          : hit 163, miss  87, 65.2%, largest skipped 40
+      process: regex captures                                      : hit  17, miss  74
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 76
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
 Datetime printed last  : 2017-02-04 23:07:11 -08:00 (2017-02-05 07:07:11.000000 +00:00)

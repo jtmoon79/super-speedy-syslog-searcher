@@ -36,8 +36,8 @@ File: ./logs/Debian9/samba/log.smbd.1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  14, miss   0, 100.0%, largest skipped 74
-      optimize:SyslineReader::ezcheck12d2                          : hit 161, miss   6, 96.4%, largest skipped 74
-      process: regex captures attempted                            : 6
+      optimize:SyslineReader::ezcheck12d2                          : hit 162, miss   5, 97.0%, largest skipped 74
+      process: regex captures                                      : hit   1, miss   4
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 6
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-02-06 03:17:33 +08:00 (2020-02-05 19:17:33.158300 +00:00)
 Datetime printed last  : 2020-02-06 03:17:33 +08:00 (2020-02-05 19:17:33.158300 +00:00)

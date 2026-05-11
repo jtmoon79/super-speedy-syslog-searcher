@@ -33,7 +33,7 @@ File: ./logs/other/tests/dtf9b-12-leapday.log
       optimize:SyslineReader::ezcheck12                            : hit 0, miss 0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit 0, miss 0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit 0, miss 0,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 0
+      process: regex captures                                      : hit 0, miss 0
   Processing Drops:
 
 Program Summary:
@@ -52,8 +52,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 0
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :

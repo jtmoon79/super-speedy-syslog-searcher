@@ -37,7 +37,7 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  18,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 285,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 303
+      process: regex captures                                      : hit   3, miss 300
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 175
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
 Datetime printed last  : 2022-09-14 12:38:46 +08:00 (2022-09-14 04:38:46.000000 +00:00)

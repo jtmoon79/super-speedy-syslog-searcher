@@ -37,7 +37,7 @@ File: ./logs/Orbi/tmp/auto_fw_upgrade_log
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 135,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 145
+      process: regex captures                                      : hit   8, miss 137
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 138
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-04-04 16:37:20 +08:00 (2022-04-04 08:37:20.000000 +00:00)
 Datetime printed last  : 2022-04-04 23:37:16 +08:00 (2022-04-04 15:37:16.000000 +00:00)

@@ -30,15 +30,15 @@ File: ./logs/other/tests/dtf2-2.log.xz
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  1, miss  4, 20.0%
       caching: LineReader::find_line() LRU cache                   : hit  2, miss  4, 33.3%, put  3
-      copying: SyslineReader::get_boxptrs()                        : sgl 81, dbl   0, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 80, dbl   0, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  2
       caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  2, 33.3%, put  2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  1, miss  3, 25.0%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 77,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 81
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 76,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  2, miss 78
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 80
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
 Datetime printed last  : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)

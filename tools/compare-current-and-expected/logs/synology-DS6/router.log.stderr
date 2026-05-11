@@ -37,7 +37,7 @@ File: ./logs/synology-DS6/router.log
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 156
+      process: regex captures                                      : hit  19, miss 137
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 138
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2016-12-05 21:12:04 +08:00 (2016-12-05 13:12:04.000000 +00:00)
 Datetime printed last  : 2017-01-03 23:56:59 +08:00 (2017-01-03 15:56:59.000000 +00:00)

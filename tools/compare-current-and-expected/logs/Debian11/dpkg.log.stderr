@@ -29,15 +29,15 @@ File: ./logs/Debian11/dpkg.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  96,  1.0%
       caching: LineReader::find_line() LRU cache                   : hit  48, miss  50, 49.0%, put  49
-      copying: SyslineReader::get_boxptrs()                        : sgl 117, dbl   10, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 116, dbl   10, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  48,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  48,  0.0%, put  48
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  48,  2.0%, put  48
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  47, miss  49, 49.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 123,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 127
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 122,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  48, miss  78
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 80
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
 Datetime printed last  : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)

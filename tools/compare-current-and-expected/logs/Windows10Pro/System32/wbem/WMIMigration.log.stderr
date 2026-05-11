@@ -29,15 +29,15 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  2, miss 81,  2.4%
       caching: LineReader::find_line() LRU cache                   : hit 40, miss 43, 48.2%, put 42
-      copying: SyslineReader::get_boxptrs()                        : sgl 54, dbl  12, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 53, dbl  12, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 40,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 40,  0.0%, put 40
       caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 40,  2.4%, put 40
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 39, miss 42, 48.1%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  2,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 64,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 66
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 63,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 40, miss 25
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 27
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
 Datetime printed last  : 2020-05-27 12:25:43 +08:00 (2020-05-27 04:25:43.087700 +00:00)

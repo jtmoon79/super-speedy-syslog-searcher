@@ -29,15 +29,15 @@ File: ./logs/Debian9/aptitude.4
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  37,  5.1%
       caching: LineReader::find_line() LRU cache                   : hit   9, miss  21, 30.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 750, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 753, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  26,  3.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  42, miss  18, 70.0%, largest skipped 69
-      optimize:SyslineReader::ezcheck12d2                          : hit 491, miss 201, 71.0%, largest skipped 69
-      process: regex captures attempted                            : 219
+      optimize:SyslineReader::ezcheck12d2                          : hit 494, miss 201, 71.1%, largest skipped 69
+      process: regex captures                                      : hit   1, miss 218
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 175
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-09-12 22:23:40 -07:00 (2019-09-13 05:23:40.000000 +00:00)
 Datetime printed last  : 2019-09-12 22:23:40 -07:00 (2019-09-13 05:23:40.000000 +00:00)

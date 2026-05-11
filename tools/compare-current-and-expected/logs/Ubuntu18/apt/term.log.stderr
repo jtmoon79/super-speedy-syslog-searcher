@@ -36,8 +36,8 @@ File: ./logs/Ubuntu18/apt/term.log
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  22,  4.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  14, miss   2, 87.5%, largest skipped 58
-      optimize:SyslineReader::ezcheck12d2                          : hit 168, miss  33, 83.6%, largest skipped 58
-      process: regex captures attempted                            : 35
+      optimize:SyslineReader::ezcheck12d2                          : hit 169, miss  32, 84.1%, largest skipped 58
+      process: regex captures                                      : hit   1, miss  33
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 25
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)
 Datetime printed last  : 2020-03-05 11:56:54 +08:00 (2020-03-05 03:56:54.000000 +00:00)

@@ -36,8 +36,8 @@ File: ./logs/Ubuntu18/samba/log
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  19, 20.8%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  14, miss   0, 100.0%, largest skipped 31
-      optimize:SyslineReader::ezcheck12d2                          : hit 171, miss  13, 92.9%, largest skipped 39
-      process: regex captures attempted                            : 13
+      optimize:SyslineReader::ezcheck12d2                          : hit 172, miss  12, 93.5%, largest skipped 39
+      process: regex captures                                      : hit   6, miss   6
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 6
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-05 12:16:44 +08:00 (2020-03-05 04:16:44.434700 +00:00)
 Datetime printed last  : 2020-03-05 12:16:44 +08:00 (2020-03-05 04:16:44.434700 +00:00)

@@ -28,6 +28,8 @@
 ./logs/Debian11/messages
 ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
 ./logs/Debian11/user.log
+./logs/Debian13/RISC-V/lastlog
+./logs/Debian13/RISC-V/utmp
 ./logs/Debian9/alternatives.log
 ./logs/Debian9/apport.log.1
 ./logs/Debian9/apt/eipp.log
@@ -170,6 +172,7 @@
 ./logs/other/tests/dtf3-1.log
 ./logs/other/tests/dtf3-2a.log
 ./logs/other/tests/dtf3-2b.log
+./logs/other/tests/dtf3-3a-invalid-UTF8.log
 ./logs/other/tests/dtf4-2a.log
 ./logs/other/tests/dtf4-2b.log
 ./logs/other/tests/dtf5-1.log

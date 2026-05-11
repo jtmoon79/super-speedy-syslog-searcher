@@ -37,7 +37,7 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  18,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   4, miss 246,  1.6%, largest skipped 49
-      process: regex captures attempted                            : 264
+      process: regex captures                                      : hit   7, miss 257
   Processing Drops:
 
 Program Summary:
@@ -56,8 +56,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 175
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
 Datetime printed last  : 2019-06-25 01:46:29 +08:00 (2019-06-24 17:46:29.000000 +00:00)

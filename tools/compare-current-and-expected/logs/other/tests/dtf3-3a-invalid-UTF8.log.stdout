@@ -1,0 +1,10 @@
+./logs/other/tests/dtf3-3a-invalid-UTF8.log┋19991231T160003.003000000┋2000-01-01 00:00:03.003 [dtf3-2b] valid chars
+⇳
+./logs/other/tests/dtf3-3a-invalid-UTF8.log┋19991231T160004.004000000┋2000-01-01 00:00:04.004 [dtf3-2b] invalid UTF8 between brackets [��] (two bytes)
+⇳
+./logs/other/tests/dtf3-3a-invalid-UTF8.log┋19991231T160005.005000000┋2000-01-01 00:00:05.005 [dtf3-2b] invalid UTF8 between brackets [�] (one byte)
+⇳
+./logs/other/tests/dtf3-3a-invalid-UTF8.log┋19991231T160006.006000000┋2000-01-01 00:00:06.006 [dtf3-2b] invalid UTF8 between brackets [����] (six bytes)
+⇳
+./logs/other/tests/dtf3-3a-invalid-UTF8.log┋19991231T160007.007000000┋2000-01-01 00:00:07.007 [dtf3-2b] valid chars⇳
+

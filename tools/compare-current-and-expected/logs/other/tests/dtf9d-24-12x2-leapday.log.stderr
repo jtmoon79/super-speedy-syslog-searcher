@@ -30,15 +30,15 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 23, miss 51, 31.1%
       caching: LineReader::find_line() LRU cache                   : hit  4, miss 51,  7.3%, put 50
-      copying: SyslineReader::get_boxptrs()                        : sgl 58, dbl   3, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 57, dbl   3, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 25,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 23, miss 25, 47.9%, put 25
       caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 48,  0.0%, put 48
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 22, miss 31, 41.5%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss 31,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 30,  0.0%, largest skipped 0
-      process: regex captures attempted                            : 61
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 29,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 27, miss 33
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 33
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2021-01-01 01:00:00 -09:00 (2021-01-01 10:00:00.000000 +00:00)
 Datetime printed last  : 2022-12-12 12:00:00 -09:00 (2022-12-12 21:00:00.000000 +00:00)

@@ -37,8 +37,8 @@ File: ./logs/FreeBSD13.1/devd.log
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   8, miss  32, 20.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  32, miss  14, 69.6%, largest skipped 8
-      optimize:SyslineReader::ezcheck12d2                          : hit 161, miss  30, 84.3%, largest skipped 8
-      process: regex captures attempted                            : 44
+      optimize:SyslineReader::ezcheck12d2                          : hit 162, miss  29, 84.8%, largest skipped 8
+      process: regex captures                                      : hit  11, miss  32
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 175
-Regex patterns compiled: 34
+Regex patterns known   : 176
+Regex patterns compiled: 176
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
 Datetime printed last  : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
