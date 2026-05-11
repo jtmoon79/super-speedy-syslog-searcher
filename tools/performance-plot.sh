@@ -1,29 +1,35 @@
 #!/usr/bin/env bash
 #
 # gnuplot `s4` performance when processing increasing number of log files, specifically Max RSS and mean time.
-#
-# user must set:
-#   FILE         - path to a log file to be used for testing
-#   FILE_NUM     - maximum number of files to test (default: 100)
-# user may set:
-#   S4_PROGRAM   - path to the `s4` binary to test (default: ./target/release/s4)
-#   DIROUT       - output directory for markdown and SVG files (default: current directory)
-#   PYTHON       - python3 interpreter (default: python3)
-# requires:
-#   hyperfine
-#   jq
-#   gnuplot
-#   python3
-#   xmllint
-# usage:
-#   FILE=path/to/log FILE_NUM=N ./tools/performance-plot.sh [<s4-args>]
-# example:
-#   FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FILE_NUM=200 ./tools/performance-plot.sh --color=never
-# outputs:
-#   performance-plot-data__<log-file-name>__<FILE_NUM>.md
-#   performance-plot-rss__<log-file-name>__<FILE_NUM>.svg
-#   performance-plot-time__<log-file-name>__<FILE_NUM>.svg
-#
+
+if [[ "${1-}" = "-h" || "${1-}" = "--help" || "${1-}" = "-?" ]]; then
+    echo "\
+Usage: ${0} [s4-args-for-all-runs]
+
+user must set:
+  FILE         - path to a log file to be used for testing (default: ./tools/compare-log-mergers/gen-5000-1-facesA.log)
+  FILE_NUM     - maximum number of files to test (default: 100)
+user may set:
+  S4_PROGRAM   - path to the \`s4\` binary to test (default: ./target/release/s4)
+  DIROUT       - output directory for markdown and SVG files (default: current directory)
+  PYTHON       - python3 interpreter (default: python3)
+requires:
+  hyperfine
+  jq
+  gnuplot
+  python3
+  xmllint
+usage:
+  FILE=path/to/log FILE_NUM=N ./tools/performance-plot.sh [<s4-args>]
+example:
+  FILE=./tools/compare-log-mergers/gen-5000-1-facesA.log FILE_NUM=200 ./tools/performance-plot.sh --color=never
+outputs:
+  performance-plot-data__<log-file-name>__<FILE_NUM>.md
+  performance-plot-rss__<log-file-name>__<FILE_NUM>.svg
+  performance-plot-time__<log-file-name>__<FILE_NUM>.svg
+" >&2
+    exit 0
+fi
 
 set -euo pipefail
 
