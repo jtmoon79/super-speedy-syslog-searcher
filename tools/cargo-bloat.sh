@@ -24,11 +24,11 @@ export OUT="${DIROUT}/bloat.txt"
 export OUT="${DIROUT}/bloat-s4lib.txt"
 (
     set -x
-    cargo bloat --locked --release --all-features --wide -n 9999 | grep -Ee '^ File |  s4lib '
+    cargo bloat --locked --release --all-features --wide -n 0 | grep -Ee '^ File |  s4lib '
 ) | tee "${OUT}"
 
 export OUT="${DIROUT}/bloat-crates.txt"
 (
     set -x
-    cargo bloat --locked --release --all-features --wide --crates "${@}"
+    cargo bloat --locked --release --all-features --wide -n 200 --crates "${@}"
 ) | tee "${OUT}"
