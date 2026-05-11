@@ -1,0 +1,3 @@
+<29>2023-01-01T13:15:24-08:00 (HOST) (192.168.0.1) [none] [-]: These rsyslog messages are printed with rsyslog `%TIMESTAMP:::date-rfc3339%`
+<29>2023-01-01T14:21:13-08:00 (HOST) (192.168.0.1) [netifd: daemon:notice] [-]:  Network device 'eth0' link is up
+<14>2023-01-01T15:00:36-08:00 (HOST) (192.168.0.1) [dropbear[23732]: authpriv:info] [23732]:  Exit (root): Disconnect received

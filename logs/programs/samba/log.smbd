@@ -1,0 +1,11 @@
+[2026/04/14 21:11:36.252840,  2] ../../source3/lib/tallocmsg.c:84(register_msg_pool_usage)
+  Registered MSG_REQ_POOL_USAGE
+[2026/04/14 21:11:36.258928,  2] ../../source3/smbd/server.c:808(remove_child_pid)
+  Could not find child 3174 -- ignoring
+[2026/04/14 21:12:06.463657,  1] ../../source3/smbd/server.c:1415(smbd_parent_sig_hup_handler)
+  parent: Reloading services after SIGHUP
+[2026/04/14 21:12:06.465165,  2] ../../source3/param/loadparm.c:2864(lp_do_section)
+  Processing section "[dietpi]"
+[2026/04/14 21:12:06.465377,  2] ../../source3/param/loadparm.c:2864(lp_do_section)
+  Processing section "[audiobooks]"
+

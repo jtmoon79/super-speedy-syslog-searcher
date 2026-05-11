@@ -517,6 +517,23 @@
 ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old|2022-05-10 13:24:56
 ./logs/Orbi/var/log/soapclient/soap_agent|2022-05-10 15:09:27
 ./logs/Orbi/var/log/soapclient/soap_agent.old|2022-05-01 15:19:36
+./logs/other/test_cases/A1.log|2000-01-01 00:00:05.000000000 -0800
+./logs/other/test_cases/A2.log|2000-01-01 00:00:05.000000000 -0800
+./logs/other/test_cases/C_dt6.log|2000-01-01 00:00:05.000000000 -0800
+./logs/other/test_cases/E.log|2001-03-01 00:00:01.000000000 -0800
+./logs/other/test_cases/F.log|2001-02-01 00:00:01.000000000 -0800
+./logs/other/test_cases/G_dt4.log|2001-05-01 00:00:03.000000000 -0700
+./logs/other/test_cases/NTF1S_A.log|2000-01-01 12:34:56.000000000 -0800
+./logs/other/test_cases/NTF1S_B.log|2000-01-01 12:34:56.000000000 -0800
+./logs/other/test_cases/NTF26.log|2020-01-01 00:00:26.000000000 -0800
+./logs/other/test_cases/NTF2S_A.log|2000-01-01 12:34:56.000000000 -0800
+./logs/other/test_cases/NTF3.log|2000-02-01 18:00:00.000000000 -0800
+./logs/other/test_cases/NTF3_syslogprocessor.log|2026-04-26 17:22:55.035518625 -0700
+./logs/other/test_cases/NTF5.log|2020-01-13 10:03:06.000000000 -0800
+./logs/other/test_cases/NTF5_syslogprocessor.log|2000-05-05 05:00:55.000000000 -0700
+./logs/other/test_cases/NTF5X4.log|2000-05-15 05:00:55.000000000 -0700
+./logs/other/test_cases/NTF7_2.log|2000-03-13 03:33:23.000000000 -0800
+./logs/other/test_cases/NTF9.log|2000-11-21 05:39:31 -0700
 ./logs/other/tests/basic-basic-dt10-repeats.log|2000-01-01 00:00:10
 ./logs/other/tests/basic-basic-dt10-repeats-longlines.log|2000-01-01 00:00:10.223
 ./logs/other/tests/basic-basic-dt20.log|2000-01-01 00:00:20
@@ -931,6 +948,10 @@
 ./logs/programs/proftpd/controls.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/proftpd.log|2020-10-03 11:26:13
 ./logs/programs/proftpd/xferlog|2020-10-03 11:26:13
+./logs/programs/rsyslog/rsyslog.1.log|2023-01-01 15:00:36 -08:00
+./logs/programs/samba/log.192.168.1.90|2026-04-14 21:58:47.225843 -0700
+./logs/programs/samba/log.nmbd|2026-04-14 21:56:29.522660 -0700
+./logs/programs/samba/log.smbd|2026/04/14 21:12:06.465377 -0700
 ./logs/programs/strace/strace-nikttt_ls.out|2024-05-27 17:32:00.793030709 -0700
 ./logs/programs/strace/strace-ttt_ls.out|2024-05-27 17:09:21.664939227 -0700
 ./logs/programs/strace/strace-unix,ms_ls.out|2024-05-27 17:09:56.914220618 -0700

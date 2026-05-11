@@ -1,0 +1,10 @@
+[2026/04/14 21:58:47.225489,  3] ../../auth/gensec/gensec_start.c:987(gensec_register)
+  GENSEC backend 'gssapi_spnego' registered
+[2026/04/14 21:58:47.225713,  3] ../../auth/gensec/gensec_start.c:987(gensec_register)
+  GENSEC backend 'gssapi_krb5' registered
+[2026/04/14 21:58:47.225761,  3] ../../auth/gensec/gensec_start.c:987(gensec_register)
+  GENSEC backend 'gssapi_krb5_sasl' registered
+[2026/04/14 21:58:47.225794,  3] ../../auth/gensec/gensec_start.c:987(gensec_register)
+  GENSEC backend 'spnego' registered
+[2026/04/14 21:58:47.225843,  3] ../../auth/gensec/gensec_start.c:987(gensec_register)
+  GENSEC backend 'schannel' registered
