@@ -28,17 +28,58 @@ fi
 
 sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
+mkdir -vp "${DIROUT}"
+
+# prebuilds in parallel
 (
+    declare -a PIDs=()
+
     set -x
-    cargo build --locked --profile release
-    cargo build --locked --profile jemalloc --features jemalloc
-    cargo build --locked --profile mimalloc --features mimalloc
-    cargo build --locked --profile rpmalloc --features rpmalloc
-    cargo build --locked --profile tcmalloc --features tcmalloc
+    cargo build --locked &
+    PIDs+=($!)
+    cargo build --locked --profile release &
+    PIDs+=($!)
+    cargo build --locked --profile jemalloc --features jemalloc &
+    PIDs+=($!)
+    cargo build --locked --profile mimalloc --features mimalloc &
+    PIDs+=($!)
+    cargo build  --locked --profile alloc_tracker --features alloc_tracker &
+    PIDs+=($!)
+
+    wait ${PIDs[@]}
+
+    ./target/debug/s4 --version
+    ./target/release/s4 --version
+    ./target/jemalloc/s4 --version
+    ./target/mimalloc/s4 --version
+    ./target/alloc_tracker/s4 --version
+)
+
+# prebuilds in parallel
+(
+    declare -a PIDs=()
+
+    set -x
+    cargo build --locked --profile rpmalloc --features rpmalloc &
+    PIDs+=($!)
+    cargo build --locked --profile tcmalloc --features tcmalloc &
+    PIDs+=($!)
+    RUSTFLAGS=-g cargo build --locked --profile flamegraph &
+    PIDs+=($!)
+    RUSTFLAGS=-g cargo build --locked --profile valgrind &
+    PIDs+=($!)
+
+    wait ${PIDs[@]}
+
+    ./target/rpmalloc/s4 --version
+    ./target/tcmalloc/s4 --version
+    ./target/flamegraph/s4 --version
+    ./target/valgrind/s4 --version
 )
 
 (
     set -x
+    export RUST_MIN_STACK=50000000  # 50 MB
     ./tools/s4-alloc_trackers.sh
 )
 
@@ -49,7 +90,6 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
 (
     set -x
-    RUSTFLAGS=-g cargo build --profile flamegraph
     ./tools/flamegraphs.sh
 )
 
@@ -60,12 +100,11 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
 (
     set -x
-    ./tools/osv-scanner.sh --format=markdown --output="${DIROUT}/osv-scanner.md"
-)
+    ./tools/osv-scanner.sh --format=markdown --output-file="${DIROUT}/osv-scanner.md"
+) || true
 
 (
     set -x
-    RUSTFLAGS=-g cargo build --profile valgrind
     ./tools/valgrind-callgrind.sh > "${DIROUT}/callgrind.txt"
 )
 rm -v "${DIROUT}/callgrind.out" "${DIROUT}/callgrind.dot" || true
