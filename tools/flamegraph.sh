@@ -40,6 +40,7 @@ export GIT_PAGER=
 # at an unusual path not in the environment PATH.
 # the perf installed to `/usr/bin/perf` is often a stub.
 # print the full path of perf.
+# TODO: move `perf_path` to a sourced `common.sh`
 function perf_path() {
     local perf_path_candidate
     for perf_path_candidate in \
