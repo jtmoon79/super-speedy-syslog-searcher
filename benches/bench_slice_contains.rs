@@ -127,28 +127,28 @@ fn X_2_custom3_contains_notfound() {
 fn X_2_unroll_found_200() {
     let slice_ = &B200[0..];
     black_box(slice_);
-    assert!(slice_contains_X_2_unroll(slice_, &SEARCH12));
+    assert!(slice_contains_X_2_unroll(slice_, SEARCH12));
 }
 
 #[inline(never)]
 fn X_2_unroll_found_80() {
     let slice_ = &B200[0..80];
     black_box(slice_);
-    assert!(slice_contains_X_2_unroll(slice_, &SEARCH12));
+    assert!(slice_contains_X_2_unroll(slice_, SEARCH12));
 }
 
 #[inline(never)]
 fn X_2_unroll_notfound_200() {
     let slice_ = &B200[0..];
     black_box(slice_);
-    assert!(!slice_contains_X_2_unroll(slice_, &SEARCHXY));
+    assert!(!slice_contains_X_2_unroll(slice_, SEARCHXY));
 }
 
 #[inline(never)]
 fn X_2_unroll_notfound_80() {
     let slice_ = &B200[0..80];
     black_box(slice_);
-    assert!(!slice_contains_X_2_unroll(slice_, &SEARCHXY));
+    assert!(!slice_contains_X_2_unroll(slice_, SEARCHXY));
 }
 
 #[inline(never)]
@@ -156,7 +156,7 @@ fn X_2_unroll_notfound_80() {
 fn X_2_jetscii_found() {
     let slice_ = &B200[0..];
     black_box(slice_);
-    assert!(slice_contains_X_2_jetscii(slice_, &SEARCH12));
+    assert!(slice_contains_X_2_jetscii(slice_, SEARCH12));
 }
 
 #[inline(never)]
@@ -164,7 +164,7 @@ fn X_2_jetscii_found() {
 fn X_2_jetscii_notfound() {
     let slice_ = &B200[0..];
     black_box(slice_);
-    assert!(!slice_contains_X_2_jetscii(slice_, &SEARCHXY));
+    assert!(!slice_contains_X_2_jetscii(slice_, SEARCHXY));
 }
 
 #[inline(never)]
@@ -172,7 +172,7 @@ fn X_2_jetscii_notfound() {
 fn X_2_memchr_found() {
     let slice_ = &B200[0..];
     black_box(slice_);
-    assert!(slice_contains_X_2_memchr(slice_, &SEARCH12));
+    assert!(slice_contains_X_2_memchr(slice_, SEARCH12));
 }
 
 #[inline(never)]
@@ -180,7 +180,7 @@ fn X_2_memchr_found() {
 fn X_2_memchr_notfound() {
     let slice_ = &B200[0..];
     black_box(slice_);
-    assert!(!slice_contains_X_2_memchr(slice_, &SEARCHXY));
+    assert!(!slice_contains_X_2_memchr(slice_, SEARCHXY));
 }
 
 #[inline(never)]
@@ -188,7 +188,7 @@ fn X_2_memchr_notfound() {
 fn X_2_stringzilla_found() {
     let slice_ = &B200[0..];
     black_box(slice_);
-    assert!(slice_contains_X_2_stringzilla(slice_, &SEARCH12));
+    assert!(slice_contains_X_2_stringzilla(slice_, SEARCH12));
 }
 
 #[inline(never)]
@@ -196,7 +196,7 @@ fn X_2_stringzilla_found() {
 fn X_2_stringzilla_notfound() {
     let slice_ = &B200[0..];
     black_box(slice_);
-    assert!(!slice_contains_X_2_stringzilla(slice_, &SEARCHXY));
+    assert!(!slice_contains_X_2_stringzilla(slice_, SEARCHXY));
 }
 
 #[inline(never)]
