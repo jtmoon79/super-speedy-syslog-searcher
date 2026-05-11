@@ -32,21 +32,22 @@ declare -ar S4_TEST_FILES=(
 
 set -x
 
-do_clean=true
+# primitive argument parsing
+do_clean=false
 do_build=true
 for arg in "${@}"; do
-    if [[ "${arg}" == "--skip-clean" ]]; then
-        do_clean=false
+    if [[ "${arg}" == "--clean" ]]; then
+        do_clean=true
     elif [[ "${arg}" == "--skip-build" ]]; then
         do_build=false
-    elif [[ "${arg}" == "--help" ]]; then
-        echo "Usage: ${0} [--skip-clean] [--skip-build]"
-        echo "    --skip-clean: skip 'cargo clean'"
+    elif [[ "${arg}" == "--help" || "${arg}" == "-h" || "${arg}" == "-?" ]]; then
+        echo "Usage: ${0} [--clean] [--skip-build]"
+        echo "    --clean: skip 'cargo clean'"
         echo "    --skip-build: skip 'cargo build' and related commands"
         exit 0
     else
         echo "Unknown argument: ${arg}" >&2
-        echo "Usage: ${0} [--skip-clean] [--skip-build]" >&2
+        echo "Usage: ${0} [--clean] [--skip-build]" >&2
         exit 1
     fi
 done
@@ -73,8 +74,6 @@ cargo check --all-targets
 cargo check --all-targets --release
 cargo clippy --no-deps --all-targets
 cargo bench --no-run --features bench_jetscii,bench_memchr,bench_stringzilla
-cargo build --profile flamegraph
-cargo build --profile valgrind
 cargo doc --locked --release --frozen --no-deps
 cargo publish --dry-run --allow-dirty
 "${S4R}" --venv
