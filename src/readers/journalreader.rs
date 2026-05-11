@@ -1001,7 +1001,7 @@ pub struct SummaryJournalReader {
 impl<'a> JournalReader {
     /// This many `JournalEntry` will be held in memory before any are
     /// sent to the main printing thread (unless there are fewer available).
-    pub const ENTRY_BUFFER_SZ: usize = 0x200 - 1;
+    pub const ENTRY_BUFFER_SZ: usize = 16;
 
     /// Create a new `JournalReader`.
     ///
