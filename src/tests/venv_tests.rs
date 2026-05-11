@@ -81,7 +81,7 @@ pub fn venv_setup() {
     assert!(create_result.is_ok(), "venv creation failed in venv_setup()");
 
     if let Err(err) = touch(venv_pmutex_ready.as_path()) {
-        panic!("failed to touch Ready pmutex file {:?} in venv_setup(); {}", venv_pmutex_ready, err);
+        panic!("failed to touch Ready pmutex file {venv_pmutex_ready:?} in venv_setup(); {err}");
     }
     def2o!("touched Ready pmutex file {:?}", venv_pmutex_ready);
 
