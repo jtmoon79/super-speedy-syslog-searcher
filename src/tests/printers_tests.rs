@@ -258,6 +258,7 @@ fn test_PrinterLogMessage_print_fixedstruct(
     expected_printed_bytes: usize,
     expected_flushed: usize,
 ) {
+    summary_stats_enable();
     let mut plm: PrinterLogMessage = new_PrinterLogMessage(
         colorchoice,
         color,
@@ -341,6 +342,7 @@ fn test_PrinterLogMessage_print_evtx(
     expected_printed_bytes: usize,
     expected_flushed: usize,
 ) {
+    summary_stats_enable();
     let mut plm = new_PrinterLogMessage(
         colorchoice,
         color,
@@ -408,6 +410,7 @@ fn test_PrinterLogMessage_print_journal(
     if !cfg!(target_os = "linux") {
         return;
     }
+    summary_stats_enable();
     load_library_systemd().is_ok();
     let mut plm = new_PrinterLogMessage(
         colorchoice,
@@ -473,6 +476,7 @@ fn test_PrinterLogMessage_print_journal(
 
 #[test]
 fn test_print_summary_empty() {
+    summary_stats_enable();
     let utc_ = Utc::now();
     let local_ = Local::now();
     print_summary(
