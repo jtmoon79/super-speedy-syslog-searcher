@@ -1,0 +1,79 @@
+[package]
+name = "ere_datetimes_impl"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+const-str = "=1.1.0"
+ere = { path = "../ere" }
+ere_automator_procmacro = { path = "../ere_automator_procmacro" }
+lazy_static = "=1.5.0"
+more-asserts = "=0.3.1"
+si_trace_print = "=0.3.12"
+
+[lib]
+path = "src/ere_datetimes_impl.rs"
+
+[build-dependencies]
+dotenv = "=0.15.0"
+
+# profiles for experiments with build settings + timings
+# for use with `cargo-build-profiles-timeout.sh`
+
+[profile.release_O0]
+inherits = "release"
+opt-level = 0
+
+[profile.release_O1]
+inherits = "release"
+opt-level = 1
+
+[profile.release_O2]
+inherits = "release"
+opt-level = 2
+
+[profile.release_O3]
+inherits = "release"
+opt-level = 3
+
+[profile.release_O1_cgu256_pa]
+inherits = "release"
+opt-level = 1
+codegen-units = 256
+panic = "abort"
+
+[profile.release_O2_cgu256_pa]
+inherits = "release"
+opt-level = 2
+codegen-units = 256
+panic = "abort"
+
+[profile.release_O3_cgu256_pa]
+inherits = "release"
+opt-level = 3
+codegen-units = 256
+panic = "abort"
+
+[profile.release_O0_cgu512_pa]
+inherits = "release"
+opt-level = 0
+codegen-units = 512
+panic = "abort"
+
+[profile.release_O1_cgu512_pa]
+inherits = "release"
+opt-level = 1
+codegen-units = 512
+panic = "abort"
+
+[profile.release_O2_cgu512_pa]
+inherits = "release"
+opt-level = 2
+codegen-units = 512
+panic = "abort"
+
+[profile.release_O3_cgu512_pa]
+inherits = "release"
+opt-level = 3
+codegen-units = 512
+panic = "abort"

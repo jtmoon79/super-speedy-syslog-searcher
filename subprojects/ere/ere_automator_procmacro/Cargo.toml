@@ -1,0 +1,22 @@
+# subprojects/ere/ere_automator_procmacro/Cargo.toml
+
+[package]
+name = "ere_automator_procmacro"
+version = "0.0.1"
+edition = "2024"
+
+[lib]
+proc-macro = true
+path = "src/ere_automator_procmacro.rs"
+
+[dependencies]
+const-str = "=1.1.0"
+ere = { path = "../ere", features = ["unstable-attr-regex"] }
+lazy_static = "=1.5.0"
+macro-string = "=0.2.0"
+proc-macro2 = { version = "=1.0.106", features = ["span-locations"] }
+quote = "=1.0.45"
+syn = { version = "=2.0.117", features = ["full", "parsing"] }
+
+[build-dependencies]
+dotenv = "=0.15.0"

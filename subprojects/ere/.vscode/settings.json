@@ -1,0 +1,15 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./ere/Cargo.toml",
+        "./ere_automator_impl/Cargo.toml",
+        "./ere_automator_procmacro/Cargo.toml",
+        "./ere_datetimes_impl/Cargo.toml",
+        "./ere_datetimes_impl/regex_gen/ere_regex_1/Cargo.toml",
+    ],
+    "explorer.excludeGitIgnore": true,
+    "files.eol": "\n",
+    "rust-analyzer.check.allTargets": null,
+    "rust-analyzer.server.extraEnv": {
+        "RUSTUP_TOOLCHAIN": "1.88.0"
+    },
+}
