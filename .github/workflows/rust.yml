@@ -617,7 +617,9 @@ jobs:
         run: |
           set -eux
           cargo install --locked flamegraph --version=${FLAMEGRAPH_VERSION}
-          RUSTFLAGS=-g cargo build --profile flamegraph
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
+          RUSTFLAGS=-g cargo build --locked --profile flamegraph
           export OUT="./flamegraph-dtf2-2.svg"
           export FREQ=1000
           # XXX: ignore failure of flamegraph.sh
