@@ -16,13 +16,13 @@ pub use ::termcolor::{
 };
 #[doc(hidden)]
 #[cfg(any(debug_assertions, test))]
-use ::utf8_iter::Utf8CharsEx;
+use ::utf8_iter::Utf8CharsEx; // provides `.chars()` on `&[u8]`
 
 #[cfg(test)]
 use crate::common::{
     FPath,
     FileOpenOptions,
-}; // provides `.chars()` on `&[u8]`
+};
 
 /// `d`ebug `e`println! an `err`or
 #[macro_export]
