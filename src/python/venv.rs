@@ -428,7 +428,7 @@ pub fn create() -> Result3E<()> {
             );
             e_err!("{}", err_msg);
             def1x!("{}", err_msg);
-            return Result3E::Err(Error::new(ErrorKind::Other, err_msg));
+            return Result3E::Err(Error::other(err_msg));
         }
     };
     eprintln!(
