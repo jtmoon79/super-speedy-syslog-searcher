@@ -1384,3 +1384,13 @@
 ./logs/Windows11Pro/Local/Packages/Spotify/spotifyWidget-2023-03-08_122410.log|2023-03-13T21:25:24.705Z
 ./logs/Windows11Pro/Temp/cv_debug.log|2024-03-22T21:45:54-0700
 ./logs/Windows11Pro/Temp/dd_BackgroundDownload_20240323123526.log|2024-03-23T12:36:10
+./tools/compare-log-mergers/gen-5000-1-facesA.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesB.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesC.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesD.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesE.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesF.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesG.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesH.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesI.log|2000-01-01T01:23:20+00:00
+./tools/compare-log-mergers/gen-5000-1-facesJ.log|2000-01-01T01:23:20+00:00
