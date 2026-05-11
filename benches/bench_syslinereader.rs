@@ -2,8 +2,9 @@
 
 //! Benchmark functions of `crate::readers::syslinereader::SyslineReader`
 
+use std::hint::black_box;
+
 use ::criterion::{
-    black_box,
     criterion_group,
     criterion_main,
     Criterion,
@@ -26,8 +27,8 @@ fn new_syslinereader(
 ) -> SyslineReader {
     let tz_offset: FixedOffset = FixedOffset::east_opt(0).unwrap();
     let sr = match SyslineReader::new(path.clone(), filetype, BLOCKSZ, tz_offset) {
-        | Result::Ok(val) => val,
-        | Result::Err(err) => {
+        Result::Ok(val) => val,
+        Result::Err(err) => {
             panic!("Sysline::new({:?}, {:?}, {:?}, {:?}) error {}", path, filetype, BLOCKSZ, tz_offset, err);
         }
     };

@@ -20,9 +20,10 @@
     non_snake_case
 )]
 
+use std::hint::black_box;
+
 use ::bstr::ByteSlice; // adds method `to_bstr` on some built-ins
 use ::criterion::{
-    black_box,
     criterion_group,
     criterion_main,
     Criterion,
