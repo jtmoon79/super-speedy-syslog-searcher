@@ -528,6 +528,8 @@
 ./logs/other/tests/basic-dt-u.log|2022-09-02 21:45:35.9541789060
 ./logs/other/tests/basic-dt-u-mixnl.log|2022-09-02 21:45:35.9541789060
 ./logs/other/tests/dtf-(dtf-11A_dtf13abcd).tar|2024-05-29 20:53:08 -0700
+./logs/other/tests/dtf10.log|2000-01-05 00:00:05.567890000 -0800
+./logs/other/tests/dtf1a.log|2000-01-01 00:00:00.000000000 -0800
 ./logs/other/tests/dtf10-10a.log|2022-06-28 01:51:17+0400
 ./logs/other/tests/dtf10-10b.log|2021-06-28 01:51:17.3098147370
 ./logs/other/tests/dtf11-A.log|2000-12-31 00:00:00.3864301130
@@ -574,6 +576,7 @@
 ./logs/other/tests/dtf3-1.log|2000-01-01 00:00:00
 ./logs/other/tests/dtf3-2a.log|2000-01-01 00:00:00.301
 ./logs/other/tests/dtf3-2b.log|2022-09-02 21:45:35.9541789060
+./logs/other/tests/dtf3-3a-invalid-UTF8.log|1999-12-31 16:00:07.007 -0800
 ./logs/other/tests/dtf4-2a.log|2000-01-01 00:00:00.038
 ./logs/other/tests/dtf4-2b.log|2000-01-01 00:00:03.6341789060
 ./logs/other/tests/dtf5-1.log|2000-01-01 00:00:00
@@ -1002,7 +1005,7 @@
 ./logs/RockyLinux9/dnf.log|2022-10-08T22:26:52+0000
 ./logs/RockyLinux9/dnf.rpm.log|2022-10-08T22:26:52+0000
 ./logs/RockyLinux9/hawkey.log|2022-10-08 22:26:52+0000
-./logs/RockyLinux9/messages|2002-10-08T22:26:52+0000
+./logs/RockyLinux9/messages|2022-10-08T22:26:52+0000
 ./logs/RockyLinux9/messages-DropletAgent|2022-10-08 06:22:55 -00:00
 ./logs/RockyLinux9/nginx/access.log|2022-10-08 22:27:55 -00:00
 ./logs/RockyLinux9/nginx/error.log|2022-10-08 22:27:55 -00:00
