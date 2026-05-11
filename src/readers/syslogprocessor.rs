@@ -308,8 +308,8 @@ impl SyslogProcessor {
     ///
     /// Pretty sure this is smaller than the smallest possible timestamp that
     /// can be processed by the `DTPD!` in `DATETIME_PARSE_DATAS`.
-    /// In other words, a file that only has a datetimestamp followed by an
-    /// empty log message.
+    /// In other words, a file that only has a minimal datetimestamp followed by
+    /// an empty log message.
     ///
     /// It's okay if this is too small as the later processing stages will
     /// be certain of any possible datetime patterns.
@@ -772,8 +772,7 @@ impl SyslogProcessor {
                 Some(st) => st,
                 None => {
                     defx!("failed to calculate systemtime at uptime zero");
-                    return FileProcessingResultBlockZero::FileErrIo(std::io::Error::new(
-                        std::io::ErrorKind::Other,
+                    return FileProcessingResultBlockZero::FileErrIo(std::io::Error::other(
                         "failed to calculate systemtime at uptime zero",
                     ));
                 }
@@ -784,8 +783,7 @@ impl SyslogProcessor {
                 Some(st) => st,
                 None => {
                     defx!("failed to calculate systemtime at uptime zero");
-                    return FileProcessingResultBlockZero::FileErrIo(std::io::Error::new(
-                        std::io::ErrorKind::Other,
+                    return FileProcessingResultBlockZero::FileErrIo(std::io::Error::other(
                         "failed to calculate systemtime at uptime zero",
                     ));
                 }
@@ -1149,6 +1147,7 @@ impl SyslogProcessor {
             defx!("return FileErrNullBytes");
             return FileProcessingResultBlockZero::FileErrNullBytes;
         }
+        // TODO: [2026/04] do the same analyis for 0xFF
 
         defx!("return FileOk");
 
