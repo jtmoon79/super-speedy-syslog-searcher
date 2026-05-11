@@ -2022,9 +2022,9 @@ checksum = "1d674e81391d1e1ab681a28d99df07927c6d4aa5b027d7da16ba32d1d21ecd99"
 
 [[package]]
 name = "flamegraph"
-version = "0.6.11"
+version = "0.6.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08b6da442f70c790348380cd6d45f0bae93b76dfdd005d9bea8cabd49ebbc609"
+checksum = "3d1e5fb95bcb5462a81deff6e2daa609078e8d47812663e3f9b48d48a87a06bb"
 dependencies = [
  "anyhow",
  "blondie",
@@ -2034,6 +2034,7 @@ dependencies = [
  "indicatif 0.18.3",
  "inferno",
  "opener",
+ "quick-xml 0.39.4",
  "rustc-demangle",
  "shlex",
  "signal-hook",
@@ -3572,6 +3573,15 @@ name = "quick-xml"
 version = "0.38.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b66c2058c55a409d601666cffe35f04333cf1013010882cec174a7467cd4e21c"
+dependencies = [
+ "memchr",
+]
+
+[[package]]
+name = "quick-xml"
+version = "0.39.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cdcc8dd4e2f670d309a5f0e83fe36dfdc05af317008fea29144da1a2ac858e5e"
 dependencies = [
  "memchr",
 ]
