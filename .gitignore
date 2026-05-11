@@ -8,3 +8,6 @@ tools/compare-current-and-expected_current.stderr
 tools/compare-current-and-expected_current.stdout
 perf.data
 perf.data.old
+/subprojects/ere/ere/target/
+/subprojects/ere/ere_automator_procmacro/target/
+/subprojects/ere/ere_datetimes_impl/target/
