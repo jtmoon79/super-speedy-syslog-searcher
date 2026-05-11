@@ -1409,7 +1409,7 @@ impl BlockReader {
                         let _c_ex: char = _b_ex as char;
                         let _c: char = (*b_) as char;
                         def1o!("actual {0:3} (0x{0:02X}) {1:?}", b_, _c);
-                        def1o!("expect {0:3} (0x{0:02X}) {1:?}\n", _b_ex, _c_ex);
+                        def1o!("expect {0:3} (0x{0:02X}) {1:?}", _b_ex, _c_ex);
                     }
                 }
                 if buffer_ != XZ_MAGIC_BYTES {
