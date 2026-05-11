@@ -1,18 +1,18 @@
 [package]
 name = "ere-core"
 description = "A compile-time alternative for POSIX extended regular expressions."
-version = "0.2.4"
+version = "0.3.330"
 edition = "2021"
 license = "MIT"
 authors = ["2kai2kai2"]
 repository = "https://github.com/2kai2kai2/ere"
 
 [dependencies]
-proc-macro2 = "1.0.95"
-quote = "1.0.38"
-syn = { version = "2.0.96", features = ["parsing"] }
-thiserror = "2.0.11"
-utf8-ranges = "1.0.5"
+proc-macro2 = "=1.0.106"
+quote = "=1.0.45"
+syn = { version = "=2.0.117", features = ["parsing"] }
+thiserror = "=2.0.18"
+utf8-ranges = "=1.0.5"
 
 [features]
 unstable-attr-regex = []

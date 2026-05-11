@@ -907,7 +907,7 @@ dependencies = [
  "storyteller",
  "tabled",
  "terminal_size",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
  "toml_edit",
  "tracing",
  "tracing-appender",
@@ -971,7 +971,7 @@ dependencies = [
  "semver",
  "serde",
  "serde_json",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
@@ -985,7 +985,7 @@ dependencies = [
  "semver",
  "serde",
  "serde_json",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
@@ -1850,7 +1850,7 @@ checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
 name = "ere"
-version = "0.2.4"
+version = "0.3.333"
 dependencies = [
  "ere-core",
  "ere-macros",
@@ -1858,18 +1858,18 @@ dependencies = [
 
 [[package]]
 name = "ere-core"
-version = "0.2.4"
+version = "0.3.330"
 dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.117",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
  "utf8-ranges",
 ]
 
 [[package]]
 name = "ere-macros"
-version = "0.2.4"
+version = "0.3.331"
 dependencies = [
  "ere-core",
  "quote",
@@ -1878,7 +1878,7 @@ dependencies = [
 
 [[package]]
 name = "ere_automator_procmacro"
-version = "0.0.1"
+version = "0.3.334"
 dependencies = [
  "const-str",
  "dotenv",
@@ -1892,7 +1892,7 @@ dependencies = [
 
 [[package]]
 name = "ere_datetimes_impl"
-version = "0.0.1"
+version = "0.3.335"
 dependencies = [
  "const-str",
  "dotenv",
@@ -3695,7 +3695,7 @@ checksum = "a4e608c6638b9c18977b00b475ac1f28d14e84b27d8d42f70e0bf1e3dec127ac"
 dependencies = [
  "getrandom 0.2.10",
  "libredox",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
@@ -3848,7 +3848,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b56fa61e77ce44cfe27fce734f45e173e91ccd82d37b3833647c2489fcd1049a"
 dependencies = [
  "semver",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
@@ -3858,7 +3858,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dec0aef511e0bbc43b3284618e1b7a761507d784cc50b7d4817c86a652028290"
 dependencies = [
  "directories-next",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
  "ureq",
 ]
 
@@ -3870,7 +3870,7 @@ checksum = "0b0e1ec5e6558557994417adfbe979e0aad10545a507e63b734bc7ffd41bf43b"
 dependencies = [
  "rust-releases-core",
  "rust-releases-io",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
  "time",
 ]
 
@@ -3886,7 +3886,7 @@ dependencies = [
  "regex",
  "rust-releases-core",
  "rust-releases-io",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
  "tokio",
 ]
 
@@ -3897,7 +3897,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0d6eabe35a52d519553f1c990b6c4370c1584d07775b4170885483ca541d856a"
 dependencies = [
  "target-lexicon",
- "thiserror 2.0.17",
+ "thiserror 2.0.18",
  "version-number",
 ]
 
@@ -4716,11 +4716,11 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "2.0.17"
+version = "2.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f63587ca0f12b72a0600bcba1d40081f830876000bb46dd2337a3051618f4fc8"
+checksum = "4288b5bcbc7920c07a1149a35cf9590a2aa808e0bc1eafaade0b80947865fbc4"
 dependencies = [
- "thiserror-impl 2.0.17",
+ "thiserror-impl 2.0.18",
 ]
 
 [[package]]
@@ -4736,9 +4736,9 @@ dependencies = [
 
 [[package]]
 name = "thiserror-impl"
-version = "2.0.17"
+version = "2.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3ff15c8ecd7de3849db632e14d18d2571fa09dfc5ed93479bc4485c7a517c913"
+checksum = "ebc4ee7f67670e9b64d05fa4253e753e016c6c95ff35b89b7941d6b856dec1d5"
 dependencies = [
  "proc-macro2",
  "quote",

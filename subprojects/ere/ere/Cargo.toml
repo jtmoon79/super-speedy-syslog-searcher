@@ -5,7 +5,7 @@ resolver = "2"
 [package]
 name = "ere"
 description = "A compile-time alternative for POSIX extended regular expressions."
-version = "0.2.4"
+version = "0.3.333"
 edition = "2021"
 license = "MIT"
 authors = ["2kai2kai2"]
@@ -14,8 +14,8 @@ readme = "README.md"
 repository = "https://github.com/2kai2kai2/ere"
 
 [dependencies]
-ere-core = { version = "0.2.4", path = "./ere-core" }
-ere-macros = { version = "0.2.4", path = "./ere-macros" }
+ere-core = { version = "=0.3.330", path = "./ere-core" }
+ere-macros = { version = "=0.3.331", path = "./ere-macros" }
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
