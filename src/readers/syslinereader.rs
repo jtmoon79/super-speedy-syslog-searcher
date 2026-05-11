@@ -68,9 +68,6 @@ use crate::data::datetime::{
     bytes_to_regex_to_datetime,
     dt_after_or_before,
     dt_pass_filters,
-    slice_contains_12_D2,
-    slice_contains_D2,
-    slice_contains_X_2,
     DateTimeL,
     DateTimeLOpt,
     DateTimeParseInstr,
@@ -88,6 +85,11 @@ use crate::data::line::{
     LineIndex,
     LineP,
     LinePartPtrs,
+};
+use crate::data::slice_contains::{
+    slice_contains_12_D2,
+    slice_contains_D2,
+    slice_contains_X_2,
 };
 use crate::data::sysline::{
     Sysline,

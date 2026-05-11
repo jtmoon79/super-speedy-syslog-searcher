@@ -69,6 +69,29 @@ use crate::data::datetime::{
     Result_Filter_DateTime2,
     SystemTime,
     Year,
+    ymdhms,
+    ymdhmsm,
+    ymdhmsn,
+};
+use crate::data::slice_contains::{
+    slice_contains_12_D2,
+    slice_contains_D2_custom,
+    slice_contains_D2,
+    slice_contains_X_2_memchr,
+    slice_contains_X_2_unroll,
+    slice_contains_X_2,
+};
+#[cfg(feature = "bench_jetscii")]
+use crate::data::slice_contains::{
+    slice_contains_D2_jetscii,
+    slice_contains_X_2_jetscii,
+};
+#[cfg(feature = "bench_stringzilla")]
+use crate::data::slice_contains::{
+    slice_contains_D2_stringzilla,
+    slice_contains_X_2_stringzilla,
+};
+use ::ere_datetimes_impl::{
     CGN_ALL,
     CGP_DAY_ALL,
     CGP_EPOCH,

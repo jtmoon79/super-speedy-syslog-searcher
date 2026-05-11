@@ -13,18 +13,19 @@ use ::criterion::{
     Criterion,
 };
 use ::lazy_static::lazy_static;
-use s4lib::data::datetime::{
+
+use s4lib::data::slice_contains::{
     slice_contains_D2_custom,
     slice_contains_X_2_memchr,
     slice_contains_X_2_unroll,
 };
 #[cfg(feature = "bench_jetscii")]
-use s4lib::data::datetime::{
+use s4lib::data::slice_contains::{
     slice_contains_D2_jetscii,
     slice_contains_X_2_jetscii,
 };
 #[cfg(feature = "bench_stringzilla")]
-use s4lib::data::datetime::{
+use s4lib::data::slice_contains::{
     slice_contains_D2_stringzilla,
     slice_contains_X_2_stringzilla,
 };
