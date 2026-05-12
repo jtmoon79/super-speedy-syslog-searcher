@@ -222,8 +222,10 @@ jobs:
         run: |
           set -eux
           cargo --version
+          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --verbose
           cp -av ./target/debug/s4 ./s4_debug
+          ./s4_debug --version
       - name: Upload debug binary for test
         uses: actions/upload-artifact@v6
         with:
@@ -235,8 +237,10 @@ jobs:
         run: |
           set -eux
           cargo --version
+          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --release
           cp -av ./target/release/s4 ./s4_release
+          ./s4_release --version
       - name: Upload release binary for test
         uses: actions/upload-artifact@v6
         with:
@@ -247,13 +251,6 @@ jobs:
         with:
           name: s4
           path: ./target/release/s4
-      # - name: Run valgrind
-      #   run: |
-      #     set -eux
-      #     sudo apt install -y valgrind g++
-      #     SCRIPT=./tools/valgrind-dhat.sh
-      #     chmod -v +x -- "${PROGRAM}" "${SCRIPT}"
-      #     "${SCRIPT}"
 
   job_cross_targets:
     name: cross ${{ matrix.target }} on ubuntu-22.04
