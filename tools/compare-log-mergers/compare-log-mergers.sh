@@ -651,6 +651,7 @@ cat "${tmpOut}" | column -t -s '|' -o '|' > "${mdfinal}"
 
 (set -x; cat "${mdfinal}")
 
+export PATH="${PATH}:${HOME}/go/bin"  # for glow
 if which glow &>/dev/null; then
     glow "${mdfinal}"
 else

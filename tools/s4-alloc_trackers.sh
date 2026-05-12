@@ -6,6 +6,7 @@
 
 set -euo pipefail
 
+export PATH="${PATH}:${HOME}/go/bin"
 DIROUT=${DIROUT-$PWD}
 
 cd "$(dirname -- "${0}")/.."

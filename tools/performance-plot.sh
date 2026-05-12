@@ -391,6 +391,7 @@ declare -r MD_FINAL="${DIROUT}/performance-plot-${FILE_NAME}__${FILE_NUM}__data.
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
 
+export PATH="${PATH}:${HOME}/go/bin"  # for glow
 if which glow &>/dev/null; then
     glow --width=${COLUMNS} --preserve-new-lines "${MD_FINAL}"
 else

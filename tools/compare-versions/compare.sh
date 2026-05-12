@@ -245,6 +245,7 @@ cat "${mddraft}" | column -t -s '|' -o '|' > "${mdfinal}"
 
 (set -x; cat "${mdfinal}")
 
+export PATH="${PATH}:${HOME}/go/bin"  # for glow
 if which glow &>/dev/null; then
     glow --width=${COLUMNS} --preserve-new-lines "${mdfinal}"
 else
