@@ -4935,7 +4935,7 @@ const test_data_file_H_dt4_sysline1_end: FileOffset = test_data_file_H_dt4_sysli
 const test_data_file_H_dt4_sysline2_end: FileOffset = test_data_file_H_dt4_sysline1_end + test_data_file_H_dt4_sysline2.len() as FileOffset;
 const test_data_file_H_dt4_sysline3_end: FileOffset = test_data_file_H_dt4_sysline2_end + test_data_file_H_dt4_sysline3.len() as FileOffset;
 
-pub const REGEX_ID_H_dt4: usize = 1;
+pub const REGEX_ID_H_dt4: usize = 79;
 
 lazy_static! {
     static ref test_SyslineReader_H_ntf: NamedTempFile = create_temp_file(test_data_file_H_dt4);
