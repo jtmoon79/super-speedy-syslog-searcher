@@ -163,7 +163,7 @@ jobs:
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile alloc_tracker
         shell: bash
         # skip on mac-os, Issue #467
-        if: matrix.os != 'macos-latest'
+        if: ${{ matrix.os != 'macos-latest' }}
         run: |
           set -eux
           export S4_BUILD_REGEX=79
@@ -171,6 +171,15 @@ jobs:
           cargo build --locked --profile alloc_tracker --features alloc_tracker
           env S4_ALLOC_TRACKER_PRINT=1 ./target/alloc_tracker/s4 --version
           env S4_ALLOC_TRACKER_TRACKING=1 ./target/alloc_tracker/s4 ./logs/other/tests/dtf2-2.log
+      - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile flamegraph
+        shell: bash
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          set -eux
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
+          RUSTFLAGS=-g cargo build --profile flamegraph
+          ./target/flamegraph/s4 --version
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
         if: ${{ matrix.os == 'windows-latest' && matrix.msrv == env.MSRV_UPLOAD }}
         uses: actions/upload-artifact@v6
@@ -178,7 +187,7 @@ jobs:
           name: s4.exe ${{ matrix.msrv }} ${{ matrix.os }}
           path: ./target/release/s4.exe
       - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
-        if: ${{ matrix.os == 'ubuntu-22.04' && matrix.msrv == env.MSRV_UPLOAD }}
+        if: ${{ matrix.os == 'ubuntu-latest' && matrix.msrv == env.MSRV_UPLOAD }}
         uses: actions/upload-artifact@v6
         with:
           name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
@@ -519,6 +528,8 @@ jobs:
         shell: bash
         run: |
           set -eux
+          S4_BUILD_REGEX=1
+          S4_BUILD_REGEX_PRINT=1
           cargo build --locked --release
           which python
           python --version
@@ -560,8 +571,6 @@ jobs:
           set -eux
           cargo nextest --version
           export NEXTEST_TEST_THREADS="num-cpus"
-          export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_windows:
@@ -598,36 +607,6 @@ jobs:
           # XXX: do not use nextest as it is buggy on Windows
           #      see Issue #218
           cargo.exe test --locked --bins --lib --no-fail-fast
-
-  job_flamegraph:
-    # check that `flamegraph.sh` runs
-    name: flamegraph
-    needs: [job_rust_msrv_os]
-    runs-on: ubuntu-latest
-    steps:
-      - name: git checkout
-        uses: actions/checkout@v6
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
-      - uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: linux-tools-generic
-          version: 1.0
-      - name: flamegraph.sh
-        shell: bash
-        run: |
-          set -eux
-          cargo install --locked flamegraph --version=${FLAMEGRAPH_VERSION}
-          export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
-          RUSTFLAGS=-g cargo build --locked --profile flamegraph
-          export OUT="./flamegraph-dtf2-2.svg"
-          export FREQ=1000
-          # XXX: ignore failure of flamegraph.sh
-          set +e
-          sudo -E --preserve-env=PATH -- ./tools/flamegraph.sh ./logs/other/tests/dtf2-2.log
-          ls -l "${OUT}"
-          # XXX: force success
-          true
 
   job_doc_publish:
     # this job downloads and builds dependency crates
