@@ -1034,7 +1034,7 @@ jobs:
           export PROGRAMR=./s4_release
           export PROGRAMD=./s4_debug
           SCRIPT=./tools/compare-debug-release.sh
-          chmod -v +x -- "${PROGRAMR}" "${PROGRAMD}"
+          chmod -v +x -- "${PROGRAMR}" "${PROGRAMD}" "${SCRIPT}" ./tools/compare-two-s4.sh
           "${SCRIPT}"
       # compare grep sort
       - name: Run Script compare-grep-sort.sh
