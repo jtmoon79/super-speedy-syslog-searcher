@@ -14,8 +14,8 @@ readme = "README.md"
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher_ere"
 
 [dependencies]
-ere-core = { version = "=0.0.9910", path = "./ere-core" }
-ere-macros = { version = "=0.0.9920", path = "./ere-macros" }
+ere-core = { version = "=0.0.9910", path = "../ere-core" }
+ere-macros = { version = "=0.0.9920", path = "../ere-macros" }
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
