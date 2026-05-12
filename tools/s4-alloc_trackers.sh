@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-export PATH="${PATH}:${HOME}/go/bin"
+export PATH="${PATH}:${HOME}/go/bin"  # for glow
 DIROUT=${DIROUT-$PWD}
 
 cd "$(dirname -- "${0}")/.."
