@@ -114,8 +114,8 @@ function decompress_file() {
 }
 
 for file in "${files[@]}"; do
-    tmp1=$(mktemp -t "compare-s4_XXXXX")
-    tmp2=$(mktemp -t "compare-cat_XXXXX")
+    tmp1=$(mktemp -t "s4-tmp-compare-s4_XXXXX")
+    tmp2=$(mktemp -t "s4-tmp-compare-cat_XXXXX")
     journal_arg=
 
     echo "File: '${file}'"
@@ -134,7 +134,7 @@ for file in "${files[@]}"; do
             export SYSTEMD_PAGER=
             export PAGER=
             # if $file is compressed then decompress it for use with journalctl
-            tmp3=$(mktemp -t "compare-journal_XXXXX.journal")
+            tmp3=$(mktemp -t "s4-tmp-compare-journal_XXXXX.journal")
             decompress_file "${file}" "${tmp3}"
             set -x
             journalctl --output=cat --no-tail --file="${tmp3}" > "${tmp2}"

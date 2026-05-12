@@ -81,9 +81,9 @@ declare -rg SEP='|'  # internal column separator
 declare -rg BL='┊'  # blank column separator
 declare -i rc=0
 declare -i failed_rc=0
-declare -r tmpf1=$(mktemp -t "$(basename "$0").time.XXXXX.tmp")
-declare -r tmpf2=$(mktemp -t "$(basename "$0").cargo-expand.XXXXX.tmp")
-declare -r tmpd=$(mktemp -d -t "$(basename "$0").XXXXX.tmpdir")
+declare -r tmpf1=$(mktemp -t "s4-tmp-$(basename "$0").time.XXXXX.tmp")
+declare -r tmpf2=$(mktemp -t "s4-tmp-$(basename "$0").cargo-expand.XXXXX.tmp")
+declare -r tmpd=$(mktemp -d -t "s4-tmp-$(basename "$0").XXXXX.tmpdir")
 # summary columns for `column` command
 declare -rg COLUMNS_N="\
 REGEX,\

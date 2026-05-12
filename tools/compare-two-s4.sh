@@ -94,9 +94,9 @@ declare -ar S4_ARGS=(
 )
 
 # output of the A run
-tmpA=$(mktemp -t "tmp-s4.compare-two-s4_A_XXXXX")
+tmpA=$(mktemp -t "s4-tmp.compare-two-s4_A_XXXXX")
 # output of the B run
-tmpB=$(mktemp -t "tmp-s4.compare-two-s4_B_XXXXX")
+tmpB=$(mktemp -t "s4-tmp.compare-two-s4_B_XXXXX")
 
 declare -i rcA=0
 declare -i rcB=0

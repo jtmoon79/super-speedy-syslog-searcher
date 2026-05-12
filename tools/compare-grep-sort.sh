@@ -36,10 +36,10 @@ if [[ "${1-}" = "--keep" ]]; then
     shift
 fi
 
-tmp1=$(mktemp -t "compare-s4_s4_XXXXX")
-tmp1b=$(mktemp -t "compare-s4-sorted_s4_XXXXX")
-tmp2=$(mktemp -t "compare-s4_grep_XXXXX")
-tmp2b=$(mktemp -t "compare-s4-sorted_grep_XXXXX")
+tmp1=$(mktemp -t "s4-tmp-compare-s4_s4_XXXXX")
+tmp1b=$(mktemp -t "s4-tmp-compare-s4-sorted_s4_XXXXX")
+tmp2=$(mktemp -t "s4-tmp-compare-s4_grep_XXXXX")
+tmp2b=$(mktemp -t "s4-tmp-compare-s4-sorted_grep_XXXXX")
 
 function exit_() {
     if ! ${do_keep}; then

@@ -206,8 +206,8 @@ fi
 echo "Comparing ${LOGS_COUNT} individual files:"
 
 # compare individual files
-tmp1=$(mktemp -t "tmp-s4.compare-current-and-expected_stdout_XXXXX")
-tmp2=$(mktemp -t "tmp-s4.compare-current-and-expected_stderr_XXXXX")
+tmp1=$(mktemp -t "s4-tmp.compare-current-and-expected_stdout_XXXXX")
+tmp2=$(mktemp -t "s4-tmp.compare-current-and-expected_stderr_XXXXX")
 declare -i diff_log_stdout=0
 declare -A diff_file_stdout=()
 declare -i same_log_stdout=0
@@ -241,7 +241,7 @@ while read -r log_file; do
             ) || true
         ) | head -n 20 | indent
         echo >&2
-        tmp1=$(mktemp -t "tmp-s4.compare-current-and-expected_XXXXX")
+        tmp1=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stdout+=1
         echo -n '.' >&2
@@ -260,7 +260,7 @@ while read -r log_file; do
             ) || true
         ) | head -n 20 | indent
         echo >&2
-        tmp2=$(mktemp -t "tmp-s4.compare-current-and-expected_XXXXX")
+        tmp2=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stderr+=1
         echo -n '.' >&2
