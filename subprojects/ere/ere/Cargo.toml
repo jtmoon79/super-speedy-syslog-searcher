@@ -5,17 +5,17 @@ resolver = "2"
 [package]
 name = "ere"
 description = "A compile-time alternative for POSIX extended regular expressions."
-version = "0.3.333"
+version = "0.0.9930"
 edition = "2021"
 license = "MIT"
-authors = ["2kai2kai2"]
+authors = ["2kai2kai2", "robertream", "jtmoon79"]
 categories = ["text-processing"]
 readme = "README.md"
-repository = "https://github.com/2kai2kai2/ere"
+repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher_ere"
 
 [dependencies]
-ere-core = { version = "=0.3.330", path = "./ere-core" }
-ere-macros = { version = "=0.3.331", path = "./ere-macros" }
+ere-core = { version = "=0.0.9910", path = "./ere-core" }
+ere-macros = { version = "=0.0.9920", path = "./ere-macros" }
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }

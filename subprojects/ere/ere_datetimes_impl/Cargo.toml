@@ -1,12 +1,12 @@
 [package]
 name = "ere_datetimes_impl"
-version = "0.3.335"
+version = "0.0.9960"
 edition = "2024"
 
 [dependencies]
 const-str = "=1.1.0"
-ere = { version = "=0.3.333", path = "../ere" }
-ere_automator_procmacro = { version = "=0.3.334", path = "../ere_automator_procmacro" }
+ere = { version = "=0.0.9930", path = "../ere" }
+ere_automator_procmacro = { version = "=0.0.9950", path = "../ere_automator_procmacro" }
 lazy_static = "=1.5.0"
 more-asserts = "=0.3.1"
 si_trace_print = "=0.3.12"

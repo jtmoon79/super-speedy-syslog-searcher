@@ -66,9 +66,9 @@ ctrlc = "=3.4.7"
 current_platform = "=0.2.0"
 dlopen2 = "=0.8"
 encoding_rs = "=0.8.35"
-ere = { version = "=0.3.333", path = "subprojects/ere/ere" }
-ere_automator_procmacro = { version = "=0.3.334", path = "subprojects/ere/ere_automator_procmacro" }
-ere_datetimes_impl = { version = "=0.3.335", path = "subprojects/ere/ere_datetimes_impl" }
+ere = { version = "=0.0.9930", path = "subprojects/ere/ere" }
+ere_automator_procmacro = { version = "=0.0.9950", path = "subprojects/ere/ere_automator_procmacro" }
+ere_datetimes_impl = { version = "=0.0.9960", path = "subprojects/ere/ere_datetimes_impl" }
 # TODO: [2025/12] update `evtx` and use `RecordId` when Issue 234 is merged and released
 #       https://github.com/omerbenamram/evtx/issues/234
 evtx = { version = "=0.8.5", features = ["multithreading"] }

@@ -1,3 +1,5 @@
+***Ripped from [https://github.com/2kai2kai2/ere/pull/4](https://github.com/2kai2kai2/ere/pull/4) for exclusive use in [super-speedy-syslog-searcher](https://github.com/jtmoon79/super-speedy-syslog-searcher)***
+
 [![Crates.io Version](https://img.shields.io/crates/v/ere)](https://crates.io/crates/ere)
 [![docs.rs](https://img.shields.io/docsrs/ere)](https://docs.rs/ere/latest/ere/)
 

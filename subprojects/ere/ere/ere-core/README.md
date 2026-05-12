@@ -1,0 +1,1 @@
+***Ripped from [https://github.com/2kai2kai2/ere/pull/4](https://github.com/2kai2kai2/ere/pull/4) for exclusive use in [super-speedy-syslog-searcher](https://github.com/jtmoon79/super-speedy-syslog-searcher)***

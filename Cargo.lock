@@ -1850,7 +1850,7 @@ checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
 name = "ere"
-version = "0.3.333"
+version = "0.0.9930"
 dependencies = [
  "ere-core",
  "ere-macros",
@@ -1858,7 +1858,7 @@ dependencies = [
 
 [[package]]
 name = "ere-core"
-version = "0.3.330"
+version = "0.0.9910"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1869,7 +1869,7 @@ dependencies = [
 
 [[package]]
 name = "ere-macros"
-version = "0.3.331"
+version = "0.0.9920"
 dependencies = [
  "ere-core",
  "quote",
@@ -1878,7 +1878,7 @@ dependencies = [
 
 [[package]]
 name = "ere_automator_procmacro"
-version = "0.3.334"
+version = "0.0.9950"
 dependencies = [
  "const-str",
  "dotenv",
@@ -1892,7 +1892,7 @@ dependencies = [
 
 [[package]]
 name = "ere_datetimes_impl"
-version = "0.3.335"
+version = "0.0.9960"
 dependencies = [
  "const-str",
  "dotenv",

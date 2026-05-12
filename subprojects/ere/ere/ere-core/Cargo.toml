@@ -1,11 +1,11 @@
 [package]
 name = "ere-core"
 description = "A compile-time alternative for POSIX extended regular expressions."
-version = "0.3.330"
+version = "0.0.9910"
 edition = "2021"
 license = "MIT"
-authors = ["2kai2kai2"]
-repository = "https://github.com/2kai2kai2/ere"
+authors = ["2kai2kai2", "robertream", "jtmoon79"]
+repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher_ere-core"
 
 [dependencies]
 proc-macro2 = "=1.0.106"
