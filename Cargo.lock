@@ -1849,61 +1849,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
-name = "ere"
-version = "0.0.9930"
-dependencies = [
- "ere-core",
- "ere-macros",
-]
-
-[[package]]
-name = "ere-core"
-version = "0.0.9910"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.117",
- "thiserror 2.0.18",
- "utf8-ranges",
-]
-
-[[package]]
-name = "ere-macros"
-version = "0.0.9920"
-dependencies = [
- "ere-core",
- "quote",
- "syn 2.0.117",
-]
-
-[[package]]
-name = "ere_automator_procmacro"
-version = "0.0.9950"
-dependencies = [
- "const-str",
- "dotenv",
- "ere",
- "lazy_static",
- "macro-string",
- "proc-macro2",
- "quote",
- "syn 2.0.117",
-]
-
-[[package]]
-name = "ere_datetimes_impl"
-version = "0.0.9960"
-dependencies = [
- "const-str",
- "dotenv",
- "ere",
- "ere_automator_procmacro",
- "lazy_static",
- "more-asserts",
- "si_trace_print",
-]
-
-[[package]]
 name = "errno"
 version = "0.3.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4431,6 +4376,61 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
+name = "super-speedy-syslog-searcher_ere"
+version = "0.0.9930"
+dependencies = [
+ "super-speedy-syslog-searcher_ere-core",
+ "super-speedy-syslog-searcher_ere-macros",
+]
+
+[[package]]
+name = "super-speedy-syslog-searcher_ere-core"
+version = "0.0.9910"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.117",
+ "thiserror 2.0.18",
+ "utf8-ranges",
+]
+
+[[package]]
+name = "super-speedy-syslog-searcher_ere-macros"
+version = "0.0.9920"
+dependencies = [
+ "quote",
+ "super-speedy-syslog-searcher_ere-core",
+ "syn 2.0.117",
+]
+
+[[package]]
+name = "super-speedy-syslog-searcher_ere_automator_procmacro"
+version = "0.0.9950"
+dependencies = [
+ "const-str",
+ "dotenv",
+ "lazy_static",
+ "macro-string",
+ "proc-macro2",
+ "quote",
+ "super-speedy-syslog-searcher_ere",
+ "syn 2.0.117",
+]
+
+[[package]]
+name = "super-speedy-syslog-searcher_ere_datetimes_impl"
+version = "0.0.9960"
+dependencies = [
+ "const-str",
+ "dotenv",
+ "lazy_static",
+ "more-asserts",
+ "si_trace_print",
+ "super-speedy-syslog-searcher_ere",
+ "super-speedy-syslog-searcher_ere_automator_procmacro",
+]
+
+[[package]]
 name = "super_speedy_syslog_searcher"
 version = "0.8.80"
 dependencies = [
@@ -4454,9 +4454,6 @@ dependencies = [
  "dlopen2",
  "dotenv",
  "encoding_rs",
- "ere",
- "ere_automator_procmacro",
- "ere_datetimes_impl",
  "evtx",
  "filepath",
  "filetime",
@@ -4495,6 +4492,9 @@ dependencies = [
  "si_trace_print",
  "static_assertions",
  "stringzilla",
+ "super-speedy-syslog-searcher_ere",
+ "super-speedy-syslog-searcher_ere_automator_procmacro",
+ "super-speedy-syslog-searcher_ere_datetimes_impl",
  "tar",
  "tcmalloc",
  "tempfile",

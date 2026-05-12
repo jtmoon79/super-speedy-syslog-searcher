@@ -1,17 +1,17 @@
 [package]
-name = "ere-macros"
+name = "super-speedy-syslog-searcher_ere-macros"
 description = "A compile-time alternative for POSIX extended regular expressions."
 version = "0.0.9920"
 edition = "2021"
 license = "MIT"
 authors = ["2kai2kai2", "robertream", "jtmoon79"]
-repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher_ere-macros"
+repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 
 [lib]
 proc-macro = true
 
 [dependencies]
-ere-core = { version = "=0.0.9910", path = "../ere-core" }
+ere-core = { version = "=0.0.9910", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
 quote = "=1.0.45"
 syn = { version = "=2.0.117", features = ["parsing"] }
 

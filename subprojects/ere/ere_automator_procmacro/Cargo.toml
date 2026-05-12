@@ -1,7 +1,7 @@
 # subprojects/ere/ere_automator_procmacro/Cargo.toml
 
 [package]
-name = "ere_automator_procmacro"
+name = "super-speedy-syslog-searcher_ere_automator_procmacro"
 version = "0.0.9950"
 edition = "2024"
 
@@ -11,7 +11,7 @@ path = "src/ere_automator_procmacro.rs"
 
 [dependencies]
 const-str = "=1.1.0"
-ere = { version = "=0.0.9930", path = "../ere", features = ["unstable-attr-regex"] }
+ere = { version = "=0.0.9930", path = "../ere", package = "super-speedy-syslog-searcher_ere", features = ["unstable-attr-regex"] }
 lazy_static = "=1.5.0"
 macro-string = "=0.2.0"
 proc-macro2 = { version = "=1.0.106", features = ["span-locations"] }
