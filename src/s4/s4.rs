@@ -186,6 +186,7 @@ use ::s4lib::data::datetime::{
     systemtime_to_datetime,
     DateTimeLOpt,
     DateTimePattern_str,
+    DATETIME_PARSE_DATAS_LEN,
     MAP_TZZ_TO_TZz,
     Utc,
 };
@@ -2506,6 +2507,7 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         "Target OS: ", std::env::consts::OS, "\n",
         "Target OS Family: ", std::env::consts::FAMILY, "\n",
         "Arch: ", std::env::consts::ARCH, "\n",
+        "Compiled Regular Expressions: ", DATETIME_PARSE_DATAS_LEN, "\n",
         "Rust Build Flags: ", RUSTFLAGS, "\n",
         "Optimization Level: ", OPT_LEVEL, "\n",
         "Build Date: ", BUILD_TIME,  "\n",
