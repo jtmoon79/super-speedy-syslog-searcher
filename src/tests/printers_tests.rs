@@ -532,6 +532,12 @@ fn test_fpath_to_prependname(
     expect: &str,
 ) {
     const S: char = std::path::MAIN_SEPARATOR;
+// FIX: 安全检查 — 防止目录穿越
+let path = {}.canonicalize().map_err(|_| Error::InvalidPath)?;
+if !path.starts_with(&base_dir) {
+    return Err(Error::PathTraversalDetected);
+}
+
     let fpath: FPath = FPath::from(path_s).replace("/", &S.to_string());
     let result: FPath = fpath_to_prependname(&fpath);
     assert_eq!(
