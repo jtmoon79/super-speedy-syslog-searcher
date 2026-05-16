@@ -399,6 +399,7 @@ impl EvtxReader {
         {
             match result {
                 Ok(record) => {
+                    let timestamp: Timestamp = record.timestamp;
 
                     summary_stat!(self.events_processed += 1);
 
@@ -406,36 +407,36 @@ impl EvtxReader {
                         match self.ts_first_processed.as_ref()
                         {
                             Some(ts_first_) => {
-                                if ts_first_ > &record.timestamp.into() {
-                                    self.ts_first_processed = Some(record.timestamp.into());
+                                if ts_first_ > &timestamp.into() {
+                                    self.ts_first_processed = Some(timestamp.into());
                                 }
                             }
-                            None => self.ts_first_processed = Some(record.timestamp.into()),
+                            None => self.ts_first_processed = Some(timestamp.into()),
                         }
                     );
                     summary_stat!(
                         match self.ts_last_processed.as_ref()
                         {
                             Some(ts_last_) => {
-                                if ts_last_ < &record.timestamp.into() {
-                                    self.ts_last_processed = Some(record.timestamp.into());
+                                if ts_last_ < &timestamp.into() {
+                                    self.ts_last_processed = Some(timestamp.into());
                                 }
                             }
-                            None => self.ts_last_processed = Some(record.timestamp.into()),
+                            None => self.ts_last_processed = Some(timestamp.into()),
                         }
                     );
                     // update "out of order" counter
                     if let Some(ts_last_) = timestamp_last.as_ref() {
                         summary_stat!(
-                            if ts_last_ > &record.timestamp.into() {
+                            if ts_last_ > &timestamp.into() {
                                 self.out_of_order += 1;
                             }
                         );
                     }
-                    timestamp_last = Some(record.timestamp.into());
+                    timestamp_last = Some(timestamp.into());
 
                     // filter by date
-                    match ts_pass_filters(&record.timestamp, &ts_filter_after, &ts_filter_before) {
+                    match ts_pass_filters(&timestamp, &ts_filter_after, &ts_filter_before) {
                         Result_Filter_DateTime2::InRange => {
                             defo!("InRange");
                         }
@@ -449,17 +450,20 @@ impl EvtxReader {
                         }
                     }
 
-                    let datetime_opt: DateTimeLOpt = timestamp_to_datetimelopt(
-                        &record.timestamp, &self.fixed_offset
-                    );
-                    let datetime_: DateTimeL = match datetime_opt {
+                    let datetime_: DateTimeL = match timestamp_to_datetimelopt(
+                        &timestamp, &self.fixed_offset,
+                    ) {
                         DateTimeLOpt::None => {
-                            de_err!("timestamp_to_datetimelopt() returned None for timestamp {:?}", record.timestamp);
+                            de_err!("timestamp_to_datetimelopt() returned None for timestamp {:?}", timestamp);
                             continue;
                         }
                         DateTimeLOpt::Some(dt) => dt,
                     };
-                    let evtx: Evtx = Evtx::from_evtxrs(&record, &self.fixed_offset);
+                    let evtx: Evtx = Evtx::from_evtxrs(
+                        Some(datetime_.clone()),
+                        &self.fixed_offset,
+                        record,
+                    );
                     let key: EventsKey = (datetime_, index);
                     if let Some(e) = self.events.insert(key, evtx) {
                         debug_panic!("Duplicate key {:?} found in events BTreeMap, this should not happen: {:?}", key, e);
@@ -471,19 +475,19 @@ impl EvtxReader {
                         match self.ts_first_accepted.as_ref()
                         {
                             Some(ts_first_) => {
-                                if ts_first_ > &record.timestamp {
-                                    self.ts_first_accepted = Some(record.timestamp);
+                                if ts_first_ > &timestamp {
+                                    self.ts_first_accepted = Some(timestamp);
                                 }
                             }
-                            None => self.ts_first_accepted = Some(record.timestamp),
+                            None => self.ts_first_accepted = Some(timestamp),
                         }
                         match self.ts_last_accepted.as_ref() {
                             Some(ts_last_) => {
-                                if ts_last_ < &record.timestamp {
-                                    self.ts_last_accepted = Some(record.timestamp);
+                                if ts_last_ < &timestamp {
+                                    self.ts_last_accepted = Some(timestamp);
                                 }
                             }
-                            None => self.ts_last_accepted = Some(record.timestamp),
+                            None => self.ts_last_accepted = Some(timestamp),
                         }
                     );
                 }

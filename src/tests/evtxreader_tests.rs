@@ -31,7 +31,12 @@ use crate::common::{
 };
 use crate::data::common::DtBegEndPairOpt;
 use crate::data::datetime::DateTimeLOpt;
-use crate::data::evtx::Evtx;
+use crate::data::evtx::{
+    Evtx,
+    EvtxRS,
+    RecordId,
+    Timestamp,
+};
 use crate::debug::helpers::create_temp_file_no_permissions;
 use crate::readers::evtxreader::EvtxReader;
 use crate::readers::helpers::path_to_fpath;
@@ -64,6 +69,8 @@ use crate::tests::common::{
     FO_E8,
 };
 
+pub const EVTX_KPNP_DATA1_ID: RecordId = 1;
+
 /// Error, broken data
 pub const EVTX_KPNP_DATA1_S_E: &str = r#"
 <?xml version="1.0" encoding="utf-8"?>
@@ -72,12 +79,16 @@ pub const EVTX_KPNP_DATA1_S_E: &str = r#"
     <TimeCreated SystemTime="2023-03-10T03:49:43"#;
 
 lazy_static! {
+    static ref EVTX_KPNP_DATA1_TIMESTAMP: Timestamp = Timestamp::new(1678420183, 0).unwrap();
     /// EVTX #1
-    static ref EVTX_1: Evtx = Evtx::new_(
-        1,
+    static ref EVTX_1: Evtx = Evtx::new_forced(
         *EVTX_KPNP_ENTRY1_DT,
-        String::from(EVTX_KPNP_DATA1_S),
         DtBegEndPairOpt::Some((420, 447)),
+        EvtxRS {
+            event_record_id: EVTX_KPNP_DATA1_ID,
+            timestamp: *EVTX_KPNP_DATA1_TIMESTAMP,
+            data: String::from(EVTX_KPNP_DATA1_S),
+        }
     );
 }
 

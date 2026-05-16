@@ -5,6 +5,7 @@
 //! [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
 
 use std::fmt;
+use std::hash::Hash;
 use std::io::{
     Error,
     ErrorKind,
@@ -42,7 +43,6 @@ use ::si_trace_print::{
 use crate::common::{
     debug_panic,
     NLc,
-    NLs,
 };
 use crate::de_err;
 use crate::data::common::DtBegEndPairOpt;
@@ -89,8 +89,8 @@ pub fn timestamp_to_datetimelopt(
             return DateTimeLOpt::None;
         }
     };
-    let dt_utc = DateTime::<Utc>::from_timestamp_nanos(ns64);
-    let dt_fo = dt_utc.with_timezone(fixed_offset);
+    let dt_utc: DateTime::<Utc> = DateTime::<Utc>::from_timestamp_nanos(ns64);
+    let dt_fo: DateTime::<FixedOffset> = dt_utc.with_timezone(fixed_offset);
 
     DateTimeLOpt::Some(dt_fo)
 }
@@ -160,16 +160,29 @@ pub fn datetimelopt_to_timestampopt(
 /// [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
 /// [`evtx`]: https://docs.rs/evtx/0.8.1/evtx/index.html
 /// [Windows Event Log]: https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct Evtx {
-    id: RecordId,
     /// The derived `DateTime` instance.
     dt: DateTimeL,
-    /// The [`EvtxRecord`] data.
-    ///
-    /// [`EvtxRecord`]: https://docs.rs/evtx/0.8.1/evtx/struct.EvtxRecord.html
-    data: String,
+    /// The byte offsets of the substring demarcating the embedded `DateTime`
+    /// within `record.data`.
     dt_beg_end: DtBegEndPairOpt,
+    /// The original `EvtxRS` record.
+    record: EvtxRS,
+}
+
+impl PartialOrd for Evtx {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        self.dt.partial_cmp(&other.dt).or_else(|| self.id().partial_cmp(&other.id()))
+    }
+}
+
+impl Hash for Evtx {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.record.event_record_id.hash(state);
+        self.record.data.hash(state);
+        self.dt.hash(state);
+    }
 }
 
 impl fmt::Debug for Evtx {
@@ -178,25 +191,36 @@ impl fmt::Debug for Evtx {
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
         f.debug_struct("Evtx Record")
-            .field("ID", &self.id)
+            .field("ID", &self.id())
             .field("dt", &self.dt)
             .field("(beg, end)", &self.dt_beg_end)
             .finish()
     }
 }
 
+// LAST WORKING HERE 20260515
+// refactor Evtx to store the original `record`
+// this skips the `clone` of the `record.data`
+// one difficulty; previously a newline was added to `data`. Not sure how to fix
+// that here. The `record.data` cannot be modified AFAICT... or can it? Do I just need to declare it
+// `mut` sooner? Or maybe append newline to `record.data` when it is received during the
+// enumerate loop in EvtxReader.
+// When done with that, compare-current-and-expected.sh, it looks like this version
+// is doing better; it's timestamps are more accurate!
+
 impl Evtx {
     /// Create a new `Evtx`.
     pub fn from_resultserializedrecord(
-        record: &ResultEvtxRS,
+        record: ResultEvtxRS,
         fixed_offset: &FixedOffset,
     ) -> Result<Evtx, Error> {
         match record {
             Ok(record) => {
                 Result::Ok(
                     Self::from_evtxrs(
-                        record,
+                        DateTimeLOpt::None,
                         fixed_offset,
+                        record,
                     )
                 )
             }
@@ -213,30 +237,28 @@ impl Evtx {
 
     /// Create a new `Evtx`.
     pub fn from_evtxrs(
-        record: &EvtxRS,
+        datetime_opt: DateTimeLOpt,
         fixed_offset: &FixedOffset,
+        record: EvtxRS,
     ) -> Evtx {
-        let id: RecordId = record.event_record_id;
-        let dt: DateTimeL = match timestamp_to_datetimelopt(
-            &record.timestamp,
-            fixed_offset,
-        ) {
-            DateTimeLOpt::None => {
-                debug_panic!("timestamp_to_datetimelopt returned None for timestamp {:?}", record.timestamp);
-
-                DateTime::<Utc>::from_timestamp_nanos(0).with_timezone(fixed_offset)
-            }
-            DateTimeLOpt::Some(dt) => dt,
+        let dt: DateTimeL = match datetime_opt {
+            Some(dt) => dt,
+            None => match timestamp_to_datetimelopt(
+                        &record.timestamp,
+                        fixed_offset,
+                    ) {
+                        DateTimeLOpt::None => {
+                            debug_panic!("timestamp_to_datetimelopt returned None for timestamp {:?}", record.timestamp);
+                            DateTime::<Utc>::from_timestamp_nanos(0).with_timezone(fixed_offset)
+                        }
+                        DateTimeLOpt::Some(dt) => dt,
+                    }
         };
-        // add a newline to the `data` so it easily prints in a line-oriented
-        // fashion
-        let data: String = record.data.clone() + NLs;
-        let be = Self::get_dt_beg_end(&data);
+        let dt_beg_end = Self::get_dt_beg_end(&record.data);
         Evtx {
-            id,
             dt,
-            data,
-            dt_beg_end: be,
+            dt_beg_end,
+            record,
         }
     }
 
@@ -265,17 +287,17 @@ impl Evtx {
     }
 
     /// Length of this `Evtx` in bytes.
-    pub fn len(self: &Evtx) -> usize {
-        self.data.len()
+    pub const fn len(self: &Evtx) -> usize {
+        self.as_bytes().len()
     }
 
     /// Clippy recommends `fn is_empty` since there is a `len()`.
-    pub fn is_empty(self: &Evtx) -> bool {
+    pub const fn is_empty(self: &Evtx) -> bool {
         self.len() == 0
     }
 
     pub const fn id(self: &Evtx) -> RecordId {
-        self.id
+        self.record.event_record_id
     }
 
     /// Return a reference to [`self.dt`] (`DateTimeL`).
@@ -289,15 +311,15 @@ impl Evtx {
         &self.dt_beg_end
     }
 
-    pub fn as_bytes(&self) -> &[u8] {
-        self.data.as_bytes()
+    pub const fn as_bytes(&self) -> &[u8] {
+        self.record.data.as_bytes()
     }
 
     /// Does this `Evtx` end in a newline character?
     ///
     /// By default, "yes", but it's nice to provide this.
     pub fn ends_with_newline(self: &Evtx) -> bool {
-        let byte_last = match self.data.as_bytes().last() {
+        let byte_last = match self.record.data.as_bytes().last() {
             Some(byte_) => byte_,
             None => {
                 return false;
@@ -328,8 +350,8 @@ impl Evtx {
         raw: bool,
     ) -> String {
         match raw {
-            true => buffer_to_String_noraw(self.data.as_bytes()),
-            false => self.data.clone(),
+            true => buffer_to_String_noraw(self.as_bytes()),
+            false => self.record.data.clone(),
         }
     }
 
@@ -352,17 +374,15 @@ impl Evtx {
 
     /// for testing only
     #[cfg(test)]
-    pub(crate) fn new_(
-        id: RecordId,
+    pub(crate) const fn new_forced(
         dt: DateTimeL,
-        data: String,
         dt_beg_end: DtBegEndPairOpt,
+        record: EvtxRS,
     ) -> Self {
         Self {
-            id,
             dt,
-            data,
             dt_beg_end,
+            record,
         }
     }
 }

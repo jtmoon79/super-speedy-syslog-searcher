@@ -4260,7 +4260,7 @@ lazy_static! {
     pub static ref EVTX_KPNP_BZ2_FPATH: FPath = FPath::from(EVTX_KPNP_BZ2_STR_PATH_PROJD);
     /// set by `./tools/log-files-time-update.sh`
     pub static ref EVTX_KPNP_BZ2_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1678535460)
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1778561652)
     };
     pub static ref EVTX_KPNP_BZ2_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_BZ2_F: File =
@@ -4290,7 +4290,7 @@ lazy_static! {
     pub static ref EVTX_KPNP_LZ4_FPATH: FPath = FPath::from(EVTX_KPNP_LZ4_STR_PATH_PROJD);
     /// set by `./tools/log-files-time-update.sh`
     pub static ref EVTX_KPNP_LZ4_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1678708380)
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1778561652)
     };
     pub static ref EVTX_KPNP_LZ4_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_LZ4_F: File =
@@ -4320,7 +4320,7 @@ lazy_static! {
     pub static ref EVTX_KPNP_XZ_FPATH: FPath = FPath::from(EVTX_KPNP_XZ_STR_PATH_PROJD);
     /// set by `./tools/log-files-time-update.sh`
     pub static ref EVTX_KPNP_XZ_MTIME: SystemTime = {
-        SystemTime::UNIX_EPOCH + Duration::from_secs(1678794840)
+        SystemTime::UNIX_EPOCH + Duration::from_secs(1778561652)
     };
     pub static ref EVTX_KPNP_XZ_EVENT_COUNT: Count = 227;
     pub static ref EVTX_KPNP_XZ_F: File =
