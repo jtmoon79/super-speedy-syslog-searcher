@@ -84,8 +84,8 @@ pub fn timestamp_to_datetimelopt(
     let ns128: i128 = timestamp.as_nanosecond();
     let ns64: i64 = match i64::try_from(ns128) {
         Ok(ns) => ns,
-        Err(err) => {
-            debug_panic!("timestamp.as_nanosecond() value {:?} does not fit in i64: {}", ns128, err);
+        Err(_err) => {
+            debug_panic!("timestamp.as_nanosecond() value {:?} does not fit in i64: {}", ns128, _err);
             return DateTimeLOpt::None;
         }
     };
@@ -114,8 +114,8 @@ pub fn datetimelopt_to_timestampopt(
 
     match Timestamp::from_nanosecond(ns as i128) {
         Ok(ts) => TimestampOpt::Some(ts),
-        Err(err) => {
-            de_err!("Timestamp::from_nanosecond({:?}) returned Err {}", ns, err);
+        Err(_err) => {
+            de_err!("Timestamp::from_nanosecond({:?}) returned Err {}", ns, _err);
             TimestampOpt::None
         }
     }
