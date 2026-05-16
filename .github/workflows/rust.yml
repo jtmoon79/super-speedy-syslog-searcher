@@ -332,7 +332,7 @@ jobs:
           cross --version
           export S4_BUILD_REGEX=1
           export S4_BUILD_REGEX_PRINT=1
-          cross check --locked --lib --bins --target ${{ matrix.target }}
+          cross check --locked --lib --bins --release --target ${{ matrix.target }}
 
   job_cross_targets_macos:
     name: cross ${{ matrix.target }} on macos-13
@@ -361,7 +361,7 @@ jobs:
           cross --version
           export S4_BUILD_REGEX=1
           export S4_BUILD_REGEX_PRINT=1
-          cross check --locked --lib --bins --target ${{ matrix.target }}
+          cross check --locked --lib --bins --release --target ${{ matrix.target }}
 
   job_cross_targets_windows:
     name: cross ${{ matrix.target }} on windows
@@ -387,7 +387,7 @@ jobs:
           cross.exe --version
           ${env:S4_BUILD_REGEX}=1
           ${env:S4_BUILD_REGEX_PRINT}=1
-          cross.exe check --locked --lib --bins --target ${{ matrix.target }}
+          cross.exe check --locked --lib --bins --release --target ${{ matrix.target }}
 
   # job_test_wasm:
   #  runs-on: ubuntu-latest
