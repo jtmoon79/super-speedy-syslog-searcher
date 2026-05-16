@@ -600,6 +600,14 @@ pub fn new_ere_regex(input: TokenStream) -> TokenStream {
     } = syn::parse_macro_input!(input as EreRegexFieldsStruct);
     let count: usize = COUNTER_REGEX.fetch_add(1, Ordering::SeqCst);
     let resolved_regex_id: usize = match eval_expr_to_usize(&regex_id) {
+        Some(value) if value < 1 => {
+            return syn::Error::new_spanned(
+                &regex_id,
+                format!("regex_id must be greater than 0; given {value}"),
+            )
+            .to_compile_error()
+            .into();
+        }
         Some(value) => value,
         None => {
             return syn::Error::new_spanned(
