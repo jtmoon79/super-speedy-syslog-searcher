@@ -24,9 +24,9 @@ File: ./logs/OpenBSD7.4/x86_64/lastlog
       first entry   : @0
       entry high    : 1
       peak map size : 1
-      out of order? : 0
       datetime first     : 2024-01-29 08:18:26 +08:00 (2024-01-29 00:18:26.000000 +00:00)
       datetime last      : 2024-01-29 08:18:26 +08:00 (2024-01-29 00:18:26.000000 +00:00)
+      out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit 1, miss 0, 100.0%
   Processing Drops:

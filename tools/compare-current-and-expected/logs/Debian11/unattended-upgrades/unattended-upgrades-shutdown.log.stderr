@@ -25,6 +25,7 @@ File: ./logs/Debian11/unattended-upgrades/unattended-upgrades-shutdown.log
       syslines high : 5
       datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.775000 +00:00)
       datetime last      : 2022-10-11 00:02:37 +08:00 (2022-10-10 16:02:37.174000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%

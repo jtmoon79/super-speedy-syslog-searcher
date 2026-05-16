@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/downloadstation.log
       syslines high : 9
       datetime first     : 2019-08-31 14:59:46 -07:00 (2019-08-31 21:59:46.000000 +00:00)
       datetime last      : 2019-08-31 15:00:08 -07:00 (2019-08-31 22:00:08.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

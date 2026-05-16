@@ -25,6 +25,7 @@ File: ./logs/Windows10Pro/debug/mrt.log
       syslines high : 5
       datetime first     : 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
       datetime last      : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  12, miss  87, 12.1%

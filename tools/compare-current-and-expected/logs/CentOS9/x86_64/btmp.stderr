@@ -24,9 +24,9 @@ File: ./logs/CentOS9/x86_64/btmp
       first entry   : @0
       entry high    : 1
       peak map size : 1
-      out of order? : 0
       datetime first     : 2023-12-15 13:17:08 +08:00 (2023-12-15 05:17:08.000000 +00:00)
       datetime last      : 2023-12-15 13:17:08 +08:00 (2023-12-15 05:17:08.000000 +00:00)
+      out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  1, miss  0, 100.0%
   Processing Drops:

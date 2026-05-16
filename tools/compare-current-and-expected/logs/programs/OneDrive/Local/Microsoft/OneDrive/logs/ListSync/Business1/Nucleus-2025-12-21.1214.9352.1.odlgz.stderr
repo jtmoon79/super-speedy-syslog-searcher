@@ -15,7 +15,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
       file size          : 20499 (0x5013) (bytes)
       events processed   : 615
       events accepted    : 615
-      events out of order: 0
       events read max    : 1
       events queue high  : 1
       Python pipe size stdout    : 256
@@ -23,6 +22,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/ListSync/Business1/
       Python exit status         : 0
       datetime first     : 2025-12-21 20:14:08 +08:00 (2025-12-21 12:14:08.011000 +00:00)
       datetime last      : 2025-12-21 20:14:13 +08:00 (2025-12-21 12:14:13.367000 +00:00)
+      out of order  : 0
 
 Program Summary:
 

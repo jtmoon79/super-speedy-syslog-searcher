@@ -25,6 +25,7 @@ File: ./logs/programs/digital-ocean-cloud-init/cloud-init.log
       syslines high : 9
       datetime first     : 2022-10-08 06:18:26 +08:00 (2022-10-07 22:18:26.935000 +00:00)
       datetime last      : 2022-10-08 06:22:57 +08:00 (2022-10-07 22:22:57.587000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   3, miss  62,  4.6%

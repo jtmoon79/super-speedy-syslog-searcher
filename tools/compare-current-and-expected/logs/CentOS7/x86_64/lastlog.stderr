@@ -24,9 +24,9 @@ File: ./logs/CentOS7/x86_64/lastlog
       first entry   : @0
       entry high    : 2
       peak map size : 2
-      out of order? : 1
       datetime first     : 2023-12-15 16:10:21 +08:00 (2023-12-15 08:10:21.000000 +00:00)
       datetime last      : 2024-03-03 15:03:58 +08:00 (2024-03-03 07:03:58.000000 +00:00)
+      out of order  : 1
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%
   Processing Drops:

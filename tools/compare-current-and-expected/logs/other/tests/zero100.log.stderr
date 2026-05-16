@@ -22,6 +22,7 @@ File: ./logs/other/tests/zero100.log
       line parts    : 0
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0

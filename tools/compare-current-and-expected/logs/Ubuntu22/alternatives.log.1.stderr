@@ -25,6 +25,7 @@ File: ./logs/Ubuntu22/alternatives.log.1
       syslines high : 7
       datetime first     : 2022-10-04 06:22:31 +08:00 (2022-10-03 22:22:31.000000 +00:00)
       datetime last      : 2022-10-04 06:22:31 +08:00 (2022-10-03 22:22:31.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%

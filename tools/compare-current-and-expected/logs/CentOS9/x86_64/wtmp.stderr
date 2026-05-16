@@ -24,9 +24,9 @@ File: ./logs/CentOS9/x86_64/wtmp
       first entry   : @0
       entry high    : 5
       peak map size : 54
-      out of order? : 3
       datetime first     : 2023-04-23 05:55:14 +08:00 (2023-04-22 21:55:14.144000 +00:00)
       datetime last      : 2023-12-15 13:17:13 +08:00 (2023-12-15 05:17:13.613264 +00:00)
+      out of order  : 3
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit   5, miss  49,  9.3%
   Processing Drops:

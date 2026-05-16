@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/synoscheduler-vmtouch.log
       syslines high : 19
       datetime first     : 2018-08-01 14:16:24 -07:00 (2018-08-01 21:16:24.000000 +00:00)
       datetime last      : 2018-10-25 12:23:47 -07:00 (2018-10-25 19:23:47.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

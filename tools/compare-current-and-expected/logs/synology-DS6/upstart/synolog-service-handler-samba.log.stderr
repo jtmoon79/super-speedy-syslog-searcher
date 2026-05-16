@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-samba.log
       syslines high : 9
       datetime first     : 2016-12-05 21:16:10 -08:00 (2016-12-06 05:16:10.000000 +00:00)
       datetime last      : 2016-12-05 21:16:10 -08:00 (2016-12-06 05:16:10.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 17,  0.0%

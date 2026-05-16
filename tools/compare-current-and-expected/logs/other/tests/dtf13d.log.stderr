@@ -25,6 +25,7 @@ File: ./logs/other/tests/dtf13d.log
       syslines high : 3
       datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
       datetime last      : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%

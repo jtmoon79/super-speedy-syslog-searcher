@@ -25,6 +25,7 @@ File: ./logs/other/tests/dtf12c-x3_patts.log
       syslines high : 8
       datetime first     : 2022-01-01 00:00:01 +08:00 (2021-12-31 16:00:01.000000 +00:00)
       datetime last      : 2022-01-11 00:00:11 +08:00 (2022-01-10 16:00:11.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%

@@ -24,6 +24,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-2.log
       line parts    : 0
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0
@@ -61,6 +62,7 @@ File: ./logs/other/tests/simple-2_3.log.tar|simple-3.log
       line parts    : 0
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 0, miss 0,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 0, miss 0,  0.0%, put 0

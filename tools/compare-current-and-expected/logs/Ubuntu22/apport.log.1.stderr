@@ -25,6 +25,7 @@ File: ./logs/Ubuntu22/apport.log.1
       syslines high : 5
       datetime first     : 2022-09-20 23:15:39 +08:00 (2022-09-20 15:15:39.000000 +00:00)
       datetime last      : 2022-09-20 23:24:43 +08:00 (2022-09-20 15:24:43.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  9,  0.0%

@@ -25,6 +25,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
       syslines high : 37
       datetime first     : 2022-10-08 06:18:58 +08:00 (2022-10-07 22:18:58.000000 +00:00)
       datetime last      : 2022-10-08 06:22:55 +08:00 (2022-10-07 22:22:55.000000 +00:00)
+      out of order  : 8
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:

@@ -24,9 +24,9 @@ File: ./logs/Ubuntu16/x86_32/btmp
       first entry   : @0
       entry high    : 3
       peak map size : 3
-      out of order? : 0
       datetime first     : 2023-12-15 16:50:06 +08:00 (2023-12-15 08:50:06.000000 +00:00)
       datetime last      : 2024-02-17 07:54:17 +08:00 (2024-02-16 23:54:17.000000 +00:00)
+      out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%
   Processing Drops:

@@ -25,6 +25,7 @@ File: ./logs/Debian9/samba/log.smbd.1
       syslines high : 1
       datetime first     : 2020-02-06 03:17:33 +08:00 (2020-02-05 19:17:33.158300 +00:00)
       datetime last      : 2020-02-06 03:17:33 +08:00 (2020-02-05 19:17:33.158300 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%

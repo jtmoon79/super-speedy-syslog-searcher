@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/packages/SurveillanceStation.log
       syslines high : 3
       datetime first     : 2019-06-23 21:13:20 +08:00 (2019-06-23 13:13:20.000000 +00:00)
       datetime last      : 2019-08-18 21:24:50 +08:00 (2019-08-18 13:24:50.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%

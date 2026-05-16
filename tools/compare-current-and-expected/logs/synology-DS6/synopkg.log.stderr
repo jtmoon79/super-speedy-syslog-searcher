@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/synopkg.log
       syslines high : 6
       datetime first     : 2016-12-05 20:47:00 +08:00 (2016-12-05 12:47:00.000000 +00:00)
       datetime last      : 2016-12-05 20:47:00 +08:00 (2016-12-05 12:47:00.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%

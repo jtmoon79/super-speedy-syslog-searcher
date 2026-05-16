@@ -25,6 +25,7 @@ File: ./logs/Orbi/tmp/soap_check_fw_log
       syslines high : 15
       datetime first     : 2022-04-04 16:35:39 +08:00 (2022-04-04 08:35:39.000000 +00:00)
       datetime last      : 2022-04-05 01:35:39 +08:00 (2022-04-04 17:35:39.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%

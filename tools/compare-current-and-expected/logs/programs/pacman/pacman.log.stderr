@@ -25,6 +25,7 @@ File: ./logs/programs/pacman/pacman.log
       syslines high : 14
       datetime first     : 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
       datetime last      : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 389,  0.0%

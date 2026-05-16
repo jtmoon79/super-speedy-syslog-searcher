@@ -26,7 +26,8 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       syslines      : 25
       syslines high : 23
       datetime first     : 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
-      datetime last      : 2010-12-12 12:00:00 +08:00 (2010-12-12 04:00:00.000000 +00:00)
+      datetime last      : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)
+      out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2011
   Processing Stores:

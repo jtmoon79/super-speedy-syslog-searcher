@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/rsyncd-adapter.log
       syslines high : 15
       datetime first     : 2016-12-08 18:54:18 -08:00 (2016-12-09 02:54:18.000000 +00:00)
       datetime last      : 2017-05-12 22:46:23 -07:00 (2017-05-13 05:46:23.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

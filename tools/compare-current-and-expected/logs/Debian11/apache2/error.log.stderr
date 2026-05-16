@@ -25,6 +25,7 @@ File: ./logs/Debian11/apache2/error.log
       syslines high : 5
       datetime first     : 2022-10-10 23:56:29 +08:00 (2022-10-10 15:56:29.204202 +00:00)
       datetime last      : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.467654 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 11,  0.0%

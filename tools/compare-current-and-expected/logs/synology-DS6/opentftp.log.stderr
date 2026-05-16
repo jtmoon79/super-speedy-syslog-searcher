@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/opentftp.log
       syslines high : 17
       datetime first     : 2017-01-31 11:25:20 +08:00 (2017-01-31 03:25:20.000000 +00:00)
       datetime last      : 2017-02-22 21:46:30 +08:00 (2017-02-22 13:46:30.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 41,  0.0%

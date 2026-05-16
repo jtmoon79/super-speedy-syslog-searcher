@@ -25,6 +25,7 @@ File: ./logs/programs/proftpd/controls.log
       syslines high : 6
       datetime first     : 2020-10-03 11:24:11 +08:00 (2020-10-03 03:24:11.475000 +00:00)
       datetime last      : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.137000 +00:00)
+      out of order  : 1
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 11,  0.0%

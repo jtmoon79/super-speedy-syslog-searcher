@@ -24,9 +24,9 @@ File: ./logs/Debian11/aarch64_ARM64/lastlog
       first entry   : @296000
       entry high    : 1
       peak map size : 1
-      out of order? : 0
       datetime first     : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.000000 +00:00)
       datetime last      : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.000000 +00:00)
+      out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit    1, miss    0, 100.0%
   Processing Drops:

@@ -25,6 +25,7 @@ File: ./logs/Ubuntu22/cloud-init.log
       syslines high : 10
       datetime first     : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.002000 +00:00)
       datetime last      : 2022-07-31 19:12:53 +08:00 (2022-07-31 11:12:53.017000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%

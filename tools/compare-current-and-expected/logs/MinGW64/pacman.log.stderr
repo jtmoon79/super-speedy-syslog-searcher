@@ -25,6 +25,7 @@ File: ./logs/MinGW64/pacman.log
       syslines high : 15
       datetime first     : 2018-05-31 12:19:00 +08:00 (2018-05-31 04:19:00.000000 +00:00)
       datetime last      : 2018-05-31 12:21:00 +08:00 (2018-05-31 04:21:00.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 203,  0.0%

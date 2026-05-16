@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-SurveillanceStation.log
       syslines high : 14
       datetime first     : 2017-02-05 01:00:17 -08:00 (2017-02-05 09:00:17.000000 +00:00)
       datetime last      : 2017-06-19 01:18:48 -07:00 (2017-06-19 08:18:48.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

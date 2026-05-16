@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/sfdisk.log
       syslines high : 10
       datetime first     : 2017-04-06 01:07:40 -07:00 (2017-04-06 08:07:40.000000 +00:00)
       datetime last      : 2020-02-24 16:36:10 -08:00 (2020-02-25 00:36:10.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

@@ -1,0 +1,72 @@
+
+Files:
+
+File: ./logs/other/tests/dtf2-20-out-of-order.log
+  About:
+      filetype       : TEXT UTF8/ASCII (text log)
+      logmessagetype : text log lines
+  Printed:
+      bytes         : 2209
+      flushes       : 20
+      lines         : 20
+      syslines      : 20
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:19 +08:00 (1999-12-31 16:00:19.000000 +00:00)
+  Processed:
+      file size     : 729 (0x2D9) (bytes)
+      bytes         : 729 (0x2D9)
+      bytes total   : 729 (0x2D9)
+      block size    : 256 (0x100)
+      blocks        : 3
+      blocks total  : 3 (768 bytes)
+      lines         : 20
+      line parts    : 22
+      syslines      : 20
+      syslines high : 20
+      datetime first     : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last      : 2000-01-01 00:00:19 +08:00 (1999-12-31 16:00:19.000000 +00:00)
+      out of order  : 2
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 39,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit 20, miss 21, 48.8%, put 20
+      copying: SyslineReader::get_boxptrs()                        : sgl 96, dbl   2, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 20,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 20,  0.0%, put 20
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 20,  4.8%, put 20
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 19, miss 20, 48.7%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 94,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 20, miss 78
+  Processing Drops:
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 2290
+Printed flushes        : 41
+Printed lines          : 20
+Printed syslines       : 20
+Printed ASL events     : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Printed ODL events     : 0
+Regex patterns known   : 176
+Regex patterns compiled: 176
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+Datetime printed last  : 2000-01-01 00:00:19 +08:00 (1999-12-31 16:00:19.000000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 22
+Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0
+Temporary files created: 0
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

@@ -25,6 +25,7 @@ File: ./logs/Orbi/tmp/xagent.log
       syslines high : 11
       datetime first     : 2022-04-04 23:36:06 +08:00 (2022-04-04 15:36:06.000000 +00:00)
       datetime last      : 2022-04-04 23:36:08 +08:00 (2022-04-04 15:36:08.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

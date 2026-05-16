@@ -25,6 +25,7 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
       syslines high : 2
       datetime first     : 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
       datetime last      : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   15, miss   98, 13.3%

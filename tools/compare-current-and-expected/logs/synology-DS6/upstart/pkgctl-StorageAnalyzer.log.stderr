@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-StorageAnalyzer.log
       syslines high : 14
       datetime first     : 2016-12-05 20:47:06 -08:00 (2016-12-06 04:47:06.000000 +00:00)
       datetime last      : 2017-02-24 02:30:14 -08:00 (2017-02-24 10:30:14.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

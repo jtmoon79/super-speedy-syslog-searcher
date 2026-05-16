@@ -25,6 +25,7 @@ File: ./logs/RockyLinux9/dnf.rpm.log
       syslines high : 12
       datetime first     : 2022-09-12 17:53:18 +00:00 (2022-09-12 17:53:18.000000 +00:00)
       datetime last      : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  75,  2.6%

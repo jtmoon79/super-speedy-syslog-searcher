@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/apparmor.log
       syslines high : 11
       datetime first     : 2016-12-05 20:31:05 -08:00 (2016-12-06 04:31:05.000000 +00:00)
       datetime last      : 2016-12-05 22:01:43 -08:00 (2016-12-06 06:01:43.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

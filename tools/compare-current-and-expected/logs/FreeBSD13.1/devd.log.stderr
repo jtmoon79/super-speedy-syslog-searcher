@@ -25,6 +25,7 @@ File: ./logs/FreeBSD13.1/devd.log
       syslines high : 9
       datetime first     : 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
       datetime last      : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2023
   Processing Stores:

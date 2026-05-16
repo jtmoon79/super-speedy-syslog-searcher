@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/iscsi.log
       syslines high : 9
       datetime first     : 2016-12-05 20:31:40 -08:00 (2016-12-06 04:31:40.000000 +00:00)
       datetime last      : 2017-01-24 23:26:17 -08:00 (2017-01-25 07:26:17.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 39,  0.0%

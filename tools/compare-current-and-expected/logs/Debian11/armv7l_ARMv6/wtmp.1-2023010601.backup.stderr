@@ -24,9 +24,9 @@ File: ./logs/Debian11/armv7l_ARMv6/wtmp.1-2023010601.backup
       first entry   : @0
       entry high    : 5
       peak map size : 5
-      out of order? : 0
       datetime first     : 2024-02-18 12:43:31 +08:00 (2024-02-18 04:43:31.043856 +00:00)
       datetime last      : 2024-02-18 12:56:44 +08:00 (2024-02-18 04:56:44.731755 +00:00)
+      out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  0, 100.0%
   Processing Drops:

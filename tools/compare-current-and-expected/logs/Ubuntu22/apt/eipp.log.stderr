@@ -24,6 +24,7 @@ File: ./logs/Ubuntu22/apt/eipp.log
       line parts    : 14
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    1, miss   26,  3.7%
       caching: LineReader::find_line() LRU cache                   : hit    1, miss   14,  6.7%, put   13

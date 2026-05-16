@@ -15,7 +15,6 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
       file size          : 16384 (0x4000) (bytes)
       events processed   : 21
       events accepted    : 21
-      events out of order: 0
       events read max    : 1
       events queue high  : 1
       Python pipe size stdout    : 256
@@ -23,6 +22,7 @@ File: ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
       Python exit status         : 0
       datetime first     : 2025-10-05 19:30:19 +08:00 (2025-10-05 11:30:19.201000 +00:00)
       datetime last      : 2025-10-05 19:31:19 +08:00 (2025-10-05 11:31:19.384000 +00:00)
+      out of order  : 0
 
 Program Summary:
 

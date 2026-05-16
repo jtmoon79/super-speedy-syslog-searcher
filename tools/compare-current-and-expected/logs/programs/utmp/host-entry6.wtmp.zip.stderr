@@ -22,6 +22,7 @@ File: ./logs/programs/utmp/host-entry6.wtmp.zip
       line parts    : 2
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 0, miss 2,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 0, miss 2,  0.0%, put 0

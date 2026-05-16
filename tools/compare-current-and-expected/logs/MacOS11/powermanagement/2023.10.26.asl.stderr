@@ -15,7 +15,6 @@ File: ./logs/MacOS11/powermanagement/2023.10.26.asl
       file size          : 3366 (0xD26) (bytes)
       events processed   : 10
       events accepted    : 10
-      events out of order: 0
       events read max    : 1
       events queue high  : 1
       Python pipe size stdout    : 256
@@ -23,6 +22,7 @@ File: ./logs/MacOS11/powermanagement/2023.10.26.asl
       Python exit status         : 0
       datetime first     : 2023-10-26 16:27:25 +08:00 (2023-10-26 08:27:25.731000 +00:00)
       datetime last      : 2023-10-26 16:31:31 +08:00 (2023-10-26 08:31:31.898000 +00:00)
+      out of order  : 0
 
 Program Summary:
 

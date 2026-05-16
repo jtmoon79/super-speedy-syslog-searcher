@@ -25,6 +25,7 @@ File: ./logs/RockyLinux9/hawkey.log
       syslines high : 15
       datetime first     : 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
       datetime last      : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 55,  0.0%

@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/auto-smallupdate.log
       syslines high : 8
       datetime first     : 2018-10-15 14:09:31 -07:00 (2018-10-15 21:09:31.000000 +00:00)
       datetime last      : 2019-06-23 21:11:15 -07:00 (2019-06-24 04:11:15.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 15,  0.0%

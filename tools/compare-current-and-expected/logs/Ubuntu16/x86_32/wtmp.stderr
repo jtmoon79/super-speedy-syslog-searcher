@@ -24,9 +24,9 @@ File: ./logs/Ubuntu16/x86_32/wtmp
       first entry   : @0
       entry high    : 4
       peak map size : 19
-      out of order? : 3
       datetime first     : 2023-12-15 16:40:54 +08:00 (2023-12-15 08:40:54.500000 +00:00)
       datetime last      : 2023-12-15 16:55:48 +08:00 (2023-12-15 08:55:48.887567 +00:00)
+      out of order  : 3
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss 15, 21.1%
   Processing Drops:

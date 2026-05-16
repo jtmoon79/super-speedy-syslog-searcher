@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/packages/FileStation.log
       syslines high : 12
       datetime first     : 2019-06-23 21:11:54 +08:00 (2019-06-23 13:11:54.000000 +00:00)
       datetime last      : 2019-06-23 21:11:56 +08:00 (2019-06-23 13:11:56.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

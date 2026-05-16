@@ -169,6 +169,7 @@
 ./logs/other/tests/dtf2-2.tar.lz
 ./logs/other/tests/dtf2-2.tar.xz
 ./logs/other/tests/dtf2-2.xz
+./logs/other/tests/dtf2-20-out-of-order.log
 ./logs/other/tests/dtf3-1.log
 ./logs/other/tests/dtf3-2a.log
 ./logs/other/tests/dtf3-2b.log

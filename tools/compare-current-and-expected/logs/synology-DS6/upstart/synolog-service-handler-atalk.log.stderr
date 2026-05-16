@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/synolog-service-handler-atalk.log
       syslines high : 16
       datetime first     : 2016-12-05 21:16:11 -08:00 (2016-12-06 05:16:11.000000 +00:00)
       datetime last      : 2016-12-30 00:36:57 -08:00 (2016-12-30 08:36:57.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 31,  0.0%

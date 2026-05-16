@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/synoservice.log
       syslines high : 10
       datetime first     : 2020-02-11 03:24:26 -08:00 (2020-02-11 11:24:26.000000 +00:00)
       datetime last      : 2020-02-12 02:44:29 -08:00 (2020-02-12 10:44:29.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

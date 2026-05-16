@@ -24,6 +24,7 @@ File: ./logs/Ubuntu18/gpu-manager.log
       line parts    : 5
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   4

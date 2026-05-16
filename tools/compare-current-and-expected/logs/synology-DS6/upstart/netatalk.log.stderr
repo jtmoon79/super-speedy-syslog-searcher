@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/netatalk.log
       syslines high : 17
       datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
       datetime last      : 2016-12-08 18:55:31 -08:00 (2016-12-09 02:55:31.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

@@ -25,6 +25,7 @@ File: ./logs/Debian9/apt/history.log
       syslines high : 4
       datetime first     : 2019-09-13 19:20:11 +08:00 (2019-09-13 11:20:11.000000 +00:00)
       datetime last      : 2020-02-18 16:36:26 +08:00 (2020-02-18 08:36:26.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   2, miss  17, 10.5%

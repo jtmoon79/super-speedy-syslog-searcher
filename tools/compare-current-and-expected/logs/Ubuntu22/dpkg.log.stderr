@@ -25,6 +25,7 @@ File: ./logs/Ubuntu22/dpkg.log
       syslines high : 13
       datetime first     : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       datetime last      : 2022-10-04 06:22:30 +08:00 (2022-10-03 22:22:30.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%

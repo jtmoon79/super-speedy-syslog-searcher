@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/dmesg
       syslines high : 11
       datetime first     : 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)
       datetime last      : 2019-02-11 19:22:56 +08:00 (2019-02-11 11:22:56.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

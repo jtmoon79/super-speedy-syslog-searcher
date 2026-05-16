@@ -25,6 +25,7 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
       syslines high : 12
       datetime first     : 2022-10-10 20:23:22 +00:00 (2022-10-10 20:23:22.000000 +00:00)
       datetime last      : 2022-10-10 20:23:27 +00:00 (2022-10-10 20:23:27.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%

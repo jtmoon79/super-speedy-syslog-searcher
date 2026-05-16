@@ -25,6 +25,7 @@ File: ./logs/other/tests/dtf7-20-LEVELS-outoforder.log
       syslines high : 15
       datetime first     : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
       datetime last      : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)
+      out of order  : 2
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%

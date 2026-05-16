@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/packages/StorageAnalyzer.log
       syslines high : 7
       datetime first     : 2019-06-23 21:13:16 +08:00 (2019-06-23 13:13:16.000000 +00:00)
       datetime last      : 2019-06-25 01:46:29 +08:00 (2019-06-24 17:46:29.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   4, miss  33, 10.8%

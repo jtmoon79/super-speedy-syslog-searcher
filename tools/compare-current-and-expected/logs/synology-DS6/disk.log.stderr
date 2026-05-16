@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/disk.log
       syslines high : 9
       datetime first     : 2017-05-08 08:35:08 -07:00 (2017-05-08 15:35:08.000000 +00:00)
       datetime last      : 2017-05-08 08:35:08 -07:00 (2017-05-08 15:35:08.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 39,  0.0%

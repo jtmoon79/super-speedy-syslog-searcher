@@ -25,6 +25,7 @@ File: ./logs/Ubuntu22/unattended-upgrades/unattended-upgrades.log
       syslines high : 11
       datetime first     : 2022-10-03 22:47:12 +08:00 (2022-10-03 14:47:12.455000 +00:00)
       datetime last      : 2022-10-04 06:22:28 +08:00 (2022-10-03 22:22:28.605000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 27,  0.0%

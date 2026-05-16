@@ -25,6 +25,7 @@ File: ./logs/Debian11/dpkg.log
       syslines high : 15
       datetime first     : 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
       datetime last      : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  96,  1.0%

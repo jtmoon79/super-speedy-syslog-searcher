@@ -25,6 +25,7 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns
       syslines high : 10
       datetime first     : 2022-05-10 16:19:12 +08:00 (2022-05-10 08:19:12.000000 +00:00)
       datetime last      : 2022-05-10 16:19:13 +08:00 (2022-05-10 08:19:13.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%

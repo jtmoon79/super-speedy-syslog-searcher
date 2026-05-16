@@ -24,6 +24,7 @@ File: ./logs/Ubuntu18/installer/initial-status
       line parts    : 10
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    0, miss   19,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit    1, miss   10,  9.1%, put    9

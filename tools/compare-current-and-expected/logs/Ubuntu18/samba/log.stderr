@@ -25,6 +25,7 @@ File: ./logs/Ubuntu18/samba/log
       syslines high : 6
       datetime first     : 2020-03-05 12:16:44 +08:00 (2020-03-05 04:16:44.434700 +00:00)
       datetime last      : 2020-03-05 12:16:44 +08:00 (2020-03-05 04:16:44.434700 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%

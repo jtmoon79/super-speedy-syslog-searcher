@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/inetd.log
       syslines high : 11
       datetime first     : 2019-06-28 19:58:54 -07:00 (2019-06-29 02:58:54.000000 +00:00)
       datetime last      : 2019-11-14 21:05:42 -08:00 (2019-11-15 05:05:42.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

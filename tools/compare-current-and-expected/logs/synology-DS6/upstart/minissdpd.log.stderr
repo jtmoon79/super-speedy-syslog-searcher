@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/minissdpd.log
       syslines high : 16
       datetime first     : 2016-12-05 20:31:35 -08:00 (2016-12-06 04:31:35.000000 +00:00)
       datetime last      : 2016-12-05 20:36:47 -08:00 (2016-12-06 04:36:47.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

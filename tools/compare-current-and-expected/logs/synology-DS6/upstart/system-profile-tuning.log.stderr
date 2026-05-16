@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/system-profile-tuning.log
       syslines high : 16
       datetime first     : 2018-08-01 14:16:55 -07:00 (2018-08-01 21:16:55.000000 +00:00)
       datetime last      : 2019-02-11 16:44:40 -08:00 (2019-02-12 00:44:40.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

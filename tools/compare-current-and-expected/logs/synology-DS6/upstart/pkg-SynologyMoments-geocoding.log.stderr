@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-geocoding.log
       syslines high : 12
       datetime first     : 2018-12-06 02:31:29 -08:00 (2018-12-06 10:31:29.000000 +00:00)
       datetime last      : 2019-01-26 03:37:37 -08:00 (2019-01-26 11:37:37.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

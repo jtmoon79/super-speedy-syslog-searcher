@@ -24,6 +24,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, Deflate, 9, time precision 100ns)
       line parts    : 4
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   7,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   3

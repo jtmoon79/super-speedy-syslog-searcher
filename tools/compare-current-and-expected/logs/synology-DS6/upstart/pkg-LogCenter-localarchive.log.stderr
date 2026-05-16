@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/pkg-LogCenter-localarchive.log
       syslines high : 10
       datetime first     : 2018-09-04 15:01:08 -07:00 (2018-09-04 22:01:08.000000 +00:00)
       datetime last      : 2018-09-04 15:01:09 -07:00 (2018-09-04 22:01:09.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-HyperBackupVault.log
       syslines high : 14
       datetime first     : 2018-11-29 23:50:14 -08:00 (2018-11-30 07:50:14.000000 +00:00)
       datetime last      : 2019-09-08 19:25:25 -07:00 (2019-09-09 02:25:25.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

@@ -15,7 +15,6 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       file size          : 1961 (0x7A9) (bytes)
       events processed   : 11
       events accepted    : 11
-      events out of order: 0
       events read max    : 1
       events queue high  : 1
       Python pipe size stdout    : 256
@@ -23,6 +22,7 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       Python exit status         : 0
       datetime first     : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
       datetime last      : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+      out of order  : 0
 
 Program Summary:
 

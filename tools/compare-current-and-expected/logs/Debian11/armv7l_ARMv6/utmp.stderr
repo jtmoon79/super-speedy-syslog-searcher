@@ -24,9 +24,9 @@ File: ./logs/Debian11/armv7l_ARMv6/utmp
       first entry   : @384
       entry high    : 4
       peak map size : 5
-      out of order? : 1
       datetime first     : 2023-11-27 12:17:48 +08:00 (2023-11-27 04:17:48.994767 +00:00)
       datetime last      : 2024-02-18 12:56:44 +08:00 (2024-02-18 04:56:44.731607 +00:00)
+      out of order  : 1
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  4, miss  1, 80.0%
   Processing Drops:

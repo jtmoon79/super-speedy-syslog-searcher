@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-CloudSync.log
       syslines high : 12
       datetime first     : 2017-05-24 19:15:29 -07:00 (2017-05-25 02:15:29.000000 +00:00)
       datetime last      : 2019-02-11 19:25:11 -08:00 (2019-02-12 03:25:11.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

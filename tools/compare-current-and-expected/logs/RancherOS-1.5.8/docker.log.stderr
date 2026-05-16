@@ -25,6 +25,7 @@ File: ./logs/RancherOS-1.5.8/docker.log
       syslines high : 8
       datetime first     : 2022-10-09 21:33:15 +00:00 (2022-10-09 21:33:15.541012 +00:00)
       datetime last      : 2022-10-09 21:33:16 +00:00 (2022-10-09 21:33:16.162883 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 135,  0.0%

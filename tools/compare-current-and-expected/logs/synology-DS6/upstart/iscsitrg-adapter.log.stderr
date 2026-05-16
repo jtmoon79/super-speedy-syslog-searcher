@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/iscsitrg-adapter.log
       syslines high : 16
       datetime first     : 2016-12-05 20:31:39 -08:00 (2016-12-06 04:31:39.000000 +00:00)
       datetime last      : 2017-01-03 23:56:43 -08:00 (2017-01-04 07:56:43.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

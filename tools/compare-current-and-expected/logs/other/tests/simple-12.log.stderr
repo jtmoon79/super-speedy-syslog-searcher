@@ -25,6 +25,7 @@ File: ./logs/other/tests/simple-12.log
       syslines high : 1
       datetime first     : 2001-01-03 01:09:24 +08:00 (2001-01-02 17:09:24.000000 +00:00)
       datetime last      : 2001-01-03 01:09:24 +08:00 (2001-01-02 17:09:24.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%

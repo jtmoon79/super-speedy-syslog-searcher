@@ -25,6 +25,7 @@ File: ./logs/OpenSUSE15/zypp/history
       syslines high : 7
       datetime first     : 2017-09-15 13:48:27 +08:00 (2017-09-15 05:48:27.000000 +00:00)
       datetime last      : 2017-09-15 13:51:18 +08:00 (2017-09-15 05:51:18.000000 +00:00)
+      out of order  : 14
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  79,  0.0%

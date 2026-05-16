@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/cloudsync/daemon.log
       syslines high : 7
       datetime first     : 2018-02-09 21:25:05 +08:00 (2018-02-09 13:25:05.000000 +00:00)
       datetime last      : 2018-02-09 21:25:06 +08:00 (2018-02-09 13:25:06.000000 +00:00)
+      out of order  : 4
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018
   Processing Stores:

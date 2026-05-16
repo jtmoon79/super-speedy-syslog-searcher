@@ -24,6 +24,7 @@ File: ./logs/other/tests/simple-11s.log
       line parts    : 1
       syslines      : 0
       syslines high : 0
+      out of order  : 0
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1

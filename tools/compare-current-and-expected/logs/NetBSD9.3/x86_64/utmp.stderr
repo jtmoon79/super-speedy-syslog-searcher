@@ -24,9 +24,9 @@ File: ./logs/NetBSD9.3/x86_64/utmp
       first entry   : @720
       entry high    : 1
       peak map size : 1
-      out of order? : 0
       datetime first     : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.000000 +00:00)
       datetime last      : 2024-02-25 16:36:43 +08:00 (2024-02-25 08:36:43.000000 +00:00)
+      out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  1, miss  0, 100.0%
   Processing Drops:

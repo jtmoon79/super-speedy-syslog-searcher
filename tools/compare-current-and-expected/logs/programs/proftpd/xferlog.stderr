@@ -25,6 +25,7 @@ File: ./logs/programs/proftpd/xferlog
       syslines high : 3
       datetime first     : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.000000 +00:00)
       datetime last      : 2020-10-03 11:26:12 +08:00 (2020-10-03 03:26:12.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%

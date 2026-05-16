@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/pkgctl-GlacierBackup.log
       syslines high : 15
       datetime first     : 2018-11-29 23:49:44 -08:00 (2018-11-30 07:49:44.000000 +00:00)
       datetime last      : 2019-10-19 18:59:23 -07:00 (2019-10-20 01:59:23.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/upstart/iscsi_pluginengined.log
       syslines high : 13
       datetime first     : 2016-12-05 20:31:41 -08:00 (2016-12-06 04:31:41.000000 +00:00)
       datetime last      : 2017-02-04 23:07:11 -08:00 (2017-02-05 07:07:11.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%

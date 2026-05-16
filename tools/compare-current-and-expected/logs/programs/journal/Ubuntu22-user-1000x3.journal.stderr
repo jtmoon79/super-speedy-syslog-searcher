@@ -14,11 +14,11 @@ File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal
   Processed:
       file size     : 8388608 (0x800000) (bytes)
       journal events: 3
-      out of order  : 0
       lib. API calls: 122
       API errors    : 0
       datetime first: 2023-04-02 15:06:40 +08:00 (2023-04-02 07:06:40.060134 +00:00)
       datetime last : 2023-04-02 15:07:00 +08:00 (2023-04-02 07:07:00.789680 +00:00)
+      out of order  : 0
 
 Program Summary:
 

@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/synolog/synobackup.log
       syslines high : 10
       datetime first     : 2017-02-21 21:36:10 +08:00 (2017-02-21 13:36:10.000000 +00:00)
       datetime last      : 2017-02-24 03:43:57 +08:00 (2017-02-23 19:43:57.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  31,  0.0%

@@ -25,6 +25,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
       syslines high : 9
       datetime first     : 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
       datetime last      : 2022-10-10 20:23:33 +00:00 (2022-10-10 20:23:33.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%

@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/surveillance/ssrotate.log
       syslines high : 19
       datetime first     : 2022-09-18 14:18:39 +08:00 (2022-09-18 06:18:39.000000 +00:00)
       datetime last      : 2022-09-18 16:29:41 +08:00 (2022-09-18 08:29:41.000000 +00:00)
+      out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:

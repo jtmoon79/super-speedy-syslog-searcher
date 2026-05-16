@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/synoreport.log
       syslines high : 16
       datetime first     : 2017-05-14 04:00:07 +08:00 (2017-05-13 20:00:07.000000 +00:00)
       datetime last      : 2017-05-16 04:45:18 +08:00 (2017-05-15 20:45:18.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%

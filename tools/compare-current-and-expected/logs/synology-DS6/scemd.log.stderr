@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/scemd.log
       syslines high : 8
       datetime first     : 2016-12-05 20:31:29 -08:00 (2016-12-06 04:31:29.000000 +00:00)
       datetime last      : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 39,  0.0%

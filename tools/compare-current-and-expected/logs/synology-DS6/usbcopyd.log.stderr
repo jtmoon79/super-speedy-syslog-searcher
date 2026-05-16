@@ -25,6 +25,7 @@ File: ./logs/synology-DS6/usbcopyd.log
       syslines high : 10
       datetime first     : 2017-05-24 19:14:38 -07:00 (2017-05-25 02:14:38.000000 +00:00)
       datetime last      : 2017-06-19 01:19:07 -07:00 (2017-06-19 08:19:07.000000 +00:00)
+      out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
