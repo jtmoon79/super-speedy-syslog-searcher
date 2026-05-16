@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyApplicationService-notification_se
       line parts    : 23
       syslines      : 19
       syslines high : 16
-      datetime first     : 2018-12-06 02:26:02 -08:00 (2018-12-06 10:26:02.000000 +00:00)
-      datetime last      : 2019-10-19 19:04:09 -07:00 (2019-10-20 02:04:09.000000 +00:00)
+      datetime first: 2018-12-06 02:26:02 -08:00 (2018-12-06 10:26:02.000000 +00:00)
+      datetime last : 2019-10-19 19:04:09 -07:00 (2019-10-20 02:04:09.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/Ubuntu22/apt/term.log
       line parts    : 20
       syslines      : 1
       syslines high : 1
-      datetime first     : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
-      datetime last      : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
+      datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
+      datetime last : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

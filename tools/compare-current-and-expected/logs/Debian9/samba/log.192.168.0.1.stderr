@@ -23,8 +23,8 @@ File: ./logs/Debian9/samba/log.192.168.0.1
       line parts    : 2
       syslines      : 1
       syslines high : 1
-      datetime first     : 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.816000 +00:00)
-      datetime last      : 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.816000 +00:00)
+      datetime first: 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.816000 +00:00)
+      datetime last : 2019-04-21 20:43:58 +08:00 (2019-04-21 12:43:58.816000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

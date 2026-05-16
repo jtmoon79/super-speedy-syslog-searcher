@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/smbd.log
       line parts    : 23
       syslines      : 16
       syslines high : 11
-      datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
-      datetime last      : 2016-12-05 21:11:47 -08:00 (2016-12-06 05:11:47.000000 +00:00)
+      datetime first: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
+      datetime last : 2016-12-05 21:11:47 -08:00 (2016-12-06 05:11:47.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/RockyLinux9/nginx/access.log
       line parts    : 6
       syslines      : 4
       syslines high : 4
-      datetime first     : 2022-10-08 22:26:35 +00:00 (2022-10-08 22:26:35.000000 +00:00)
-      datetime last      : 2022-10-08 22:27:55 +00:00 (2022-10-08 22:27:55.000000 +00:00)
+      datetime first: 2022-10-08 22:26:35 +00:00 (2022-10-08 22:26:35.000000 +00:00)
+      datetime last : 2022-10-08 22:27:55 +00:00 (2022-10-08 22:27:55.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

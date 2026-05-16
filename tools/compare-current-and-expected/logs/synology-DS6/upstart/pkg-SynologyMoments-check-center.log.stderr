@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-check-center.log
       line parts    : 25
       syslines      : 19
       syslines high : 12
-      datetime first     : 2018-12-06 02:31:42 -08:00 (2018-12-06 10:31:42.000000 +00:00)
-      datetime last      : 2019-01-26 03:37:44 -08:00 (2019-01-26 11:37:44.000000 +00:00)
+      datetime first: 2018-12-06 02:31:42 -08:00 (2018-12-06 10:31:42.000000 +00:00)
+      datetime last : 2019-01-26 03:37:44 -08:00 (2019-01-26 11:37:44.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

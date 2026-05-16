@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/packages/Node.js_v8.log
       line parts    : 26
       syslines      : 19
       syslines high : 10
-      datetime first     : 2019-08-31 23:51:57 +08:00 (2019-08-31 15:51:57.000000 +00:00)
-      datetime last      : 2019-08-31 23:51:59 +08:00 (2019-08-31 15:51:59.000000 +00:00)
+      datetime first: 2019-08-31 23:51:57 +08:00 (2019-08-31 15:51:57.000000 +00:00)
+      datetime last : 2019-08-31 23:51:59 +08:00 (2019-08-31 15:51:59.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

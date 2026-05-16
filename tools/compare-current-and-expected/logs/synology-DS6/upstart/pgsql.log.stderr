@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/pgsql.log
       line parts    : 24
       syslines      : 15
       syslines high : 11
-      datetime first     : 2016-12-05 20:32:59 -08:00 (2016-12-06 04:32:59.000000 +00:00)
-      datetime last      : 2017-01-03 01:40:59 -08:00 (2017-01-03 09:40:59.000000 +00:00)
+      datetime first: 2016-12-05 20:32:59 -08:00 (2016-12-06 04:32:59.000000 +00:00)
+      datetime last : 2017-01-03 01:40:59 -08:00 (2017-01-03 09:40:59.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

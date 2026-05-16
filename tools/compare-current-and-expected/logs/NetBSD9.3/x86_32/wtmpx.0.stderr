@@ -24,8 +24,8 @@ File: ./logs/NetBSD9.3/x86_32/wtmpx.0
       first entry   : @0
       entry high    : 5
       peak map size : 7
-      datetime first     : 2023-12-24 03:51:20 +08:00 (2023-12-23 19:51:20.538714 +00:00)
-      datetime last      : 2024-02-17 09:56:07 +08:00 (2024-02-17 01:56:07.877199 +00:00)
+      datetime first: 2023-12-24 03:51:20 +08:00 (2023-12-23 19:51:20.538714 +00:00)
+      datetime last : 2024-02-17 09:56:07 +08:00 (2024-02-17 01:56:07.877199 +00:00)
       out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  2, 71.4%

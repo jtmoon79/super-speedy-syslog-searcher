@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-DownloadStation.log
       line parts    : 24
       syslines      : 19
       syslines high : 14
-      datetime first     : 2016-12-05 20:47:41 -08:00 (2016-12-06 04:47:41.000000 +00:00)
-      datetime last      : 2017-02-23 14:45:55 -08:00 (2017-02-23 22:45:55.000000 +00:00)
+      datetime first: 2016-12-05 20:47:41 -08:00 (2016-12-06 04:47:41.000000 +00:00)
+      datetime last : 2017-02-23 14:45:55 -08:00 (2017-02-23 22:45:55.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/datascrubbing.log
       line parts    : 29
       syslines      : 19
       syslines high : 8
-      datetime first     : 2018-08-01 14:16:54 -07:00 (2018-08-01 21:16:54.000000 +00:00)
-      datetime last      : 2018-10-25 12:26:10 -07:00 (2018-10-25 19:26:10.000000 +00:00)
+      datetime first: 2018-08-01 14:16:54 -07:00 (2018-08-01 21:16:54.000000 +00:00)
+      datetime last : 2018-10-25 12:26:10 -07:00 (2018-10-25 19:26:10.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

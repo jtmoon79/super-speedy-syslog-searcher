@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/synoscheduler.log
       line parts    : 26
       syslines      : 18
       syslines high : 10
-      datetime first     : 2016-12-05 20:37:01 -08:00 (2016-12-06 04:37:01.000000 +00:00)
-      datetime last      : 2017-05-15 04:00:05 -07:00 (2017-05-15 11:00:05.000000 +00:00)
+      datetime first: 2016-12-05 20:37:01 -08:00 (2016-12-06 04:37:01.000000 +00:00)
+      datetime last : 2017-05-15 04:00:05 -07:00 (2017-05-15 11:00:05.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

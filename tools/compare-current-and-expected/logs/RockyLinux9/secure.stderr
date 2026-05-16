@@ -23,8 +23,8 @@ File: ./logs/RockyLinux9/secure
       line parts    : 831
       syslines      : 546
       syslines high : 545
-      datetime first     : 2022-10-08 06:18:38 +08:00 (2022-10-07 22:18:38.000000 +00:00)
-      datetime last      : 2022-10-08 22:31:17 +08:00 (2022-10-08 14:31:17.000000 +00:00)
+      datetime first: 2022-10-08 06:18:38 +08:00 (2022-10-07 22:18:38.000000 +00:00)
+      datetime last : 2022-10-08 22:31:17 +08:00 (2022-10-08 14:31:17.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022

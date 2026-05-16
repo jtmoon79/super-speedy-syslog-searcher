@@ -23,8 +23,8 @@ File: ./logs/Debian11/alternatives.log
       line parts    : 32
       syslines      : 15
       syslines high : 8
-      datetime first     : 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
-      datetime last      : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
+      datetime first: 2022-04-20 15:15:17 +08:00 (2022-04-20 07:15:17.000000 +00:00)
+      datetime last : 2022-10-10 23:59:50 +08:00 (2022-10-10 15:59:50.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

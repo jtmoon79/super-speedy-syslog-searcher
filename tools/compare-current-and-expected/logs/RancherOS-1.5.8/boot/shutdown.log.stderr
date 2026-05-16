@@ -23,8 +23,8 @@ File: ./logs/RancherOS-1.5.8/boot/shutdown.log
       line parts    : 13
       syslines      : 10
       syslines high : 10
-      datetime first     : 2022-10-10 20:23:14 +00:00 (2022-10-10 20:23:14.000000 +00:00)
-      datetime last      : 2022-10-10 20:23:15 +00:00 (2022-10-10 20:23:15.000000 +00:00)
+      datetime first: 2022-10-10 20:23:14 +00:00 (2022-10-10 20:23:14.000000 +00:00)
+      datetime last : 2022-10-10 20:23:15 +00:00 (2022-10-10 20:23:15.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

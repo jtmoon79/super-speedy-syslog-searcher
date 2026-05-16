@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/rc-sysinit.log
       line parts    : 25
       syslines      : 19
       syslines high : 12
-      datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
-      datetime last      : 2017-02-23 14:53:02 -08:00 (2017-02-23 22:53:02.000000 +00:00)
+      datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+      datetime last : 2017-02-23 14:53:02 -08:00 (2017-02-23 22:53:02.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

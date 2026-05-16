@@ -23,8 +23,8 @@ File: ./logs/other/tests/basic-basic-dt10-repeats.log
       line parts    : 59
       syslines      : 55
       syslines high : 37
-      datetime first     : 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
-      datetime last      : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
+      datetime first: 2000-01-01 00:00:01 +08:00 (1999-12-31 16:00:01.000000 +00:00)
+      datetime last : 2000-01-01 00:00:10 +08:00 (1999-12-31 16:00:10.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

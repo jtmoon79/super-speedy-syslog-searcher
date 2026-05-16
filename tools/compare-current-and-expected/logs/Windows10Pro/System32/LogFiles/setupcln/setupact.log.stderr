@@ -23,8 +23,8 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setupact.log
       line parts    : 1786
       syslines      : 1205
       syslines high : 11
-      datetime first     : 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
-      datetime last      : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
+      datetime first: 2020-05-28 12:31:05 +08:00 (2020-05-28 04:31:05.000000 +00:00)
+      datetime last : 2022-10-12 13:26:21 +08:00 (2022-10-12 05:26:21.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/RancherOS-1.5.8/syslog
       line parts    : 14
       syslines      : 11
       syslines high : 10
-      datetime first     : 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
-      datetime last      : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
+      datetime first: 2022-10-10 20:31:15 +08:00 (2022-10-10 12:31:15.000000 +00:00)
+      datetime last : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)
       out of order  : 5
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022

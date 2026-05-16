@@ -23,8 +23,8 @@ File: ./logs/RancherOS-1.5.8/boot/autologin
       line parts    : 2
       syslines      : 2
       syslines high : 2
-      datetime first     : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
-      datetime last      : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)
+      datetime first: 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
+      datetime last : 2022-10-10 20:23:36 +00:00 (2022-10-10 20:23:36.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

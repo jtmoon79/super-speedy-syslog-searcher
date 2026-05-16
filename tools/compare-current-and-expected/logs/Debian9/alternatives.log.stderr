@@ -23,8 +23,8 @@ File: ./logs/Debian9/alternatives.log
       line parts    : 29
       syslines      : 14
       syslines high : 7
-      datetime first     : 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
-      datetime last      : 2020-02-03 13:57:14 +08:00 (2020-02-03 05:57:14.000000 +00:00)
+      datetime first: 2020-02-03 13:55:01 +08:00 (2020-02-03 05:55:01.000000 +00:00)
+      datetime last : 2020-02-03 13:57:14 +08:00 (2020-02-03 05:57:14.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

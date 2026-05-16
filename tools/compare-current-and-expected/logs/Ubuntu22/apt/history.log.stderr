@@ -23,8 +23,8 @@ File: ./logs/Ubuntu22/apt/history.log
       line parts    : 20
       syslines      : 5
       syslines high : 5
-      datetime first     : 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
-      datetime last      : 2022-10-04 06:22:44 +08:00 (2022-10-03 22:22:44.000000 +00:00)
+      datetime first: 2022-10-04 06:22:29 +08:00 (2022-10-03 22:22:29.000000 +00:00)
+      datetime last : 2022-10-04 06:22:44 +08:00 (2022-10-03 22:22:44.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

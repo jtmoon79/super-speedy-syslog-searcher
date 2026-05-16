@@ -23,8 +23,8 @@ File: ./logs/RockyLinux9/hawkey.log
       line parts    : 34
       syslines      : 28
       syslines high : 15
-      datetime first     : 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
-      datetime last      : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
+      datetime first: 2022-09-12 17:53:19 +00:00 (2022-09-12 17:53:19.000000 +00:00)
+      datetime last : 2022-10-08 22:26:52 +00:00 (2022-10-08 22:26:52.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

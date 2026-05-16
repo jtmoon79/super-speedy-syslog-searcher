@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-SynologyApplicationService.log
       line parts    : 24
       syslines      : 19
       syslines high : 13
-      datetime first     : 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)
-      datetime last      : 2019-10-19 19:03:44 -07:00 (2019-10-20 02:03:44.000000 +00:00)
+      datetime first: 2018-12-06 02:25:59 -08:00 (2018-12-06 10:25:59.000000 +00:00)
+      datetime last : 2019-10-19 19:03:44 -07:00 (2019-10-20 02:03:44.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

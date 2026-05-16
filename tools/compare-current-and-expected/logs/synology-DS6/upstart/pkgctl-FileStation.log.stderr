@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-FileStation.log
       line parts    : 24
       syslines      : 19
       syslines high : 16
-      datetime first     : 2017-02-23 14:52:36 -08:00 (2017-02-23 22:52:36.000000 +00:00)
-      datetime last      : 2017-09-17 09:57:03 -07:00 (2017-09-17 16:57:03.000000 +00:00)
+      datetime first: 2017-02-23 14:52:36 -08:00 (2017-02-23 22:52:36.000000 +00:00)
+      datetime last : 2017-09-17 09:57:03 -07:00 (2017-09-17 16:57:03.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

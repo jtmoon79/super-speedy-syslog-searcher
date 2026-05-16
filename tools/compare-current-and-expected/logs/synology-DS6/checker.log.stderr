@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/checker.log
       line parts    : 25
       syslines      : 19
       syslines high : 11
-      datetime first     : 2019-07-10 02:34:20 -07:00 (2019-07-10 09:34:20.000000 +00:00)
-      datetime last      : 2019-07-17 02:31:58 -07:00 (2019-07-17 09:31:58.000000 +00:00)
+      datetime first: 2019-07-10 02:34:20 -07:00 (2019-07-10 09:34:20.000000 +00:00)
+      datetime last : 2019-07-17 02:31:58 -07:00 (2019-07-17 09:31:58.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

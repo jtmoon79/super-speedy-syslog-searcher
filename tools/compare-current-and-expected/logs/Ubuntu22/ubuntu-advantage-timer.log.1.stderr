@@ -23,8 +23,8 @@ File: ./logs/Ubuntu22/ubuntu-advantage-timer.log.1
       line parts    : 18
       syslines      : 14
       syslines high : 12
-      datetime first     : 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
-      datetime last      : 2022-09-02 23:13:55 +08:00 (2022-09-02 15:13:55.641000 +00:00)
+      datetime first: 2022-09-01 02:51:55 +08:00 (2022-08-31 18:51:55.595000 +00:00)
+      datetime last : 2022-09-02 23:13:55 +08:00 (2022-09-02 15:13:55.641000 +00:00)
       out of order  : 1
   Parsers:
   Processing Stores:

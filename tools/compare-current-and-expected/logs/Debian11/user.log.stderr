@@ -23,8 +23,8 @@ File: ./logs/Debian11/user.log
       line parts    : 37
       syslines      : 26
       syslines high : 25
-      datetime first     : 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
-      datetime last      : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
+      datetime first: 2022-10-10 23:07:16 +08:00 (2022-10-10 15:07:16.000000 +00:00)
+      datetime last : 2022-10-11 00:02:36 +08:00 (2022-10-10 16:02:36.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022

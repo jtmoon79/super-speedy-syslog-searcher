@@ -23,8 +23,8 @@ File: ./logs/RancherOS-1.5.8/dockerlaunch.log
       line parts    : 63
       syslines      : 45
       syslines high : 9
-      datetime first     : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
-      datetime last      : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
+      datetime first: 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
+      datetime last : 2022-10-09 21:31:43 +00:00 (2022-10-09 21:31:43.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

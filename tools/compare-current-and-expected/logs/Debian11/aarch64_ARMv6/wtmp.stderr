@@ -24,8 +24,8 @@ File: ./logs/Debian11/aarch64_ARMv6/wtmp
       first entry   : @0
       entry high    : 3
       peak map size : 3
-      datetime first     : 2024-02-18 05:16:51 +08:00 (2024-02-17 21:16:51.703488 +00:00)
-      datetime last      : 2024-02-18 05:19:07 +08:00 (2024-02-17 21:19:07.973088 +00:00)
+      datetime first: 2024-02-18 05:16:51 +08:00 (2024-02-17 21:16:51.703488 +00:00)
+      datetime last : 2024-02-18 05:19:07 +08:00 (2024-02-17 21:19:07.973088 +00:00)
       out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%

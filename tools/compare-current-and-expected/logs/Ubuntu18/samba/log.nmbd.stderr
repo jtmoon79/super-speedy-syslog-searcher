@@ -23,8 +23,8 @@ File: ./logs/Ubuntu18/samba/log.nmbd
       line parts    : 26
       syslines      : 10
       syslines high : 7
-      datetime first     : 2020-03-15 22:17:15 +08:00 (2020-03-15 14:17:15.120200 +00:00)
-      datetime last      : 2020-03-15 22:17:17 +08:00 (2020-03-15 14:17:17.120200 +00:00)
+      datetime first: 2020-03-15 22:17:15 +08:00 (2020-03-15 14:17:15.120200 +00:00)
+      datetime last : 2020-03-15 22:17:17 +08:00 (2020-03-15 14:17:17.120200 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

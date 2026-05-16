@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/synolog/synobackup_server.log
       line parts    : 27
       syslines      : 19
       syslines high : 9
-      datetime first     : 2018-12-25 00:04:54 +08:00 (2018-12-24 16:04:54.000000 +00:00)
-      datetime last      : 2018-12-29 03:02:49 +08:00 (2018-12-28 19:02:49.000000 +00:00)
+      datetime first: 2018-12-25 00:04:54 +08:00 (2018-12-24 16:04:54.000000 +00:00)
+      datetime last : 2018-12-29 03:02:49 +08:00 (2018-12-28 19:02:49.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

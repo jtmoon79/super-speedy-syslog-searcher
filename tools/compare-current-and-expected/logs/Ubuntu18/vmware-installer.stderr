@@ -23,8 +23,8 @@ File: ./logs/Ubuntu18/vmware-installer
       line parts    : 24
       syslines      : 18
       syslines high : 14
-      datetime first     : 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.032000 +00:00)
-      datetime last      : 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.712000 +00:00)
+      datetime first: 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.032000 +00:00)
+      datetime last : 2019-05-06 11:24:34 +08:00 (2019-05-06 03:24:34.712000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

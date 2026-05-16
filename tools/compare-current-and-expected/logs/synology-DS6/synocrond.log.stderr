@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/synocrond.log
       line parts    : 18
       syslines      : 11
       syslines high : 8
-      datetime first     : 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
-      datetime last      : 2019-09-04 02:42:28 -07:00 (2019-09-04 09:42:28.000000 +00:00)
+      datetime first: 2019-09-01 02:44:55 -07:00 (2019-09-01 09:44:55.000000 +00:00)
+      datetime last : 2019-09-04 02:42:28 -07:00 (2019-09-04 09:42:28.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

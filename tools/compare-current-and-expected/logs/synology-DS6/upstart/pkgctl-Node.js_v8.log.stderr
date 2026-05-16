@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/pkgctl-Node.js_v8.log
       line parts    : 26
       syslines      : 19
       syslines high : 13
-      datetime first     : 2019-08-31 23:52:25 -07:00 (2019-09-01 06:52:25.000000 +00:00)
-      datetime last      : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
+      datetime first: 2019-08-31 23:52:25 -07:00 (2019-09-01 06:52:25.000000 +00:00)
+      datetime last : 2019-11-16 14:56:41 -08:00 (2019-11-16 22:56:41.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

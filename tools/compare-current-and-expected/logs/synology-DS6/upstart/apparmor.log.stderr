@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/apparmor.log
       line parts    : 23
       syslines      : 19
       syslines high : 16
-      datetime first     : 2016-12-05 21:00:59 -08:00 (2016-12-06 05:00:59.000000 +00:00)
-      datetime last      : 2018-10-15 14:06:08 -07:00 (2018-10-15 21:06:08.000000 +00:00)
+      datetime first: 2016-12-05 21:00:59 -08:00 (2016-12-06 05:00:59.000000 +00:00)
+      datetime last : 2018-10-15 14:06:08 -07:00 (2018-10-15 21:06:08.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

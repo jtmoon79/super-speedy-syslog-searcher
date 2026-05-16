@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/synomkflvd.log
       line parts    : 18
       syslines      : 15
       syslines high : 15
-      datetime first     : 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
-      datetime last      : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
+      datetime first: 2018-12-17 15:05:55 -08:00 (2018-12-17 23:05:55.000000 +00:00)
+      datetime last : 2020-03-07 12:23:02 -08:00 (2020-03-07 20:23:02.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

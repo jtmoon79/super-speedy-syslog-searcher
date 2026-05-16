@@ -23,8 +23,8 @@ File: ./logs/Ubuntu22/dpkg.log.1
       line parts    : 17
       syslines      : 14
       syslines high : 14
-      datetime first     : 2022-09-01 06:21:01 +08:00 (2022-08-31 22:21:01.000000 +00:00)
-      datetime last      : 2022-09-01 06:21:07 +08:00 (2022-08-31 22:21:07.000000 +00:00)
+      datetime first: 2022-09-01 06:21:01 +08:00 (2022-08-31 22:21:01.000000 +00:00)
+      datetime last : 2022-09-01 06:21:07 +08:00 (2022-08-31 22:21:07.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/syslog-notify.log
       line parts    : 22
       syslines      : 16
       syslines high : 16
-      datetime first     : 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
-      datetime last      : 2017-01-03 01:35:42 -08:00 (2017-01-03 09:35:42.000000 +00:00)
+      datetime first: 2016-12-05 20:31:20 -08:00 (2016-12-06 04:31:20.000000 +00:00)
+      datetime last : 2017-01-03 01:35:42 -08:00 (2017-01-03 09:35:42.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

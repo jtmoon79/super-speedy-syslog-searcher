@@ -23,8 +23,8 @@ File: ./logs/Debian11/apache2/access.log
       line parts    : 8
       syslines      : 5
       syslines high : 5
-      datetime first     : 2022-10-11 00:10:26 +00:00 (2022-10-11 00:10:26.000000 +00:00)
-      datetime last      : 2022-10-11 00:10:56 +00:00 (2022-10-11 00:10:56.000000 +00:00)
+      datetime first: 2022-10-11 00:10:26 +00:00 (2022-10-11 00:10:26.000000 +00:00)
+      datetime last : 2022-10-11 00:10:56 +00:00 (2022-10-11 00:10:56.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/Windows10Pro/INF/setupapi.upgrade.log
       line parts    : 158
       syslines      : 5
       syslines high : 5
-      datetime first     : 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)
-      datetime last      : 2020-05-27 11:27:05 +08:00 (2020-05-27 03:27:05.575000 +00:00)
+      datetime first: 2020-05-21 11:03:50 +08:00 (2020-05-21 03:03:50.069000 +00:00)
+      datetime last : 2020-05-27 11:27:05 +08:00 (2020-05-27 03:27:05.575000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -24,8 +24,8 @@ File: ./logs/Ubuntu16/x86_32/lastlog
       first entry   : @0
       entry high    : 2
       peak map size : 2
-      datetime first     : 2023-12-15 16:47:16 +08:00 (2023-12-15 08:47:16.000000 +00:00)
-      datetime last      : 2023-12-15 16:55:48 +08:00 (2023-12-15 08:55:48.000000 +00:00)
+      datetime first: 2023-12-15 16:47:16 +08:00 (2023-12-15 08:47:16.000000 +00:00)
+      datetime last : 2023-12-15 16:55:48 +08:00 (2023-12-15 08:55:48.000000 +00:00)
       out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit    2, miss    0, 100.0%

@@ -23,8 +23,8 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
       line parts    : 39
       syslines      : 19
       syslines high : 19
-      datetime first     : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
-      datetime last      : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
+      datetime first: 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
+      datetime last : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2023

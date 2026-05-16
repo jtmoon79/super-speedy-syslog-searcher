@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/packages/USBCopy.log
       line parts    : 25
       syslines      : 19
       syslines high : 11
-      datetime first     : 2019-06-23 21:13:36 +08:00 (2019-06-23 13:13:36.000000 +00:00)
-      datetime last      : 2019-08-31 23:18:14 +08:00 (2019-08-31 15:18:14.000000 +00:00)
+      datetime first: 2019-06-23 21:13:36 +08:00 (2019-06-23 13:13:36.000000 +00:00)
+      datetime last : 2019-08-31 23:18:14 +08:00 (2019-08-31 15:18:14.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

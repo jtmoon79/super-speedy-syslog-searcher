@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/syno-network-check.log
       line parts    : 25
       syslines      : 15
       syslines high : 9
-      datetime first     : 2016-12-05 20:31:34 -08:00 (2016-12-06 04:31:34.000000 +00:00)
-      datetime last      : 2016-12-05 21:11:46 -08:00 (2016-12-06 05:11:46.000000 +00:00)
+      datetime first: 2016-12-05 20:31:34 -08:00 (2016-12-06 04:31:34.000000 +00:00)
+      datetime last : 2016-12-05 21:11:46 -08:00 (2016-12-06 05:11:46.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/synoscgi.log
       line parts    : 27
       syslines      : 18
       syslines high : 9
-      datetime first     : 2016-12-05 20:31:55 -08:00 (2016-12-06 04:31:55.000000 +00:00)
-      datetime last      : 2016-12-05 20:47:10 -08:00 (2016-12-06 04:47:10.000000 +00:00)
+      datetime first: 2016-12-05 20:31:55 -08:00 (2016-12-06 04:31:55.000000 +00:00)
+      datetime last : 2016-12-05 20:47:10 -08:00 (2016-12-06 04:47:10.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/cygwin/setup.log
       line parts    : 100
       syslines      : 76
       syslines high : 13
-      datetime first     : 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)
-      datetime last      : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
+      datetime first: 2020-03-16 10:46:44 +08:00 (2020-03-16 02:46:44.000000 +00:00)
+      datetime last : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

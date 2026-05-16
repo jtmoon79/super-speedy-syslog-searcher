@@ -24,8 +24,8 @@ File: ./logs/Debian11/aarch64_ARM64/utmp
       first entry   : @0
       entry high    : 5
       peak map size : 6
-      datetime first     : 2023-12-11 06:45:53 +08:00 (2023-12-10 22:45:53.034179 +00:00)
-      datetime last      : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
+      datetime first: 2023-12-11 06:45:53 +08:00 (2023-12-10 22:45:53.034179 +00:00)
+      datetime last : 2024-02-18 05:08:45 +08:00 (2024-02-17 21:08:45.450732 +00:00)
       out of order  : 3
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss  1, 83.3%

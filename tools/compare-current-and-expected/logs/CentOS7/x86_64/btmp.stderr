@@ -24,8 +24,8 @@ File: ./logs/CentOS7/x86_64/btmp
       first entry   : @0
       entry high    : 3
       peak map size : 3
-      datetime first     : 2023-04-23 03:44:33 +08:00 (2023-04-22 19:44:33.042030 +00:00)
-      datetime last      : 2023-04-23 04:03:09 +08:00 (2023-04-22 20:03:09.193274 +00:00)
+      datetime first: 2023-04-23 03:44:33 +08:00 (2023-04-22 19:44:33.042030 +00:00)
+      datetime last : 2023-04-23 04:03:09 +08:00 (2023-04-22 20:03:09.193274 +00:00)
       out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  3, miss  0, 100.0%

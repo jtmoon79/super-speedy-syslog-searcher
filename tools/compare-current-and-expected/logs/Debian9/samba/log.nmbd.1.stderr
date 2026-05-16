@@ -23,8 +23,8 @@ File: ./logs/Debian9/samba/log.nmbd.1
       line parts    : 26
       syslines      : 6
       syslines high : 5
-      datetime first     : 2020-03-02 04:48:05 +08:00 (2020-03-01 20:48:05.426000 +00:00)
-      datetime last      : 2020-03-02 05:13:26 +08:00 (2020-03-01 21:13:26.426000 +00:00)
+      datetime first: 2020-03-02 04:48:05 +08:00 (2020-03-01 20:48:05.426000 +00:00)
+      datetime last : 2020-03-02 05:13:26 +08:00 (2020-03-01 21:13:26.426000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

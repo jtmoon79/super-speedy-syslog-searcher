@@ -23,8 +23,8 @@ File: ./logs/other/tests/dtf9d-24-12x2-leapday.log
       line parts    : 27
       syslines      : 25
       syslines high : 23
-      datetime first     : 2021-01-01 01:00:00 -09:00 (2021-01-01 10:00:00.000000 +00:00)
-      datetime last      : 2022-12-12 12:00:00 -09:00 (2022-12-12 21:00:00.000000 +00:00)
+      datetime first: 2021-01-01 01:00:00 -09:00 (2021-01-01 10:00:00.000000 +00:00)
+      datetime last : 2022-12-12 12:00:00 -09:00 (2022-12-12 21:00:00.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022

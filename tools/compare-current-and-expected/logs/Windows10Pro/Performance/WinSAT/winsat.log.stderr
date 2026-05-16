@@ -23,8 +23,8 @@ File: ./logs/Windows10Pro/Performance/WinSAT/winsat.log
       line parts    : 99
       syslines      : 3
       syslines high : 3
-      datetime first     : 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
-      datetime last      : 2022-09-14 12:38:46 +08:00 (2022-09-14 04:38:46.000000 +00:00)
+      datetime first: 2022-05-17 14:26:09 +08:00 (2022-05-17 06:26:09.000000 +00:00)
+      datetime last : 2022-09-14 12:38:46 +08:00 (2022-09-14 04:38:46.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

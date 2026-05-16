@@ -23,8 +23,8 @@ File: ./logs/Orbi/tmp/UpAgent.log
       line parts    : 26
       syslines      : 18
       syslines high : 10
-      datetime first     : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
-      datetime last      : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
+      datetime first: 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
+      datetime last : 2022-04-04 23:35:40 +08:00 (2022-04-04 15:35:40.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

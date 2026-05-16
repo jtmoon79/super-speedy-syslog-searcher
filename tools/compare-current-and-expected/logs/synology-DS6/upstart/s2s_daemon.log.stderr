@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/s2s_daemon.log
       line parts    : 22
       syslines      : 19
       syslines high : 19
-      datetime first     : 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
-      datetime last      : 2017-01-08 13:35:55 -08:00 (2017-01-08 21:35:55.000000 +00:00)
+      datetime first: 2016-12-05 20:31:43 -08:00 (2016-12-06 04:31:43.000000 +00:00)
+      datetime last : 2017-01-08 13:35:55 -08:00 (2017-01-08 21:35:55.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

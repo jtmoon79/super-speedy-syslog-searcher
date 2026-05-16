@@ -23,8 +23,8 @@ File: ./logs/other/tests/unknown
       line parts    : 4
       syslines      : 4
       syslines high : 4
-      datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626000 +00:00)
-      datetime last      : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.648000 +00:00)
+      datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.626000 +00:00)
+      datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.648000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

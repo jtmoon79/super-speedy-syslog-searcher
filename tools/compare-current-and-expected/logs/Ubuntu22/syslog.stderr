@@ -23,8 +23,8 @@ File: ./logs/Ubuntu22/syslog
       line parts    : 19
       syslines      : 15
       syslines high : 14
-      datetime first     : 2022-10-03 21:48:21 +08:00 (2022-10-03 13:48:21.000000 +00:00)
-      datetime last      : 2022-10-03 21:48:26 +08:00 (2022-10-03 13:48:26.000000 +00:00)
+      datetime first: 2022-10-03 21:48:21 +08:00 (2022-10-03 13:48:21.000000 +00:00)
+      datetime last : 2022-10-03 21:48:26 +08:00 (2022-10-03 13:48:26.000000 +00:00)
       out of order  : 5
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022

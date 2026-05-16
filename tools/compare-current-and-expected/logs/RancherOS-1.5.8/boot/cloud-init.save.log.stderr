@@ -23,8 +23,8 @@ File: ./logs/RancherOS-1.5.8/boot/cloud-init.save.log
       line parts    : 6
       syslines      : 5
       syslines high : 5
-      datetime first     : 2022-10-09 21:31:41 +00:00 (2022-10-09 21:31:41.000000 +00:00)
-      datetime last      : 2022-10-10 20:23:34 +00:00 (2022-10-10 20:23:34.000000 +00:00)
+      datetime first: 2022-10-09 21:31:41 +00:00 (2022-10-09 21:31:41.000000 +00:00)
+      datetime last : 2022-10-10 20:23:34 +00:00 (2022-10-10 20:23:34.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

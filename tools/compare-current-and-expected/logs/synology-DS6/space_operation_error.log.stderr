@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/space_operation_error.log
       line parts    : 28
       syslines      : 21
       syslines high : 19
-      datetime first     : 2017-01-03 01:38:36 +08:00 (2017-01-02 17:38:36.000000 +00:00)
-      datetime last      : 2018-01-24 23:24:08 +08:00 (2018-01-24 15:24:08.000000 +00:00)
+      datetime first: 2017-01-03 01:38:36 +08:00 (2017-01-02 17:38:36.000000 +00:00)
+      datetime last : 2018-01-24 23:24:08 +08:00 (2018-01-24 15:24:08.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018

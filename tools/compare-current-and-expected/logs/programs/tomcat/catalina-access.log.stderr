@@ -23,8 +23,8 @@ File: ./logs/programs/tomcat/catalina-access.log
       line parts    : 4
       syslines      : 2
       syslines high : 2
-      datetime first     : 2023-02-14 14:30:20 +00:00 (2023-02-14 14:30:20.483000 +00:00)
-      datetime last      : 2023-02-14 14:30:21 +00:00 (2023-02-14 14:30:21.440000 +00:00)
+      datetime first: 2023-02-14 14:30:20 +00:00 (2023-02-14 14:30:20.483000 +00:00)
+      datetime last : 2023-02-14 14:30:21 +00:00 (2023-02-14 14:30:21.440000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/other/tests/dtf4-2b.log
       line parts    : 3
       syslines      : 2
       syslines high : 2
-      datetime first     : 2000-01-01 00:00:02 +08:00 (1999-12-31 16:00:02.000000 +00:00)
-      datetime last      : 2000-01-01 00:00:03 +08:00 (1999-12-31 16:00:03.000000 +00:00)
+      datetime first: 2000-01-01 00:00:02 +08:00 (1999-12-31 16:00:02.000000 +00:00)
+      datetime last : 2000-01-01 00:00:03 +08:00 (1999-12-31 16:00:03.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

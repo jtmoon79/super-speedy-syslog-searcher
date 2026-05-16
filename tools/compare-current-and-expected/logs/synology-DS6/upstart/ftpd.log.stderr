@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/ftpd.log
       line parts    : 22
       syslines      : 18
       syslines high : 18
-      datetime first     : 2016-12-08 18:56:16 -08:00 (2016-12-09 02:56:16.000000 +00:00)
-      datetime last      : 2017-10-19 10:18:47 -07:00 (2017-10-19 17:18:47.000000 +00:00)
+      datetime first: 2016-12-08 18:56:16 -08:00 (2016-12-09 02:56:16.000000 +00:00)
+      datetime last : 2017-10-19 10:18:47 -07:00 (2017-10-19 17:18:47.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

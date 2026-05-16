@@ -23,8 +23,8 @@ File: ./logs/FedoraRemix29/hawkeye.log
       line parts    : 50
       syslines      : 37
       syslines high : 36
-      datetime first     : 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
-      datetime last      : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
+      datetime first: 2021-06-16 14:09:08 +08:00 (2021-06-16 06:09:08.000000 +00:00)
+      datetime last : 2021-06-16 14:10:30 +08:00 (2021-06-16 06:10:30.000000 +00:00)
       out of order  : 3
   Parsers:
                    datetime format missing year; estimated year of last sysline 2021

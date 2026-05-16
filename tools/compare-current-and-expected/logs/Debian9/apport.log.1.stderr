@@ -23,8 +23,8 @@ File: ./logs/Debian9/apport.log.1
       line parts    : 8
       syslines      : 6
       syslines high : 6
-      datetime first     : 2020-02-20 00:59:59 +08:00 (2020-02-19 16:59:59.000000 +00:00)
-      datetime last      : 2022-10-14 14:22:24 +08:00 (2022-10-14 06:22:24.000000 +00:00)
+      datetime first: 2020-02-20 00:59:59 +08:00 (2020-02-19 16:59:59.000000 +00:00)
+      datetime last : 2022-10-14 14:22:24 +08:00 (2022-10-14 06:22:24.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

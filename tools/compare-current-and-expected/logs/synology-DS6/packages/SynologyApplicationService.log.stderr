@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/packages/SynologyApplicationService.log
       line parts    : 26
       syslines      : 5
       syslines high : 5
-      datetime first     : 2019-06-23 21:14:11 +08:00 (2019-06-23 13:14:11.000000 +00:00)
-      datetime last      : 2019-08-31 14:25:58 +08:00 (2019-08-31 06:25:58.000000 +00:00)
+      datetime first: 2019-06-23 21:14:11 +08:00 (2019-06-23 13:14:11.000000 +00:00)
+      datetime last : 2019-08-31 14:25:58 +08:00 (2019-08-31 06:25:58.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

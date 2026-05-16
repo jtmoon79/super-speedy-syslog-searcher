@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/scemd.log
       line parts    : 24
       syslines      : 19
       syslines high : 14
-      datetime first     : 2017-02-23 14:53:03 -08:00 (2017-02-23 22:53:03.000000 +00:00)
-      datetime last      : 2017-10-02 22:19:06 -07:00 (2017-10-03 05:19:06.000000 +00:00)
+      datetime first: 2017-02-23 14:53:03 -08:00 (2017-02-23 22:53:03.000000 +00:00)
+      datetime last : 2017-10-02 22:19:06 -07:00 (2017-10-03 05:19:06.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -1341,14 +1341,14 @@ fn print_summary_opt_processed(
     // print datetime first processed
     let dt_first = summary.datetime_first_processed();
     if let Some(dt_first_) = dt_first {
-        eprint!("{}datetime first     : ", indent2);
+        eprint!("{}datetime first: ", indent2);
         print_datetime_asis_utc_dimmed(dt_first_, Some(*color_choice));
         eprintln!();
     }
     // print datetime last processed
     let dt_last = summary.datetime_last_processed();
     if let Some(dt_last_) = dt_last {
-        eprint!("{}datetime last      : ", indent2);
+        eprint!("{}datetime last : ", indent2);
         print_datetime_asis_utc_dimmed(dt_last_, Some(*color_choice));
         eprintln!();
     }

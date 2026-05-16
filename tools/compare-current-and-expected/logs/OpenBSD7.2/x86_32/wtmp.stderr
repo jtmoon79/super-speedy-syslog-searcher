@@ -24,8 +24,8 @@ File: ./logs/OpenBSD7.2/x86_32/wtmp
       first entry   : @0
       entry high    : 5
       peak map size : 19
-      datetime first     : 2023-03-29 05:17:37 +08:00 (2023-03-28 21:17:37.000000 +00:00)
-      datetime last      : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
+      datetime first: 2023-03-29 05:17:37 +08:00 (2023-03-28 21:17:37.000000 +00:00)
+      datetime last : 2023-10-27 01:57:43 +08:00 (2023-10-26 17:57:43.000000 +00:00)
       out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit  5, miss 14, 26.3%

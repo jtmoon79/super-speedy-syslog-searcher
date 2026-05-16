@@ -23,8 +23,8 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.3
       line parts    : 23
       syslines      : 10
       syslines high : 8
-      datetime first     : 2020-03-14 15:47:41 +08:00 (2020-03-14 07:47:41.875900 +00:00)
-      datetime last      : 2020-03-14 15:47:41 +08:00 (2020-03-14 07:47:41.875900 +00:00)
+      datetime first: 2020-03-14 15:47:41 +08:00 (2020-03-14 07:47:41.875900 +00:00)
+      datetime last : 2020-03-14 15:47:41 +08:00 (2020-03-14 07:47:41.875900 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

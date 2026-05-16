@@ -23,8 +23,8 @@ File: ./logs/other/tests/dtf9c-23-12x2.log
       line parts    : 26
       syslines      : 25
       syslines high : 23
-      datetime first     : 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)
-      datetime last      : 2018-12-12 12:00:00 +08:00 (2018-12-12 04:00:00.000000 +00:00)
+      datetime first: 2017-01-01 01:00:00 +08:00 (2016-12-31 17:00:00.000000 +00:00)
+      datetime last : 2018-12-12 12:00:00 +08:00 (2018-12-12 04:00:00.000000 +00:00)
       out of order  : 1
   Parsers:
                    datetime format missing year; estimated year of last sysline 2018

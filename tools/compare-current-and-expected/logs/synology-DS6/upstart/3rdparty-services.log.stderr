@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/upstart/3rdparty-services.log
       line parts    : 24
       syslines      : 19
       syslines high : 13
-      datetime first     : 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
-      datetime last      : 2017-01-08 13:36:05 -08:00 (2017-01-08 21:36:05.000000 +00:00)
+      datetime first: 2016-12-05 20:31:50 -08:00 (2016-12-06 04:31:50.000000 +00:00)
+      datetime last : 2017-01-08 13:36:05 -08:00 (2017-01-08 21:36:05.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

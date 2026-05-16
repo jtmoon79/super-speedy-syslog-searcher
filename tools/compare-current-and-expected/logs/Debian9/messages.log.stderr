@@ -23,8 +23,8 @@ File: ./logs/Debian9/messages.log
       line parts    : 1
       syslines      : 2
       syslines high : 1
-      datetime first     : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
-      datetime last      : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
+      datetime first: 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
+      datetime last : 2022-02-23 06:25:06 +08:00 (2022-02-22 22:25:06.000000 +00:00)
       out of order  : 0
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022

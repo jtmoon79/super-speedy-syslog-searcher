@@ -23,8 +23,8 @@ File: ./logs/Debian9/syslog
       line parts    : 27
       syslines      : 19
       syslines high : 19
-      datetime first     : 2022-03-06 06:25:04 +08:00 (2022-03-05 22:25:04.000000 +00:00)
-      datetime last      : 2022-03-06 06:37:37 +08:00 (2022-03-05 22:37:37.000000 +00:00)
+      datetime first: 2022-03-06 06:25:04 +08:00 (2022-03-05 22:25:04.000000 +00:00)
+      datetime last : 2022-03-06 06:37:37 +08:00 (2022-03-05 22:37:37.000000 +00:00)
       out of order  : 11
   Parsers:
                    datetime format missing year; estimated year of last sysline 2022

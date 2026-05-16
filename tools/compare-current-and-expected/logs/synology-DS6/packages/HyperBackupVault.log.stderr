@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/packages/HyperBackupVault.log
       line parts    : 24
       syslines      : 10
       syslines high : 8
-      datetime first     : 2019-06-23 21:13:33 +08:00 (2019-06-23 13:13:33.000000 +00:00)
-      datetime last      : 2019-08-31 14:25:39 +08:00 (2019-08-31 06:25:39.000000 +00:00)
+      datetime first: 2019-06-23 21:13:33 +08:00 (2019-06-23 13:13:33.000000 +00:00)
+      datetime last : 2019-08-31 14:25:39 +08:00 (2019-08-31 06:25:39.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

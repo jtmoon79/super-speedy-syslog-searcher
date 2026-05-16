@@ -24,8 +24,8 @@ File: ./logs/OpenBSD7.2/x86_32/utmp.1
       first entry   : @6992
       entry high    : 2
       peak map size : 2
-      datetime first     : 2023-12-01 15:50:41 +08:00 (2023-12-01 07:50:41.000000 +00:00)
-      datetime last      : 2023-12-01 15:59:31 +08:00 (2023-12-01 07:59:31.000000 +00:00)
+      datetime first: 2023-12-01 15:50:41 +08:00 (2023-12-01 07:50:41.000000 +00:00)
+      datetime last : 2023-12-01 15:59:31 +08:00 (2023-12-01 07:59:31.000000 +00:00)
       out of order  : 0
   Processing Stores:
       storage: FixedStructReader::find_entry()                     : hit   2, miss   0, 100.0%

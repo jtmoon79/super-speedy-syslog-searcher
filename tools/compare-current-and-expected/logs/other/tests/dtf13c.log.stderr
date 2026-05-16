@@ -23,8 +23,8 @@ File: ./logs/other/tests/dtf13c.log
       line parts    : 3
       syslines      : 3
       syslines high : 3
-      datetime first     : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
-      datetime last      : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
+      datetime first: 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
+      datetime last : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

@@ -23,8 +23,8 @@ File: ./logs/other/tests/dtf8-20-LEVELS.log
       line parts    : 25
       syslines      : 20
       syslines high : 14
-      datetime first     : 2000-01-01 00:00:20 -02:00 (2000-01-01 02:00:20.000000 +00:00)
-      datetime last      : 2000-01-01 00:00:01 -12:00 (2000-01-01 12:00:01.000000 +00:00)
+      datetime first: 2000-01-01 00:00:20 -02:00 (2000-01-01 02:00:20.000000 +00:00)
+      datetime last : 2000-01-01 00:00:01 -12:00 (2000-01-01 12:00:01.000000 +00:00)
       out of order  : 19
   Parsers:
   Processing Stores:

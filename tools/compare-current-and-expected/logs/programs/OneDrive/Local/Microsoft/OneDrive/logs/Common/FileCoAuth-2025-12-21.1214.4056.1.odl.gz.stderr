@@ -20,8 +20,8 @@ File: ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2
       Python pipe size stdout    : 256
       Python pipe size stderr    : 256
       Python exit status         : 0
-      datetime first     : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
-      datetime last      : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
+      datetime first: 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.875000 +00:00)
+      datetime last : 2025-12-21 20:14:05 +08:00 (2025-12-21 12:14:05.897000 +00:00)
       out of order  : 0
 
 Program Summary:

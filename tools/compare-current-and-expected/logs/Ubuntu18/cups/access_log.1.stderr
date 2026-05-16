@@ -23,8 +23,8 @@ File: ./logs/Ubuntu18/cups/access_log.1
       line parts    : 8
       syslines      : 6
       syslines high : 6
-      datetime first     : 2020-03-14 00:07:47 -07:00 (2020-03-14 07:07:47.000000 +00:00)
-      datetime last      : 2020-03-15 00:08:26 -07:00 (2020-03-15 07:08:26.000000 +00:00)
+      datetime first: 2020-03-14 00:07:47 -07:00 (2020-03-14 07:07:47.000000 +00:00)
+      datetime last : 2020-03-15 00:08:26 -07:00 (2020-03-15 07:08:26.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

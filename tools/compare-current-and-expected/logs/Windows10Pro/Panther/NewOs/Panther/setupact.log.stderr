@@ -23,8 +23,8 @@ File: ./logs/Windows10Pro/Panther/NewOs/Panther/setupact.log
       line parts    : 75
       syslines      : 35
       syslines high : 9
-      datetime first     : 2022-10-14 05:56:46 +08:00 (2022-10-13 21:56:46.000000 +00:00)
-      datetime last      : 2022-10-14 07:42:33 +08:00 (2022-10-13 23:42:33.000000 +00:00)
+      datetime first: 2022-10-14 05:56:46 +08:00 (2022-10-13 21:56:46.000000 +00:00)
+      datetime last : 2022-10-14 07:42:33 +08:00 (2022-10-13 23:42:33.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:

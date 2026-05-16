@@ -23,8 +23,8 @@ File: ./logs/synology-DS6/synoindex.log
       line parts    : 14
       syslines      : 8
       syslines high : 7
-      datetime first     : 2018-12-06 02:30:31 -08:00 (2018-12-06 10:30:31.000000 +00:00)
-      datetime last      : 2018-12-06 04:15:48 -08:00 (2018-12-06 12:15:48.000000 +00:00)
+      datetime first: 2018-12-06 02:30:31 -08:00 (2018-12-06 10:30:31.000000 +00:00)
+      datetime last : 2018-12-06 04:15:48 -08:00 (2018-12-06 12:15:48.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:
