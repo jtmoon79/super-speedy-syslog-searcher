@@ -252,7 +252,7 @@ jobs:
           path: ./target/release/s4
 
   job_cross_targets:
-    name: cross ${{ matrix.target }} on ubuntu-22.04
+    name: cross ${{ matrix.target }} on ubuntu-latest
     needs: [job_rust_msrv_os]
     strategy:
       matrix:
@@ -318,7 +318,7 @@ jobs:
           # - mips64-unknown-linux-gnuabi64
           # - x86_64-unknown-dragonfly  # toolchain 1.67.1 does not support ...
           # - x86_64-unknown-openbsd  # toolchain 1.67.1 does not support ...
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: git checkout
         uses: actions/checkout@v6
