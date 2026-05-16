@@ -35,6 +35,7 @@ use crate::common::{
 };
 use crate::data::datetime::{
     datetime_parse_from_str,
+    ymdhms,
     ymdhmsn,
     DateTimeL,
     DateTimeLOpt,
@@ -5817,6 +5818,17 @@ fn test_ezcheck_slice(
     );
 }
 
+lazy_static! {
+    static ref DTF_2_20_FPATH: FPath = FPath::from("./logs/other/tests/dtf2-20-out-of-order.log");
+
+    pub static ref DTF_2_20_DT1: DateTimeL = {
+        ymdhms(&FO_0, 2000, 1, 1, 0, 0, 0)
+    };
+    pub static ref DTF_2_20_DT2: DateTimeL = {
+        ymdhms(&FO_0, 2000, 1, 1, 0, 0, 19)
+    };
+}
+
 #[test_case(
     &*NTF_GZ_8BYTE_FPATH,
     0x60,
@@ -5835,6 +5847,7 @@ fn test_ezcheck_slice(
     0,
     None,
     None,
+    0,
     0,
     1,
     1,
@@ -5875,6 +5888,7 @@ fn test_ezcheck_slice(
     None,
     None,
     0,
+    0,
     1,
     1,
     0,
@@ -5914,6 +5928,7 @@ fn test_ezcheck_slice(
     None,
     None,
     0,
+    0,
     1,
     1,
     0,
@@ -5952,6 +5967,7 @@ fn test_ezcheck_slice(
     1,
     Some(*NTF_SYSLINE_1_SYSLINE1_DT),
     Some(*NTF_SYSLINE_1_SYSLINE1_DT),
+    0,
     0,
     2,
     2,
@@ -5997,6 +6013,7 @@ fn test_ezcheck_slice(
     0,
     0,
     0,
+    0,
     77,
     4,
     72,
@@ -6031,6 +6048,7 @@ fn test_ezcheck_slice(
     Some(*NTF_SYSLINE_2_SYSLINE1_DT),
     Some(*NTF_SYSLINE_2_SYSLINE2_DT),
     0,
+    0,
     3,
     3,
     1,
@@ -6050,6 +6068,46 @@ fn test_ezcheck_slice(
     73,
     0;
     "NTF_SYSLINE_2_PATH"
+)]
+#[test_case(
+    &*DTF_2_20_FPATH,
+    0x8,
+    FO_0,
+    true,
+    None,
+	None,
+    0,
+    0,
+    20,
+    20,
+    0,
+    21,
+    0,
+    21,
+    20,
+    Some(*DTF_2_20_DT1),
+    Some(*DTF_2_20_DT2),
+    2,
+    0,
+    21,
+    21,
+    19,
+    20,
+    0,
+    98,
+    0,
+    0,
+    98,
+    0,
+    0,
+    0,
+    0,
+    4,
+    0,
+    0,
+    94,
+    0;
+    "DTF_2_20_FPATH"
 )]
 // TODO: [2024/03/10] copy design of similar function
 //       `fixedstructreader_tests.rs:test_FixedStructReader_summary`
@@ -6071,6 +6129,7 @@ fn test_syslinereadersummary(
     syslinereader_syslines_by_range_put: Count,
     syslinereader_datetime_first: DateTimeLOpt,
     syslinereader_datetime_last: DateTimeLOpt,
+    syslinereader_datetime_out_of_order: Count,
     syslinereader_find_sysline_lru_cache_hit: Count,
     syslinereader_find_sysline_lru_cache_miss: Count,
     syslinereader_find_sysline_lru_cache_put: Count,
@@ -6134,6 +6193,7 @@ fn test_syslinereadersummary(
     syslinereader_syslines_by_range_put: {} {},
     syslinereader_datetime_first: {:?} {:?},
     syslinereader_datetime_last: {:?} {:?},
+    syslinereader_datetime_out_of_order: {:?} {:?},
     syslinereader_find_sysline_lru_cache_hit: {} {},
     syslinereader_find_sysline_lru_cache_miss: {} {},
     syslinereader_find_sysline_lru_cache_put: {} {},
@@ -6165,6 +6225,7 @@ fn test_syslinereadersummary(
         syslinereader_syslines_by_range_put, summary.syslinereader_syslines_by_range_put,
         syslinereader_datetime_first, summary.syslinereader_datetime_first,
         syslinereader_datetime_last, summary.syslinereader_datetime_last,
+        syslinereader_datetime_out_of_order, summary.syslinereader_datetime_out_of_order,
         syslinereader_find_sysline_lru_cache_hit, summary.syslinereader_find_sysline_lru_cache_hit,
         syslinereader_find_sysline_lru_cache_miss, summary.syslinereader_find_sysline_lru_cache_miss,
         syslinereader_find_sysline_lru_cache_put, summary.syslinereader_find_sysline_lru_cache_put,
@@ -6239,6 +6300,11 @@ fn test_syslinereadersummary(
         syslinereader_datetime_last,
         summary.syslinereader_datetime_last,
         "syslinereader_datetime_last 11"
+    );
+    assert_eq!(
+        syslinereader_datetime_out_of_order,
+        summary.syslinereader_datetime_out_of_order,
+        "syslinereader_datetime_out_of_order 11b"
     );
     assert_eq!(
         syslinereader_find_sysline_lru_cache_hit,

@@ -1231,10 +1231,6 @@ fn print_summary_opt_processed(
                 "{}peak map size : {}",
                 indent2, summaryfixedstructreader.fixedstructreader_map_tvpair_fo_max_len
             );
-            eprintln!(
-                "{}out of order? : {}",
-                indent2, summaryfixedstructreader.fixedstructreader_entries_out_of_order
-            );
         }
         SummaryReaderData::PyEvent(summarypyeventreader) => {
             eprintln!(
@@ -1243,12 +1239,6 @@ fn print_summary_opt_processed(
             );
             eprintln!("{}events processed   : {}", indent2, summarypyeventreader.pyeventreader_events_processed);
             eprintln!("{}events accepted    : {}", indent2, summarypyeventreader.pyeventreader_events_accepted);
-            eprint!("{}events out of order: ", indent2);
-            eprintln_display_color_error(
-                &summarypyeventreader.pyeventreader_out_of_order,
-                |x| *x != 0,
-                color_choice,
-            );
             eprintln!("{}events read max    : {}", indent2, summarypyeventreader.pyeventreader_events_read_max);
             eprintln!("{}events queue high  : {}", indent2, summarypyeventreader.pyeventreader_events_held_max);
             eprintln!("{}Python process polls       : {}", indent2, summarypyeventreader.pyeventreader_python_count_proc_polls);
@@ -1288,13 +1278,6 @@ fn print_summary_opt_processed(
             //       and `SummaryEvtxReader`.
             eprintln!("{}Events processed   : {}", indent2, summaryevtxreader.evtxreader_events_processed);
             eprintln!("{}Events accepted    : {}", indent2, summaryevtxreader.evtxreader_events_accepted);
-            // print out of order. If there are any, print in red.
-            eprint!("{}Events out of order: ", indent2);
-            eprintln_display_color_error(
-                &summaryevtxreader.evtxreader_out_of_order,
-                |x| *x != 0,
-                color_choice,
-            );
             if let Some(dt) = summaryevtxreader.evtxreader_datetime_first_processed {
                 eprint!("{}datetime first     : ", indent2);
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
@@ -1305,6 +1288,12 @@ fn print_summary_opt_processed(
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
+            eprint!("{}out of order       : ", indent2);
+            eprintln_display_color_error(
+                &summaryevtxreader.evtxreader_out_of_order,
+                |n| *n != 0,
+                color_choice,
+            );
             // for evtx files, nothing left to print about it so return
             return;
         }
@@ -1316,13 +1305,6 @@ fn print_summary_opt_processed(
             eprintln!(
                 "{}journal events: {}",
                 indent2, summaryjournalreader.journalreader_events_processed,
-            );
-            // print out of order. If there are any, print in red.
-            eprint!("{}out of order  : ", indent2);
-            eprintln_display_color_error(
-                &summaryjournalreader.journalreader_out_of_order,
-                |n| *n != 0,
-                color_choice,
             );
             eprintln!(
                 "{}lib. API calls: {}",
@@ -1345,6 +1327,13 @@ fn print_summary_opt_processed(
                 print_datetime_asis_utc_dimmed(&dt, Some(*color_choice));
                 eprintln!();
             }
+            // print journal events out of chronological order
+            eprint!("{}out of order  : ", indent2);
+            eprintln_display_color_error(
+                &summaryjournalreader.journalreader_out_of_order,
+                |n| *n != 0,
+                color_choice,
+            );
             return;
         }
     }
@@ -1368,6 +1357,10 @@ fn print_summary_opt_processed(
         "summary datetimes are not both None or both Some: first={:?} last={:?}",
         dt_first, dt_last
     );
+    // print datetimes out of order
+    let dt_out_of_order = summary.datetime_out_of_order();
+    eprint!("{}out of order  : ", indent2);
+    eprintln_display_color_error(&dt_out_of_order, |n| *n != 0, color_choice);
 
     // print datetime regex patterns
     match &summary.readerdata {

@@ -137,7 +137,7 @@ pub type ResultFindFixedStruct = ResultFind<(FileOffset, FixedStruct), (Option<F
 
 pub type ResultFindFixedStructProcZeroBlock = ResultFind<(FixedStructType, Score, ListFileOffsetFixedStructPtr), Error>;
 
-pub type ResultTvFo = Result<(usize, usize, usize, usize, MapTvPairToFo)>;
+pub type ResultTvFo = Result<(usize, usize, usize, Count, MapTvPairToFo)>;
 
 #[cfg(test)]
 pub type DroppedBlocks = LinkedList<BlockOffset>;
@@ -243,7 +243,7 @@ pub struct FixedStructReader {
     pub(crate) first_entry_fileoffset: FileOffset,
     /// "high watermark" of `FixedStruct` stored in `self.cache_entries`
     pub(crate) entries_stored_highest: usize,
-    pub(crate) entries_out_of_order: usize,
+    pub(crate) entries_out_of_order: Count,
     /// Internal stats - hits of `self.cache_entries` in `find_entry*` functions.
     pub(super) entries_hits: Count,
     /// Internal stats - misses of `self.cache_entries` in `find_entry*` functions.
@@ -308,7 +308,7 @@ pub struct SummaryFixedStructReader {
     pub fixedstructreader_high_score: Score,
     pub fixedstructreader_utmp_entries: Count,
     pub fixedstructreader_first_entry_fileoffset: FileOffset,
-    pub fixedstructreader_entries_out_of_order: usize,
+    pub fixedstructreader_entries_out_of_order: Count,
     pub fixedstructreader_utmp_entries_max: Count,
     pub fixedstructreader_utmp_entries_hit: Count,
     pub fixedstructreader_utmp_entries_miss: Count,
@@ -1191,7 +1191,7 @@ impl FixedStructReader {
         // map of time values to file offsets
         let mut map_tv_pair_fo: MapTvPairToFo = MapTvPairToFo::new();
         // count of out of order entries
-        let mut out_of_order: usize = 0;
+        let mut out_of_order: Count = 0;
         // valid fixedstruct but does not pass the time value filters
         let mut valid_no_pass_filter: usize = 0;
         // null fixedstruct or non-sense time values
@@ -1494,7 +1494,7 @@ impl FixedStructReader {
         let fixedstructreader_high_score: Score = self.high_score;
         let fixedstructreader_utmp_entries: Count = self.entries_processed;
         let fixedstructreader_first_entry_fileoffset: FileOffset = self.first_entry_fileoffset;
-        let fixedstructreader_entries_out_of_order: usize = self.entries_out_of_order;
+        let fixedstructreader_entries_out_of_order: Count = self.entries_out_of_order;
         let fixedstructreader_utmp_entries_max: Count = self.entries_stored_highest as Count;
         let fixedstructreader_utmp_entries_hit: Count = self.entries_hits as Count;
         let fixedstructreader_utmp_entries_miss: Count = self.entries_miss as Count;

@@ -236,9 +236,14 @@ pub struct SyslineReader {
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     // TODO: [2023/03/22] change behavior to be "last printed" instead of "last processed"
     pub(super) dt_last: DateTimeLOpt,
+    pub(super) dt_last_offset: FileOffset,
     /// Summary statistic.
     /// Helper for `dt_last`.
     pub(super) dt_last_prev: DateTimeLOpt,
+    pub(super) dt_last_prev_offset: FileOffset,
+    /// Summary statistic.
+    /// Count of syslinereader entries found to be not in chronological order.
+    pub(super) out_of_order: Count,
     /// `Count`s found patterns stored in `dt_patterns`.
     /// "mirrors" the global [`DATETIME_PARSE_DATAS`].
     /// Keys are indexes into `DATETIME_PARSE_DATAS`,
@@ -452,6 +457,8 @@ pub struct SummarySyslineReader {
     pub syslinereader_datetime_first: DateTimeLOpt,
     /// datetime latest seen (not necessarily reflective of entire file)
     pub syslinereader_datetime_last: DateTimeLOpt,
+    /// `SyslineReader::out_of_order`
+    pub syslinereader_datetime_out_of_order: Count,
     /// `SyslineReader::find_sysline`
     pub syslinereader_find_sysline_lru_cache_hit: Count,
     /// `SyslineReader::find_sysline`
@@ -563,7 +570,10 @@ impl SyslineReader {
             dt_first: None,
             dt_first_prev: None,
             dt_last: None,
+            dt_last_offset: 0,
             dt_last_prev: None,
+            dt_last_prev_offset: 0,
+            out_of_order: 0,
             dt_patterns_counts,
             dt_patterns_indexes,
             tz_offset,
@@ -924,7 +934,10 @@ impl SyslineReader {
         summary_stat!(self.dt_first = None);
         summary_stat!(self.dt_first_prev = None);
         summary_stat!(self.dt_last = None);
+        summary_stat!(self.dt_last_offset = 0);
         summary_stat!(self.dt_last_prev = None);
+        summary_stat!(self.dt_last_prev_offset = 0);
+        summary_stat!(self.out_of_order = 0);
         if cache_enable {
             self.LRU_cache_enable();
         }
@@ -964,6 +977,7 @@ impl SyslineReader {
                     .remove(range);
                 summary_stat!(self.dt_first = self.dt_first_prev);
                 summary_stat!(self.dt_last = self.dt_last_prev);
+                summary_stat!(self.dt_last_offset = self.dt_last_prev_offset);
             }
             None => {
                 defo!("syslines failed to remove {}", fileoffset);
@@ -1461,13 +1475,10 @@ impl SyslineReader {
 
     /// Update the two statistic `DateTimeL` of
     /// `self.dt_first` and `self.dt_last`.
-    // TODO: [2024/04] track log messages not in chronological order, similar to
-    //       tracking done in `FixedStructReader::entries_out_of_order` and
-    //       `EvtxReader::out_of_order`
-    //       Print the result in the `--summary` output.
     fn dt_first_last_update(
         &mut self,
         datetime: &DateTimeL,
+        offset: FileOffset,
     ) {
         if ! summary_stats_enabled() {
             return;
@@ -1486,13 +1497,23 @@ impl SyslineReader {
         }
         match self.dt_last {
             Some(dt_last_) => {
-                if &dt_last_ < datetime {
+                if &dt_last_ <= datetime {
                     self.dt_last_prev = self.dt_last;
                     self.dt_last = Some(*datetime);
+                    if self.dt_last_offset > offset {
+                        self.out_of_order += 1;
+                    }
+                    self.dt_last_prev_offset = self.dt_last_offset;
+                    self.dt_last_offset = offset;
+                } else {
+                    if self.dt_last_offset < offset {
+                        self.out_of_order += 1;
+                    }
                 }
             }
             None => {
                 self.dt_last = Some(*datetime);
+                self.dt_last_offset = offset;
             }
         }
     }
@@ -1766,7 +1787,7 @@ impl SyslineReader {
             }
         };
         self.dt_patterns_update(data.3);
-        self.dt_first_last_update(&data.2);
+        self.dt_first_last_update(&data.2, line.fileoffset_begin());
         defx!("return {:?}", data);
 
         ResultParseDateTime::Ok(data)
@@ -3091,6 +3112,7 @@ impl SyslineReader {
         let syslinereader_ezcheck12d2_hit_max = self.ezcheck12d2_hit_max;
         let syslinereader_datetime_first = self.dt_first;
         let syslinereader_datetime_last = self.dt_last;
+        let syslinereader_datetime_out_of_order = self.out_of_order;
 
         SummarySyslineReader {
             syslinereader_syslines,
@@ -3125,6 +3147,7 @@ impl SyslineReader {
             syslinereader_ezcheck12d2_hit_max,
             syslinereader_datetime_first,
             syslinereader_datetime_last,
+            syslinereader_datetime_out_of_order,
         }
     }
 }

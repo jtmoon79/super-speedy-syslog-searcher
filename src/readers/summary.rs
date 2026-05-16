@@ -464,6 +464,26 @@ impl Summary {
         }
     }
 
+    pub fn datetime_out_of_order(&self) -> Count {
+        match &self.readerdata {
+            SummaryReaderData::Dummy => {
+                panic!("Summary::datetime_last() called on Summary::Dummy; path {:?}", self.path,)
+            }
+            // BUG: TODO: `SummaryReaderData::Syslog` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::Syslog((
+                _summaryblockreader,
+                _summarylinereader,
+                summarysyslinereader,
+                _summarysyslogprocessor,
+            )) => summarysyslinereader.syslinereader_datetime_out_of_order,
+            // BUG: TODO: `SummaryReaderData::FixedStruct` does not distinguish between accepted and processed datetimes
+            SummaryReaderData::FixedStruct((_, summaryfixedstructreader)) => summaryfixedstructreader.fixedstructreader_entries_out_of_order as Count,
+            SummaryReaderData::Etvx(summaryevtxreader) => summaryevtxreader.evtxreader_out_of_order,
+            SummaryReaderData::Journal(summaryjournalreader) => summaryjournalreader.journalreader_out_of_order,
+            SummaryReaderData::PyEvent(summarypyeventreader) => summarypyeventreader.pyeventreader_out_of_order,
+        }
+    }
+
     /// Return maximum value for hit/miss/insert number.
     ///
     /// Helpful to format teriminal column widths.

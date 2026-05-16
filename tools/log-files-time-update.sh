@@ -131,5 +131,6 @@ while read -r file_actual; do
         fi
         echo -e "\e[1m\e[93m${file_actual}|${file_time}\e[0m" >&2
         tail -n2 "${file_actual}" | sed 's/^/\t/' >&2
+        echo >&2
     fi
 done <<< $(find ./logs/ -type f | sort)
