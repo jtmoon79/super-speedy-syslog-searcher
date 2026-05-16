@@ -28,6 +28,7 @@ done
 # if `nextest` is installed then run it
 if (set -x; cargo nextest --version) 2>/dev/null; then
     (
+        export NEXTEST_TEST_THREADS=${NEXTEST_TEST_THREADS-1}
         set -x
         cargo nextest --version
         cargo nextest run \
