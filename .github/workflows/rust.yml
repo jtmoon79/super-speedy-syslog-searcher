@@ -537,7 +537,7 @@ jobs:
           set -eux
           bash --version
           cargo nextest --version
-          export NEXTEST_TEST_THREADS="num-cpus"
+          export NEXTEST_TEST_THREADS=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_macos:
@@ -567,7 +567,7 @@ jobs:
         run: |
           set -eux
           cargo nextest --version
-          export NEXTEST_TEST_THREADS="num-cpus"
+          export NEXTEST_TEST_THREADS=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
 
   job_test_windows:
