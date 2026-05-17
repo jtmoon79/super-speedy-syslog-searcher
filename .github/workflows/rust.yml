@@ -257,69 +257,22 @@ jobs:
     strategy:
       matrix:
         target:
-          # platform targets from
-          # https://doc.rust-lang.org/nightly/rustc/platform-support.html
-          # listings should follow the same order
-          #
-          # test each locally by running:
-          #    cargo install cross
-          #    rustup target add $TARGET
-          #    cross check --lib --bins --target $TARGET
-          #
-          # XXX: some targets fail to missing a specific glibc required by
-          #      libserde_derive, the error message reads:
-          #         version `GLIBC_2.25' not found (required by /target/debug/deps/libserde_derive-917db958580e9b6d.so)
-          #      see https://users.rust-lang.org/t/how-to-compile-rust-with-a-specific-glibc-version-for-gnueabihf-architecture/6680
-          #      see https://github.com/japaric/rust-cross#advanced-topics
-          #
-          # XXX: wasm fails to compile due to missing tools
-          #
+          # pre-test these using ./tools/cross-checks.sh
           # Tier 1
           - aarch64-unknown-linux-gnu
-          - i686-pc-windows-gnu
-          # - i686-pc-windows-msvc # in job_cross_targets_windows
-          # - i686-unknown-linux-gnu # error[E0432]: unresolved import `core::arch::x86_64`
           - x86_64-pc-windows-gnu
-          # - x86_64-pc-windows-msvc # in job_cross_targets_windows
           - x86_64-unknown-linux-gnu
-          # Tier 2 with host tools
-          # - aarch64-pc-windows-msvc  # version `GLIBC_2.25' not found
+          # Tier 2
           - aarch64-unknown-linux-musl
+          - arm-linux-androideabi
           - arm-unknown-linux-gnueabi
           - arm-unknown-linux-gnueabihf
+          - armv7-linux-androideabi
           - armv7-unknown-linux-gnueabihf
-          - loongarch64-unknown-linux-gnu
-          - powerpc-unknown-linux-gnu
-          - powerpc64-unknown-linux-gnu
-          # - powerpc64le-unknown-linux-gnu  # version `GLIBC_2.25' not found
+          - armv7-unknown-linux-musleabihf
           - riscv64gc-unknown-linux-gnu
-          # - sparc64-unknown-linuxs-gnu # version `GLIBC_2.29' not found
-          # - s390x-unknown-linux-gnu  # version `GLIBC_2.25' not found
-          - x86_64-unknown-freebsd
-          - x86_64-unknown-illumos
+          - thumbv7neon-linux-androideabi
           - x86_64-unknown-linux-musl
-          - x86_64-unknown-netbsd
-          # Tier 2 without host tools
-          # (just a few chosen)
-          - aarch64-linux-android
-          - i686-linux-android
-          - x86_64-pc-solaris
-          # - x86_64-sun-solaris  # error: toolchain 'stable-x86_64-unknown-linux-gnu' does not support target 'x86_64-sun-solaris'; did you mean 'x86_64-pc-solaris'
-          - x86_64-linux-android
-          # - x86_64-unknown-redox  # Error nix-0.30.1/src/macros.rs:72:35
-                                    #       ...
-                                    #       ^^^^^^^^^^^ expected `u64`, found `i32`
-          # - wasm32-unknown-emscripten
-          # - wasm32-unknown-unknown
-          # - wasm32-wasi  # error: could not compile `dlopen2`
-          # Tier 3
-          # - aarch64-unknown-openbsd # toolchain 1.67.1 does not support ...
-          # - aarch64-unknown-netbsd # toolchain 1.67.1 does not support ...
-          # - i686-unknown-netbsd  # toolchain 1.67.1 does not support ...
-          # - i686-unknown-openbsd  # toolchain 1.67.1 does not support ...
-          # - mips64-unknown-linux-gnuabi64
-          # - x86_64-unknown-dragonfly  # toolchain 1.67.1 does not support ...
-          # - x86_64-unknown-openbsd  # toolchain 1.67.1 does not support ...
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
