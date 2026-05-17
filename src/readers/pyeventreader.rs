@@ -368,9 +368,6 @@ impl PyEventReader {
                 extra_args.push("--quiet");
                 extra_args.push("-t");
                 extra_args.push("s4");
-                if etl_parser_used.is_some() {
-                    debug_panic!("etl_parser_used is Some for ASL file");
-                }
             },
             PyEventType::Etl => {
                 match etl_parser_used {
@@ -397,9 +394,6 @@ impl PyEventReader {
                 extra_args.push("--no-color");
                 extra_args.push("--all_key_values");
                 extra_args.push("--all_data");
-                if etl_parser_used.is_some() {
-                    debug_panic!("etl_parser_used is Some for ODL file");
-                }
             }
         };
         let wait_input_per_prints: String = format!("--wait-input-per-prints={}", WAIT_INPUT_PER_PRINTS + 1);
