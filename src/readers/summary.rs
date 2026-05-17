@@ -99,7 +99,7 @@ pub enum SummaryReaderData {
 }
 
 impl SummaryReaderData {
-    pub fn is_dummy(&self) -> bool {
+    pub const fn is_dummy(&self) -> bool {
         matches!(self, SummaryReaderData::Dummy)
     }
 }

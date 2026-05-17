@@ -237,27 +237,27 @@ impl LinePart {
     }
 
     /// Length of `LinePart` starting at index `blocki_beg` in bytes.
-    pub fn len(&self) -> usize {
+    pub const fn len(&self) -> usize {
         self.blocki_end - self.blocki_beg
     }
 
     /// Clippy recommends `fn is_empty` since there is a `len()`.
-    pub fn is_empty(&self) -> bool {
+    pub const fn is_empty(&self) -> bool {
         self.len() == 0
     }
 
     /// `FileOffset` at beginning of the `LinePart` (inclusive).
-    pub fn fileoffset_begin(&self) -> FileOffset {
+    pub const fn fileoffset_begin(&self) -> FileOffset {
         self.fileoffset
     }
 
     /// `FileOffset` at one byte past ending of the `LinePart` (exclusive).
-    pub fn fileoffset_end(&self) -> FileOffset {
+    pub const fn fileoffset_end(&self) -> FileOffset {
         self.fileoffset + (self.blocki_end as FileOffset)
     }
 
     /// `BlockOffset` of underlying `Block` to which `blockp` points.
-    pub fn blockoffset(&self) -> BlockOffset {
+    pub const fn blockoffset(&self) -> BlockOffset {
         self.blockoffset
     }
 
@@ -269,7 +269,7 @@ impl LinePart {
     /// Count of bytes of this `LinePart`.
     ///
     /// XXX: `count_bytes` and `len` is overlapping and confusing.
-    pub fn count_bytes(&self) -> Count {
+    pub const fn count_bytes(&self) -> Count {
         self.len() as Count
     }
 

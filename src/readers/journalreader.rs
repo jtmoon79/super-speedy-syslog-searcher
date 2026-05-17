@@ -643,7 +643,7 @@ const DATETIME_FORMAT_VERBOSE: &str = "%a %Y-%m-%d %H:%M:%S.%6f %Z";
 /// Give a little bit more information beyond catch-all `ErrorKind::Other`.
 // TODO: [2023/04] submit PR to `nix` project with a hard-coded mapping
 //       of `Errno` to `ErrorKind`
-pub fn errno_to_errorkind(err: &Errno) -> ErrorKind {
+pub const fn errno_to_errorkind(err: &Errno) -> ErrorKind {
     match *err {
         Errno::EACCES => ErrorKind::PermissionDenied,
         Errno::EADDRINUSE => ErrorKind::AddrInUse,
