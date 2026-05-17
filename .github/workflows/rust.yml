@@ -306,7 +306,9 @@ jobs:
           - x86_64-pc-solaris
           # - x86_64-sun-solaris  # error: toolchain 'stable-x86_64-unknown-linux-gnu' does not support target 'x86_64-sun-solaris'; did you mean 'x86_64-pc-solaris'
           - x86_64-linux-android
-          - x86_64-unknown-redox
+          # - x86_64-unknown-redox  # Error nix-0.30.1/src/macros.rs:72:35
+                                    #       ...
+                                    #       ^^^^^^^^^^^ expected `u64`, found `i32`
           # - wasm32-unknown-emscripten
           # - wasm32-unknown-unknown
           # - wasm32-wasi  # error: could not compile `dlopen2`

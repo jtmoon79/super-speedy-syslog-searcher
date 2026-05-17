@@ -783,7 +783,6 @@ _Tier 2_
 - i686-linux-android
 - x86_64-pc-solaris
 - x86_64-linux-android
-- x86_64-unknown-redox
 
 See [the Github Action].
 
