@@ -85,5 +85,5 @@ cargo publish --dry-run --allow-dirty
 ./tools/compare-grep-sort.sh
 ./tools/compare-cat.sh
 ./tools/cargo-llvm-cov-combine-multiple.sh
-./tools/cross-checks.sh
+env S4_BUILD_REGEX=1 ./tools/cross-checks.sh
 mlc ./README.md
