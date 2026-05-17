@@ -332,6 +332,7 @@ jobs:
           uname -a
           rustup show
           cross --version
+          echo 1 > S4_BUILD_REGEX
           export S4_BUILD_REGEX=1
           export S4_BUILD_REGEX_PRINT=1
           cross check --locked --lib --bins --release --target ${{ matrix.target }}
@@ -361,6 +362,7 @@ jobs:
           uname -a
           rustup show
           cross --version
+          echo 1 > S4_BUILD_REGEX
           export S4_BUILD_REGEX=1
           export S4_BUILD_REGEX_PRINT=1
           cross check --locked --lib --bins --release --target ${{ matrix.target }}
@@ -387,6 +389,7 @@ jobs:
           Set-PSDebug -Trace 1
           rustup.exe show
           cross.exe --version
+          Write-Output 1 > S4_BUILD_REGEX
           ${env:S4_BUILD_REGEX}=1
           ${env:S4_BUILD_REGEX_PRINT}=1
           cross.exe check --locked --lib --bins --release --target ${{ matrix.target }}
