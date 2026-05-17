@@ -35,29 +35,41 @@ pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
 /// compiled.
 fn parse_regex_values() {
     // process environment variable
-    match std::env::var(ENV_BUILD_REGEX) {
-        Ok(val) => {
-          for val in val.split(',') {
-            if val.contains('-') {
-              // range
-              let (a_s, b_s) = val.split_once('-').expect("Invalid range format");
-              let mut a_n: usize = a_s.parse::<usize>().unwrap();
-              let mut b_n: usize = b_s.parse::<usize>().unwrap();
-              if a_n > b_n {
-                std::mem::swap(&mut a_n, &mut b_n);
-              }
-              for n in a_n..=b_n {
-                println!(r#"cargo::rustc-cfg={CONFIG_REGEX}="{n}""#);
-              }
-            } else {
-              // single value
-              println!(r#"cargo::rustc-cfg={CONFIG_REGEX}="{val}""#);
-            }
+    let mut build_regex_val: String = std::env::var(ENV_BUILD_REGEX).unwrap_or_else(|_| String::with_capacity(0));
+    if build_regex_val.is_empty() {
+      // process file if environment variable is not set or empty
+      let project_dir: String = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not set");
+      let file_path: PathBuf = PathBuf::from(project_dir).join(ENV_BUILD_REGEX);
+      if file_path.exists() {
+        let file_contents: String = std::fs::read_to_string(file_path).expect("Failed to read file");
+        let file_contents_trimmed: String = file_contents.trim().to_string();
+        if !file_contents_trimmed.is_empty() {
+          // use the file contents as the build regex value
+          build_regex_val = file_contents_trimmed;
+        }
+      }
+    }
+
+    if !build_regex_val.is_empty() {
+      for val in build_regex_val.split(',') {
+        if val.contains('-') {
+          // range
+          let (a_s, b_s) = val.split_once('-').expect("Invalid range format");
+          let mut a_n: usize = a_s.parse::<usize>().unwrap();
+          let mut b_n: usize = b_s.parse::<usize>().unwrap();
+          if a_n > b_n {
+            std::mem::swap(&mut a_n, &mut b_n);
           }
+          for n in a_n..=b_n {
+            println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{n}\"");
+          }
+        } else {
+          // single value
+          println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{val}\"");
         }
-        Err(_) => {
-          println!(r#"cargo::rustc-cfg={CONFIG_REGEX}="{REGEX_ALL}""#);
-        }
+      }
+    } else {
+      println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{REGEX_ALL}\"");
     }
 
     // rerun if environment variable changes
