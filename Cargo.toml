@@ -156,7 +156,8 @@ filetime = "0.2.27"
 # XXX: flamegraph version must match `.github/workflows/rust.yml:FLAMEGRAPH_VERSION`
 flamegraph = "=0.6.12"
 regex-automata = "=0.4.14"
-test-case = "3.3.1"
+# XXX: cannot upgrade `test-case` beyond `3.2.1` until fix of https://github.com/frondeus/test-case/issues/153
+test-case = "=3.2.1"
 # other helpful development tools
 # cargo install --locked cargo-expand cargo-nextest
 
