@@ -332,8 +332,9 @@ jobs:
           uname -a
           rustup show
           cross --version
-          echo 1 > S4_BUILD_REGEX
-          export S4_BUILD_REGEX=1
+          # force S4_BUILD_REGEX=1 because env. vars. are not passed by `cross` into
+          # the docker instance.
+          echo 1 | tee ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX S4_BUILD_REGEX
           export S4_BUILD_REGEX_PRINT=1
           cross check --locked --lib --bins --release --target ${{ matrix.target }}
 
@@ -390,6 +391,7 @@ jobs:
           rustup.exe show
           cross.exe --version
           Write-Output 1 > S4_BUILD_REGEX
+          Write-Output 1 > ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX
           ${env:S4_BUILD_REGEX}=1
           ${env:S4_BUILD_REGEX_PRINT}=1
           cross.exe check --locked --lib --bins --release --target ${{ matrix.target }}
