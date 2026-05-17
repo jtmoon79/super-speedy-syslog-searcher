@@ -7,6 +7,12 @@
 #
 # Tier platforms
 #    https://doc.rust-lang.org/1.88.0/rustc/platform-support.html
+#
+# args $@ are passed to `cross build`
+# env. vars:
+#   DIROUT when set, the s4 binary built for each target will be copied to
+#          DIROUT with meaningful names
+#   MSRV the Rust version to install for toolchains, defaults to 1.88.0
 
 set -euo pipefail
 
@@ -311,17 +317,45 @@ declare -a TIER_TARGETS=(
 declare -ag results=()
 declare -i i=1
 
+# print the $results array in a almost-ready markdown table
+# (requires small tweaks to display properly)
 function print_results() {
-    echo
-    echo -en "\e[92m"
-    column -t -s "$SEP" -N 'Tier,Target,Result,Command'  < <(
+    echo -e "\e[92m"
+    column \
+        --table \
+        --separator "$SEP" \
+        --output-separator " $SEP " \
+        --table-columns '_,Tier,Target,Time,Result,Command' \
+    < <(
+        # header delimiter row
+        echo "${SEP}---${SEP}---${SEP}---${SEP}---${SEP}---${SEP}"
+        # results rows
         for target_tier_result_command in "${results[@]}"; do
-            echo "${target_tier_result_command}"
+            echo "${SEP}${target_tier_result_command}${SEP}"
         done | sort
     )
-    echo -en "\e[39m"
+    echo -e "\e[39m"
 }
-trap print_results EXIT
+
+# print results, if $DIROUT is set, tee to `cross-checks.md`
+function print_results_to_markdown_file () {
+    if [[ "${DIROUT-}" ]]; then
+        print_results | tee "${DIROUT}/cross-checks.md"
+    else
+        print_results
+    fi
+}
+
+trap print_results_to_markdown_file EXIT
+
+# print passed seconds integer as HH:MM:SS
+function seconds_to_hms() {
+    declare -i total_seconds="$1"
+    declare -i hours=$((total_seconds / 3600))
+    declare -i minutes=$(((total_seconds % 3600) / 60))
+    declare -i seconds=$((total_seconds % 60))
+    printf "%02d:%02d:%02d" "$hours" "$minutes" "$seconds"
+}
 
 set +e
 
@@ -329,16 +363,20 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
     TIER=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 1)
     TARGET=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 2-)
     echo >&2
-    echo -e "\e[92mTry ${i} of ${#TIER_TARGETS[@]} tier ${TIER} target ${TARGET}...\e[39m" >&2
+    echo -e "\e[93mTry ${i} of ${#TIER_TARGETS[@]} tier ${TIER} target ${TARGET}...\e[39m" >&2
     echo >&2
     i+=1
+    declare -i start_time=${SECONDS}
     # install toolchain for the target; if it's already installed then this will be a no-op
     if ! (
         set -x
         rustup toolchain install --profile minimal --target "$TARGET" "$MSRV"
     ); then
-        echo "Failed to install toolchain for target $TARGET" >&2
-        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}❌ toolchain install${SEP}rustup toolchain install --profile minimal --target $TARGET $MSRV"
+        declare -i total_time=$((SECONDS - start_time))
+        time_hms=$(seconds_to_hms "$total_time")
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}❌ toolchain install${SEP}rustup toolchain install --profile minimal --target $TARGET $MSRV"
+        # long running script; print progress in real-time
+        print_results
         continue
     fi
     # run cross build
@@ -347,8 +385,26 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
         set -x
         cross build --target "$TARGET" "${@}"
     ); then
-        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}✅ pass${SEP}cross build --target $TARGET ${*}"
+        declare -i total_time=$((SECONDS - start_time))
+        time_hms=$(seconds_to_hms "$total_time")
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}✅ pass${SEP}cross build --target $TARGET ${*}"
+        # if DIROUT is set, copy the s4 binary to DIROUT with meaningful names
+        if [[ "${DIROUT-}" ]]; then
+            mkdir -vp "$DIROUT"
+            for s4_file in $(find "target/${TARGET}" -type f -name 's4'); do
+                # s4_file will look like
+                #     target/s390x-unknown-linux-gnu/debug/s4
+                # if --release passed then
+                #     target/s390x-unknown-linux-gnu/release/s4
+                profile_type=$(echo -n "$s4_file" | cut -d "/" -f3)
+                cp -av "$s4_file" "${DIROUT}/s4_${TARGET}_${profile_type}"
+            done
+        fi
     else
-        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}❌ fail${SEP}cross build --target $TARGET ${*}"
+        declare -i total_time=$((SECONDS - start_time))
+        time_hms=$(seconds_to_hms "$total_time")
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}❌ fail${SEP}cross build --target $TARGET ${*}"
     fi
+    # long running script; print progress in real-time
+    print_results
 done
