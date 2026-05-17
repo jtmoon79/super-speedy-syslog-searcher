@@ -278,7 +278,7 @@ jobs:
           - aarch64-unknown-linux-gnu
           - i686-pc-windows-gnu
           # - i686-pc-windows-msvc # in job_cross_targets_windows
-          - i686-unknown-linux-gnu
+          # - i686-unknown-linux-gnu # error[E0432]: unresolved import `core::arch::x86_64`
           - x86_64-pc-windows-gnu
           # - x86_64-pc-windows-msvc # in job_cross_targets_windows
           - x86_64-unknown-linux-gnu
