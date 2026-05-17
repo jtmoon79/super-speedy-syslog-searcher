@@ -5,39 +5,350 @@
 # requires:
 #     cargo install --locked cross cargo-cross
 #
+# Tier platforms
+#    https://doc.rust-lang.org/1.88.0/rustc/platform-support.html
 
-# add targets with command:
-#     rustup target add $TARGET
-for TARGET in \
-    aarch64-unknown-linux-gnu \
-    i686-pc-windows-gnu \
-    `# i686-pc-windows-msvc` \
-    i686-unknown-linux-gnu \
-    x86_64-pc-windows-gnu \
-    `# x86_64-pc-windows-msvc` \
-    x86_64-unknown-linux-gnu \
-    loongarch64-unknown-linux-gnu \
-    aarch64-unknown-linux-musl \
-    arm-unknown-linux-gnueabi \
-    arm-unknown-linux-gnueabihf \
-    armv7-unknown-linux-gnueabihf \
-    powerpc-unknown-linux-gnu \
-    powerpc64-unknown-linux-gnu \
-    riscv64gc-unknown-linux-gnu \
-    x86_64-unknown-freebsd \
-    `# x86_64-unknown-illumos` \
-    x86_64-unknown-linux-musl \
-    x86_64-unknown-netbsd \
-    aarch64-linux-android \
-    i686-linux-android \
-    x86_64-pc-solaris \
-    x86_64-sun-solaris \
-    x86_64-linux-android \
-    x86_64-unknown-redox \
-    `# mips64-unknown-linux-gnuabi64` \
-; do
-    (
-        set -x
-        S4_BUILD_REGEX=1 S4_BUILD_REGEX_PRINT=1 cross check --lib --bins --target $TARGET
+set -euo pipefail
+
+declare -r SEP="|"
+
+MSRV=${MSRV:-1.88.0}
+
+declare -a TIER_TARGETS=(
+    # Tier 1 platforms
+    "1${SEP}aarch64-apple-darwin"
+    "1${SEP}aarch64-unknown-linux-gnu"
+    "1${SEP}i686-pc-windows-msvc"
+    "1${SEP}i686-unknown-linux-gnu"
+    "1${SEP}x86_64-apple-darwin"
+    "1${SEP}x86_64-pc-windows-gnu"
+    "1${SEP}x86_64-pc-windows-msvc"
+    "1${SEP}x86_64-unknown-linux-gnu"
+    # Tier 2 platforms
+    "2${SEP}aarch64-pc-windows-msvc"
+    "2${SEP}aarch64-unknown-linux-musl"
+    "2${SEP}aarch64-unknown-linux-ohos"
+    "2${SEP}arm-unknown-linux-gnueabi"
+    "2${SEP}arm-unknown-linux-gnueabihf"
+    "2${SEP}armv7-unknown-linux-gnueabihf"
+    "2${SEP}armv7-unknown-linux-ohos"
+    "2${SEP}loongarch64-unknown-linux-gnu"
+    "2${SEP}loongarch64-unknown-linux-musl"
+    "2${SEP}i686-pc-windows-gnu"
+    "2${SEP}powerpc-unknown-linux-gnu"
+    "2${SEP}powerpc64-unknown-linux-gnu"
+    "2${SEP}powerpc64le-unknown-linux-gnu"
+    "2${SEP}powerpc64le-unknown-linux-musl"
+    "2${SEP}riscv64gc-unknown-linux-gnu"
+    "2${SEP}riscv64gc-unknown-linux-musl"
+    "2${SEP}s390x-unknown-linux-gnu"
+    "2${SEP}x86_64-unknown-freebsd"
+    "2${SEP}x86_64-unknown-illumos"
+    "2${SEP}x86_64-unknown-linux-musl"
+    "2${SEP}x86_64-unknown-linux-ohos"
+    "2${SEP}x86_64-unknown-netbsd"
+    "2${SEP}aarch64-apple-ios"
+    "2${SEP}aarch64-apple-ios-macabi"
+    "2${SEP}aarch64-apple-ios-sim"
+    "2${SEP}aarch64-linux-android"
+    "2${SEP}aarch64-pc-windows-gnullvm"
+    "2${SEP}aarch64-unknown-fuchsia"
+    "2${SEP}aarch64-unknown-none"
+    "2${SEP}aarch64-unknown-none-softfloat"
+    "2${SEP}aarch64-unknown-uefi"
+    "2${SEP}arm-linux-androideabi"
+    "2${SEP}arm-unknown-linux-musleabi"
+    "2${SEP}arm-unknown-linux-musleabihf"
+    "2${SEP}arm64ec-pc-windows-msvc"
+    "2${SEP}armebv7r-none-eabi"
+    "2${SEP}armebv7r-none-eabihf"
+    "2${SEP}armv5te-unknown-linux-gnueabi"
+    "2${SEP}armv5te-unknown-linux-musleabi"
+    "2${SEP}armv7-linux-androideabi"
+    "2${SEP}armv7-unknown-linux-gnueabi"
+    "2${SEP}armv7-unknown-linux-musleabi"
+    "2${SEP}armv7-unknown-linux-musleabihf"
+    "2${SEP}armv7a-none-eabi"
+    "2${SEP}armv7r-none-eabi"
+    "2${SEP}armv7r-none-eabihf"
+    "2${SEP}i586-unknown-linux-gnu"
+    "2${SEP}i586-unknown-linux-musl"
+    "2${SEP}i686-linux-android"
+    "2${SEP}i686-pc-windows-gnullvm"
+    "2${SEP}i686-unknown-freebsd"
+    "2${SEP}i686-unknown-linux-musl"
+    "2${SEP}i686-unknown-uefi"
+    "2${SEP}loongarch64-unknown-none"
+    "2${SEP}loongarch64-unknown-none-softfloat"
+    "2${SEP}nvptx64-nvidia-cuda"
+    "2${SEP}riscv32i-unknown-none-elf"
+    "2${SEP}riscv32im-unknown-none-elf"
+    "2${SEP}riscv32imac-unknown-none-elf"
+    "2${SEP}riscv32imafc-unknown-none-elf"
+    "2${SEP}riscv32imc-unknown-none-elf"
+    "2${SEP}riscv64gc-unknown-none-elf"
+    "2${SEP}riscv64imac-unknown-none-elf"
+    "2${SEP}sparc64-unknown-linux-gnu"
+    "2${SEP}sparcv9-sun-solaris"
+    "2${SEP}thumbv6m-none-eabi"
+    "2${SEP}thumbv7em-none-eabi"
+    "2${SEP}thumbv7em-none-eabihf"
+    "2${SEP}thumbv7m-none-eabi"
+    "2${SEP}thumbv7neon-linux-androideabi"
+    "2${SEP}thumbv7neon-unknown-linux-gnueabihf"
+    "2${SEP}thumbv8m.base-none-eabi"
+    "2${SEP}thumbv8m.main-none-eabi"
+    "2${SEP}thumbv8m.main-none-eabihf"
+    "2${SEP}wasm32-unknown-emscripten"
+    "2${SEP}wasm32-unknown-unknown"
+    "2${SEP}wasm32-wasip1"
+    "2${SEP}wasm32-wasip1-threads"
+    "2${SEP}wasm32-wasip2"
+    "2${SEP}wasm32v1-none"
+    "2${SEP}x86_64-apple-ios"
+    "2${SEP}x86_64-apple-ios-macabi"
+    "2${SEP}x86_64-fortanix-unknown-sgx"
+    "2${SEP}x86_64-linux-android"
+    "2${SEP}x86_64-pc-solaris"
+    "2${SEP}x86_64-pc-windows-gnullvm"
+    "2${SEP}x86_64-unknown-fuchsia"
+    "2${SEP}x86_64-unknown-linux-gnux32"
+    "2${SEP}x86_64-unknown-none"
+    "2${SEP}x86_64-unknown-redox"
+    "2${SEP}x86_64-unknown-uefi"
+    # Tier 3 platforms
+    "3${SEP}aarch64-apple-tvos"
+    "3${SEP}aarch64-apple-tvos-sim"
+    "3${SEP}aarch64-apple-visionos"
+    "3${SEP}aarch64-apple-visionos-sim"
+    "3${SEP}aarch64-apple-watchos"
+    "3${SEP}aarch64-apple-watchos-sim"
+    "3${SEP}aarch64-kmc-solid_asp3"
+    "3${SEP}aarch64-nintendo-switch-freestanding"
+    "3${SEP}aarch64-unknown-freebsd"
+    "3${SEP}aarch64-unknown-hermit"
+    "3${SEP}aarch64-unknown-illumos"
+    "3${SEP}aarch64-unknown-linux-gnu_ilp32"
+    "3${SEP}aarch64-unknown-netbsd"
+    "3${SEP}aarch64-unknown-nto-qnx700"
+    "3${SEP}aarch64-unknown-nto-qnx710"
+    "3${SEP}aarch64-unknown-nto-qnx710_iosock"
+    "3${SEP}aarch64-unknown-nto-qnx800"
+    "3${SEP}aarch64-unknown-nuttx"
+    "3${SEP}aarch64-unknown-openbsd"
+    "3${SEP}aarch64-unknown-redox"
+    "3${SEP}aarch64-unknown-teeos"
+    "3${SEP}aarch64-unknown-trusty"
+    "3${SEP}aarch64-uwp-windows-msvc"
+    "3${SEP}aarch64-wrs-vxworks"
+    "3${SEP}aarch64_be-unknown-linux-gnu"
+    "3${SEP}aarch64_be-unknown-linux-gnu_ilp32"
+    "3${SEP}aarch64_be-unknown-netbsd"
+    "3${SEP}amdgcn-amd-amdhsa"
+    "3${SEP}arm64_32-apple-watchos"
+    "3${SEP}arm64e-apple-darwin"
+    "3${SEP}arm64e-apple-ios"
+    "3${SEP}arm64e-apple-tvos"
+    "3${SEP}armeb-unknown-linux-gnueabi"
+    "3${SEP}armv4t-none-eabi"
+    "3${SEP}armv4t-unknown-linux-gnueabi"
+    "3${SEP}armv5te-none-eabi"
+    "3${SEP}armv5te-unknown-linux-uclibceabi"
+    "3${SEP}armv6-unknown-freebsd"
+    "3${SEP}armv6-unknown-netbsd-eabihf"
+    "3${SEP}armv6k-nintendo-3ds"
+    "3${SEP}armv7-rtems-eabihf"
+    "3${SEP}armv7-sony-vita-newlibeabihf"
+    "3${SEP}armv7-unknown-freebsd"
+    "3${SEP}armv7-unknown-linux-uclibceabi"
+    "3${SEP}armv7-unknown-linux-uclibceabihf"
+    "3${SEP}armv7-unknown-netbsd-eabihf"
+    "3${SEP}armv7-unknown-trusty"
+    "3${SEP}armv7-wrs-vxworks-eabihf"
+    "3${SEP}armv7a-kmc-solid_asp3-eabi"
+    "3${SEP}armv7a-kmc-solid_asp3-eabihf"
+    "3${SEP}armv7a-none-eabihf"
+    "3${SEP}armv7k-apple-watchos"
+    "3${SEP}armv7s-apple-ios"
+    "3${SEP}armv8r-none-eabihf"
+    "3${SEP}armv7a-nuttx-eabi"
+    "3${SEP}armv7a-nuttx-eabihf"
+    "3${SEP}avr-none"
+    "3${SEP}bpfeb-unknown-none"
+    "3${SEP}bpfel-unknown-none"
+    "3${SEP}csky-unknown-linux-gnuabiv2"
+    "3${SEP}csky-unknown-linux-gnuabiv2hf"
+    "3${SEP}hexagon-unknown-linux-musl"
+    "3${SEP}hexagon-unknown-none-elf"
+    "3${SEP}i386-apple-ios"
+    "3${SEP}i586-unknown-netbsd"
+    "3${SEP}i586-unknown-redox"
+    "3${SEP}i686-apple-darwin"
+    "3${SEP}i686-pc-nto-qnx700"
+    "3${SEP}i686-unknown-haiku"
+    "3${SEP}i686-unknown-hurd-gnu"
+    "3${SEP}i686-unknown-netbsd"
+    "3${SEP}i686-unknown-openbsd"
+    "3${SEP}i686-uwp-windows-gnu"
+    "3${SEP}i686-uwp-windows-msvc"
+    "3${SEP}i686-win7-windows-gnu"
+    "3${SEP}i686-win7-windows-msvc"
+    "3${SEP}i686-wrs-vxworks"
+    "3${SEP}loongarch64-unknown-linux-ohos"
+    "3${SEP}m68k-unknown-linux-gnu"
+    "3${SEP}m68k-unknown-none-elf"
+    "3${SEP}mips-unknown-linux-gnu"
+    "3${SEP}mips-unknown-linux-musl"
+    "3${SEP}mips-unknown-linux-uclibc"
+    "3${SEP}mips64-openwrt-linux-musl"
+    "3${SEP}mips64-unknown-linux-gnuabi64"
+    "3${SEP}mips64-unknown-linux-muslabi64"
+    "3${SEP}mips64el-unknown-linux-gnuabi64"
+    "3${SEP}mips64el-unknown-linux-muslabi64"
+    "3${SEP}mipsel-sony-psp"
+    "3${SEP}mipsel-sony-psx"
+    "3${SEP}mipsel-unknown-linux-gnu"
+    "3${SEP}mipsel-unknown-linux-musl"
+    "3${SEP}mipsel-unknown-linux-uclibc"
+    "3${SEP}mipsel-unknown-netbsd"
+    "3${SEP}mipsel-unknown-none"
+    "3${SEP}mips-mti-none-elf"
+    "3${SEP}mipsel-mti-none-elf"
+    "3${SEP}mipsisa32r6-unknown-linux-gnu"
+    "3${SEP}mipsisa32r6el-unknown-linux-gnu"
+    "3${SEP}mipsisa64r6-unknown-linux-gnuabi64"
+    "3${SEP}mipsisa64r6el-unknown-linux-gnuabi64"
+    "3${SEP}msp430-none-elf"
+    "3${SEP}powerpc-unknown-freebsd"
+    "3${SEP}powerpc-unknown-linux-gnuspe"
+    "3${SEP}powerpc-unknown-linux-musl"
+    "3${SEP}powerpc-unknown-linux-muslspe"
+    "3${SEP}powerpc-unknown-netbsd"
+    "3${SEP}powerpc-unknown-openbsd"
+    "3${SEP}powerpc-wrs-vxworks"
+    "3${SEP}powerpc-wrs-vxworks-spe"
+    "3${SEP}powerpc64-ibm-aix"
+    "3${SEP}powerpc64-unknown-freebsd"
+    "3${SEP}powerpc64-unknown-linux-musl"
+    "3${SEP}powerpc64-unknown-openbsd"
+    "3${SEP}powerpc64-wrs-vxworks"
+    "3${SEP}powerpc64le-unknown-freebsd"
+    "3${SEP}riscv32-wrs-vxworks"
+    "3${SEP}riscv32e-unknown-none-elf"
+    "3${SEP}riscv32em-unknown-none-elf"
+    "3${SEP}riscv32emc-unknown-none-elf"
+    "3${SEP}riscv32gc-unknown-linux-gnu"
+    "3${SEP}riscv32gc-unknown-linux-musl"
+    "3${SEP}riscv32im-risc0-zkvm-elf"
+    "3${SEP}riscv32ima-unknown-none-elf"
+    "3${SEP}riscv32imac-esp-espidf"
+    "3${SEP}riscv32imac-unknown-nuttx-elf"
+    "3${SEP}riscv32imac-unknown-xous-elf"
+    "3${SEP}riscv32imafc-esp-espidf"
+    "3${SEP}riscv32imafc-unknown-nuttx-elf"
+    "3${SEP}riscv32imc-esp-espidf"
+    "3${SEP}riscv32imc-unknown-nuttx-elf"
+    "3${SEP}riscv64-linux-android"
+    "3${SEP}riscv64-wrs-vxworks"
+    "3${SEP}riscv64gc-unknown-freebsd"
+    "3${SEP}riscv64gc-unknown-fuchsia"
+    "3${SEP}riscv64gc-unknown-hermit"
+    "3${SEP}riscv64gc-unknown-netbsd"
+    "3${SEP}riscv64gc-unknown-nuttx-elf"
+    "3${SEP}riscv64gc-unknown-openbsd"
+    "3${SEP}riscv64imac-unknown-nuttx-elf"
+    "3${SEP}s390x-unknown-linux-musl"
+    "3${SEP}sparc-unknown-linux-gnu"
+    "3${SEP}sparc-unknown-none-elf"
+    "3${SEP}sparc64-unknown-netbsd"
+    "3${SEP}sparc64-unknown-openbsd"
+    "3${SEP}thumbv4t-none-eabi"
+    "3${SEP}thumbv5te-none-eabi"
+    "3${SEP}thumbv6m-nuttx-eabi"
+    "3${SEP}thumbv7a-pc-windows-msvc"
+    "3${SEP}thumbv7a-uwp-windows-msvc"
+    "3${SEP}thumbv7a-nuttx-eabi"
+    "3${SEP}thumbv7a-nuttx-eabihf"
+    "3${SEP}thumbv7em-nuttx-eabi"
+    "3${SEP}thumbv7em-nuttx-eabihf"
+    "3${SEP}thumbv7m-nuttx-eabi"
+    "3${SEP}thumbv7neon-unknown-linux-musleabihf"
+    "3${SEP}thumbv8m.base-nuttx-eabi"
+    "3${SEP}thumbv8m.main-nuttx-eabi"
+    "3${SEP}thumbv8m.main-nuttx-eabihf"
+    "3${SEP}wasm64-unknown-unknown"
+    "3${SEP}wasm32-wali-linux-musl"
+    "3${SEP}x86_64-apple-tvos"
+    "3${SEP}x86_64-apple-watchos-sim"
+    "3${SEP}x86_64-lynx-lynxos178"
+    "3${SEP}x86_64-pc-cygwin"
+    "3${SEP}x86_64-pc-nto-qnx710"
+    "3${SEP}x86_64-pc-nto-qnx710_iosock"
+    "3${SEP}x86_64-pc-nto-qnx800"
+    "3${SEP}x86_64-unikraft-linux-musl"
+    "3${SEP}x86_64-unknown-dragonfly"
+    "3${SEP}x86_64-unknown-haiku"
+    "3${SEP}x86_64-unknown-hermit"
+    "3${SEP}x86_64-unknown-hurd-gnu"
+    "3${SEP}x86_64-unknown-l4re-uclibc"
+    "3${SEP}x86_64-unknown-linux-none"
+    "3${SEP}x86_64-unknown-openbsd"
+    "3${SEP}x86_64-unknown-trusty"
+    "3${SEP}x86_64-uwp-windows-gnu"
+    "3${SEP}x86_64-uwp-windows-msvc"
+    "3${SEP}x86_64-win7-windows-gnu"
+    "3${SEP}x86_64-win7-windows-msvc"
+    "3${SEP}x86_64-wrs-vxworks"
+    "3${SEP}x86_64h-apple-darwin"
+    "3${SEP}xtensa-esp32-espidf"
+    "3${SEP}xtensa-esp32-none-elf"
+    "3${SEP}xtensa-esp32s2-espidf"
+    "3${SEP}xtensa-esp32s2-none-elf"
+    "3${SEP}xtensa-esp32s3-espidf"
+    "3${SEP}xtensa-esp32s3-none-elf"
+)
+
+declare -ag results=()
+declare -i i=1
+
+function print_results() {
+    echo
+    echo -en "\e[92m"
+    column -t -s "$SEP" -N 'Tier,Target,Result,Command'  < <(
+        for target_tier_result_command in "${results[@]}"; do
+            echo "${target_tier_result_command}"
+        done | sort
     )
+    echo -en "\e[39m"
+}
+trap print_results EXIT
+
+set +e
+
+for TIER_TARGET in "${TIER_TARGETS[@]}"; do
+    TIER=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 1)
+    TARGET=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 2-)
+    echo >&2
+    echo -e "\e[92mTry ${i} of ${#TIER_TARGETS[@]} tier ${TIER} target ${TARGET}...\e[39m" >&2
+    echo >&2
+    i+=1
+    # install toolchain for the target; if it's already installed then this will be a no-op
+    if ! (
+        set -x
+        rustup toolchain install --profile minimal --target "$TARGET" "$MSRV"
+    ); then
+        echo "Failed to install toolchain for target $TARGET" >&2
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}❌ toolchain install${SEP}rustup toolchain install --profile minimal --target $TARGET $MSRV"
+        continue
+    fi
+    # run cross build
+    if (
+        export S4_BUILD_REGEX_PRINT=1
+        set -x
+        cross build --target "$TARGET" "${@}"
+    ); then
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}✅ pass${SEP}cross build --target $TARGET ${*}"
+    else
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}❌ fail${SEP}cross build --target $TARGET ${*}"
+    fi
 done
