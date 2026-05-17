@@ -20,6 +20,9 @@ const CONFIG_REGEX: &str = "regex";
 /// This must match `datetime.rs` value `DATETIME_PARSE_DATAS_LEN`
 pub const DATETIME_PARSE_DATAS_LEN: usize = 176;
 
+pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
+pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
+
 /// allow environment variable `S4_BUILD_REGEX` to specify which regexes to compile
 /// can specify
 /// - single values, e.g. `S4_BUILD_REGEX=1`
@@ -92,15 +95,26 @@ fn write_timestamp_file() {
     let outdir: String = env::var("OUT_DIR").unwrap_or_else(|_| ".".to_string());
     let mut out_path = PathBuf::new();
     out_path.push(outdir);
-    out_path.push("timestamp.rs");
+    out_path.push(PATH_FILE_TIMESTAMP);
     let mut fhandle = fs::File::create(&out_path).unwrap();
     let local_now = chrono::Local::now();
     let now_s = local_now.format("%Y-%m-%dT%H:%M:%S");
     write!(fhandle, r#""{now_s}""#).ok();
 }
 
+fn write_rustc_version_file() {
+    let outdir: String = env::var("OUT_DIR").unwrap_or_else(|_| ".".to_string());
+    let mut out_path = PathBuf::new();
+    out_path.push(outdir);
+    out_path.push(PATH_FILE_RUSTC_VERSION);
+    let mut fhandle = fs::File::create(&out_path).unwrap();
+    let rustc_version_str: String = rustc_version_runtime::version().to_string();
+    write!(fhandle, r#""{rustc_version_str}""#).ok();
+}
+
 fn main() {
     dotenv::dotenv().ok();
     write_timestamp_file();
+    write_rustc_version_file();
     parse_regex_values();
 }

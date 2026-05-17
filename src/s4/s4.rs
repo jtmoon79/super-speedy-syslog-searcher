@@ -295,8 +295,15 @@ use ::s4lib::readers::syslogprocessor::{
 #[cfg(feature = "alloc_tracker")]
 use crate::alloc_tracker;
 
+/// File with the build time.
+/// Created by `build.rs`.
+/// Path must match that in `build.rs`.
 /// ripped from https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html
-const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/timestamp.rs"));
+const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/", "timestamp.txt"));
+/// File with the Rust compiler version.
+/// Created by `build.rs`.
+/// Path must match that in `build.rs`.
+const RUSTC_VERSION: &str = include!(concat!(env!("OUT_DIR"), "/", "rustc_version.txt"));
 
 // --------------------
 // command-line parsing
@@ -2508,6 +2515,7 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         "Target OS Family: ", std::env::consts::FAMILY, "\n",
         "Arch: ", std::env::consts::ARCH, "\n",
         "Compiled Regular Expressions: ", DATETIME_PARSE_DATAS_LEN, "\n",
+        "Compiler Version: ", RUSTC_VERSION, "\n",
         "Rust Build Flags: ", RUSTFLAGS, "\n",
         "Optimization Level: ", OPT_LEVEL, "\n",
         "Build Date: ", BUILD_TIME,  "\n",
