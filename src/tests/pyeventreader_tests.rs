@@ -18,6 +18,7 @@ use ::test_case::test_case;
 use crate::common::{
     Count,
     FPath,
+    FileSz,
     FileType,
     FileTypeArchive,
     OdlSubType,
@@ -34,11 +35,13 @@ use crate::readers::pyeventreader::{
 };
 use crate::tests::common::{
     ASL_1_FPATH,
+    ASL_1_FILESZ,
     FO_0,
     ETL_1_FPATH,
     ETL_1_EVENT_COUNT,
     ETL_1_FILESZ,
     ODL_1_FPATH,
+    ODL_1_FILESZ,
 };
 use crate::tests::venv_tests::venv_setup;
 
@@ -67,40 +70,48 @@ fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
     defx!();
 }
 
-#[test_case(
-    ASL_1_FPATH.clone(),
-    Some(EtlParserUsed::DissectEtl),
-    FileType::Asl { archival_type: FileTypeArchive::Normal } => panics;
-    "asl panic"
-)]
-#[test_case(
-    ODL_1_FPATH.clone(),
-    Some(EtlParserUsed::DissectEtl),
-    FileType::Odl { archival_type: FileTypeArchive::Normal, odl_sub_type: OdlSubType::Odl } => panics;
-    "odl panic"
-)]
+const PIPE_SZ_ASL_ODL: PipeSz = 1024;
+
 #[test_case(
     ASL_1_FPATH.clone(),
     None,
+    ASL_1_FILESZ,
+    PIPE_SZ_ASL_ODL,
     FileType::Asl { archival_type: FileTypeArchive::Normal };
-    "asl no panic"
+    "asl"
 )]
 #[test_case(
     ODL_1_FPATH.clone(),
     None,
+    ODL_1_FILESZ,
+    PIPE_SZ_ASL_ODL,
     FileType::Odl { archival_type: FileTypeArchive::Normal, odl_sub_type: OdlSubType::Odl };
-    "odl no panic"
+    "odl"
 )]
-fn test_PyEventReader_new_asl_odl_panic(path: FPath, etl_parser_used: Option<EtlParserUsed>, filetype: FileType) {
+fn test_PyEventReader_new_asl_odl(
+    path: FPath,
+    etl_parser_used: Option<EtlParserUsed>,
+    size_expected: FileSz,
+    pipe_sz: PipeSz,
+    filetype: FileType)
+{
     venv_setup();
 
-    _ = PyEventReader::new(
-        path,
+    let per = PyEventReader::new(
+        path.clone(),
         etl_parser_used,
         filetype,
         FO_0,
-        1024,
+        pipe_sz,
     ).unwrap();
+    defo!("per: {:?}", per);
+    assert_eq!(per.filesz(), size_expected, "expected filesz {} for path {:?}", size_expected, &path);
+    defo!("per.mtime(): {:?}", per.mtime());
+    defo!("per.path(): {:?}", per.path());
+    defo!("per.pipe_sz_stdout(): {:?}", per.pipe_sz_stdout());
+    defo!("per.pipe_sz_stderr(): {:?}", per.pipe_sz_stderr());
+    assert_eq!(per.pipe_sz_stdout(), pipe_sz);
+    assert_eq!(per.pipe_sz_stderr(), pipe_sz);
 }
 
 #[test]
