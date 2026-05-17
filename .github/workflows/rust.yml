@@ -1032,10 +1032,10 @@ jobs:
         shell: bash
         run: |
           set -eux
-          export PROGRAMR=./s4_release
-          export PROGRAMD=./s4_debug
+          export PROGRAM_A=./s4_release
+          export PROGRAM_B=./s4_debug
           SCRIPT=./tools/compare-debug-release.sh
-          chmod -v +x -- "${PROGRAMR}" "${PROGRAMD}" "${SCRIPT}" ./tools/compare-two-s4.sh
+          chmod -v +x -- "${PROGRAM_A}" "${PROGRAM_B}" "${SCRIPT}" ./tools/compare-two-s4.sh
           "${SCRIPT}"
       # compare grep sort
       - name: Run Script compare-grep-sort.sh
