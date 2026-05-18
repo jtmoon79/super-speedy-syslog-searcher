@@ -66,6 +66,8 @@ and Apple System Logs (`.asl`).
     - [File name guessing](#file-name-guessing)
     - [Directory walks](#directory-walks)
     - [Platforms tested](#platforms-tested)
+      - [Tier 1](#tier-1)
+      - [Tier 2](#tier-2)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
 - [More](#more)
@@ -755,33 +757,30 @@ process `file.mp3`. It will be treated as a UTF8 text log file.
 
 Builds are tested on the following rust platforms:
 
-_Tier 1_
+##### Tier 1
 
 - aarch64-unknown-linux-gnu
-- i686-pc-windows-gnu
 - i686-pc-windows-msvc
+- x86_64-apple-darwin
 - x86_64-pc-windows-gnu
 - x86_64-pc-windows-msvc
 - x86_64-unknown-linux-gnu
 
-_Tier 2_
+##### Tier 2
 
+- aarch64-apple-darwin
+- aarch64-apple-ios
 - aarch64-unknown-linux-musl
+- arm-linux-androideabi
 - arm-unknown-linux-gnueabi
 - arm-unknown-linux-gnueabihf
+- armv7-linux-androideabi
 - armv7-unknown-linux-gnueabihf
-- loongarch64-unknown-linux-gnu
-- powerpc-unknown-linux-gnu
-- powerpc64-unknown-linux-gnu
+- armv7-unknown-linux-musleabihf
 - riscv64gc-unknown-linux-gnu
-- x86_64-unknown-freebsd
-- x86_64-unknown-illumos
+- thumbv7neon-linux-androideabi
+- x86_64-apple-ios
 - x86_64-unknown-linux-musl
-- x86_64-unknown-netbsd
-- aarch64-linux-android
-- i686-linux-android
-- x86_64-pc-solaris
-- x86_64-linux-android
 
 See [the Github Action].
 
