@@ -538,14 +538,9 @@ jobs:
         uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: set log file filesystem Modified Times
-        shell: bash
+        shell: powershell
         run: |
-          set -eux
-          uname -a
-          bash --version
-          grep --version
-          chmod -v +x ./tools/log-files-time-update.sh
-          ./tools/log-files-time-update.sh
+          .\tools\log-files-time-update.ps1
       - name: create venv
         shell: powershell
         run: |
