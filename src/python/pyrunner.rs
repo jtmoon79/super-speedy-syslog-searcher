@@ -781,8 +781,7 @@ impl PyRunner {
                 Err(err) => {
                     def1x!("Failed to acquire write lock on PythonPathsRan: {}", err);
                     return Result::Err(
-                        Error::new(
-                            ErrorKind::Other,
+                        Error::other(
                             format!("Failed to acquire write lock on PythonPathsRan: {}", err),
                         )
                     );
