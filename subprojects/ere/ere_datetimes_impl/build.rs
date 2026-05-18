@@ -59,8 +59,10 @@ fn parse_regex_values() {
         if val.contains('-') {
           // range
           let (a_s, b_s) = val.split_once('-').expect("Invalid range format");
-          let mut a_n: usize = a_s.parse::<usize>().unwrap();
-          let mut b_n: usize = b_s.parse::<usize>().unwrap();
+          let mut a_n: usize = a_s.parse::<usize>().unwrap_or_else(
+            |_| panic!("Invalid number in range: {a_s:?} from {val:?}"));
+          let mut b_n: usize = b_s.parse::<usize>().unwrap_or_else(
+            |_| panic!("Invalid number in range: {b_s:?} from {val:?}"));
           if a_n > b_n {
             std::mem::swap(&mut a_n, &mut b_n);
           }
