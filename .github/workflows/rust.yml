@@ -127,9 +127,17 @@ jobs:
           export S4_BUILD_REGEX_PRINT=1
           cargo --version
           rustc --print cfg
-          cargo build --locked
           cargo build --locked --profile release
           ./target/release/s4 --version
+      - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile dev
+        shell: bash
+        run: |
+          set -eux
+          export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
+          cargo build --locked --profile dev
+          ./target/debug/s4 --version
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile mimalloc
         shell: bash
         run: |
@@ -168,8 +176,9 @@ jobs:
           export S4_BUILD_REGEX_PRINT=1
           export RUST_MIN_STACK=15000000  # 15 MB
           cargo build --locked --profile alloc_tracker --features alloc_tracker
-          env S4_ALLOC_TRACKER_PRINT=1 ./target/alloc_tracker/s4 --version
-          env S4_ALLOC_TRACKER_TRACKING=1 ./target/alloc_tracker/s4 ./logs/other/tests/dtf2-2.log
+          export S4_ALLOC_TRACKER_PRINT=1
+          ./target/alloc_tracker/s4 --version
+          ./target/alloc_tracker/s4 ./logs/other/tests/dtf2-2.log
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile flamegraph
         shell: bash
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -280,7 +289,9 @@ jobs:
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
       - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
-      - run: |
+      - name: cross check ${{ matrix.target }}
+        shell: bash
+        run: |
           set -eux
           uname -a
           rustup show
@@ -311,7 +322,9 @@ jobs:
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
       - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
-      - run: |
+      - name: cross check ${{ matrix.target }}
+        shell: bash
+        run: |
           set -eux
           uname -a
           rustup show
@@ -337,7 +350,7 @@ jobs:
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
       - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
-      - name: cross check
+      - name: cross check ${{ matrix.target }}
         shell: powershell
         run: |
           Set-PSDebug -Trace 1
@@ -345,8 +358,8 @@ jobs:
           cross.exe --version
           Write-Output 1 > S4_BUILD_REGEX
           Write-Output 1 > ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX
-          ${env:S4_BUILD_REGEX}=1
-          ${env:S4_BUILD_REGEX_PRINT}=1
+          ${env:S4_BUILD_REGEX}="1"
+          ${env:S4_BUILD_REGEX_PRINT}="1"
           cross.exe check --locked --lib --bins --release --target ${{ matrix.target }}
 
   # job_test_wasm:
@@ -486,10 +499,10 @@ jobs:
           set -eux
           S4_BUILD_REGEX=1
           S4_BUILD_REGEX_PRINT=1
-          cargo build --locked --release
+          cargo build --locked --profile release_Opt0
           which python
           python --version
-          ./target/release/s4 --venv
+          ./target/release_Opt0/s4 --venv
       - name: nextest (all)
         shell: bash
         run: |
@@ -517,10 +530,10 @@ jobs:
           set -eux
           export S4_BUILD_REGEX=1
           export S4_BUILD_REGEX_PRINT=1
-          cargo build --locked --release
+          cargo build --locked --profile release_Opt0
           which python
           python --version
-          ./target/release/s4 --venv
+          ./target/release_Opt0/s4 --venv
       - name: nextest (all)
         shell: bash
         run: |
@@ -545,12 +558,12 @@ jobs:
         shell: powershell
         run: |
           Set-PSDebug -Trace 1
-          ${env:S4_BUILD_REGEX}=1
-          ${env:S4_BUILD_REGEX_PRINT}=1
-          cargo.exe build --locked --release
+          ${env:S4_BUILD_REGEX}="1"
+          ${env:S4_BUILD_REGEX_PRINT}="1"
+          cargo.exe build --locked --profile release_Opt0
           Get-Command -All python.exe
           python.exe --version
-          ./target/release/s4 --venv
+          ./target/release_Opt0/s4 --venv
       - name: test (all)
         shell: powershell
         run: |
