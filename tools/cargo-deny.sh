@@ -3,6 +3,9 @@
 # run `cargo deny` with preferred options
 #
 # https://github.com/EmbarkStudios/cargo-deny
+#
+# recommended install command:
+#     cargo install --locked cargo-deny
 
 set -eu
 
