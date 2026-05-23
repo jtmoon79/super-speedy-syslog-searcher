@@ -2,10 +2,11 @@
 #
 # github workflows action file for super-speedy-syslog-searcher
 #
+# yamllint disable-line rule:line-length
 # yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
 ---
 name: Rust
-on:
+on:  # yamllint disable-line rule:truthy
   push:
     paths:
       - .github/**
@@ -19,7 +20,7 @@ on:
       - Cargo.lock
       - src/**.rs
       - benches/**
-  workflow_dispatch:
+  workflow_dispatch:  # yamllint disable-line rule:empty-values
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
@@ -96,7 +97,7 @@ jobs:
         # add a few more for sanity checks (you might be surprised)
         # concise listing at https://releases.rs/
         msrv: [
-          "1.88.0", # MSRV
+          "1.88.0",  # MSRV
           "1.90.0",
           "1.94.1",
         ]
