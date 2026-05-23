@@ -35,6 +35,7 @@ use ::rustc_demangle::{
     demangle,
 };
 use ::thousands::Separable;
+use ::unit_prefix::NumberPrefix;
 
 use ::s4lib::common::threadid_to_u64;
 
@@ -122,6 +123,17 @@ impl<const N: usize> FmtBuf<N> {
 impl<const N: usize> core::fmt::Write for FmtBuf<N> {
     fn write_str(&mut self, s: &str) -> core::fmt::Result {
         self.append_bytes(s.as_bytes())
+    }
+}
+
+struct HumanBytesBinary(usize);
+
+impl core::fmt::Display for HumanBytesBinary {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match NumberPrefix::binary(self.0 as f64) {
+            NumberPrefix::Standalone(number) => write!(f, "{number:.0} B"),
+            NumberPrefix::Prefixed(prefix, number) => write!(f, "{number:.2} {prefix}B"),
+        }
     }
 }
 
@@ -800,8 +812,10 @@ pub fn print_tracking_map() {
         let allocations_s = allocations.separate_with_commas();
         let bytes: &usize = &value.1;
         let bytes_s = bytes.separate_with_commas();
+        let bytes_h = HumanBytesBinary(*bytes);
         let bytes_per_allocation: usize = if *allocations > 0 { bytes / allocations } else { 0 };
         let bytes_per_allocation_s = bytes_per_allocation.separate_with_commas();
+        let bytes_per_allocation_h = HumanBytesBinary(bytes_per_allocation);
 
         allocations_bytes_table += *bytes;
         allocations_calls_table += *allocations;
@@ -826,7 +840,7 @@ pub fn print_tracking_map() {
         buf.clear();
         _ = alloc_stderr_write_fmt!(
             &mut buf,
-            "| `{file_path}:{line_number}:{column_number}`<br/>`{function_name}` | {thread_id} | `{thread_name}` | {allocations_s} | {bytes_s} | {bytes_per_allocation_s} |\n",
+            "| `{file_path}:{line_number}:{column_number}`<br/>`{function_name}` | {thread_id} | `{thread_name}` | {allocations_s} | {bytes_s} ({bytes_h}) | {bytes_per_allocation_s} ({bytes_per_allocation_h}) |\n",
         );
 
         // Print additional frames (outer callers) without allocations/bytes columns.

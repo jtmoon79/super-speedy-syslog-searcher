@@ -106,6 +106,7 @@ tar = "=0.4.45"
 tempfile = "=3.27.0"
 termcolor = "=1.4.1"
 unicode-width = "=0.2.2"
+unit-prefix = { version = "=0.5.2", optional = true }
 unroll = "=0.1.5"
 utf8_iter = "=1.0.4"
 version-compare = "=0.2.1"
@@ -176,7 +177,7 @@ tcmalloc = ["dep:tcmalloc"]
 # custom tracking allocator, for diagnosing memory usage
 # tracks call sites of allocations and prints a summary at program exit
 # runs extremely slow
-alloc_tracker = ["dep:backtrace", "dep:project-root", "dep:rustc-demangle", "dep:thousands"]
+alloc_tracker = ["dep:backtrace", "dep:project-root", "dep:rustc-demangle", "dep:thousands", "dep:unit-prefix"]
 
 # release build optimizations
 # from https://github.com/johnthagen/min-sized-rust
