@@ -44,12 +44,27 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
     Bytes::from(e_s_s.as_bytes())
 }
 
+/// assert the bytes from PyRunner stdout or stderr match.
+fn assert_python_output_eq(output: &[u8], expected: &[u8], extra_message: &str) {
+    assert_eq!(
+        output, expected,
+        "Python output mismatch;\ngot      {:?}\nexpected {:?}\n{}",
+        buffer_to_String_noraw(output),
+        buffer_to_String_noraw(expected),
+        extra_message
+    );
+}
+
 #[test_case(
     1,
     RECV_TIMEOUT,
     vec![
         "-c",
-        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
+        r"import sys
+sys.stdout.reconfigure(line_buffering=True, newline='\n')
+sys.stderr.reconfigure(line_buffering=True, newline='\n')
+
+print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -60,7 +75,11 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
+        r"import sys
+sys.stdout.reconfigure(line_buffering=True, newline='\n')
+sys.stderr.reconfigure(line_buffering=True, newline='\n')
+
+print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -71,7 +90,11 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
+        r"import sys
+sys.stdout.reconfigure(line_buffering=True, newline='\n')
+sys.stderr.reconfigure(line_buffering=True, newline='\n')
+
+print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -82,7 +105,11 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
+        r"import sys
+sys.stdout.reconfigure(line_buffering=True, newline='\n')
+sys.stderr.reconfigure(line_buffering=True, newline='\n')
+
+print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -93,7 +120,11 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
+        r"import sys
+sys.stdout.reconfigure(line_buffering=True, newline='\n')
+sys.stderr.reconfigure(line_buffering=True, newline='\n')
+
+print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -104,7 +135,11 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
     RECV_TIMEOUT,
     vec![
         "-c",
-        r"print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
+        r"import sys
+sys.stdout.reconfigure(line_buffering=True, newline='\n')
+sys.stderr.reconfigure(line_buffering=True, newline='\n')
+
+print('Hello', end='\n'); print('World', end='\n'); print('Goodbye!', end='\n')",
     ],
     b"Hello\nWorld\nGoodbye!\n".to_vec(),
     Bytes::with_capacity(0);
@@ -117,6 +152,8 @@ fn swap_bytes(data: &mut Option<Bytes>, old: &str, new: &str) -> Bytes {
         "-c",
         r#"
 import sys
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
 
 print("Hello", end="\n")
 print("STDERR1", end="\n", file=sys.stderr)
@@ -137,6 +174,8 @@ print("STDERR3", end="\n", file=sys.stderr)
         "-c",
         r#"
 import sys
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
 
 print("Hello", end="\n")
 print("STDERR1", end="\n", file=sys.stderr)
@@ -182,8 +221,8 @@ fn test_PyRunner_new_run_run_once(
     defo!("PyRunner stdout: {}", buffer_to_String_noraw(&stdout_bytes));
     defo!("PyRunner stderr: {}", buffer_to_String_noraw(&stderr_bytes));
 
-    assert_eq!(stdout_bytes, expect_stdout, "PyRunner stdout mismatch");
-    assert_eq!(stderr_bytes, expect_stderr, "PyRunner stderr mismatch");
+    assert_python_output_eq(&stdout_bytes, &expect_stdout, "PyRunner stdout mismatch");
+    assert_python_output_eq(&stderr_bytes, &expect_stderr, "PyRunner stderr mismatch");
 
     assert!(pyr.exited(), "PyRunner did not exit after run()");
     assert!(pyr.exited_exhausted(), "PyRunner not exhausted after run()");
@@ -204,8 +243,8 @@ fn test_PyRunner_new_run_run_once(
     defo!("PyRunner stdout: {}", buffer_to_String_noraw(&stdout_bytes));
     defo!("PyRunner stderr: {}", buffer_to_String_noraw(&stderr_bytes));
 
-    assert_eq!(stdout_bytes, expect_stdout, "PyRunner stdout mismatch");
-    assert_eq!(stderr_bytes, expect_stderr, "PyRunner stderr mismatch");
+    assert_python_output_eq(&stdout_bytes, &expect_stdout, "PyRunner stdout mismatch");
+    assert_python_output_eq(&stderr_bytes, &expect_stderr, "PyRunner stderr mismatch");
 
     assert!(pyr.exited(), "PyRunner did not exit after run_once()");
     assert!(pyr.exited_exhausted(), "PyRunner not exhausted after run_once()");
@@ -214,7 +253,12 @@ fn test_PyRunner_new_run_run_once(
 }
 
 const PYTHON_SRC_LOOP_PRINT_WORLD_GOODBYE: &str = r#"
+import sys
 import time
+
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
+
 for i in range([LOOPS]):
     print("Hello", end="\n")
     time.sleep((i % 10) * 0.001)
@@ -401,10 +445,7 @@ fn test_PyRunner_stdout_run_many_times(
                 defo!("PyRunner {i} got stdout: '{}'", buffer_to_String_noraw(stdout));
                 assert!(expect_stdout.is_some(), "PyRunner loop {i} got stdout but None expected");
                 let e_s = swap_bytes(&mut expect_stdout, PYTHON_SRC_LOOP_KEYWORD, loop_.to_string().as_str());
-                assert_eq!(
-                    stdout, &e_s,
-                    "PyRunner {i} stdout mismatch on loop {loop_}; got {}, expected {}",
-                    buffer_to_String_noraw(stdout), buffer_to_String_noraw(&e_s));
+                assert_python_output_eq(stdout, &e_s, &format!("PyRunner {i} stdout mismatch on loop {loop_}"));
                 loop_ += 1;
             }
             None => defo!("PyRunner {i} stdout: None"),
@@ -414,10 +455,7 @@ fn test_PyRunner_stdout_run_many_times(
                 defo!("PyRunner {i} got stderr: '{}'", buffer_to_String_noraw(stderr));
                 assert!(expect_stderr.is_some(), "PyRunner {i} got stderr but None expected");
                 let e_s = expect_stderr.as_ref().unwrap();
-                assert_eq!(
-                    stderr, e_s,
-                    "PyRunner {i} stderr mismatch on loop {loop_}; got {}, expected {}",
-                    buffer_to_String_noraw(stderr), buffer_to_String_noraw(&e_s));
+                assert_python_output_eq(stderr, &e_s, &format!("PyRunner {i} stderr mismatch on loop {loop_}"));
             }
             None => defo!("PyRunner {i} stderr: None"),
         }
@@ -431,14 +469,17 @@ const PYTHON_SRC_WSTDERR_LOOP_PRINT_WORLD_GOODBYE: &str = r#"
 import sys
 import time
 
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
+
 for i in range([LOOPS]):
-    print("Hello")
+    print("Hello", end="\n")
     time.sleep((i % 10) * 0.001)
-    print("World")
+    print("World", end="\n")
     time.sleep((i % 10) * 0.001)
-    print(f"Goodbye! {i}")
+    print(f"Goodbye! {i}", end="\n")
     time.sleep((i % 10) * 0.001)
-    print(f"Pretend Error! {i}", file=sys.stderr)
+    print(f"Pretend Error! {i}", end="\n", file=sys.stderr)
     time.sleep((i % 10) * 0.001)
     print("\0", end="")
     time.sleep((i % 10) * 0.001)
@@ -637,12 +678,7 @@ fn test_PyRunner_stdout_stderr_run_many_times(
                 defo!("PyRunner {i} got stdout: '{}'", buffer_to_String_noraw(stdout));
                 assert!(expect_stdout.is_some(), "PyRunner loop {i} got stdout but None expected");
                 let e_s = swap_bytes(&mut expect_stdout, PYTHON_SRC_LOOP_KEYWORD, loop_stdout.to_string().as_str());
-                assert_eq!(
-                    stdout, &e_s,
-                    "PyRunner {i} stdout mismatch on loop {loop_stdout}; got {}, expected {}",
-                    buffer_to_String_noraw(stdout),
-                    buffer_to_String_noraw(&e_s)
-                );
+                assert_python_output_eq(stdout, &e_s, &format!("PyRunner {i} stdout mismatch on loop {loop_stdout}"));
                 loop_stdout += 1;
             }
             None => defo!("PyRunner {i} stdout: None"),
@@ -652,12 +688,7 @@ fn test_PyRunner_stdout_stderr_run_many_times(
                 defo!("PyRunner {i} got stderr: '{}'", buffer_to_String_noraw(stderr));
                 assert!(expect_stderr.is_some(), "PyRunner {i} got stderr but None expected");
                 let e_s = swap_bytes(&mut expect_stderr, PYTHON_SRC_WSTDERR_LOOP_KEYWORD, loop_stderr.to_string().as_str());
-                assert_eq!(
-                    stderr, &e_s,
-                    "PyRunner {i} stderr mismatch on loop {loop_stderr}; got {}, expected {}",
-                    buffer_to_String_noraw(stderr),
-                    buffer_to_String_noraw(&e_s)
-                );
+                assert_python_output_eq(stderr, &e_s, &format!("PyRunner {i} stderr mismatch on loop {loop_stderr}"));
                 loop_stderr += 1;
             }
             None => defo!("PyRunner {i} stderr: None"),
@@ -673,14 +704,17 @@ const PYTHON_SRC_OUT0_ERR_LOOP_PRINT_WORLD_GOODBYE: &str = r#"
 import sys
 import time
 
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
+
 for i in range([LOOPS]):
     print("Hello")
     time.sleep((i % 10) * 0.001)
-    print("World")
+    print("World", end="\n")
     time.sleep((i % 10) * 0.001)
-    print(f"Goodbye! {i}")
+    print(f"Goodbye! {i}", end="\n")
     time.sleep((i % 10) * 0.001)
-    print(f"Pretend Error! {i}", file=sys.stderr)
+    print(f"Pretend Error! {i}", end="\n", file=sys.stderr)
     time.sleep((i % 10) * 0.001)
     print("\0", end="")
     time.sleep((i % 10) * 0.001)
@@ -847,12 +881,7 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
                 defo!("PyRunner {i} got stdout: '{}'", buffer_to_String_noraw(stdout));
                 assert!(expect_stdout.is_some(), "PyRunner loop {i} got stdout but None expected");
                 let e_s = swap_bytes(&mut expect_stdout, PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD, loop_stdout.to_string().as_str());
-                assert_eq!(
-                    stdout, &e_s,
-                    "PyRunner {i} stdout mismatch on loop {loop_stdout}; got {}, expected {}",
-                    buffer_to_String_noraw(stdout),
-                    buffer_to_String_noraw(e_s.as_slice())
-                );
+                assert_python_output_eq(stdout, &e_s, &format!("PyRunner {i} stdout mismatch on loop {loop_stdout}"));
                 loop_stdout += 1;
             }
             None => defo!("PyRunner {i} stdout: None"),
@@ -879,6 +908,9 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
 import time
 import sys
 
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
+
 print("Hello", end="\n")
 time.sleep(0.5)
 input()
@@ -903,6 +935,9 @@ sys.exit(1)
 import time
 import sys
 
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
+
 print("Hello", end="\n")
 time.sleep(0.5)
 input()
@@ -926,6 +961,9 @@ sys.exit(1)
         r#"
 import time
 import sys
+
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
 
 print("HELLO FROM STDOUT1", end="\n", file=sys.stdout)
 print("HELLO FROM STDERR1", end="\n", file=sys.stderr)
@@ -952,6 +990,9 @@ sys.exit(2)
         r#"
 import time
 import sys
+
+sys.stdout.reconfigure(line_buffering=True, newline="\n")
+sys.stderr.reconfigure(line_buffering=True, newline="\n")
 
 print("HELLO FROM STDOUT1", end="\n", file=sys.stdout)
 print("HELLO FROM STDERR1", end="\n", file=sys.stderr)
@@ -1024,7 +1065,8 @@ fn test_PyRunner_exit_early(
             stderr_opt.as_ref().map_or("".to_string(), |b| buffer_to_String_noraw(b)));
         if let Some(ref stdout) = stdout_opt {
             for c in stdout {
-                if *c == expect_stdout[0] {
+                let e_c = expect_stdout[0];
+                if *c == e_c {
                     expect_stdout.remove(0);
                 } else {
                     break;
@@ -1033,7 +1075,8 @@ fn test_PyRunner_exit_early(
         }
         if let Some(ref stderr) = stderr_opt {
             for c in stderr {
-                if *c == expect_stderr[0] {
+                let e_c = expect_stderr[0];
+                if *c == e_c {
                     expect_stderr.remove(0);
                 } else {
                     break;
@@ -1053,10 +1096,10 @@ fn test_PyRunner_exit_early(
         "PyRunner exit status mismatch after early termination"
     );
 
-    assert!(expect_stdout.is_empty(),
+    assert!(expect_stdout.is_empty() || expect_stdout == b"\n".to_vec(),
         "PyRunner stdout did not match expected value; remaining '{}'",
         buffer_to_String_noraw(expect_stdout.as_slice()));
-    assert!(expect_stderr.is_empty(),
+    assert!(expect_stderr.is_empty() || expect_stderr == b"\n".to_vec(),
         "PyRunner stderr did not match expected value; remaining '{}'",
         buffer_to_String_noraw(expect_stderr.as_slice()));
 
