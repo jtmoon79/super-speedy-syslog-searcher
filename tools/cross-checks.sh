@@ -315,6 +315,8 @@ declare -a TIER_TARGETS=(
 )
 
 declare -ag results=()
+declare -ag targets_built=()
+declare -ag targets_failed=()
 declare -i i=1
 
 # print the $results array in a almost-ready markdown table
@@ -338,15 +340,26 @@ function print_results() {
 }
 
 # print results, if $DIROUT is set, tee to `cross-checks.md`
-function print_results_to_markdown_file () {
+function exit_ () {
     if [[ "${DIROUT-}" ]]; then
         print_results | tee "${DIROUT}/cross-checks.md"
     else
         print_results
     fi
+    echo
+    echo -e "\e[92mSuccessfully built for ${#targets_built[@]} targets:\e[39m"
+    for target in "${targets_built[@]}"; do
+        echo "${target}"
+    done
+    echo
+    echo -e "\e[91mFailed to build for ${#targets_failed[@]} targets:\e[39m"
+    for target in "${targets_failed[@]}"; do
+        echo "${target}"
+    done
+    echo
 }
 
-trap print_results_to_markdown_file EXIT
+trap exit_ EXIT
 
 # print passed seconds integer as HH:MM:SS
 function seconds_to_hms() {
@@ -375,6 +388,7 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
         declare -i total_time=$((SECONDS - start_time))
         time_hms=$(seconds_to_hms "$total_time")
         results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}❌ toolchain install${SEP}rustup toolchain install --profile minimal --target $TARGET $MSRV"
+        targets_failed+=("$TARGET")
         # long running script; print progress in real-time
         print_results
         continue
@@ -388,6 +402,7 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
         declare -i total_time=$((SECONDS - start_time))
         time_hms=$(seconds_to_hms "$total_time")
         results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}✅ pass${SEP}cross build --target $TARGET ${*}"
+        targets_built+=("$TARGET")
         # if DIROUT is set, copy the s4 binary to DIROUT with meaningful names
         if [[ "${DIROUT-}" ]]; then
             mkdir -vp "$DIROUT"
@@ -404,6 +419,7 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
         declare -i total_time=$((SECONDS - start_time))
         time_hms=$(seconds_to_hms "$total_time")
         results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}❌ fail${SEP}cross build --target $TARGET ${*}"
+        targets_failed+=("$TARGET")
     fi
     # long running script; print progress in real-time
     print_results
