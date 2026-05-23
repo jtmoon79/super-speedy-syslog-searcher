@@ -190,32 +190,6 @@ jobs:
           export S4_BUILD_REGEX_PRINT=1
           RUSTFLAGS=-g cargo build --profile flamegraph
           ./target/flamegraph/s4 --version
-      - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
-        if: ${{ matrix.os == 'windows-latest' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v6
-        with:
-          name: s4.exe ${{ matrix.msrv }} ${{ matrix.os }}
-          path: ./target/release/s4.exe
-      - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
-        if: ${{ matrix.os == 'ubuntu-latest' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v6
-        with:
-          name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
-          path: ./target/release/s4
-      - name: Upload release binary ${{ matrix.msrv }} for ${{ matrix.os }}
-        if: ${{ matrix.os == 'macos-latest' && matrix.msrv == env.MSRV_UPLOAD }}
-        uses: actions/upload-artifact@v6
-        with:
-          name: s4 ${{ matrix.msrv }} ${{ matrix.os }}
-          path: ./target/release/s4
-      - name: summary
-        shell: bash
-        run: |
-          set -eux
-          cargo install default-target
-          df=$(default-target)
-          echo 'Built target `'"${df}"'` using rust `'"${{ matrix.msrv }}"'` on ' \
-               '`'"${{ matrix.os }}"'`' >> ${GITHUB_STEP_SUMMARY}
 
   job_build_debug_release:
     # this job downloads and builds dependency crates
