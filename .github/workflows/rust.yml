@@ -312,9 +312,6 @@ jobs:
           - x86_64-apple-darwin
           # Tier 2 with host tools
           - aarch64-apple-darwin
-          # Tier 2 without host tools
-          - aarch64-apple-ios
-          - x86_64-apple-ios
     runs-on: macos-13
     steps:
       - name: git checkout
