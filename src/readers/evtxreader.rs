@@ -381,6 +381,10 @@ impl EvtxReader {
     /// Read the entire file and store in order.
     ///
     /// This should be called once before reading the via `next`.
+    ///
+    /// Relates to [Issue #86].
+    ///
+    /// [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
     // TODO: [2023/03/26] add handling of files without "out of order" events.
     //       much more efficient and worth the divergent code paths.
     pub fn analyze(

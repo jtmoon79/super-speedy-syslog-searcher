@@ -198,16 +198,6 @@ impl fmt::Debug for Evtx {
     }
 }
 
-// LAST WORKING HERE 20260515
-// refactor Evtx to store the original `record`
-// this skips the `clone` of the `record.data`
-// one difficulty; previously a newline was added to `data`. Not sure how to fix
-// that here. The `record.data` cannot be modified AFAICT... or can it? Do I just need to declare it
-// `mut` sooner? Or maybe append newline to `record.data` when it is received during the
-// enumerate loop in EvtxReader.
-// When done with that, compare-current-and-expected.sh, it looks like this version
-// is doing better; it's timestamps are more accurate!
-
 impl Evtx {
     /// Create a new `Evtx`.
     pub fn from_resultserializedrecord(
