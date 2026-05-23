@@ -19,17 +19,18 @@ on:
       - Cargo.lock
       - src/**.rs
       - benches/**
+  workflow_dispatch:
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
   # MSRV
   # default rust version
   # should match first value in matrix.msrv
-  MSRV_UPLOAD: "1.88.0"
+  MSRV_UPLOAD: 1.88.0
   # MSRV
   # rust version for llvm_cov job
   # should be equal or greater than $MSRV_UPLOAD
-  VERSION_LLVM_COV: "1.88.0"
+  VERSION_LLVM_COV: 1.88.0
   # version of flamegraph which is often using latest rust
   # so a specific version must be installed for the current MSRV
   FLAMEGRAPH_VERSION: "0.6.12"
