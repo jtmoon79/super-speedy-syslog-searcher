@@ -120,6 +120,12 @@ jobs:
       # TODO: use `https://github.com/actions-rust-lang/setup-rust-toolchain`?
       #       why did I stop using it?
       - run: rustup toolchain install ${{ matrix.msrv }} --profile minimal
+      - name: print default-target
+        shell: bash
+        run: |
+          set -eux
+          cargo install --locked default-target
+          ~/.cargo/bin/default-target
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile release
         shell: bash
         run: |
