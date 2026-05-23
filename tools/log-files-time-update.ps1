@@ -1,4 +1,4 @@
-﻿#Requires -Version 7.1
+﻿#!/usr/bin/env pwsh
 
 <#
 .SYNOPSIS
@@ -67,6 +67,28 @@ function Format-LastWriteTime {
     )
 
     return $FileInfo.LastWriteTime.ToString('yyyy-MM-dd HH:mm:ss.fffffff zzz')
+}
+
+function GetRelativePath {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$BasePath,
+
+        [Parameter(Mandatory = $true)]
+        [string]$TargetPath
+    )
+    try {
+        return [System.IO.Path]::GetRelativePath($BasePath, $TargetPath)
+    }
+    catch {
+        # GetRelativePath is probably not available
+    }
+
+    # try to create a relative path manually
+    $baseUri = New-Object System.Uri($BasePath + [System.IO.Path]::DirectorySeparatorChar)
+    $targetUri = New-Object System.Uri($TargetPath)
+    $relUri = $baseUri.MakeRelativeUri($targetUri).ToString()
+    return [System.Uri]::UnescapeDataString($relUri) -replace '/', [System.IO.Path]::DirectorySeparatorChar
 }
 
 function Try-ParseListingDate {
@@ -158,13 +180,6 @@ try {
     $filesNoExist = New-Object 'System.Collections.Generic.List[string]'
     $filesTouchFailed = @{}
 
-    if ($IsMacOS) {
-        Write-Host 'Running on MacOS'
-    }
-    else {
-        Write-Host 'Not running on MacOS'
-    }
-
     # For each file in listing, set LastWriteTime.
     foreach ($line in (Get-Content -LiteralPath $timesListing)) {
         if ([string]::IsNullOrEmpty($line)) {
@@ -236,7 +251,7 @@ try {
     $actualFiles = Get-ChildItem -LiteralPath './logs' -Recurse -File | Sort-Object -Property FullName
 
     foreach ($actual in $actualFiles) {
-        $relativePath = [System.IO.Path]::GetRelativePath((Get-Location).Path, $actual.FullName)
+        $relativePath = GetRelativePath -BasePath (Get-Location).Path -TargetPath $actual.FullName
         $relativePathNormalized = Normalize-ComparePath -Path $relativePath
 
         if (-not $filesListedNormalized.Contains($relativePathNormalized)) {
@@ -250,8 +265,9 @@ try {
 
             try {
                 Get-Content -LiteralPath $actual.FullName -Tail 2 | ForEach-Object {
-                    Write-Host -ForegroundColor Cyan ("`t{0}" -f $_)
+                    Write-Host -ForegroundColor Yellow ("`t{0}" -f $_)
                 }
+                Write-Host ""
             }
             catch {
                 Write-Host -ForegroundColor Red "	<unable to read tail>"
