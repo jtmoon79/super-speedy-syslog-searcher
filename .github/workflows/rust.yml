@@ -344,22 +344,6 @@ jobs:
           ${env:S4_BUILD_REGEX_PRINT}="1"
           cross.exe check --locked --lib --bins --release --target ${{ matrix.target }}
 
-  # job_test_wasm:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@v6
-  #    - uses: moonrepo/setup-rust@v1
-  #      with:
-  #        channel: ${{ env.MSRV_UPLOAD }}
-  #        bins: cargo-wasi
-  #        targets: wasm32-wasi
-  #    - uses: mwilliamson/setup-wasmtime-action@v2
-  #      with:
-  #        wasmtime-version: "12.0.1"
-  #    # can not compile `filepath`
-  #    # see https://github.com/evilpie/filepath/issues/6
-  #    - run: cargo wasi test --color=always -- --color=always
-
   job_check:
     # this job downloads and builds dependency crates
     name: check
