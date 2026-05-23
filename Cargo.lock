@@ -1648,10 +1648,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "dotenv"
-version = "0.15.0"
+name = "dotenvy"
+version = "0.15.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
+checksum = "1aaf95b3e5c8f23aa320147307562d361db0ae0d51242340f558153b4eb2439b"
 
 [[package]]
 name = "dunce"
@@ -4726,7 +4726,7 @@ name = "super-speedy-syslog-searcher_ere_automator_procmacro"
 version = "0.0.9950"
 dependencies = [
  "const-str",
- "dotenv",
+ "dotenvy",
  "lazy_static",
  "macro-string",
  "proc-macro2",
@@ -4740,7 +4740,7 @@ name = "super-speedy-syslog-searcher_ere_datetimes_impl"
 version = "0.0.9960"
 dependencies = [
  "const-str",
- "dotenv",
+ "dotenvy",
  "lazy_static",
  "more-asserts",
  "si_trace_print",
@@ -4770,7 +4770,7 @@ dependencies = [
  "ctrlc",
  "current_platform",
  "dlopen2",
- "dotenv",
+ "dotenvy",
  "encoding_rs",
  "evtx",
  "filepath",

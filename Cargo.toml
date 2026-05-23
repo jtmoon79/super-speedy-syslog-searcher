@@ -123,7 +123,7 @@ thousands = { version = "=0.2.0", optional = true }
 
 [build-dependencies]
 chrono = "=0.4.44"
-dotenv = "=0.15.0"
+dotenvy = "=0.15.7"
 rustc_version_runtime = "=0.3.0"
 
 [lib]

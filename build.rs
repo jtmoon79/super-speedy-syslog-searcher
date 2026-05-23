@@ -6,7 +6,7 @@ use std::fs;
 use std::path::PathBuf;
 
 use ::chrono;
-use ::dotenv;
+use ::dotenvy;
 
 // XXX: duplicates `subprojects/ere/ere_datetimes_impl/build.rs`
 //      which is very unfortunate.
@@ -127,7 +127,7 @@ fn write_rustc_version_file() {
 }
 
 fn main() {
-    dotenv::dotenv().ok();
+    dotenvy::dotenv().ok();
     write_timestamp_file();
     write_rustc_version_file();
     parse_regex_values();

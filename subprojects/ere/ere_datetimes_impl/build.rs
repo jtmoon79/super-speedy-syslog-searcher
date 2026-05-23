@@ -4,7 +4,7 @@
 
 use std::path::PathBuf;
 
-use ::dotenv::dotenv;
+use ::dotenvy::dotenv;
 
 // BUG: suffers from false-positive rebuilds (unnecessary rebuilds)
 //      you'll see in the build output:
