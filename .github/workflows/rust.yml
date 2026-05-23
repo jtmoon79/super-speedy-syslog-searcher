@@ -417,7 +417,7 @@ jobs:
   job_test_linux:
     # this job downloads and builds dependency crates
     name: test Linux
-    needs: [job_rust_msrv_os]
+    needs: [job_rust_msrv_os, job_build_debug_release]
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
