@@ -1,10 +1,14 @@
 use std::hash::Hasher;
 
+extern crate super_speedy_syslog_searcher_ere as ere;
 use ere::{compile_regex_dfa_u8, prelude::*};
 use ere_macros::{
     compile_regex_fixed_offset, compile_regex_flat_lockstep_nfa,
     compile_regex_flat_lockstep_nfa_u8, compile_regex_u8onepass,
 };
+
+pub mod ere_tests {
+    use super::*;
 
 /// Checks both [`Regex::exec`] and [`Regex::test`]
 macro_rules! assert_match {
@@ -886,3 +890,5 @@ fn greedy() {
     assert_match!(REGEX9, "c", [Some("c"), None, Some("")]);
     assert_match!(REGEX9, "bc", [Some("c"), None, Some("")]);
 }
+
+} // mod ere_tests

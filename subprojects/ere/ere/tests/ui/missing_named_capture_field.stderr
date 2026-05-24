@@ -1,11 +1,11 @@
 error: Named capture group `middle` has no corresponding field in the struct.
- --> tests/ui/missing_named_capture_field.rs:4:13
+ --> tests/ui/missing_named_capture_field.rs:5:13
   |
-4 |     #[regex(r"^(?<middle>.)\. Simpson$")]
+5 |     #[regex(r"^(?<middle>.)\. Simpson$")]
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0433]: failed to resolve: use of undeclared type `HomerSimpson`
-  --> tests/ui/missing_named_capture_field.rs:10:13
+  --> tests/ui/missing_named_capture_field.rs:11:13
    |
-10 |     let _ = HomerSimpson::exec("J. Simpson");
+11 |     let _ = HomerSimpson::exec("J. Simpson");
    |             ^^^^^^^^^^^^ use of undeclared type `HomerSimpson`

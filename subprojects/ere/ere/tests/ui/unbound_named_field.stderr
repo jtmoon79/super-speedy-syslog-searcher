@@ -1,11 +1,11 @@
 error: No capture group named `foo` found in the regular expression.
-  --> tests/ui/unbound_named_field.rs:10:9
+  --> tests/ui/unbound_named_field.rs:11:9
    |
-10 |         foo: &'a str,
+11 |         foo: &'a str,
    |         ^^^
 
 error[E0433]: failed to resolve: use of undeclared type `HomerSimpson`
-  --> tests/ui/unbound_named_field.rs:13:13
+  --> tests/ui/unbound_named_field.rs:14:13
    |
-13 |     let _ = HomerSimpson::exec("J. Simpson");
+14 |     let _ = HomerSimpson::exec("J. Simpson");
    |             ^^^^^^^^^^^^ use of undeclared type `HomerSimpson`

@@ -1,17 +1,17 @@
 error: #[group(99)] is out of range: the regular expression only has 3 capture group(s) (groups 0..3).
-  --> tests/ui/group_index_out_of_bounds.rs:15:9
+  --> tests/ui/group_index_out_of_bounds.rs:16:9
    |
-15 |         invalid: &'a str,
+16 |         invalid: &'a str,
    |         ^^^^^^^
 
 error[E0412]: cannot find type `Date` in this scope
- --> tests/ui/group_index_out_of_bounds.rs:4:14
+ --> tests/ui/group_index_out_of_bounds.rs:5:14
   |
-4 |     #[derive(Debug)]
+5 |     #[derive(Debug)]
   |              ^^^^^ not found in this scope
 
 error[E0433]: failed to resolve: use of undeclared type `Date`
-  --> tests/ui/group_index_out_of_bounds.rs:18:13
+  --> tests/ui/group_index_out_of_bounds.rs:19:13
    |
-18 |     let _ = Date::exec("2024-03");
+19 |     let _ = Date::exec("2024-03");
    |             ^^^^ use of undeclared type `Date`

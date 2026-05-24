@@ -1,5 +1,7 @@
 #![cfg(feature = "unstable-attr-regex")]
 
+pub mod ere_tests {
+
 #[test]
 fn unbound_named_field() {
     let t = trybuild::TestCases::new();
@@ -35,3 +37,5 @@ fn engine_one_pass_not_applicable() {
     let t = trybuild::TestCases::new();
     t.compile_fail("tests/ui/engine_one_pass_not_applicable.rs");
 }
+
+} // mod ere_tests

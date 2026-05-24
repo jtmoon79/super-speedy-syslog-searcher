@@ -1,13 +1,13 @@
 error: Named capture group `last` has no corresponding field in the struct.
- --> tests/ui/bind_named_missing_named.rs:4:13
+ --> tests/ui/bind_named_missing_named.rs:5:13
   |
-4 |     #[regex(r"^(?<first>.)\. (?<last>.+)$", bind = Named)]
+5 |     #[regex(r"^(?<first>.)\. (?<last>.+)$", bind = Named)]
   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 error[E0433]: failed to resolve: use of undeclared type `Partial`
-  --> tests/ui/bind_named_missing_named.rs:12:13
+  --> tests/ui/bind_named_missing_named.rs:13:13
    |
-12 |     let _ = Partial::exec("J. Simpson");
+13 |     let _ = Partial::exec("J. Simpson");
    |             ^^^^^^^
    |             |
    |             use of undeclared type `Partial`

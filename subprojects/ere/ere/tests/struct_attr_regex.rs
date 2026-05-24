@@ -1,6 +1,10 @@
 #![cfg(feature = "unstable-attr-regex")]
 
+extern crate super_speedy_syslog_searcher_ere as ere;
 use ere::regex;
+
+pub mod ere_tests {
+    use super::*;
 
 #[test]
 fn non_capturing_group() {
@@ -162,3 +166,5 @@ fn engine_fixed_offset() {
     assert_eq!(Hex::exec("#ff0080"), Some(Hex("#ff0080", "ff", "00", "80")));
     assert_eq!(Hex::exec("not-hex"), None);
 }
+
+} // mod ere_tests

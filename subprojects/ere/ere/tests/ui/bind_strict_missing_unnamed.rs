@@ -1,3 +1,4 @@
+extern crate super_speedy_syslog_searcher_ere as ere;
 use ere::regex;
 
 fn main() {
