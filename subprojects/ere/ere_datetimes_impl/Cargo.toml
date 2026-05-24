@@ -1,81 +1,23 @@
+# subprojects/ere/ere_datetimes_impl/Cargo.toml
+
 [package]
 name = "super-speedy-syslog-searcher_ere_datetimes_impl"
-version = "0.0.9960"
+version.workspace = true
 edition = "2024"
+license.workspace = true
 authors = ["jtmoon79"]
-repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+repository.workspace = true
 
 [dependencies]
-const-str = "=1.1.0"
-ere = { version = "=0.0.9930", path = "../ere", package = "super-speedy-syslog-searcher_ere" }
-ere_automator_procmacro = { version = "=0.0.9950", path = "../ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
-lazy_static = "=1.5.0"
-more-asserts = "=0.3.1"
-si_trace_print = "=0.3.12"
+const-str.workspace = true
+ere = { version = "=0.9.81", path = "../ere", package = "super-speedy-syslog-searcher_ere" }
+ere_automator_procmacro = { version = "=0.9.81", path = "../ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
+lazy_static.workspace = true
+more-asserts.workspace = true
+si_trace_print.workspace = true
 
 [lib]
 path = "src/ere_datetimes_impl.rs"
 
 [build-dependencies]
-dotenvy = "=0.15.7"
-
-# profiles for experiments with build settings + timings
-# for use with `cargo-build-profiles-timeout.sh`
-
-[profile.release_O0]
-inherits = "release"
-opt-level = 0
-
-[profile.release_O1]
-inherits = "release"
-opt-level = 1
-
-[profile.release_O2]
-inherits = "release"
-opt-level = 2
-
-[profile.release_O3]
-inherits = "release"
-opt-level = 3
-
-[profile.release_O1_cgu256_pa]
-inherits = "release"
-opt-level = 1
-codegen-units = 256
-panic = "abort"
-
-[profile.release_O2_cgu256_pa]
-inherits = "release"
-opt-level = 2
-codegen-units = 256
-panic = "abort"
-
-[profile.release_O3_cgu256_pa]
-inherits = "release"
-opt-level = 3
-codegen-units = 256
-panic = "abort"
-
-[profile.release_O0_cgu512_pa]
-inherits = "release"
-opt-level = 0
-codegen-units = 512
-panic = "abort"
-
-[profile.release_O1_cgu512_pa]
-inherits = "release"
-opt-level = 1
-codegen-units = 512
-panic = "abort"
-
-[profile.release_O2_cgu512_pa]
-inherits = "release"
-opt-level = 2
-codegen-units = 512
-panic = "abort"
-
-[profile.release_O3_cgu512_pa]
-inherits = "release"
-opt-level = 3
-codegen-units = 512
-panic = "abort"
+dotenvy.workspace = true

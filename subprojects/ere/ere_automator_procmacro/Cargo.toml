@@ -2,23 +2,24 @@
 
 [package]
 name = "super-speedy-syslog-searcher_ere_automator_procmacro"
-version = "0.0.9950"
+version.workspace = true
 edition = "2024"
+license.workspace = true
 authors = ["jtmoon79"]
-repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+repository.workspace = true
 
 [lib]
 proc-macro = true
 path = "src/ere_automator_procmacro.rs"
 
 [dependencies]
-const-str = "=1.1.0"
-ere = { version = "=0.0.9930", path = "../ere", package = "super-speedy-syslog-searcher_ere", features = ["unstable-attr-regex"] }
-lazy_static = "=1.5.0"
+const-str.workspace = true
+ere = { version = "=0.9.81", path = "../ere", package = "super-speedy-syslog-searcher_ere", features = ["unstable-attr-regex"] }
+lazy_static.workspace = true
 macro-string = "=0.2.0"
-proc-macro2 = { version = "=1.0.106", features = ["span-locations"] }
-quote = "=1.0.45"
-syn = { version = "=2.0.117", features = ["full", "parsing"] }
+proc-macro2 = { workspace = true, features = ["span-locations"] }
+quote.workspace = true
+syn = { workspace = true, features = ["full", "parsing"] }
 
 [build-dependencies]
-dotenvy = "=0.15.7"
+dotenvy.workspace = true

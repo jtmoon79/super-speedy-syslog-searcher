@@ -1,5 +1,34 @@
 # Cargo.toml
 
+[workspace]
+members = [
+    ".",
+    "subprojects/ere/ere",
+    "subprojects/ere/ere-core",
+    "subprojects/ere/ere-macros",
+    "subprojects/ere/ere_automator_procmacro",
+    "subprojects/ere/ere_datetimes_impl",
+]
+default-members = ["."]
+resolver = "3"
+
+[workspace.dependencies]
+const-str = "=1.1.0"
+dotenvy = "=0.15.7"
+lazy_static = "=1.5.0"
+more-asserts = "=0.3.1"
+proc-macro2 = "=1.0.106"
+quote = "=1.0.45"
+si_trace_print = "=0.3.12"
+syn = "=2.0.117"
+thiserror = "=2.0.18"
+utf8-ranges = "=1.0.5"
+
+[workspace.package]
+license = "MIT"
+repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+version = "0.9.81"
+
 [package]
 name = "super_speedy_syslog_searcher"
 # The `description` should roughly match the first three paragraph sentences in `README.md`
@@ -32,11 +61,14 @@ exclude = [
     ".mlc.toml",
     ".taplo.toml",
     ".vscode/*",
+    "benches/bench_decode_utf.rs",
+    "benches/bench_prints.rs",
     "benches/bench_ranges.rs",
+    "benches/bench_regex.rs",
+    "benches/bench_slice_contains.rs",
     "benches/bench_syslinereader.rs",
     "benches/README.md",
     "deny.toml",
-    "flamegraph.svg",
     "logs/*",
     "perf.data",
     "releases/*",
@@ -60,15 +92,15 @@ chrono = "=0.4.44"
 clap = { version = "=4.5.48", features = ["derive", "env"] }
 const_env = "=0.1.5"
 const_format = { version = "=0.2.36", features = ["assertcp", "rust_1_83"] }
-const-str = "=1.1.0"
+const-str.workspace = true
 crossbeam-channel = "=0.5.15"
 ctrlc = "=3.4.7"
 current_platform = "=0.2.0"
 dlopen2 = "=0.8"
 encoding_rs = "=0.8.35"
-ere = { version = "=0.0.9930", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
-ere_automator_procmacro = { version = "=0.0.9950", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
-ere_datetimes_impl = { version = "=0.0.9960", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
+ere = { version = "=0.9.81", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
+ere_automator_procmacro = { version = "=0.9.81", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
+ere_datetimes_impl = { version = "=0.9.81", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
 # TODO: [2025/12] update `evtx` and use `RecordId` when Issue 234 is merged and released
 #       https://github.com/omerbenamram/evtx/issues/234
 evtx = { version = "=0.11.2", features = ["multithreading"] }
@@ -78,14 +110,14 @@ itertools = "=0.14.0"
 jetscii = { version = "=0.5.3", optional = true }
 jwalk = "=0.8.1"
 kinded = "=0.4.0"
-lazy_static = "=1.5.0"
+lazy_static.workspace = true
 lru = "=0.16.3"
 lzma-rs = "=0.3.0"
 lz4_flex = "=0.12"
 memchr = "=2.7.6"
 memoffset = "=0.9.1"
 min-max = "=0.1.8"
-more-asserts = "=0.3.1"
+more-asserts.workspace = true
 mut_static = "=5.0.0"
 nix = "=0.30.1"
 numtoa = "=0.3.1"
@@ -99,7 +131,7 @@ rand = { version = "=0.9.3", features = ["thread_rng"] }
 rangemap = "=1.7.1"
 regex = { version = "=1.12.3", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
 shell-escape = "=0.1.5"
-si_trace_print = "=0.3.12"
+si_trace_print.workspace = true
 stringzilla = { version = "=3.12.6", optional = true }
 static_assertions = "=1.1.0"
 tar = "=0.4.45"
@@ -124,7 +156,7 @@ thousands = { version = "=0.2.0", optional = true }
 
 [build-dependencies]
 chrono = "=0.4.44"
-dotenvy = "=0.15.7"
+dotenvy.workspace = true
 rustc_version_runtime = "=0.3.0"
 
 [lib]
@@ -237,6 +269,67 @@ debug = 0
 strip = "symbols"
 lto = false
 opt-level = 0
+
+# profiles for experiments with build settings + timings
+# for use with `cargo-build-profiles-timeout.sh`
+
+[profile.release_O0]
+inherits = "release"
+opt-level = 0
+
+[profile.release_O1]
+inherits = "release"
+opt-level = 1
+
+[profile.release_O2]
+inherits = "release"
+opt-level = 2
+
+[profile.release_O3]
+inherits = "release"
+opt-level = 3
+
+[profile.release_O1_cgu256_pa]
+inherits = "release"
+opt-level = 1
+codegen-units = 256
+panic = "abort"
+
+[profile.release_O2_cgu256_pa]
+inherits = "release"
+opt-level = 2
+codegen-units = 256
+panic = "abort"
+
+[profile.release_O3_cgu256_pa]
+inherits = "release"
+opt-level = 3
+codegen-units = 256
+panic = "abort"
+
+[profile.release_O0_cgu512_pa]
+inherits = "release"
+opt-level = 0
+codegen-units = 512
+panic = "abort"
+
+[profile.release_O1_cgu512_pa]
+inherits = "release"
+opt-level = 1
+codegen-units = 512
+panic = "abort"
+
+[profile.release_O2_cgu512_pa]
+inherits = "release"
+opt-level = 2
+codegen-units = 512
+panic = "abort"
+
+[profile.release_O3_cgu512_pa]
+inherits = "release"
+opt-level = 3
+codegen-units = 512
+panic = "abort"
 
 [[bench]]
 name = "bench_decode_utf"

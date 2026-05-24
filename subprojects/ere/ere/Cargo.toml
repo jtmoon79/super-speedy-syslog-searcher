@@ -1,21 +1,19 @@
-[workspace]
-members = ["ere-core", "ere-macros"]
-resolver = "2"
+# subprojects/ere/ere/Cargo.toml
 
 [package]
 name = "super-speedy-syslog-searcher_ere"
 description = "A compile-time alternative for POSIX extended regular expressions."
-version = "0.0.9930"
+version.workspace = true
 edition = "2021"
-license = "MIT"
+license.workspace = true
 authors = ["2kai2kai2", "robertream", "jtmoon79"]
 categories = ["text-processing"]
 readme = "README.md"
-repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+repository.workspace = true
 
 [dependencies]
-ere-core = { version = "=0.0.9910", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
-ere-macros = { version = "=0.0.9920", path = "../ere-macros", package = "super-speedy-syslog-searcher_ere-macros" }
+ere-core = { version = "=0.9.81", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
+ere-macros = { version = "=0.9.81", path = "../ere-macros", package = "super-speedy-syslog-searcher_ere-macros" }
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }

@@ -1,18 +1,20 @@
+# subprojects/ere/ere-core/Cargo.toml
+
 [package]
 name = "super-speedy-syslog-searcher_ere-core"
 description = "A compile-time alternative for POSIX extended regular expressions."
-version = "0.0.9910"
+version.workspace = true
 edition = "2021"
-license = "MIT"
+license.workspace = true
 authors = ["2kai2kai2", "robertream", "jtmoon79"]
-repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
+repository.workspace = true
 
 [dependencies]
-proc-macro2 = "=1.0.106"
-quote = "=1.0.45"
-syn = { version = "=2.0.117", features = ["parsing"] }
-thiserror = "=2.0.18"
-utf8-ranges = "=1.0.5"
+proc-macro2.workspace = true
+quote.workspace = true
+syn = { workspace = true, features = ["parsing"] }
+thiserror.workspace = true
+utf8-ranges.workspace = true
 
 [features]
 unstable-attr-regex = []
