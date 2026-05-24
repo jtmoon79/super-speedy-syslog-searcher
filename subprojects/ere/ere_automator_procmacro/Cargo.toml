@@ -4,6 +4,8 @@
 name = "super-speedy-syslog-searcher_ere_automator_procmacro"
 version = "0.0.9950"
 edition = "2024"
+authors = ["jtmoon79"]
+repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 
 [lib]
 proc-macro = true

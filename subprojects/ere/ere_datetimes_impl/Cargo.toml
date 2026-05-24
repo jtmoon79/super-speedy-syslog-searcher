@@ -2,6 +2,8 @@
 name = "super-speedy-syslog-searcher_ere_datetimes_impl"
 version = "0.0.9960"
 edition = "2024"
+authors = ["jtmoon79"]
+repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
 
 [dependencies]
 const-str = "=1.1.0"
