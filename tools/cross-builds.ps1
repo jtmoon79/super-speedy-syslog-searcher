@@ -1,13 +1,13 @@
 #!/usr/bin/env pwsh
 #
-# Run `cargo cross build` for all Windows targets from tools/cross-checks.sh.
+# Run `cargo cross build` for all Windows targets from tools/cross-builds.sh.
 # Any script arguments are forwarded to `cargo cross build`.
 # If DIROUT is set, copy built s4.exe files there using target-specific names.
 #
 # Usage:
-#   pwsh ./tools/cross-checks.ps1
-#   pwsh ./tools/cross-checks.ps1 --release
-#   $env:DIROUT = 'C:\temp\s4-cross-builds'; pwsh ./tools/cross-checks.ps1 --release
+#   pwsh ./tools/cross-builds.ps1
+#   pwsh ./tools/cross-builds.ps1 --release
+#   $env:DIROUT = 'C:\temp\s4-cross-builds'; pwsh ./tools/cross-builds.ps1 --release
 
 [CmdletBinding()]
 param(
@@ -224,7 +224,7 @@ try {
     exit 0
 }
 catch {
-    Write-Host -ForegroundColor Red 'cross-checks.ps1 failed with an exception:'
+    Write-Host -ForegroundColor Red 'cross-builds.ps1 failed with an exception:'
     Write-Host -ForegroundColor Red $_
     exit 1
 }

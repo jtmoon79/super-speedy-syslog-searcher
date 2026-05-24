@@ -339,10 +339,10 @@ function print_results() {
     echo -e "\e[39m"
 }
 
-# print results, if $DIROUT is set, tee to `cross-checks.md`
+# print results, if $DIROUT is set, tee to `cross-builds.md`
 function exit_ () {
     if [[ "${DIROUT-}" ]]; then
-        print_results | tee "${DIROUT}/cross-checks.md"
+        print_results | tee "${DIROUT}/cross-builds.md"
     else
         print_results
     fi
