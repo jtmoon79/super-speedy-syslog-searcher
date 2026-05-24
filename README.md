@@ -49,6 +49,12 @@ and Apple System Logs (`.asl`).
 <!-- toc start -->
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
+    - [installation methods](#installation-methods)
+      - [manual download](#manual-download)
+      - [`binstall`](#binstall)
+      - [`quickinstall`](#quickinstall)
+      - [manual build](#manual-build)
+    - [create the Python virtual environment](#create-the-python-virtual-environment)
     - [allocators](#allocators)
       - [`mimalloc`, `jemalloc`, or `rpmalloc`](#mimalloc-jemalloc-or-rpmalloc)
         - [Alpine](#alpine)
@@ -107,7 +113,56 @@ and Apple System Logs (`.asl`).
 
 ### Install `super_speedy_syslog_searcher`
 
-Assuming [rust is installed], run
+[rust must be installed].
+
+#### installation methods
+
+##### manual download
+
+You may manually download an `s4` binary files from the [releases page].
+Check your platform target by running `default-target`
+
+```lang-text
+cargo install --locked default-target
+default-target
+```
+
+or run the helper script `easy-install.sh`
+
+```lang-text
+curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | bash --norc --noprofile
+```
+
+[releases page]: https://github.com/jtmoon79/super-speedy-syslog-searcher/releases
+
+##### `binstall`
+
+Using [`binstall`] is recommended
+
+```lang-text
+cargo install --locked cargo-binstall
+cargo binstall super_speedy_syslog_searcher
+```
+
+[`binstall`]: https://github.com/cargo-bins/cargo-binstall/
+
+##### `quickinstall`
+
+Or try [`quickinstall`]
+
+```lang-text
+cargo install --locked cargo-quickinstall
+quickinstall super_speedy_syslog_searcher
+```
+
+Note that `quickinstall` seems to prefer "`musl`" builds.
+The `musl` builds are more portable but at some cost to performance.
+
+[`quickinstall`]: https://github.com/cargo-bins/cargo-quickinstall/
+
+##### manual build
+
+To build manually
 
 ```lang-text
 cargo install --locked super_speedy_syslog_searcher
@@ -115,8 +170,14 @@ cargo install --locked super_speedy_syslog_searcher
 
 A C compiler is required.
 
-It is recommended to create a Python virtual environment for parsing
-.asl, .etl, and .odl files by running
+_Note that building can take tens of minutes that is due to building the_
+_compile-time built regular expressions. You can see some regular expression_
+_building progress by setting environment variable `S4_BUILD_REGEX_PRINT=1`._
+
+#### create the Python virtual environment
+
+If there are  .asl, .etl, and .odl files that may be processed then pre-create
+a Python virtual environment:
 
 ```lang-text
 s4 --venv
@@ -124,7 +185,7 @@ s4 --venv
 
 Python 3.9 or higher is required.
 
-[rust is installed]: https://www.rust-lang.org/tools/install
+[rust must be installed]: https://www.rust-lang.org/tools/install
 
 #### allocators
 
