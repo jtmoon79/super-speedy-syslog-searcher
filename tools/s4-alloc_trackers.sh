@@ -38,9 +38,10 @@ for LOGFILE in "${FILES[@]}"; do
     OUT="${DIROUT}/alloc-tracker_${LOGNAME}.md"
     (
         set -x
-        env S4_ALLOC_TRACKER_PRINT= \
-            S4_ALLOC_TRACKER_DEPTH=2 \
-            S4_BUILD_REGEX_PRINT= \
+        env \
+            S4_ALLOC_TRACKER_DEPTH=1 \
+            S4_ALLOC_TRACKER_PRINT= \
+            S4_BUILD_REGEX_PRINT=0 \
             "./tools/s4-alloc_tracker.sh" \
                 "${LOGFILE}" \
                     2> "${OUT}" 1> /dev/null
