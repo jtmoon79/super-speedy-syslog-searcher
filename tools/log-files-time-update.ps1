@@ -287,6 +287,10 @@ try {
     if ($null -ne $path_tmp1) {
         Remove-Item -Recurse $path_tmp1 -ErrorAction Continue
     }
-    $ErrorActionPreference = $erroractionpreference_
-    Set-Location -Path $startLocation
+    if ($null -ne $erroractionpreference_) {
+        $ErrorActionPreference = $erroractionpreference_
+    }
+    if ($null -ne $startLocation) {
+        Set-Location -Path  $startLocation
+    }
 }

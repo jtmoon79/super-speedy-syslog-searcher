@@ -370,6 +370,23 @@ function seconds_to_hms() {
     printf "%02d:%02d:%02d" "$hours" "$minutes" "$seconds"
 }
 
+if [[ "${DIROUT-}" ]]; then
+    DIROUT=$(realpath "${DIROUT}")
+fi
+
+cd "$(dirname "$0")/.."
+
+readonly PROJECT_ROOT=$(pwd)
+
+# print the grepped version from `Cargo.toml`
+function print_version() {
+    grep -o -m 1 -E '^version\s*=\s*".*"' "${PROJECT_ROOT}/Cargo.toml" | sed -E 's/^version\s*=\s*"(.*)"/\1/'
+}
+
+readonly BIN="s4"
+VERSION=$(print_version)
+readonly VERSION
+
 set +e
 
 for TIER_TARGET in "${TIER_TARGETS[@]}"; do
@@ -406,13 +423,31 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
         # if DIROUT is set, copy the s4 binary to DIROUT with meaningful names
         if [[ "${DIROUT-}" ]]; then
             mkdir -vp "$DIROUT"
-            for s4_file in $(find "target/${TARGET}" -type f -name 's4'); do
+            for s4_file in $(find "target/${TARGET}" -type f \( -name "${BIN}" -o -name "${BIN}.exe" \)); do
+                EXT=''
+                if [[ "${s4_file}" =~ .*\.exe ]]; then
+                    EXT='.exe'
+                fi
                 # s4_file will look like
                 #     target/s390x-unknown-linux-gnu/debug/s4
                 # if --release passed then
                 #     target/s390x-unknown-linux-gnu/release/s4
-                profile_type=$(echo -n "$s4_file" | cut -d "/" -f3)
-                cp -av "$s4_file" "${DIROUT}/s4_${TARGET}_${profile_type}"
+                dest_name="${BIN}__${TARGET}__${VERSION}${EXT}"
+                dest_path="${DIROUT}/${dest_name}"
+                # the zip file layout must match section `package.metadata.binstall` from `Cargo.toml`
+                cp -av "$s4_file" "$dest_path"
+                (
+                    cd "$DIROUT"
+                    bin="${BIN}${EXT}"
+                    rm -f "${bin}" "${bin}.sha256"
+                    set -x
+                    sha256sum "$dest_name" > "${dest_name}.sha256"
+                    cp -av "$dest_name" "${bin}"
+                    sha256sum "${bin}" > "${bin}.sha256"
+                    zip -9 "${dest_name}.zip" "$bin" "${bin}.sha256"
+                    sha256sum "${dest_name}.zip" > "${dest_name}.zip.sha256"
+                    rm -f "${bin}" "${bin}.sha256"
+                )
             done
         fi
     else
