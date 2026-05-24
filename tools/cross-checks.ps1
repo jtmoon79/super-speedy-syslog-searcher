@@ -67,16 +67,48 @@ function Get-BuildProfile {
 function Write-Sha256ChecksumFile {
     param(
         [Parameter(Mandatory = $true)]
-        [string] $FilePath,
-
-        [Parameter(Mandatory = $true)]
-        [string] $OutputPath
+        [string] $FilePath
     )
 
+    $fileItem = Get-Item -LiteralPath $FilePath -ErrorAction Stop
     $hash = (Get-FileHash -LiteralPath $FilePath -Algorithm SHA256).Hash.ToLowerInvariant()
-    $fileName = Split-Path -Path $FilePath -Leaf
+    $shaPath = Join-Path -Path $fileItem.DirectoryName -ChildPath ($fileItem.Name + '.sha256')
+    Remove-Item -LiteralPath $shaPath -ErrorAction Ignore -Force
     # Match common sha256sum text format: "<hash><two spaces><filename>"
-    Set-Content -LiteralPath $OutputPath -Value ("{0}  {1}" -f $hash, $fileName)
+    Set-Content -LiteralPath $shaPath -Value ("{0}  {1}" -f $hash, $fileItem.Name)
+    Set-FileNoWrite -Path $shaPath
+}
+
+function Set-FileNoWrite {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string] $Path
+    )
+
+    $item = Get-Item -LiteralPath $Path
+    if (-not $item.PSIsContainer) {
+        # XXX: not sure which is more correct, just try both
+        $item.Attributes = $item.Attributes -BOR [System.IO.FileAttributes]::ReadOnly
+        Set-ItemProperty -Path $Path -Name IsReadOnly -Value $true
+    }
+}
+
+$PROJECT_ROOT = Join-Path $PSScriptRoot '..'
+$PROJECT_MANIFEST_ITEM = Get-Item -LiteralPath (Join-Path $PROJECT_ROOT 'Cargo.toml') -ErrorAction Stop
+
+function Get-ProgramVersion {
+    param()
+    $manifest = Get-Content -LiteralPath $PROJECT_MANIFEST_ITEM.FullName -Raw
+    $versionMatch = [regex]::Match($manifest, '^\s*version\s*=\s*"(.*?)"\s*$' , [System.Text.RegularExpressions.RegexOptions]::Multiline)
+    if ($versionMatch.Success) {
+        return $versionMatch.Groups[1].Value
+    }
+    return $null
+}
+
+function Write-Line {
+    $line = -join ('─' * ($Host.UI.RawUI.WindowSize.Width - 1))
+    Write-Host $line
 }
 
 $BIN = 's4'
@@ -94,17 +126,30 @@ try {
     $buildProfile = Get-BuildProfile -ArgsList $CrossArgs
 
     $outputDir = $null
+    $releaseDir = $null
     if ($env:DIROUT) {
         New-Item -ItemType Directory -Path $env:DIROUT -Force | Out-Null
         $outputDir = (Resolve-Path -LiteralPath $env:DIROUT).Path
+        $releaseDir = Join-Path -Path $outputDir -ChildPath 'release'
+        New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
+    }
+    else {
+        Write-Host "DIROUT not set, built executables will not be copied." -ForegroundColor Yellow
     }
 
     $builtTargets = New-Object System.Collections.Generic.List[string]
     $failedTargets = New-Object System.Collections.Generic.List[string]
 
+    $s4_version = Get-ProgramVersion
+    if (-not ($s4_version)) {
+        Write-Error "Could not determine s4 version from " + $PROJECT_MANIFEST_ITEM.FullName
+        exit 1
+    }
+
     foreach ($target in $WindowsTargets) {
         Write-Host ''
-        Write-Host "Building target $target ..."
+        Write-Line
+        Write-Host "+ cargo cross build --target $target" @CrossArgs -ForegroundColor Green
 
         $env:S4_BUILD_REGEX_PRINT = '1'
         & cargo cross build --target $target @CrossArgs
@@ -114,59 +159,64 @@ try {
             $failedTargets.Add($target)
             continue
         }
-
         $builtTargets.Add($target)
 
-        if ($outputDir) {
-            $exePath = Join-Path -Path (Join-Path -Path 'target' -ChildPath $target) -ChildPath "$buildProfile\\${BIN}.exe"
-            if (Test-Path -LiteralPath $exePath) {
-                $destName = "${BIN}__${target}__${buildProfile}.exe"
-                $destPath = Join-Path -Path $outputDir -ChildPath $destName
-                Copy-Item -Verbose -LiteralPath $exePath -Destination $destPath -Force
-
-                $destNameBin = "${BIN}.exe"
-                $destPathBin = Join-Path -Path $outputDir -ChildPath $destNameBin
-                Remove-Item -Path $destPathBin -ErrorAction Ignore -Force
-                Copy-Item -Verbose -LiteralPath $exePath -Destination $destPathBin -Force
-
-                $shaName = "${destName}.sha256"
-                $shaPath = Join-Path -Path $outputDir -ChildPath $shaName
-                Write-Sha256ChecksumFile -FilePath $destPath -OutputPath $shaPath
-
-                $shaNameBin = "${BIN}.sha256"
-                $shaPathBin = Join-Path -Path $outputDir -ChildPath $shaNameBin
-                Write-Sha256ChecksumFile -FilePath $destPathBin -OutputPath $shaPathBin
-
-                $zipName = "${BIN}__${target}__${buildProfile}.zip"
-                $zipPath = Join-Path -Path $outputDir -ChildPath $zipName
-                if (Test-Path -LiteralPath $zipPath) {
-                    Remove-Item -LiteralPath $zipPath -Force
-                }
-
-                # Archive the copied executable and its checksum file.
-                Push-Location $outputDir
-                Compress-Archive -Verbose -LiteralPath @($destNameBin, $shaNameBin) -DestinationPath $zipPath -CompressionLevel Optimal
-                Pop-Location
-
-                $zipShaPath = "$zipPath.sha256"
-                Write-Sha256ChecksumFile -FilePath $zipPath -OutputPath $zipShaPath
-
-                Remove-Item -Path $destPathBin, $shaPathBin -ErrorAction Ignore -Force
-            }
-            else {
-                Write-Warning "Built executable not found at $exePath"
-            }
+        if (-not ($outputDir)) {
+            Write-Host "Skipping copying built executable for $target since DIROUT is not set."
+            continue
         }
+
+        $exePath = Join-Path -Path (Join-Path -Path 'target' -ChildPath $target) -ChildPath "$buildProfile\\${BIN}.exe"
+        if (-not (Test-Path -LiteralPath $exePath)) {
+            Write-Warning "Built executable not found at $exePath"
+            continue
+        }
+
+        $destPath = Join-Path -Path $outputDir -ChildPath "${BIN}__${target}__${s4_version}.exe"
+        Remove-Item -Path $destPath -ErrorAction Ignore -Force
+        Copy-Item -Verbose -LiteralPath $exePath -Destination $destPath -Force
+        Set-FileNoWrite -Path $destPath
+        Write-Sha256ChecksumFile -FilePath $destPath
+
+        $destPathBin = Join-Path -Path $outputDir -ChildPath "${BIN}.exe"
+        $shaPathBin = Join-Path -Path $outputDir -ChildPath "${BIN}.exe.sha256"
+        Remove-Item -Path $destPathBin -ErrorAction Ignore -Force
+        Copy-Item -Verbose -LiteralPath $exePath -Destination $destPathBin -Force
+        Set-FileNoWrite -Path $destPathBin
+        Write-Sha256ChecksumFile -FilePath $destPathBin
+
+        # Archive the copied executable and its checksum file.
+        $zipPath = Join-Path -Path $releaseDir -ChildPath "${BIN}__${target}__${s4_version}.zip"
+        if (Test-Path -LiteralPath $zipPath) {
+            Remove-Item -LiteralPath $zipPath -Force
+        }
+        Push-Location $outputDir
+        Compress-Archive -LiteralPath @($destPathBin, $shaPathBin) -DestinationPath $zipPath -CompressionLevel Optimal
+        Pop-Location
+        Write-Sha256ChecksumFile -FilePath $zipPath
+        Set-FileNoWrite -Path $zipPath
+
+        Remove-Item -Verbose -Path $destPathBin -Force
+        Remove-Item -Verbose -Path $shaPathBin -Force
     }
 
+    Write-Line
     Write-Host ''
     Write-Host "Built:  $($builtTargets.Count)"
     Write-Host "Failed: $($failedTargets.Count)"
+    Write-Host ''
+
+    if ($builtTargets.Count -gt 0) {
+        Write-Host 'Built targets:'
+        foreach ($built in $builtTargets) {
+            Write-Host "  $built" -ForegroundColor Green
+        }
+    }
 
     if ($failedTargets.Count -gt 0) {
         Write-Host 'Failed targets:'
         foreach ($failed in $failedTargets) {
-            Write-Host "  $failed"
+            Write-Host "  $failed" -ForegroundColor Red
         }
         exit 1
     }
