@@ -383,6 +383,19 @@ function print_version() {
     grep -o -m 1 -E '^version\s*=\s*".*"' "${PROJECT_ROOT}/Cargo.toml" | sed -E 's/^version\s*=\s*"(.*)"/\1/'
 }
 
+function create_sha256sum() {
+    declare -r file_path="$1"
+    if [[ ! -f "$file_path" ]]; then
+        echo "ERROR: file not found '$file_path'" >&2
+        return 1
+    fi
+    declare -r file_name=$(basename "$file_path")
+    pushd "$(dirname "$file_path")"
+    (set -x; sha256sum "$file_name") > "${file_name}.sha256"
+    chmod -v -w "${file_name}.sha256"
+    popd
+}
+
 readonly BIN="s4"
 VERSION=$(print_version)
 readonly VERSION
@@ -431,22 +444,30 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
                 # s4_file will look like
                 #     target/s390x-unknown-linux-gnu/debug/s4
                 # if --release passed then
-                #     target/s390x-unknown-linux-gnu/release/s4
+                #     target/x86_64-pc-windows-gnu/release/s4.exe
                 dest_name="${BIN}__${TARGET}__${VERSION}${EXT}"
                 dest_path="${DIROUT}/${dest_name}"
+                zip_name="${BIN}__${TARGET}__${VERSION}.zip"
                 # the zip file layout must match section `package.metadata.binstall` from `Cargo.toml`
                 cp -av "$s4_file" "$dest_path"
+                chmod -v -w "$dest_path"
                 (
+            set -x
                     cd "$DIROUT"
                     bin="${BIN}${EXT}"
                     rm -f "${bin}" "${bin}.sha256"
-                    set -x
-                    sha256sum "$dest_name" > "${dest_name}.sha256"
+                    create_sha256sum "$dest_name"
+                    chmod -v -w "${dest_name}.sha256"
                     cp -av "$dest_name" "${bin}"
-                    sha256sum "${bin}" > "${bin}.sha256"
-                    zip -9 "${dest_name}.zip" "$bin" "${bin}.sha256"
-                    sha256sum "${dest_name}.zip" > "${dest_name}.zip.sha256"
-                    rm -f "${bin}" "${bin}.sha256"
+                    create_sha256sum "${bin}"
+                    chmod -v -w "${bin}.sha256"
+                    release_dir="${DIROUT}/release"
+                    mkdir -vp "${release_dir}"
+                    zip_path="${release_dir}/${zip_name}"
+                    zip -v9 "${zip_path}" "${bin}" "${bin}.sha256"
+                    chmod -v -w "${zip_path}"
+                    create_sha256sum "${zip_path}"
+                    rm -vf "${bin}" "${bin}.sha256"
                 )
             done
         fi
