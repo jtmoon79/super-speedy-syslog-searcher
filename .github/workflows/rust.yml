@@ -289,7 +289,7 @@ jobs:
 
   job_cross_targets_macos:
     name: cross ${{ matrix.target }} on macos-13
-    needs: [job_rust_msrv_os, job_cross_targets]
+    needs: [job_cross_targets]
     strategy:
       matrix:
         target:
@@ -318,7 +318,7 @@ jobs:
 
   job_cross_targets_windows:
     name: cross ${{ matrix.target }} on windows
-    needs: [job_rust_msrv_os, job_cross_targets_macos]
+    needs: [job_cross_targets_macos]
     strategy:
       matrix:
         target:
@@ -1008,9 +1008,9 @@ jobs:
 
   # Run code coverage using cargo-llvm-cov then upload to coveralls.io
   job_code_coverage_llvm:
-    name: llvm-cov
+    name: llvm_cov
     runs-on: ubuntu-latest
-    needs: job_runs
+    needs: [job_runs, job_test_linux, job_cross_targets_windows]
     env:
       COVERALLS_FILE: ./coveralls.lcov
     steps:
