@@ -841,7 +841,5 @@ mod tests {
         let nfa = WorkingNFA::new(&tree);
         let nfa = U8NFA::new(&nfa);
         let nfa = U8DFA::from_nfa(&nfa, 100).unwrap();
-
-        // println!("{}", nfa.to_tikz(true));
     }
 }
