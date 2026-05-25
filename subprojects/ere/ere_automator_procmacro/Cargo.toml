@@ -2,6 +2,7 @@
 
 [package]
 name = "super-speedy-syslog-searcher_ere_automator_procmacro"
+description = "proc-macro to further automate creation of regexes with the super-speedy-syslog-searcher_ere crate."
 version.workspace = true
 edition = "2024"
 license.workspace = true
