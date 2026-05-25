@@ -13,12 +13,14 @@ on:  # yamllint disable-line rule:truthy
       - Cargo.toml
       - Cargo.lock
       - src/**.rs
+      - subprojects/**.rs
   pull_request:
     paths:
       - .github/**
       - Cargo.toml
       - Cargo.lock
       - src/**.rs
+      - subprojects/**.rs
       - benches/**
   workflow_dispatch:  # yamllint disable-line rule:empty-values
 env:
