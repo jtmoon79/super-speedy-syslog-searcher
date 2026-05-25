@@ -9,19 +9,15 @@ set -eu
 
 cd "$(dirname -- "${0}")/.."
 
+# in case `mdtohtml` is not in the PATH, add the default Go bin directory to the PATH
 export PATH="${PATH}:${HOME}/go/bin"
 
 file=${1}
 file_html="${file}.html"
 shift
 
-css_file=$(mktemp --suffix=.css)
-trap 'rm -f -- "${css_file}"' EXIT
-echo '
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
+css_snippet=$(cat <<'CSS'
+table {  border-collapse: collapse; width: 100%;}
 
 th,
 td {
@@ -35,9 +31,27 @@ th {
   font-weight: 700;
   border-bottom: 2px solid #333;
 }
-' > "${css_file}"
+CSS
+)
 
 set -x
 
 which mdtohtml
-exec mdtohtml  -css "${css_file}" -page "$file" "${@}" > "${file_html}"
+
+# convert MD to HTML and use `awk` to embed the CSS midstream for writing into `$file_html`
+mdtohtml -page "$file" "${@}" | \
+  awk -v css="${css_snippet}" '
+  BEGIN { style = "<style>\n" css "\n</style>"; inserted = 0 }
+  {
+    if (!inserted && $0 ~ /<\/[Hh][Ee][Aa][Dd]>/) {
+      print style
+      inserted = 1
+    }
+    print
+  }
+  END {
+    if (!inserted) {
+      print style
+    }
+  }
+' > "${file_html}"
