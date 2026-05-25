@@ -10,6 +10,13 @@ authors = ["2kai2kai2", "robertream", "jtmoon79"]
 categories = ["text-processing"]
 readme = "README.md"
 repository.workspace = true
+exclude = [
+    ".github/*",
+    ".vscode/*",
+    "benches/*",
+    "ROADMAP.md",
+    "tests/*",
+]
 
 [dependencies]
 ere-core = { version = "=0.9.81", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
