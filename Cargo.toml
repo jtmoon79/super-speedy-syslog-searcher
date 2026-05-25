@@ -269,6 +269,7 @@ opt-level = 0
 debug = 2
 strip = false
 
+# profile for quick builds without debug cruft
 [profile.release_Opt0]
 inherits = "release"
 debug = 0
