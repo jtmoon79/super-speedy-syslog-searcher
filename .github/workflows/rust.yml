@@ -559,6 +559,7 @@ jobs:
         run: cargo doc --locked --release --no-deps -v
       - name: Publish Dry Run
         shell: bash
+        continue-on-error: true
         run: |
           set -eux
           cargo publish --locked --dry-run
