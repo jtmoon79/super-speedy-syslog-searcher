@@ -179,7 +179,7 @@ bench = false
 
 [package.metadata.binstall]
 bin = "s4"
-pkg-url = "{ repo }/releases/download/0.8.80/s4__{ target }__0.8.80{ archive-suffix }"
+pkg-url = "{ repo }/releases/download/0.8.80/s4_{ target }_v0.8.80{ archive-suffix }"
 bin-dir = "s4{ binary-ext }"
 pkg-fmt = "zip"
 

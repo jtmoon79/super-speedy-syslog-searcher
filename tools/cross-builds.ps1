@@ -172,7 +172,7 @@ try {
             continue
         }
 
-        $destPath = Join-Path -Path $outputDir -ChildPath "${BIN}__${target}__${s4_version}.exe"
+        $destPath = Join-Path -Path $outputDir -ChildPath "${BIN}_${target}_v${s4_version}.exe"
         Remove-Item -Path $destPath -ErrorAction Ignore -Force
         Copy-Item -Verbose -LiteralPath $exePath -Destination $destPath -Force
         Set-FileNoWrite -Path $destPath
@@ -186,7 +186,7 @@ try {
         Write-Sha256ChecksumFile -FilePath $destPathBin
 
         # Archive the copied executable and its checksum file.
-        $zipPath = Join-Path -Path $releaseDir -ChildPath "${BIN}__${target}__${s4_version}.zip"
+        $zipPath = Join-Path -Path $releaseDir -ChildPath "${BIN}_${target}_v${s4_version}.zip"
         if (Test-Path -LiteralPath $zipPath) {
             Remove-Item -LiteralPath $zipPath -Force
         }

@@ -445,9 +445,9 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
                 #     target/s390x-unknown-linux-gnu/debug/s4
                 # if --release passed then
                 #     target/x86_64-pc-windows-gnu/release/s4.exe
-                dest_name="${BIN}__${TARGET}__${VERSION}${EXT}"
+                dest_name="${BIN}_${TARGET}_v${VERSION}${EXT}"
                 dest_path="${DIROUT}/${dest_name}"
-                zip_name="${BIN}__${TARGET}__${VERSION}.zip"
+                zip_name="${BIN}_${TARGET}_v${VERSION}.zip"
                 # the zip file layout must match section `package.metadata.binstall` from `Cargo.toml`
                 cp -av "$s4_file" "$dest_path"
                 chmod -v -w "$dest_path"
