@@ -7,6 +7,14 @@ edition = "2024"
 license.workspace = true
 authors = ["jtmoon79"]
 repository.workspace = true
+exclude = [
+    ".github/*",
+    ".vscode/*",
+    "benches/*",
+    "ROADMAP.md",
+    "tests/*",
+    "S4_BUILD_REGEX",
+]
 
 [dependencies]
 const-str.workspace = true

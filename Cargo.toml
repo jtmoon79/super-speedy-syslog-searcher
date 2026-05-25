@@ -72,13 +72,14 @@ exclude = [
     "logs/*",
     "perf.data",
     "releases/*",
+    "rustfmt.toml",
+    "S4_BUILD_REGEX",
     "src/**/README.md",
     "subprojects/**/target/*",
     "target/*",
     "tmp/*",
     "tools/*",
     "tests/*",
-    "rustfmt.toml",
 ]
 # TODO: need to create build script to rebuild if `src/python/s4_event_readers` changes
 #       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
