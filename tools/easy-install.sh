@@ -123,7 +123,7 @@ function main() {
     trap "rm -rf -- '${WORKDIR}'" EXIT
 
     local zip_path="${WORKDIR}/s4.zip"
-    local url="https://github.com/jtmoon79/super-speedy-syslog-searcher/releases/download/${VER}/s4__${target_triple}__${VER}.zip"
+    local url="https://github.com/jtmoon79/super-speedy-syslog-searcher/releases/download/${VER}/s4_${target_triple}_v${VER}.zip"
 
     info "download release ${VER} for target ${target_triple}..."
     (set -x; curl -fL --retry 2 --output "${zip_path}" "${url}")
