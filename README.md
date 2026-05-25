@@ -113,7 +113,9 @@ and Apple System Logs (`.asl`).
 
 ### Install `super_speedy_syslog_searcher`
 
-[rust must be installed].
+[_rust_ must be installed].
+
+[_rust_ must be installed]: https://www.rust-lang.org/tools/install
 
 #### installation methods
 
@@ -127,7 +129,7 @@ cargo install --locked default-target
 default-target
 ```
 
-or run the helper script `easy-install.sh`
+or run the bash script `easy-install.sh`
 
 ```lang-text
 curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | bash --norc --noprofile
@@ -137,7 +139,7 @@ curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-se
 
 ##### `binstall`
 
-Using [`binstall`] is recommended
+Or try [`binstall`]
 
 ```lang-text
 cargo install --locked cargo-binstall
@@ -152,7 +154,7 @@ Or try [`quickinstall`]
 
 ```lang-text
 cargo install --locked cargo-quickinstall
-quickinstall super_speedy_syslog_searcher
+cargo quickinstall super_speedy_syslog_searcher
 ```
 
 Note that `quickinstall` seems to prefer "`musl`" builds.
@@ -170,22 +172,21 @@ cargo install --locked super_speedy_syslog_searcher
 
 A C compiler is required.
 
-_Note that building can take tens of minutes that is due to building the_
-_compile-time built regular expressions. You can see some regular expression_
-_building progress by setting environment variable `S4_BUILD_REGEX_PRINT=1`._
+_Note that building can take tens of minutes._
+_This is due to building the compile-time regular expressions._
+_You can see some regular expression building progress_
+_by setting environment variable `S4_BUILD_REGEX_PRINT=1`._
 
 #### create the Python virtual environment
 
-If there are  .asl, .etl, and .odl files that may be processed then pre-create
-a Python virtual environment:
+If there are `.asl`, `.etl`, or `.odl` log files that may be processed then
+create a Python virtual environment:
 
 ```lang-text
 s4 --venv
 ```
 
 Python 3.9 or higher is required.
-
-[rust must be installed]: https://www.rust-lang.org/tools/install
 
 #### allocators
 
