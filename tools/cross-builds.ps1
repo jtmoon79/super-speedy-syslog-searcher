@@ -11,6 +11,7 @@
 
 [CmdletBinding()]
 param(
+    # all arguments are passed along to `cargo cross build`
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]] $CrossArgs
 )
@@ -41,6 +42,7 @@ $WindowsTargets = @(
 )
 
 function Get-BuildProfile {
+    [OutputType([string])]
     param([string[]] $ArgsList)
 
     # In strict mode, $null.Count throws. Normalize to an array first.
@@ -65,6 +67,7 @@ function Get-BuildProfile {
 }
 
 function Write-Sha256ChecksumFile {
+    [OutputType([System.Void])]
     param(
         [Parameter(Mandatory = $true)]
         [string] $FilePath
@@ -80,6 +83,7 @@ function Write-Sha256ChecksumFile {
 }
 
 function Set-FileNoWrite {
+    [OutputType([System.Void])]
     param(
         [Parameter(Mandatory = $true)]
         [string] $Path
@@ -97,9 +101,10 @@ $PROJECT_ROOT = Join-Path $PSScriptRoot '..'
 $PROJECT_MANIFEST_ITEM = Get-Item -LiteralPath (Join-Path $PROJECT_ROOT 'Cargo.toml') -ErrorAction Stop
 
 function Get-ProgramVersion {
+    [OutputType([string])]
     param()
     $manifest = Get-Content -LiteralPath $PROJECT_MANIFEST_ITEM.FullName -Raw
-    $versionMatch = [regex]::Match($manifest, '^\s*version\s*=\s*"(.*?)"\s*$' , [System.Text.RegularExpressions.RegexOptions]::Multiline)
+    $versionMatch = [regex]::Match($manifest, '^version\s?=\s?"(.*?)"\s*$' , [System.Text.RegularExpressions.RegexOptions]::Multiline)
     if ($versionMatch.Success) {
         return $versionMatch.Groups[1].Value
     }
@@ -107,6 +112,8 @@ function Get-ProgramVersion {
 }
 
 function Write-Line {
+    [OutputType([System.Void])]
+    param()
     $line = -join ('─' * ($Host.UI.RawUI.WindowSize.Width - 1))
     Write-Host $line
 }
