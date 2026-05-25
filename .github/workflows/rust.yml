@@ -217,7 +217,7 @@ jobs:
           cp -av ./target/debug/s4 ./s4_debug
           ./s4_debug --version
       - name: Upload debug binary for test
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: s4_debug
           path: ./s4_debug
@@ -232,12 +232,12 @@ jobs:
           cp -av ./target/release/s4 ./s4_release
           ./s4_release --version
       - name: Upload release binary for test
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: s4_release
           path: ./s4_release
       - name: Upload release binary (Ubuntu Linux)
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: s4
           path: ./target/release/s4
@@ -467,7 +467,7 @@ jobs:
           cargo test --features unstable-attr-regex --locked
       # download release for --venv
       - name: Download release binary
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: s4_release
       - name: create venv
@@ -575,7 +575,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v6
       - name: Use Python 3.10
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.10"
       - name: Install dependencies
@@ -645,12 +645,12 @@ jobs:
           sudo apt install --yes libsystemd0
       # download debug
       - name: Download debug binary
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: s4_debug
       # download release
       - name: Download release binary
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: s4_release
       # run debug
