@@ -1,6 +1,13 @@
-#![cfg(feature = "unstable-attr-regex")]
+// compile_fail.rs
 
+//! These tests are expected to fail to compile.
+//! They are fragile and may need to be updated when the code changes.
+
+#![cfg(feature = "unstable-attr-regex")]
 pub mod ere_tests {
+
+#![cfg(feature = "tests-compile-fail")]
+pub mod compile_fail {
 
 #[test]
 fn unbound_named_field() {
@@ -38,4 +45,5 @@ fn engine_one_pass_not_applicable() {
     t.compile_fail("tests/ui/engine_one_pass_not_applicable.rs");
 }
 
+} // mod compile_fail
 } // mod ere_tests

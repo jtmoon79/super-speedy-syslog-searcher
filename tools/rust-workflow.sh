@@ -71,6 +71,10 @@ if ${do_build}; then
 fi
 ./tools/log-files-time-update.sh
 cargo test
+(
+    cd subprojects/ere/ere
+    cargo test --features unstable-attr-regex,tests-compile-fail
+)
 cargo check --all-targets
 cargo check --all-targets --release
 cargo clippy --no-deps --all-targets

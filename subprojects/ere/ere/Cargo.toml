@@ -26,6 +26,8 @@ unstable-attr-regex = [
     "ere-core/unstable-attr-regex",
     "ere-macros/unstable-attr-regex",
 ]
+# these tests are expected to fail to compile and are fragile.
+tests-compile-fail = []
 
 [[bench]]
 name = "ere_benchmark"
