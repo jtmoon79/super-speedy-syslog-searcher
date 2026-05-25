@@ -2,7 +2,7 @@
 
 [package]
 name = "super-speedy-syslog-searcher_ere-macros"
-description = "A compile-time alternative for POSIX extended regular expressions."
+description = "Support crate for super-speedy-syslog-searcher_ere."
 version.workspace = true
 edition = "2021"
 license.workspace = true

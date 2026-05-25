@@ -2,7 +2,7 @@
 
 [package]
 name = "super-speedy-syslog-searcher_ere_datetimes_impl"
-description = "Compile-time implementation of datetime regexes for super-speedy-syslog-searcher."
+description = "Support crate for super-speedy-syslog-searcher. Compile-time implementation of datetime regexes."
 version.workspace = true
 edition = "2024"
 license.workspace = true
