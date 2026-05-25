@@ -209,7 +209,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
-      - name: Build Debug
+      - name: Build Debug using toolchain ${{ env.MSRV_UPLOAD }}
         shell: bash
         run: |
           set -eux
@@ -224,7 +224,7 @@ jobs:
           name: s4_debug
           path: ./s4_debug
       # build & upload release
-      - name: Build Release
+      - name: Build Release using toolchain ${{ env.MSRV_UPLOAD }}
         shell: bash
         run: |
           set -eux
