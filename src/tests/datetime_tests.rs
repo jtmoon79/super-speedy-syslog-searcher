@@ -76,6 +76,7 @@ use ::ere_datetimes_impl::{
     CGN_ALL,
     CGP_DAY_ALL,
     CGP_EPOCH,
+    CGP_EPOCHms,
     CGP_FRACTIONAL19,
     CGP_FRACTIONAL23,
     CGP_FRACTIONAL3,
@@ -102,6 +103,7 @@ use ::ere_datetimes_impl::{
     DTP_mdHMYZc,
     DTP_s,
     DTP_sf,
+    DTP_s3fT,
     DTP_ALL,
     DTFSS_ALL,
     DUMMY_ARGS,
@@ -196,7 +198,7 @@ pub fn regex_pattern_has_tz(pattern: &DateTimeRegex_str) -> bool {
 
 /// does regex pattern have a epoch?
 pub fn regex_pattern_has_epoch(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_EPOCH)
+    pattern.contains(CGP_EPOCH) || pattern.contains(CGP_EPOCHms)
 }
 
 // chrono strftime formats https://docs.rs/chrono/latest/chrono/format/strftime/
@@ -263,7 +265,7 @@ pub fn dt_pattern_has_epoch(pattern: &DateTimePattern_str) -> bool {
 fn test_DTP_ALL_patterns() {
     stack_offset_set(Some(2));
     for (i, dt_format) in DTP_ALL.iter().enumerate() {
-        if *dt_format == DTP_s || *dt_format == DTP_sf {
+        if *dt_format == DTP_s || *dt_format == DTP_sf || *dt_format == DTP_s3fT {
             continue;
         }
         if *dt_format != DTP_BdHMS {
@@ -367,7 +369,7 @@ fn test_DATETIME_PARSE_DATAS_regex_id_duplicates() {
 /// Must manually update the `test_matrix` range end value to the same as
 /// `DATETIME_PARSE_DATAS_LEN`.
 #[allow(clippy::zero_prefixed_literal)]
-#[test_matrix(0..176)]
+#[test_matrix(0..178)]
 fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: usize) {
     stack_offset_set(Some(2));
 
@@ -408,6 +410,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: usize) {
     let dtpat: &DateTimePattern_str = dtfs.pattern;
     let mut dt_pat_min: usize = 8;
     match dtfs.epoch {
+        DTFS_Epoch::ms => dt_pat_min = 2,
         DTFS_Epoch::s => dt_pat_min = 2,
         DTFS_Epoch::_none => {}
     }

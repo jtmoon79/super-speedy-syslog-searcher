@@ -544,6 +544,8 @@ pub enum DTFS_Tz {
 /// Follows chrono `strftime` specifier formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Epoch {
+    /// Unix Epoch in milliseconds, seconds passed in `%s`
+    ms,
     /// `%s` Unix Epoch in seconds
     s,
     /// none
@@ -801,7 +803,8 @@ impl DTFSSet<'_> {
             | DTFS_Tz::_none => {}
         }
         match self.epoch {
-            DTFS_Epoch::s => return true,
+            DTFS_Epoch::ms
+            | DTFS_Epoch::s => return true,
             DTFS_Epoch::_none => {}
         }
         match self.uptime {
@@ -870,6 +873,8 @@ pub const DTP_bdHMSyZc: &DateTimePattern_str = "%y%m%dT%H%M%S%:z";
 pub const DTP_s: &DateTimePattern_str = "%sT";
 /// `%s.%f` value
 pub const DTP_sf: &DateTimePattern_str = "%sT.%f";
+/// `%s.%f` value alternate
+pub const DTP_s3fT: &DateTimePattern_str = "%s.%3fT";
 
 /// For testing
 ///
@@ -884,6 +889,7 @@ pub const DTP_ALL: &[&DateTimePattern_str] = &[
     DTP_mdHMYZc,
     DTP_s,
     DTP_sf,
+    DTP_s3fT,
     DTP_YmdHMSfz,
     DTP_YmdHMSfzc,
     DTP_YmdHMSfzp,
@@ -1312,6 +1318,19 @@ pub const DTFSS_s: DTFSSet = DTFSSet {
     uptime: DTFS_Uptime::_none,
     pattern: DTP_s,
 };
+pub const DTFSS_ms: DTFSSet = DTFSSet {
+    year: DTFS_Year::_none,
+    month: DTFS_Month::_none,
+    day: DTFS_Day::_none,
+    hour: DTFS_Hour::_none,
+    minute: DTFS_Minute::_none,
+    second: DTFS_Second::_none,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_none,
+    epoch: DTFS_Epoch::ms,
+    uptime: DTFS_Uptime::_none,
+    pattern: DTP_s3fT,
+};
 
 /// for epoch syslog lines
 pub const DTFSS_sf: DTFSSet = DTFSSet {
@@ -1366,6 +1385,7 @@ pub const DTFSS_ALL: &[(&DTFSSet, &str)] = &[
     (&DTFSS_BdHMSYzp, stringify!(DTFSS_BdHMSYzp)),
     (&DTFSS_BdHMSZ, stringify!(DTFSS_BdHMSZ)),
     (&DTFSS_mdHMS, stringify!(DTFSS_mdHMS)),
+    (&DTFSS_ms, stringify!(DTFSS_ms)),
     (&DTFSS_s, stringify!(DTFSS_s)),
     (&DTFSS_sf, stringify!(DTFSS_sf)),
     (&DTFSS_u, stringify!(DTFSS_u)),
@@ -1533,12 +1553,23 @@ pub const CGP_UPTIME_F23: &CaptureGroupPattern = concat!(CGP_UPTIME, r"\.", CGP_
 /// Regex capture group pattern for Unix epoch in seconds
 /// limited to datetimes from year 2000 and afterward.
 /// Low numbers are likely to be errant matches, e.g. random string "55"
-/// is most likely not meant to signify an epoch datetime.
+/// is most likely not meant to signify epoch seconds.
 ///
 /// Datetime _2000-01-01 00:00:00_, value `946684800`, is a reasonable past datetime limit.
 ///
 /// Datetime _2038-01-19 03:14:06_, value `2147483647`, is a reasonable high datetime limit.
 pub const CGP_EPOCH: &CaptureGroupPattern = r"(?<epoch>9[[:digit:]]{8}|[12][[:digit:]]{9})";
+
+/// Regex capture group pattern for Unix epoch in milliseconds
+/// limited to datetimes from around 2000/01/01 and afterward.
+/// Low numbers are likely to be errant matches, e.g. random string "55",
+/// is most likely not meant to signify epoch milliseconds.
+///
+/// 2000-01-01 00:00:00 is epoch milliseconds  946684800000
+/// 2033-05-18 03:33:20 is epoch milliseconds 2000000000000
+/// 2061-11-23 19:33:20 is epoch milliseconds 2900000000000
+/// 2065-01-23 21:19:60 is epoch milliseconds 2999999999999
+pub const CGP_EPOCHms: &CaptureGroupPattern = r"(?<epoch>[12][[:digit:]]{12}|9[[:digit:]]{11})";
 
 /// for testing
 #[doc(hidden)]
@@ -2138,7 +2169,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "3",regex = "ALL"))]
+    #[cfg(any(regex = "3", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         3,
         counter!(DP_KEY),
@@ -2153,7 +2184,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "4",regex = "ALL"))]
+    #[cfg(any(regex = "4", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         4,
         counter!(DP_KEY),
@@ -2172,7 +2203,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "5",regex = "ALL"))]
+    #[cfg(any(regex = "5", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         5,
         counter!(DP_KEY),
@@ -2206,7 +2237,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // line
     //     strftime(extbuff, sizeof(extbuff), "%d-%b-%y %X", ttm);
     //
-    #[cfg(any(regex = "6",regex = "ALL"))]
+    #[cfg(any(regex = "6", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         6,
         counter!(DP_KEY),
@@ -2241,7 +2272,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     <128> 2023-01-06T14:35:00.506282871 -08:00[host]
     //
     // syslog format with fractional seconds
-    #[cfg(any(regex = "7",regex = "ALL"))]
+    #[cfg(any(regex = "7", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         7,
         counter!(DP_KEY),
@@ -2256,7 +2287,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "8",regex = "ALL"))]
+    #[cfg(any(regex = "8", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         8,
         counter!(DP_KEY),
@@ -2271,7 +2302,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "9",regex = "ALL"))]
+    #[cfg(any(regex = "9", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         9,
         counter!(DP_KEY),
@@ -2286,7 +2317,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "10",regex = "ALL"))]
+    #[cfg(any(regex = "10", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         10,
         counter!(DP_KEY),
@@ -2303,7 +2334,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "11",regex = "ALL"))]
+    #[cfg(any(regex = "11", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         11,
         counter!(DP_KEY),
@@ -2319,7 +2350,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // syslog format without fractional seconds
-    #[cfg(any(regex = "12",regex = "ALL"))]
+    #[cfg(any(regex = "12", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         12,
         counter!(DP_KEY),
@@ -2335,7 +2366,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "13",regex = "ALL"))]
+    #[cfg(any(regex = "13", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         13,
         counter!(DP_KEY),
@@ -2350,7 +2381,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "14",regex = "ALL"))]
+    #[cfg(any(regex = "14", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         14,
         counter!(DP_KEY),
@@ -2367,7 +2398,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "15",regex = "ALL"))]
+    #[cfg(any(regex = "15", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         15,
         counter!(DP_KEY),
@@ -2396,7 +2427,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      <14>Jan  1 15:00:36 2023 HOST dropbear[23732]: Exit (root): Disconnect received
     //      <29>Jan  1 14:21:13 2023 HOST netifd: Network device 'eth0' link is up
     //
-    #[cfg(any(regex = "16",regex = "ALL"))]
+    #[cfg(any(regex = "16", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         16,
         counter!(DP_KEY),
@@ -2413,7 +2444,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "17",regex = "ALL"))]
+    #[cfg(any(regex = "17", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         17,
         counter!(DP_KEY),
@@ -2429,7 +2460,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "18",regex = "ALL"))]
+    #[cfg(any(regex = "18", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         18,
         counter!(DP_KEY),
@@ -2446,7 +2477,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "19",regex = "ALL"))]
+    #[cfg(any(regex = "19", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         19,
         counter!(DP_KEY),
@@ -2464,7 +2495,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     //      <14>Jan  1 15:00:36 WIST 2023 HOST dropbear[23732]: Exit (root): Disconnect received
     //
-    #[cfg(any(regex = "20",regex = "ALL"))]
+    #[cfg(any(regex = "20", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         20,
         counter!(DP_KEY),
@@ -2479,7 +2510,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "21",regex = "ALL"))]
+    #[cfg(any(regex = "21", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         21,
         counter!(DP_KEY),
@@ -2494,7 +2525,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "22",regex = "ALL"))]
+    #[cfg(any(regex = "22", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         22,
         counter!(DP_KEY),
@@ -2514,7 +2545,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      <29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up
     //      <7>Mar 23 09:35:30 localhost DPKG [9332:<console>.<module>:2] debug info
     //
-    #[cfg(any(regex = "23",regex = "ALL"))]
+    #[cfg(any(regex = "23", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         23,
         counter!(DP_KEY),
@@ -2551,7 +2582,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     NEEDRESTART-KSTA: 0
     //     Log ended: 2022-07-14  06:49:02
     //
-    #[cfg(any(regex = "24",regex = "ALL"))]
+    #[cfg(any(regex = "24", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         24,
         counter!(DP_KEY),
@@ -2586,7 +2617,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Successfully Submitted Heartbeat Report
     //     Microsoft Windows Malicious Software Removal Tool Finished On Tue Nov 10 18:54:47 2020
     //
-    #[cfg(any(regex = "25",regex = "ALL"))]
+    #[cfg(any(regex = "25", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         25,
         counter!(DP_KEY),
@@ -2629,7 +2660,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      (08/10/2019-01:46:44.0042) Filtering object "\\HOST\ROOT\CIMV2\mdm\dmmap:MDM_Policy_Config01_Location02" during apply
     //      (05/27/2020-12:25:43.0877) Total number of objects successfully migrated :2346, failed objects :16
     //
-    #[cfg(any(regex = "26",regex = "ALL"))]
+    #[cfg(any(regex = "26", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         26,
         counter!(DP_KEY),
@@ -2771,7 +2802,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     01234567890123456789012345678901234567890
     //     2019-07-26T10:40:29.682-07:00 info hostd[03210] [Originator@6876 sub=Default] Current working directory: /usr/bin
     //
-    #[cfg(any(regex = "27",regex = "ALL"))]
+    #[cfg(any(regex = "27", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         27,
         counter!(DP_KEY),
@@ -2789,7 +2820,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "28",regex = "ALL"))]
+    #[cfg(any(regex = "28", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         28,
         counter!(DP_KEY),
@@ -2807,7 +2838,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "29",regex = "ALL"))]
+    #[cfg(any(regex = "29", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         29,
         counter!(DP_KEY),
@@ -2825,7 +2856,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "30",regex = "ALL"))]
+    #[cfg(any(regex = "30", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         30,
         counter!(DP_KEY),
@@ -2841,7 +2872,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "31",regex = "ALL"))]
+    #[cfg(any(regex = "31", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         31,
         counter!(DP_KEY),
@@ -2858,7 +2889,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "32",regex = "ALL"))]
+    #[cfg(any(regex = "32", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         32,
         counter!(DP_KEY),
@@ -2892,7 +2923,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     September  3 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119
     //     September 3 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119
     //
-    #[cfg(any(regex = "33",regex = "ALL"))]
+    #[cfg(any(regex = "33", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         33,
         counter!(DP_KEY),
@@ -2942,7 +2973,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     //     ===============================================================================
     //
-    #[cfg(any(regex = "34",regex = "ALL"))]
+    #[cfg(any(regex = "34", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         34,
         counter!(DP_KEY),
@@ -2970,7 +3001,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "35",regex = "ALL"))]
+    #[cfg(any(regex = "35", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         35,
         counter!(DP_KEY),
@@ -2991,7 +3022,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "36",regex = "ALL"))]
+    #[cfg(any(regex = "36", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         36,
         counter!(DP_KEY),
@@ -3010,7 +3041,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "37",regex = "ALL"))]
+    #[cfg(any(regex = "37", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         37,
         counter!(DP_KEY),
@@ -3040,7 +3071,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // https://dencode.com/date/rfc2822 uses leading zero for day of month
     // https://www.rfc-editor.org/rfc/rfc2822.html#page-41 no leading zero for day of month
     //
-    #[cfg(any(regex = "38",regex = "ALL"))]
+    #[cfg(any(regex = "38", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         38,
         counter!(DP_KEY),
@@ -3056,7 +3087,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "39",regex = "ALL"))]
+    #[cfg(any(regex = "39", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         39,
         counter!(DP_KEY),
@@ -3072,7 +3103,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "40",regex = "ALL"))]
+    #[cfg(any(regex = "40", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         40,
         counter!(DP_KEY),
@@ -3090,7 +3121,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // RFC 2822 with leading field title "Date:"
     // taken from https://www.rfc-editor.org/rfc/rfc2822#appendix-A.1
-    #[cfg(any(regex = "41",regex = "ALL"))]
+    #[cfg(any(regex = "41", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         41,
         counter!(DP_KEY),
@@ -3106,7 +3137,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "42",regex = "ALL"))]
+    #[cfg(any(regex = "42", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         42,
         counter!(DP_KEY),
@@ -3122,7 +3153,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "43",regex = "ALL"))]
+    #[cfg(any(regex = "43", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         43,
         counter!(DP_KEY),
@@ -3153,7 +3184,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Install: apt-transport-https:amd64 (2.4.6)
     //     Upgrade: apt:amd64 (2.4.5, 2.4.6), libapt-pkg6.0:amd64 (2.4.5, 2.4.6), apt-utils:amd64 (2.4.5, 2.4.6)
     //
-    #[cfg(any(regex = "44",regex = "ALL"))]
+    #[cfg(any(regex = "44", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         44,
         counter!(DP_KEY),
@@ -3209,7 +3240,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //               1         2
     //     012345678901234567890
     //     2017-05-14 04-00-07: -------------------- report start
-    #[cfg(any(regex = "45",regex = "ALL"))]
+    #[cfg(any(regex = "45", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         45,
         counter!(DP_KEY),
@@ -3243,7 +3274,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     012345678901234567890123456789012345678901234567890
     //     192.168.0.8 - - [06/Mar/2020:06:30:43 -0800] "GET /path2/feed.rss HTTP/1.1" 404 178 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36 OPR/66.0.3515.72"
     //
-    #[cfg(any(regex = "46",regex = "ALL"))]
+    #[cfg(any(regex = "46", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         46,
         counter!(DP_KEY),
@@ -3260,7 +3291,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "47",regex = "ALL"))]
+    #[cfg(any(regex = "47", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         47,
         counter!(DP_KEY),
@@ -3279,7 +3310,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "48",regex = "ALL"))]
+    #[cfg(any(regex = "48", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         48,
         counter!(DP_KEY),
@@ -3296,7 +3327,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "49",regex = "ALL"))]
+    #[cfg(any(regex = "49", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         49,
         counter!(DP_KEY),
@@ -3313,7 +3344,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "50",regex = "ALL"))]
+    #[cfg(any(regex = "50", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         50,
         counter!(DP_KEY),
@@ -3329,7 +3360,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // prior patterns with fractionals 1-9
-    #[cfg(any(regex = "51",regex = "ALL"))]
+    #[cfg(any(regex = "51", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         51,
         counter!(DP_KEY),
@@ -3346,7 +3377,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "52",regex = "ALL"))]
+    #[cfg(any(regex = "52", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         52,
         counter!(DP_KEY),
@@ -3363,7 +3394,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "53",regex = "ALL"))]
+    #[cfg(any(regex = "53", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         53,
         counter!(DP_KEY),
@@ -3380,7 +3411,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "54",regex = "ALL"))]
+    #[cfg(any(regex = "54", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         54,
         counter!(DP_KEY),
@@ -3403,7 +3434,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     //      [02/21/2023 07:07.05.259] WudfCoInstaller: ReadWdfSection: Checking WdfSection [Basic_Install.Wdf]
     //
-    #[cfg(any(regex = "55",regex = "ALL"))]
+    #[cfg(any(regex = "55", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         55,
         counter!(DP_KEY),
@@ -3426,7 +3457,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     01234567890123456789012345678901234567890
     //     [Mon Oct 10 23:56:29.204202 2022] [mpm_event:notice] [pid 11709:tid 140582486756672] AH00489: Apache/2.4.54 (Debian) configured -- resuming normal operations
     //
-    #[cfg(any(regex = "56",regex = "ALL"))]
+    #[cfg(any(regex = "56", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         56,
         counter!(DP_KEY),
@@ -3443,7 +3474,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "57",regex = "ALL"))]
+    #[cfg(any(regex = "57", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         57,
         counter!(DP_KEY),
@@ -3467,7 +3498,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     0123456789012345678901234567890
     //     08-Feb-2023 12:12:09.827 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio2-0.0.0.0-8080"]
     //
-    #[cfg(any(regex = "58",regex = "ALL"))]
+    #[cfg(any(regex = "58", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         58,
         counter!(DP_KEY),
@@ -3482,7 +3513,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "59",regex = "ALL"))]
+    #[cfg(any(regex = "59", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         59,
         counter!(DP_KEY),
@@ -3544,7 +3575,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     DEBUG: Sun Jan 02 2000 21:00:00 debug
     //     VERBOSE: Sat Jan 01 2000 08:45:55 verbose
     //
-    #[cfg(any(regex = "60",regex = "ALL"))]
+    #[cfg(any(regex = "60", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         60,
         counter!(DP_KEY),
@@ -3578,7 +3609,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "61",regex = "ALL"))]
+    #[cfg(any(regex = "61", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         61,
         counter!(DP_KEY),
@@ -3613,7 +3644,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "62",regex = "ALL"))]
+    #[cfg(any(regex = "62", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         62,
         counter!(DP_KEY),
@@ -3649,7 +3680,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "63",regex = "ALL"))]
+    #[cfg(any(regex = "63", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         63,
         counter!(DP_KEY),
@@ -3688,7 +3719,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // TODO: break out into CFG_DAYa, CFG_DAYa3, CFG_MONTHb, CFG_MONTHBb, CGP_TZZ_U, CGP_TZZ_L
-    #[cfg(any(regex = "64",regex = "ALL"))]
+    #[cfg(any(regex = "64", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         64,
         counter!(DP_KEY),
@@ -3733,7 +3764,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     ERROR: apport (pid 9) Thu Feb 27 00:33:59 2020 -07:00: called for pid 8581, signal 24, core limit 0, dump mode 1
     //     ERROR: apport (pid 9) Thu Feb 20 00:59:59 2020: executable: /usr/lib/firefox/firefox (command line "/usr/lib/firefox/firefox"
     //
-    #[cfg(any(regex = "65",regex = "ALL"))]
+    #[cfg(any(regex = "65", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         65,
         counter!(DP_KEY),
@@ -3748,7 +3779,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "66",regex = "ALL"))]
+    #[cfg(any(regex = "66", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         66,
         counter!(DP_KEY),
@@ -3764,7 +3795,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "67",regex = "ALL"))]
+    #[cfg(any(regex = "67", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         67,
         counter!(DP_KEY),
@@ -3780,7 +3811,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "68",regex = "ALL"))]
+    #[cfg(any(regex = "68", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         68,
         counter!(DP_KEY),
@@ -3796,7 +3827,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "69",regex = "ALL"))]
+    #[cfg(any(regex = "69", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         69,
         counter!(DP_KEY),
@@ -3829,7 +3860,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     // general matches from beginning of line
     //
-    #[cfg(any(regex = "70",regex = "ALL"))]
+    #[cfg(any(regex = "70", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         70,
         counter!(DP_KEY),
@@ -3844,7 +3875,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "71",regex = "ALL"))]
+    #[cfg(any(regex = "71", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         71,
         counter!(DP_KEY),
@@ -3855,7 +3886,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         CGN_YEAR, CGN_TZ,        &[(0, 33, (O_M1130, 2000, 1, 3, 0, 0, 3, 123456000), b"2000/01/03 00:00:03.123456 -11:30 ab")],
         line!(),
     ),
-    #[cfg(any(regex = "72",regex = "ALL"))]
+    #[cfg(any(regex = "72", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         72,
         counter!(DP_KEY),
@@ -3866,7 +3897,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         CGN_YEAR, CGN_TZ,        &[(0, 33, (O_M11, 2000, 1, 4, 0, 0, 4, 123456789), b"2000/01/04 00:00:04,123456789 -11 abc")],
         line!(),
     ),
-    #[cfg(any(regex = "73",regex = "ALL"))]
+    #[cfg(any(regex = "73", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         73,
         counter!(DP_KEY),
@@ -3883,7 +3914,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "74",regex = "ALL"))]
+    #[cfg(any(regex = "74", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         74,
         counter!(DP_KEY),
@@ -3895,7 +3926,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     //
-    #[cfg(any(regex = "75",regex = "ALL"))]
+    #[cfg(any(regex = "75", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         75,
         counter!(DP_KEY),
@@ -3906,7 +3937,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         CGN_YEAR, CGN_TZ,        &[(0, 25, (O_M11, 2000, 1, 7, 0, 0, 2, 0), b"2000/01/07T00:00:02 -1100 abcdefgh")],
         line!(),
     ),
-    #[cfg(any(regex = "76",regex = "ALL"))]
+    #[cfg(any(regex = "76", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         76,
         counter!(DP_KEY),
@@ -3944,7 +3975,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "77",regex = "ALL"))]
+    #[cfg(any(regex = "77", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         77,
         counter!(DP_KEY),
@@ -3959,7 +3990,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "78",regex = "ALL"))]
+    #[cfg(any(regex = "78", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         78,
         counter!(DP_KEY),
@@ -3980,7 +4011,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     //
-    #[cfg(any(regex = "79",regex = "ALL"))]
+    #[cfg(any(regex = "79", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         79,
         counter!(DP_KEY),
@@ -4008,7 +4039,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // CGP_DAY version
     //
     // timezone then year
-    #[cfg(any(regex = "80",regex = "ALL"))]
+    #[cfg(any(regex = "80", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         80,
         counter!(DP_KEY),
@@ -4034,7 +4065,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "81",regex = "ALL"))]
+    #[cfg(any(regex = "81", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         81,
         counter!(DP_KEY),
@@ -4057,7 +4088,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "82",regex = "ALL"))]
+    #[cfg(any(regex = "82", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         82,
         counter!(DP_KEY),
@@ -4080,7 +4111,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "83",regex = "ALL"))]
+    #[cfg(any(regex = "83", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         83,
         counter!(DP_KEY),
@@ -4105,7 +4136,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // year then timezone
-    #[cfg(any(regex = "84",regex = "ALL"))]
+    #[cfg(any(regex = "84", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         84,
         counter!(DP_KEY),
@@ -4128,7 +4159,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "85",regex = "ALL"))]
+    #[cfg(any(regex = "85", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         85,
         counter!(DP_KEY),
@@ -4143,7 +4174,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "86",regex = "ALL"))]
+    #[cfg(any(regex = "86", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         86,
         counter!(DP_KEY),
@@ -4167,7 +4198,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "87",regex = "ALL"))]
+    #[cfg(any(regex = "87", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         87,
         counter!(DP_KEY),
@@ -4191,7 +4222,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "88",regex = "ALL"))]
+    #[cfg(any(regex = "88", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         88,
         counter!(DP_KEY),
@@ -4217,7 +4248,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // no timezone
-    #[cfg(any(regex = "89",regex = "ALL"))]
+    #[cfg(any(regex = "89", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         89,
         counter!(DP_KEY),
@@ -4250,7 +4281,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     Sat Oct 03 11:26:12 2020 0 192.168.0.8 0 /var/log/proftpd/xferlog b _ o r root ftp 0 * c
     //     Sat Oct 03 11:26:12 2020 0 192.168.0.8 2323 /var/log/proftpd/proftpd.log b _ o r root ftp 0 * c
     //
-    #[cfg(any(regex = "90",regex = "ALL"))]
+    #[cfg(any(regex = "90", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         90,
         counter!(DP_KEY),
@@ -4283,7 +4314,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      2023 Aug 31 20:01:05 UTC [ERROR] dev-disk-a error 0x08320105
     //      2023 Aug 31 20:01:09 UTC [WARNING] dev-disk-a disconnected.
     //
-    #[cfg(any(regex = "91",regex = "ALL"))]
+    #[cfg(any(regex = "91", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         91,
         counter!(DP_KEY),
@@ -4298,7 +4329,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "92",regex = "ALL"))]
+    #[cfg(any(regex = "92", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         92,
         counter!(DP_KEY),
@@ -4313,7 +4344,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "93",regex = "ALL"))]
+    #[cfg(any(regex = "93", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         93,
         counter!(DP_KEY),
@@ -4328,7 +4359,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "94",regex = "ALL"))]
+    #[cfg(any(regex = "94", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         94,
         counter!(DP_KEY),
@@ -4343,7 +4374,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "95",regex = "ALL"))]
+    #[cfg(any(regex = "95", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         95,
         counter!(DP_KEY),
@@ -4366,7 +4397,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     012345678901234567890
     //     [2019-03-01 16:56] [PACMAN] synchronizing package lists
     //
-    #[cfg(any(regex = "96",regex = "ALL"))]
+    #[cfg(any(regex = "96", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         96,
         counter!(DP_KEY),
@@ -4390,7 +4421,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     0123456789012345678901234567890123456789012345678901234567890
     //     type=DAEMON_START msg=audit(1681160194.260:3932): op=start ver=3.0.7 format=enriched kernel=5.14.0-162.6.1.el9_1.x86_64 auid=4294967295 pid=718 uid=0 ses=4294967295 subj=system_u:system_r:auditd_t:s0 res=success�AUID="unset" UID="root"
     //
-    #[cfg(any(regex = "97",regex = "ALL"))]
+    #[cfg(any(regex = "97", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         97,
         counter!(DP_KEY),
@@ -4401,7 +4432,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         CGN_EPOCH, CGN_FRACTIONAL,
         &[
             (28, 42, (O_L, 2023, 4, 10, 20, 56, 34, 260000000), b"type=DAEMON_START msg=audit(1681160194.260:3932): op=start ver=3.0.7 format=enriched kernel=5.14.0-162.6.1.el9_1.x86_64 auid=4294967295 pid=718 uid=0 ses=4294967295 subj=system_u:system_r:auditd_t:s0 res=success\xE2\x80\xA6AUID=\"unset\" UID=\"root\""),
-            (31, 45, (O_L, 2023, 5, 8, 6, 9, 26, 814000000), br#"type=CRYPTO_KEY_USER msg=audit(1683526166.814:492): pid=13862 uid=0 auid=0 ses=6 subj=system_u:system_r:sshd_t:s0-s0:c0.c1023 msg='op=destroy kind=server fp=SHA256:34:76:7b:a4:dc:bb:e0:b6:5e:5d:73:e9:a1:db:89:21:c0:0d:ca:54:f4:7d:46:9c:b2:87:c4:ed:0b:d4:3f:59 direction=? spid=13900 suid=0  exe="/usr/sbin/sshd" hostname=? addr=? terminal=? res=success'UID="root" AUID="root" SUID="root""#),
+            (31, 45, (O_L, 2023, 5, 8, 6, 9, 26, 814000000), br#"type=CRYPTO_KEY_USER msg=audit(1683526166.814:492): pid=13862 uid=0 auid=0 ses=6 subj=system_u:system_r:sshd_t:s0-s0:c0.c1023 msg='op=destroy kind=server fp=SHA256:34:76:7b:a4:dc:bb:e0:b6:5e:5d:73:e9:a1:db:89:21:c0:0d:ca:54:f4:7d:46:9c:b2:87:c4:ed:0b:d4:3f:59 direction=? spid=13900 suid=0  exe="/usr/sbin/sshd" hostname=? addr=? terminal=? res=success'UID="root" AUID="root" SUID="root""#),
         ],
         line!(),
     ),
@@ -4417,7 +4448,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // strace `--timestamp=unix,ms'
     // TODO: move this clump of patterns down in importance as these can
     //       match too many other things
-    #[cfg(any(regex = "98",regex = "ALL"))]
+    #[cfg(any(regex = "98", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         98,
         counter!(DP_KEY),
@@ -4432,7 +4463,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // strace `--timestamp=unix,ns' or `-ttt`
-    #[cfg(any(regex = "99",regex = "ALL"))]
+    #[cfg(any(regex = "99", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         99,
         counter!(DP_KEY),
@@ -4447,7 +4478,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // strace `--timestamp=unix,ns'
-    #[cfg(any(regex = "100",regex = "ALL"))]
+    #[cfg(any(regex = "100", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         100,
         counter!(DP_KEY),
@@ -4462,7 +4493,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // strace `--timestamp=unix' or `--timestamp=unix,s'
-    #[cfg(any(regex = "101",regex = "ALL"))]
+    #[cfg(any(regex = "101", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         101,
         counter!(DP_KEY),
@@ -4489,7 +4520,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // XXX: the `ReportingEvents.log` file is UTF-16 encoded
     //      So it's not currently parseable. See Issue #16
     //
-    #[cfg(any(regex = "102",regex = "ALL"))]
+    #[cfg(any(regex = "102", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         102,
         counter!(DP_KEY),
@@ -4517,7 +4548,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     {"level":"INFO","message":"Started","timestamp":"2024-04-08T21:55:48.726Z"}
     //
     // "timestamp" with fractional
-    #[cfg(any(regex = "103",regex = "ALL"))]
+    #[cfg(any(regex = "103", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         103,
         counter!(DP_KEY),
@@ -4533,7 +4564,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "104",regex = "ALL"))]
+    #[cfg(any(regex = "104", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         104,
         counter!(DP_KEY),
@@ -4549,7 +4580,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "105",regex = "ALL"))]
+    #[cfg(any(regex = "105", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         105,
         counter!(DP_KEY),
@@ -4565,7 +4596,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "106",regex = "ALL"))]
+    #[cfg(any(regex = "106", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         106,
         counter!(DP_KEY),
@@ -4580,7 +4611,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "107",regex = "ALL"))]
+    #[cfg(any(regex = "107", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         107,
         counter!(DP_KEY),
@@ -4596,7 +4627,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // "timestamp" without fractional
-    #[cfg(any(regex = "108",regex = "ALL"))]
+    #[cfg(any(regex = "108", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         108,
         counter!(DP_KEY),
@@ -4613,7 +4644,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "109",regex = "ALL"))]
+    #[cfg(any(regex = "109", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         109,
         counter!(DP_KEY),
@@ -4628,7 +4659,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "110",regex = "ALL"))]
+    #[cfg(any(regex = "110", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         110,
         counter!(DP_KEY),
@@ -4643,7 +4674,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "111",regex = "ALL"))]
+    #[cfg(any(regex = "111", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         111,
         counter!(DP_KEY),
@@ -4658,7 +4689,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "112",regex = "ALL"))]
+    #[cfg(any(regex = "112", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         112,
         counter!(DP_KEY),
@@ -4674,7 +4705,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // "datetime" with fractional
-    #[cfg(any(regex = "113",regex = "ALL"))]
+    #[cfg(any(regex = "113", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         113,
         counter!(DP_KEY),
@@ -4690,7 +4721,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "114",regex = "ALL"))]
+    #[cfg(any(regex = "114", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         114,
         counter!(DP_KEY),
@@ -4705,7 +4736,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "115",regex = "ALL"))]
+    #[cfg(any(regex = "115", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         115,
         counter!(DP_KEY),
@@ -4721,7 +4752,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "116",regex = "ALL"))]
+    #[cfg(any(regex = "116", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         116,
         counter!(DP_KEY),
@@ -4736,7 +4767,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "117",regex = "ALL"))]
+    #[cfg(any(regex = "117", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         117,
         counter!(DP_KEY),
@@ -4752,7 +4783,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // "datetime" without fractional
-    #[cfg(any(regex = "118",regex = "ALL"))]
+    #[cfg(any(regex = "118", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         118,
         counter!(DP_KEY),
@@ -4768,7 +4799,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "119",regex = "ALL"))]
+    #[cfg(any(regex = "119", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         119,
         counter!(DP_KEY),
@@ -4783,7 +4814,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "120",regex = "ALL"))]
+    #[cfg(any(regex = "120", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         120,
         counter!(DP_KEY),
@@ -4798,7 +4829,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "121",regex = "ALL"))]
+    #[cfg(any(regex = "121", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         121,
         counter!(DP_KEY),
@@ -4813,7 +4844,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "122",regex = "ALL"))]
+    #[cfg(any(regex = "122", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         122,
         counter!(DP_KEY),
@@ -4828,6 +4859,45 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // milliseconds since epoch
+    // Found in a ~/.claude/history.jsonl file.
+    // Unfortunately, the `timestamp` field is after the `display` field. The `display` field
+    // is most of the user prompt (I can't tell if it's truncated)
+    // but in the file sample I had the largest `display`  field was ~4000 characters.
+    // So this looks in first 10,000 chars.
+    #[cfg(any(regex = "123", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        123,
+        counter!(DP_KEY),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, CGP_EPOCHms, r"[ ,\}]"),
+        DfaU8,
+        DTFSS_ms,
+        0, 10_000,
+        CGN_EPOCH, CGN_EPOCH,
+        &[
+            (49, 62, (O_L, 2026, 5, 23, 3, 3, 34, 374000000), br#"{"display": "Claude are you alive?", "timestamp":1779505414374}"#),
+            (15, 28, (O_L, 2026, 5, 23, 3, 3, 34, 74000000), br#"{"TIMESTAMP" : 1779505414074, b"data" : "DATA!!!"}"#),
+            (15, 28, (O_L, 2026, 5, 23, 3, 3, 34, 74000000), br#"{"TIMESTAMP" : 1779505414074 , b"data" : "DATA!!!"}"#),
+        ],
+        line!(),
+    ),
+    // Same as prior but seconds since epoch
+    #[cfg(any(regex = "124", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        124,
+        counter!(DP_KEY),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, CGP_EPOCH, r"[ ,\}]"),
+        DfaU8,
+        DTFSS_s,
+        0, 10_000,
+        CGN_EPOCH, CGN_EPOCH,
+        &[
+            (49, 59, (O_L, 2026, 5, 23, 3, 3, 34, 0), br#"{"display": "Claude are you alive?", "timestamp":1779505414}"#),
+            (15, 25, (O_L, 2026, 5, 23, 3, 3, 34, 0), br#"{"TIMESTAMP" : 1779505414, b"data" : "DATA!!!"}"#),
+            (15, 25, (O_L, 2026, 5, 23, 3, 3, 34, 0), br#"{"TIMESTAMP" : 1779505414 , b"data" : "DATA!!!"}"#),
+        ],
+        line!(),
+    ),
     // ---------------------------------------------------------------------------------------------
     //
     // Chrome cv_debug.log format
@@ -4838,9 +4908,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     01234567890123456789012345678901234567890
     //     {"logTime": "0226/052726", "correlationVector":"C3BF38D097234ED3A46F33A1C497BF65","action":"FETCH_UX_CONFIG", "result":""}
     //
-    #[cfg(any(regex = "123",regex = "ALL"))]
+    #[cfg(any(regex = "125", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        123,
+        125,
         counter!(DP_KEY),
         concat!(r#""(LOGTIME|LogTime|logTime|logtime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_MONTHm, D_Deq, CGP_DAYde, D_DHcdqus, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, "\""),
         DfaU8,
@@ -4861,9 +4931,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // to be a datetime but is not the formal log timestamp. In other words, most likely to cause
     // errant matches. One reason they are declared last and so attempted last.
     //
-    #[cfg(any(regex = "124",regex = "ALL"))]
+    #[cfg(any(regex = "126", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        124,
+        126,
         counter!(DP_KEY),
         concat!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZz, RP_RB),
         // DfaU8, // fails to build; exceeded DFA state limit of 226.
@@ -4878,9 +4948,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "125",regex = "ALL"))]
+    #[cfg(any(regex = "127", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        125,
+        127,
         counter!(DP_KEY),
         concat!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzc, RP_RB),
         DfaU8,
@@ -4894,9 +4964,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "126",regex = "ALL"))]
+    #[cfg(any(regex = "128", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        126,
+        128,
         counter!(DP_KEY),
         concat!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_BLANKq, CGP_TZzp, RP_RB),
         DfaU8,
@@ -4911,9 +4981,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "127",regex = "ALL"))]
+    #[cfg(any(regex = "129", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        127,
+        129,
         counter!(DP_KEY),
         concat!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_BLANKq, CGP_TZZ_U, RP_RB), // reduced
         //DfaU8, // 30+m build time
@@ -4935,9 +5005,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "128",regex = "ALL"))]
+    #[cfg(any(regex = "130", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        128,
+        130,
         counter!(DP_KEY),
         concat!(RP_LB, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_RB),
         DfaU8,
@@ -4950,9 +5020,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "129",regex = "ALL"))]
+    #[cfg(any(regex = "131", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        129,
+        131,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         //DfaU8, // fails to build
@@ -4967,9 +5037,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "130",regex = "ALL"))]
+    #[cfg(any(regex = "132", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        130,
+        132,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_BLANKq, CGP_TZzc, RP_NODIGIT),
         //DfaU8, // fails to build
@@ -4984,9 +5054,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "131",regex = "ALL"))]
+    #[cfg(any(regex = "133", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        131,
+        133,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_BLANKq, CGP_TZzp, RP_NODIGIT),
         //DfaU8, // fails to build
@@ -5003,9 +5073,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "132",regex = "ALL"))]
+    #[cfg(any(regex = "134", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        132,
+        134,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_BLANKq, CGP_TZZ_U, RP_NOALPHA), // reduced
         //DfaU8, // 30+m build time
@@ -5026,9 +5096,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "133",regex = "ALL"))]
+    #[cfg(any(regex = "135", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        133,
+        135,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Deq, CGP_MONTHm, D_Deq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_NODIGIT),
         // DfaU8, // fails to build
@@ -5051,9 +5121,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     0123456789012345678901234567890
     //     20200307_202530 /sbin/e2fsck -pvf
     //
-    #[cfg(any(regex = "134",regex = "ALL"))]
+    #[cfg(any(regex = "136", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        134,
+        136,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         // DfaU8, // fails to build
@@ -5068,9 +5138,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "135",regex = "ALL"))]
+    #[cfg(any(regex = "137", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        135,
+        137,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzc, RP_NODIGIT),
         // DfaU8, // fails to build
@@ -5086,9 +5156,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "136",regex = "ALL"))]
+    #[cfg(any(regex = "138", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        136,
+        138,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZzp, RP_NODIGIT),
         //DfaU8, // fails to build
@@ -5103,9 +5173,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "137",regex = "ALL"))]
+    #[cfg(any(regex = "139", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        137,
+        139,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANKq, CGP_TZZ_U, RP_NOALPHA), // reduced
         //DfaU8, // 19m build time
@@ -5128,9 +5198,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // TODO: consider pattern
     //         "09/12/2022 @ 7:05am"
     //
-    #[cfg(any(regex = "138",regex = "ALL"))]
+    #[cfg(any(regex = "140", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        138,
+        140,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Deq, CGP_MONTHm, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         //DfaU8, // fails to build
@@ -5149,9 +5219,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // variation of prior using single-digit months and hours; Issue #64
-    #[cfg(any(regex = "139",regex = "ALL"))]
+    #[cfg(any(regex = "141", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        139,
+        141,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOURs, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         FlatLockstepNfaU8,
@@ -5176,9 +5246,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     // another general match variation
     //
-    #[cfg(any(regex = "140",regex = "ALL"))]
+    #[cfg(any(regex = "142", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        140,
+        142,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZz, RP_NODIGIT),
         //DfaU8, // 28m build time
@@ -5199,9 +5269,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "141",regex = "ALL"))]
+    #[cfg(any(regex = "143", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        141,
+        143,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzc, RP_NODIGIT),
         // DfaU8, // 29m build time
@@ -5225,9 +5295,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "142",regex = "ALL"))]
+    #[cfg(any(regex = "144", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        142,
+        144,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZzp, RP_NODIGIT),
         // DfaU8, // 27m build time
@@ -5248,9 +5318,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "143",regex = "ALL"))]
+    #[cfg(any(regex = "145", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        143,
+        145,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_dcq, RP_BLANK12, CGP_MONTHb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ_U, RP_NOALPHA), // reduced
         //DfaU8, // 27m build time
@@ -5276,9 +5346,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "144",regex = "ALL"))]
+    #[cfg(any(regex = "146", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        144,
+        146,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_dcq, RP_BLANK12, CGP_MONTHB, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_TZZ_U, RP_NOALPHA), // reduced
         //DfaU8, // 27m build time
@@ -5292,9 +5362,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "145",regex = "ALL"))]
+    #[cfg(any(regex = "147", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        145,
+        147,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_YEAR, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         // DfaU8, // 19m build time
@@ -5320,9 +5390,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     //
-    #[cfg(any(regex = "146",regex = "ALL"))]
+    #[cfg(any(regex = "148", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        146,
+        148,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12q, CGP_TZz, RP_NODIGIT),
         // DfaU8, // 29m build time
@@ -5342,9 +5412,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "147",regex = "ALL"))]
+    #[cfg(any(regex = "149", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        147,
+        149,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12q, CGP_TZzc, RP_NODIGIT),
         // DfaU8, // 30+m build time
@@ -5367,9 +5437,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "148",regex = "ALL"))]
+    #[cfg(any(regex = "150", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        148,
+        150,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12q, CGP_TZzp, RP_NODIGIT),
         // DfaU8, // 29m build time
@@ -5389,9 +5459,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "149",regex = "ALL"))]
+    #[cfg(any(regex = "151", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        149,
+        151,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_dcq, RP_BLANK12, CGP_MONTHb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_BLANK12q, CGP_TZZ_U, RP_NOALPHA), // reduced
         // DfaU8, // 28m build time
@@ -5419,9 +5489,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "150",regex = "ALL"))]
+    #[cfg(any(regex = "152", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        150,
+        152,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa, RP_dcq, RP_BLANK12, CGP_MONTHBb, RP_BLANK, CGP_DAYde, RP_cq, RP_BLANK12, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK12, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 27m build time
@@ -5456,9 +5526,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      INFO Jun-16 14:09:58 === Started libdnf-0.31.0 ===
     //      DEBUG Jun-16 14:09:58 fetching rpmdb
     //
-    #[cfg(any(regex = "151",regex = "ALL"))]
+    #[cfg(any(regex = "153", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        151,
+        153,
         counter!(DP_KEY),
         concat!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZZ_U, RP_NOALNUM),
         DfaU8,
@@ -5471,9 +5541,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "152",regex = "ALL"))]
+    #[cfg(any(regex = "154", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        152,
+        154,
         counter!(DP_KEY),
         concat!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
         DfaU8,
@@ -5486,9 +5556,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "153",regex = "ALL"))]
+    #[cfg(any(regex = "155", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        153,
+        155,
         counter!(DP_KEY),
         concat!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZz, RP_NOALNUM),
         DfaU8,
@@ -5502,9 +5572,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "154",regex = "ALL"))]
+    #[cfg(any(regex = "156", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        154,
+        156,
         counter!(DP_KEY),
         concat!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzp, RP_NOALNUM),
         DfaU8,
@@ -5518,9 +5588,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "155",regex = "ALL"))]
+    #[cfg(any(regex = "157", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        155,
+        157,
         counter!(DP_KEY),
         concat!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         DfaU8,
@@ -5533,9 +5603,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "156",regex = "ALL"))]
+    #[cfg(any(regex = "158", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        156,
+        158,
         counter!(DP_KEY),
         concat!("^", RP_LEVELS, RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         DfaU8,
@@ -5559,9 +5629,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     [    0.000002] kernel: KERNEL supported cpus:
     //     [    0.000002] kernel:   Intel GenuineIntel
     //
-    #[cfg(any(regex = "157",regex = "ALL"))]
+    #[cfg(any(regex = "159", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        157,
+        159,
         counter!(DP_KEY),
         concat!(r"^\[", RP_BLANKSq, CGP_UPTIME_F, r"\]", RP_BLANK),
         DfaU8,
@@ -5584,9 +5654,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     [+2.80s] DEBUG: XServer 0: Got signal from X server :0
     //     [+2147.35s] DEBUG: Seat seat0: Display server stopped
     //
-    #[cfg(any(regex = "158",regex = "ALL"))]
+    #[cfg(any(regex = "160", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        158,
+        160,
         counter!(DP_KEY),
         concat!(r"^\[", RP_BLANKSq, r"\+", CGP_UPTIME_F23, r"s\]", RP_BLANK),
         DfaU8,
@@ -5604,9 +5674,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     // same pattern as prior without specifying leading RP_LEVELS, e.g. `DEBUG`, with leading day of week
     //
-    #[cfg(any(regex = "159",regex = "ALL"))]
+    #[cfg(any(regex = "161", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        159,
+        161,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZZ_U, RP_NOALNUM),
         // DfaU8, // 30+m build time
@@ -5621,9 +5691,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "160",regex = "ALL"))]
+    #[cfg(any(regex = "162", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        160,
+        162,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
         // DfaU8, // 21m build time
@@ -5637,9 +5707,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "161",regex = "ALL"))]
+    #[cfg(any(regex = "163", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        161,
+        163,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZz, RP_NOALNUM),
         // DfaU8, // 21m build time
@@ -5653,9 +5723,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "162",regex = "ALL"))]
+    #[cfg(any(regex = "164", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        162,
+        164,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzp, RP_NOALNUM),
         // DfaU8, // 21m buld time
@@ -5670,9 +5740,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // same pattern as prior swapped year and timezone
-    #[cfg(any(regex = "163",regex = "ALL"))]
+    #[cfg(any(regex = "165", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        163,
+        165,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ_U, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 30+m build time
@@ -5687,9 +5757,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "164",regex = "ALL"))]
+    #[cfg(any(regex = "166", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        164,
+        166,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzc, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 21m build time
@@ -5703,9 +5773,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "165",regex = "ALL"))]
+    #[cfg(any(regex = "167", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        165,
+        167,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZz, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 21m build time
@@ -5719,9 +5789,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "166",regex = "ALL"))]
+    #[cfg(any(regex = "168", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        166,
+        168,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_DAYa3, RP_BLANK, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzp, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 21m build time
@@ -5736,9 +5806,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // same pattern as prior without leading day of week
-    #[cfg(any(regex = "167",regex = "ALL"))]
+    #[cfg(any(regex = "169", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        167,
+        169,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZZ_U, RP_NOALNUM),
         // DfaU8, // 27m build time
@@ -5753,9 +5823,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "168",regex = "ALL"))]
+    #[cfg(any(regex = "170", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        168,
+        170,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzc, RP_NOALNUM),
         //DfaU8, // 12m build time
@@ -5769,9 +5839,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "169",regex = "ALL"))]
+    #[cfg(any(regex = "171", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        169,
+        171,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZz, RP_NOALNUM),
         //DfaU8, // 12m build time
@@ -5785,9 +5855,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "170",regex = "ALL"))]
+    #[cfg(any(regex = "172", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        170,
+        172,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_BLANK, CGP_TZzp, RP_NOALNUM),
         // DfaU8, // 11m build time
@@ -5802,9 +5872,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // same pattern as prior but swapped year and timezone
-    #[cfg(any(regex = "171",regex = "ALL"))]
+    #[cfg(any(regex = "173", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        171,
+        173,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZZ_U, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 30+m build time
@@ -5819,9 +5889,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "172",regex = "ALL"))]
+    #[cfg(any(regex = "174", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        172,
+        174,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzc, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 12m build time
@@ -5835,9 +5905,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "173",regex = "ALL"))]
+    #[cfg(any(regex = "175", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        173,
+        175,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZz, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 11m build time
@@ -5851,9 +5921,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "174",regex = "ALL"))]
+    #[cfg(any(regex = "176", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        174,
+        176,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_TZzp, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 11m build time
@@ -5868,9 +5938,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // same pattern as prior without timezone
-    #[cfg(any(regex = "175",regex = "ALL"))]
+    #[cfg(any(regex = "177", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        175,
+        177,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_BLANK, CGP_YEAR, RP_NOALNUM),
         // DfaU8, // 13m build time
@@ -5885,9 +5955,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     // same pattern as prior without timezone or year
-    #[cfg(any(regex = "176",regex = "ALL"))]
+    #[cfg(any(regex = "178", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        176,
+        178,
         counter!(DP_KEY),
         concat!(RP_NOALPHAb, CGP_MONTHBb, D_D, CGP_DAYde, D_DHcdqu, CGP_HOUR, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         // DfaU8, 7m build time
@@ -5902,6 +5972,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
 ];
+/// proc-macro generated count of compiled regex, may be less than 178.
+/// Depends upon build cfg of env var `S4_BUILD_REGEX`.
 pub const DATETIME_PARSE_DATAS_LEN: usize = counter_last!(DP_KEY);
 
 /// Check if the `regex_id` is in the compiled `DATETIME_PARSE_DATAS`.

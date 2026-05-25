@@ -30,15 +30,15 @@ File: ./logs/Windows10Pro/debug/mrt.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  12, miss  87, 12.1%
       caching: LineReader::find_line() LRU cache                   : hit  12, miss  51, 19.0%, put  49
-      copying: SyslineReader::get_boxptrs()                        : sgl 762, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 770, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   6,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   6,  0.0%, put   5
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   5, miss  55,  8.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  24, miss  34, 41.4%, largest skipped 87
+      optimize:SyslineReader::ezcheckd2                            : hit  26, miss  40, 39.4%, largest skipped 87
       optimize:SyslineReader::ezcheck12d2                          : hit 251, miss 457, 35.5%, largest skipped 87
-      process: regex captures                                      : hit   5, miss 486
+      process: regex captures                                      : hit   5, miss 492
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 176
-Regex patterns compiled: 176
+Regex patterns known   : 178
+Regex patterns compiled: 178
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-09-10 10:08:35 +08:00 (2020-09-10 02:08:35.000000 +00:00)
 Datetime printed last  : 2021-01-13 00:47:49 +08:00 (2021-01-12 16:47:49.000000 +00:00)

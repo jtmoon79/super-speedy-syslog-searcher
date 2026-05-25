@@ -800,6 +800,7 @@
 ./logs/programs/AWS/CloudTrail/iam.json|2016-07-14T19:15:45Z
 ./logs/programs/AWS/CloudTrail/insights.json|2019-11-14T00:52:00Z
 ./logs/programs/AWS/elasticloadbalancer.log|2015-05-13T23:39:44
+./logs/programs/claude/history.jsonl|2026-05-24T04:51:07 +0000
 ./logs/programs/CPUID/CT-Log 2023-09-04 05-44-16.csv|2023-09-04 19:01:55.979146947 -0700
 ./logs/programs/Crowdstrike/CrowdStrike Windows Sensor_20240321000238_002_DeviceControl64.log|2024-03-20 17:02:50 -0700
 ./logs/programs/Crowdstrike/CrowdStrike Windows Sensor_20240321000238_003_FirmwareAnalysis64.log|2024-03-20 17:02:50 -0700

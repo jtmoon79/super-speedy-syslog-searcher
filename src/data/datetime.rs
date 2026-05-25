@@ -1365,6 +1365,38 @@ pub(crate) fn captures_to_buffer_bytes(
             copy_capturegroup_to_buffer!(CGI_EPOCH, data, captures, buffer, at);
             defo!("buffer {:?}", buffer_to_String_noraw(buffer));
         }
+        DTFS_Epoch::ms => {
+            // special case
+            // copy the epoch milliseconds but only the seconds part
+            // then copy the milliseconds, the last 3 chars, as a fractional
+            captures.iter().find(|cgn| cgn.group_index() == CGI_EPOCH).map(|cgn| {
+                // copy the seconds part of the epoch milliseconds
+                let a = cgn.start();
+                let mut b = cgn.end();
+                debug_assert_le!(a, b);
+                if (b - a) > 3 {
+                    b -= 3;
+                } else {
+                    debug_panic!("epoch ms capture group too short to have milliseconds part: {:?}", &data[a..b]);
+                }
+                let len_: usize = b - a;
+                defo!("copy buffer[{:?}‥{:?}] = {:?}", at, at + len_, &data[a..b]);
+                buffer[at..at + len_].copy_from_slice(&data[a..b]);
+                at += len_;
+                // separate seconds and milliseconds with `.`
+                copy_u8_to_buffer!(b'.', buffer, at);
+                // copy the milliseconds part of the epoch milliseconds, last 3 chars
+                let a = b;
+                let b = cgn.end();
+                debug_assert_le!(a, b);
+                let len_: usize = b - a;
+                debug_assert_eq!(len_, 3, "last milliseconds part should be 3 chars");
+                defo!("copy buffer[{:?}‥{:?}] = {:?}", at, at + len_, &data[a..b]);
+                buffer[at..at + len_].copy_from_slice(&data[a..b]);
+                at += len_;
+            });
+            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+        }
         DTFS_Epoch::_none => {}
     }
 
@@ -1793,7 +1825,7 @@ pub(crate) fn captures_to_buffer_bytes(
 
 /// Run [`regex::Captures`] on the `data` then convert to a chrono
 /// [`Option<DateTime<FixedOffset>>`] instance. Uses matching and pattern
-/// information hardcoded in [`test_DATETIME_PARSE_DATAS_test_cases`].
+/// information hardcoded in `DATETIME_PARSE_DATAS`.
 ///
 /// [`regex::Captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html#method.captures
 /// [`Option<DateTime<FixedOffset>>`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#impl-DateTime%3CFixedOffset%3E

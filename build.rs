@@ -18,7 +18,7 @@ const ENV_BUILD_REGEX_NO_REBUILD: &str = "S4_BUILD_REGEX_NO_REBUILD";
 const REGEX_ALL: &str = "ALL";
 const CONFIG_REGEX: &str = "regex";
 /// This must match `datetime.rs` value `DATETIME_PARSE_DATAS_LEN`
-pub const DATETIME_PARSE_DATAS_LEN: usize = 176;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 178;
 
 pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
 pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";

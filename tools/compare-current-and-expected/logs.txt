@@ -271,6 +271,7 @@
 ./logs/other/tests/simple-9.log
 ./logs/other/tests/unknown
 ./logs/other/tests/zero100.log
+./logs/programs/claude/history.jsonl
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.bz2
 ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl.gz

@@ -30,15 +30,15 @@ File: ./logs/RancherOS-1.5.8/boot/init.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
       caching: LineReader::find_line() LRU cache                   : hit  18, miss  22, 45.0%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 149, dbl    6, mult   1
+      copying: SyslineReader::get_boxptrs()                        : sgl 151, dbl    6, mult   1
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  18,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  18,  0.0%, put  18
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  18,  5.3%, put  18
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  17, miss  21, 44.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  10,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  12,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   1, miss 145,  0.7%, largest skipped 9
-      process: regex captures                                      : hit  18, miss 137
+      process: regex captures                                      : hit  18, miss 139
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 176
-Regex patterns compiled: 176
+Regex patterns known   : 178
+Regex patterns compiled: 178
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-10 20:23:22 +00:00 (2022-10-10 20:23:22.000000 +00:00)
 Datetime printed last  : 2022-10-10 20:23:27 +00:00 (2022-10-10 20:23:27.000000 +00:00)

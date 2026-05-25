@@ -226,7 +226,7 @@ lazy_static! {
     static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
 }
 
-pub const REGEX_ID_NTF5: usize = 137;
+pub const REGEX_ID_NTF5: usize = 138;
 
 /// basic test of `SyslineReader.find_sysline`
 fn impl_find_sysline(
@@ -4371,7 +4371,7 @@ const test_data_file_C_dt6: &str = "\
 [DEBUG] 2000-01-01 00:00:04|abcd
 [DEBUG] 2000-01-01 00:00:05|abcde";
 
-pub const REGEX_ID_C_dt6: usize = 137;
+pub const REGEX_ID_C_dt6: usize = 138;
 
 const test_data_file_C_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("[DEBUG] 2000-01-01 00:00:00|\n", 29),
@@ -5861,7 +5861,7 @@ lazy_static! {
     0,
     0,
     0,
-    28,
+    32,
     0,
     7,
     322,
@@ -5901,7 +5901,7 @@ lazy_static! {
     0,
     0,
     0,
-    28,
+    32,
     0,
     7,
     322,
@@ -5941,7 +5941,7 @@ lazy_static! {
     0,
     0,
     0,
-    28,
+    32,
     0,
     7,
     322,

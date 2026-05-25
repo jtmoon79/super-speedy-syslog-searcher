@@ -31,13 +31,13 @@ File: ./logs/FreeBSD13.1/devd.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  17, miss  40, 29.8%
       caching: LineReader::find_line() LRU cache                   : hit   2, miss  40,  4.8%, put  39
-      copying: SyslineReader::get_boxptrs()                        : sgl 237, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 239, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   9, miss  10, 47.4%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  19,  0.0%, put  19
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   8, miss  32, 20.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  32, miss  14, 69.6%, largest skipped 8
+      optimize:SyslineReader::ezcheckd2                            : hit  34, miss  14, 70.8%, largest skipped 8
       optimize:SyslineReader::ezcheck12d2                          : hit 162, miss  29, 84.8%, largest skipped 8
       process: regex captures                                      : hit  11, miss  32
   Processing Drops:
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 176
-Regex patterns compiled: 176
+Regex patterns known   : 178
+Regex patterns compiled: 178
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-03-09 15:15:21 +08:00 (2023-03-09 07:15:21.000000 +00:00)
 Datetime printed last  : 2023-03-17 15:15:21 +08:00 (2023-03-17 07:15:21.000000 +00:00)
