@@ -1745,15 +1745,14 @@ impl SyslineReader {
         //       or somewhere else, Issue #84
         let mut indexes: DateTimeParseDatasIndexes =
             DateTimeParseDatasIndexes::with_capacity(self.dt_patterns_counts.len());
-        // get copy of indexes sorted by value
-        indexes.extend(
-            self.dt_patterns_counts
-                .iter()
-                .sorted_by(
-                    |a, b| Ord::cmp(&b.1, &a.1), // sort by value (second tuple item)
-                )
-                .map(|(k, _v)| k), // copy only the key (first tuple item) which is an index
-        );
+        // copy of the regex indexes sorted by use count
+        // use `sort_unstable_by` which avoids intermediate allocations
+        indexes.extend(self.dt_patterns_counts.keys().copied());
+        indexes.sort_unstable_by(|a, b| {
+            self.dt_patterns_counts[b]
+                .cmp(&self.dt_patterns_counts[a]) // descending by count
+                .then_with(|| a.cmp(b))           // deterministic tie-breaker
+        });
         defo!("indexes {:?}", indexes);
         let result: ResultFindDateTime = SyslineReader::find_datetime_in_line(
             line,
