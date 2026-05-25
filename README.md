@@ -175,11 +175,15 @@ cargo install --locked super_speedy_syslog_searcher
 
 A C compiler is required.
 
-_Note that building can take tens of minutes on a good AMD Desktop CPU from year 2022._
-_Low power and/or embedded CPUs may never finish._
-_This is due to building the compile-time regular expressions._
-_You can see some regular expression building progress_
+_Note that building takes around 20 minutes on a good AMD Desktop CPU from year 2022._
+_Low power CPUs or embedded SoCs may fail to build the project._
+_The high-resource portion of the build is then building and then optimizing the_
+_compile-time regular expressions._
+
+_You can view the regular expression building progress_
 _by setting environment variable `S4_BUILD_REGEX_PRINT=1`._
+_You can view the optimization phase within `htop`;_
+_enable __Show custom thread names__, and set a filter for `rust`_.
 
 #### create the Python virtual environment
 
