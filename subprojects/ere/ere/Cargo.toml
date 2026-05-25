@@ -23,7 +23,7 @@ ere-core = { version = "=0.9.81", path = "../ere-core", package = "super-speedy-
 ere-macros = { version = "=0.9.81", path = "../ere-macros", package = "super-speedy-syslog-searcher_ere-macros" }
 
 [dev-dependencies]
-criterion = { version = "0.5", features = ["html_reports"] }
+criterion = { version = "0.8", features = ["html_reports"] }
 pprof = { version = "0.15", features = ["flamegraph", "criterion"] }
 regex = { version = "1.12.2" }                                       # for benchmark comparison
 trybuild = { version = "1.0", features = ["diff"] }
