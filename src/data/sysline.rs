@@ -163,7 +163,7 @@ impl Sysline {
         }
     }
 
-    pub fn charsz(self: &Sysline) -> usize {
+    pub const fn charsz(self: &Sysline) -> usize {
         Sysline::CHARSZ
     }
 
@@ -244,7 +244,7 @@ impl Sysline {
     /// Count of [`Line`] in `self.lines`.
     ///
     /// [`Line`]: crate::data::line::Line
-    pub fn count_lines(self: &Sysline) -> Count {
+    pub const fn count_lines(self: &Sysline) -> Count {
         self.lines.len() as Count
     }
 
