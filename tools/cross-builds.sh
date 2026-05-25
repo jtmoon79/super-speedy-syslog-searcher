@@ -5,8 +5,11 @@
 # requires:
 #     cargo install --locked cross cargo-cross
 #
-# Tier platforms
+# Tier platforms:
 #    https://doc.rust-lang.org/1.88.0/rustc/platform-support.html
+#
+# Ask AI to help with platform updates by using prompt:
+#    .github/prompts/sync-rust-platform-tiers.prompt.md
 #
 # args $@ are passed to `cross build`
 # env. vars:
@@ -18,7 +21,15 @@ set -euo pipefail
 
 declare -r SEP="|"
 
-MSRV=${MSRV:-1.88.0}
+PROJECT_MANIFEST="$(dirname -- "${0}")/../Cargo.toml"
+
+function print_msrv() {
+    grep -o -m 1 -E '^rust-version\s?=\s?".*"' "${PROJECT_MANIFEST}" | sed -E 's/^rust-version\s?=\s?"(.*)"/\1/'
+}
+
+if [[ ! "${MSRV-}" ]]; then
+    MSRV=$(print_msrv)
+fi
 
 declare -a TIER_TARGETS=(
     # Tier 1 platforms
@@ -378,7 +389,7 @@ cd "$(dirname "$0")/.."
 
 readonly PROJECT_ROOT=$(pwd)
 
-# print the grepped version from `Cargo.toml`
+# print the grepped project version from `Cargo.toml`
 function print_version() {
     grep -o -m 1 -E '^version\s*=\s*".*"' "${PROJECT_ROOT}/Cargo.toml" | sed -E 's/^version\s*=\s*"(.*)"/\1/'
 }
