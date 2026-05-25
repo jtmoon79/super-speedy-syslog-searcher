@@ -97,6 +97,10 @@ function Set-FileNoWrite {
     }
 }
 
+$MSRV = ${env:MSRV}
+if (-not $MSRV) {
+    $MSRV = '1.88.0'
+}
 $PROJECT_ROOT = Join-Path $PSScriptRoot '..'
 $PROJECT_MANIFEST_ITEM = Get-Item -LiteralPath (Join-Path $PROJECT_ROOT 'Cargo.toml') -ErrorAction Stop
 
@@ -156,6 +160,9 @@ try {
     foreach ($target in $WindowsTargets) {
         Write-Host ''
         Write-Line
+
+        & rustup toolchain install --profile minimal --target "$target" "$MSRV"
+
         Write-Host "+ cargo cross build --target $target" @CrossArgs -ForegroundColor Green
 
         $env:S4_BUILD_REGEX_PRINT = '1'
