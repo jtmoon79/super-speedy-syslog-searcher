@@ -13,6 +13,7 @@ repository.workspace = true
 proc-macro = true
 
 [dependencies]
+# PROJECT VERSION LAST PUBLISHED
 ere-core = { version = "=0.9.81", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
 quote.workspace = true
 syn = { workspace = true, features = ["parsing"] }

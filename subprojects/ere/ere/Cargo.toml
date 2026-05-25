@@ -19,6 +19,7 @@ exclude = [
 ]
 
 [dependencies]
+# PROJECT VERSION LAST PUBLISHED
 ere-core = { version = "=0.9.81", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
 ere-macros = { version = "=0.9.81", path = "../ere-macros", package = "super-speedy-syslog-searcher_ere-macros" }
 

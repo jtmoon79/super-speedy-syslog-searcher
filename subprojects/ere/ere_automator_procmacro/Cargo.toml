@@ -15,6 +15,7 @@ path = "src/ere_automator_procmacro.rs"
 
 [dependencies]
 const-str.workspace = true
+# PROJECT VERSION LAST PUBLISHED
 ere = { version = "=0.9.81", path = "../ere", package = "super-speedy-syslog-searcher_ere", features = ["unstable-attr-regex"] }
 lazy_static.workspace = true
 macro-string = "=0.2.0"

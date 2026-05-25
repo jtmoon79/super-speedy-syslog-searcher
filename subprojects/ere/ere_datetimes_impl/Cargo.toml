@@ -19,6 +19,7 @@ exclude = [
 
 [dependencies]
 const-str.workspace = true
+# PROJECT VERSION LAST PUBLISHED
 ere = { version = "=0.9.81", path = "../ere", package = "super-speedy-syslog-searcher_ere" }
 ere_automator_procmacro = { version = "=0.9.81", path = "../ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
 lazy_static.workspace = true

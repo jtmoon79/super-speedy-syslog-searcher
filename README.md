@@ -6,6 +6,9 @@ Speedily search and merge log messages by datetime.
 * Must update parameters `branch=` and `version=` per release; replace the version
 -->
 
+<!--
+  # PROJECT VERSION LAST PUBLISHED
+-->
 [![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.9.81?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.81/Cargo.toml#L21)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
 [![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.9.81?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.9.81/)
@@ -1074,6 +1077,8 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 <sup style="font-size: xx-small">• _CPU %_ is an average of CPU used over the runtime</sup>
 
 Programs tested:
+
+<!-- # PROJECT VERSION LAST PUBLISHED -->
 
 - GNU `grep` 3.7, GNU `sort` 8.32
 - `s4` 0.9.81 compiled with rustc 1.85.0

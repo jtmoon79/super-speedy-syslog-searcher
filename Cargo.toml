@@ -27,7 +27,7 @@ utf8-ranges = "=1.0.5"
 [workspace.package]
 license = "MIT"
 repository = "https://github.com/jtmoon79/super-speedy-syslog-searcher"
-version = "0.9.81"
+version = "0.9.81"  # PROJECT VERSION WIP
 
 [package]
 name = "super_speedy_syslog_searcher"
@@ -45,7 +45,7 @@ categories = [
 ]
 readme = "README.md"
 # XXX: `version` should match src/python/s4_event_readers/pyproject.toml:project:version
-version = "0.9.81"
+version = "0.9.81"  # PROJECT VERSION WIP
 edition = "2024"
 # MSRV: `rust-version` should match ./github/workflows/rust.yml:rust_msrv:msrv
 rust-version = "1.88.0"
@@ -101,6 +101,7 @@ ctrlc = "=3.4.7"
 current_platform = "=0.2.0"
 dlopen2 = "=0.8"
 encoding_rs = "=0.8.35"
+# PROJECT VERSION LAST PUBLISHED
 ere = { version = "=0.9.81", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
 ere_automator_procmacro = { version = "=0.9.81", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
 ere_datetimes_impl = { version = "=0.9.81", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
@@ -182,6 +183,7 @@ bench = false
 
 [package.metadata.binstall]
 bin = "s4"
+# PROJECT VERSION LAST PUBLISHED
 pkg-url = "{ repo }/releases/download/0.8.80/s4_{ target }_v0.8.80{ archive-suffix }"
 bin-dir = "s4{ binary-ext }"
 pkg-fmt = "zip"
