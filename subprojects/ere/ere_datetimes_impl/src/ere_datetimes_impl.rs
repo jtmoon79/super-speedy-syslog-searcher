@@ -4865,6 +4865,10 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // is most of the user prompt (I can't tell if it's truncated)
     // but in the file sample I had the largest `display`  field was ~4000 characters.
     // So this looks in first 10,000 chars.
+    // TODO: currently the two constrain ranges, `$sib, $sie`, only accept offset from line
+    //       beginning. Allow them to be offset from the end by passing as a negative number.
+    //       e.g. values `-256, -1` would constrain the match to be within the last 256 chars
+    //       of the line.
     #[cfg(any(regex = "123", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         123,
