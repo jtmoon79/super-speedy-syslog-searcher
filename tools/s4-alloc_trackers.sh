@@ -33,6 +33,8 @@ if [[ ${#} -gt 0 ]]; then
     FILES=("${@}")
 fi
 
+mkdir -vp "${DIROUT}"
+
 for LOGFILE in "${FILES[@]}"; do
     LOGNAME=$(basename -- "${LOGFILE}")
     OUT="${DIROUT}/alloc-tracker_${LOGNAME}.md"
