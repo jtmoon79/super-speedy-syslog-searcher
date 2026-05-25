@@ -288,16 +288,21 @@ jobs:
           cross check --locked --lib --bins --release --target ${{ matrix.target }}
 
   job_cross_targets_macos:
-    name: cross ${{ matrix.target }} on macos-13
+    name: cross ${{ matrix.target }} on macos-latest
     needs: [job_cross_targets]
+    # sometimes this second MacOS Runner never shows up
+    timeout-minutes: 25
     strategy:
       matrix:
         target:
           # Tier 1
           - x86_64-apple-darwin
           # Tier 2 with host tools
-          # - aarch64-apple-darwin  # target built by job job_rust_msrv_os
-    runs-on: macos-13
+          - aarch64-apple-darwin  # also built by job job_rust_msrv_os
+          # Tier 2 with host tools
+          - arm64e-apple-darwin
+          - x86_64h-apple-darwin
+    runs-on: macos-latest
     steps:
       - name: git checkout
         uses: actions/checkout@v6
@@ -311,10 +316,14 @@ jobs:
           uname -a
           rustup show
           cross --version
-          echo 1 | tee ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX S4_BUILD_REGEX
-          export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cross check --locked --lib --bins --release --target ${{ matrix.target }}
+          find ./target -type f -executable -name 's4' -exec cp {} "./s4_${{ matrix.target }}" \;
+      # I am unable to build these binaries at home so upload it
+      - name: Upload binary ${{ matrix.target }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: s4_${{ matrix.target }}
+          path: "./s4_${{ matrix.target }}"
 
   job_cross_targets_windows:
     name: cross ${{ matrix.target }} on windows
