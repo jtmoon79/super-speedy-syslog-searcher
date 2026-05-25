@@ -129,10 +129,10 @@ cargo install --locked default-target
 default-target
 ```
 
-or run the bash script `easy-install.sh`
+or run the POSIX-compliant shell script `easy-install.sh`
 
 ```lang-text
-curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | bash --norc --noprofile
+curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
 ```
 
 [releases page]: https://github.com/jtmoon79/super-speedy-syslog-searcher/releases
@@ -172,7 +172,8 @@ cargo install --locked super_speedy_syslog_searcher
 
 A C compiler is required.
 
-_Note that building can take tens of minutes._
+_Note that building can take tens of minutes on a good AMD Desktop CPU from year 2022._
+_Low power and/or embedded CPUs may never finish._
 _This is due to building the compile-time regular expressions._
 _You can see some regular expression building progress_
 _by setting environment variable `S4_BUILD_REGEX_PRINT=1`._
