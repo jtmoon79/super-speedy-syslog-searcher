@@ -54,9 +54,9 @@ default-run = "s4"
 # non-standard websites.
 # See <https://rust-lang.github.io/api-guidelines/documentation.html#cargotoml-includes-all-common-metadata-c-metadata>
 exclude = [
-    ".github/*",
     ".git_hooks/*",
     ".gitattributes",
+    ".github/*",
     ".gitignore",
     ".mlc.toml",
     ".taplo.toml",
@@ -75,11 +75,13 @@ exclude = [
     "rustfmt.toml",
     "S4_BUILD_REGEX",
     "src/**/README.md",
+    "src/tests/*",
+    "subprojects/**/README.md",
     "subprojects/**/target/*",
     "target/*",
+    "tests/*",
     "tmp/*",
     "tools/*",
-    "tests/*",
 ]
 # TODO: need to create build script to rebuild if `src/python/s4_event_readers` changes
 #       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
