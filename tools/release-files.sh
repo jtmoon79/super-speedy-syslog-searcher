@@ -110,11 +110,6 @@ mkdir -vp "${DIROUT}"
 
 (
     set -x
-    ./tools/flamegraphs.sh
-)
-
-(
-    set -x
     ./tools/performance-plots.sh
 )
 
@@ -173,3 +168,8 @@ rm -v "${DIROUT}/massif.out" || true
     ./tools/compare-log-mergers/compare-log-mergers.sh --skip-tl &> "${DIROUT}/compare-log-mergers.txt"
 )
 ./scripts/clean-file.sh "${DIROUT}/compare-log-mergers.txt"
+
+(
+    set -x
+    ./tools/flamegraphs.sh
+)
