@@ -580,7 +580,7 @@ tm_file=$(tm_file_new)
     files_caching
     version=$("${PYTHON}" -m pip list | grep -Fe 'logmerger' | awk '{print $2}')
     allocator=' '
-    platform=' '
+    platform=$("${PYTHON}" --version)
     set -x
     "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
@@ -645,7 +645,7 @@ if ! ${skip_tl}; then
         # tl, version 1.5.0
         version=$("${PROGRAM_TL}" --version | head -n1 | cut -d' ' -f3)
         allocator=' '
-        platform=' '
+        platform=$("${PYTHON}" --version)
         # run toolong (tl)
         # there is no way to make toolong automatically exit after processing input
         # the user must manually exit the TUI
