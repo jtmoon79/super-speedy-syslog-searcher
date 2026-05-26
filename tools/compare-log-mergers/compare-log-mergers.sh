@@ -13,7 +13,10 @@
 # pass `--skip-tl` to skip processing toolong which takes over the console
 # window and stalls non-interactive consoles
 #
-# Set PROGRAM_S4_OPTIONAL for any other s4 program to compare
+# Set PROGRAM_S4_OPTIONAL to a TSV file listing other s4 programs to compare.
+# Each non-empty line must have 2 tab-separated fields:
+#   <path-to-s4> <extra-info>
+# Hint: use `download-released-s4.sh` to quickly get old s4 binaries.
 #
 
 set -eu
@@ -35,8 +38,11 @@ if [[ ${#} -ge 1 ]]; then
         shift
     fi
 fi
+readonly skip_tl
 
-cd "$(dirname "${0}")/../.."
+PROJ_DIR=$(realpath "$(dirname -- "${0}")/../..")
+readonly PROJ_DIR
+cd "${PROJ_DIR}"
 readonly REQUIREMENTS_FILE=./tools/compare-log-mergers/requirements.txt
 
 (
@@ -47,8 +53,9 @@ readonly REQUIREMENTS_FILE=./tools/compare-log-mergers/requirements.txt
 )
 
 # use full path to Unix tools
-time=$(which time)
-(set -x; $time --version) | head -n1
+TIME=$(which time)
+(set -x; "${TIME}" --version) | head -n1
+readonly TIME
 
 # do a little work to find Python interpreter in the PATH
 PYTHON=${PYTHON-$(
@@ -58,16 +65,18 @@ PYTHON=${PYTHON-$(
         echo -n 'python3'
     fi
 )}
+readonly PYTHON
 (set -x; "${PYTHON}" --version) | head -n1
 
 # check for hyperfine
-hyperfine=$(which hyperfine) || {
+HYPERFINE=$(which hyperfine) || {
     echo "ERROR: hyperfine not found in PATH" >&2
     echo "install:" >&2
     echo "    cargo install --locked hyperfine" >&2
     exit 1
 }
-(set -x; hyperfine --version)
+readonly HYPERFINE
+(set -x; "${HYPERFINE}" --version)
 
 # check for jq
 if ! which jq &>/dev/null; then
@@ -77,6 +86,8 @@ if ! which jq &>/dev/null; then
     exit 1
 fi
 JQ=$(which jq)
+(set -x; "${JQ}" --version)
+readonly JQ
 
 # check for lnav
 if [[ "${PROGRAM_LNAV-}" = '' ]] && ! which lnav &>/dev/null; then
@@ -86,9 +97,9 @@ if [[ "${PROGRAM_LNAV-}" = '' ]] && ! which lnav &>/dev/null; then
     echo "    sudo apt install lnav" >&2
     exit 1
 fi
-PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
+readonly PROGRAM_LNAV=${PROGRAM_LNAV-lnav}
 
-readonly HRUNS=30
+declare -ir HRUNS=30
 
 # make sure Python packages are installed to expected versions
 (
@@ -102,6 +113,7 @@ readonly HRUNS=30
 
 # precompile all python packages
 PYSITE_PKG_PATH=$("${PYTHON}" -c "import sysconfig; print(sysconfig.get_path('purelib'))")
+readonly PYSITE_PKG_PATH
 (
     set -x
     "${PYTHON}" -m compileall -q "${PYSITE_PKG_PATH}"
@@ -120,47 +132,48 @@ declare -ar files=(
     './tools/compare-log-mergers/gen-5000-1-facesJ.log'
 )
 
-tmpOut=$(mktemp -t "s4-tmp-compare-log-mergers_XXXXX.out")
-json1=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-json2=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-json3=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-json4=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-json5=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-json6=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-json7=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-json8=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-json9=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-jsonA=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.json")
-tm1=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tm2=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tm3=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tm4=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tm5=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tm6=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tm7=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tm8=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tm9=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-tmA=$(mktemp -t "s4-tmp-compare-log_mergers_XXXXX.txt")
-mdfinal=$(mktemp -t "s4-tmp-compare-log_mergers_final_XXXXX.md")
+TEMPD=$(mktemp -p "${TMP-/tmp}" -d "s4-tmp-compare-log-mergers_XXXXX")
+readonly TEMPD
+tmpOut=$(mktemp -p "${TEMPD}" -t "tmp_XXX.out")
+readonly tmpOut
+mdfinal=$(mktemp -p "${TEMPD}" -t "mdfinal_XXX.md")
+readonly mdfinal
+declare -ag tmp_files=(
+    "${tmpOut}"
+    "${mdfinal}"
+)
+json_files=$(mktemp -p "${TEMPD}" -t "json_files_XXX.txt")
+tm_files=$(mktemp -p "${TEMPD}" -t "tm_files_XXX.txt")
+tmp_files+=("${json_files}" "${tm_files}")
+
+function json_file_new() {
+    local path
+    path=$(mktemp -p "${TEMPD}" -t "json_XXXXX.json")
+    tmp_files+=("${path}")
+    printf '%s\n' "${path}" | tee -a "${json_files}"
+}
+
+function tm_file_new() {
+    local path
+    path=$(mktemp -p "${TEMPD}" -t "tm_XXXXX.txt")
+    tmp_files+=("${path}")
+    printf '%s\n' "${path}" | tee -a "${tm_files}"
+}
 
 function exit_() {
-    rm -f \
-        "${tmpOut}" \
-        "${json1}" "${json2}" "${json3}" "${json4}" "${json5}" "${json6}" "${json7}" "${json8}" "${json9}" "${jsonA}" \
-        "${tm1}" "${tm2}" "${tm3}" "${tm4}" "${tm5}" "${tm6}" "${tm7}" "${tm8}" "${tm9}" "${tmA}" \
-        "${mdfinal}"
+    rm -rf -- "${TEMPD}"
 }
 trap exit_ EXIT
 
 # datetime range for s4, lnav
-declare -r after_dt="2000-01-01T00:20:00"
-declare -r befor_dt="2000-01-01T00:50:00"
+readonly after_dt="2000-01-01T00:20:00"
+readonly befor_dt="2000-01-01T00:50:00"
 # datetime range for logdissect
-declare -r after_dt_ld="200001010020"
-declare -r befor_dt_ld="200001010050"
+readonly after_dt_ld="200001010020"
+readonly befor_dt_ld="200001010050"
 # datetime range for GNU grep + sort
 # grep regex equivalent of $after_dt $befor_dt
-declare -r regex_dt='^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'
+readonly regex_dt='^2000-01-01T00\:([234][[:digit:]]\:[[:digit:]]{2}|50\:00)'
 
 function files_caching() {
     # force reading of files from disk to allow any possible caching.
@@ -170,6 +183,12 @@ function files_caching() {
 
 function echo_line() {
     python -Bc "print('─' * ${COLUMNS:-100})"
+    echo
+}
+
+function echo_title() {
+    # black bold with a orange background for titles
+    echo -e "\033[1;4;38;5;0;48;5;214m${*}\033[0m"
     echo
 }
 
@@ -186,60 +205,123 @@ function file_isempty() {
 # %E = Elapsed real time
 # see https://www.man7.org/linux/man-pages/man1/time.1.html
 # Note: metrics %t %K and other memory metrics always returned 0
-TIME_FORMAT='%M|%P|%E'
-
-# GNU grep + sort
+readonly TIME_FORMAT='%M|%P|%E'
 
 echo_line
+echo_title "GNU grep + sort"
 
-grep=$(which grep)
-(set -x; $grep --version) | head -n1
-sort=$(which sort)
-(set -x; $sort --version) | head -n1
+GREP=$(which grep)
+readonly GREP
+(set -x; "${GREP}" --version) | head -n1
+SORT=$(which sort)
+readonly SORT
+(set -x; "${SORT}" --version) | head -n1
 
 echo
 
+json_file=$(json_file_new)
+tm_file=$(tm_file_new)
 (
     files_caching
     # search for datetimes between $after_dt $befor_dt
     # using decently constrained regexp to match meaning
     set -x
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json1}" --shell sh -n "grep+sort" \
+    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" --shell sh -n "grep+sort" \
         -- \
-        "$grep -hEe '${regex_dt}' -- ${files[*]} | $sort -t ' ' -k 1 -s > /dev/null"
+        ""${GREP}" -hEe '${regex_dt}' -- ${files[*]} | ${SORT} -t ' ' -k 1 -s > /dev/null"
 )
 (
     files_caching
+    version=$("${GREP}" --version | head -n1 | cut -f4 -d' ')
+    allocator=' '
+    platform=' '
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm1}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
-        sh -c "'$grep' -hEe '${regex_dt}' -- ${files[*]} | '$sort' -t ' ' -k 1 -s" > "${tmpOut}"
+        sh -c "'"${GREP}"' -hEe '${regex_dt}' -- ${files[*]} | '${SORT}' -t ' ' -k 1 -s" > "${tmpOut}"
 )
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
+# print the s4 version string from the --version string
+#
+# handle newer 0.8.80 format
+#    $ s4 --version
+#    s4 (Super Speedy Syslog Searcher)
+#    Version: 0.9.81
+#    MSRV: 1.88.0
+#    Allocator: system
+#
+# handle older formats format <0.8.80
+#    $ s4 --version
+#    s4 (Super Speedy Syslog Searcher), Version 0.7.79, Allocator system
+#
+function s4_version() {
+    declare -r prog=$1
+    declare out=
+    out=$("${prog}" --version)
+    # check if new version
+    if echo -n "${out}" | grep -qE '^Version: ' &> /dev/null; then
+        # new version format
+        echo -n "${out}" | grep -Ee '^Version: ' | sed -E 's/^Version: ([0-9.]+)$/\1/'
+    else
+        # old version format
+        echo -n "${out}" | sed -E 's/.+, Version (.+), .+/\1/'
+    fi
+}
+
+# print the s4 allocator from the --version string
+function s4_allocator() {
+    declare -r prog=$1
+    declare out=
+    out=$("${prog}" --version)
+    # check if new version
+    if echo -n "${out}" | grep -qE '^Allocator: ' &> /dev/null; then
+        # new version format
+        echo -n "${out}" | grep -Ee '^Allocator: ' | sed -E 's/^Allocator: (\w+)$/\1/'
+    else
+        # old version format
+        echo -n "${out}" | sed -E 's/.+, Allocator (\w+)/\1/'
+    fi
+}
+
+# print the s4 platform from the --version string
+function s4_platform() {
+    declare -r prog=$1
+    declare out=
+    out=$("${prog}" --version)
+    # check if new version
+    if echo -n "${out}" | grep -qE '^Platform: ' &> /dev/null; then
+        # new version format
+        echo -n "${out}" | grep -Ee '^Platform: ' | sed -E 's/^Platform: (.+)$/\1/'
+    else
+        # try to grep the platform from the file name
+        echo -n "${prog}" | sed -E 's/.+\/s4_(.+)_v[0-9.]+/\1/'
+    fi
+}
 
 echo_line
-
-# Super Speedy Syslog Searcher (S4) (system)
+echo_title "Super Speedy Syslog Searcher (S4) (system allocator)"
 
 PROGRAM_S4_SYSTEM=${PROGRAM_S4_SYSTEM-./target/release/s4}
 (set -x; "${PROGRAM_S4_SYSTEM}" --version)
 
 echo
 
+json_file=$(json_file_new)
+tm_file=$(tm_file_new)
 (
     files_caching
     set -x
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json2}" -N -n "s4 (system)" \
+    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "s4" \
         -- \
         "'${PROGRAM_S4_SYSTEM}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
 (
     files_caching
+    version=$(s4_version "${PROGRAM_S4_SYSTEM}")
+    allocator=$(s4_allocator "${PROGRAM_S4_SYSTEM}")
+    platform=$(s4_platform "${PROGRAM_S4_SYSTEM}")
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm2}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
         "${PROGRAM_S4_SYSTEM}" \
         "-a=${after_dt}" \
@@ -248,29 +330,31 @@ echo
         "${files[@]}" > "${tmpOut}"
 )
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
-
 echo_line
-
-# Super Speedy Syslog Searcher (S4) (jemalloc)
+echo_title "Super Speedy Syslog Searcher (S4) (jemalloc)"
 
 PROGRAM_S4_JEMALLOC=${PROGRAM_S4_JEMALLOC-./target/jemalloc/s4}
 (set -x; "${PROGRAM_S4_JEMALLOC}" --version)
 
+json_file=$(json_file_new)
+tm_file=$(tm_file_new)
 (
     files_caching
+    version=$(s4_version "${PROGRAM_S4_JEMALLOC}")
+    allocator=$(s4_allocator "${PROGRAM_S4_JEMALLOC}")
     set -x
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json3}" -N -n "s4 (jemalloc)" \
+    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "s4" \
         -- \
         "'${PROGRAM_S4_JEMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
 
 (
     files_caching
+    version=$(s4_version "${PROGRAM_S4_JEMALLOC}")
+    allocator=$(s4_allocator "${PROGRAM_S4_JEMALLOC}")
+    platform=$(s4_platform "${PROGRAM_S4_JEMALLOC}")
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm3}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
         "${PROGRAM_S4_JEMALLOC}" \
         "-a=${after_dt}" \
@@ -279,28 +363,29 @@ PROGRAM_S4_JEMALLOC=${PROGRAM_S4_JEMALLOC-./target/jemalloc/s4}
         "${files[@]}" > "${tmpOut}"
 )
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
 
 echo_line
-
-# Super Speedy Syslog Searcher (S4) (mimalloc)
+echo_title "Super Speedy Syslog Searcher (S4) (mimalloc)"
 
 PROGRAM_S4_MIMALLOC=${PROGRAM_S4_MIMALLOC-./target/mimalloc/s4}
 (set -x; "${PROGRAM_S4_MIMALLOC}" --version)
 
+json_file=$(json_file_new)
+tm_file=$(tm_file_new)
 (
     files_caching
     set -x
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json4}" -N -n "s4 (mimalloc)" \
+    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "s4" \
         -- \
         "'${PROGRAM_S4_MIMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
 (
     files_caching
+    version=$(s4_version "${PROGRAM_S4_MIMALLOC}")
+    allocator=$(s4_allocator "${PROGRAM_S4_MIMALLOC}")
+    platform=$(s4_platform "${PROGRAM_S4_MIMALLOC}")
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm4}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
         "${PROGRAM_S4_MIMALLOC}" \
         "-a=${after_dt}" \
@@ -309,29 +394,30 @@ PROGRAM_S4_MIMALLOC=${PROGRAM_S4_MIMALLOC-./target/mimalloc/s4}
         "${files[@]}" > "${tmpOut}"
 )
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
 
 echo_line
-
-# Super Speedy Syslog Searcher (S4) (rpmalloc)
+echo_title "Super Speedy Syslog Searcher (S4) (rpmalloc)"
 
 PROGRAM_S4_RPMALLOC=${PROGRAM_S4_RPMALLOC-./target/rpmalloc/s4}
 (set -x; "${PROGRAM_S4_RPMALLOC}" --version)
 
+json_file=$(json_file_new)
+tm_file=$(tm_file_new)
 (
     files_caching
     set -x
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json9}" -N -n "s4 (rpmalloc)" \
+    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "s4" \
         -- \
         "'${PROGRAM_S4_RPMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
 
 (
     files_caching
+    version=$(s4_version "${PROGRAM_S4_RPMALLOC}")
+    allocator=$(s4_allocator "${PROGRAM_S4_RPMALLOC}")
+    platform=$(s4_platform "${PROGRAM_S4_RPMALLOC}")
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm9}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
         "${PROGRAM_S4_RPMALLOC}" \
         "-a=${after_dt}" \
@@ -340,28 +426,29 @@ PROGRAM_S4_RPMALLOC=${PROGRAM_S4_RPMALLOC-./target/rpmalloc/s4}
         "${files[@]}" > "${tmpOut}"
 )
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
 
 echo_line
-
-# Super Speedy Syslog Searcher (S4) (tcmalloc)
+echo_title "Super Speedy Syslog Searcher (S4) (tcmalloc)"
 
 PROGRAM_S4_TCMALLOC=${PROGRAM_S4_TCMALLOC-./target/tcmalloc/s4}
 (set -x; "${PROGRAM_S4_TCMALLOC}" --version)
 
+json_file=$(json_file_new)
+tm_file=$(tm_file_new)
 (
     files_caching
     set -x
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json5}" -N -n "s4 (tcmalloc)" \
+    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "s4" \
         -- \
         "'${PROGRAM_S4_TCMALLOC}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
 )
 (
     files_caching
+    version=$(s4_version "${PROGRAM_S4_TCMALLOC}")
+    allocator=$(s4_allocator "${PROGRAM_S4_TCMALLOC}")
+    platform=$(s4_platform "${PROGRAM_S4_TCMALLOC}")
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm5}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
         "${PROGRAM_S4_TCMALLOC}" \
         "-a=${after_dt}" \
@@ -370,51 +457,79 @@ PROGRAM_S4_TCMALLOC=${PROGRAM_S4_TCMALLOC-./target/tcmalloc/s4}
         "${files[@]}" > "${tmpOut}"
 )
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
-
-echo_line
-
-# Super Speedy Syslog Searcher (user optional s4 program)
+# Super Speedy Syslog Searcher (user optional s4 programs from TSV)
 
 if [[ "${PROGRAM_S4_OPTIONAL-}" ]]; then
-    (set -x; "${PROGRAM_S4_OPTIONAL}" --version)
-(
-    files_caching
-    set -x
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${jsonA}" -N -n "s4 (optional)" \
-        -- \
-        "'${PROGRAM_S4_OPTIONAL}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
-)
-(
-    files_caching
-    set -x
-    $time --format="${TIME_FORMAT}" --output="${tmA}" \
-        -- \
-        "${PROGRAM_S4_OPTIONAL}" \
-        "-a=${after_dt}" \
-        "-b=${befor_dt}" \
-        "--color=never" \
-        "${files[@]}" > "${tmpOut}"
-)
+    if ! [[ -f "${PROGRAM_S4_OPTIONAL}" ]]; then
+        echo "ERROR: PROGRAM_S4_OPTIONAL must point to a TSV file: ${PROGRAM_S4_OPTIONAL}" >&2
+        exit 1
+    fi
+    echo "Processing optional s4 programs from TSV file: ${PROGRAM_S4_OPTIONAL}" >&2
+    echo >&2
+
+    declare -i line_no=0
+    while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
+        line_no=$((line_no + 1)) || true
+        if [[ -z "${s4_prog_path-}" ]]; then
+            continue
+        fi
+        if [[ "${s4_prog_path}" = \#* ]]; then
+            continue
+        fi
+        s4_full_path="${PROJ_DIR}/${s4_prog_path}"
+        if ! [[ -x "${s4_full_path}" ]]; then
+            echo "ERROR: optional s4 program is not executable: ${s4_full_path}" >&2
+            exit 1
+        fi
+        if ! (set -x; "${s4_full_path}" --version); then
+            echo "ERROR: failed to run optional s4 program with --version: ${s4_full_path}" >&2
+            exit 1
+        fi
+
+        echo_line
+        echo_title "Super Speedy Syslog Searcher (S4) ${s4_prog_path} ${s4_prog_extra}"
+
+        echo >&2
+        json_file=$(json_file_new)
+        tm_file=$(tm_file_new)
+        (
+            files_caching
+            if [[ -n "${s4_prog_extra-}" ]]; then
+                s4_prog_extra=" ${s4_prog_extra}"
+            fi
+            set -x
+            "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "s4${s4_prog_extra-}" \
+                -- \
+                "'${s4_full_path}' -a='${after_dt}' -b='${befor_dt}' --color=never ${files[*]} > /dev/null"
+        )
+        (
+            files_caching
+            version=$(s4_version "${s4_full_path}")
+            allocator=$(s4_allocator "${s4_full_path}")
+            platform=$(s4_platform "${s4_full_path}")
+            set -x
+            "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
+                -- \
+                "${s4_full_path}" \
+                "-a=${after_dt}" \
+                "-b=${befor_dt}" \
+                "--color=never" \
+                "${files[@]}" > "${tmpOut}"
+        )
+    done <<< $(cat "${PROGRAM_S4_OPTIONAL}")
 fi
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
-
 echo_line
+echo_title "lnav"
 
-
-# lnav
-
+json_file=$(json_file_new)
+tm_file=$(tm_file_new)
 (
     files_caching
     set -x
-    lnav --version
-    lnav -i -W ./tools/compare-log-mergers/lnav1.json
-    $hyperfine --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json6}" -N -n "${PROGRAM_LNAV}" \
+    "${PROGRAM_LNAV}" --version
+    "${PROGRAM_LNAV}" -i -W ./tools/compare-log-mergers/lnav1.json
+    "${HYPERFINE}" --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" -N -n "${PROGRAM_LNAV}" \
         -- \
         "'${PROGRAM_LNAV}' -N -n \
 -c ';SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime(\"${after_dt}\") AND Datetime(\"${befor_dt}\")' \
@@ -423,21 +538,20 @@ ${files[*]}"
 
 (
     files_caching
+    version=$("${PROGRAM_LNAV}" --version | head -n1 | cut -d' ' -f2)
+    allocator=' '
+    platform=' '
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm6}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
         "${PROGRAM_LNAV}" -N -n \
             -c ";SELECT log_raw_text FROM lnav1 WHERE log_time BETWEEN Datetime('${after_dt}') AND Datetime('${befor_dt}')" \
             "${files[@]}" > "${tmpOut}"
 )
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
 
 echo_line
-
-# logmerger
+echo_title "logmerger"
 
 PROGRAM_LM=${PROGRAM_LM-logmerger}
 # XXX: logmerger does not have a `--version` option
@@ -452,18 +566,23 @@ echo "${PS4}logmerger --version"
 
 echo
 
+json_file=$(json_file_new)
+tm_file=$(tm_file_new)
 (
     files_caching
     set -x
-    $hyperfine -i --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json7}" \
+    "${HYPERFINE}" -i --warmup=2 --style=basic --runs=${HRUNS} --export-json "${json_file}" \
         --shell sh -n "${PROGRAM_LM}" \
         -- \
         "'${PROGRAM_LM}' --inline --output=- --start '${after_dt}' --end '${befor_dt}' ${files[*]} > /dev/null"
 )
 (
     files_caching
+    version=$("${PYTHON}" -m pip list | grep -Fe 'logmerger' | awk '{print $2}')
+    allocator=' '
+    platform=' '
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm7}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
         -- \
         "${PROGRAM_LM}" \
         "--inline" \
@@ -476,13 +595,9 @@ echo
          > "${tmpOut}"
 ) || true
 
-echo
-cat "${tmpOut}" | wc -l -
-echo
 
 echo_line
-
-# logdissect
+echo_title "logdissect"
 
 PROGRAM_LD=${PROGRAM_LD-logdissect}
 (set -x; "${PROGRAM_LD}" --version)
@@ -493,8 +608,11 @@ echo
     echo "TODO: figure out how to use logdissect. I'm unable to get it to match on ANY files." >&2
     exit 0
     files_caching
+    version=$("${PROGRAM_LD}" --version | head -n1)
+    allocator=' '
+    platform=' '
     set -x
-    $time --format="${TIME_FORMAT}" --output="${tm}" \
+    "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm}" \
         -- \
         "${PROGRAM_LD}" \
         --range "${after_dt_ld}-${befor_dt_ld}" \
@@ -505,8 +623,7 @@ echo
 # cat "${tmpOut}" | wc -l -
 
 echo_line
-
-# TooLong
+echo_title "TooLong"
 
 # TODO: how to force toolong to not create a TUI window so it doesn't need
 #       to be forcefully killed?
@@ -521,13 +638,18 @@ PROGRAM_TL=${PROGRAM_TL-tl}
 
 echo
 
+tm_file=$(tm_file_new)
 if ! ${skip_tl}; then
     (
         files_caching
+        # tl, version 1.5.0
+        version=$("${PROGRAM_TL}" --version | head -n1 | cut -d' ' -f3)
+        allocator=' '
+        platform=' '
         # run toolong (tl)
         # there is no way to make toolong automatically exit after processing input
         # the user must manually exit the TUI
-        $time --format="${TIME_FORMAT}" --output="${tm8}" \
+        "${TIME}" --format="${TIME_FORMAT}|${version}|${allocator}|${platform}" --output="${tm_file}" \
             -- \
             "${PROGRAM_TL}" \
             --merge \
@@ -537,15 +659,13 @@ if ! ${skip_tl}; then
 else
     echo "Skipping toolong (tl)" >&2
     # set dummy data
-    echo '0|0|0:0' > "${tm8}"
+    echo '0|0|0:0' > "${tm_file}"
 fi
-echo
-cat "${tmpOut}" | wc -l -
-echo
-cat "${tm8}"
+cat "${tm_file}"
 echo
 
-erealtime=$(cat "${tm8}" | cut -d'|' -f3 | cut -d':' -f2)
+erealtime=$(cat "${tm_file}" | cut -d'|' -f3 | cut -d':' -f2)
+json_file=$(json_file_new)
 echo '{
 "results": [ {
     "command": "toolong",
@@ -556,7 +676,7 @@ echo '{
     "times": [0.0],
     "exit_codes": [0]
   } ]
-}' > "${json8}"
+}' > "${json_file}"
 
 echo_line
 
@@ -609,32 +729,32 @@ function to_milliseconds() {
 }
 
 # markdown table header
-echo '|Command|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
-echo '|:---|---:|---:|---:|---:|---:|' >> "${tmpOut}"
+echo '|Command|Version|Allocator|Platform|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
+echo '|:---   |:---   |:---     |:---    |---:     |---:    |---:    |---:        |---: |' >> "${tmpOut}"
+
+json_count=$(wc -l < "${json_files}")
+tm_count=$(wc -l < "${tm_files}")
+echo "Processing ${json_count} JSON and time files to generate markdown table..." >&2
+
+# sanity self-check
+if [[ "${json_count}" -ne "${tm_count}" ]]; then
+    echo "ERROR: number of JSON files ${json_count} does not match number of time files ${tm_count}" >&2
+    exit 1
+fi
 
 # markdown table rows
-for files_ in \
-    "${json1}|${tm1}" \
-    "${json2}|${tm2}" \
-    "${json3}|${tm3}" \
-    "${json4}|${tm4}" \
-    "${json9}|${tm9}" \
-    "${json5}|${tm5}" \
-    "${jsonA}|${tmA}" \
-    "${json6}|${tm6}" \
-    "${json7}|${tm7}" \
-    "${json8}|${tm8}" \
-; do
-    json=$(echo -n "${files_}" | cut -d'|' -f1)
-    tm=$(echo -n "${files_}" | cut -d'|' -f2)
+exec 3< "${json_files}"
+exec 4< "${tm_files}"
+while IFS= read -r json <&3 && IFS= read -r tm <&4; do
     if file_isempty "${json}"; then
         echo "skip empty JSON file ${json}" >&2
         continue
     fi
     if file_isempty "${tm}"; then
-        echo "skip empty file ${tm}" >&2
+        echo "skip empty time file ${tm}" >&2
         continue
     fi
+    echo "Processing files: ${json} ${tm}" >&2
     (
         command=$($JQ '.results[0].command' < "${json}" | tr -d '"')
         mean=$(to_milliseconds $($JQ '.results[0].mean' < "${json}"))
@@ -643,17 +763,37 @@ for files_ in \
         max=$(to_milliseconds $($JQ '.results[0].max' < "${json}"))
         mss=$(cat "${tm}" | cut -d'|' -f1)
         cpup=$(cat "${tm}" | cut -d'|' -f2)
-        echo "|\`${command}\`|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
+        elapsed=$(cat "${tm}" | cut -d'|' -f3)
+        version=$(cat "${tm}" | cut -d'|' -f4)
+        allocator=$(cat "${tm}" | cut -d'|' -f5)
+        platform=$(cat "${tm}" | cut -d'|' -f6)
+        echo "|\`${command}\`|${version}|${allocator}|${platform}|${mean} ± ${stddev}|${min}|${max}|${mss}|${cpup}|"
     ) >> "${tmpOut}"
 done
+exec 3<&-
+exec 4<&-
 
 cat "${tmpOut}" | column -t -s '|' -o '|' > "${mdfinal}"
 
-(set -x; cat "${mdfinal}")
+mdFinalFinal=${mdfinal}
+if [[ "${DIROUT-}" ]]; then
+    mkdir -p "${DIROUT}"
+    cp -av "${mdfinal}" "${DIROUT}"
+    mdFinalFinal="${DIROUT}/$(basename "${mdfinal}")"
+fi
+
+echo
+cat "${mdFinalFinal}"
+echo
 
 export PATH="${PATH}:${HOME}/go/bin"  # for glow
 if which glow &>/dev/null; then
-    glow "${mdfinal}"
+    declare -i col=160
+    if [[ $COLUMNS -lt $col ]]; then
+        col=${COLUMNS}
+    fi
+    glow "${mdFinalFinal}" --width ${col}
+    echo
 else
     echo "install 'glow' for pretty markdown viewing" >&2
     echo "    go install github.com/charmbracelet/glow/v2@latest" >&2
