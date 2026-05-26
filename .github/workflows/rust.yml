@@ -468,7 +468,6 @@ jobs:
         shell: bash
         run: |
           set -eux
-          bash --version
           cargo nextest --version
           export NEXTEST_TEST_THREADS=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
@@ -619,8 +618,6 @@ jobs:
         shell: bash
         run: |
           set -eux
-          bash --version
-          grep --version
           chmod -v +x ./tools/log-files-time-update.sh
           ./tools/log-files-time-update.sh
       - name: Install libsystemd
@@ -1012,8 +1009,6 @@ jobs:
         shell: bash
         run: |
           set -eux
-          bash --version
-          grep --version
           chmod -v +x ./tools/log-files-time-update.sh
           ./tools/log-files-time-update.sh
       - name: run llvm-cov
