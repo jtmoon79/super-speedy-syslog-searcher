@@ -437,37 +437,14 @@ jobs:
         shell: bash
         run: |
           set -eux
-          uname -a
-          sudo apt update || true
-          (find / -xdev \
-                  \( -type f -o -type l \) \
-                  -name 'libsystemd*' 2>/dev/null || true) \
-              | sort
-          sudo apt install --yes libsystemd0
-          (find / -xdev \
-                  \( -type f -o -type l \) \
-                  -name 'libsystemd*' 2>/dev/null || true) \
-              | sort
+          chmod -v +x ./.github/tools/install-libsystemd.sh
+          ./.github/tools/install-libsystemd.sh
       - name: set log file filesystem Modified Times
         shell: bash
         run: |
           set -eux
-          bash --version
-          grep --version
           chmod -v +x ./tools/log-files-time-update.sh
           ./tools/log-files-time-update.sh
-      - name: test (limited)
-        # sanity check tests requiring libsystemd can run
-        shell: bash
-        run: |
-          set -eux
-          # can libsystemd be found?
-          (find / -xdev \
-                  \( -type f -o -type l \) \
-                  -name 'libsystemd*' 2>/dev/null || true) \
-              | sort
-          # run tests that use libsystemd
-          cargo test --locked tests::journalreader_tests
       - name: test ere
         shell: bash
         run: |
@@ -650,8 +627,8 @@ jobs:
         shell: bash
         run: |
           set -eux
-          sudo apt update || true
-          sudo apt install --yes libsystemd0
+          chmod -v +x ./.github/tools/install-libsystemd.sh
+          ./.github/tools/install-libsystemd.sh
       # download debug
       - name: Download debug binary
         uses: actions/download-artifact@v8
@@ -667,10 +644,6 @@ jobs:
         shell: bash
         run: |
           set -eux
-          (find / -xdev \
-                  \( -type f -o -type l \) \
-                  -name 'libsystemd*' 2>/dev/null || true) \
-              | sort
           S4=./s4_debug
           chmod -v +x -- ${S4}
           ${S4} --version
@@ -1033,8 +1006,8 @@ jobs:
         shell: bash
         run: |
           set -eux
-          sudo apt update || true
-          sudo apt install --yes libsystemd0 lcov
+          chmod -v +x ./.github/tools/install-libsystemd.sh
+          ./.github/tools/install-libsystemd.sh
       - name: set log file filesystem Modified Times
         shell: bash
         run: |
