@@ -301,8 +301,6 @@ jobs:
           - x86_64-apple-darwin
           # Tier 2 with host tools
           - aarch64-apple-darwin  # also built by job job_rust_msrv_os
-          # Tier 2 with host tools
-          - arm64e-apple-darwin
     runs-on: macos-latest
     steps:
       - name: git checkout
