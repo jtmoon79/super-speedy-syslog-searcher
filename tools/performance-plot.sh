@@ -38,22 +38,24 @@ cd "$(dirname "${0}")/.."
 declare -r DIROUT=${DIROUT-"."}
 
 # check for hyperfine
-hyperfine=$(which hyperfine) || {
+HYPERFINE=$(which hyperfine) || {
     echo "ERROR: hyperfine not found in PATH" >&2
     echo "install:" >&2
     echo "    cargo install --locked hyperfine" >&2
     exit 1
 }
-(set -x; hyperfine --version)
+readonly HYPERFINE
+(set -x; "$HYPERFINE" --version)
 
 # check for xmllint
-which xmllint &>/dev/null || {
+XMLLINT=$(which xmllint) || {
     echo "ERROR: xmllint not found in PATH" >&2
     echo "install:" >&2
     echo "    sudo apt install libxml2-utils" >&2
     exit 1
 }
-(set -x; xmllint --version | head -n1)
+readonly XMLLINT
+(set -x; "$XMLLINT" --version | head -n1)
 
 # check for jq
 JQ=$(which jq) || {
@@ -62,6 +64,7 @@ JQ=$(which jq) || {
     echo "    sudo apt install jq" >&2
     exit 1
 }
+readonly JQ
 (set -x; "${JQ}" --version)
 
 # check for python
@@ -70,19 +73,23 @@ if ! which "${PYTHON}" &>/dev/null; then
     echo "ERROR: python3 not found in PATH" >&2
     exit 1
 fi
+readonly PYTHON
 (set -x; "${PYTHON}" --version)
 
 # check for gnuplot
-gnuplot=$(which gnuplot) || {
+GNUPLOT=$(which gnuplot) || {
     echo "ERROR: gnuplot not found in PATH" >&2
     echo "install:" >&2
     echo "    sudo apt install gnuplot" >&2
     exit 1
 }
-(set -x; gnuplot --version)
+readonly GNUPLOT
+(set -x; "$GNUPLOT" --version)
 
 declare -r FILE=${FILE-'./tools/compare-log-mergers/gen-5000-1-facesA.log'}
 declare -r FILE_NAME=$(basename -- "${FILE}")
+# no comma
+declare -r FILE_NAME_NOC=$(echo -n "${FILE_NAME}" | tr -s ',' '_')
 
 # hyperfine runs
 declare -ir HYPERFINE_RUNS=${HYPERFINE_RUNS-5}
@@ -241,7 +248,7 @@ declare -ir S4_BLOCKSZ=${S4_BLOCKSZ-65535}
 declare -ir S4_BLOCKSZ_KB=$((S4_BLOCKSZ / 1024))
 declare -ir FILE_SZ_BLOCKS=$((FILE_SZ / 65536 + 1))
 
-tmpD=$(mktemp -d -t "s4-performance-plot_XXXXX")
+tmpD=$(mktemp -d -t "tmp-s4-performance-plot_XXXXX")
 
 function exit_() {
     rm -rf "${tmpD}"
@@ -249,16 +256,21 @@ function exit_() {
 
 trap exit_ EXIT
 
+mkdir -p "${DIROUT}"
+
 #
 # start the markdown draft file
 #
 
 declare -r MD_DRAFT="${tmpD}/performance-plot-draft.md"
+declare -r CSV_DRAFT="${tmpD}/performance-plot_${FILE_NAME}_${FILE_NUM}.csv"
 
 # markdown table header
 echo "\
 |Files       |Profile|Mean (ms)|Min (ms)|Max (ms)|Diff (ms)|Max RSS (KB)|Max RSS (KB) diff|CPU %|
 |:---        |:---   |---:     |---:    |---:    |---:     |---:        |---:             |---: |" > "${MD_DRAFT}"
+
+echo "#File,Files,Profile,Mean (ms),Min (ms),Max (ms),Diff (ms),Max RSS (KB),Max RSS (KB) diff,CPU %" > "${CSV_DRAFT}"
 
 #
 # run the tests for each file count
@@ -293,7 +305,7 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     declare -i proc_time_beg=$(print_time_now_ms)
     (
         set -x
-        ${hyperfine} \
+        ${HYPERFINE} \
             --warmup=0 \
             --style=color \
             --time-unit=millisecond \
@@ -370,6 +382,7 @@ for fnum in $(seq 1 ${FILE_NUM}); do
     fi
     cpup=$($JQ '.results[0].user + .results[0].system' < "${json}" | to_3f)
     echo "|${fnum}|${BUILD_PROFILE}|${mean} ± ${stddev}|${min}|${max}|${time_diff}|${mss_KB}|${mss_diff}|${cpup}|" >> "${MD_DRAFT}"
+    echo "${FILE_NAME_NOC},${fnum},${BUILD_PROFILE},${mean} ± ${stddev},${min},${max},${time_diff},${mss_KB},${mss_diff},${cpup}" >> "${CSV_DRAFT}"
 
     fnum_values+=("${fnum}")
     mss_values+=("${mss_KB}")
@@ -387,9 +400,12 @@ echo_line
 # create the final markdown file of results
 #
 declare -r MD_FINAL="${DIROUT}/performance-plot-${FILE_NAME}__${FILE_NUM}__data.md"
+declare -r CSV_FINAL="${DIROUT}/performance-plot-${FILE_NAME}__${FILE_NUM}__data.csv"
 
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
+# save the CSV data
+cp -av "${CSV_DRAFT}" "${CSV_FINAL}"
 
 export PATH="${PATH}:${HOME}/go/bin"  # for glow
 if which glow &>/dev/null; then
@@ -489,7 +505,7 @@ EOF
 
 (
     set -x
-    echo "$GNUPLOT_TERMINAL" | "${gnuplot}"
+    echo "$GNUPLOT_TERMINAL" | "${GNUPLOT}"
 )
 
 function gnuplot_svg_title_replace() {
@@ -502,7 +518,7 @@ function gnuplot_svg_title_replace() {
 function xml_format() {
     local file="${1}"
     local tmp_file="${tmpD}/$(basename "${file}").tmp"
-    xmllint --format "${file}" --output "${tmp_file}"
+    "$XMLLINT" --format "${file}" --output "${tmp_file}"
     mv -f "${tmp_file}" "${file}"
 }
 
@@ -605,14 +621,13 @@ EOF
 
 (
     set -x
-    echo "$GNUPLOT_SVG" | gnuplot
+    echo "$GNUPLOT_SVG" | "$GNUPLOT"
 )
 
 gnuplot_svg_title_replace "${OUT_SVG_RSS}" "Max RSS (KB) per N file for '${FILE_NAME}'"
 xml_format "${OUT_SVG_RSS}"
 
 echo >&2
-echo "SVG output written to: ${OUT_SVG_RSS}" >&2
 
 #
 # gnuplot create SVG for file count vs time
@@ -670,11 +685,14 @@ EOF
 
 (
     set -x
-    echo "$GNUPLOT_SVG" | "${gnuplot}"
+    echo "$GNUPLOT_SVG" | "$GNUPLOT"
 )
 
 gnuplot_svg_title_replace "${OUT_SVG_TIME}" "Time (ms) mean per N file for '${FILE_NAME}'"
 xml_format "${OUT_SVG_TIME}"
 
 echo >&2
-echo "SVG output written to: ${OUT_SVG_TIME}" >&2
+echo -e "\033[0;32mSVG output written to: ${OUT_SVG_RSS}\033[0m" >&2
+echo -e "\033[0;32mSVG output written to: ${OUT_SVG_TIME}\033[0m" >&2
+echo -e "\033[0;32mMarkdown written to: ${MD_FINAL}\033[0m" >&2
+echo -e "\033[0;32mCSV written to: ${CSV_FINAL}\033[0m" >&2
