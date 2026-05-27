@@ -53,6 +53,7 @@ and Apple System Logs (`.asl`).
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
     - [installation methods](#installation-methods)
+      - [easy install](#easy-install)
       - [manual download](#manual-download)
       - [`binstall`](#binstall)
       - [`quickinstall`](#quickinstall)
@@ -85,8 +86,8 @@ and Apple System Logs (`.asl`).
     - [Formal Log DateTime Supported](#formal-log-datetime-supported)
     - [Other Log or File Formats Supported](#other-log-or-file-formats-supported)
     - [Archive Formats Supported](#archive-formats-supported)
-    - [Speed Comparison](#speed-comparison)
-      - [Table of speed comparison results](#table-of-speed-comparison-results)
+    - [Performance Comparison](#performance-comparison)
+      - [Table of performance comparison results](#table-of-performance-comparison-results)
       - [Max RSS per file](#max-rss-per-file)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
@@ -122,20 +123,29 @@ and Apple System Logs (`.asl`).
 
 #### installation methods
 
-##### manual download
+##### easy install
 
-You may manually download an `s4` binary files from the [releases page].
-Check your platform target by running `default-target`
+Run the POSIX-compliant shell script `easy-install.sh`
 
 ```lang-text
-cargo install --locked default-target
-default-target
+curl -sSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
 ```
 
-or run the POSIX-compliant shell script `easy-install.sh`
+##### manual download
+
+You may manually download an `s4` binary file from the [releases page].
+Check your platform target by running `rust -vV`. It is the `host` field.
+Here is an example output:
 
 ```lang-text
-curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
+$ rust -vV
+rustc 1.88.0 (6b00bc388 2025-06-23)
+binary: rustc
+commit-hash: 6b00bc3880198600130e1cf62b8f8a93494488cc
+commit-date: 2025-06-23
+host: x86_64-unknown-linux-gnu
+release: 1.88.0
+LLVM version: 20.1.5
 ```
 
 [releases page]: https://github.com/jtmoon79/super-speedy-syslog-searcher/releases
@@ -177,8 +187,6 @@ A C compiler is required.
 
 _Note that building takes around 20 minutes on a good AMD Desktop CPU from year 2022._
 _Low power CPUs or embedded SoCs may fail to build the project._
-_The high-resource portion of the build is then building and then optimizing the_
-_compile-time regular expressions._
 
 _You can view the regular expression building progress_
 _by setting environment variable `S4_BUILD_REGEX_PRINT=1`._
@@ -198,25 +206,14 @@ Python 3.9 or higher is required.
 
 #### allocators
 
-The default allocator is the System allocator.
-
-A different allocator can be installed by passing a feature flag during installation,
+A different allocator can be used by passing a feature flag during the build.
 e.g. `--features mimalloc`.
 
-- allocator [`mimalloc`] is feature `mimalloc`.<br/>
-  `mimalloc` performed the fastest with higher memory use.
-- allocator [`jemalloc`] is feature `jemalloc`.<br/>
-  `jemalloc` performed about the same as the system allocator with slightly higher memory use.
-- allocator [`rpmalloc`] is feature `rpmalloc`.<br/>
-  `rpmalloc` performed about the same as the system allocator with slighly higher memory use.
-- allocator [`tcmalloc`] is feature `tcmalloc`.<br/>
-  `tcmalloc` performed poorer than the system allocator with slightly higher memory use.
-
-See the [Speed Comparison](#speed-comparison).
+See the [Performance Comparison](#performance-comparison).
 
 ##### `mimalloc`, `jemalloc`, or `rpmalloc`
 
-`mimalloc`
+[`mimalloc`]
 
 ```lang-text
 cargo install --locked super_speedy_syslog_searcher --features mimalloc
@@ -229,11 +226,11 @@ $ s4 --version
 Bus error
 ```
 
-Either use `jemalloc` or the default System allocator.
+Either use [`jemalloc`] or the default System allocator.
 
 <br/>
 
-`jemalloc`
+[`jemalloc`]
 
 ```lang-text
 cargo install --locked super_speedy_syslog_searcher --features jemalloc
@@ -241,7 +238,7 @@ cargo install --locked super_speedy_syslog_searcher --features jemalloc
 
 <br/>
 
-`rpmalloc`
+[`rpmalloc`]
 
 ```lang-text
 cargo install --locked super_speedy_syslog_searcher --features rpmalloc
@@ -252,7 +249,6 @@ cargo install --locked super_speedy_syslog_searcher --features rpmalloc
 [`jemalloc`]: http://jemalloc.net/
 [`mimalloc`]: https://microsoft.github.io/mimalloc/bench.html
 [`rpmalloc`]: https://crates.io/crates/rpmalloc
-[is the fastest according to `mimalloc` project benchmarks]: https://github.com/microsoft/mimalloc#Performance
 [`tcmalloc`]: https://github.com/jmcomets/tcmalloc-rs
 
 <br/>
@@ -1041,7 +1037,7 @@ All programs besides `s4` fail to merge different text log formats.
 
 ---
 
-#### Speed Comparison
+#### Performance Comparison
 
 A comparison of merging [ten large contrived log files](https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.79/tools/compare-log-mergers).
 The ten log files have 5000 single-line log messages, 2158138 bytes (≈2.1 MB) each,
@@ -1056,23 +1052,28 @@ Here are two typical log messages from a contrived log file:
 2000-01-01T00:00:02 0002 A 😂😃😄😅😆😇😈😉😊😋😌😍😎😏😐😑😒😓😔😕😖😗😘😙😚😛😜😝😞😟😠😡😢😣😤😥😦😧😨😩😪😫😬😭😮😯😰😱😲😳😴😵😶😷😸😹😺😻😼😽😾😿🙀🙁🙂🙃😀😁😂😃
 ```
 
-##### Table of speed comparison results
+##### Table of performance comparison results
 
 <!--
 Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 -->
 
-|Command        |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
-|:---           |---:        |---:    |---:    |---:        |---: |
-|`grep+sort`    |61.3 ± 1.3  |59.3    |65.8    |11904       |113% |
-|`s4 (system)`  |172.1 ± 2.1 |167.9   |177.2   |137204      |245% |
-|`s4 (mimalloc)`|153.8 ± 2.0 |151.7   |159.0   |227804      |244% |
-|`s4 (jemalloc)`|171.2 ± 2.3 |168.3   |176.7   |150272      |246% |
-|`s4 (rpmalloc)`|178.4 ± 2.8 |175.4   |188.3   |157696      |236% |
-|`s4 (tcmalloc)`|180.5 ± 2.3 |177.2   |185.9   |154368      |250% |
-|`lnav`         |255.8 ± 11.6|245.8   |291.1   |56516       |105% |
-|`logmerger`    |329.9 ± 3.5 |324.3   |338.4   |79768       |98%  |
-|`toolong`      |3240.0 ± 0.0|        |        |63068       |28%  |
+|Command    |Version|Allocator|Platform                 |Mean (ms)    |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
+|:---       |:---   |:---     |:---                     |---:         |---:    |---:    |---:        |---: |
+|`grep+sort`|3.11   |         |                         |63.5 ± 1.2   |60.9    |65.8    |11904       |114% |
+|`s4`       |0.9.81 |system   |x86_64-unknown-linux-gnu |122.6 ± 1.0  |120.7   |125.0   |19492       |254% |
+|`s4`       |0.9.81 |jemalloc |x86_64-unknown-linux-gnu |124.8 ± 2.3  |122.3   |135.2   |24832       |245% |
+|`s4`       |0.9.81 |mimalloc |x86_64-unknown-linux-gnu |128.8 ± 2.0  |126.7   |136.0   |67184       |255% |
+|`s4`       |0.9.81 |rpmalloc |x86_64-unknown-linux-gnu |128.7 ± 1.4  |126.8   |134.3   |32000       |246% |
+|`s4`       |0.9.81 |tcmalloc |x86_64-unknown-linux-gnu |128.0 ± 6.2  |124.5   |150.6   |28672       |240% |
+|`s4`       |0.8.80 |system   |x86_64-unknown-linux-gnu |170.0 ± 1.8  |167.2   |174.7   |136460      |239% |
+|`s4`       |0.8.80 |system   |x86_64-unknown-linux-musl|253.5 ± 4.5  |247.7   |267.2   |141896      |239% |
+|`s4`       |0.8.80 |system   |x86_64-unknown-linux-ohos|168.2 ± 1.9  |165.6   |174.3   |137340      |241% |
+|`s4`       |0.7.79 |system   |x86_64-unknown-linux-gnu |171.6 ± 5.2  |167.3   |188.3   |135924      |241% |
+|`s4`       |0.7.78 |system   |x86_64-unknown-linux-gnu |170.2 ± 1.7  |168.3   |174.8   |137456      |244% |
+|`lnav`     |0.11.2 |         |                         |251.2 ± 6.3  |244.1   |278.3   |56448       |106% |
+|`logmerger`|0.12.0 |         |Python 3.12.3            |310.3 ± 13.5 |292.4   |343.6   |78448       |99%  |
+|`toolong`  |1.5.0  |         |Python 3.12.3            |0.0 ± 0.0    |0.0     |0.0     |67560       |0%   |
 
 <sup style="font-size: xx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xx-small">• _Min_ is minimum runtime in milliseconds</sup>
@@ -1080,20 +1081,8 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 <sup style="font-size: xx-small">• _Max RSS_ is maximum Resident Set Size in Kilobytes</sup>
 <sup style="font-size: xx-small">• _CPU %_ is an average of CPU used over the runtime</sup>
 
-Programs tested:
-
-<!-- # PROJECT VERSION LAST PUBLISHED -->
-
-- GNU `grep` 3.7, GNU `sort` 8.32
-- `s4` 0.9.81 compiled with rustc 1.85.0
-- `lnav` 0.11.2
-- `logmerger` 0.12.0 on Python 3.10.12
-- `tl` (_toolong_) 1.5.0 on Python 3.10.12
-<!-- XXX: these versions should match those in compare-log-mergers/requirements.txt -->
-
-Each program had 30 runs except `toolong`.
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
-Run on Ubuntu 22 on WSL, architecture `x86_64-unknown-linux-gnu`.
+Run on Ubuntu 24 on WSL, architecture `x86_64-unknown-linux-gnu`.
 
 See archived results in file [`compare-log-mergers.txt`].
 
@@ -1415,6 +1404,7 @@ Hence the need for _Super Speedy Syslog Searcher_! 🦸
   is [licensed under the Apache License, Version 2.0](src/python/s4_event_readers/s4_event_readers/LICENSE-etl_reader_etl_parser.txt).
 - Code in `src/python/s4_event_readers/s4_event_readers/odl_reader.py`
   is [licensed under the MIT License](src/python/s4_event_readers/s4_event_readers/LICENSE-odl_reader.txt).
+- Some code under `subprojects/ere` is [licensed under the MIT License](https://github.com/2kai2kai2/ere/blob/9ae714909f24e025612e385419af17aaed843a60/LICENSE).
 
 ## Stargazers
 
