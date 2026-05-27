@@ -683,7 +683,7 @@ DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
 
-The Python interpreter used during `--venv` requires Python 3.7 or higher.
+The Python interpreter used during `--venv` requires Python 3.9 or higher.
 This installs to ~/.config/s4/venv
 The Python interpreter used may be overridden by setting environment variable
 S4_PYTHON to the path of the Python interpreter.

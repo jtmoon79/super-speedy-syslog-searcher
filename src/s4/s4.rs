@@ -2468,7 +2468,7 @@ DateTimes supported are only of the Gregorian calendar.
 
 DateTimes supported language is English.
 
-The Python interpreter used during `--venv` requires Python 3.7 or higher.
+The Python interpreter used during `--venv` requires Python 3.9 or higher.
 This installs to "#, PYTHON_VENV_PATH_DEFAULT, r#"
 The Python interpreter used may be overridden by setting environment variable
 "#, PYTHON_ENV, r#" to the path of the Python interpreter.
