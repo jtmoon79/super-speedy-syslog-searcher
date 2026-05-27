@@ -16,6 +16,7 @@ declare -a FILES=(
     ./logs/MacOS11/DiagnosticMessages/2023.10.31.asl
     ./logs/NetBSD9.3/Xorg.0.log
     ./logs/OpenBSD7.4/x86_64/utmp
+    ./logs/other/tests/gen-99999-1-Motley_Crue.log
     ./logs/other/tests/gen-1000-3-foobar-noyear.log
     ./logs/other/tests/gen-1000-3-foobar.log
     ./logs/other/tests/gen-1000-3-foobar.log.bz2
