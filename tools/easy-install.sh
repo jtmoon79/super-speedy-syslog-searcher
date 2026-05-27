@@ -24,7 +24,7 @@ readonly COLOR_GREEN COLOR_YELLOW COLOR_RED COLOR_RESET
 
 info() {
     # shellcheck disable=SC2059
-    printf '\n%sinfo: %s%s\n' "${COLOR_GREEN}" "$*" "${COLOR_RESET}" >&2
+    printf '%sinfo: %s%s\n' "${COLOR_GREEN}" "$*" "${COLOR_RESET}" >&2
 }
 
 warn() {
@@ -58,6 +58,10 @@ check_optional_program() {
     return 0
 }
 
+has_command() {
+    command -v "$1" >/dev/null 2>&1
+}
+
 choose_install_dir() {
     # search these common user bin directories first
     for dir in \
@@ -88,26 +92,6 @@ choose_install_dir() {
     return 1
 }
 
-install_default_target_if_needed() {
-    if command -v default-target >/dev/null 2>&1; then
-        return 0
-    fi
-
-    warn "required program 'default-target' was not found."
-    if ! command -v cargo >/dev/null 2>&1; then
-        die "cannot auto-install 'default-target' because 'cargo' is not available. Install Rust (see https://rustup.rs/), then run: cargo install --locked default-target"
-    fi
-
-    info "attempting to install 'default-target' using cargo..."
-    if ! (set -x; cargo install --locked default-target); then
-        die "failed to install 'default-target'. Try manually: cargo install --locked default-target"
-    fi
-
-    if ! command -v default-target >/dev/null 2>&1; then
-        die "'default-target' still not found after install. Ensure cargo bin directory is in PATH."
-    fi
-}
-
 main() {
     require_program curl "Install curl via your package manager."
     require_program unzip "Install unzip via your package manager."
@@ -124,15 +108,28 @@ main() {
         has_which=1
     fi
 
-    # TODO: how to get default platform target triple without needing rust installed?
-    install_default_target_if_needed
-
-    target_triple=$(default-target)
-    [ -n "${target_triple}" ] || die "default-target returned an empty target triple."
-
     WORKDIR=$(mktemp -d "${SCRIPT_NAME}.tmpd.XXXXXXXX")
     readonly WORKDIR
     trap 'rm -rf -- "$WORKDIR"' 0
+
+    info "determine platform target ..."
+    # methods to get the target triple
+    # 1. if rust then grep `rustc -vV` output
+    # 2. run the shell script from `https://sh.rustup.rs`
+    if has_command rustc && has_command grep && has_command cut; then
+         target_triple=$(rustc -vV | grep -m1 -Ee '^host: ' | cut -d ' ' -f 2-)
+    else
+        info "run sh.rustup.rs ..."
+        target_triple=$(
+            export RUSTUP_INIT_SH_PRINT=arch
+            set -x
+            curl --silent --show-error --fail  --location --retry 2 'https://sh.rustup.rs' | sh
+        )
+    fi
+    info "platform target is ${target_triple}"
+    printf '\n' >&2
+
+    [ -n "${target_triple}" ] || die "Platform target could not be determined."
 
     zip_name="s4_${target_triple}_v${VER}.zip"
     zip_path="${WORKDIR}/${zip_name}"
@@ -142,14 +139,14 @@ main() {
     checksum_path="${WORKDIR}/${checksum_name}"
     url_checksum="${url_zip}.sha256"
 
-    info "download release ${VER} for target ${target_triple}..."
-    (set -x; curl --fail --location --retry 2 --output "${zip_path}" "${url_zip}")
+    info "download release ${VER} for target ${target_triple} ..."
+    (set -x; curl  --silent --show-error --fail --location --retry 2 --output "${zip_path}" "${url_zip}")
 
     if [ "${has_sha256sum}" -eq 0 ] \
        && curl --head --fail --location --retry 2 --silent --fail --output /dev/null "${url_checksum}"; then
-        info "download checksum file..."
-        (set -x; curl --fail --location --retry 2 --output "${checksum_path}" "${url_checksum}")
-        info "verify SHA-256 checksum of zip file..."
+        info "download checksum file ..."
+        (set -x; curl --silent --show-error --fail --location --retry 2 --output "${checksum_path}" "${url_checksum}")
+        info "verify SHA-256 checksum of zip file ..."
         (
             cd -- "${WORKDIR}"
             (set -x; sha256sum -c "${checksum_name}")
@@ -157,8 +154,9 @@ main() {
     else
         warn "checksum file not found at ${url_checksum}"
     fi
+    printf '\n' >&2
 
-    info "extract archive..."
+    info "extract archive ..."
     (set -x; unzip -o -d "${WORKDIR}" "${zip_path}") >/dev/null
 
     # handle both Unix and Windows-style zip contents
@@ -178,7 +176,7 @@ main() {
     if [ "${has_sha256sum}" -eq 0 ]; then
         binary_checksum_name="${binary_name}.sha256"
         if [ -f "${WORKDIR}/${binary_checksum_name}" ]; then
-            info "verify SHA-256 checksum of binary file..."
+            info "verify SHA-256 checksum of binary file ..."
             (
                 cd -- "${WORKDIR}"
                 (set -x; sha256sum -c "${binary_checksum_name}")
@@ -187,8 +185,9 @@ main() {
             warn "checksum file '${binary_checksum_name}' was not found in archive; skipping verification."
         fi
     fi
+    printf '\n' >&2
 
-    info "check downloaded binary can run..."
+    info "check downloaded binary can run ..."
     (set -x; "${binary_path}" --version)
 
     install_dir=$(choose_install_dir) || die "could not find or create a writable install directory."
@@ -197,7 +196,7 @@ main() {
     info "install binary to ${install_path}"
     (set -x; cp -vf -- "${binary_path}" "${install_path}")
 
-    info "verify installed binary path..."
+    info "verify installed binary path ..."
     if [ "${has_which}" -eq 0 ]; then
         if which "${binary_name}" >/dev/null 2>&1; then
             (set -x; which "${binary_name}")
@@ -211,11 +210,12 @@ main() {
             warn "'command -v ${binary_name}' did not find ${binary_name} in current PATH."
         fi
     fi
+    printf '\n' >&2
 
-    info "check installed binary can run..."
+    info "check installed binary can run ..."
     (set -x; "${binary_name}" --version)
 
-    info "done."
+    info "installed ${binary_name} for platform ${target_triple} version ${VER} to ${install_path}"
 }
 
 main "$@"
