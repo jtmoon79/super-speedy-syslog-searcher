@@ -13,6 +13,7 @@ default-members = ["."]
 resolver = "3"
 
 [workspace.dependencies]
+bitvec = "=1.0.1"
 const-str = "=1.1.0"
 dotenvy = "=0.15.7"
 lazy_static = "=1.5.0"

@@ -536,7 +536,7 @@ mod impl_exec {
                 ) {
                     let is_start = idx == 0;
                     let is_end = idx == len;
-                    let mut occupied_states = ::std::vec![false; #num_states];
+                    let mut occupied_states = ::bitvec::vec::BitVec::<usize, ::bitvec::order::Lsb0>::repeat(false, #num_states);
 
                     for thread in threads {
                         match thread.state {
@@ -658,7 +658,7 @@ impl ThreadUpdates {
                 #(#capture_updates)*
 
                 new_threads.push(new_thread);
-                occupied_states[#new_state_idx] = true;
+                occupied_states.set(#new_state_idx, true);
             }
         };
     }

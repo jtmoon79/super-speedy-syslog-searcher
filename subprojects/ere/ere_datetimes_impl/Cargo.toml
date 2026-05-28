@@ -18,6 +18,7 @@ exclude = [
 ]
 
 [dependencies]
+bitvec.workspace = true
 const-str.workspace = true
 # PROJECT VERSION LAST PUBLISHED
 ere = { version = "=0.9.81", path = "../ere", package = "super-speedy-syslog-searcher_ere" }
