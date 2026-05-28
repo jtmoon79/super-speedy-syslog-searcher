@@ -9,6 +9,8 @@ set -euo pipefail
 export PATH="${PATH}:${HOME}/go/bin"  # for glow
 DIROUT=${DIROUT-$PWD}
 
+PROGRAM=${PROGRAM-./target/alloc_tracker/s4}
+
 cd "$(dirname -- "${0}")/.."
 
 declare -a FILES=(
@@ -40,14 +42,26 @@ for LOGFILE in "${FILES[@]}"; do
     LOGNAME=$(basename -- "${LOGFILE}")
     OUT="${DIROUT}/alloc-tracker_${LOGNAME}.md"
     (
+        # set preliminary data in markdown file
+        echo "# \`${LOGFILE}\`
+
+## \`--version\`
+
+\`\`\`text" > "${OUT}"
+        ./target/alloc_tracker/s4 --version >> "${OUT}"
+        echo "\`\`\`
+" >> "${OUT}"
         set -x
         env \
             S4_ALLOC_TRACKER_DEPTH=1 \
-            S4_ALLOC_TRACKER_PRINT= \
+            S4_ALLOC_TRACKER_OUTPUT="${OUT}" \
+            S4_ALLOC_TRACKER_PRINT=0 \
+            S4_ALLOC_TRACKER_TRACKING=1 \
             S4_BUILD_REGEX_PRINT=0 \
-            "./tools/s4-alloc_tracker.sh" \
-                "${LOGFILE}" \
-                    2> "${OUT}" 1> /dev/null
+            RUST_MIN_STACK=${RUST_MIN_STACK-20000000} \
+            "${PROGRAM}" \
+            "$@" \
+            "${LOGFILE}" 1>/dev/null
     ) || {
         echo "ERROR: s4-alloc_tracker.sh failed for ${LOGFILE}" >&2
         cat "${OUT}" >&2 || true
