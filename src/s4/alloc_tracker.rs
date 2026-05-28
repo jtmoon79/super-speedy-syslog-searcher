@@ -10,6 +10,8 @@
 //! - `S4_ALLOC_TRACKER_DEPTH` to set the number of call-stack frames above the
 //!   innermost project frame to include in the tracking key (default `1`,
 //!   maximum `16`).
+//! - `S4_ALLOC_TRACKER_OUTPUT` to write `print_tracking_map()` output to a file
+//!   instead of stderr.
 
 use std::alloc::{
     GlobalAlloc,
@@ -29,6 +31,10 @@ use std::sync::{
 };
 
 use ::backtrace::SymbolName;
+use ::chrono::{
+    DateTime,
+    Local,
+};
 use ::lazy_static::lazy_static;
 use ::rustc_demangle::{
     Demangle,
@@ -138,14 +144,30 @@ impl core::fmt::Display for HumanBytesBinary {
 }
 
 /// call `core::fmt::write` with a provided buffer (a `FmtBuf` most likely).
-/// Write the buffer to stderr.
+/// Write the buffer to stderr, or to a provided writer if one is supplied.
 /// No allocations are performed.
 ///
-/// Returns the locked stderr for further writing if needed.
-macro_rules! alloc_stderr_write_fmt {
-    ($buf:expr, $($arg:tt)*) => {{
+/// The two-argument form returns the locked stderr for further writing if needed.
+macro_rules! alloc_write_info {
+    ($writer:expr, $buf:expr, $fmt:literal $(, $arg:expr)* $(,)?) => {{
         let buf = $buf;
-        _ = core::fmt::write(buf, format_args!($($arg)*));
+        _ = core::fmt::write(buf, format_args!($fmt $(, $arg)*));
+        if let Some(writer) = $writer {
+            writer.write_all(buf.as_bytes()).unwrap_or_else(
+                |err| panic!("failed to write allocator tracking output: {}", err)
+            );
+            writer.flush().unwrap_or_else(
+                |err| panic!("failed to flush allocator tracking output: {}", err)
+            );
+        } else {
+            let mut stderr_lock = std::io::stderr().lock();
+            _ = stderr_lock.write(buf.as_bytes());
+            _ = stderr_lock.flush();
+        }
+    }};
+    ($buf:expr, $fmt:literal $(, $arg:expr)* $(,)?) => {{
+        let buf = $buf;
+        _ = core::fmt::write(buf, format_args!($fmt $(, $arg)*));
         let mut stderr_lock = std::io::stderr().lock();
         _ = stderr_lock.write(buf.as_bytes());
         _ = stderr_lock.flush();
@@ -198,6 +220,8 @@ const ENV_ALLOCATOR_PRINT: &str = "S4_ALLOC_TRACKER_PRINT";
 const ENV_ALLOCATOR_TRACKING: &str = "S4_ALLOC_TRACKER_TRACKING";
 /// User-set environment variable to set the call-stack depth for tracking.
 const ENV_ALLOCATOR_DEPTH: &str = "S4_ALLOC_TRACKER_DEPTH";
+/// User-set environment variable to write tracking output to a file path.
+const ENV_ALLOCATOR_OUTPUT: &str = "S4_ALLOC_TRACKER_OUTPUT";
 /// Default depth: track only the innermost project frame.
 const DEFAULT_ALLOCATOR_DEPTH: usize = 1;
 
@@ -244,10 +268,24 @@ lazy_static! {
     pub(super) static ref PROJECT_ROOT_BYTES: Vec<u8> = PROJECT_ROOT.as_bytes().to_vec();
 }
 
+    /// Return true when the named environment variable is set to a truthy value.
+    /// Accepted values are `1`, `true`, and `yes`, matched case-insensitively.
+    fn env_var_is_truthy(name: &str) -> bool {
+        match std::env::var(name) {
+            Ok(value) => {
+                let value = value.trim();
+                value.eq_ignore_ascii_case("1")
+                    || value.eq_ignore_ascii_case("true")
+                    || value.eq_ignore_ascii_case("yes")
+            }
+            Err(_) => false,
+        }
+    }
+
 /// Checks environment variable `S4_ALLOC_TRACKER_PRINT` to see if we should print allocator backtraces.
 /// Called once by `allocator_tracker_enable()`.
 fn allocator_print_env() -> bool {
-    std::env::var(ENV_ALLOCATOR_PRINT).map(|val| !val.is_empty()).unwrap_or(false)
+        env_var_is_truthy(ENV_ALLOCATOR_PRINT)
 }
 
 /// wrapper to read value of `ALLOCATOR_DO_PRINT`
@@ -264,7 +302,7 @@ fn allocator_print() -> bool {
 /// tracking allocator call sites and their statistics should be enabled.
 /// Called once by `allocator_tracker_enable()`.
 fn allocator_tracking_env() -> bool {
-    std::env::var(ENV_ALLOCATOR_TRACKING).map(|val| !val.is_empty()).unwrap_or(false)
+    env_var_is_truthy(ENV_ALLOCATOR_TRACKING)
 }
 
 /// wrapper to read value of `ALLOCATOR_DO_TRACKING`
@@ -298,7 +336,7 @@ fn allocator_depth() -> usize {
 /// Must call this for each thread to track.
 pub fn allocator_tracker_enable() {
     if ALLOCATOR_TRACKER_ENABLED.with(|ap| ap.load(Ordering::Relaxed)) {
-        _ = alloc_stderr_write_fmt!(
+        _ = alloc_write_info!(
             &mut FmtBuf::<128>::new(),
             "Warning: allocator_tracker_enable() called but allocator tracking is already enabled for this thread.\n",
         );
@@ -701,7 +739,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
             let tid: u64 = ALLOCATOR_TID.with(|ap| *ap);
             // write this message
             let align = layout.align();
-            let mut stderr_lock = alloc_stderr_write_fmt!(
+            let mut stderr_lock = alloc_write_info!(
                 &mut buf,
                 "allocation stack: [thread {tid:>2}] @{ret:?} requested {sz:>3} bytes, align {align:>2}; total {aa:>9} bytes, total calls {calls:>6}\n",
             );
@@ -753,6 +791,20 @@ pub fn print_tracking_map() {
     if !allocator_tracking() {
         return;
     }
+    let dt_now: DateTime<Local> = Local::now();
+
+    let mut output_file = match std::env::var(ENV_ALLOCATOR_OUTPUT) {
+        Ok(path) => Some(
+            std::fs::OpenOptions::new()
+                .create(true)
+                .write(true)
+                .append(true)
+                .open(&path)
+                .unwrap_or_else(|err| panic!("{}={:?} could not be opened for writing: {}", ENV_ALLOCATOR_OUTPUT, path, err))
+        ),
+        Err(std::env::VarError::NotPresent) => None,
+        Err(err) => panic!("{} could not be read: {}", ENV_ALLOCATOR_OUTPUT, err),
+    };
 
     let project_root_: &str = PROJECT_ROOT.as_str();
     let ap = match ALLOCATOR_TRACKING_MAP.write() {
@@ -783,12 +835,25 @@ pub fn print_tracking_map() {
     let mut allocations_calls_table: usize = 0;
 
     let mut buf = FmtBuf::<5095>::new();
-    _ = alloc_stderr_write_fmt!(
+    let args: String = std::env::args().collect::<Vec<String>>().join(" ");
+    _ = alloc_write_info!(
+        output_file.as_mut(),
+        &mut buf,
+        "## Command
+
+`$ {args}`
+
+"
+    );
+    buf.clear();
+    _ = alloc_write_info!(
+        output_file.as_mut(),
         &mut buf,
         "## Allocator Tracking results\n\n"
     );
     buf.clear();
-    _ = alloc_stderr_write_fmt!(
+    _ = alloc_write_info!(
+        output_file.as_mut(),
         &mut buf,
         "\
 | ***File:line:col***<br/>***Call Site*** | Thread<br/>ID | Thread<br/>Name | Allocations | Bytes | Bytes<br/>per Allocation |
@@ -838,7 +903,8 @@ pub fn print_tracking_map() {
         let line_number = &key.0[0].2;
         let column_number = &key.0[0].3;
         buf.clear();
-        _ = alloc_stderr_write_fmt!(
+        _ = alloc_write_info!(
+            output_file.as_mut(),
             &mut buf,
             "| `{file_path}:{line_number}:{column_number}`<br/>`{function_name}` | {thread_id} | `{thread_name}` | {allocations_s} | {bytes_s} ({bytes_h}) | {bytes_per_allocation_s} ({bytes_per_allocation_h}) |\n",
         );
@@ -861,7 +927,8 @@ pub fn print_tracking_map() {
                 file_name_i
             };
             buf.clear();
-            _ = alloc_stderr_write_fmt!(
+            _ = alloc_write_info!(
+                output_file.as_mut(),
                 &mut buf,
                 "| `{file_path_i}:{lineno}:{colno}`<br/>`{function_name_i}` | {thread_id} | `{thread_name}` | | | |\n",
             );
@@ -870,14 +937,15 @@ pub fn print_tracking_map() {
         if printed_more_rows {
             // print an empty row, easier visual separator between related rows
             buf.clear();
-            _ = alloc_stderr_write_fmt!(
+            _ = alloc_write_info!(
+                output_file.as_mut(),
                 &mut buf,
                 "| | | | | | | | |\n",
             );
         }
     }
     buf.clear();
-    _ = alloc_stderr_write_fmt!(&mut buf, "\n");
+    _ = alloc_write_info!(output_file.as_mut(), &mut buf, "\n");
 
     // print the summary of the allocator tracking stats
 
@@ -929,8 +997,9 @@ pub fn print_tracking_map() {
     let a_t_current = ALLOCATOR_ALLOCATED_CURRENT.load(Ordering::Relaxed);
     let a_t_current_s = a_t_current.separate_with_commas();
 
-    _ = alloc_stderr_write_fmt!(
+    _ = alloc_write_info!(
         // the strange alignment of right-side explanatory text here should print in a vertically aligned manner in most cases
+        output_file.as_mut(),
         &mut buf,
         "
 ## Allocator Tracking summary
@@ -958,5 +1027,8 @@ pub fn print_tracking_map() {
 | cached file names | {filenames_len} | |
 | cached function names | {functions_len} | |
 | cached thread names | {threadnames_len} | |
+
+{dt_now}
 ");
+
 }
