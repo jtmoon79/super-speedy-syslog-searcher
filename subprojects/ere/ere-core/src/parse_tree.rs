@@ -13,7 +13,7 @@ use quote::{quote, ToTokens};
 /// it returns `Option<(&'a str, T)>` based on which literal prefix is matched
 ///
 /// Example:
-/// ```
+/// ```ignore
 /// let text = "asdf";
 /// let test = match_prefix!(text, {
 ///     "fdsa" => 0,
@@ -21,7 +21,7 @@ use quote::{quote, ToTokens};
 ///     "as" => 2,
 ///     "asd" => 3,
 /// });
-/// assert_eq!(test, Some("df", 2));
+/// assert_eq!(test, Some(("df", 2)));
 /// ```
 macro_rules! match_prefix {
     ($text:ident, { }) => (::core::option::Option::None);
@@ -426,7 +426,7 @@ impl ToTokens for CharClass {
 ///
 /// Equality checks are semantic:
 /// ```
-/// use ere_core::parse_tree::Atom;
+/// use super_speedy_syslog_searcher_ere_core::parse_tree::Atom;
 /// assert_eq!(
 ///     "[abcd]".parse::<Atom>(),
 ///     "[a-d]".parse::<Atom>(),
@@ -548,7 +548,7 @@ impl Atom {
     ///
     /// Example:
     /// ```
-    /// use ere_core::parse_tree::Atom;
+    /// use super_speedy_syslog_searcher_ere_core::parse_tree::Atom;
     /// assert_eq!(
     ///     "[a-z2-9A-X0-1YZ[:xdigit:]]".parse::<Atom>().unwrap().to_ranges(),
     ///     vec!['0'..='9', 'A'..='Z', 'a'..='z'],

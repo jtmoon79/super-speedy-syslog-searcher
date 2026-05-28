@@ -831,6 +831,7 @@ mod tests {
     use super::{
         U8DFA,
         U8NFA,
+        U8TDFA,
     };
 
     #[test]
@@ -840,6 +841,7 @@ mod tests {
         // assert_eq!(capture_groups, 2);
         let nfa = WorkingNFA::new(&tree);
         let nfa = U8NFA::new(&nfa);
-        let nfa = U8DFA::from_nfa(&nfa, 100).unwrap();
+        let tdfa = U8TDFA::from_nfa(&nfa, 100).unwrap();
+        let _nfa = U8DFA::from_tagged(&tdfa).unwrap();
     }
 }
