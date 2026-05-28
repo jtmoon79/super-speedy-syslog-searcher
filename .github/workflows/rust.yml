@@ -451,6 +451,12 @@ jobs:
           set -eux
           cd ./subprojects/ere/ere
           cargo test --features unstable-attr-regex --locked
+      - name: test ere-core
+        shell: bash
+        run: |
+          set -eux
+          cd ./subprojects/ere/ere-core
+          cargo test --locked
       # download release for --venv
       - name: Download release binary
         uses: actions/download-artifact@v8
