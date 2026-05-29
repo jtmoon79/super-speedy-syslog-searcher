@@ -1,0 +1,1130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+</head>
+<body>
+
+<ul>
+<li><p>exec env S4_ALLOC_TRACKER_DEPTH=1 S4_ALLOC_TRACKER_PRINT= S4_ALLOC_TRACKER_TRACKING=1 S4_BUILD_REGEX_PRINT=0 RUST_MIN_STACK=20000000 cargo run --quiet --profile alloc_tracker --features alloc_tracker -- ./logs/other/tests/gen-1000-3-foobar.log</p>
+
+<h2>Allocator Tracking results</h2></li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th align="left"><strong><em>File:line:col</em></strong><br/><strong><em>Call Site</em></strong></th>
+<th align="right">Thread<br/>ID</th>
+<th align="left">Thread<br/>Name</th>
+<th align="right">Allocations</th>
+<th align="right">Bytes</th>
+<th align="right">Bytes<br/>per Allocation</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_123::ere_match_struct_123::ENGINE_BYTES::exec::transition_epsilons_exec::h537ddf892aab2ffe</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">66,365</td>
+<td align="right">3,664,630 (3.49 MiB)</td>
+<td align="right">55 (55 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1471:17</code><br/><code>s4lib::readers::syslinereader::SyslineReader::find_datetime_in_line::h76c64a27acc37abd</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">952</td>
+<td align="right">91,392 (89.25 KiB)</td>
+<td align="right">96 (96 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1469:13</code><br/><code>s4lib::readers::syslinereader::SyslineReader::find_datetime_in_line::h76c64a27acc37abd</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">952</td>
+<td align="right">22,848 (22.31 KiB)</td>
+<td align="right">24 (24 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/line.rs:513:24</code><br/><code>&lt;s4lib::data::line::Line as core::default::Default&gt;::default::h718aa466535c25c4</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">477</td>
+<td align="right">22,896 (22.36 KiB)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1747:13</code><br/><code>s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line::hf868aae741c5f3b7</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">477</td>
+<td align="right">3,816 (3.73 KiB)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_123::ere_match_struct_123::ENGINE_BYTES::exec::haf48fb9fed91f767</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">476</td>
+<td align="right">106,624 (104.12 KiB)</td>
+<td align="right">224 (224 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:473:28</code><br/><code>s4lib::readers::linereader::LineReader::insert_line::he3485a08fab6fb11</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">476</td>
+<td align="right">19,040 (18.59 KiB)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/line.rs:423:9</code><br/><code>s4lib::data::line::LinePart::block_boxptr_ab::hec527f9f26121cff</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">476</td>
+<td align="right">7,616 (7.44 KiB)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3403:16</code><br/><code>s4::s4::cli_process_args::hc2513eaa31d17c92</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">208</td>
+<td align="right">25,469 (24.87 KiB)</td>
+<td align="right">122 (122 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:495:9</code><br/><code>s4lib::readers::linereader::LineReader::insert_line::he3485a08fab6fb11</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">78</td>
+<td align="right">15,936 (15.56 KiB)</td>
+<td align="right">204 (204 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:482:9</code><br/><code>s4lib::readers::linereader::LineReader::insert_line::he3485a08fab6fb11</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">78</td>
+<td align="right">15,936 (15.56 KiB)</td>
+<td align="right">204 (204 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2499:10</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">52</td>
+<td align="right">48,546 (47.41 KiB)</td>
+<td align="right">933 (933 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:1313:29</code><br/><code>s4lib::readers::linereader::LineReader::find_line_in_block::hc904805666cce2d4</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">7</td>
+<td align="right">336 (336 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3748:5</code><br/><code>s4::s4::set_signal_handler::h04d226b85c8bceb4</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">7</td>
+<td align="right">181 (181 B)</td>
+<td align="right">25 (25 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5242:15</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">5</td>
+<td align="right">286 (286 B)</td>
+<td align="right">57 (57 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:353:13</code><br/><code>s4::s4::LOCAL_NOW::__init::{{closure}}::h7cd5d76dd27ff375</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3</td>
+<td align="right">5,924 (5.79 KiB)</td>
+<td align="right">1,974 (1.93 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:591:47</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">3</td>
+<td align="right">416 (416 B)</td>
+<td align="right">138 (138 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:273:34</code><br/><code>s4lib::readers::linereader::LineReader::new::h35461f372328eb57</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">3</td>
+<td align="right">384 (384 B)</td>
+<td align="right">128 (128 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:584:37</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">3</td>
+<td align="right">248 (248 B)</td>
+<td align="right">82 (82 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:1836:35</code><br/><code>s4lib::readers::blockreader::BlockReader::new::h4ce67b93fa8e3683</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">3</td>
+<td align="right">216 (216 B)</td>
+<td align="right">72 (72 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5238:13</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">3,800 (3.71 KiB)</td>
+<td align="right">1,900 (1.86 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5330:53</code><br/><code>s4::s4::processing_loop::recv_many_chan::h4d40e21e69805ee0</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">256 (256 B)</td>
+<td align="right">128 (128 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2834:16</code><br/><code>s4::s4::cli_process_blocksz::hcc5a5593f13e2c9a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">156 (156 B)</td>
+<td align="right">78 (78 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5359:59</code><br/><code>s4::s4::processing_loop::recv_many_chan::h4d40e21e69805ee0</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">144 (144 B)</td>
+<td align="right">72 (72 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5172:13</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">80 (80 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1314:44</code><br/><code>s4lib::readers::syslinereader::SyslineReader::find_datetime_in_line::h76c64a27acc37abd</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">2</td>
+<td align="right">48 (48 B)</td>
+<td align="right">24 (24 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2775:26</code><br/><code>s4lib::readers::blockreader::BlockReader::read_block_File::h7b2ca2ec4ce957ae</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">65,536 (64.00 KiB)</td>
+<td align="right">65,536 (64.00 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5129:34</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,452 (2.39 KiB)</td>
+<td align="right">2,452 (2.39 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5407:34</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">884 (884 B)</td>
+<td align="right">884 (884 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5044:17</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">368 (368 B)</td>
+<td align="right">368 (368 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslogprocessor.rs:174:9</code><br/><code>&lt;s4lib::readers::syslogprocessor::BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP as core::ops::deref::Deref&gt;::deref::__static_ref_initialize::hd3d24ad1fe727c40</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">280 (280 B)</td>
+<td align="right">280 (280 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslogprocessor.rs:189:9</code><br/><code>&lt;s4lib::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP as core::ops::deref::Deref&gt;::deref::__static_ref_initialize::h0672a2de9a87b4ff</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">280 (280 B)</td>
+<td align="right">280 (280 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5240:9</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">280 (280 B)</td>
+<td align="right">280 (280 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4929:34</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">276 (276 B)</td>
+<td align="right">276 (276 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3685:51</code><br/><code>s4::s4::main::hd2a00718532cbbd2</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">224 (224 B)</td>
+<td align="right">224 (224 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2708:28</code><br/><code>s4lib::readers::blockreader::BlockReader::store_block_in_storage::hdaa8db484d68fd3e</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">192 (192 B)</td>
+<td align="right">192 (192 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:553:13</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">192 (192 B)</td>
+<td align="right">192 (192 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4935:49</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">148 (148 B)</td>
+<td align="right">148 (148 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4937:40</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">116 (116 B)</td>
+<td align="right">116 (116 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1316:17</code><br/><code>s4lib::readers::syslinereader::SyslineReader::find_datetime_in_line::h76c64a27acc37abd</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">112 (112 B)</td>
+<td align="right">112 (112 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2722:14</code><br/><code>s4lib::readers::blockreader::BlockReader::store_block_in_storage::hdaa8db484d68fd3e</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">104 (104 B)</td>
+<td align="right">104 (104 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2545:12</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::FromArgMatches&gt;::from_arg_matches_mut::{{closure}}::h6703d1b21dd76a2a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">96 (96 B)</td>
+<td align="right">96 (96 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1137:22</code><br/><code>s4lib::readers::filepreprocessor::process_path::hf84d56678281c100</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">87 (87 B)</td>
+<td align="right">87 (87 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5127:32</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4954:41</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5139:28</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4950:44</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4952:35</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1167:53</code><br/><code>s4lib::readers::filepreprocessor::process_path::hf84d56678281c100</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">56 (56 B)</td>
+<td align="right">56 (56 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5413:52</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5397:26</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:1129:21</code><br/><code>s4lib::readers::linereader::LineReader::find_line_in_block::hc904805666cce2d4</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3421:33</code><br/><code>s4::s4::cli_process_args::hc2513eaa31d17c92</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3962:9</code><br/><code>s4::s4::exec_syslogprocessor::h8106c39799c9915a</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:619:35</code><br/><code>s4lib::readers::blockreader::BlockReader::new::h4ce67b93fa8e3683</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:2098:74</code><br/><code>s4lib::readers::syslinereader::SyslineReader::find_sysline_in_block_year::haa1f8fb8b36f2fa7</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:651:20</code><br/><code>s4lib::readers::blockreader::BlockReader::new::h4ce67b93fa8e3683</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2796:30</code><br/><code>s4lib::readers::blockreader::BlockReader::read_block_File::h7b2ca2ec4ce957ae</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslogprocessor.rs:1466:20</code><br/><code>s4lib::readers::syslogprocessor::SyslogProcessor::summary_complete::hfcc5018cbbf8a99a</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1133:33</code><br/><code>s4lib::readers::filepreprocessor::process_path::hf84d56678281c100</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1167:87</code><br/><code>s4lib::readers::filepreprocessor::process_path::hf84d56678281c100</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3448:29</code><br/><code>s4::s4::cli_process_args::hc2513eaa31d17c92</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2897:5</code><br/><code>s4::s4::cli_process_tz_offset::ha0fcee891a25dea7</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5044:56</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2689:9</code><br/><code>s4lib::readers::blockreader::BlockReader::store_block_in_LRU_cache::h9597576df80bd0c6</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">32 (32 B)</td>
+<td align="right">32 (32 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5243:19</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">21 (21 B)</td>
+<td align="right">21 (21 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/helpers.rs:30:5</code><br/><code>s4lib::readers::helpers::basename::h70537354f6e5017d</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">21 (21 B)</td>
+<td align="right">21 (21 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5241:32</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">21 (21 B)</td>
+<td align="right">21 (21 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2896:28</code><br/><code>s4::s4::cli_process_tz_offset::ha0fcee891a25dea7</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">20 (20 B)</td>
+<td align="right">20 (20 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2720:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2600:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2547:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2660:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2586:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2557:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2682:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2782:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2735:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2747:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2672:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2694:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2568:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2708:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2648:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2796:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2614:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2630:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2759:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2534:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:580:31</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:550:39</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar.log</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2869:23</code><br/><code>s4::s4::cli_parse_blocksz::hee67f7902ea5d88b</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2581:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h603c3d84d3cce851</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2790:27</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h1b989b6cd2979b9a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5229:26</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5424:26</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2715:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::ha43c097dc248e1c4</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2754:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::habfe7a0fe57c7fe9</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2868:32</code><br/><code>s4::s4::cli_parse_blocksz::hee67f7902ea5d88b</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2790:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h1b989b6cd2979b9a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2730:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::hae6027573b2eba9b</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2772:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h1d839769a57605e6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2742:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::he56a849edb3bf699</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">4 (4 B)</td>
+<td align="right">4 (4 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:334:31</code><br/><code>s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl::h7ee028a2b403903e</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">3 (3 B)</td>
+<td align="right">3 (3 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2687:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h7dbc7c85affda2f5</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1 (1 B)</td>
+<td align="right">1 (1 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2687:27</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h7dbc7c85affda2f5</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1 (1 B)</td>
+<td align="right">1 (1 B)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Allocator Tracking summary</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">tracked</th>
+<th align="right">bytes</th>
+<th align="right">calls</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">normal allocations</td>
+<td align="right">4,130,497</td>
+<td align="right">71,193</td>
+<td align="left">normal program allocations; this is the most useful number</td>
+</tr>
+
+<tr>
+<td align="left">total deallocations</td>
+<td align="right">129,066,581</td>
+<td align="right">396,313</td>
+<td align="left">includes normal program deallocations and tracking deallocations</td>
+</tr>
+
+<tr>
+<td align="left">current outstanding</td>
+<td align="right">45,132,178</td>
+<td align="right"></td>
+<td align="left">outstanding allocated bytes as of this print</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Allocator Tracking internals</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">tracked</th>
+<th align="right">bytes</th>
+<th align="right">calls</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">total from tracking</td>
+<td align="right">170,068,239</td>
+<td align="right">408,155</td>
+<td align="left">tracking allocations; not part of the normal program allocations</td>
+</tr>
+
+<tr>
+<td align="left">tracking from backtrace</td>
+<td align="right">168,353,945</td>
+<td align="right"></td>
+<td align="left">tracking allocations specifically for <code>backtrace::trace</code> and <code>backtrace::resolve_frame</code>; subset of &ldquo;total from tracking&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">tracking from other</td>
+<td align="right">1,714,294</td>
+<td align="right"></td>
+<td align="left">other tracking allocations, not &ldquo;from backtrace&rdquo;; subset of &ldquo;total from tracking&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">ratio tracking to normal</td>
+<td align="right">100 to 2</td>
+<td align="right">100 to 17</td>
+<td align="left">ratio of tracking allocations/calls to normal program allocations/calls</td>
+</tr>
+
+<tr>
+<td align="left">diff table vs total</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">sanity check of total numbers and table numbers; should be 0</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th align="left">parameter</th>
+<th align="right">value</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">frame depth</td>
+<td align="right">1</td>
+<td align="left">max depth of backtraced frames for each allocation call site; env var &ldquo;S4_ALLOC_TRACKER_DEPTH&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">call sites</td>
+<td align="right">106</td>
+<td align="left">entries in the table above</td>
+</tr>
+
+<tr>
+<td align="left">cached file names</td>
+<td align="right">9</td>
+<td align="left"></td>
+</tr>
+
+<tr>
+<td align="left">cached function names</td>
+<td align="right">41</td>
+<td align="left"></td>
+</tr>
+
+<tr>
+<td align="left">cached thread names</td>
+<td align="right">2</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

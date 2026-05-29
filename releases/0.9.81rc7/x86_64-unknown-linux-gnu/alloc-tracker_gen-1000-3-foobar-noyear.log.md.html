@@ -1,0 +1,2096 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Command</title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
+
+  function numericValue(text) {
+    var match = String(text).replace(/,/g, '').match(/-?[0-9]+(?:[.][0-9]+)?/);
+    return match ? Number(match[0]) : NaN;
+  }
+
+  function compareCells(aText, bText, type, asc) {
+    if (type === 'numeric') {
+      var aNum = numericValue(aText);
+      var bNum = numericValue(bText);
+      var aNaN = Number.isNaN(aNum);
+      var bNaN = Number.isNaN(bNum);
+
+      if (aNaN && bNaN) {
+        return 0;
+      }
+      if (aNaN) {
+        return 1;
+      }
+      if (bNaN) {
+        return -1;
+      }
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+
+    var cmp = String(aText).localeCompare(String(bText), undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    return asc ? cmp : -cmp;
+  }
+
+  function getRowsForSort(table) {
+    if (table.tBodies && table.tBodies.length > 0) {
+      return {
+        container: table.tBodies[0],
+        rows: Array.from(table.tBodies[0].rows)
+      };
+    }
+
+    var allRows = Array.from(table.rows);
+    return {
+      container: table,
+      rows: allRows.slice(1)
+    };
+  }
+
+  Array.from(document.querySelectorAll('table')).forEach(function (table) {
+    var headerRow = table.tHead && table.tHead.rows.length > 0
+      ? table.tHead.rows[0]
+      : table.rows[0];
+
+    if (!headerRow) {
+      return;
+    }
+
+    Array.from(headerRow.cells).forEach(function (th, colIndex) {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', function () {
+        var rowsInfo = getRowsForSort(table);
+        var rows = rowsInfo.rows;
+        var sortType = columnTypes[colIndex] || 'alpha';
+        var currentlyAsc = th.getAttribute('data-sort-dir') === 'asc';
+        var asc = !currentlyAsc;
+
+        Array.from(headerRow.cells).forEach(function (cell) {
+          if (cell !== th) {
+            cell.removeAttribute('data-sort-dir');
+          }
+        });
+
+        rows.sort(function (aRow, bRow) {
+          var aCell = aRow.cells[colIndex];
+          var bCell = bRow.cells[colIndex];
+          var aText = aCell ? aCell.textContent.trim() : '';
+          var bText = bCell ? bCell.textContent.trim() : '';
+          return compareCells(aText, bText, sortType, asc);
+        });
+
+        rows.forEach(function (row) {
+          rowsInfo.container.appendChild(row);
+        });
+
+        th.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<h1>Command</h1>
+
+<p><code>$ s4  ./logs/other/tests/gen-1000-3-foobar-noyear.log</code></p>
+
+<h2>Allocator Tracking results</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left"><strong><em>File:line:col</em></strong><br/><strong><em>Call Site</em></strong></th>
+<th align="right">Thread<br/>ID</th>
+<th align="left">Thread<br/>Name</th>
+<th align="right">Allocations</th>
+<th align="right">Bytes</th>
+<th align="right">Bytes<br/>per Allocation</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_33::ere_match_struct_33::ENGINE_BYTES::exec::transition_epsilons_exec::hca835e4891ca8795</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">87,174</td>
+<td align="right">95,374,368 (90.96 MiB)</td>
+<td align="right">1,094 (1.07 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_33::ere_match_struct_33::ENGINE_BYTES::exec::transition_symbols_exec::hd07132c343b2e4be</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">6,012</td>
+<td align="right">7,502,976 (7.16 MiB)</td>
+<td align="right">1,248 (1.22 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/line.rs:423:9</code><br/><code>s4lib::data::line::LinePart::block_boxptr_ab::hec527f9f26121cff</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,037</td>
+<td align="right">48,592 (47.45 KiB)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_33::ere_match_struct_33::ENGINE_BYTES::exec::hf60205f4b869d961</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,006</td>
+<td align="right">1,250,496 (1.19 MiB)</td>
+<td align="right">416 (416 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_33::hc2caaa680a18fb37</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,006</td>
+<td align="right">360,720 (352.27 KiB)</td>
+<td align="right">120 (120 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1747:13</code><br/><code>s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line::hf868aae741c5f3b7</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,006</td>
+<td align="right">28,296 (27.63 KiB)</td>
+<td align="right">9 (9 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5330:53</code><br/><code>s4::s4::processing_loop::recv_many_chan::h4d40e21e69805ee0</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3,005</td>
+<td align="right">384,640 (375.62 KiB)</td>
+<td align="right">128 (128 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1003:34</code><br/><code>s4lib::readers::syslinereader::SyslineReader::insert_sysline::hb0a3347079ef1f13</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,005</td>
+<td align="right">216,360 (211.29 KiB)</td>
+<td align="right">72 (72 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/sysline.rs:144:20</code><br/><code>s4lib::data::sysline::Sysline::new_no_lines::h5734abe02afe5ad5</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,005</td>
+<td align="right">24,040 (23.48 KiB)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/line.rs:513:24</code><br/><code>&lt;s4lib::data::line::Line as core::default::Default&gt;::default::h718aa466535c25c4</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,003</td>
+<td align="right">144,144 (140.77 KiB)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:473:28</code><br/><code>s4lib::readers::linereader::LineReader::insert_line::he3485a08fab6fb11</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,003</td>
+<td align="right">120,120 (117.30 KiB)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/datetime.rs:1504:46</code><br/><code>s4lib::data::datetime::captures_to_buffer_bytes::h2b318c62d98c6c54</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3,003</td>
+<td align="right">24,024 (23.46 KiB)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1026:9</code><br/><code>s4lib::readers::syslinereader::SyslineReader::insert_sysline::hb0a3347079ef1f13</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">500</td>
+<td align="right">146,720 (143.28 KiB)</td>
+<td align="right">293 (293 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1011:9</code><br/><code>s4lib::readers::syslinereader::SyslineReader::insert_sysline::hb0a3347079ef1f13</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">500</td>
+<td align="right">102,720 (100.31 KiB)</td>
+<td align="right">205 (205 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:482:9</code><br/><code>s4lib::readers::linereader::LineReader::insert_line::he3485a08fab6fb11</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">499</td>
+<td align="right">102,528 (100.12 KiB)</td>
+<td align="right">205 (205 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:495:9</code><br/><code>s4lib::readers::linereader::LineReader::insert_line::he3485a08fab6fb11</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">499</td>
+<td align="right">102,528 (100.12 KiB)</td>
+<td align="right">205 (205 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3403:16</code><br/><code>s4::s4::cli_process_args::hc2513eaa31d17c92</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">208</td>
+<td align="right">25,490 (24.89 KiB)</td>
+<td align="right">122 (122 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_25::ere_match_struct_25::ENGINE_BYTES::exec::transition_epsilons_exec::hf431b243c46c3a8d</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">145</td>
+<td align="right">58,416 (57.05 KiB)</td>
+<td align="right">402 (402 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2499:10</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">52</td>
+<td align="right">48,546 (47.41 KiB)</td>
+<td align="right">933 (933 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:553:13</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">29</td>
+<td align="right">5,952 (5.81 KiB)</td>
+<td align="right">205 (205 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_32::ere_match_struct_32::ENGINE_BYTES::exec::transition_epsilons_exec::ha6795349b9542e4c</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">26</td>
+<td align="right">153,264 (149.67 KiB)</td>
+<td align="right">5,894 (5.76 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_27::ere_match_struct_27::ENGINE_BYTES::exec::transition_epsilons_exec::h226aaae2ecb2a8df</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">24</td>
+<td align="right">48,132 (47.00 KiB)</td>
+<td align="right">2,005 (1.96 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_28::ere_match_struct_28::ENGINE_BYTES::exec::transition_epsilons_exec::hec6bcd7da6cd9c0b</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">24</td>
+<td align="right">43,326 (42.31 KiB)</td>
+<td align="right">1,805 (1.76 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_29::ere_match_struct_29::ENGINE_BYTES::exec::transition_epsilons_exec::h494cbb3f9716482b</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">24</td>
+<td align="right">43,308 (42.29 KiB)</td>
+<td align="right">1,804 (1.76 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_30::ere_match_struct_30::ENGINE_BYTES::exec::transition_epsilons_exec::h8a54c7641e50f51d</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">24</td>
+<td align="right">43,272 (42.26 KiB)</td>
+<td align="right">1,803 (1.76 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_31::ere_match_struct_31::ENGINE_BYTES::exec::transition_epsilons_exec::h0de51b7091396c66</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">24</td>
+<td align="right">39,042 (38.13 KiB)</td>
+<td align="right">1,626 (1.59 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1059:44</code><br/><code>s4lib::readers::syslinereader::SyslineReader::drop_data::he8d16442e1738fd7</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">22</td>
+<td align="right">278,000 (271.48 KiB)</td>
+<td align="right">12,636 (12.34 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2775:26</code><br/><code>s4lib::readers::blockreader::BlockReader::read_block_File::h7b2ca2ec4ce957ae</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">14</td>
+<td align="right">894,569 (873.60 KiB)</td>
+<td align="right">63,897 (62.40 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2796:30</code><br/><code>s4lib::readers::blockreader::BlockReader::read_block_File::h7b2ca2ec4ce957ae</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">14</td>
+<td align="right">560 (560 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/line.rs:597:9</code><br/><code>s4lib::data::line::Line::prepend::h2349f6f866dd146f</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">13</td>
+<td align="right">2,496 (2.44 KiB)</td>
+<td align="right">192 (192 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1824:27</code><br/><code>s4lib::readers::syslinereader::SyslineReader::parse_datetime_in_line_cached::hf3fcdd8a4bda44a2</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">11</td>
+<td align="right">704 (704 B)</td>
+<td align="right">64 (64 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3748:5</code><br/><code>s4::s4::set_signal_handler::h04d226b85c8bceb4</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">7</td>
+<td align="right">181 (181 B)</td>
+<td align="right">25 (25 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5242:15</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">5</td>
+<td align="right">293 (293 B)</td>
+<td align="right">58 (58 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1571:17</code><br/><code>s4lib::readers::syslinereader::SyslineReader::dt_patterns_indexes_refresh::hc42f1427612aca0d</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">4</td>
+<td align="right">8,608 (8.41 KiB)</td>
+<td align="right">2,152 (2.10 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:2550:13</code><br/><code>s4lib::readers::syslinereader::SyslineReader::find_sysline_year::hc512a80a0e5e0c7a</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">4</td>
+<td align="right">192 (192 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2689:9</code><br/><code>s4lib::readers::blockreader::BlockReader::store_block_in_LRU_cache::h9597576df80bd0c6</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">4</td>
+<td align="right">128 (128 B)</td>
+<td align="right">32 (32 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:353:13</code><br/><code>s4::s4::LOCAL_NOW::__init::{{closure}}::h7cd5d76dd27ff375</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">3</td>
+<td align="right">5,924 (5.79 KiB)</td>
+<td align="right">1,974 (1.93 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_22::ere_match_struct_22::ENGINE_BYTES::exec::transition_epsilons_exec::h84fc79cbc8b5dae3</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">2,272 (2.22 KiB)</td>
+<td align="right">757 (757 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_18::ere_match_struct_18::ENGINE_BYTES::exec::transition_epsilons_exec::hafb9394e9747bd48</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">2,272 (2.22 KiB)</td>
+<td align="right">757 (757 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_4::ere_match_struct_4::ENGINE_BYTES::exec::transition_epsilons_exec::h2a02f762b80f852e</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">2,036 (1.99 KiB)</td>
+<td align="right">678 (678 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_10::ere_match_struct_10::ENGINE_BYTES::exec::transition_epsilons_exec::h69adf72a2e171bef</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">1,998 (1.95 KiB)</td>
+<td align="right">666 (666 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_14::ere_match_struct_14::ENGINE_BYTES::exec::transition_epsilons_exec::h05cefb05a960f767</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">1,890 (1.85 KiB)</td>
+<td align="right">630 (630 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_20::ere_match_struct_20::ENGINE_BYTES::exec::transition_epsilons_exec::h78a25b65632be000</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">1,184 (1.16 KiB)</td>
+<td align="right">394 (394 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_16::ere_match_struct_16::ENGINE_BYTES::exec::transition_epsilons_exec::h0cb294bdaa9d0201</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">1,184 (1.16 KiB)</td>
+<td align="right">394 (394 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_21::ere_match_struct_21::ENGINE_BYTES::exec::transition_epsilons_exec::hf32772c5c1e20dc8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">1,178 (1.15 KiB)</td>
+<td align="right">392 (392 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_17::ere_match_struct_17::ENGINE_BYTES::exec::transition_epsilons_exec::hc416fba3e729afb5</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">1,178 (1.15 KiB)</td>
+<td align="right">392 (392 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_19::ere_match_struct_19::ENGINE_BYTES::exec::transition_epsilons_exec::h6c0aa9313a549e10</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">1,092 (1.07 KiB)</td>
+<td align="right">364 (364 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_24::ere_match_struct_24::ENGINE_BYTES::exec::transition_epsilons_exec::h418c269ed831d371</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">1,042 (1.02 KiB)</td>
+<td align="right">347 (347 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_6::ere_match_struct_6::ENGINE_BYTES::exec::transition_epsilons_exec::hc043abf5605ebc5b</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">968 (968 B)</td>
+<td align="right">322 (322 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_2::ere_match_struct_2::ENGINE_BYTES::exec::transition_epsilons_exec::h8bcfc96b132abc09</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">962 (962 B)</td>
+<td align="right">320 (320 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_1::ere_match_struct_1::ENGINE_BYTES::exec::transition_epsilons_exec::hda5f7ad7c797a37d</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">960 (960 B)</td>
+<td align="right">320 (320 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_3::ere_match_struct_3::ENGINE_BYTES::exec::transition_epsilons_exec::ha234499a6f5ce63e</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">956 (956 B)</td>
+<td align="right">318 (318 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_5::ere_match_struct_5::ENGINE_BYTES::exec::transition_epsilons_exec::hcb315b983f1059fe</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">952 (952 B)</td>
+<td align="right">317 (317 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_23::ere_match_struct_23::ENGINE_BYTES::exec::transition_epsilons_exec::ha1988cd0de631724</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">914 (914 B)</td>
+<td align="right">304 (304 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_7::ere_match_struct_7::ENGINE_BYTES::exec::transition_epsilons_exec::h75312d29cf1c9b84</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">910 (910 B)</td>
+<td align="right">303 (303 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_8::ere_match_struct_8::ENGINE_BYTES::exec::transition_epsilons_exec::hb3a3b478ba609b59</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">908 (908 B)</td>
+<td align="right">302 (302 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_9::ere_match_struct_9::ENGINE_BYTES::exec::transition_epsilons_exec::hb07b395537211cfa</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">904 (904 B)</td>
+<td align="right">301 (301 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_26::ere_match_struct_26::ENGINE_BYTES::exec::transition_epsilons_exec::h2e91a74fe174210d</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">864 (864 B)</td>
+<td align="right">288 (288 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_11::ere_match_struct_11::ENGINE_BYTES::exec::transition_epsilons_exec::h2a1e5dfde2ff353a</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">816 (816 B)</td>
+<td align="right">272 (272 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_12::ere_match_struct_12::ENGINE_BYTES::exec::transition_epsilons_exec::h2dff066ef2412335</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">716 (716 B)</td>
+<td align="right">238 (238 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_13::ere_match_struct_13::ENGINE_BYTES::exec::transition_epsilons_exec::h5ffd5ce64b9163f3</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">710 (710 B)</td>
+<td align="right">236 (236 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_15::ere_match_struct_15::ENGINE_BYTES::exec::transition_epsilons_exec::hc417f005ef64c539</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">708 (708 B)</td>
+<td align="right">236 (236 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2708:28</code><br/><code>s4lib::readers::blockreader::BlockReader::store_block_in_storage::hdaa8db484d68fd3e</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">672 (672 B)</td>
+<td align="right">224 (224 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:591:47</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">416 (416 B)</td>
+<td align="right">138 (138 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:2722:14</code><br/><code>s4lib::readers::blockreader::BlockReader::store_block_in_storage::hdaa8db484d68fd3e</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">408 (408 B)</td>
+<td align="right">136 (136 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:273:34</code><br/><code>s4lib::readers::linereader::LineReader::new::h35461f372328eb57</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">384 (384 B)</td>
+<td align="right">128 (128 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:584:37</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">248 (248 B)</td>
+<td align="right">82 (82 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:1836:35</code><br/><code>s4lib::readers::blockreader::BlockReader::new::h4ce67b93fa8e3683</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">216 (216 B)</td>
+<td align="right">72 (72 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:2266:13</code><br/><code>s4lib::readers::linereader::LineReader::find_line::h86f8d51ac7804e43</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">3</td>
+<td align="right">144 (144 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5238:13</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">3,800 (3.71 KiB)</td>
+<td align="right">1,900 (1.86 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_27::ere_match_struct_27::ENGINE_BYTES::exec::transition_symbols_exec::h069b09425fb4fc9e</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">3,648 (3.56 KiB)</td>
+<td align="right">1,824 (1.78 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_29::ere_match_struct_29::ENGINE_BYTES::exec::transition_symbols_exec::h4c1a1aeeadd44ec1</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">3,648 (3.56 KiB)</td>
+<td align="right">1,824 (1.78 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_30::ere_match_struct_30::ENGINE_BYTES::exec::transition_symbols_exec::hc9323080d918454b</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">3,648 (3.56 KiB)</td>
+<td align="right">1,824 (1.78 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_28::ere_match_struct_28::ENGINE_BYTES::exec::transition_symbols_exec::hd549aba0aceee3e6</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">3,648 (3.56 KiB)</td>
+<td align="right">1,824 (1.78 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_32::ere_match_struct_32::ENGINE_BYTES::exec::transition_symbols_exec::he90017eba3fb6699</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">3,264 (3.19 KiB)</td>
+<td align="right">1,632 (1.59 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_31::ere_match_struct_31::ENGINE_BYTES::exec::transition_symbols_exec::hc6b9f6aae3a4a803</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">3,264 (3.19 KiB)</td>
+<td align="right">1,632 (1.59 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:3085:9</code><br/><code>s4lib::readers::syslinereader::SyslineReader::summary::h9e5c4493202bd2db</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">384 (384 B)</td>
+<td align="right">192 (192 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:3079:9</code><br/><code>s4lib::readers::syslinereader::SyslineReader::summary::h9e5c4493202bd2db</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">384 (384 B)</td>
+<td align="right">192 (192 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2834:16</code><br/><code>s4::s4::cli_process_blocksz::hcc5a5593f13e2c9a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">156 (156 B)</td>
+<td align="right">78 (78 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3914:11</code><br/><code>s4::s4::chan_send::hd2431125fff1d7f8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">144 (144 B)</td>
+<td align="right">72 (72 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5359:59</code><br/><code>s4::s4::processing_loop::recv_many_chan::h4d40e21e69805ee0</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">144 (144 B)</td>
+<td align="right">72 (72 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:3086:13</code><br/><code>s4lib::readers::syslinereader::SyslineReader::summary::h9e5c4493202bd2db</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">128 (128 B)</td>
+<td align="right">64 (64 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:2275:13</code><br/><code>s4lib::readers::syslinereader::SyslineReader::find_sysline_in_block_year::haa1f8fb8b36f2fa7</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">96 (96 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:1313:29</code><br/><code>s4lib::readers::linereader::LineReader::find_line_in_block::hc904805666cce2d4</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">96 (96 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslogprocessor.rs:1466:20</code><br/><code>s4lib::readers::syslogprocessor::SyslogProcessor::summary_complete::hfcc5018cbbf8a99a</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">2</td>
+<td align="right">94 (94 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5172:13</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">2</td>
+<td align="right">94 (94 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5129:34</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,452 (2.39 KiB)</td>
+<td align="right">2,452 (2.39 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/printer/printers.rs:793:21</code><br/><code>s4lib::printer::printers::PrinterLogMessage::new::ha16f81626adf2867</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">2,056 (2.01 KiB)</td>
+<td align="right">2,056 (2.01 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_25::ere_match_struct_25::ENGINE_BYTES::exec::transition_symbols_exec::he9284ba922872101</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">1,472 (1.44 KiB)</td>
+<td align="right">1,472 (1.44 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:550:39</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">1,424 (1.39 KiB)</td>
+<td align="right">1,424 (1.39 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5527:29</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1,248 (1.22 KiB)</td>
+<td align="right">1,248 (1.22 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/printer/printers.rs:758:22</code><br/><code>s4lib::printer::printers::PrinterLogMessage::new::ha16f81626adf2867</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1,024 (1.00 KiB)</td>
+<td align="right">1,024 (1.00 KiB)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5407:34</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">884 (884 B)</td>
+<td align="right">884 (884 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_24::ere_match_struct_24::ENGINE_BYTES::exec::h674f8147e54178ca</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">800 (800 B)</td>
+<td align="right">800 (800 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_1::ere_match_struct_1::ENGINE_BYTES::exec::h4e18a17cb9906248</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">736 (736 B)</td>
+<td align="right">736 (736 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_4::ere_match_struct_4::ENGINE_BYTES::exec::h38e897cfc833e380</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">736 (736 B)</td>
+<td align="right">736 (736 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_3::ere_match_struct_3::ENGINE_BYTES::exec::h31049fc93e837670</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">736 (736 B)</td>
+<td align="right">736 (736 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_2::ere_match_struct_2::ENGINE_BYTES::exec::h137772a7aa038826</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">736 (736 B)</td>
+<td align="right">736 (736 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_25::ere_match_struct_25::ENGINE_BYTES::exec::h776ba08f46d59977</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">736 (736 B)</td>
+<td align="right">736 (736 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_9::ere_match_struct_9::ENGINE_BYTES::exec::hed7573b2ed3140b1</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">672 (672 B)</td>
+<td align="right">672 (672 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_6::ere_match_struct_6::ENGINE_BYTES::exec::h054e109e89ec12fb</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">672 (672 B)</td>
+<td align="right">672 (672 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_10::ere_match_struct_10::ENGINE_BYTES::exec::h9e2bcfa9dfa7a98e</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">672 (672 B)</td>
+<td align="right">672 (672 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_8::ere_match_struct_8::ENGINE_BYTES::exec::hd7299a8fdafb791d</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">672 (672 B)</td>
+<td align="right">672 (672 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_7::ere_match_struct_7::ENGINE_BYTES::exec::h3f7cd62d4c124a06</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">672 (672 B)</td>
+<td align="right">672 (672 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_5::ere_match_struct_5::ENGINE_BYTES::exec::h30adb9b76b7f4679</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">672 (672 B)</td>
+<td align="right">672 (672 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_26::ere_match_struct_26::ENGINE_BYTES::exec::hffd0706c1d576513</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">672 (672 B)</td>
+<td align="right">672 (672 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_21::ere_match_struct_21::ENGINE_BYTES::exec::h8770246dae1ef557</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_22::ere_match_struct_22::ENGINE_BYTES::exec::h8819caab03015b07</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_28::ere_match_struct_28::ENGINE_BYTES::exec::h4c08c7e71bff4b5b</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_11::ere_match_struct_11::ENGINE_BYTES::exec::h98443c799f375653</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_16::ere_match_struct_16::ENGINE_BYTES::exec::h1c58c0c60b92fad7</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_14::ere_match_struct_14::ENGINE_BYTES::exec::h657f4a6ed857e4ef</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_18::ere_match_struct_18::ENGINE_BYTES::exec::h773a633871fcda7f</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_30::ere_match_struct_30::ENGINE_BYTES::exec::h22491ffd9bbe8fdb</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_27::ere_match_struct_27::ENGINE_BYTES::exec::h5ab219cbde215f72</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_20::ere_match_struct_20::ENGINE_BYTES::exec::h19292e9ba9a57084</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_29::ere_match_struct_29::ENGINE_BYTES::exec::hbacf30e78fe2329c</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_17::ere_match_struct_17::ENGINE_BYTES::exec::hfb202f91f820a3ef</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">608 (608 B)</td>
+<td align="right">608 (608 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_12::ere_match_struct_12::ENGINE_BYTES::exec::h1ded05930f344926</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">544 (544 B)</td>
+<td align="right">544 (544 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_15::ere_match_struct_15::ENGINE_BYTES::exec::h8032be8a17cd6e7b</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">544 (544 B)</td>
+<td align="right">544 (544 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_13::ere_match_struct_13::ENGINE_BYTES::exec::h9295f3f1048eb70c</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">544 (544 B)</td>
+<td align="right">544 (544 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_31::ere_match_struct_31::ENGINE_BYTES::exec::hbc82d0ef105d73e6</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">544 (544 B)</td>
+<td align="right">544 (544 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_19::ere_match_struct_19::ENGINE_BYTES::exec::h2d78d8bebe3e9b88</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">544 (544 B)</td>
+<td align="right">544 (544 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_32::ere_match_struct_32::ENGINE_BYTES::exec::h6828b38d5a70fded</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">544 (544 B)</td>
+<td align="right">544 (544 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:1838:9</code><br/><code>&lt;super_speedy_syslog_searcher_ere_datetimes_impl::GROUP_NAMES_MAP_STR as core::ops::deref::Deref&gt;::deref::__static_ref_initialize::hed6593d334a6f619</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">416 (416 B)</td>
+<td align="right">416 (416 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:2060:27</code><br/><code>super_speedy_syslog_searcher_ere_datetimes_impl::DATETIME_PARSE_DATAS::ere_match_fn_23::ere_match_struct_23::ENGINE_BYTES::exec::h047bf774c61511e0</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">416 (416 B)</td>
+<td align="right">416 (416 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5044:17</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">368 (368 B)</td>
+<td align="right">368 (368 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslogprocessor.rs:189:9</code><br/><code>&lt;s4lib::readers::syslogprocessor::BLOCKZERO_ANALYSIS_SYSLINE_COUNT_MIN_MAP as core::ops::deref::Deref&gt;::deref::__static_ref_initialize::h0672a2de9a87b4ff</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">280 (280 B)</td>
+<td align="right">280 (280 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslogprocessor.rs:174:9</code><br/><code>&lt;s4lib::readers::syslogprocessor::BLOCKZERO_ANALYSIS_LINE_COUNT_MIN_MAP as core::ops::deref::Deref&gt;::deref::__static_ref_initialize::hd3d24ad1fe727c40</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">280 (280 B)</td>
+<td align="right">280 (280 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5240:9</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">280 (280 B)</td>
+<td align="right">280 (280 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4929:34</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">276 (276 B)</td>
+<td align="right">276 (276 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3685:51</code><br/><code>s4::s4::main::hd2a00718532cbbd2</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">224 (224 B)</td>
+<td align="right">224 (224 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:1834:9</code><br/><code>&lt;super_speedy_syslog_searcher_ere_datetimes_impl::GROUP_NAMES_MAP_STR as core::ops::deref::Deref&gt;::deref::__static_ref_initialize::hed6593d334a6f619</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">216 (216 B)</td>
+<td align="right">216 (216 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4935:49</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">148 (148 B)</td>
+<td align="right">148 (148 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs:1831:9</code><br/><code>&lt;super_speedy_syslog_searcher_ere_datetimes_impl::GROUP_NAMES_MAP_STR as core::ops::deref::Deref&gt;::deref::__static_ref_initialize::hed6593d334a6f619</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">116 (116 B)</td>
+<td align="right">116 (116 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4937:40</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">116 (116 B)</td>
+<td align="right">116 (116 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2545:12</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::FromArgMatches&gt;::from_arg_matches_mut::{{closure}}::h6703d1b21dd76a2a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">96 (96 B)</td>
+<td align="right">96 (96 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1137:22</code><br/><code>s4lib::readers::filepreprocessor::process_path::hf84d56678281c100</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">94 (94 B)</td>
+<td align="right">94 (94 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5127:32</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4952:35</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4954:41</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:4950:44</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5139:28</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">84 (84 B)</td>
+<td align="right">84 (84 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1167:53</code><br/><code>s4lib::readers::filepreprocessor::process_path::hf84d56678281c100</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">56 (56 B)</td>
+<td align="right">56 (56 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5413:52</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5397:26</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5706:62</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">52 (52 B)</td>
+<td align="right">52 (52 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:1129:21</code><br/><code>s4lib::readers::linereader::LineReader::find_line_in_block::hc904805666cce2d4</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:742:21</code><br/><code>s4lib::readers::linereader::LineReader::check_store::h0bbcb4e9b17ca0fa</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/linereader.rs:759:17</code><br/><code>s4lib::readers::linereader::LineReader::check_store::h0bbcb4e9b17ca0fa</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3421:33</code><br/><code>s4::s4::cli_process_args::hc2513eaa31d17c92</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">48 (48 B)</td>
+<td align="right">48 (48 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:619:35</code><br/><code>s4lib::readers::blockreader::BlockReader::new::h4ce67b93fa8e3683</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">47 (47 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/blockreader.rs:651:20</code><br/><code>s4lib::readers::blockreader::BlockReader::new::h4ce67b93fa8e3683</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">47 (47 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3962:9</code><br/><code>s4::s4::exec_syslogprocessor::h8106c39799c9915a</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">47 (47 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1133:33</code><br/><code>s4lib::readers::filepreprocessor::process_path::hf84d56678281c100</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">47 (47 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:3448:29</code><br/><code>s4::s4::cli_process_args::hc2513eaa31d17c92</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">47 (47 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5044:56</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">47 (47 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:1167:87</code><br/><code>s4lib::readers::filepreprocessor::process_path::hf84d56678281c100</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">47 (47 B)</td>
+<td align="right">47 (47 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2897:5</code><br/><code>s4::s4::cli_process_tz_offset::ha0fcee891a25dea7</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">40 (40 B)</td>
+<td align="right">40 (40 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/helpers.rs:30:5</code><br/><code>s4lib::readers::helpers::basename::h70537354f6e5017d</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">28 (28 B)</td>
+<td align="right">28 (28 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5241:32</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">28 (28 B)</td>
+<td align="right">28 (28 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5243:19</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">28 (28 B)</td>
+<td align="right">28 (28 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:1384:34</code><br/><code>s4lib::readers::syslinereader::SyslineReader::find_datetime_in_line::h76c64a27acc37abd</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">22 (22 B)</td>
+<td align="right">22 (22 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2896:28</code><br/><code>s4::s4::cli_process_tz_offset::ha0fcee891a25dea7</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">20 (20 B)</td>
+<td align="right">20 (20 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/line.rs:360:9</code><br/><code>s4lib::data::line::LinePart::block_boxptr_a::hcae88c72609e351d</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/data/line.rs:381:9</code><br/><code>s4lib::data::line::LinePart::block_boxptr_b::hc317650bc7eee208</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2747:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2720:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2630:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2648:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2782:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2534:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2735:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2682:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2796:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2568:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2614:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2557:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2547:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2759:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2694:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2660:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2586:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2600:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2708:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2672:5</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::ha061695984d749d3</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">16 (16 B)</td>
+<td align="right">16 (16 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/printer/printers.rs:760:28</code><br/><code>s4lib::printer::printers::PrinterLogMessage::new::ha16f81626adf2867</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">14 (14 B)</td>
+<td align="right">14 (14 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/syslinereader.rs:580:31</code><br/><code>s4lib::readers::syslinereader::SyslineReader::new::ha5ee0ef8a85160d8</code></td>
+<td align="right">3</td>
+<td align="left"><code>gen-1000-3-foobar-noyear.log</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5229:26</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2581:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h603c3d84d3cce851</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2869:23</code><br/><code>s4::s4::cli_parse_blocksz::hee67f7902ea5d88b</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2790:27</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h1b989b6cd2979b9a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:5424:26</code><br/><code>s4::s4::processing_loop::h0d303c79a1a5d50a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">8 (8 B)</td>
+<td align="right">8 (8 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2772:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h1d839769a57605e6</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2754:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::habfe7a0fe57c7fe9</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2730:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::hae6027573b2eba9b</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2790:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h1b989b6cd2979b9a</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2715:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::ha43c097dc248e1c4</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2868:32</code><br/><code>s4::s4::cli_parse_blocksz::hee67f7902ea5d88b</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">5 (5 B)</td>
+<td align="right">5 (5 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2742:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::he56a849edb3bf699</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">4 (4 B)</td>
+<td align="right">4 (4 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/readers/filepreprocessor.rs:334:31</code><br/><code>s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl::h7ee028a2b403903e</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">3 (3 B)</td>
+<td align="right">3 (3 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2687:9</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h7dbc7c85affda2f5</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1 (1 B)</td>
+<td align="right">1 (1 B)</td>
+</tr>
+
+<tr>
+<td align="left"><code>src/s4/s4.rs:2687:27</code><br/><code>&lt;s4::s4::CLI_Args as clap_builder::derive::Args&gt;::augment_args::{{closure}}::h7dbc7c85affda2f5</code></td>
+<td align="right">1</td>
+<td align="left"><code>main</code></td>
+<td align="right">1</td>
+<td align="right">1 (1 B)</td>
+<td align="right">1 (1 B)</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Allocator Tracking summary</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">tracked</th>
+<th align="right">bytes</th>
+<th align="right">calls</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">normal allocations</td>
+<td align="right">107,727,779</td>
+<td align="right">126,191</td>
+<td align="left">normal program allocations; this is the most useful number</td>
+</tr>
+
+<tr>
+<td align="left">total deallocations</td>
+<td align="right">296,479,831</td>
+<td align="right">622,726</td>
+<td align="left">includes normal program deallocations and tracking deallocations</td>
+</tr>
+
+<tr>
+<td align="left">current outstanding</td>
+<td align="right">67,769,035</td>
+<td align="right"></td>
+<td align="left">outstanding allocated bytes as of this print</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Allocator Tracking internals</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">tracked</th>
+<th align="right">bytes</th>
+<th align="right">calls</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">total from tracking</td>
+<td align="right">256,521,064</td>
+<td align="right">592,981</td>
+<td align="left">tracking allocations; not part of the normal program allocations</td>
+</tr>
+
+<tr>
+<td align="left">tracking from backtrace</td>
+<td align="right">254,801,909</td>
+<td align="right"></td>
+<td align="left">tracking allocations specifically for <code>backtrace::trace</code> and <code>backtrace::resolve_frame</code>; subset of &ldquo;total from tracking&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">tracking from other</td>
+<td align="right">1,719,155</td>
+<td align="right"></td>
+<td align="left">other tracking allocations, not &ldquo;from backtrace&rdquo;; subset of &ldquo;total from tracking&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">ratio tracking to normal</td>
+<td align="right">100 to 42</td>
+<td align="right">100 to 21</td>
+<td align="left">ratio of tracking allocations/calls to normal program allocations/calls</td>
+</tr>
+
+<tr>
+<td align="left">diff table vs total</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">sanity check of total numbers and table numbers; should be 0</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th align="left">parameter</th>
+<th align="right">value</th>
+<th align="left">about</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">frame depth</td>
+<td align="right">1</td>
+<td align="left">max depth of backtraced frames for each allocation call site; env var &ldquo;S4_ALLOC_TRACKER_DEPTH&rdquo;</td>
+</tr>
+
+<tr>
+<td align="left">call sites</td>
+<td align="right">203</td>
+<td align="left">entries in the table above</td>
+</tr>
+
+<tr>
+<td align="left">cached file names</td>
+<td align="right">12</td>
+<td align="left"></td>
+</tr>
+
+<tr>
+<td align="left">cached function names</td>
+<td align="right">130</td>
+<td align="left"></td>
+</tr>
+
+<tr>
+<td align="left">cached thread names</td>
+<td align="right">2</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>Generated on Wed May 27 12:23:28 PM PDT 2026 by <code>./tools/s4-alloc_trackers.sh</code></p>
+
+</body>
+</html>

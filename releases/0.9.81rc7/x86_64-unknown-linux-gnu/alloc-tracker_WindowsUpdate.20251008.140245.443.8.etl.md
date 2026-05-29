@@ -1,0 +1,159 @@
+# Command
+
+`$ s4  ./logs/programs/Event_Trace_Log/WindowsUpdate.20251008.140245.443.8.etl`
+
+## Allocator Tracking results
+
+| ***File:line:col***<br/>***Call Site*** | Thread<br/>ID | Thread<br/>Name | Allocations | Bytes | Bytes<br/>per Allocation |
+| :-- | ---: | :--- | ---: | ---: | ---: |
+| `src/s4/s4.rs:3403:16`<br/>`s4::s4::cli_process_args::hc2513eaa31d17c92` | 1 | `main` | 208 | 25,562 (24.96 KiB) | 122 (122 B) |
+| `src/python/pyrunner.rs:1104:23`<br/>`s4lib::python::pyrunner::PyRunner::write_read::he4300ae0254a86eb` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 86 | 11,008 (10.75 KiB) | 128 (128 B) |
+| `src/s4/s4.rs:5330:53`<br/>`s4::s4::processing_loop::recv_many_chan::h4d40e21e69805ee0` | 1 | `main` | 84 | 10,752 (10.50 KiB) | 128 (128 B) |
+| `src/python/pyrunner.rs:1170:60`<br/>`s4lib::python::pyrunner::PyRunner::write_read::he4300ae0254a86eb` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 82 | 37,534 (36.65 KiB) | 457 (457 B) |
+| `src/readers/pyeventreader.rs:561:13`<br/>`s4lib::readers::pyeventreader::PyEventReader::process_bytes_to_pydataevent::h9b50376db09c63a4` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 82 | 35,648 (34.81 KiB) | 434 (434 B) |
+| `src/readers/pyeventreader.rs:587:32`<br/>`s4lib::readers::pyeventreader::PyEventReader::ts_data_to_datetime::h60e47e0f0a94ec9d` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 82 | 820 (820 B) | 10 (10 B) |
+| `src/readers/pyeventreader.rs:493:30`<br/>`s4lib::readers::pyeventreader::PyEventReader::process_bytes_to_pydataevent::h9b50376db09c63a4` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 82 | 246 (246 B) | 3 (3 B) |
+| `src/readers/pyeventreader.rs:488:30`<br/>`s4lib::readers::pyeventreader::PyEventReader::process_bytes_to_pydataevent::h9b50376db09c63a4` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 82 | 164 (164 B) | 2 (2 B) |
+| `src/s4/s4.rs:2499:10`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 52 | 48,546 (47.41 KiB) | 933 (933 B) |
+| `src/readers/pyeventreader.rs:629:36`<br/>`s4lib::readers::pyeventreader::PyEventReader::next::h5f0d87278ddabb0d` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 17 | 136 (136 B) | 8 (8 B) |
+| `src/readers/pyeventreader.rs:632:30`<br/>`s4lib::readers::pyeventreader::PyEventReader::next::h5f0d87278ddabb0d` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 17 | 50 (50 B) | 2 (2 B) |
+| `src/python/pyrunner.rs:794:22`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 13 | 543 (543 B) | 41 (41 B) |
+| `src/python/pyrunner.rs:370:30`<br/>`s4lib::python::pyrunner::PipeStreamReader::new::h00cd28ba56afba33` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 10 | 592 (592 B) | 59 (59 B) |
+| `src/s4/s4.rs:3748:5`<br/>`s4::s4::set_signal_handler::h04d226b85c8bceb4` | 1 | `main` | 7 | 181 (181 B) | 25 (25 B) |
+| `src/python/pyrunner.rs:817:23`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 6 | 178 (178 B) | 29 (29 B) |
+| `src/s4/s4.rs:5242:15`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 5 | 304 (304 B) | 60 (60 B) |
+| `src/python/pyrunner.rs:350:13`<br/>`s4lib::python::pyrunner::PipeStreamReader::new::h00cd28ba56afba33` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 4 | 1,792 (1.75 KiB) | 448 (448 B) |
+| `src/s4/s4.rs:353:13`<br/>`s4::s4::LOCAL_NOW::__init::{{closure}}::h7cd5d76dd27ff375` | 1 | `main` | 3 | 5,924 (5.79 KiB) | 1,974 (1.93 KiB) |
+| `src/python/pyrunner.rs:1126:24`<br/>`s4lib::python::pyrunner::PyRunner::write_read::he4300ae0254a86eb` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 3 | 240 (240 B) | 80 (80 B) |
+| `src/s4/s4.rs:5238:13`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 2 | 3,800 (3.71 KiB) | 1,900 (1.86 KiB) |
+| `src/python/pyrunner.rs:365:21`<br/>`s4lib::python::pyrunner::PipeStreamReader::new::h00cd28ba56afba33` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 2 | 1,024 (1.00 KiB) | 512 (512 B) |
+| `src/s4/s4.rs:2834:16`<br/>`s4::s4::cli_process_blocksz::hcc5a5593f13e2c9a` | 1 | `main` | 2 | 156 (156 B) | 78 (78 B) |
+| `src/s4/s4.rs:5359:59`<br/>`s4::s4::processing_loop::recv_many_chan::h4d40e21e69805ee0` | 1 | `main` | 2 | 144 (144 B) | 72 (72 B) |
+| `src/s4/s4.rs:5172:13`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 2 | 142 (142 B) | 71 (71 B) |
+| `src/python/pyrunner.rs:359:28`<br/>`s4lib::python::pyrunner::PipeStreamReader::new::h00cd28ba56afba33` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 2 | 112 (112 B) | 56 (56 B) |
+| `src/python/pyrunner.rs:354:43`<br/>`s4lib::python::pyrunner::PipeStreamReader::new::h00cd28ba56afba33` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 2 | 68 (68 B) | 34 (34 B) |
+| `src/python/pyrunner.rs:355:45`<br/>`s4lib::python::pyrunner::PipeStreamReader::new::h00cd28ba56afba33` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 2 | 46 (46 B) | 23 (23 B) |
+| `src/python/pyrunner.rs:367:63`<br/>`s4lib::python::pyrunner::PipeStreamReader::new::h00cd28ba56afba33` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 2 | 46 (46 B) | 23 (23 B) |
+| `src/s4/s4.rs:5129:34`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 2,452 (2.39 KiB) | 2,452 (2.39 KiB) |
+| `src/printer/printers.rs:793:21`<br/>`s4lib::printer::printers::PrinterLogMessage::new::ha16f81626adf2867` | 1 | `main` | 1 | 2,056 (2.01 KiB) | 2,056 (2.01 KiB) |
+| `src/s4/s4.rs:5527:29`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 1,248 (1.22 KiB) | 1,248 (1.22 KiB) |
+| `src/printer/printers.rs:758:22`<br/>`s4lib::printer::printers::PrinterLogMessage::new::ha16f81626adf2867` | 1 | `main` | 1 | 1,024 (1.00 KiB) | 1,024 (1.00 KiB) |
+| `src/s4/s4.rs:5407:34`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 884 (884 B) | 884 (884 B) |
+| `src/readers/pyeventreader.rs:433:26`<br/>`s4lib::readers::pyeventreader::PyEventReader::new::h16e5db87c0d2e169` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 512 (512 B) | 512 (512 B) |
+| `src/s4/s4.rs:5044:17`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 368 (368 B) | 368 (368 B) |
+| `src/s4/s4.rs:5240:9`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 280 (280 B) | 280 (280 B) |
+| `src/s4/s4.rs:4929:34`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 276 (276 B) | 276 (276 B) |
+| `src/s4/s4.rs:3685:51`<br/>`s4::s4::main::hd2a00718532cbbd2` | 1 | `main` | 1 | 224 (224 B) | 224 (224 B) |
+| `src/s4/s4.rs:4935:49`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 148 (148 B) | 148 (148 B) |
+| `src/python/pyrunner.rs:815:37`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 144 (144 B) | 144 (144 B) |
+| `src/readers/filepreprocessor.rs:1137:22`<br/>`s4lib::readers::filepreprocessor::process_path::hf84d56678281c100` | 1 | `main` | 1 | 118 (118 B) | 118 (118 B) |
+| `src/s4/s4.rs:4937:40`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 116 (116 B) | 116 (116 B) |
+| `src/python/pyrunner.rs:767:36`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 96 (96 B) | 96 (96 B) |
+| `src/s4/s4.rs:2545:12`<br/>`<s4::s4::CLI_Args as clap_builder::derive::FromArgMatches>::from_arg_matches_mut::{{closure}}::h6703d1b21dd76a2a` | 1 | `main` | 1 | 96 (96 B) | 96 (96 B) |
+| `src/s4/s4.rs:5127:32`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 84 (84 B) | 84 (84 B) |
+| `src/s4/s4.rs:4952:35`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 84 (84 B) | 84 (84 B) |
+| `src/s4/s4.rs:4950:44`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 84 (84 B) | 84 (84 B) |
+| `src/s4/s4.rs:4954:41`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 84 (84 B) | 84 (84 B) |
+| `src/s4/s4.rs:5139:28`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 84 (84 B) | 84 (84 B) |
+| `src/readers/pyeventreader.rs:400:24`<br/>`s4lib::readers::pyeventreader::PyEventReader::new::h16e5db87c0d2e169` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 80 (80 B) | 80 (80 B) |
+| `src/readers/pyeventreader.rs:939:20`<br/>`s4lib::readers::pyeventreader::PyEventReader::summary_complete::hf7422999e128c80b` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 71 (71 B) | 71 (71 B) |
+| `src/s4/s4.rs:4583:9`<br/>`s4::s4::exec_pyeventprocessor::hdef7f3c705488a94` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 71 (71 B) | 71 (71 B) |
+| `src/s4/s4.rs:5044:56`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 71 (71 B) | 71 (71 B) |
+| `src/s4/s4.rs:3448:29`<br/>`s4::s4::cli_process_args::hc2513eaa31d17c92` | 1 | `main` | 1 | 71 (71 B) | 71 (71 B) |
+| `src/readers/filepreprocessor.rs:1133:33`<br/>`s4lib::readers::filepreprocessor::process_path::hf84d56678281c100` | 1 | `main` | 1 | 71 (71 B) | 71 (71 B) |
+| `src/readers/filepreprocessor.rs:1167:87`<br/>`s4lib::readers::filepreprocessor::process_path::hf84d56678281c100` | 1 | `main` | 1 | 71 (71 B) | 71 (71 B) |
+| `src/python/pyrunner.rs:259:25`<br/>`s4lib::python::pyrunner::find_python_executable::{{closure}}::h0a8334116e77f484` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 60 (60 B) | 60 (60 B) |
+| `src/readers/filepreprocessor.rs:1167:53`<br/>`s4lib::readers::filepreprocessor::process_path::hf84d56678281c100` | 1 | `main` | 1 | 56 (56 B) | 56 (56 B) |
+| `src/python/pyrunner.rs:255:25`<br/>`s4lib::python::pyrunner::find_python_executable::{{closure}}::h0a8334116e77f484` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 52 (52 B) | 52 (52 B) |
+| `src/s4/s4.rs:5397:26`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 52 (52 B) | 52 (52 B) |
+| `src/s4/s4.rs:5706:62`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 52 (52 B) | 52 (52 B) |
+| `src/s4/s4.rs:5413:52`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 52 (52 B) | 52 (52 B) |
+| `src/readers/pyeventreader.rs:399:45`<br/>`s4lib::readers::pyeventreader::PyEventReader::new::h16e5db87c0d2e169` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 48 (48 B) | 48 (48 B) |
+| `src/readers/pyeventreader.rs:364:41`<br/>`s4lib::readers::pyeventreader::PyEventReader::new::h16e5db87c0d2e169` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 48 (48 B) | 48 (48 B) |
+| `src/s4/s4.rs:3421:33`<br/>`s4::s4::cli_process_args::hc2513eaa31d17c92` | 1 | `main` | 1 | 48 (48 B) | 48 (48 B) |
+| `src/python/venv.rs:95:5`<br/>`s4lib::python::venv::venv_path::h490703bbcc20bbd8` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 40 (40 B) | 40 (40 B) |
+| `src/s4/s4.rs:2897:5`<br/>`s4::s4::cli_process_tz_offset::ha0fcee891a25dea7` | 1 | `main` | 1 | 40 (40 B) | 40 (40 B) |
+| `src/readers/pyeventreader.rs:375:44`<br/>`s4lib::readers::pyeventreader::PyEventReader::new::h16e5db87c0d2e169` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 39 (39 B) | 39 (39 B) |
+| `src/s4/s4.rs:5243:19`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 39 (39 B) | 39 (39 B) |
+| `src/readers/helpers.rs:30:5`<br/>`s4lib::readers::helpers::basename::h70537354f6e5017d` | 1 | `main` | 1 | 39 (39 B) | 39 (39 B) |
+| `src/s4/s4.rs:5241:32`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 39 (39 B) | 39 (39 B) |
+| `src/readers/helpers.rs:36:5`<br/>`s4lib::readers::helpers::path_to_fpath::hbb26b348cbd4f1aa` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 38 (38 B) | 38 (38 B) |
+| `src/python/pyrunner.rs:877:26`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 38 (38 B) | 38 (38 B) |
+| `src/python/pyrunner.rs:258:45`<br/>`s4lib::python::pyrunner::find_python_executable::{{closure}}::h0a8334116e77f484` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 30 (30 B) | 30 (30 B) |
+| `src/python/pyrunner.rs:823:20`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 30 (30 B) | 30 (30 B) |
+| `src/python/pyrunner.rs:253:40`<br/>`s4lib::python::pyrunner::find_python_executable::{{closure}}::h0a8334116e77f484` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 26 (26 B) | 26 (26 B) |
+| `src/python/venv.rs:94:5`<br/>`s4lib::python::venv::venv_path::h490703bbcc20bbd8` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 20 (20 B) | 20 (20 B) |
+| `src/s4/s4.rs:2896:28`<br/>`s4::s4::cli_process_tz_offset::ha0fcee891a25dea7` | 1 | `main` | 1 | 20 (20 B) | 20 (20 B) |
+| `src/s4/s4.rs:2682:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2720:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2568:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2672:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2586:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2660:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2600:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2782:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2796:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2648:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2557:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2759:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2735:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2547:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2708:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2614:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2694:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2630:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2747:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/s4/s4.rs:2534:5`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::ha061695984d749d3` | 1 | `main` | 1 | 16 (16 B) | 16 (16 B) |
+| `src/printer/printers.rs:760:28`<br/>`s4lib::printer::printers::PrinterLogMessage::new::ha16f81626adf2867` | 1 | `main` | 1 | 14 (14 B) | 14 (14 B) |
+| `src/python/venv.rs:87:35`<br/>`s4lib::python::venv::venv_path::h490703bbcc20bbd8` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 10 (10 B) | 10 (10 B) |
+| `src/s4/s4.rs:2869:23`<br/>`s4::s4::cli_parse_blocksz::hee67f7902ea5d88b` | 1 | `main` | 1 | 8 (8 B) | 8 (8 B) |
+| `src/s4/s4.rs:2790:27`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h1b989b6cd2979b9a` | 1 | `main` | 1 | 8 (8 B) | 8 (8 B) |
+| `src/s4/s4.rs:2581:9`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h603c3d84d3cce851` | 1 | `main` | 1 | 8 (8 B) | 8 (8 B) |
+| `src/s4/s4.rs:5424:26`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 8 (8 B) | 8 (8 B) |
+| `src/s4/s4.rs:5229:26`<br/>`s4::s4::processing_loop::h0d303c79a1a5d50a` | 1 | `main` | 1 | 8 (8 B) | 8 (8 B) |
+| `src/python/pyrunner.rs:861:13`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 6 (6 B) | 6 (6 B) |
+| `src/python/pyrunner.rs:850:13`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 6 (6 B) | 6 (6 B) |
+| `src/s4/s4.rs:2868:32`<br/>`s4::s4::cli_parse_blocksz::hee67f7902ea5d88b` | 1 | `main` | 1 | 5 (5 B) | 5 (5 B) |
+| `src/s4/s4.rs:2790:9`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h1b989b6cd2979b9a` | 1 | `main` | 1 | 5 (5 B) | 5 (5 B) |
+| `src/s4/s4.rs:2772:9`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h1d839769a57605e6` | 1 | `main` | 1 | 5 (5 B) | 5 (5 B) |
+| `src/s4/s4.rs:2715:9`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::ha43c097dc248e1c4` | 1 | `main` | 1 | 5 (5 B) | 5 (5 B) |
+| `src/s4/s4.rs:2730:9`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::hae6027573b2eba9b` | 1 | `main` | 1 | 5 (5 B) | 5 (5 B) |
+| `src/s4/s4.rs:2754:9`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::habfe7a0fe57c7fe9` | 1 | `main` | 1 | 5 (5 B) | 5 (5 B) |
+| `src/python/pyrunner.rs:866:13`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 4 (4 B) | 4 (4 B) |
+| `src/python/pyrunner.rs:855:13`<br/>`s4lib::python::pyrunner::PyRunner::new::h77ff57d620980463` | 3 | `WindowsUpdate.20251008.140245.443.8.etl` | 1 | 4 (4 B) | 4 (4 B) |
+| `src/s4/s4.rs:2742:9`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::he56a849edb3bf699` | 1 | `main` | 1 | 4 (4 B) | 4 (4 B) |
+| `src/readers/filepreprocessor.rs:334:31`<br/>`s4lib::readers::filepreprocessor::pathbuf_to_filetype_impl::h7ee028a2b403903e` | 1 | `main` | 1 | 3 (3 B) | 3 (3 B) |
+| `src/s4/s4.rs:2687:27`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h7dbc7c85affda2f5` | 1 | `main` | 1 | 1 (1 B) | 1 (1 B) |
+| `src/s4/s4.rs:2687:9`<br/>`<s4::s4::CLI_Args as clap_builder::derive::Args>::augment_args::{{closure}}::h7dbc7c85affda2f5` | 1 | `main` | 1 | 1 (1 B) | 1 (1 B) |
+
+
+
+## Allocator Tracking summary
+
+| tracked | bytes | calls | about |
+| :--- | ---: | ---: | :--- |
+| normal allocations | 198,075 | 1,034 | normal program allocations; this is the most useful number |
+| total deallocations | 179,634,884 | 210,383 | includes normal program deallocations and tracking deallocations |
+| current outstanding | 67,642,184 | | outstanding allocated bytes as of this print |
+
+## Allocator Tracking internals
+
+| tracked | bytes | calls | about |
+| :--- | ---: | ---: | :--- |
+| total from tracking | 247,078,970 | 305,284 | tracking allocations; not part of the normal program allocations |
+| tracking from backtrace | 245,250,487 | | tracking allocations specifically for `backtrace::trace` and `backtrace::resolve_frame`; subset of "total from tracking" |
+| tracking from other | 1,828,483 | | other tracking allocations, not "from backtrace"; subset of "total from tracking" |
+| ratio tracking to normal| 100 to 0 | 100 to 0 | ratio of tracking allocations/calls to normal program allocations/calls |
+| diff table vs total | 0 | 0 | sanity check of total numbers and table numbers; should be 0 |
+
+| parameter | value | about |
+| :--- | ---: | :--- |
+| frame depth | 1 | max depth of backtraced frames for each allocation call site; env var "S4_ALLOC_TRACKER_DEPTH" |
+| call sites | 119 | entries in the table above |
+| cached file names | 7 | |
+| cached function names | 35 | |
+| cached thread names | 2 | |
+
+
+Generated on Wed May 27 12:24:52 PM PDT 2026 by `./tools/s4-alloc_trackers.sh`
+
