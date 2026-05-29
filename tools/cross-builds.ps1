@@ -108,7 +108,7 @@ function Get-ProgramVersion {
     [OutputType([string])]
     param()
     $manifest = Get-Content -LiteralPath $PROJECT_MANIFEST_ITEM.FullName -Raw
-    $versionMatch = [regex]::Match($manifest, '^version\s?=\s?"(.*?)"\s*$' , [System.Text.RegularExpressions.RegexOptions]::Multiline)
+    $versionMatch = [regex]::Match($manifest, '^version\s?=\s?"(.*?)".*$' , [System.Text.RegularExpressions.RegexOptions]::Multiline)
     if ($versionMatch.Success) {
         return $versionMatch.Groups[1].Value
     }
@@ -153,7 +153,7 @@ try {
 
     $s4_version = Get-ProgramVersion
     if (-not ($s4_version)) {
-        Write-Error "Could not determine s4 version from " + $PROJECT_MANIFEST_ITEM.FullName
+        Write-Error ("Could not determine s4 version from " + $PROJECT_MANIFEST_ITEM.FullName)
         exit 1
     }
 
