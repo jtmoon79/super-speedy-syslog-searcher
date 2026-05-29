@@ -43,7 +43,7 @@ for LOGFILE in "${FILES[@]}"; do
     OUT="${DIROUT}/alloc-tracker_${LOGNAME}.md"
     (
         # set preliminary data in markdown file
-        echo "# \`${LOGFILE}\`
+        echo "# \`${LOGNAME}\`
 
 ## \`--version\`
 
