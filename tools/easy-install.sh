@@ -13,7 +13,7 @@ set -eu
 
 readonly SCRIPT_NAME='easy-install.sh'
 
-VER=${VER-0.8.80}  # PROJECT VERSION LAST PUBLISHED
+VER=${VER-0.9.81}  # PROJECT VERSION LAST PUBLISHED
 readonly VER
 
 COLOR_GREEN=$(printf '\033[32m')
