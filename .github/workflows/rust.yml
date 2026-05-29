@@ -317,7 +317,7 @@ jobs:
           uname -a
           rustup show
           cross --version
-          cross check --locked --lib --bins --release --target ${{ matrix.target }}
+          cross build --locked --release --target ${{ matrix.target }}
           find ./target -type f -name 's4' -exec cp {} "./s4_${{ matrix.target }}" \;
       # I am unable to build these binaries at home so upload it
       - name: Upload binary ${{ matrix.target }}
