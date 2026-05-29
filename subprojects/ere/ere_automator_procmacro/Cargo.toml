@@ -8,6 +8,9 @@ edition = "2024"
 license.workspace = true
 authors = ["jtmoon79"]
 repository.workspace = true
+exclude = [
+    "target/*",
+]
 
 [lib]
 proc-macro = true

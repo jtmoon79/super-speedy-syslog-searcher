@@ -13,6 +13,7 @@ exclude = [
     ".vscode/*",
     "benches/*",
     "ROADMAP.md",
+    "target/*",
     "tests/*",
     "S4_BUILD_REGEX",
 ]
