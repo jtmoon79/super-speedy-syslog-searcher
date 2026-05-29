@@ -326,34 +326,34 @@ jobs:
           name: s4_${{ matrix.target }}
           path: "./s4_${{ matrix.target }}"
 
-  job_cross_targets_windows:
-    name: cross ${{ matrix.target }} on windows
-    needs: [job_cross_targets_macos]
-    if: false  # XXX: the one other cross build is broken, and the primary target is already built
-    strategy:
-      matrix:
-        target:
-          # Tier 1
-          - i686-pc-windows-msvc  # fails due to: unresolved import `core::arch::x86_64`
-          # - x86_64-pc-windows-msvc  # target built by job job_rust_msrv_os
-    runs-on: windows-latest
-    steps:
-      - name: git checkout
-        uses: actions/checkout@v6
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
-      - run: rustup target add ${{ matrix.target }}
-      - run: cargo install --locked cross
-      - name: cross check ${{ matrix.target }}
-        shell: powershell
-        run: |
-          Set-PSDebug -Trace 1
-          rustup.exe show
-          cross.exe --version
-          Write-Output 1 > S4_BUILD_REGEX
-          Write-Output 1 > ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX
-          ${env:S4_BUILD_REGEX}="1"
-          ${env:S4_BUILD_REGEX_PRINT}="1"
-          cross.exe check --locked --lib --bins --release --target ${{ matrix.target }}
+  # job_cross_targets_windows:
+  #   name: cross ${{ matrix.target }} on windows
+  #   needs: [job_cross_targets_macos]
+  #   if: false  # XXX: the one other cross build is broken, and the primary target is already built
+  #   strategy:
+  #     matrix:
+  #       target:
+  #         # Tier 1
+  #         - i686-pc-windows-msvc  # fails due to: unresolved import `core::arch::x86_64`
+  #         # - x86_64-pc-windows-msvc  # target built by job job_rust_msrv_os
+  #   runs-on: windows-latest
+  #   steps:
+  #     - name: git checkout
+  #       uses: actions/checkout@v6
+  #     - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+  #     - run: rustup target add ${{ matrix.target }}
+  #     - run: cargo install --locked cross
+  #     - name: cross check ${{ matrix.target }}
+  #       shell: powershell
+  #       run: |
+  #         Set-PSDebug -Trace 1
+  #         rustup.exe show
+  #         cross.exe --version
+  #         Write-Output 1 > S4_BUILD_REGEX
+  #         Write-Output 1 > ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX
+  #         ${env:S4_BUILD_REGEX}="1"
+  #         ${env:S4_BUILD_REGEX_PRINT}="1"
+  #         cross.exe check --locked --lib --bins --release --target ${{ matrix.target }}
 
   job_check:
     # this job downloads and builds dependency crates
@@ -998,7 +998,7 @@ jobs:
   job_code_coverage_llvm:
     name: llvm_cov
     runs-on: ubuntu-latest
-    needs: [job_runs, job_test_linux, job_cross_targets_windows]
+    needs: [job_runs, job_test_linux]
     env:
       COVERALLS_FILE: ./coveralls.lcov
     steps:
