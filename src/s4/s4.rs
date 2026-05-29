@@ -298,7 +298,7 @@ use crate::alloc_tracker;
 /// File with the build time.
 /// Created by `build.rs`.
 /// Path must match that in `build.rs`.
-/// ripped from https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html
+/// ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
 const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/", "timestamp.txt"));
 /// File with the Rust compiler version.
 /// Created by `build.rs`.
@@ -2566,7 +2566,7 @@ struct CLI_Args {
     dt_before: Option<String>,
 
     /// Default timezone offset for datetimes without a timezone.
-    /// For example, log message "[20200102T120000] Starting service" has a
+    /// For example, log message "{20200102T120000} Starting service" has a
     /// datetime substring "20200102T120000".
     /// That datetime substring does not have a timezone offset
     /// so this TZ_OFFSET value would be used.
