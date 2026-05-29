@@ -1,6 +1,7 @@
 use std::hash::Hasher;
 
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
+use super_speedy_syslog_searcher_ere as ere;
 use ere::{compile_regex, Regex};
 use pprof::criterion::{Output, PProfProfiler};
 
