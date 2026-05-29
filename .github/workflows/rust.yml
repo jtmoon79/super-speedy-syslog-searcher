@@ -217,6 +217,7 @@ jobs:
           export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --verbose
           cp -av ./target/debug/s4 ./s4_debug
+          chmod -v 0555 ./s4_debug
           ./s4_debug --version
       - name: Upload debug binary for test
         uses: actions/upload-artifact@v7
@@ -232,6 +233,7 @@ jobs:
           export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --release
           cp -av ./target/release/s4 ./s4_release
+          chmod -v 0555 ./s4_release
           ./s4_release --version
       - name: Upload release binary for test
         uses: actions/upload-artifact@v7
