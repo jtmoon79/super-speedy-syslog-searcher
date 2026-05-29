@@ -4936,6 +4936,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 name = "super-speedy-syslog-searcher_ere"
 version = "0.9.81"
 dependencies = [
+ "bitvec",
  "criterion 0.5.1",
  "pprof",
  "regex",
@@ -5000,6 +5001,7 @@ dependencies = [
  "anyhow",
  "arraystring",
  "backtrace",
+ "bitvec",
  "bstr",
  "bzip2-rs",
  "cargo-msrv",
