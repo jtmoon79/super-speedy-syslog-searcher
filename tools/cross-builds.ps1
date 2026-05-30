@@ -161,10 +161,10 @@ try {
         Write-Host ''
         Write-Line
 
+        Write-Host "PS> rustup toolchain install --profile minimal --target $target $MSRV" -ForegroundColor Green
         & rustup toolchain install --profile minimal --target "$target" "$MSRV"
 
-        Write-Host "+ cargo cross build --target $target" @CrossArgs -ForegroundColor Green
-
+        Write-Host "PS> cargo cross build --target $target" @CrossArgs -ForegroundColor Green
         $env:S4_BUILD_REGEX_PRINT = '1'
         & cargo cross build --target $target @CrossArgs
 
