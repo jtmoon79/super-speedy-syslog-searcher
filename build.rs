@@ -4,6 +4,7 @@ use std::env;
 use std::io::Write;
 use std::fs;
 use std::path::PathBuf;
+use std::process::Command;
 
 use ::chrono;
 use ::dotenvy;
@@ -22,6 +23,7 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 178;
 
 pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
 pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
+pub const PATH_FILE_GIT_COMMIT: &str = "git_commit.txt";
 
 // TODO: rebuild if `src/python/s4_event_readers` changes
 //       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
@@ -113,7 +115,9 @@ fn write_timestamp_file() {
     let mut out_path = PathBuf::new();
     out_path.push(outdir);
     out_path.push(PATH_FILE_TIMESTAMP);
-    let mut fhandle = fs::File::create(&out_path).unwrap();
+    let mut fhandle = fs::File::create(&out_path).unwrap_or_else(
+      |e| panic!("write_timestamp_file failed to create file {out_path:?}: {e:?}")
+    );
     let local_now = chrono::Local::now();
     let now_s = local_now.format("%Y-%m-%dT%H:%M:%S");
     write!(fhandle, r#""{now_s}""#).ok();
@@ -124,14 +128,44 @@ fn write_rustc_version_file() {
     let mut out_path = PathBuf::new();
     out_path.push(outdir);
     out_path.push(PATH_FILE_RUSTC_VERSION);
-    let mut fhandle = fs::File::create(&out_path).unwrap();
+    let mut fhandle = fs::File::create(&out_path).unwrap_or_else(
+      |e| panic!("write_rustc_version_file failed to create file {out_path:?}: {e:?}")
+    );
     let rustc_version_str: String = rustc_version_runtime::version().to_string();
     write!(fhandle, r#""{rustc_version_str}""#).ok();
+}
+
+fn write_git_commit_file() {
+    let outdir: String = env::var("OUT_DIR").unwrap_or_else(|_| ".".to_string());
+    let mut out_path = PathBuf::new();
+    out_path.push(outdir);
+    out_path.push(PATH_FILE_GIT_COMMIT);
+    let mut fhandle = fs::File::create(&out_path).unwrap_or_else(
+      |e| panic!("write_git_commit_file failed to create file {out_path:?}: {e:?}")
+    );
+    let not_available: String = "Not Available".to_string();
+
+    // Save the full commit hash when available, otherwise a sentinel value.
+    let git_commit_str: String = match Command::new("git").args(["rev-parse", "HEAD"]).output() {
+        Ok(output) if output.status.success() => {
+            String::from_utf8_lossy(&output.stdout)
+              .trim()
+              .to_string()
+        }
+        _ => not_available.clone(),
+    };
+
+    if git_commit_str.is_empty() {
+        write!(fhandle, r#""{not_available}""#).ok();
+    } else {
+        write!(fhandle, r#""{git_commit_str}""#).ok();
+    }
 }
 
 fn main() {
     dotenvy::dotenv().ok();
     write_timestamp_file();
     write_rustc_version_file();
+    write_git_commit_file();
     parse_regex_values();
 }

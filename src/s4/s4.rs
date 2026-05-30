@@ -304,6 +304,10 @@ const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/", "timestamp.txt")
 /// Created by `build.rs`.
 /// Path must match that in `build.rs`.
 const RUSTC_VERSION: &str = include!(concat!(env!("OUT_DIR"), "/", "rustc_version.txt"));
+/// File with the git commit hash at build-time.
+/// Created by `build.rs`.
+/// Path must match that in `build.rs`.
+const GIT_COMMIT: &str = include!(concat!(env!("OUT_DIR"), "/", "git_commit.txt"));
 
 // --------------------
 // command-line parsing
@@ -2518,6 +2522,7 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         "Compiler Version: ", RUSTC_VERSION, "\n",
         "Rust Build Flags: ", RUSTFLAGS, "\n",
         "Optimization Level: ", OPT_LEVEL, "\n",
+        "Git Commit: ", GIT_COMMIT, "\n",
         "Build Date: ", BUILD_TIME,  "\n",
         "License: ", env!("CARGO_PKG_LICENSE"), "\n",
         "Repository: ", env!("CARGO_PKG_REPOSITORY"), "\n",
