@@ -1010,14 +1010,16 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.VERSION_LLVM_COV }} --profile minimal
-      - run: rustup component add llvm-tools-preview
-      - run: cargo install --locked cargo-llvm-cov
       - name: Install libsystemd
         shell: bash
         run: |
           set -eux
           chmod -v +x ./.github/tools/install-libsystemd.sh
           ./.github/tools/install-libsystemd.sh
+      - name: Install lcov
+        run: sudo apt-get install --yes lcov
+      - run: rustup component add llvm-tools-preview
+      - run: cargo install --locked cargo-llvm-cov
       - name: set log file filesystem Modified Times
         shell: bash
         run: |
