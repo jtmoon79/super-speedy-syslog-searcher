@@ -51,6 +51,7 @@ mkdir -vp "${DIROUT}"
 (
     set -x
     ./tools/osv-scanner.sh --format=markdown --output-file="${DIROUT}/osv-scanner.md"
+    ./tools/mdtohtml.sh "${DIROUT}/osv-scanner.md"
 ) || true
 
 (

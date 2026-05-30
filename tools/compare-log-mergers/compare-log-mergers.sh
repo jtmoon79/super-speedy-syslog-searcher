@@ -630,6 +630,8 @@ echo
 cat "${mdFinalFinal}"
 echo
 
+(set -x; ./tools/mdtohtml.sh "${mdFinalFinal}")
+
 export PATH="${PATH}:${HOME}/go/bin"  # for glow
 if which glow &>/dev/null; then
     declare -i col=160
