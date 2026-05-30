@@ -19,17 +19,7 @@
 
 set -euo pipefail
 
-declare -r SEP="|"
-
-PROJECT_MANIFEST="$(dirname -- "${0}")/../Cargo.toml"
-
-function print_msrv() {
-    grep -o -m 1 -E '^rust-version\s?=\s?".*"' "${PROJECT_MANIFEST}" | sed -E 's/^rust-version\s?=\s?"(.*)"/\1/'
-}
-
-if [[ ! "${MSRV-}" ]]; then
-    MSRV=$(print_msrv)
-fi
+readonly SEP="|"
 
 declare -a TIER_TARGETS=(
     # Tier 1 platforms
@@ -337,6 +327,21 @@ if (echo | column --table --separator "$SEP" --output-separator "$SEP" --table-c
 fi
 readonly COLUMN_NEW
 
+PROJECT_MANIFEST=$(realpath "$(dirname -- "${0}")/../Cargo.toml")
+if [[ ! -f "${PROJECT_MANIFEST}" ]]; then
+    echo "ERROR cannot find PROJECT_MANIFEST at ${PROJECT_MANIFEST}" >&2
+    exit 1
+fi
+readonly PROJECT_MANIFEST
+
+function print_msrv() {
+    grep -o -m1 -Ee '^rust-version\s?=\s?".*"' "${PROJECT_MANIFEST}" | sed -E 's/^rust-version[[:blank:]]*=[[:blank:]]*"([[:digit:]\.]+)"/\1/'
+}
+
+if [[ ! "${MSRV-}" ]]; then
+    MSRV=$(print_msrv)
+fi
+
 # print the $results array in a almost-ready markdown table
 # (requires small tweaks to display properly)
 function print_results() {
@@ -409,7 +414,7 @@ readonly PROJECT_ROOT=$(pwd)
 
 # print the grepped project version from `Cargo.toml`
 function print_version() {
-    grep -o -m 1 -E '^version\s*=\s*".*"' "${PROJECT_ROOT}/Cargo.toml" | sed -E 's/^version\s*=\s*"(.*)"/\1/'
+    grep -o -m1 -Ee '^version\s*=\s*".*"' "${PROJECT_ROOT}/Cargo.toml" | sed -Ee 's/^version[[:blank:]]*=[[:blank:]]*"([[:digit:]\.]+)"/\1/'
 }
 
 function create_sha256sum() {
