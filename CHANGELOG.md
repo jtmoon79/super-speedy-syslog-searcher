@@ -282,6 +282,7 @@ _MSRV 1.88.0_
 
 - (BIN) allow args via environment, move --venv in --help ([e916a2d1])
 - (BIN) allow more partial -a -b patterns, refactor matching ([bb02aeec])
+- (BIN) --version print Git Commit ([1f0b90f3])
 - (BIN LIB) allow env S4_LIBSYSTEMD to specify path libsystemd.so ([4f5175c0])
 - (BIN) version print Regex count ([31948002])
 - (BIN) --version print rust compiler version ([782abbf7])
@@ -3017,6 +3018,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [1e3e789b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1e3e789ba02d8378d590f61487c0beff5bb39d4f
 [1e552fe9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1e552fe9a673dc759b583ff1c434b00385015025
 [1e58094e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1e58094eafae95c9c09b35c63aa000a0edfd5845
+[1f0b90f3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1f0b90f317c95173bec723e906aa25f109d98887
 [1f0d2698]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1f0d269897d712259f7dd53f5f970e5261cf47fd
 [1f8f24ee]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1f8f24ee058b3cfa0ffe4effd364b4bd23003589
 [1f97209d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1f97209dd3468105bc1aef3d449000ab56589c15
