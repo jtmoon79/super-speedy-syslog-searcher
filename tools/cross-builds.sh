@@ -330,15 +330,32 @@ declare -ag targets_built=()
 declare -ag targets_failed=()
 declare -i i=1
 
+# check column supports newer advanced options
+COLUMN_NEW=false
+if (echo | column --table --separator "$SEP" --output-separator "$SEP" --table-columns 'foo') &>/dev/null; then
+    COLUMN_NEW=true
+fi
+readonly COLUMN_NEW
+
 # print the $results array in a almost-ready markdown table
 # (requires small tweaks to display properly)
 function print_results() {
     echo -e "\e[92m"
-    column \
-        --table \
-        --separator "$SEP" \
-        --output-separator " $SEP " \
-        --table-columns '_,Tier,Target,Time,Result,Command' \
+    # args for old column
+    declare -a args=(
+        "-t"
+        "-s" "$SEP"
+    )
+    if $COLUMN_NEW; then
+        # args for new column
+        args=(
+            --table \
+            --separator "$SEP" \
+            --output-separator " $SEP " \
+            --table-columns '_,Tier,Target,Time,Result,Command' \
+        )
+    fi
+    column "${args[@]}" \
     < <(
         # header delimiter row
         echo "${SEP}---${SEP}---${SEP}---${SEP}---${SEP}---${SEP}"
@@ -382,6 +399,7 @@ function seconds_to_hms() {
 }
 
 if [[ "${DIROUT-}" ]]; then
+    mkdir -vp "${DIROUT}"
     DIROUT=$(realpath "${DIROUT}")
 fi
 
@@ -406,6 +424,11 @@ function create_sha256sum() {
     chmod -v -w "${file_name}.sha256"
     popd
 }
+
+if ! command -v cross &>/dev/null; then
+    echo "ERROR: cargo cross not found, please install it with 'cargo install --locked cross cargo-cross'" >&2
+    exit 1
+fi
 
 readonly BIN="s4"
 VERSION=$(print_version)
