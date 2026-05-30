@@ -291,45 +291,47 @@ jobs:
           export S4_BUILD_REGEX_PRINT=1
           cross check --locked --lib --bins --release --target ${{ matrix.target }}
 
-  job_cross_targets_macos:
-    name: cross ${{ matrix.target }} on macos-latest
-    needs: [job_cross_targets]
-    # sometimes this second MacOS Runner never shows up
-    timeout-minutes: 25
-    strategy:
-      matrix:
-        target:
-          # Tier 1
-          - x86_64-apple-darwin
-          # Tier 2 with host tools
-          - aarch64-apple-darwin  # also built by job job_rust_msrv_os
-    runs-on: macos-latest
-    steps:
-      - name: git checkout
-        uses: actions/checkout@v6
-      - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
-      - run: rustup target add ${{ matrix.target }}
-      - run: cargo install --locked cross
-      - name: cross check ${{ matrix.target }}
-        shell: bash
-        run: |
-          set -eux
-          uname -a
-          rustup show
-          cross --version
-          cross build --locked --release --target ${{ matrix.target }}
-          find ./target -type f -name 's4' -exec cp {} "./s4_${{ matrix.target }}" \;
-      # I am unable to build these binaries at home so upload it
-      - name: Upload binary ${{ matrix.target }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: s4_${{ matrix.target }}
-          path: "./s4_${{ matrix.target }}"
+  # XXX: as of 0.9.81, this `cargo cross build` surpasses the job time limit of
+  #      25 minutes on `mac-latest` Github Runner
+  # job_cross_targets_macos:
+  #   name: cross ${{ matrix.target }} on macos-latest
+  #   needs: [job_cross_targets]
+  #   # sometimes this second MacOS Runner never shows up
+  #   timeout-minutes: 25
+  #   strategy:
+  #     matrix:
+  #       target:
+  #         # Tier 1
+  #         - x86_64-apple-darwin
+  #         # Tier 2 with host tools
+  #         - aarch64-apple-darwin  # also built by job job_rust_msrv_os
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: git checkout
+  #       uses: actions/checkout@v6
+  #     - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
+  #     - run: rustup target add ${{ matrix.target }}
+  #     - run: cargo install --locked cross
+  #     - name: cross check ${{ matrix.target }}
+  #       shell: bash
+  #       run: |
+  #         set -eux
+  #         uname -a
+  #         rustup show
+  #         cross --version
+  #         cross build --locked --release --target ${{ matrix.target }}
+  #         find ./target -type f -name 's4' -exec cp {} "./s4_${{ matrix.target }}" \;
+  #     # I am unable to build these binaries at home so upload it
+  #     - name: Upload binary ${{ matrix.target }}
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: s4_${{ matrix.target }}
+  #         path: "./s4_${{ matrix.target }}"
 
+  # XXX: as of 0.9.81, this `cargo cross build` fails
   # job_cross_targets_windows:
   #   name: cross ${{ matrix.target }} on windows
   #   needs: [job_cross_targets_macos]
-  #   if: false  # XXX: the one other cross build is broken, and the primary target is already built
   #   strategy:
   #     matrix:
   #       target:
