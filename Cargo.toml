@@ -84,8 +84,6 @@ exclude = [
     "tmp/*",
     "tools/*",
 ]
-# TODO: need to create build script to rebuild if `src/python/s4_event_readers` changes
-#       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
 
 [dependencies]
 anyhow = "=1.0.102"
@@ -103,12 +101,9 @@ ctrlc = "=3.4.7"
 current_platform = "=0.2.0"
 dlopen2 = "=0.8"
 encoding_rs = "=0.8.35"
-# PROJECT VERSION LAST PUBLISHED
-ere = { version = "=0.9.81", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
-ere_automator_procmacro = { version = "=0.9.81", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
-ere_datetimes_impl = { version = "=0.9.81", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
-# TODO: [2025/12] update `evtx` and use `RecordId` when Issue 234 is merged and released
-#       https://github.com/omerbenamram/evtx/issues/234
+ere = { version = "=0.10.0", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
+ere_automator_procmacro = { version = "=0.10.0", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
+ere_datetimes_impl = { version = "=0.10.0", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
 evtx = { version = "=0.11.2", features = ["multithreading"] }
 flate2 = "=1.1.9"
 include_dir = "=0.7.4"

@@ -23,6 +23,9 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = 178;
 pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
 pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
 
+// TODO: rebuild if `src/python/s4_event_readers` changes
+//       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
+
 /// allow environment variable `S4_BUILD_REGEX` to specify which regexes to compile
 /// can specify
 /// - single values, e.g. `S4_BUILD_REGEX=1`

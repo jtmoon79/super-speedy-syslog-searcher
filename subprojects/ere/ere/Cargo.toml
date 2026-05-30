@@ -3,7 +3,7 @@
 [package]
 name = "super-speedy-syslog-searcher_ere"
 description = "Support crate for super-speedy-syslog-searcher."
-version.workspace = true
+version = "0.10.0"
 edition = "2021"
 license.workspace = true
 authors = ["2kai2kai2", "robertream", "jtmoon79"]
@@ -21,9 +21,8 @@ exclude = [
 
 [dependencies]
 bitvec.workspace = true
-# PROJECT VERSION LAST PUBLISHED
-ere-core = { version = "=0.9.81", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
-ere-macros = { version = "=0.9.81", path = "../ere-macros", package = "super-speedy-syslog-searcher_ere-macros" }
+ere-core = { version = "=0.10.0", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
+ere-macros = { version = "=0.10.0", path = "../ere-macros", package = "super-speedy-syslog-searcher_ere-macros" }
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
