@@ -54,6 +54,8 @@ and Apple System Logs (`.asl`).
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
     - [installation methods](#installation-methods)
       - [easy install](#easy-install)
+        - [Unix](#unix)
+        - [Windows](#windows)
       - [manual download](#manual-download)
       - [`binstall`](#binstall)
       - [`quickinstall`](#quickinstall)
@@ -65,7 +67,7 @@ and Apple System Logs (`.asl`).
         - [Debian and Ubuntu](#debian-and-ubuntu)
         - [OpenSUSE](#opensuse)
         - [Red Hat and CentOS](#red-hat-and-centos)
-        - [Windows](#windows)
+        - [Windows](#windows-1)
       - [allocator `tcmalloc`](#allocator-tcmalloc)
         - [Debian and Ubuntu](#debian-and-ubuntu-1)
   - [Run `s4`](#run-s4)
@@ -121,10 +123,35 @@ and Apple System Logs (`.asl`).
 
 ##### easy install
 
+###### Unix
+
 Run the POSIX-compliant shell script `easy-install.sh`
 
-```lang-text
+```sh
 curl -sSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
+```
+
+###### Windows
+
+On Windows, run the PowerShell script `easy-install.ps1`
+
+```powershell
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.ps1' `
+  -OutFile easy-install.ps1
+
+.\easy-install.ps1
+```
+
+If you get the error:
+
+`easy-install.ps1 cannot be loaded because running scripts is disabled on this system`<br/>
+
+then run:
+
+```powershell
+Set-ExecutionPolicy `
+  -ExecutionPolicy Unrestricted `
+  -Scope Process
 ```
 
 ##### manual download
@@ -135,7 +162,7 @@ Check your target platform:
 
 - Run `rustup.rs` shell script
 
-  ```lang-text
+  ```sh
   curl -sSf 'https://sh.rustup.rs' | env RUSTUP_INIT_SH_PRINT=arch sh
   ```
 
@@ -143,7 +170,7 @@ Check your target platform:
   It is the `host` field.
   Here is an example output:
 
-  ```lang-text
+  ```text
   $ rust -vV
   rustc 1.88.0 (6b00bc388 2025-06-23)
   binary: rustc
