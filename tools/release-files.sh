@@ -30,72 +30,7 @@ sudo --validate -p "update the cached sudo credentials (enter sudo password): "
 
 mkdir -vp "${DIROUT}"
 
-# prebuilds in parallel
-(
-    declare -a PIDs=()
-
-    set -x
-    cargo build --locked &
-    PIDs+=($!)
-    cargo build --locked --profile release &
-    PIDs+=($!)
-    cargo build --locked --profile jemalloc --features jemalloc &
-    PIDs+=($!)
-
-    wait ${PIDs[@]}
-
-    ./target/debug/s4 --version
-    ./target/release/s4 --version
-    ./target/jemalloc/s4 --version
-)
-
-# prebuilds in parallel
-(
-    declare -a PIDs=()
-
-    set -x
-    cargo build --locked --profile mimalloc --features mimalloc &
-    PIDs+=($!)
-    cargo build  --locked --profile alloc_tracker --features alloc_tracker &
-    PIDs+=($!)
-
-    wait ${PIDs[@]}
-
-    ./target/mimalloc/s4 --version
-    ./target/alloc_tracker/s4 --version
-)
-
-# prebuilds in parallel
-(
-    declare -a PIDs=()
-
-    set -x
-    cargo build --locked --profile rpmalloc --features rpmalloc &
-    PIDs+=($!)
-    cargo build --locked --profile tcmalloc --features tcmalloc &
-    PIDs+=($!)
-
-    wait ${PIDs[@]}
-
-    ./target/rpmalloc/s4 --version
-    ./target/tcmalloc/s4 --version
-)
-
-# prebuilds in parallel
-(
-    declare -a PIDs=()
-
-    set -x
-    RUSTFLAGS=-g cargo build --locked --profile flamegraph &
-    PIDs+=($!)
-    RUSTFLAGS=-g cargo build --locked --profile valgrind &
-    PIDs+=($!)
-
-    wait ${PIDs[@]}
-
-    ./target/flamegraph/s4 --version
-    ./target/valgrind/s4 --version
-)
+./tools/build-all-profiles.sh
 
 (
     set -x
