@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title></title>
+  <meta name="GENERATOR" content="github.com/gomarkdown/markdown markdown processor for Go" />
+  <meta charset="utf-8" />
+<style>
+table {  border-collapse: collapse; width: 100%;}
+
+th,
+td {
+  border: 1px solid #666;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: 700;
+  border-bottom: 2px solid #333;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
+
+  function numericValue(text) {
+    var match = String(text).replace(/,/g, '').match(/-?[0-9]+(?:[.][0-9]+)?/);
+    return match ? Number(match[0]) : NaN;
+  }
+
+  function compareCells(aText, bText, type, asc) {
+    if (type === 'numeric') {
+      var aNum = numericValue(aText);
+      var bNum = numericValue(bText);
+      var aNaN = Number.isNaN(aNum);
+      var bNaN = Number.isNaN(bNum);
+
+      if (aNaN && bNaN) {
+        return 0;
+      }
+      if (aNaN) {
+        return 1;
+      }
+      if (bNaN) {
+        return -1;
+      }
+      return asc ? aNum - bNum : bNum - aNum;
+    }
+
+    var cmp = String(aText).localeCompare(String(bText), undefined, {
+      numeric: true,
+      sensitivity: 'base'
+    });
+    return asc ? cmp : -cmp;
+  }
+
+  function getRowsForSort(table) {
+    if (table.tBodies && table.tBodies.length > 0) {
+      return {
+        container: table.tBodies[0],
+        rows: Array.from(table.tBodies[0].rows)
+      };
+    }
+
+    var allRows = Array.from(table.rows);
+    return {
+      container: table,
+      rows: allRows.slice(1)
+    };
+  }
+
+  Array.from(document.querySelectorAll('table')).forEach(function (table) {
+    var headerRow = table.tHead && table.tHead.rows.length > 0
+      ? table.tHead.rows[0]
+      : table.rows[0];
+
+    if (!headerRow) {
+      return;
+    }
+
+    Array.from(headerRow.cells).forEach(function (th, colIndex) {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', function () {
+        var rowsInfo = getRowsForSort(table);
+        var rows = rowsInfo.rows;
+        var sortType = columnTypes[colIndex] || 'alpha';
+        var currentlyAsc = th.getAttribute('data-sort-dir') === 'asc';
+        var asc = !currentlyAsc;
+
+        Array.from(headerRow.cells).forEach(function (cell) {
+          if (cell !== th) {
+            cell.removeAttribute('data-sort-dir');
+          }
+        });
+
+        rows.sort(function (aRow, bRow) {
+          var aCell = aRow.cells[colIndex];
+          var bCell = bRow.cells[colIndex];
+          var aText = aCell ? aCell.textContent.trim() : '';
+          var bText = bCell ? bCell.textContent.trim() : '';
+          return compareCells(aText, bText, sortType, asc);
+        });
+
+        rows.forEach(function (row) {
+          rowsInfo.container.appendChild(row);
+        });
+
+        th.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');
+      });
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<table>
+<thead>
+<tr>
+<th align="left">Command</th>
+<th align="left">Version</th>
+<th align="left">Allocator</th>
+<th align="left">Platform</th>
+<th align="right">Mean (ms)</th>
+<th align="right">Min (ms)</th>
+<th align="right">Max (ms)</th>
+<th align="right">Max RSS (KB)</th>
+<th align="right">CPU %</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.9.81</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="right">128.2 ± 1.5</td>
+<td align="right">125.7</td>
+<td align="right">131.0</td>
+<td align="right">19108</td>
+<td align="right">240%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.9.81</td>
+<td align="left">mimalloc</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="right">131.0 ± 3.1</td>
+<td align="right">128.6</td>
+<td align="right">145.1</td>
+<td align="right">66480</td>
+<td align="right">252%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.9.81</td>
+<td align="left">jemalloc</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="right">128.8 ± 2.5</td>
+<td align="right">125.8</td>
+<td align="right">134.9</td>
+<td align="right">24576</td>
+<td align="right">247%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.9.81</td>
+<td align="left">rpmalloc</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="right">132.6 ± 2.7</td>
+<td align="right">129.2</td>
+<td align="right">141.9</td>
+<td align="right">30336</td>
+<td align="right">249%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.9.81</td>
+<td align="left">tcmalloc</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="right">130.5 ± 2.2</td>
+<td align="right">128.1</td>
+<td align="right">136.3</td>
+<td align="right">26752</td>
+<td align="right">242%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.8.80</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="right">179.2 ± 3.0</td>
+<td align="right">174.6</td>
+<td align="right">185.9</td>
+<td align="right">136972</td>
+<td align="right">234%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.8.80</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-musl</td>
+<td align="right">266.9 ± 2.9</td>
+<td align="right">260.9</td>
+<td align="right">272.4</td>
+<td align="right">141980</td>
+<td align="right">242%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.8.80</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-ohos</td>
+<td align="right">176.4 ± 2.7</td>
+<td align="right">172.1</td>
+<td align="right">184.7</td>
+<td align="right">136692</td>
+<td align="right">238%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.7.79</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="right">178.6 ± 2.7</td>
+<td align="right">174.4</td>
+<td align="right">185.8</td>
+<td align="right">136824</td>
+<td align="right">241%</td>
+</tr>
+
+<tr>
+<td align="left"><code>s4</code></td>
+<td align="left">0.7.78</td>
+<td align="left">system</td>
+<td align="left">x86_64-unknown-linux-gnu</td>
+<td align="right">179.6 ± 3.3</td>
+<td align="right">175.0</td>
+<td align="right">189.7</td>
+<td align="right">136816</td>
+<td align="right">240%</td>
+</tr>
+
+<tr>
+<td align="left"><code>grep+sort</code></td>
+<td align="left">3.11</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right">66.0 ± 3.0</td>
+<td align="right">63.7</td>
+<td align="right">77.7</td>
+<td align="right">12032</td>
+<td align="right">111%</td>
+</tr>
+
+<tr>
+<td align="left"><code>lnav</code></td>
+<td align="left">0.11.2</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="right">260.4 ± 12.7</td>
+<td align="right">248.7</td>
+<td align="right">317.8</td>
+<td align="right">56576</td>
+<td align="right">107%</td>
+</tr>
+
+<tr>
+<td align="left"><code>logmerger</code></td>
+<td align="left">0.12.0</td>
+<td align="left"></td>
+<td align="left">Python 3.12.3</td>
+<td align="right">313.6 ± 9.2</td>
+<td align="right">301.6</td>
+<td align="right">339.2</td>
+<td align="right">78496</td>
+<td align="right">99%</td>
+</tr>
+
+<tr>
+<td align="left"><code>toolong</code></td>
+<td align="left">1.5.0</td>
+<td align="left"></td>
+<td align="left">Python 3.12.3</td>
+<td align="right">37000.0 ± 0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">63988</td>
+<td align="right">0%</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
