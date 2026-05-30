@@ -145,27 +145,22 @@ TEMPD=$(mktemp -p "${TMP-/tmp}" -d "s4-tmp-compare-log-mergers_XXXXX")
 readonly TEMPD
 tmpOut=$(mktemp -p "${TEMPD}" -t "tmp_XXX.out")
 readonly tmpOut
-mdfinal=$(mktemp -p "${TEMPD}" -t "mdfinal_XXX.md")
+mdfinal="${TEMPD}/compare-log-mergers.md"
 readonly mdfinal
-declare -ag tmp_files=(
-    "${tmpOut}"
-    "${mdfinal}"
-)
 json_files=$(mktemp -p "${TEMPD}" -t "json_files_XXX.txt")
+readonly json_files
 tm_files=$(mktemp -p "${TEMPD}" -t "tm_files_XXX.txt")
-tmp_files+=("${json_files}" "${tm_files}")
+readonly tm_files
 
 function json_file_new() {
     local path
     path=$(mktemp -p "${TEMPD}" -t "json_XXXXX.json")
-    tmp_files+=("${path}")
     printf '%s\n' "${path}" | tee -a "${json_files}"
 }
 
 function tm_file_new() {
     local path
     path=$(mktemp -p "${TEMPD}" -t "tm_XXXXX.txt")
-    tmp_files+=("${path}")
     printf '%s\n' "${path}" | tee -a "${tm_files}"
 }
 
@@ -275,7 +270,7 @@ function s4_platform() {
 
 # Super Speedy Syslog Searcher (required s4 programs from TSV)
 
-echo "Processing optional s4 programs from TSV file: ${PROGRAMS_S4_LISTING}" >&2
+echo "Processing s4 programs from TSV file: ${PROGRAMS_S4_LISTING}" >&2
 echo >&2
 
 declare -i line_no=0
@@ -287,18 +282,23 @@ while IFS=$'\t' read -r s4_prog_path s4_prog_extra; do
     if [[ "${s4_prog_path}" = \#* ]]; then
         continue
     fi
-    s4_full_path="${PROJ_DIR}/${s4_prog_path}"
-    if ! [[ -x "${s4_full_path}" ]]; then
-        echo "ERROR: optional s4 program is not executable: ${s4_full_path}" >&2
-        exit 1
-    fi
-    if ! (set -x; "${s4_full_path}" --version); then
-        echo "ERROR: failed to run optional s4 program with --version: ${s4_full_path}" >&2
-        exit 1
-    fi
 
     echo_line
     echo_title "Super Speedy Syslog Searcher (S4) ${s4_prog_path} ${s4_prog_extra}"
+
+    s4_full_path="${PROJ_DIR}/${s4_prog_path}"
+    if ! [[ -f "${s4_full_path}" ]]; then
+        echo "ERROR: s4 program does not exist: ${s4_full_path}" >&2
+        exit 1
+    fi
+    if ! [[ -x "${s4_full_path}" ]]; then
+        echo "ERROR: s4 program is not executable: ${s4_full_path}" >&2
+        exit 1
+    fi
+    if ! (set -x; "${s4_full_path}" --version); then
+        echo "ERROR: failed to run s4 program with --version: ${s4_full_path}" >&2
+        exit 1
+    fi
 
     echo >&2
     json_file=$(json_file_new)
