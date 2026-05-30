@@ -117,10 +117,6 @@ and Apple System Logs (`.asl`).
 
 ### Install `super_speedy_syslog_searcher`
 
-[_rust_ must be installed].
-
-[_rust_ must be installed]: https://www.rust-lang.org/tools/install
-
 #### installation methods
 
 ##### easy install
@@ -134,19 +130,29 @@ curl -sSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-search
 ##### manual download
 
 You may manually download an `s4` binary file from the [releases page].
-Check your platform target by running `rust -vV`. It is the `host` field.
-Here is an example output:
 
-```lang-text
-$ rust -vV
-rustc 1.88.0 (6b00bc388 2025-06-23)
-binary: rustc
-commit-hash: 6b00bc3880198600130e1cf62b8f8a93494488cc
-commit-date: 2025-06-23
-host: x86_64-unknown-linux-gnu
-release: 1.88.0
-LLVM version: 20.1.5
-```
+Check your target platform:
+
+- Run `rustup.rs` shell script
+
+  ```lang-text
+  curl -sSf 'https://sh.rustup.rs' | env RUSTUP_INIT_SH_PRINT=arch sh
+  ```
+
+- Check your platform target by running `rust -vV`.
+  It is the `host` field.
+  Here is an example output:
+
+  ```lang-text
+  $ rust -vV
+  rustc 1.88.0 (6b00bc388 2025-06-23)
+  binary: rustc
+  commit-hash: 6b00bc3880198600130e1cf62b8f8a93494488cc
+  commit-date: 2025-06-23
+  host: x86_64-unknown-linux-gnu
+  release: 1.88.0
+  LLVM version: 20.1.5
+  ```
 
 [releases page]: https://github.com/jtmoon79/super-speedy-syslog-searcher/releases
 
@@ -158,6 +164,8 @@ Or try [`binstall`]
 cargo install --locked cargo-binstall
 cargo binstall super_speedy_syslog_searcher
 ```
+
+[_Rust_ must be installed](https://www.rust-lang.org/tools/install)
 
 [`binstall`]: https://github.com/cargo-bins/cargo-binstall/
 
@@ -173,6 +181,8 @@ cargo quickinstall super_speedy_syslog_searcher
 Note that `quickinstall` seems to prefer "`musl`" builds.
 The `musl` builds are more portable but at some cost to performance.
 
+[_Rust_ must be installed](https://www.rust-lang.org/tools/install)
+
 [`quickinstall`]: https://github.com/cargo-bins/cargo-quickinstall/
 
 ##### manual build
@@ -183,6 +193,7 @@ To build manually
 cargo install --locked super_speedy_syslog_searcher
 ```
 
+[_Rust_ must be installed](https://www.rust-lang.org/tools/install)
 A C compiler is required.
 
 _Note that building takes around 20 minutes on a good AMD Desktop CPU from year 2022._
@@ -1039,7 +1050,7 @@ All programs besides `s4` fail to merge different text log formats.
 
 #### Performance Comparison
 
-A comparison of merging [ten large contrived log files](https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.7.79/tools/compare-log-mergers).
+A comparison of merging [ten large contrived log files](https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.9.81/tools/compare-log-mergers).
 The ten log files have 5000 single-line log messages, 2158138 bytes (≈2.1 MB) each,
 with high-plane unicode.
 There is filtering on a a range of datetime values that prints 1800 single-line
@@ -1060,20 +1071,20 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 
 |Command    |Version|Allocator|Platform                 |Mean (ms)    |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
 |:---       |:---   |:---     |:---                     |---:         |---:    |---:    |---:        |---: |
-|`grep+sort`|3.11   |         |                         |63.5 ± 1.2   |60.9    |65.8    |11904       |114% |
-|`s4`       |0.9.81 |system   |x86_64-unknown-linux-gnu |122.6 ± 1.0  |120.7   |125.0   |19492       |254% |
-|`s4`       |0.9.81 |jemalloc |x86_64-unknown-linux-gnu |124.8 ± 2.3  |122.3   |135.2   |24832       |245% |
-|`s4`       |0.9.81 |mimalloc |x86_64-unknown-linux-gnu |128.8 ± 2.0  |126.7   |136.0   |67184       |255% |
-|`s4`       |0.9.81 |rpmalloc |x86_64-unknown-linux-gnu |128.7 ± 1.4  |126.8   |134.3   |32000       |246% |
-|`s4`       |0.9.81 |tcmalloc |x86_64-unknown-linux-gnu |128.0 ± 6.2  |124.5   |150.6   |28672       |240% |
-|`s4`       |0.8.80 |system   |x86_64-unknown-linux-gnu |170.0 ± 1.8  |167.2   |174.7   |136460      |239% |
-|`s4`       |0.8.80 |system   |x86_64-unknown-linux-musl|253.5 ± 4.5  |247.7   |267.2   |141896      |239% |
-|`s4`       |0.8.80 |system   |x86_64-unknown-linux-ohos|168.2 ± 1.9  |165.6   |174.3   |137340      |241% |
-|`s4`       |0.7.79 |system   |x86_64-unknown-linux-gnu |171.6 ± 5.2  |167.3   |188.3   |135924      |241% |
-|`s4`       |0.7.78 |system   |x86_64-unknown-linux-gnu |170.2 ± 1.7  |168.3   |174.8   |137456      |244% |
-|`lnav`     |0.11.2 |         |                         |251.2 ± 6.3  |244.1   |278.3   |56448       |106% |
-|`logmerger`|0.12.0 |         |Python 3.12.3            |310.3 ± 13.5 |292.4   |343.6   |78448       |99%  |
-|`toolong`  |1.5.0  |         |Python 3.12.3            |0.0 ± 0.0    |0.0     |0.0     |67560       |0%   |
+|`s4`       |0.9.81 |system   |x86_64-unknown-linux-gnu |128.2 ± 1.5  |125.7   |131.0   |19108       |240% |
+|`s4`       |0.9.81 |mimalloc |x86_64-unknown-linux-gnu |131.0 ± 3.1  |128.6   |145.1   |66480       |252% |
+|`s4`       |0.9.81 |jemalloc |x86_64-unknown-linux-gnu |128.8 ± 2.5  |125.8   |134.9   |24576       |247% |
+|`s4`       |0.9.81 |rpmalloc |x86_64-unknown-linux-gnu |132.6 ± 2.7  |129.2   |141.9   |30336       |249% |
+|`s4`       |0.9.81 |tcmalloc |x86_64-unknown-linux-gnu |130.5 ± 2.2  |128.1   |136.3   |26752       |242% |
+|`s4`       |0.8.80 |system   |x86_64-unknown-linux-gnu |179.2 ± 3.0  |174.6   |185.9   |136972      |234% |
+|`s4`       |0.8.80 |system   |x86_64-unknown-linux-musl|266.9 ± 2.9  |260.9   |272.4   |141980      |242% |
+|`s4`       |0.8.80 |system   |x86_64-unknown-linux-ohos|176.4 ± 2.7  |172.1   |184.7   |136692      |238% |
+|`s4`       |0.7.79 |system   |x86_64-unknown-linux-gnu |178.6 ± 2.7  |174.4   |185.8   |136824      |241% |
+|`s4`       |0.7.78 |system   |x86_64-unknown-linux-gnu |179.6 ± 3.3  |175.0   |189.7   |136816      |240% |
+|`grep+sort`|3.11   |         |                         |66.0 ± 3.0   |63.7    |77.7    |12032       |111% |
+|`lnav`     |0.11.2 |         |                         |260.4 ± 12.7 |248.7   |317.8   |56576       |107% |
+|`logmerger`|0.12.0 |         |Python 3.12.3            |313.6 ± 9.2  |301.6   |339.2   |78496       |99%  |
+|`toolong`  |1.5.0  |         |Python 3.12.3            |             |        |        |63988       |0%   |
 
 <sup style="font-size: xx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xx-small">• _Min_ is minimum runtime in milliseconds</sup>
@@ -1082,7 +1093,7 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 <sup style="font-size: xx-small">• _CPU %_ is an average of CPU used over the runtime</sup>
 
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
-Run on Ubuntu 24 on WSL, architecture `x86_64-unknown-linux-gnu`.
+Run on Ubuntu 24 on WSL, platform `x86_64-unknown-linux-gnu`.
 
 See archived results in file [`compare-log-mergers.txt`].
 
