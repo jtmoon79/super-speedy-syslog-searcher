@@ -267,7 +267,7 @@ _MSRV 1.88.0_
 
 [0.8.80..0.9.81]
 
-- [Issue #449] Replace runtime `Regex` regular expressions with embedded subproject build-time `ere` regular expressions.
+- Replace runtime `Regex` regular expressions with embedded subproject build-time `ere` regular expressions. [Issue #449]
   - Halves the time to process many syslog files.
   - Eliminates runtime regular expression compile.
   - Compile time is tens of minutes.
@@ -275,7 +275,7 @@ _MSRV 1.88.0_
 - Add new installation methods:
   - `easy-install.sh` script
   - manual download from Releases page
-  - `binstall` support
+  - `binstall` support [Issue #271]
   - `quickinstall` support
 
 ### New
@@ -304,7 +304,7 @@ _MSRV 1.88.0_
 - (LOGS) add dtf3-invalid-UTF8.log, dtf10.log, dtf1a.log ([286ce3c2])
 - (LOGS) add samba/ rsyslog/ test_cases/ ([f65650f0])
 - (LOGS) add test_data_file_H_dt4.log ([bd069b03])
-- (PROJECT) add package.metadata.binstall ([802166de])
+- (PROJECT) add package.metadata.binstall [Issue #271] ([802166de])
 - (RELEASE) add releases/0.9.81/x86_64-unknown-linux-gnu ([c442d822])
 - (TOOLS) add build-all-profiles.sh ([41aebcd0])
 - (TOOLS) add cargo-bloat.sh ([ffe8d68d])
@@ -2703,6 +2703,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #261]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/261
 [Issue #262]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/262
 [Issue #270]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/270
+[Issue #271]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/271
 [Issue #283]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/283
 [Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
 [Issue #285]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/285
