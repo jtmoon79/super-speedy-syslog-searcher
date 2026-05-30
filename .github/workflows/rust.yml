@@ -408,6 +408,8 @@ jobs:
           set -eux
           cargo --version
           cargo clippy --version
+          export S4_BUILD_REGEX=1
+          export S4_BUILD_REGEX_PRINT=1
           cargo clippy --locked --no-deps --all-targets --all-features
 
   job_bench:
