@@ -188,6 +188,7 @@ jobs:
           cargo build --locked --profile alloc_tracker --features alloc_tracker
           export S4_ALLOC_TRACKER_PRINT=1
           ./target/alloc_tracker/s4 --version
+          export S4_ALLOC_TRACKER_PRINT=0
           ./target/alloc_tracker/s4 ./logs/other/tests/dtf2-2.log
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile flamegraph
         shell: bash
