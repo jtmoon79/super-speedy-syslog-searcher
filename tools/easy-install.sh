@@ -110,7 +110,7 @@ main() {
 
     WORKDIR=$(mktemp -d "${SCRIPT_NAME}.tmpd.XXXXXXXX")
     readonly WORKDIR
-    trap 'rm -rf -- "$WORKDIR"' 0
+    trap 'rm -rf "$WORKDIR"' 0
 
     info "determine platform target ..."
     # methods to get the target triple
@@ -148,7 +148,7 @@ main() {
         (set -x; curl --silent --show-error --fail --location --retry 2 --output "${checksum_path}" "${url_checksum}")
         info "verify SHA-256 checksum of zip file ..."
         (
-            cd -- "${WORKDIR}"
+            cd "${WORKDIR}"
             (set -x; sha256sum -c "${checksum_name}")
         )
     else
@@ -170,15 +170,15 @@ main() {
     binary_path="${WORKDIR}/${binary_name}"
     info "using extracted binary '${binary_name}'"
 
-    chmod -v +x -- "${binary_path}"
-    chmod -v -w -- "${binary_path}"
+    chmod -v +x "${binary_path}"
+    chmod -v -w "${binary_path}"
 
     if [ "${has_sha256sum}" -eq 0 ]; then
         binary_checksum_name="${binary_name}.sha256"
         if [ -f "${WORKDIR}/${binary_checksum_name}" ]; then
             info "verify SHA-256 checksum of binary file ..."
             (
-                cd -- "${WORKDIR}"
+                cd "${WORKDIR}"
                 (set -x; sha256sum -c "${binary_checksum_name}")
             )
         else
@@ -194,7 +194,7 @@ main() {
 
     install_path="${install_dir}/${binary_name}"
     info "install binary to ${install_path}"
-    (set -x; cp -vf -- "${binary_path}" "${install_path}")
+    (set -x; cp -vf "${binary_path}" "${install_path}")
 
     info "verify installed binary path ..."
     if [ "${has_which}" -eq 0 ]; then
