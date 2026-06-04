@@ -16,6 +16,8 @@
 #   DIROUT when set, the s4 binary built for each target will be copied to
 #          DIROUT with meaningful names
 #   MSRV the Rust version to install for toolchains, defaults to 1.88.0
+#
+# Must support running on Ubuntu and Darwin OS
 
 set -euo pipefail
 
@@ -318,6 +320,7 @@ declare -a TIER_TARGETS=(
 declare -ag results=()
 declare -ag targets_built=()
 declare -ag targets_failed=()
+declare -ag targets_skipped=()
 declare -i i=1
 
 # check column supports newer advanced options
@@ -333,6 +336,11 @@ if [[ ! -f "${PROJECT_MANIFEST}" ]]; then
     exit 1
 fi
 readonly PROJECT_MANIFEST
+
+if [[ ! "${DIROUT-}" ]]; then
+    echo "ERROR must set DIROUT" >&2
+    exit 1
+fi
 
 function print_msrv() {
     grep -o -m1 -Ee '^rust-version\s?=\s?".*"' "${PROJECT_MANIFEST}" | sed -E 's/^rust-version[[:blank:]]*=[[:blank:]]*"([[:digit:]\.]+)"/\1/'
@@ -390,6 +398,11 @@ function exit_ () {
         echo "${target}"
     done
     echo
+    echo -e "\e[93mSkipped build for ${#targets_skipped[@]} targets:\e[39m"
+    for target in "${targets_skipped[@]}"; do
+        echo "${target}"
+    done
+    echo
 }
 
 trap exit_ EXIT
@@ -403,10 +416,12 @@ function seconds_to_hms() {
     printf "%02d:%02d:%02d" "$hours" "$minutes" "$seconds"
 }
 
-if [[ "${DIROUT-}" ]]; then
-    mkdir -vp "${DIROUT}"
-    DIROUT=$(realpath "${DIROUT}")
-fi
+mkdir -vp "${DIROUT}"
+DIROUT=$(realpath "${DIROUT}")
+readonly DIROUT
+RELEASE_DIR="${DIROUT}/release"
+mkdir -vp "${RELEASE_DIR}"
+readonly RELEASE_DIR
 
 cd "$(dirname "$0")/.."
 
@@ -449,6 +464,19 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
     echo >&2
     i+=1
     declare -i start_time=${SECONDS}
+    zip_name="${BIN}_${TARGET}_v${VERSION}.zip"
+    zip_path="${RELEASE_DIR}/${zip_name}"
+    # check if it already exists
+    if [[ -e "${zip_path}" ]]; then
+        echo -e "\e[92mAlready exists '${zip_path}' for target ${TARGET}, skipping build...\e[39m" >&2
+        declare -i total_time=$((SECONDS - start_time))
+        time_hms=$(seconds_to_hms "$total_time")
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}⚠️ exists${SEP}_"
+        targets_skipped+=("$TARGET")
+        # long running script; print progress in real-time
+        print_results
+        continue
+    fi
     # install toolchain for the target; if it's already installed then this will be a no-op
     if ! (
         set -x
@@ -472,44 +500,35 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
         time_hms=$(seconds_to_hms "$total_time")
         results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}✅ pass${SEP}cross build --target $TARGET ${*}"
         targets_built+=("$TARGET")
-        # if DIROUT is set, copy the s4 binary to DIROUT with meaningful names
-        if [[ "${DIROUT-}" ]]; then
-            mkdir -vp "$DIROUT"
-            for s4_file in $(find "target/${TARGET}" -type f \( -name "${BIN}" -o -name "${BIN}.exe" \)); do
-                EXT=''
-                if [[ "${s4_file}" =~ .*\.exe ]]; then
-                    EXT='.exe'
-                fi
-                # s4_file will look like
-                #     target/s390x-unknown-linux-gnu/debug/s4
-                # if --release passed then
-                #     target/x86_64-pc-windows-gnu/release/s4.exe
-                dest_name="${BIN}_${TARGET}_v${VERSION}${EXT}"
-                dest_path="${DIROUT}/${dest_name}"
-                zip_name="${BIN}_${TARGET}_v${VERSION}.zip"
-                # the zip file layout must match section `package.metadata.binstall` from `Cargo.toml`
-                cp -av "$s4_file" "$dest_path"
-                chmod -v -w "$dest_path"
-                (
-            set -x
-                    cd "$DIROUT"
-                    bin="${BIN}${EXT}"
-                    rm -f "${bin}" "${bin}.sha256"
-                    create_sha256sum "$dest_name"
-                    chmod -v -w "${dest_name}.sha256"
-                    cp -av "$dest_name" "${bin}"
-                    create_sha256sum "${bin}"
-                    chmod -v -w "${bin}.sha256"
-                    release_dir="${DIROUT}/release"
-                    mkdir -vp "${release_dir}"
-                    zip_path="${release_dir}/${zip_name}"
-                    zip -v9 "${zip_path}" "${bin}" "${bin}.sha256"
-                    chmod -v -w "${zip_path}"
-                    create_sha256sum "${zip_path}"
-                    rm -vf "${bin}" "${bin}.sha256"
-                )
-            done
-        fi
+        for s4_file in $(find "target/${TARGET}" -type f \( -name "${BIN}" -o -name "${BIN}.exe" \)); do
+            EXT=''
+            if [[ "${s4_file}" =~ .*\.exe ]]; then
+                EXT='.exe'
+            fi
+            # s4_file will look like
+            #     target/s390x-unknown-linux-gnu/debug/s4
+            # if --release passed then
+            #     target/x86_64-pc-windows-gnu/release/s4.exe
+            dest_name="${BIN}_${TARGET}_v${VERSION}${EXT}"
+            dest_path="${DIROUT}/${dest_name}"
+            # the zip file layout must match section `package.metadata.binstall` from `Cargo.toml`
+            cp -av "$s4_file" "$dest_path"
+            chmod -v -w "$dest_path"
+            (
+                cd "$DIROUT"
+                bin="${BIN}${EXT}"
+                rm -f "${bin}" "${bin}.sha256"
+                create_sha256sum "$dest_name"
+                chmod -v -w "${dest_name}.sha256"
+                cp -av "$dest_name" "${bin}"
+                create_sha256sum "${bin}"
+                chmod -v -w "${bin}.sha256"
+                zip -v9 "${zip_path}" "${bin}" "${bin}.sha256"
+                chmod -v -w "${zip_path}"
+                create_sha256sum "${zip_path}"
+                rm -vf "${bin}" "${bin}.sha256"
+            )
+        done
     else
         declare -i total_time=$((SECONDS - start_time))
         time_hms=$(seconds_to_hms "$total_time")
