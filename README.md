@@ -135,22 +135,12 @@ curl -sSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-search
 On Windows, run the PowerShell script `easy-install.ps1`
 
 ```powershell
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
+
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.ps1' `
   -OutFile easy-install.ps1
 
 .\easy-install.ps1
-```
-
-If you get the error:
-
-`easy-install.ps1 cannot be loaded because running scripts is disabled on this system`<br/>
-
-then run:
-
-```powershell
-Set-ExecutionPolicy `
-  -ExecutionPolicy Unrestricted `
-  -Scope Process
 ```
 
 ##### manual download
@@ -220,6 +210,7 @@ cargo install --locked super_speedy_syslog_searcher
 ```
 
 [_Rust_ must be installed](https://www.rust-lang.org/tools/install)
+
 A C compiler is required.
 
 _Note that building takes around 20 minutes on a good AMD Desktop CPU from year 2022._
