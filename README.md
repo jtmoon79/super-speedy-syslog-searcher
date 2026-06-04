@@ -90,7 +90,6 @@ and Apple System Logs (`.asl`).
     - [Archive Formats Supported](#archive-formats-supported)
     - [Performance Comparison](#performance-comparison)
       - [Table of performance comparison results](#table-of-performance-comparison-results)
-      - [Max RSS per file](#max-rss-per-file)
   - [Building locally](#building-locally)
   - [Parsing `.journal` files](#parsing-journal-files)
   - [Requesting Support For DateTime Formats; your particular log file](#requesting-support-for-datetime-formats-your-particular-log-file)
@@ -1108,7 +1107,7 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 |`s4`       |0.8.80 |system   |x86_64-unknown-linux-ohos|176.4 ± 2.7  |172.1   |184.7   |136692      |238% |
 |`s4`       |0.7.79 |system   |x86_64-unknown-linux-gnu |178.6 ± 2.7  |174.4   |185.8   |136824      |241% |
 |`s4`       |0.7.78 |system   |x86_64-unknown-linux-gnu |179.6 ± 3.3  |175.0   |189.7   |136816      |240% |
-|`grep+sort`|3.11   |         |                         |66.0 ± 3.0   |63.7    |77.7    |12032       |111% |
+|`grep \| sort`|3.11|         |                         |66.0 ± 3.0   |63.7    |77.7    |12032       |111% |
 |`lnav`     |0.11.2 |         |                         |260.4 ± 12.7 |248.7   |317.8   |56576       |107% |
 |`logmerger`|0.12.0 |         |Python 3.12.3            |313.6 ± 9.2  |301.6   |339.2   |78496       |99%  |
 |`toolong`  |1.5.0  |         |Python 3.12.3            |             |        |        |63988       |0%   |
@@ -1122,28 +1121,9 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
 Run on Ubuntu 24 on WSL, platform `x86_64-unknown-linux-gnu`.
 
-See archived results in file [`compare-log-mergers.txt`].
+See further performance measurements in the [`releases`] directory.
 
-[`compare-log-mergers.txt`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/releases/0.9.81
-
-##### Max RSS per file
-
-`s4` process _Maximum Resident Set Size_ (Max RSS) per additional file is high `s4`.
-For an ad-hoc text file of size 2.1 MB, `s4` Max RSS is about 4.5 MB,
-or an average Max RSS multiple of ×2.2.
-In other words, for each additional 2.1 MB file processed, `s4` uses an additional 4.5 MB of memory.
-
-[![Maximum RSS per file](releases/0.9.81/x86_64-unknown-linux-gnu/compare-mem-mss.svg)](releases/0.9.81/x86_64-unknown-linux-gnu/compare-mem-mss.svg)
-
-The Max RSS multiple is very highest after the first file, an additional 13 MB of RSS for the second
-2.1 MB file (×6.2 multiple).
-As the number of 2.1 MB files nears 50, the multiple levels off to about ×2.2.
-
-Not ideal in any case that it's ever so high.
-
-See archived results in files [`compare-mem-*`].
-
-[`compare-mem-*`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/releases/0.9.81
+[`releases`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/main/releases
 
 ---
 
