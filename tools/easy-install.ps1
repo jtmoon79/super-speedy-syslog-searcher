@@ -1,34 +1,61 @@
 #!powershell
 #
 # easy-install.ps1
-#
-# To run:
-#
-#     PS> Invoke-WebRequest -Uri https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/refs/heads/main/tools/easy-install.ps1 -OutFile easy-install.ps1
-#     PS> Get-Help .\easy-install.ps1 -full
 
 <#
 .SYNOPSIS
     Download and install the Super Speedy Syslog Searcher (s4) binary program for Windows.
 .DESCRIPTION
     This script will attempt to download the latest release of s4 for Windows from GitHub, verify the SHA-256 checksums of the downloaded files, and install the s4.exe binary to a writable directory in the user's PATH.
+
+    To run:
+    PS> Invoke-WebRequest -Uri https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/refs/heads/main/tools/easy-install.ps1 -OutFile easy-install.ps1
+    PS> .\easy-install.ps1 -?
 .PARAMETER Version
     Version of Super Speedy Syslog Searcher to install.
+.PARAMETER Triple
+    Optional override of target triple; e.g. `x86_64-pc-windows-gnu` vs `x86_64-pc-windows-msvc`.
+.PARAMETER Abi
+    Optional override of target triple last ABI field; e.g. `gnu` vs `msvc` for Windows targets.
+.PARAMETER Test
+    Test the download and run, do not install.
 .PARAMETER trace
     Turn on debug tracing.
+.PARAMETER Help
+    Show this help message and exit.
 .LINK
     https://github.com/jtmoon79/super-speedy-syslog-searcher
 .NOTES
     Author: James Thomas Moon
 #>
 
+
 [CmdletBinding()]
 param(
     [Parameter()]
     [string] $Version,
     [Parameter()]
-    [switch] $trace
+    [string] $Triple,
+    [Parameter()]
+    [string] $Abi,
+    [Parameter()]
+    [switch] $Test,
+    [Parameter()]
+    [switch] $trace,
+    [Parameter()]
+    [Alias('?')]
+    [switch] $Help
 )
+
+if ($Help) {
+    $helpTarget = $PSCommandPath
+    if ([string]::IsNullOrWhiteSpace($helpTarget)) {
+        $helpTarget = $MyInvocation.MyCommand.Path
+    }
+    $helpTargetName = $helpTarget.Split([IO.Path]::DirectorySeparatorChar)[-1]
+    Get-Help -Name $helpTargetName -Path $helpTarget -Detailed -ErrorAction SilentlyContinue
+    return
+}
 
 if ($trace) {
     Set-PSDebug -Trace 1
@@ -38,12 +65,53 @@ $ErrorActionPreference = 'Stop'
 
 $SecurityProtocolType = [Net.SecurityProtocolType]::Tls12
 
-$TargetTriples = @(
+# see target platform triples at
+# https://doc.rust-lang.org/nightly/rustc/platform-support.html
+
+$TargetTriplesAMD64 = @(
     'x86_64-pc-windows-msvc',
     'x86_64-pc-windows-gnu',
-    'i686-pc-windows-msvc',
-    'aarch64-pc-windows-msvc'
+    'x86_64-pc-windows-gnullvm',
+    'x86_64-win7-windows-gnu',
+    'x86_64-win7-windows-msvc',
+    'x86_64-uwp-windows-msvc',
+    'x86_64-uwp-windows-gnu'
 )
+$TargetTriplesI686 = @(
+    'i686-pc-windows-msvc',
+    'i686-pc-windows-gnu',
+    'i686-pc-windows-gnullvm',
+    'i686-win7-windows-gnu',
+    'i686-win7-windows-msvc'
+)
+$TargetTriplesAarch64 = @(
+    'aarch64-pc-windows-msvc',
+    'aarch64-pc-windows-gnullvm',
+    'arm64ec-pc-windows-msvc',
+    'aarch64-uwp-windows-msvc'
+)
+# try to download and run these target triples until one succeeds
+$TargetTriples = @()
+
+if (-not [string]::IsNullOrWhiteSpace($Triple)) {
+    $TargetTriples = @($Triple)
+    if (-not [string]::IsNullOrWhiteSpace($Abi)) {
+        $Abi = $Abi.Trim().ToLower()
+        Write-Warning "ABI override '${Abi}' is ignored because target triple override '${Triple}' was provided."
+    }
+} else {
+    switch ("${env:PROCESSOR_ARCHITECTURE}".toLower()) {
+        'amd64' { $TargetTriples = $TargetTriplesAMD64 }
+        'x86' { $TargetTriples = $TargetTriplesI686 }
+        'arm64' { $TargetTriples = $TargetTriplesAarch64 }
+        default {
+            Write-Warning "unrecognized processor architecture '$(${env:PROCESSOR_ARCHITECTURE})'; will attempt all target triples"
+            $TargetTriples = $TargetTriplesAMD64 + $TargetTriplesI686 + $TargetTriplesAarch64
+        }
+    }
+}
+
+$TargetsAttempted = @()
 
 if ([string]::IsNullOrWhiteSpace($Version)) {
     if (-not [string]::IsNullOrWhiteSpace($env:VER)) {
@@ -214,12 +282,33 @@ function Main {
         $workdir = New-Item -ItemType Directory -Path (Join-Path -Path ([IO.Path]::GetTempPath()) -ChildPath ('easy-install.ps1.tmpd.' + [Guid]::NewGuid().ToString('N'))) -Force
         Write-Info "temporary directory is $($workdir.FullName)"
 
+        $installDir = Choose-InstallDirectory
+        if ([string]::IsNullOrWhiteSpace($installDir)) {
+            Write-Error 'could not find a writable install directory.'
+        }
+
         $selectedBinaryPath = $null
         $selectedTarget = $null
 
         foreach ($targetTriple in $TargetTriples) {
             Write-Host ''
             Write-Info "trying target $targetTriple ..."
+
+            if (-not [string]::IsNullOrWhiteSpace($Abi)) {
+                if ($targetTriple -notmatch '^(.*-)([^-]+)$') {
+                    Write-Warning "cannot override target triple with ABI '${Abi}' because target triple '$targetTriple' does not match expected format"
+                    continue
+                }
+                $targetTriple = "$($matches[1])${Abi}"
+                Write-Info "overriding target triple with ABI '${Abi}'; new target triple is '${targetTriple}'"
+                Write-Host ''
+            }
+
+            if ($TargetsAttempted.Contains($targetTriple)) {
+                Write-Verbose "skipping target triple '$targetTriple' because it has already been attempted"
+                continue
+            }
+            $TargetsAttempted += $targetTriple
 
             $candidateDir = New-Item -ItemType Directory -Path (Join-Path -Path $workdir.FullName -ChildPath $targetTriple) -Force
             $zipName = "s4_${targetTriple}_v${Version}.zip"
@@ -294,13 +383,12 @@ function Main {
             Write-Error 'none of the candidate Windows binaries could be executed successfully.'
         }
 
-        $installDir = Choose-InstallDirectory
-        if ([string]::IsNullOrWhiteSpace($installDir)) {
-            Write-Error 'could not find a writable install directory.'
-        }
-
         $installPath = Join-Path -Path $installDir -ChildPath 's4.exe'
         Write-Info "install binary to $installPath"
+        if ($Test) {
+            throw "-Test: skipping installation"
+        }
+
         Copy-Item -LiteralPath $selectedBinaryPath -Destination $installPath -Force
 
         Write-Info 'verify installed binary path ...'

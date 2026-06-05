@@ -1,10 +1,15 @@
 #!/bin/sh
 #
-# easy installer for s4 release binaries
+# easy installer for s4 release binaries.
 # POSIX shell compatible.
 #
 # Usage:
 #   VER=0.9.81 ./tools/easy-install.sh
+#
+# Optional environment variables:
+#   VER: version to install
+#   ABI: optional override of target triple last ABI field; e.g. `gnu`
+#   TEST: if set then do not install
 #
 # to run this file remotely:
 #    curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
@@ -16,11 +21,19 @@ readonly SCRIPT_NAME='easy-install.sh'
 VER=${VER-0.9.81}  # PROJECT VERSION LAST PUBLISHED
 readonly VER
 
+# optional override of target triple last ABI field
+# e.g. `gnu` vs `musl` for Linux targets
+ABI=${ABI-}
+readonly ABI
+
 COLOR_GREEN=$(printf '\033[32m')
 COLOR_YELLOW=$(printf '\033[33m')
 COLOR_RED=$(printf '\033[31m')
 COLOR_RESET=$(printf '\033[0m')
 readonly COLOR_GREEN COLOR_YELLOW COLOR_RED COLOR_RESET
+
+# if set and file exists then s4 copied to location not in PATH
+NOT_IN_PATH=
 
 info() {
     # shellcheck disable=SC2059
@@ -62,6 +75,20 @@ has_command() {
     command -v "$1" >/dev/null 2>&1
 }
 
+is_in_path() {
+    dir_is_in_path="$1"
+    IFS_OLD=${IFS}
+    IFS=:
+    for path_dir in ${PATH}; do
+        if [ "${path_dir}" = "${dir_is_in_path}" ]; then
+            IFS="${IFS_OLD}"
+            return 0
+        fi
+    done
+    IFS="${IFS_OLD}"
+    return 1
+}
+
 choose_install_dir() {
     # search these common user bin directories first
     for dir in \
@@ -72,6 +99,9 @@ choose_install_dir() {
     do
         [ -d "${dir}" ] || continue
         [ -w "${dir}" ] || continue
+        if ! is_in_path "${dir}"; then
+            touch "${NOT_IN_PATH}"
+        fi
         echo "${dir}"
         return 0
     done
@@ -89,6 +119,17 @@ choose_install_dir() {
     done
     IFS="${IFS_OLD}"
 
+    # try creating a directory in the user's home directory
+    if [ -z "${HOME-}" ]; then
+        return 1
+    fi
+    home_bin="${HOME-}/bin"
+    if mkdir -p "${home_bin}" && [ -w "${home_bin}" ]; then
+        echo "${home_bin}"
+        touch "${NOT_IN_PATH}"
+        return 0
+    fi
+
     return 1
 }
 
@@ -102,15 +143,11 @@ main() {
         has_sha256sum=1
     fi
 
-    if check_optional_program which "The script will use command -v instead."; then
-        has_which=0
-    else
-        has_which=1
-    fi
-
     WORKDIR=$(mktemp -d "${SCRIPT_NAME}.tmpd.XXXXXXXX")
     readonly WORKDIR
     trap 'rm -rf "$WORKDIR"' 0
+    NOT_IN_PATH="$(readlink -f "${WORKDIR}/not_in_path")"
+    readonly NOT_IN_PATH
 
     info "determine platform target ..."
     # methods to get the target triple
@@ -130,6 +167,15 @@ main() {
     printf '\n' >&2
 
     [ -n "${target_triple}" ] || die "Platform target could not be determined."
+
+    if [ -n "${ABI}" ]; then
+        if ! has_command rev || ! has_command cut; then
+            die "Cannot override target triple with ABI '${ABI}' because required commands 'rev' or 'cut' are not available."
+        fi
+        target_triple="$(echo "${target_triple}" | rev | cut -f 2- -d '-' | rev)-${ABI}"
+        info "overriding target triple with ABI '${ABI}'; new target triple is '${target_triple}'"
+        printf '\n' >&2
+    fi
 
     zip_name="s4_${target_triple}_v${VER}.zip"
     zip_path="${WORKDIR}/${zip_name}"
@@ -170,8 +216,8 @@ main() {
     binary_path="${WORKDIR}/${binary_name}"
     info "using extracted binary '${binary_name}'"
 
-    chmod -v +x "${binary_path}"
-    chmod -v -w "${binary_path}"
+    chmod +x "${binary_path}"
+    chmod -w "${binary_path}"
 
     if [ "${has_sha256sum}" -eq 0 ]; then
         binary_checksum_name="${binary_name}.sha256"
@@ -194,28 +240,29 @@ main() {
 
     install_path="${install_dir}/${binary_name}"
     info "install binary to ${install_path}"
+    if [ -n "${TEST-}" ]; then
+        info "TEST environment variable is set; skipping actual installation."
+        return 0
+    fi
     (set -x; cp -vf "${binary_path}" "${install_path}")
 
     info "verify installed binary path ..."
-    if [ "${has_which}" -eq 0 ]; then
-        if which "${binary_name}" >/dev/null 2>&1; then
-            (set -x; which "${binary_name}")
-        else
-            warn "'which ${binary_name}' did not find ${binary_name} in current PATH."
-        fi
-    else
-        if command -v "${binary_name}" >/dev/null 2>&1; then
-            (set -x; command -v "${binary_name}")
-        else
-            warn "'command -v ${binary_name}' did not find ${binary_name} in current PATH."
-        fi
+    if ! (set -x; which -a "${binary_name}"); then
+        warn "Did not find ${binary_name} in current PATH."
     fi
     printf '\n' >&2
 
     info "check installed binary can run ..."
-    (set -x; "${binary_name}" --version)
+    if [ -f "${NOT_IN_PATH}" ]; then
+        (set -x; "${install_path}" --version)
+    else
+        (set -x; "${binary_name}" --version)
+    fi
 
     info "installed ${binary_name} for platform ${target_triple} version ${VER} to ${install_path}"
+    if [ -f "${NOT_IN_PATH}" ]; then
+        warn "Binary was installed to a directory not currently in PATH."
+    fi
 }
 
 main "$@"
