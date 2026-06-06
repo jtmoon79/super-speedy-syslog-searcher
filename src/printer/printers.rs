@@ -383,8 +383,20 @@ pub type PrinterLogMessageResult = Result<(usize, usize)>;
 const BUFFER_USE: bool = true;
 const BUFFER_CAP: usize = 2056;
 
-/// Flushes. Sets `error_ret` if there is an error.
+
+/// Call [`buffer_flush_or_seterr_impl`].
+/// For `cfg(test)` write to sink to avoid unblockable printing during tests.
 macro_rules! buffer_flush_or_seterr {
+    ($stdout:expr, $buffer:expr, $printed:expr, $flushed:expr, $error_ret:expr) => {{
+        #[cfg(test)]
+        buffer_flush_or_seterr_impl!(std::io::sink(), $buffer, $printed, $flushed, $error_ret);
+        #[cfg(not(test))]
+        buffer_flush_or_seterr_impl!($stdout, $buffer, $printed, $flushed, $error_ret);
+    }};
+}
+
+/// Flushes. Sets `error_ret` if there is an error.
+macro_rules! buffer_flush_or_seterr_impl {
     ($stdout:expr, $buffer:expr, $printed:expr, $flushed:expr, $error_ret:expr) => {{
         if !$buffer.is_empty() {
             match $stdout.write_all($buffer.as_slice()) {
@@ -443,10 +455,21 @@ macro_rules! buffer_flush_nostats {
     }};
 }
 
-/// Macro to write `$slice_` to `PrinterLogMessage.buffer`.
-/// If there is an error then `return PrinterLogMessageResult::Err`.
-/// May or may not flush `PrinterLogMessage.buffer`.
+/// Call [`buffer_write_or_return_impl`].
+/// For `cfg(test)` write to sink to avoid unblockable printing during tests.
 macro_rules! buffer_write_or_return {
+    ($stdout:expr, $buffer:expr, $slice_:expr, $printed:expr, $flushed:expr) => {{
+        #[cfg(test)]
+        buffer_write_or_return_impl!(std::io::sink(), $buffer, $slice_, $printed, $flushed);
+        #[cfg(not(test))]
+        buffer_write_or_return_impl!($stdout, $buffer, $slice_, $printed, $flushed);
+    }};
+}
+
+/// Macro to write `$slice_` to `PrinterLogMessage.buffer`.
+/// If there is an error then return [`PrinterLogMessageResult::Err`].
+/// May or may not flush `PrinterLogMessage.buffer`.
+macro_rules! buffer_write_or_return_impl {
     ($stdout:expr, $buffer:expr, $slice_:expr, $printed:expr, $flushed:expr) => {{
         let mut error_ret: Option<Error> = None;
         if !BUFFER_USE {
@@ -1019,6 +1042,7 @@ impl PrinterLogMessage {
     ///
     /// [`lineparts`]: crate::data::line::LineParts
     #[inline(always)]
+    #[allow(unused_variables)]
     fn print_line(
         &mut self,
         linep: &LineP,
@@ -1305,6 +1329,7 @@ impl PrinterLogMessage {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, &buffer[..at], printed, flushed);
@@ -1331,6 +1356,7 @@ impl PrinterLogMessage {
             InfoAsBytes::Fail(at) => at,
         };
 
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, dtb, printed, flushed);
@@ -1359,6 +1385,7 @@ impl PrinterLogMessage {
             InfoAsBytes::Ok(at, _, _) => at,
             InfoAsBytes::Fail(at) => at,
         };
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, prepend_file, printed, flushed);
@@ -1391,6 +1418,7 @@ impl PrinterLogMessage {
             InfoAsBytes::Fail(at) => at,
         };
 
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, dtb, printed, flushed);
@@ -1598,6 +1626,7 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, pyevent.as_bytes(), printed, flushed);
@@ -1635,6 +1664,7 @@ impl PrinterLogMessage {
         };
         let data: &[u8] = pyevent.as_bytes();
         let mut a: usize = 0;
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         while let Some(b) = data[a..].find_byte(NLu8) {
@@ -1776,6 +1806,7 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, evtx.as_bytes(), printed, flushed);
@@ -1813,6 +1844,7 @@ impl PrinterLogMessage {
         };
         let data: &[u8] = evtx.as_bytes();
         let mut a: usize = 0;
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         while let Some(b) = data[a..].find_byte(NLu8) {
@@ -1954,6 +1986,7 @@ impl PrinterLogMessage {
     ) -> PrinterLogMessageResult {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         buffer_write_or_return!(stdout_lock, self.buffer, journalentry.as_bytes(), printed, flushed);
@@ -1991,6 +2024,7 @@ impl PrinterLogMessage {
         };
         let data = journalentry.as_bytes();
         let mut a: usize = 0;
+        #[allow(unused_mut, unused_variables)]
         let mut stdout_lock = self.stdout.lock();
         let _si_lock = debug_print_guard();
         while let Some(b) = data[a..].find_byte(NLu8) {
