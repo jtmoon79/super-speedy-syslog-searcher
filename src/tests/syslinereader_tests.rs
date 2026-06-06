@@ -226,7 +226,7 @@ lazy_static! {
     static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
 }
 
-pub const REGEX_ID_NTF5: usize = 138;
+pub const REGEX_ID_NTF5: usize = 140;
 
 /// basic test of `SyslineReader.find_sysline`
 fn impl_find_sysline(
