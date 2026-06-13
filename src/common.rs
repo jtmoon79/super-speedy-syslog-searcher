@@ -603,6 +603,7 @@ pub enum FileProcessingResult<E> {
     /// `FileErrTooSmall` but with a custom message
     FileErrTooSmallS(String),
     FileErrNullBytes,
+    FileErrFFBytes,
     FileErrNoLinesFound,
     FileErrNoSyslinesFound,
     FileErrNoSyslinesInDtRange,
@@ -673,6 +674,9 @@ where
             FileProcessingResult::FileErrNullBytes => {
                 write!(f, "file contains null bytes")
             }
+            FileProcessingResult::FileErrFFBytes => {
+                write!(f, "file contains 0xFF bytes")
+            }
             FileProcessingResult::FileErrNoLinesFound => {
                 write!(f, "no lines found in file")
             }
@@ -735,6 +739,9 @@ impl<E> PartialEq for FileProcessingResult<E> {
             }
             FileProcessingResult::FileErrNullBytes => {
                 matches!(*other, FileProcessingResult::FileErrNullBytes)
+            }
+            FileProcessingResult::FileErrFFBytes => {
+                matches!(*other, FileProcessingResult::FileErrFFBytes)
             }
             FileProcessingResult::FileErrNoLinesFound => {
                 matches!(*other, FileProcessingResult::FileErrNoLinesFound)
