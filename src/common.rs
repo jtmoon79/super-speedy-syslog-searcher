@@ -57,6 +57,7 @@ pub type Count = u64;
 /// `usize` as a key.
 /// The main processing thread uses the `PathId` key for various lookups,
 /// including the file path.
+// TODO: change this to `u32`
 pub type PathId = usize;
 
 /// a set of [`PathId`]
