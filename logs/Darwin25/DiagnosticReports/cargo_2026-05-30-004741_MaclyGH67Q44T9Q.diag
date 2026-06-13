@@ -1,0 +1,144 @@
+Date/Time:        2026-05-30 00:21:03.561 -0700
+End time:         2026-05-30 00:47:41.345 -0700
+OS Version:       macOS 26.4 (Build 25E246)
+Architecture:     arm64e
+Report Version:   72
+Incident Identifier: 10D6469D-3F40-4A39-BAF5-C4D980EE6BF9
+
+Data Source:      Microstackshots
+Shared Cache:     7D4906C9-9CA2-3F56-8242-3EC2C1E3245B slid base address 0x1820c8000, slide 0x20c8000
+
+Command:          cargo
+Path:             /Users/*/cargo
+Codesigning ID:   cargo-3c7261f351978602
+Resource Coalition: "com.openssh.sshd.346F0556-1D57-42B8-8F22-3A7CA7076BBF"(6564)
+Architecture:     arm64
+Parent:           UNKNOWN [40053]
+PID:              40092
+
+Event:            disk writes
+Action taken:     none
+Writes:           8589.95 MB of file backed memory dirtied over 1598 seconds (5376.16 KB per second average), exceeding limit of 99.42 KB per second over 86400 seconds
+Writes limit:     8589.93 MB
+Limit duration:   86400s
+Writes caused:    8589.95 MB
+Writes duration:  1598s
+Duration:         1597.78s
+Duration Sampled: 6.77s (event starts 1590.99s before samples)
+Steps:            27 (10.49 MB/step)
+
+Hardware model:   Mac16,10
+Active cpus:      10
+Memory size:      16 GB
+HW page size:     16384
+VM page size:     16384
+Shared cache residency: 27.78% (1533.59 MB / 5520.47 MB)
+
+Time Since Boot:  46966s
+Time Awake Since Boot: 46966s
+Time Since Wake:  n/a (machine hasn't slept)
+
+Total CPU Time:   1.367s
+Advisory levels:  Battery -> 2, User -> 2, ThermalPressure -> 0, Combined -> 2
+Free disk space:  175.75 GB/228.27 GB, low space threshold 3072 MB
+Vnodes Available: 75.20% (189504/251993)
+Models:           none
+
+Preferred User Language: en-US
+Country Code:     US
+OS Cryptex File Extents: 1
+
+Heaviest stack for the target process:
+  27  start + 6992 (dyld + 130468) [0x1821fbda4]
+  27  main + 52 (cargo + 7566080) [0x1010eb300]
+  27  std::rt::lang_start_internal::ha7d36e169a6a9a91 + 888 (cargo + 11618800) [0x1014c89f0]
+  27  _RNCINvNtCs9QY0sRQ9KnX_3std2rt10lang_startuE0CsaryZX4LuHaa_5cargo + 16 (cargo + 7180592) [0x10108d130]
+  27  _RINvNtNtCs9QY0sRQ9KnX_3std3sys9backtrace28___rust_begin_short_backtraceFEuuECsaryZX4LuHaa_5cargo + 12 (cargo + 7115804) [0x10107d41c]
+  27  _RNvCsaryZX4LuHaa_5cargo4main + 13600 (cargo + 7511880) [0x1010ddf48]
+  27  _RNvMNtCsaryZX4LuHaa_5cargo3cliNtB2_4Exec4exec + 112 (cargo + 7548040) [0x1010e6c88]
+  27  _RNvNtNtCsaryZX4LuHaa_5cargo8commands8metadata4exec + 692 (cargo + 7429196) [0x1010c9c4c]
+  27  _RNvNtNtCseTY8IWcjAwM_5cargo3ops21cargo_output_metadata15output_metadata + 9284 (cargo + 5035956) [0x100e817b4]
+  25  _RNvNtNtCseTY8IWcjAwM_5cargo3ops7resolve20resolve_ws_with_opts + 2212 (cargo + 5393124) [0x100ed8ae4]
+  25  _RNvMs6_NtNtCseTY8IWcjAwM_5cargo4core7packageNtB5_10PackageSet19download_accessible + 1724 (cargo + 6641340) [0x1010096bc]
+  25  _RNvMs7_NtNtCseTY8IWcjAwM_5cargo4core7packageNtB5_9Downloads4wait + 14496 (cargo + 6660400) [0x10100e130]
+  25  _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8replacedNtB4_14ReplacedSourceNtNtB6_6source6Source15finish_download + 452 (cargo + 5756320) [0x100f315a0]
+  22  _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8registryNtB4_14RegistrySourceNtNtB6_6source6Source15finish_download + 236 (cargo + 5753372) [0x100f30a1c]
+  21  _RNvMNtNtCseTY8IWcjAwM_5cargo7sources8registryNtB2_14RegistrySource7get_pkg + 4704 (cargo + 5744940) [0x100f2e92c]
+  21  _RNvMs0_NtCs1GMfoSvEgWA_3tar5entryNtB5_11EntryFields9unpack_in + 2232 (cargo + 11782932) [0x1014f0b14]
+  21  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+
+
+Powerstats for:   cargo [40092]
+UUID:             D2609B63-224F-39D7-AD65-EB5BFEA3858A
+Path:             /Users/*/cargo
+Codesigning ID:   cargo-3c7261f351978602
+Resource Coalition: 27 samples "com.openssh.sshd.346F0556-1D57-42B8-8F22-3A7CA7076BBF"(6564)
+Architecture:     arm64
+Parent:           UNKNOWN [40053]
+UID:              502
+Footprint:        27.62 MB -> 181.25 MB (+153.62 MB)
+Pageins:          1 pages
+Start time:       2026-05-30 00:47:34.551 -0700
+End time:         2026-05-30 00:47:41.325 -0700
+Num samples:      27 (100%)
+Energy:           1464.80 uWh
+Num threads:      1
+Primary state:    27 samples Non-Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS Default, Requested Thread QoS Default, Override Thread QoS Unspecified, p-core
+User Activity:    27 samples Idle, 0 samples Active
+Power Source:     0 samples on Battery, 27 samples on AC
+  27  start + 6992 (dyld + 130468) [0x1821fbda4]
+    27  main + 52 (cargo + 7566080) [0x1010eb300]
+      27  std::rt::lang_start_internal::ha7d36e169a6a9a91 + 888 (cargo + 11618800) [0x1014c89f0]
+        27  _RNCINvNtCs9QY0sRQ9KnX_3std2rt10lang_startuE0CsaryZX4LuHaa_5cargo + 16 (cargo + 7180592) [0x10108d130]
+          27  _RINvNtNtCs9QY0sRQ9KnX_3std3sys9backtrace28___rust_begin_short_backtraceFEuuECsaryZX4LuHaa_5cargo + 12 (cargo + 7115804) [0x10107d41c]
+            27  _RNvCsaryZX4LuHaa_5cargo4main + 13600 (cargo + 7511880) [0x1010ddf48]
+              27  _RNvMNtCsaryZX4LuHaa_5cargo3cliNtB2_4Exec4exec + 112 (cargo + 7548040) [0x1010e6c88]
+                27  _RNvNtNtCsaryZX4LuHaa_5cargo8commands8metadata4exec + 692 (cargo + 7429196) [0x1010c9c4c]
+                  27  _RNvNtNtCseTY8IWcjAwM_5cargo3ops21cargo_output_metadata15output_metadata + 9284 (cargo + 5035956) [0x100e817b4]
+                    25  _RNvNtNtCseTY8IWcjAwM_5cargo3ops7resolve20resolve_ws_with_opts + 2212 (cargo + 5393124) [0x100ed8ae4]
+                      25  _RNvMs6_NtNtCseTY8IWcjAwM_5cargo4core7packageNtB5_10PackageSet19download_accessible + 1724 (cargo + 6641340) [0x1010096bc]
+                        25  _RNvMs7_NtNtCseTY8IWcjAwM_5cargo4core7packageNtB5_9Downloads4wait + 14496 (cargo + 6660400) [0x10100e130]
+                          25  _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8replacedNtB4_14ReplacedSourceNtNtB6_6source6Source15finish_download + 452 (cargo + 5756320) [0x100f315a0]
+                            22  _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8registryNtB4_14RegistrySourceNtNtB6_6source6Source15finish_download + 236 (cargo + 5753372) [0x100f30a1c]
+                              21  _RNvMNtNtCseTY8IWcjAwM_5cargo7sources8registryNtB2_14RegistrySource7get_pkg + 4704 (cargo + 5744940) [0x100f2e92c]
+                                21  _RNvMs0_NtCs1GMfoSvEgWA_3tar5entryNtB5_11EntryFields9unpack_in + 2232 (cargo + 11782932) [0x1014f0b14]
+                                  21  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+                              1   _RNvMNtNtCseTY8IWcjAwM_5cargo7sources8registryNtB2_14RegistrySource7get_pkg + 5388 (cargo + 5745624) [0x100f2ebd8]
+                                1   _RNvYNtNtCs9QY0sRQ9KnX_3std2fs4FileNtNtB6_2io5Write9write_fmtCseTY8IWcjAwM_5cargo + 48 (cargo + 3846496) [0x100d5f160]
+                                  1   core::fmt::write::h1dbafa36e52e01c5 + 372 (cargo + 8038268) [0x10115e77c]
+                                    1   write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+                            3   _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8registryNtB4_14RegistrySourceNtNtB6_6source6Source15finish_download + 124 (cargo + 5753260) [0x100f309ac]
+                              3   _RNvXs_NtNtNtCseTY8IWcjAwM_5cargo7sources8registry11http_remoteNtB4_12HttpRegistryNtB6_12RegistryData15finish_download + 64 (cargo + 5683076) [0x100f1f784]
+                                3   _RNvNtNtNtCseTY8IWcjAwM_5cargo7sources8registry8download15finish_download + 1052 (cargo + 5662024) [0x100f1a548]
+                                  3   write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+                    2   _RNvNtNtCseTY8IWcjAwM_5cargo3ops7resolve20resolve_ws_with_opts + 456 (cargo + 5391368) [0x100ed8408]
+                      2   _RNvNtNtCseTY8IWcjAwM_5cargo3ops7resolve21resolve_with_registry + 392 (cargo + 6772256) [0x101029620]
+                        2   _RNvNtNtCseTY8IWcjAwM_5cargo3ops7resolve21resolve_with_previous + 7320 (cargo + 6780544) [0x10102b680]
+                          2   _RNvNtNtCseTY8IWcjAwM_5cargo4core8resolver7resolve + 448 (cargo + 6686812) [0x10101485c]
+                            1   _RNvNtNtCseTY8IWcjAwM_5cargo4core8resolver18activate_deps_loop + 7892 (cargo + 4615016) [0x100e1ab68]
+                              1   _RNvNtNtCseTY8IWcjAwM_5cargo4core8resolver8activate + 8132 (cargo + 4636584) [0x100e1ffa8]
+                                1   _RNvXNtNtCsd2KPTObkMr_4core4iter8adaptersINtB2_12GenericShuntINtNtB2_10filter_map9FilterMapINtNtNtCs7fnLZwG9eJV_5alloc3vec9into_iter8IntoIterTNtNtNtCseTY8IWcjAwM_5cargo4core10dependency10DependencyINtNtB1x_2rc2RcINtNtNtNtB1x_11collections5btree3set8BTreeSetNtNtNtB2l_4util9interning14InternedStringEEEENCNvMNtNtB2j_8resolver9dep_cacheNtB4U_15RegistryQueryer10build_deps0EINtNtB6_6result6ResultNtNtB6_7convert10InfallibleNtCs3iQD2jUcLcp_6anyhow5ErrorEENtNtNtB4_6traits8iterator8Iterator4nextB2l_ + 124 (cargo + 3018136) [0x100c94d98]
+                                  1   _RNvMNtNtNtCseTY8IWcjAwM_5cargo4core8resolver9dep_cacheNtB2_15RegistryQueryer5query + 356 (cargo + 4502712) [0x100dff4b8]
+                                    1   _RNvXs_NtNtCseTY8IWcjAwM_5cargo4core8registryNtB4_15PackageRegistryNtB4_8Registry5query + 2488 (cargo + 4477900) [0x100df93cc]
+                                      1   _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8replacedNtB4_14ReplacedSourceNtNtB6_6source6Source5query + 136 (cargo + 5754580) [0x100f30ed4]
+                                        1   _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8registryNtB4_14RegistrySourceNtNtB6_6source6Source5query + 1080 (cargo + 5748596) [0x100f2f774]
+                                          1   _RNvMs0_NtNtNtCseTY8IWcjAwM_5cargo7sources8registry5indexNtB5_13RegistryIndex23query_inner_with_online + 92 (cargo + 5710436) [0x100f26264]
+                                            1   _RNvMs0_NtNtNtCseTY8IWcjAwM_5cargo7sources8registry5indexNtB5_13RegistryIndex14load_summaries + 6468 (cargo + 5705596) [0x100f24f7c]
+                                              1   write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+                            1   _RNvNtNtCseTY8IWcjAwM_5cargo4core8resolver18activate_deps_loop + 656 (cargo + 4607780) [0x100e18f24]
+                              1   _RNvNtNtCseTY8IWcjAwM_5cargo4core8resolver8activate + 8132 (cargo + 4636584) [0x100e1ffa8]
+                                1   _RNvXNtNtCsd2KPTObkMr_4core4iter8adaptersINtB2_12GenericShuntINtNtB2_10filter_map9FilterMapINtNtNtCs7fnLZwG9eJV_5alloc3vec9into_iter8IntoIterTNtNtNtCseTY8IWcjAwM_5cargo4core10dependency10DependencyINtNtB1x_2rc2RcINtNtNtNtB1x_11collections5btree3set8BTreeSetNtNtNtB2l_4util9interning14InternedStringEEEENCNvMNtNtB2j_8resolver9dep_cacheNtB4U_15RegistryQueryer10build_deps0EINtNtB6_6result6ResultNtNtB6_7convert10InfallibleNtCs3iQD2jUcLcp_6anyhow5ErrorEENtNtNtB4_6traits8iterator8Iterator4nextB2l_ + 124 (cargo + 3018136) [0x100c94d98]
+                                  1   _RNvMNtNtNtCseTY8IWcjAwM_5cargo4core8resolver9dep_cacheNtB2_15RegistryQueryer5query + 356 (cargo + 4502712) [0x100dff4b8]
+                                    1   _RNvXs_NtNtCseTY8IWcjAwM_5cargo4core8registryNtB4_15PackageRegistryNtB4_8Registry5query + 2488 (cargo + 4477900) [0x100df93cc]
+                                      1   _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8replacedNtB4_14ReplacedSourceNtNtB6_6source6Source5query + 136 (cargo + 5754580) [0x100f30ed4]
+                                        1   _RNvXs_NtNtCseTY8IWcjAwM_5cargo7sources8registryNtB4_14RegistrySourceNtNtB6_6source6Source5query + 1080 (cargo + 5748596) [0x100f2f774]
+                                          1   _RNvMs0_NtNtNtCseTY8IWcjAwM_5cargo7sources8registry5indexNtB5_13RegistryIndex23query_inner_with_online + 92 (cargo + 5710436) [0x100f26264]
+                                            1   _RNvMs0_NtNtNtCseTY8IWcjAwM_5cargo7sources8registry5indexNtB5_13RegistryIndex14load_summaries + 6112 (cargo + 5705240) [0x100f24e18]
+                                              1   std::fs::DirBuilder::create_dir_all::h448978ed3925d84a + 792 (cargo + 11634840) [0x1014cc898]
+                                                1   mkdir + 8 (libsystem_kernel.dylib + 10120) [0x182575788]
+                                                  1   <e-core>
+
+  Binary Images:
+           0x1009b4000 -        0x101f67fff  cargo (0)                             <D2609B63-224F-39D7-AD65-EB5BFEA3858A>  /Users/*/cargo
+           0x1821dc000 -        0x182281ec7  dyld (1376.6)                         <9F682DCF-340C-3BFA-BCDD-DD702F30313E>  /usr/lib/dyld
+           0x182573000 -        0x1825b028f  libsystem_kernel.dylib (12377.101.15) <51565B39-F595-3E96-A217-FEF29815057A>  /usr/lib/system/libsystem_kernel.dylib

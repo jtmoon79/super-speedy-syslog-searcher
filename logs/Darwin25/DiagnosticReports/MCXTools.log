@@ -1,0 +1,34 @@
+May 29 11:44:58 airportd[131] [*] [0:MCXToolsInterface:<0xb46>] Log file created
+May 29 11:45:23 Setup Assistant[469] [*] [248:CPUI_FW:CPUI_FW:<0x12bd>] Received cloud configuration: <AutoAdvanceSetup (1); AwaitDeviceConfigured (1); ConfigurationURL; IsMDMUnremovable (1); MDMServerUID (f92ecdb5301ec2fd0dd32badb45170e7270d281027b19e5fc7f4c1f65a28d3e4)>
+May 29 11:45:23 Setup Assistant[469] [*] [248:CPUI_FW:CPUI_FW:<0x12bd>] Received SkipSetup: <Accessibility; Appearance; AppleID; AppStore; Biometric; Diagnostics; DisplayTone; EnableLockdownMode; FileVault; iCloudDiagnostics; iCloudStorage; Intelligence; Location; OSShowcase; Passcode; Payment; Privacy; Registration; Restore; ScreenTime; Siri; SoftwareUpdate; TermsOfAddress; TOS; UnlockWithWatch; UpdateCompleted; Wallpaper; Welcome>
+May 29 11:45:26 mdmclient[173] [*] [0:MDMDaemon:MDMMigration:<0x144a>] DEP token update (token: <H:F3A84C6D98BF410345C87B842D2B15C46D204074>; forced: no; eligible: no; reason: INELIGIBLE_UNENROLLED) succeeded: {
+    responseCode = SUCCESS;
+    serialNum = GH67Q44T9Q;
+    topic = "dep-apns-device-register";
+}
+May 29 11:46:06 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x1e72>] >>>>> Sending HTTP request (POST) [GetEnrollmentProfile] >>>>>
+May 29 11:46:08 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x20f3>] <<<<< Received HTTP response (302) [(null)] <<<<<
+May 29 11:46:08 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x20f3>] >>>>> Sending HTTP request (GET) [(null)] >>>>>
+May 29 11:46:09 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x1e72>] <<<<< Received HTTP response (200) [GetEnrollmentProfile] <<<<<
+May 29 11:46:09 mdmclient[173] [*] [0:MDMDaemon:<0x258c>] === CPF_InstallProfile === Mosyle Corporation MDM (com.mosyle.mdm:38D24869-3271-4707-A240-89BD553BA56E) (user: <Computer>) (source: 'CloudConfiguration;SetupAssistant')
+May 29 11:46:09 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x1e72>] >>>>> Sending HTTP request (PUT) [MDM_Authenticate] >>>>>
+May 29 11:46:10 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x1e72>] <<<<< Received HTTP response (200) [MDM_Authenticate] <<<<<
+May 29 11:46:10 mdmclient[173] [*] [0:MDMDaemon:<0x1e72>] Sending SetBootstrapToken with token of length: 29
+May 29 11:46:10 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x1e72>] >>>>> Sending HTTP request (PUT) [MDM_SetBootstrapToken] >>>>>
+May 29 11:46:11 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x1e72>] <<<<< Received HTTP response (200) [MDM_SetBootstrapToken] <<<<<
+May 29 11:46:16 mdmclient[173] [*] [0:MDMDaemon:<0x258c>] Using MDM profile: <DeviceEnrollment> [CloudConfiguration:SetupAssistant] EnrollID: F23E609B-D634-4C56-911E-3849AA8F8CB6 (User: (null)) <Payload: Mobile Device Management (<com.apple.mdm> com.mosyle.mdm.credential:C5E6D08E-C8E1-4D2D-8F97-D76F5FA631F9) from profile: Mosyle Corporation MDM (com.mosyle.mdm:38D24869-3271-4707-A240-89BD553BA56E)>
+May 29 11:46:16 mdmclient[173] [*] [0:MDMDaemon:MDMMigration:<0x25e2>] Forcing push update due to MDM profile change: MDMProfileChanged
+May 29 11:46:16 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x1e72>] >>>>> Sending HTTP request (PUT) [MDM_TokenUpdate] >>>>>
+May 29 11:46:17 mdmclient[173] [*] [0:MDMDaemon:MDMMigration:<0x24a6>] DEP token update (token: <H:F3A84C6D98BF410345C87B842D2B15C46D204074>; forced: YES; eligible: YES; reason: ELIGIBLE) succeeded: {
+    responseCode = SUCCESS;
+    serialNum = GH67Q44T9Q;
+    topic = "dep-apns-device-register";
+}
+May 29 11:46:17 mdmclient[173] [*] [0:MDMDaemon:<0x20f3>] APS: Received push message for topic: com.apple.mgmt.External.f002bc63-a101-4c0b-86fd-3cd8d6416f82
+May 29 11:46:17 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x276b>] >>>>> Sending HTTP request (PUT) [Idle] >>>>>
+May 29 11:46:17 mdmclient[173] [*] [0:MDMDaemon:<0x25e2>] APS: Received push message for topic: com.apple.mgmt.External.f002bc63-a101-4c0b-86fd-3cd8d6416f82
+May 29 11:46:18 mdmclient[173] [*] [0:MDMDaemon:HTTPUtil:<0x1e72>] <<<<< Received HTTP response (200) [MDM_TokenUpdate] <<<<<
+
+Jun  3 22:01:44 mdmclient[83358] [*] [0:MDMDaemon:<0x3922e0>] Processing server request: InstalledApplicationList for: <Device> ((null)) PowerNap: no
+Jun  3 22:16:51 mdmclient[84164] [*] [0:MDMDaemon] Using MDM profile: <DeviceEnrollment> [CloudConfiguration:SetupAssistant] EnrollID: F23E609B-D634-4C56-911E-3849AA8F8CB6 (User: 0F24A617-2201-4795-8D52-52C496065B58) <Payload: Mobile Device Management (<com.apple.mdm> com.mosyle.mdm.credential:C5E6D08E-C8E1-4D2D-8F97-D76F5FA631F9) from profile: Mosyle Corporation MDM (com.mosyle.mdm:38D24869-3271-4707-A240-89BD553BA56E)>
+Jun  3 22:16:51 mdmclient[84164] [*] [0:MDMDaemon:<0x393d60>] Processing server request: InstalledApplicationList for: <Device> ((null)) PowerNap: no

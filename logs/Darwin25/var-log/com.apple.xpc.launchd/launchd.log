@@ -1,0 +1,62 @@
+2026-06-03 20:18:32.859326 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204) <Notice>: launching: ipc (socket)
+2026-06-03 20:18:32.860770 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: xpcproxy spawned with pid 78812
+2026-06-03 20:18:32.860793 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: internal event: SPAWNED, code = 0
+2026-06-03 20:18:32.860795 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: service state: xpcproxy
+2026-06-03 20:18:32.860813 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: internal event: SOURCE_ATTACH, code = 0
+2026-06-03 20:18:32.867548 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: service state: running
+2026-06-03 20:18:32.867559 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: internal event: INIT, code = 0
+2026-06-03 20:18:32.867572 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: Successfully spawned sshd-keygen-wrapper[78812] because ipc (socket)
+2026-06-03 20:18:32.870955 (pid/78812 [sshd-keygen-wra]) <Notice>: uncorking exec source upfront
+2026-06-03 20:18:32.870987 (pid/78812 [sshd-keygen-wra]) <Notice>: created
+2026-06-03 20:18:32.875695 (pid/78812 [sshd-keygen-wra]) <Notice>: domain exec event
+2026-06-03 20:18:32.875701 (pid/78812 [sshd-keygen-wra]) <Notice>: shutting down
+2026-06-03 20:18:32.875711 (pid/78812 [sshd-keygen-wra]) <Notice>: cleaning up
+2026-06-03 20:18:32.875716 (system) <Notice>: removing child: pid/78812
+2026-06-03 20:18:34.453232 (system) <Warning>: failed lookup: name = com.apple.AppleLOM.Watchdog, flags = 0x1, requestor = watchdogd[49], error = 3: No such process
+2026-06-03 20:18:36.160776 (loginwindow/23803) <Warning>: failed lookup: name = com.apple.security.octagon, requestor = WiFiAgent[23813], error = 3: No such process
+2026-06-03 20:18:37.584395 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54) <Notice>: internal event: WILL_SPAWN, code = 0
+2026-06-03 20:18:37.584412 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54) <Notice>: service state: spawn scheduled
+2026-06-03 20:18:37.584414 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54) <Notice>: service state: spawning
+2026-06-03 20:18:37.584485 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54) <Notice>: launching: ipc (socket)
+2026-06-03 20:18:37.585636 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: xpcproxy spawned with pid 78815
+2026-06-03 20:18:37.585658 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: internal event: SPAWNED, code = 0
+2026-06-03 20:18:37.585661 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: service state: xpcproxy
+2026-06-03 20:18:37.585675 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: internal event: SOURCE_ATTACH, code = 0
+2026-06-03 20:18:37.592529 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: service state: running
+2026-06-03 20:18:37.592539 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: internal event: INIT, code = 0
+2026-06-03 20:18:37.592551 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: Successfully spawned sshd-keygen-wrapper[78815] because ipc (socket)
+2026-06-03 20:18:37.596031 (pid/78815 [sshd-keygen-wra]) <Notice>: uncorking exec source upfront
+2026-06-03 20:18:37.596048 (pid/78815 [sshd-keygen-wra]) <Notice>: created
+2026-06-03 20:18:37.600714 (pid/78815 [sshd-keygen-wra]) <Notice>: domain exec event
+2026-06-03 20:18:37.600719 (pid/78815 [sshd-keygen-wra]) <Notice>: shutting down
+2026-06-03 20:18:37.600732 (pid/78815 [sshd-keygen-wra]) <Notice>: cleaning up
+2026-06-03 20:18:37.600737 (system) <Notice>: removing child: pid/78815
+2026-06-03 20:18:41.360817 (loginwindow/23803) <Warning>: failed lookup: name = com.apple.security.octagon, requestor = WiFiAgent[23813], error = 3: No such process
+2026-06-03 20:18:42.572378 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: exited due to exit(5), ran for 4985ms
+2026-06-03 20:18:42.572539 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: service state: exited
+2026-06-03 20:18:42.572548 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: internal event: EXITED, code = 0
+2026-06-03 20:18:42.572552 (system) <Notice>: service inactive: com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54
+2026-06-03 20:18:42.572554 (system) <Notice>: removing service: com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54
+2026-06-03 20:18:42.572566 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: internal event: PETRIFIED, code = 0
+2026-06-03 20:18:42.572569 (system/com.openssh.sshd.EA919E8C-BF95-4D79-A902-31FBF9FC2C54 [78815]) <Notice>: service state: not running
+2026-06-03 20:18:45.254763 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: exited due to exit(5), ran for 12393ms
+2026-06-03 20:18:45.254793 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: service state: exited
+2026-06-03 20:18:45.254801 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: internal event: EXITED, code = 0
+2026-06-03 20:18:45.254805 (system) <Notice>: service inactive: com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204
+2026-06-03 20:18:45.254807 (system) <Notice>: removing service: com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204
+2026-06-03 20:18:45.254820 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: internal event: PETRIFIED, code = 0
+2026-06-03 20:18:45.254823 (system/com.openssh.sshd.0740C54B-137F-4B72-BBE2-593C27A7B204 [78812]) <Notice>: service state: not running
+2026-06-03 20:18:46.560865 (loginwindow/23803) <Warning>: failed lookup: name = com.apple.security.octagon, requestor = WiFiAgent[23813], error = 3: No such process
+2026-06-03 20:19:04.453543 <Notice>: Last log repeated 3 times
+2026-06-03 20:19:04.453519 (system) <Warning>: failed lookup: name = com.apple.AppleLOM.Watchdog, flags = 0x1, requestor = watchdogd[49], error = 3: No such process
+2026-06-03 20:19:07.360794 (loginwindow/23803) <Warning>: failed lookup: name = com.apple.security.octagon, requestor = WiFiAgent[23813], error = 3: No such process
+2026-06-03 20:19:15.721939 <Notice>: Last log repeated 1 times
+2026-06-03 20:19:15.721915 (system/com.openssh.sshd.7728B384-0C65-4711-BFB9-9823F9DDDF9E) <Notice>: internal event: WILL_SPAWN, code = 0
+2026-06-03 20:19:15.721932 (system/com.openssh.sshd.7728B384-0C65-4711-BFB9-9823F9DDDF9E) <Notice>: service state: spawn scheduled
+
+2026-06-03 22:06:51.132739 (loginwindow/23803) <Warning>: failed lookup: name = com.apple.security.octagon, requestor = WiFiAgent[23813], error = 3: No such process
+2026-06-03 22:06:54.579943 (system) <Warning>: failed lookup: name = com.apple.AppleLOM.Watchdog, flags = 0x1, requestor = watchdogd[49], error = 3: No such process
+2026-06-03 22:06:56.332876 (loginwindow/23803) <Warning>: failed lookup: name = com.apple.security.octagon, requestor = WiFiAgent[23813], error = 3: No such process
+2026-06-03 22:07:24.580553 <Notice>: Last log repeated 5 times
+2026-06-03 22:07:24.580521 (system) <Warning>: failed lookup: name = com.apple.AppleLOM.Watchdog, flags = 0x1, requestor = watchdogd[49], error = 3: No such process
+2026-06-03 22:07:27.533187 (loginwindow/23803) <Warning>: failed lookup: name = com.apple.security.octagon, requestor = WiFiAgent[23813], error = 3: No such process

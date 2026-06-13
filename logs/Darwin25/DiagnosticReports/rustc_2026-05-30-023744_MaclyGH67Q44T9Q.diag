@@ -1,0 +1,97 @@
+Date/Time:        2026-05-30 00:47:41.386 -0700
+End time:         2026-05-30 02:37:44.475 -0700
+OS Version:       macOS 26.4 (Build 25E246)
+Architecture:     arm64e
+Report Version:   72
+Incident Identifier: 98C58037-8A0B-4EFF-92C4-E1B40EC634E6
+
+Data Source:      Microstackshots
+Shared Cache:     7D4906C9-9CA2-3F56-8242-3EC2C1E3245B slid base address 0x1820c8000, slide 0x20c8000
+
+Command:          rustc
+Path:             /Users/*/rustc
+Resource Coalition: "com.openssh.sshd.346F0556-1D57-42B8-8F22-3A7CA7076BBF"(6564)
+Architecture:     arm64
+Parent:           UNKNOWN [48750]
+PID:              48960
+
+Event:            disk writes
+Action taken:     none
+Writes:           34.44 GB of file backed memory dirtied over 6603 seconds (5216.12 KB per second average), exceeding limit of 397.68 KB per second over 86400 seconds
+Writes limit:     34.36 GB
+Limit duration:   86400s
+Writes caused:    34.44 GB
+Writes duration:  6603s
+Duration:         6603.09s
+Duration Sampled: 564.77s (event starts 6008.21s before samples, event ends 30.10s after samples)
+Steps:            178 (263 samples lost, 10.49 MB/step)
+
+Hardware model:   Mac16,10
+Active cpus:      10
+Memory size:      16 GB
+HW page size:     16384
+VM page size:     16384
+Shared cache residency: 16.71% (922.52 MB / 5520.47 MB)
+
+Time Since Boot:  52981s
+Time Awake Since Boot: 52981s
+Time Since Wake:  n/a (machine hasn't slept)
+
+Total CPU Time:   565.055s
+Advisory levels:  Battery -> 2, User -> 2, ThermalPressure -> 0, Combined -> 2
+Free disk space:  147.54 GB/228.27 GB, low space threshold 3072 MB
+Vnodes Available: 73.95% (186351/251993)
+Models:           none
+
+Preferred User Language: en-US
+Country Code:     US
+OS Cryptex File Extents: 1
+
+Heaviest stack for the target process:
+  178  thread_start + 8 (libsystem_pthread.dylib + 7196) [0x1825b2c1c]
+  178  _pthread_start + 136 (libsystem_pthread.dylib + 27736) [0x1825b7c58]
+  178  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 44716684) [0x1129f528c]
+  172  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12566240) [0x110b4bee0]
+  172  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12477564) [0x110b3647c]
+  172  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12539172) [0x110b45524]
+  96   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12229776) [0x110af9c90]
+  96   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 25724848) [0x1117d87b0]
+  96   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 21795680) [0x111419360]
+  96   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 20408012) [0x1112c66cc]
+  96   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 20416288) [0x1112c8720]
+  96   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 25719176) [0x1117d7188]
+  96   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 25991876) [0x111819ac4]
+  90   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 25993996) [0x11181a30c]
+  90   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 35468332) [0x11212342c]
+  56   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 36325524) [0x1121f4894]
+  56   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 34686000) [0x112064430]
+  56   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 35501988) [0x11212b7a4]
+  11   ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 34151348) [0x111fe1bb4]
+  5    ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 26035668) [0x1118245d4]
+  5    ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 92554084) [0x115794364]
+  5    write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+
+
+Powerstats for:   rustc [48960]
+UUID:             13045B9B-94BE-3FDD-AA9F-CB3F81DE4850
+Path:             /Users/*/rustc
+Resource Coalition: 178 samples "com.openssh.sshd.346F0556-1D57-42B8-8F22-3A7CA7076BBF"(6564)
+Architecture:     arm64
+Parent:           UNKNOWN [48750]
+UID:              502
+Footprint:        762.23 MB -> 17.16 GB (+16.42 GB)
+Start time:       2026-05-30 02:27:49.598 -0700
+End time:         2026-05-30 02:37:14.372 -0700
+Num samples:      178 (100%)
+Energy:           985.93 mWh
+Num threads:      7
+Primary state:    178 samples Non-Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS Default, Requested Thread QoS Default, Override Thread QoS Unspecified, p-core
+User Activity:    178 samples Idle, 0 samples Active
+Power Source:     0 samples on Battery, 178 samples on AC
+  178  thread_start + 8 (libsystem_pthread.dylib + 7196) [0x1825b2c1c]
+
+  Binary Images:
+           0x104c14000 -                ???  rustc                                 <13045B9B-94BE-3FDD-AA9F-CB3F81DE4850>  /Users/*/rustc
+           0x10ff50000 -                ???  ???                                   <44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685>
+           0x182573000 -        0x1825b028f  libsystem_kernel.dylib (12377.101.15) <51565B39-F595-3E96-A217-FEF29815057A>  /usr/lib/system/libsystem_kernel.dylib
+           0x1825b1000 -        0x1825bdb3b  libsystem_pthread.dylib (539.100.4)   <E7A73008-0C09-31E3-9DD9-0C61652F0E85>  /usr/lib/system/libsystem_pthread.dylib

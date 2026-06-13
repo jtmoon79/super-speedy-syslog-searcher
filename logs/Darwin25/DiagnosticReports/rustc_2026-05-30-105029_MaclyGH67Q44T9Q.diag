@@ -1,0 +1,111 @@
+Date/Time:        2026-05-30 10:26:06.546 -0700
+End time:         2026-05-30 10:50:28.709 -0700
+OS Version:       macOS 26.4 (Build 25E246)
+Architecture:     arm64e
+Report Version:   72
+Incident Identifier: 550B3A38-D4C5-4535-99BA-EA2265ACCA12
+
+Data Source:      Microstackshots
+Shared Cache:     7D4906C9-9CA2-3F56-8242-3EC2C1E3245B slid base address 0x1820c8000, slide 0x20c8000
+
+Command:          rustc
+Path:             /Users/USER/*/rustc
+Codesigning ID:   rustc_main-2419167d7cb51e23
+Resource Coalition: "com.openssh.sshd.4374C3D0-4BCA-4DC8-AF57-9E166DC71B08"(11000)
+Architecture:     arm64
+PID:              89790
+
+Event:            disk writes
+Action taken:     none
+Writes:           2153.41 MB of file backed memory dirtied over 1462 seconds (1472.75 KB per second average), exceeding limit of 24.86 KB per second over 86400 seconds
+Writes limit:     2147.48 MB
+Limit duration:   86400s
+Writes caused:    2153.41 MB
+Writes duration:  1462s
+Duration:         1462.16s
+Duration Sampled: 5.82s (event starts 1456.33s before samples)
+Steps:            3 (1 samples lost, 10.49 MB/step)
+
+Hardware model:   Mac16,10
+Active cpus:      10
+Memory size:      16 GB
+HW page size:     16384
+VM page size:     16384
+Shared cache residency: 19.54% (1078.92 MB / 5520.47 MB)
+
+Time Since Boot:  83134s
+Time Awake Since Boot: 83134s
+Time Since Wake:  n/a (machine hasn't slept)
+
+Total CPU Time:   5.849s
+Advisory levels:  Battery -> 2, User -> 2, ThermalPressure -> 0, Combined -> 2
+Free disk space:  84.49 GB/228.27 GB, low space threshold 3072 MB
+Vnodes Available: 72.53% (182765/251993)
+Models:           none
+
+Preferred User Language: en-US
+Country Code:     US
+OS Cryptex File Extents: 1
+
+Heaviest stack for the target process:
+  3  thread_start + 8 (libsystem_pthread.dylib + 7196) [0x1825b2c1c]
+  3  _pthread_start + 136 (libsystem_pthread.dylib + 27736) [0x1825b7c58]
+  3  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 44716684) [0x11098928c]
+  2  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12566240) [0x10eadfee0]
+  2  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12477564) [0x10eaca47c]
+  1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12539232) [0x10ead9560]
+  1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 21927688) [0x10f3cd708]
+  1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 10463492) [0x10e8de904]
+  1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 10471024) [0x10e8e0670]
+  1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 24295748) [0x10f60f944]
+  1  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+
+
+Powerstats for:   rustc [89790]
+UUID:             13045B9B-94BE-3FDD-AA9F-CB3F81DE4850
+Path:             /Users/USER/*/rustc
+Codesigning ID:   rustc_main-2419167d7cb51e23
+Resource Coalition: 3 samples "com.openssh.sshd.4374C3D0-4BCA-4DC8-AF57-9E166DC71B08"(11000)
+Architecture:     arm64
+Footprint:        473.55 MB -> 460 MB (-13.55 MB) (max 634.72 MB )
+Start time:       2026-05-30 10:50:22.879 -0700
+End time:         2026-05-30 10:50:28.699 -0700
+Num samples:      3 (100%)
+Energy:           8348.19 uWh
+Num threads:      2
+Primary state:    3 samples Non-Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS Default, Requested Thread QoS Default, Override Thread QoS Unspecified, p-core
+User Activity:    3 samples Idle, 0 samples Active
+Power Source:     0 samples on Battery, 3 samples on AC
+  3  thread_start + 8 (libsystem_pthread.dylib + 7196) [0x1825b2c1c]
+    3  _pthread_start + 136 (libsystem_pthread.dylib + 27736) [0x1825b7c58]
+      3  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 44716684) [0x11098928c]
+        2  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12566240) [0x10eadfee0]
+          2  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12477564) [0x10eaca47c]
+            1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12539232) [0x10ead9560]
+              1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 21927688) [0x10f3cd708]
+                1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 10463492) [0x10e8de904]
+                  1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 10471024) [0x10e8e0670]
+                    1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 24295748) [0x10f60f944]
+                      1  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+            1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12539172) [0x10ead9524]
+              1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 12230104) [0x10ea8ddd8]
+                1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 21923820) [0x10f3cc7ec]
+                  1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 24297132) [0x10f60feac]
+                    1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 24216684) [0x10f5fc46c]
+                      1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 91830712) [0x1136779b8]
+                        1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 24115224) [0x10f5e3818]
+                          1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 23672716) [0x10f57778c]
+                            1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 23644748) [0x10f570a4c]
+                              1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 24081816) [0x10f5db598]
+                                1  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+        1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 8932212) [0x10e768b74]
+          1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 8722976) [0x10e735a20]
+            1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 8741636) [0x10e73a304]
+              1  ??? (<44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685> + 9337844) [0x10e7cbbf4]
+                1  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+
+  Binary Images:
+           0x102878000 -                ???  rustc                                 <13045B9B-94BE-3FDD-AA9F-CB3F81DE4850>  /Users/USER/*/rustc
+           0x10dee4000 -                ???  ???                                   <44BC6F29-DCC2-3403-BB9C-FAD1B4C2B685>
+           0x182573000 -        0x1825b028f  libsystem_kernel.dylib (12377.101.15) <51565B39-F595-3E96-A217-FEF29815057A>  /usr/lib/system/libsystem_kernel.dylib
+           0x1825b1000 -        0x1825bdb3b  libsystem_pthread.dylib (539.100.4)   <E7A73008-0C09-31E3-9DD9-0C61652F0E85>  /usr/lib/system/libsystem_pthread.dylib

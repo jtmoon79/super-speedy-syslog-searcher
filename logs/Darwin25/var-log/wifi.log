@@ -1,0 +1,120 @@
+Jun  3 00:30:05 MaclyGH67Q44T9Q newsyslog[33024]: logfile turned over
+Wed Jun  3 00:30:07.377 [airport]/131 @[391516.783807] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307512] Processed events, count[  2], @[391516.783773], took 0.000027
+Wed Jun  3 00:30:07.377 [airport]/131 @[391516.784157] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307512] Processed events, count[  1], @[391516.784127], took 0.000016
+Wed Jun  3 00:30:07.378 [airport]/131 @[391516.784440] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307512] Processed events, count[  1], @[391516.784415], took 0.000019
+Wed Jun  3 00:30:07.379 [airport]/131 @[391516.785689] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307478] Processed events, count[  1], @[391516.784726], took 0.000953
+Wed Jun  3 00:30:07.379 [airport]/131 @[391516.785825] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307478] Processed events, count[  1], @[391516.785803], took 0.000017
+
+Wed Jun  3 00:30:07.380 [airport]/131 @[391516.786460] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307478] Processed events, count[  1], @[391516.786442], took 0.000013
+Wed Jun  3 00:30:07.380 [airport]/131 @[391516.786718] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307510] Processed events, count[  1], @[391516.786690], took 0.000023
+Wed Jun  3 00:30:07.381 [airport]/131 @[391516.787526] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307595] Processed events, count[  1], @[391516.786904], took 0.000614
+Wed Jun  3 00:30:07.381 [airport]/131 @[391516.787640] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307595] Processed events, count[  1], @[391516.787620], took 0.000016
+Wed Jun  3 00:30:07.381 [airport]/131 @[391516.787697] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307595] Processed events, count[  1], @[391516.787681], took 0.000012
+Wed Jun  3 00:30:07.381 [airport]/131 @[391516.787748] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307595] Processed events, count[  1], @[391516.787730], took 0.000013
+Wed Jun  3 00:30:07.381 [airport]/131 @[391516.787794] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307595] Processed events, count[  1], @[391516.787778], took 0.000011
+Wed Jun  3 00:30:07.381 [airport]/131 @[391516.787981] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307512] Processed events, count[  1], @[391516.787959], took 0.000017
+Wed Jun  3 00:30:07.381 [airport]/131 @[391516.788170] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307595] Processed events, count[  1], @[391516.788150], took 0.000015
+Wed Jun  3 00:30:07.382 [airport]/131 @[391516.788368] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x307595] Processed events, count[  1], @[391516.788351], took 0.000013
+
+Wed Jun  3 01:06:44.474 [airport]/131 @[393713.826839] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba7] Processed events, count[  1], @[393713.826819], took 0.000014
+Wed Jun  3 01:06:44.474 [airport]/131 @[393713.826899] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba7] Processed events, count[  1], @[393713.826874], took 0.000020
+Wed Jun  3 01:06:44.474 [airport]/131 @[393713.826946] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba7] Processed events, count[  1], @[393713.826929], took 0.000012
+
+Wed Jun  3 01:06:44.475 [airport]/131 @[393713.828001] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba7] Processed events, count[  1], @[393713.827968], took 0.000028
+Wed Jun  3 01:06:44.475 [airport]/131 @[393713.828077] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba7] Processed events, count[  1], @[393713.828059], took 0.000013
+Wed Jun  3 01:06:44.475 [airport]/131 @[393713.828133] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba7] Processed events, count[  1], @[393713.828116], took 0.000012
+Wed Jun  3 01:06:44.475 [airport]/131 @[393713.828178] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba7] Processed events, count[  1], @[393713.828160], took 0.000013
+Wed Jun  3 01:06:44.475 [airport]/131 @[393713.828285] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba5] Processed events, count[  1], @[393713.828258], took 0.000022
+Wed Jun  3 01:06:44.475 [airport]/131 @[393713.828474] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba5] Processed events, count[  1], @[393713.828454], took 0.000015
+Wed Jun  3 01:06:44.476 [airport]/131 @[393713.828659] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x30bba5] Processed events, count[  1], @[393713.828641], took 0.000014
+
+Wed Jun  3 03:02:41.172 [airport]/131 @[400670.520256] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d3] Processed events, count[  2], @[400670.520227], took 0.000024
+Wed Jun  3 03:02:41.172 [airport]/131 @[400670.520517] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d3] Processed events, count[  1], @[400670.520493], took 0.000018
+Wed Jun  3 03:02:41.173 [airport]/131 @[400670.521957] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d3] Processed events, count[  1], @[400670.520801], took 0.001148
+Wed Jun  3 03:02:41.174 [airport]/131 @[400670.522104] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d3] Processed events, count[  1], @[400670.522084], took 0.000015
+
+Wed Jun  3 03:02:41.176 [airport]/131 @[400670.524262] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d6] Processed events, count[  1], @[400670.524244], took 0.000013
+Wed Jun  3 03:02:41.176 [airport]/131 @[400670.524334] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d6] Processed events, count[  1], @[400670.524316], took 0.000013
+Wed Jun  3 03:02:41.176 [airport]/131 @[400670.524397] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d6] Processed events, count[  1], @[400670.524381], took 0.000012
+Wed Jun  3 03:02:41.176 [airport]/131 @[400670.524669] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x31816e] Processed events, count[  1], @[400670.524638], took 0.000026
+Wed Jun  3 03:02:41.176 [airport]/131 @[400670.524960] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d8] Processed events, count[  1], @[400670.524938], took 0.000016
+Wed Jun  3 03:02:41.177 [airport]/131 @[400670.525219] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3180d6] Processed events, count[  1], @[400670.525199], took 0.000015
+Wed Jun  3 03:02:41.177 [airport]/131 @[400670.525472] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x31807d] Processed events, count[  1], @[400670.525445], took 0.000022
+Wed Jun  3 03:02:57.910 [airport]/131 @[400687.234012] (airportdMain.m:1902) dq:'com.apple.airportd.server.timer.q'/tid[0x31807d] Health check alive, checkin@[400687.233932], fault[0] crash[0] threshold[5 sec], count[397500], gRunLoop: checkin@[400686.591706] count[400676] last[400686.591706] max[1.271676] diff[0.642224], faults[0], last faulted @count[0], thresholdExceeded[0]
+Wed Jun  3 03:03:01.650 [airport]/131 @[400690.971066] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f2] Processed events, count[  2], @[400690.971023], took 0.000036
+Wed Jun  3 03:03:01.650 [airport]/131 @[400690.971414] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f2] Processed events, count[  1], @[400690.971388], took 0.000016
+Wed Jun  3 03:03:01.650 [airport]/131 @[400690.971658] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f2] Processed events, count[  1], @[400690.971634], took 0.000018
+Wed Jun  3 03:03:01.652 [airport]/131 @[400690.973017] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  2], @[400690.972192], took 0.000820
+Wed Jun  3 03:03:01.652 [airport]/131 @[400690.973121] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400690.973101], took 0.000015
+Wed Jun  3 03:03:01.652 [airport]/131 @[400690.973174] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400690.973157], took 0.000012
+Wed Jun  3 03:03:01.652 [airport]/131 @[400690.973219] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400690.973201], took 0.000013
+Wed Jun  3 03:03:01.652 [airport]/131 @[400690.973269] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400690.973245], took 0.000018
+Wed Jun  3 03:03:01.652 [airport]/131 @[400690.973312] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400690.973295], took 0.000012
+Wed Jun  3 03:03:01.652 [airport]/131 @[400690.973401] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.973381], took 0.000015
+Wed Jun  3 03:03:01.652 [airport]/131 @[400690.973586] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.973567], took 0.000014
+Wed Jun  3 03:03:01.653 [airport]/131 @[400690.974307] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.973739], took 0.000560
+Wed Jun  3 03:03:01.653 [airport]/131 @[400690.974406] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.974377], took 0.000018
+Wed Jun  3 03:03:01.653 [airport]/131 @[400690.974461] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.974445], took 0.000012
+Wed Jun  3 03:03:01.653 [airport]/131 @[400690.974509] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.974492], took 0.000013
+Wed Jun  3 03:03:01.653 [airport]/131 @[400690.974557] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.974540], took 0.000012
+Wed Jun  3 03:03:01.653 [airport]/131 @[400690.974722] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.974701], took 0.000016
+Wed Jun  3 03:03:01.653 [airport]/131 @[400690.974970] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400690.974951], took 0.000015
+Wed Jun  3 03:03:01.654 [airport]/131 @[400690.975186] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400690.975166], took 0.000015
+Wed Jun  3 03:03:01.654 [airport]/131 @[400690.975362] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400690.975337], took 0.000020
+Wed Jun  3 03:03:20.977 [airport]/131 @[400710.291486] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  2], @[400710.291445], took 0.000034
+Wed Jun  3 03:03:20.977 [airport]/131 @[400710.291843] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.291821], took 0.000018
+Wed Jun  3 03:03:20.978 [airport]/131 @[400710.292079] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.292050], took 0.000024
+Wed Jun  3 03:03:20.979 [airport]/131 @[400710.293059] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.292314], took 0.000736
+Wed Jun  3 03:03:20.979 [airport]/131 @[400710.293171] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.293146], took 0.000020
+Wed Jun  3 03:03:20.979 [airport]/131 @[400710.293230] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.293211], took 0.000014
+Wed Jun  3 03:03:20.979 [airport]/131 @[400710.293278] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.293263], took 0.000011
+Wed Jun  3 03:03:20.979 [airport]/131 @[400710.293317] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.293302], took 0.000011
+Wed Jun  3 03:03:20.979 [airport]/131 @[400710.293452] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318179] Processed events, count[  1], @[400710.293429], took 0.000018
+Wed Jun  3 03:03:20.979 [airport]/131 @[400710.293655] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.293635], took 0.000015
+Wed Jun  3 03:03:20.979 [airport]/131 @[400710.293828] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f0] Processed events, count[  1], @[400710.293809], took 0.000015
+Wed Jun  3 03:03:20.980 [airport]/131 @[400710.294015] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f0] Processed events, count[  1], @[400710.293995], took 0.000015
+Wed Jun  3 03:03:20.980 [airport]/131 @[400710.294794] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f0] Processed events, count[  1], @[400710.294190], took 0.000597
+Wed Jun  3 03:03:20.981 [airport]/131 @[400710.294908] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f0] Processed events, count[  1], @[400710.294883], took 0.000018
+Wed Jun  3 03:03:20.981 [airport]/131 @[400710.294979] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f0] Processed events, count[  1], @[400710.294962], took 0.000012
+Wed Jun  3 03:03:20.981 [airport]/131 @[400710.295033] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f0] Processed events, count[  1], @[400710.295017], took 0.000011
+Wed Jun  3 03:03:20.981 [airport]/131 @[400710.295077] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f0] Processed events, count[  1], @[400710.295062], took 0.000011
+Wed Jun  3 03:03:20.981 [airport]/131 @[400710.295238] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3181f0] Processed events, count[  1], @[400710.295221], took 0.000013
+Wed Jun  3 03:03:20.981 [airport]/131 @[400710.295436] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400710.295417], took 0.000014
+Wed Jun  3 03:03:20.981 [airport]/131 @[400710.295624] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f7] Processed events, count[  1], @[400710.295604], took 0.000015
+Wed Jun  3 03:03:20.981 [airport]/131 @[400710.295808] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f4] Processed events, count[  1], @[400710.295784], took 0.000019
+Wed Jun  3 03:03:28.154 [airport]/131 @[400717.467317] (airportdMain.m:1902) dq:'com.apple.airportd.server.timer.q'/tid[0x3182f3] Health check alive, checkin@[400717.467255], fault[0] crash[0] threshold[5 sec], count[397530], gRunLoop: checkin@[400716.591701] count[400706] last[400716.591701] max[1.271676] diff[0.875553], faults[0], last faulted @count[0], thresholdExceeded[0]
+Wed Jun  3 03:03:41.360 [airport]/131 @[400730.672650] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f3] Processed events, count[  2], @[400730.672604], took 0.000039
+Wed Jun  3 03:03:41.361 [airport]/131 @[400730.672948] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f3] Processed events, count[  1], @[400730.672923], took 0.000019
+Wed Jun  3 03:03:41.361 [airport]/131 @[400730.673176] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f3] Processed events, count[  1], @[400730.673155], took 0.000016
+Wed Jun  3 03:03:41.362 [airport]/131 @[400730.674108] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f4] Processed events, count[  1], @[400730.673409], took 0.000690
+Wed Jun  3 03:03:41.362 [airport]/131 @[400730.674220] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f4] Processed events, count[  1], @[400730.674200], took 0.000015
+Wed Jun  3 03:03:41.362 [airport]/131 @[400730.674285] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f4] Processed events, count[  1], @[400730.674259], took 0.000021
+Wed Jun  3 03:03:41.362 [airport]/131 @[400730.674339] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f4] Processed events, count[  1], @[400730.674324], took 0.000011
+Wed Jun  3 03:03:41.362 [airport]/131 @[400730.674378] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f4] Processed events, count[  1], @[400730.674363], took 0.000011
+Wed Jun  3 03:03:41.362 [airport]/131 @[400730.674504] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f2] Processed events, count[  1], @[400730.674483], took 0.000016
+Wed Jun  3 03:03:41.362 [airport]/131 @[400730.674693] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f2] Processed events, count[  1], @[400730.674666], took 0.000022
+Wed Jun  3 03:03:41.363 [airport]/131 @[400730.674870] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f3] Processed events, count[  1], @[400730.674852], took 0.000014
+Wed Jun  3 03:03:41.363 [airport]/131 @[400730.675088] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400730.675065], took 0.000018
+
+Wed Jun  3 03:03:41.364 [airport]/131 @[400730.676580] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400730.676558], took 0.000017
+Wed Jun  3 03:03:41.365 [airport]/131 @[400730.676773] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400730.676754], took 0.000015
+Wed Jun  3 03:03:41.365 [airport]/131 @[400730.676956] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x318178] Processed events, count[  1], @[400730.676934], took 0.000017
+Wed Jun  3 03:03:58.397 [airport]/131 @[400747.708492] (airportdMain.m:1902) dq:'com.apple.airportd.server.timer.q'/tid[0x3183f2] Health check alive, checkin@[400747.708424], fault[0] crash[0] threshold[5 sec], count[397560], gRunLoop: checkin@[400747.591707] count[400737] last[400747.591707] max[1.271676] diff[0.116716], faults[0], last faulted @count[0], thresholdExceeded[0]
+Wed Jun  3 03:04:01.245 [airport]/131 @[400750.556536] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f6] Processed events, count[  2], @[400750.556488], took 0.000042
+Wed Jun  3 03:04:01.245 [airport]/131 @[400750.556922] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f6] Processed events, count[  1], @[400750.556895], took 0.000021
+Wed Jun  3 03:04:01.246 [airport]/131 @[400750.557157] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f6] Processed events, count[  1], @[400750.557136], took 0.000016
+Wed Jun  3 03:04:01.247 [airport]/131 @[400750.558085] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f4] Processed events, count[  1], @[400750.557390], took 0.000688
+Wed Jun  3 03:04:01.247 [airport]/131 @[400750.558197] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f4] Processed events, count[  1], @[400750.558178], took 0.000014
+Wed Jun  3 03:04:01.247 [airport]/131 @[400750.558260] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f4] Processed events, count[  1], @[400750.558242], took 0.000013
+Wed Jun  3 03:04:01.247 [airport]/131 @[400750.558316] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f4] Processed events, count[  1], @[400750.558300], took 0.000012
+Wed Jun  3 03:04:01.247 [airport]/131 @[400750.558361] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f4] Processed events, count[  1], @[400750.558345], took 0.000012
+Wed Jun  3 03:04:01.247 [airport]/131 @[400750.558511] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3184a2] Processed events, count[  1], @[400750.558485], took 0.000020
+Wed Jun  3 03:04:01.247 [airport]/131 @[400750.558697] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3184a2] Processed events, count[  1], @[400750.558677], took 0.000015
+Wed Jun  3 03:04:01.247 [airport]/131 @[400750.558903] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3184a2] Processed events, count[  1], @[400750.558883], took 0.000015
+
+Wed Jun  3 03:04:01.249 [airport]/131 @[400750.560106] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f4] Processed events, count[  1], @[400750.560088], took 0.000012
+Wed Jun  3 03:04:01.249 [airport]/131 @[400750.560148] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f4] Processed events, count[  1], @[400750.560132], took 0.000011
+Wed Jun  3 03:04:01.249 [airport]/131 @[400750.560277] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3183f4] Processed events, count[  1], @[400750.560259], took 0.000013
+Wed Jun  3 03:04:01.249 [airport]/131 @[400750.560467] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f6] Processed events, count[  1], @[400750.560446], took 0.000014
+Wed Jun  3 03:04:01.249 [airport]/131 @[400750.560656] (airportProcessCommand.m:1756) dq:'com.apple.airportd.server.command.q'/tid[0x3182f6] Processed events, count[  1], @[400750.560637], took 0.000015
+

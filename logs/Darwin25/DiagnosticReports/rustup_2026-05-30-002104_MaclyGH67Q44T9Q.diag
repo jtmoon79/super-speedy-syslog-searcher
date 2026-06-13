@@ -1,0 +1,116 @@
+Date/Time:        2026-05-30 00:18:36.452 -0700
+End time:         2026-05-30 00:21:03.524 -0700
+OS Version:       macOS 26.4 (Build 25E246)
+Architecture:     arm64e
+Report Version:   72
+Incident Identifier: 125A4E65-3531-4AA2-A0E5-128DE2DA3F89
+
+Data Source:      Microstackshots
+Shared Cache:     7D4906C9-9CA2-3F56-8242-3EC2C1E3245B slid base address 0x1820c8000, slide 0x20c8000
+
+Command:          rustup
+Path:             /Users/*/rustup
+Codesigning ID:   rustup_init-a5d8e529913420c5
+Resource Coalition: "com.openssh.sshd.346F0556-1D57-42B8-8F22-3A7CA7076BBF"(6564)
+Architecture:     arm64
+Parent:           UNKNOWN [24734]
+PID:              25365
+
+Event:            disk writes
+Action taken:     none
+Writes:           2147.50 MB of file backed memory dirtied over 147 seconds (14.60 MB per second average), exceeding limit of 24.86 KB per second over 86400 seconds
+Writes limit:     2147.48 MB
+Limit duration:   86400s
+Writes caused:    2147.50 MB
+Writes duration:  147s
+Duration:         147.07s
+Duration Sampled: 0.41s (event starts 145.18s before samples, event ends 1.48s after samples)
+Steps:            4 (10.49 MB/step)
+
+Hardware model:   Mac16,10
+Active cpus:      10
+Memory size:      16 GB
+HW page size:     16384
+VM page size:     16384
+Shared cache residency: 27.97% (1544.20 MB / 5520.47 MB)
+
+Time Since Boot:  45373s
+Time Awake Since Boot: 45373s
+Time Since Wake:  n/a (machine hasn't slept)
+
+Total CPU Time:   0.007s
+Advisory levels:  Battery -> 2, User -> 2, ThermalPressure -> 0, Combined -> 2
+Free disk space:  182.61 GB/228.27 GB, low space threshold 3072 MB
+Vnodes Available: 57.30% (144380/251993)
+Models:           none
+
+Preferred User Language: en-US
+Country Code:     US
+OS Cryptex File Extents: 1
+
+Heaviest stack for the target process:
+  3  thread_start + 8 (libsystem_pthread.dylib + 7196) [0x1825b2c1c]
+  3  _pthread_start + 136 (libsystem_pthread.dylib + 27736) [0x1825b7c58]
+  3  std::sys::thread::unix::Thread::new::thread_start::hdc83a27f1ddc0f46 + 396 (rustup + 4549428) [0x102bf6b34]
+  3  core::ops::function::FnOnce::call_once$u7b$$u7b$vtable.shim$u7d$$u7d$::h168161c10e47a05b + 60 (rustup + 4623000) [0x102c08a98]
+  3  std::sys::backtrace::__rust_begin_short_backtrace::h5de25d1b4bc39959 + 3052 (rustup + 4626416) [0x102c097f0]
+  3  _$LT$F$u20$as$u20$threadpool..FnBox$GT$::call_box::hd1e2e5e5e124c1e0 + 92 (rustup + 4233044) [0x102ba9754]
+  2  rustup::diskio::perform::h9c284ab71bf2d736 + 4504 (rustup + 4237900) [0x102baaa4c]
+  2  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+
+
+Powerstats for:   rustup [25365]
+UUID:             C81547BE-DE83-322A-AAC8-11D955FC4DA4
+Path:             /Users/*/rustup
+Codesigning ID:   rustup_init-a5d8e529913420c5
+Resource Coalition: 4 samples "com.openssh.sshd.346F0556-1D57-42B8-8F22-3A7CA7076BBF"(6564)
+Architecture:     arm64
+Parent:           UNKNOWN [24734]
+UID:              502
+Footprint:        29.66 MB -> 87.09 MB (+57.44 MB)
+Start time:       2026-05-30 00:21:01.633 -0700
+End time:         2026-05-30 00:21:02.045 -0700
+Num samples:      4 (100%)
+Energy:           512.50 uWh
+Num threads:      3
+Primary state:    4 samples Non-Frontmost App, Non-Suppressed, Kernel mode, Effective Thread QoS Default, Requested Thread QoS Default, Override Thread QoS Unspecified, p-core
+User Activity:    4 samples Idle, 0 samples Active
+Power Source:     0 samples on Battery, 4 samples on AC
+  3  thread_start + 8 (libsystem_pthread.dylib + 7196) [0x1825b2c1c]
+    3  _pthread_start + 136 (libsystem_pthread.dylib + 27736) [0x1825b7c58]
+      3  std::sys::thread::unix::Thread::new::thread_start::hdc83a27f1ddc0f46 + 396 (rustup + 4549428) [0x102bf6b34]
+        3  core::ops::function::FnOnce::call_once$u7b$$u7b$vtable.shim$u7d$$u7d$::h168161c10e47a05b + 60 (rustup + 4623000) [0x102c08a98]
+          3  std::sys::backtrace::__rust_begin_short_backtrace::h5de25d1b4bc39959 + 3052 (rustup + 4626416) [0x102c097f0]
+            3  _$LT$F$u20$as$u20$threadpool..FnBox$GT$::call_box::hd1e2e5e5e124c1e0 + 92 (rustup + 4233044) [0x102ba9754]
+              2  rustup::diskio::perform::h9c284ab71bf2d736 + 4504 (rustup + 4237900) [0x102baaa4c]
+                2  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+              1  rustup::diskio::perform::h9c284ab71bf2d736 + 8196 (rustup + 4241592) [0x102bab8b8]
+                1  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+  1  start + 6992 (dyld + 130468) [0x1821fbda4]
+    1  main + 876 (rustup + 566188) [0x10282a3ac]
+      1  std::sys::backtrace::__rust_begin_short_backtrace::h0285ed7923c33ab4 + 16 (rustup + 75648) [0x1027b2780]
+        1  rustup_init::main::h8957662ccf19a5e3 + 452 (rustup + 22228) [0x1027a56d4]
+          1  tokio::runtime::runtime::Runtime::block_on::h9f42bdf17c586646 + 944 (rustup + 200000) [0x1027d0d40]
+            1  rustup_init::main::_$u7b$$u7b$closure$u7d$$u7d$::heeac744deee95c3a + 5132 (rustup + 27620) [0x1027a6be4]
+              1  rustup_init::run_rustup::_$u7b$$u7b$closure$u7d$$u7d$::_$u7b$$u7b$closure$u7d$$u7d$::h99755d23b12d2300 + 1188 (rustup + 10376) [0x1027a2888]
+                1  rustup_init::run_rustup_inner::_$u7b$$u7b$closure$u7d$$u7d$::_$u7b$$u7b$closure$u7d$$u7d$::hc5e796ea4830a479 + 2564 (rustup + 16248) [0x1027a3f78]
+                  1  rustup::cli::rustup_mode::main::_$u7b$$u7b$closure$u7d$$u7d$::_$u7b$$u7b$closure$u7d$$u7d$::h1e6992997d38a676 + 2912 (rustup + 298708) [0x1027e8ed4]
+                    1  rustup::config::Cfg::ensure_installed::_$u7b$$u7b$closure$u7d$$u7d$::hc2dc598984ffe63c + 312 (rustup + 449100) [0x10280da4c]
+                      1  rustup::config::Cfg::ensure_installed::_$u7b$$u7b$closure$u7d$$u7d$::_$u7b$$u7b$closure$u7d$$u7d$::h8a69248cc8a4890e + 208 (rustup + 450416) [0x10280df70]
+                        1  rustup::toolchain::distributable::DistributableToolchain::install::_$u7b$$u7b$closure$u7d$$u7d$::hb8385ed25cd2e6f4 + 420 (rustup + 525260) [0x1028203cc]
+                          1  rustup::toolchain::distributable::DistributableToolchain::install::_$u7b$$u7b$closure$u7d$$u7d$::_$u7b$$u7b$closure$u7d$$u7d$::h915b4550a942f8e3 + 252 (rustup + 526748) [0x10282099c]
+                            1  rustup::install::InstallMethod::install::_$u7b$$u7b$closure$u7d$$u7d$::ha0ccb62797933620 + 416 (rustup + 461724) [0x102810b9c]
+                              1  rustup::install::InstallMethod::install::_$u7b$$u7b$closure$u7d$$u7d$::_$u7b$$u7b$closure$u7d$$u7d$::h74e4f69fd8655c66 + 3584 (rustup + 466260) [0x102811d54]
+                                1  rustup::dist::DistOptions::install_into::_$u7b$$u7b$closure$u7d$$u7d$::_$u7b$$u7b$closure$u7d$$u7d$::h3a4603df0ae9e27d + 3044 (rustup + 390424) [0x1027ff518]
+                                  1  rustup::dist::try_update_from_dist_::_$u7b$$u7b$closure$u7d$$u7d$::haeb6a837f53f9ce1 + 4848 (rustup + 419312) [0x1028065f0]
+                                    1  rustup::dist::manifestation::Manifestation::update::_$u7b$$u7b$closure$u7d$$u7d$::h143038f35f17f9ae + 8016 (rustup + 405236) [0x102802ef4]
+                                      1  _$LT$tokio_retry..future..RetryIf$LT$I$C$A$C$C$GT$$u20$as$u20$core..future..future..Future$GT$::poll::hb14cdb3ba4ef368d + 2516 (rustup + 548944) [0x102826050]
+                                        1  rustup::download::download_file_with_resume::_$u7b$$u7b$closure$u7d$$u7d$::h7f1194477a8abf4c + 45392 (rustup + 517672) [0x10281e628]
+                                          1  write + 8 (libsystem_kernel.dylib + 18484) [0x182577834]
+                                            1  <e-core>
+
+  Binary Images:
+           0x1027a0000 -        0x1030bbfff  rustup (0)                            <C81547BE-DE83-322A-AAC8-11D955FC4DA4>  /Users/*/rustup
+           0x1821dc000 -        0x182281ec7  dyld (1376.6)                         <9F682DCF-340C-3BFA-BCDD-DD702F30313E>  /usr/lib/dyld
+           0x182573000 -        0x1825b028f  libsystem_kernel.dylib (12377.101.15) <51565B39-F595-3E96-A217-FEF29815057A>  /usr/lib/system/libsystem_kernel.dylib
+           0x1825b1000 -        0x1825bdb3b  libsystem_pthread.dylib (539.100.4)   <E7A73008-0C09-31E3-9DD9-0C61652F0E85>  /usr/lib/system/libsystem_pthread.dylib

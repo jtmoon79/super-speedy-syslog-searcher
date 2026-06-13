@@ -1,0 +1,56 @@
+Jun  3 00:10:18 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 00:20:53 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 00:30:05 MaclyGH67Q44T9Q syslogd[60]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Jun  3 00:30:05 MaclyGH67Q44T9Q syslogd[60]: Configuration Notice:
+	ASL Module "com.apple.install" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Jun  3 00:30:05 MaclyGH67Q44T9Q syslogd[60]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/asl" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Jun  3 00:30:05 MaclyGH67Q44T9Q syslogd[60]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/system.log" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Jun  3 00:30:05 MaclyGH67Q44T9Q syslogd[60]: Configuration Notice:
+	ASL Module "com.apple.authd" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Jun  3 00:30:05 MaclyGH67Q44T9Q syslogd[60]: Configuration Notice:
+	ASL Module "com.apple.eventmonitor" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Jun  3 00:30:05 MaclyGH67Q44T9Q syslogd[60]: Configuration Notice:
+	ASL Module "com.apple.mail" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+
+Jun  3 16:33:42 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 16:44:09 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 16:55:03 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 17:06:51 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 17:17:24 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 17:27:47 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 17:37:49 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 17:48:26 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 17:58:39 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 18:10:30 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 18:21:16 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 18:32:23 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 18:42:42 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 18:53:37 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 19:04:15 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 19:15:26 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 19:28:58 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 19:39:15 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 19:50:53 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 20:02:53 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 20:13:20 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 20:26:01 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 20:36:30 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 20:48:39 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+
+Jun  3 20:59:18 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 21:09:58 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 21:20:15 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 21:32:31 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 21:42:43 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 21:53:21 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics
+Jun  3 22:04:03 MaclyGH67Q44T9Q syslogd[60]: ASL Sender Statistics

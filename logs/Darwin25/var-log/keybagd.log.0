@@ -1,0 +1,42 @@
+Fri May 29 11:44:57 2026 [45] <err> (0x1ee3c18c0) MKBDeviceSupportsEnhancedAPFS: dt = -8, bootarg = 0
+Fri May 29 11:44:58 2026 [45] <err> (0x16fc13000) data_analytics_init_block_invoke: Checking in for data analytics
+Fri May 29 11:44:58 2026 [45] <err> (0x16fb87000) space_repetition_kick_block_invoke: space_repetition Check in
+Fri May 29 11:44:58 2026 [45] <err> (0x16fc13000) data_analytics_init_block_invoke: set activity criteria
+Fri May 29 11:44:58 2026 [45] <err> (0x16fb87000) space_repetition_kick_block_invoke: space_repetition set activity criteria
+Fri May 29 11:45:10 2026 [45] <err> (0x16fb87000) kb_set_user_uuid_block_invoke: setting user uuid for [248:-248]
+Fri May 29 11:45:10 2026 [45] <err> (0x16fb87000) fv_bind_keybag_to_kek_block_invoke: update group uuid
+Fri May 29 14:45:00 2026 [45] <err> (0x16fb87000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Fri May 29 14:46:11 2026 [45] <err> (0x16fb87000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Fri May 29 14:46:23 2026 [45] <err> (0x16fb87000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Fri May 29 20:53:29 2026 [45] <err> (0x16fb87000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Fri May 29 23:48:45 2026 [45] <err> (0x16fb87000) kb_set_user_uuid_block_invoke: setting user uuid for [501:-501]
+Fri May 29 23:48:45 2026 [45] <err> (0x16fb87000) fv_bind_keybag_to_kek_block_invoke: update group uuid
+Fri May 29 23:50:21 2026 [45] <err> (0x16fb87000) data_analytics_init_block_invoke: data analytics activity
+Fri May 29 23:50:21 2026 [45] <err> (0x16fb87000) data_analytics_init_block_invoke: get_lock_state() -> 0xe00002f0
+Sat May 30 02:45:15 2026 [45] <err> (0x16fc13000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Sat May 30 05:17:59 2026 [65538] <err> (0x1ee3c18c0) MKBDeviceSupportsEnhancedAPFS: dt = -8, bootarg = 0
+Sat May 30 05:17:59 2026 [65538] <err> (0x16dca7000) space_repetition_kick_block_invoke: space_repetition Check in
+Sat May 30 05:17:59 2026 [65538] <err> (0x16dc1b000) data_analytics_init_block_invoke: Checking in for data analytics
+Sat May 30 05:17:59 2026 [65538] <err> (0x16dca7000) space_repetition_kick_block_invoke: space_repetition activity criteria already set
+Sat May 30 05:17:59 2026 [65538] <err> (0x16dc1b000) data_analytics_init_block_invoke: activity criteria already set
+Sat May 30 06:15:04 2026 [69821] <err> (0x1ee3c18c0) MKBDeviceSupportsEnhancedAPFS: dt = -8, bootarg = 0
+Sat May 30 06:15:04 2026 [69821] <err> (0x16dd7f000) data_analytics_init_block_invoke: Checking in for data analytics
+Sat May 30 06:15:04 2026 [69821] <err> (0x16de0b000) space_repetition_kick_block_invoke: space_repetition Check in
+Sat May 30 06:15:04 2026 [69821] <err> (0x16dd7f000) data_analytics_init_block_invoke: activity criteria already set
+Sat May 30 06:15:04 2026 [69821] <err> (0x16de0b000) space_repetition_kick_block_invoke: space_repetition activity criteria already set
+Sat May 30 08:45:11 2026 [69821] <err> (0x16dd7f000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Sat May 30 12:45:30 2026 [2053] <err> (0x1ee3c18c0) MKBDeviceSupportsEnhancedAPFS: dt = -8, bootarg = 0
+Sat May 30 12:45:30 2026 [2053] <err> (0x16d45b000) space_repetition_kick_block_invoke: space_repetition Check in
+Mon Jun  1 20:45:16 2026 [30741] <err> (0x16ba9b000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Mon Jun  1 23:52:06 2026 [30741] <err> (0x16ba0f000) data_analytics_init_block_invoke: data analytics activity
+Mon Jun  1 23:52:06 2026 [30741] <err> (0x16ba0f000) data_analytics_init_block_invoke: get_lock_state() -> 0xe00002f0
+Tue Jun  2 02:45:31 2026 [30741] <err> (0x16ba0f000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Tue Jun  2 08:46:01 2026 [30741] <err> (0x16ba0f000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Tue Jun  2 14:47:32 2026 [30741] <err> (0x16ba0f000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Tue Jun  2 20:46:27 2026 [30741] <err> (0x16ba0f000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Tue Jun  2 23:50:18 2026 [30741] <err> (0x16ba9b000) data_analytics_init_block_invoke: data analytics activity
+Tue Jun  2 23:50:18 2026 [30741] <err> (0x16ba9b000) data_analytics_init_block_invoke: get_lock_state() -> 0xe00002f0
+Wed Jun  3 02:46:22 2026 [30741] <err> (0x16ba9b000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Wed Jun  3 08:45:32 2026 [30741] <err> (0x16ba9b000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Wed Jun  3 14:45:21 2026 [30741] <err> (0x16ba9b000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)
+Wed Jun  3 20:45:32 2026 [30741] <err> (0x16ba0f000) keybagd_stashverify_block_invoke: aks_stash_verify failed e00002f0 (handle:0)

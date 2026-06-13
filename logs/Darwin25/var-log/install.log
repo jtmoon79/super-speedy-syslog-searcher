@@ -1,0 +1,67 @@
+May 29 18:42:17 Mac-mini powerd[53]: Display is turned on
+May 29 18:42:17 Mac-mini powerd[53]: Assertion Created. Type:UserIsActive Name:'com.apple.powerd.ws.initialize' Id:0x900008004 Process:powerd [System: PrevIdle DeclUser kDisp]
+May 29 18:42:17 Mac-mini mobile_obliterator[94]: isModernOS = 1
+May 29 18:42:17 Mac-mini Installer Progress[68]: IASGetCurrentInstallPhaseList: Unable to get phases
+May 29 18:42:17 Mac-mini Installer Progress[68]: IASGetCurrentInstallPhase: Unable to get the current phase name
+May 29 18:42:17 Mac-mini Installer Progress[68]: currentPhase = "(null)", phases = (null)
+May 29 18:42:17 Mac-mini mobile_obliterator[94]: Adding Phase 'Reset My Mac - prepare'' with progress weight of 10.000000%
+May 29 18:42:17 Mac-mini Installer Progress[68]: IASClearInstallProgress: Clearing Registry
+May 29 18:42:17 Mac-mini mobile_obliterator[94]: Adding Phase 'Reset My Mac - system cleanup'' with progress weight of 20.000000%
+May 29 18:42:17 Mac-mini Installer Progress[68]: currentPhase = "(null)", phases = (
+	    "<IASPPhase: 0x9a6d4f480: 'Reset My Mac - prepare', percentage 10.0, delay 0>"
+	)
+May 29 18:42:17 Mac-mini Installer Progress[68]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Reset My Mac - prepare";
+	        InstallPhaseActualPercentageKey = 10;
+	        InstallPhasePercentageKey = 10;
+	    }
+	)
+May 29 18:42:17 Mac-mini Installer Progress[68]: IASSetCurrentInstallPhase: Current phase name set to "Reset My Mac - prepare"
+May 29 18:42:17 Mac-mini mobile_obliterator[94]: Adding Phase 'Reset My Mac - system rebuild'' with progress weight of 20.000000%
+May 29 18:42:17 Mac-mini Installer Progress[68]: currentPhase = "<IASPPhase: 0x9a6d4f480: 'Reset My Mac - prepare', percentage 10.0, delay 0>", phases = (
+	    "<IASPPhase: 0x9a6d4f480: 'Reset My Mac - prepare', percentage 10.0, delay 0>",
+	    "<IASPPhase: 0x9a6d4f060: 'Reset My Mac - system cleanup', percentage 20.0, delay 0>"
+	)
+May 29 18:42:17 Mac-mini Installer Progress[68]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Reset My Mac - prepare";
+	        InstallPhaseActualPercentageKey = 10;
+	        InstallPhasePercentageKey = 10;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Reset My Mac - system cleanup";
+	        InstallPhaseActualPercentageKey = 20;
+	        InstallPhasePercentageKey = 20;
+	    }
+	)
+May 29 18:42:17 Mac-mini mobile_obliterator[94]: Adding Phase 'Template Migration'' with progress weight of 35.000000%
+May 29 18:42:17 Mac-mini Installer Progress[68]: currentPhase = "<IASPPhase: 0x9a6d4f480: 'Reset My Mac - prepare', percentage 10.0, delay 0>", phases = (
+	    "<IASPPhase: 0x9a6d4f480: 'Reset My Mac - prepare', percentage 10.0, delay 0>",
+	    "<IASPPhase: 0x9a6d4f060: 'Reset My Mac - system cleanup', percentage 20.0, delay 0>",
+	    "<IASPPhase: 0x9a6d4f1a0: 'Reset My Mac - system rebuild', percentage 20.0, delay 0>"
+	)
+May 29 18:42:17 Mac-mini Installer Progress[68]: IASSetCurrentInstallPhaseList: phases set to (
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Reset My Mac - prepare";
+	        InstallPhaseActualPercentageKey = 10;
+	        InstallPhasePercentageKey = 10;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Reset My Mac - system cleanup";
+	        InstallPhaseActualPercentageKey = 20;
+	        InstallPhasePercentageKey = 20;
+	    },
+	        {
+	        ConclusionDelay = 0;
+	        InstallPhase = "Reset My Mac - system rebuild";
+	        InstallPhaseActualPercentageKey = 20;
+	        InstallPhasePercentageKey = 20;
+	    }
+	)
+
