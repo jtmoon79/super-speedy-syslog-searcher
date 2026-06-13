@@ -34,6 +34,10 @@ else
         ./logs/other/tests/gen-1000-3-foobar.log.lz4
         ./logs/other/tests/gen-1000-3-foobar.log.tar
         ./logs/other/tests/gen-1000-3-foobar.log.xz
+        ./logs/other/tests/gen-1000-3-foobar.UTF-16BE.log
+        ./logs/other/tests/gen-1000-3-foobar.UTF-16LE.log
+        ./logs/other/tests/gen-1000-3-foobar.UTF-16LE_BOM.log
+        ./logs/other/tests/gen-1000-3-foobar.UTF-32LE.log
         ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
         ./logs/programs/journal/RHE_91_system.journal
         ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1216.11020.2.odl

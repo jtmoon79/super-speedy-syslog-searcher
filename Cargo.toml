@@ -91,6 +91,7 @@ bitvec = "1.0.1"
 bstr = "=1.12.1"
 bzip2-rs = "=0.1.2"
 cfg-if = "=1.0.4"
+chardet = "=0.2.4"
 chrono = "=0.4.44"
 clap = { version = "=4.5.48", features = ["derive", "env"] }
 const_env = "=0.1.5"
