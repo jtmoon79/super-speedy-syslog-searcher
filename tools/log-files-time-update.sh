@@ -110,6 +110,7 @@ done
 
 # are actual files found on the filesystem also listed in the listing?
 banner=false
+declare -a files_not_listed=()
 while read -r file_actual; do
     found=false
     for file_listed in "${files_listed[@]}"; do
@@ -118,19 +119,29 @@ while read -r file_actual; do
             break
         fi
     done
-    if ! ${found}; then
-        if ! ${banner}; then
-            echo -e "Files found on filesystem but not found in listing '${times_listing}'\n" >&2
-            banner=true
-        fi
-        if ${is_macos}; then
-            # stat on MacOS https://ss64.com/mac/stat.html
-            file_time=$(stat -f '%m' "${file_actual}")
-        else
-            file_time=$(stat --format='%y' -- "${file_actual}")
-        fi
-        echo -e "\e[1m\e[93m${file_actual}|${file_time}\e[0m" >&2
-        tail -n2 "${file_actual}" | sed 's/^/\t/' >&2
-        echo >&2
+    if ${found}; then
+        continue
     fi
+    files_not_listed+=("${file_actual}")
+    if ! ${banner}; then
+        echo -e "Files found on filesystem but not found in listing '${times_listing}'\n" >&2
+        banner=true
+    fi
+    if ${is_macos}; then
+        # stat on MacOS https://ss64.com/mac/stat.html
+        file_time=$(stat -f '%m' "${file_actual}")
+    else
+        file_time=$(stat --format='%y' -- "${file_actual}")
+    fi
+    echo -e "\e[1m\e[93m${file_actual}|${file_time}\e[0m" >&2
 done <<< $(find ./logs/ -type f | sort)
+
+if [[ "${#files_not_listed[@]}" -gt 0 ]]; then
+    echo -e "\nFiles found on filesystem but not found in listing '${times_listing}'\n" >&2
+    for file in "${files_not_listed[@]}"; do
+        echo -e "\e[1m\e[93m${file}\e[0m" >&2
+        tail -n2 "${file}" | sed 's/^/\t/' >&2
+        echo >&2
+        echo
+    done
+fi
