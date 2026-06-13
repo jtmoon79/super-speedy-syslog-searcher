@@ -42,7 +42,7 @@ use crate::bindings::sd_journal_h::{
 ///
 /// [`sd_journal_open_files`]: https://man7.org/linux/man-pages/man3/sd_journal_open.3.html
 #[allow(non_camel_case_types)]
-pub type func_sig_sd_journal_open_files = unsafe extern fn(
+pub type func_sig_sd_journal_open_files = unsafe extern "C" fn(
     ret: *mut *mut sd_journal,
     paths: *mut *const ::std::os::raw::c_char,
     flags: ::std::os::raw::c_int,
@@ -64,7 +64,7 @@ const FUNC_NAME_JOURNAL_OPEN_FILES: &str = "sd_journal_open_files";
 ///
 /// [`sd_journal_seek_head`]: https://man7.org/linux/man-pages/man3/sd_journal_seek_head.3.html
 #[allow(non_camel_case_types)]
-pub type func_sig_sd_journal_seek_head = unsafe extern fn(
+pub type func_sig_sd_journal_seek_head = unsafe extern "C" fn(
     ret: *mut sd_journal,
 ) -> ::std::os::raw::c_int;
 
@@ -85,7 +85,7 @@ const FUNC_NAME_JOURNAL_SEEK_HEAD: &str = "sd_journal_seek_head";
 ///
 /// [`sd_journal_seek_realtime_usec`]: https://www.man7.org/linux/man-pages/man3/sd_journal_seek_head.3.html
 #[allow(non_camel_case_types)]
-pub type func_sig_sd_journal_seek_journal_realtime_usec = unsafe extern fn(
+pub type func_sig_sd_journal_seek_journal_realtime_usec = unsafe extern "C" fn(
     ret: *mut sd_journal,
     usec: u64,
 ) -> ::std::os::raw::c_int;
@@ -106,7 +106,7 @@ const FUNC_NAME_JOURNAL_SEEK_REALTIME_USEC: &str = "sd_journal_seek_realtime_use
 ///
 /// [`sd_journal_next`]: https://man7.org/linux/man-pages/man3/sd_journal_next.3.html
 #[allow(non_camel_case_types)]
-pub type func_sig_sd_journal_next = unsafe extern fn(
+pub type func_sig_sd_journal_next = unsafe extern "C" fn(
     ret: *mut sd_journal,
 ) -> ::std::os::raw::c_int;
 
@@ -127,7 +127,7 @@ const FUNC_NAME_JOURNAL_NEXT: &str = "sd_journal_next";
 ///
 /// [`sd_journal_get_realtime_usec`]: https://www.man7.org/linux/man-pages/man3/sd_journal_get_realtime_usec.3.html
 #[allow(non_camel_case_types)]
-pub type func_sig_sd_journal_get_realtime_usec = unsafe extern fn(
+pub type func_sig_sd_journal_get_realtime_usec = unsafe extern "C" fn(
     ret: *mut sd_journal,
     usec: *mut u64,
 ) -> ::std::os::raw::c_int;
@@ -154,7 +154,7 @@ const FUNC_NAME_JOURNAL_GET_REALTIME_USEC: &str = "sd_journal_get_realtime_usec"
 ///
 /// [`sd_journal_enumerate_available_data`]: https://man7.org/linux/man-pages/man3/sd_journal_get_data.3.html
 #[allow(non_camel_case_types)]
-pub type func_sig_sd_journal_enumerate_available_data = unsafe extern fn(
+pub type func_sig_sd_journal_enumerate_available_data = unsafe extern "C" fn(
     ret: *mut sd_journal,
     data: *mut *const ::std::os::raw::c_void,
     l: *mut size_t,
