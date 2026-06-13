@@ -16,6 +16,7 @@
 #   DIROUT when set, the s4 binary built for each target will be copied to
 #          DIROUT with meaningful names
 #   MSRV the Rust version to install for toolchains, defaults to 1.88.0
+#   FILTER when set, only targets matching the regex pattern in FILTER will be built
 #
 # Must support running on Ubuntu and Darwin OS
 
@@ -459,6 +460,13 @@ set +e
 for TIER_TARGET in "${TIER_TARGETS[@]}"; do
     TIER=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 1)
     TARGET=$(echo -n "${TIER_TARGET}" | cut -d "$SEP" -f 2-)
+    if [[ "${FILTER-}" ]]; then
+        if ! [[ "${TARGET}" =~ ${FILTER} ]]; then
+            echo -e "\e[93mSkipping tier ${TIER} target ${TARGET} due to filter '${FILTER}'...\e[39m" >&2
+            targets_skipped+=("$TARGET")
+            continue
+        fi
+    fi
     echo >&2
     echo -e "\e[93mTry ${i} of ${#TIER_TARGETS[@]} tier ${TIER} target ${TARGET}...\e[39m" >&2
     echo >&2
