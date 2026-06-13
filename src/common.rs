@@ -62,6 +62,8 @@ pub type PathId = usize;
 /// a set of [`PathId`]
 pub type SetPathId = HashSet<PathId>;
 
+pub type RegexId = u16;
+
 /// Status of whether summary statistics are enabled.
 ///
 /// Only access via `summary_stats_enabled()` function.

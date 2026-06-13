@@ -30,6 +30,8 @@ use crate::common::{
     Count,
     FPath,
     FileOffset,
+    FileTypeTextEncoding,
+    RegexId,
     ResultFind,
     summary_stats_enable,
 };
@@ -226,7 +228,7 @@ lazy_static! {
     static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
 }
 
-pub const REGEX_ID_NTF5: usize = 140;
+pub const REGEX_ID_NTF5: RegexId = 140;
 
 /// basic test of `SyslineReader.find_sysline`
 fn impl_find_sysline(
@@ -690,7 +692,7 @@ const NTF26_DATA: &str = "\
 2020-01-01 00:00:26abcdefghijklmnopqrstuvwxyz
 ";
 
-const REGEX_ID_NTF26: usize = 79;
+const REGEX_ID_NTF26: RegexId = 79;
 
 const NTF26_DATA_DT0: &str = "2020-01-01 00:00:00";
 const NTF26_DATA_LINE0n: &str = "2020-01-01 00:00:00\n";
@@ -3548,7 +3550,7 @@ type TestFindSyslineBetweenDatetimeFilterCheck<'a> =
     (FileOffset, &'a str, &'a str, ResultFindSysline_Test, &'a str);
 type TestFindSyslineBetweenDatetimeFilterChecks<'a> = Vec<TestFindSyslineBetweenDatetimeFilterCheck<'a>>;
 
-pub const REGEX_ID_NTF26B: usize = 9;
+pub const REGEX_ID_NTF26B: RegexId = 9;
 
 /// test `syslinereader.find_sysline_between_datetime_filters`
 ///
@@ -3818,7 +3820,7 @@ const test_data_file_A1_dt6: &str = "\
 2000-01-01 00:00:04 abcd
 2000-01-01 00:00:05 abcde";
 
-pub const REGEX_ID_A1_dt6: usize = 79;
+pub const REGEX_ID_A1_dt6: RegexId = 79;
 
 const test_data_file_A1_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("2000-01-01 00:00:00\n", 20),
@@ -4049,7 +4051,7 @@ const test_data_A2_dt6_sysline3: &str = "2000-01-01 00:00:03abc\n";
 const test_data_A2_dt6_sysline4: &str = "2000-01-01 00:00:04abcd\n";
 const test_data_A2_dt6_sysline5: &str = "2000-01-01 00:00:05abcde";
 
-pub const REGEX_ID_A2_dt6: usize = 79;
+pub const REGEX_ID_A2_dt6: RegexId = 79;
 
 const test_data_A2_dt6: &str = concatcp!(
     test_data_A2_dt6_sysline0,
@@ -4371,7 +4373,7 @@ const test_data_file_C_dt6: &str = "\
 [DEBUG] 2000-01-01 00:00:04|abcd
 [DEBUG] 2000-01-01 00:00:05|abcde";
 
-pub const REGEX_ID_C_dt6: usize = 138;
+pub const REGEX_ID_C_dt6: RegexId = 138;
 
 const test_data_file_C_dt6_checks: [TestSyslineReaderCheck; 6] = [
     ("[DEBUG] 2000-01-01 00:00:00|\n", 29),
@@ -4456,7 +4458,7 @@ const test_data_file_E_dt6_sysline0: &str = "2001-01-01 00:00:00 _\n2001-02-31 0
 const test_data_file_E_dt6_sysline1: &str = "2001-03-01 00:00:02 😀😁\n";
 const test_data_file_E_dt6_sysline2: &str = "2001-04-01 00:00:03 😀😁😂\n";
 
-pub const REGEX_ID_E_dt6: usize = 79;
+pub const REGEX_ID_E_dt6: RegexId = 79;
 
 // notice the second line, first sysline, is an invalid date that will pass regex match
 const test_data_file_E_dt6: &str = concatcp!(
@@ -4615,7 +4617,7 @@ const test_data_file_F_dt6_sysline1: &str = "2001-02-01 00:00:01 😀\n";
 const test_data_file_F_dt6_sysline2: &str = "2001-03-01 00:00:02 😀😁\n2001-04-31 00:00:03 😫😫😫\n";
 const test_data_file_F_dt6_sysline3: &str = "2001-05-01 00:00:04 😀😁😂😃\n";
 
-pub const REGEX_ID_F_dt6: usize = 79;
+pub const REGEX_ID_F_dt6: RegexId = 79;
 
 // notice the fourth line, third sysline, is an invalid date that will pass regex match
 const test_data_file_F_dt6: &str = concatcp!(
@@ -4770,7 +4772,7 @@ const test_data_file_G_dt4: &str = concatcp!(
     test_data_file_G_dt4_sysline3,
 );
 
-pub const REGEX_ID_G_dt4: usize = 79;
+pub const REGEX_ID_G_dt4: RegexId = 79;
 
 // remember that `.len()` starts at one, and `FileOffset` starts at zero
 
@@ -4936,7 +4938,7 @@ const test_data_file_H_dt4_sysline1_end: FileOffset = test_data_file_H_dt4_sysli
 const test_data_file_H_dt4_sysline2_end: FileOffset = test_data_file_H_dt4_sysline1_end + test_data_file_H_dt4_sysline2.len() as FileOffset;
 const test_data_file_H_dt4_sysline3_end: FileOffset = test_data_file_H_dt4_sysline2_end + test_data_file_H_dt4_sysline3.len() as FileOffset;
 
-pub const REGEX_ID_H_dt4: usize = 79;
+pub const REGEX_ID_H_dt4: RegexId = 79;
 
 lazy_static! {
     static ref test_SyslineReader_H_ntf: NamedTempFile = create_temp_file(test_data_file_H_dt4);
@@ -5279,7 +5281,7 @@ const NTF_A3_DATA_LINE1: &str = "2000-01-01 00:00:00\n";
 const NTF_A3_DATA_LINE2: &str = "2000-01-02 00:00:00\n";
 const NTF_A3_DATA_LINE12: &str = concatcp!(NTF_A3_DATA_LINE1, NTF_A3_DATA_LINE2);
 
-pub const REGEX_ID_A3: usize = 79;
+pub const REGEX_ID_A3: RegexId = 79;
 
 lazy_static! {
     static ref NTF_A3_DATA_LINE1_STRING: String = String::from(NTF_A3_DATA_LINE1);
@@ -5633,10 +5635,10 @@ fn test_SyslineReader_summary_empty(
 
 /// index of a `DTPD` that has `has_year4() && has_d2()` and qualifies for
 /// EZCHECK12D2
-const REGEXID_12D2: usize = 1;
+const REGEX_ID_12D2: RegexId = 1;
 
 /// index of a `DTPD` that has `!has_year4()` and only qualifies for EZCHECKD2
-const REGEXID_D2: usize = 6;
+const REGEX_ID_D2: RegexId = 6;
 
 /// value that does not match EZCHECK12D2 (no digits)
 const VALUE_NO_12D2: &[u8] = b"abcdefghijklmnopqrstuvwxyz".as_slice();
@@ -5653,7 +5655,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
 
 // test cases empty
 #[test_case(
-    REGEXID_12D2,
+    REGEX_ID_12D2,
     b"".as_slice(),
     0, 0, 0, // *_min
     0, 0, 0, // ezcheck12
@@ -5663,7 +5665,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
     "empty A"
 )]
 #[test_case(
-    REGEXID_D2,
+    REGEX_ID_D2,
     b"".as_slice(),
     0, 0, 0, // *_min
     0, 0, 0, // ezcheck12
@@ -5674,7 +5676,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
 )]
 // test cases VALUE_NO_12D2
 #[test_case(
-    REGEXID_12D2,
+    REGEX_ID_12D2,
     VALUE_NO_12D2,
     0, 0, VALUE_NO_12D2_LEN1, // *_min
     0, 0, 0, // ezcheck12
@@ -5684,7 +5686,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
     "VALUE_NO_12D2 C"
 )]
 #[test_case(
-    REGEXID_D2,
+    REGEX_ID_D2,
     VALUE_NO_12D2,
     0, VALUE_NO_12D2_LEN1, 0, // *_min
     0, 0, 0, // ezcheck12
@@ -5695,7 +5697,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
 )]
 // test cases EZCHECK12
 #[test_case(
-    REGEXID_12D2,
+    REGEX_ID_12D2,
     VALUE_12,
     0, 0, 0, // *_min
     0, 0, 0, // ezcheck12
@@ -5705,7 +5707,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
     "EZCHECK12 E"
 )]
 #[test_case(
-    REGEXID_D2,
+    REGEX_ID_D2,
     VALUE_12,
     0, VALUE_12_LEN1, 0,
     0, 0, 0, // ezcheck12
@@ -5716,7 +5718,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
 )]
 // test cases VALUE_D2
 #[test_case(
-    REGEXID_12D2,
+    REGEX_ID_12D2,
     VALUE_D2,
     0, 0, 0, // *_min
     0, 0, 0, // ezcheck12
@@ -5726,7 +5728,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
     "EZCHECKD2 G"
 )]
 #[test_case(
-    REGEXID_D2,
+    REGEX_ID_D2,
     VALUE_D2,
     0, 0, 0, // *_min
     0, 0, 0, // ezcheck12
@@ -5736,7 +5738,7 @@ const VALUE_D2: &[u8] = b"abcdefghijklmno_90_tuvwxyz".as_slice();
     "EZCHECKD2 H"
 )]
 fn test_ezcheck_slice(
-    regex_id: usize,
+    regex_id: RegexId,
     slice_: &[u8],
     expect_ezcheck12_min: LineIndex,
     expect_ezcheckd2_min: LineIndex,

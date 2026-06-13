@@ -25,6 +25,7 @@ use crate::common::{
     Count,
     FPath,
     FileOffset,
+    RegexId,
     summary_stats_enable,
 };
 use crate::data::datetime::{
@@ -96,7 +97,7 @@ const NTF1S_A_DATA: &str = concatcp!(NTF1S_A_DATA_LINE0,);
 /// Unix epoch time for time `NTF1S_A_DATA_LINE0` year 2001 at UTC
 const NTF1S_A_MTIME_UNIXEPOCH: i64 = 978381296;
 
-const REGEX_ID_NTF1S_A: usize = 33;
+const REGEX_ID_NTF1S_A: RegexId = 33;
 
 //
 // NTF1S_B
@@ -112,7 +113,7 @@ const NTF1S_B_DATA: &str = concatcp!(NTF1S_B_DATA_LINE0,);
 /// Unix epoch time for time `NTF1S_B_DATA_LINE0` year 2001 at UTC
 const NTF1S_B_MTIME_UNIXEPOCH: i64 = 978381296;
 
-const REGEX_ID_NTF1S_B: usize = 33;
+const REGEX_ID_NTF1S_B: RegexId = 33;
 
 //
 // NTF1S_C - deliberately short data
@@ -140,7 +141,7 @@ const NTF2S_A_DATA: &str = concatcp!(NTF2S_A_DATA_LINE0, NTF2S_A_DATA_LINE1,);
 /// Unix epoch time for time `NTF1S_B_DATA_LINE0` year 2001 at UTC
 const NTF2S_A_MTIME_UNIXEPOCH: i64 = 978381296;
 
-const REGEX_ID_NTF2S_A: usize = 33;
+const REGEX_ID_NTF2S_A: RegexId = 33;
 
 //
 // NTF5
@@ -153,7 +154,7 @@ const NTF5_DATA_LINE2: &str = "Mar 3 03:00:33 5c\n";
 const NTF5_DATA_LINE3: &str = "Apr 4 04:00:44 5d\n";
 const NTF5_DATA_LINE4: &str = "May 5 05:00:55 5e\n";
 
-const REGEX_ID_NTF5: usize = 33;
+const REGEX_ID_NTF5: RegexId = 33;
 
 /// Unix epoch time for time `NTF5_DATA_LINE4` at UTC
 const NTF5_MTIME_UNIXEPOCH: i64 = 957502855;
@@ -181,7 +182,7 @@ const NTF5X4_DATA_LINE2: &str = "2000-03-13T03:00:33 5X4c\n";
 const NTF5X4_DATA_LINE3: &str = "2000-04-14T04:00:44 5X4d\n";
 const NTF5X4_DATA_LINE4: &str = "2000-05-15T05:00:55 5X4e\n";
 
-const REGEX_ID_NTF5X4: usize = 33;
+const REGEX_ID_NTF5X4: RegexId = 33;
 
 /// Unix epoch time for time `NTF5X4_DATA_LINE4` at UTC
 const NTF5X4_MTIME_UNIXEPOCH: i64 = 958392055;
@@ -202,7 +203,7 @@ const NTF3_DATA_LINE0: &str = "Jan 1 01:00:00 2000 A3\n";
 const NTF3_DATA_LINE1: &str = "Feb 2 02:00:00 2000 B3\n";
 const NTF3_DATA_LINE2: &str = "Mar 3 03:00:00 2000 C3\n";
 
-const REGEX_ID_NTF3: usize = 31;
+const REGEX_ID_NTF3: RegexId = 31;
 
 const NTF3_DATA: &str = concatcp!(NTF3_DATA_LINE0, NTF3_DATA_LINE1, NTF3_DATA_LINE2,);
 
@@ -232,7 +233,7 @@ const NTF9_DATA_LINE8: &str = "Sep 19 05:39:29 2000 9ììììììììì\n";
 const NTF9_DATA_LINE9: &str = "Oct 20 05:39:30 2000 10λλλλλλλλλλ\n";
 const NTF9_DATA_LINE10: &str = "Nov 21 05:39:31 2000 11ΜΜΜΜΜΜΜΜΜΜΜ\n";
 
-const REGEX_ID_NTF9: usize = 31;
+const REGEX_ID_NTF9: RegexId = 31;
 
 const NTF9_DATA: &str = concatcp!(
     NTF9_DATA_LINE0,
@@ -286,7 +287,7 @@ const NTF7_2_DATA_LINE13: &str = "ΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛΛ
 const NTF7_2_DATA_LINE14: &str = "Feb 2 02:03:04 2001 6-3 mmmmmmmmmmmm\n";
 const NTF7_2_DATA_LINE15: &str = "ηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηηη\n";
 
-const REGEX_ID_NTF7_2: usize = 31;
+const REGEX_ID_NTF7_2: RegexId = 31;
 
 const NTF7_2_DATA: &str = concatcp!(
     NTF7_2_DATA_LINE0,
@@ -882,7 +883,7 @@ fn test_process_stage0(
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x100, FILEOK)]
 fn test_process_stage1_blockzero_analysis_varying(
     path: &FPath,
-    regex_id: usize,
+    regex_id: RegexId,
     blocksz: BlockSz,
     fprbz_expect: FileProcessingResultBlockZero,
 ) {
@@ -911,7 +912,7 @@ fn test_process_stage1_blockzero_analysis_varying(
 #[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x200, FILEOK, &NTF3_DATA_SYSLINES)]
 fn test_process_stages_0to5(
     path: &FPath,
-    regex_id: usize,
+    regex_id: RegexId,
     blocksz: BlockSz,
     fprbz_expect: FileProcessingResultBlockZero,
     syslines_expect: &[&str],
@@ -1008,7 +1009,7 @@ fn test_process_stages_0to5(
 #[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, &NTF1S_A_DATA_LINE0_AFTER, 1)]
 fn test_process_stage2_find_dt_and_missing_year(
     path: &FPath,
-    regex_id: usize,
+    regex_id: RegexId,
     filter_dt_after_opt: &DateTimeLOpt,
     count_syslines_expect: Count,
 ) {
@@ -1051,7 +1052,7 @@ fn test_process_stage2_find_dt_and_missing_year(
 #[test_case(&NTF7_2_PATH, REGEX_ID_NTF7_2, NTF7_2_BLOCKSZ_MIN * 2, FILEOK)]
 fn test_process_stage0to3_drop_data(
     path: &FPath,
-    regex_id: usize,
+    regex_id: RegexId,
     blocksz: BlockSz,
     fprbz_expect: FileProcessingResultBlockZero,
 ) {

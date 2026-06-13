@@ -33,7 +33,10 @@ use ::test_case::{
     test_matrix,
 };
 
-use crate::common::FPath;
+use crate::common::{
+    FPath,
+    RegexId,
+};
 use crate::data::datetime::{
     bytes_to_regex_to_datetime,
     datetime_from_str_workaround_Issue660,
@@ -370,7 +373,7 @@ fn test_DATETIME_PARSE_DATAS_regex_id_duplicates() {
 /// `DATETIME_PARSE_DATAS_LEN`.
 #[allow(clippy::zero_prefixed_literal)]
 #[test_matrix(0..178)]
-fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: usize) {
+fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     stack_offset_set(Some(2));
 
     let (index, dtpd) = match DATETIME_PARSE_DATAS.iter().enumerate().find(|(_, dtpd)| dtpd.regex_id == regex_id) {

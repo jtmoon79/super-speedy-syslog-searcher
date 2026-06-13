@@ -24,6 +24,7 @@ use crate::common::{
     FileTypeArchive,
     FileTypeFixedStruct,
     LogMessageType,
+    RegexId,
     SetPathId,
     summary_stats_enable,
 };
@@ -103,7 +104,7 @@ const NTF5_DATA_LINE3: &str = "[20200113-11:13:59] [DEBUG] Certification found
 const NTF5_DATA_LINE4: &str = "[20200113-11:13:59] [DEBUG] Certification complete.\n";
 const NTF5_DATA: &str = concatcp!(NTF5_DATA_LINE0, NTF5_DATA_LINE1, NTF5_DATA_LINE2, NTF5_DATA_LINE3, NTF5_DATA_LINE4,);
 
-const REGEX_ID_NTF5: usize = 140;
+const REGEX_ID_NTF5: RegexId = 140;
 
 const FT_EVTX_NORM: FileType = FileType::Evtx { archival_type: FileTypeArchive::Normal };
 

@@ -55,6 +55,8 @@ pub type LineIndex = usize;
 // XXX: duplicates Line.rs
 pub type RangeLineIndex = std::ops::Range<LineIndex>;
 
+pub type RegexId = u16;
+
 /// A local implementation of `ere::Span`.
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
 pub struct SpanS4 {
@@ -1914,7 +1916,7 @@ pub const GROUP_NAMES: [&CaptureGroupName; GROUP_NAMES_LEN] = [
 /// [`Line`]: crate::data::line::Line
 #[derive(Hash)]
 pub struct DateTimeParseInstr<'a> {
-    pub regex_id: usize,
+    pub regex_id: RegexId,
     /// Regex pattern for [`captures`].
     ///
     /// [`captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Regex.html#method.captures
@@ -2055,7 +2057,7 @@ macro_rules! ERE_REGEX_DATETIME {
     ) => {
         {
             DateTimeParseInstr {
-                regex_id: $regex_id,
+                regex_id: $regex_id as RegexId,
                 regex_pattern: $regex_pattern,
                 regex_fn: new_ere_regex!(
                     $regex_id,
@@ -5982,8 +5984,8 @@ pub const DATETIME_PARSE_DATAS_LEN: usize = counter_last!(DP_KEY);
 
 /// Check if the `regex_id` is in the compiled `DATETIME_PARSE_DATAS`.
 /// `DATETIME_PARSE_DATAS` may vary depending upon build cfg of env var `REGEX`.
-/// A value of `0` always returns `true`
-pub fn regex_id_compiled(regex_id: usize) -> bool {
+/// A value of `0` returns `true`.
+pub fn regex_id_compiled(regex_id: RegexId) -> bool {
     if regex_id == 0 {
         return true;
     }
