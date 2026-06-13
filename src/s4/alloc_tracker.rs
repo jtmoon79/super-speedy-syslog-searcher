@@ -43,7 +43,10 @@ use ::rustc_demangle::{
 use ::thousands::Separable;
 use ::unit_prefix::NumberPrefix;
 
-use ::s4lib::common::threadid_to_u64;
+use ::s4lib::common::{
+    NL_UTF8ASCII,
+    threadid_to_u64,
+};
 
 /// alloc error exit value (`ENOMEM` on Linux).
 const EXIT_ALLOC_ERR: i32 = 12;
@@ -421,7 +424,7 @@ fn alloc_exit(mesg: &str, err: Option<&dyn std::error::Error>) -> ! {
         let d = e.description();
         _ = stderr_lock.write(d.as_bytes());
     }
-    _ = stderr_lock.write(b"\n");
+    _ = stderr_lock.write(&NL_UTF8ASCII);
     _ = stderr_lock.flush();
     std::process::exit(EXIT_ALLOC_ERR);
 }
@@ -579,11 +582,11 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                                 if module_base_address.is_some() {
                                     _ = apw.append_bytes(format!(" module_base_address=@{:?}", module_base_address).as_bytes());
                                 }
-                                _ = apw.append_bytes(b"\n");
+                                _ = apw.append_bytes(&NL_UTF8ASCII);
                                 if let Some(symbol_name) = symbol.name() {
                                     _ = apw.append_bytes(b"         name=");
                                     _ = demangle_name(&symbol_name, &mut apw);
-                                    _ = apw.append_bytes(b"\n");
+                                    _ = apw.append_bytes(&NL_UTF8ASCII);
                                 }
                                 let mut nl = false;
                                 if let Some(filename) = symbol.filename_raw() {
@@ -600,7 +603,7 @@ unsafe impl GlobalAlloc for AllocTrackerImpl {
                                     nl = true;
                                 }
                                 if nl {
-                                    _ = apw.append_bytes(b"\n");
+                                    _ = apw.append_bytes(&NL_UTF8ASCII);
                                 }
                             }
                             Err(_err) => alloc_exit("ALLOCATOR_FMT_BUF.write() failed", None),

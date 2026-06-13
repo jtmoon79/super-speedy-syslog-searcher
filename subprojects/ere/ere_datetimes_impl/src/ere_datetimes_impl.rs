@@ -131,7 +131,6 @@ impl MatchType {
     }
 }
 
-// XXX: Issue #16
 pub const CHARSZ: usize = 1;
 
 #[macro_export]
@@ -4518,9 +4517,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     {5F45546A-691D-4519-810C-9B159EA7A24F}  2022-10-12 09:26:44:980-0700    1       181 [AGENT_INSTALLING_STARTED]  101     {ADF3720E-8453-44C7-82EF-F9F5DA2D8551}  1       0 Update;ScanForUpdates    Success Content Install Installation Started: Windows has started installing the following update: 9WZDNCRFJ364-MICROSOFT.SKYPEAPP      te2D3dMIjE2PeNSM.86.5.1.0.0.1.0
     //
     // very similar to next DTPD!, but with different second-to-fractional divider ":"
-    //
-    // XXX: the `ReportingEvents.log` file is UTF-16 encoded
-    //      So it's not currently parseable. See Issue #16
     //
     #[cfg(any(regex = "102", regex = "ALL"))]
     ERE_REGEX_DATETIME!(

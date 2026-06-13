@@ -80,14 +80,16 @@ use crate::data::datetime::{
 pub const FIELD_MID: &str = "=";
 pub const FIELD_MID_C: char = '=';
 pub const FIELD_MID_U8: u8 = FIELD_MID_C as u8;
-pub const FIELD_END: &str = "\n";
-pub const FIELD_END_C: char = '\n';
+pub const FIELD_END: &str = NLs;
+pub const FIELD_END_C: char = NLc;
 pub const FIELD_END_U8: u8 = FIELD_END_C as u8;
-pub const ENTRY_END: &str = "\n";
-pub const ENTRY_END_C: char = '\n';
+pub const ENTRY_END: &str = NLs;
+pub const ENTRY_END_C: char = NLc;
 pub const ENTRY_END_U8: u8 = ENTRY_END_C as u8;
 
+#[allow(non_upper_case_globals)]
 pub const KEY__REALTIME_TIMESTAMP: &str = "__REALTIME_TIMESTAMP";
+#[allow(non_upper_case_globals)]
 pub const KEY__REALTIME_TIMESTAMP_BYTES: &[u8] = KEY__REALTIME_TIMESTAMP.as_bytes();
 pub const KEY_SOURCE_REALTIME_TIMESTAMP: &str = "_SOURCE_REALTIME_TIMESTAMP";
 pub const KEY_SOURCE_REALTIME_TIMESTAMP_BYTES: &[u8] = KEY_SOURCE_REALTIME_TIMESTAMP.as_bytes();

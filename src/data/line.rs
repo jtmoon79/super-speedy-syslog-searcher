@@ -33,16 +33,20 @@ use ::si_trace_print::{
 };
 
 #[doc(hidden)]
-#[cfg(any(debug_assertions, test))]
-use crate::common::Bytes;
-#[doc(hidden)]
 use crate::common::{
+    BOM_UTF16BE,
+    BOM_UTF16LE,
+    BOM_UTF32BE,
+    BOM_UTF32LE,
+    BOM_UTF8,
+    Bytes,
     Count,
     FileOffset,
+    FileTypeTextEncoding,
 };
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{
-    buffer_to_String_noraw,
+    buffer_to_string_noraw,
     char_to_char_noraw,
     e_err,
 };
@@ -138,8 +142,71 @@ impl fmt::Debug for LinePart {
 // TODO: [2023/01/14] change assert to debug_assert
 
 impl LinePart {
-    // XXX: Issue #16 only handles UTF-8/ASCII encoding
     const _CHARSZ: usize = 1;
+
+    #[inline(always)]
+    /// Append one UTF-8 character to a reusable output buffer.
+    fn push_utf8_char(buffer_utf8_bytes: &mut Bytes, c: char) {
+        let mut dst = [0u8; 4];
+        let s = c.encode_utf8(&mut dst);
+        buffer_utf8_bytes.extend_from_slice(s.as_bytes());
+    }
+
+    /// Convert UTF-16 bytes into UTF-8, skipping a BOM on the first line.
+    fn utf16_to_utf8(
+        slice: &[u8],
+        little_endian: bool,
+        fileoffset: FileOffset,
+        buffer_utf8_bytes: &mut Bytes,
+    ) {
+        for (chunk_index, chunk) in slice.chunks_exact(2).enumerate() {
+            let unit: u16 = if little_endian {
+                u16::from_le_bytes([chunk[0], chunk[1]])
+            } else {
+                u16::from_be_bytes([chunk[0], chunk[1]])
+            };
+            if fileoffset == 0 && chunk_index == 0 && unit == 0xFEFF {
+                continue;
+            }
+            for c in std::char::decode_utf16([unit]) {
+                match c {
+                    Ok(ch) => LinePart::push_utf8_char(buffer_utf8_bytes, ch),
+                    Err(_) => LinePart::push_utf8_char(buffer_utf8_bytes, '\u{FFFD}'),
+                }
+            }
+        }
+
+        if !slice.len().is_multiple_of(2) {
+            LinePart::push_utf8_char(buffer_utf8_bytes, '\u{FFFD}');
+        }
+    }
+
+    /// Convert UTF-32 bytes to UTF-8, skipping a BOM on the first line.
+    fn utf32_to_utf8(
+        slice: &[u8],
+        little_endian: bool,
+        fileoffset: FileOffset,
+        buffer_utf8_bytes: &mut Bytes,
+    ) {
+        for (chunk_index, chunk) in slice.chunks_exact(4).enumerate() {
+            let val: u32 = if little_endian {
+                u32::from_le_bytes([chunk[0], chunk[1], chunk[2], chunk[3]])
+            } else {
+                u32::from_be_bytes([chunk[0], chunk[1], chunk[2], chunk[3]])
+            };
+            if fileoffset == 0 && chunk_index == 0 && val == 0xFEFF {
+                continue;
+            }
+            match char::from_u32(val) {
+                Some(ch) => LinePart::push_utf8_char(buffer_utf8_bytes, ch),
+                None => LinePart::push_utf8_char(buffer_utf8_bytes, '\u{FFFD}'),
+            }
+        }
+
+        if !slice.len().is_multiple_of(4) {
+            LinePart::push_utf8_char(buffer_utf8_bytes, '\u{FFFD}');
+        }
+    }
 
     /// Create a new `LinePart`.
     ///
@@ -266,6 +333,72 @@ impl LinePart {
         &self.blockp[self.blocki_beg..self.blocki_end]
     }
 
+    /// Convert this `LinePart` to UTF-8 bytes for display or regex processing.
+    ///
+    /// If this `LinePart` begins at file offset 0, known BOM bytes are skipped
+    /// before conversion (or before returning the UTF-8 slice for `Utf8Ascii`).
+    ///
+    /// The caller owns `buffer_utf8_bytes` and is expected to reuse it across calls.
+    pub fn as_utf8_bytes<'a>(
+        &'a self,
+        buffer_utf8_bytes: &'a mut Bytes,
+        encoding_type: FileTypeTextEncoding,
+    ) -> &'a [u8] {
+        let slice = self.as_slice();
+        let slice_ = if self.fileoffset == 0 {
+            if encoding_type.has_bom() {
+                let bomsz = encoding_type.bomsz() as usize;
+                if slice.len() >= bomsz {
+                    &slice[bomsz..]
+                } else {
+                    slice
+                }
+            } else if slice.starts_with(&BOM_UTF8) {
+                &slice[BOM_UTF8.len()..]
+            } else if slice.starts_with(&BOM_UTF16LE) {
+                &slice[BOM_UTF16LE.len()..]
+            } else if slice.starts_with(&BOM_UTF16BE) {
+                &slice[BOM_UTF16BE.len()..]
+            } else if slice.starts_with(&BOM_UTF32LE) {
+                &slice[BOM_UTF32LE.len()..]
+            } else if slice.starts_with(&BOM_UTF32BE) {
+                &slice[BOM_UTF32BE.len()..]
+            } else {
+                slice
+            }
+        } else {
+            slice
+        };
+        let result = match encoding_type {
+            FileTypeTextEncoding::Utf8Ascii | FileTypeTextEncoding::Utf8BOM => slice_,
+            FileTypeTextEncoding::Utf16le | FileTypeTextEncoding::Utf16leBOM => {
+                buffer_utf8_bytes.clear();
+                buffer_utf8_bytes.reserve(slice_.len());
+                LinePart::utf16_to_utf8(slice_, true, self.fileoffset, buffer_utf8_bytes);
+                buffer_utf8_bytes.as_slice()
+            }
+            FileTypeTextEncoding::Utf16be | FileTypeTextEncoding::Utf16beBOM => {
+                buffer_utf8_bytes.clear();
+                buffer_utf8_bytes.reserve(slice_.len());
+                LinePart::utf16_to_utf8(slice_, false, self.fileoffset, buffer_utf8_bytes);
+                buffer_utf8_bytes.as_slice()
+            }
+            FileTypeTextEncoding::Utf32le | FileTypeTextEncoding::Utf32leBOM => {
+                buffer_utf8_bytes.clear();
+                buffer_utf8_bytes.reserve(slice_.len());
+                LinePart::utf32_to_utf8(slice_, true, self.fileoffset, buffer_utf8_bytes);
+                buffer_utf8_bytes.as_slice()
+            }
+            FileTypeTextEncoding::Utf32be | FileTypeTextEncoding::Utf32beBOM => {
+                buffer_utf8_bytes.clear();
+                buffer_utf8_bytes.reserve(slice_.len());
+                LinePart::utf32_to_utf8(slice_, false, self.fileoffset, buffer_utf8_bytes);
+                buffer_utf8_bytes.as_slice()
+            }
+        };
+        result
+    }
+
     /// Count of bytes of this `LinePart`.
     ///
     /// XXX: `count_bytes` and `len` is overlapping and confusing.
@@ -276,12 +409,11 @@ impl LinePart {
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    pub(self) fn impl_to_String_raw(
+    pub(self) fn impl_to_string_raw(
         self: &LinePart,
         raw: bool,
     ) -> String {
         // XXX: intermixing byte lengths and character lengths
-        // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let s1: String;
         let slice_ = self.as_slice();
         if raw {
@@ -290,7 +422,7 @@ impl LinePart {
             }
             return s1;
         }
-        s1 = buffer_to_String_noraw(slice_);
+        s1 = buffer_to_string_noraw(slice_);
         s1
     }
 
@@ -304,12 +436,10 @@ impl LinePart {
 
     /// `Line` to `String` but using printable chars for non-printable and/or
     /// formatting characters.
-    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
-    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    pub fn to_String_noraw(self: &LinePart) -> String {
-        self.impl_to_String_raw(false)
+    pub fn to_string_noraw(self: &LinePart) -> String {
+        self.impl_to_string_raw(false)
     }
 
     // TODO fix this non_snake_case (use correct snake_case)
@@ -317,7 +447,7 @@ impl LinePart {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
     pub fn to_String(self: &LinePart) -> String {
-        self.impl_to_String_raw(true)
+        self.impl_to_string_raw(true)
     }
 
     /// Return [`Box`](std::boxed) pointer to slice of bytes that make up this
@@ -528,6 +658,10 @@ impl Line {
         Line::default()
     }
 
+    pub const fn is_empty(&self) -> bool {
+        self.lineparts.len() == 0
+    }
+
     /// Create a new `Line` starting with the passed `LinePart`.
     pub fn new_from_linepart(linepart: LinePart) -> Line {
         let mut v = LineParts::with_capacity(Line::LINE_PARTS_WITH_CAPACITY);
@@ -540,7 +674,7 @@ impl Line {
         &mut self,
         linepart: LinePart,
     ) {
-        deo!("Line.append({:?}) {:?}", &linepart, linepart.to_String_noraw());
+        deo!("Line.append({:?}) {:?}", &linepart, linepart.to_string_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
             // sanity checks; each `LinePart` should be stored in same order as it appears
@@ -573,7 +707,7 @@ impl Line {
         &mut self,
         linepart: LinePart,
     ) {
-        deo!("Line.prepend({:?}) {:?}", &linepart, linepart.to_String_noraw());
+        deo!("Line.prepend({:?}) {:?}", &linepart, linepart.to_string_noraw());
         let l_ = self.lineparts.len();
         if l_ > 0 {
             // sanity checks; each `LinePart` should be stored in same order as it appears
@@ -731,7 +865,7 @@ impl Line {
             b,
             self.lineparts.len(),
             self.len(),
-            self.to_String_noraw()
+            self.to_string_noraw()
         );
         debug_assert_le!(a, b, "passed bad LineIndex pair");
         // simple case: `a, b` are past end of `Line`
@@ -868,8 +1002,6 @@ impl Line {
     ///
     /// `raw` as `false` will write transcode each byte to a character and use
     /// pictoral representations.
-    ///
-    // XXX: Issue #16 `raw==false` only handles UTF-8/ASCII encoding
     #[doc(hidden)]
     #[cfg(any(debug_assertions, test))]
     pub fn print(
@@ -895,7 +1027,6 @@ impl Line {
                     }
                 }
             } else {
-                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 // XXX: this is not efficient
                 let s = match std::str::from_utf8(slice) {
                     Ok(val) => val,
@@ -938,7 +1069,7 @@ impl Line {
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    pub(crate) fn impl_to_String_raw(
+    pub(crate) fn impl_to_string_raw(
         self: &Line,
         raw: bool,
     ) -> String {
@@ -976,19 +1107,33 @@ impl Line {
     }
 
     /// `Line` to `String`.
+    /// Very inefficient!
     #[doc(hidden)]
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
     pub fn to_String(self: &Line) -> String {
-        self.impl_to_String_raw(true)
+        self.impl_to_string_raw(true)
     }
 
     /// `Line` to `String` but using printable chars for non-printable and/or
     /// formatting characters.
+    /// Very inefficient!
     #[doc(hidden)]
-    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    pub fn to_String_noraw(self: &Line) -> String {
-        self.impl_to_String_raw(false)
+    pub fn to_string_noraw(self: &Line) -> String {
+        self.impl_to_string_raw(false)
+    }
+
+    /// `Line` to `String` but using printable chars for non-printable and/or
+    /// formatting characters.
+    /// Very inefficient!
+    #[doc(hidden)]
+    #[cfg(any(debug_assertions, test))]
+    pub fn to_stringutf8_noraw(self: &Line, encoding: FileTypeTextEncoding) -> String {
+        let mut buffer: Bytes = Bytes::new();
+        for linepart in &self.lineparts {
+            linepart.as_utf8_bytes(&mut buffer, encoding);
+        }
+        String::from_utf8_lossy(&buffer).to_string()
     }
 }

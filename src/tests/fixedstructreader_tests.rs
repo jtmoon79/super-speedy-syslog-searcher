@@ -251,16 +251,16 @@ const BSZ: BlockSz = 400;
 
 /// test `FixedStructReader::find_entry`
 // UTMPX_1ENTRY
-#[test_case(&NTF_LINUX_X86_UTMPX_1ENTRY_FPATH, UFS, 2, 0, FOUND, U1SZ, None; "UTMPX_1ENTRY a")]
+#[test_case(&NTF_LINUX_X86_UTMPX_1ENTRY_FPATH, UFS, 4, 0, FOUND, U1SZ, None; "UTMPX_1ENTRY a")]
 #[test_case(&NTF_LINUX_X86_UTMPX_1ENTRY_FPATH, UFS, 16, 0, FOUND, U1SZ, None; "UTMPX_1ENTRY b")]
 #[test_case(&NTF_LINUX_X86_UTMPX_1ENTRY_FPATH, UFS, BSZ, 0, FOUND, U1SZ, None; "UTMPX_1ENTRY c")]
 #[test_case(&NTF_LINUX_X86_UTMPX_1ENTRY_FPATH, UFS, BSZ, U1SZ, DONE, 0, None; "UTMPX_1ENTRY d")]
 // UTMPX_2ENTRY
-#[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, 2, 0, FOUND, U1SZ, None; "UTMPX_2ENTRY a")]
+#[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, 4, 0, FOUND, U1SZ, None; "UTMPX_2ENTRY a")]
 #[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, 16, 0, FOUND, U1SZ, None; "UTMPX_2ENTRY b")]
 #[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, BSZ, 0, FOUND, U1SZ, None; "UTMPX_2ENTRY c")]
 #[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, BSZ, 0, FOUND, U1SZ, None; "UTMPX_2ENTRY d")]
-#[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, 2, U1SZ, FOUND, U1SZ * 2, None; "UTMPX_2ENTRY e")]
+#[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, 4, U1SZ, FOUND, U1SZ * 2, None; "UTMPX_2ENTRY e")]
 #[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, 16, U1SZ, FOUND, U1SZ * 2, None; "UTMPX_2ENTRY f")]
 #[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, 1024, U1SZ, FOUND, U1SZ * 2, None; "UTMPX_2ENTRY g")]
 #[test_case(&NTF_LINUX_X86_UTMPX_2ENTRY_FPATH, UFS, BSZ, U1SZ * 2, DONE, 0, None; "UTMPX_2ENTRY h")]
@@ -277,19 +277,19 @@ const BSZ: BlockSz = 400;
 #[test_case(&NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH, UFS, BSZ, U1SZ * 2, FOUND, U1SZ, None; "LINUX_X86_UTMPX_3ENTRY_OOO c")]
 #[test_case(&NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH, UFS, BSZ, U1SZ * 4, DONE, 0, None; "LINUX_X86_UTMPX_3ENTRY_OOO d")]
 // UTMPX_00
-#[test_case(&NTF_LINUX_X86_UTMPX_00_ENTRY_FPATH, UFS, 2, 0, DONE, 0, NEWERRNOVALID; "UTMPX_00 a")]
+#[test_case(&NTF_LINUX_X86_UTMPX_00_ENTRY_FPATH, UFS, 4, 0, DONE, 0, NEWERRNOVALID; "UTMPX_00 a")]
 #[test_case(&NTF_LINUX_X86_UTMPX_00_ENTRY_FPATH, UFS, BSZ, 0, DONE, 0, NEWERRNOVALID; "UTMPX_00 b")]
 // UTMPX_55
-#[test_case(&NTF_LINUX_X86_UTMPX_55_ENTRY_FPATH, UFS, 2, 0, FOUND, U1SZ, None; "UTMPX_55 a")]
+#[test_case(&NTF_LINUX_X86_UTMPX_55_ENTRY_FPATH, UFS, 4, 0, FOUND, U1SZ, None; "UTMPX_55 a")]
 #[test_case(&NTF_LINUX_X86_UTMPX_55_ENTRY_FPATH, UFS, BSZ, 0, FOUND, U1SZ, None; "UTMPX_55 b")]
 // UTMPX_AA
-#[test_case(&NTF_LINUX_X86_UTMPX_AA_ENTRY_FPATH, UFS, 2, 0, DONE, 0, NEWERRNOVALID; "UTMPX_AA a")]
+#[test_case(&NTF_LINUX_X86_UTMPX_AA_ENTRY_FPATH, UFS, 4, 0, DONE, 0, NEWERRNOVALID; "UTMPX_AA a")]
 #[test_case(&NTF_LINUX_X86_UTMPX_AA_ENTRY_FPATH, UFS, BSZ, 0, DONE, 0, NEWERRNOVALID; "UTMPX_AA b")]
 // UTMPX_FF
-#[test_case(&NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH, UFS, 2, 0, DONE, 0, NEWERRNOVALID; "UTMPX_FF a")]
+#[test_case(&NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH, UFS, 4, 0, DONE, 0, NEWERRNOVALID; "UTMPX_FF a")]
 #[test_case(&NTF_LINUX_X86_UTMPX_FF_ENTRY_FPATH, UFS, BSZ, 0, DONE, 0, NEWERRNOVALID; "UTMPX_FF b")]
 // LASTLOG1
-#[test_case(&NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, LFS, 2, 0, FOUND, L1SZ, None; "LASTLOG1 a")]
+#[test_case(&NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, LFS, 4, 0, FOUND, L1SZ, None; "LASTLOG1 a")]
 #[test_case(&NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH, LFS, BSZ, 0, FOUND, L1SZ, None; "LASTLOG1 b")]
 fn test_FixedStructReader_process_entry_at(
     path: &FPath,
@@ -599,8 +599,8 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
 
 // UTMPX_2ENTRY
 #[test_case(
-    NTF_LINUX_X86_UTMPX_2ENTRY_FPATH.clone(), 2,
-    SummaryBlockReader_new(384, 0),
+    NTF_LINUX_X86_UTMPX_2ENTRY_FPATH.clone(), 4,
+    SummaryBlockReader_new(192, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
         fixedstructreader_filetypefixedstruct_opt: Some(FTU),
@@ -666,7 +666,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
 )]
 #[test_case(
     NTF_LINUX_X86_UTMPX_2ENTRY_FPATH.clone(), U1SZ + 2,
-    SummaryBlockReader_new(2, 0),
+    SummaryBlockReader_new(1, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
         fixedstructreader_filetypefixedstruct_opt: Some(FTU),
@@ -732,8 +732,8 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
 )]
 // UTMPX_3ENTRY
 #[test_case(
-    NTF_LINUX_X86_UTMPX_3ENTRY_FPATH.clone(), 2,
-    SummaryBlockReader_new(576, 0),
+    NTF_LINUX_X86_UTMPX_3ENTRY_FPATH.clone(), 4,
+    SummaryBlockReader_new(288, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
         fixedstructreader_filetypefixedstruct_opt: Some(FTU),
@@ -799,7 +799,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
 )]
 #[test_case(
     NTF_LINUX_X86_UTMPX_3ENTRY_FPATH.clone(), U1SZ + 2,
-    SummaryBlockReader_new(3, 0),
+    SummaryBlockReader_new(2, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
         fixedstructreader_filetypefixedstruct_opt: Some(FTU),
@@ -811,7 +811,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
-        fixedstructreader_drop_entry_ok: 2,
+        fixedstructreader_drop_entry_ok: 1,
         fixedstructreader_drop_entry_errors: 0,
         fixedstructreader_datetime_first: Some(*LINUX_X86_UTMPX_BUFFER1_DTO),
         fixedstructreader_datetime_last: Some(*LINUX_X86_UTMPX_BUFFER3_DTO),
@@ -865,8 +865,8 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
 )]
 // LINUX_X86_UTMPX_3ENTRY_OOO
 #[test_case(
-    NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH.clone(), 2,
-    SummaryBlockReader_new(576, 0),
+    NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH.clone(), 4,
+    SummaryBlockReader_new(288, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
         fixedstructreader_filetypefixedstruct_opt: Some(FTU),
@@ -932,7 +932,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
 )]
 #[test_case(
     NTF_LINUX_X86_UTMPX_3ENTRY_OOO_FPATH.clone(), U1SZ + 2,
-    SummaryBlockReader_new(3, 0),
+    SummaryBlockReader_new(2, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(TYU),
         fixedstructreader_filetypefixedstruct_opt: Some(FTU),
@@ -944,7 +944,7 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
         fixedstructreader_utmp_entries_max: 2,
         fixedstructreader_utmp_entries_hit: 2,
         fixedstructreader_utmp_entries_miss: 1,
-        fixedstructreader_drop_entry_ok: 3,
+        fixedstructreader_drop_entry_ok: 2,
         fixedstructreader_drop_entry_errors: 0,
         fixedstructreader_datetime_first: Some(*LINUX_X86_UTMPX_BUFFER1_DTO),
         fixedstructreader_datetime_last: Some(*LINUX_X86_UTMPX_BUFFER3_DTO),
@@ -998,8 +998,8 @@ const fn SummaryBlockReader_new(dropped_blocks_ok: Count, dropped_blocks_err: Co
 )]
 // LINUX_X86_LASTLOG_1ENTRY
 #[test_case(
-    NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH.clone(), 2,
-    SummaryBlockReader_new(146, 0),
+    NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH.clone(), 4,
+    SummaryBlockReader_new(73, 0),
     SummaryFixedStructReader {
         fixedstructreader_fixedstructtype_opt: Some(FixedStructType::Fs_Linux_x86_Lastlog),
         fixedstructreader_filetypefixedstruct_opt: Some(FileTypeFixedStruct::Lastlog),
@@ -1141,12 +1141,16 @@ fn test_FixedStructReader_summary(
     assert_eq!(
         summaryblockreader.blockreader_blocks_dropped_ok,
         expect_summaryblockreader.blockreader_blocks_dropped_ok,
-        "blockreader_blocks_dropped_ok differs",
+        "blockreader_blocks_dropped_ok differs\nexpected {:?}\nactual   {:?}",
+        expect_summaryblockreader.blockreader_blocks_dropped_ok,
+        summaryblockreader.blockreader_blocks_dropped_ok,
     );
     assert_eq!(
         summaryblockreader.blockreader_blocks_dropped_err,
         expect_summaryblockreader.blockreader_blocks_dropped_err,
-        "blockreader_blocks_dropped_err differs",
+        "blockreader_blocks_dropped_err differs\nexpected {:?}\nactual   {:?}",
+        expect_summaryblockreader.blockreader_blocks_dropped_err,
+        summaryblockreader.blockreader_blocks_dropped_err,
     );
     // compare summaryfixedstructreader
     let _ft = summaryfixedstructreader.fixedstructreader_fixedstructtype_opt;
@@ -1155,7 +1159,9 @@ fn test_FixedStructReader_summary(
             expect_fixedstructreadersummary.fixedstructreader_fixedstructtype_opt,
             _ft,
         ),
-        "fixedstructreader_fixedstructtype_opt differs",
+        "fixedstructreader_fixedstructtype_opt differs\nexpected {:?}\nactual   {:?}",
+        expect_fixedstructreadersummary.fixedstructreader_fixedstructtype_opt,
+        summaryfixedstructreader.fixedstructreader_fixedstructtype_opt,
     );
     let _ft = summaryfixedstructreader.fixedstructreader_filetypefixedstruct_opt;
     assert!(
@@ -1163,7 +1169,9 @@ fn test_FixedStructReader_summary(
             expect_fixedstructreadersummary.fixedstructreader_filetypefixedstruct_opt,
             _ft,
         ),
-        "fixedstructreader_filetypefixedstruct_opt differs",
+        "fixedstructreader_filetypefixedstruct_opt differs\nexpected {:?}\nactual   {:?}",
+        expect_fixedstructreadersummary.fixedstructreader_filetypefixedstruct_opt,
+        summaryfixedstructreader.fixedstructreader_filetypefixedstruct_opt,
     );
     assert_eq!(
         summaryfixedstructreader.fixedstructreader_fixedstruct_size,

@@ -9,6 +9,7 @@ use std::fs::copy;
 
 #[allow(unused_imports)]
 use ::filepath::FilePath; // provide `path` function on `File`
+use ::lazy_static::lazy_static;
 use ::si_trace_print::{
     defn,
     defo,
@@ -18,6 +19,11 @@ use ::si_trace_print::{
 use ::test_case::test_case;
 
 use crate::common::{
+    BOM_UTF16BE,
+    BOM_UTF16LE,
+    BOM_UTF32BE,
+    BOM_UTF32LE,
+    BOM_UTF8,
     FPath,
     FileType,
     FileTypeArchive,
@@ -33,6 +39,7 @@ use crate::debug::helpers::{
 };
 use crate::readers::filepreprocessor::{
     copy_process_path_result_canonicalize_path,
+    detect_filetype_text_encoding,
     fpath_to_filetype,
     process_path,
     process_path_tar,
@@ -45,6 +52,10 @@ use crate::readers::helpers::{
     path_to_fpath,
 };
 use crate::tests::common::{
+    encode_utf16be,
+    encode_utf16le,
+    encode_utf32be,
+    encode_utf32le,
     FILETYPE_EVTX,
     FILETYPE_EVTX_GZ,
     FILETYPE_EVTX_LZ4,
@@ -91,6 +102,47 @@ use crate::tests::common::{
     NTF_TGZ_8BYTE,
     NTF_TGZ_8BYTE_FPATH,
 };
+
+const TEXT_ASCII: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ .,;:'\"!?@#$%^&*()_+-=~`<>\n";
+const TEXT_ASCII_BYTES: &[u8] = TEXT_ASCII.as_bytes();
+
+lazy_static! {
+    pub static ref TEXT_UTF8_BOM_BYTES: Vec<u8> = [BOM_UTF8.as_slice(), TEXT_ASCII_BYTES].concat();
+
+    pub static ref TEXT_UTF16BE_STRING: String = encode_utf16be(TEXT_ASCII);
+    pub static ref TEXT_UTF16BE_BYTES: Vec<u8> = TEXT_UTF16BE_STRING.as_bytes().to_vec();
+    pub static ref TEXT_UTF16BE_BOM_BYTES: Vec<u8> = [BOM_UTF16BE.as_slice(), TEXT_UTF16BE_BYTES.as_slice()].concat();
+
+    pub static ref TEXT_UTF16LE_STRING: String = encode_utf16le(TEXT_ASCII);
+    pub static ref TEXT_UTF16LE_BYTES: Vec<u8> = TEXT_UTF16LE_STRING.as_bytes().to_vec();
+    pub static ref TEXT_UTF16LE_BOM_BYTES: Vec<u8> = [BOM_UTF16LE.as_slice(), TEXT_UTF16LE_BYTES.as_slice()].concat();
+
+    pub static ref TEXT_UTF32BE_STRING: String = encode_utf32be(TEXT_ASCII);
+    pub static ref TEXT_UTF32BE_BYTES: Vec<u8> = TEXT_UTF32BE_STRING.as_bytes().to_vec();
+    pub static ref TEXT_UTF32BE_BOM_BYTES: Vec<u8> = [BOM_UTF32BE.as_slice(), TEXT_UTF32BE_BYTES.as_slice()].concat();
+
+    pub static ref TEXT_UTF32LE_STRING: String = encode_utf32le(TEXT_ASCII);
+    pub static ref TEXT_UTF32LE_BYTES: Vec<u8> = TEXT_UTF32LE_STRING.as_bytes().to_vec();
+    pub static ref TEXT_UTF32LE_BOM_BYTES: Vec<u8> = [BOM_UTF32LE.as_slice(), TEXT_UTF32LE_BYTES.as_slice()].concat();
+}
+
+#[test_case(&TEXT_ASCII_BYTES, Some(FileTypeTextEncoding::Utf8Ascii))]
+#[test_case(&TEXT_UTF8_BOM_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf8BOM))]
+#[test_case(&TEXT_UTF16BE_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf16be))]
+#[test_case(&TEXT_UTF16BE_BOM_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf16beBOM))]
+#[test_case(&TEXT_UTF16LE_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf16le))]
+#[test_case(&TEXT_UTF16LE_BOM_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf16leBOM))]
+#[test_case(&TEXT_UTF32BE_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf32be))]
+#[test_case(&TEXT_UTF32BE_BOM_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf32beBOM))]
+#[test_case(&TEXT_UTF32LE_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf32le))]
+#[test_case(&TEXT_UTF32LE_BOM_BYTES.as_slice(), Some(FileTypeTextEncoding::Utf32leBOM))]
+fn test_detect_filetype_text_encoding(
+    data: &[u8],
+    expected: Option<FileTypeTextEncoding>,
+) {
+    let result = detect_filetype_text_encoding(data);
+    assert_eq!(result, expected);
+}
 
 // FileType consts
 const FTTN8: PathToFiletypeResult = PathToFiletypeResult::Filetype(

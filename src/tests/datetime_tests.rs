@@ -116,7 +116,7 @@ use ::ere_datetimes_impl::{
     RP_RB,
     ymdhmsn_args,
 };
-use crate::debug::printers::buffer_to_String_noraw;
+use crate::debug::printers::buffer_to_string_noraw;
 use crate::tests::common::{
     FO_0,
     FO_E10,
@@ -797,13 +797,13 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     //
     eprintln!("Test Regex self-tests regex #{} …", dtpd.regex_id);
     eprintln!("  Regex Pattern         : {:?}", dtpd.regex_pattern);
-    let r_noraw = buffer_to_String_noraw(dtpd.regex_pattern.as_bytes());
+    let r_noraw = buffer_to_string_noraw(dtpd.regex_pattern.as_bytes());
     eprintln!("  Regex Pattern (no raw): {}", r_noraw);
     eprintln!("  DateTime Pattern  : {:?}", dtpd.dtfs.pattern);
     let dummy_fpath: FPath = FPath::from("test_DATETIME_PARSE_DATAS_test_cases");
     for (i, test_case_) in dtpd._test_cases.iter().enumerate() {
         eprintln!("  Test Data[{i:3}] all?      : {:?}", test_case_);
-        let test_case_s: String = buffer_to_String_noraw(test_case_.3);
+        let test_case_s: String = buffer_to_string_noraw(test_case_.3);
         eprintln!("  Test Data[{i:3}]           : ({})", test_case_s);
         let test_case_str: &str = unsafe { str::from_utf8_unchecked(test_case_.3) };
         eprintln!("  Test Data[{i:3}]           : ({})", test_case_str);
@@ -825,7 +825,7 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
         } else {
             None
         };
-        let s = buffer_to_String_noraw(data);
+        let s = buffer_to_string_noraw(data);
         match bytes_to_regex_to_datetime(
             slice_,
             &index,
@@ -845,8 +845,8 @@ fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
                 let b: LineIndex = capdata.1;
                 assert_lt!(a, b, "regex #{} bad a {} b {}", dtpd.regex_id, a, b);
                 // verify indexes returned by the regex
-                let s_a_b = buffer_to_String_noraw(data[a..b].as_bstr());
-                let s_dta_dtb = buffer_to_String_noraw(data[dta..dtb].as_bstr());
+                let s_a_b = buffer_to_string_noraw(data[a..b].as_bstr());
+                let s_dta_dtb = buffer_to_string_noraw(data[dta..dtb].as_bstr());
                 assert_eq!(
                     (dta, dtb), (a, b),
                     "For regex #{} dtpd at line {:?} unexpected index returned\n  test data \"{}\"\n  expect {:?} {:?}\n  actual {:?} {:?}\n",

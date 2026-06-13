@@ -109,7 +109,7 @@ lazy_static! {
         )
     };
     static ref UTMPX2_STRING_NORAW: String = {
-        UTMPX2.to_String_noraw()
+        UTMPX2.to_string_noraw()
     };
 
     static ref LINUX_X86_LASTLOG_1ENTRY_PTR: FixedStructDynPtr = {

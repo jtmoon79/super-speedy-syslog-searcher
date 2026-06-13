@@ -371,7 +371,6 @@ Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction Sil
   | s4.exe -
 ```
 
-<sup style="font-size: xx-small">• note that UTF-16 encoded logs cannot be parsed, see [Issue #16]</sup>
 <sup style="font-size: xx-small">• note that opening too many files causes error _too many files open_, see [Issue #270], so `Get-ChildItem -Filter` lessens the number of files opened by `s4.exe`</sup>
 
 On Windows, print the [Windows Event logs]
@@ -478,7 +477,6 @@ find -mtime 1 -type f | s4 - -a=-5m
 ```
 
 [Windows Event logs]: https://github.com/libyal/libevtx/blob/126297f7f0e325f9e2cd27b0b60d3cf02ffdfd04/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
-[Issue #16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/16
 [Issue #270]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/270
 
 ### `--help`
@@ -882,7 +880,6 @@ See [the Github Action].
 
 ### Limitations
 
-- Only processes UTF-8 or ASCII encoded syslog files. ([Issue #16])
 - Cannot process multi-file `.gz` files (only processes first stream found).
   ([Issue #8])
 - Cannot process multi-file `.xz` files (only processes first stream found).
@@ -1047,6 +1044,16 @@ Ad-hoc text formats:
 |`lnav`         |‼                  |‼                |‼     |✔                       |✗   |
 |`logmerger`    |‼                  |‼                |✔     |‼                       |✗   |
 |`tl`           |✗                  |✗               |✗     |✔                       |✗   |
+
+Text encodings:
+
+|Program        |UTF-8|UTF-16LE|UTF-16LE BOM|UTF-16BE|UTF-16BE BOM|UTF-32LE|UTF-32LE BOM|UTF-32BE|UTF-32BE BOM|
+|-              |-    |-       |-           |-       |-           |-       |-           |-       |-           |
+|`grep \| sort` |✔    |✗       |✗           |✗       |✗           |✗       |✗           |✗       |✗           |
+|`s4`           |✔    |✔       |✔           |✔       |✔           |✔       |✔           |✔       |✔           |
+|`lnav`         |✔    |✗       |✗           |✗       |✗           |✗       |✗           |✗       |✗           |
+|`logmerger`    |✔    |✗       |✗           |✗       |✗           |✗       |✗           |✗       |✗           |
+|`tl`           |✔    |✔       |✔           |✔       |✔           |✔       |✔           |✔       |✔           |
 
 All programs besides `s4` fail to merge different text log formats.
 

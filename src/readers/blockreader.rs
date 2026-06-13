@@ -33,6 +33,7 @@ use std::path::Path;
 use std::sync::Arc;
 
 use ::bzip2_rs::DecoderReader as Bz2DecoderReader;
+use ::const_format::assertcp;
 // `flate2` is for gzip files.
 use ::flate2::read::GzDecoder;
 use ::flate2::GzHeader;
@@ -87,6 +88,7 @@ use crate::common::{
     FileSz,
     FileType,
     FileTypeArchive,
+    FileTypeTextEncoding,
     SUBPATH_SEP,
     summary_stat,
 };
@@ -222,16 +224,27 @@ macro_rules! read_data_to_buffer_len_check {
     };
 }
 
-/// Absolute minimum Block Size in bytes (inclusive).
-pub const BLOCKSZ_MIN: BlockSz = 1;
-
-/// Absolute maximum Block Size in bytes (inclusive).
-pub const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
-
 /// Default [`Block`] Size in bytes.
 // TODO: should be type `BlockSz`
 // TODO: should be half-open range value `0xFFFF`
 pub const BLOCKSZ_DEF: usize = 0x10000;
+
+/// Align `BlockSz` values to this boundary so block boundaries are always on
+/// full UTF code-unit widths for supported encodings.
+const BLOCKSZ_ALIGN: BlockSz = 4;
+
+/// Absolute minimum Block Size in bytes (inclusive).
+pub const BLOCKSZ_MIN: BlockSz = BLOCKSZ_ALIGN;
+
+/// Absolute maximum Block Size in bytes (inclusive).
+pub const BLOCKSZ_MAX: BlockSz = 0xFFFFFF;
+
+assertcp!(
+    BLOCKSZ_DEF >= BLOCKSZ_MIN as usize,
+    "Default Block Size {BLOCKSZ_DEF} is too small");
+assertcp!(
+    BLOCKSZ_DEF <= BLOCKSZ_MAX as usize,
+    "Default Block Size {BLOCKSZ_DEF} is too big");
 
 /// Data and readers for a bzip2 `.bz2` file, used by [`Bz2DecoderReader`].
 ///
@@ -392,7 +405,10 @@ pub struct BlockReader {
     /// [`self.file_metadata.modified()`]: std::fs::Metadata
     pub(crate) file_metadata_modified: SystemTime,
     /// Enum that guides file-handling behavior in functions `read`, and `new`.
+    /// Holds text encoding information used by [`LineReader`] and [`SyslogProcessor`].
     filetype: FileType,
+    /// Sanity check if `filetype_text_encoding_update` has already been called.
+    filetype_text_encoding_update_called: bool,
     /// Do or do not drop `Block`s or other data after they are processed and
     /// printed.
     ///
@@ -609,9 +625,23 @@ impl BlockReader {
     ) -> Result<BlockReader> {
         def1n!("({:?}, {:?}, {:?})", path, filetype, blocksz_);
 
-        assert_ne!(0, blocksz_, "Block Size cannot be 0");
-        assert_ge!(blocksz_, BLOCKSZ_MIN, "Block Size {} is too small", blocksz_);
-        assert_le!(blocksz_, BLOCKSZ_MAX, "Block Size {} is too big", blocksz_);
+        assert_ge!(blocksz_, BLOCKSZ_MIN, "Block Size {blocksz_} is too small");
+        assert_le!(blocksz_, BLOCKSZ_MAX, "Block Size {blocksz_} is too big");
+
+        // Align to max supported char width so potential later encoding updates
+        // (UTF-16/UTF-32) do not split code units at block boundaries.
+        let blocksz_requested = blocksz_;
+        let rem = blocksz_requested % BLOCKSZ_ALIGN;
+        let blocksz_: BlockSz = if rem == 0 {
+            blocksz_requested
+        } else {
+            std::cmp::max(BLOCKSZ_ALIGN, blocksz_requested - rem)
+        };
+        def1o!(
+            "given blocksz {:?} aligned blocksz to {:?}",
+            blocksz_requested,
+            blocksz_,
+        );
 
         // shadow passed immutable with local mutable
         let mut path: FPath = path;
@@ -651,7 +681,7 @@ impl BlockReader {
         let path = path.clone();
         let path_std: &Path = Path::new(&path);
 
-        let mut open_options = FileOpenOptions::new();
+        let mut open_options: FileOpenOptions = FileOpenOptions::new();
         def1o!("open_options.read(true).open({:?})", path);
         let file_handle: File = match open_options
             .read(true)
@@ -663,8 +693,8 @@ impl BlockReader {
                 return err_from_err_path_result::<BlockReader>(&err, &path, None);
             }
         };
-        let mut blocks = Blocks::new();
-        let mut blocks_read = BlocksTracked::new();
+        let mut blocks: Blocks = Blocks::new();
+        let mut blocks_read: BlocksTracked = BlocksTracked::new();
         let mut count_bytes_read: Count = 0;
         def1o!("count_bytes_read={}", count_bytes_read);
         let filesz: FileSz;
@@ -1819,6 +1849,7 @@ impl BlockReader {
             file_metadata,
             file_metadata_modified,
             filetype,
+            filetype_text_encoding_update_called: false,
             drop_data: true,
             bz2: bz2_opt,
             gz: gz_opt,
@@ -2036,6 +2067,25 @@ impl BlockReader {
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.filetype
+    }
+
+    /// Update the stored text encoding in `self.filetype`.
+    pub fn filetype_text_encoding_update(&mut self, encoding_type: FileTypeTextEncoding) {
+        defn!("encoding_type {:?}", encoding_type);
+        // sanity check
+        debug_assert!(
+            !self.filetype_text_encoding_update_called,
+            "filetype_text_encoding_update should only be called once"
+        );
+        self.filetype_text_encoding_update_called = true;
+        self.filetype = match self.filetype {
+            FileType::Text { archival_type, .. } => FileType::Text {
+                archival_type,
+                encoding_type,
+            },
+            filetype => filetype,
+        };
+        defx!("updated self.filetype to {:?}", self.filetype);
     }
 
     /// Return a copy of `self.file_metadata`.

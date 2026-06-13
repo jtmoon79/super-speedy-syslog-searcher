@@ -16,6 +16,7 @@ use std::path::{
 #[cfg(test)]
 use std::str::FromStr; // for `String::from_str`
 
+use ::chardet::detect;
 use ::jwalk;
 #[allow(unused_imports)]
 use ::si_trace_print::{
@@ -30,8 +31,12 @@ use ::si_trace_print::{
 };
 use ::tar;
 
-use crate::debug_panic;
 use crate::common::{
+    BOM_UTF16BE,
+    BOM_UTF16LE,
+    BOM_UTF32BE,
+    BOM_UTF32LE,
+    BOM_UTF8,
     FPath,
     FileSz,
     FileType,
@@ -41,10 +46,337 @@ use crate::common::{
     OdlSubType,
     SUBPATH_SEP,
 };
+use crate::debug_panic;
 use crate::debug::printers::de_err;
 #[cfg(any(debug_assertions, test))]
 use crate::readers::helpers::fpath_to_path;
 use crate::readers::helpers::path_to_fpath;
+
+#[inline(always)]
+fn is_texty_ascii_byte(b: u8) -> bool {
+    b == b'\n' || b == b'\r' || b == b'\t' || (0x20..=0x7E).contains(&b)
+}
+
+const SCORE_NO_MATCH: u8 = 0;
+const SCORE_DIRECT_MIN: u8 = 114; // 45% mapped into 0..=255.
+const SCORE_BOM_ONLY: u8 = 240;
+const SCORE_UTF8_BOM: u8 = 250;
+const SCORE_VALID_UTF8: u8 = 220;
+const SCORE_UTF8_FAST_PATH_MIN: u8 = 1;
+
+#[inline(always)]
+fn ratio_to_score(
+    numerator: usize,
+    denominator: usize,
+) -> u8 {
+    if denominator == 0 {
+        return SCORE_NO_MATCH;
+    }
+
+    std::cmp::min((numerator * 255) / denominator, 255) as u8
+}
+
+fn score_heuristic_utf8_with_bom(bytes: &[u8]) -> u8 {
+    if !bytes.starts_with(&BOM_UTF8) {
+        return SCORE_NO_MATCH;
+    }
+
+    match std::str::from_utf8(&bytes[BOM_UTF8.len()..]) {
+        Ok(_) => SCORE_UTF8_BOM,
+        Err(_) => SCORE_NO_MATCH,
+    }
+}
+
+fn score_heuristic_utf8_without_bom(bytes: &[u8]) -> u8 {
+    // NUL-heavy UTF-16/UTF-32 ASCII text is technically valid UTF-8 bytes.
+    if bytes.contains(&0) {
+        return SCORE_NO_MATCH;
+    }
+
+    match std::str::from_utf8(bytes) {
+        Ok(_) => SCORE_VALID_UTF8,
+        Err(_) => SCORE_NO_MATCH,
+    }
+}
+
+/// Score UTF-16 shape; `& !1` keeps the sample aligned to full code units.
+fn score_heuristic_utf16(
+    bytes: &[u8],
+    bom: bool,
+    little_endian: bool,
+) -> u8 {
+    let payload = if bom {
+        let bom_bytes = if little_endian {
+            &BOM_UTF16LE[..]
+        } else {
+            &BOM_UTF16BE[..]
+        };
+        if !bytes.starts_with(bom_bytes) {
+            return SCORE_NO_MATCH;
+        }
+        &bytes[bom_bytes.len()..]
+    } else {
+        bytes
+    };
+
+    let sample_len = std::cmp::min(payload.len(), 256) & !1;
+    if sample_len < 16 {
+        return if bom { SCORE_BOM_ONLY } else { SCORE_NO_MATCH };
+    }
+
+    let mut pairs: usize = 0;
+    let mut expected_zero: usize = 0;
+    let mut opposite_zero: usize = 0;
+    let mut expected_texty: usize = 0;
+    let mut i = 0;
+    while i + 1 < sample_len {
+        let b0 = payload[i];
+        let b1 = payload[i + 1];
+        pairs += 1;
+
+        if little_endian {
+            if b1 == 0 {
+                expected_zero += 1;
+            }
+            if b0 == 0 {
+                opposite_zero += 1;
+            }
+            if is_texty_ascii_byte(b0) {
+                expected_texty += 1;
+            }
+        } else {
+            if b0 == 0 {
+                expected_zero += 1;
+            }
+            if b1 == 0 {
+                opposite_zero += 1;
+            }
+            if is_texty_ascii_byte(b1) {
+                expected_texty += 1;
+            }
+        }
+
+        i += 2;
+    }
+
+    let score = std::cmp::min(
+        ratio_to_score(expected_zero, pairs),
+        ratio_to_score(expected_texty, pairs),
+    );
+
+    if expected_zero * 100 < pairs * 45
+        || expected_texty * 100 < pairs * 45
+        || opposite_zero * 100 > pairs * 20
+    {
+        return if bom { SCORE_BOM_ONLY } else { SCORE_NO_MATCH };
+    }
+
+    if bom {
+        std::cmp::max(score, SCORE_BOM_ONLY)
+    } else {
+        score
+    }
+}
+
+fn score_heuristic_utf16be_with_bom(bytes: &[u8]) -> u8 {
+    score_heuristic_utf16(bytes, true, false)
+}
+
+fn score_heuristic_utf16be_without_bom(bytes: &[u8]) -> u8 {
+    score_heuristic_utf16(bytes, false, false)
+}
+
+fn score_heuristic_utf16le_with_bom(bytes: &[u8]) -> u8 {
+    score_heuristic_utf16(bytes, true, true)
+}
+
+fn score_heuristic_utf16le_without_bom(bytes: &[u8]) -> u8 {
+    score_heuristic_utf16(bytes, false, true)
+}
+
+/// Score UTF-32 shape; `& !3` keeps the sample aligned to full code units.
+fn score_heuristic_utf32(
+    bytes: &[u8],
+    bom: bool,
+    little_endian: bool,
+) -> u8 {
+    let payload = if bom {
+        let bom_bytes = if little_endian {
+            &BOM_UTF32LE[..]
+        } else {
+            &BOM_UTF32BE[..]
+        };
+        if !bytes.starts_with(bom_bytes) {
+            return SCORE_NO_MATCH;
+        }
+        &bytes[bom_bytes.len()..]
+    } else {
+        bytes
+    };
+
+    let sample_len = std::cmp::min(payload.len(), 256) & !3;
+    if sample_len < 32 {
+        return if bom { SCORE_BOM_ONLY } else { SCORE_NO_MATCH };
+    }
+
+    let mut quads: usize = 0;
+    let mut shape: usize = 0;
+    let mut i = 0;
+    while i + 3 < sample_len {
+        let b0 = payload[i];
+        let b1 = payload[i + 1];
+        let b2 = payload[i + 2];
+        let b3 = payload[i + 3];
+        quads += 1;
+
+        if little_endian {
+            if is_texty_ascii_byte(b0) && b1 == 0 && b2 == 0 && b3 == 0 {
+                shape += 1;
+            }
+        } else if b0 == 0 && b1 == 0 && b2 == 0 && is_texty_ascii_byte(b3) {
+            shape += 1;
+        }
+
+        i += 4;
+    }
+
+    let score = ratio_to_score(shape, quads);
+    if shape * 100 < quads * 45 {
+        return if bom { SCORE_BOM_ONLY } else { SCORE_NO_MATCH };
+    }
+
+    if bom {
+        std::cmp::max(score, SCORE_BOM_ONLY)
+    } else {
+        score
+    }
+}
+
+fn score_heuristic_utf32be_with_bom(bytes: &[u8]) -> u8 {
+    score_heuristic_utf32(bytes, true, false)
+}
+
+fn score_heuristic_utf32be_without_bom(bytes: &[u8]) -> u8 {
+    score_heuristic_utf32(bytes, false, false)
+}
+
+fn score_heuristic_utf32le_with_bom(bytes: &[u8]) -> u8 {
+    score_heuristic_utf32(bytes, true, true)
+}
+
+fn score_heuristic_utf32le_without_bom(bytes: &[u8]) -> u8 {
+    score_heuristic_utf32(bytes, false, true)
+}
+
+/// Detect text encoding from raw bytes.
+///
+/// Returns `None` for empty input.
+/// Defaults non-empty unknown input to UTF-8/ASCII.
+///
+/// Fast-path detection detection for UTF-8/ASCII as it is by far
+/// the most common text encoding for log files.
+pub fn detect_filetype_text_encoding(bytes: &[u8]) -> Option<FileTypeTextEncoding> {
+    defn!("(bytes.len() {})", bytes.len());
+    if bytes.is_empty() {
+        defx!("empty bytes");
+        return None;
+    }
+
+    // fast-path for UTF-8 detections
+
+    let utf8_bom_score = score_heuristic_utf8_with_bom(bytes);
+    if utf8_bom_score >= SCORE_UTF8_FAST_PATH_MIN {
+        defx!("heuristic UTF-8 BOM score {}", utf8_bom_score);
+        return Some(FileTypeTextEncoding::Utf8BOM);
+    }
+
+    let utf8_score = score_heuristic_utf8_without_bom(bytes);
+    if utf8_score >= SCORE_UTF8_FAST_PATH_MIN {
+        defx!("heuristic UTF-8 score {}", utf8_score);
+        return Some(FileTypeTextEncoding::Utf8Ascii);
+    }
+
+    let candidates = [
+        (
+            FileTypeTextEncoding::Utf32leBOM,
+            score_heuristic_utf32le_with_bom(bytes),
+            80_u8,
+        ),
+        (
+            FileTypeTextEncoding::Utf32beBOM,
+            score_heuristic_utf32be_with_bom(bytes),
+            79_u8,
+        ),
+        (
+            FileTypeTextEncoding::Utf16leBOM,
+            score_heuristic_utf16le_with_bom(bytes),
+            70_u8,
+        ),
+        (
+            FileTypeTextEncoding::Utf16beBOM,
+            score_heuristic_utf16be_with_bom(bytes),
+            69_u8,
+        ),
+        (
+            FileTypeTextEncoding::Utf32le,
+            score_heuristic_utf32le_without_bom(bytes),
+            60_u8,
+        ),
+        (
+            FileTypeTextEncoding::Utf32be,
+            score_heuristic_utf32be_without_bom(bytes),
+            59_u8,
+        ),
+        (
+            FileTypeTextEncoding::Utf16le,
+            score_heuristic_utf16le_without_bom(bytes),
+            50_u8,
+        ),
+        (
+            FileTypeTextEncoding::Utf16be,
+            score_heuristic_utf16be_without_bom(bytes),
+            49_u8,
+        ),
+    ];
+
+    let (best_encoding, best_score, _best_priority) = candidates
+        .iter()
+        .copied()
+        .max_by_key(|(_encoding, score, priority)| (*score, *priority))
+        .unwrap();
+    if best_score >= SCORE_DIRECT_MIN {
+        defx!(
+            "heuristic {:?} score {}",
+            best_encoding,
+            best_score,
+        );
+        return Some(best_encoding);
+    }
+
+    // Statistical detection using `chardet`.
+    let (charset, _confidence, _language) = detect(bytes);
+    let charset_norm = charset
+        .to_ascii_uppercase()
+        .chars()
+        .filter(|c| c.is_ascii_alphanumeric())
+        .collect::<String>();
+
+    defx!(
+        "chardet.detect: charset {:?}, confidence {}, language {:?}",
+        charset,
+        _confidence,
+        _language,
+    );
+
+    match charset_norm.as_str() {
+        "UTF16BE" | "UCS2BE" => Some(FileTypeTextEncoding::Utf16be),
+        "UTF16" | "UTF16LE" | "UCS2" | "UCS2LE" => Some(FileTypeTextEncoding::Utf16le),
+        "UTF32BE" | "UCS4BE" => Some(FileTypeTextEncoding::Utf32be),
+        "UTF32" | "UTF32LE" | "UCS4" | "UCS4LE" => Some(FileTypeTextEncoding::Utf32le),
+        "UTF8" | "ASCII" => Some(FileTypeTextEncoding::Utf8Ascii),
+        _ => Some(FileTypeTextEncoding::Utf8Ascii),
+    }
+}
 
 // ----------------
 // FilePreProcessor
@@ -405,7 +737,7 @@ fn pathbuf_to_filetype_impl(
             let ret = PathToFiletypeResult::Filetype(
                 FileType::Text {
                     archival_type: FileTypeArchive::Gz,
-                    encoding_type: FileTypeTextEncoding::Utf16,
+                    encoding_type: FileTypeTextEncoding::Utf16le,
                 }
             );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
@@ -479,10 +811,13 @@ fn pathbuf_to_filetype_impl(
         | "txt"
         | "text"
         => {
+            // This `FileTypeTextEncoding` value may be updated later during
+            // function `blockzero_analysis`.
+            let encoding_type = FileTypeTextEncoding::Utf8Ascii;
             let ret = PathToFiletypeResult::Filetype(
                 FileType::Text {
                     archival_type: fta,
-                    encoding_type: FileTypeTextEncoding::Utf8Ascii,
+                    encoding_type,
                 }
             );
             defx!("matched file_suffix {:?}; return {:?}", file_suffix, ret);
@@ -1274,12 +1609,12 @@ pub fn process_path(
             | FileType::Journal{ archival_type: FileTypeArchive::Tar }
             | FileType::Journal{ archival_type: FileTypeArchive::Xz }
             | FileType::Odl{ archival_type: FileTypeArchive::Normal, odl_sub_type: _ }
-            | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-            | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-            | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-            | FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-            | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf8Ascii }
-            | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf8Ascii }
+            | FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: _ }
+            | FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: _ }
+            | FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: _ }
+            | FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: _ }
+            | FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: _ }
+            | FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: _ }
             => {
                 deo!("paths.push(FileValid(({:?}, {:?})))", fpath_entry, filetype);
                 paths.push(ProcessPathResult::FileValid(fpath_entry, filetype));
@@ -1294,29 +1629,6 @@ pub fn process_path(
                 paths.push(ProcessPathResult::FileErrNotSupported(
                     fpath_entry,
                     Some(format!("Compressed ODL {}", ft.archival_type())),
-                ));
-            }
-            ft @ FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf16 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Normal, encoding_type: FileTypeTextEncoding::Utf32 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: FileTypeTextEncoding::Utf16 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Bz2, encoding_type: FileTypeTextEncoding::Utf32 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf16 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Gz, encoding_type: FileTypeTextEncoding::Utf32 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf16 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Lz4, encoding_type: FileTypeTextEncoding::Utf32 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf16 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Tar, encoding_type: FileTypeTextEncoding::Utf32 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf16 }
-            | ft @ FileType::Text{ archival_type: FileTypeArchive::Xz, encoding_type: FileTypeTextEncoding::Utf32 }
-            => {
-                let et: String = match ft.encoding_type() {
-                    Some(e) => e.to_string(),
-                    None => String::from(""),
-                };
-                deo!("Text encoding {} not supported {:?}", et, std_path_entry);
-                paths.push(ProcessPathResult::FileErrNotSupported(
-                    fpath_entry,
-                    Some(format!("Encoding {}", et)),
                 ));
             }
             FileType::Unparsable

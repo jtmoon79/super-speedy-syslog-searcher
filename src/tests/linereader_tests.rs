@@ -8,6 +8,7 @@
 #![allow(non_upper_case_globals)]
 #![allow(clippy::too_many_arguments)]
 
+use ::lazy_static::lazy_static;
 use ::more_asserts::{
     assert_ge,
     assert_le,
@@ -23,13 +24,17 @@ use ::si_trace_print::stack::{
     stack_offset_set,
     sx,
 };
-use ::test_case::test_case;
+use ::test_case::{
+    test_case,
+    test_matrix,
+};
 
 use crate::common::{
     Bytes,
     Count,
     FPath,
     FileOffset,
+    FileTypeTextEncoding,
     summary_stats_enable,
 };
 use crate::data::line::{
@@ -43,9 +48,9 @@ use crate::debug::helpers::{
     ntf_fpath,
 };
 use crate::debug::printers::{
-    buffer_to_String_noraw,
+    buffer_to_string_noraw,
     byte_to_char_noraw,
-    str_to_String_noraw,
+    str_to_string_noraw,
 };
 use crate::readers::blockreader::BlockSz;
 use crate::readers::filepreprocessor::{
@@ -64,6 +69,10 @@ use crate::readers::linereader::{
 use crate::tests::common::{
     eprint_file,
     fill,
+    encode_utf16be,
+    encode_utf16le,
+    encode_utf32be,
+    encode_utf32le,
     FILETYPE_UTF8,
     NTF_LOG_EMPTY_FPATH,
     NTF_NL_1_PATH,
@@ -72,6 +81,32 @@ use crate::tests::common::{
     NTF_NL_4_PATH,
     NTF_NL_5_PATH,
     NTF_SYSLINE_2_PATH,
+    FILE_UTF16LE_ABC_FPATH,
+    FILE_UTF16LE_ABC_NL_FPATH,
+    FILE_UTF16LE_ABC_NL_DEF_FPATH,
+    FILE_UTF16LE_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF16BE_ABC_FPATH,
+    FILE_UTF16BE_ABC_NL_FPATH,
+    FILE_UTF16BE_ABC_NL_DEF_FPATH,
+    FILE_UTF16BE_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF32BE_ABC_FPATH,
+    FILE_UTF32BE_ABC_NL_FPATH,
+    FILE_UTF32BE_ABC_NL_DEF_FPATH,
+    FILE_UTF32BE_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF32LE_ABC_FPATH,
+    FILE_UTF32LE_ABC_NL_FPATH,
+    FILE_UTF32LE_ABC_NL_DEF_FPATH,
+    FILE_UTF32LE_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF32LE_BOM_ABC_FPATH,
+    FILE_UTF32BE_BOM_ABC_FPATH,
+    FILE_UTF16LE_BOM_ABC_FPATH,
+    FILE_UTF16BE_BOM_ABC_FPATH,
+    FILE_UTF8_ABC_FPATH,
+    FILE_UTF8_ABC_NL_FPATH,
+    FILE_UTF8_ABC_NL_DEF_FPATH,
+    FILE_UTF8_ABC_NL_DEF_NL_FPATH,
+    FILE_UTF8_BOM_ABC_FPATH,
+    FILE_UTF16LE_SYSLINE_2,
 };
 
 /// dummy version of `ResultFindLine` for asserting return enum of
@@ -86,6 +121,17 @@ enum ResultFindLine_Test {
 // helpful abbreviations
 const RS3T_DONE: ResultFindLine_Test = ResultFindLine_Test::Done;
 const RS3T_FOUND: ResultFindLine_Test = ResultFindLine_Test::Found;
+
+const UTF_8: FileTypeTextEncoding = FileTypeTextEncoding::Utf8Ascii;
+const UTF_8_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf8BOM;
+const UTF_16LE: FileTypeTextEncoding = FileTypeTextEncoding::Utf16le;
+const UTF_16LE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf16leBOM;
+const UTF_16BE: FileTypeTextEncoding = FileTypeTextEncoding::Utf16be;
+const UTF_16BE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf16beBOM;
+const UTF_32LE: FileTypeTextEncoding = FileTypeTextEncoding::Utf32le;
+const UTF_32LE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf32leBOM;
+const UTF_32BE: FileTypeTextEncoding = FileTypeTextEncoding::Utf32be;
+const UTF_32BE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf32beBOM;
 
 // -------------------------------------------------------------------------------------------------
 
@@ -168,7 +214,7 @@ fn process_LineReader(lr1: &mut LineReader) {
                     count,
                     &*lp,
                     (*lp).len(),
-                    (*lp).to_String_noraw()
+                    (*lp).to_string_noraw()
                 );
                 fo1 = fo;
                 (*lp).print(false);
@@ -202,7 +248,7 @@ fn do_test_LineReader_count(
     let ntf = create_temp_file(data);
     let path = ntf_fpath(&ntf);
     let mut lr1 = new_LineReader(&path, blocksz);
-    let bufnoraw = buffer_to_String_noraw(data.as_bytes());
+    let bufnoraw = buffer_to_string_noraw(data.as_bytes());
     defo!("File {:?}", bufnoraw);
     process_LineReader(&mut lr1);
     let lc = lr1.count_lines_processed();
@@ -302,7 +348,7 @@ fn find_line_all(
                     _ln,
                     &*lp,
                     (*lp).len(),
-                    (*lp).to_String_noraw()
+                    (*lp).to_string_noraw()
                 );
             }
             ResultFindLine::Done => {
@@ -348,14 +394,14 @@ fn compare_file_linereader(
         "{}contents_file ({} lines):\n───────────────────────\n{}\n───────────────────────\n",
         so(),
         contents_file_count,
-        str_to_String_noraw(contents_file.as_str()),
+        str_to_string_noraw(contents_file.as_str()),
     );
 
     eprintln!(
         "{}contents_lr ({} lines processed):\n───────────────────────\n{}\n───────────────────────\n",
         so(),
         linereader.count_lines_processed(),
-        str_to_String_noraw(contents_lr.as_str()),
+        str_to_string_noraw(contents_lr.as_str()),
     );
 
     let mut i: usize = 0;
@@ -715,14 +761,6 @@ fn test_LineReader_half_even_4_sparse1_0x4() {
 }
 
 #[test]
-fn test_LineReader_half_even_4_sparse1_0x2() {
-    let data: &str = "a\nb\nc\nd ";
-    let ntf = create_temp_file(data);
-    let fpath = ntf_fpath(&ntf);
-    test_LineReader_half_even(&fpath, 0x2);
-}
-
-#[test]
 fn test_LineReader_half_even_4_sparse2_0x4() {
     let data: &str = "\na\nb\nc\nd ";
     let ntf = create_temp_file(data);
@@ -755,11 +793,11 @@ fn test_LineReader_half_even_4_sparse2_0xA() {
 }
 
 #[test]
-fn test_LineReader_half_even_4_sparse2_0x2() {
+fn test_LineReader_half_even_4_sparse2_0x5() {
     let data: &str = "\na\nb\nc\nd ";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    test_LineReader_half_even(&fpath, 0x2);
+    test_LineReader_half_even(&fpath, 0x5);
 }
 
 #[test]
@@ -1018,7 +1056,7 @@ fn test_LineReader_precise_order(
         eprintln!("{}  Line@{:02}: {:?}", so(), fo, linep);
         let slices_ = (*linep).get_slices();
         for (count_, slice_) in slices_.iter().enumerate() {
-            eprintln!("{}    LinePart {}: {:?}", so(), count_, buffer_to_String_noraw(slice_));
+            eprintln!("{}    LinePart {}: {:?}", so(), count_, buffer_to_string_noraw(slice_));
         }
     }
 
@@ -1245,7 +1283,7 @@ fn find_line_in_block_all(
                     _ln,
                     &*lp,
                     (*lp).len(),
-                    (*lp).to_String_noraw()
+                    (*lp).to_string_noraw()
                 );
                 assert!(partial.is_none());
             }
@@ -1326,23 +1364,18 @@ fn test_find_line_in_block_all_nl5() {
 }
 
 #[test]
-fn test_find_line_in_block_all_nl2_2() {
-    test_find_line_in_block_all(&NTF_NL_2_PATH, true, 2);
+fn test_find_line_in_block_all_nl2_4() {
+    test_find_line_in_block_all(&NTF_NL_2_PATH, true, 4);
 }
 
 #[test]
-fn test_find_line_in_block_all_nl3_2() {
-    test_find_line_in_block_all(&NTF_NL_3_PATH, true, 2);
+fn test_find_line_in_block_all_nl3_4() {
+    test_find_line_in_block_all(&NTF_NL_3_PATH, true, 4);
 }
 
 #[test]
-fn test_find_line_in_block_all_nl4_2() {
-    test_find_line_in_block_all(&NTF_NL_4_PATH, true, 2);
-}
-
-#[test]
-fn test_find_line_in_block_all_nl5_2() {
-    test_find_line_in_block_all(&NTF_NL_5_PATH, true, 2);
+fn test_find_line_in_block_all_nl4_4() {
+    test_find_line_in_block_all(&NTF_NL_4_PATH, true, 4);
 }
 
 #[test]
@@ -1351,11 +1384,11 @@ fn test_find_line_in_block_all_nl5_4() {
 }
 
 #[test]
-fn test_find_line_in_block_all_5_2() {
+fn test_find_line_in_block_all_5_8() {
     let data: &str = "a\nb\nc\nd\ne\n";
     let ntf = create_temp_file(data);
     let fpath = ntf_fpath(&ntf);
-    test_find_line_in_block_all(&fpath, true, 2);
+    test_find_line_in_block_all(&fpath, true, 8);
 }
 
 #[test]
@@ -1368,6 +1401,8 @@ fn test_find_line_in_block_all_5_4() {
 
 // -------------------------------------------------------------------------------------------------
 
+/// each entry is
+/// `(find_line_in_block fileoffset, (Result Expect, Partial Value Expect, Value Expect)`
 type TestFindLineInBlockCheck = Vec<(FileOffset, (ResultFindLine_Test, Option<&'static str>), String)>;
 
 /// test `LineReader::find_line_in_block` reads passed file offsets
@@ -1376,12 +1411,12 @@ fn test_find_line_in_block(
     path: &FPath,
     cache_enabled: bool,
     blocksz: BlockSz,
+    encoding: FileTypeTextEncoding,
     in_out: &TestFindLineInBlockCheck,
 ) {
     stack_offset_set(Some(2));
     eprintln!(
-        "{}test_find_line_in_block({:?}, {:?}, {:?}, {:?})",
-        sn(),
+        "test_find_line_in_block({:?}, {:?}, {:?}, {:?})",
         &path,
         cache_enabled,
         blocksz,
@@ -1392,92 +1427,91 @@ fn test_find_line_in_block(
     if !cache_enabled {
         lr1.LRU_cache_disable();
     }
+    lr1.filetype_text_encoding_update(encoding);
 
+    let mut i = 0;
     for (fo_in, (rs4_expect, partial_expect), str_expect) in in_out.iter() {
-        eprintln!("{}LineReader.find_line_in_block({})", so(), fo_in);
+        i += 1;
+        eprintln!("LineReader.find_line_in_block({}) (check {i})", fo_in);
+        eprintln!("Blocksz       {:?}", blocksz);
+        eprintln!("expect Result {:?}", rs4_expect);
+        eprintln!("expect Value  {:?}", str_expect);
+        eprintln!("expect Partial Result {:?}", partial_expect);
         let result = lr1.find_line_in_block(*fo_in);
         match result {
             (ResultFindLine::Found((fo, lp)), partial_actual) => {
                 let _ln = lr1.count_lines_processed();
                 eprintln!(
-                    "{}ResultFindLine::Found!    FileOffset {} line num {} Line @{:p}: len {} {:?}",
+                    "{}ResultFindLine::Found! (check {i})    FileOffset {} line num {} Line @{:p}: len {} {:?}",
                     so(),
                     fo,
                     _ln,
                     &*lp,
                     (*lp).len(),
-                    (*lp).to_String_noraw()
+                    (*lp).to_string_noraw()
                 );
                 let str_actual = (*lp).to_String();
                 assert_eq!(
                     &str_actual, str_expect,
-                    "find_line_in_block({})\nexpect {:?}\nactual {:?}\n",
+                    "find_line_in_block({}) (check {i})\nexpect {:?}\nactual {:?}\n",
                     *fo_in, str_expect, str_actual,
                 );
-                assert_eq!(rs4_expect, &RS3T_FOUND, "Expected {:?}, got Found", rs4_expect);
-                assert!(partial_actual.is_none(), "unexpected partial for result Found");
-                assert!(partial_expect.is_none(), "bad test check for partial");
+                assert_eq!(rs4_expect, &RS3T_FOUND, "Expected {:?}, got Found (check {i})", rs4_expect);
+                assert!(partial_actual.is_none(), "unexpected partial for result Found (check {i})");
+                assert!(partial_expect.is_none(), "bad test check for partial (check {i})");
             }
             (ResultFindLine::Done, partial_actual) => {
-                eprintln!("{}ResultFindLine::Done, {:?}", so(), partial_actual);
+                eprintln!("ResultFindLine::Done, partial_actual={:?}", partial_actual);
                 assert_eq!(
                     &"",
                     &str_expect.as_str(),
-                    "find_line_in_block({}) returned Done\nexpected {:?}\n",
+                    "find_line_in_block({}) returned Done (check {i})\nexpected value {:?}\ngot value      \"\"\n",
                     *fo_in,
                     str_expect,
                 );
-                assert_eq!(rs4_expect, &RS3T_DONE, "Expected {:?}, got Done", rs4_expect);
+                assert_eq!(rs4_expect, &RS3T_DONE, "Expected {:?}, got Done (check {i})", rs4_expect);
                 match partial_actual {
                     Some(line) => {
                         assert!(partial_expect.is_some(),
-                            "expected partial None but actual partial is Some(line: {:?})",
-                            line.to_String_noraw(),
+                            "expected partial None but actual partial is Some(line: {:?}) (check {i})",
+                            line.to_string_noraw(),
                         );
                         let sa = line.to_String();
                         let se = partial_expect.unwrap();
                         assert_eq!(sa.as_str(), se,
-                            "\n  expected partial {:?}\n  actual {:?}\n",
+                            "\n  expected partial {:?}\n  actual {:?} (check {i})\n",
                             se, sa,
                         );
                     }
                     None => {
-                        assert!(partial_expect.is_none(), "result partial is None but expected {:?}", partial_expect);
+                        assert!(partial_expect.is_none(), "result partial is None but expected {:?} (check {i})", partial_expect);
                     }
                 }
             }
             (ResultFindLine::Err(err), _) => {
-                eprintln!("{}ResultFindLine::Err {}", so(), err);
-                panic!("ERROR: find_line_in_block({:?}) {:?}", fo_in, err);
+                eprintln!("ResultFindLine::Err {} (check {i})", err);
+                panic!("ERROR: find_line_in_block({:?}) {:?} (check {i})", fo_in, err);
             }
         }
+        eprintln!("\n");
     }
 
-    eprintln!("\n{}{:?}\n", so(), lr1);
-
-    //for (fo, linep) in lr1.lines.iter() {
-    //    eprintln!("{}  Line@{:02}: {:?}", so(), fo, linep);
-    //    for linepart in (*linep).lineparts.iter() {
-    //        eprintln!("{}    LinePart: {:?} {:?}", so(), linepart, linepart.to_String_noraw());
-    //    }
-    //}
-
-    eprintln!("{}test_find_line_in_block()", sx());
+    eprintln!("\n{:?}\n", lr1);
 }
 
 #[test]
 fn test_find_line_in_block_empty0_bszFF() {
-    let in_out: TestFindLineInBlockCheck = vec![(0, (RS3T_DONE, None), String::from(""))];
-    test_find_line_in_block(&*NTF_LOG_EMPTY_FPATH, true, 0xFF, &in_out);
+    let in_out: TestFindLineInBlockCheck = vec![(0, (RS3T_DONE, None), ES.clone())];
+    test_find_line_in_block(&*NTF_LOG_EMPTY_FPATH, true, 0xFF, UTF_8, &in_out);
 }
 
 #[test]
 fn test_find_line_in_block_nl1_bszFF() {
     let in_out: TestFindLineInBlockCheck = vec![
         (0, (RS3T_FOUND, None), String::from("\n")),
-        (1, (RS3T_DONE, None), String::from("")),
+        (1, (RS3T_DONE, None), ES.clone()),
     ];
-    test_find_line_in_block(&NTF_NL_1_PATH, true, 0xFF, &in_out);
+    test_find_line_in_block(&NTF_NL_1_PATH, true, 0xFF, UTF_8, &in_out);
 }
 
 #[test]
@@ -1485,9 +1519,9 @@ fn test_find_line_in_block_nl2_bszFF() {
     let in_out: TestFindLineInBlockCheck = vec![
         (0, (RS3T_FOUND, None), String::from("\n")),
         (1, (RS3T_FOUND, None), String::from("\n")),
-        (2, (RS3T_DONE, None), String::from("")),
+        (2, (RS3T_DONE, None), ES.clone()),
     ];
-    test_find_line_in_block(&NTF_NL_2_PATH, true, 0xFF, &in_out);
+    test_find_line_in_block(&NTF_NL_2_PATH, true, 0xFF, UTF_8, &in_out);
 }
 
 #[test]
@@ -1502,10 +1536,10 @@ fn test_find_line_in_block_1_bszFF() {
         (3, (RS3T_FOUND, None), String::from("abcdef")),
         (4, (RS3T_FOUND, None), String::from("abcdef")),
         (5, (RS3T_FOUND, None), String::from("abcdef")),
-        (6, (RS3T_DONE, None), String::from("")),
-        (7, (RS3T_DONE, None), String::from("")),
+        (6, (RS3T_DONE, None), ES.clone()),
+        (7, (RS3T_DONE, None), ES.clone()),
     ];
-    test_find_line_in_block(&fpath, true, 0xFF, &in_out);
+    test_find_line_in_block(&fpath, true, 0xFF, UTF_8, &in_out);
 }
 
 #[test]
@@ -1517,9 +1551,9 @@ fn test_find_line_in_block_2_bszFF() {
         (0, (RS3T_FOUND, None), String::from("a\n")),
         (1, (RS3T_FOUND, None), String::from("a\n")),
         (2, (RS3T_FOUND, None), String::from("b")),
-        (3, (RS3T_DONE, None), String::from("")),
+        (3, (RS3T_DONE, None), ES.clone()),
     ];
-    test_find_line_in_block(&fpath, true, 0xFF, &in_out);
+    test_find_line_in_block(&fpath, true, 0xFF, UTF_8, &in_out);
 }
 
 #[test]
@@ -1533,9 +1567,9 @@ fn test_find_line_in_block_3_bszFF() {
         (2, (RS3T_FOUND, None), String::from("b\n")),
         (3, (RS3T_FOUND, None), String::from("b\n")),
         (4, (RS3T_FOUND, None), String::from("c")),
-        (5, (RS3T_DONE, None), String::from("")),
+        (5, (RS3T_DONE, None), ES.clone()),
     ];
-    test_find_line_in_block(&fpath, true, 0xFF, &in_out);
+    test_find_line_in_block(&fpath, true, 0xFF, UTF_8, &in_out);
 }
 
 #[test]
@@ -1552,46 +1586,9 @@ fn test_find_line_in_block_4_bszFF() {
         (5, (RS3T_FOUND, None), String::from("c\n")),
         (6, (RS3T_FOUND, None), String::from("d\n")),
         (7, (RS3T_FOUND, None), String::from("d\n")),
-        (8, (RS3T_DONE, None), String::from("")),
+        (8, (RS3T_DONE, None), ES.clone()),
     ];
-    test_find_line_in_block(&fpath, true, 0xFF, &in_out);
-}
-
-#[test]
-fn test_find_line_in_block_4x2_bsz2() {
-    let data: &str = "abc\ndef\n";
-    let ntf = create_temp_file(data);
-    let fpath = ntf_fpath(&ntf);
-    let in_out: TestFindLineInBlockCheck = vec![
-        (0, (RS3T_DONE, Some("a")), String::from("")),
-        (1, (RS3T_DONE, Some("ab")), String::from("")),
-        (2, (RS3T_DONE, None), String::from("")),
-        (3, (RS3T_DONE, None), String::from("")),
-        (4, (RS3T_DONE, None), String::from("")),
-        (5, (RS3T_DONE, None), String::from("")),
-        (6, (RS3T_DONE, None), String::from("")),
-        (7, (RS3T_DONE, None), String::from("")),
-        (8, (RS3T_DONE, None), String::from("")),
-    ];
-    test_find_line_in_block(&fpath, true, 2, &in_out);
-}
-
-#[test]
-fn test_find_line_in_block_4x2_bsz3() {
-    let data: &str = "abc\ndef\n";
-    let ntf = create_temp_file(data);
-    let fpath = ntf_fpath(&ntf);
-    let in_out: TestFindLineInBlockCheck = vec![
-        (0, (RS3T_DONE, Some("a")), String::from("")),
-        (1, (RS3T_DONE, Some("ab")), String::from("")),
-        (2, (RS3T_DONE, Some("abc")), String::from("")),
-        (3, (RS3T_DONE, None), String::from("")),
-        (4, (RS3T_DONE, Some("d")), String::from("")),
-        (5, (RS3T_DONE, Some("de")), String::from("")),
-        (6, (RS3T_DONE, None), String::from("")),
-        (7, (RS3T_DONE, None), String::from("")),
-    ];
-    test_find_line_in_block(&fpath, true, 3, &in_out);
+    test_find_line_in_block(&fpath, true, 0xFF, UTF_8, &in_out);
 }
 
 #[test]
@@ -1609,7 +1606,7 @@ fn test_find_line_in_block_4x2_bsz4() {
         (6, (RS3T_FOUND, None), String::from("def\n")),
         (7, (RS3T_FOUND, None), String::from("def\n")),
     ];
-    test_find_line_in_block(&fpath, true, 4, &in_out);
+    test_find_line_in_block(&fpath, true, 4, UTF_8, &in_out);
 }
 
 #[test]
@@ -1622,13 +1619,12 @@ fn test_find_line_in_block_4x2_bsz5() {
         (1, (RS3T_FOUND, None), String::from("abc\n")),
         (2, (RS3T_FOUND, None), String::from("abc\n")),
         (3, (RS3T_FOUND, None), String::from("abc\n")),
-        (4, (RS3T_DONE, Some("d")), String::from("")),
-        (5, (RS3T_DONE, None), String::from("")),
-        (6, (RS3T_DONE, None), String::from("")),
-        (7, (RS3T_DONE, None), String::from("")),
-        (8, (RS3T_DONE, None), String::from("")),
+        (4, (RS3T_FOUND, None), String::from("def\n")),
+        (5, (RS3T_FOUND, None), String::from("def\n")),
+        (6, (RS3T_FOUND, None), String::from("def\n")),
+        (7, (RS3T_FOUND, None), String::from("def\n")),
     ];
-    test_find_line_in_block(&fpath, true, 5, &in_out);
+    test_find_line_in_block(&fpath, true, 5, UTF_8, &in_out);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1678,7 +1674,7 @@ fn test_Line_get_boxptrs(
         let linep: LineP = lr
             .get_linep(fileoffset)
             .unwrap();
-        eprintln!("{}{}: returned {:?}", so(), fn_, (*linep).to_String_noraw());
+        eprintln!("{}{}: returned {:?}", so(), fn_, (*linep).to_string_noraw());
         eprintln!("{}{}: line.get_boxptrs({}, {})", so(), fn_, a, b);
         let boxptrs = match (*linep).get_boxptrs(*a, *b) {
             LinePartPtrs::NoPtr => {
@@ -1711,7 +1707,7 @@ fn test_Line_get_boxptrs(
                     byte_to_char_noraw(*byte_),
                     byte_to_char_noraw(*byte_check)
                 );
-                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segment {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_String_noraw(boxptr), (*linep).to_String_noraw());
+                assert_eq!(byte_, byte_check, "byte {} from boxptr {:?} ≠ {:?} ({:?} ≠ {:?}) check value; returned boxptr segment {:?} Line {:?}", at, byte_, byte_check, byte_to_char_noraw(*byte_), byte_to_char_noraw(*byte_check), buffer_to_string_noraw(boxptr), (*linep).to_string_noraw());
                 at += 1;
             }
         }
@@ -1953,50 +1949,332 @@ fn test_Line_get_boxptrs_2_bsz_0x4() {
     test_Line_get_boxptrs_2_(0x4);
 }
 
-#[test]
-fn test_Line_get_boxptrs_2_bsz_0x3() {
-    test_Line_get_boxptrs_2_(0x3);
-}
+/* file dtf5-6b.log content:
+
+2000-01-01 00:00:00 [dtf5-6b]6b
+6b
+2000-01-01 00:00:01 [dtf5-6b]6b-a
+6b-a
+2000-01-01 00:00:02 [dtf5-6b]6b-ab
+6b-ab
+2000-01-01 00:00:03 [dtf5-6b]6b-abc
+6b-abc
+2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+6b-abcd
+2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+6b-abcde
+
+*/
 
 #[test]
-fn test_Line_get_boxptrs_2_bsz_0x2() {
-    test_Line_get_boxptrs_2_(0x2);
+fn test_simple_processing_different_utf() {
+    let fpath: FPath = path_to_fpath(&FILE_UTF16LE_SYSLINE_2);
+    let mut linereader = new_LineReader(&fpath, 0x4);
+    linereader.filetype_text_encoding_update(FileTypeTextEncoding::Utf16le);
+    let mut fo: FileOffset = 0;
+    loop {
+        match linereader.find_line(fo) {
+            ResultFindLine::Found((fo_, _)) => {
+                fo = fo_;
+            }
+            ResultFindLine::Done => {
+                break;
+            }
+            ResultFindLine::Err(err) => {
+                panic!("LineReader::new({:?}, {:?}) ResultFindLine::Err {}", fpath, 0x2, err);
+            }
+        }
+    }
 }
 
-/// test `LineReader::summary` before doing any processing
+lazy_static::lazy_static! {
+    static ref ES: String = String::with_capacity(0);
+}
+
+// FILE_UTF8_ABC_FPATH
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc"); "UTF8 ABC 4 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc"); "UTF8 ABC 4 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc"); "UTF8 ABC 4 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 3, RS3T_DONE, None, ES.clone(); "UTF8 ABC 4 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_FPATH, 4, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC 4 4")]
+// FILE_UTF8_ABC_NL_FPATH
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL 4 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL 4 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL 4 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL 4 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL 4 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_FPATH, 4, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL 4 5")]
+// FILE_UTF8_ABC_NL_DEF_FPATH
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 4 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 4 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 4 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 4 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 4, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 4 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 5 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 5 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 5 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 5 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 5, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 5 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 6 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 6 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 6 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 6 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 6, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 6 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 7 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 7 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 7 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 7 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 7, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 7 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 8 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 8 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 8 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF 8 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 4, RS3T_FOUND, None, String::from("def"); "UTF8 ABC NL DEF 8 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 5, RS3T_FOUND, None, String::from("def"); "UTF8 ABC NL DEF 8 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 6, RS3T_FOUND, None, String::from("def"); "UTF8 ABC NL DEF 8 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 8 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, 8, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF 8 8")]
+// FILE_UTF8_ABC_NL_DEF_NL_FPATH
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 4 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 4 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 4 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 4 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 4, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 4 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 5 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 5 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 5 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 5 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 5, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 5 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 6 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 6 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 6 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 6 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 6, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 6 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 7 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 7 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 7 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 7 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 4, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 5, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 6, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 7, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 7, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 7 9")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 0, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 8 0")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 1, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 8 1")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 2, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 8 2")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 3, RS3T_FOUND, None, String::from("abc\n"); "UTF8 ABC NL DEF NL 8 3")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 4, RS3T_FOUND, None, String::from("def\n"); "UTF8 ABC NL DEF NL 8 4")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 5, RS3T_FOUND, None, String::from("def\n"); "UTF8 ABC NL DEF NL 8 5")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 6, RS3T_FOUND, None, String::from("def\n"); "UTF8 ABC NL DEF NL 8 6")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 7, RS3T_FOUND, None, String::from("def\n"); "UTF8 ABC NL DEF NL 8 7")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 8, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 8 8")]
+#[test_case(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, 8, 9, RS3T_DONE, None, ES.clone(); "UTF8 ABC NL DEF NL 8 9")]
+fn test_find_line_in_block_utf(
+    encoding: FileTypeTextEncoding,
+    fpath: &FPath,
+    blocksz: BlockSz,
+    fileoffset: FileOffset,
+    expect_result: ResultFindLine_Test,
+    expect_partial: Option<&'static str>,
+    expect_str: String,
+) {
+    let in_out: TestFindLineInBlockCheck = vec![
+        (fileoffset, (expect_result, expect_partial), expect_str),
+    ];
+    test_find_line_in_block(fpath, true, blocksz, encoding, &in_out);
+}
+
+const UTF8_BOM_ABC_BYTES: [u8; 6] = [0xEF, 0xBB, 0xBF, b'a', b'b', b'c'];
+const UTF16BE_BOM_ABC_BYTES: [u8; 8] = [0xFE, 0xFF, 0x00, b'a', 0x00, b'b', 0x00, b'c'];
+const UTF16LE_BOM_ABC_BYTES: [u8; 8] = [0xFF, 0xFE, b'a', 0x00, b'b', 0x00, b'c', 0x00];
+const UTF32BE_BOM_ABC_BYTES: [u8; 16] = [0x00, 0x00, 0xFE, 0xFF, 0x00, 0x00, 0x00, b'a', 0x00, 0x00, 0x00, b'b', 0x00, 0x00, 0x00, b'c'];
+const UTF32LE_BOM_ABC_BYTES: [u8; 16] = [0xFF, 0xFE, 0x00, 0x00, b'a', 0x00, 0x00, 0x00, b'b', 0x00, 0x00, 0x00, b'c', 0x00, 0x00, 0x00];
+
+lazy_static! {
+    // UTF-16BE
+    static ref ABC_UTF16BE: String = encode_utf16be("abc");
+    static ref ABC_NL_UTF16BE: String = encode_utf16be("abc\n");
+    static ref DEF_UTF16BE: String = encode_utf16be("def");
+    static ref DEF_NL_UTF16BE: String = encode_utf16be("def\n");
+    // UTF-16LE
+    static ref ABC_UTF16LE: String = encode_utf16le("abc");
+    static ref ABC_NL_UTF16LE: String = encode_utf16le("abc\n");
+    static ref DEF_UTF16LE: String = encode_utf16le("def");
+    static ref DEF_NL_UTF16LE: String = encode_utf16le("def\n");
+    // UTF-32BE
+    static ref ABC_UTF32BE: String = encode_utf32be("abc");
+    static ref ABC_NL_UTF32BE: String = encode_utf32be("abc\n");
+    static ref DEF_UTF32BE: String = encode_utf32be("def");
+    static ref DEF_NL_UTF32BE: String = encode_utf32be("def\n");
+    // UTF-32LE
+    static ref ABC_UTF32LE: String = encode_utf32le("abc");
+    static ref ABC_NL_UTF32LE: String = encode_utf32le("abc\n");
+    static ref DEF_UTF32LE: String = encode_utf32le("def");
+    static ref DEF_NL_UTF32LE: String = encode_utf32le("def\n");
+}
+
+// UTF-8
+#[test_matrix(UTF_8, &FILE_UTF8_ABC_FPATH, (4, 8, 12, 16, 20), (0, 1, 2), RS3T_FOUND, "abc", &[])]
+#[test_matrix(UTF_8, &FILE_UTF8_ABC_FPATH, (4, 20), 3, RS3T_DONE, "", &[])]
+#[test_matrix(UTF_8, &FILE_UTF8_ABC_NL_FPATH, (4, 8, 12, 16, 20), (0, 1, 2, 3), RS3T_FOUND, "abc\n", &[])]
+#[test_matrix(UTF_8, &FILE_UTF8_ABC_NL_FPATH, (4, 20), 4, RS3T_DONE, "", &[])]
+#[test_matrix(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, (4, 12, 20), (0, 3), RS3T_FOUND, "abc\n", &[])]
+#[test_matrix(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, (4, 12, 20), (5, 6), RS3T_FOUND, "def\n", &[])]
+#[test_matrix(UTF_8, &FILE_UTF8_ABC_NL_DEF_FPATH, (4, 50), 7, RS3T_DONE, "", &[])]
+#[test_matrix(UTF_8, &FILE_UTF8_ABC_NL_DEF_NL_FPATH, (4, 20), (5, 6), RS3T_FOUND, "def\n", &[])]
+// UTF-8 BOM
+#[test_matrix(UTF_8_BOM, &FILE_UTF8_BOM_ABC_FPATH, (4, 8, 20), (0, 5), RS3T_FOUND, "", &UTF8_BOM_ABC_BYTES)]
+#[test_matrix(UTF_8_BOM, &FILE_UTF8_BOM_ABC_FPATH, 20, 7, RS3T_DONE, "", &[])]
+// UTF-16BE
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_ABC_FPATH, (4, 30), (0, 5), RS3T_FOUND, ABC_UTF16BE.as_str(), &[])]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_ABC_NL_FPATH, (4, 30), (0, 7), RS3T_FOUND, ABC_NL_UTF16BE.as_str(), &[])]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_ABC_NL_DEF_FPATH, (4, 30), (9, 10), RS3T_FOUND, DEF_UTF16BE.as_str(), &[])]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_ABC_NL_DEF_NL_FPATH, (4, 30), 10, RS3T_FOUND, DEF_NL_UTF16BE.as_str(), &[])]
+// UTF-16BE BOM
+#[test_matrix(UTF_16BE_BOM, &FILE_UTF16BE_BOM_ABC_FPATH, (4, 30), (0, 5), RS3T_FOUND, "", &UTF16BE_BOM_ABC_BYTES)]
+// UTF-16LE
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_ABC_FPATH, (4, 30), (0, 5), RS3T_FOUND, ABC_UTF16LE.as_str(), &[])]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_ABC_NL_FPATH, (4, 30), (0, 7), RS3T_FOUND, ABC_NL_UTF16LE.as_str(), &[])]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_ABC_NL_DEF_FPATH, (4, 30), (9, 10), RS3T_FOUND, DEF_UTF16LE.as_str(), &[])]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_ABC_NL_DEF_NL_FPATH, (4, 30), 10, RS3T_FOUND, DEF_NL_UTF16LE.as_str(), &[])]
+// UTF-16LE BOM
+#[test_matrix(UTF_16LE_BOM, &FILE_UTF16LE_BOM_ABC_FPATH, (4, 30), (0, 5), RS3T_FOUND, "", &UTF16LE_BOM_ABC_BYTES)]
+// UTF-32BE
+#[test_matrix(UTF_32BE, &FILE_UTF32BE_ABC_FPATH, (4, 30), (0, 5), RS3T_FOUND, ABC_UTF32BE.as_str(), &[])]
+#[test_matrix(UTF_32BE, &FILE_UTF32BE_ABC_NL_FPATH, (4, 30), (0, 7), RS3T_FOUND, ABC_NL_UTF32BE.as_str(), &[])]
+#[test_matrix(UTF_32BE, &FILE_UTF32BE_ABC_NL_DEF_FPATH, (4, 30), (16, 17, 18, 19, 20), RS3T_FOUND, DEF_UTF32BE.as_str(), &[])]
+#[test_matrix(UTF_32BE, &FILE_UTF32BE_ABC_NL_DEF_NL_FPATH, (4, 30), 21, RS3T_FOUND, DEF_NL_UTF32BE.as_str(), &[])]
+// UTF-32BE BOM
+#[test_matrix(UTF_32BE_BOM, &FILE_UTF32BE_BOM_ABC_FPATH, (4, 30), (0, 9), RS3T_FOUND, "", &UTF32BE_BOM_ABC_BYTES)]
+// UTF-32LE
+#[test_matrix(UTF_32LE, &FILE_UTF32LE_ABC_FPATH, (4, 30), (0, 5), RS3T_FOUND, ABC_UTF32LE.as_str(), &[])]
+#[test_matrix(UTF_32LE, &FILE_UTF32LE_ABC_NL_FPATH, (4, 30), (0, 7), RS3T_FOUND, ABC_NL_UTF32LE.as_str(), &[])]
+#[test_matrix(UTF_32LE, &FILE_UTF32LE_ABC_NL_DEF_FPATH, (4, 30), (16, 17, 18, 19, 20), RS3T_FOUND, DEF_UTF32LE.as_str(), &[])]
+#[test_matrix(UTF_32LE, &FILE_UTF32LE_ABC_NL_DEF_NL_FPATH, (4, 30), 21, RS3T_FOUND, DEF_NL_UTF32LE.as_str(), &[])]
+// UTF-32LE BOM
+#[test_matrix(UTF_32LE_BOM, &FILE_UTF32LE_BOM_ABC_FPATH, (4, 30), (0, 9), RS3T_FOUND, "", &UTF32LE_BOM_ABC_BYTES)]
+fn test_find_line(
+    encoding: FileTypeTextEncoding,
+    fpath: &FPath,
+    blocksz: BlockSz,
+    fileoffset: FileOffset,
+    expect_result: ResultFindLine_Test,
+    expect_str: &'static str,
+    expect_bytes: &'static [u8],
+) {
+    eprintln!("test_find_line_in_block({encoding:?}, {blocksz:?}, {fileoffset:?})");
+    eprint_file(fpath);
+    let mut lr1: LineReader = new_LineReader(fpath, blocksz);
+    lr1.filetype_text_encoding_update(encoding);
+
+    match lr1.find_line(fileoffset) {
+        ResultFindLine::Found((_fo, linep)) => {
+            eprintln!("expect_result = {expect_result:?}");
+            eprintln!("expect_str = {:?}", str_to_string_noraw(expect_str));
+            eprintln!("actual_str = {:?}", linep.to_string_noraw());
+            eprintln!("expect_bytes = {:?}", expect_bytes);
+            assert!(expect_str.is_empty() || expect_bytes.is_empty(), "must have either expect_str or expect_bytes, but not both; got expect_str {:?} and expect_bytes {:?}", expect_str, expect_bytes);
+            assert_eq!(expect_result, RS3T_FOUND, "actual FOUND, expected FOUND");
+            let expect_compare: &[u8] = if !expect_bytes.is_empty() {
+                expect_bytes
+            } else {
+                expect_str.as_bytes()
+            };
+            let mut i = 0;
+            for linepart in &linep.lineparts {
+                eprintln!("linepart = {:?}", linepart.as_slice());
+                for b in linepart.as_slice() {
+                    let c = match expect_compare.get(i) {
+                        Some(c) => *c,
+                        None => {
+                            panic!("expect_compare {expect_compare:?} should have more bytes to match linepart; failed at byte index {i}");
+                        }
+                    };
+                    eprintln!("expect {:?} = {:?} actual", c as char, *b as char);
+                    assert_eq!(*b, c, "failed to match at byte index {i}; expected byte 0x{c:02X} ({c}) but got 0x{b:02X} ({b})");
+                    i += 1;
+                }
+            }
+        }
+        ResultFindLine::Done => {
+            eprintln!("expect_result = {expect_result:?}");
+            eprintln!("expect_str = {:?}", str_to_string_noraw(expect_str));
+            assert_eq!(expect_result, RS3T_DONE, "got DONE expected FOUND");
+            assert!(expect_str.is_empty(), "expect_str should be empty when expect_result is RS3T_DONE");
+        }
+        ResultFindLine::Err(err) => {
+            panic!("LineReader::new({:?}, {:?}) ResultFindLine::Err {}", fpath, blocksz, err);
+        }
+    }
+}
+
+// SummaryLineReader
+
 #[test_case(&*NTF_LOG_EMPTY_FPATH)]
 #[test_case(&NTF_NL_1_PATH)]
 fn test_LineReader_summary_empty(
     path: &FPath,
 ) {
-    let linereader = new_LineReader(path, 0x2);
+    let linereader = new_LineReader(path, 4);
     _ = linereader.summary();
 }
 
 #[test_case(
     &NTF_NL_1_PATH,
-    0x2,
+    4,
     1,
     1,
     0,
     1,
     1,
     0,
-    2,
+    1,
     1,
     0,
     0
 )]
 #[test_case(
     &NTF_SYSLINE_2_PATH,
-    0x2,
+    4,
     2,
     2,
     0,
     3,
-    45,
+    24,
     0,
-    3,
+    2,
     2,
     0,
     0

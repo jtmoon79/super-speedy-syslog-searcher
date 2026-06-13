@@ -75,7 +75,7 @@ lazy_static! {
 }
 
 #[test_case("500", true)]
-#[test_case("0x2", true)]
+#[test_case("0x2", false)]
 #[test_case("0x4", true)]
 #[test_case("0xFFFFFF", true)]
 #[test_case("BAD_BLOCKSZ_VALUE", false)]

@@ -165,6 +165,7 @@ use ::s4lib::common::{
     FileOffset,
     FileProcessingResult,
     FileType,
+    FileTypeTextEncoding,
     LogMessageType,
     NLu8a,
     Result3E,
@@ -5067,7 +5068,6 @@ fn processing_loop(
     map_pathid_results.shrink_to_fit();
 
     // rebind to be immutable just to be extra cautious
-    let map_pathid_filetype = map_pathid_filetype;
     let map_pathid_logmessagetype = map_pathid_logmessagetype;
 
     for (_pathid, result_invalid) in map_pathid_results_invalid.iter() {
@@ -5638,6 +5638,8 @@ fn processing_loop(
                                     e_err!("file too small {}", s),
                                 FileProcessingResultBlockZero::FileErrNullBytes =>
                                     e_err!("file contains too many null bytes {:?}", path),
+                                FileProcessingResultBlockZero::FileErrFFBytes =>
+                                    e_err!("file contains too many 0xFF bytes {:?}", path),
                                 FileProcessingResultBlockZero::FileErrNoLinesFound =>
                                     e_err!("no lines found {:?}", path),
                                 FileProcessingResultBlockZero::FileErrNoSyslinesFound =>
@@ -5790,9 +5792,17 @@ fn processing_loop(
                         Some(ref s) => Some(s.to_owned() + cli_prepend_separator.as_str()),
                         None => None,
                     };
+                    let encoding_type = match map_pathid_datum.get(pathid) {
+                        Some((LogMessage::Sysline(syslinep), _)) => syslinep.encoding_type(),
+                        _ => match map_pathid_filetype.get(pathid) {
+                            Some(ft) => ft.encoding_type().unwrap_or(FileTypeTextEncoding::Utf8Ascii),
+                            None => FileTypeTextEncoding::Utf8Ascii,
+                        },
+                    };
                     let printer: PrinterLogMessage = PrinterLogMessage::new(
                         color_choice,
                         *color_,
+                        encoding_type,
                         prepend_file,
                         prepend_date_format,
                         cli_opt_prepend_offset,
@@ -6055,10 +6065,9 @@ fn processing_loop(
                     // If a file's last char is not a '\n' then the next printed sysline
                     // (from a different file) will print on the same terminal line.
                     // While this is accurate byte-wise, it's difficult to read and unexpected, and
-                    // makes scripting line-oriented scripting more difficult. This is especially
+                    // makes line-oriented scripting more difficult. This is especially
                     // visually jarring when prepended data is present (`-l`, `-p`, etc.).
-                    // So in case of no ending '\n', print an extra '\n' to improve human readability
-                    // and scriptability.
+                    // So in case of no ending '\n', print an extra '\n'.
                     if is_last && !(*syslinep).ends_with_newline() {
                         write_stdout(&NLu8a);
                         if cli_opt_summary {

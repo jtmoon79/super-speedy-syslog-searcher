@@ -15,6 +15,7 @@ use ::si_trace_print::printers::{
 };
 
 use crate::common::FileOffset;
+use crate::common::FileTypeTextEncoding;
 use crate::data::datetime::{
     DateTimeL,
     Duration,
@@ -116,7 +117,7 @@ fn new_sysline(
     }
     let linep: LineP = LineP::new(line);
     let lines = vec![linep];
-    let sysline: Sysline = Sysline::from_parts(lines, DT_BEG0, DT_END0, dt);
+    let sysline: Sysline = Sysline::from_parts(lines, FileTypeTextEncoding::Utf8Ascii, DT_BEG0, DT_END0, dt);
 
     sysline
 }

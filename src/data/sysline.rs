@@ -17,6 +17,7 @@ use ::more_asserts::{
 };
 #[allow(unused_imports)]
 use ::si_trace_print::{
+    def1ñ,
     defn,
     defo,
     defx,
@@ -34,9 +35,17 @@ pub use crate::common::{
     Count,
     FPath,
     FileOffset,
+    FileTypeTextEncoding,
+    NL_UTF8ASCII,
+    NL_UTF16BE,
+    NL_UTF16LE,
+    NL_UTF32BE,
+    NL_UTF32LE,
     NLc,
     NLu8,
 };
+#[cfg(any(debug_assertions, test))]
+pub use crate::common::FileTypeBasicEncoding;
 use crate::data::datetime::{
     DateTimeL,
     Duration,
@@ -45,9 +54,10 @@ use crate::data::line::{
     Line,
     LineIndex,
     LineP,
-    LinePart,
     Lines,
 };
+#[cfg(test)]
+use crate::data::line::LinePart;
 #[cfg(any(debug_assertions, test))]
 use crate::data::line::LinePartPtrs;
 #[allow(unused_imports)]
@@ -73,28 +83,33 @@ use crate::readers::blockreader::Slices;
 ///
 /// [`DateTimeL`]: crate::data::datetime::DateTimeL
 /// [`Line`]: crate::data::line::Line
+// TODO: [2023/04] replace datetime offsets with `common::DtBegEndPairOpt`
 pub struct Sysline {
     /// The one or more `Line` that make up a Sysline.
     pub(crate) lines: Lines,
+    /// Encoding of the underlying text data.
+    pub(crate) encoding_type: FileTypeTextEncoding,
     /// Index into `Line` where datetime string starts (inclusive).
     ///
     /// Byte-based count.
     ///
     /// Datetime is presumed to be on first `Line`.
     // TODO: use `RangeLineIndex`
-    pub(crate) dt_beg: LineIndex,
-    /// Index into `Line` where datetime string ends, one char past last
-    /// character of datetime string (exclusive).
+    pub(crate) dt_beg_actual: LineIndex,
+    /// Index into `Line` where datetime string ends, one byte past last
+    /// byte of datetime string (exclusive).
     ///
     /// Byte-based count.
     ///
     /// Datetime is presumed to be on first `Line`.
-    pub(crate) dt_end: LineIndex,
+    pub(crate) dt_end_actual: LineIndex,
+    /// Index into UTF-8 transformed line where datetime string starts (inclusive).
+    pub(crate) dt_beg_utf8: LineIndex,
+    /// Index into UTF-8 transformed line where datetime string ends (exclusive).
+    pub(crate) dt_end_utf8: LineIndex,
     /// Parsed DateTime instance.
     dt: DateTimeL,
 }
-// TODO: [2023/04] replace `dt_beg` and `dt_end` with
-//        `common::DtBegEndPairOpt`
 
 impl std::fmt::Debug for Sysline {
     fn fmt(
@@ -102,9 +117,9 @@ impl std::fmt::Debug for Sysline {
         f: &mut fmt::Formatter,
     ) -> fmt::Result {
         let mut li_s = String::new();
-        for lp in self.lines.iter() {
+        for (i, lp) in self.lines.iter().enumerate() {
             li_s.push_str(&format!(
-                "Line (fileoffset_beg {}, fileoffset_end {}, len() {}, count_lineparts() {}",
+                "Line {i} (fileoffset_beg {}, fileoffset_end {}, len() {}, count_lineparts() {}) ",
                 (*lp).fileoffset_begin(),
                 (*lp).fileoffset_end(),
                 (*lp).len(),
@@ -115,8 +130,10 @@ impl std::fmt::Debug for Sysline {
             .field("fileoffset_begin()", &self.fileoffset_begin())
             .field("fileoffset_end()", &self.fileoffset_end())
             .field("lines.len", &self.lines.len())
-            .field("dt_beg", &self.dt_beg)
-            .field("dt_end", &self.dt_end)
+            .field("dt_beg_actual", &self.dt_beg_actual)
+            .field("dt_end_actual", &self.dt_end_actual)
+            .field("dt_beg_utf8", &self.dt_beg_utf8)
+            .field("dt_end_utf8", &self.dt_end_utf8)
             .field("dt", &self.dt)
             .field("lines", &li_s)
             .finish()
@@ -131,45 +148,108 @@ impl Sysline {
     /// [`Lines`]: crate::data::line::Lines
     const SYSLINE_PARTS_WITH_CAPACITY: usize = 1;
 
-    // XXX: Issue #16 only handles UTF-8/ASCII encoding
-    const CHARSZ: usize = 1;
-
     /// Create a `Sysline` from passed arguments.
-    pub fn new_no_lines(
-        dt_beg: LineIndex,
-        dt_end: LineIndex,
+    pub fn new_no_lines_with_offsets(
+        encoding_type: FileTypeTextEncoding,
+        dt_beg_actual: LineIndex,
+        dt_end_actual: LineIndex,
+        dt_beg_utf8: LineIndex,
+        dt_end_utf8: LineIndex,
         dt: DateTimeL,
     ) -> Sysline {
+        #[cfg(any(debug_assertions, test))]
+        {
+            assert_le!(dt_beg_actual, dt_end_actual, "dt_beg_actual={} is not <= dt_end_actual={}", dt_beg_actual, dt_end_actual);
+            assert_le!(dt_beg_utf8, dt_end_utf8, "dt_beg_utf8={} is not <= dt_end_utf8={}", dt_beg_utf8, dt_end_utf8);
+            match encoding_type.basic_encoding() {
+                FileTypeBasicEncoding::Utf8 => {
+                    assert_eq!(dt_beg_actual, dt_beg_utf8, 
+                        "dt_beg_actual={} is not equal to dt_beg_utf8={} for UTF-8 encoding", dt_beg_actual, dt_beg_utf8);
+                    assert_eq!(dt_end_actual, dt_end_utf8,
+                        "dt_end_actual={} is not equal to dt_end_utf8={} for UTF-8 encoding", dt_end_actual, dt_end_utf8);
+                }
+                FileTypeBasicEncoding::Utf16 => {
+                    assert_eq!(dt_beg_actual, dt_beg_utf8 * 2,
+                        "dt_beg_actual={} is not equal to dt_beg_utf8*2={} for UTF-16 encoding", dt_beg_actual, dt_beg_utf8 * 2);
+                    assert_eq!(dt_end_actual, dt_end_utf8 * 2,
+                        "dt_end_actual={} is not equal to dt_end_utf8*2={} for UTF-16 encoding", dt_end_actual, dt_end_utf8 * 2);
+                }
+                FileTypeBasicEncoding::Utf32 => {
+                    assert_eq!(dt_beg_actual, dt_beg_utf8 * 4,
+                        "dt_beg_actual={} is not equal to dt_beg_utf8*4={} for UTF-32 encoding", dt_beg_actual, dt_beg_utf8 * 4);
+                    assert_eq!(dt_end_actual, dt_end_utf8 * 4,
+                        "dt_end_actual={} is not equal to dt_end_utf8*4={} for UTF-32 encoding", dt_end_actual, dt_end_utf8 * 4);
+                }
+            }
+        }
+        def1ñ!("Sysline {{lines, {encoding_type}, {dt_beg_actual}, {dt_end_actual}, {dt_beg_utf8}, {dt_end_utf8}, {dt}}}");
         Sysline {
             lines: Lines::with_capacity(Sysline::SYSLINE_PARTS_WITH_CAPACITY),
-            dt_beg,
-            dt_end,
+            encoding_type,
+            dt_beg_actual,
+            dt_end_actual,
+            dt_beg_utf8,
+            dt_end_utf8,
             dt,
         }
     }
 
-    /// Create a `Sysline` from passed arguments.
-    pub fn from_parts(
-        lines: Lines,
+    /// Create a `Sysline` from passed arguments where actual and UTF-8
+    /// datetime offsets are the same.
+    pub fn new_no_lines(
+        encoding_type: FileTypeTextEncoding,
         dt_beg: LineIndex,
         dt_end: LineIndex,
         dt: DateTimeL,
     ) -> Sysline {
+        Sysline::new_no_lines_with_offsets(encoding_type, dt_beg, dt_end, dt_beg, dt_end, dt)
+    }
+
+    /// Create a `Sysline` from passed arguments.
+    pub fn from_parts_with_offsets(
+        lines: Lines,
+        encoding_type: FileTypeTextEncoding,
+        dt_beg_actual: LineIndex,
+        dt_end_actual: LineIndex,
+        dt_beg_utf8: LineIndex,
+        dt_end_utf8: LineIndex,
+        dt: DateTimeL,
+    ) -> Sysline {
+        def1ñ!("Sysline {{lines {}, {encoding_type}, {dt_beg_actual}, {dt_end_actual}, {dt_beg_utf8}, {dt_end_utf8}, {dt}}}", lines.len());
         Sysline {
             lines,
-            dt_beg,
-            dt_end,
+            encoding_type,
+            dt_beg_actual,
+            dt_end_actual,
+            dt_beg_utf8,
+            dt_end_utf8,
             dt,
         }
     }
 
-    pub const fn charsz(self: &Sysline) -> usize {
-        Sysline::CHARSZ
+    /// Create a `Sysline` from passed arguments where actual and UTF-8
+    /// datetime offsets are the same.
+    pub fn from_parts(
+        lines: Lines,
+        encoding_type: FileTypeTextEncoding,
+        dt_beg: LineIndex,
+        dt_end: LineIndex,
+        dt: DateTimeL,
+    ) -> Sysline {
+        Sysline::from_parts_with_offsets(lines, encoding_type, dt_beg, dt_end, dt_beg, dt_end, dt)
+    }
+
+    pub const fn charsz(self: &Sysline) -> CharSz {
+        self.encoding_type.charsz()
     }
 
     /// Return a reference to `self.dt`
     pub const fn dt(self: &Sysline) -> &DateTimeL {
         &self.dt
+    }
+
+    pub fn last(self: &Sysline) -> Option<&LineP> {
+        self.lines.last()
     }
 
     /// Return duration of difference between the two [`DateTimeL`] of each
@@ -215,7 +295,7 @@ impl Sysline {
     /// This `Sysline` does not know if that `FileOffset` points to
     /// the end of file (one past last actual byte).
     pub fn fileoffset_next(self: &Sysline) -> FileOffset {
-        self.fileoffset_end() + (self.charsz() as FileOffset)
+        self.fileoffset_end() + 1
     }
 
     /// Return the first `BlockOffset` on which data for this Sysline resides.
@@ -265,6 +345,12 @@ impl Sysline {
         self.blockoffset_first() == self.blockoffset_last()
     }
 
+    /// Encoding used by this sysline's underlying text bytes.
+    #[inline(always)]
+    pub const fn encoding_type(&self) -> FileTypeTextEncoding {
+        self.encoding_type
+    }
+
     /// Return all the slices that make up this `Sysline`.
     ///
     /// Similar to `get_slices_line` but for all lines.
@@ -287,14 +373,14 @@ impl Sysline {
     }
 
     /// Get the last byte of this `Sysline`.
+    #[doc(hidden)]
+    #[cfg(test)]
     pub(crate) fn last_byte(self: &Sysline) -> Option<u8> {
-        // XXX: Issue #16 only handles UTF-8/ASCII encoding
-        assert_eq!(self.charsz(), 1, "charsz {} not implemented", self.charsz());
         let len_ = self.lines.len();
         if len_ == 0 {
             return None;
         }
-        let linep_last = match self.lines.get(len_ - 1) {
+        let linep_last = match self.lines.last() {
             Some(linep) => linep,
             None => {
                 return None;
@@ -324,10 +410,26 @@ impl Sysline {
     /// XXX: Calling this on a partially constructed `Sysline` is most
     ///      likely pointless.
     pub fn ends_with_newline(self: &Sysline) -> bool {
-        match self.last_byte() {
-            // XXX: Issue #16 only handles UTF-8/ASCII encoding
-            Some(byte_) => NLc == char::from(byte_),
-            None => false,
+        let linep_last = match self.lines.last() {
+            Some(linep) => linep,
+            None => return false,
+        };
+        let linepart_last = match linep_last.lineparts.last() {
+            Some(linepart) => linepart,
+            None => return false,
+        };
+        let slice = linepart_last.as_slice();
+        match self.encoding_type {
+            FileTypeTextEncoding::Utf8Ascii
+            | FileTypeTextEncoding::Utf8BOM => slice.ends_with(&NL_UTF8ASCII),
+            FileTypeTextEncoding::Utf16le
+            | FileTypeTextEncoding::Utf16leBOM => slice.ends_with(&NL_UTF16LE),
+            FileTypeTextEncoding::Utf16be
+            | FileTypeTextEncoding::Utf16beBOM => slice.ends_with(&NL_UTF16BE),
+            FileTypeTextEncoding::Utf32le
+            | FileTypeTextEncoding::Utf32leBOM => slice.ends_with(&NL_UTF32LE),
+            FileTypeTextEncoding::Utf32be
+            | FileTypeTextEncoding::Utf32beBOM => slice.ends_with(&NL_UTF32BE),
         }
     }
 
@@ -340,11 +442,11 @@ impl Sysline {
         assert!(!self.lines.is_empty(),
                 "dt_bytes: No lines stored in this Sysline yet caller wants Bytes");
         let line0 = &self.lines[0];
-        let ia: LineIndex = self.dt_beg;
-        let ib: LineIndex = self.dt_end;
-        assert_lt!(ia, line0.len(), "dt_beg={} is past end of line zero (len {})", ia, line0.len());
-        assert_lt!(ib, line0.len(), "dt_end={} is past end of line zero (len {})", ib, line0.len());
-        assert_le!(ia, ib, "bad dt_beg={}, dt_end={}", ia, ib);
+        let ia: LineIndex = self.dt_beg_actual;
+        let ib: LineIndex = self.dt_end_actual;
+        assert_lt!(ia, line0.len(), "dt_beg_actual={} is past end of line zero (len {})", ia, line0.len());
+        assert_lt!(ib, line0.len(), "dt_end_actual={} is past end of line zero (len {})", ib, line0.len());
+        assert_le!(ia, ib, "bad dt_beg_actual={}, dt_end_actual={}", ia, ib);
         let mut bytes: Bytes = Bytes::with_capacity((ib - ia) as usize);
         match line0.get_boxptrs(ia, ib) {
             LinePartPtrs::SinglePtr(ptr) => {
@@ -373,11 +475,9 @@ impl Sysline {
     /// - `raw` is `true` means use byte characters as-is
     /// - `raw` is `false` means replace formatting characters or non-printable
     ///    characters with pictoral representation (i.e. `byte_to_char_noraw`)
-    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
-    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    fn impl_to_String_raw(
+    fn impl_to_string_raw(
         self: &Sysline,
         raw: bool,
     ) -> String {
@@ -386,11 +486,10 @@ impl Sysline {
             sz += (*lp).len();
         }
         // XXX: intermixing byte lengths and character lengths
-        // XXX: Issue #16 only handles UTF-8/ASCII encoding
         let mut s_ = String::with_capacity(sz + 1);
         for lp in &self.lines {
             s_ += (*lp)
-                .impl_to_String_raw(raw)
+                .impl_to_string_raw(raw)
                 .as_str();
         }
         s_
@@ -430,12 +529,10 @@ impl Sysline {
     /// and/or formatting characters.
     ///
     /// inefficient; only for debugging or testing
-    // TODO fix this non_snake_case (use correct snake_case)
     #[doc(hidden)]
-    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    pub fn to_String_noraw(self: &Sysline) -> String {
-        self.impl_to_String_raw(false)
+    pub fn to_string_noraw(self: &Sysline) -> String {
+        self.impl_to_string_raw(false)
     }
 }
 

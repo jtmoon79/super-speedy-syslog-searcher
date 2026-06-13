@@ -1478,14 +1478,16 @@ fn print_summary_opt_processed_summaryblockreader(
     eprintln!("{}bytes total   : {1} (0x{1:X})", indent, summaryblockreader.blockreader_bytes_total);
     eprintln!("{}block size    : {1} (0x{1:X})", indent, summaryblockreader.blockreader_blocksz);
     eprintln!("{}blocks        : {}", indent, summaryblockreader.blockreader_blocks);
-    let bytes_total =
-        summaryblockreader.blockreader_blocks_total * summaryblockreader.blockreader_blocksz;
+    let bytes_total: Count =
+        summaryblockreader.blockreader_blocks_total
+        * (summaryblockreader.blockreader_blocksz as Count);
     eprintln!(
         "{}blocks total  : {} ({} bytes)",
         indent, summaryblockreader.blockreader_blocks_total, bytes_total,
     );
-    let bytes_high =
-        (summaryblockreader.blockreader_blocks_highest as u64) * summaryblockreader.blockreader_blocksz;
+    let bytes_high: Count =
+        (summaryblockreader.blockreader_blocks_highest as Count)
+        * (summaryblockreader.blockreader_blocksz as Count);
     eprintln!(
         "{}blocks high   : {} ({} bytes)",
         indent, summaryblockreader.blockreader_blocks_highest, bytes_high,

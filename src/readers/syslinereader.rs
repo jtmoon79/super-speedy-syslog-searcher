@@ -2,6 +2,10 @@
 // … ≤ ≥
 
 //! Implements `SyslineReader`, the driver of deriving [`Sysline`]s using a
+// src/readers/syslinereader.rs
+// … ≤ ≥
+
+//! Implements `SyslineReader`, the driver of deriving [`Sysline`]s using a
 //! [`LineReader`].
 //!
 //! [`Sysline`]: crate::data::sysline::Sysline
@@ -30,6 +34,7 @@ use ::itertools::Itertools; // brings in `sorted_by`
 use ::lru::LruCache;
 use ::more_asserts::{
     assert_le,
+    debug_assert_ge,
     debug_assert_gt,
     debug_assert_le,
     debug_assert_lt,
@@ -49,6 +54,7 @@ use ::si_trace_print::{
     deo,
     dex,
     deñ,
+    stack::so,
 };
 
 use crate::common::{
@@ -60,6 +66,8 @@ use crate::common::{
     FileOffset,
     FileSz,
     FileType,
+    FileTypeBasicEncoding,
+    FileTypeTextEncoding,
     ResultFind,
     summary_stat,
     summary_stats_enabled,
@@ -135,11 +143,20 @@ pub type DateTimeParseDatasIndexes = Vec<DateTimeParseInstrsIndex>;
 ///
 /// - datetime substring index begin
 /// - datetime substring index end
+/// - datetime substring index begin in UTF-8 bytes (may be different from the first item if the line is UTF-16 or UTF-32 encoded)
+/// - datetime substring index end in UTF-8 bytes (may be different from the third item if the line is UTF-16 or UTF-32 encoded)
 /// - the datetime found
 /// - index into global `DATETIME_PARSE_DATAS_REGEX_VEC` and `DATETIME_PARSE_DATAS_REGEX_VEC` for the
 ///   "pattern rules" used to find the datetime.
 // TODO: change to a typed `struct FindDateTimeData(...)`
-pub type FindDateTimeData = (LineIndex, LineIndex, DateTimeL, DateTimeParseInstrsIndex);
+pub type FindDateTimeData = (
+    LineIndex,
+    LineIndex,
+    LineIndex,
+    LineIndex,
+    DateTimeL,
+    DateTimeParseInstrsIndex,
+);
 
 /// Return type for `SyslineReader::find_datetime_in_line`.
 pub type ResultFindDateTime = Result<FindDateTimeData>;
@@ -182,8 +199,379 @@ type SyslinesLRUCache = LruCache<FileOffset, ResultFindSysline>;
 /// [LRU cache]: https://docs.rs/lru/0.7.8/lru/index.html
 type LineParsedCache = LruCache<FileOffset, FindDateTimeData>;
 
+/// Append one UTF-8 character to a reusable output buffer.
+#[inline(always)]
+fn push_utf8_char(buffer_utf8_bytes: &mut Bytes, c: char) {
+    let mut dst = [0u8; 4];
+    let s = c.encode_utf8(&mut dst);
+    buffer_utf8_bytes.extend_from_slice(s.as_bytes());
+}
+
+/// Return data after conditionally skipping BOM bytes.
+fn data_without_bom<'a>(
+    data: &'a [u8],
+    encoding_type: FileTypeTextEncoding,
+    fileoffset: FileOffset,
+) -> Option<&'a [u8]> {
+    if encoding_type.has_bom()
+        && fileoffset < encoding_type.bomsz() as FileOffset
+        && data.starts_with(encoding_type.bom())
+    {
+        let bomsz = encoding_type.bomsz() as usize;
+        match data.get(bomsz..) {
+            Some(d) => Some(d),
+            None => {
+                debug_panic!("unexpected get({}) failed on data with len {}", bomsz, data.len());
+                None
+            }
+        }
+    } else {
+        Some(data)
+    }
+}
+
+/// Decode UTF-16/UTF-32 bytes to UTF-8 into a reusable buffer.
+fn transcode_bytes_to_utf8_buffer(
+    data: &[u8],
+    encoding_type: FileTypeTextEncoding,
+    transcode_buffer: &mut Bytes,
+) {
+    defn!("data.len() {}, encoding {:?}", data.len(), encoding_type);
+    transcode_buffer.clear();
+    let reserve: usize = match encoding_type.basic_encoding() {
+        FileTypeBasicEncoding::Utf8 => data.len(),
+        FileTypeBasicEncoding::Utf16 => data.len() / (encoding_type.charsz() as usize),
+        FileTypeBasicEncoding::Utf32 => data.len() / (encoding_type.charsz() as usize),
+    } + encoding_type.bomsz() as usize;
+    transcode_buffer.reserve(reserve);
+    const REPLACEMENT: char = '\u{FFFD}';
+
+    match encoding_type.basic_encoding() {
+        FileTypeBasicEncoding::Utf8 => {
+            debug_panic!("unexpected UTF-8 encoding type in transcode_bytes_to_utf8_buffer");
+            transcode_buffer.extend_from_slice(data);
+        }
+        FileTypeBasicEncoding::Utf16 => {
+            let little_endian = encoding_type.little_endian();
+            defo!("little_endian {}", little_endian);
+            let mut index: usize = 0;
+            while index < data.len() {
+                let remaining = data.len() - index;
+                if remaining < 2 {
+                    push_utf8_char(transcode_buffer, REPLACEMENT);
+                    break;
+                }
+
+                let unit = if little_endian {
+                    u16::from_le_bytes([data[index], data[index + 1]])
+                } else {
+                    u16::from_be_bytes([data[index], data[index + 1]])
+                };
+
+                if (0xD800..=0xDBFF).contains(&unit) {
+                    if index + 3 < data.len() {
+                        let unit2 = if little_endian {
+                            u16::from_le_bytes([data[index + 2], data[index + 3]])
+                        } else {
+                            u16::from_be_bytes([data[index + 2], data[index + 3]])
+                        };
+                        if (0xDC00..=0xDFFF).contains(&unit2) {
+                            let high = (unit as u32) - 0xD800;
+                            let low = (unit2 as u32) - 0xDC00;
+                            let codepoint = 0x10000 + ((high << 10) | low);
+                            let ch = char::from_u32(codepoint).unwrap_or(REPLACEMENT);
+                            index += 4;
+                            push_utf8_char(transcode_buffer, ch);
+                            continue;
+                        }
+                    }
+                    index += 2;
+                    push_utf8_char(transcode_buffer, REPLACEMENT);
+                    continue;
+                }
+                index += 2;
+                push_utf8_char(
+                    transcode_buffer,
+                    char::from_u32(unit as u32).unwrap_or(REPLACEMENT),
+                );
+            }
+        }
+        FileTypeBasicEncoding::Utf32 => {
+            let little_endian = encoding_type.little_endian();
+            defo!("little_endian {}", little_endian);
+            let mut index: usize = 0;
+            while index < data.len() {
+                let remaining = data.len() - index;
+                if remaining < 4 {
+                    push_utf8_char(transcode_buffer, REPLACEMENT);
+                    break;
+                }
+
+                let value = if little_endian {
+                    u32::from_le_bytes([data[index], data[index + 1], data[index + 2], data[index + 3]])
+                } else {
+                    u32::from_be_bytes([data[index], data[index + 1], data[index + 2], data[index + 3]])
+                };
+                index += 4;
+                let ch = match char::from_u32(value) {
+                    Some(ch) if !(0xD800..=0xDFFF).contains(&value) => ch,
+                    _ => REPLACEMENT,
+                };
+                push_utf8_char(transcode_buffer, ch);
+            }
+        }
+    }
+    defx!("transcode_buffer.len() {}", transcode_buffer.len());
+}
+
+/// Map UTF-8 offsets to source-byte offsets using a second pass and strict boundary alignment.
+fn utf8_offsets_to_actual_offsets_second_pass(
+    data: &[u8],
+    encoding_type: FileTypeTextEncoding,
+    dt_beg_utf8: LineIndex,
+    dt_end_utf8: LineIndex,
+) -> Option<(LineIndex, LineIndex)> {
+    defn!(
+        "(data.len() {}, encoding {:?}, dt_beg_utf8 {}, dt_end_utf8 {})",
+        data.len(),
+        encoding_type,
+        dt_beg_utf8,
+        dt_end_utf8,
+    );
+
+    debug_assert_le!(dt_beg_utf8, dt_end_utf8, "dt_beg_utf8 {} should be <= dt_end_utf8 {}", dt_beg_utf8, dt_end_utf8);
+    if dt_end_utf8 < dt_beg_utf8 {
+        defx!("return None (dt_end_utf8 < dt_beg_utf8)");
+        return None;
+    }
+
+    let mut utf8_acc: LineIndex = 0;
+    let mut actual_acc: LineIndex = 0;
+    let mut dt_beg_actual: Option<LineIndex> = None;
+    let mut dt_end_actual: Option<LineIndex> = None;
+    let mut offset_misaligned: bool = false;
+    const REPLACEMENT: char = '\u{FFFD}';
+
+    let mut capture_target = |
+        target: LineIndex,
+        utf8_acc_: LineIndex,
+        actual_acc_: LineIndex,
+        actual_opt: &mut Option<LineIndex>
+    | {
+        if actual_opt.is_some() {
+            return;
+        }
+        if utf8_acc_ == target {
+            *actual_opt = Some(actual_acc_);
+            return;
+        }
+        if utf8_acc_ > target {
+            debug_panic!(
+                "UTF-8 offset {} not aligned to decode boundary; utf8_acc {}",
+                target,
+                utf8_acc_
+            );
+            offset_misaligned = true;
+        }
+    };
+
+    capture_target(dt_beg_utf8, utf8_acc, actual_acc, &mut dt_beg_actual);
+    capture_target(dt_end_utf8, utf8_acc, actual_acc, &mut dt_end_actual);
+
+    match encoding_type.basic_encoding() {
+        FileTypeBasicEncoding::Utf8 => {
+            debug_panic!("unexpected UTF-8 encoding type in utf8_offsets_to_actual_offsets_second_pass");
+            while actual_acc < data.len() as LineIndex {
+                let idx = actual_acc as usize;
+                let byte = data[idx];
+                let emitted = if byte.is_ascii() {
+                    1usize
+                } else {
+                    match std::str::from_utf8(&data[idx..]) {
+                        Ok(s) => {
+                            let mut chars = s.chars();
+                            match chars.next() {
+                                Some(ch) => ch.len_utf8(),
+                                None => return None,
+                            }
+                        }
+                        Err(_) => return None,
+                    }
+                };
+                actual_acc += emitted as LineIndex;
+                utf8_acc += emitted as LineIndex;
+                capture_target(dt_beg_utf8, utf8_acc, actual_acc, &mut dt_beg_actual);
+                capture_target(dt_end_utf8, utf8_acc, actual_acc, &mut dt_end_actual);
+                if dt_beg_actual.is_some() && dt_end_actual.is_some() {
+                    break;
+                }
+            }
+        }
+        FileTypeBasicEncoding::Utf16 => {
+            let little_endian = encoding_type.little_endian();
+            defo!("little_endian {}", little_endian);
+            let mut index: usize = 0;
+            while index < data.len() {
+                let remaining = data.len() - index;
+                let (consumed, emitted) = if remaining < 2 {
+                    (remaining, REPLACEMENT.len_utf8())
+                } else {
+                    let unit = if little_endian {
+                        u16::from_le_bytes([data[index], data[index + 1]])
+                    } else {
+                        u16::from_be_bytes([data[index], data[index + 1]])
+                    };
+                    if (0xD800..=0xDBFF).contains(&unit) && index + 3 < data.len() {
+                        let unit2 = if little_endian {
+                            u16::from_le_bytes([data[index + 2], data[index + 3]])
+                        } else {
+                            u16::from_be_bytes([data[index + 2], data[index + 3]])
+                        };
+                        if (0xDC00..=0xDFFF).contains(&unit2) {
+                            let high = (unit as u32) - 0xD800;
+                            let low = (unit2 as u32) - 0xDC00;
+                            let codepoint = 0x10000 + ((high << 10) | low);
+                            let ch = char::from_u32(codepoint).unwrap_or(REPLACEMENT);
+                            (4usize, ch.len_utf8())
+                        } else {
+                            (2usize, REPLACEMENT.len_utf8())
+                        }
+                    } else {
+                        let ch = char::from_u32(unit as u32).unwrap_or(REPLACEMENT);
+                        (2usize, ch.len_utf8())
+                    }
+                };
+                index += consumed;
+                actual_acc += consumed as LineIndex;
+                utf8_acc += emitted as LineIndex;
+                capture_target(dt_beg_utf8, utf8_acc, actual_acc, &mut dt_beg_actual);
+                capture_target(dt_end_utf8, utf8_acc, actual_acc, &mut dt_end_actual);
+                if dt_beg_actual.is_some() && dt_end_actual.is_some() {
+                    break;
+                }
+            }
+        }
+        FileTypeBasicEncoding::Utf32 => {
+            let little_endian = encoding_type.little_endian();
+            defo!("little_endian {}", little_endian);
+            let mut index: usize = 0;
+            while index < data.len() {
+                let remaining = data.len() - index;
+                let (consumed, emitted) = if remaining < 4 {
+                    (remaining, REPLACEMENT.len_utf8())
+                } else {
+                    let value = if little_endian {
+                        u32::from_le_bytes([data[index], data[index + 1], data[index + 2], data[index + 3]])
+                    } else {
+                        u32::from_be_bytes([data[index], data[index + 1], data[index + 2], data[index + 3]])
+                    };
+                    let ch = match char::from_u32(value) {
+                        Some(ch) if !(0xD800..=0xDFFF).contains(&value) => ch,
+                        _ => REPLACEMENT,
+                    };
+                    (4usize, ch.len_utf8())
+                };
+                index += consumed;
+                actual_acc += consumed as LineIndex;
+                utf8_acc += emitted as LineIndex;
+                capture_target(dt_beg_utf8, utf8_acc, actual_acc, &mut dt_beg_actual);
+                capture_target(dt_end_utf8, utf8_acc, actual_acc, &mut dt_end_actual);
+                if dt_beg_actual.is_some() && dt_end_actual.is_some() {
+                    break;
+                }
+            }
+        }
+    }
+
+    capture_target(dt_beg_utf8, utf8_acc, actual_acc, &mut dt_beg_actual);
+    capture_target(dt_end_utf8, utf8_acc, actual_acc, &mut dt_end_actual);
+
+    if offset_misaligned {
+        defx!("return None (UTF-8 offset not aligned to decode boundary)");
+        return None;
+    }
+
+    let ret = Some((dt_beg_actual?, dt_end_actual?));
+    defx!("return {:?}", ret);
+
+    ret
+}
+
+/// Decode the line into UTF-8, parse the datetime, and map offsets back.
+/// This handles mapping UTF-8 byte offsets back to source-byte offsets by
+/// using a second pass over source data.
+#[allow(clippy::too_many_arguments)]
+fn process_bytes_to_regex_to_datetime(
+    data: &[u8],
+    encoding_type: FileTypeTextEncoding,
+    fileoffset: FileOffset,
+    transcode_buffer: &mut Bytes,
+    index: &DateTimeParseInstrsIndex,
+    year_opt: &Option<Year>,
+    systemtime_at_uptime_zero: &Option<SystemTime>,
+    tz_offset: &FixedOffset,
+    tz_offset_string: &String,
+    #[cfg(any(debug_assertions, test))]
+    path: &FPath,
+) -> Option<(LineIndex, LineIndex, LineIndex, LineIndex, DateTimeL)> {
+    defn!("(data.len() {}, encoding {:?}, fileoffset {})", data.len(), encoding_type, fileoffset);
+    let data_no_bom = if fileoffset < encoding_type.bomsz() as FileOffset && encoding_type.has_bom() {
+        match data_without_bom(data, encoding_type, fileoffset) {
+            Some(d) => d,
+            None => {
+                debug_panic!("data_without_bom failed for encoding {:?}, fileoffset {}", encoding_type, fileoffset);
+                defx!("return None (data_without_bom)");
+                return None;
+            }
+        }
+    } else {
+        data
+    };
+    let utf8_bytes: &[u8] = match encoding_type.basic_encoding() {
+        FileTypeBasicEncoding::Utf8 => data_no_bom,
+        FileTypeBasicEncoding::Utf16
+        | FileTypeBasicEncoding::Utf32 => {
+            transcode_bytes_to_utf8_buffer(data_no_bom, encoding_type, transcode_buffer);
+            transcode_buffer.as_slice()
+        }
+    };
+    let result = match bytes_to_regex_to_datetime(
+        utf8_bytes,
+        index,
+        year_opt,
+        systemtime_at_uptime_zero,
+        tz_offset,
+        tz_offset_string,
+        #[cfg(any(debug_assertions, test))]
+        path,
+    ) {
+        Some((dt_beg_utf8, dt_end_utf8, dt)) if encoding_type.basic_encoding() == FileTypeBasicEncoding::Utf8 => {
+            Some((dt_beg_utf8, dt_end_utf8, dt_beg_utf8, dt_end_utf8, dt))
+        }
+        Some((dt_beg_utf8, dt_end_utf8, dt)) => {
+            let (dt_beg_actual, dt_end_actual) = match utf8_offsets_to_actual_offsets_second_pass(
+                data_no_bom,
+                encoding_type,
+                dt_beg_utf8,
+                dt_end_utf8,
+            ) {
+                Some(v) => v,
+                None => {
+                    defx!("return None (utf8_offsets_to_actual_offsets_second_pass)");
+                    return None;
+                }
+            };
+            Some((dt_beg_actual, dt_end_actual, dt_beg_utf8, dt_end_utf8, dt))
+        }
+        None => None,
+    };
+    defx!("return {:?}", result);
+
+    result
+}
+
 /// A specialized reader that uses [`LineReader`] to find a datetime
-/// in a [`Line`] and then can create a [`Sysline`s] from those `Line`s.
+/// in a [`Line`] and then can create a [`Sysline`]s from those `Line`s.
 ///
 /// A `SyslineReader` does some `[u8]` to `char` interpretation.
 ///
@@ -275,10 +663,10 @@ pub struct SyslineReader {
     /// Datetime of uptime value 0.
     /// Only for syslog files with uptime format.
     pub(super) systemtime_at_uptime_zero: Option<SystemTime>,
+    /// Reusable UTF-8 transcode buffer for non-UTF8 line data.
+    transcode_buffer: Bytes,
     /// Enable or disable the internal LRU cache for `find_sysline()`.
     find_sysline_lru_cache_enabled: bool,
-    /// The last requested `FileOffset` in `find_sysline()`.
-    /// For debbuging purposes.
     fileoffset_last: FileOffset,
     /// Internal [LRU cache] for `find_sysline()`.
     /// Maintained in function `SyslineReader::find_sysline`.
@@ -579,6 +967,7 @@ impl SyslineReader {
             tz_offset,
             tz_offset_string: tz_offset.to_string(),
             systemtime_at_uptime_zero: None,
+            transcode_buffer: Bytes::with_capacity(0),
             find_sysline_lru_cache_enabled: SyslineReader::CACHE_ENABLE_DEFAULT,
             fileoffset_last: 0,
             find_sysline_lru_cache: SyslinesLRUCache::new(
@@ -622,6 +1011,16 @@ impl SyslineReader {
     #[inline(always)]
     pub const fn filetype(&self) -> FileType {
         self.linereader.filetype()
+    }
+
+    /// Update text encoding on the underlying `LineReader`.
+    pub fn filetype_text_encoding_update(&mut self, encoding_type: FileTypeTextEncoding) {
+        self.linereader
+            .filetype_text_encoding_update(encoding_type);
+    }
+
+    pub fn encoding_type (&self) -> FileTypeTextEncoding {
+        self.linereader.encoding_type()
     }
 
     /// See [`BlockReader::blocksz`].
@@ -726,7 +1125,7 @@ impl SyslineReader {
     /// See [`LineReader::charsz`].
     ///
     /// [`LineReader::charsz`]: crate::readers::linereader::LineReader#method.charsz
-    pub const fn charsz(&self) -> usize {
+    pub const fn charsz(&self) -> CharSz {
         self.linereader.charsz()
     }
 
@@ -771,6 +1170,16 @@ impl SyslineReader {
     pub const fn count_lines_processed(&self) -> Count {
         self.linereader
             .count_lines_processed()
+    }
+
+    /// `Count` of [`Line`]s currently stored in the underlying [`LineReader`].
+    ///
+    /// [`Line`]: crate::readers::linereader::Line
+    /// [`LineReader`]: crate::readers::linereader::LineReader
+    #[inline(always)]
+    pub fn count_lines_stored(&self) -> Count {
+        self.linereader
+            .count_lines_stored()
     }
 
     /// Does the `dt_pattern` have a year? e.g. specificer `%Y` or `%y`.
@@ -961,13 +1370,13 @@ impl SyslineReader {
             Some(syslinep) => {
                 let fo_beg: FileOffset = (*syslinep).fileoffset_begin();
                 let fo_end: FileOffset = (*syslinep).fileoffset_end();
-                defo!("sysline at {} removed; {:?} {:?}", fileoffset, (*syslinep).dt(), (*syslinep).to_String_noraw());
+                defo!("sysline at {} removed; {:?} {:?}", fileoffset, (*syslinep).dt(), (*syslinep).to_string_noraw());
                 debug_assert_eq!(
                     fileoffset, fo_beg,
                     "mismatching fileoffset {}, fileoffset_begin {}",
                     fileoffset, fo_beg
                 );
-                let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
+                let fo_end1: FileOffset = fo_end + 1;
                 let range: SyslineRange = SyslineRange {
                     start: fo_beg,
                     end: fo_end1,
@@ -1011,8 +1420,7 @@ impl SyslineReader {
         self.syslines.insert(fo_beg, SyslineP::clone(&syslinep));
         self.syslines_count += 1;
         self.syslines_stored_highest = max(self.syslines.len(), self.syslines_stored_highest);
-        // XXX: Issue #16 only handles UTF-8/ASCII encoding
-        let fo_end1: FileOffset = fo_end + (self.charsz() as FileOffset);
+        let fo_end1: FileOffset = fo_end + 1;
         defx!("syslines_by_range.insert([{}‥{}), {})", fo_beg, fo_end1, fo_beg);
         // XXX: this `insert` call uses ~6% of thread processing time for
         //      processing a single syslog file, according to flamegraph as of 2026/04
@@ -1187,9 +1595,9 @@ impl SyslineReader {
         // Lines without `'1'` or `'2'` within some range from the start of the
         // line probably do not have a datetime.
         const EZCHECK12: &[u8; 2] = b"12";
-        debug_assert_eq!(charsz, 1);
-        if charsz != 1 {
-            defx!("charsz is {} != 1", charsz);
+        let charsz_li: LineIndex = charsz as LineIndex;
+        if charsz_li != 1 {
+            defx!("charsz is {} != 1", charsz_li);
             return false;
         }
 
@@ -1207,7 +1615,7 @@ impl SyslineReader {
                     if dtpd.range_regex.start == 0 && *ezcheck12_min < slice_.len() {
                         // now proven that magic "12" is not in this `Line` up
                         // to this byte offset
-                        *ezcheck12_min = slice_.len() - charsz;
+                        *ezcheck12_min = slice_.len() - charsz_li;
                         defo!("ezcheck12_min = {}", ezcheck12_min);
                     }
                     summary_stat!(*ezcheck12_hit += 1);
@@ -1231,7 +1639,7 @@ impl SyslineReader {
                     if dtpd.range_regex.start == 0 && *ezcheckd2_min < slice_.len() {
                         // now proven that this `Line` does not have two
                         // consecutive digits up to this byte offset
-                        *ezcheckd2_min = slice_.len() - charsz;
+                        *ezcheckd2_min = slice_.len() - charsz_li;
                         defo!("ezcheckd2_min = {}", ezcheckd2_min);
                     }
                     summary_stat!(*ezcheckd2_hit += 1);
@@ -1251,7 +1659,7 @@ impl SyslineReader {
                     if dtpd.range_regex.start == 0 && *ezcheck12d2_min < slice_.len() {
                         // now proven that magic "12" is not in this `Line` up
                         // to this byte offset
-                        *ezcheck12d2_min = slice_.len() - charsz;
+                        *ezcheck12d2_min = slice_.len() - charsz_li;
                         defo!("ezcheck12d2_min = {}", ezcheck12d2_min);
                     }
                     summary_stat!(*ezcheck12d2_hit += 1);
@@ -1278,11 +1686,12 @@ impl SyslineReader {
     ///
     /// [`Ok`]: self::ResultFindDateTime
     /// [`Err`]: self::ResultFindDateTime
-    // TODO: statistics counters should be passed within a tuple, just for a little bit
-    //       of cleanliness.
+    // TODO: statistics counters should be passed within a type-declared tuple fpr clarity
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn find_datetime_in_line(
         line: &Line,
+        encoding: FileTypeTextEncoding,
+        transcode_buffer: &mut Bytes,
         parse_data_indexes: &DateTimeParseDatasIndexes,
         charsz: CharSz,
         year_opt: &Option<Year>,
@@ -1305,7 +1714,8 @@ impl SyslineReader {
         ezcheck12d2_hit_max: &mut LineIndex,
         path: &FPath,
     ) -> ResultFindDateTime {
-        defn!("(…, …, {:?}, year_opt {:?}, {:?}) line {:?}", charsz, year_opt, tz_offset, line.to_String_noraw());
+        defn!("(…, …, encoding {}, charsz {:?}, year_opt {:?}, tz_offset {:?}, {:?} line.len() {:?})",
+            encoding, charsz, year_opt, tz_offset, tz_offset, line.len());
         defo!("parse_data_indexes.len() {} {:?}", parse_data_indexes.len(), parse_data_indexes);
 
         // skip an easy case; no possible datetime
@@ -1323,6 +1733,7 @@ impl SyslineReader {
         let mut ezcheck12_min: LineIndex = 0;
         let mut ezcheckd2_min: LineIndex = 0;
         let mut ezcheck12d2_min: LineIndex = 0;
+        let charsz_u: usize = charsz as usize;
 
         // `sie` and `siea` is one past last char; exclusive.
         // `actual` are more confined slice offsets of the datetime,
@@ -1333,8 +1744,19 @@ impl SyslineReader {
             let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
             defo!("pattern data try {} index {} dtpd.line_num {}", _try, index, dtpd._line_num);
 
-            if line.len() <= dtpd.range_regex.start {
-                defo!("line too short {} for requested start {}; continue", line.len(), dtpd.range_regex.start);
+            // Datetime parse ranges are defined in UTF-8 byte offsets.
+            // Scale to source-byte offsets for UTF-16/UTF-32 encoded lines.
+            let range_start: usize = dtpd
+                .range_regex
+                .start
+                .saturating_mul(charsz_u);
+            let range_end_bound: usize = dtpd
+                .range_regex
+                .end
+                .saturating_mul(charsz_u);
+
+            if line.len() <= range_start {
+                defo!("line too short {} for requested start {}; continue", line.len(), range_start);
                 continue;
             }
             if line.len() <= ezcheck12_min {
@@ -1355,10 +1777,10 @@ impl SyslineReader {
                 defo!("line len {} ≤ {} ezcheckd2_min; continue", line.len(), ezcheckd2_min);
                 continue;
             }
-            // XXX: Issue #16 only handles UTF-8/ASCII encoding
-            let slice_end: usize = min(line.len(), dtpd.range_regex.end);
-            if dtpd.range_regex.start >= slice_end {
-                defo!("bad line slice indexes [{}, {}); continue", dtpd.range_regex.start, slice_end);
+            let slice_end: usize = min(line.len(), range_end_bound);
+            debug_assert_ge!(slice_end, range_start, "line len {} or range_end_bound {} is less than range_start {}", slice_end, range_end_bound, range_start);
+            if range_start >= slice_end {
+                defo!("bad line slice indexes [{}, {}); continue", range_start, slice_end);
                 continue;
             }
             // take a slice of the `line_as_slice` then convert to `str`
@@ -1366,11 +1788,11 @@ impl SyslineReader {
             // where it searches within the `Line`
             let mut hack_slice: Bytes;
             let slice_: &[u8];
-            match line.get_boxptrs(dtpd.range_regex.start as LineIndex, slice_end as LineIndex) {
+            match line.get_boxptrs(range_start as LineIndex, slice_end as LineIndex) {
                 LinePartPtrs::NoPtr => {
                     debug_panic!(
                         "LinePartPtrs::NoPtr for slice [{}, {}); file {:?}",
-                        dtpd.range_regex.start,
+                        range_start,
                         slice_end,
                         path,
                     );
@@ -1405,16 +1827,15 @@ impl SyslineReader {
             defo!(
                 "slice len {} [{}, {}) (requested [{}, {})) using DTPD from line {}, data {:?}",
                 slice_.len(),
-                dtpd.range_regex.start,
+                range_start,
                 slice_end,
-                dtpd.range_regex.start,
-                dtpd.range_regex.end,
+                range_start,
+                range_end_bound,
                 dtpd._line_num,
                 String::from_utf8_lossy(slice_),
             );
 
-            if charsz == 1
-                && SyslineReader::ezcheck_slice(
+            if SyslineReader::ezcheck_slice(
                     dtpd,
                     slice_,
                     charsz,
@@ -1444,10 +1865,15 @@ impl SyslineReader {
             // find the datetime string using `Regex`, convert to a `DateTimeL`
             summary_stat!(*regex_captures_attempted += 1);
             let dt: DateTimeL;
-            let dt_beg: LineIndex;
-            let dt_end: LineIndex;
-            (dt_beg, dt_end, dt) = match bytes_to_regex_to_datetime(
+            let dt_beg_actual: LineIndex;
+            let dt_end_actual: LineIndex;
+            let dt_beg_utf8: LineIndex;
+            let dt_end_utf8: LineIndex;
+            (dt_beg_actual, dt_end_actual, dt_beg_utf8, dt_end_utf8, dt) = match process_bytes_to_regex_to_datetime(
                 slice_,
+                encoding,
+                line.fileoffset_begin(),
+                transcode_buffer,
                 index,
                 year_opt,
                 systemtime_at_uptime_zero,
@@ -1460,8 +1886,23 @@ impl SyslineReader {
                 Some(val) => val,
             };
             summary_stat!(*regex_captures_matched += 1);
-            defx!("return Ok({}, {}, {}, {});", dt_beg, dt_end, &dt, index);
-            return ResultFindDateTime::Ok((dt_beg, dt_end, dt, *index));
+            defx!(
+                "return Ok({}, {}, {}, {}, {}, {});",
+                dt_beg_actual,
+                dt_end_actual,
+                dt_beg_utf8,
+                dt_end_utf8,
+                &dt,
+                index
+            );
+            return ResultFindDateTime::Ok((
+                dt_beg_actual,
+                dt_end_actual,
+                dt_beg_utf8,
+                dt_end_utf8,
+                dt,
+                *index,
+            ));
         } // end for(pattern, …)
 
         defx!("return Err(ErrorKind::NotFound); tried {} DateTimeParseInstr", _attempts);
@@ -1614,12 +2055,23 @@ impl SyslineReader {
         {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
-                defo!("self.dt_patterns_counts[{:?}]={:?} is {:?}", k, v, data_);
+                defo!("self.dt_patterns_counts[{:?}]={:?} is Regex #{:?}", k, v, data_.regex_id);
             }
         }
         defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
 
-        // get maximum value in `dt_patterns_counts`
+        // remove all items <= 0 in `dt_patterns_counts`
+        // to speed up next statement that searches for maximum value
+        defo!("dt_patterns_counts.retain(v > 0)");
+        self.dt_patterns_counts
+            .retain(|_, v| *v > 0);
+        defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
+        if self.dt_patterns_counts.is_empty() {
+            // no datetime patterns were found
+            defx!("no datetime patterns were found; return false");
+            return false;
+        }
+        // now get maximum value in `dt_patterns_counts`
         // ripped from https://stackoverflow.com/a/60134450/471376
         // test https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=b8eb53f40fd89461c9dad9c976746cc3
         let max_ = self
@@ -1628,13 +2080,14 @@ impl SyslineReader {
             .fold(u64::MIN, |a, b| a.max(*(b.1)));
         if max_ == 0 {
             // no datetime patterns were found
-            defx!("return false");
+            defx!("no maximum value found; return false");
             return false;
         }
         // remove all items < maximum value in `dt_patterns_counts`
         defo!("dt_patterns_counts.retain(v >= {:?})", max_);
         self.dt_patterns_counts
             .retain(|_, v| *v >= max_);
+        defo!("dt_patterns_counts.len() {}", self.dt_patterns_counts.len());
         // if there is a tie for the most-used pattern, then `pop_last` until
         // only `DT_PATTERN_MAX` remains.
         // XXX: Note that this removal chooses by list ordering preferring to
@@ -1665,7 +2118,7 @@ impl SyslineReader {
         {
             for (k, v) in self.dt_patterns_counts.iter() {
                 let data_: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
-                defo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}", k, v, data_);
+                defo!("self.dt_patterns_counts[index {:?}]={:?} is regex #{:?}", k, v, data_.regex_id);
             }
         }
 
@@ -1729,13 +2182,14 @@ impl SyslineReader {
     // TODO: [2022/08] having `dt_patterns_update` embedded into this is an unexpected side-affect
     //       the user should have more control over when `dt_patterns_update` is called.
     //       i.e. this approach is hacky
+    // TODO: no need to pass `charsz` as it can be called by `self.charsz()`
     fn parse_datetime_in_line(
         &mut self,
         line: &Line,
         charsz: CharSz,
         year_opt: &Option<Year>,
     ) -> ResultParseDateTime {
-        defn!("(…, {}, year_opt {:?}) line: {:?}", charsz, year_opt, line.to_String_noraw());
+        defn!("(…, {}, year_opt {:?}) line: {:?}", charsz, year_opt, line.to_string_noraw());
 
         // have already determined DateTime formatting for this file, so
         // no need to try *all* built-in DateTime formats, just try the known good formats
@@ -1756,6 +2210,8 @@ impl SyslineReader {
         defo!("indexes {:?}", indexes);
         let result: ResultFindDateTime = SyslineReader::find_datetime_in_line(
             line,
+            self.encoding_type(),
+            &mut self.transcode_buffer,
             &indexes,
             charsz,
             year_opt,
@@ -1785,8 +2241,8 @@ impl SyslineReader {
                 return ResultParseDateTime::Err(err);
             }
         };
-        self.dt_patterns_update(data.3);
-        self.dt_first_last_update(&data.2, line.fileoffset_begin());
+        self.dt_patterns_update(data.5);
+        self.dt_first_last_update(&data.4, line.fileoffset_begin());
         defx!("return {:?}", data);
 
         ResultParseDateTime::Ok(data)
@@ -1929,7 +2385,6 @@ impl SyslineReader {
                 );
                 summary_stat!(self.syslines_by_range_hit += 1);
                 let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(fo).unwrap());
-                // XXX: Issue #16 only handles UTF-8/ASCII encoding
                 let fo_next: FileOffset = (*syslinep).fileoffset_next();
                 if self.is_sysline_last(&syslinep) {
                     defx!(
@@ -1938,7 +2393,7 @@ impl SyslineReader {
                         &syslinep,
                         (*syslinep).fileoffset_begin(),
                         (*syslinep).fileoffset_end(),
-                        (*syslinep).to_String_noraw()
+                        (*syslinep).to_string_noraw()
                     );
                     summary_stat!(self.find_sysline_lru_cache_put += 1);
                     self.find_sysline_lru_cache
@@ -1959,7 +2414,7 @@ impl SyslineReader {
                     &syslinep,
                     (*syslinep).fileoffset_begin(),
                     (*syslinep).fileoffset_end(),
-                    (*syslinep).to_String_noraw()
+                    (*syslinep).to_string_noraw()
                 );
                 SyslineReader::debug_assert_gt_fo_syslineend(&fo_next, &syslinep);
                 return Some(ResultFindSysline::Found((fo_next, syslinep)));
@@ -1972,6 +2427,7 @@ impl SyslineReader {
 
         // check if there is a Sysline already known at this fileoffset
         // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
+        // TODO: replace `if contains_key` with `match get` to avoid double lookup
         if self
             .syslines
             .contains_key(&fileoffset)
@@ -1980,8 +2436,7 @@ impl SyslineReader {
             self.syslines_hit += 1;
             defo!("hit self.syslines for FileOffset {}", fileoffset);
             let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(&fileoffset).unwrap());
-            // XXX: Issue #16 only handles UTF-8/ASCII encoding
-            let fo_next: FileOffset = (*syslinep).fileoffset_end() + (self.charsz() as FileOffset);
+            let fo_next: FileOffset = (*syslinep).fileoffset_end() + 1;
             if self.is_sysline_last(&syslinep) {
                 defo!(
                     "return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
@@ -1989,7 +2444,7 @@ impl SyslineReader {
                     &syslinep,
                     (*syslinep).fileoffset_begin(),
                     (*syslinep).fileoffset_end(),
-                    (*syslinep).to_String_noraw()
+                    (*syslinep).to_string_noraw()
                 );
                 summary_stat!(self.find_sysline_lru_cache_put += 1);
                 self.find_sysline_lru_cache
@@ -2011,7 +2466,7 @@ impl SyslineReader {
                 &syslinep,
                 (*syslinep).fileoffset_begin(),
                 (*syslinep).fileoffset_end(),
-                (*syslinep).to_String_noraw()
+                (*syslinep).to_string_noraw()
             );
             return Some(ResultFindSysline::Found((fo_next, syslinep)));
         } else {
@@ -2059,6 +2514,22 @@ impl SyslineReader {
     ) -> (ResultFindSysline, bool) {
         defn!("({}, {:?})", fileoffset, year_opt);
 
+        let charsz_fo: FileOffset = self.charsz() as FileOffset;
+        let fileoffset_orig: FileOffset = fileoffset;
+        let fileoffset: FileOffset = if charsz_fo > 1 {
+            fileoffset - (fileoffset % charsz_fo)
+        } else {
+            fileoffset
+        };
+        if fileoffset != fileoffset_orig {
+            defo!(
+                "adjusted fileoffset {} to {} to be divisible by charsz {}",
+                fileoffset_orig,
+                fileoffset,
+                self.charsz()
+            );
+        }
+
         if let Some(result) = self.check_store(fileoffset) {
             defx!("({}): return {:?}, false", fileoffset, result);
             return (result, false);
@@ -2066,6 +2537,7 @@ impl SyslineReader {
 
         defo!("({}): searching for first sysline datetime A …", fileoffset);
 
+        let charsz_: usize = self.charsz() as usize;
         let mut _fo_a: FileOffset = 0;
         let mut fo1: FileOffset = fileoffset;
         let mut sysline: Sysline;
@@ -2084,7 +2556,7 @@ impl SyslineReader {
                         fo_,
                         (*linep_).len(),
                         (*linep_).count_lineparts(),
-                        (*linep_).to_String_noraw()
+                        (*linep_).to_string_noraw()
                     );
 
                     (fo_, linep_)
@@ -2098,8 +2570,15 @@ impl SyslineReader {
                         let result = self.parse_datetime_in_line_cached(&LineP::new(line), self.charsz(), year_opt);
                         defo!("({}): partial parse_datetime_in_line_cached returned {:?}", fileoffset, result);
                         match result {
-                            Err(_) => {}
-                            Ok((_dt_beg, _dt_end, _dt, _index)) => {
+                            Err(_) => {
+                                // UTF-16/UTF-32 partial lines in block zero are often truncated
+                                // before a full datetime fits. Signal partial_found to keep probing.
+                                if charsz_ > 1 {
+                                    defx!("({}): return ResultFindSysline::Done, true (partial multibyte line)", fileoffset);
+                                    return (ResultFindSysline::Done, true);
+                                }
+                            }
+                            Ok((_dt_beg_actual, _dt_end_actual, _dt_beg_utf8, _dt_end_utf8, _dt, _index)) => {
                                 defo!("({}): partial Line datetime found: {:?}", fileoffset, _dt);
                                 defx!("({}): return ResultFindSysline::Done, true", fileoffset);
                                 return (ResultFindSysline::Done, true);
@@ -2125,23 +2604,34 @@ impl SyslineReader {
             match result {
                 Err(_) => {}
                 // FindDateTimeData:
-                // (LineIndex, LineIndex, DateTimeL, DateTimeParseInstrsIndex);
-                Ok((dt_beg, dt_end, dt, _index)) => {
+                // (LineIndex, LineIndex, LineIndex, LineIndex, DateTimeL, DateTimeParseInstrsIndex);
+                Ok((dt_beg_actual, dt_end_actual, dt_beg_utf8, dt_end_utf8, dt, _index)) => {
                     // a datetime was found! beginning of a sysline
                     _fo_a = fo1;
-                    sysline = Sysline::new_no_lines(dt_beg, dt_end, dt);
+                    sysline = Sysline::new_no_lines_with_offsets(
+                        self.filetype().encoding_type().expect("filetype encoding_type should not be None in find_sysline_in_block_year"),
+                        dt_beg_actual,
+                        dt_end_actual,
+                        dt_beg_utf8,
+                        dt_end_utf8,
+                        dt,
+                    );
                     defo!(
-                        "({}): A sl.dt_beg {}, sl.dt_end {}, sl.push({:?})",
+                        "({}): A sl.dt_beg_actual {}, sl.dt_end_actual {}, sl.dt_beg_utf8 {}, sl.dt_end_utf8 {}, sl.push({:?}){}{}",
                         fileoffset,
-                        dt_beg,
-                        dt_end,
-                        (*linep).to_String_noraw()
+                        dt_beg_actual,
+                        dt_end_actual,
+                        dt_beg_utf8,
+                        dt_end_utf8,
+                        (*linep).to_string_noraw(),
+                        so(),
+                        (*linep).to_stringutf8_noraw(self.encoding_type())
                     );
                     sysline.push(linep);
-                    fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
+                    fo1 = sysline.fileoffset_end() + 1;
                     // sanity check
-                    debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}", dt_beg, dt_end);
-                    debug_assert_le!(dt_end, fo1 as usize, "bad dt_end {} fileoffset+charsz {}", dt_end, fo1 as usize);
+                    debug_assert_lt!(dt_beg_actual, dt_end_actual, "bad dt_beg_actual {} dt_end_actual {}", dt_beg_actual, dt_end_actual);
+                    debug_assert_le!(dt_end_actual, fo1 as usize, "bad dt_end_actual {} fileoffset+charsz {}", dt_end_actual, fo1 as usize);
                     if self.is_sysline_last(&sysline) {
                         let syslinep: SyslineP = self.insert_sysline(sysline);
                         if self.find_sysline_lru_cache_enabled {
@@ -2170,7 +2660,7 @@ impl SyslineReader {
                     break;
                 }
             }
-            defo!("({}): A skip push Line {:?}", fileoffset, (*linep).to_String_noraw());
+            defo!("({}): A skip push Line {:?}", fileoffset, (*linep).to_string_noraw());
             fo1 = fo2;
         }
 
@@ -2200,7 +2690,7 @@ impl SyslineReader {
                         fo_,
                         (*linep_).len(),
                         (*linep_).count_lineparts(),
-                        (*linep_).to_String_noraw()
+                        (*linep_).to_string_noraw()
                     );
 
                     (fo_, linep_)
@@ -2220,7 +2710,7 @@ impl SyslineReader {
                     }
                     // line search is exhausted, force `fo_b` to "point" to
                     // the known `sysline.fileoffset_end()`
-                    fo_b = sysline.fileoffset_end() + self.charsz() as FileOffset;
+                    fo_b = sysline.fileoffset_end() + 1;
                     break;
                 }
                 ResultFindLine::Err(err) => {
@@ -2240,9 +2730,11 @@ impl SyslineReader {
             match result {
                 Err(_) => {
                     defo!(
-                        "({}): B append found Line to this Sysline sl.push({:?})",
+                        "({}): B append found Line to this Sysline sl.push({:?}){}{}",
                         fileoffset,
-                        (*linep).to_String_noraw()
+                        (*linep).to_string_noraw(),
+                        so(),
+                        (*linep).to_stringutf8_noraw(self.encoding_type())
                     );
                     sysline.push(linep);
                 }
@@ -2251,7 +2743,7 @@ impl SyslineReader {
                     defo!(
                         "({}): B found datetime; end of this Sysline. Do not append found Line {:?}",
                         fileoffset,
-                        (*linep).to_String_noraw()
+                        (*linep).to_string_noraw()
                     );
                     fo_b = fo1;
                     break;
@@ -2265,7 +2757,7 @@ impl SyslineReader {
             fileoffset,
             fo_b,
             sysline.dt(),
-            sysline.to_String_noraw(),
+            sysline.to_string_noraw(),
         );
 
         let syslinep: SyslineP = self.insert_sysline(sysline);
@@ -2284,7 +2776,7 @@ impl SyslineReader {
             &syslinep,
             (*syslinep).fileoffset_begin(),
             (*syslinep).fileoffset_end(),
-            (*syslinep).to_String_noraw()
+            (*syslinep).to_string_noraw()
         );
         SyslineReader::debug_assert_gt_fo_syslineend(&fo_b, &syslinep);
 
@@ -2344,12 +2836,26 @@ impl SyslineReader {
             );
         }
 
+        let charsz_fo: FileOffset = self.charsz() as FileOffset;
+        let fileoffset_orig: FileOffset = fileoffset;
+        let fileoffset: FileOffset = if charsz_fo > 1 {
+            fileoffset - (fileoffset % charsz_fo)
+        } else {
+            fileoffset
+        };
+        if fileoffset != fileoffset_orig {
+            defo!(
+                "adjusted fileoffset {} to {} to be divisible by charsz {}",
+                fileoffset_orig,
+                fileoffset,
+                self.charsz()
+            );
+        }
+
         if let Some(result) = self.check_store(fileoffset) {
             defx!("({}): return {:?}", fileoffset, result);
             return result;
         }
-
-        let charsz_fo: FileOffset = self.charsz() as FileOffset;
 
         defo!("({}): searching for first sysline datetime A …", fileoffset);
 
@@ -2369,8 +2875,9 @@ impl SyslineReader {
         let mut sysline: Sysline;
 
         loop {
-            defo!("({}): self.linereader.find_line({})", fileoffset, fo1);
-            let result: ResultFindLine = self.linereader.find_line(fo1);
+            let fo1_aligned: FileOffset = if charsz_fo > 1 { fo1 - (fo1 % charsz_fo) } else { fo1 };
+            defo!("({}): self.linereader.find_line({})", fileoffset, fo1_aligned);
+            let result: ResultFindLine = self.linereader.find_line(fo1_aligned);
             let (fo2, linep) = match result {
                 ResultFindLine::Found((fo_, linep_)) => {
                     defo!(
@@ -2378,7 +2885,7 @@ impl SyslineReader {
                         fo_,
                         (*linep_).len(),
                         (*linep_).count_lineparts(),
-                        (*linep_).to_String_noraw()
+                        (*linep_).to_string_noraw()
                     );
                     (fo_, linep_)
                 }
@@ -2410,27 +2917,40 @@ impl SyslineReader {
                 Err(_) => {
                     // a datetime was not found in the Line! (this is normal behavior)
                 }
-                Ok((dt_beg, dt_end, dt, _index)) => {
+                Ok((dt_beg_actual, dt_end_actual, dt_beg_utf8, dt_end_utf8, dt, _index)) => {
                     // a datetime was found! beginning of a sysline
                     _fo_a = fo1;
-                    sysline = Sysline::new_no_lines(dt_beg, dt_end, dt);
-                    defo!("({}): A sl.push({:?})", fileoffset, (*linep).to_String_noraw());
+                    sysline = Sysline::new_no_lines_with_offsets(
+                        self.filetype().encoding_type().expect("filetype encoding_type should not be None in find_sysline_year"),
+                        dt_beg_actual,
+                        dt_end_actual,
+                        dt_beg_utf8,
+                        dt_end_utf8,
+                        dt,
+                    );
+                    defo!(
+                        "({}): A sl.push({:?}){}{}",
+                        fileoffset,
+                        (*linep).to_string_noraw(),
+                        so(),
+                        (*linep).to_stringutf8_noraw(self.encoding_type())
+                    );
                     sysline.push(linep);
-                    fo1 = sysline.fileoffset_end() + (self.charsz() as FileOffset);
+                    fo1 = sysline.fileoffset_end() + 1;
                     // sanity check
-                    debug_assert_lt!(dt_beg, dt_end, "bad dt_beg {} dt_end {}, dt {:?}", dt_beg, dt_end, dt);
+                    debug_assert_lt!(dt_beg_actual, dt_end_actual, "bad dt_beg_actual {} dt_end_actual {}, dt {:?}", dt_beg_actual, dt_end_actual, dt);
                     debug_assert_le!(
-                        dt_end,
+                        dt_end_actual,
                         fo1 as usize,
-                        "bad dt_end {} fileoffset+charsz {}, dt {:?}",
-                        dt_end,
+                        "bad dt_end_actual {} fileoffset+charsz {}, dt {:?}",
+                        dt_end_actual,
                         fo1 as usize,
                         dt
                     );
                     break;
                 }
             }
-            defo!("({}): A skip push Line {:?}", fileoffset, (*linep).to_String_noraw());
+            defo!("({}): A skip push Line {:?}", fileoffset, (*linep).to_string_noraw());
             let line_beg: FileOffset = (*linep).fileoffset_begin();
             if fo_zero_tried {
                 // search forwards...
@@ -2439,20 +2959,28 @@ impl SyslineReader {
                 // will be ignored.
                 // TODO: [2022/07] somehow inform user that some lines were not processed.
                 fo1 = fo_a_max;
-            } else if line_beg > charsz_fo {
-                // search backwards...
-                fo1 = line_beg - charsz_fo;
-                // TODO: cost-savings: searching `self.syslines_by_range` is surprisingly expensive.
-                //       Consider adding a faster, simpler `HashMap` that only tracks
-                //       `sysline.fileoffset_end` keys to `fileoffset_begin` values.
-                if self
-                    .syslines_by_range
-                    .contains_key(&fo1)
-                {
-                    // ran into prior processed sysline; something is odd. Abandon these lines
-                    // and change search direction to go forwards
-                    // TODO: Issue #61 enable expression attribute when feature is stable
-                    //       #[allow(unused_assignments)]
+            } else if line_beg > 0 {
+                let search_backwards: bool = line_beg <= fileoffset;
+                if search_backwards {
+                    // Search backwards when query offset is inside this line,
+                    // including exact line-begin boundaries without datetime.
+                    fo1 = line_beg - 1;
+                    // TODO: cost-savings: searching `self.syslines_by_range` is surprisingly expensive.
+                    //       Consider adding a faster, simpler `HashMap` that only tracks
+                    //       `sysline.fileoffset_end` keys to `fileoffset_begin` values.
+                    if self
+                        .syslines_by_range
+                        .contains_key(&fo1)
+                    {
+                        // ran into prior processed sysline; something is odd. Abandon these lines
+                        // and change search direction to go forwards
+                        // TODO: Issue #61 enable expression attribute when feature is stable
+                        //       #[allow(unused_assignments)]
+                        fo_zero_tried = true;
+                        fo1 = fo_a_max;
+                    }
+                } else {
+                    // At/after a line boundary that lacks datetime: continue forward.
                     fo_zero_tried = true;
                     fo1 = fo_a_max;
                 }
@@ -2477,8 +3005,9 @@ impl SyslineReader {
         let mut fo_b: FileOffset = fo1;
         defo!("({}): fo_b {:?}", fileoffset, fo_b);
         loop {
-            defo!("({}): self.linereader.find_line({})", fileoffset, fo1);
-            let result: ResultFindLine = self.linereader.find_line(fo1);
+            let fo1_aligned: FileOffset = if charsz_fo > 1 { fo1 - (fo1 % charsz_fo) } else { fo1 };
+            defo!("({}): self.linereader.find_line({})", fileoffset, fo1_aligned);
+            let result: ResultFindLine = self.linereader.find_line(fo1_aligned);
             let (fo2, linep) = match result {
                 ResultFindLine::Found((fo_, linep_)) => {
                     defo!(
@@ -2487,7 +3016,7 @@ impl SyslineReader {
                         fo_,
                         (*linep_).len(),
                         (*linep_).count_lineparts(),
-                        (*linep_).to_String_noraw()
+                        (*linep_).to_string_noraw()
                     );
 
                     (fo_, linep_)
@@ -2513,9 +3042,11 @@ impl SyslineReader {
                 Err(_) => {
                     // a datetime was not found in the Line! This line is also part of this sysline
                     defo!(
-                        "({}): B append found Line to this Sysline sl.push({:?})",
+                        "({}): B append found Line to this Sysline sl.push({:?}){}{}",
                         fileoffset,
-                        (*linep).to_String_noraw()
+                        (*linep).to_string_noraw(),
+                        so(),
+                        (*linep).to_stringutf8_noraw(self.encoding_type())
                     );
                     sysline.push(linep);
                 }
@@ -2524,7 +3055,7 @@ impl SyslineReader {
                     defo!(
                         "({}): B found datetime; end of this Sysline. Do not append found Line {:?}",
                         fileoffset,
-                        (*linep).to_String_noraw()
+                        (*linep).to_string_noraw()
                     );
                     fo_b = fo1;
                     break;
@@ -2539,7 +3070,7 @@ impl SyslineReader {
             fileoffset,
             fo_b,
             sysline.dt(),
-            sysline.to_String_noraw(),
+            sysline.to_string_noraw(),
         );
 
         let syslinep: SyslineP = self.insert_sysline(sysline);
@@ -2559,7 +3090,7 @@ impl SyslineReader {
             &syslinep,
             (*syslinep).fileoffset_begin(),
             (*syslinep).fileoffset_end(),
-            (*syslinep).to_String_noraw()
+            (*syslinep).to_string_noraw()
         );
         SyslineReader::debug_assert_gt_fo_syslineend(&fo_b, &syslinep);
 
@@ -2662,7 +3193,7 @@ impl SyslineReader {
                         &(*syslinep),
                         syslinep.lines.len(),
                         (*syslinep).len(),
-                        (*syslinep).to_String_noraw(),
+                        (*syslinep).to_string_noraw(),
                     );
                     // here is the binary search algorithm in action
                     defo!("sysline_dt_after_or_before(@{:p} ({:?}), {:?})", &syslinep, (*syslinep).dt(), dt_filter,);
@@ -2697,7 +3228,7 @@ impl SyslineReader {
                                     fo,
                                     &syslinep,
                                     (*syslinep).fileoffset_begin(),
-                                    (*syslinep).to_String_noraw(),
+                                    (*syslinep).to_string_noraw(),
                                 );
                                 SyslineReader::debug_assert_gt_fo_syslineend(&fo, &syslinep);
                                 return ResultFindSysline::Found((fo, syslinep));
@@ -2847,14 +3378,14 @@ impl SyslineReader {
                     fo_beg,
                     (*syslinep).fileoffset_end(),
                     (*syslinep).dt(),
-                    (*syslinep).to_String_noraw()
+                    (*syslinep).to_string_noraw()
                 );
                 defo!(
                     "syslinep_next : fo_beg {:3}, fo_end {:3} {:?} {:?}",
                     (*syslinep_next).fileoffset_begin(),
                     (*syslinep_next).fileoffset_end(),
                     (*syslinep_next).dt(),
-                    (*syslinep_next).to_String_noraw()
+                    (*syslinep_next).to_string_noraw()
                 );
                 let syslinep_compare = dt_after_or_before((*syslinep).dt(), dt_filter);
                 let syslinep_next_compare = dt_after_or_before((*syslinep_next).dt(), dt_filter);
@@ -2892,7 +3423,7 @@ impl SyslineReader {
                 fo_,
                 &syslinep,
                 (*syslinep).fileoffset_begin(),
-                (*syslinep).to_String_noraw()
+                (*syslinep).to_string_noraw()
             );
             SyslineReader::debug_assert_gt_fo_syslineend(&fo_, &syslinep);
             return ResultFindSysline::Found((fo_, syslinep));

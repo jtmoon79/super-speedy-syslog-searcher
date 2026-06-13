@@ -23,9 +23,13 @@ use ::si_trace_print::{
     deo,
     stack::stack_offset_set,
 };
-use ::test_case::test_case;
+use ::test_case::{
+    test_case,
+    test_matrix,
+};
 
 use crate::common::{
+    Bytes,
     CharSz,
     Count,
     FPath,
@@ -34,6 +38,11 @@ use crate::common::{
     RegexId,
     ResultFind,
     summary_stats_enable,
+    BOM_UTF8,
+    BOM_UTF16BE,
+    BOM_UTF16LE,
+    BOM_UTF32BE,
+    BOM_UTF32LE,
 };
 use crate::data::datetime::{
     datetime_parse_from_str,
@@ -67,7 +76,7 @@ use crate::debug::helpers::{
     ntf_fpath,
     NamedTempFile,
 };
-use crate::debug::printers::str_to_String_noraw;
+use crate::debug::printers::str_to_string_noraw;
 use crate::readers::blockreader::{
     Block,
     BlockIndex,
@@ -93,7 +102,24 @@ use crate::readers::syslinereader::{
 #[allow(unused_imports)]
 use crate::tests::common::{
     eprint_file,
+    encode_utf16be,
+    encode_utf16le,
+    encode_utf32be,
+    encode_utf32le,
+    encode_to_utf8,
+    utf_to_utf8,
+    bytes_to_utf8,
     FILETYPE_UTF8,
+    FILE_UTF16BE_BOM_DTF56B_FPATH,
+    FILE_UTF16BE_DTF56B_FPATH,
+    FILE_UTF16LE_BOM_DTF56B_FPATH,
+    FILE_UTF16LE_DTF56B_FPATH,
+    FILE_UTF32BE_BOM_DTF56B_FPATH,
+    FILE_UTF32BE_DTF56B_FPATH,
+    FILE_UTF32LE_BOM_DTF56B_FPATH,
+    FILE_UTF32LE_DTF56B_FPATH,
+    FILE_UTF8_BOM_DTF56B_FPATH,
+    FILE_UTF8_DTF56B_FPATH,
     FO_0,
     FO_L,
     FO_M5,
@@ -122,6 +148,7 @@ use crate::tests::common::{
     NTF_WNL_1_PATH,
     NTF_XZ_1BYTE_FPATH,
     NTF_XZ_8BYTE_FPATH,
+    REGEX_ID_DTF65B,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
 
@@ -129,8 +156,24 @@ use crate::tests::datetime_tests::dt_pattern_has_tz;
 /// `ResultFindSysline`
 pub type ResultFindSysline_Test = ResultFind<(), std::io::Error>;
 
+/// empty slice
+const E: &[u8] = [].as_slice();
+/// empty string
+const ES: &str = "";
+
 const FOUND: ResultFindSysline_Test = ResultFindSysline_Test::Found(());
 const DONE: ResultFindSysline_Test = ResultFindSysline_Test::Done;
+
+const UTF_8: FileTypeTextEncoding = FileTypeTextEncoding::Utf8Ascii;
+const UTF_8_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf8BOM;
+const UTF_16LE: FileTypeTextEncoding = FileTypeTextEncoding::Utf16le;
+const UTF_16LE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf16leBOM;
+const UTF_16BE: FileTypeTextEncoding = FileTypeTextEncoding::Utf16be;
+const UTF_16BE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf16beBOM;
+const UTF_32LE: FileTypeTextEncoding = FileTypeTextEncoding::Utf32le;
+const UTF_32LE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf32leBOM;
+const UTF_32BE: FileTypeTextEncoding = FileTypeTextEncoding::Utf32be;
+const UTF_32BE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf32beBOM;
 
 /// Helper to wrap the match and panic checks
 fn new_SyslineReader(
@@ -276,14 +319,14 @@ fn impl_find_sysline(
     defx!();
 }
 
-#[test_case(true, 0x2 ; "cache_0x2")]
-#[test_case(false, 0x2 ; "nocache_0x2")]
 #[test_case(true, 0x4 ; "cache_0x4")]
 #[test_case(false, 0x4 ; "nocache_0x4")]
 #[test_case(true, 0xF ; "cache_0xF")]
 #[test_case(false, 0xF ; "nocache_0xF")]
 #[test_case(true, 0xFF ; "cache_0xFF")]
 #[test_case(false, 0xFF ; "nocache_0xFF")]
+#[test_case(true, 0x10 ; "cache_0x10")]
+#[test_case(false, 0x10 ; "nocache_0x10")]
 #[test_case(true, 0xFFFF ; "cache_0xFFFF")]
 #[test_case(false, 0xFFFF ; "nocache_0xFFFF")]
 fn test_find_sysline_A0(
@@ -377,6 +420,7 @@ fn helper_extract_dtpi_info(
 /// test `SyslineReader::find_datetime_in_line`
 #[test]
 fn test_find_datetime_in_line() {
+    let mut transcode_buffer: Bytes = Bytes::with_capacity(0);
     let mut regex_captures_attempted: Count = 0;
     let mut regex_captures_matched: Count = 0;
     let mut get_boxptrs_singleptr: Count = 0;
@@ -416,6 +460,8 @@ fn test_find_datetime_in_line() {
             defo!("SyslineReader::find_datetime_in_line(...)");
             match SyslineReader::find_datetime_in_line(
                 &line,
+                                FileTypeTextEncoding::Utf8Ascii,
+                                &mut transcode_buffer,
                 &indexes,
                 1 as CharSz,
                 &Some(year),
@@ -438,7 +484,7 @@ fn test_find_datetime_in_line() {
                 &mut ezcheck12d2_hit_max,
                 &FPath::from("DUMMY PATH"),
             ) {
-                ResultFindDateTime::Ok((a_actual, b_actual, dt_actual, index)) => {
+                ResultFindDateTime::Ok((a_actual, b_actual, _a_utf8, _b_utf8, dt_actual, index)) => {
                     assert_eq!(
                         a_expect,
                         a_actual,
@@ -521,7 +567,7 @@ fn test_parse_datetime_in_line_cached__no_cache() {
                 1 as CharSz,
                 &Some(year)
             ) {
-                ResultFindDateTime::Ok((a_actual, b_actual, dt_actual, index)) => {
+                ResultFindDateTime::Ok((a_actual, b_actual, _a_utf8, _b_utf8, dt_actual, index)) => {
                     eprintln!("data {:?}", &(*blockp).as_bstr());
                     let slice_ = &(*blockp)[a_actual..b_actual];
                     eprintln!("data datetime substring [{}..{}] {:?}", a_actual, b_actual, slice_.as_bstr());
@@ -616,7 +662,7 @@ fn impl_test_find_sysline_at_datetime_filter(
         let has_tz = dt_pattern_has_tz(dt_pattern);
         defo!(
             "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
-            str_to_String_noraw(dts),
+            str_to_string_noraw(dts),
             dt_pattern,
             has_tz,
             &tzo
@@ -627,14 +673,14 @@ fn impl_test_find_sysline_at_datetime_filter(
                 panic!("ERROR: datetime_from_str({:?}, {:?}) returned None", dts, dt_pattern);
             }
         };
-        let sline_expect_noraw = str_to_String_noraw(sline_expect);
+        let sline_expect_noraw = str_to_string_noraw(sline_expect);
         defo!("find_sysline_at_datetime_filter({}, {:?})", fo1, dt);
         let result = slr.find_sysline_at_datetime_filter(*fo1, &Some(dt));
         assert_results4(fo1, result_expect, &result);
         match result {
             ResultFindSysline::Found(val) => {
                 let sline = val.1.to_String();
-                let sline_noraw = str_to_String_noraw(sline.as_str());
+                let sline_noraw = str_to_string_noraw(sline.as_str());
                 defo!("expected: {:?}", sline_expect_noraw);
                 defo!("returned: {:?}", sline_noraw);
                 let sline_expect_string = String::from(*sline_expect);
@@ -855,8 +901,6 @@ fn impl_test_find_sysline_at_datetime_filter_NTF26(
 // XXX: are these different BlockSz tests necessary? are not these adequately tested by
 //      other lower-level tests?
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -886,8 +930,6 @@ fn test_find_sysline_at_datetime_filter_NTF26(
     impl_test_find_sysline_at_datetime_filter_NTF26(cache, blocksz, None);
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -915,8 +957,6 @@ fn test_find_sysline_at_datetime_filter_NTF26_checksx(
     impl_test_find_sysline_at_datetime_filter_NTF26(cache, blocksz, Some(NTF26_checksx_copy()));
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 64; "cache_64")]
@@ -935,8 +975,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -956,8 +994,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_a(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -981,8 +1017,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_b(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1006,8 +1040,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_c(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1031,8 +1063,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_d(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1061,8 +1091,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_e(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1091,8 +1119,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_f(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1121,8 +1147,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_g(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1151,8 +1175,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_h(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1181,8 +1203,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_i(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1211,8 +1231,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_j(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1241,8 +1259,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_k(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1271,8 +1287,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_l(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1301,8 +1315,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_m(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1331,8 +1343,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_n(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1361,8 +1371,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_o(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1391,8 +1399,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_p(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1421,8 +1427,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_q(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1451,8 +1455,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_r(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1481,8 +1483,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_s(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1511,8 +1511,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_t(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1541,8 +1539,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_u(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1571,8 +1567,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_v(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1601,8 +1595,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_w(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1626,8 +1618,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_x(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1651,8 +1641,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_y(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1676,8 +1664,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_0_z(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1701,8 +1687,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_a(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1726,8 +1710,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_b(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1751,8 +1733,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_c(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1776,8 +1756,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_d(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1806,8 +1784,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_e(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1836,8 +1812,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_f(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1866,8 +1840,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_g(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1896,8 +1868,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_h(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1926,8 +1896,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_i(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1956,8 +1924,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_j(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -1986,8 +1952,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_k(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2016,8 +1980,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_l(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2046,8 +2008,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_m(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2076,8 +2036,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_n(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2106,8 +2064,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_o(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2136,8 +2092,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_p(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2166,8 +2120,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_q(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2196,8 +2148,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_r(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2226,8 +2176,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_s(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2256,8 +2204,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_t(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2287,8 +2233,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_u(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2318,8 +2262,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_v(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2349,8 +2291,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_w(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2380,8 +2320,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_x(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2411,8 +2349,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_y(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2442,8 +2378,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_x_z(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2470,8 +2404,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_2_z_(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2498,8 +2430,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_2_y_(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2526,8 +2456,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_2_x_(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2554,8 +2482,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_2_m_(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2582,8 +2508,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_2_za(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2610,8 +2534,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_2_ya(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2638,8 +2560,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_2_xa(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2666,8 +2586,6 @@ fn test_find_sysline_at_datetime_filter_checks_2_ma(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2695,8 +2613,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3____(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2724,8 +2640,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3__ab(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2753,8 +2667,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3__az(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2782,8 +2694,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3__bd(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2811,8 +2721,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3__ml(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2840,8 +2748,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3__my(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2869,8 +2775,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3__mz(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2898,8 +2802,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3__m_(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2927,8 +2829,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_aaa(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2956,8 +2856,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_abc(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -2985,8 +2883,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_aba(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3014,8 +2910,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_abn(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3043,8 +2937,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_aby(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3072,8 +2964,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_abz(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3101,8 +2991,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_aaz(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3130,8 +3018,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_byo(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3159,8 +3045,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_zaa(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3188,8 +3072,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_zbc(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3217,8 +3099,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_zba(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3246,8 +3126,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_zbn(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3275,8 +3153,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_zby(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3304,8 +3180,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_zbz(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3333,8 +3207,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_zaz(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3362,8 +3234,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_yaa(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3391,8 +3261,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_ybc(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3420,8 +3288,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_yba(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3449,8 +3315,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_ybn(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3478,8 +3342,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_yby(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3507,8 +3369,6 @@ fn test_find_sysline_at_datetime_filter_checks_NTF26_3_ybz(
     );
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 6; "cache_6")]
@@ -3576,7 +3436,7 @@ fn impl_test_find_sysline_between_datetime_filter(
         let has_tz = dt_pattern_has_tz(dt_pattern);
         defo!(
             "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
-            str_to_String_noraw(dts_a),
+            str_to_string_noraw(dts_a),
             dt_pattern,
             has_tz,
             &tzo
@@ -3591,7 +3451,7 @@ fn impl_test_find_sysline_between_datetime_filter(
         let has_tz = dt_pattern_has_tz(dt_pattern);
         defo!(
             "datetime_parse_from_str({:?}, {:?}, {:?}, {:?})",
-            str_to_String_noraw(dts_b),
+            str_to_string_noraw(dts_b),
             dt_pattern,
             has_tz,
             &tzo
@@ -3603,14 +3463,14 @@ fn impl_test_find_sysline_between_datetime_filter(
             }
         };
 
-        let sline_expect_noraw = str_to_String_noraw(sline_expect);
+        let sline_expect_noraw = str_to_string_noraw(sline_expect);
         defo!("find_sysline_between_datetime_filters({}, {:?}, {:?})", fo1, dt_a, dt_b);
         let result = slr.find_sysline_between_datetime_filters(*fo1, &Some(dt_a), &Some(dt_b));
         assert_results4(fo1, result_expect, &result);
         match result {
             ResultFindSysline::Found(val) => {
                 let sline = val.1.to_String();
-                let sline_noraw = str_to_String_noraw(sline.as_str());
+                let sline_noraw = str_to_string_noraw(sline.as_str());
                 defo!("expected: {:?}", sline_expect_noraw);
                 defo!("returned: {:?}", sline_noraw);
                 let sline_expect_string = String::from(*sline_expect);
@@ -3698,8 +3558,6 @@ fn impl_test_find_sysline_between_datetime_filter_NTF26B(
     defx!();
 }
 
-#[test_case(true, 2; "cache_2")]
-#[test_case(false, 2; "nocache_2")]
 #[test_case(true, 4; "cache_4")]
 #[test_case(false, 4; "nocache_4")]
 #[test_case(true, 16; "cache_16")]
@@ -3756,7 +3614,7 @@ fn impl_test_SyslineReader_find_sysline(
                     &(*slp),
                     slp.count_lines(),
                     (*slp).len(),
-                    (*slp).to_String_noraw(),
+                    (*slp).to_string_noraw(),
                 );
                 fo1 = fo;
 
@@ -3994,7 +3852,7 @@ fn impl_test_findsysline(
                     &(*slp),
                     slp.count_lines(),
                     (*slp).len(),
-                    (*slp).to_String_noraw(),
+                    (*slp).to_string_noraw(),
                 );
 
                 let actual_String = (*slp).to_String();
@@ -4244,14 +4102,6 @@ fn copy_TestDataA2Dt6Checks(checks: &TestDataA2Dt6Checks) -> TestDataA2Dt6Checks
     data
 }
 
-#[test_case(true, false, false, 2, &test_data_A2_dt6_checks_many; "cache_2")]
-#[test_case(false, false, false, 2, &test_data_A2_dt6_checks_many; "nocache_2")]
-#[test_case(true, true, false, 2, &test_data_A2_dt6_checks_many; "cache_2_reverse")]
-#[test_case(false, true, false, 2, &test_data_A2_dt6_checks_many; "nocache_2_reverse")]
-#[test_case(true, false, true, 2, &test_data_A2_dt6_checks_many; "cache_2_swapends")]
-#[test_case(false, false, true, 2, &test_data_A2_dt6_checks_many; "nocache_2_swapends")]
-#[test_case(true, true, true, 2, &test_data_A2_dt6_checks_many; "cache_2_reverse_swapends")]
-#[test_case(false, true, true, 2, &test_data_A2_dt6_checks_many; "nocache_2_reverse_swapends")]
 #[test_case(true, false, false, 4, &test_data_A2_dt6_checks_many; "cache_4")]
 #[test_case(false, false, false, 4, &test_data_A2_dt6_checks_many; "nocache_4")]
 #[test_case(true, true, false, 4, &test_data_A2_dt6_checks_many; "cache_4_reverse")]
@@ -5140,13 +4990,13 @@ fn impl_test_find_sysline_rand(
 }
 
 #[test]
-fn test_find_sysline_rand__zero__2() {
-    impl_test_find_sysline_rand(&NTF_LOG_EMPTY_FPATH, 2);
+fn test_find_sysline_rand__zero__4() {
+    impl_test_find_sysline_rand(&NTF_LOG_EMPTY_FPATH, 4);
 }
 
 #[test]
-fn test_find_sysline_rand__test0_nlx1__2() {
-    impl_test_find_sysline_rand(&NTF_NL_1_PATH, 2);
+fn test_find_sysline_rand__test0_nlx1__24() {
+    impl_test_find_sysline_rand(&NTF_NL_1_PATH, 24);
 }
 
 #[test]
@@ -5160,8 +5010,8 @@ fn test_find_sysline_rand__test0_nlx1__8() {
 }
 
 #[test]
-fn test_find_sysline_rand__test0_nlx1_Win__2() {
-    impl_test_find_sysline_rand(&NTF_WNL_1_PATH, 2);
+fn test_find_sysline_rand__test0_nlx1_Win__16() {
+    impl_test_find_sysline_rand(&NTF_WNL_1_PATH, 16);
 }
 
 #[test]
@@ -5201,6 +5051,7 @@ type CheckFindSyslineInBlock = Vec<(FileOffset, ResultFindSysline_Test, String)>
 /// test `syslinereader.find_sysline_in_block`
 #[allow(non_snake_case)]
 fn impl_test_find_sysline_in_block(
+    encoding: FileTypeTextEncoding,
     path: &FPath,
     cache: bool,
     checks: CheckFindSyslineInBlock,
@@ -5212,11 +5063,14 @@ fn impl_test_find_sysline_in_block(
     if !cache {
         slr.LRU_cache_disable();
     }
-    defo!("SyslineReader {:?}", slr);
+    slr.filetype_text_encoding_update(encoding);
+    eprintln!("SyslineReader {:?}", slr);
 
     for (fo_input, result_expect, value_expect) in checks.iter() {
         let result = slr.find_sysline_in_block(*fo_input);
+        eprintln!("result {:?}", result);
         assert_results4(fo_input, result_expect, &result.0);
+        eprintln!("matched results {:?}", result_expect);
         match result.0 {
             ResultFindSysline::Found((_fo, slp)) => {
                 let value_actual: String = (*slp).to_String();
@@ -5225,10 +5079,12 @@ fn impl_test_find_sysline_in_block(
                     "find_sysline_in_block({})\nExpected {:?}\nActual {:?}",
                     fo_input, value_expect, value_actual,
                 );
+                eprintln!("matched Found");
             }
             ResultFindSysline::Done => {
                 // self-check
-                assert_eq!(value_expect, &String::from(""), "bad test check value {:?}", value_expect,);
+                assert_eq!(value_expect, &String::from(""), "\nexpect \"\"\nactual {:?}\n", value_expect);
+                eprintln!("matched Done");
             }
             ResultFindSysline::Err(err) => {
                 panic!("ERROR: find_sysline_in_block({}) returned Error {:?}", fo_input, err);
@@ -5243,14 +5099,14 @@ fn impl_test_find_sysline_in_block(
 #[test_case(false; "nocache")]
 fn test_find_sysline_in_block__empty0(cache: bool) {
     let checks: CheckFindSyslineInBlock = vec![];
-    impl_test_find_sysline_in_block(&NTF_LOG_EMPTY_FPATH, cache, checks, 2);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_LOG_EMPTY_FPATH, cache, checks, 4);
 }
 
 #[test_case(true; "cache")]
 #[test_case(false; "nocache")]
 fn test_find_sysline_in_block__empty1(cache: bool) {
     let checks: CheckFindSyslineInBlock = vec![(0, DONE, String::from(""))];
-    impl_test_find_sysline_in_block(&NTF_NL_1_PATH, cache, checks, 2);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_NL_1_PATH, cache, checks, 4);
 }
 
 #[test_case(true; "cache")]
@@ -5261,7 +5117,7 @@ fn test_find_sysline_in_block__empty2(cache: bool) {
         (1, DONE, String::from("")),
     ];
 
-    impl_test_find_sysline_in_block(&NTF_NL_2_PATH, cache, checks, 4);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_NL_2_PATH, cache, checks, 4);
 }
 
 #[test_case(true; "cache")]
@@ -5274,7 +5130,7 @@ fn test_find_sysline_in_block__empty4(cache: bool) {
         (3, DONE, String::from("")),
     ];
 
-    impl_test_find_sysline_in_block(&NTF_NL_4_PATH, cache, checks, 4);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_NL_4_PATH, cache, checks, 4);
 }
 
 const NTF_A3_DATA_LINE1: &str = "2000-01-01 00:00:00\n";
@@ -5321,7 +5177,7 @@ fn test_find_sysline_in_block__A3__1_4(cache: bool) {
         (0xFFFF, DONE, String::from("")),
     ];
 
-    impl_test_find_sysline_in_block(&NTF_A3_1_PATH, cache, checks, 4);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_A3_1_PATH, cache, checks, 4);
 }
 
 #[test_case(true; "cache")]
@@ -5339,7 +5195,7 @@ fn test_find_sysline_in_block__A3__12_4(cache: bool) {
         (0xFFFF, DONE, String::from("")),
     ];
 
-    impl_test_find_sysline_in_block(&NTF_A3_12_PATH, cache, checks, 4);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_A3_12_PATH, cache, checks, 4);
 }
 
 #[test_case(true; "cache")]
@@ -5365,7 +5221,7 @@ fn test_find_sysline_in_block__A3__1_LINE1LEN(cache: bool) {
         (0xFFFF, DONE, String::from("")),
     ];
 
-    impl_test_find_sysline_in_block(&NTF_A3_1_PATH, cache, checks, bsz);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_A3_1_PATH, cache, checks, bsz);
 }
 
 #[test_case(true; "cache")]
@@ -5396,7 +5252,7 @@ fn test_find_sysline_in_block__A3__12_LINE1LEN(cache: bool) {
         (0xFFFF, DONE, String::from("")),
     ];
 
-    impl_test_find_sysline_in_block(&NTF_A3_12_PATH, cache, checks, bsz);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_A3_12_PATH, cache, checks, bsz);
 }
 
 #[test_case(true; "cache")]
@@ -5418,7 +5274,7 @@ fn test_find_sysline_in_block__A3__1_FFFF(cache: bool) {
         (21, DONE, String::from("")),
     ];
 
-    impl_test_find_sysline_in_block(&NTF_A3_1_PATH, cache, checks, 0xFFFF);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_A3_1_PATH, cache, checks, 0xFFFF);
 }
 
 #[test_case(true; "cache")]
@@ -5443,8 +5299,594 @@ fn test_find_sysline_in_block__A3__12_FFFF(cache: bool) {
         (40, DONE, String::from("")),
     ];
 
-    impl_test_find_sysline_in_block(&NTF_A3_12_PATH, cache, checks, 0xFFFF);
+    impl_test_find_sysline_in_block(UTF_8, &NTF_A3_12_PATH, cache, checks, 0xFFFF);
 }
+
+// -----------------------------------------------------------------------------
+
+/* Contents of dtf5-6b.log:
+
+2000-01-01 00:00:00 [dtf5-6b]6b
+6b
+2000-01-01 00:00:01 [dtf5-6b]6b-a
+6b-a
+2000-01-01 00:00:02 [dtf5-6b]6b-ab
+6b-ab
+2000-01-01 00:00:03 [dtf5-6b]6b-abc
+6b-abc
+2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+6b-abcd
+2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+6b-abcde
+
+*/
+
+const DTF56B_SYSLINE0: &str = "2000-01-01 00:00:00 [dtf5-6b]6b\n6b\n";
+const DTF56B_SYSLINE1: &str = "2000-01-01 00:00:01 [dtf5-6b]6b-a\n6b-a\n";
+const DTF56B_SYSLINE2: &str = "2000-01-01 00:00:02 [dtf5-6b]6b-ab\n6b-ab\n";
+const DTF56B_SYSLINE3: &str = "2000-01-01 00:00:03 [dtf5-6b]6b-abc\n6b-abc\n";
+const DTF56B_SYSLINE4: &str = "2000-01-01 00:00:04 [dtf5-6b]6b-abcd\n6b-abcd\n";
+const DTF56B_SYSLINE5: &str = "2000-01-01 00:00:05 [dtf5-6b]6b-abcde\n6b-abcde";
+
+const DTF56B_SYSLINE0_UTF8: &str = DTF56B_SYSLINE0;
+const DTF56B_SYSLINE1_UTF8: &str = DTF56B_SYSLINE1;
+const DTF56B_SYSLINE2_UTF8: &str = DTF56B_SYSLINE2;
+const DTF56B_SYSLINE3_UTF8: &str = DTF56B_SYSLINE3;
+const DTF56B_SYSLINE4_UTF8: &str = DTF56B_SYSLINE4;
+const DTF56B_SYSLINE5_UTF8: &str = DTF56B_SYSLINE5;
+
+const DTF56B_SYSLINE0_LEN: usize = DTF56B_SYSLINE0.len();
+
+lazy_static! {
+    pub static ref DTF56B_SYSLINE0_UTF8_STRING: String = String::from(DTF56B_SYSLINE0);
+    pub static ref DTF56B_SYSLINE1_UTF8_STRING: String = String::from(DTF56B_SYSLINE1);
+    pub static ref DTF56B_SYSLINE2_UTF8_STRING: String = String::from(DTF56B_SYSLINE2);
+    pub static ref DTF56B_SYSLINE3_UTF8_STRING: String = String::from(DTF56B_SYSLINE3);
+    pub static ref DTF56B_SYSLINE4_UTF8_STRING: String = String::from(DTF56B_SYSLINE4);
+    pub static ref DTF56B_SYSLINE5_UTF8_STRING: String = String::from(DTF56B_SYSLINE5);
+
+    pub static ref DTF56B_SYSLINE0_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE0);
+    pub static ref DTF56B_SYSLINE0_UTF16BE: &'static str = DTF56B_SYSLINE0_UTF16BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE1_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE1);
+    pub static ref DTF56B_SYSLINE1_UTF16BE: &'static str = DTF56B_SYSLINE1_UTF16BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE2_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE2);
+    pub static ref DTF56B_SYSLINE2_UTF16BE: &'static str = DTF56B_SYSLINE2_UTF16BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE3_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE3);
+    pub static ref DTF56B_SYSLINE3_UTF16BE: &'static str = DTF56B_SYSLINE3_UTF16BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE4_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE4);
+    pub static ref DTF56B_SYSLINE4_UTF16BE: &'static str = DTF56B_SYSLINE4_UTF16BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE5_UTF16BE_STRING: String = encode_utf16be(DTF56B_SYSLINE5);
+    pub static ref DTF56B_SYSLINE5_UTF16BE: &'static str = DTF56B_SYSLINE5_UTF16BE_STRING.as_str();
+
+    pub static ref DTF56B_SYSLINE0_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE0);
+    pub static ref DTF56B_SYSLINE0_UTF16LE: &'static str = DTF56B_SYSLINE0_UTF16LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE1_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE1);
+    pub static ref DTF56B_SYSLINE1_UTF16LE: &'static str = DTF56B_SYSLINE1_UTF16LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE2_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE2);
+    pub static ref DTF56B_SYSLINE2_UTF16LE: &'static str = DTF56B_SYSLINE2_UTF16LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE3_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE3);
+    pub static ref DTF56B_SYSLINE3_UTF16LE: &'static str = DTF56B_SYSLINE3_UTF16LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE4_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE4);
+    pub static ref DTF56B_SYSLINE4_UTF16LE: &'static str = DTF56B_SYSLINE4_UTF16LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE5_UTF16LE_STRING: String = encode_utf16le(DTF56B_SYSLINE5);
+    pub static ref DTF56B_SYSLINE5_UTF16LE: &'static str = DTF56B_SYSLINE5_UTF16LE_STRING.as_str();
+
+    pub static ref DTF56B_SYSLINE0_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE0);
+    pub static ref DTF56B_SYSLINE0_UTF32BE: &'static str = DTF56B_SYSLINE0_UTF32BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE1_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE1);
+    pub static ref DTF56B_SYSLINE1_UTF32BE: &'static str = DTF56B_SYSLINE1_UTF32BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE2_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE2);
+    pub static ref DTF56B_SYSLINE2_UTF32BE: &'static str = DTF56B_SYSLINE2_UTF32BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE3_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE3);
+    pub static ref DTF56B_SYSLINE3_UTF32BE: &'static str = DTF56B_SYSLINE3_UTF32BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE4_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE4);
+    pub static ref DTF56B_SYSLINE4_UTF32BE: &'static str = DTF56B_SYSLINE4_UTF32BE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE5_UTF32BE_STRING: String = encode_utf32be(DTF56B_SYSLINE5);
+    pub static ref DTF56B_SYSLINE5_UTF32BE: &'static str = DTF56B_SYSLINE5_UTF32BE_STRING.as_str();
+
+    pub static ref DTF56B_SYSLINE0_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE0);
+    pub static ref DTF56B_SYSLINE0_UTF32LE: &'static str = DTF56B_SYSLINE0_UTF32LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE1_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE1);
+    pub static ref DTF56B_SYSLINE1_UTF32LE: &'static str = DTF56B_SYSLINE1_UTF32LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE2_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE2);
+    pub static ref DTF56B_SYSLINE2_UTF32LE: &'static str = DTF56B_SYSLINE2_UTF32LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE3_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE3);
+    pub static ref DTF56B_SYSLINE3_UTF32LE: &'static str = DTF56B_SYSLINE3_UTF32LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE4_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE4);
+    pub static ref DTF56B_SYSLINE4_UTF32LE: &'static str = DTF56B_SYSLINE4_UTF32LE_STRING.as_str();
+    pub static ref DTF56B_SYSLINE5_UTF32LE_STRING: String = encode_utf32le(DTF56B_SYSLINE5);
+    pub static ref DTF56B_SYSLINE5_UTF32LE: &'static str = DTF56B_SYSLINE5_UTF32LE_STRING.as_str();
+}
+
+// UTF-8
+const DTF56B_SYSLINE0_OFFSET_UTF8: FileOffset = 0;
+const DTF56B_SYSLINE1_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8 + DTF56B_SYSLINE0.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8 + DTF56B_SYSLINE1.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8 + DTF56B_SYSLINE2.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF8 + DTF56B_SYSLINE3.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF8 + DTF56B_SYSLINE4.as_bytes().len() as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF8: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF8 + DTF56B_SYSLINE5.as_bytes().len() as FileOffset;
+// UTF-8 with BOM
+const DTF56B_SYSLINE0_OFFSET_UTF8_BOM: FileOffset = FileTypeTextEncoding::Utf8BOM.bomsz();
+const DTF56B_SYSLINE1_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF8_BOM + DTF56B_SYSLINE0.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF8_BOM + DTF56B_SYSLINE1.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF8_BOM + DTF56B_SYSLINE2.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF8_BOM + DTF56B_SYSLINE3.as_bytes().len() as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF8_BOM + DTF56B_SYSLINE4.as_bytes().len() as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF8_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF8_BOM + DTF56B_SYSLINE5.as_bytes().len() as FileOffset;
+// UTF-16 BE
+const DTF56B_SYSLINE0_OFFSET_UTF16BE: FileOffset = 0;
+const DTF56B_SYSLINE1_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16BE + (DTF56B_SYSLINE0.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16BE + (DTF56B_SYSLINE1.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16BE + (DTF56B_SYSLINE2.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16BE + (DTF56B_SYSLINE3.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16BE + (DTF56B_SYSLINE4.as_bytes().len() * 2) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF16BE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16BE + (DTF56B_SYSLINE5.as_bytes().len() * 2) as FileOffset;
+// UTF-16 BE with BOM
+const DTF56B_SYSLINE0_OFFSET_UTF16BE_BOM: FileOffset = FileTypeTextEncoding::Utf16beBOM.bomsz();
+const DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE0.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE1.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE2.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE3.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE4.as_bytes().len() * 2) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF16BE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM + (DTF56B_SYSLINE5.as_bytes().len() * 2) as FileOffset;
+// UTF-16 LE
+const DTF56B_SYSLINE0_OFFSET_UTF16LE: FileOffset = 0;
+const DTF56B_SYSLINE1_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16LE + (DTF56B_SYSLINE0.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16LE + (DTF56B_SYSLINE1.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16LE + (DTF56B_SYSLINE2.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16LE + (DTF56B_SYSLINE3.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16LE + (DTF56B_SYSLINE4.as_bytes().len() * 2) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF16LE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16LE + (DTF56B_SYSLINE5.as_bytes().len() * 2) as FileOffset;
+// UTF-16 LE with BOM
+const DTF56B_SYSLINE0_OFFSET_UTF16LE_BOM: FileOffset = FileTypeTextEncoding::Utf16leBOM.bomsz();
+const DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE0.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE1.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE2.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE3.as_bytes().len() * 2) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE4.as_bytes().len() * 2) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF16LE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM + (DTF56B_SYSLINE5.as_bytes().len() * 2) as FileOffset;
+// UTF-32 BE
+const DTF56B_SYSLINE0_OFFSET_UTF32BE: FileOffset = 0;
+const DTF56B_SYSLINE1_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32BE + (DTF56B_SYSLINE0.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32BE + (DTF56B_SYSLINE1.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32BE + (DTF56B_SYSLINE2.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32BE + (DTF56B_SYSLINE3.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32BE + (DTF56B_SYSLINE4.as_bytes().len() * 4) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF32BE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32BE + (DTF56B_SYSLINE5.as_bytes().len() * 4) as FileOffset;
+// UTF-32 BE with BOM
+const DTF56B_SYSLINE0_OFFSET_UTF32BE_BOM: FileOffset = FileTypeTextEncoding::Utf32beBOM.bomsz();
+const DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE0.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE1.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE2.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE3.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE4.as_bytes().len() * 4) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF32BE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM + (DTF56B_SYSLINE5.as_bytes().len() * 4) as FileOffset;
+// UTF-32 LE
+const DTF56B_SYSLINE0_OFFSET_UTF32LE: FileOffset = 0;
+const DTF56B_SYSLINE1_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32LE + (DTF56B_SYSLINE0.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32LE + (DTF56B_SYSLINE1.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32LE + (DTF56B_SYSLINE2.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32LE + (DTF56B_SYSLINE3.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32LE + (DTF56B_SYSLINE4.as_bytes().len() * 4) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF32LE: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32LE + (DTF56B_SYSLINE5.as_bytes().len() * 4) as FileOffset;
+// UTF-32 LE with BOM
+const DTF56B_SYSLINE0_OFFSET_UTF32LE_BOM: FileOffset = FileTypeTextEncoding::Utf32leBOM.bomsz();
+const DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE0_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE0.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE1.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE2.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE3.as_bytes().len() * 4) as FileOffset;
+const DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE4.as_bytes().len() * 4) as FileOffset;
+const DTF56B_FILE_END_OFFSET_UTF32LE_BOM: FileOffset = DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM + (DTF56B_SYSLINE5.as_bytes().len() * 4) as FileOffset;
+
+// UTF-8 (no BOM)
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 32, 0, DONE, ES, E; "UTF8 32 0")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 128, 0, FOUND, DTF56B_SYSLINE0_UTF8, E; "UTF8 128 0")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 128, 32, FOUND, DTF56B_SYSLINE1_UTF8, E; "UTF8 128 32")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 128, 64, FOUND, DTF56B_SYSLINE1_UTF8, E; "UTF8 128 64")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 128, 127, DONE, ES, E; "UTF8 128 127")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 128, 128, DONE, ES, E; "UTF8 128 128")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 128, 192, FOUND, DTF56B_SYSLINE4_UTF8, E; "UTF8 128 192")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 128, 512, DONE, ES, E; "UTF8 128 512")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 1024, 64, FOUND, DTF56B_SYSLINE1_UTF8, E; "UTF8 1024 64")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 1024, 99, FOUND, DTF56B_SYSLINE2_UTF8, E; "UTF8 1024 99")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 1024, 130, FOUND, DTF56B_SYSLINE3_UTF8, E; "UTF8 1024 130")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 1024, 200, FOUND, DTF56B_SYSLINE5_UTF8, E; "UTF8 1024 200")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 1024, 224, FOUND, DTF56B_SYSLINE5_UTF8, E; "UTF8 1024 224")]
+#[test_case(UTF_8, &FILE_UTF8_DTF56B_FPATH, 1024, 512, DONE, ES, E; "UTF8 1024 512")]
+// UTF-8 (with BOM)
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 32, 0, DONE, ES, E; "UTF8 BOM 32 0")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 128, 0, FOUND, DTF56B_SYSLINE0_UTF8, BOM_UTF8.as_slice(); "UTF8 BOM 128 0")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 128, 32, FOUND, DTF56B_SYSLINE0_UTF8, BOM_UTF8.as_slice(); "UTF8 BOM 128 32")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 128, 64, FOUND, DTF56B_SYSLINE1_UTF8, E; "UTF8 BOM 128 64")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 128, 127, DONE, ES, E; "UTF8 BOM 128 127")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 128, 128, DONE, ES, E; "UTF8 BOM 128 128")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 128, 192, FOUND, DTF56B_SYSLINE4_UTF8, E; "UTF8 BOM 128 192")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 128, 512, DONE, ES, E; "UTF8 BOM 128 512")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 1024, 64, FOUND, DTF56B_SYSLINE1_UTF8, E; "UTF8 BOM 1024 64")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 1024, 90, FOUND, DTF56B_SYSLINE2_UTF8, E; "UTF8 BOM 1024 90")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 1024, 130, FOUND, DTF56B_SYSLINE3_UTF8, E; "UTF8 BOM 1024 130")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 1024, 175, FOUND, DTF56B_SYSLINE4_UTF8, E; "UTF8 BOM 1024 175")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 1024, 224, FOUND, DTF56B_SYSLINE5_UTF8, E; "UTF8 BOM 1024 224")]
+#[test_case(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 1024, 512, DONE, ES, E; "UTF8 BOM 1024 512")]
+// UTF-32 BE (no BOM)
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 128, 0, DONE, ES, E; "UTF32BE 128 0")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 512, 0, FOUND, &DTF56B_SYSLINE0_UTF32BE, E; "UTF32BE 512 0")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 512, 128, FOUND, &DTF56B_SYSLINE1_UTF32BE, E; "UTF32BE 512 128")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 512, 508, DONE, ES, E; "UTF32BE 512 508")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 512, 512, DONE, ES, E; "UTF32BE 512 512")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 512, 2048, DONE, ES, E; "UTF32BE 512 2048")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 128, FOUND, &DTF56B_SYSLINE1_UTF32BE, E; "UTF32BE 4096 128")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 222, FOUND, &DTF56B_SYSLINE1_UTF32BE, E; "UTF32BE 4096 222")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 300, FOUND, &DTF56B_SYSLINE2_UTF32BE, E; "UTF32BE 4096 300")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 400, FOUND, &DTF56B_SYSLINE2_UTF32BE, E; "UTF32BE 4096 400")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 500, FOUND, &DTF56B_SYSLINE3_UTF32BE, E; "UTF32BE 4096 500")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 600, FOUND, &DTF56B_SYSLINE3_UTF32BE, E; "UTF32BE 4096 600")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 700, FOUND, &DTF56B_SYSLINE4_UTF32BE, E; "UTF32BE 4096 700")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 800, FOUND, &DTF56B_SYSLINE5_UTF32BE, E; "UTF32BE 4096 800")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 900, FOUND, &DTF56B_SYSLINE5_UTF32BE, E; "UTF32BE 4096 900")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 950, FOUND, &DTF56B_SYSLINE5_UTF32BE, E; "UTF32BE 4096 950")]
+#[test_case(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 4096, 1000, DONE, ES, E; "UTF32BE 4096 1000")]
+// UTF-32 BE (with BOM)
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 128, 0, DONE, ES, E; "UTF32BE BOM 128 0")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, (DTF56B_SYSLINE0_LEN * 4 + 4) as FileOffset, 0, FOUND, &DTF56B_SYSLINE0_UTF32BE, BOM_UTF32BE.as_slice(); "UTF32BE BOM 0x4 0")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 512, 508, DONE, ES, E; "UTF32BE BOM 512 508")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 512, 512, DONE, ES, E; "UTF32BE BOM 512 512")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 512, 2048, DONE, ES, E; "UTF32BE BOM 512 2048")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 222, FOUND, &DTF56B_SYSLINE1_UTF32BE, E; "UTF32BE BOM 4096 222")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 300, FOUND, &DTF56B_SYSLINE2_UTF32BE, E; "UTF32BE BOM 4096 300")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 400, FOUND, &DTF56B_SYSLINE2_UTF32BE, E; "UTF32BE BOM 4096 400")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 500, FOUND, &DTF56B_SYSLINE3_UTF32BE, E; "UTF32BE BOM 4096 500")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 600, FOUND, &DTF56B_SYSLINE3_UTF32BE, E; "UTF32BE BOM 4096 600")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 700, FOUND, &DTF56B_SYSLINE4_UTF32BE, E; "UTF32BE BOM 4096 700")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 800, FOUND, &DTF56B_SYSLINE5_UTF32BE, E; "UTF32BE BOM 4096 800")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 900, FOUND, &DTF56B_SYSLINE5_UTF32BE, E; "UTF32BE BOM 4096 900")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 950, FOUND, &DTF56B_SYSLINE5_UTF32BE, E; "UTF32BE BOM 4096 950")]
+#[test_case(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 4096, 1000, DONE, ES, E; "UTF32BE BOM 4096 1000")]
+// UTF-32 LE (no BOM)
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 64, 0, DONE, ES, E; "UTF32LE 64 0")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 0, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 0")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 1, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 1")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 2, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 2")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 3, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 3")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 4, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 4")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 5, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 5")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 6, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 6")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 7, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 7")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 8, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 8")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 400, 9, FOUND, &DTF56B_SYSLINE0_UTF32LE, E; "UTF32LE 400 9")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 128, FOUND, &DTF56B_SYSLINE1_UTF32LE, E; "UTF32LE 4096 128")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 222, FOUND, &DTF56B_SYSLINE1_UTF32LE, E; "UTF32LE 4096 222")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 300, FOUND, &DTF56B_SYSLINE2_UTF32LE, E; "UTF32LE 4096 300")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 400, FOUND, &DTF56B_SYSLINE2_UTF32LE, E; "UTF32LE 4096 400")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 500, FOUND, &DTF56B_SYSLINE3_UTF32LE, E; "UTF32LE 4096 500")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 600, FOUND, &DTF56B_SYSLINE3_UTF32LE, E; "UTF32LE 4096 600")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 700, FOUND, &DTF56B_SYSLINE4_UTF32LE, E; "UTF32LE 4096 700")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 800, FOUND, &DTF56B_SYSLINE5_UTF32LE, E; "UTF32LE 4096 800")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 900, FOUND, &DTF56B_SYSLINE5_UTF32LE, E; "UTF32LE 4096 900")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 950, FOUND, &DTF56B_SYSLINE5_UTF32LE, E; "UTF32LE 4096 950")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 4096, 1000, DONE, "", E; "UTF32LE 4096 1000")]
+// UTF-32 LE (with BOM)
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 128, 0, DONE, "", E; "UTF32LE BOM 128 0")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 512, 508, DONE, "", E; "UTF32LE BOM 512 508")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 512, 512, DONE, "", E; "UTF32LE BOM 512 512")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 512, 2048, DONE, "", E; "UTF32LE BOM 512 2048")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 222, FOUND, &DTF56B_SYSLINE1_UTF32LE, E; "UTF32LE BOM 4096 222")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 300, FOUND, &DTF56B_SYSLINE2_UTF32LE, E; "UTF32LE BOM 4096 300")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 400, FOUND, &DTF56B_SYSLINE2_UTF32LE, E; "UTF32LE BOM 4096 400")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 500, FOUND, &DTF56B_SYSLINE3_UTF32LE, E; "UTF32LE BOM 4096 500")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 600, FOUND, &DTF56B_SYSLINE3_UTF32LE, E; "UTF32LE BOM 4096 600")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 700, FOUND, &DTF56B_SYSLINE4_UTF32LE, E; "UTF32LE BOM 4096 700")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 800, FOUND, &DTF56B_SYSLINE5_UTF32LE, E; "UTF32LE BOM 4096 800")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 900, FOUND, &DTF56B_SYSLINE5_UTF32LE, E; "UTF32LE BOM 4096 900")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 950, FOUND, &DTF56B_SYSLINE5_UTF32LE, E; "UTF32LE BOM 4096 950")]
+#[test_case(UTF_32LE, &FILE_UTF32LE_BOM_DTF56B_FPATH, 4096, 1000, DONE, "", E; "UTF32LE BOM 4096 1000")]
+// UTF-16 BE (no BOM)
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 64, 0, DONE, "", E; "UTF16BE 64 0")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 256, 0, FOUND, &DTF56B_SYSLINE0_UTF16BE, E; "UTF16BE 256 0")]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 256, 0..63, FOUND, &DTF56B_SYSLINE0_UTF16BE, E)]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 256, 64..137, FOUND, &DTF56B_SYSLINE1_UTF16BE, E)]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 256, 138..302, DONE, "", E)]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 256, 303..390, FOUND, &DTF56B_SYSLINE4_UTF16BE, E)]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 256, 391..481, FOUND, &DTF56B_SYSLINE5_UTF16BE, E)]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 256, 482..490, DONE, "", E)]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 64, FOUND, &DTF56B_SYSLINE1_UTF16BE, E; "UTF16BE 4096 64")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 111, FOUND, &DTF56B_SYSLINE1_UTF16BE, E; "UTF16BE 4096 111")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 150, FOUND, &DTF56B_SYSLINE2_UTF16BE, E; "UTF16BE 4096 150")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 200, FOUND, &DTF56B_SYSLINE2_UTF16BE, E; "UTF16BE 4096 200")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 250, FOUND, &DTF56B_SYSLINE3_UTF16BE, E; "UTF16BE 4096 250")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 300, FOUND, &DTF56B_SYSLINE3_UTF16BE, E; "UTF16BE 4096 300")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 350, FOUND, &DTF56B_SYSLINE4_UTF16BE, E; "UTF16BE 4096 350")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 400, FOUND, &DTF56B_SYSLINE5_UTF16BE, E; "UTF16BE 4096 400")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 450, FOUND, &DTF56B_SYSLINE5_UTF16BE, E; "UTF16BE 4096 450")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 475, FOUND, &DTF56B_SYSLINE5_UTF16BE, E; "UTF16BE 4096 475")]
+#[test_case(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 4096, 500, DONE, "", E; "UTF16BE 4096 500")]
+// UTF-16 BE (with BOM)
+#[test_matrix(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 256, 0..65, FOUND, &DTF56B_SYSLINE0_UTF16BE, BOM_UTF16BE.as_slice())]
+#[test_matrix(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 256, 66..140, FOUND, &DTF56B_SYSLINE1_UTF16BE, E)]
+#[test_matrix(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 256, 141..304, DONE, "", E)]
+#[test_matrix(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 256, 305..392, FOUND, &DTF56B_SYSLINE4_UTF16BE, E)]
+#[test_matrix(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 256, 392..483, FOUND, &DTF56B_SYSLINE5_UTF16BE, E)]
+#[test_matrix(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 256, 484..492, DONE, "", E)]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 0, FOUND, &DTF56B_SYSLINE0_UTF16BE, BOM_UTF16BE.as_slice(); "UTF16BE BOM 4096 0")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 64, FOUND, &DTF56B_SYSLINE0_UTF16BE, BOM_UTF16BE.as_slice(); "UTF16BE BOM 4096 64")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 111, FOUND, &DTF56B_SYSLINE1_UTF16BE, E; "UTF16BE BOM 4096 111")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 150, FOUND, &DTF56B_SYSLINE2_UTF16BE, E; "UTF16BE BOM 4096 150")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 200, FOUND, &DTF56B_SYSLINE2_UTF16BE, E; "UTF16BE BOM 4096 200")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 250, FOUND, &DTF56B_SYSLINE3_UTF16BE, E; "UTF16BE BOM 4096 250")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 300, FOUND, &DTF56B_SYSLINE3_UTF16BE, E; "UTF16BE BOM 4096 300")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 350, FOUND, &DTF56B_SYSLINE4_UTF16BE, E; "UTF16BE BOM 4096 350")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 400, FOUND, &DTF56B_SYSLINE5_UTF16BE, E; "UTF16BE BOM 4096 400")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 450, FOUND, &DTF56B_SYSLINE5_UTF16BE, E; "UTF16BE BOM 4096 450")]
+#[test_case(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 4096, 475, FOUND, &DTF56B_SYSLINE5_UTF16BE, E; "UTF16BE BOM 4096 475")]
+// UTF-16 LE (no BOM)
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 64, 0, DONE, "", E; "UTF16LE 64 0")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 256, 0, FOUND, &DTF56B_SYSLINE0_UTF16LE, E; "UTF16LE 256 0")]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 256, 0..63, FOUND, &DTF56B_SYSLINE0_UTF16LE, E)]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 256, 64..137, FOUND, &DTF56B_SYSLINE1_UTF16LE, E)]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 256, 138..302, DONE, "", E)]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 256, 303..390, FOUND, &DTF56B_SYSLINE4_UTF16LE, E)]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 256, 391..481, FOUND, &DTF56B_SYSLINE5_UTF16LE, E)]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 256, 482..490, DONE, "", E)]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 64, FOUND, &DTF56B_SYSLINE1_UTF16LE, E; "UTF16LE 4096 64")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 111, FOUND, &DTF56B_SYSLINE1_UTF16LE, E; "UTF16LE 4096 111")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 150, FOUND, &DTF56B_SYSLINE2_UTF16LE, E; "UTF16LE 4096 150")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 200, FOUND, &DTF56B_SYSLINE2_UTF16LE, E; "UTF16LE 4096 200")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 250, FOUND, &DTF56B_SYSLINE3_UTF16LE, E; "UTF16LE 4096 250")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 300, FOUND, &DTF56B_SYSLINE3_UTF16LE, E; "UTF16LE 4096 300")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 350, FOUND, &DTF56B_SYSLINE4_UTF16LE, E; "UTF16LE 4096 350")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 400, FOUND, &DTF56B_SYSLINE5_UTF16LE, E; "UTF16LE 4096 400")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 450, FOUND, &DTF56B_SYSLINE5_UTF16LE, E; "UTF16LE 4096 450")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 475, FOUND, &DTF56B_SYSLINE5_UTF16LE, E; "UTF16LE 4096 475")]
+#[test_case(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 4096, 500, DONE, "", E; "UTF16LE 4096 500")]
+// UTF-16 LE (with BOM)
+#[test_matrix(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 256, 0..65, FOUND, &DTF56B_SYSLINE0_UTF16LE, BOM_UTF16LE.as_slice())]
+#[test_matrix(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 256, 66..140, FOUND, &DTF56B_SYSLINE1_UTF16LE, E)]
+#[test_matrix(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 256, 141..304, DONE, "", E)]
+#[test_matrix(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 256, 305..392, FOUND, &DTF56B_SYSLINE4_UTF16LE, E)]
+#[test_matrix(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 256, 392..483, FOUND, &DTF56B_SYSLINE5_UTF16LE, E)]
+#[test_matrix(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 256, 484..492, DONE, "", E)]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 0, FOUND, &DTF56B_SYSLINE0_UTF16LE, BOM_UTF16LE.as_slice(); "UTF16LE BOM 4096 0")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 64, FOUND, &DTF56B_SYSLINE0_UTF16LE, BOM_UTF16LE.as_slice(); "UTF16LE BOM 4096 64")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 111, FOUND, &DTF56B_SYSLINE1_UTF16LE, E; "UTF16LE BOM 4096 111")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 150, FOUND, &DTF56B_SYSLINE2_UTF16LE, E; "UTF16LE BOM 4096 150")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 200, FOUND, &DTF56B_SYSLINE2_UTF16LE, E; "UTF16LE BOM 4096 200")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 250, FOUND, &DTF56B_SYSLINE3_UTF16LE, E; "UTF16LE BOM 4096 250")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 300, FOUND, &DTF56B_SYSLINE3_UTF16LE, E; "UTF16LE BOM 4096 300")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 350, FOUND, &DTF56B_SYSLINE4_UTF16LE, E; "UTF16LE BOM 4096 350")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 400, FOUND, &DTF56B_SYSLINE5_UTF16LE, E; "UTF16LE BOM 4096 400")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 450, FOUND, &DTF56B_SYSLINE5_UTF16LE, E; "UTF16LE BOM 4096 450")]
+#[test_case(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 4096, 475, FOUND, &DTF56B_SYSLINE5_UTF16LE, E; "UTF16LE BOM 4096 475")]
+fn test_find_sysline_in_block_utf(
+    encoding: FileTypeTextEncoding,
+    fpath: &FPath,
+    blocksz: BlockSz,
+    fileoffset: FileOffset,
+    expect_result: ResultFindSysline_Test,
+    expect_str: &str,
+    prepend_bom: &[u8],
+) {
+    if !regex_id_compiled(REGEX_ID_DTF65B) {
+        eprintln!("Regex #{} not compiled", REGEX_ID_DTF65B);
+        return;
+    }
+    defn!("({:?}, {})", fpath, blocksz);
+
+    let mut expect_string = String::with_capacity(prepend_bom.len() + expect_str.len() + 1);
+    expect_string.push_str(&String::from_utf8_lossy(prepend_bom));
+    expect_string.push_str(expect_str);
+    eprintln!("expect_str    {:?} (len {})", expect_str, expect_str.len());
+    eprintln!("expect_string {:?} (len {})", expect_string, expect_string.len());
+
+    let tzo = FixedOffset::west_opt(3600 * 2).unwrap();
+    let mut slr = new_SyslineReader(fpath, blocksz, tzo);
+    slr.filetype_text_encoding_update(encoding);
+
+    let result = slr.find_sysline_in_block(fileoffset);
+    eprintln!("result {:?}", result);
+    assert_results4(&fileoffset, &expect_result, &result.0);
+    eprintln!("matched results {:?}", expect_result);
+    match result.0 {
+        ResultFindSysline::Found((_fo, slp)) => {
+            let slices: Vec<&[u8]> = (*slp).get_slices();
+            let value_bytes = slices.concat();
+            let value_actual = String::from_utf8_lossy(&value_bytes).to_string();
+            let value_actual_utf8 = utf_to_utf8(&value_actual, encoding);
+            let value_expect_utf8 = utf_to_utf8(&expect_string, encoding);
+            assert_eq!(
+                &expect_string, &value_actual,
+                "find_sysline_in_block({})\nExpected {:?}\nActual   {:?}\nExpected (UTF-8) {:?}\nActual (UTF-8)   {:?}",
+                fileoffset, expect_string, value_actual, value_expect_utf8, value_actual_utf8,
+            );
+            eprintln!("matched Found");
+        }
+        ResultFindSysline::Done => {
+            assert_eq!(&expect_string, &String::from(""), "bad test check value {:?}", expect_string);
+            eprintln!("matched Done");
+        }
+        ResultFindSysline::Err(err) => {
+            panic!("ERROR: find_sysline_in_block({}) returned Error {:?}", fileoffset, err);
+        }
+    }
+
+    defx!();
+}
+
+/* files tested sizes
+
+$ find ./logs/other/tests/ -name 'dtf5-6b*' -printf '%s %p\n' | sort -k 2
+249  ./logs/other/tests/dtf5-6b.log
+500  ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log
+498  ./logs/other/tests/dtf5-6b.UTF-16BE.log
+500  ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log
+498  ./logs/other/tests/dtf5-6b.UTF-16LE.log
+1000 ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log
+996  ./logs/other/tests/dtf5-6b.UTF-32BE.log
+1000 ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log
+996  ./logs/other/tests/dtf5-6b.UTF-32LE.log
+252  ./logs/other/tests/dtf5-6b.UTF-8_BOM.log
+249  ./logs/other/tests/dtf5-6b.UTF-8.log
+*/
+
+#[test_matrix(UTF_8, &FILE_UTF8_DTF56B_FPATH, 64, 0..255)]
+#[test_matrix(UTF_8_BOM, &FILE_UTF8_BOM_DTF56B_FPATH, 64, 0..255)]
+#[test_matrix(UTF_16BE, &FILE_UTF16BE_DTF56B_FPATH, 64, 0..504)]
+#[test_matrix(UTF_16BE_BOM, &FILE_UTF16BE_BOM_DTF56B_FPATH, 64, 0..504)]
+#[test_matrix(UTF_16LE, &FILE_UTF16LE_DTF56B_FPATH, 64, 0..504)]
+#[test_matrix(UTF_16LE_BOM, &FILE_UTF16LE_BOM_DTF56B_FPATH, 64, 0..504)]
+#[test_matrix(UTF_32BE, &FILE_UTF32BE_DTF56B_FPATH, 64, 0..1004)]
+#[test_matrix(UTF_32BE_BOM, &FILE_UTF32BE_BOM_DTF56B_FPATH, 64, 0..1004)]
+#[test_matrix(UTF_32LE, &FILE_UTF32LE_DTF56B_FPATH, 64, 0..1000)]
+#[test_matrix(UTF_32LE_BOM, &FILE_UTF32LE_BOM_DTF56B_FPATH, 64, 0..1004)]
+fn test_find_sysline_utf(
+    encoding: FileTypeTextEncoding,
+    fpath: &FPath,
+    blocksz: BlockSz,
+    fileoffset: FileOffset,
+    // expect_result: ResultFindSysline_Test,
+    // expect_str: String,
+) {
+    if !regex_id_compiled(REGEX_ID_DTF65B) {
+        eprintln!("Regex #{} not compiled", REGEX_ID_DTF65B);
+        return;
+    }
+    defn!("({:?}, {})", fpath, blocksz);
+    let tzo = FixedOffset::west_opt(3600 * 2).unwrap();
+    let mut slr = new_SyslineReader(fpath, blocksz, tzo);
+    slr.filetype_text_encoding_update(encoding);
+
+    let (expect_result, expect_str, prepend_bom) = match (encoding, fileoffset) {
+        // UTF-8
+        (UTF_8, 0..DTF56B_SYSLINE1_OFFSET_UTF8) => (FOUND, DTF56B_SYSLINE0, E),
+        (UTF_8, DTF56B_SYSLINE1_OFFSET_UTF8..DTF56B_SYSLINE2_OFFSET_UTF8) => (FOUND, DTF56B_SYSLINE1, E),
+        (UTF_8, DTF56B_SYSLINE2_OFFSET_UTF8..DTF56B_SYSLINE3_OFFSET_UTF8) => (FOUND, DTF56B_SYSLINE2, E),
+        (UTF_8, DTF56B_SYSLINE3_OFFSET_UTF8..DTF56B_SYSLINE4_OFFSET_UTF8) => (FOUND, DTF56B_SYSLINE3, E),
+        (UTF_8, DTF56B_SYSLINE4_OFFSET_UTF8..DTF56B_SYSLINE5_OFFSET_UTF8) => (FOUND, DTF56B_SYSLINE4, E),
+        (UTF_8, DTF56B_SYSLINE5_OFFSET_UTF8..DTF56B_FILE_END_OFFSET_UTF8) => (FOUND, DTF56B_SYSLINE5, E),
+        (UTF_8, _) => (DONE, "", E),
+        // UTF-8 BOM
+        (UTF_8_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF8_BOM) => (FOUND, DTF56B_SYSLINE0, BOM_UTF8.as_slice()),
+        (UTF_8_BOM, DTF56B_SYSLINE1_OFFSET_UTF8_BOM..DTF56B_SYSLINE2_OFFSET_UTF8_BOM) => (FOUND, DTF56B_SYSLINE1, E),
+        (UTF_8_BOM, DTF56B_SYSLINE2_OFFSET_UTF8_BOM..DTF56B_SYSLINE3_OFFSET_UTF8_BOM) => (FOUND, DTF56B_SYSLINE2, E),
+        (UTF_8_BOM, DTF56B_SYSLINE3_OFFSET_UTF8_BOM..DTF56B_SYSLINE4_OFFSET_UTF8_BOM) => (FOUND, DTF56B_SYSLINE3, E),
+        (UTF_8_BOM, DTF56B_SYSLINE4_OFFSET_UTF8_BOM..DTF56B_SYSLINE5_OFFSET_UTF8_BOM) => (FOUND, DTF56B_SYSLINE4, E),
+        (UTF_8_BOM, DTF56B_SYSLINE5_OFFSET_UTF8_BOM..DTF56B_FILE_END_OFFSET_UTF8_BOM) => (FOUND, DTF56B_SYSLINE5, E),
+        (UTF_8_BOM, _) => (DONE, "", E),
+        // UTF-16 BE
+        (UTF_16BE, 0..DTF56B_SYSLINE1_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE0_UTF16BE, E),
+        (UTF_16BE, DTF56B_SYSLINE1_OFFSET_UTF16BE..DTF56B_SYSLINE2_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE1_UTF16BE, E),
+        (UTF_16BE, DTF56B_SYSLINE2_OFFSET_UTF16BE..DTF56B_SYSLINE3_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE2_UTF16BE, E),
+        (UTF_16BE, DTF56B_SYSLINE3_OFFSET_UTF16BE..DTF56B_SYSLINE4_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE3_UTF16BE, E),
+        (UTF_16BE, DTF56B_SYSLINE4_OFFSET_UTF16BE..DTF56B_SYSLINE5_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE4_UTF16BE, E),
+        (UTF_16BE, DTF56B_SYSLINE5_OFFSET_UTF16BE..DTF56B_FILE_END_OFFSET_UTF16BE) => (FOUND, *DTF56B_SYSLINE5_UTF16BE, E),
+        (UTF_16BE, _) => (DONE, "", E),
+        // UTF-16 BE BOM
+        (UTF_16BE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE0_UTF16BE, BOM_UTF16BE.as_slice()),
+        (UTF_16BE_BOM, DTF56B_SYSLINE1_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE1_UTF16BE, E),
+        (UTF_16BE_BOM, DTF56B_SYSLINE2_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE2_UTF16BE, E),
+        (UTF_16BE_BOM, DTF56B_SYSLINE3_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE3_UTF16BE, E),
+        (UTF_16BE_BOM, DTF56B_SYSLINE4_OFFSET_UTF16BE_BOM..DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE4_UTF16BE, E),
+        (UTF_16BE_BOM, DTF56B_SYSLINE5_OFFSET_UTF16BE_BOM..DTF56B_FILE_END_OFFSET_UTF16BE_BOM) => (FOUND, *DTF56B_SYSLINE5_UTF16BE, E),
+        (UTF_16BE_BOM, _) => (DONE, "", E),
+        // UTF-16 LE
+        (UTF_16LE, 0..DTF56B_SYSLINE1_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE0_UTF16LE, E),
+        (UTF_16LE, DTF56B_SYSLINE1_OFFSET_UTF16LE..DTF56B_SYSLINE2_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE1_UTF16LE, E),
+        (UTF_16LE, DTF56B_SYSLINE2_OFFSET_UTF16LE..DTF56B_SYSLINE3_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE2_UTF16LE, E),
+        (UTF_16LE, DTF56B_SYSLINE3_OFFSET_UTF16LE..DTF56B_SYSLINE4_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE3_UTF16LE, E),
+        (UTF_16LE, DTF56B_SYSLINE4_OFFSET_UTF16LE..DTF56B_SYSLINE5_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE4_UTF16LE, E),
+        (UTF_16LE, DTF56B_SYSLINE5_OFFSET_UTF16LE..DTF56B_FILE_END_OFFSET_UTF16LE) => (FOUND, *DTF56B_SYSLINE5_UTF16LE, E),
+        (UTF_16LE, _) => (DONE, "", E),
+        // UTF-16 LE BOM
+        (UTF_16LE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE0_UTF16LE, BOM_UTF16LE.as_slice()),
+        (UTF_16LE_BOM, DTF56B_SYSLINE1_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE1_UTF16LE, E),
+        (UTF_16LE_BOM, DTF56B_SYSLINE2_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE2_UTF16LE, E),
+        (UTF_16LE_BOM, DTF56B_SYSLINE3_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE3_UTF16LE, E),
+        (UTF_16LE_BOM, DTF56B_SYSLINE4_OFFSET_UTF16LE_BOM..DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE4_UTF16LE, E),
+        (UTF_16LE_BOM, DTF56B_SYSLINE5_OFFSET_UTF16LE_BOM..DTF56B_FILE_END_OFFSET_UTF16LE_BOM) => (FOUND, *DTF56B_SYSLINE5_UTF16LE, E),
+        (UTF_16LE_BOM, _) => (DONE, "", E),
+        // UTF-32 BE
+        (UTF_32BE, 0..DTF56B_SYSLINE1_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE0_UTF32BE, E),
+        (UTF_32BE, DTF56B_SYSLINE1_OFFSET_UTF32BE..DTF56B_SYSLINE2_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE1_UTF32BE, E),
+        (UTF_32BE, DTF56B_SYSLINE2_OFFSET_UTF32BE..DTF56B_SYSLINE3_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE2_UTF32BE, E),
+        (UTF_32BE, DTF56B_SYSLINE3_OFFSET_UTF32BE..DTF56B_SYSLINE4_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE3_UTF32BE, E),
+        (UTF_32BE, DTF56B_SYSLINE4_OFFSET_UTF32BE..DTF56B_SYSLINE5_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE4_UTF32BE, E),
+        (UTF_32BE, DTF56B_SYSLINE5_OFFSET_UTF32BE..DTF56B_FILE_END_OFFSET_UTF32BE) => (FOUND, *DTF56B_SYSLINE5_UTF32BE, E),
+        (UTF_32BE, _) => (DONE, "", E),
+        // UTF-32 BE BOM
+        (UTF_32BE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE0_UTF32BE, BOM_UTF32BE.as_slice()),
+        (UTF_32BE_BOM, DTF56B_SYSLINE1_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE1_UTF32BE, E),
+        (UTF_32BE_BOM, DTF56B_SYSLINE2_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE2_UTF32BE, E),
+        (UTF_32BE_BOM, DTF56B_SYSLINE3_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE3_UTF32BE, E),
+        (UTF_32BE_BOM, DTF56B_SYSLINE4_OFFSET_UTF32BE_BOM..DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE4_UTF32BE, E),
+        (UTF_32BE_BOM, DTF56B_SYSLINE5_OFFSET_UTF32BE_BOM..DTF56B_FILE_END_OFFSET_UTF32BE_BOM) => (FOUND, *DTF56B_SYSLINE5_UTF32BE, E),
+        (UTF_32BE_BOM, _) => (DONE, "", E),
+        // UTF-32 LE
+        (UTF_32LE, 0..DTF56B_SYSLINE1_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE0_UTF32LE, E),
+        (UTF_32LE, DTF56B_SYSLINE1_OFFSET_UTF32LE..DTF56B_SYSLINE2_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE1_UTF32LE, E),
+        (UTF_32LE, DTF56B_SYSLINE2_OFFSET_UTF32LE..DTF56B_SYSLINE3_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE2_UTF32LE, E),
+        (UTF_32LE, DTF56B_SYSLINE3_OFFSET_UTF32LE..DTF56B_SYSLINE4_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE3_UTF32LE, E),
+        (UTF_32LE, DTF56B_SYSLINE4_OFFSET_UTF32LE..DTF56B_SYSLINE5_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE4_UTF32LE, E),
+        (UTF_32LE, DTF56B_SYSLINE5_OFFSET_UTF32LE..DTF56B_FILE_END_OFFSET_UTF32LE) => (FOUND, *DTF56B_SYSLINE5_UTF32LE, E),
+        (UTF_32LE, _) => (DONE, "", E),
+        // UTF-32 LE BOM
+        (UTF_32LE_BOM, 0..DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE0_UTF32LE, BOM_UTF32LE.as_slice()),
+        (UTF_32LE_BOM, DTF56B_SYSLINE1_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE1_UTF32LE, E),
+        (UTF_32LE_BOM, DTF56B_SYSLINE2_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE2_UTF32LE, E),
+        (UTF_32LE_BOM, DTF56B_SYSLINE3_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE3_UTF32LE, E),
+        (UTF_32LE_BOM, DTF56B_SYSLINE4_OFFSET_UTF32LE_BOM..DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE4_UTF32LE, E),
+        (UTF_32LE_BOM, DTF56B_SYSLINE5_OFFSET_UTF32LE_BOM..DTF56B_FILE_END_OFFSET_UTF32LE_BOM) => (FOUND, *DTF56B_SYSLINE5_UTF32LE, E),
+        (UTF_32LE_BOM, _) => (DONE, "", E),
+    };
+    let mut expect_string = String::with_capacity(prepend_bom.len() + expect_str.len() + 1);
+    expect_string.push_str(&String::from_utf8_lossy(prepend_bom));
+    expect_string.push_str(expect_str);
+
+    let result = slr.find_sysline(fileoffset);
+    eprintln!("result {:?}", result);
+    assert_results4(&fileoffset, &expect_result, &result);
+    eprintln!("matched results {:?}", expect_result);
+    match result {
+        ResultFindSysline::Found((_fo, slp)) => {
+            let slices: Vec<&[u8]> = (*slp).get_slices();
+            let value_bytes = slices.concat();
+            let value_actual = String::from_utf8_lossy(&value_bytes).to_string();
+            let value_actual_utf8 = bytes_to_utf8(&value_bytes, encoding);
+            let value_expect_utf8 = utf_to_utf8(&expect_str, encoding);
+            eprintln!("value_actual      {:?}", value_actual);
+            eprintln!("value_actual_utf8 {:?}", value_actual_utf8);
+            eprintln!("value_expect_utf8 {:?}", value_expect_utf8);
+            eprintln!("value_expect      {:?}", expect_str);
+            assert_eq!(
+                &expect_string.as_bytes(), &value_actual.as_bytes(),
+                "
+find_sysline({fileoffset})
+
+Expected {expect_str:?}
+Actual   {value_actual:?}
+
+Expected (UTF-8) {value_expect_utf8:?}
+Actual (UTF-8)   {value_actual_utf8:?}
+
+Expected (bytes) {:?}
+Actual (bytes)   {:?}
+",
+                &expect_str.as_bytes(), value_bytes,
+            );
+            eprintln!("matched Found");
+        }
+        ResultFindSysline::Done => {
+            assert_eq!(&expect_str, &String::from(""), "bad test check value {:?}", expect_str);
+            eprintln!("matched Done");
+        }
+        ResultFindSysline::Err(err) => {
+            panic!("ERROR: find_sysline({}) returned Error {:?}", fileoffset, err);
+        }
+    }
+
+    defx!();
+}
+
+
 
 // -----------------------------------------------------------------------------
 

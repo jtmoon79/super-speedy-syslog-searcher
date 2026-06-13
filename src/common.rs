@@ -799,16 +799,49 @@ pub enum FileTypeFixedStruct {
     Utmpx,
 }
 
-/// Text file encoding type.
+/// Text encoding type.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Kinded)]
 pub enum FileTypeTextEncoding {
     /// UTF8 or ASCII encoding
     Utf8Ascii,
-    // UTF16 encoding
+    /// UTF8 with BOM
+    Utf8BOM,
+    // UTF16 little-endian encoding
+    Utf16le,
+    // UTF16 little-endian encoding with BOM
+    Utf16leBOM,
+    // UTF16 big-endian encoding
+    Utf16be,
+    // UTF16 big-endian encoding with BOM
+    Utf16beBOM,
+    // UTF32 little-endian encoding
+    Utf32le,
+    // UTF32 little-endian encoding with BOM
+    Utf32leBOM,
+    // UTF32 big-endian encoding
+    Utf32be,
+    // UTF32 big-endian encoding with BOM
+    Utf32beBOM,
+}
+
+/// Simplify a `FileTypeTextEncoding` to its basic encoding type.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum FileTypeBasicEncoding {
+    Utf8,
     Utf16,
-    // UTF32 encoding
     Utf32,
 }
+
+/// Byte Order Mark UTF-8
+pub const BOM_UTF8: [u8; 3] = [0xEF, 0xBB, 0xBF];
+/// Byte Order Mark UTF-16 little-endian
+pub const BOM_UTF16LE: [u8; 2] = [0xFF, 0xFE];
+/// Byte Order Mark UTF-16 big-endian
+pub const BOM_UTF16BE: [u8; 2] = [0xFE, 0xFF];
+/// Byte Order Mark UTF-32 little-endian
+pub const BOM_UTF32LE: [u8; 4] = [0xFF, 0xFE, 0x00, 0x00];
+/// Byte Order Mark UTF-32 big-endian
+pub const BOM_UTF32BE: [u8; 4] = [0x00, 0x00, 0xFE, 0xFF];
 
 impl std::fmt::Display for FileTypeTextEncoding {
     fn fmt(
@@ -817,8 +850,97 @@ impl std::fmt::Display for FileTypeTextEncoding {
     ) -> std::fmt::Result {
         match self {
             FileTypeTextEncoding::Utf8Ascii => write!(f, "UTF8/ASCII"),
-            FileTypeTextEncoding::Utf16 => write!(f, "UTF16"),
-            FileTypeTextEncoding::Utf32 => write!(f, "UTF32"),
+            FileTypeTextEncoding::Utf8BOM => write!(f, "UTF8 w BOM"),
+            FileTypeTextEncoding::Utf16le => write!(f, "UTF16-LE"),
+            FileTypeTextEncoding::Utf16leBOM => write!(f, "UTF16-LE w BOM"),
+            FileTypeTextEncoding::Utf16be => write!(f, "UTF16-BE"),
+            FileTypeTextEncoding::Utf16beBOM => write!(f, "UTF16-BE w BOM"),
+            FileTypeTextEncoding::Utf32le => write!(f, "UTF32-LE"),
+            FileTypeTextEncoding::Utf32leBOM => write!(f, "UTF32-LE w BOM"),
+            FileTypeTextEncoding::Utf32be => write!(f, "UTF32-BE"),
+            FileTypeTextEncoding::Utf32beBOM => write!(f, "UTF32-BE w BOM"),
+        }
+    }
+}
+
+impl FileTypeTextEncoding {
+
+    /// UTF-8, UTF-16, or UTF-32?
+    pub const fn basic_encoding(&self) -> FileTypeBasicEncoding {
+        match self {
+            FileTypeTextEncoding::Utf8Ascii
+            | FileTypeTextEncoding::Utf8BOM => FileTypeBasicEncoding::Utf8,
+            FileTypeTextEncoding::Utf16le
+            | FileTypeTextEncoding::Utf16leBOM
+            | FileTypeTextEncoding::Utf16be
+            | FileTypeTextEncoding::Utf16beBOM => FileTypeBasicEncoding::Utf16,
+            FileTypeTextEncoding::Utf32le
+            | FileTypeTextEncoding::Utf32leBOM
+            | FileTypeTextEncoding::Utf32be
+            | FileTypeTextEncoding::Utf32beBOM => FileTypeBasicEncoding::Utf32,
+        }
+    }
+
+    /// is this a little-endian encoding?
+    pub const fn little_endian(&self) -> bool {
+        matches!(
+            self,
+            FileTypeTextEncoding::Utf16le
+                | FileTypeTextEncoding::Utf16leBOM
+                | FileTypeTextEncoding::Utf32le
+                | FileTypeTextEncoding::Utf32leBOM
+        )
+    }
+
+    /// Number of bytes used by one encoded character.
+    pub const fn charsz(&self) -> CharSz {
+        match self.basic_encoding() {
+            FileTypeBasicEncoding::Utf8 => 1,
+            FileTypeBasicEncoding::Utf16 => 2,
+            FileTypeBasicEncoding::Utf32 => 4,
+        }
+    }
+
+    /// has a Byte Order Mark?
+    pub const fn has_bom(&self) -> bool {
+        matches!(
+            self,
+            FileTypeTextEncoding::Utf8BOM
+                | FileTypeTextEncoding::Utf16leBOM
+                | FileTypeTextEncoding::Utf16beBOM
+                | FileTypeTextEncoding::Utf32leBOM
+                | FileTypeTextEncoding::Utf32beBOM
+        )
+    }
+
+    pub const fn bom(&self) -> &'static [u8] {
+        match self {
+            FileTypeTextEncoding::Utf8BOM => &BOM_UTF8,
+            FileTypeTextEncoding::Utf16leBOM => &BOM_UTF16LE,
+            FileTypeTextEncoding::Utf16beBOM => &BOM_UTF16BE,
+            FileTypeTextEncoding::Utf32leBOM => &BOM_UTF32LE,
+            FileTypeTextEncoding::Utf32beBOM => &BOM_UTF32BE,
+            FileTypeTextEncoding::Utf8Ascii
+            | FileTypeTextEncoding::Utf16le
+            | FileTypeTextEncoding::Utf16be
+            | FileTypeTextEncoding::Utf32le
+            | FileTypeTextEncoding::Utf32be => &[],
+        }
+    }
+
+    /// Number of bytes used by the Byte Order Mark, if any.
+    pub const fn bomsz(&self) -> FileSz {
+        match self {
+            FileTypeTextEncoding::Utf8BOM => BOM_UTF8.len() as FileSz,
+            FileTypeTextEncoding::Utf16leBOM => BOM_UTF16LE.len() as FileSz,
+            FileTypeTextEncoding::Utf16beBOM => BOM_UTF16BE.len() as FileSz,
+            FileTypeTextEncoding::Utf32leBOM => BOM_UTF32LE.len() as FileSz,
+            FileTypeTextEncoding::Utf32beBOM => BOM_UTF32BE.len() as FileSz,
+            FileTypeTextEncoding::Utf8Ascii
+            | FileTypeTextEncoding::Utf16le
+            | FileTypeTextEncoding::Utf16be
+            | FileTypeTextEncoding::Utf32le
+            | FileTypeTextEncoding::Utf32be => 0,
         }
     }
 }
@@ -1259,8 +1381,8 @@ pub const SUBPATH_SEP_DISPLAY_STR: &str = "|";
 // Lines and LineReader
 
 /// Minimum size of characters in bytes.
-/// UTF-8 would be value `1`, UTF-16 would be value `2`, etc.
-pub type CharSz = usize;
+/// UTF-8 is `1`, UTF-16 is `2`, UTF-32 is `4`.
+pub type CharSz = u8;
 /// *N*ew*L*ine as a [`char`].
 #[allow(non_upper_case_globals)]
 pub const NLc: char = '\n';
@@ -1271,9 +1393,24 @@ pub const NLs: &str = "\n";
 #[allow(non_upper_case_globals)]
 pub const NLu8: u8 = 10;
 /// *N*ew*L*ine in a byte buffer.
-// XXX: Issue #16 only handles UTF-8/ASCII encoding
 #[allow(non_upper_case_globals)]
 pub const NLu8a: [u8; 1] = [NLu8];
+
+/// *N*ew*L*ine encoded as UTF-8/ASCII.
+#[allow(non_upper_case_globals)]
+pub const NL_UTF8ASCII: [u8; 1] = [NLu8];
+/// *N*ew*L*ine encoded as UTF-16 little-endian.
+#[allow(non_upper_case_globals)]
+pub const NL_UTF16LE: [u8; 2] = [NLu8, 0];
+/// *N*ew*L*ine encoded as UTF-16 big-endian.
+#[allow(non_upper_case_globals)]
+pub const NL_UTF16BE: [u8; 2] = [0, NLu8];
+/// *N*ew*L*ine encoded as UTF-32 little-endian.
+#[allow(non_upper_case_globals)]
+pub const NL_UTF32LE: [u8; 4] = [NLu8, 0, 0, 0];
+/// *N*ew*L*ine encoded as UTF-32 big-endian.
+#[allow(non_upper_case_globals)]
+pub const NL_UTF32BE: [u8; 4] = [0, 0, 0, NLu8];
 
 /// Maximum size of a syslog message, 8096 octets (0x1FA0).
 ///

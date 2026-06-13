@@ -27,7 +27,7 @@ use crate::common::{
     Bytes,
     threadid_to_u64,
 };
-use crate::debug::printers::buffer_to_String_noraw;
+use crate::debug::printers::buffer_to_string_noraw;
 use crate::python::venv::{
     create,
     deploy_pyproject_s4_event_readers,
@@ -111,20 +111,20 @@ fn test_deploy_pyproject_s4_event_readers() {
 #[test]
 fn test_extract_compare_version() {
     let data_v = Bytes::from(b"Python 3.12.0 (main, Oct  3 2023, 13:59:11) [MSC v.1934 64 bit (AMD64)] on win32\n");
-    defo!("data_v: {:?}", buffer_to_String_noraw(&data_v));
+    defo!("data_v: {:?}", buffer_to_string_noraw(&data_v));
     let version_opt = extract_compare_version(&data_v);
     defo!("version_opt: {:?}", version_opt);
     assert!(version_opt.is_ok());
 
     let data_v = Bytes::from(b"Python 3.8.10\n");
-    defo!("data_v: {:?}", buffer_to_String_noraw(&data_v));
+    defo!("data_v: {:?}", buffer_to_string_noraw(&data_v));
     let version_opt = extract_compare_version(&data_v);
     defo!("version_opt: {:?}", version_opt);
     assert!(version_opt.is_err());
     assert!(version_opt.err().unwrap().kind() == ErrorKind::Unsupported);
 
     let data_v = Bytes::from(b"");
-    defo!("data_v: {:?}", buffer_to_String_noraw(&data_v));
+    defo!("data_v: {:?}", buffer_to_string_noraw(&data_v));
     let version_opt = extract_compare_version(&data_v);
     defo!("version_opt: {:?}", version_opt);
     assert!(version_opt.is_err());

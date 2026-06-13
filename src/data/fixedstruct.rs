@@ -54,6 +54,7 @@ use crate::common::{
     FileOffset,
     FileSz,
     FileTypeFixedStruct,
+    NLu8,
 };
 use crate::data::datetime::{
     DateTimeL,
@@ -6062,7 +6063,7 @@ impl FixedStruct
             }
         }
         // line end
-        set_buffer_at_or_err_u8!(buffer, at, b'\n');
+        set_buffer_at_or_err_u8!(buffer, at, NLu8);
         // string end
         set_buffer_at_or_err_u8!(buffer, at, b'\0');
 
@@ -6086,20 +6087,17 @@ impl FixedStruct
     // XXX: this function is a lot of tedious work and duplicates
     //      `fmt::Debug` and `as_bytes()`; consider removing it
     #[doc(hidden)]
-    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    fn impl_to_String_raw(
+    fn impl_to_string_raw(
         self: &FixedStruct,
         _raw: bool,
     ) -> String
     {
         let mut buf: String = String::with_capacity(100);
-        buf.push_str("(incomplete function impl_to_String_raw)");
+        buf.push_str("(incomplete function impl_to_string_raw)");
 
         buf
     }
-
-    // TODO fix non_snake_case
 
     /// `FixedStruct` to `String`.
     #[doc(hidden)]
@@ -6107,16 +6105,15 @@ impl FixedStruct
     #[cfg(any(debug_assertions, test))]
     pub fn to_String_raw(self: &FixedStruct) -> String
     {
-        self.impl_to_String_raw(true)
+        self.impl_to_string_raw(true)
     }
 
     /// `FixedStruct` to `String` but using printable chars for
     /// non-printable and/or formatting characters.
     #[doc(hidden)]
-    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    pub fn to_String_noraw(self: &FixedStruct) -> String
+    pub fn to_string_noraw(self: &FixedStruct) -> String
     {
-        self.impl_to_String_raw(false)
+        self.impl_to_string_raw(false)
     }
 }

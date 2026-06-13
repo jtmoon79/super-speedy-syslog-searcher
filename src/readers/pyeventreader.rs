@@ -84,7 +84,7 @@ use crate::{
     de_err,
 };
 #[cfg(any(debug_assertions, test))]
-use crate::debug::printers::buffer_to_String_noraw;
+use crate::debug::printers::buffer_to_string_noraw;
 use crate::python::pyrunner::{
     ChunkDelimiter,
     ExitStatus,
@@ -471,7 +471,7 @@ impl PyEventReader {
         dt_filter_after: &DateTimeLOpt,
         dt_filter_before: &DateTimeLOpt,
     ) -> Option<PyDataEvent> {
-        def1n!("data is {} bytes\n{}", data.len(), buffer_to_String_noraw(data));
+        def1n!("data is {} bytes\n{}", data.len(), buffer_to_string_noraw(data));
         // the parsing that happens here must correspond the data sent in
         // the script `etl_reader.py`
         if data.is_empty() {
@@ -502,7 +502,7 @@ impl PyEventReader {
         }
         // parse field with timestamp string
         let ts_data: &[u8] = etdi.next().unwrap_or_default();
-        def1o!("ts_data is {} bytes '{}'", ts_data.len(),  buffer_to_String_noraw(ts_data));
+        def1o!("ts_data is {} bytes '{}'", ts_data.len(),  buffer_to_string_noraw(ts_data));
         if ts_data.is_empty() {
             def1x!("empty ts_data, return None; events_processed {}", self.events_processed);
             return None;
@@ -627,7 +627,7 @@ impl PyEventReader {
                 let stdin_data: Option<Bytes> = match self.write_read_calls {
                     val if val % WAIT_INPUT_PER_PRINTS == 0 => {
                         let data = format!("{}{}", self.write_read_calls, SCRIPT_TERM);
-                        def1o!("call pyrunner.write_read('{}')", buffer_to_String_noraw(&data.as_bytes()));
+                        def1o!("call pyrunner.write_read('{}')", buffer_to_string_noraw(&data.as_bytes()));
 
                         Some(Bytes::from(data.as_bytes()))
                     }
@@ -657,8 +657,8 @@ impl PyEventReader {
                     }
                 };
 
-                def1o!("stdout: '{}'", buffer_to_String_noraw(&stdout_data));
-                def1o!("stderr: '{}'", buffer_to_String_noraw(&_stderr_data));
+                def1o!("stdout: '{}'", buffer_to_string_noraw(&stdout_data));
+                def1o!("stderr: '{}'", buffer_to_string_noraw(&_stderr_data));
                 def1o!("self.exited {}, pyrunner.exit_okay() {}", self.exited, self.pyrunner.exit_okay());
 
                 if self.exited {

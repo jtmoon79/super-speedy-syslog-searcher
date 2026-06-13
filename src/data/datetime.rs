@@ -137,8 +137,8 @@ pub use crate::data::line::{
 };
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{
-    buffer_to_String_noraw,
-    str_to_String_noraw,
+    buffer_to_string_noraw,
+    str_to_string_noraw,
 };
 use crate::{
     de_err,
@@ -958,7 +958,7 @@ pub fn datetime_parse_from_str(
     has_tz: bool,
     tz_offset: &FixedOffset,
 ) -> DateTimeLOpt {
-    defn!("(pattern {:?}, has_tz {}, tz_offset {:?}, data {:?})", pattern, has_tz, tz_offset, str_to_String_noraw(data));
+    defn!("(pattern {:?}, has_tz {}, tz_offset {:?}, data {:?})", pattern, has_tz, tz_offset, str_to_string_noraw(data));
 
     // saved rust playground for quick testing chrono `DateTime::parse_from_str`
     // https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=e6f44c79dbb3d2c05c55ffba9bd91c76
@@ -971,7 +971,7 @@ pub fn datetime_parse_from_str(
             Ok(val) => {
                 defo!(
                     "DateTime::parse_from_str({:?}, {:?}) extrapolated DateTime {:?}",
-                    str_to_String_noraw(data),
+                    str_to_string_noraw(data),
                     pattern,
                     val,
                 );
@@ -999,7 +999,7 @@ pub fn datetime_parse_from_str(
             Ok(val) => {
                 defo!(
                     "NaiveDateTime.parse_from_str({:?}, {:?}) extrapolated NaiveDateTime {:?}",
-                    str_to_String_noraw(data),
+                    str_to_string_noraw(data),
                     pattern,
                     val,
                 );
@@ -1363,7 +1363,7 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.epoch {
         DTFS_Epoch::s => {
             copy_capturegroup_to_buffer!(CGI_EPOCH, data, captures, buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Epoch::ms => {
             // special case
@@ -1395,7 +1395,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 buffer[at..at + len_].copy_from_slice(&data[a..b]);
                 at += len_;
             });
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Epoch::_none => {}
     }
@@ -1416,7 +1416,7 @@ pub(crate) fn captures_to_buffer_bytes(
             const BUFLEN: usize = 30;
             let mut buf_uptime: [u8; BUFLEN] = [0; BUFLEN];
             copy_capturegroup_to_buffer!(CGI_UPTIME, data, captures, buf_uptime, at_uptime);
-            defo!("buf_uptime {:?}", buffer_to_String_noraw(&buf_uptime));
+            defo!("buf_uptime {:?}", buffer_to_string_noraw(&buf_uptime));
             // TODO: use `u8_to_str`
             let buf_uptime_s: &str = match std::str::from_utf8(&buf_uptime[..at_uptime]) {
                 Ok(s) => s,
@@ -1471,10 +1471,10 @@ pub(crate) fn captures_to_buffer_bytes(
             let uptime_zero_plus_uptime_n = uptime_zero_plus_uptime_dur.as_secs();
             defo!("uptime_zero_plus_uptime_n {:?}", uptime_zero_plus_uptime_n);
             let buf_uptime_plus = uptime_zero_plus_uptime_n.numtoa(10, &mut buf_uptime);
-            defo!("buf_uptime_plus {:?}", buffer_to_String_noraw(buf_uptime_plus));
+            defo!("buf_uptime_plus {:?}", buffer_to_string_noraw(buf_uptime_plus));
             // copy the local temporary buffer to the main buffer
             copy_slice_to_buffer!(&buf_uptime_plus, buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Uptime::_none => {}
     }
@@ -1485,7 +1485,7 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Year::Y
         | DTFS_Year::y => {
             copy_capturegroup_to_buffer!(CGI_YEAR, data, captures, buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         | DTFS_Year::_fill => {
             let mut found_year: bool = false;
@@ -1494,7 +1494,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 let b = match_type.end();
                 let year: &[u8] = &data[a..b];
                 copy_slice_to_buffer!(year, buffer, at);
-                defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+                defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                 found_year = true;
             });
             if !found_year{
@@ -1505,12 +1505,12 @@ pub(crate) fn captures_to_buffer_bytes(
                         debug_assert_eq!(year_s.len(), 4, "Bad year string {:?}", year_s);
                         defo!("using fallback year {:?}", year_s);
                         copy_slice_to_buffer!(year_s.as_bytes(), buffer, at);
-                        defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+                        defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                     }
                     None => {
                         defo!("using hardcoded dummy year {:?}", YEAR_FALLBACKDUMMY);
                         copy_slice_to_buffer!(YEAR_FALLBACKDUMMY.as_bytes(), buffer, at);
-                        defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+                        defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                     }
                 }
             }
@@ -1522,7 +1522,7 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.month {
         DTFS_Month::m => {
             copy_capturegroup_to_buffer!(CGI_MONTH, data, captures, buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Month::ms => {
             let month: &[u8] = captures.iter().find(|cgn| cgn.group_index() == CGI_MONTH).map(|match_type| {
@@ -1542,7 +1542,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_slice_to_buffer!(month, buffer, at);
                 }
             }
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Month::b | DTFS_Month::B => {
             let month: &[u8] = captures.iter().find(|cgn| cgn.group_index() == CGI_MONTH).map(|match_type| {
@@ -1554,7 +1554,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 month,
                 &mut buffer[at..at + 2],
             );
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
             at += 2;
         }
         DTFS_Month::_none => {}
@@ -1576,7 +1576,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     // change day "8" (%e) to "08" (%d)
                     copy_u8_to_buffer!(b'0', buffer, at);
                     copy_u8_to_buffer!(day[0], buffer, at);
-                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+                    defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                 }
                 2 => {
                     match day[0] {
@@ -1589,7 +1589,7 @@ pub(crate) fn captures_to_buffer_bytes(
                             copy_slice_to_buffer!(day, buffer, at);
                         }
                     }
-                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+                    defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                 }
                 _ => {
                     panic!("bad day.len() {}", day.len());
@@ -1604,7 +1604,7 @@ pub(crate) fn captures_to_buffer_bytes(
     // day-time divider
     defo!("process date-time divider…");
     copy_u8_to_buffer!(b'T', buffer, at);
-    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+    defo!("buffer {:?}", buffer_to_string_noraw(buffer));
     // hour
     defo!("process <hour> {:?}…", dtfs.hour);
     match dtfs.hour {
@@ -1612,7 +1612,7 @@ pub(crate) fn captures_to_buffer_bytes(
         | DTFS_Hour::l
         | DTFS_Hour::H => {
             copy_capturegroup_to_buffer!(CGI_HOUR, data, captures, buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Hour::k => {
             let hour: &[u8] = captures.iter().find(|cgn| cgn.group_index() == CGI_HOUR).map(|match_type| {
@@ -1632,7 +1632,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     copy_slice_to_buffer!(hour, buffer, at);
                 }
             }
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Hour::_none => {}
     }
@@ -1641,7 +1641,7 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.minute {
         DTFS_Minute::M => {
             copy_capturegroup_to_buffer!(CGI_MINUTE, data, captures, buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         },
         DTFS_Minute::_none => {}
     }
@@ -1650,11 +1650,11 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.second {
         DTFS_Second::S => {
             copy_capturegroup_to_buffer!(CGI_SECOND, data, captures, buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Second::_fill => {
             copy_slice_to_buffer!(b"00", buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Second::_none => {}
     }
@@ -1664,7 +1664,7 @@ pub(crate) fn captures_to_buffer_bytes(
         DTFS_Fractional::f => {
             defo!("matched DTFS_Fractional::f");
             copy_u8_to_buffer!(b'.', buffer, at);
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
             let fractional: &[u8] = captures.iter().find(|cgn| cgn.group_index() == CGI_FRACTIONAL).map(|match_type| {
                 let a = match_type.start();
                 let b = match_type.end();
@@ -1722,7 +1722,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     de_err!("unexpected fractional string match {:?} length {} bytes", fractional, len)
                 }
             }
-            defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Fractional::_none => {}
     }
@@ -1751,7 +1751,7 @@ pub(crate) fn captures_to_buffer_bytes(
                     // found Unicode "minus sign", replace with ASCII
                     // "hyphen-minus"
                     copy_slice_to_buffer!(HYPHEN_MINUS, buffer, at);
-                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+                    defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                     // copy data remaining after Unicode "minus sign"
                     // TODO: use u8_to_str
                     match std::str::from_utf8(captureb) {
@@ -1759,7 +1759,7 @@ pub(crate) fn captures_to_buffer_bytes(
                             match val.char_indices().nth(1) {
                                 Some((offset, _)) => {
                                     copy_slice_to_buffer!(val[offset..].as_bytes(), buffer, at);
-                                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+                                    defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                                 }
                                 None => {
                                     // something is wrong with captured value
@@ -1774,7 +1774,7 @@ pub(crate) fn captures_to_buffer_bytes(
                 }
                 false => {
                     copy_slice_to_buffer!(captureb, buffer, at);
-                    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+                    defo!("buffer {:?}", buffer_to_string_noraw(buffer));
                 }
             }
         }
@@ -1816,7 +1816,7 @@ pub(crate) fn captures_to_buffer_bytes(
         }
         DTFS_Tz::_none => {}
     }
-    defo!("buffer {:?}", buffer_to_String_noraw(buffer));
+    defo!("buffer {:?}", buffer_to_string_noraw(buffer));
 
     defx!("return {:?}", at);
 
@@ -1844,7 +1844,7 @@ pub fn bytes_to_regex_to_datetime(
 
     let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
     // here is the regular expression function call!
-    defo!("regex_fn({:?})…", buffer_to_String_noraw(data));
+    defo!("regex_fn({:?})…", buffer_to_string_noraw(data));
     let captures: MatchesType = match (dtpd.regex_fn)(data) {
         None => {
             defx!(

@@ -11,7 +11,6 @@ use crate::readers::helpers::{
     filename_count_extensions,
 };
 
-
 #[test_case("", '.', 0; "empty string")]
 #[test_case("a.b.c", '.', 2; "a.b.c")]
 #[test_case(".....", '.', 5; "5.....")]

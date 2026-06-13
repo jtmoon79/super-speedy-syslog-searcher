@@ -23,6 +23,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
     FileTypeFixedStruct,
+    FileTypeTextEncoding,
     LogMessageType,
     RegexId,
     SetPathId,
@@ -118,6 +119,7 @@ fn test_PrinterLogMessage_new() {
     PrinterLogMessage::new(
         ColorChoice::Never,
         Color::Red,
+        FileTypeTextEncoding::Utf8Ascii,
         None,
         None,
         FO_0,
@@ -157,6 +159,7 @@ fn new_PrinterLogMessage(
     PrinterLogMessage::new(
         colorchoice,
         color,
+        FileTypeTextEncoding::Utf8Ascii,
         pf,
         pd,
         prepend_offset.unwrap_or(FO_0),

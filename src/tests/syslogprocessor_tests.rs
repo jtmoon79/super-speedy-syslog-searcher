@@ -828,7 +828,7 @@ fn test_process_stage0(
 #[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x20, FILEOK)]
 #[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x40, FILEOK)]
 #[test_case(&*NTF3_PATH, REGEX_ID_NTF3, 0x1000, FILEOK)]
-#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x2, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x4, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x10, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x20, FILEOK)]
 #[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x30, FILEOK)]
@@ -841,27 +841,24 @@ fn test_process_stage0(
 #[test_case(&*NTF5X4_PATH, REGEX_ID_NTF5X4, 0x200, FILEOK)]
 #[test_case(&*NTF0X12000_PATH, 0, 0x10, FILENULLBYTES)]
 #[test_case(&*NTF0X12000_PATH, 0, SYSLOG_SZ_MAX_BSZ * 2, FILENULLBYTES)]
-#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0x2, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0x4, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xA, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xB, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xC, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xD, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xE, FILEOK)]
-#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xF, FILEOK)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xE, FILENOSYSLINESFOUND)]
+#[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0xF, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0x10, FILEOK)]
 #[test_case(&*NTF1S_A_PATH, REGEX_ID_NTF1S_A, 0x100, FILEOK)]
-#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0x2, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0x4, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xA, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xB, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xC, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xD, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xE, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xF, FILEOK)]
+#[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0xF, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0x10, FILEOK)]
 #[test_case(&*NTF1S_B_PATH, REGEX_ID_NTF1S_B, 0x100, FILEOK)]
-#[test_case(&*NTF1S_C_PATH, 0, 0x2, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF1S_C_PATH, 0, 0x4, FILETOOSMALL)]
 #[test_case(&*NTF1S_C_PATH, 0, 0xA, FILETOOSMALL)]
 #[test_case(&*NTF1S_C_PATH, 0, 0xB, FILETOOSMALL)]
@@ -871,14 +868,13 @@ fn test_process_stage0(
 #[test_case(&*NTF1S_C_PATH, 0, 0xF, FILETOOSMALL)]
 #[test_case(&*NTF1S_C_PATH, 0, 0x10, FILETOOSMALL)]
 #[test_case(&*NTF1S_C_PATH, 0, 0x100, FILETOOSMALL)]
-#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x2, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x4, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xA, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xB, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xC, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xD, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xE, FILENOSYSLINESFOUND)]
-#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xF, FILEOK)]
+#[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0xF, FILENOSYSLINESFOUND)]
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x10, FILEOK)]
 #[test_case(&*NTF2S_A_PATH, REGEX_ID_NTF2S_A, 0x100, FILEOK)]
 fn test_process_stage1_blockzero_analysis_varying(
@@ -1180,7 +1176,7 @@ fn test_SyslogProcessor_summary_empty(
         linereader_lines_miss: 9,
         linereader_line_parts_created: 6,
         linereader_find_line_lru_cache_hit: 4,
-        linereader_find_line_lru_cache_miss: 7,
+        linereader_find_line_lru_cache_miss: 5,
         linereader_find_line_lru_cache_put: 5,
         linereader_drop_line_ok: 0,
         linereader_drop_line_errors: 0,

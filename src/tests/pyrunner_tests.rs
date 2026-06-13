@@ -25,7 +25,7 @@ use crate::common::{
     Bytes,
     FPath,
 };
-use crate::debug::printers::buffer_to_String_noraw;
+use crate::debug::printers::buffer_to_string_noraw;
 use crate::python::pyrunner::{
     ChunkDelimiter,
     PipeSz,
@@ -49,8 +49,8 @@ fn assert_python_output_eq(output: &[u8], expected: &[u8], extra_message: &str) 
     assert_eq!(
         output, expected,
         "Python output mismatch;\ngot      {:?}\nexpected {:?}\n{}",
-        buffer_to_String_noraw(output),
-        buffer_to_String_noraw(expected),
+        buffer_to_string_noraw(output),
+        buffer_to_string_noraw(expected),
         extra_message
     );
 }
@@ -218,8 +218,8 @@ fn test_PyRunner_new_run_run_once(
     assert!(result.is_ok(), "PyRunner run failed: {:?}", result);
     let (stdout_bytes, stderr_bytes) = result.unwrap();
 
-    defo!("PyRunner stdout: {}", buffer_to_String_noraw(&stdout_bytes));
-    defo!("PyRunner stderr: {}", buffer_to_String_noraw(&stderr_bytes));
+    defo!("PyRunner stdout: {}", buffer_to_string_noraw(&stdout_bytes));
+    defo!("PyRunner stderr: {}", buffer_to_string_noraw(&stderr_bytes));
 
     assert_python_output_eq(&stdout_bytes, &expect_stdout, "PyRunner stdout mismatch");
     assert_python_output_eq(&stderr_bytes, &expect_stderr, "PyRunner stderr mismatch");
@@ -240,8 +240,8 @@ fn test_PyRunner_new_run_run_once(
     assert!(result.is_ok(), "PyRunner run_once failed: {:?}", result);
     let (pyr, stdout_bytes, stderr_bytes) = result.unwrap();
 
-    defo!("PyRunner stdout: {}", buffer_to_String_noraw(&stdout_bytes));
-    defo!("PyRunner stderr: {}", buffer_to_String_noraw(&stderr_bytes));
+    defo!("PyRunner stdout: {}", buffer_to_string_noraw(&stdout_bytes));
+    defo!("PyRunner stderr: {}", buffer_to_string_noraw(&stderr_bytes));
 
     assert_python_output_eq(&stdout_bytes, &expect_stdout, "PyRunner stdout mismatch");
     assert_python_output_eq(&stderr_bytes, &expect_stderr, "PyRunner stderr mismatch");
@@ -442,7 +442,7 @@ fn test_PyRunner_stdout_run_many_times(
             stdout_opt.as_ref().map_or(0, |b| b.len()), stderr_opt.as_ref().map_or(0, |b| b.len()));
         match stdout_opt {
             Some(ref stdout) => {
-                defo!("PyRunner {i} got stdout: '{}'", buffer_to_String_noraw(stdout));
+                defo!("PyRunner {i} got stdout: '{}'", buffer_to_string_noraw(stdout));
                 assert!(expect_stdout.is_some(), "PyRunner loop {i} got stdout but None expected");
                 let e_s = swap_bytes(&mut expect_stdout, PYTHON_SRC_LOOP_KEYWORD, loop_.to_string().as_str());
                 assert_python_output_eq(stdout, &e_s, &format!("PyRunner {i} stdout mismatch on loop {loop_}"));
@@ -452,7 +452,7 @@ fn test_PyRunner_stdout_run_many_times(
         }
         match stderr_opt {
             Some(ref stderr) => {
-                defo!("PyRunner {i} got stderr: '{}'", buffer_to_String_noraw(stderr));
+                defo!("PyRunner {i} got stderr: '{}'", buffer_to_string_noraw(stderr));
                 assert!(expect_stderr.is_some(), "PyRunner {i} got stderr but None expected");
                 let e_s = expect_stderr.as_ref().unwrap();
                 assert_python_output_eq(stderr, &e_s, &format!("PyRunner {i} stderr mismatch on loop {loop_}"));
@@ -675,7 +675,7 @@ fn test_PyRunner_stdout_stderr_run_many_times(
             stdout_opt.as_ref().map_or(0, |b| b.len()), stderr_opt.as_ref().map_or(0, |b| b.len()));
         match stdout_opt {
             Some(ref stdout) => {
-                defo!("PyRunner {i} got stdout: '{}'", buffer_to_String_noraw(stdout));
+                defo!("PyRunner {i} got stdout: '{}'", buffer_to_string_noraw(stdout));
                 assert!(expect_stdout.is_some(), "PyRunner loop {i} got stdout but None expected");
                 let e_s = swap_bytes(&mut expect_stdout, PYTHON_SRC_LOOP_KEYWORD, loop_stdout.to_string().as_str());
                 assert_python_output_eq(stdout, &e_s, &format!("PyRunner {i} stdout mismatch on loop {loop_stdout}"));
@@ -685,7 +685,7 @@ fn test_PyRunner_stdout_stderr_run_many_times(
         }
         match stderr_opt {
             Some(ref stderr) => {
-                defo!("PyRunner {i} got stderr: '{}'", buffer_to_String_noraw(stderr));
+                defo!("PyRunner {i} got stderr: '{}'", buffer_to_string_noraw(stderr));
                 assert!(expect_stderr.is_some(), "PyRunner {i} got stderr but None expected");
                 let e_s = swap_bytes(&mut expect_stderr, PYTHON_SRC_WSTDERR_LOOP_KEYWORD, loop_stderr.to_string().as_str());
                 assert_python_output_eq(stderr, &e_s, &format!("PyRunner {i} stderr mismatch on loop {loop_stderr}"));
@@ -878,7 +878,7 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
             stdout_opt.as_ref().map_or(0, |b| b.len()), stderr_opt.as_ref().map_or(0, |b| b.len()));
         match stdout_opt {
             Some(ref stdout) => {
-                defo!("PyRunner {i} got stdout: '{}'", buffer_to_String_noraw(stdout));
+                defo!("PyRunner {i} got stdout: '{}'", buffer_to_string_noraw(stdout));
                 assert!(expect_stdout.is_some(), "PyRunner loop {i} got stdout but None expected");
                 let e_s = swap_bytes(&mut expect_stdout, PYTHON_SRC_OUT0_ERR_LOOP_KEYWORD, loop_stdout.to_string().as_str());
                 assert_python_output_eq(stdout, &e_s, &format!("PyRunner {i} stdout mismatch on loop {loop_stdout}"));
@@ -888,7 +888,7 @@ fn test_PyRunner_stdout0_stderr_run_many_times(
         }
         match stderr_opt {
             Some(ref stderr) => {
-                defo!("PyRunner {i} got stderr: '{}'", buffer_to_String_noraw(stderr));
+                defo!("PyRunner {i} got stderr: '{}'", buffer_to_string_noraw(stderr));
                 assert!(expect_stderr.is_some(), "PyRunner {i} got stderr but None expected");
                 assert!(expect_stderr.as_ref().unwrap().is_empty(), "PyRunner {i} test setting should have empty stderr");
             }
@@ -1045,8 +1045,8 @@ fn test_PyRunner_exit_early(
     // clone to re-declare as mutable
     let mut expect_stdout = expect_stdout.clone();
     let mut expect_stderr = expect_stderr.clone();
-    defo!("expect_stdout: '{}'", buffer_to_String_noraw(expect_stdout.as_slice()));
-    defo!("expect_stderr: '{}'", buffer_to_String_noraw(expect_stderr.as_slice()));
+    defo!("expect_stdout: '{}'", buffer_to_string_noraw(expect_stdout.as_slice()));
+    defo!("expect_stderr: '{}'", buffer_to_string_noraw(expect_stderr.as_slice()));
 
     let input2 = b"\n";
     let mut loop_: usize = 0;
@@ -1061,8 +1061,8 @@ fn test_PyRunner_exit_early(
         let (exited, stdout_opt, stderr_opt) = pyr.write_read(input);
         defo!("PyRunner exited? {exited}, stdout bytes {:?}, stderr bytes {:?}\nstdout: '{}'\nstderr: '{}'",
             stdout_opt.as_ref().map_or(0, |b| b.len()), stderr_opt.as_ref().map_or(0, |b| b.len()),
-            stdout_opt.as_ref().map_or("".to_string(), |b| buffer_to_String_noraw(b)),
-            stderr_opt.as_ref().map_or("".to_string(), |b| buffer_to_String_noraw(b)));
+            stdout_opt.as_ref().map_or("".to_string(), |b| buffer_to_string_noraw(b)),
+            stderr_opt.as_ref().map_or("".to_string(), |b| buffer_to_string_noraw(b)));
         if let Some(ref stdout) = stdout_opt {
             for c in stdout {
                 let e_c = expect_stdout[0];
@@ -1098,10 +1098,10 @@ fn test_PyRunner_exit_early(
 
     assert!(expect_stdout.is_empty() || expect_stdout == b"\n".to_vec(),
         "PyRunner stdout did not match expected value; remaining '{}'",
-        buffer_to_String_noraw(expect_stdout.as_slice()));
+        buffer_to_string_noraw(expect_stdout.as_slice()));
     assert!(expect_stderr.is_empty() || expect_stderr == b"\n".to_vec(),
         "PyRunner stderr did not match expected value; remaining '{}'",
-        buffer_to_String_noraw(expect_stderr.as_slice()));
+        buffer_to_string_noraw(expect_stderr.as_slice()));
 
     defx!();
 }

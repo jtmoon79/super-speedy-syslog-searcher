@@ -54,7 +54,7 @@ use crate::data::datetime::{
     Utc,
 };
 #[cfg(any(debug_assertions, test))]
-use crate::debug::printers::buffer_to_String_noraw;
+use crate::debug::printers::buffer_to_string_noraw;
 
 pub type TimestampOpt = Option<Timestamp>;
 
@@ -333,14 +333,13 @@ impl Evtx {
     ///
     /// [`byte_to_char_noraw`]: crate::debug::printers::byte_to_char_noraw
     #[doc(hidden)]
-    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    fn impl_to_String_raw(
+    fn impl_to_string_raw(
         &self,
         raw: bool,
     ) -> String {
         match raw {
-            true => buffer_to_String_noraw(self.as_bytes()),
+            true => buffer_to_string_noraw(self.as_bytes()),
             false => self.record.data.clone(),
         }
     }
@@ -350,16 +349,15 @@ impl Evtx {
     #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
     pub fn to_String_raw(&self) -> String {
-        self.impl_to_String_raw(true)
+        self.impl_to_string_raw(true)
     }
 
     /// `Evtx` to `String` but using printable chars for
     /// non-printable and/or formatting characters.
     #[doc(hidden)]
-    #[allow(non_snake_case)]
     #[cfg(any(debug_assertions, test))]
-    pub fn to_String_noraw(&self) -> String {
-        self.impl_to_String_raw(false)
+    pub fn to_string_noraw(&self) -> String {
+        self.impl_to_string_raw(false)
     }
 
     /// for testing only

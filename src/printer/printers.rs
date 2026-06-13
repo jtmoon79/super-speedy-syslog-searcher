@@ -41,8 +41,10 @@ pub use ::termcolor::{
 };
 
 use crate::common::{
+    Bytes,
     debug_panic,
     FPath,
+    FileTypeTextEncoding,
     NLu8,
     SUBPATH_SEP,
     SUBPATH_SEP_DISPLAY_STR,
@@ -90,7 +92,6 @@ pub const COLOR_DIMMED: [Color; COLOR_THEME_COUNT] = [
 /// `Color` for printing some user-facing error messages.
 pub const COLOR_ERROR: Color = Color::Red;
 
-// XXX: relates to Issue #16
 const CHARSZ: usize = 1;
 
 /// Default format string is `CLI_OPT_PREPEND_FMT` in `s4.rs` value
@@ -363,8 +364,12 @@ pub struct PrinterLogMessage {
     ///
     /// used by macro `setcolor_or_return`
     color_spec_last: ColorSpec,
+    /// text encoding of lines printed by this instance
+    filetype_text_encoding: FileTypeTextEncoding,
     /// buffer for writes to stdout
     buffer: Vec<u8>,
+    /// reusable buffer to hold UTF-8 converted linepart bytes
+    buffer_utf8_bytes: Bytes,
 }
 
 /// Aliased `Result` returned by various [`PrinterLogMessage`] functions.
@@ -619,9 +624,12 @@ macro_rules! setcolor_or_return {
 /// Macro helper to print a single line in color. Uses `PrinterLogMessage.buffer`.
 /// Flushes at end.
 macro_rules! print_color_line {
-    ($stdout_color:expr, $buffer:expr, $linep:expr, $printed:expr, $flushed:expr) => {{
+    ($stdout_color:expr, $buffer:expr, $linep:expr, $encoding_type:expr, $buffer_utf8_bytes:expr, $printed:expr, $flushed:expr) => {{
         for linepart in (*$linep).lineparts.iter() {
-            let slice: &[u8] = linepart.as_slice();
+            let slice: &[u8] = linepart.as_utf8_bytes($buffer_utf8_bytes, $encoding_type);
+            if slice.is_empty() {
+                continue;
+            }
             buffer_write_or_return!($stdout_color, $buffer, slice, $printed, $flushed);
         }
         buffer_flush_or_return!($stdout_color, $buffer, $printed, $flushed);
@@ -647,8 +655,10 @@ macro_rules! print_color_line_highlight_dt {
         // this tedious indexing manual is faster than calling `line.get_boxptrs`
         // especially since `$dt_beg` `$dt_end` is a sub-slice(s) of the total `Line` slice(s)
         for linepart in (*$linep).lineparts.iter() {
-            let slice: &[u8] = linepart.as_slice();
-            debug_assert!(!slice.is_empty(), "linepart.as_slice() is empty!?");
+            let slice: &[u8] = linepart.as_utf8_bytes(&mut $self.buffer_utf8_bytes, $self.filetype_text_encoding);
+            if slice.is_empty() {
+                continue;
+            }
             let at_end: usize = at + slice.len();
             // datetime is entirely within one linepart
             if at <= $dt_beg && $dt_end < at_end {
@@ -769,6 +779,7 @@ impl PrinterLogMessage {
     pub fn new(
         color_choice: ColorChoice,
         color_logmessage: Color,
+        filetype_text_encoding: FileTypeTextEncoding,
         prepend_file: Option<String>,
         prepend_date_format: Option<DateTimePattern_string>,
         prepend_date_offset: FixedOffset,
@@ -813,7 +824,9 @@ impl PrinterLogMessage {
             prepend_date_format: prepend_date_format_,
             prepend_date_offset,
             color_spec_last,
+            filetype_text_encoding,
             buffer: Vec::<u8>::with_capacity(if BUFFER_USE { BUFFER_CAP } else { 0 }),
+            buffer_utf8_bytes: Bytes::with_capacity(BUFFER_CAP),
         }
     }
 
@@ -828,6 +841,7 @@ impl PrinterLogMessage {
         // TODO: [2022/06/19] how to determine if "Auto" has become Always or Never?
         //       see https://docs.rs/termcolor/latest/termcolor/#detecting-presence-of-a-terminal
         // TODO: [2023/03/23] refactor `print_sysline*` similar to `print_evtx*`
+        defo!("do_color {} do_prepend_file {} do_prepend_date {}", self.do_color, self.do_prepend_file, self.do_prepend_date);
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_sysline_(syslinep),
             (false, true, false) => self.print_sysline_prependfile(syslinep),
@@ -850,6 +864,7 @@ impl PrinterLogMessage {
         buffer: &mut [u8],
     ) -> PrinterLogMessageResult {
         // TODO: [2023/03/23] refactor `print_utmp*` similar to `print_evtx*`
+        defo!("do_color {} do_prepend_file {} do_prepend_date {}", self.do_color, self.do_prepend_file, self.do_prepend_date);
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_fixedstruct_(fixedstruct, buffer),
             (false, true, false) => self.print_fixedstruct_prependfile(fixedstruct, buffer),
@@ -870,6 +885,7 @@ impl PrinterLogMessage {
         &mut self,
         pyevent: &PyDataEvent,
     ) -> PrinterLogMessageResult {
+        defo!("do_color {} do_prepend_file {} do_prepend_date {}", self.do_color, self.do_prepend_file, self.do_prepend_date);
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_pyevent_(pyevent),
             (false, do_prepend_file, do_prepend_date) => {
@@ -892,6 +908,7 @@ impl PrinterLogMessage {
         &mut self,
         evtx: &Evtx,
     ) -> PrinterLogMessageResult {
+        defo!("do_color {} do_prepend_file {} do_prepend_date {}", self.do_color, self.do_prepend_file, self.do_prepend_date);
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_evtx_(evtx),
             (false, do_prepend_file, do_prepend_date) => {
@@ -914,6 +931,7 @@ impl PrinterLogMessage {
         &mut self,
         journalentry: &JournalEntry,
     ) -> PrinterLogMessageResult {
+        defo!("do_color {} do_prepend_file {} do_prepend_date {}", self.do_color, self.do_prepend_file, self.do_prepend_date);
         match (self.do_color, self.do_prepend_file, self.do_prepend_date) {
             (false, false, false) => self.print_journalentry_(journalentry),
             (false, do_prepend_file, do_prepend_date) => {
@@ -1051,7 +1069,13 @@ impl PrinterLogMessage {
         let mut printed: usize = 0;
         let mut flushed: usize = 0;
         for linepart in (*linep).lineparts.iter() {
-            let slice: &[u8] = linepart.as_slice();
+            let slice: &[u8] = linepart.as_utf8_bytes(
+                &mut self.buffer_utf8_bytes,
+                self.filetype_text_encoding,
+            );
+            if slice.is_empty() {
+                continue;
+            }
             buffer_write_or_return!(stdout_lock, self.buffer, slice, printed, flushed);
         }
 
@@ -1194,12 +1218,21 @@ impl PrinterLogMessage {
         setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
         for linep in (*syslinep).lines.iter() {
             if line_first {
-                let dt_beg = (*syslinep).dt_beg;
-                let dt_end = (*syslinep).dt_end;
+                let dt_beg = (*syslinep).dt_beg_utf8;
+                let dt_end = (*syslinep).dt_end_utf8;
                 print_color_line_highlight_dt!(self, self.buffer, linep, dt_beg, dt_end, printed, flushed);
                 line_first = false;
             } else {
-                print_color_line!(self.stdout_color, self.buffer, linep, printed, flushed);
+                print_color_line!(
+                    self.stdout_color,
+                    self.buffer,
+                    linep,
+                    self.filetype_text_encoding,
+                    &mut self.buffer_utf8_bytes,
+                    printed,
+                    flushed
+                );
+                line_first = false;
             }
         }
         setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
@@ -1226,12 +1259,21 @@ impl PrinterLogMessage {
             buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
             setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
             if line_first {
-                let dt_beg = (*syslinep).dt_beg;
-                let dt_end = (*syslinep).dt_end;
+                let dt_beg = (*syslinep).dt_beg_utf8;
+                let dt_end = (*syslinep).dt_end_utf8;
                 print_color_line_highlight_dt!(self, self.buffer, linep, dt_beg, dt_end, printed, flushed);
                 line_first = false;
             } else {
-                print_color_line!(self.stdout_color, self.buffer, linep, printed, flushed);
+                print_color_line!(
+                    self.stdout_color,
+                    self.buffer,
+                    linep,
+                    self.filetype_text_encoding,
+                    &mut self.buffer_utf8_bytes,
+                    printed,
+                    flushed
+                );
+                line_first = false;
             }
         }
         setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
@@ -1261,12 +1303,21 @@ impl PrinterLogMessage {
             buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
             setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
             if line_first {
-                let dt_beg = (*syslinep).dt_beg;
-                let dt_end = (*syslinep).dt_end;
+                let dt_beg = (*syslinep).dt_beg_utf8;
+                let dt_end = (*syslinep).dt_end_utf8;
                 print_color_line_highlight_dt!(self, self.buffer, linep, dt_beg, dt_end, printed, flushed);
                 line_first = false;
             } else {
-                print_color_line!(self.stdout_color, self.buffer, linep, printed, flushed);
+                print_color_line!(
+                    self.stdout_color,
+                    self.buffer,
+                    linep,
+                    self.filetype_text_encoding,
+                    &mut self.buffer_utf8_bytes,
+                    printed,
+                    flushed
+                );
+                line_first = false;
             }
         }
         setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);
@@ -1299,12 +1350,21 @@ impl PrinterLogMessage {
             buffer_flush_or_return!(self.stdout_color, self.buffer, printed, flushed);
             setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_sysline, self.color_spec_last, printed, flushed);
             if line_first {
-                let dt_beg = (*syslinep).dt_beg;
-                let dt_end = (*syslinep).dt_end;
+                let dt_beg = (*syslinep).dt_beg_utf8;
+                let dt_end = (*syslinep).dt_end_utf8;
                 print_color_line_highlight_dt!(self, self.buffer, linep, dt_beg, dt_end, printed, flushed);
                 line_first = false;
             } else {
-                print_color_line!(self.stdout_color, self.buffer, linep, printed, flushed);
+                print_color_line!(
+                    self.stdout_color,
+                    self.buffer,
+                    linep,
+                    self.filetype_text_encoding,
+                    &mut self.buffer_utf8_bytes,
+                    printed,
+                    flushed
+                );
+                line_first = false;
             }
         }
         setcolor_or_return!(self.stdout_color, self.buffer, self.color_spec_default, self.color_spec_last, printed, flushed);

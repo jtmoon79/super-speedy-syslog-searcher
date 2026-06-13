@@ -9,11 +9,18 @@ use std::fs::{
 use std::io::Read;
 use std::io;
 use std::time::Duration;
+use std::path::PathBuf;
 
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
 
 use crate::common::{
+    BOM_UTF8,
+    BOM_UTF16LE,
+    BOM_UTF16BE,
+    BOM_UTF32LE,
+    BOM_UTF32BE,
+    Bytes,
     Count,
     FPath,
     FileOffset,
@@ -22,6 +29,8 @@ use crate::common::{
     FileTypeArchive,
     FileTypeFixedStruct,
     FileTypeTextEncoding,
+    FileTypeBasicEncoding,
+    RegexId,
     Path,
     SUBPATH_SEP,
 };
@@ -54,8 +63,8 @@ use crate::debug::helpers::{
     NamedTempFile,
 };
 use crate::debug::printers::{
-    buffer_to_String_noraw,
-    str_to_String_noraw,
+    buffer_to_string_noraw,
+    str_to_string_noraw,
 };
 use crate::readers::blockreader::{
     Block,
@@ -111,6 +120,7 @@ lazy_static! {
     pub static ref BYTES_AB: Vec<u8> = vec![b'A', b'B'];
     pub static ref BYTES_CD: Vec<u8> = vec![b'C', b'D'];
     pub static ref BYTES_C: Vec<u8> = vec![b'C'];
+    pub static ref BYTES_ABC: Vec<u8> = vec![b'A', b'B', b'C'];
     pub static ref BYTES_ABCD: Vec<u8> = vec![b'A', b'B', b'C', b'D'];
     pub static ref BYTES_EFGH: Vec<u8> = vec![b'E', b'F', b'G', b'H'];
     pub static ref BYTES_ABCDEFGH: Vec<u8> = vec![b'A', b'B', b'C', b'D', b'E', b'F', b'G', b'H']; 
@@ -195,7 +205,6 @@ fn create_temp_log(data: &str) -> NamedTempFile {
 }
 
 lazy_static! {
-
     // files with only newlines
 
     pub static ref NTF_NL_1: NamedTempFile = create_temp_log("\n");
@@ -233,15 +242,20 @@ lazy_static! {
     };
 
     // 1 byte file
-
     pub static ref NTF_1BYTE: NamedTempFile = create_temp_log("A");
     pub static ref NTF_1BYTE_FPATH: FPath = ntf_fpath(&NTF_1BYTE);
-
+    // 3 byte file
     pub static ref NTF_3BYTE: NamedTempFile = create_temp_log("ABC");
     pub static ref NTF_3BYTE_FPATH: FPath = ntf_fpath(&NTF_3BYTE);
-
+    // 5 byte file
+    pub static ref NTF_5BYTE: NamedTempFile = create_temp_log("ABCDE");
+    pub static ref NTF_5BYTE_FPATH: FPath = ntf_fpath(&NTF_5BYTE);
+    // 8 byte file
     pub static ref NTF_8BYTE: NamedTempFile = create_temp_log("ABCDEFGH");
     pub static ref NTF_8BYTE_FPATH: FPath = ntf_fpath(&NTF_8BYTE);
+    // 9 byte file
+    pub static ref NTF_9BYTE: NamedTempFile = create_temp_log("ABCDEFGHI");
+    pub static ref NTF_9BYTE_FPATH: FPath = ntf_fpath(&NTF_9BYTE);
 
     // 1 sysline file
 
@@ -268,7 +282,652 @@ lazy_static! {
     pub static ref NTF_SYSLINE_2_SZ: FileSz = {
         (*NTF_SYSLINE_2_DATA).as_bytes().len() as FileSz
     };
+
 }
+
+// UTF-16 LE
+lazy_static! {
+    pub static ref PATH_LOGS1: PathBuf = PathBuf::from("./logs/other/tests");
+
+    // 5 sysline file UTF-16 LE
+    pub static ref FILE_UTF16LE_SYSLINE_2_NAME: String = String::from("dtf5-6b.UTF-16LE.log");
+    pub static ref FILE_UTF16LE_SYSLINE_2: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF16LE_SYSLINE_2_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_DTF56B_NAME: String = String::from("dtf5-6b.UTF-16LE.log");
+    pub static ref FILE_UTF16LE_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF16LE_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_DTF56B_PATH);
+
+    pub static ref PATH_LOGS2: PathBuf = PathBuf::from("./logs/other/test_cases");
+
+    // 1 line file UTF-16 LE
+    pub static ref FILE_UTF16LE_ABC_NAME: String = String::from("abc_.UTF-16LE.log");
+    pub static ref FILE_UTF16LE_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16LE_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_ABC);
+
+    pub static ref FILE_UTF16LE_ABC_NL_NAME: String = String::from("abc_nl.UTF-16LE.log");
+    pub static ref FILE_UTF16LE_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16LE_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_ABC_NL);
+
+    // 2 line file UTF-16 LE
+    pub static ref FILE_UTF16LE_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-16LE.log");
+    pub static ref FILE_UTF16LE_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16LE_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_ABC_NL_DEF);
+
+    // 2 line file UTF-16 LE with trailing newline
+    pub static ref FILE_UTF16LE_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-16LE.log");
+    pub static ref FILE_UTF16LE_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16LE_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_ABC_NL_DEF_NL);
+}
+
+// UTF-16 BE
+lazy_static! {
+    // 1 line file UTF-16 BE
+    pub static ref FILE_UTF16BE_ABC_NAME: String = String::from("abc_.UTF-16BE.log");
+    pub static ref FILE_UTF16BE_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16BE_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_ABC);
+
+    pub static ref FILE_UTF16BE_ABC_NL_NAME: String = String::from("abc_nl.UTF-16BE.log");
+    pub static ref FILE_UTF16BE_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16BE_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_ABC_NL);
+
+    // 2 line file UTF-16 BE
+    pub static ref FILE_UTF16BE_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-16BE.log");
+    pub static ref FILE_UTF16BE_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16BE_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_ABC_NL_DEF);
+
+    // 2 line file UTF-16 BE with trailing newline
+    pub static ref FILE_UTF16BE_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-16BE.log");
+    pub static ref FILE_UTF16BE_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16BE_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_ABC_NL_DEF_NL);
+
+    // UTF-16 BE multiple syslines
+    pub static ref FILE_UTF16BE_DTF56B_NAME: String = String::from("dtf5-6b.UTF-16BE.log");
+    pub static ref FILE_UTF16BE_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF16BE_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_DTF56B_PATH);
+}
+
+// UTF-16 BE BOM
+lazy_static! {
+    // 1 line file UTF-16 BE BOM
+    pub static ref FILE_UTF16BE_BOM_ABC_NAME: String = String::from("abc_.UTF-16BE_BOM.log");
+    pub static ref FILE_UTF16BE_BOM_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16BE_BOM_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_ABC);
+
+    pub static ref FILE_UTF16BE_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-16BE_BOM.log");
+    pub static ref FILE_UTF16BE_BOM_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16BE_BOM_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL);
+
+    // 2 line file UTF-16 BE BOM
+    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-16BE_BOM.log");
+    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16BE_BOM_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL_DEF);
+
+    // 2 line file UTF-16 BE BOM with trailing newline
+    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-16BE_BOM.log");
+    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16BE_BOM_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_ABC_NL_DEF_NL);
+
+    // UTF-16 BE BOM multiple syslines
+    pub static ref FILE_UTF16BE_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-16BE_BOM.log");
+    pub static ref FILE_UTF16BE_BOM_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF16BE_BOM_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF16BE_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF16BE_BOM_DTF56B_PATH);
+
+}
+
+// UTF-32 LE
+lazy_static! {
+    // 1 line file UTF-32 LE
+    pub static ref FILE_UTF32LE_ABC_NAME: String = String::from("abc_.UTF-32LE.log");
+    pub static ref FILE_UTF32LE_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32LE_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_ABC);
+
+    pub static ref FILE_UTF32LE_ABC_NL_NAME: String = String::from("abc_nl.UTF-32LE.log");
+    pub static ref FILE_UTF32LE_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32LE_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_ABC_NL);
+
+    // 2 line file UTF-32 LE
+    pub static ref FILE_UTF32LE_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-32LE.log");
+    pub static ref FILE_UTF32LE_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32LE_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_ABC_NL_DEF);
+
+    // 2 line file UTF-32 LE with trailing newline
+    pub static ref FILE_UTF32LE_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-32LE.log");
+    pub static ref FILE_UTF32LE_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32LE_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_ABC_NL_DEF_NL);
+
+    // UTF-32 LE multiple syslines
+    pub static ref FILE_UTF32LE_DTF56B_NAME: String = String::from("dtf5-6b.UTF-32LE.log");
+    pub static ref FILE_UTF32LE_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF32LE_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_DTF56B_PATH);
+}
+
+// UTF-32 BE BOM
+lazy_static! {
+    // 1 line file UTF-32 BE BOM
+    pub static ref FILE_UTF32BE_BOM_ABC_NAME: String = String::from("abc_.UTF-32BE_BOM.log");
+    pub static ref FILE_UTF32BE_BOM_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32BE_BOM_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_ABC);
+
+    pub static ref FILE_UTF32BE_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-32BE_BOM.log");
+    pub static ref FILE_UTF32BE_BOM_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32BE_BOM_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL);
+
+    // 2 line file UTF-32 BE BOM
+    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-32BE_BOM.log");
+    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32BE_BOM_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL_DEF);
+
+    // 2 line file UTF-32 BE BOM with trailing newline
+    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-32BE_BOM.log");
+    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32BE_BOM_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_ABC_NL_DEF_NL);
+
+    // UTF-32 BE BOM multiple syslines
+    pub static ref FILE_UTF32BE_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-32BE_BOM.log");
+    pub static ref FILE_UTF32BE_BOM_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF32BE_BOM_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_BOM_DTF56B_PATH);
+}
+
+// UTF-32 BE
+lazy_static! {
+    // 1 line file UTF-32 BE
+    pub static ref FILE_UTF32BE_ABC_NAME: String = String::from("abc_.UTF-32BE.log");
+    pub static ref FILE_UTF32BE_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32BE_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_ABC);
+
+    pub static ref FILE_UTF32BE_ABC_NL_NAME: String = String::from("abc_nl.UTF-32BE.log");
+    pub static ref FILE_UTF32BE_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32BE_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_ABC_NL);
+
+    // 2 line file UTF-32 BE
+    pub static ref FILE_UTF32BE_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-32BE.log");
+    pub static ref FILE_UTF32BE_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32BE_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_ABC_NL_DEF);
+
+    // 2 line file UTF-32 BE with trailing newline
+    pub static ref FILE_UTF32BE_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-32BE.log");
+    pub static ref FILE_UTF32BE_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32BE_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_ABC_NL_DEF_NL);
+
+    // UTF-32 BE multiple syslines
+    pub static ref FILE_UTF32BE_DTF56B_NAME: String = String::from("dtf5-6b.UTF-32BE.log");
+    pub static ref FILE_UTF32BE_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF32BE_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF32BE_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF32BE_DTF56B_PATH);
+}
+
+// UTF-16 LE BOM
+lazy_static! {
+    // 1 line file UTF-16 LE BOM
+    pub static ref FILE_UTF16LE_BOM_ABC_NAME: String = String::from("abc_.UTF-16LE_BOM.log");
+    pub static ref FILE_UTF16LE_BOM_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16LE_BOM_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_ABC);
+
+    pub static ref FILE_UTF16LE_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-16LE_BOM.log");
+    pub static ref FILE_UTF16LE_BOM_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16LE_BOM_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL);
+
+    // 2 line file UTF-16 LE BOM
+    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-16LE_BOM.log");
+    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16LE_BOM_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL_DEF);
+
+    // 2 line file UTF-16 LE BOM with trailing newline
+    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-16LE_BOM.log");
+    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF16LE_BOM_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_ABC_NL_DEF_NL);
+
+    // UTF-16 LE BOM multiple syslines
+    pub static ref FILE_UTF16LE_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-16LE_BOM.log");
+    pub static ref FILE_UTF16LE_BOM_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF16LE_BOM_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF16LE_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF16LE_BOM_DTF56B_PATH);
+}
+
+// UTF-32 LE BOM
+lazy_static! {
+    // 1 line file UTF-32 LE BOM
+    pub static ref FILE_UTF32LE_BOM_ABC_NAME: String = String::from("abc_.UTF-32LE_BOM.log");
+    pub static ref FILE_UTF32LE_BOM_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32LE_BOM_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_ABC);
+
+    pub static ref FILE_UTF32LE_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-32LE_BOM.log");
+    pub static ref FILE_UTF32LE_BOM_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32LE_BOM_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL);
+
+    // 2 line file UTF-32 LE BOM
+    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-32LE_BOM.log");
+    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32LE_BOM_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL_DEF);
+
+    // 2 line file UTF-32 LE BOM with trailing newline
+    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-32LE_BOM.log");
+    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF32LE_BOM_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_ABC_NL_DEF_NL);
+
+    // UTF-32 LE BOM multiple syslines
+    pub static ref FILE_UTF32LE_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-32LE_BOM.log");
+    pub static ref FILE_UTF32LE_BOM_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF32LE_BOM_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF32LE_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF32LE_BOM_DTF56B_PATH);
+}
+
+// UTF-8
+lazy_static! {
+    // 1 line file UTF-8
+    pub static ref FILE_UTF8_ABC_NAME: String = String::from("abc_.UTF-8.log");
+    pub static ref FILE_UTF8_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF8_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF8_ABC);
+
+    pub static ref FILE_UTF8_ABC_NL_NAME: String = String::from("abc_nl.UTF-8.log");
+    pub static ref FILE_UTF8_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF8_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF8_ABC_NL);
+
+    // 2 line file UTF-8
+    pub static ref FILE_UTF8_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-8.log");
+    pub static ref FILE_UTF8_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF8_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF8_ABC_NL_DEF);
+
+    // 2 line file UTF-8 with trailing newline
+    pub static ref FILE_UTF8_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-8.log");
+    pub static ref FILE_UTF8_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF8_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF8_ABC_NL_DEF_NL);
+
+    // UTF-8 multiple syslines
+    pub static ref FILE_UTF8_DTF56B_NAME: String = String::from("dtf5-6b.UTF-8.log");
+    pub static ref FILE_UTF8_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF8_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF8_DTF56B_PATH);
+}
+
+// UTF-8 BOM
+lazy_static! {
+    // 1 line file UTF-8 BOM
+    pub static ref FILE_UTF8_BOM_ABC_NAME: String = String::from("abc_.UTF-8_BOM.log");
+    pub static ref FILE_UTF8_BOM_ABC: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF8_BOM_ABC_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_BOM_ABC_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_ABC);
+
+    pub static ref FILE_UTF8_BOM_ABC_NL_NAME: String = String::from("abc_nl.UTF-8_BOM.log");
+    pub static ref FILE_UTF8_BOM_ABC_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF8_BOM_ABC_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_BOM_ABC_NL_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_ABC_NL);
+
+    // 2 line file UTF-8 BOM
+    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_NAME: String = String::from("abc_nl_def.UTF-8_BOM.log");
+    pub static ref FILE_UTF8_BOM_ABC_NL_DEF: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF8_BOM_ABC_NL_DEF_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_ABC_NL_DEF);
+
+    // 2 line file UTF-8 BOM with trailing newline
+    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_NL_NAME: String = String::from("abc_nl_def_nl.UTF-8_BOM.log");
+    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_NL: PathBuf = {
+        let mut path = PATH_LOGS2.clone();
+        path.push(&*FILE_UTF8_BOM_ABC_NL_DEF_NL_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_BOM_ABC_NL_DEF_NL_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_ABC_NL_DEF_NL);
+
+    // UTF-8 BOM multiple syslines
+    pub static ref FILE_UTF8_BOM_DTF56B_NAME: String = String::from("dtf5-6b.UTF-8_BOM.log");
+    pub static ref FILE_UTF8_BOM_DTF56B_PATH: PathBuf = {
+        let mut path = PATH_LOGS1.clone();
+        path.push(&*FILE_UTF8_BOM_DTF56B_NAME);
+        path
+    };
+    pub static ref FILE_UTF8_BOM_DTF56B_FPATH: FPath = path_to_fpath(&FILE_UTF8_BOM_DTF56B_PATH);
+}
+
+pub const REGEX_ID_DTF65B: RegexId = 79;
+
+// ---------
+
+pub fn encode_utf16be(value: &str) -> String {
+    let mut out = String::with_capacity(value.len() * 2);
+    for ch in value.chars() {
+        out.push('\0');
+        out.push(ch);
+    }
+    out
+}
+
+pub fn encode_utf16le(value: &str) -> String {
+    let mut out = String::with_capacity(value.len() * 2);
+    for ch in value.chars() {
+        out.push(ch);
+        out.push('\0');
+    }
+    out
+}
+
+pub fn encode_utf32be(value: &str) -> String {
+    let mut out = String::with_capacity(value.len() * 4);
+    for ch in value.chars() {
+        out.push('\0');
+        out.push('\0');
+        out.push('\0');
+        out.push(ch);
+    }
+    out
+}
+
+pub fn encode_utf32le(value: &str) -> String {
+    let mut out = String::with_capacity(value.len() * 4);
+    for ch in value.chars() {
+        out.push(ch);
+        out.push('\0');
+        out.push('\0');
+        out.push('\0');
+    }
+    out
+}
+
+pub fn encode_to_utf8(value: &str, encoding: FileTypeTextEncoding) -> String {
+    match encoding {
+        FileTypeTextEncoding::Utf8Ascii
+        | FileTypeTextEncoding::Utf8BOM => value.to_string(),
+        FileTypeTextEncoding::Utf16be
+        | FileTypeTextEncoding::Utf16beBOM => encode_utf16be(value),
+        FileTypeTextEncoding::Utf16le
+        | FileTypeTextEncoding::Utf16leBOM => encode_utf16le(value),
+        FileTypeTextEncoding::Utf32be
+        | FileTypeTextEncoding::Utf32beBOM => encode_utf32be(value),
+        FileTypeTextEncoding::Utf32le
+        | FileTypeTextEncoding::Utf32leBOM => encode_utf32le(value),
+    }
+}
+
+pub fn utf16be_to_utf8(value: &str) -> String {
+    let mut out = String::with_capacity(value.len() / 2 + 2);
+    let mut chars = value.chars();
+    while let Some(ch1) = chars.next() {
+        let ch2 = chars.next().unwrap_or('\0');
+        if ch1 == '\0' {
+            out.push(ch2);
+        } else {
+            out.push('❓');
+        }
+    }
+    out
+}
+
+pub fn utf16le_to_utf8(value: &str) -> String {
+    let mut out = String::with_capacity(value.len() / 2 + 2);
+    let mut chars = value.chars();
+    while let Some(ch1) = chars.next() {
+        let ch2 = chars.next().unwrap_or('\0');
+        if ch2 == '\0' {
+            out.push(ch1);
+        } else {
+            out.push('❓');
+        }
+    }
+    out
+}
+
+pub fn utf32le_to_utf8(value: &str) -> String {
+    let mut out = String::with_capacity(value.len() / 4 + 4);
+    let mut chars = value.chars();
+    while let Some(ch1) = chars.next() {
+        let ch2 = chars.next().unwrap_or('\0');
+        let ch3 = chars.next().unwrap_or('\0');
+        let ch4 = chars.next().unwrap_or('\0');
+        if ch2 == '\0' && ch3 == '\0' && ch4 == '\0' {
+            out.push(ch1);
+        } else {
+            out.push('❌');
+        }
+    }
+    out
+}
+
+pub fn utf32be_to_utf8(value: &str) -> String {
+    let mut out = String::with_capacity(value.len() / 4 + 4);
+    let mut chars = value.chars();
+    while let Some(ch1) = chars.next() {
+        let ch2 = chars.next().unwrap_or('\0');
+        let ch3 = chars.next().unwrap_or('\0');
+        let ch4 = chars.next().unwrap_or('\0');
+        if ch1 == '\0' && ch2 == '\0' && ch3 == '\0' {
+            out.push(ch4);
+        } else {
+            out.push('❌');
+        }
+    }
+    out
+}
+
+pub fn utf_to_utf8(value: &str, encoding: FileTypeTextEncoding) -> String {
+    match encoding.basic_encoding() {
+        FileTypeBasicEncoding::Utf8 => value.to_string(),
+        FileTypeBasicEncoding::Utf16 => utf16be_to_utf8(value),
+        FileTypeBasicEncoding::Utf32 => utf32be_to_utf8(value),
+    }
+}
+
+pub fn bytes_to_utf8(value: &Vec<u8>, encoding: FileTypeTextEncoding) -> String {
+    match encoding {
+        FileTypeTextEncoding::Utf8Ascii
+        | FileTypeTextEncoding::Utf8BOM => String::from_utf8_lossy(value).to_string(),
+        FileTypeTextEncoding::Utf16be
+        | FileTypeTextEncoding::Utf16beBOM => utf16be_to_utf8(&String::from_utf8_lossy(value)),
+        FileTypeTextEncoding::Utf16le
+        | FileTypeTextEncoding::Utf16leBOM => utf16le_to_utf8(&String::from_utf8_lossy(value)),
+        FileTypeTextEncoding::Utf32be
+        | FileTypeTextEncoding::Utf32beBOM => utf32be_to_utf8(&String::from_utf8_lossy(value)),
+        FileTypeTextEncoding::Utf32le
+        | FileTypeTextEncoding::Utf32leBOM => utf32le_to_utf8(&String::from_utf8_lossy(value)),
+    }
+}
+
+#[allow(non_snake_case)]
+pub fn prepend_BOM(
+    data: &Bytes,
+    encoding: FileTypeTextEncoding,
+) -> Vec<u8> {
+    let mut bytes = Vec::<u8>::with_capacity(data.len() + encoding.bomsz() as usize);
+    match encoding {
+        UTF_8_BOM => bytes.extend_from_slice(BOM_UTF8.as_slice()),
+        UTF_16BE => bytes.extend_from_slice(BOM_UTF16BE.as_slice()),
+        UTF_16LE => bytes.extend_from_slice(BOM_UTF16LE.as_slice()),
+        UTF_32BE => bytes.extend_from_slice(BOM_UTF32BE.as_slice()),
+        UTF_32LE => bytes.extend_from_slice(BOM_UTF32LE.as_slice()),
+        _ => {}
+    }
+    bytes.extend_from_slice(data.as_slice());
+
+    bytes
+}
+
+// ---------
 
 pub const NTF_LOG_EMPTY_FILETYPE: FileType = FILETYPE_UTF8;
 
@@ -4531,22 +5190,24 @@ const HORZ_LINE: &str = "──────────────────�
 ///
 /// only intended to help humans reading stderr output
 pub fn eprint_file(path: &FPath) {
-    let contents_file: String = match std::fs::read_to_string(path) {
+    let contents_file_bytes: Bytes = match std::fs::read(path) {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("Error reading file {:?}\n{:?}", path, err);
+            eprintln!("eprint_file: Error reading file {:?}\n{:?}", path, err);
             return;
         }
     };
-    let contents_file_count: usize = contents_file.lines().count();
-    let contents_file_noraw: String = str_to_String_noraw(contents_file.as_str());
+    // lossy is used to avoid errors when the file contains non-UTF-8 data, which is common in log files
+    let contents_file_string: String = String::from_utf8_lossy(&contents_file_bytes).to_string();
+    let contents_file_count: usize = contents_file_string.lines().count();
+    let contents_file_noraw: String = str_to_string_noraw(&contents_file_string);
     eprintln!(
         "contents_file {:?} ({} lines):\n{}\n{}\n{}\n{}\n{}\n",
         path, contents_file_count,
         contents_file_noraw,
         HORZ_LINE,
         HORZ_LINE,
-        contents_file,
+        contents_file_string,
         HORZ_LINE,
     );
 }
@@ -4564,7 +5225,7 @@ pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
     {
         Ok(val) => val,
         Err(err) => {
-            eprintln!("Error opening file {:?}\n{:?}", path, err);
+            eprintln!("eprint_file_blocks: Error opening file {:?}\n{:?}", path, err);
             return;
         }
     };
@@ -4575,7 +5236,7 @@ pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
         let bytes_read = match file_.read(buffer.as_mut_slice()) {
             Ok(val) => val,
             Err(err) => {
-                eprintln!("Error reading file {:?}\n{:?}", path, err);
+                eprintln!("eprint_file_blocks: Error reading file {:?}\n{:?}", path, err);
                 return;
             }
         };
@@ -4584,7 +5245,7 @@ pub fn eprint_file_blocks(path: &FPath, blocksz: BlockSz) {
         }
         let data = &buffer[..bytes_read];
         at_byte += data.len();
-        let data_str_noraw: String = buffer_to_String_noraw(data);
+        let data_str_noraw: String = buffer_to_string_noraw(data);
         eprintln!("@{0:3} 0x{0:03X} [{1:2}]: {2}", at_byte, at_block, data_str_noraw);
         at_block += 1;
     }

@@ -46,12 +46,14 @@ use ::si_trace_print::{
 };
 
 use crate::common::{
+    CharSz,
     Count,
     FPath,
     FileOffset,
     FileProcessingResult,
     FileSz,
     FileType,
+    FileTypeTextEncoding,
     SYSLOG_SZ_MAX,
 };
 use crate::data::datetime::{
@@ -82,6 +84,7 @@ pub use crate::readers::linereader::ResultFindLine;
 #[cfg(test)]
 use crate::readers::linereader::SetDroppedLines;
 use crate::readers::summary::Summary;
+use crate::readers::filepreprocessor::detect_filetype_text_encoding;
 #[cfg(test)]
 use crate::readers::syslinereader::SetDroppedSyslines;
 #[doc(hidden)]
@@ -287,13 +290,6 @@ pub struct SummarySyslogProcessor {
 }
 
 impl SyslogProcessor {
-    /// `SyslogProcessor` has it's own miminum requirements for `BlockSz`.
-    ///
-    /// Necessary for `blockzero_analysis` functions to have chance at success.
-    #[doc(hidden)]
-    #[cfg(any(debug_assertions, test))]
-    pub const BLOCKSZ_MIN: BlockSz = 0x2;
-
     /// Maximum number of datetime patterns for matching the remainder of a
     /// syslog file.
     const DT_PATTERN_MAX: usize = SyslineReader::DT_PATTERN_MAX;
@@ -303,6 +299,9 @@ impl SyslogProcessor {
     /// Necessary for `blockzero_analysis` functions to have chance at success.
     #[cfg(not(any(debug_assertions, test)))]
     pub const BLOCKSZ_MIN: BlockSz = 0x40;
+    #[doc(hidden)]
+    #[cfg(any(debug_assertions, test))]
+    pub const BLOCKSZ_MIN: BlockSz = crate::readers::blockreader::BLOCKSZ_MIN;
 
     /// Minimum number of bytes needed to perform `blockzero_analysis_bytes`.
     ///
@@ -319,6 +318,8 @@ impl SyslogProcessor {
     /// stop processing the file. It's extremely unlikely this is a syslog
     /// file and more likely it's some sort of binary data file.
     pub const BLOCKZERO_ANALYSIS_BYTES_NULL_MAX: usize = 128;
+    /// Same as [`BLOCKZERO_ANALYSIS_BYTES_NULL_MAX`] but for 0xFF bytes.
+    pub const BLOCKZERO_ANALYSIS_BYTES_FF_MAX: usize = Self::BLOCKZERO_ANALYSIS_BYTES_NULL_MAX;
 
     /// Allow "streaming stage" to drop data?
     /// Compile-time "option" to aid manual debugging.
@@ -518,7 +519,7 @@ impl SyslogProcessor {
     ///
     /// [`LineReader::charsz`]: crate::readers::linereader::LineReader#method.charsz
     #[allow(dead_code)]
-    pub const fn charsz(&self) -> usize {
+    pub const fn charsz(&self) -> CharSz {
         self.syslinereader.charsz()
     }
 
@@ -1132,8 +1133,7 @@ impl SyslogProcessor {
                 return FileProcessingResultBlockZero::FileErrIoPath(err);
             }
         };
-        // if the first block is too small then there will not be enough
-        // data to parse a `Line` or `Sysline`
+        // if the first block is too small then not a valid log file
         let blocksz0: BlockSz = (*blockp).len() as BlockSz;
         let require_sz: BlockSz = std::cmp::min(Self::BLOCKZERO_ANALYSIS_BYTES_MIN, self.blocksz());
         defo!("blocksz0 {} < {} require_sz", blocksz0, require_sz);
@@ -1141,13 +1141,33 @@ impl SyslogProcessor {
             defx!("return FileErrTooSmall");
             return FileProcessingResultBlockZero::FileErrTooSmall;
         }
-        // if the first `BLOCKZERO_ANALYSIS_BYTES_NULL_MAX` bytes are all
-        // zero then this is not a text file and processing should stop.
+        // if all 0x00 bytes then not valid log file
         if (*blockp).iter().take(Self::BLOCKZERO_ANALYSIS_BYTES_NULL_MAX).all(|&b| b == 0) {
             defx!("return FileErrNullBytes");
             return FileProcessingResultBlockZero::FileErrNullBytes;
         }
-        // TODO: [2026/04] do the same analyis for 0xFF
+        // if all 0xFF bytes then not valid log file
+        if (*blockp).iter().take(Self::BLOCKZERO_ANALYSIS_BYTES_FF_MAX).all(|&b| b == 0xFF) {
+            defx!("return FileErrFFBytes");
+            return FileProcessingResultBlockZero::FileErrFFBytes;
+        }
+        // determine file encoding
+        let block_bytes = blockp.as_slice();
+        let encoding_type: FileTypeTextEncoding = match detect_filetype_text_encoding(block_bytes) {
+            Some(enc) => {
+                defo!("detected encoding {:?}", enc);
+                enc
+            },
+            None => {
+                defo!("could not detect valid encoding; fallback to UTF-8/ASCII");
+                FileTypeTextEncoding::Utf8Ascii
+            }
+        };
+
+        // TODO: here is where to detect magic bytes for
+        //       unsupported file types, e.g. databases, unsupported compressed, etc.
+
+        self.syslinereader.filetype_text_encoding_update(encoding_type);
 
         defx!("return FileOk");
 
@@ -1292,7 +1312,10 @@ impl SyslogProcessor {
                 }
                 (ResultFindSysline::Done, partial_found) => {
                     defo!("Done; found {} syslines, partial_found {}", found, partial_found);
-                    if partial_found {
+                    if partial_found
+                        && (self.syslinereader.count_lines_stored() > 0
+                            || self.syslinereader.charsz() > 1)
+                    {
                         found += 1;
                     }
                     break;
@@ -1312,6 +1335,14 @@ impl SyslogProcessor {
 
         let patt_count_a = self.syslinereader.dt_patterns_counts_in_use();
         defo!("dt_patterns_counts_in_use {}", patt_count_a);
+
+        if patt_count_a == 0 && self.syslinereader.charsz() > 1 {
+            // For UTF-16/UTF-32 with small block sizes, block zero may only
+            // produce a partial line and no complete datetime match yet.
+            // Defer datetime pattern narrowing to later full-file processing.
+            defo!("multibyte block-zero partial detected; skip dt_patterns_analysis and continue");
+            return FileProcessingResultBlockZero::FileOk;
+        }
 
         if !self.syslinereader.dt_patterns_analysis() {
             de_err!("dt_patterns_analysis() failed which is unexpected; return FileErrNoSyslinesFound");
@@ -1351,7 +1382,10 @@ impl SyslogProcessor {
                     }
                     (ResultFindSysline::Done, partial_found) => {
                         defo!("Done; found {} syslines, partial_found {}", found, partial_found);
-                        if partial_found {
+                        if partial_found
+                            && (self.syslinereader.count_lines_stored() > 0
+                                || self.syslinereader.charsz() > 1)
+                        {
                             found += 1;
                         }
                         break;

@@ -86,7 +86,7 @@ use crate::common::{
     summary_stat,
 };
 #[cfg(any(debug_assertions, test))]
-use crate::debug::printers::buffer_to_String_noraw;
+use crate::debug::printers::buffer_to_string_noraw;
 use crate::readers::helpers::path_to_fpath;
 use crate::python::venv::venv_path;
 
@@ -488,7 +488,7 @@ impl PipeStreamReader {
                                         while at < len {
                                             _loop += 1;
                                             def2o!("{_d_p} (read #{reads} loop {_loop}) searching for delimiter in buf[{at}..{len}] '{}'", 
-                                                buffer_to_String_noraw(&buf[at..len]));
+                                                buffer_to_string_noraw(&buf[at..len]));
                                             match finder.find(&buf[at..len]) {
                                                 Some(pos) => {
                                                     // delimiter found at pos
@@ -498,14 +498,14 @@ impl PipeStreamReader {
                                                     // send chunks, keep the remainder
                                                     def2o!("{_d_p} (read #{reads} loop {_loop}) buf_chunk1.extend_from_slice(buf[{}..{}])", at, at + pos + 1);
                                                     buf_chunk1.extend_from_slice(&buf[at..at + pos + 1]);
-                                                    def2o!("{_d_p} (read #{reads} loop {_loop}) buf_chunk1: '{}'", buffer_to_String_noraw(&buf_chunk1));
+                                                    def2o!("{_d_p} (read #{reads} loop {_loop}) buf_chunk1: '{}'", buffer_to_string_noraw(&buf_chunk1));
                                                     let blen = buf_chunk1.len();
                                                     let mut chunk_send: Bytes = Vec::<u8>::with_capacity(blen);
                                                     def2o!("{_d_p} (read #{reads} loop {_loop}) chunk_send.extend_from_slice(&buf_chunk1 len {}) (chunk_send capacity {})",
                                                         buf_chunk1.len(), chunk_send.capacity());
                                                     chunk_send.extend_from_slice(&buf_chunk1);
                                                     def2o!("{_d_p} (read #{reads} loop {_loop}) chunk_send: '{}' (channel len {})",
-                                                           buffer_to_String_noraw(&chunk_send), tx_parent.len());
+                                                           buffer_to_string_noraw(&chunk_send), tx_parent.len());
                                                     let data_send = PipedChunk::Chunk(chunk_send);
                                                     _sends += 1;
                                                     match tx_parent.send(Ok(data_send)) {
@@ -523,7 +523,7 @@ impl PipeStreamReader {
                                                     //     at + pos + 1, len, buf.len(), buf.capacity());
                                                     // buf_chunk1.extend_from_slice(&buf[at + pos + 1..len]);
                                                     // def2o!("{_d_p} (read #{reads} loop {_loop}) buf_chunk1: len {}, capacity {}; contents: '{}'",
-                                                    //     buf_chunk1.len(), buf_chunk1.capacity(), buffer_to_String_noraw(&buf_chunk1));
+                                                    //     buf_chunk1.len(), buf_chunk1.capacity(), buffer_to_string_noraw(&buf_chunk1));
                                                     delim_found = true;
                                                     at += pos + 1;
                                                     def2o!("{_d_p} (read #{reads} loop {_loop}) {} bytes remaining in buf", len - at);
@@ -531,10 +531,10 @@ impl PipeStreamReader {
                                                 None => {
                                                     // delimiter not found, save buffer and then read child process again
                                                     def2o!("{_d_p} (read #{reads} loop {_loop}) no delimiter; buf_chunk1.extend_from_slice(&buf[{}..{}]) '{}'",
-                                                        at, len, buffer_to_String_noraw(&buf[at..len]));
+                                                        at, len, buffer_to_string_noraw(&buf[at..len]));
                                                     buf_chunk1.extend_from_slice(&buf[at..len]);
                                                     def2o!("{_d_p} (read #{reads} loop {_loop}) buf_chunk1: len {}, capacity {}; contents: '{}'",
-                                                        buf_chunk1.len(), buf_chunk1.capacity(), buffer_to_String_noraw(&buf_chunk1));
+                                                        buf_chunk1.len(), buf_chunk1.capacity(), buffer_to_string_noraw(&buf_chunk1));
                                                     delim_found = false;
                                                     at += len + 1;
                                                 }
@@ -1071,7 +1071,7 @@ impl PyRunner {
                                 "{} writing {} bytes to stdin (\"{}\")",
                                 self._d_p,
                                 input_data_.len(),
-                                buffer_to_String_noraw(&input_data_[..input_data_.len().min(10)]).to_string()
+                                buffer_to_string_noraw(&input_data_[..input_data_.len().min(10)]).to_string()
                             );
                             match stdin.write(input_data_) {
                                 Ok(_len) => {
