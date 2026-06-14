@@ -236,11 +236,12 @@ while read -r log_file; do
         echo "    Different stdout ${log_file_stdout}" >&2
         echo "    Command: ${PROGRAM} ${S4_ARGS[*]} ${log_file}" >&2
         (
-            (set -x +e;
+            (set -x;
                 "${DIFF}" --text -y --width=${width} --suppress-common-lines "${log_file_stdout}" "${tmp1}"
             ) || true
         ) | head -n 20 | indent
         echo >&2
+        sleep 0.2
         tmp1=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stdout+=1
@@ -255,11 +256,12 @@ while read -r log_file; do
         echo "    Different stderr ${log_file_stderr}" >&2
         echo "    Command: ${PROGRAM} ${S4_ARGS[*]} ${log_file}" >&2
         (
-            (set -x +e;
+            (set -x;
                 "${DIFF}" --text -y --width=${width} --suppress-common-lines "${log_file_stderr}" "${tmp2}"
             ) || true
         ) | head -n 20 | indent
         echo >&2
+        sleep 0.2
         tmp2=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stderr+=1
