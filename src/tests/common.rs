@@ -915,12 +915,16 @@ pub fn prepend_BOM(
 ) -> Vec<u8> {
     let mut bytes = Vec::<u8>::with_capacity(data.len() + encoding.bomsz() as usize);
     match encoding {
-        UTF_8_BOM => bytes.extend_from_slice(BOM_UTF8.as_slice()),
-        UTF_16BE => bytes.extend_from_slice(BOM_UTF16BE.as_slice()),
-        UTF_16LE => bytes.extend_from_slice(BOM_UTF16LE.as_slice()),
-        UTF_32BE => bytes.extend_from_slice(BOM_UTF32BE.as_slice()),
-        UTF_32LE => bytes.extend_from_slice(BOM_UTF32LE.as_slice()),
-        _ => {}
+        FileTypeTextEncoding::Utf8BOM => bytes.extend_from_slice(BOM_UTF8.as_slice()),
+        FileTypeTextEncoding::Utf16beBOM => bytes.extend_from_slice(BOM_UTF16BE.as_slice()),
+        FileTypeTextEncoding::Utf16leBOM => bytes.extend_from_slice(BOM_UTF16LE.as_slice()),
+        FileTypeTextEncoding::Utf32beBOM => bytes.extend_from_slice(BOM_UTF32BE.as_slice()),
+        FileTypeTextEncoding::Utf32leBOM => bytes.extend_from_slice(BOM_UTF32LE.as_slice()),
+        FileTypeTextEncoding::Utf8Ascii
+        | FileTypeTextEncoding::Utf16be
+        | FileTypeTextEncoding::Utf16le
+        | FileTypeTextEncoding::Utf32be
+        | FileTypeTextEncoding::Utf32le => {}
     }
     bytes.extend_from_slice(data.as_slice());
 
