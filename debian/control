@@ -1,0 +1,44 @@
+Source: super-speedy-syslog-searcher
+Section: utils
+Priority: optional
+Maintainer: James Thomas Moon <jtmoon79@users.noreply.github.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-cargo (>= 25),
+ libsystemd-dev,
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+Homepage: https://github.com/jtmoon79/super-speedy-syslog-searcher
+Vcs-Git: https://github.com/jtmoon79/super-speedy-syslog-searcher.git
+Vcs-Browser: https://github.com/jtmoon79/super-speedy-syslog-searcher
+
+Package: s4
+Architecture: any
+Depends: ${shlibs:Depends}, ${cargo:Depends}, ${misc:Depends}
+Recommends: python3 (>= 3.9)
+Suggests:
+ python3-construct,
+ python3-defusedxml,
+ python3-pycryptodome,
+Description: speedily search and merge log messages by datetime
+ s4 is a command-line tool to search and merge varying log messages from
+ varying log files, sorted by datetime. Datetime filters may be passed to
+ narrow the search to a datetime range.
+ .
+ s4 can read standardized log message formats like RFC 3164 and RFC 5424
+ (syslog), Red Hat Audit logs, strace output, dmesg and X.org logs, and
+ can read many non-standardized ad-hoc log message formats, including
+ multi-line log messages. It also parses binary accounting records acct,
+ lastlog, and utmp (acct, pacct, lastlog, utmp, utmpx, wtmp), systemd
+ journal logs (.journal), Windows Event Logs (.evtx), Windows Event Trace
+ Logs (.etl), OneDrive Log files (.odl, .aodl, .odlgz, .odlsent), and
+ Apple System Logs (.asl). s4 can read logs that are compressed (.bz2,
+ .gz, .lz4, .xz), or archived logs (.tar).
+ .
+ For Windows ETL and OneDrive ODL file support, s4 uses Python helper
+ scripts that are embedded in the binary. Run 's4 --venv' to create the
+ Python virtual environment. The suggested packages (python3-construct,
+ python3-defusedxml, python3-pycryptodome) cover dependencies available
+ in Debian. Additional dependencies not yet packaged for Debian
+ (colorist, dissect.etl, dissect.cstruct, etl-parser, inputimeout) can
+ be installed via pip into the virtual environment created by 's4 --venv'.
