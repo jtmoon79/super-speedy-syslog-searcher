@@ -29,7 +29,7 @@ File: ./logs/FedoraRemix29/dnf.log
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  39, miss 912,  4.1%
-      caching: LineReader::find_line() LRU cache                   : hit 226, miss 477, 32.1%, put 476
+      caching: LineReader::find_line() LRU cache                   : hit 226, miss 476, 32.2%, put 476
       copying: SyslineReader::get_boxptrs()                        : sgl 445, dbl   69, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss 226,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss 226,  0.0%, put 226
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-06-16 14:09:08 +00:00 (2019-06-16 14:09:08.000000 +00:00)
 Datetime printed last  : 2019-06-16 14:11:21 +00:00 (2019-06-16 14:11:21.000000 +00:00)

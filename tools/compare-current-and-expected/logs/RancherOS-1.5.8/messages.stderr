@@ -30,7 +30,7 @@ File: ./logs/RancherOS-1.5.8/messages
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 230, miss 470, 32.9%
-      caching: LineReader::find_line() LRU cache                   : hit   4, miss 467,  0.8%, put 465
+      caching: LineReader::find_line() LRU cache                   : hit   4, miss 466,  0.9%, put 465
       copying: SyslineReader::get_boxptrs()                        : sgl 242, dbl   22, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss 232,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 231, miss 232, 49.9%, put 231
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-09 21:31:38 +08:00 (2022-10-09 13:31:38.000000 +00:00)
 Datetime printed last  : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)

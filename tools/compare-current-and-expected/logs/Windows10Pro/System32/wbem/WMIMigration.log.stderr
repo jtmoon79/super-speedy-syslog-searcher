@@ -29,7 +29,7 @@ File: ./logs/Windows10Pro/System32/wbem/WMIMigration.log
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  2, miss 81,  2.4%
-      caching: LineReader::find_line() LRU cache                   : hit 40, miss 43, 48.2%, put 42
+      caching: LineReader::find_line() LRU cache                   : hit 40, miss 42, 48.8%, put 42
       copying: SyslineReader::get_boxptrs()                        : sgl 53, dbl  12, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 40,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 40,  0.0%, put 40
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-08-10 01:46:44 +08:00 (2019-08-09 17:46:44.004200 +00:00)
 Datetime printed last  : 2020-05-27 12:25:43 +08:00 (2020-05-27 04:25:43.087700 +00:00)

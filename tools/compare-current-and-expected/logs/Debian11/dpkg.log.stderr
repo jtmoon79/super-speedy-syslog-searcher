@@ -29,7 +29,7 @@ File: ./logs/Debian11/dpkg.log
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  96,  1.0%
-      caching: LineReader::find_line() LRU cache                   : hit  48, miss  50, 49.0%, put  49
+      caching: LineReader::find_line() LRU cache                   : hit  48, miss  49, 49.5%, put  49
       copying: SyslineReader::get_boxptrs()                        : sgl 116, dbl   10, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  48,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  48,  0.0%, put  48
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-04-20 15:15:01 +08:00 (2022-04-20 07:15:01.000000 +00:00)
 Datetime printed last  : 2022-10-11 00:09:45 +08:00 (2022-10-10 16:09:45.000000 +00:00)

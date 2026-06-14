@@ -29,16 +29,16 @@ File: ./logs/Ubuntu18/samba/log.nmbd.old
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  12, miss  21, 36.4%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 199, dbl    2, mult   0
+      caching: LineReader::find_line() LRU cache                   : hit  12, miss  20, 37.5%, put  19
+      copying: SyslineReader::get_boxptrs()                        : sgl 200, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  11,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  11,  0.0%, put  10
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  11,  0.0%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  10, miss  20, 33.3%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  11, miss   5, 68.8%, largest skipped 63
-      optimize:SyslineReader::ezcheck12d2                          : hit  87, miss  98, 47.0%, largest skipped 64
-      process: regex captures                                      : hit  10, miss  93
+      optimize:SyslineReader::ezcheck12d2                          : hit  87, miss  99, 46.8%, largest skipped 64
+      process: regex captures                                      : hit  10, miss  94
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-15 22:06:49 +08:00 (2020-03-15 14:06:49.174910 +00:00)
 Datetime printed last  : 2020-03-15 22:06:51 +08:00 (2020-03-15 14:06:51.174910 +00:00)

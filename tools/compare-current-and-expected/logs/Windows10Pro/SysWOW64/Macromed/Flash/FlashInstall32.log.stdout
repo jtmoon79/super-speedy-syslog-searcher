@@ -1,0 +1,1334 @@
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋=O====== M/32.0.0.114 2019-01-29+02-07-21.228 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\C973A7D4-8C4E-485F-9D61-D33E93918CCF\A0294DFA-6A47-4BD9-AF9D-B552A6632350\E7D97771-5C90-4F89-A577-D729339E1826" -install -iv 8 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0004 [W] 00001036 Software\Macromedia\FlashPlayerPepper/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0005 [W] 00001036 Software\Macromedia\FlashPlayerPepper/Version 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0006 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0007 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player PPAPI/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0008 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0009 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0010 [I] 00000015 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_114_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0011 [I] 00000016 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_114_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0012 [I] 00000027 C:\Windows\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0013 [I] 00000017 C:\Windows\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0014 [I] 00000021 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0015 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0016 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0017 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0018 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0019 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0020 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0021 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0022 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0023 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0024 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0025 [I] 00000031
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0026 [I] 00000003
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180721.228000000┋0027 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180727.809000000┋=X====== M/32.0.0.114 2019-01-29+02-07-27.809 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190128T180727.809000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋﻿=O====== M/32.0.0.142 2019-02-26+03-21-52.720 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\F8E8946D-F2C3-47CA-9CB0-30754DF6CB67\00A0B2D1-0ADB-4548-9D47-711C371DE836\42528DC7-34B3-4282-8298-78E19BA41533" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0007 [I] 00000015 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_142_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0008 [I] 00000016 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_142_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0009 [I] 00000027 C:\Windows\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0010 [I] 00000017 C:\Windows\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0011 [I] 00000021 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0012 [W] 00001024 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192152.720000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192158.490000000┋=X====== M/32.0.0.142 2019-02-26+03-21-58.490 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190225T192158.490000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋﻿=O====== M/32.0.0.156 2019-03-28+02-12-19.720 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\86D83D89-6332-4105-B228-4C53AB219E33\9BCE95C1-4376-4524-B061-8B6CFCB6147C\DBD83AD8-4D8B-4BD7-AD4D-156A2E2E759A" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0007 [I] 00000015 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_156_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0008 [I] 00000016 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_156_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0009 [I] 00000027 C:\Windows\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0010 [I] 00000017 C:\Windows\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0011 [I] 00000021 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0012 [W] 00001024 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0016 [W] 00000039 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0017 [W] 00000040 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0019 [W] 00000041 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0020 [W] 00000036 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0024 [I] 00000003
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181219.720000000┋0025 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181226.194000000┋=X====== M/32.0.0.156 2019-03-28+02-12-26.194 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T181226.194000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋﻿=O====== M/32.0.0.156 2019-03-28+02-34-39.367 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\1170332D-421D-4435-92FD-9BDBDE63AF69\00504908-0C8D-4087-A168-32909DF71E7B\6C7F6297-582D-4B02-8AE4-F6CD08A1CAEA" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0007 [I] 00000015 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_156_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0008 [I] 00000016 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_156_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0009 [I] 00000027 C:\Windows\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0010 [I] 00000017 C:\Windows\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0011 [I] 00000021 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0012 [W] 00001024 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183439.367000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183449.603000000┋=X====== M/32.0.0.156 2019-03-28+02-34-49.603 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190327T183449.603000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋﻿=O====== M/32.0.0.171 2019-04-18+04-03-10.575 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\D09C38D1-3000-42CA-91C4-24B23E2B40E0\168F2B14-41EC-45E3-8655-99560EDC81FF\09EFDF6A-FFE6-4976-B024-E9EFE9B3C88C" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0007 [I] 00000015 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_171_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0008 [I] 00000016 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_171_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0009 [I] 00000027 C:\Windows\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0010 [I] 00000017 C:\Windows\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0011 [I] 00000021 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0012 [W] 00001024 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200310.575000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200319.956000000┋=X====== M/32.0.0.171 2019-04-18+04-03-19.956 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190417T200319.956000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋﻿=O====== M/32.0.0.192 2019-05-18+19-13-28.204 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\77AAF080-39F9-4659-B128-812CE33AD694\548E3E4A-FEA0-4EEE-9CBB-10EFB695CBCE\F8427931-7B57-487C-82EF-FE648A8B25A3" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0007 [I] 00000015 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_192_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0008 [I] 00000016 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_192_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0009 [I] 00000027 C:\Windows\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0010 [I] 00000017 C:\Windows\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0011 [I] 00000021 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0012 [W] 00001024 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111328.204000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111336.396000000┋=X====== M/32.0.0.192 2019-05-18+19-13-36.396 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190518T111336.396000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋﻿=O====== M/32.0.0.207 2019-06-16+00-27-03.122 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\C2D1682D-A757-4179-A878-5EE88BD33C1F\726EEAE7-0051-4F47-90B9-D4BB9894842F\E743D065-5BBE-4A4E-956A-7599A3D92004" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0007 [I] 00000015 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_207_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0008 [I] 00000016 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_207_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0009 [I] 00000027 C:\Windows\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0010 [I] 00000017 C:\Windows\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0011 [I] 00000021 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0012 [W] 00001024 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162703.122000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162711.797000000┋=X====== M/32.0.0.207 2019-06-16+00-27-11.797 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190615T162711.797000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋﻿=O====== M/32.0.0.223 2019-07-14+18-01-31.668 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\E0E0FBD3-4663-4487-95F4-268DF0996B63\84B85881-2EF7-4D62-ACF4-A2DB3A8CA60F\93829075-694D-4683-B59E-6465FA235937" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0007 [I] 00000015 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_223_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0008 [I] 00000016 C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_223_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0009 [I] 00000027 C:\Windows\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0010 [I] 00000017 C:\Windows\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0011 [I] 00000021 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0012 [W] 00001024 C:\Windows\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100131.668000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100138.061000000┋=X====== M/32.0.0.223 2019-07-14+18-01-38.061 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190714T100138.061000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋﻿=O====== M/32.0.0.238 2019-08-28+05-32-57.365 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\599C8051-AD10-42D1-A18F-CBA708611679\BE7C97C2-2F68-4FE0-8C12-BD2271E11D97\61B30DFB-E93E-427F-AC5E-FA1EC6C540E6" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_238_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_238_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0009 [I] 00000027 C:\WINDOWS\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0010 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0011 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213257.365000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213303.667000000┋=X====== M/32.0.0.238 2019-08-28+05-33-03.667 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190827T213303.667000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋﻿=O====== M/32.0.0.255 2019-09-15+18-27-03.840 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\F702EBE1-255A-4E56-8758-EEE415B07158\EA58DD75-2772-4AEE-B3F5-9C4678865DEB\7DEF5F04-48E9-4453-BF36-7556C5FF3712" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_255_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_255_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0009 [I] 00000027 C:\WINDOWS\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0010 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0011 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102703.840000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102710.505000000┋=X====== M/32.0.0.255 2019-09-15+18-27-10.505 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20190915T102710.505000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋﻿=O====== M/32.0.0.270 2019-10-12+19-16-09.171 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\1CA5029D-E85E-4DBA-90D1-794E3F88F2CD\8E29D325-2C6A-4451-98E4-74A14DC6B0B1\DE697B87-AF0B-4A35-BE81-84EE6C2FBFF3" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_270_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_270_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0009 [I] 00000027 C:\WINDOWS\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0010 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0011 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111609.171000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111614.177000000┋=X====== M/32.0.0.270 2019-10-12+19-16-14.177 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191012T111614.177000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋﻿=O====== M/32.0.0.293 2019-11-20+05-36-10.218 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\145E2139-0B14-4A07-BE97-3A37204E9FFC\F2264FE2-267A-4CDE-B82E-99687737A7F9\11E19437-EC4D-47C5-9A55-35706DAFE2C7" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0004 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0005 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0006 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_293_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_293_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0009 [I] 00000027 C:\WINDOWS\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0010 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0011 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213610.218000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213617.033000000┋=X====== M/32.0.0.293 2019-11-20+05-36-17.033 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191119T213617.033000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋﻿=O====== M/32.0.0.303 2019-12-21+20-29-54.237 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0000 [I] 00000044
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0001 [I] 00000045
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0003 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\55A86E73-0F4F-4584-908B-9D55610CF139\6EA486F1-913A-419C-AECB-3E9D42C943F5\16BB8C42-0519-4BDA-8172-C12647E01879" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0004 [W] 00001036 Software\Macromedia\FlashPlayerPlugin/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0005 [W] 00001036 Software\Macromedia\FlashPlayerPlugin/Version 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0006 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0007 [W] 00001037 SOFTWARE\MozillaPlugins\@adobe.com/FlashPlayer/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0008 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player NPAPI/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0009 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0010 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0013 [W] 00001036 Software\Mozilla\SlimBrowser\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0015 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0016 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0017 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0018 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0019 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0020 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_303_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0021 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_303_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0022 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0023 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0024 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_303.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0025 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0026 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0027 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0028 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0029 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0030 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0031 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0032 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0033 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0034 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0035 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0036 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0037 [I] 00000031
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122954.237000000┋0038 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122959.691000000┋=X====== M/32.0.0.303 2019-12-21+20-29-59.691 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191221T122959.691000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋﻿=O====== M/32.0.0.303 2019-12-27+21-28-48.998 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0000 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0001 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\21247C48-39F1-430B-965C-C60CC4B26BAD\72685F82-0196-4300-9995-054E4025C518\6FF69A5C-1980-4B97-85EE-DE8AC4F0BBC3" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0004 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0005 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_303_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0006 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_303_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0007 [I] 00000027 C:\WINDOWS\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0008 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0009 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0010 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0011 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0012 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0013 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0014 [W] 00000039 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0015 [W] 00000040 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0016 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0017 [W] 00000041 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0018 [W] 00000036 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0019 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0020 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0021 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132848.998000000┋0022 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132854.937000000┋=X====== M/32.0.0.303 2019-12-27+21-28-54.937 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20191227T132854.937000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋﻿=O====== M/32.0.0.321 2020-01-22+05-15-53.485 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0000 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0001 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\C219A829-02BE-4048-A43F-C435A8D2D223\36007B1F-4EDC-49F8-9BCE-04F9544AE5E0\C7BC86F8-5D25-4362-9D3F-F0632A585F7F" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0004 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0009 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0010 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0011 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0012 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0013 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0014 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_321_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0015 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_321_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0016 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0017 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0018 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_321.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0019 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0020 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0021 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0022 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0023 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0024 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0025 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0026 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0027 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0028 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0029 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0030 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0031 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211553.485000000┋0032 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211559.340000000┋=X====== M/32.0.0.321 2020-01-22+05-15-59.340 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200121T211559.340000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋﻿=O====== M/32.0.0.330 2020-02-15+07-33-33.825 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0000 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0001 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\F0F2F2BE-E77D-4167-83A8-20DBFD800EFC\F14704C9-C531-451E-9880-5B53D8822BE9\29B95B79-BE9D-4572-968D-A8007D8BD5EB" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0004 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0005 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_330_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0006 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_330_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0007 [I] 00000027 C:\WINDOWS\SysWOW64\Macromed\Flash\pepper.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0008 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0009 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0010 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0011 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0012 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0013 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0014 [W] 00000039 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0015 [W] 00000040 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0016 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0017 [W] 00000041 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0018 [W] 00000036 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0019 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0020 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0021 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233333.825000000┋0022 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233339.179000000┋=X====== M/32.0.0.330 2020-02-15+07-33-39.179 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200214T233339.179000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋﻿=O====== M/32.0.0.330 2020-02-15+19-02-51.700 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0000 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0001 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\206DB4A4-868C-43AF-A611-2E7558331E0F\9FC0B904-4307-409C-AB17-06A146298B74\C00D5484-86A7-4E85-A527-B9C98BEDE233" -install -iv 10 -au 1 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0004 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0009 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0010 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0011 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0012 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0013 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0014 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_330_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0015 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_330_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0016 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0017 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0018 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_330.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0019 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0020 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0021 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0022 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0023 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0024 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0025 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0026 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0027 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0028 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0029 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0030 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0031 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110251.700000000┋0032 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110256.945000000┋=X====== M/32.0.0.330 2020-02-15+19-02-56.945 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200215T110256.945000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋﻿=O====== M/32.0.0.344 2020-03-17+17-10-02.633 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0000 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0001 [I] 00000010 "C:\Users\user\AppData\Local\Adobe\8A46AC2B-F96F-421F-8DD8-3626FBA57133\E98EC35F-DE6F-4FD7-8285-BA2BD200E59C\D9239197-5764-4EBC-9E24-4FA4A2B136B2" -install -iv 10 -au 0 
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0004 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0009 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0010 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0011 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0012 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0013 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0014 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_344_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0015 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_344_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0016 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0017 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0018 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_344.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0019 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0020 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0021 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0022 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0023 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0024 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0025 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0026 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0027 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0028 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0029 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0030 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0031 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091002.633000000┋0032 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091008.994000000┋=X====== M/32.0.0.344 2020-03-17+17-10-08.994 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T091008.994000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100408.418000000┋2020-3-17+18-4-8.418 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋﻿=O====== M/32.0.0.344 2020-03-17+18-04-02.937 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0004 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0005 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_344_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0006 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_344_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0007 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_344_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0008 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0009 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0010 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0011 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100402.937000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100408.505000000┋=X====== M/32.0.0.344 2020-03-17+18-04-08.505 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200317T100408.505000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090413.736000000┋2020-4-14+17-4-13.736 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋﻿=O====== M/32.0.0.363 2020-04-14+17-04-05.192 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0004 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0009 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0010 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0011 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0012 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0013 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0014 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_363_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0015 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_363_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0016 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_363_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0017 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0018 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0019 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_363.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0020 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0022 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0023 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0024 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0025 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0026 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0027 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0028 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0029 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0030 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0031 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0032 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0033 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0034 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090405.192000000┋0035 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090413.769000000┋=X====== M/32.0.0.363 2020-04-14+17-04-13.769 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T090413.769000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100412.517000000┋2020-4-14+18-4-12.517 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋﻿=O====== M/32.0.0.363 2020-04-14+18-04-04.167 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0004 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0005 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_363_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0006 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_363_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0007 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_363_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0008 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0009 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0010 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0011 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100404.167000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100412.534000000┋=X====== M/32.0.0.363 2020-04-14+18-04-12.534 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100412.534000000┋
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200414T100412.534000000┋2020-4-21+0-4-2.98 [error] 1223 1056
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130423.307000000┋2020-5-12+21-4-23.307 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋﻿=O====== M/32.0.0.371 2020-05-12+21-04-12.804 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0004 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0009 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0010 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0011 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0012 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0013 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0014 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_371_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0015 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_371_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0016 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_371_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0017 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0018 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0019 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_371.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0020 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0022 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0023 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0024 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0025 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0026 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0027 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0028 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0029 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0030 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0031 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0032 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0033 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0034 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130412.804000000┋0035 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130423.411000000┋=X====== M/32.0.0.371 2020-05-12+21-04-23.411 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T130423.411000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140422.311000000┋2020-5-12+22-4-22.311 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋﻿=O====== M/32.0.0.371 2020-05-12+22-04-12.244 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0004 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0005 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_371_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0006 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_371_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0007 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_371_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0008 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0009 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0010 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0011 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140412.244000000┋0024 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140422.334000000┋=X====== M/32.0.0.371 2020-05-12+22-04-22.334 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200512T140422.334000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140417.537000000┋2020-6-9+22-4-17.537 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋﻿=O====== M/32.0.0.387 2020-06-09+22-04-07.814 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0004 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0010 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0011 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0012 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0013 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0014 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0015 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_387_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0016 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_387_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0017 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_387_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0018 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0019 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0020 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_387.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0021 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0022 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0023 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0024 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0025 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0026 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0027 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0028 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0029 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0030 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0031 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0032 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0033 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0034 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0035 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0036 [W] 00001036 Software\Macromedia\FlashPlayerActiveX/UninstallerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140407.814000000┋0037 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140417.593000000┋=X====== M/32.0.0.387 2020-06-09+22-04-17.593 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T140417.593000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150417.163000000┋2020-6-9+23-4-17.163 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋﻿=O====== M/32.0.0.387 2020-06-09+23-04-06.849 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0004 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0005 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_387_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0006 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_387_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0007 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_387_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0008 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0009 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0010 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0011 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0024 [W] 00001036 Software\Macromedia\FlashPlayerActiveX/UninstallerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150406.849000000┋0025 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150417.186000000┋=X====== M/32.0.0.387 2020-06-09+23-04-17.186 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200609T150417.186000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200610T160401.746000000┋2020-6-11+0-4-1.746 [error] 1223 1056
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200705T160401.985000000┋2020-7-6+0-4-1.985 [error] 1223 1056
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010417.976000000┋2020-7-15+9-4-17.976 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋﻿=O====== M/32.0.0.403 2020-07-15+09-04-07.422 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0004 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0010 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0011 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0012 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0013 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0014 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0015 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_403_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0016 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_403_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0017 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_403_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0018 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0019 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0020 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_403.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0021 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0022 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0023 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0024 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0025 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0026 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0027 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0028 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0029 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0030 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0031 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0032 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0033 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0034 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0035 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0036 [W] 00001036 Software\Macromedia\FlashPlayerActiveX/UninstallerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010407.422000000┋0037 [F] 00001829
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010418.326000000┋=X====== M/32.0.0.403 2020-07-15+09-04-18.326 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T010418.326000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020417.858000000┋2020-7-15+10-4-17.858 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋﻿=O====== M/32.0.0.403 2020-07-15+10-04-07.430 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0003 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0004 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0005 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_403_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0006 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_403_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0007 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_403_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0008 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0009 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0010 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0011 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0013 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0014 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0015 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0016 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0017 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0018 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0019 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0020 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0021 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0022 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0023 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0024 [W] 00001036 Software\Macromedia\FlashPlayerActiveX/UninstallerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020407.430000000┋0025 [F] 00001829
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020418.271000000┋=X====== M/32.0.0.403 2020-07-15+10-04-18.271 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200715T020418.271000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160402.248000000┋2020-8-12+0-4-2.248 [error] 1223 1056
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160415.737000000┋2020-8-12+0-4-15.737 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋﻿=O====== M/32.0.0.414 2020-08-12+00-04-06.212 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0005 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0011 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0012 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0013 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0014 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0015 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0016 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_414_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0017 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_414_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0018 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_414_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0019 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0020 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0021 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_414.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0022 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0023 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0024 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0025 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0026 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0027 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0028 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0029 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0030 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0031 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0032 [W] 00000039 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0033 [W] 00000040 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0034 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0035 [W] 00000041 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0036 [W] 00000036 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0037 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0038 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0039 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160406.212000000┋0040 [F] 00001829
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160416.141000000┋=X====== M/32.0.0.414 2020-08-12+00-04-16.141 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T160416.141000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170414.135000000┋2020-8-12+1-4-14.135 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋﻿=O====== M/32.0.0.414 2020-08-12+01-04-05.349 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0005 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0006 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_414_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_414_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_414_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0009 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0010 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0011 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0013 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0014 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0015 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0016 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0017 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0018 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0019 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0020 [W] 00000039 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0021 [W] 00000040 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0022 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0023 [W] 00000041 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0024 [W] 00000036 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0025 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0026 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0027 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170405.349000000┋0028 [F] 00001829
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170414.372000000┋=X====== M/32.0.0.414 2020-08-12+01-04-14.372 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200811T170414.372000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170416.952000000┋2020-9-9+1-4-16.952 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋﻿=O====== M/32.0.0.433 2020-09-09+01-04-06.712 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0005 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0011 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0012 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0013 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0014 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0015 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0016 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_433_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0017 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_433_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0018 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_433_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0019 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0020 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0021 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_433.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0022 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0023 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0024 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0025 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0026 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0027 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0028 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0029 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0030 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0031 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0032 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0033 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0034 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0035 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0036 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0037 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0038 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0039 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170406.712000000┋0040 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170417.051000000┋=X====== M/32.0.0.433 2020-09-09+01-04-17.051 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T170417.051000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180414.640000000┋2020-9-9+2-4-14.640 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋﻿=O====== M/32.0.0.433 2020-09-09+02-04-04.826 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0005 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0006 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_433_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_433_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_433_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0009 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0010 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0011 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0013 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0014 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0015 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0016 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0017 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0018 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0019 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0020 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0021 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0022 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0023 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0024 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0025 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0026 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0027 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180404.826000000┋0028 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180414.659000000┋=X====== M/32.0.0.433 2020-09-09+02-04-14.659 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20200908T180414.659000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020417.446000000┋2020-10-14+10-4-17.446 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋﻿=O====== M/32.0.0.445 2020-10-14+10-04-06.863 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0005 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0011 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0012 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0013 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0014 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0015 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0016 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_445_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0017 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_445_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0018 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_445_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0019 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0020 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0021 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_445.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0022 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0023 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0024 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0025 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0026 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0027 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0028 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0029 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0030 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0031 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0032 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0033 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0034 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0035 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0036 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0037 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0038 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0039 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020406.863000000┋0040 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020417.547000000┋=X====== M/32.0.0.445 2020-10-14+10-04-17.547 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T020417.547000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030414.818000000┋2020-10-14+11-4-14.818 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋﻿=O====== M/32.0.0.445 2020-10-14+11-04-04.992 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0005 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0006 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_445_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_445_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_445_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0009 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0010 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0011 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0013 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0014 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0015 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0016 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0017 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0018 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0019 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0020 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0021 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0022 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0023 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0024 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0025 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0026 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0027 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030404.992000000┋0028 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030414.838000000┋=X====== M/32.0.0.445 2020-10-14+11-04-14.838 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201014T030414.838000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030416.890000000┋2020-11-10+11-4-16.890 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋﻿=O====== M/32.0.0.453 2020-11-10+11-04-06.304 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0005 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0011 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0012 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0013 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0014 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0015 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0016 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_453_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0017 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_453_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0018 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_453_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0019 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0020 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0021 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_453.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0022 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0023 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0024 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0025 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0026 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0027 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0028 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0029 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0030 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0031 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0032 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0033 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0034 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0035 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0036 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0037 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0038 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0039 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030406.304000000┋0040 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030417.006000000┋=X====== M/32.0.0.453 2020-11-10+11-04-17.006 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T030417.006000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040415.253000000┋2020-11-10+12-4-15.253 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋﻿=O====== M/32.0.0.453 2020-11-10+12-04-05.279 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0005 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0006 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_453_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_453_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_453_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0009 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0010 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0011 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0013 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0014 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0015 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0016 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0017 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0018 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0019 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0020 [W] 00000039 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0021 [W] 00000040 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0022 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0023 [W] 00000041 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0024 [W] 00000036 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0025 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0026 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0027 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040405.279000000┋0028 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040415.271000000┋=X====== M/32.0.0.453 2020-11-10+12-04-15.271 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201110T040415.271000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180417.250000000┋2020-12-9+2-4-17.250 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋﻿=O====== M/32.0.0.465 2020-12-09+02-04-06.211 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0005 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0011 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0012 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0013 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0014 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0015 [I] 00000014
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0016 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0017 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_Plugin.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0018 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_Plugin.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0019 [I] 00000024 C:\WINDOWS\SysWOW64\Macromed\Flash\plugin.vch
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0020 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0021 [I] 00000022 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerPlugin_32_0_0_465.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0022 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0023 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0024 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0025 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0026 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0027 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0028 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0029 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0030 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0031 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0032 [W] 00000039 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0033 [W] 00000040 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0034 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0035 [W] 00000041 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0036 [W] 00000036 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0037 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0038 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0039 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180406.211000000┋0040 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180417.356000000┋=X====== M/32.0.0.465 2020-12-09+02-04-17.356 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T180417.356000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190415.110000000┋2020-12-9+3-4-15.110 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋﻿=O====== M/32.0.0.465 2020-12-09+03-04-05.014 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0000 [W] 00001113 C:\WINDOWS\system32\config\systemprofile\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0001 [I] 00000010 FlashPlayerInstaller.exe -install -iv 11
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0002 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0003 [I] 00000020 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0004 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0005 [I] 00000029
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0006 [I] 00000025 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0007 [I] 00000015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_pepper.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0008 [I] 00000016 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_pepper.dll
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0009 [I] 00000017 C:\WINDOWS\SysWOW64\Macromed\Flash
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0010 [I] 00000019 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0011 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerCPLApp.cpl 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0012 [W] 00001024 C:\WINDOWS\SysWOW64\FlashPlayerApp.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0013 [I] 00000021 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0014 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0015 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0016 [W] 00001024 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashPlayerUpdateService.exe 183
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0017 [I] 00000037 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0018 [W] 00000039 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0019 [W] 00000041 0
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0020 [W] 00000039 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0021 [W] 00000040 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0022 [W] 00000039 65536
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0023 [W] 00000041 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0024 [W] 00000036 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0025 [W] 00001106
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0026 [W] 00001169 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0027 [I] 00000030
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190405.014000000┋0028 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190415.129000000┋=X====== M/32.0.0.465 2020-12-09+03-04-15.129 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20201208T190415.129000000┋
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210102T160402.265000000┋2021-1-3+0-4-2.265 [error] 1223 1056
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210425T160401.791000000┋2021-4-26+0-4-1.791 [error] 1223 1056
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.489000000┋2021-5-1+21-39-33.489 [error] 1226 1062
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋﻿=O====== M/32.0.0.465 2021-05-01+21-39-33.382 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0000 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0001 [I] 00000010 "C:\Windows\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_Plugin.exe" -eoluninstall
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0002 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0003 [W] 00001020
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0004 [W] 00001037 Software\Microsoft\Windows\CurrentVersion\RunOnce/FlashPlayerUpdate 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0005 [W] 00001037 Software\Macromedia\FlashPlayerPlugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0006 [W] 00001037 Software\Macromedia\FlashPlayer/FlashPlayerVersion 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0007 [W] 00001037 Software\Macromedia\FlashPlayer/SwfInstall 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0008 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Plugin/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0009 [W] 00001021
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0010 [W] 00001036 Software\Macromedia\FlashPlayerActiveX/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0011 [W] 00001036 Software\Macromedia\FlashPlayerPlugin/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0012 [W] 00001036 Software\Macromedia\FlashPlayerActiveX/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0013 [W] 00001036 Software\Macromedia\FlashPlayerPlugin/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0014 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0015 [W] 00001020
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0016 [W] 00001037 Software\Microsoft\Windows\CurrentVersion\RunOnce/FlashPlayerUpdate 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0017 [W] 00001037 Software\Macromedia\FlashPlayer/FlashPlayerVersion 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0018 [W] 00001037 Software\Macromedia\FlashPlayer/SwfInstall 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0019 [W] 00001037 SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Adobe Flash Player Pepper/ 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0020 [W] 00001021
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0021 [W] 00001036 Software\Macromedia\FlashPlayerActiveX/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0022 [W] 00001036 Software\Macromedia\FlashPlayerPlugin/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0023 [W] 00001036 Software\Macromedia\FlashPlayerActiveX/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0024 [W] 00001036 Software\Macromedia\FlashPlayerPlugin/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0025 [W] 00001036 Software\Macromedia\FlashPlayerPepper/PlayerPath 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0026 [W] 00001725 -2147417831
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0027 [W] 00001036 Software\Mozilla\Firefox\extensions/Plugins 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0033 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0034 [W] 00001036 Software\Opera Software/Last CommandLine 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0035 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0036 [W] 00001036 Software\Opera Software/Plugin Path 2
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0037 [W] 00001015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_Plugin.exe 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0038 [W] 00001015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_Plugin.exe 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0039 [W] 00001015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_Plugin.dll 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0040 [W] 00001015 C:\WINDOWS\SysWOW64\Macromed\Flash\FlashUtil32_32_0_0_465_Plugin.dll 5
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0041 [I] 00000011 1
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133933.382000000┋0042 [I] 00000012
+⇳
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133934.643000000┋=X====== M/32.0.0.465 2021-05-01+21-39-34.643 ========
+./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log┋20210501T133934.643000000┋
+⇳

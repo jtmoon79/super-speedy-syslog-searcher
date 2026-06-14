@@ -1,4 +1,4 @@
-./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋﻿2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
+./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll:                                            - DismInitializeInternal
 ⇳
 ./logs/Windows10Pro/DISM/dism.log┋20220222T041813.000000000┋2022-02-22 12:18:13, Info                  DISM   API: PID=8708 TID=8708 DismApi.dll: <----- Starting DismApi.dll session -----> - DismInitializeInternal
 ⇳

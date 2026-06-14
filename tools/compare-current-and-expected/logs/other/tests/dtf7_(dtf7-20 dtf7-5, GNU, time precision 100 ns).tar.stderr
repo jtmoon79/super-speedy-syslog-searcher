@@ -31,7 +31,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  20, miss  21, 48.8%, put  20
+      caching: LineReader::find_line() LRU cache                   : hit  20, miss  20, 50.0%, put  20
       copying: SyslineReader::get_boxptrs()                        : sgl 151, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  20,  0.0%, put  20
@@ -73,7 +73,7 @@ File: ./logs/other/tests/dtf7_(dtf7-20 dtf7-5, GNU, time precision 100 ns).tar|d
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   5, miss   6, 45.5%, put   5
+      caching: LineReader::find_line() LRU cache                   : hit   5, miss   5, 50.0%, put   5
       copying: SyslineReader::get_boxptrs()                        : sgl 139, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   5
@@ -101,8 +101,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2000-01-01 00:00:01 -04:00 (2000-01-01 04:00:01.000000 +00:00)
 Datetime printed last  : 2000-01-01 00:00:20 -04:00 (2000-01-01 04:00:20.000000 +00:00)

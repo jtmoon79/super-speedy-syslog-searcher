@@ -30,7 +30,7 @@ File: ./logs/other/tests/dtf9d-54-12x3-closeyearend-leapday.log
                    datetime format missing year; estimated year of last sysline 2000
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 18, miss 45, 28.6%
-      caching: LineReader::find_line() LRU cache                   : hit  3, miss 42,  6.7%, put 41
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss 41,  6.8%, put 41
       copying: SyslineReader::get_boxptrs()                        : sgl 56, dbl   2, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 22,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 20, miss 22, 47.6%, put 22
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
 Datetime printed last  : 2000-01-01 16:00:00 -02:00 (2000-01-01 18:00:00.000000 +00:00)

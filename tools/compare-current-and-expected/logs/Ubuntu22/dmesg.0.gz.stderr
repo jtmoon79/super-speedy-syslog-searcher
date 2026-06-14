@@ -31,7 +31,7 @@ File: ./logs/Ubuntu22/dmesg.0.gz
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   4, 20.0%, put   2
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
       copying: SyslineReader::get_boxptrs()                        : sgl 160, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
@@ -59,8 +59,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :

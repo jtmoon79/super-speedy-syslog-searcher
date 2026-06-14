@@ -29,7 +29,7 @@ File: ./logs/programs/tomcat/catalina.out
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  2, miss 39,  4.9%
-      caching: LineReader::find_line() LRU cache                   : hit  7, miss 22, 24.1%, put 21
+      caching: LineReader::find_line() LRU cache                   : hit  7, miss 21, 25.0%, put 21
       copying: SyslineReader::get_boxptrs()                        : sgl 72, dbl   4, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  7,  0.0%, put  7
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-02-08 12:12:09 +08:00 (2023-02-08 04:12:09.827000 +00:00)
 Datetime printed last  : 2023-02-08 12:12:48 +08:00 (2023-02-08 04:12:48.822000 +00:00)

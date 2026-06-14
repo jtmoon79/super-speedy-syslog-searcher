@@ -30,7 +30,7 @@ File: ./logs/RockyLinux9/messages-DropletAgent
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 36, miss 76, 32.1%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss 76,  1.3%, put 74
+      caching: LineReader::find_line() LRU cache                   : hit  1, miss 75,  1.3%, put 74
       copying: SyslineReader::get_boxptrs()                        : sgl 68, dbl   2, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 38,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 37, miss 38, 49.3%, put 37
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-08 06:18:58 +08:00 (2022-10-07 22:18:58.000000 +00:00)
 Datetime printed last  : 2022-10-08 06:22:55 +08:00 (2022-10-07 22:22:55.000000 +00:00)

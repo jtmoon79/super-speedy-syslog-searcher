@@ -1,0 +1,18 @@
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160000.000000000┋2000-01-01 00:00:00 [dtf5-6b]6b
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160000.000000000┋6b
+⇳
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160001.000000000┋2000-01-01 00:00:01 [dtf5-6b]6b-a
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160001.000000000┋6b-a
+⇳
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160002.000000000┋2000-01-01 00:00:02 [dtf5-6b]6b-ab
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160002.000000000┋6b-ab
+⇳
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160003.000000000┋2000-01-01 00:00:03 [dtf5-6b]6b-abc
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160003.000000000┋6b-abc
+⇳
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160004.000000000┋2000-01-01 00:00:04 [dtf5-6b]6b-abcd
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160004.000000000┋6b-abcd
+⇳
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160005.000000000┋2000-01-01 00:00:05 [dtf5-6b]6b-abcde
+./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log┋19991231T160005.000000000┋6b-abcde⇳
+

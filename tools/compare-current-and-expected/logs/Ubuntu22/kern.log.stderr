@@ -30,7 +30,7 @@ File: ./logs/Ubuntu22/kern.log
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 13, miss 29, 31.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss 30,  3.2%, put 29
+      caching: LineReader::find_line() LRU cache                   : hit  1, miss 29,  3.3%, put 29
       copying: SyslineReader::get_boxptrs()                        : sgl 39, dbl   9, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 15,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 14, miss 15, 48.3%, put 15
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-03 21:48:26 +08:00 (2022-10-03 13:48:26.000000 +00:00)
 Datetime printed last  : 2022-10-03 21:48:37 +08:00 (2022-10-03 13:48:37.000000 +00:00)

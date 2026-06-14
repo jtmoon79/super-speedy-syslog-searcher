@@ -1,0 +1,156 @@
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042110.000000000┋Wednesday, May 27, 2020 12:21:10 PM
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042110.000000000┋	Administrative privileged user logged on.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042110.000000000┋----Analysis engine was initialized successfully.----
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042110.000000000┋No analysis is needed because it's already done.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042110.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042110.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042110.000000000┋----Un-initialize analysis engine...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042110.000000000┋-------------------------------------------
+⇳
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Wednesday, May 27, 2020 12:21:11 PM
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Administrative privileged user logged on.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Parsing template C:\WINDOWS\inf\dwup-noregkeys.inf.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configuration engine was initialized successfully.----
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Reading Configuration Template info...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure User Rights...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋		SeImpersonatePrivilege must be assigned to administrators. This setting is adjusted.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋		SeImpersonatePrivilege must be assigned to SERVICE. This setting is adjusted.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-19.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-20.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-32-544.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-32-551.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-32-559.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-1-0.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-32-545.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-6.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-90-0.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-32-555.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-80-0.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-80-3169285310-278349998-1452333686-3865143136-4212226833.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure S-1-5-80-3139157870-2983391045-3678747466-658725712-1809340420.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	User Rights configuration was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure Group Membership...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Group Membership configuration was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure 64-bit Registry Keys...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\services\sysmonlog\log queries.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 2: The system cannot find the file specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error enumerating info for machine\system\currentcontrolset\services\sysmonlog\log queries.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configuration of Registry Keys was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure 32-bit Registry Keys...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configuration of Registry Keys was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure File Security...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\perflogs.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\program files\common files\speechengines\microsoft\tts.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 3: The system cannot find the path specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\program files\common files\speechengines\microsoft\tts.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\programdata\microsoft\windows\drm.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\repair\default.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 3: The system cannot find the path specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\windows\repair\default.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\repair\ntuser.dat.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 3: The system cannot find the path specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\windows\repair\ntuser.dat.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\repair\sam.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 3: The system cannot find the path specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\windows\repair\sam.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\repair\security.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 3: The system cannot find the path specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\windows\repair\security.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\repair\software.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 3: The system cannot find the path specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\windows\repair\software.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\repair\system.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 3: The system cannot find the path specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\windows\repair\system.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\system32\wbem\mof.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\system32\windows media.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 2: The system cannot find the file specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\windows\system32\windows media.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure c:\windows\syswow64\export.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Warning 2: The system cannot find the file specified.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error setting security on c:\windows\syswow64\export.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	File Security configuration was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure General Service Settings...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure sysmonlog.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Error 1060: The specified service does not exist as an installed service.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error opening sysmonlog.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure SamSs.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure ntmssvc.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Error 1060: The specified service does not exist as an installed service.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error opening ntmssvc.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure netddedsdm.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Error 1060: The specified service does not exist as an installed service.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error opening netddedsdm.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure netdde.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Error 1060: The specified service does not exist as an installed service.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error opening netdde.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure dmserver.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Error 1060: The specified service does not exist as an installed service.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error opening dmserver.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure clipsrv.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋Error 1060: The specified service does not exist as an installed service.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋ 	Error opening clipsrv.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure Browser.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	General Service configuration was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure available attachment engines...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configuration of attachment engines was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure Security Policy...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure password information.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Administrator account is not allowed to be disabled.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Guest account is disabled.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	System Access configuration was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	LSA anonymous lookup names setting : existing SD = D:(D;;0x800;;;AN)(A;;0xf1fff;;;BA)(A;;0x20801;;;WD)(A;;0x801;;;AN)(A;;0x1000;;;LS)(A;;0x1000;;;NS)(A;;0x1000;;;S-1-5-17)(A;;0x801;;;AC)(A;;0x801;;;S-1-15-2-2).
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure LSA anonymous lookup setting.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\software\microsoft\windows\currentversion\policies\system\undockwithoutlogon.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\lsa\disabledomaincreds.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\lsa\everyoneincludesanonymous.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\lsa\fipsalgorithmpolicy\enabled.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\lsa\forceguest.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\lsa\restrictanonymoussam.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\securepipeservers\winreg\allowedexactpaths\machine.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\securepipeservers\winreg\allowedpaths\machine.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\session manager\kernel\obcaseinsensitive.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\control\session manager\protectionmode.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\services\lanmanserver\parameters\nullsessionpipes.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\services\lanmanserver\parameters\restrictnullsessaccess.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\services\ldap\ldapclientintegrity.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure machine\system\currentcontrolset\services\netlogon\parameters\requiresignorseal.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configuration of Registry Values was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configure log settings.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Audit/Log configuration was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Configure available attachment engines...
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋	Configuration of attachment engines was completed successfully.
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋
+./logs/Windows10Pro/security/logs/sceupgrade.log┋20200527T042111.000000000┋----Un-initialize configuration engine...
+⇳

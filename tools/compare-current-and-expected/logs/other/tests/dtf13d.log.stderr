@@ -29,7 +29,7 @@ File: ./logs/other/tests/dtf13d.log
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  5,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  3, miss  4, 42.9%, put  3
+      caching: LineReader::find_line() LRU cache                   : hit  3, miss  3, 50.0%, put  3
       copying: SyslineReader::get_boxptrs()                        : sgl 73, dbl   0, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  3,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  3,  0.0%, put  3
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.616000 +00:00)
 Datetime printed last  : 2021-05-09 19:43:18 +00:00 (2021-05-09 19:43:18.638000 +00:00)

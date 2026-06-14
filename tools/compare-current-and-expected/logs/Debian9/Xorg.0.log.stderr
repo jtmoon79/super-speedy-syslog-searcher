@@ -30,16 +30,16 @@ File: ./logs/Debian9/Xorg.0.log
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   6, 14.3%, put   5
-      copying: SyslineReader::get_boxptrs()                        : sgl 517, dbl    0, mult   0
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   5, 16.7%, put   5
+      copying: SyslineReader::get_boxptrs()                        : sgl 519, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   2
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   5,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   2, miss  46,  4.2%, largest skipped 19
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 469,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   3, miss 512
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 471,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   3, miss 514
   Processing Drops:
 
 Program Summary:
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :

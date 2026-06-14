@@ -30,7 +30,7 @@ File: ./logs/RockyLinux9/cron
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 115, miss 233, 33.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss 234,  0.4%, put 233
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss 233,  0.4%, put 233
       copying: SyslineReader::get_boxptrs()                        : sgl 138, dbl   12, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss 117,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 116, miss 117, 49.8%, put 117
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
 Datetime printed last  : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)

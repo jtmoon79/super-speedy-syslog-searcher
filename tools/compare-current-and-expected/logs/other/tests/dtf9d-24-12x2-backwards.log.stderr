@@ -30,7 +30,7 @@ File: ./logs/other/tests/dtf9d-24-12x2-backwards.log
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit 23, miss 49, 31.9%
-      caching: LineReader::find_line() LRU cache                   : hit 45, miss 50, 47.4%, put 49
+      caching: LineReader::find_line() LRU cache                   : hit 45, miss 49, 47.9%, put 49
       copying: SyslineReader::get_boxptrs()                        : sgl 98, dbl   4, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 45,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit 23, miss 45, 33.8%, put 45
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2001-12-12 12:00:00 -09:00 (2001-12-12 21:00:00.000000 +00:00)
 Datetime printed last  : 2022-01-01 01:00:00 -09:00 (2022-01-01 10:00:00.000000 +00:00)

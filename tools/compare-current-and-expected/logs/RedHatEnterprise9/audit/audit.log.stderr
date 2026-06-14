@@ -30,7 +30,7 @@ File: ./logs/RedHatEnterprise9/audit/audit.log
                    datetime format missing year; estimated year of last sysline 2023
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  18, miss  40, 31.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss  40,  2.4%, put  38
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss  39,  2.5%, put  38
       copying: SyslineReader::get_boxptrs()                        : sgl 107, dbl    9, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  20,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  19, miss  20, 48.7%, put  19
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2023-04-10 20:56:34 +08:00 (2023-04-10 12:56:34.260000 +00:00)
 Datetime printed last  : 2023-05-08 06:09:57 +08:00 (2023-05-07 22:09:57.145000 +00:00)

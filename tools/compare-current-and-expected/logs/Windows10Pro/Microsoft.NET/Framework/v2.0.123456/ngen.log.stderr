@@ -5,7 +5,6 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
   About:
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
-      Processing Err : no syslog lines found in file
   Printed:
       bytes         : 0
       flushes       : 0
@@ -15,28 +14,28 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
       datetime last : None Found
   Processed:
       file size     : 674 (0x2A2) (bytes)
-      bytes         : 256 (0x100)
+      bytes         : 674 (0x2A2)
       bytes total   : 674 (0x2A2)
       block size    : 256 (0x100)
-      blocks        : 1
+      blocks        : 3
       blocks total  : 3 (768 bytes)
-      lines         : 1
-      line parts    : 2
+      lines         : 4
+      line parts    : 7
       syslines      : 0
       syslines high : 0
       out of order  : 0
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   1
-      copying: SyslineReader::get_boxptrs()                        : sgl 178, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
-      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  16, miss   0, 100.0%, largest skipped 226
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 162,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   0, miss 162
+      storage: LineReader::find_line() lines                       : hit    0, miss   11,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit    6, miss    7, 46.2%, put    6
+      copying: SyslineReader::get_boxptrs()                        : sgl 1431, dbl   538, mult    0
+      storage: SyslineReader::find_sysline() syslines              : hit    0, miss    3,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    3,  0.0%, put    0
+      caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    3,  0.0%, put    2
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    0, miss   12,  0.0%, put    0
+      optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit    0, miss    0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit    0, miss    0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit    0, miss 1969
   Processing Drops:
 
 Program Summary:
@@ -55,8 +54,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :

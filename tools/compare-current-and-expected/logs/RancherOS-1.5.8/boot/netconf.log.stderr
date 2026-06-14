@@ -29,7 +29,7 @@ File: ./logs/RancherOS-1.5.8/boot/netconf.log
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  40,  2.4%
-      caching: LineReader::find_line() LRU cache                   : hit  18, miss  22, 45.0%, put  21
+      caching: LineReader::find_line() LRU cache                   : hit  18, miss  21, 46.2%, put  21
       copying: SyslineReader::get_boxptrs()                        : sgl 151, dbl    6, mult   1
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  18,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  18,  0.0%, put  18
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-09 21:31:39 +00:00 (2022-10-09 21:31:39.000000 +00:00)
 Datetime printed last  : 2022-10-10 20:23:33 +00:00 (2022-10-10 20:23:33.000000 +00:00)

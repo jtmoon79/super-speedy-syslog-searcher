@@ -29,7 +29,7 @@ File: ./logs/synology-DS6/upstart/ftpd.log
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss 37,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit 18, miss 20, 47.4%, put 19
+      caching: LineReader::find_line() LRU cache                   : hit 18, miss 19, 48.6%, put 19
       copying: SyslineReader::get_boxptrs()                        : sgl 90, dbl   3, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 18,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 18,  0.0%, put 18
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2016-12-08 18:56:16 -08:00 (2016-12-09 02:56:16.000000 +00:00)
 Datetime printed last  : 2017-10-19 10:18:47 -07:00 (2017-10-19 17:18:47.000000 +00:00)

@@ -1,0 +1,338 @@
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220806T051758.914000000┋{1C7EF5C4-AA0F-47B0-959F-EB8931B14E58}	2022-08-05 22:17:58:914-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{FEA72025-CBB7-4C83-AABD-D6E81BEB4699}	1	240006	MoUpdateOrchestrator	Success	Content Install	Installation Successful: Windows successfully installed the following update: EPSON - USB - 1.2.0.28	/EEHRmOuRUaULhLJ.1.2.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220806T064700.205000000┋{22C391F0-A030-410B-AC45-2A322F5F7BD0}	2022-08-05 23:47:00:205-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	P1AMlHapzkm94V7Y.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220806T064704.716000000┋{C4DE7720-1490-4647-B519-384EF75339CC}	2022-08-05 23:47:04:716-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	P1AMlHapzkm94V7Y.1.1.0.3.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220806T064704.716000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220810T060104.056000000┋{8670718B-9822-4EB8-B29E-1330CC9729A5}	2022-08-09 23:01:04:056-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{8F56C3FA-2D4F-44E9-A392-76B839CDB970}	1	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	g18r+j+qMUaZK/GT.1.1.30.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220810T064628.069000000┋{A5B07247-06F7-46E8-AE62-E3C75405B53E}	2022-08-09 23:46:28:069-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	F38uCBuEJ02TgDl+.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220810T064630.885000000┋{EE7B0A10-8934-4E7D-B90E-0AAC37909A6A}	2022-08-09 23:46:30:885-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	F38uCBuEJ02TgDl+.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220810T064631.360000000┋{31C36AD0-9AD7-405E-9716-D08022557485}	2022-08-09 23:46:31:360-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{2DE7F0B0-C3F7-459B-BB59-E3F64D17E60F}	200	0	Windows Defender	Success	Content Install	Installation Started: Windows has started installing the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.373.80.0)	F38uCBuEJ02TgDl+.3.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220810T064643.018000000┋{28197E18-23DD-439E-BEB9-8B525CF8908E}	2022-08-09 23:46:43:018-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{2DE7F0B0-C3F7-459B-BB59-E3F64D17E60F}	200	0	Windows Defender	Success	Content Install	Installation Successful: Windows successfully installed the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.373.80.0)	F38uCBuEJ02TgDl+.3.0.0.3.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220810T064643.018000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220813T055007.123000000┋{B4DC7DD6-FBA6-4CAD-910E-8C8112159105}	2022-08-12 22:50:07:123-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	ePbEEmHrH0uhhlDj.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220813T055011.321000000┋{B16FA3F7-E53E-4128-A198-6786AF040F17}	2022-08-12 22:50:11:321-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	ePbEEmHrH0uhhlDj.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220813T055012.955000000┋{75CABB65-3786-4459-97CE-7B7FF06DB881}	2022-08-12 22:50:12:955-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{DD508DDD-FC0B-4432-8285-6ED16C1711E4}	200	0	Windows Defender	Success	Content Download	Download started.	ePbEEmHrH0uhhlDj.2.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220813T055015.120000000┋{4789F3F8-4EDC-43A0-B3F9-11AB45D5D274}	2022-08-12 22:50:15:120-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{DD508DDD-FC0B-4432-8285-6ED16C1711E4}	200	0	Windows Defender	Success	Content Download	Download succeeded.	ePbEEmHrH0uhhlDj.2.0.0.6.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220813T055015.487000000┋{67AED57A-76EF-4075-A525-3DBD934176ED}	2022-08-12 22:50:15:487-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{DD508DDD-FC0B-4432-8285-6ED16C1711E4}	200	0	Windows Defender	Success	Content Install	Installation Started: Windows has started installing the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.373.253.0)	ePbEEmHrH0uhhlDj.3.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220813T055026.063000000┋{CE57DE54-26A2-444E-8E18-4EEC98689498}	2022-08-12 22:50:26:063-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{DD508DDD-FC0B-4432-8285-6ED16C1711E4}	200	0	Windows Defender	Success	Content Install	Installation Successful: Windows successfully installed the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.373.253.0)	ePbEEmHrH0uhhlDj.3.0.0.3.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220813T055026.063000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220820T193256.813000000┋{A9696A91-CF2B-45E1-8C8F-AC6EA3D8DA81}	2022-08-20 12:32:56:813-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdatesForUser	Success	Software Synchronization	Windows Update Client successfully detected 2 updates.	nw8f+YUl0UuCOI75.1.0.1.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220820T193257.411000000┋{92849B2E-A75C-402B-902A-0C59AC7297F9}	2022-08-20 12:32:57:411-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{6F84E08F-E2C0-417A-926A-E23DACE58B7B}	1	0	<<PROCESS>>: svchost.exe	Success	Content Download	Download started.	nw8f+YUl0UuCOI75.1.0.2.1.1.0.0.9.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220820T193259.080000000┋{88983CFE-1668-43DD-A829-70564DCF7D40}	2022-08-20 12:32:59:080-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{6F84E08F-E2C0-417A-926A-E23DACE58B7B}	1	0	<<PROCESS>>: svchost.exe	Success	Content Download	Download started.	nw8f+YUl0UuCOI75.1.0.2.1.1.0.0.17.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220820T193302.608000000┋{EDEA2E1E-EAB4-42DD-B7BD-1D5BB3F09D43}	2022-08-20 12:33:02:608-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{6F84E08F-E2C0-417A-926A-E23DACE58B7B}	1	0	<<PROCESS>>: svchost.exe	Success	Content Download	Download succeeded.	nw8f+YUl0UuCOI75.1.0.2.1.1.0.0.40.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220820T193302.608000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220822T021316.735000000┋{1CF90961-234C-4E06-BA88-FF282645B1A9}	2022-08-21 19:13:16:735-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	ugytQsAoW0+Go+Fa.0.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220822T021321.208000000┋{0243AFFE-C190-4F1B-ABA7-5355E297654C}	2022-08-21 19:13:21:208-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	ugytQsAoW0+Go+Fa.0.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220822T021324.493000000┋{17281694-E643-47E2-A1A8-C6B90F369259}	2022-08-21 19:13:24:493-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{366CB15F-5C36-42DA-8445-B8CFB3D30617}	200	0	MoUpdateOrchestrator	Success	Content Download	Download started.	ugytQsAoW0+Go+Fa.1.1.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220822T021325.400000000┋{09CF3AE1-8F01-44E0-A4B5-DB9F1608458B}	2022-08-21 19:13:25:400-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{366CB15F-5C36-42DA-8445-B8CFB3D30617}	200	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	ugytQsAoW0+Go+Fa.1.1.7.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220822T021325.400000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220828T140204.842000000┋{1947694F-15E8-4069-92EE-7145A20C2D40}	2022-08-28 07:02:04:842-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	nKVLVaInWkii7o/j.0.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220828T140211.760000000┋{F182DAEB-9467-4874-B834-194D05EF9A53}	2022-08-28 07:02:11:760-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	nKVLVaInWkii7o/j.0.1.1.0.3.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220828T140211.760000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220915T222707.596000000┋{8B3F856E-87AF-456D-865A-8881A267162D}	2022-09-15 15:27:07:596-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{FCDEE98A-52DD-4FC9-8AFA-8CA401333216}	200	0	MoUpdateOrchestrator	Success	Content Download	Download started.	nHkjhlDm4kK4bfRQ.1.1.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220915T222709.509000000┋{2BFCDB1A-1246-4D13-BD7F-4AF23D375F52}	2022-09-15 15:27:09:509-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{FCDEE98A-52DD-4FC9-8AFA-8CA401333216}	200	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	nHkjhlDm4kK4bfRQ.1.1.7.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T051155.046000000┋{5E5528AC-8775-4106-9B4D-66879A18850A}	2022-09-15 22:11:55:046-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	QQrnDQYLyk20nnld.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T051156.559000000┋{0EBB35F7-0020-41F3-B5A6-F6D9F276F2CF}	2022-09-15 22:11:56:559-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	QQrnDQYLyk20nnld.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T051157.846000000┋{CC5BC1BD-13CD-4E56-B4D9-ACDE0FBC6546}	2022-09-15 22:11:57:846-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{51B6F228-9D5A-48BD-B466-8493CFECE492}	200	0	Windows Defender	Success	Content Download	Download started.	QQrnDQYLyk20nnld.2.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T051159.562000000┋{EE72D82A-D3CD-4164-AA86-13232C7A814E}	2022-09-15 22:11:59:562-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{51B6F228-9D5A-48BD-B466-8493CFECE492}	200	0	Windows Defender	Success	Content Download	Download succeeded.	QQrnDQYLyk20nnld.2.0.0.6.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T051159.884000000┋{61C6EA31-C731-4275-8E54-C023A040655C}	2022-09-15 22:11:59:884-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{51B6F228-9D5A-48BD-B466-8493CFECE492}	200	0	Windows Defender	Success	Content Install	Installation Started: Windows has started installing the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.375.440.0)	QQrnDQYLyk20nnld.3.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T051210.353000000┋{F432C8CA-4EBF-4270-B4ED-4A4FC182B5B5}	2022-09-15 22:12:10:353-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{51B6F228-9D5A-48BD-B466-8493CFECE492}	200	0	Windows Defender	Success	Content Install	Installation Successful: Windows successfully installed the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.375.440.0)	QQrnDQYLyk20nnld.3.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T060230.616000000┋{A9447537-8B81-4256-8A9D-679314240BA2}	2022-09-15 23:02:30:616-0700	1	182 [AGENT_INSTALLING_FAILED]	101	{FCDEE98A-52DD-4FC9-8AFA-8CA401333216}	200	80240017	MoUpdateOrchestrator	Failure	Content Install	Installation Failure: Windows failed to install the following update with error 0x80240017: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.375.414.0).	nHkjhlDm4kK4bfRQ.1.2.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T060240.003000000┋{6CD99A85-7CFE-440F-8004-3C913E4A2DE4}	2022-09-15 23:02:40:003-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	WnwMez8ibkitZV6f.0.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T060249.179000000┋{0EDF9707-208A-4957-8754-93D32449E281}	2022-09-15 23:02:49:179-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	WnwMez8ibkitZV6f.0.1.1.0.3.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20220916T060249.179000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170507.749000000┋{E0240BDA-46EB-41D3-8F9D-0364EDB6C59B}	2022-10-02 10:05:07:749-0700	1	182 [AGENT_INSTALLING_FAILED]	101	{0B71DC05-AA75-4408-BE30-47358191B516}	1	80073d02	Update;ScanForUpdates	Failure	Content Install	Installation Failure: Windows failed to install the following update with error 0x80073d02: 9N8G5RFZ9XK3-Microsoft.WindowsTerminalPreview.	te2D3dMIjE2PeNSM.30.5.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170508.453000000┋{195466D7-5142-467A-8BF0-8C4D981A939E}	2022-10-02 10:05:08:453-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.29.3.1.0.0.51.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170508.578000000┋{39F74D23-E464-4910-A64F-C3B93F257D1A}	2022-10-02 10:05:08:578-0700	1	168 [(null)]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download queued.	te2D3dMIjE2PeNSM.32.3.1.0.0.14.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170508.579000000┋{1BD542FC-875C-462B-951C-4FFD3385660F}	2022-10-02 10:05:08:579-0700	1	168 [(null)]	101	{1CA55CE5-0A1B-42E7-8596-8C48EACA7116}	1	0	Update;ScanForUpdates	Success	Content Download	Download queued.	te2D3dMIjE2PeNSM.31.3.1.0.0.107.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170508.659000000┋{0637EB37-BA51-461B-B936-5F8EC80063F3}	2022-10-02 10:05:08:659-0700	1	163 [AGENT_DOWNLOAD_CANCELED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	8024000b	Update;ScanForUpdates	Success	Content Download	Download canceled.	te2D3dMIjE2PeNSM.32.3.1.0.0.16.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170509.152000000┋{5D6987C1-94D5-4635-9991-1B5A94FA5C33}	2022-10-02 10:05:09:152-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.33.3.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170509.153000000┋{2452A4E2-3A6F-429B-B765-3D0E311EC3C8}	2022-10-02 10:05:09:153-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{1CA55CE5-0A1B-42E7-8596-8C48EACA7116}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.31.3.1.0.0.116.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170509.762000000┋{C5868104-E07F-4FA1-833D-68C6EFBA7883}	2022-10-02 10:05:09:762-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{BD7F9DBE-1DAA-413F-B181-ABD2D11AE3E3}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.34.3.1.0.0.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170509.762000000┋{247E5AD6-26F8-47E7-94F3-3392A7860B9A}	2022-10-02 10:05:09:762-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.33.3.1.0.0.15.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170509.763000000┋{BE44A8EA-4C91-4559-BBA0-8159068FE8A2}	2022-10-02 10:05:09:763-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{1CA55CE5-0A1B-42E7-8596-8C48EACA7116}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.31.3.1.0.0.126.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170509.792000000┋{0207A852-5BBA-4363-8F71-BCE7838F1B6E}	2022-10-02 10:05:09:792-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{BD7F9DBE-1DAA-413F-B181-ABD2D11AE3E3}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.34.3.1.0.0.7.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170511.819000000┋{BA0FA0B5-7BFB-4CE4-B7DF-D32106F75136}	2022-10-02 10:05:11:819-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{94FFAB54-C650-4E2B-BD6B-23D6E0D5239B}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.33.3.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170511.903000000┋{511654A1-60F7-42E6-A7D4-6655FFCA70EC}	2022-10-02 10:05:11:903-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.33.3.1.0.0.31.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170513.349000000┋{6BB122DD-F3B8-4B45-B5D9-AD44F30ADDE3}	2022-10-02 10:05:13:349-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{94FFAB54-C650-4E2B-BD6B-23D6E0D5239B}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.33.3.1.0.0.10.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170513.350000000┋{B8DB0B4F-AC47-48FC-89AB-2FB7C61B7D67}	2022-10-02 10:05:13:350-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{BD7F9DBE-1DAA-413F-B181-ABD2D11AE3E3}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.34.3.1.0.0.81.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170513.350000000┋{4E43007B-9C73-4B12-B772-694B33ED6A0F}	2022-10-02 10:05:13:350-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{1CA55CE5-0A1B-42E7-8596-8C48EACA7116}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.31.3.1.0.0.187.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170518.621000000┋{EB076984-C2F0-43A4-9091-35F8AAE01A1D}	2022-10-02 10:05:18:621-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{1CA55CE5-0A1B-42E7-8596-8C48EACA7116}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.31.3.1.0.0.227.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170519.666000000┋{141DF647-BEEA-4F05-AA37-90709156E6F2}	2022-10-02 10:05:19:666-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{1CA55CE5-0A1B-42E7-8596-8C48EACA7116}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Started: Windows has started installing the following update: 9WZDNCRFJBMP-MICROSOFT.WINDOWSSTORE	te2D3dMIjE2PeNSM.31.5.1.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170522.599000000┋{ACC81D46-0568-49DC-AD43-6AE35195DB77}	2022-10-02 10:05:22:599-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{1CA55CE5-0A1B-42E7-8596-8C48EACA7116}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Successful: Windows successfully installed the following update: 9WZDNCRFJBMP-MICROSOFT.WINDOWSSTORE	te2D3dMIjE2PeNSM.31.5.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170523.358000000┋{5E038161-F9F4-45F2-A80C-EB84C9E47830}	2022-10-02 10:05:23:358-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{BD7F9DBE-1DAA-413F-B181-ABD2D11AE3E3}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.34.3.1.0.0.191.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170523.443000000┋{E659D8F9-298B-448F-B0C6-979C4034BA63}	2022-10-02 10:05:23:443-0700	1	163 [AGENT_DOWNLOAD_CANCELED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	8024000b	Update;ScanForUpdates	Success	Content Download	Download canceled.	te2D3dMIjE2PeNSM.35.3.1.0.0.14.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170524.320000000┋{DB17955C-D005-4F24-86C8-A9FE2103A0A2}	2022-10-02 10:05:24:320-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{BD7F9DBE-1DAA-413F-B181-ABD2D11AE3E3}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Started: Windows has started installing the following update: 9N8WTRRSQ8F7-Microsoft.DiagnosticDataViewer	te2D3dMIjE2PeNSM.34.5.1.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170524.494000000┋{468F7278-A9F8-4578-827A-0EB8B7F3A1F2}	2022-10-02 10:05:24:494-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{94FFAB54-C650-4E2B-BD6B-23D6E0D5239B}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.33.3.1.0.0.126.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170524.495000000┋{2E6D3409-5B9A-4CB1-A2FD-A5F63E2E77E4}	2022-10-02 10:05:24:495-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.36.3.1.0.0.14.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170524.827000000┋{1DBA2625-68DA-48B3-B5C9-F0931CEEB92B}	2022-10-02 10:05:24:827-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{94FFAB54-C650-4E2B-BD6B-23D6E0D5239B}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.33.3.1.0.0.131.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170524.828000000┋{2DF0D72D-C22D-49BF-ADFE-179534ECE0F0}	2022-10-02 10:05:24:828-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.36.3.1.0.0.20.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170526.758000000┋{BC3C4CD6-5B76-40C8-B69C-0C760F516153}	2022-10-02 10:05:26:758-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{DD3A7E2E-CB4B-4119-86AC-D73A0EA2AD59}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.36.3.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170526.774000000┋{A1B075CD-3576-4769-8EDA-E8524AD25CC2}	2022-10-02 10:05:26:774-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.36.3.1.0.0.33.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170527.820000000┋{A055245A-BA66-490C-A0F4-26F229372AF5}	2022-10-02 10:05:27:820-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{94FFAB54-C650-4E2B-BD6B-23D6E0D5239B}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.33.3.1.0.0.170.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221002T170527.820000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T213754.663000000┋{810A9A5A-5378-471B-945D-E6FDF1BBF316}	2022-10-04 14:37:54:663-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 7 updates.	tAF78N2i9U6o/QqW.1.0.1.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T213800.498000000┋{E8AEC67E-662B-425D-87B8-6104BA14EFC8}	2022-10-04 14:38:00:498-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 51 updates.	tAF78N2i9U6o/QqW.1.0.1.1.0.0.5.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T213809.176000000┋{F6632B65-0DBD-4F49-89A3-5344F55970F2}	2022-10-04 14:38:09:176-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	tAF78N2i9U6o/QqW.1.0.1.1.0.0.6.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215321.624000000┋{40CBB69C-E754-4146-A3A7-10AC15E9385D}	2022-10-04 14:53:21:624-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{0B71DC05-AA75-4408-BE30-47358191B516}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.64.3.1.0.0.9.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215322.162000000┋{A771598B-9A20-4EB6-B5B1-CAEAD4E84BDE}	2022-10-04 14:53:22:162-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.63.3.1.0.0.16.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215322.748000000┋{2D4F9BAB-287F-4CD9-8F19-B534060FC7A6}	2022-10-04 14:53:22:748-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.63.3.1.0.0.22.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215325.930000000┋{9BFB38ED-C036-4E04-95F8-8EC734F23E85}	2022-10-04 14:53:25:930-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.63.3.1.0.0.32.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215326.114000000┋{A9D4995A-92BF-43E1-B3A6-477F37C8C859}	2022-10-04 14:53:26:114-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.63.3.1.0.0.10.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215328.266000000┋{04438754-22EB-4BC1-9E5C-C72928D412CE}	2022-10-04 14:53:28:266-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{0B71DC05-AA75-4408-BE30-47358191B516}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.64.3.1.0.0.50.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215329.248000000┋{35DE5410-966D-4A1C-9248-51DD2C3ECE42}	2022-10-04 14:53:29:248-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.63.3.1.0.0.44.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215329.274000000┋{76ED124D-D8CC-4054-83C4-AE3174E43EFC}	2022-10-04 14:53:29:274-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{0B71DC05-AA75-4408-BE30-47358191B516}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Started: Windows has started installing the following update: 9N8G5RFZ9XK3-Microsoft.WindowsTerminalPreview	te2D3dMIjE2PeNSM.64.5.1.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215329.904000000┋{6C72A3B1-808E-4D36-8706-32036D9C6398}	2022-10-04 14:53:29:904-0700	1	182 [AGENT_INSTALLING_FAILED]	101	{0B71DC05-AA75-4408-BE30-47358191B516}	1	80073d02	Update;ScanForUpdates	Failure	Content Install	Installation Failure: Windows failed to install the following update with error 0x80073d02: 9N8G5RFZ9XK3-Microsoft.WindowsTerminalPreview.	te2D3dMIjE2PeNSM.64.5.1.0.0.3.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221004T215329.904000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132846.622000000┋{52398057-BF15-49D9-913C-5C45634FA90C}	2022-10-07 06:28:46:622-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 8 updates.	Yoq4ahLLRUaY7UoT.1.0.1.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132852.353000000┋{3B159E8A-323F-4580-9832-66B2F4B43C36}	2022-10-07 06:28:52:353-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 51 updates.	Yoq4ahLLRUaY7UoT.1.0.1.1.0.0.5.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132900.748000000┋{F56AED3D-85F9-45AC-BF08-27D4C88746B5}	2022-10-07 06:29:00:748-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 2 updates.	Yoq4ahLLRUaY7UoT.1.0.1.1.0.0.6.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132906.779000000┋{F24E868C-CF78-4F2F-9C70-9CD7A28C7793}	2022-10-07 06:29:06:779-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D97CA9AD-B2D0-4CE7-9192-AD722EEB9CED}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.75.3.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132908.473000000┋{34B9B64B-D93B-4DA1-8DB1-FD83581201EA}	2022-10-07 06:29:08:473-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{63425EBA-E66D-41EA-8E16-9EC69BF52890}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.74.3.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132912.462000000┋{F869B86B-FAFF-410C-9486-23C2293871C7}	2022-10-07 06:29:12:462-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D97CA9AD-B2D0-4CE7-9192-AD722EEB9CED}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.75.3.1.0.0.135.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132912.463000000┋{4996E6BF-545A-4F07-9B91-95455C339159}	2022-10-07 06:29:12:463-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.73.3.1.0.0.75.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132913.601000000┋{45DA21BA-3222-490B-BFEF-F70D9D33BC5F}	2022-10-07 06:29:13:601-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D97CA9AD-B2D0-4CE7-9192-AD722EEB9CED}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.75.3.1.0.0.171.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132913.602000000┋{F60A88D5-76F8-4DDE-A6EE-AF91D75987B8}	2022-10-07 06:29:13:602-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.73.3.1.0.0.101.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132915.128000000┋{07CD78EC-6EF5-43A6-963F-04E0DA3D201B}	2022-10-07 06:29:15:128-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.73.3.1.0.0.10.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132915.161000000┋{162D5289-0660-4E82-91F2-C8C3633A455E}	2022-10-07 06:29:15:161-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.73.3.1.0.0.114.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132919.317000000┋{8AF302CE-A161-45A3-85AA-31B1E465A501}	2022-10-07 06:29:19:317-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.73.3.1.0.0.39.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132920.751000000┋{EFAC9378-475D-4202-9B1D-E76606C936BB}	2022-10-07 06:29:20:751-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{63425EBA-E66D-41EA-8E16-9EC69BF52890}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.74.3.1.0.0.98.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132921.843000000┋{2BCAAEAF-2807-453B-AAC8-4F28FB35B127}	2022-10-07 06:29:21:843-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{63425EBA-E66D-41EA-8E16-9EC69BF52890}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Started: Windows has started installing the following update: 9NBLGGH4NNS1-Microsoft.DesktopAppInstaller	te2D3dMIjE2PeNSM.74.5.1.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132924.620000000┋{92ABFDA5-82B2-4598-A7BB-F9DE996ED0F9}	2022-10-07 06:29:24:620-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{D97CA9AD-B2D0-4CE7-9192-AD722EEB9CED}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.75.3.1.0.0.249.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132924.749000000┋{028CA76A-B351-4A35-83CE-649B56F3EAB2}	2022-10-07 06:29:24:749-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{63425EBA-E66D-41EA-8E16-9EC69BF52890}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Successful: Windows successfully installed the following update: 9NBLGGH4NNS1-Microsoft.DesktopAppInstaller	te2D3dMIjE2PeNSM.74.5.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132925.567000000┋{A6FBE411-0012-41BD-8964-30704746A389}	2022-10-07 06:29:25:567-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{D97CA9AD-B2D0-4CE7-9192-AD722EEB9CED}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Started: Windows has started installing the following update: 9NBLGGH67WLK-0D9A1B2D.PDFReaderUWP	te2D3dMIjE2PeNSM.75.5.1.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132926.763000000┋{3F320999-56A8-4B6C-87B7-BB6E8CC113C4}	2022-10-07 06:29:26:763-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{D97CA9AD-B2D0-4CE7-9192-AD722EEB9CED}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Successful: Windows successfully installed the following update: 9NBLGGH67WLK-0D9A1B2D.PDFReaderUWP	te2D3dMIjE2PeNSM.75.5.1.0.0.3.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221007T132926.763000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T103824.931000000┋{BDED0692-88F6-4E94-9217-8F273D61D876}	2022-10-09 03:38:24:931-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 6 updates.	Nd5neM7EZEKBJPDu.1.0.1.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T103830.599000000┋{A6890F2E-B318-4366-9CBA-3912E873C18C}	2022-10-09 03:38:30:599-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 51 updates.	Nd5neM7EZEKBJPDu.1.0.1.1.0.0.5.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T103839.014000000┋{059EC4E7-F25B-4A06-AAC9-179A052D2867}	2022-10-09 03:38:39:014-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	Nd5neM7EZEKBJPDu.1.0.1.1.0.0.6.2.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T103844.280000000┋{B7F20FC2-07A1-4AA7-9957-31252DB4FC89}	2022-10-09 03:38:44:280-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.79.3.1.0.0.16.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T103844.809000000┋{AE91253C-057F-4B48-ABB5-CC6E056663E9}	2022-10-09 03:38:44:809-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.79.3.1.0.0.22.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T103846.974000000┋{94957D24-8980-4F98-83FA-3ED62DE70F07}	2022-10-09 03:38:46:974-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.79.3.1.0.0.39.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T103847.120000000┋{9AE38D7F-BBE0-4A9D-B92E-EBE202EB08C8}	2022-10-09 03:38:47:120-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.79.3.1.0.0.10.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T103851.337000000┋{8A91C37E-7F15-4F6F-A9B6-CEB9B0ED70B9}	2022-10-09 03:38:51:337-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.79.3.1.0.0.38.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T115452.295000000┋{B874A0AC-588D-4F8F-969A-F1957C97C72D}	2022-10-09 04:54:52:295-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	LWNB5OWyvEKGO5WJ.0.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T115455.179000000┋{F97FF472-0A71-45D6-9BDE-86BE71403122}	2022-10-09 04:54:55:179-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	LWNB5OWyvEKGO5WJ.0.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T115457.255000000┋{7B1EF0F5-1C51-48E3-AB12-C94C4C79B95E}	2022-10-09 04:54:57:255-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{5FE52517-FE22-44D3-87B3-93E5C857E192}	200	0	MoUpdateOrchestrator	Success	Content Download	Download started.	LWNB5OWyvEKGO5WJ.1.1.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T115459.233000000┋{821F6DE0-6922-4576-A1EE-F533F19D4D29}	2022-10-09 04:54:59:233-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{5FE52517-FE22-44D3-87B3-93E5C857E192}	200	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	LWNB5OWyvEKGO5WJ.1.1.7.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221009T115459.233000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T032153.299000000┋{5DD535BD-2AD6-4C8B-9497-BEF90A3F2BFF}	2022-10-10 20:21:53:299-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 2 updates.	4aghBasfKUSXG6hp.0.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T032156.447000000┋{FD018EEA-5961-44DB-B77F-4E46DBE7AD7E}	2022-10-10 20:21:56:447-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	4aghBasfKUSXG6hp.0.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T032158.710000000┋{C61DBC58-104C-499B-9419-61B9C45F2C00}	2022-10-10 20:21:58:710-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{F32BB883-FBB6-43FB-A2AD-9DFA003B6892}	200	0	MoUpdateOrchestrator	Success	Content Download	Download started.	4aghBasfKUSXG6hp.1.1.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T032159.295000000┋{4C13B1D0-7471-4A4B-B914-00AEE5FEEE02}	2022-10-10 20:21:59:295-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{1C61461A-2CAB-43E5-8F2D-39BACDD0BDA1}	200	0	MoUpdateOrchestrator	Success	Content Download	Download started.	4aghBasfKUSXG6hp.1.1.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T032202.761000000┋{441F037A-4BFF-4C34-A1B1-89DA572DF23B}	2022-10-10 20:22:02:761-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{F32BB883-FBB6-43FB-A2AD-9DFA003B6892}	200	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	4aghBasfKUSXG6hp.1.1.9.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T032203.374000000┋{AAA8BDF2-A95E-44DC-A66F-C4FB3509F7DD}	2022-10-10 20:22:03:374-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{1C61461A-2CAB-43E5-8F2D-39BACDD0BDA1}	200	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	4aghBasfKUSXG6hp.1.1.17.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T060312.156000000┋{58B60287-8C95-4799-A5EF-AD20A4FDDB46}	2022-10-10 23:03:12:156-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 2 updates.	WL0LT7KzA02k4eLl.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T060316.387000000┋{60460879-7CE3-4C00-9526-B57CE778FE55}	2022-10-10 23:03:16:387-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	WL0LT7KzA02k4eLl.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T060317.746000000┋{A98D69D6-0EEF-4511-B3CF-B0AEE2686A1E}	2022-10-10 23:03:17:746-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{734BDA24-C381-4B11-9394-AC31A1CB64F9}	200	0	Windows Defender	Success	Content Download	Download started.	WL0LT7KzA02k4eLl.2.0.0.6.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T060319.598000000┋{47ACEFE3-E1DE-4F9F-BBF9-F9334DBBBAB1}	2022-10-10 23:03:19:598-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{734BDA24-C381-4B11-9394-AC31A1CB64F9}	200	0	Windows Defender	Success	Content Download	Download succeeded.	WL0LT7KzA02k4eLl.2.0.0.8.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T060319.954000000┋{BEE63453-CAA6-4B63-B76E-51C614452760}	2022-10-10 23:03:19:954-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{F32BB883-FBB6-43FB-A2AD-9DFA003B6892}	200	0	Windows Defender	Success	Content Install	Installation Started: Windows has started installing the following update: Update for Microsoft Defender Antivirus antimalware platform - KB4052623 (Version 4.18.2209.4)	WL0LT7KzA02k4eLl.3.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T060343.621000000┋{EE9968C2-A22E-4D02-AC40-744FA480D833}	2022-10-10 23:03:43:621-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{F32BB883-FBB6-43FB-A2AD-9DFA003B6892}	200	0	Windows Defender	Success	Content Install	Installation Successful: Windows successfully installed the following update: Update for Microsoft Defender Antivirus antimalware platform - KB4052623 (Version 4.18.2209.4)	WL0LT7KzA02k4eLl.3.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T061345.814000000┋{A1452276-A82F-4210-AB26-884BF8D2C5C2}	2022-10-10 23:13:45:814-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	oq1D4WUrzEucMCfu.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T061347.688000000┋{FCD07872-4BFF-4E29-9375-159D34A4A9B6}	2022-10-10 23:13:47:688-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	oq1D4WUrzEucMCfu.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T061348.239000000┋{97AB7B0E-C546-4934-B929-B339A8526DCB}	2022-10-10 23:13:48:239-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{734BDA24-C381-4B11-9394-AC31A1CB64F9}	200	0	Windows Defender	Success	Content Install	Installation Started: Windows has started installing the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.377.28.0)	oq1D4WUrzEucMCfu.3.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T061415.924000000┋{DED5AB89-2258-47F4-AF57-CB3F4D4C2868}	2022-10-10 23:14:15:924-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{734BDA24-C381-4B11-9394-AC31A1CB64F9}	200	0	Windows Defender	Success	Content Install	Installation Successful: Windows successfully installed the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.377.28.0)	oq1D4WUrzEucMCfu.3.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135724.750000000┋{A15CF5F8-FF65-4B1E-871B-25A8F979E542}	2022-10-11 06:57:24:750-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 7 updates.	sAS//w5/hkCTqVte.1.0.1.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135730.497000000┋{1DB45AD7-CDA3-427E-B5ED-2E0128DFFBA1}	2022-10-11 06:57:30:497-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 51 updates.	sAS//w5/hkCTqVte.1.0.1.1.0.0.5.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135738.882000000┋{BBB9DECF-7CFC-4462-AC79-E1AC0E22D0B2}	2022-10-11 06:57:38:882-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	sAS//w5/hkCTqVte.1.0.1.1.0.0.6.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135746.429000000┋{1303EC4D-1993-4B11-8473-8D79FB478086}	2022-10-11 06:57:46:429-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.82.3.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135750.437000000┋{2D4846FF-46F9-40AB-8F71-E36246BE35F4}	2022-10-11 06:57:50:437-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.82.3.1.0.0.38.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135751.282000000┋{C5ED3526-550A-4965-B6E8-6182E115B672}	2022-10-11 06:57:51:282-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.81.3.1.0.0.19.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135752.263000000┋{8EC2F5F1-E955-4E0A-9910-D6CEB370A7C5}	2022-10-11 06:57:52:263-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.82.3.1.0.0.79.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135752.263000000┋{C8E54E98-A3AB-49A8-BE49-1FA09C3C57E6}	2022-10-11 06:57:52:263-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.81.3.1.0.0.26.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135753.698000000┋{C1121FBC-0652-4C66-826B-910D3C2A8DEC}	2022-10-11 06:57:53:698-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{B9D2DFBD-1A29-4E37-BF7A-7BBB18B7EB42}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.82.3.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135755.025000000┋{4BB585B1-5623-43B4-8B14-8ABEF5B27356}	2022-10-11 06:57:55:025-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.82.3.1.0.0.83.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135756.309000000┋{8109DE94-F848-485C-8E81-D3734A7C30BD}	2022-10-11 06:57:56:309-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.81.3.1.0.0.62.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135759.530000000┋{511B3C9E-9D2A-4930-8D5F-8052F8585535}	2022-10-11 06:57:59:530-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{B9D2DFBD-1A29-4E37-BF7A-7BBB18B7EB42}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.82.3.1.0.0.45.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135801.027000000┋{448AC19C-23D9-4720-8AB5-B4E1D234D54E}	2022-10-11 06:58:01:027-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{B9D2DFBD-1A29-4E37-BF7A-7BBB18B7EB42}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Started: Windows has started installing the following update: 9WZDNCRDTBJJ-MICROSOFT.GETSTARTED	te2D3dMIjE2PeNSM.82.5.1.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135802.346000000┋{AB2FDD92-16C9-4F78-AF68-E8C027528C54}	2022-10-11 06:58:02:346-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{B9D2DFBD-1A29-4E37-BF7A-7BBB18B7EB42}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Successful: Windows successfully installed the following update: 9WZDNCRDTBJJ-MICROSOFT.GETSTARTED	te2D3dMIjE2PeNSM.82.5.1.0.0.3.0
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T135802.346000000┋
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T220858.275000000┋{9D95E8C1-9DBD-4E08-840E-DBA4876D0463}	2022-10-11 15:08:58:275-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{F32BB883-FBB6-43FB-A2AD-9DFA003B6892}	200	240006	MoUpdateOrchestrator	Success	Content Install	Installation Successful: Windows successfully installed the following update: Update for Microsoft Defender Antivirus antimalware platform - KB4052623 (Version 4.18.2209.4)	4aghBasfKUSXG6hp.1.2.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221011T220859.569000000┋{B057AD24-6CB8-4F48-B5A8-21AD4D806AA2}	2022-10-11 15:08:59:569-0700	1	182 [AGENT_INSTALLING_FAILED]	101	{1C61461A-2CAB-43E5-8F2D-39BACDD0BDA1}	200	80240017	MoUpdateOrchestrator	Failure	Content Install	Installation Failure: Windows failed to install the following update with error 0x80240017: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.377.21.0).	4aghBasfKUSXG6hp.1.2.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021010.931000000┋{21F315A3-5E56-4D2D-B95A-008E99818187}	2022-10-11 19:10:10:931-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 3 updates.	lsyerBc23ECeRXLT.0.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021017.583000000┋{446B2468-886F-45A4-9F6D-4AA31E4A79E6}	2022-10-11 19:10:17:583-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	MoUpdateOrchestrator	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	lsyerBc23ECeRXLT.0.1.1.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021020.872000000┋{31EAC2A3-4115-44CA-B4DC-BAB65232A82C}	2022-10-11 19:10:20:872-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{0EC99840-7115-42B9-BB6E-0CCA0FFFD096}	200	0	MoUpdateOrchestrator	Success	Content Download	Download started.	lsyerBc23ECeRXLT.1.1.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021023.347000000┋{E9CE5E0F-199B-4F68-982F-4D10DB300795}	2022-10-11 19:10:23:347-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{0EC99840-7115-42B9-BB6E-0CCA0FFFD096}	200	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	lsyerBc23ECeRXLT.1.1.7.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021024.230000000┋{1258B188-73FE-4FE2-9A3B-A9891274002B}	2022-10-11 19:10:24:230-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{FCC60465-497B-4395-B714-4699CEF797CA}	200	0	MoUpdateOrchestrator	Success	Content Download	Download started.	lsyerBc23ECeRXLT.1.1.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021028.532000000┋{AE7B0DAD-C201-48AC-BFF4-5B874A3113C6}	2022-10-11 19:10:28:532-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{FCC60465-497B-4395-B714-4699CEF797CA}	200	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	lsyerBc23ECeRXLT.1.1.7.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021029.066000000┋{08A09FC5-4966-413E-B9EB-CD25F607838C}	2022-10-11 19:10:29:066-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{1C9C1CAE-4F5E-44DF-A887-F4454ED80851}	200	0	MoUpdateOrchestrator	Success	Content Download	Download started.	lsyerBc23ECeRXLT.1.1.5.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021033.451000000┋{2CC676E7-7414-4A1D-B2F1-F7B5039E796D}	2022-10-11 19:10:33:451-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{1C9C1CAE-4F5E-44DF-A887-F4454ED80851}	200	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	lsyerBc23ECeRXLT.1.1.7.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021037.566000000┋{52AD2D4B-F32B-42A8-B56A-CDD2FF273768}	2022-10-11 19:10:37:566-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{5816C0C6-042C-481B-945B-F729E74B9917}	1	0	MoUpdateOrchestrator	Success	Content Download	Download started.	lsyerBc23ECeRXLT.1.1.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T021215.319000000┋{8F2FF5B7-8770-47C4-AB34-2A441C52C828}	2022-10-11 19:12:15:319-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{5816C0C6-042C-481B-945B-F729E74B9917}	1	0	MoUpdateOrchestrator	Success	Content Download	Download succeeded.	lsyerBc23ECeRXLT.1.1.25.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T061345.377000000┋{8EB8E2D8-C48D-4622-BC28-F1BE74A80650}	2022-10-11 23:13:45:377-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{7971F918-A847-4430-9279-4A52D1EFE18D}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	gBUdG4QDY0ip0xOK.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T061350.321000000┋{91395916-86A3-4B99-8C62-1207B22425A0}	2022-10-11 23:13:50:321-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{8B24B027-1DEE-BABB-9A95-3517DFB9C552}	0	0	Windows Defender	Success	Software Synchronization	Windows Update Client successfully detected 0 updates.	gBUdG4QDY0ip0xOK.1.1.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T061350.804000000┋{A70A3E16-F1A5-4FF8-9B64-B39D7A744C0C}	2022-10-11 23:13:50:804-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{0EC99840-7115-42B9-BB6E-0CCA0FFFD096}	200	0	Windows Defender	Success	Content Install	Installation Started: Windows has started installing the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.377.90.0)	gBUdG4QDY0ip0xOK.3.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T061404.257000000┋{B4D595DC-CB09-466F-A685-E227A4A96ADA}	2022-10-11 23:14:04:257-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{0EC99840-7115-42B9-BB6E-0CCA0FFFD096}	200	0	Windows Defender	Success	Content Install	Installation Successful: Windows successfully installed the following update: Security Intelligence Update for Microsoft Defender Antivirus - KB2267602 (Version 1.377.90.0)	gBUdG4QDY0ip0xOK.3.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162601.375000000┋{9A284D15-81BA-42D0-87B0-E786DF4B67C7}	2022-10-12 09:26:01:375-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 7 updates.	IDLH7o4UEkeiZ0ml.1.0.1.1.0.0.4.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162608.115000000┋{0DB6785D-4EE3-4D0E-A0D7-EA770EF3DC9F}	2022-10-12 09:26:08:115-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 51 updates.	IDLH7o4UEkeiZ0ml.1.0.1.1.0.0.5.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162617.260000000┋{73291252-C8A4-4FA2-92E0-7D16B391FFC8}	2022-10-12 09:26:17:260-0700	1	147 [AGENT_DETECTION_FINISHED]	101	{855E8A7C-ECB4-4CA3-B045-1DFA50104289}	0	0	Update;ScanForUpdates	Success	Software Synchronization	Windows Update Client successfully detected 1 updates.	IDLH7o4UEkeiZ0ml.1.0.1.1.0.0.6.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162624.308000000┋{CF47A74D-9627-45FA-BE57-5AAE7D65B267}	2022-10-12 09:26:24:308-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{ADF3720E-8453-44C7-82EF-F9F5DA2D8551}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.86.3.1.0.0.3.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162626.743000000┋{62AC255D-6FBB-4CC0-8183-938069488AC8}	2022-10-12 09:26:26:743-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.85.3.1.0.0.13.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162630.976000000┋{9C5FB115-84F6-40F9-B935-96966F155D59}	2022-10-12 09:26:30:976-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{D82F41C1-893A-4A90-AC94-8F83DA52A274}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.85.3.1.0.0.48.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162631.161000000┋{D8262FE5-3F05-4428-BE54-96C206E8F574}	2022-10-12 09:26:31:161-0700	1	167 [AGENT_DOWNLOAD_STARTED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download started.	te2D3dMIjE2PeNSM.85.3.1.0.0.10.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162634.372000000┋{F43212A4-F0ED-44CC-85EB-242BFF00375B}	2022-10-12 09:26:34:372-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{2D41A1C7-A089-4426-B953-037765A1ED95}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.85.3.1.0.0.41.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162644.169000000┋{F4A3F9DB-F870-4022-A079-D5D2B596519D}	2022-10-12 09:26:44:169-0700	1	162 [AGENT_DOWNLOAD_SUCCEEDED]	101	{ADF3720E-8453-44C7-82EF-F9F5DA2D8551}	1	0	Update;ScanForUpdates	Success	Content Download	Download succeeded.	te2D3dMIjE2PeNSM.86.3.1.0.0.85.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162644.980000000┋{5F45546A-691D-4519-810C-9B159EA7A24F}	2022-10-12 09:26:44:980-0700	1	181 [AGENT_INSTALLING_STARTED]	101	{ADF3720E-8453-44C7-82EF-F9F5DA2D8551}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Started: Windows has started installing the following update: 9WZDNCRFJ364-MICROSOFT.SKYPEAPP	te2D3dMIjE2PeNSM.86.5.1.0.0.1.0
+⇳
+./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log┋20221012T162648.872000000┋{E05FCFAF-5920-451A-BDBF-72708D3759E1}	2022-10-12 09:26:48:872-0700	1	183 [AGENT_INSTALLING_SUCCEEDED]	101	{ADF3720E-8453-44C7-82EF-F9F5DA2D8551}	1	0	Update;ScanForUpdates	Success	Content Install	Installation Successful: Windows successfully installed the following update: 9WZDNCRFJ364-MICROSOFT.SKYPEAPP	te2D3dMIjE2PeNSM.86.5.1.0.0.3.0
+⇳

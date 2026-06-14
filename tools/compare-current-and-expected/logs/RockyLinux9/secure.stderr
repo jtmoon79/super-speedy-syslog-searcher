@@ -30,7 +30,7 @@ File: ./logs/RockyLinux9/secure
                    datetime format missing year; estimated year of last sysline 2022
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  544, miss 1093, 33.2%
-      caching: LineReader::find_line() LRU cache                   : hit    2, miss 1093,  0.2%, put 1092
+      caching: LineReader::find_line() LRU cache                   : hit    2, miss 1092,  0.2%, put 1092
       copying: SyslineReader::get_boxptrs()                        : sgl  547, dbl    32, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss  546,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  545, miss  546, 50.0%, put  546
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 178
-Regex patterns compiled: 178
+Regex patterns known   : 179
+Regex patterns compiled: 179
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-08 06:18:38 +08:00 (2022-10-07 22:18:38.000000 +00:00)
 Datetime printed last  : 2022-10-08 22:31:17 +08:00 (2022-10-08 14:31:17.000000 +00:00)
