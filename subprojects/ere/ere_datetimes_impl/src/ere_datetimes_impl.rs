@@ -1531,19 +1531,23 @@ pub const CGP_DAYa3: &CaptureGroupPattern = r"(?<day_ignore>(mon|Mon|MON|tue|Tue
 /// e.g. `"Mon"` or `"Monday"`.
 pub const CGP_DAYa: &CaptureGroupPattern = r"(?<day_ignore>monday|Monday|MONDAY|mon[\.]?|Mon[\.]?|MON[\.]?|tuesday|Tuesday|TUESDAY|tue[\.]?|Tue[\.]?|TUE[\.]?|wednesday|Wednesday|WEDNESDAY|wed[\.]?|Wed[\.]?|WED[\.]?|thursday|Thursday|THURSDAY|thu[\.]?|Thu[\.]?|THU[\.]?|friday|Friday|FRIDAY|fri[\.]?|Fri[\.]?|FRI[\.]?|saturday|Saturday|SATURDAY|sat[\.]?|Sat[\.]?|SAT[\.]?|sunday|Sunday|SUNDAY|sun[\.]?|Sun[\.]?|SUN[\.]?)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 00 to 24.
+/// double-digit
 pub const CGP_HOUR: &CaptureGroupPattern = r"(?<hour>0[[:digit:]]|1[[:digit:]]|2[0-4])";
 /// Regex capture group pattern for `strftime` hour specifier `%h`, 1 to 12.
+/// single-digit
 pub const CGP_HOURh: &CaptureGroupPattern = r"(?<hour>1[012]|[[:digit:]])";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 0 to 24.
 /// single-digit or double-digit
 pub const CGP_HOUR_sd: &CaptureGroupPattern = r"(?<hour>1[[:digit:]]|2[0-4]|0[[:digit:]]|[[:digit:]])";
 /// Regex capture group pattern for `strftime` minute specifier `%M`, 00 to 59.
+/// double-digit
 pub const CGP_MINUTE: &CaptureGroupPattern = r"(?<minute>[012345][[:digit:]])";
 /// Regex capture group pattern for `strftime` minute specifier `%M`, 0 to 59.
 /// single-digit or double-digit
 pub const CGP_MINUTE_sd: &CaptureGroupPattern = r"(?<minute>[012345][[:digit:]]|[[:digit:]])";
 /// Regex capture group pattern for `strftime` second specifier `%S`, 00 to 60.
 /// Includes leap second "60".
+/// double-digit
 pub const CGP_SECOND: &CaptureGroupPattern = r"(?<second>[012345][[:digit:]]|60)";
 /// Regex capture group pattern for `strftime` second specifier `%S`, 0 to 60.
 /// Includes leap second "60".
@@ -1779,6 +1783,8 @@ pub const D_D: &RegexPattern = r"[ /\-]";
 pub const D_T: &RegexPattern = r"[\:]?";
 /// [`RegexPattern`] divider _time_ with extras, `20:30:00` or `20-00`
 pub const D_Te: &RegexPattern = r"[\:\-]?";
+/// [`RegexPattern`] divider _time_ dot colon
+pub const D_Tcd: &RegexPattern = r"[\:\.]";
 /// [`RegexPattern`] divider _day_ to _hour_, `2020/01/01T20:30:00`
 pub const D_DHq: &RegexPattern = "[ T]?";
 /// [`RegexPattern`] divider _day_ to _hour_ with dash, `2020:01:01-20:30:00`.
@@ -6040,30 +6046,34 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // ---------------------------------------------------------------------------------------------
     //
+    // Month/Day/Year formats
+    //
+    // ---------------------------------------------------------------------------------------------
+    //
     // UTF-16LE
     //
     // ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
     //
-    // This log is sloppy: it switches formats depending upon the message type. 🙄
-    // `ere` does not support nested named groupings; e.g. cannot do
-    //       "((?<namedA>ABC)|(?<namedB>DEF))"
-    // So skip matching the crummy less significant formatted message `2021-4-26+0-4-1.791`
+    //      =X====== M/32.0.0.114 2019-01-29+02-07-27.809 ========
+    //      0000 [I] 00000044
+    //      0001 [I] 00000045
+    //      0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+    //      ...
+    //      2021-1-3+0-4-2.265 [error] 1223 1056
+    //      2021-4-26+0-4-1.791 [error] 1223 1056
+    //      2021-5-1+21-39-33.489 [error] 1226 1062
+    //      =O====== M/32.0.0.465 2021-05-01+21-39-33.382 ========
+    //      ...
     //
-    // =X====== M/32.0.0.114 2019-01-29+02-07-27.809 ========
-    // 0000 [I] 00000044
-    // 0001 [I] 00000045
-    // 0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
-    // ...
-    // 2021-1-3+0-4-2.265 [error] 1223 1056
-    // 2021-4-26+0-4-1.791 [error] 1223 1056
-    // 2021-5-1+21-39-33.489 [error] 1226 1062
-    // =O====== M/32.0.0.465 2021-05-01+21-39-33.382 ========
-    // ...
+    // This log is sloppy: besides having an nonstandard '+' DT separator,
+    // worse is it switches formats depending upon the message type. 🙄🙄🙄
+    // So the regex here is pretty loose.
+    //
     #[cfg(any(regex = "179", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         179,
         counter!(DP_KEY),
-        concat!("(^|[[:blank:]])", CGP_YEAR, "-", CGP_MONTHm_sd, "-", CGP_DAYde, r"\+", CGP_HOUR_sd, "-", CGP_MINUTE_sd, "-", CGP_SECOND_sd, D_SF, CGP_FRACTIONAL369, RP_BLANK),
+        concat!("(^|[[:blank:]])", CGP_YEAR, "-", CGP_MONTHm_sd, "-", CGP_DAYde, r"[\+T]", CGP_HOUR_sd, "-", CGP_MINUTE_sd, "-", CGP_SECOND_sd, D_SF, CGP_FRACTIONAL369, RP_BLANK),
         DfaU8,
         DTFSS_Ymdkmsf,
         0, 150,
@@ -6085,13 +6095,61 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // UTF-16LE
+    //
+    // ./logs/Windows11Pro/Local/Microsoft/Internet Explorer/ie4uinit-ClearIconCache.log
+    //
+    //      ��02/21/2023:06:27:45: Starting ie4uinit.exe. Command Line:-ClearIconCache
+    //      02/21/2023:06:27:45: Executing Command: -ClearIconCache
+    //      02/21/2023:06:27:45: In CmdClearIconCache
+    //
+    // ./logs/Windows10Pro/PFRO.log
+    //
+    //      11/28/2018 19:17:56 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\nst4E80.tmp\, |delete operation|, 0xc0000034
+    //      11/28/2018 19:17:56 - 6 Successful PFRO operations
+    //
+    #[cfg(any(regex = "180", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        180,
+        counter!(DP_KEY),
+        concat!("^", CGP_MONTHm, D_D, CGP_DAYde, D_D, CGP_YEAR, r"[ \:\-]", CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_NOALNUMpm),
+        //DfaU8, // too many steps
+        FlatLockstepNfaU8,
+        DTFSS_YmdHMS,
+        0, 46,
+        CGN_MONTH, CGN_SECOND,
+        &[
+            (0, 19, (O_L, 2023, 2, 21, 6, 27, 45, 0), b"02/21/2023:06:27:45: Starting ie4uinit.exe. Command Line:-ClearIconCache"),
+            (0, 19, (O_L, 2018, 11, 28, 19, 17, 56, 0), br"11/28/2018 19:17:56 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\nst4E80.tmp\, |delete operation|, 0xc0000034"),
+        ],
+        line!(),
+    ),
+    // ./logs/Windows11Pro/setupact.log
+    //
+    //      [02/21/2023 07:07.05.259] WudfCoInstaller: ReadWdfSection: Checking WdfSection [Basic_Install.Wdf]
+    //      [02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs.
+    //
+    #[cfg(any(regex = "181", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        181,
+        counter!(DP_KEY),
+        concat!(RP_LB, CGP_MONTHm, D_D, CGP_DAYde, D_D, CGP_YEAR, r"[ \:\-]", CGP_HOUR, D_Te, CGP_MINUTE, D_Tcd, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_RB),
+        DfaU8,
+        DTFSS_YmdHMSf,
+        0, 80,
+        CGN_MONTH, CGN_FRACTIONAL,
+        &[
+            (1, 24, (O_L, 2023, 2, 21, 7, 7, 5, 262000000), b"[02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs."),
+        ],
+        line!(),
+    ),
 ];
 /// proc-macro generated count of compiled regex.
 /// May be less than the number of possible entries in `DATETIME_PARSE_DATAS`.
 /// This value depends upon build cfg of env var `S4_BUILD_REGEX`.
 pub const DATETIME_PARSE_DATAS_LEN: usize = counter_last!(DP_KEY);
 /// compile-time maximum length of `DATETIME_PARSE_DATAS`
-pub const DATETIME_PARSE_DATAS_LEN_MAX: usize = 179;
+pub const DATETIME_PARSE_DATAS_LEN_MAX: usize = 181;
 
 /// Check if the `regex_id` is in the compiled `DATETIME_PARSE_DATAS`.
 /// `DATETIME_PARSE_DATAS` may vary depending upon build cfg of env var `REGEX`.

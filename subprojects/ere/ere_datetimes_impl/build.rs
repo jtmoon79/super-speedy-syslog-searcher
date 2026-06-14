@@ -21,7 +21,7 @@ const ENV_BUILD_REGEX_NO_REBUILD: &str = "S4_BUILD_REGEX_NO_REBUILD";
 const REGEX_ALL: &str = "ALL";
 const CONFIG_REGEX: &str = "regex";
 /// This must match `datetime.rs` value `DATETIME_PARSE_DATAS_LEN_MAX`
-pub const DATETIME_PARSE_DATAS_LEN: usize = 179;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 181;
 
 /// allow environment variable `S4_BUILD_REGEX` to specify which regexes to compile
 /// can specify

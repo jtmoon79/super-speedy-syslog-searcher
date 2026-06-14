@@ -155,11 +155,6 @@ if which colordiff &>/dev/null; then
     DIFF=colordiff
 fi
 
-declare -i width=140
-if [[ "${COLUMNS+x}" ]]; then
-    width=$COLUMNS
-fi
-
 echo >&2
 echo "Command: ${PROGRAM} ${S4_ARGS[*]} - < ${LOGS}" >&2
 echo >&2
@@ -172,7 +167,7 @@ if ! "${DIFF}" --text --brief "${CURRENT_OUT}" "${EXPECT_OUT}"; then
     echo
     echo "Difference Preview of total stdout:"
     set +o pipefail
-    ((set -x; "${DIFF}" --text -y --width=${width} --suppress-common-lines "${CURRENT_OUT}" "${EXPECT_OUT}") || true) | head -n 200 | indent
+    ((set -x; "${DIFF}" --text -y --width=${COLUMNS-140} --suppress-common-lines "${CURRENT_OUT}" "${EXPECT_OUT}") || true) | head -n 200 | indent
     echo
     echo
     echo -e "Do you need to run \e[1mcompare-current-and-expected-update.sh\e[0m ?"
@@ -193,7 +188,7 @@ if ! "${DIFF}" --text --brief "${CURRENT_ERR}" "${EXPECT_ERR}"; then
     echo "Difference Preview of total stderr:"
     set +o pipefail
     ((set +e; set -x;
-        "${DIFF}" --text -y --width=${width} --suppress-common-lines "${CURRENT_ERR}" "${EXPECT_ERR}") || true
+        "${DIFF}" --text -y --width=${COLUMNS-140} --suppress-common-lines "${CURRENT_ERR}" "${EXPECT_ERR}") || true
     ) | head -n 100 | indent
     echo
     total_diff_stderr=false
@@ -237,11 +232,11 @@ while read -r log_file; do
         echo "    Command: ${PROGRAM} ${S4_ARGS[*]} ${log_file}" >&2
         (
             (set -x;
-                "${DIFF}" --text -y --width=${width} --suppress-common-lines "${log_file_stdout}" "${tmp1}"
+                "${DIFF}" --text -y --width=${COLUMNS-140} --suppress-common-lines "${log_file_stdout}" "${tmp1}"
             ) || true
         ) | head -n 20 | indent
         echo >&2
-        sleep 0.2
+        sleep 0.1
         tmp1=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stdout+=1
@@ -257,11 +252,11 @@ while read -r log_file; do
         echo "    Command: ${PROGRAM} ${S4_ARGS[*]} ${log_file}" >&2
         (
             (set -x;
-                "${DIFF}" --text -y --width=${width} --suppress-common-lines "${log_file_stderr}" "${tmp2}"
+                "${DIFF}" --text -y --width=${COLUMNS-140} --suppress-common-lines "${log_file_stderr}" "${tmp2}"
             ) || true
         ) | head -n 20 | indent
         echo >&2
-        sleep 0.2
+        sleep 0.1
         tmp2=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stderr+=1

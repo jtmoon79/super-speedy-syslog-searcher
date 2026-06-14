@@ -30,14 +30,14 @@ File: ./logs/synology-DS6/packages/DownloadStation.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  39,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   3, miss  20, 13.0%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 274, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 276, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  20,  4.8%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  16, miss   4, 80.0%, largest skipped 103
-      optimize:SyslineReader::ezcheck12d2                          : hit 180, miss  76, 70.3%, largest skipped 103
+      optimize:SyslineReader::ezcheck12d2                          : hit 182, miss  76, 70.5%, largest skipped 103
       process: regex captures                                      : hit   1, miss  79
   Processing Drops:
 
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 179
-Regex patterns compiled: 179
+Regex patterns known   : 181
+Regex patterns compiled: 181
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-06-23 21:13:34 +08:00 (2019-06-23 13:13:34.000000 +00:00)
 Datetime printed last  : 2019-06-23 21:13:34 +08:00 (2019-06-23 13:13:34.000000 +00:00)

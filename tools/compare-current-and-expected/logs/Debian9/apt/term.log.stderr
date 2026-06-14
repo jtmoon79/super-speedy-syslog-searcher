@@ -30,15 +30,15 @@ File: ./logs/Debian9/apt/term.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   13, miss  581,  2.2%
       caching: LineReader::find_line() LRU cache                   : hit    7, miss  302,  2.3%, put  301
-      copying: SyslineReader::get_boxptrs()                        : sgl 1700, dbl    42, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1716, dbl    42, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    8,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    8,  0.0%, put    7
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    8,  0.0%, put    7
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    7, miss  300,  2.3%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   56, miss   74, 43.1%, largest skipped 24
-      optimize:SyslineReader::ezcheck12d2                          : hit  355, miss 1257, 22.0%, largest skipped 49
-      process: regex captures                                      : hit    7, miss 1324
+      optimize:SyslineReader::ezcheck12d2                          : hit  359, miss 1269, 22.1%, largest skipped 49
+      process: regex captures                                      : hit    7, miss 1336
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 179
-Regex patterns compiled: 179
+Regex patterns known   : 181
+Regex patterns compiled: 181
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-10-04 16:07:21 +08:00 (2019-10-04 08:07:21.000000 +00:00)
 Datetime printed last  : 2019-10-26 16:20:13 +08:00 (2019-10-26 08:20:13.000000 +00:00)

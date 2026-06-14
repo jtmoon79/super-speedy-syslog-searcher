@@ -28,15 +28,15 @@ File: ./logs/Windows10Pro/comsetup.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 358, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 362, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  32,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 326,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   0, miss 358
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 330,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   0, miss 362
   Processing Drops:
 
 Program Summary:
@@ -55,8 +55,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 179
-Regex patterns compiled: 179
+Regex patterns known   : 181
+Regex patterns compiled: 181
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :

@@ -30,14 +30,14 @@ File: ./logs/RancherOS-1.5.8/system-docker.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   1, miss  42,  2.3%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss  22, 15.4%, put  21
-      copying: SyslineReader::get_boxptrs()                        : sgl 329, dbl    9, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 331, dbl    9, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   1, miss  23,  4.2%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  16, miss  12, 57.1%, largest skipped 77
-      optimize:SyslineReader::ezcheck12d2                          : hit 165, miss 145, 53.2%, largest skipped 77
+      optimize:SyslineReader::ezcheck12d2                          : hit 167, miss 145, 53.5%, largest skipped 77
       process: regex captures                                      : hit   1, miss 156
   Processing Drops:
 
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 179
-Regex patterns compiled: 179
+Regex patterns known   : 181
+Regex patterns compiled: 181
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)
 Datetime printed last  : 2022-10-09 21:31:23 +00:00 (2022-10-09 21:31:23.000000 +00:00)

@@ -30,15 +30,15 @@ File: ./logs/synology-DS6/packages/SynologyDrive.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  13, miss  19, 40.6%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 271, dbl    4, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 273, dbl    4, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  13,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  13,  0.0%, put  13
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  13,  7.1%, put  13
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  12, miss  19, 38.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  10, miss  10, 50.0%, largest skipped 39
-      optimize:SyslineReader::ezcheck12d2                          : hit  52, miss 203, 20.4%, largest skipped 45
-      process: regex captures                                      : hit  13, miss 200
+      optimize:SyslineReader::ezcheck12d2                          : hit  53, miss 204, 20.6%, largest skipped 45
+      process: regex captures                                      : hit  13, miss 201
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 179
-Regex patterns compiled: 179
+Regex patterns known   : 181
+Regex patterns compiled: 181
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-06-23 21:14:45 +08:00 (2019-06-23 13:14:45.000000 +00:00)
 Datetime printed last  : 2019-08-31 23:53:59 +08:00 (2019-08-31 15:53:59.000000 +00:00)

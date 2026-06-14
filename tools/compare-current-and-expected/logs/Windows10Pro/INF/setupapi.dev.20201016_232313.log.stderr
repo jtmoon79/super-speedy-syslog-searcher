@@ -30,15 +30,15 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.20201016_232313.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   17, miss   96, 15.0%
       caching: LineReader::find_line() LRU cache                   : hit    5, miss   63,  7.4%, put   62
-      copying: SyslineReader::get_boxptrs()                        : sgl 1604, dbl     8, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1620, dbl     8, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    5,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    5,  0.0%, put    4
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    5,  0.0%, put    4
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    4, miss   62,  6.1%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   85, miss   55, 60.7%, largest skipped 52
-      optimize:SyslineReader::ezcheck12d2                          : hit  676, miss  796, 45.9%, largest skipped 83
-      process: regex captures                                      : hit    4, miss  847
+      optimize:SyslineReader::ezcheck12d2                          : hit  684, miss  804, 46.0%, largest skipped 83
+      process: regex captures                                      : hit    4, miss  855
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 179
-Regex patterns compiled: 179
+Regex patterns known   : 181
+Regex patterns compiled: 181
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-05-27 12:23:20 +08:00 (2020-05-27 04:23:20.500000 +00:00)
 Datetime printed last  : 2020-05-27 12:30:05 +08:00 (2020-05-27 04:30:05.362000 +00:00)

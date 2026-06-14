@@ -1,0 +1,8 @@
+./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log┋20200527T042540.000000000┋05/27/2020 12:25:40 [4964]: Command line: C:\WINDOWS\microsoft.net\framework\v2.0.50727\ngen.exe update /queue 
+⇳
+./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log┋20200527T042541.000000000┋05/27/2020 12:25:41 [4964]: ngen returning 0x00000000
+⇳
+./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log┋20200527T042541.000000000┋05/27/2020 12:25:41 [2784]: Command line: C:\WINDOWS\microsoft.net\framework\v2.0.50727\ngen.exe update /queue 
+⇳
+./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log┋20200527T042541.000000000┋05/27/2020 12:25:41 [2784]: ngen returning 0x00000000
+⇳
