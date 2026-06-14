@@ -69,7 +69,7 @@ if [[ -z "${EPOCHREALTIME:-}" ]]; then
 fi
 
 declare -i M=${M-1}
-declare -i N=${N-176}  # XXX: keep in sync with DATETIME_PARSE_DATAS_LEN
+declare -i N=${N-179}  # XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX
 # allow a convenience for running a single regex
 if [[ -n "${MN-}" ]]; then
     M=$MN

@@ -99,6 +99,7 @@ pub use ::ere_datetimes_impl::{
     DateTimePattern_string,
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
+    DATETIME_PARSE_DATAS_LEN_MAX,
     GROUP_NAMES_MAP_STR,
     MatchType,
     MatchesType,
@@ -1643,6 +1644,26 @@ pub(crate) fn captures_to_buffer_bytes(
             copy_capturegroup_to_buffer!(CGI_MINUTE, data, captures, buffer, at);
             defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         },
+        DTFS_Minute::m => {
+            let minute: &[u8] = captures.iter().find(|cgn| cgn.group_index() == CGI_MINUTE).map(|match_type| {
+                let a = match_type.start();
+                let b = match_type.end();
+                &data[a..b]
+            }).expect("missing minute capture group");
+            // chrono strftime expects numeric minute to be two-digit
+            // so prepend `0` if necessary
+            match minute.len() {
+                1 => {
+                    copy_slice_to_buffer!(b"0", buffer, at);
+                    copy_slice_to_buffer!(minute, buffer, at);
+                }
+                _val => {
+                    debug_assert_eq!(_val, 2, "unexpected Minute length {}", _val);
+                    copy_slice_to_buffer!(minute, buffer, at);
+                }
+            }
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
+        },
         DTFS_Minute::_none => {}
     }
     // second
@@ -1650,6 +1671,26 @@ pub(crate) fn captures_to_buffer_bytes(
     match dtfs.second {
         DTFS_Second::S => {
             copy_capturegroup_to_buffer!(CGI_SECOND, data, captures, buffer, at);
+            defo!("buffer {:?}", buffer_to_string_noraw(buffer));
+        }
+        DTFS_Second::s => {
+            let second: &[u8] = captures.iter().find(|cgn| cgn.group_index() == CGI_SECOND).map(|match_type| {
+                let a = match_type.start();
+                let b = match_type.end();
+                &data[a..b]
+            }).expect("missing second capture group");
+            // chrono strftime expects numeric second to be two-digit
+            // so prepend `0` if necessary
+            match second.len() {
+                1 => {
+                    copy_slice_to_buffer!(b"0", buffer, at);
+                    copy_slice_to_buffer!(second, buffer, at);
+                }
+                _val => {
+                    debug_assert_eq!(_val, 2, "unexpected Second length {}", _val);
+                    copy_slice_to_buffer!(second, buffer, at);
+                }
+            }
             defo!("buffer {:?}", buffer_to_string_noraw(buffer));
         }
         DTFS_Second::_fill => {

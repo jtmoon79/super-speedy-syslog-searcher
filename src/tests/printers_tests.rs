@@ -87,12 +87,24 @@ use crate::readers::syslinereader::{
 use crate::tests::common::{
     EVTX_KPNP_EVENT_COUNT,
     EVTX_KPNP_FPATH,
+    FILETYPE_UTF8,
+    FILE_UTF16BE_BOM_DTF56B_FPATH,
+    FILE_UTF16BE_DTF56B_FPATH,
+    FILE_UTF16LE_BOM_DTF56B_FPATH,
+    FILE_UTF16LE_DTF56B_FPATH,
+    FILE_UTF32BE_BOM_DTF56B_FPATH,
+    FILE_UTF32BE_DTF56B_FPATH,
+    FILE_UTF32LE_BOM_DTF56B_FPATH,
+    FILE_UTF32LE_DTF56B_FPATH,
+    FILE_UTF8_BOM_DTF56B_FPATH,
+    FILE_UTF8_DTF56B_FPATH,
     FO_0,
     FO_P8,
     JOURNAL_FILE_RHE_91_SYSTEM_EVENT_COUNT,
     JOURNAL_FILE_RHE_91_SYSTEM_FPATH,
     NTF_LINUX_X86_LASTLOG_1ENTRY_FPATH,
     NTF_LINUX_X86_UTMPX_2ENTRY_FPATH,
+    REGEX_ID_DTF56B,
 };
 
 // XXX: copied from `syslinereader_tests.rs`
@@ -238,6 +250,183 @@ fn test_PrinterLogMessage_print_sysline_NTF5(
     }
     eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
     assert_eq!(prints, 5, "Expected 5 prints, got {}", prints);
+    assert_eq!(
+        printed_bytes, expected_printed_bytes,
+        "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,
+    );
+    assert_eq!(
+        printed_flushed, expected_flushed,
+        "Expected {} flushed, got {}", expected_flushed, printed_flushed,
+    );
+}
+
+const ENC_UTF8: FileTypeTextEncoding = FileTypeTextEncoding::Utf8Ascii;
+const ENC_UTF8_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf8BOM;
+const ENC_UTF16LE: FileTypeTextEncoding = FileTypeTextEncoding::Utf16le;
+const ENC_UTF16LE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf16leBOM;
+const ENC_UTF16BE: FileTypeTextEncoding = FileTypeTextEncoding::Utf16be;
+const ENC_UTF16BE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf16beBOM;
+const ENC_UTF32LE: FileTypeTextEncoding = FileTypeTextEncoding::Utf32le;
+const ENC_UTF32LE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf32leBOM;
+const ENC_UTF32BE: FileTypeTextEncoding = FileTypeTextEncoding::Utf32be;
+const ENC_UTF32BE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf32beBOM;
+
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCA, CLR, None, None, None, 6, 249, 42; "UTF8 a")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCU, CLR, None, None, None, 6, 249, 42; "UTF8 b")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCN, CLR, None, None, None, 6, 249, 6; "UTF8 c")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCA, CLR, Some(FILEN), None, None, 6, 333, 67; "UTF8 d")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCU, CLR, None, Some(DATE), None, 6, 429, 67; "UTF8 e")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCN, CLR, None, None, Some(FO_P8), 6, 249, 6; "UTF8 f")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 513, 67; "UTF8 g")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCN, CLR, None, Some(DATE), Some(FO_P8), 6, 429, 6; "UTF8 h")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 67; "UTF8 i")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 67; "UTF8 j")]
+#[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 6; "UTF8 k")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCA, CLR, None, None, None, 6, 498, 42; "UTF16BE BOM a")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCU, CLR, None, None, None, 6, 498, 42; "UTF16BE BOM b")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCN, CLR, None, None, None, 6, 498, 6; "UTF16BE BOM c")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCA, CLR, Some(FILEN), None, None, 6, 582, 67; "UTF16BE BOM d")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCU, CLR, None, Some(DATE), None, 6, 678, 67; "UTF16BE BOM e")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCN, CLR, None, None, Some(FO_P8), 6, 498, 6; "UTF16BE BOM f")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 762, 67; "UTF16BE BOM g")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 67; "UTF16BE BOM h")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCN, CLR, None, Some(DATE), Some(FO_P8), 6, 678, 6; "UTF16BE BOM i")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 67; "UTF16BE BOM j")]
+#[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 6; "UTF16BE BOM k")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCA, CLR, None, None, None, 6, 498, 42; "UTF16BE a")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCU, CLR, None, None, None, 6, 498, 42; "UTF16BE b")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCN, CLR, None, None, None, 6, 498, 6; "UTF16BE c")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCA, CLR, Some(FILEN), None, None, 6, 582, 67; "UTF16BE d")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCU, CLR, None, Some(DATE), None, 6, 678, 67; "UTF16BE e")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCN, CLR, None, None, Some(FO_P8), 6, 498, 6; "UTF16BE f")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 762, 67; "UTF16BE g")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 67; "UTF16BE h")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 6; "UTF16BE i")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 67; "UTF16BE j")]
+#[test_case(&FILE_UTF16BE_DTF56B_FPATH, ENC_UTF16BE, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 6; "UTF16BE k")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCA, CLR, None, None, None, 6, 498, 42; "UTF16LE BOM a")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCU, CLR, None, None, None, 6, 498, 42; "UTF16LE BOM b")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCN, CLR, None, None, None, 6, 498, 6; "UTF16LE BOM c")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCA, CLR, Some(FILEN), None, None, 6, 582, 67; "UTF16LE BOM d")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCU, CLR, None, Some(DATE), None, 6, 678, 67; "UTF16LE BOM e")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCN, CLR, None, None, Some(FO_P8), 6, 498, 6; "UTF16LE BOM f")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 762, 67; "UTF16LE BOM g")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 67; "UTF16LE BOM h")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 6; "UTF16LE BOM i")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 67; "UTF16LE BOM j")]
+#[test_case(&FILE_UTF16LE_BOM_DTF56B_FPATH, ENC_UTF16LE_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 6; "UTF16LE BOM k")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCA, CLR, None, None, None, 6, 498, 42; "UTF16LE a")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCU, CLR, None, None, None, 6, 498, 42; "UTF16LE b")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCN, CLR, None, None, None, 6, 498, 6; "UTF16LE c")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCA, CLR, Some(FILEN), None, None, 6, 582, 67; "UTF16LE d")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCU, CLR, None, Some(DATE), None, 6, 678, 67; "UTF16LE e")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCN, CLR, None, None, Some(FO_P8), 6, 498, 6; "UTF16LE f")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 762, 67; "UTF16LE g")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 67; "UTF16LE h")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 6; "UTF16LE i")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 67; "UTF16LE j")]
+#[test_case(&FILE_UTF16LE_DTF56B_FPATH, ENC_UTF16LE, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 762, 6; "UTF16LE k")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCA, CLR, None, None, None, 6, 998, 42; "UTF32LE BOM a")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCU, CLR, None, None, None, 6, 998, 42; "UTF32LE BOM b")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCN, CLR, None, None, None, 6, 998, 6; "UTF32LE BOM c")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCA, CLR, Some(FILEN), None, None, 6, 1082, 67; "UTF32LE BOM d")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCU, CLR, None, Some(DATE), None, 6, 1178, 67; "UTF32LE BOM e")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCN, CLR, None, None, Some(FO_P8), 6, 998, 6; "UTF32LE BOM f")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 1262, 67; "UTF32LE BOM g")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1262, 67; "UTF32LE BOM h")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1262, 6; "UTF32LE BOM i")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1262, 67; "UTF32LE BOM j")]
+#[test_case(&FILE_UTF32LE_BOM_DTF56B_FPATH, ENC_UTF32LE_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1262, 6; "UTF32LE BOM k")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCA, CLR, None, None, None, 6, 996, 42; "UTF32LE a")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCU, CLR, None, None, None, 6, 996, 42; "UTF32LE b")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCN, CLR, None, None, None, 6, 996, 6; "UTF32LE c")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCA, CLR, Some(FILEN), None, None, 6, 1080, 67; "UTF32LE d")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCU, CLR, None, Some(DATE), None, 6, 1176, 67; "UTF32LE e")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCN, CLR, None, None, Some(FO_P8), 6, 996, 6; "UTF32LE f")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 1260, 67; "UTF32LE g")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 67; "UTF32LE h")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 6; "UTF32LE i")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 67; "UTF32LE j")]
+#[test_case(&FILE_UTF32LE_DTF56B_FPATH, ENC_UTF32LE, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 6; "UTF32LE k")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCA, CLR, None, None, None, 6, 996, 42; "UTF32BE BOM a")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCU, CLR, None, None, None, 6, 996, 42; "UTF32BE BOM b")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCN, CLR, None, None, None, 6, 996, 6; "UTF32BE BOM c")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCA, CLR, Some(FILEN), None, None, 6, 1080, 67; "UTF32BE BOM d")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCU, CLR, None, Some(DATE), None, 6, 1176, 67; "UTF32BE BOM e")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCN, CLR, None, None, Some(FO_P8), 6, 996, 6; "UTF32BE BOM f")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 1260, 67; "UTF32BE BOM g")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 67; "UTF32BE BOM h")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 6; "UTF32BE BOM i")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 67; "UTF32BE BOM j")]
+#[test_case(&FILE_UTF32BE_BOM_DTF56B_FPATH, ENC_UTF32BE_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 6; "UTF32BE BOM k")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCA, CLR, None, None, None, 6, 996, 42; "UTF32BE a")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCU, CLR, None, None, None, 6, 996, 42; "UTF32BE b")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCN, CLR, None, None, None, 6, 996, 6; "UTF32BE c")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCA, CLR, Some(FILEN), None, None, 6, 1080, 67; "UTF32BE d")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCU, CLR, None, Some(DATE), None, 6, 1176, 67; "UTF32BE e")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCN, CLR, None, None, Some(FO_P8), 6, 996, 6; "UTF32BE f")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 1260, 67; "UTF32BE g")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 67; "UTF32BE h")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 6; "UTF32BE i")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 67; "UTF32BE j")]
+#[test_case(&FILE_UTF32BE_DTF56B_FPATH, ENC_UTF32BE, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 1260, 6; "UTF32BE k")]
+fn test_PrinterLogMessage_print_sysline_UTF(
+    fpath: &FPath,
+    encoding_type: FileTypeTextEncoding,
+    colorchoice: ColorChoice,
+    color: Color,
+    prepend_file: Option<&str>,
+    prepend_date: Option<&str>,
+    prepend_offset: Option<FixedOffset>,
+    expected_prints: usize,
+    expected_printed_bytes: usize,
+    expected_flushed: usize,
+) {
+    if !regex_id_compiled(REGEX_ID_DTF56B) {
+        eprintln!("Regex #{} not compiled; skip test", REGEX_ID_DTF56B);
+        return;
+    }
+    summary_stats_enable();
+    let mut plm = new_PrinterLogMessage(
+        colorchoice,
+        color,
+        prepend_file,
+        prepend_date,
+        prepend_offset,
+    );
+
+    let mut fo: FileOffset = 0;
+    let mut slr = new_SyslineReader(fpath, 1024, FO_P8);
+    slr.filetype_text_encoding_update(encoding_type);
+    let mut prints: usize = 0;
+    let mut printed_bytes: usize = 0;
+    let mut printed_flushed: usize = 0;
+    loop {
+        let result = slr.find_sysline(fo);
+        match result {
+            ResultFindSysline::Found((fo_, syslinep)) => {
+                fo = fo_;
+                match plm.print_sysline(&syslinep) {
+                    Ok((bytes_, flushed_)) => {
+                        prints += 1;
+                        printed_bytes += bytes_;
+                        printed_flushed += flushed_;
+                    }
+                    Err(err) => {
+                        panic!("ERROR: plm.print_sysline({:?}) returned Err({})", fo_, err);
+                    }
+                }
+            }
+            ResultFindSysline::Done => {
+                break;
+            }
+            ResultFindSysline::Err(err) => {
+                panic!("ERROR: slr.find_sysline({}) returned Err({})", fo, err);
+            }
+        }
+    }
+    eprintln!("prints={}, bytes={}, flushes={}", prints, printed_bytes, printed_flushed);
+    assert_eq!(prints, expected_prints, "Expected {} prints, got {}", expected_prints, prints);
     assert_eq!(
         printed_bytes, expected_printed_bytes,
         "Expected {} printed bytes, got {}", expected_printed_bytes, printed_bytes,

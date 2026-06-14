@@ -49,6 +49,7 @@ use crate::data::datetime::{
     Utc,
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
+    DATETIME_PARSE_DATAS_LEN_MAX,
 };
 use crate::data::evtx::Evtx;
 use crate::data::fixedstruct::FixedStruct;
@@ -854,7 +855,7 @@ pub fn print_summary(
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
     eprintln!("Printed journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
-    eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN);
+    eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN_MAX);
     eprintln!("Regex patterns compiled: {}", DATETIME_PARSE_DATAS_LEN);
 
     eprint!("Datetime filter -a     :");

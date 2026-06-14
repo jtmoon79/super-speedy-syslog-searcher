@@ -440,9 +440,9 @@ pub enum DTFS_Year {
 /// Follows chrono `strftime` specifier formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Month {
-    /// %m, month numbers 00 to 12
+    /// %m, month numbers 00 to 12, double-digit
     m,
-    /// %m, month numbers 0 to 12 (`s`ingle-digit)
+    /// %m, month numbers 0 to 12, single-digit
     ///
     /// Transformed to form `%m` in function `captures_to_buffer_bytes`.
     ms,
@@ -476,13 +476,13 @@ pub enum DTFS_Day {
 /// Follows chrono `strftime` specifier formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Hour {
-    /// %H, 24 hour, 00 to 23
+    /// %H, 24 hour, 00 to 23, double-digit
     H,
-    /// %k, 24 hour, 0 to 23
+    /// %k, 24 hour, 0 to 23, single-digit
     k,
-    /// %I, 12 hour, 01 to 12
+    /// %I, 12 hour, 01 to 12, double-digit
     I,
-    /// %l, 12 hour, 1 to 12
+    /// %l, 12 hour, 1 to 12, single-digit
     l,
     /// no hour
     _none,
@@ -492,8 +492,10 @@ pub enum DTFS_Hour {
 /// Follows chrono `strftime` specifier formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Minute {
-    /// %M, 00 to 59
+    /// %M, 00 to 59, double-digit
     M,
+    /// %M, 0 to 59, single-digit
+    m,
     /// no minute
     _none,
 }
@@ -502,8 +504,10 @@ pub enum DTFS_Minute {
 /// Follows chrono `strftime` specifier formatting.
 #[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
 pub enum DTFS_Second {
-    /// %S, 00 to 60
+    /// %S, 00 to 60, double-digit
     S,
+    /// %s, 0 to 60, single-digit
+    s,
     /// fill with value `0`
     _fill,
     /// no second
@@ -739,7 +743,8 @@ impl DTFSSet<'_> {
     /// does the `DTFSSet` expect a minute?
     pub const fn has_minute(&self) -> bool {
         match self.minute {
-            DTFS_Minute::M => true,
+            DTFS_Minute::M
+            | DTFS_Minute::m => true,
             DTFS_Minute::_none => false,
         }
     }
@@ -787,11 +792,13 @@ impl DTFSSet<'_> {
             | DTFS_Hour::_none => {}
         }
         match self.minute {
-            DTFS_Minute::M => return true,
+            DTFS_Minute::M
+            | DTFS_Minute::m => return true,
             DTFS_Minute::_none => {}
         }
         match self.second {
-            DTFS_Second::S => return true,
+            DTFS_Second::S
+            | DTFS_Second::s => return true,
             DTFS_Second::_fill
             | DTFS_Second::_none => {}
         }
@@ -1049,6 +1056,20 @@ pub const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
     second: DTFS_Second::S,
     fractional: DTFS_Fractional::f,
     tz: DTFS_Tz::Z,
+    epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
+    pattern: DTP_YmdHMSfzc,
+};
+
+pub const DTFSS_Ymdkmsf: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::ms,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::k,
+    minute: DTFS_Minute::m,
+    second: DTFS_Second::s,
+    fractional: DTFS_Fractional::f,
+    tz: DTFS_Tz::_fill,
     epoch: DTFS_Epoch::_none,
     uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSfzc,
@@ -1481,6 +1502,9 @@ pub const CGP_MONTHms: &CaptureGroupPattern = r"(?<month>[[:digit:]]|1[012])";
 /// Regex capture group pattern for `strftime` month specifier `%m`,
 /// month numbers `"01"` to `"12"`.
 pub const CGP_MONTHm: &CaptureGroupPattern = r"(?<month>0[[:digit:]]|1[012])";
+/// Regex capture group pattern for `strftime` month specifier `%m`,
+/// single-digit or double-digit
+pub const CGP_MONTHm_sd: &CaptureGroupPattern = r"(?<month>0[[:digit:]]|1[012]|[[:digit:]])";
 /// Regex capture group pattern for `strftime` month specifier `%b`,
 /// month name abbreviated to three characters, e.g. `Jan`.
 pub const CGP_MONTHb: &CaptureGroupPattern = r"(?<month>(jan|Jan|JAN|feb|Feb|FEB|mar|Mar|MAR|apr|Apr|APR|may|May|MAY|jun|Jun|JUN|jul|Jul|JUL|aug|Aug|AUG|sep|Sep|SEP|oct|Oct|OCT|nov|Nov|NOV|dec|Dec|DEC)[\.]?)";
@@ -1496,7 +1520,8 @@ pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?<month>january|January|JANUARY
 /// number day of month, 1 to 31, e.g. `"2"` or `"31"`.
 /// Transformed to equivalent `%d` form within function
 /// `captures_to_buffer_bytes` (i.e. `'0'` is prepended if necessary).
-pub const CGP_DAYde: &CaptureGroupPattern = r"(?<day>[012][[:digit:]]|3[01]|[[:digit:]]| [[:digit:]])";
+/// single-digit or double-digit
+pub const CGP_DAYde: &CaptureGroupPattern = r"(?<day>[012][[:digit:]]|3[01]| [[:digit:]]|[[:digit:]])";
 /// Regex capture group pattern for `strftime` day specifier `%a`,
 /// named day of week, either long name or abbreviated three character name,
 /// e.g. `"Mon"`.
@@ -1507,16 +1532,23 @@ pub const CGP_DAYa3: &CaptureGroupPattern = r"(?<day_ignore>(mon|Mon|MON|tue|Tue
 pub const CGP_DAYa: &CaptureGroupPattern = r"(?<day_ignore>monday|Monday|MONDAY|mon[\.]?|Mon[\.]?|MON[\.]?|tuesday|Tuesday|TUESDAY|tue[\.]?|Tue[\.]?|TUE[\.]?|wednesday|Wednesday|WEDNESDAY|wed[\.]?|Wed[\.]?|WED[\.]?|thursday|Thursday|THURSDAY|thu[\.]?|Thu[\.]?|THU[\.]?|friday|Friday|FRIDAY|fri[\.]?|Fri[\.]?|FRI[\.]?|saturday|Saturday|SATURDAY|sat[\.]?|Sat[\.]?|SAT[\.]?|sunday|Sunday|SUNDAY|sun[\.]?|Sun[\.]?|SUN[\.]?)";
 /// Regex capture group pattern for `strftime` hour specifier `%H`, 00 to 24.
 pub const CGP_HOUR: &CaptureGroupPattern = r"(?<hour>0[[:digit:]]|1[[:digit:]]|2[0-4])";
-/// Regex capture group pattern for `strftime` hour specifier `%H`, 0 to 24.
-/// single-digit
-pub const CGP_HOURs: &CaptureGroupPattern = r"(?<hour>[[:digit:]]|1[[:digit:]]|2[0-4])";
 /// Regex capture group pattern for `strftime` hour specifier `%h`, 1 to 12.
-pub const CGP_HOURh: &CaptureGroupPattern = r"(?<hour>[[:digit:]]|1[012])";
+pub const CGP_HOURh: &CaptureGroupPattern = r"(?<hour>1[012]|[[:digit:]])";
+/// Regex capture group pattern for `strftime` hour specifier `%H`, 0 to 24.
+/// single-digit or double-digit
+pub const CGP_HOUR_sd: &CaptureGroupPattern = r"(?<hour>1[[:digit:]]|2[0-4]|0[[:digit:]]|[[:digit:]])";
 /// Regex capture group pattern for `strftime` minute specifier `%M`, 00 to 59.
 pub const CGP_MINUTE: &CaptureGroupPattern = r"(?<minute>[012345][[:digit:]])";
+/// Regex capture group pattern for `strftime` minute specifier `%M`, 0 to 59.
+/// single-digit or double-digit
+pub const CGP_MINUTE_sd: &CaptureGroupPattern = r"(?<minute>[012345][[:digit:]]|[[:digit:]])";
 /// Regex capture group pattern for `strftime` second specifier `%S`, 00 to 60.
 /// Includes leap second "60".
 pub const CGP_SECOND: &CaptureGroupPattern = r"(?<second>[012345][[:digit:]]|60)";
+/// Regex capture group pattern for `strftime` second specifier `%S`, 0 to 60.
+/// Includes leap second "60".
+/// single-digit or double-digit
+pub const CGP_SECOND_sd: &CaptureGroupPattern = r"(?<second>[012345][[:digit:]]|60|[[:digit:]])";
 /// Regex capture group pattern for `strftime` fractional specifier `%f`.
 /// Matches all `strftime` specifiers `%f`, `%3f`, `%6f`, and `%9f`, a sequence
 /// of decimal number characters.
@@ -1575,9 +1607,18 @@ pub const CGP_EPOCHms: &CaptureGroupPattern = r"(?<epoch>[12][[:digit:]]{12}|9[[
 /// for testing
 #[doc(hidden)]
 #[allow(dead_code)]
+pub const CGP_YEAR_ALL: &[&CaptureGroupPattern] = &[
+    CGP_YEAR,
+    CGP_YEARy,
+];
+
+/// for testing
+#[doc(hidden)]
+#[allow(dead_code)]
 pub const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
     CGP_MONTHm,
     CGP_MONTHms,
+    CGP_MONTHm_sd,
     CGP_MONTHb,
     CGP_MONTHB,
     CGP_MONTHBb,
@@ -1597,8 +1638,24 @@ pub const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
 #[allow(dead_code)]
 pub const CGP_HOUR_ALL: &[&CaptureGroupPattern] = &[
     CGP_HOUR,
-    CGP_HOURs,
+    CGP_HOUR_sd,
     CGP_HOURh,
+];
+
+/// for testing
+#[doc(hidden)]
+#[allow(dead_code)]
+pub const CGP_MINUTE_ALL: &[&CaptureGroupPattern] = &[
+    CGP_MINUTE,
+    CGP_MINUTE_sd,
+];
+
+/// for testing
+#[doc(hidden)]
+#[allow(dead_code)]
+pub const CGP_SECOND_ALL: &[&CaptureGroupPattern] = &[
+    CGP_SECOND,
+    CGP_SECOND_sd,
 ];
 
 /// for testing
@@ -1612,6 +1669,14 @@ pub const CGP_FRACTIONAL_ALL: &[&CaptureGroupPattern] = &[
     CGP_FRACTIONAL9,
     CGP_FRACTIONAL39,
     CGP_FRACTIONAL369,
+];
+
+/// for testing
+#[doc(hidden)]
+#[allow(dead_code)]
+pub const CGP_EPOCH_ALL: &[&CaptureGroupPattern] = &[
+    CGP_EPOCH,
+    CGP_EPOCHms,
 ];
 
 // Regarding timezone formatting, ISO 8601 allows Unicode "minus sign".
@@ -3518,7 +3583,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         59,
         counter!(DP_KEY),
-        concat!(RP_NOALNUMb, "(START|END|Start|End|start|end)", RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOURs, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
+        concat!(RP_NOALNUMb, "(START|END|Start|End|start|end)", RP_BLANKSq, "[:]?", RP_BLANKSq, CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOUR_sd, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NODIGIT),
         // DfaU8, // fails to build
         FlatLockstepNfaU8,
         DTFSS_YmsdkMS,
@@ -5225,7 +5290,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         141,
         counter!(DP_KEY),
-        concat!(RP_NOALNUMb, CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOURs, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
+        concat!(RP_NOALNUMb, CGP_YEAR, D_Deq, CGP_MONTHms, D_Deq, CGP_DAYde, D_DHcdqu, CGP_HOUR_sd, D_T, CGP_MINUTE, D_T, CGP_SECOND, RP_NOALNUM),
         FlatLockstepNfaU8,
         DTFSS_YmsdkMS,
         0, 512,
@@ -5973,10 +6038,60 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // ---------------------------------------------------------------------------------------------
+    //
+    // UTF-16LE
+    //
+    // ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
+    //
+    // This log is sloppy: it switches formats depending upon the message type. 🙄
+    // `ere` does not support nested named groupings; e.g. cannot do
+    //       "((?<namedA>ABC)|(?<namedB>DEF))"
+    // So skip matching the crummy less significant formatted message `2021-4-26+0-4-1.791`
+    //
+    // =X====== M/32.0.0.114 2019-01-29+02-07-27.809 ========
+    // 0000 [I] 00000044
+    // 0001 [I] 00000045
+    // 0002 [W] 00001113 C:\Users\user\AppData\Roaming\Macromedia\Flash Player\www.macromedia.com\bin\* 3
+    // ...
+    // 2021-1-3+0-4-2.265 [error] 1223 1056
+    // 2021-4-26+0-4-1.791 [error] 1223 1056
+    // 2021-5-1+21-39-33.489 [error] 1226 1062
+    // =O====== M/32.0.0.465 2021-05-01+21-39-33.382 ========
+    // ...
+    #[cfg(any(regex = "179", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        179,
+        counter!(DP_KEY),
+        concat!("(^|[[:blank:]])", CGP_YEAR, "-", CGP_MONTHm_sd, "-", CGP_DAYde, r"\+", CGP_HOUR_sd, "-", CGP_MINUTE_sd, "-", CGP_SECOND_sd, D_SF, CGP_FRACTIONAL369, RP_BLANK),
+        DfaU8,
+        DTFSS_Ymdkmsf,
+        0, 150,
+        CGN_YEAR, CGN_FRACTIONAL,
+        &[
+            (1, 24, (O_L, 2019, 1, 29, 2, 7, 27, 809000000), b" 2019-01-29+02-07-27.809 "),
+            (22, 45, (O_L, 2019, 1, 29, 2, 7, 27, 809000000), b"=X====== M/32.0.0.114 2019-01-29+02-07-27.809 ========"),
+            (24, 47, (O_L, 2019, 2, 26, 3, 21, 52, 720000000), b"\0\0=O====== M/32.0.0.142 2019-02-26+03-21-52.720 ========"),
+            (0, 19, (O_L, 2021, 4, 26, 0, 4, 1, 791000000), b"2021-4-26+0-4-1.791 [error] 1 1056"),
+            (0, 20, (O_L, 2021, 4, 26, 10, 4, 1, 791000000), b"2021-4-26+10-4-1.791 [error] 2 1056"),
+            (0, 20, (O_L, 2021, 4, 6, 0, 14, 1, 791000000), b"2021-04-6+0-14-1.791 [error] 3 1056"),
+            (0, 20, (O_L, 2021, 4, 6, 0, 4, 21, 791000000), b"2021-04-6+0-4-21.791 [error] 4 1056"),
+            (0, 19, (O_L, 2021, 4, 6, 0, 4, 1, 791000000), b"2021-04-6+0-4-1.791 [error] 5 1056"),
+            (0, 19, (O_L, 2021, 4, 6, 0, 4, 1, 791000000), b"2021-4-06+0-4-1.791 [error] 6 1056"),
+            (0, 19, (O_L, 2021, 4, 6, 0, 4, 1, 791000000), b"2021-4-6+00-4-1.791 [error] 7 1056"),
+            (0, 19, (O_L, 2021, 4, 6, 0, 4, 1, 791000000), b"2021-4-6+0-04-1.791 [error] 8 1056"),
+            (0, 19, (O_L, 2021, 4, 6, 0, 4, 1, 791000000), b"2021-4-6+0-4-01.791 [error] 9 1056"),
+            (0, 18, (O_L, 2021, 4, 6, 0, 4, 1, 791000000), b"2021-4-6+0-4-1.791 [error] 10 1056"),
+        ],
+        line!(),
+    ),
 ];
-/// proc-macro generated count of compiled regex, may be less than 178.
-/// Depends upon build cfg of env var `S4_BUILD_REGEX`.
+/// proc-macro generated count of compiled regex.
+/// May be less than the number of possible entries in `DATETIME_PARSE_DATAS`.
+/// This value depends upon build cfg of env var `S4_BUILD_REGEX`.
 pub const DATETIME_PARSE_DATAS_LEN: usize = counter_last!(DP_KEY);
+/// compile-time maximum length of `DATETIME_PARSE_DATAS`
+pub const DATETIME_PARSE_DATAS_LEN_MAX: usize = 179;
 
 /// Check if the `regex_id` is in the compiled `DATETIME_PARSE_DATAS`.
 /// `DATETIME_PARSE_DATAS` may vary depending upon build cfg of env var `REGEX`.

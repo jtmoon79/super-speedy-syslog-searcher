@@ -53,6 +53,7 @@ use crate::data::line::{
     LinePart,
     Lines,
 };
+use crate::debug_panic;
 #[cfg(any(debug_assertions, test))]
 use crate::debug::printers::{
     buffer_to_string_noraw,
@@ -412,49 +413,29 @@ impl LineReader {
     ) -> bool {
         let len = bytes.len();
         if bi_at >= len {
-            defñ!("bi_at {} is out of bounds for bytes of length {}", bi_at, len);
+            debug_panic!("bi_at {} is out of bounds for bytes of length {}", bi_at, len);
             return false;
         }
         match self.encoding_type() {
             FileTypeTextEncoding::Utf8Ascii | FileTypeTextEncoding::Utf8BOM => {
-                defñ!("Utf8Ascii: [{bi_at}]: [0x{:02x}] == 0x{NLu8:02x} NLu8?", bytes[bi_at]);
                 bytes[bi_at] == NLu8
             }
             FileTypeTextEncoding::Utf16le | FileTypeTextEncoding::Utf16leBOM => {
                 if bi_at >= len.saturating_sub(1) {
-                    defñ!("Utf16le: [{bi_at}]: [0x{:02x}] == [0x{NLu8:02x}, 0x00] NLu8? (too short)", bytes[bi_at]);
                     return false;
                 }
-                defñ!("Utf16le: [{bi_at}, {}]: [0x{:02x}, 0x{:02x}] == [0x{NLu8:02x}, 0x00] NLu8?",
-                    bi_at + 1,
-                    bytes[bi_at],
-                    bytes[bi_at + 1]);
                 bytes[bi_at] == NLu8 && bytes[bi_at + 1] == 0
             }
             FileTypeTextEncoding::Utf16be | FileTypeTextEncoding::Utf16beBOM => {
                 if bi_at >= len.saturating_sub(1) {
-                    defñ!("Utf16be: [{bi_at}]: [0x{:02x}] == [0x00, 0x{NLu8:02x}] NLu8? (too short)", bytes[bi_at]);
                     return false;
                 }
-                defñ!("Utf16be: [{bi_at}, {}]: [0x{:02x}, 0x{:02x}] == [0x00, 0x{NLu8:02x}] NLu8?",
-                    bi_at + 1,
-                    bytes[bi_at],
-                    bytes[bi_at + 1]);
                 bytes[bi_at] == 0 && bytes[bi_at + 1] == NLu8
             }
             FileTypeTextEncoding::Utf32le | FileTypeTextEncoding::Utf32leBOM => {
                 if bi_at >= len.saturating_sub(3) {
-                    defñ!("Utf32le: only {} bytes, need 4 (too short)", len);
                     return false;
                 }
-                defñ!("Utf32le: [{bi_at}, {}, {}, {}]: [0x{:02x}, 0x{:02x}, 0x{:02x}, 0x{:02x}] == [0x{NLu8:02x}, 0x00, 0x00, 0x00] NLu8?",
-                    bi_at + 1,
-                    bi_at + 2,
-                    bi_at + 3,
-                    bytes[bi_at],
-                    bytes[bi_at + 1],
-                    bytes[bi_at + 2],
-                    bytes[bi_at + 3]);
                 bytes[bi_at] == NLu8
                     && bytes[bi_at + 1] == 0
                     && bytes[bi_at + 2] == 0
@@ -462,17 +443,8 @@ impl LineReader {
             }
             FileTypeTextEncoding::Utf32be | FileTypeTextEncoding::Utf32beBOM => {
                 if bi_at >= len.saturating_sub(3) {
-                    defñ!("Utf32be: only {} bytes, need 4 (too short)", len);
                     return false;
                 }
-                defñ!("Utf32be: [{bi_at}, {}, {}, {}]: [0x{:02x}, 0x{:02x}, 0x{:02x}, 0x{:02x}] == [0x00, 0x00, 0x00, 0x{NLu8:02x}] NLu8?",
-                    bi_at + 1,
-                    bi_at + 2,
-                    bi_at + 3,
-                    bytes[bi_at],
-                    bytes[bi_at + 1],
-                    bytes[bi_at + 2],
-                    bytes[bi_at + 3]);
                 bytes[bi_at] == 0
                     && bytes[bi_at + 1] == 0
                     && bytes[bi_at + 2] == 0

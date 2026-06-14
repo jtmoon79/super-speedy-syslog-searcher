@@ -80,21 +80,15 @@ use ::ere_datetimes_impl::{
     CGP_DAY_ALL,
     CGP_EPOCH,
     CGP_EPOCHms,
-    CGP_FRACTIONAL19,
-    CGP_FRACTIONAL23,
-    CGP_FRACTIONAL3,
-    CGP_FRACTIONAL39,
-    CGP_FRACTIONAL6,
-    CGP_FRACTIONAL9,
-    CGP_FRACTIONAL369,
+    CGP_EPOCH_ALL,
+    CGP_FRACTIONAL_ALL,
     CGP_HOUR_ALL,
-    CGP_MINUTE,
+    CGP_MINUTE_ALL,
     CGP_MONTH_ALL,
-    CGP_SECOND,
+    CGP_SECOND_ALL,
     CGP_TZ_ALL,
     CGP_TZZ,
-    CGP_YEAR,
-    CGP_YEARy,
+    CGP_YEAR_ALL,
     DateTimePattern_str,
     DateTimeRegex_str,
     DTFS_Epoch,
@@ -131,77 +125,47 @@ use crate::tests::common::{
 
 /// does regex pattern have a year?
 pub fn regex_pattern_has_year(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_YEAR) || pattern.contains(CGP_YEARy)
+    CGP_YEAR_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a month?
 pub fn regex_pattern_has_month(pattern: &DateTimeRegex_str) -> bool {
-    for pat in CGP_MONTH_ALL.iter() {
-        if pattern.contains(pat) {
-            return true;
-        }
-    }
-
-    false
+    CGP_MONTH_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a day?
 pub fn regex_pattern_has_day(pattern: &DateTimeRegex_str) -> bool {
-    for pat in CGP_DAY_ALL.iter() {
-        if pattern.contains(pat) {
-            return true;
-        }
-    }
-
-    false
+    CGP_DAY_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a hour?
 pub fn regex_pattern_has_hour(pattern: &DateTimeRegex_str) -> bool {
-    for pat in CGP_HOUR_ALL.iter() {
-        if pattern.contains(pat) {
-            return true;
-        }
-    }
-
-    false
+    CGP_HOUR_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a minute?
 pub fn regex_pattern_has_minute(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_MINUTE)
+    CGP_MINUTE_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a second?
 pub fn regex_pattern_has_second(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_SECOND)
+    CGP_SECOND_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a fractional second?
 pub fn regex_pattern_has_fractional(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_FRACTIONAL19)
-    || pattern.contains(CGP_FRACTIONAL23)
-    || pattern.contains(CGP_FRACTIONAL3)
-    || pattern.contains(CGP_FRACTIONAL6)
-    || pattern.contains(CGP_FRACTIONAL9)
-    || pattern.contains(CGP_FRACTIONAL39)
-    || pattern.contains(CGP_FRACTIONAL369)
+    CGP_FRACTIONAL_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a timezone?
 pub fn regex_pattern_has_tz(pattern: &DateTimeRegex_str) -> bool {
-    for pat in CGP_TZ_ALL.iter() {
-        if pattern.contains(pat) {
-            return true;
-        }
-    }
-
-    false
+    CGP_TZ_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 /// does regex pattern have a epoch?
 pub fn regex_pattern_has_epoch(pattern: &DateTimeRegex_str) -> bool {
-    pattern.contains(CGP_EPOCH) || pattern.contains(CGP_EPOCHms)
+    CGP_EPOCH_ALL.iter().any(|pat| pattern.contains(pat))
 }
 
 // chrono strftime formats https://docs.rs/chrono/latest/chrono/format/strftime/
@@ -217,12 +181,12 @@ pub fn dt_pattern_has_month(pattern: &DateTimePattern_str) -> bool {
     // do not use "%h"
 }
 
-/// does chrono strftime pattern have a month?
+/// does chrono strftime pattern have a day?
 pub fn dt_pattern_has_day(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%d") || pattern.contains("%e")
 }
 
-/// does chrono strftime pattern have a month?
+/// does chrono strftime pattern have an hour?
 pub fn dt_pattern_has_hour(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%H")
         || pattern.contains("%_H")
@@ -233,7 +197,7 @@ pub fn dt_pattern_has_hour(pattern: &DateTimePattern_str) -> bool {
         || (pattern.contains("%l") && pattern.contains("%p"))
 }
 
-/// does chrono strftime pattern have a month?
+/// does chrono strftime pattern have a minute?
 pub fn dt_pattern_has_minute(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%M")
 }
@@ -243,7 +207,7 @@ pub fn dt_pattern_has_second(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%S")
 }
 
-/// does chrono strftime pattern have a second?
+/// does chrono strftime pattern have a fractional second?
 pub fn dt_pattern_has_fractional(pattern: &DateTimePattern_str) -> bool {
     pattern.contains("%f")
 }
@@ -370,9 +334,9 @@ fn test_DATETIME_PARSE_DATAS_regex_id_duplicates() {
 /// `DATETIME_PARSE_DATAS`.
 ///
 /// Must manually update the `test_matrix` range end value to the same as
-/// `DATETIME_PARSE_DATAS_LEN`.
+/// `DATETIME_PARSE_DATAS_LEN_MAX`.
 #[allow(clippy::zero_prefixed_literal)]
-#[test_matrix(0..178)]
+#[test_matrix(0..180)] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     stack_offset_set(Some(2));
 

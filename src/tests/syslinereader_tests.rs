@@ -148,7 +148,7 @@ use crate::tests::common::{
     NTF_WNL_1_PATH,
     NTF_XZ_1BYTE_FPATH,
     NTF_XZ_8BYTE_FPATH,
-    REGEX_ID_DTF65B,
+    REGEX_ID_DTF56B,
 };
 use crate::tests::datetime_tests::dt_pattern_has_tz;
 
@@ -5666,8 +5666,8 @@ fn test_find_sysline_in_block_utf(
     expect_str: &str,
     prepend_bom: &[u8],
 ) {
-    if !regex_id_compiled(REGEX_ID_DTF65B) {
-        eprintln!("Regex #{} not compiled", REGEX_ID_DTF65B);
+    if !regex_id_compiled(REGEX_ID_DTF56B) {
+        eprintln!("Regex #{} not compiled", REGEX_ID_DTF56B);
         return;
     }
     defn!("({:?}, {})", fpath, blocksz);
@@ -5746,8 +5746,8 @@ fn test_find_sysline_utf(
     // expect_result: ResultFindSysline_Test,
     // expect_str: String,
 ) {
-    if !regex_id_compiled(REGEX_ID_DTF65B) {
-        eprintln!("Regex #{} not compiled", REGEX_ID_DTF65B);
+    if !regex_id_compiled(REGEX_ID_DTF56B) {
+        eprintln!("Regex #{} not compiled", REGEX_ID_DTF56B);
         return;
     }
     defn!("({:?}, {})", fpath, blocksz);
