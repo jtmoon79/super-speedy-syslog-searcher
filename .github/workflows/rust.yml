@@ -38,7 +38,7 @@ env:
   # so a specific version must be installed for the current MSRV
   FLAMEGRAPH_VERSION: "0.6.12"
   # run options for debug
-  S4_ARGSD: --blocksz 0x2 -s
+  S4_ARGSD: --blocksz 0x40 -s
   # run options for release
   S4_ARGSR: --blocksz 0x40 -s
   # run files
