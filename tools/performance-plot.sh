@@ -399,8 +399,8 @@ echo_line
 #
 # create the final markdown file of results
 #
-declare -r MD_FINAL="${DIROUT}/performance-plot-${FILE_NAME}__${FILE_NUM}__data.md"
-declare -r CSV_FINAL="${DIROUT}/performance-plot-${FILE_NAME}__${FILE_NUM}__data.csv"
+declare -r MD_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__data.md"
+declare -r CSV_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__data.csv"
 
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
