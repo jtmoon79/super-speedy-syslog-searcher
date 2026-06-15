@@ -25,6 +25,8 @@ on:  # yamllint disable-line rule:truthy
   workflow_dispatch:  # yamllint disable-line rule:empty-values
 env:
   CARGO_TERM_COLOR: always
+  S4_BUILD_PRINT: 1
+  S4_BUILD_REGEX_PRINT: 1
   RUST_BACKTRACE: 1
   # MSRV
   # default rust version
@@ -144,7 +146,6 @@ jobs:
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo --version
           rustc --print cfg
           cargo build --locked --profile release
@@ -155,7 +156,6 @@ jobs:
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile dev
           ./target/debug/s4 --version
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile mimalloc
@@ -164,7 +164,6 @@ jobs:
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile mimalloc --features mimalloc
           ./target/mimalloc/s4 --version
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile rpmalloc
@@ -173,7 +172,6 @@ jobs:
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile rpmalloc --features rpmalloc
           ./target/rpmalloc/s4 --version
       - name: Build rust ${{ matrix.msrv }} on ${{ matrix.os }} --profile jemalloc
@@ -184,7 +182,6 @@ jobs:
           set -eux
           export CARGO_PROFILE_RELEASE_BUILD_OVERRIDE_DEBUG=true
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile jemalloc --features jemalloc
           ./target/jemalloc/s4 --version
       # skip tcmalloc as it requires too particular installed libraries
@@ -193,7 +190,6 @@ jobs:
         run: |
           set -eux
           export S4_BUILD_REGEX=79
-          export S4_BUILD_REGEX_PRINT=1
           export RUST_MIN_STACK=15000000  # 15 MB
           cargo build --locked --profile alloc_tracker --features alloc_tracker
           export S4_ALLOC_TRACKER_PRINT=1
@@ -206,7 +202,6 @@ jobs:
         run: |
           set -eux
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           RUSTFLAGS=-g cargo build --profile flamegraph
           ./target/flamegraph/s4 --version
 
@@ -225,7 +220,6 @@ jobs:
         run: |
           set -eux
           cargo --version
-          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --verbose
           cp -av ./target/debug/s4 ./s4_debug
           chmod -v 0555 ./s4_debug
@@ -241,7 +235,6 @@ jobs:
         run: |
           set -eux
           cargo --version
-          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --release
           cp -av ./target/release/s4 ./s4_release
           chmod -v 0555 ./s4_release
@@ -299,7 +292,6 @@ jobs:
           # force S4_BUILD_REGEX=1 because env. vars. are not passed by `cross` into
           # the docker instance.
           echo 1 | tee ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX S4_BUILD_REGEX
-          export S4_BUILD_REGEX_PRINT=1
           cross check --locked --lib --bins --release --target ${{ matrix.target }}
 
   # XXX: as of 0.9.81, this `cargo cross build` surpasses the job time limit of
@@ -385,7 +377,6 @@ jobs:
           set -eux
           cargo --version
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo check --locked --all-targets
           cargo check --locked --all-targets --release
 
@@ -419,7 +410,6 @@ jobs:
           cargo --version
           cargo clippy --version
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo clippy --locked --no-deps --all-targets --all-features
 
   job_bench:
@@ -437,7 +427,6 @@ jobs:
           set -eux
           cargo --version
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo bench --locked --no-run --features bench_jetscii,bench_memchr,bench_stringzilla
 
   job_test_linux:
@@ -491,7 +480,6 @@ jobs:
         shell: bash
         run: |
           set -eux
-          export S4_BUILD_REGEX_PRINT=1
           cargo nextest --version
           export NEXTEST_TEST_THREADS=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
@@ -513,7 +501,6 @@ jobs:
         run: |
           set -eux
           export S4_BUILD_REGEX=1
-          export S4_BUILD_REGEX_PRINT=1
           cargo build --locked --profile release_Opt0
           which python
           python --version
@@ -522,7 +509,6 @@ jobs:
         shell: bash
         run: |
           set -eux
-          export S4_BUILD_REGEX_PRINT=1
           cargo nextest --version
           export NEXTEST_TEST_THREADS=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
@@ -544,7 +530,6 @@ jobs:
         run: |
           Set-PSDebug -Trace 1
           ${env:S4_BUILD_REGEX}="1"
-          ${env:S4_BUILD_REGEX_PRINT}="1"
           cargo.exe build --locked --profile release_Opt0
           Get-Command -All python.exe
           python.exe --version
@@ -553,7 +538,6 @@ jobs:
         shell: powershell
         run: |
           Set-PSDebug -Trace 1
-          ${env:S4_BUILD_REGEX_PRINT}="1"
           # XXX: do not use nextest as it is buggy on Windows
           #      see Issue #218
           cargo.exe test --locked --bins --lib --no-fail-fast
@@ -565,7 +549,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       S4_BUILD_REGEX: 1
-      S4_BUILD_REGEX_PRINT: 1
     steps:
       - name: git checkout
         uses: actions/checkout@v6
