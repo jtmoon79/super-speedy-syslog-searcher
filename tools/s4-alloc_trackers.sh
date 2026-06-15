@@ -18,7 +18,6 @@ declare -a FILES=(
     ./logs/MacOS11/DiagnosticMessages/2023.10.31.asl
     ./logs/NetBSD9.3/Xorg.0.log
     ./logs/OpenBSD7.4/x86_64/utmp
-    ./logs/other/tests/gen-99999-1-Motley_Crue.log
     ./logs/other/tests/gen-1000-3-foobar-noyear.log
     ./logs/other/tests/gen-1000-3-foobar.log
     ./logs/other/tests/gen-1000-3-foobar.log.bz2
@@ -26,6 +25,15 @@ declare -a FILES=(
     ./logs/other/tests/gen-1000-3-foobar.log.lz4
     ./logs/other/tests/gen-1000-3-foobar.log.tar
     ./logs/other/tests/gen-1000-3-foobar.log.xz
+    ./logs/other/tests/gen-1000-3-foobar.UTF-16BE.log
+    ./logs/other/tests/gen-1000-3-foobar.UTF-16BE_BOM.log
+    ./logs/other/tests/gen-1000-3-foobar.UTF-16LE.log
+    ./logs/other/tests/gen-1000-3-foobar.UTF-16LE_BOM.log
+    ./logs/other/tests/gen-1000-3-foobar.UTF-32BE.log
+    ./logs/other/tests/gen-1000-3-foobar.UTF-32BE_BOM.log
+    ./logs/other/tests/gen-1000-3-foobar.UTF-32LE.log
+    ./logs/other/tests/gen-1000-3-foobar.UTF-32LE_BOM.log
+    ./logs/other/tests/gen-99999-1-Motley_Crue.log
     ./logs/programs/Event_Trace_Log/WindowsUpdate.20251008.140245.443.8.etl
     ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
     ./logs/programs/journal/RHE_91_system.journal
