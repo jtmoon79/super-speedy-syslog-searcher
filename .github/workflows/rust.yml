@@ -220,7 +220,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
-      - name: Build Debug using toolchain ${{ env.MSRV_UPLOAD }}
+      - name: Build Debug using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         shell: bash
         run: |
           set -eux
@@ -236,7 +236,7 @@ jobs:
           name: s4_debug
           path: ./s4_debug
       # build & upload release
-      - name: Build Release using toolchain ${{ env.MSRV_UPLOAD }}
+      - name: Build Release using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         shell: bash
         run: |
           set -eux
@@ -563,12 +563,19 @@ jobs:
     name: doc, publish
     needs: [job_rust_msrv_os]
     runs-on: ubuntu-latest
+    env:
+      S4_BUILD_REGEX: 1
+      S4_BUILD_REGEX_PRINT: 1
     steps:
       - name: git checkout
         uses: actions/checkout@v6
       - name: Build Documentation
         run: cargo doc --locked --release --no-deps -v
-      - name: Publish Dry Run (cargo package --dry-run)
+      - uses: dtolnay/rust-toolchain@nightly
+      - uses: dtolnay/install@cargo-docs-rs
+      - name: Build documentation for docs.rs (cargo docs-rs)
+        run: cargo rustdoc --locked
+      - name: Publish to crates.io; dry run (cargo package --dry-run)
         shell: bash
         continue-on-error: true
         run: |
