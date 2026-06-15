@@ -793,6 +793,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "build-print"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d8e6738dfb11354886f890621b4a34c0b177f75538023f7100b608ab9adbd66b"
+
+[[package]]
 name = "bumpalo"
 version = "3.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4991,6 +4997,7 @@ name = "super-speedy-syslog-searcher_ere_datetimes_impl"
 version = "0.10.0"
 dependencies = [
  "bitvec",
+ "build-print",
  "const-str",
  "dotenvy",
  "lazy_static",
@@ -5009,6 +5016,7 @@ dependencies = [
  "backtrace",
  "bitvec",
  "bstr",
+ "build-print",
  "bzip2-rs",
  "cargo-msrv",
  "cfg-if",

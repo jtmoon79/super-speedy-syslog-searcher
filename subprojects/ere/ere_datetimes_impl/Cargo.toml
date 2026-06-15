@@ -33,3 +33,4 @@ path = "src/ere_datetimes_impl.rs"
 
 [build-dependencies]
 dotenvy.workspace = true
+build-print.workspace = true

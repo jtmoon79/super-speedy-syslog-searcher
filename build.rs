@@ -1,8 +1,8 @@
 // build.rs
 
 use std::env;
-use std::io::Write;
 use std::fs;
+use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -14,6 +14,10 @@ use ::dotenvy;
 //      because without this `build.rs then different `S4_BUILD_REGEX` values will
 //      not trigger a rebuild of `ere_datetimes_impl/build.rs`
 
+/// env. var. set by docs.rs build environment; see https://docs.rs/about/builds
+const ENV_DOCS_RS: &str = "DOCS_RS";
+
+const ENV_BUILD_EPRINT: &str = "S4_BUILD_PRINT";
 const ENV_BUILD_REGEX: &str = "S4_BUILD_REGEX";
 const ENV_BUILD_REGEX_NO_REBUILD: &str = "S4_BUILD_REGEX_NO_REBUILD";
 const REGEX_ALL: &str = "ALL";
@@ -28,6 +32,28 @@ pub const PATH_FILE_GIT_COMMIT: &str = "git_commit.txt";
 // TODO: rebuild if `src/python/s4_event_readers` changes
 //       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
 
+fn info_enabled() -> bool {
+    std::env::var(ENV_BUILD_EPRINT).is_ok_and(|x| !x.is_empty())
+}
+
+/// `info` if `info_enabled()` is true
+macro_rules! info {
+    ($($arg:tt)*) => {
+        if info_enabled() {
+            ::build_print::custom_println!("./build.rs:", green, $($arg)*);
+        }
+    };
+}
+
+macro_rules! build_println {
+    ($($arg:tt)*) => {
+        println!($($arg)*);
+        if info_enabled() {
+            ::build_print::custom_println!("./build.rs:", cyan, $($arg)*);
+        }
+    };
+}
+
 /// allow environment variable `S4_BUILD_REGEX` to specify which regexes to compile
 /// can specify
 /// - single values, e.g. `S4_BUILD_REGEX=1`
@@ -39,88 +65,96 @@ pub const PATH_FILE_GIT_COMMIT: &str = "git_commit.txt";
 /// If no `S4_BUILD_REGEX` environment variable is specified then all regexes will be
 /// compiled.
 fn parse_regex_values() {
+    // override for building at docs.rs
+    // otherwise docs.rs build will fail due to a resource-constrained environment
+    if std::env::var(ENV_DOCS_RS).is_ok() {
+        info!("docs.rs build detected from {ENV_DOCS_RS}; building only regex #1");
+        build_println!("cargo::rustc-cfg={CONFIG_REGEX}=\"1\"");
+        build_println!("cargo::rustc-check-cfg=cfg({CONFIG_REGEX}, values(\"1\"))");
+        return;
+    }
+
     // process environment variable
     let mut build_regex_val: String = std::env::var(ENV_BUILD_REGEX).unwrap_or_else(|_| String::with_capacity(0));
     if build_regex_val.is_empty() {
-      // process file if environment variable is not set or empty
-      let project_dir: String = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not set");
-      let file_path: PathBuf = PathBuf::from(project_dir).join(ENV_BUILD_REGEX);
-      if file_path.exists() {
-        let file_contents: String = std::fs::read_to_string(file_path).expect("Failed to read file");
-        let file_contents_trimmed: String = file_contents.trim().to_string();
-        if !file_contents_trimmed.is_empty() {
-          // use the file contents as the build regex value
-          build_regex_val = file_contents_trimmed;
+        // process file if environment variable is not set or empty
+        let project_dir: String = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not set");
+        let file_path: PathBuf = PathBuf::from(project_dir).join(ENV_BUILD_REGEX);
+        if file_path.exists() {
+            let file_path_: PathBuf = file_path.clone();
+            let file_contents: String = std::fs::read_to_string(file_path).expect("Failed to read file");
+            let file_contents_trimmed: String = file_contents
+                .trim()
+                .to_string();
+            if !file_contents_trimmed.is_empty() {
+                // use the file contents as the build regex value
+                build_regex_val = file_contents_trimmed;
+                info!("Using file {file_path_:?} contents for {ENV_BUILD_REGEX}: {build_regex_val:?}");
+            }
         }
-      }
     }
 
+    let mut regex_values: Vec<String> = Vec::new();
     if !build_regex_val.is_empty() {
-      for val in build_regex_val.split(',') {
-        if val.contains('-') {
-          // range
-          let (a_s, b_s) = val.split_once('-').expect("Invalid range format");
-          let mut a_n: usize = a_s.parse::<usize>().unwrap_or_else(
-            |_| panic!("Invalid number in range: {a_s:?} from {val:?}"));
-          let mut b_n: usize = b_s.parse::<usize>().unwrap_or_else(
-            |_| panic!("Invalid number in range: {b_s:?} from {val:?}"));
-          if a_n > b_n {
-            std::mem::swap(&mut a_n, &mut b_n);
-          }
-          for n in a_n..=b_n {
-            println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{n}\"");
-          }
-        } else {
-          // single value
-          println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{val}\"");
+        for val in build_regex_val.split(',') {
+            if val.contains('-') {
+                // range
+                let (a_s, b_s) = val
+                    .split_once('-')
+                    .expect("Invalid range format");
+                let mut a_n: usize = a_s
+                    .parse::<usize>()
+                    .unwrap_or_else(|_| panic!("Invalid number in range: {a_s:?} from {val:?}"));
+                let mut b_n: usize = b_s
+                    .parse::<usize>()
+                    .unwrap_or_else(|_| panic!("Invalid number in range: {b_s:?} from {val:?}"));
+                if a_n > b_n {
+                    std::mem::swap(&mut a_n, &mut b_n);
+                }
+                for n in a_n..=b_n {
+                    build_println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{n}\"");
+                    regex_values.push(n.to_string());
+                }
+            } else {
+                // single value
+                build_println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{val}\"");
+                regex_values.push(val.to_string());
+            }
         }
-      }
     } else {
-      println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{REGEX_ALL}\"");
+        build_println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{REGEX_ALL}\"");
+        regex_values.push(REGEX_ALL.to_string());
     }
+    info!("regex values specified: {regex_values:?}");
 
     // rerun if environment variable changes
-    // HACK: workaround buggy false-positive rebuilds with S4_BUILD_REGEX_NO_REBUILD.
-    //       see comment above
-    //       However, seems to be flaky itself.
-    //       Might be related to check-cfg warnings?
-    //       See https://github.com/mozilla/sccache/issues/2619
     match std::env::var(ENV_BUILD_REGEX_NO_REBUILD) {
-      Ok(val) => {
-        if val.is_empty() {
-          println!(r#"cargo::rerun-if-env-changed={ENV_BUILD_REGEX}"#);
+        Ok(val) => {
+            if val.is_empty() {
+                build_println!(r#"cargo::rerun-if-env-changed={ENV_BUILD_REGEX}"#);
+            } else {
+                info!("skip rerun-if-env-changed={ENV_BUILD_REGEX} because {ENV_BUILD_REGEX_NO_REBUILD}");
+            }
         }
-      }
-      Err(_) => {
-        println!(r#"cargo::rerun-if-env-changed={ENV_BUILD_REGEX}"#);
-      }
+        Err(_) => {
+            build_println!(r#"cargo::rerun-if-env-changed={ENV_BUILD_REGEX}"#);
+        }
     }
-
-    // allow all possible values; avoids a warning from rust
-    let mut valid_values_str: String =
-      (1..=DATETIME_PARSE_DATAS_LEN)
-      .map(|v| format!("\"{v}\""))
-      .collect::<Vec<String>>()
-      .join(",");
-    valid_values_str.push_str(&format!(",\"{REGEX_ALL}\""));
-    println!(
-      "cargo::rustc-check-cfg=cfg({CONFIG_REGEX}, values({valid_values_str}))"
-    );
 }
 
-/// ripped from https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html
+/// ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
 fn write_timestamp_file() {
     // used passed `outdir`, fallback to env var `OUT_DIR`, fallback to current directory
     let outdir: String = env::var("OUT_DIR").unwrap_or_else(|_| ".".to_string());
     let mut out_path = PathBuf::new();
     out_path.push(outdir);
     out_path.push(PATH_FILE_TIMESTAMP);
-    let mut fhandle = fs::File::create(&out_path).unwrap_or_else(
-      |e| panic!("write_timestamp_file failed to create file {out_path:?}: {e:?}")
-    );
+    let mut fhandle = fs::File::create(&out_path)
+        .unwrap_or_else(|e| panic!("write_timestamp_file failed to create file {out_path:?}: {e:?}"));
     let local_now = chrono::Local::now();
-    let now_s = local_now.format("%Y-%m-%dT%H:%M:%S");
+    let now_s: String = local_now.format("%Y-%m-%dT%H:%M:%S").to_string();
     write!(fhandle, r#""{now_s}""#).ok();
+    info!("Wrote timestamp {now_s:?} to file {out_path:?}");
 }
 
 fn write_rustc_version_file() {
@@ -128,11 +162,11 @@ fn write_rustc_version_file() {
     let mut out_path = PathBuf::new();
     out_path.push(outdir);
     out_path.push(PATH_FILE_RUSTC_VERSION);
-    let mut fhandle = fs::File::create(&out_path).unwrap_or_else(
-      |e| panic!("write_rustc_version_file failed to create file {out_path:?}: {e:?}")
-    );
+    let mut fhandle = fs::File::create(&out_path)
+        .unwrap_or_else(|e| panic!("write_rustc_version_file failed to create file {out_path:?}: {e:?}"));
     let rustc_version_str: String = rustc_version_runtime::version().to_string();
     write!(fhandle, r#""{rustc_version_str}""#).ok();
+    info!("Wrote rustc version {rustc_version_str:?} to file {out_path:?}");
 }
 
 fn write_git_commit_file() {
@@ -140,30 +174,38 @@ fn write_git_commit_file() {
     let mut out_path = PathBuf::new();
     out_path.push(outdir);
     out_path.push(PATH_FILE_GIT_COMMIT);
-    let mut fhandle = fs::File::create(&out_path).unwrap_or_else(
-      |e| panic!("write_git_commit_file failed to create file {out_path:?}: {e:?}")
-    );
+    let mut fhandle = fs::File::create(&out_path)
+        .unwrap_or_else(|e| panic!("write_git_commit_file failed to create file {out_path:?}: {e:?}"));
     let not_available: String = "Not Available".to_string();
 
     // Save the full commit hash when available, otherwise a sentinel value.
-    let git_commit_str: String = match Command::new("git").args(["rev-parse", "HEAD"]).output() {
-        Ok(output) if output.status.success() => {
-            String::from_utf8_lossy(&output.stdout)
-              .trim()
-              .to_string()
-        }
+    let git_commit_str: String = match Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .output()
+    {
+        Ok(output) if output.status.success() => String::from_utf8_lossy(&output.stdout)
+            .trim()
+            .to_string(),
         _ => not_available.clone(),
     };
 
     if git_commit_str.is_empty() {
         write!(fhandle, r#""{not_available}""#).ok();
+        info!("Git commit hash not available; wrote sentinel value to file {out_path:?}");
     } else {
         write!(fhandle, r#""{git_commit_str}""#).ok();
+        info!("Wrote git commit hash {git_commit_str:?} to file {out_path:?}");
     }
 }
 
 fn main() {
-    dotenvy::dotenv().ok();
+    info!("main() build.rs for super_speedy_syslog_searcher");
+    match dotenvy::dotenv() {
+        Ok(path) => {
+            info!("dotenv loaded environment variables from .env file {path:?}");
+        }
+        Err(_) => {}
+    }
     write_timestamp_file();
     write_rustc_version_file();
     write_git_commit_file();
