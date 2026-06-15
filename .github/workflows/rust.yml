@@ -491,6 +491,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          export S4_BUILD_REGEX_PRINT=1
           cargo nextest --version
           export NEXTEST_TEST_THREADS=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
@@ -521,6 +522,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          export S4_BUILD_REGEX_PRINT=1
           cargo nextest --version
           export NEXTEST_TEST_THREADS=1
           cargo nextest run --locked --bins --lib --no-fail-fast --final-status-level=fail
@@ -551,6 +553,7 @@ jobs:
         shell: powershell
         run: |
           Set-PSDebug -Trace 1
+          ${env:S4_BUILD_REGEX_PRINT}="1"
           # XXX: do not use nextest as it is buggy on Windows
           #      see Issue #218
           cargo.exe test --locked --bins --lib --no-fail-fast
