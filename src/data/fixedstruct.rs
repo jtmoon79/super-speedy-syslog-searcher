@@ -4619,7 +4619,7 @@ macro_rules! set_buffer_at_or_err_ut_type {
                 set_buffer_at_or_err_str!($buffer, $at, UT_TYPE_VAL_TO_STR[*n as usize]);
             }
             n_ => {
-                let num = n_.numtoa(10, &mut buffer_num);
+                let num: &[u8] = n_.numtoa(10, &mut buffer_num);
                 set_buffer_at_or_err_u8_array!($buffer, $at, num);
             },
         }
@@ -4657,7 +4657,7 @@ macro_rules! set_buffer_at_or_err_number {
         let mut buffer_num = [0u8; 22];
         // XXX: copy to local variable to avoid packed warning
         let num_val = $number;
-        let num = num_val.numtoa(10, &mut buffer_num);
+        let num: &[u8] = num_val.numtoa(10, &mut buffer_num);
         set_buffer_at_or_err_u8_array!($buffer, $at, num);
     }})
 }

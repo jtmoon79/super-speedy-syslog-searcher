@@ -181,6 +181,7 @@ use ::more_asserts::{
 //           <https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/100>
 #[cfg(not(target_os = "windows"))]
 pub use ::nix::errno::Errno;
+use ::numtoa::NumToA; // adds `.numtoa()` method to integers
 #[allow(unused_imports)]
 use ::si_trace_print::{
     de,
@@ -2211,10 +2212,12 @@ impl<'a> JournalReader {
 
         // line 2 `__REALTIME_TIMESTAMP`
 
+        let mut buffer_numtoa = [0u8; 20];
+
         buffer.push_str(KEY__REALTIME_TIMESTAMP);
         buffer.push(FIELD_MID_U8);
-        // TODO: cost-savings: use crate `numtoa` to convert number to readable bytes
-        buffer.push_str(realtime_timestamp.to_string());
+        let buf_: &[u8] = realtime_timestamp.numtoa(10, &mut buffer_numtoa);
+        buffer.push_str(buf_);
         buffer.push(FIELD_END_U8);
 
         // line 3 `__MONOTONIC_TIMESTAMP`
@@ -2223,8 +2226,8 @@ impl<'a> JournalReader {
             Some(m) => {
                 buffer.push_str(KEY__MONOTONIC_TIMESTAMP_BYTES);
                 buffer.push(FIELD_MID_U8);
-                // TODO: cost-savings: use crate `numtoa` to convert number to readable bytes
-                buffer.push_str(&m.to_string());
+                let buf_: &[u8] = m.numtoa(10, &mut buffer_numtoa);
+                buffer.push_str(buf_);
                 buffer.push(FIELD_END_U8);
             }
             None => {

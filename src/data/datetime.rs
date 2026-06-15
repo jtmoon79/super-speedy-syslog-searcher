@@ -1471,7 +1471,7 @@ pub(crate) fn captures_to_buffer_bytes(
             };
             let uptime_zero_plus_uptime_n = uptime_zero_plus_uptime_dur.as_secs();
             defo!("uptime_zero_plus_uptime_n {:?}", uptime_zero_plus_uptime_n);
-            let buf_uptime_plus = uptime_zero_plus_uptime_n.numtoa(10, &mut buf_uptime);
+            let buf_uptime_plus: &[u8] = uptime_zero_plus_uptime_n.numtoa(10, &mut buf_uptime);
             defo!("buf_uptime_plus {:?}", buffer_to_string_noraw(buf_uptime_plus));
             // copy the local temporary buffer to the main buffer
             copy_slice_to_buffer!(&buf_uptime_plus, buffer, at);
