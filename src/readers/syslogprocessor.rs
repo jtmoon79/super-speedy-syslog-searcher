@@ -318,7 +318,7 @@ impl SyslogProcessor {
     /// stop processing the file. It's extremely unlikely this is a syslog
     /// file and more likely it's some sort of binary data file.
     pub const BLOCKZERO_ANALYSIS_BYTES_NULL_MAX: usize = 128;
-    /// Same as [`BLOCKZERO_ANALYSIS_BYTES_NULL_MAX`] but for 0xFF bytes.
+    /// Same as [`SyslogProcessor::BLOCKZERO_ANALYSIS_BYTES_NULL_MAX`] but for 0xFF bytes.
     pub const BLOCKZERO_ANALYSIS_BYTES_FF_MAX: usize = Self::BLOCKZERO_ANALYSIS_BYTES_NULL_MAX;
 
     /// Allow "streaming stage" to drop data?

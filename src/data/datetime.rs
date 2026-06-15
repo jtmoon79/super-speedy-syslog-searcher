@@ -22,9 +22,9 @@
 //! 1. [`bytes_to_regex_to_datetime`] which calls private function:
 //! 2. [`captures_to_buffer_bytes`]
 //!
-//! The most relevant constant is [`test_DATETIME_PARSE_DATAS_test_cases`].
+//! Uses regular expressions defined in [`DATETIME_PARSE_DATAS`].
 //!
-//! [`test_DATETIME_PARSE_DATAS_test_cases`]: self::test_DATETIME_PARSE_DATAS_test_cases
+//! [`DATETIME_PARSE_DATAS`]: crate::data::datetime::DATETIME_PARSE_DATAS
 //! [`Line`]: crate::data::line::Line
 //! [`Sysline`]: crate::data::sysline::Sysline
 //! [`DateTime`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html
@@ -796,7 +796,7 @@ pub static MAP_TZZ_TO_TZz: PhfMap<&'static str, &'static str> = phf_map! {
         "z" => "+00:00",
 };
 
-/// Index into the global [`test_DATETIME_PARSE_DATAS_test_cases`]
+/// Index into the global [`DATETIME_PARSE_DATAS`]
 pub type DateTimeParseInstrsIndex = usize;
 
 pub const DateTimeParseDatasCompiledCount: usize = 0;
@@ -2024,9 +2024,9 @@ impl Result_Filter_DateTime2 {
 
 /// Compare passed [`DateTimeL`] `dt` to the passed filter `dt_filter`.
 ///
-/// If `dt` is at or after `dt_filter` then return [`OccursAtOrAfter`]<br/>
-/// If `dt` is before `dt_filter` then return [`OccursBefore`]<br/>
-/// Else return [`Pass`] (including if `dt_filter` is `None`)
+/// If `dt` is at or after `dt_filter` then return [`Result_Filter_DateTime1::OccursAtOrAfter`]<br/>
+/// If `dt` is before `dt_filter` then return [`Result_Filter_DateTime1::OccursBefore`]<br/>
+/// Else return [`Result_Filter_DateTime1::Pass`] (including if `dt_filter` is `None`)
 pub fn dt_after_or_before(
     dt: &DateTimeL,
     dt_filter: &DateTimeLOpt,

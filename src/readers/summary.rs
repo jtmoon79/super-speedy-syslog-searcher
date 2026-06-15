@@ -128,8 +128,8 @@ pub struct Summary {
     /// When `logmessagetype` is [`LogMessageType::FixedStruct*`] then this must
     /// be [`SummaryReaderData::FixedStruct`].
     ///
-    /// When `logmessagetype` is [`LogMessageType::Etl`] then this must be
-    /// [`SummaryReaderData::Etl`].
+    /// When `logmessagetype` is [`LogMessageType::PyEvent`] then this must be
+    /// [`SummaryReaderData::PyEvent`].
     ///
     /// When `logmessagetype` is [`LogMessageType::Evtx`] then this must be
     /// [`SummaryReaderData::Etvx`].

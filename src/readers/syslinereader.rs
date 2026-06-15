@@ -125,14 +125,12 @@ use crate::readers::linereader::{
 
 /// `Count` of datetime format strings used.
 ///
-/// Key is index into global [`DATETIME_PARSE_DATAS`]
-/// (and [`DATETIME_PARSE_DATAS_REGEX_VEC`]).
+/// Key is index into global [`DATETIME_PARSE_DATAS`].
 ///
 /// Value is `Count` of use of those "pattern rules" to find datetimes in a
 /// `Line`.
 ///
 /// [`DATETIME_PARSE_DATAS`]: crate::data::datetime::DATETIME_PARSE_DATAS
-/// [`DATETIME_PARSE_DATAS_REGEX_VEC`]: static@crate::data::datetime::DATETIME_PARSE_DATAS_REGEX_VEC
 pub type DateTimePatternCounts = BTreeMap<DateTimeParseInstrsIndex, Count>;
 
 /// Collection of `DateTimeParseInstrsIndex`.
@@ -1174,7 +1172,7 @@ impl SyslineReader {
 
     /// `Count` of [`Line`]s currently stored in the underlying [`LineReader`].
     ///
-    /// [`Line`]: crate::readers::linereader::Line
+    /// [`Line`]: crate::data::line::Line
     /// [`LineReader`]: crate::readers::linereader::LineReader
     #[inline(always)]
     pub fn count_lines_stored(&self) -> Count {
