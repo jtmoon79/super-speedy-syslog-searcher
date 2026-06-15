@@ -296,19 +296,21 @@ use ::s4lib::readers::syslogprocessor::{
 #[cfg(feature = "alloc_tracker")]
 use crate::alloc_tracker;
 
+// build.rs generated data
+
 /// File with the build time.
-/// Created by `build.rs`.
-/// Path must match that in `build.rs`.
+/// Created by `build.rs`. Path must match that in `build.rs`.
 /// ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
 const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/", "timestamp.txt"));
 /// File with the Rust compiler version.
-/// Created by `build.rs`.
-/// Path must match that in `build.rs`.
+/// Created by `build.rs`. Path must match that in `build.rs`.
 const RUSTC_VERSION: &str = include!(concat!(env!("OUT_DIR"), "/", "rustc_version.txt"));
-/// File with the git commit hash at build-time.
-/// Created by `build.rs`.
-/// Path must match that in `build.rs`.
+/// File with the git commit hash.
+/// Created by `build.rs`. Path must match that in `build.rs`.
 const GIT_COMMIT: &str = include!(concat!(env!("OUT_DIR"), "/", "git_commit.txt"));
+/// File with comma-separated line of enabled features.
+/// Created by `build.rs`. Path must match that in `build.rs`.
+const LIST_FEATURES: &str = include!(concat!(env!("OUT_DIR"), "/", "list_features.txt"));
 
 // --------------------
 // command-line parsing
@@ -2515,6 +2517,7 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         env!("CARGO_PKG_VERSION_PATCH"), "\n",
         "MSRV: ", env!("CARGO_PKG_RUST_VERSION"), "\n",
         "Allocator: ", CLI_HELP_AFTER_ALLOCATOR , "\n",
+        "Features: ", LIST_FEATURES, "\n",
         "Platform: ", CURRENT_PLATFORM, "\n",
         "Target OS: ", std::env::consts::OS, "\n",
         "Target OS Family: ", std::env::consts::FAMILY, "\n",

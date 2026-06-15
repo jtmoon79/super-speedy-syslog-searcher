@@ -2,12 +2,16 @@
 
 use std::env;
 use std::fs;
+use std::fs::File;
+use std::io::BufReader;
+use std::io::BufRead;
 use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
 
 use ::chrono;
 use ::dotenvy;
+use ::list_features;
 
 // XXX: duplicates `subprojects/ere/ere_datetimes_impl/build.rs`
 //      which is very unfortunate.
@@ -40,7 +44,7 @@ fn info_enabled() -> bool {
 macro_rules! info {
     ($($arg:tt)*) => {
         if info_enabled() {
-            ::build_print::custom_println!("./build.rs:", green, $($arg)*);
+            ::build_print::custom_println!("./build.rs:", cyan, $($arg)*);
         }
     };
 }
@@ -49,7 +53,7 @@ macro_rules! build_println {
     ($($arg:tt)*) => {
         println!($($arg)*);
         if info_enabled() {
-            ::build_print::custom_println!("./build.rs:", cyan, $($arg)*);
+            ::build_print::custom_println!("./build.rs:", green, $($arg)*);
         }
     };
 }
@@ -142,12 +146,18 @@ fn parse_regex_values() {
     }
 }
 
-/// ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
-fn write_timestamp_file() {
+fn out_path() -> PathBuf {
     // used passed `outdir`, fallback to env var `OUT_DIR`, fallback to current directory
     let outdir: String = env::var("OUT_DIR").unwrap_or_else(|_| ".".to_string());
-    let mut out_path = PathBuf::new();
-    out_path.push(outdir);
+    let mut out_path_ = PathBuf::new();
+    out_path_.push(outdir);
+
+    out_path_
+}
+
+/// ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
+fn write_timestamp_file() {
+    let mut out_path = out_path();
     out_path.push(PATH_FILE_TIMESTAMP);
     let mut fhandle = fs::File::create(&out_path)
         .unwrap_or_else(|e| panic!("write_timestamp_file failed to create file {out_path:?}: {e:?}"));
@@ -158,9 +168,7 @@ fn write_timestamp_file() {
 }
 
 fn write_rustc_version_file() {
-    let outdir: String = env::var("OUT_DIR").unwrap_or_else(|_| ".".to_string());
-    let mut out_path = PathBuf::new();
-    out_path.push(outdir);
+    let mut out_path = out_path();
     out_path.push(PATH_FILE_RUSTC_VERSION);
     let mut fhandle = fs::File::create(&out_path)
         .unwrap_or_else(|e| panic!("write_rustc_version_file failed to create file {out_path:?}: {e:?}"));
@@ -170,9 +178,7 @@ fn write_rustc_version_file() {
 }
 
 fn write_git_commit_file() {
-    let outdir: String = env::var("OUT_DIR").unwrap_or_else(|_| ".".to_string());
-    let mut out_path = PathBuf::new();
-    out_path.push(outdir);
+    let mut out_path = out_path();
     out_path.push(PATH_FILE_GIT_COMMIT);
     let mut fhandle = fs::File::create(&out_path)
         .unwrap_or_else(|e| panic!("write_git_commit_file failed to create file {out_path:?}: {e:?}"));
@@ -198,16 +204,65 @@ fn write_git_commit_file() {
     }
 }
 
-fn main() {
-    info!("main() build.rs for super_speedy_syslog_searcher");
+fn write_features_file() {
+    let list_features_rs = out_path().join("list_features.rs");
+    let features: String = list_features::list_enabled_as_string("LIST_FEATURES");
+    std::fs::write(&list_features_rs, features).unwrap();
+    // writes a Rust file that looks like:
+    //      pub const LIST_FEATURES: &[&str] = &[
+    //          "alloc_tracker",
+    //      ];
+
+    // scrape that Rust file so it can be included as a `const &str` in `s4.rs`
+    let file = File::open(&list_features_rs).unwrap();
+    let reader = BufReader::new(file);
+    let values: Vec<String> = reader.lines().map(|line| line.unwrap()).collect();
+    let mut features_str = String::from("\"");
+    for line in values[1..values.len() - 1].iter() {
+        let line = line.trim().trim_matches(',').trim_matches('"').to_string();
+        if !line.is_empty() {
+            features_str.push_str(&line);
+            features_str.push_str(", ");
+        }
+    }
+    while features_str.ends_with(',') || features_str.ends_with(' ') {
+        features_str.pop();
+    }
+    features_str.push('"');
+
+    // write the scraped values to a text file
+    let list_features_txt = out_path().join("list_features.txt");
+    std::fs::write(&list_features_txt, &features_str).unwrap();
+    info!("Wrote enabled features {features_str} to file {list_features_txt:?}");
+}
+
+fn dotenv_load() {
     match dotenvy::dotenv() {
         Ok(path) => {
-            info!("dotenv loaded environment variables from .env file {path:?}");
+            info!("dotenv found .env {path:?}");
+            // print what was loaded
+            for item in dotenvy::dotenv_iter().unwrap() {
+                match item {
+                    Ok((key, val)) => {
+                        info!("dotenv {}={:?}", key, val);
+                    },
+                    Err(e) => {
+                        ::build_print::warn!("dotenv_iter failed to parse .env file item: {:?}", e);
+                        continue;
+                    }
+                };
+            }
         }
         Err(_) => {}
     }
+}
+
+fn main() {
+    info!("main() build.rs for super_speedy_syslog_searcher");
+    dotenv_load();
     write_timestamp_file();
     write_rustc_version_file();
     write_git_commit_file();
+    write_features_file();
     parse_regex_values();
 }

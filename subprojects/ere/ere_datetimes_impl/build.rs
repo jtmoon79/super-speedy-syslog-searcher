@@ -4,7 +4,7 @@
 
 use std::path::PathBuf;
 
-use ::dotenvy::dotenv;
+use ::dotenvy;
 
 // BUG: suffers from false-positive rebuilds (unnecessary rebuilds)
 //      you'll see in the build output:
@@ -35,7 +35,7 @@ fn info_enabled() -> bool {
 macro_rules! info {
     ($($arg:tt)*) => {
         if info_enabled() {
-            ::build_print::custom_println!("./subprojects/ere/ere_datetimes_impl/build.rs:", green, $($arg)*);
+            ::build_print::custom_println!("./subprojects/ere/ere_datetimes_impl/build.rs:", cyan, $($arg)*);
         }
     };
 }
@@ -44,7 +44,7 @@ macro_rules! build_println {
     ($($arg:tt)*) => {
         println!($($arg)*);
         if info_enabled() {
-            ::build_print::custom_println!("./subprojects/ere/ere_datetimes_impl/build.rs:", cyan, $($arg)*);
+            ::build_print::custom_println!("./subprojects/ere/ere_datetimes_impl/build.rs:", green, $($arg)*);
         }
     };
 }
@@ -150,13 +150,29 @@ fn parse_regex_values() {
     }
 }
 
-fn main() {
-    info!("main() build.rs for ere_datetimes_impl");
-    match dotenv() {
+fn dotenv_load() {
+    match dotenvy::dotenv() {
         Ok(path) => {
-            info!("dotenv loaded environment variables from .env file {path:?}");
+            info!("dotenv found .env {path:?}");
+            // print what was loaded
+            for item in dotenvy::dotenv_iter().unwrap() {
+                match item {
+                    Ok((key, val)) => {
+                        info!("dotenv {}={:?}", key, val);
+                    },
+                    Err(e) => {
+                        ::build_print::warn!("dotenv_iter failed to parse .env file item: {:?}", e);
+                        continue;
+                    }
+                };
+            }
         }
         Err(_) => {}
     }
+}
+
+fn main() {
+    info!("main() build.rs for ere_datetimes_impl");
+    dotenv_load();
     parse_regex_values();
 }
