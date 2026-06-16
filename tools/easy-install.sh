@@ -18,7 +18,7 @@ set -eu
 
 readonly SCRIPT_NAME='easy-install.sh'
 
-VER=${VER-0.9.81}  # PROJECT VERSION LAST PUBLISHED
+VER=${VER-0.9.82}  # PROJECT VERSION LAST PUBLISHED
 readonly VER
 
 # optional override of target triple last ABI field

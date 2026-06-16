@@ -118,7 +118,7 @@ if ([string]::IsNullOrWhiteSpace($Version)) {
         $Version = $env:VER
     }
     else {
-        $Version = '0.9.81' # PROJECT VERSION LAST PUBLISHED
+        $Version = '0.9.82' # PROJECT VERSION LAST PUBLISHED
     }
 }
 
