@@ -132,7 +132,7 @@ pathsearch = "=0.2.0"
 phf = { version = "=0.13.1", features = ["macros"] }
 rand = { version = "=0.9.3", features = ["thread_rng"] }
 rangemap = "=1.7.1"
-regex = { version = "=1.12.3", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
+regex = { version = "=1.12.4", default-features = false, features = ["perf", "std", "unicode-case", "unicode-perl"] }
 shell-escape = "=0.1.5"
 si_trace_print.workspace = true
 stringzilla = { version = "=3.12.6", optional = true }
