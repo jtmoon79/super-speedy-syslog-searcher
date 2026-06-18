@@ -38,8 +38,18 @@ pub const PATH_FILE_GIT_COMMIT: &str = "git_commit.txt";
 // TODO: rebuild if `src/python/s4_event_readers` changes
 //       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
 
+fn is_env_var_truthy(env_var: &str) -> bool {
+    match std::env::var(env_var) {
+        Ok(val) => {
+            let val_lower = val.to_lowercase();
+            val_lower == "1" || val_lower == "true" || val_lower == "yes" || val_lower == "on"
+        }
+        Err(_) => false,
+    }
+}
+
 fn info_enabled() -> bool {
-    std::env::var(ENV_BUILD_EPRINT).is_ok_and(|x| !x.is_empty())
+    is_env_var_truthy(ENV_BUILD_EPRINT)
 }
 
 /// `info` if `info_enabled()` is true

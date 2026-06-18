@@ -27,8 +27,18 @@ const CONFIG_REGEX: &str = "regex";
 /// This must match `datetime.rs` value `DATETIME_PARSE_DATAS_LEN_MAX`
 pub const DATETIME_PARSE_DATAS_LEN: usize = 181;
 
+fn is_env_var_truthy(env_var: &str) -> bool {
+    match std::env::var(env_var) {
+        Ok(val) => {
+            let val_lower = val.to_lowercase();
+            val_lower == "1" || val_lower == "true" || val_lower == "yes" || val_lower == "on"
+        }
+        Err(_) => false,
+    }
+}
+
 fn info_enabled() -> bool {
-    std::env::var(ENV_BUILD_EPRINT).is_ok_and(|x| !x.is_empty())
+    is_env_var_truthy(ENV_BUILD_EPRINT)
 }
 
 /// `info` if `info_enabled()` is true
