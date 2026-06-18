@@ -4971,6 +4971,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // TODO: add equivalent with leading "time" field.
+
     // ---------------------------------------------------------------------------------------------
     //
     // Chrome cv_debug.log format
@@ -5267,10 +5269,6 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    //
-    // TODO: consider pattern
-    //         "09/12/2022 @ 7:05am"
-    //
     #[cfg(any(regex = "140", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
         140,
@@ -6129,6 +6127,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    //
+    // TODO: consider pattern `09/12/2022 @ 7:05am`
+    //
 ];
 /// proc-macro generated count of compiled regex.
 /// May be less than the number of possible entries in `DATETIME_PARSE_DATAS`.
