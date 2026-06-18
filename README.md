@@ -213,13 +213,7 @@ cargo install --locked super_speedy_syslog_searcher
 
 A C compiler is required.
 
-_Note that building takes around 20 minutes on a good AMD Desktop CPU from year 2022._
-_Low power CPUs or embedded SoCs may fail to build the project._
-
-_You can view the regular expression building progress_
-_by setting environment variable `S4_BUILD_REGEX_PRINT=1`._
-_You can view the optimization phase within `htop`;_
-_enable __Show custom thread names__, and set a filter for `rust`_.
+See further options in section [_Building locally_](#building-locally).
 
 #### create the Python virtual environment
 
@@ -1127,9 +1121,36 @@ See further performance measurements in the [`releases`] directory.
 
 ### Building locally
 
-See section [_Install `super_speedy_syslog_searcher`_].
+This project takes tens of minutes to build due to the compile-time regular expressions defined in `subprojects/ere/ere_datetimes_impl/src/ere_datetimes_impl.rs`. It uses a large amount of CPU and RAM during the build.
+_Low power CPUs or embedded SoCs may fail to build the project._
 
-[_Install `super_speedy_syslog_searcher`_]: #install-super_speedy_syslog_searcher
+See section [_manual build_].
+
+Environment variables affecting builds:
+
+- `S4_BUILD_REGEX` for building selected regular expressions
+  - `S4_BUILD_REGEX=1` builds regular expression with ID `1`
+  - `S4_BUILD_REGEX=3,7-21` builds regular expressions with IDs `3`, `7` through `21` inclusive
+  - `S4_BUILD_REGEX=ALL` builds all regular expressions
+  - If `S4_BUILD_REGEX` is not set then all regular expressions are built. Unless
+    - files `./S4_BUILD_REGEX` and `./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX` exist, in which case those files are read for the regular expression IDs to build.
+    e.g.
+
+    ```shell
+    echo '5-7' | tee ./subprojects/ere/ere_datetimes_impl/S4_BUILD_REGEX S4_BUILD_REGEX
+    ```
+
+- `S4_BUILD_REGEX_PRINT=1` for progress building regular expressions.
+- `S4_BUILD_PRINT=1` for other informative messages from various `build.rs` code.
+
+Search code for `DATETIME_PARSE_DATAS_LEN_MAX` for the last possible regular expression ID.
+
+You can view the optimization phases with `htop`:
+
+1. enable _Show custom thread names_
+2. set a filter `rustc|cargo`
+
+[_manual build_]: #manual-build
 
 ### Parsing `.journal` files
 
