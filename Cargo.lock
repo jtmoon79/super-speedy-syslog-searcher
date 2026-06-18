@@ -5043,7 +5043,7 @@ dependencies = [
 
 [[package]]
 name = "super-speedy-syslog-searcher_ere_datetimes_impl"
-version = "0.10.0"
+version = "0.10.1"
 dependencies = [
  "bitvec",
  "build-print",
