@@ -30,6 +30,8 @@ const CONFIG_REGEX: &str = "regex";
 pub const DATETIME_PARSE_DATAS_LEN: usize = 181;
 
 pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
+/// set this env. var. to override the timestamp value; allows for idempotent builds
+pub const ENV_BUILD_TIMESTAMP: &str = "S4_BUILD_TIMESTAMP";
 pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
 pub const PATH_FILE_GIT_COMMIT: &str = "git_commit.txt";
 
@@ -161,6 +163,14 @@ fn write_timestamp_file() {
     out_path.push(PATH_FILE_TIMESTAMP);
     let mut fhandle = fs::File::create(&out_path)
         .unwrap_or_else(|e| panic!("write_timestamp_file failed to create file {out_path:?}: {e:?}"));
+    match std::env::var(ENV_BUILD_TIMESTAMP) {
+        Ok(val) => {
+            info!("Environment variable {ENV_BUILD_TIMESTAMP}={val:?}; write to file {out_path:?}");
+            write!(fhandle, "{val:?}").ok();
+            return;
+        }
+        Err(_) => {}
+    }
     let local_now = chrono::Local::now();
     let now_s: String = local_now.format("%Y-%m-%dT%H:%M:%S").to_string();
     write!(fhandle, r#""{now_s}""#).ok();

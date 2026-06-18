@@ -1142,6 +1142,8 @@ Environment variables affecting builds:
 
 - `S4_BUILD_REGEX_PRINT=1` for progress building regular expressions.
 - `S4_BUILD_PRINT=1` for other informative messages from various `build.rs` code.
+- `S4_BUILD_TIMESTAMP` can be set to any string to override the build-time datetime.
+  Allows for idempotent builds.
 
 Search code for `DATETIME_PARSE_DATAS_LEN_MAX` for the last possible regular expression ID.
 
