@@ -38,7 +38,7 @@ use crate::data::datetime::{
     DateTimePattern_str,
     FixedOffset,
     SystemTime,
-    REGEX_ALL,
+    REGEX_ALL_COMPILED,
     regex_id_compiled,
 };
 use crate::data::sysline::SyslineP;
@@ -913,7 +913,7 @@ fn test_process_stages_0to5(
     fprbz_expect: FileProcessingResultBlockZero,
     syslines_expect: &[&str],
 ) {
-    if ! regex_id_compiled(regex_id) {
+    if !regex_id_compiled(regex_id) {
         eprintln!("Regex #{} not compiled; skip test", regex_id);
         return;
     }
@@ -1052,7 +1052,7 @@ fn test_process_stage0to3_drop_data(
     blocksz: BlockSz,
     fprbz_expect: FileProcessingResultBlockZero,
 ) {
-    if ! regex_id_compiled(regex_id) {
+    if !regex_id_compiled(regex_id) {
         eprintln!("Regex #{} not compiled; skip test", regex_id);
         return;
     }
@@ -1228,7 +1228,7 @@ fn test_Reader_summary(
     expect_summarysyslinereader: SummarySyslineReader,
     expect_summarysyslogprocessor: SummarySyslogProcessor,
 ) {
-    if !REGEX_ALL {
+    if !REGEX_ALL_COMPILED {
         eprintln!("not all regex compiled; skip");
         return;
     }

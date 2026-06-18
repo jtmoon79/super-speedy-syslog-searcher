@@ -60,7 +60,7 @@ use crate::data::datetime::{
     DATETIME_PARSE_DATAS,
     DATETIME_PARSE_DATAS_LEN,
     O_L,
-    REGEX_ALL,
+    REGEX_ALL_COMPILED,
     regex_id_compiled,
 };
 use crate::data::line::{
@@ -6594,7 +6594,7 @@ fn test_syslinereadersummary(
     syslinereader_ezcheck12d2_miss: Count,
     syslinereader_ezcheck12d2_hit_max: LineIndex,
 ) {
-    if !REGEX_ALL {
+    if !REGEX_ALL_COMPILED {
         eprintln!("Not all Regex compiled; skip this test");
         return;
     }

@@ -40,7 +40,7 @@ pub use ::ere::regex;
 pub use ::ere_automator_procmacro::new_ere_regex;
 
 /// Are all regular expressions built?
-pub const REGEX_ALL: bool = {
+pub const REGEX_ALL_COMPILED: bool = {
     if cfg!(regex = "ALL") {
         true
     } else {

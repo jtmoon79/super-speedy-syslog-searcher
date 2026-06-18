@@ -104,7 +104,7 @@ pub use ::ere_datetimes_impl::{
     MatchType,
     MatchesType,
     fos,
-    REGEX_ALL,
+    REGEX_ALL_COMPILED,
     RegexPattern,
     DTFSSet,
     DTFS_Year,
