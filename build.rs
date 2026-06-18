@@ -25,6 +25,7 @@ const ENV_BUILD_EPRINT: &str = "S4_BUILD_PRINT";
 const ENV_BUILD_REGEX: &str = "S4_BUILD_REGEX";
 const ENV_BUILD_REGEX_NO_REBUILD: &str = "S4_BUILD_REGEX_NO_REBUILD";
 const REGEX_ALL: &str = "ALL";
+const REGEX_TEST: &str = "TEST";
 const CONFIG_REGEX: &str = "regex";
 /// This must match `datetime.rs` value `DATETIME_PARSE_DATAS_LEN_MAX`
 pub const DATETIME_PARSE_DATAS_LEN: usize = 181;
@@ -111,7 +112,10 @@ fn parse_regex_values() {
     }
 
     let mut regex_values: Vec<String> = Vec::new();
-    if !build_regex_val.is_empty() {
+    if build_regex_val == REGEX_TEST {
+        build_println!("cargo::rustc-cfg={CONFIG_REGEX}=\"{REGEX_TEST}\"");
+        regex_values.push(REGEX_TEST.to_string());
+    } else if !build_regex_val.is_empty() {
         for val in build_regex_val.split(',') {
             if val.contains('-') {
                 // range

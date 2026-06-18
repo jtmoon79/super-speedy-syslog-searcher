@@ -2207,7 +2207,7 @@ pub const DP_KEY: &str = "ERE_REGEXES";
 //       consider a two-value enum `DateTimeParseInstrTest` with variants
 //       `Valid` and `Invalid`
 pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] = [
-    #[cfg(any(regex = "1", regex = "ALL"))]
+    #[cfg(any(regex = "1", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         1,
         counter!(DP_KEY),
@@ -2309,7 +2309,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // line
     //     strftime(extbuff, sizeof(extbuff), "%d-%b-%y %X", ttm);
     //
-    #[cfg(any(regex = "6", regex = "ALL"))]
+    #[cfg(any(regex = "6", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         6,
         counter!(DP_KEY),
@@ -2374,7 +2374,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "9", regex = "ALL"))]
+    #[cfg(any(regex = "9", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         9,
         counter!(DP_KEY),
@@ -2944,7 +2944,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "31", regex = "ALL"))]
+    #[cfg(any(regex = "31", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         31,
         counter!(DP_KEY),
@@ -2995,7 +2995,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     September  3 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119
     //     September 3 13:47:07 server1 kern.warn kernel: [57377.167342] DROP IN=eth0 OUT= MAC=ff:ff:ff:ff:ff:ff:01:cc:d0:a8:c8:32:08:00 SRC=68.161.226.20 DST=255.255.255.255 LEN=139 TOS=0x00 PREC=0x20 TTL=64 ID=0 DF PROTO=UDP SPT=33488 DPT=10002 LEN=119
     //
-    #[cfg(any(regex = "33", regex = "ALL"))]
+    #[cfg(any(regex = "33", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         33,
         counter!(DP_KEY),
@@ -4083,7 +4083,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     //
-    #[cfg(any(regex = "79", regex = "ALL"))]
+    #[cfg(any(regex = "79", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         79,
         counter!(DP_KEY),
@@ -5231,7 +5231,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "138", regex = "ALL"))]
+    #[cfg(any(regex = "138", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         138,
         counter!(DP_KEY),
@@ -5269,7 +5269,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "140", regex = "ALL"))]
+    #[cfg(any(regex = "140", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         140,
         counter!(DP_KEY),
