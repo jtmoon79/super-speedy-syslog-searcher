@@ -28,7 +28,7 @@ const REGEX_ALL: &str = "ALL";
 const REGEX_TEST: &str = "TEST";
 const CONFIG_REGEX: &str = "regex";
 /// This must match `datetime.rs` value `DATETIME_PARSE_DATAS_LEN_MAX`
-pub const DATETIME_PARSE_DATAS_LEN: usize = 181;
+pub const DATETIME_PARSE_DATAS_LEN: usize = 184;
 
 pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
 /// set this env. var. to override the timestamp value; allows for idempotent builds

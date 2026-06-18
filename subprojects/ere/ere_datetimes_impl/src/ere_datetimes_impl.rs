@@ -1088,6 +1088,20 @@ pub const DTFSS_mdHMS: DTFSSet = DTFSSet {
     uptime: DTFS_Uptime::_none,
     pattern: DTP_YmdHMSzc,
 };
+pub const DTFSS_mdHMSf: DTFSSet = DTFSSet {
+    year: DTFS_Year::_fill,
+    month: DTFS_Month::m,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::f,
+    tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
+    pattern: DTP_YmdHMSfzc,
+};
+
 pub const DTFSS_BdHMS: DTFSSet = DTFSSet {
     year: DTFS_Year::_fill,
     month: DTFS_Month::B,
@@ -1312,6 +1326,19 @@ pub const DTFSS_ybdHMS: DTFSSet = DTFSSet {
     uptime: DTFS_Uptime::_none,
     pattern: DTP_bdHMSyZc,
 };
+pub const DTFSS_ymdHMS: DTFSSet = DTFSSet {
+    year: DTFS_Year::y,
+    month: DTFS_Month::m,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::H,
+    minute: DTFS_Minute::M,
+    second: DTFS_Second::S,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
+    pattern: DTP_bdHMSyZc,
+};
 
 pub const DTFSS_YmdHM: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
@@ -1407,6 +1434,7 @@ pub const DTFSS_ALL: &[(&DTFSSet, &str)] = &[
     (&DTFSS_BdHMSYzp, stringify!(DTFSS_BdHMSYzp)),
     (&DTFSS_BdHMSZ, stringify!(DTFSS_BdHMSZ)),
     (&DTFSS_mdHMS, stringify!(DTFSS_mdHMS)),
+    (&DTFSS_mdHMSf, stringify!(DTFSS_mdHMSf)),
     (&DTFSS_ms, stringify!(DTFSS_ms)),
     (&DTFSS_s, stringify!(DTFSS_s)),
     (&DTFSS_sf, stringify!(DTFSS_sf)),
@@ -1418,6 +1446,7 @@ pub const DTFSS_ALL: &[(&DTFSSet, &str)] = &[
     (&DTFSS_YbdHMSzc, stringify!(DTFSS_YbdHMSzc)),
     (&DTFSS_YbdHMSzp, stringify!(DTFSS_YbdHMSzp)),
     (&DTFSS_YmdHM, stringify!(DTFSS_YmdHM)),
+    (&DTFSS_ymdHMS, stringify!(DTFSS_ymdHMS)),
     (&DTFSS_YmdHMS, stringify!(DTFSS_YmdHMS)),
     (&DTFSS_YmdHMSf, stringify!(DTFSS_YmdHMSf)),
     (&DTFSS_YmdHMSfz, stringify!(DTFSS_YmdHMSfz)),
@@ -1522,6 +1551,10 @@ pub const CGP_MONTHBb: &CaptureGroupPattern = r"(?<month>january|January|JANUARY
 /// `captures_to_buffer_bytes` (i.e. `'0'` is prepended if necessary).
 /// single-digit or double-digit
 pub const CGP_DAYde: &CaptureGroupPattern = r"(?<day>[012][[:digit:]]|3[01]| [[:digit:]]|[[:digit:]])";
+/// Regex capture group pattern for `strftime` day specifier `%d`,
+/// number day of month with leading zero, e.g. `"02"` or `"31"`.
+/// double-digit
+pub const CGP_DAYd: &CaptureGroupPattern = r"(?<day>[012][[:digit:]]|3[01])";
 /// Regex capture group pattern for `strftime` day specifier `%a`,
 /// named day of week, either long name or abbreviated three character name,
 /// e.g. `"Mon"`.
@@ -1633,6 +1666,7 @@ pub const CGP_MONTH_ALL: &[&CaptureGroupPattern] = &[
 #[allow(dead_code)]
 pub const CGP_DAY_ALL: &[&CaptureGroupPattern] = &[
     CGP_DAYde,
+    CGP_DAYd,
     CGP_DAYa3,
     CGP_DAYa,
 ];
@@ -1785,10 +1819,15 @@ pub const D_T: &RegexPattern = r"[\:]?";
 pub const D_Te: &RegexPattern = r"[\:\-]?";
 /// [`RegexPattern`] divider _time_ dot colon
 pub const D_Tcd: &RegexPattern = r"[\:\.]";
+/// [`RegexPattern`] divider _time_ dot colon comma
+pub const D_Tcdc: &RegexPattern = r"[\:\.,]";
 /// [`RegexPattern`] divider _day_ to _hour_, `2020/01/01T20:30:00`
 pub const D_DHq: &RegexPattern = "[ T]?";
 /// [`RegexPattern`] divider _day_ to _hour_ with dash, `2020:01:01-20:30:00`.
 pub const D_DHdq: &RegexPattern = r"[ T\-]?";
+/// [`RegexPattern`] divider _day_ to _hour_ with colon or dash,
+/// `2020:01:01-20:30:00`.
+pub const D_DHcd: &RegexPattern = r"[ T\:\-]";
 /// [`RegexPattern`] divider _day_ to _hour_ with colon or dash,
 /// `2020:01:01-20:30:00`.
 pub const D_DHcdq: &RegexPattern = r"[ T\:\-]?";
@@ -1798,6 +1837,9 @@ pub const D_DHcdqu: &RegexPattern = r"[ T_\:\-]?";
 /// [`RegexPattern`] divider _day_ to _hour_ with colon or dash or underline
 /// or slash, `2020:01:01\20:30:00`.
 pub const D_DHcdqus: &RegexPattern = r"[ T\:/\\\-_]?";
+/// [`RegexPattern`] divider _day_ to _hour_ with colon or dash or underline
+/// or slash, `2020:01:01\20:30:00`.
+pub const D_DHcds: &RegexPattern = r"[ T\:/\\\-]";
 /// [`RegexPattern`] divider _fractional_, `2020/01/01T20:30:00,123456`
 // TODO: fix `ere` to handle char grouping ending with `\:` or `\\`
 pub const D_SF: &RegexPattern = r"[\.,]";
@@ -6030,6 +6072,27 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ),
     // ---------------------------------------------------------------------------------------------
     //
+    // Squirrel-Install.log
+    //
+    // [29-08-24 13:17:25] info: Program: Starting Squirrel Updater: --install . --rerunningWithoutUAC
+    // [29-08-24 13:17:25] info: Program: Starting install, writing to C:\Users\user1\AppData\Local\SquirrelTemp
+    //
+    #[cfg(any(regex = "179", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        179,
+        counter!(DP_KEY),
+        concat!(RP_LB, CGP_DAYd, D_D, CGP_MONTHm, D_D, CGP_YEARy, D_DHcd, CGP_HOUR, D_Tcd, CGP_MINUTE, D_Tcd, CGP_SECOND, RP_RB),
+        DfaU8,
+        DTFSS_ymdHMS,
+        0, 40,
+        CGN_DAY, CGN_SECOND,
+        &[
+            (1, 18, (O_L, 2024, 8, 29, 13, 17, 25, 0), b"[29-08-24 13:17:25] info: Program: Starting Squirrel Updater: --install . --rerunningWithoutUAC"),
+        ],
+        line!(),
+    ),
+    // ---------------------------------------------------------------------------------------------
+    //
     // Month/Day/Year formats
     //
     // ---------------------------------------------------------------------------------------------
@@ -6053,9 +6116,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     // worse is it switches formats depending upon the message type. 🙄🙄🙄
     // So the regex here is pretty loose.
     //
-    #[cfg(any(regex = "179", regex = "ALL"))]
+    #[cfg(any(regex = "180", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        179,
+        180,
         counter!(DP_KEY),
         concat!("(^|[[:blank:]])", CGP_YEAR, "-", CGP_MONTHm_sd, "-", CGP_DAYde, r"[\+T]", CGP_HOUR_sd, "-", CGP_MINUTE_sd, "-", CGP_SECOND_sd, D_SF, CGP_FRACTIONAL369, RP_BLANK),
         DfaU8,
@@ -6092,11 +6155,11 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      11/28/2018 19:17:56 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\nst4E80.tmp\, |delete operation|, 0xc0000034
     //      11/28/2018 19:17:56 - 6 Successful PFRO operations
     //
-    #[cfg(any(regex = "180", regex = "ALL"))]
+    #[cfg(any(regex = "181", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        180,
+        181,
         counter!(DP_KEY),
-        concat!("^", CGP_MONTHm, D_D, CGP_DAYde, D_D, CGP_YEAR, r"[ \:\-]", CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_NOALNUMpm),
+        concat!("^", CGP_MONTHm, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHcd, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_NOALNUMpm),
         //DfaU8, // too many steps
         FlatLockstepNfaU8,
         DTFSS_YmdHMS,
@@ -6113,30 +6176,77 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      [02/21/2023 07:07.05.259] WudfCoInstaller: ReadWdfSection: Checking WdfSection [Basic_Install.Wdf]
     //      [02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs.
     //
-    #[cfg(any(regex = "181", regex = "ALL"))]
+    // C:/Users/user1/AppData/Local/Cache/Microsoft/MSTeams/Logs/tma_addin_msi.log
+    //
+    //      INFO   : [04/10/2025 12:45:55:442] [CheckFX                                 ]: Custom Action is starting...
+    //      INFO   : [04/10/2025 12:45:55:442] [CheckFX                                 ]: CoInitializeEx - COM initialization Apartment Threaded...
+    //
+    #[cfg(any(regex = "182", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        181,
+        182,
         counter!(DP_KEY),
-        concat!(RP_LB, CGP_MONTHm, D_D, CGP_DAYde, D_D, CGP_YEAR, r"[ \:\-]", CGP_HOUR, D_Te, CGP_MINUTE, D_Tcd, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_RB),
+        concat!(RP_LB, CGP_MONTHm, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHcd, CGP_HOUR, D_Te, CGP_MINUTE, D_Tcd, CGP_SECOND, D_Tcdc, CGP_FRACTIONAL369, RP_RB),
         DfaU8,
         DTFSS_YmdHMSf,
         0, 80,
         CGN_MONTH, CGN_FRACTIONAL,
         &[
             (1, 24, (O_L, 2023, 2, 21, 7, 7, 5, 262000000), b"[02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs."),
+            (10, 33, (O_L, 2025, 4, 10, 12, 45, 55, 442000000), b"INFO   : [04/10/2025 12:45:55:442] [CheckFX                                 ]: CoInitializeEx - COM initialization Apartment Threaded..."),
         ],
         line!(),
     ),
     //
     // TODO: consider pattern `09/12/2022 @ 7:05am`
     //
+    // C:/Users/user1/AppData/Local/Temp/vivaldi_installer.log
+    //
+    //      [0509/110534.597:ERROR:installer\mini_installer\setup\install_worker.cc:152] Failed creating a firewall rules. Continuing with install.
+    //      [0509/110534.660:VERBOSE1:installer\util\vivaldi_setup_util.cc:445] Initial command line:
+    //
+    #[cfg(any(regex = "183", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        183,
+        counter!(DP_KEY),
+        concat!(RP_NOALNUMb, CGP_MONTHm, D_Deq, CGP_DAYd, D_DHcds, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_NOALNUM),
+        // DfaU8, // exceeded DFA state limit of 162
+        FlatLockstepNfaU8,
+        DTFSS_mdHMSf,
+        0, 60,
+        CGN_MONTH, CGN_FRACTIONAL,
+        &[
+            (1, 16, (O_L, YD, 5, 9, 11, 5, 34, 660000000), br#"[0509/110534.660:VERBOSE1:installer\util\vivaldi_setup_util.cc:445] Initial command line:"#),
+        ],
+        line!(),
+    ),
+    //
+    // CL/Users/user1/AppData/Local/Temp/cv_debug.log
+    //
+    //      {"logTime": "0425/073721", "correlationVector":"63EBBED7FB5845DDB9AF2810D983A3BD","action":"FETCH_UX_CONFIG", "result":""}
+    //      {"logTime": "0425/073750", "correlationVector":"8Ffe+ZgWUZAP9cYd0PWnWm","action":"EXTENSION_UPDATE_SERVICE", "result":""}
+    //
+    #[cfg(any(regex = "184", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        184,
+        counter!(DP_KEY),
+        concat!(RP_NOALNUMb, CGP_MONTHm, D_Deq, CGP_DAYd, D_DHcds, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_NOALNUM),
+        // DfaU8, // exceeded DFA state limit of 162
+        FlatLockstepNfaU8,
+        DTFSS_mdHMSf,
+        0, 60,
+        CGN_MONTH, CGN_SECOND,
+        &[
+            (12, 26, (O_L, YD, 4, 25, 7, 37, 50, 0), br#"{"logTime": "0425/073750", "correlationVector":"8Ffe+ZgWUZAP9cYd0PWnWm","action":"EXTENSION_UPDATE_SERVICE", "result":""}"#),
+        ],
+        line!(),
+    ),
 ];
 /// proc-macro generated count of compiled regex.
 /// May be less than the number of possible entries in `DATETIME_PARSE_DATAS`.
 /// This value depends upon build cfg of env var `S4_BUILD_REGEX`.
 pub const DATETIME_PARSE_DATAS_LEN: usize = counter_last!(DP_KEY);
-/// compile-time maximum length of `DATETIME_PARSE_DATAS`
-pub const DATETIME_PARSE_DATAS_LEN_MAX: usize = 181;
+/// the maximum possible length of `DATETIME_PARSE_DATAS`
+pub const DATETIME_PARSE_DATAS_LEN_MAX: usize = 184;
 
 /// Check if the `regex_id` is in the compiled `DATETIME_PARSE_DATAS`.
 /// `DATETIME_PARSE_DATAS` may vary depending upon build cfg of env var `REGEX`.
