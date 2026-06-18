@@ -58,16 +58,7 @@ if ${do_clean}; then
 fi
 if ${do_build}; then
     cargo msrv verify  # cargo install cargo-msrv
-    cargo build
-    cargo build --profile release
-    cargo build --profile mimalloc --features mimalloc
-    cargo build --profile jemalloc --features jemalloc
-    cargo build --profile rpmalloc --features rpmalloc
-    cargo build --profile tcmalloc --features tcmalloc
-    cargo build --profile alloc_tracker --features alloc_tracker
-    cargo build --profile alloc_tracker --features alloc_tracker
-    cargo build --profile flamegraph
-    cargo build --profile valgrind
+    ./tools/build-all-profiles.sh
 fi
 ./tools/log-files-time-update.sh
 cargo test
