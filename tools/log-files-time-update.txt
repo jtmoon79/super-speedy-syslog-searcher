@@ -1643,6 +1643,7 @@
 ./logs/Windows11Pro/Local/Packages/ArmouryCrate/Log - 20230221.log|2023-02-21T06:39:14.1291098-08:00
 ./logs/Windows11Pro/Local/Packages/Microsoft.WindowsFeedbackHub/TempState/FBHubApp_20240317T135502_dc9f7bb7-11dd-4d04-9fd1-eddb23326856.log|2024-03-17T13:55:04
 ./logs/Windows11Pro/Local/Packages/Spotify/spotifyWidget-2023-03-08_122410.log|2023-03-13T21:25:24.705Z
+./logs/Windows11Pro/Local/Temp/cv_debug.log|2026-06-12 21:54:30 -0700
 ./logs/Windows11Pro/Logs/SIH/SIH.20230422.034724.362.1.etl|2023-04-23 14:46:45.000000000 -0700
 ./logs/Windows11Pro/setupact.log|2023-02-21 07:23:53 -0700
 ./logs/Windows11Pro/Temp/cv_debug.log|2024-03-22T21:45:54-0700
