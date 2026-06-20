@@ -32,8 +32,8 @@ File: ./logs/RockyLinux9/cron
       storage: LineReader::find_line() lines                       : hit 115, miss 233, 33.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss 233,  0.4%, put 233
       copying: SyslineReader::get_boxptrs()                        : sgl 138, dbl   12, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 117,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 116, miss 117, 49.8%, put 117
+      storage: SyslineReader::find_sysline() syslines              : hit 115, miss 117, 49.6%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss 117,  0.8%, put 117
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 233,  0.0%, put 233
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 115, miss 118, 49.4%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-08 06:18:37 +08:00 (2022-10-07 22:18:37.000000 +00:00)
 Datetime printed last  : 2022-10-08 22:07:57 +08:00 (2022-10-08 14:07:57.000000 +00:00)

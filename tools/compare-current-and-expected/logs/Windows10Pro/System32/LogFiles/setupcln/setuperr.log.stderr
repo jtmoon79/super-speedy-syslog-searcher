@@ -32,7 +32,7 @@ File: ./logs/Windows10Pro/System32/LogFiles/setupcln/setuperr.log
       caching: LineReader::find_line() LRU cache                   : hit 106, miss 106, 50.0%, put 105
       copying: SyslineReader::get_boxptrs()                        : sgl 163, dbl   20, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss 106,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss 106,  0.0%, put 105
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 106,  0.0%, put 105
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 105, miss 105, 50.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-05-28 12:32:23 +08:00 (2020-05-28 04:32:23.000000 +00:00)
 Datetime printed last  : 2022-10-12 13:26:20 +08:00 (2022-10-12 05:26:20.000000 +00:00)

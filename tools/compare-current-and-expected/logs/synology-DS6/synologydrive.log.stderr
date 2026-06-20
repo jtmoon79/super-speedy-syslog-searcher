@@ -32,7 +32,7 @@ File: ./logs/synology-DS6/synologydrive.log
       caching: LineReader::find_line() LRU cache                   : hit 17, miss 18, 48.6%, put 18
       copying: SyslineReader::get_boxptrs()                        : sgl 90, dbl   3, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 17,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 17,  0.0%, put 17
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
       caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss 17,  5.6%, put 17
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 16, miss 18, 47.1%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2018-12-06 02:27:57 -08:00 (2018-12-06 10:27:57.000000 +00:00)
 Datetime printed last  : 2018-12-17 15:09:11 -08:00 (2018-12-17 23:09:11.000000 +00:00)

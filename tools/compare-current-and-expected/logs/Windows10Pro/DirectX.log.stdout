@@ -1,0 +1,58 @@
+./logs/Windows10Pro/DirectX.log┋20201219T111732.000000000┋05/12/19 19:17:32: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX894B.tmp\xinput1_3_x64.inf [Install_Driver]
+⇳
+./logs/Windows10Pro/DirectX.log┋20201219T111732.000000000┋05/12/19 19:17:32: infinst: Installed file C:\Windows\system32\xinput1_3.dll
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120329.000000000┋11/01/19 20:03:29: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\d3dx9_24_x64.inf [DefaultInstall]
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120329.000000000┋11/01/19 20:03:29: infinst: Installed file C:\WINDOWS\system32\d3dx9_24.dll
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120330.000000000┋11/01/19 20:03:30: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\d3dx9_25_x64.inf [DefaultInstall]
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120330.000000000┋11/01/19 20:03:30: infinst: Installed file C:\WINDOWS\system32\d3dx9_25.dll
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120331.000000000┋11/01/19 20:03:31: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\d3dx9_26_x64.inf [DefaultInstall]
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120331.000000000┋11/01/19 20:03:31: infinst: Installed file C:\WINDOWS\system32\d3dx9_26.dll
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120331.000000000┋11/01/19 20:03:31: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\d3dx9_27_x64.inf [DefaultInstall]
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120331.000000000┋11/01/19 20:03:31: infinst: Installed file C:\WINDOWS\system32\d3dx9_27.dll
+./logs/Windows10Pro/DirectX.log┋20210119T120331.000000000┋
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120340.000000000┋11/01/19 20:03:40: infinst: Installing C:\Users\user1\AppData\Local\Temp\DX5160.tmp\XACT2_1_x64.inf [DefaultInstall]
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120340.000000000┋11/01/19 20:03:40: infinst: Installed file C:\WINDOWS\system32\xactengine2_1.dll
+⇳
+./logs/Windows10Pro/DirectX.log┋20210119T120340.000000000┋11/01/19 20:03:40: infinst: Target file: 'C:\WINDOWS\system32\x3daudio1_0.dll'
+./logs/Windows10Pro/DirectX.log┋20210119T120340.000000000┋        Target file is Version 9.0.500.0
+./logs/Windows10Pro/DirectX.log┋20210119T120340.000000000┋        Source file is Version 9.0.500.0
+./logs/Windows10Pro/DirectX.log┋20210119T120340.000000000┋
+⇳
+./logs/Windows10Pro/DirectX.log┋20210819T163650.000000000┋05/08/20 00:36:50: infinst: C:\WINDOWS\system32\d3dx10_35.dll have been installed already.
+⇳
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋05/08/20 00:36:51: infinst: Target file: 'C:\WINDOWS\system32\D3DCompiler_35.dll'
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋        Target file is Version 9.19.949.1104
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋        Source file is Version 9.19.949.1104
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋01/16/21 20:47:52: DXSetup: start installation
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋01/16/21 20:47:52: DSETUP: DirectXSetupA(): hWnd: 00270C2E dwFlags: 02110091
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋01/16/21 20:47:52: dsetup32: === SetupForDirectX() start ===
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋01/16/21 20:47:52: dsetup32: May 31 2006 06:34:05
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋01/16/21 20:47:52: dsetup32: DXSetupCommand = 0.
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋01/16/21 20:48:27: dxupdate: Installed file C:\WINDOWS\Microsoft.NET\DirectX for Managed Code\1.0.3315.0\Microsoft.DirectX.Direct3DX.dll
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋01/16/21 20:48:27: dxupdate: Installed file C:\WINDOWS\Microsoft.NET\DirectX for Managed Code\1.0.3315.0\Microsoft.DirectX.Direct3DX.xml
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:01:18: dsetup32: === SetupForDirectX() start ===
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:01:18: dsetup32: DXSetupCommand = 0.
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:01:18: dsetup32: Checking the version: HKLM\software\microsoft\directx\Version
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:01:18: dsetup32: Version in registry = 4.19.50.3232
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:01:18: dsetup32: Version in DLL      = 4.19.50.3232
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:01:18: dsetup32: Unknown OS
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:01:18: dsetup32: Installation ended with value -1 = Unsupported window version
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:05:10: DXSetup: CommandLine: /silent
+./logs/Windows10Pro/DirectX.log┋20210819T163651.000000000┋02/13/21 16:05:10: DSETUP: DirectXSetupA(): hWnd: 00000000 dwFlags: 02110291⇳
+

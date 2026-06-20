@@ -7,11 +7,11 @@ File: ./logs/Windows10Pro/PFRO.log
       logmessagetype : text log lines
   Printed:
       bytes         : 22500
-      flushes       : 27
+      flushes       : 93
       lines         : 192
-      syslines      : 20
+      syslines      : 93
       datetime first: 2018-11-28 19:17:56 +08:00 (2018-11-28 11:17:56.000000 +00:00)
-      datetime last : 2021-12-16 15:35:43 +08:00 (2021-12-16 07:35:43.000000 +00:00)
+      datetime last : 2022-09-14 22:00:28 +08:00 (2022-09-14 14:00:28.000000 +00:00)
   Processed:
       file size     : 22346 (0x574A) (bytes)
       bytes         : 22346 (0x574A)
@@ -21,24 +21,24 @@ File: ./logs/Windows10Pro/PFRO.log
       blocks total  : 88 (22528 bytes)
       lines         : 192
       line parts    : 280
-      syslines      : 20
+      syslines      : 93
       syslines high : 7
       datetime first: 2018-11-28 19:17:56 +08:00 (2018-11-28 11:17:56.000000 +00:00)
-      datetime last : 2021-12-16 15:35:43 +08:00 (2021-12-16 07:35:43.000000 +00:00)
+      datetime last : 2022-09-14 22:00:28 +08:00 (2022-09-14 14:00:28.000000 +00:00)
       out of order  : 0
   Parsers:
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 385,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  21, miss 193,  9.8%, put 192
-      copying: SyslineReader::get_boxptrs()                        : sgl 258, dbl   44, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  21,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  21,  0.0%, put  20
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  21,  0.0%, put  20
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  20, miss 192,  9.4%, put   0
+      caching: LineReader::find_line() LRU cache                   : hit  94, miss 193, 32.8%, put 192
+      copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl   31, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss  94,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  94,  0.0%, put  93
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  93, miss 192, 32.6%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  20, miss 282
+      process: regex captures                                      : hit  93, miss 213
   Processing Drops:
 
 Program Summary:
@@ -47,23 +47,23 @@ Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
 Files printed          : 1
-Printed bytes          : 22580
-Printed flushes        : 47
+Printed bytes          : 22872
+Printed flushes        : 186
 Printed lines          : 192
-Printed syslines       : 20
+Printed syslines       : 93
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2018-11-28 19:17:56 +08:00 (2018-11-28 11:17:56.000000 +00:00)
-Datetime printed last  : 2021-12-16 15:35:43 +08:00 (2021-12-16 07:35:43.000000 +00:00)
+Datetime printed last  : 2022-09-14 22:00:28 +08:00 (2022-09-14 14:00:28.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 22
+Channel Receive ok     : 95
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0

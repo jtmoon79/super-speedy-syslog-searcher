@@ -9,28 +9,31 @@
 ./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋1/5/2019 22:47:21 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp, |delete operation|, 0xc0000101
 ./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋1/5/2019 22:47:21 - 2 Successful PFRO operations
 ./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋2/18/2019 9:11:14 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋2/18/2019 9:11:14 - 7 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋4/25/2019 21:38:59 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\rep3c06601b-8711-4003-9653-3318419b4154, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋4/25/2019 21:38:59 - 12 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋4/27/2019 14:6:47 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋5/2/2019 20:7:27 - PFRO Error: \??\C:\ProgramData\Microsoft\Windows Defender\Definition Updates\{7B51577E-FEC1-4AA6-80F8-5C51FBB0B47B}\MpKsl0dd7e51c.sys, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋5/2/2019 20:7:27 - 1 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋5/5/2019 20:0:28 - PFRO Error: \??\C:\ProgramData\Microsoft\Windows Defender\Definition Updates\{68173EAA-C7F1-46BB-B9E4-750ABCBF83ED}\MpKsl48d35bfa.sys, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋5/5/2019 20:0:28 - 1 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋8/6/2019 22:52:52 - PFRO Error: \??\C:\ProgramData\Microsoft\Windows Defender\Definition Updates\{2E3F816F-EBFF-4DD8-AA58-9D9A521EBE66}\MpKsl772dc13f.sys, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋8/6/2019 22:52:52 - 1 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20181128T111756.000000000┋
 ⇳
-./logs/Windows10Pro/PFRO.log┋20191002T123724.000000000┋10/2/2019 20:37:24 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\rep79231769-cb3f-4e88-a64c-2951a6f5e7db, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20190218T011114.000000000┋2/18/2019 9:11:14 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\, |delete operation|, 0xc0000034
 ⇳
-./logs/Windows10Pro/PFRO.log┋20191002T123724.000000000┋10/2/2019 20:37:24 - 3 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20191002T123724.000000000┋
+./logs/Windows10Pro/PFRO.log┋20190218T011114.000000000┋2/18/2019 9:11:14 - 7 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20190218T011114.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20190425T133859.000000000┋4/25/2019 21:38:59 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\rep3c06601b-8711-4003-9653-3318419b4154, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20190425T133859.000000000┋4/25/2019 21:38:59 - 12 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20190425T133859.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋4/27/2019 14:6:47 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋5/2/2019 20:7:27 - PFRO Error: \??\C:\ProgramData\Microsoft\Windows Defender\Definition Updates\{7B51577E-FEC1-4AA6-80F8-5C51FBB0B47B}\MpKsl0dd7e51c.sys, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋5/2/2019 20:7:27 - 1 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋5/5/2019 20:0:28 - PFRO Error: \??\C:\ProgramData\Microsoft\Windows Defender\Definition Updates\{68173EAA-C7F1-46BB-B9E4-750ABCBF83ED}\MpKsl48d35bfa.sys, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋5/5/2019 20:0:28 - 1 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋8/6/2019 22:52:52 - PFRO Error: \??\C:\ProgramData\Microsoft\Windows Defender\Definition Updates\{2E3F816F-EBFF-4DD8-AA58-9D9A521EBE66}\MpKsl772dc13f.sys, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋8/6/2019 22:52:52 - 1 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋10/2/2019 20:37:24 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\rep79231769-cb3f-4e88-a64c-2951a6f5e7db, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋10/2/2019 20:37:24 - 3 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20190427T060647.000000000┋
 ⇳
 ./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋10/12/2019 21:30:50 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\MXDWDRV.DLL, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\MXDWDRV.DLL, 0xc000003a
 ⇳
@@ -38,17 +41,24 @@
 ./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋
 ./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋12/4/2019 20:20:4 - 1 Successful PFRO operations
 ./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋1/21/2020 21:13:32 - 1 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋5/21/2020 11:3:26 - 1 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋7/17/2020 7:26:32 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\PrintConfig.dll, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋7/17/2020 7:26:32 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\PrintConfig.dll, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋7/17/2020 7:26:32 - 2 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋9/18/2020 18:15:2 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\PrintConfig.dll, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋9/18/2020 18:15:2 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20191012T133050.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20200121T131332.000000000┋1/21/2020 21:13:32 - 1 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20200121T131332.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20200521T030326.000000000┋5/21/2020 11:3:26 - 1 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20200521T030326.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20200716T232632.000000000┋7/17/2020 7:26:32 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\PrintConfig.dll, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20200716T232632.000000000┋7/17/2020 7:26:32 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\PrintConfig.dll, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20200716T232632.000000000┋7/17/2020 7:26:32 - 2 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20200716T232632.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20200918T101502.000000000┋9/18/2020 18:15:2 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\PrintConfig.dll, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20200918T101502.000000000┋9/18/2020 18:15:2 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20200918T101502.000000000┋
 ⇳
 ./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋11/24/2020 19:32:43 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\MXDWDRV.DLL, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\MXDWDRV.DLL, 0xc000003a
 ⇳
@@ -57,53 +67,77 @@
 ./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋1/2/2021 20:34:35 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\PrintConfig.dll, 0xc000003a
 ./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋1/2/2021 20:34:35 - 0 Successful PFRO operations
 ./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋1/15/2021 11:1:51 - PFRO Error: \??\C:\WINDOWS\TEMP\INS_4f274c0a.TMP, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋1/15/2021 11:1:51 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋2/11/2021 9:27:23 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\_iu14D2N.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋2/11/2021 9:27:23 - 1 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋2/13/2021 12:36:31 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\rep1662c041-f136-4f9c-9f5b-65feb20968cb, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋2/13/2021 12:36:31 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋2/27/2021 21:2:36 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋2/27/2021 21:2:36 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋3/25/2021 11:40:50 - PFRO Error: \??\C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice_tmp.exe, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋3/25/2021 11:40:50 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋4/23/2021 14:51:38 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋5/13/2021 12:16:45 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\MXDWDRV.DLL, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\MXDWDRV.DLL, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋5/13/2021 12:16:45 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋5/20/2021 13:4:13 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\FXSDRV.DLL, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\FXSDRV.DLL, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋5/20/2021 13:4:13 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋5/27/2021 22:11:54 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\DELE495.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋5/27/2021 22:11:54 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋6/23/2021 20:1:41 - PFRO Error: \??\C:\Windows\Temp\037770c0-63c9-41ba-8c9f-3b5f329b1333.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋6/23/2021 20:1:41 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋7/8/2021 12:27:28 -0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋7/17/2021 22:21:16 - PFRO Error: \??\C:\Windows\Temp\f0c1cee4-cc25-489a-b4f5-382f42c5cad1.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋7/17/2021 22:21:16 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋8/11/2021 10:59:38 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\DELF074.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋8/11/2021 10:59:38 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋8/25/2021 15:21:59 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋9/14/2021 20:29:58 - PFRO Error: \??\C:\Windows\Temp\e1a05e71-38f9-40b6-8423-b62b76417764.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋9/14/2021 20:29:58 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20201124T113243.000000000┋
 ⇳
-./logs/Windows10Pro/PFRO.log┋20211005T034216.000000000┋10/5/2021 11:42:16 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\PrintConfig.dll, 0xc000003a
+./logs/Windows10Pro/PFRO.log┋20210115T030151.000000000┋1/15/2021 11:1:51 - PFRO Error: \??\C:\WINDOWS\TEMP\INS_4f274c0a.TMP, |delete operation|, 0xc0000034
 ⇳
-./logs/Windows10Pro/PFRO.log┋20211005T034217.000000000┋10/5/2021 11:42:17 - 33 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211005T034217.000000000┋
+./logs/Windows10Pro/PFRO.log┋20210115T030151.000000000┋1/15/2021 11:1:51 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210115T030151.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210211T012723.000000000┋2/11/2021 9:27:23 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\_iu14D2N.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210211T012723.000000000┋2/11/2021 9:27:23 - 1 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210211T012723.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210213T043631.000000000┋2/13/2021 12:36:31 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\rep1662c041-f136-4f9c-9f5b-65feb20968cb, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210213T043631.000000000┋2/13/2021 12:36:31 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210213T043631.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210227T130236.000000000┋2/27/2021 21:2:36 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210227T130236.000000000┋2/27/2021 21:2:36 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210227T130236.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210325T034050.000000000┋3/25/2021 11:40:50 - PFRO Error: \??\C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice_tmp.exe, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210325T034050.000000000┋3/25/2021 11:40:50 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210325T034050.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210423T065138.000000000┋4/23/2021 14:51:38 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210423T065138.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210513T041645.000000000┋5/13/2021 12:16:45 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\MXDWDRV.DLL, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\MXDWDRV.DLL, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20210513T041645.000000000┋5/13/2021 12:16:45 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210513T041645.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210520T050413.000000000┋5/20/2021 13:4:13 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\FXSDRV.DLL, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\FXSDRV.DLL, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20210520T050413.000000000┋5/20/2021 13:4:13 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210520T050413.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210527T141154.000000000┋5/27/2021 22:11:54 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\DELE495.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210527T141154.000000000┋5/27/2021 22:11:54 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210527T141154.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210623T120141.000000000┋6/23/2021 20:1:41 - PFRO Error: \??\C:\Windows\Temp\037770c0-63c9-41ba-8c9f-3b5f329b1333.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210623T120141.000000000┋6/23/2021 20:1:41 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210623T120141.000000000┋
+./logs/Windows10Pro/PFRO.log┋20210623T120141.000000000┋7/8/2021 12:27:28 -0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210623T120141.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210717T142116.000000000┋7/17/2021 22:21:16 - PFRO Error: \??\C:\Windows\Temp\f0c1cee4-cc25-489a-b4f5-382f42c5cad1.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210717T142116.000000000┋7/17/2021 22:21:16 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210717T142116.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210811T025938.000000000┋8/11/2021 10:59:38 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\DELF074.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210811T025938.000000000┋8/11/2021 10:59:38 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210811T025938.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210825T072159.000000000┋8/25/2021 15:21:59 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210825T072159.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20210914T122958.000000000┋9/14/2021 20:29:58 - PFRO Error: \??\C:\Windows\Temp\e1a05e71-38f9-40b6-8423-b62b76417764.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20210914T122958.000000000┋9/14/2021 20:29:58 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210914T122958.000000000┋
+./logs/Windows10Pro/PFRO.log┋20210914T122958.000000000┋10/5/2021 11:42:16 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\PrintConfig.dll, 0xc000003a
+./logs/Windows10Pro/PFRO.log┋20210914T122958.000000000┋10/5/2021 11:42:17 - 33 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20210914T122958.000000000┋
 ⇳
 ./logs/Windows10Pro/PFRO.log┋20211014T043427.000000000┋10/14/2021 12:34:27 - 12 Successful PFRO operations
 ./logs/Windows10Pro/PFRO.log┋20211014T043427.000000000┋
@@ -115,98 +149,137 @@
 ⇳
 ./logs/Windows10Pro/PFRO.log┋20211024T124657.000000000┋10/24/2021 20:46:57 - 3 Successful PFRO operations
 ./logs/Windows10Pro/PFRO.log┋20211024T124657.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211024T124657.000000000┋11/14/2021 11:28:5 - 24 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211024T124657.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211024T124657.000000000┋11/17/2021 8:24:46 - 3 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211024T124657.000000000┋
 ⇳
-./logs/Windows10Pro/PFRO.log┋20211206T055834.000000000┋12/6/2021 13:58:34 - PFRO Error: \??\C:\Windows\Temp\d384358b-d03d-461b-86ae-62545749f5d2.tmp, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20211114T032805.000000000┋11/14/2021 11:28:5 - 24 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20211114T032805.000000000┋
 ⇳
-./logs/Windows10Pro/PFRO.log┋20211206T055834.000000000┋12/6/2021 13:58:34 - 9 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211206T055834.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211206T055834.000000000┋12/6/2021 23:53:2 - 31 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211206T055834.000000000┋
-⇳
-./logs/Windows10Pro/PFRO.log┋20211208T104558.000000000┋12/8/2021 18:45:58 - 17 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211208T104558.000000000┋
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋11/17/2021 8:24:46 - 3 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋12/6/2021 13:58:34 - PFRO Error: \??\C:\Windows\Temp\d384358b-d03d-461b-86ae-62545749f5d2.tmp, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋12/6/2021 13:58:34 - 9 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋12/6/2021 23:53:2 - 31 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋12/8/2021 18:45:58 - 17 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20211117T002446.000000000┋
 ⇳
 ./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋12/16/2021 15:35:43 - PFRO Error: \??\C:\Windows\Temp\427e63ee-50fd-4f7b-b94d-185f00b4a182.tmp, |delete operation|, 0xc0000034
 ⇳
 ./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋12/16/2021 15:35:43 - 16 Successful PFRO operations
 ./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋12/16/2021 16:9:29 - 5 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋1/12/2022 14:5:30 - PFRO Error: \??\C:\Windows\Temp\3efe74fa-1bd2-4e09-b579-59f065030c18.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋1/12/2022 14:5:30 - 10 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋1/12/2022 20:15:8 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\~dofnE.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋1/12/2022 20:15:8 - 6 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋1/13/2022 23:16:44 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋2/11/2022 16:12:1 - PFRO Error: \??\C:\Windows\Temp\4ae9726c-3528-40cb-947d-12b38148fd07.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋2/11/2022 16:12:1 - 11 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋2/18/2022 14:16:39 - PFRO Error: \??\C:\Windows\Temp\00fb6f26-17a3-4ee1-8de9-7ca2d57061fd.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋2/18/2022 14:16:39 - 11 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋3/9/2022 16:59:11 - PFRO Error: \??\C:\Windows\Temp\4d8a914d-43f9-4747-954b-8589154a12f8.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋3/9/2022 16:59:12 - 16 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋3/10/2022 18:26:0 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\PrintConfig.dll, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋3/10/2022 18:26:0 - 13 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋3/27/2022 16:10:36 - PFRO Error: \??\C:\Windows\Temp\a3e7d37e-c592-4853-9ac9-72cd5fe24526.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋3/27/2022 16:10:36 - 12 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋4/9/2022 17:5:19 - PFRO Error: \??\C:\Windows\Temp\f2c8d570-7331-4dd0-8a29-91c1a21e61ec.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋4/9/2022 17:5:19 - 10 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋4/15/2022 12:32:28 - PFRO Error: \??\C:\Windows\Temp\acd4be5e-1120-433d-b782-26270d939bc0.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋4/15/2022 12:32:28 - 14 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋4/20/2022 13:45:10 - 12 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋4/20/2022 13:55:44 - PFRO Error: \??\C:\WINDOWS\system32\spool\V4Dirs\23FA9C7B-E4CB-4990-AD25-632A03C5C2A1\48f04186.BUD, |delete operation|, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋4/20/2022 13:55:44 - PFRO Error: \??\C:\WINDOWS\system32\spool\V4Dirs\23FA9C7B-E4CB-4990-AD25-632A03C5C2A1\48f04186.gpd, |delete operation|, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋4/20/2022 13:55:44 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋5/11/2022 22:5:26 - PFRO Error: \??\C:\Windows\Temp\4cbe17a1-2eb6-4762-8f06-f75339285218.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋5/11/2022 22:5:27 - 11 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋5/11/2022 22:15:42 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\PrintConfig.dll, 0xc000003a
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋5/11/2022 22:15:42 - 0 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋5/13/2022 13:46:35 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\repc04e1234-8159-4cce-9b50-beabe0c83e95, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋5/13/2022 13:46:35 - 9 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋6/5/2022 21:46:5 - PFRO Error: \??\C:\Windows\Temp\a2b87801-fa43-4382-a5e2-845959fd9b31.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋6/5/2022 21:46:5 - 18 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋6/16/2022 16:32:28 - PFRO Error: \??\C:\Windows\Temp\3a6843fb-176d-4200-af1c-c2ac506c181b.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋6/16/2022 16:32:28 - 12 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋6/24/2022 18:51:46 - PFRO Error: \??\C:\Windows\Temp\1441a5d9-8c57-4819-b452-7b7d33f36aac.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋6/24/2022 18:51:46 - 7 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋7/6/2022 18:17:56 - PFRO Error: \??\C:\Windows\Temp\3630daa2-922d-4e66-a2f1-4ba650168cb2.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋7/6/2022 18:17:56 - 6 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋7/8/2022 14:26:42 - 3 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋7/13/2022 11:39:55 - 7 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋7/22/2022 18:47:45 - PFRO Error: \??\C:\Windows\Temp\564c08aa-2ff5-48fc-8672-4c74a6e6ead6.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋7/22/2022 18:47:45 - 75 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋7/28/2022 23:35:55 - PFRO Error: \??\C:\Windows\Temp\3857aacb-dec5-406b-9937-337e42996c97.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋7/28/2022 23:35:55 - 8 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋8/11/2022 22:22:44 - PFRO Error: \??\C:\Windows\Temp\d998abd1-0c31-422d-9abf-94aaafd9f5bc.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋8/11/2022 22:22:44 - 95 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋9/14/2022 22:0:28 - PFRO Error: \??\C:\Windows\Temp\850e3532-6a5c-4c48-924a-0facc400cd27.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋9/14/2022 22:0:28 - PFRO Error: \??\C:\Windows\Temp\e71fbc14-e140-456d-a6c2-2319a6996d04.tmp, |delete operation|, 0xc0000034
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋9/14/2022 22:0:28 - 106 Successful PFRO operations
-./logs/Windows10Pro/PFRO.log┋20211216T073543.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20211216T080929.000000000┋12/16/2021 16:9:29 - 5 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20211216T080929.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220112T060530.000000000┋1/12/2022 14:5:30 - PFRO Error: \??\C:\Windows\Temp\3efe74fa-1bd2-4e09-b579-59f065030c18.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220112T060530.000000000┋1/12/2022 14:5:30 - 10 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220112T060530.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220112T121508.000000000┋1/12/2022 20:15:8 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\~dofnE.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220112T121508.000000000┋1/12/2022 20:15:8 - 6 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220112T121508.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220113T151644.000000000┋1/13/2022 23:16:44 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220113T151644.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220211T081201.000000000┋2/11/2022 16:12:1 - PFRO Error: \??\C:\Windows\Temp\4ae9726c-3528-40cb-947d-12b38148fd07.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220211T081201.000000000┋2/11/2022 16:12:1 - 11 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220211T081201.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220218T061639.000000000┋2/18/2022 14:16:39 - PFRO Error: \??\C:\Windows\Temp\00fb6f26-17a3-4ee1-8de9-7ca2d57061fd.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220218T061639.000000000┋2/18/2022 14:16:39 - 11 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220218T061639.000000000┋
+./logs/Windows10Pro/PFRO.log┋20220218T061639.000000000┋3/9/2022 16:59:11 - PFRO Error: \??\C:\Windows\Temp\4d8a914d-43f9-4747-954b-8589154a12f8.tmp, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20220218T061639.000000000┋3/9/2022 16:59:12 - 16 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220218T061639.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220310T102600.000000000┋3/10/2022 18:26:0 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\W32X86\3\PrintConfig.dll, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20220310T102600.000000000┋3/10/2022 18:26:0 - 13 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220310T102600.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220327T081036.000000000┋3/27/2022 16:10:36 - PFRO Error: \??\C:\Windows\Temp\a3e7d37e-c592-4853-9ac9-72cd5fe24526.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220327T081036.000000000┋3/27/2022 16:10:36 - 12 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220327T081036.000000000┋
+./logs/Windows10Pro/PFRO.log┋20220327T081036.000000000┋4/9/2022 17:5:19 - PFRO Error: \??\C:\Windows\Temp\f2c8d570-7331-4dd0-8a29-91c1a21e61ec.tmp, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20220327T081036.000000000┋4/9/2022 17:5:19 - 10 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220327T081036.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220415T043228.000000000┋4/15/2022 12:32:28 - PFRO Error: \??\C:\Windows\Temp\acd4be5e-1120-433d-b782-26270d939bc0.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220415T043228.000000000┋4/15/2022 12:32:28 - 14 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220415T043228.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220420T054510.000000000┋4/20/2022 13:45:10 - 12 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220420T054510.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220420T055544.000000000┋4/20/2022 13:55:44 - PFRO Error: \??\C:\WINDOWS\system32\spool\V4Dirs\23FA9C7B-E4CB-4990-AD25-632A03C5C2A1\48f04186.BUD, |delete operation|, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20220420T055544.000000000┋4/20/2022 13:55:44 - PFRO Error: \??\C:\WINDOWS\system32\spool\V4Dirs\23FA9C7B-E4CB-4990-AD25-632A03C5C2A1\48f04186.gpd, |delete operation|, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20220420T055544.000000000┋4/20/2022 13:55:44 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220420T055544.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220511T140526.000000000┋5/11/2022 22:5:26 - PFRO Error: \??\C:\Windows\Temp\4cbe17a1-2eb6-4762-8f06-f75339285218.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220511T140527.000000000┋5/11/2022 22:5:27 - 11 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220511T140527.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220511T141542.000000000┋5/11/2022 22:15:42 - PFRO Error: \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\New\PrintConfig.dll, \??\C:\WINDOWS\system32\spool\DRIVERS\x64\3\PrintConfig.dll, 0xc000003a
+⇳
+./logs/Windows10Pro/PFRO.log┋20220511T141542.000000000┋5/11/2022 22:15:42 - 0 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220511T141542.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220513T054635.000000000┋5/13/2022 13:46:35 - PFRO Error: \??\C:\Program Files\Mozilla Firefox\tobedeleted\repc04e1234-8159-4cce-9b50-beabe0c83e95, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220513T054635.000000000┋5/13/2022 13:46:35 - 9 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220513T054635.000000000┋
+./logs/Windows10Pro/PFRO.log┋20220513T054635.000000000┋6/5/2022 21:46:5 - PFRO Error: \??\C:\Windows\Temp\a2b87801-fa43-4382-a5e2-845959fd9b31.tmp, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20220513T054635.000000000┋6/5/2022 21:46:5 - 18 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220513T054635.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220616T083228.000000000┋6/16/2022 16:32:28 - PFRO Error: \??\C:\Windows\Temp\3a6843fb-176d-4200-af1c-c2ac506c181b.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220616T083228.000000000┋6/16/2022 16:32:28 - 12 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220616T083228.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220624T105146.000000000┋6/24/2022 18:51:46 - PFRO Error: \??\C:\Windows\Temp\1441a5d9-8c57-4819-b452-7b7d33f36aac.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220624T105146.000000000┋6/24/2022 18:51:46 - 7 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220624T105146.000000000┋
+./logs/Windows10Pro/PFRO.log┋20220624T105146.000000000┋7/6/2022 18:17:56 - PFRO Error: \??\C:\Windows\Temp\3630daa2-922d-4e66-a2f1-4ba650168cb2.tmp, |delete operation|, 0xc0000034
+./logs/Windows10Pro/PFRO.log┋20220624T105146.000000000┋7/6/2022 18:17:56 - 6 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220624T105146.000000000┋
+./logs/Windows10Pro/PFRO.log┋20220624T105146.000000000┋7/8/2022 14:26:42 - 3 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220624T105146.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220713T033955.000000000┋7/13/2022 11:39:55 - 7 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220713T033955.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220722T104745.000000000┋7/22/2022 18:47:45 - PFRO Error: \??\C:\Windows\Temp\564c08aa-2ff5-48fc-8672-4c74a6e6ead6.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220722T104745.000000000┋7/22/2022 18:47:45 - 75 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220722T104745.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220728T153555.000000000┋7/28/2022 23:35:55 - PFRO Error: \??\C:\Windows\Temp\3857aacb-dec5-406b-9937-337e42996c97.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220728T153555.000000000┋7/28/2022 23:35:55 - 8 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220728T153555.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220811T142244.000000000┋8/11/2022 22:22:44 - PFRO Error: \??\C:\Windows\Temp\d998abd1-0c31-422d-9abf-94aaafd9f5bc.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220811T142244.000000000┋8/11/2022 22:22:44 - 95 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220811T142244.000000000┋
+⇳
+./logs/Windows10Pro/PFRO.log┋20220914T140028.000000000┋9/14/2022 22:0:28 - PFRO Error: \??\C:\Windows\Temp\850e3532-6a5c-4c48-924a-0facc400cd27.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220914T140028.000000000┋9/14/2022 22:0:28 - PFRO Error: \??\C:\Windows\Temp\e71fbc14-e140-456d-a6c2-2319a6996d04.tmp, |delete operation|, 0xc0000034
+⇳
+./logs/Windows10Pro/PFRO.log┋20220914T140028.000000000┋9/14/2022 22:0:28 - 106 Successful PFRO operations
+./logs/Windows10Pro/PFRO.log┋20220914T140028.000000000┋
 ⇳

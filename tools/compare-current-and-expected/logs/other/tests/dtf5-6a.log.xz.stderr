@@ -33,7 +33,7 @@ File: ./logs/other/tests/dtf5-6a.log.xz
       caching: LineReader::find_line() LRU cache                   : hit  6, miss  6, 50.0%, put  6
       copying: SyslineReader::get_boxptrs()                        : sgl 84, dbl   0, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  6,  0.0%, put  6
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
       caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  6, 14.3%, put  6
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss  6, 45.5%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
 Datetime printed last  : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)

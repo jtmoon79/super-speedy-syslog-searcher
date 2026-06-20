@@ -32,7 +32,7 @@ File: ./logs/cygwin/setup.log.full
       caching: LineReader::find_line() LRU cache                   : hit  12, miss  77, 13.5%, put  77
       copying: SyslineReader::get_boxptrs()                        : sgl 143, dbl   12, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  12,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss  12,  0.0%, put  12
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  12,  7.7%, put  12
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  11, miss  77, 12.5%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-03-23 14:00:20 +08:00 (2022-03-23 06:00:20.000000 +00:00)
 Datetime printed last  : 2022-03-23 14:38:51 +08:00 (2022-03-23 06:38:51.000000 +00:00)

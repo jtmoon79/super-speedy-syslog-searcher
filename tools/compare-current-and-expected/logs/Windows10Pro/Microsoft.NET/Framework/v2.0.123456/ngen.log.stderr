@@ -30,15 +30,15 @@ File: ./logs/Windows10Pro/Microsoft.NET/Framework/v2.0.123456/ngen.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   9,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   5, miss   5, 50.0%, put   4
-      copying: SyslineReader::get_boxptrs()                        : sgl 182, dbl    1, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 186, dbl    1, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   5,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   5,  0.0%, put   4
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   5,  0.0%, put   4
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   4, miss   4, 50.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   4, miss 179
+      process: regex captures                                      : hit   4, miss 183
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-05-27 12:25:40 +08:00 (2020-05-27 04:25:40.000000 +00:00)
 Datetime printed last  : 2020-05-27 12:25:41 +08:00 (2020-05-27 04:25:41.000000 +00:00)

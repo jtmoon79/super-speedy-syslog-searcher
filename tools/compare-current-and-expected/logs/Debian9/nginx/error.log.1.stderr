@@ -32,7 +32,7 @@ File: ./logs/Debian9/nginx/error.log.1
       caching: LineReader::find_line() LRU cache                   : hit 20, miss 20, 50.0%, put 19
       copying: SyslineReader::get_boxptrs()                        : sgl 93, dbl   4, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss 20,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss 20,  0.0%, put 19
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  2,  0.0%, put  1
       caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 20,  0.0%, put 19
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 19, miss 19, 50.0%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-05 06:30:45 +08:00 (2020-03-04 22:30:45.000000 +00:00)
 Datetime printed last  : 2020-03-05 11:00:44 +08:00 (2020-03-05 03:00:44.000000 +00:00)

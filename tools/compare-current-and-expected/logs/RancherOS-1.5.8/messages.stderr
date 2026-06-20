@@ -32,8 +32,8 @@ File: ./logs/RancherOS-1.5.8/messages
       storage: LineReader::find_line() lines                       : hit 230, miss 470, 32.9%
       caching: LineReader::find_line() LRU cache                   : hit   4, miss 466,  0.9%, put 465
       copying: SyslineReader::get_boxptrs()                        : sgl 242, dbl   22, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss 232,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 231, miss 232, 49.9%, put 231
+      storage: SyslineReader::find_sysline() syslines              : hit 230, miss 232, 49.8%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss 232,  0.4%, put 231
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 463,  0.0%, put 462
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 230, miss 238, 49.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-10-09 21:31:38 +08:00 (2022-10-09 13:31:38.000000 +00:00)
 Datetime printed last  : 2022-10-10 20:31:23 +08:00 (2022-10-10 12:31:23.000000 +00:00)

@@ -5,38 +5,41 @@ File: ./logs/Windows10Pro/DirectX.log
   About:
       filetype       : TEXT UTF8/ASCII (text log)
       logmessagetype : text log lines
-      Processing Err : no syslog lines found in file
   Printed:
-      bytes         : 0
-      flushes       : 0
-      lines         : 0
-      syslines      : 0
-      datetime first: None Found
-      datetime last : None Found
+      bytes         : 5411
+      flushes       : 16
+      lines         : 43
+      syslines      : 15
+      datetime first: 2020-12-19 19:17:32 +08:00 (2020-12-19 11:17:32.000000 +00:00)
+      datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
   Processed:
       file size     : 2745 (0xAB9) (bytes)
-      bytes         : 256 (0x100)
+      bytes         : 2745 (0xAB9)
       bytes total   : 2745 (0xAB9)
       block size    : 256 (0x100)
-      blocks        : 1
+      blocks        : 11
       blocks total  : 11 (2816 bytes)
-      lines         : 2
-      line parts    : 3
-      syslines      : 0
-      syslines high : 0
-      out of order  : 0
+      lines         : 43
+      line parts    : 53
+      syslines      : 17
+      syslines high : 15
+      datetime first: 2020-01-19 20:03:29 +08:00 (2020-01-19 12:03:29.000000 +00:00)
+      datetime last : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
+      out of order  : 1
+  Parsers:
+                   datetime format missing year; estimated year of last sysline 2021
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 362, dbl    0, mult   0
-      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   3,  0.0%, put   0
+      storage: LineReader::find_line() lines                       : hit  39, miss  87, 31.0%
+      caching: LineReader::find_line() LRU cache                   : hit   6, miss  84,  6.7%, put  84
+      copying: SyslineReader::get_boxptrs()                        : sgl 230, dbl   14, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit  14, miss  17, 45.2%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  17,  5.6%, put  17
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  32,  0.0%, put  32
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  14, miss  75, 15.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  32,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 330,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   0, miss 362
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  77,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 167,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  19, miss 225
   Processing Drops:
 
 Program Summary:
@@ -44,24 +47,24 @@ Program Summary:
 Paths considered       : 1
 Paths not processed    : 0
 Files processed        : 1
-Files printed          : 0
-Printed bytes          : 0
-Printed flushes        : 0
-Printed lines          : 0
-Printed syslines       : 0
+Files printed          : 1
+Printed bytes          : 5472
+Printed flushes        : 32
+Printed lines          : 43
+Printed syslines       : 15
 Printed ASL events     : 0
 Printed ETL events     : 0
 Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
-Datetime printed first :
-Datetime printed last  :
+Datetime printed first : 2020-12-19 19:17:32 +08:00 (2020-12-19 11:17:32.000000 +00:00)
+Datetime printed last  : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 2
+Channel Receive ok     : 17
 Channel Receive err    : 0
 Threads Spawned        : 1
 Thread Spawn errors    : 0

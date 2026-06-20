@@ -34,8 +34,8 @@ File: ./logs/other/tests/dtf9c-12x2.log.tar|dtf9c-12x2.log
       storage: LineReader::find_line() lines                       : hit 23, miss 51, 31.1%
       caching: LineReader::find_line() LRU cache                   : hit  4, miss 50,  7.4%, put 50
       copying: SyslineReader::get_boxptrs()                        : sgl 60, dbl   1, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss 25,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit 23, miss 25, 47.9%, put 25
+      storage: SyslineReader::find_sysline() syslines              : hit 22, miss 25, 46.8%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  1, miss 25,  3.8%, put 25
       caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss 48,  0.0%, put 48
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 22, miss 31, 41.5%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
@@ -60,8 +60,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2010-01-01 01:00:00 +08:00 (2009-12-31 17:00:00.000000 +00:00)
 Datetime printed last  : 2011-12-12 12:00:00 +08:00 (2011-12-12 04:00:00.000000 +00:00)

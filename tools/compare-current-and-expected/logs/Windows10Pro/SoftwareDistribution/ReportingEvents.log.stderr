@@ -32,7 +32,7 @@ File: ./logs/Windows10Pro/SoftwareDistribution/ReportingEvents.log
       caching: LineReader::find_line() LRU cache                   : hit 162, miss 177, 47.8%, put 175
       copying: SyslineReader::get_boxptrs()                        : sgl  87, dbl   12, mult 165
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss 164,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss 164,  0.0%, put 163
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss 164,  0.0%, put 163
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 162, miss 176, 47.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 181
-Regex patterns compiled: 181
+Regex patterns known   : 186
+Regex patterns compiled: 186
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-08-05 22:17:58 -07:00 (2022-08-06 05:17:58.914000 +00:00)
 Datetime printed last  : 2022-10-12 09:26:48 -07:00 (2022-10-12 16:26:48.872000 +00:00)
