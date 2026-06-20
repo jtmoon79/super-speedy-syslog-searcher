@@ -236,7 +236,7 @@ while read -r log_file; do
             ) || true
         ) | head -n 20 | indent
         echo >&2
-        sleep 0.1
+        sleep 1
         tmp1=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stdout+=1
@@ -256,7 +256,7 @@ while read -r log_file; do
             ) || true
         ) | head -n 20 | indent
         echo >&2
-        sleep 0.1
+        sleep 0.03
         tmp2=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stderr+=1
