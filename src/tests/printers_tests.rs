@@ -87,7 +87,6 @@ use crate::readers::syslinereader::{
 use crate::tests::common::{
     EVTX_KPNP_EVENT_COUNT,
     EVTX_KPNP_FPATH,
-    FILETYPE_UTF8,
     FILE_UTF16BE_BOM_DTF56B_FPATH,
     FILE_UTF16BE_DTF56B_FPATH,
     FILE_UTF16LE_BOM_DTF56B_FPATH,
@@ -282,6 +281,17 @@ const ENC_UTF32BE_BOM: FileTypeTextEncoding = FileTypeTextEncoding::Utf32beBOM;
 #[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 67; "UTF8 i")]
 #[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 67; "UTF8 j")]
 #[test_case(&FILE_UTF8_DTF56B_FPATH, ENC_UTF8, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 6; "UTF8 k")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCA, CLR, None, None, None, 6, 249, 42; "UTF8 BOM a")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCU, CLR, None, None, None, 6, 249, 42; "UTF8 BOM b")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCN, CLR, None, None, None, 6, 249, 6; "UTF8 BOM c")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCA, CLR, Some(FILEN), None, None, 6, 333, 67; "UTF8 BOM d")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCU, CLR, None, Some(DATE), None, 6, 429, 67; "UTF8 BOM e")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCN, CLR, None, None, Some(FO_P8), 6, 249, 6; "UTF8 BOM f")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCA, CLR, Some(FILEN), Some(DATE), None, 6, 513, 67; "UTF8 BOM g")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCU, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 67; "UTF8 BOM h")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 6; "UTF8 BOM i")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCA, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 67; "UTF8 BOM j")]
+#[test_case(&FILE_UTF8_BOM_DTF56B_FPATH, ENC_UTF8_BOM, CCN, CLR, Some(FILEN), Some(DATE), Some(FO_P8), 6, 513, 6; "UTF8 BOM k")]
 #[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCA, CLR, None, None, None, 6, 498, 42; "UTF16BE BOM a")]
 #[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCU, CLR, None, None, None, 6, 498, 42; "UTF16BE BOM b")]
 #[test_case(&FILE_UTF16BE_BOM_DTF56B_FPATH, ENC_UTF16BE_BOM, CCN, CLR, None, None, None, 6, 498, 6; "UTF16BE BOM c")]
