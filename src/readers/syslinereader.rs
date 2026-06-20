@@ -608,6 +608,10 @@ pub struct SyslineReader {
     ///
     /// [`ProcessingStage::Stage2FindDt`]: crate::readers::syslogprocessor::ProcessingStage::Stage2FindDt
     syslines_by_range: SyslinesRangeMap,
+    /// Disable the use of `self.syslines_by_range`.
+    /// Intended to be set to false (disabled) when entering linear file processing
+    /// e.g. [`ProcessingStage::Stage3StreamSyslines`].
+    range_lookups: bool,
     /// Summary statistic.
     /// `Count` of `self.syslines_by_range` lookup hit.
     pub(super) syslines_by_range_hit: Count,
@@ -958,6 +962,7 @@ impl SyslineReader {
             syslines_count: 0,
             syslines_stored_highest: 0,
             syslines_by_range: SyslinesRangeMap::new(),
+            range_lookups: true,
             syslines_hit: 0,
             syslines_miss: 0,
             syslines_by_range_hit: 0,
@@ -1272,6 +1277,17 @@ impl SyslineReader {
         ret
     }
 
+    /// Disable using `syslines_by_range`.
+    ///
+    /// `syslines_by_range` lookups during linear processing of a file,
+    /// i.e. `ProcessingStage::Stage3StreamSyslines`, will be misses.
+    /// So disable and clear `syslines_by_range`.
+    pub fn disable_range_lookups(&mut self) {
+        defñ!();
+        self.syslines_by_range = SyslinesRangeMap::new();
+        self.range_lookups = false;
+    }
+
     /// Print `Sysline` at `FileOffset`.
     ///
     /// Testing helper function only.
@@ -1426,22 +1442,20 @@ impl SyslineReader {
             (*syslinep).dt()
         );
         self.syslines.insert(fo_beg, SyslineP::clone(&syslinep));
-        self.syslines_count += 1;
-        self.syslines_stored_highest = max(self.syslines.len(), self.syslines_stored_highest);
-        let fo_end1: FileOffset = fo_end + 1;
-        defx!("syslines_by_range.insert([{}‥{}), {})", fo_beg, fo_end1, fo_beg);
-        // XXX: this `insert` call uses ~6% of thread processing time for
-        //      processing a single syslog file, according to flamegraph as of 2026/04
-        //      Relates to Issue #84
-        // TODO: [2026/04] rangemaps are not needed when processing beyond
-        //       Stage2 which may be a binary search or a linear search.
-        //       Stage3 processing, the bulk of processing, is done linearly so
-        //       this RangeMap would not be useful then.
-        //       The SyslogProcessor should set a flag within SyslineReader
-        //       to enable and disable the use of `syslines_by_range`
-        self.syslines_by_range
-            .insert(fo_beg..fo_end1, fo_beg);
-        summary_stat!(self.syslines_by_range_put += 1);
+        summary_stat!(self.syslines_count += 1);
+        summary_stat!(self.syslines_stored_highest = max(self.syslines.len(), self.syslines_stored_highest));
+        if self.range_lookups {
+            let fo_end1: FileOffset = fo_end + 1;
+            defx!("syslines_by_range.insert([{}‥{}), {})", fo_beg, fo_end1, fo_beg);
+            // XXX: this `insert` call uses ~6% of thread processing time for
+            //      processing a single syslog file, according to flamegraph as of 2026/04
+            //      Relates to Issue #84
+            self.syslines_by_range
+                .insert(fo_beg..fo_end1, fo_beg);
+            summary_stat!(self.syslines_by_range_put += 1);
+        } else {
+            defx!("skip syslines_by_range.insert; range_lookups false");
+        }
 
         syslinep
     }
@@ -2379,69 +2393,69 @@ impl SyslineReader {
             }
         }
 
-        // check if the offset is already in a known range
-        match self
-            .syslines_by_range
-            .get_key_value(&fileoffset)
-        {
-            Some((_range, fo)) => {
-                defo!(
-                    "hit syslines_by_range cache for FileOffset {} (found in range {:?} @{})",
-                    fileoffset,
-                    _range,
-                    fo,
-                );
-                summary_stat!(self.syslines_by_range_hit += 1);
-                let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(fo).unwrap());
-                let fo_next: FileOffset = (*syslinep).fileoffset_next();
-                if self.is_sysline_last(&syslinep) {
+        if self.range_lookups {
+            // check if the offset is already in a known range
+            match self
+                .syslines_by_range
+                .get_key_value(&fileoffset)
+            {
+                Some((_range, fo)) => {
+                    defo!(
+                        "hit syslines_by_range cache for FileOffset {} (found in range {:?} @{})",
+                        fileoffset,
+                        _range,
+                        fo,
+                    );
+                    summary_stat!(self.syslines_by_range_hit += 1);
+                    let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(fo).unwrap());
+                    let fo_next: FileOffset = (*syslinep).fileoffset_next();
+                    if self.is_sysline_last(&syslinep) {
+                        defx!(
+                            "is_sysline_last() true; return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                            fo_next,
+                            &syslinep,
+                            (*syslinep).fileoffset_begin(),
+                            (*syslinep).fileoffset_end(),
+                            (*syslinep).to_string_noraw()
+                        );
+                        summary_stat!(self.find_sysline_lru_cache_put += 1);
+                        self.find_sysline_lru_cache
+                            .put(fileoffset, ResultFindSysline::Found(
+                                (fo_next, SyslineP::clone(&syslinep))
+                            ));
+                        SyslineReader::debug_assert_gt_fo_syslineend(&fo_next, &syslinep);
+                        return Some(ResultFindSysline::Found((fo_next, syslinep)));
+                    }
+                    summary_stat!(self.find_sysline_lru_cache_put += 1);
+                    self.find_sysline_lru_cache
+                        .put(fileoffset, ResultFindSysline::Found(
+                            (fo_next, SyslineP::clone(&syslinep))
+                        ));
                     defx!(
-                        "is_sysline_last() true; return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] in self.syslines_by_range {:?}",
+                        "is_sysline_last() false; return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] from self.syslines_by_range {:?}",
                         fo_next,
                         &syslinep,
                         (*syslinep).fileoffset_begin(),
                         (*syslinep).fileoffset_end(),
                         (*syslinep).to_string_noraw()
                     );
-                    summary_stat!(self.find_sysline_lru_cache_put += 1);
-                    self.find_sysline_lru_cache
-                        .put(fileoffset, ResultFindSysline::Found(
-                            (fo_next, SyslineP::clone(&syslinep))
-                        ));
                     SyslineReader::debug_assert_gt_fo_syslineend(&fo_next, &syslinep);
                     return Some(ResultFindSysline::Found((fo_next, syslinep)));
                 }
-                summary_stat!(self.find_sysline_lru_cache_put += 1);
-                self.find_sysline_lru_cache
-                    .put(fileoffset, ResultFindSysline::Found(
-                        (fo_next, SyslineP::clone(&syslinep))
-                    ));
-                defx!(
-                    "is_sysline_last() false; return ResultFindSysline::Found(({}, @{:p})) @[{}, {}] from self.syslines_by_range {:?}",
-                    fo_next,
-                    &syslinep,
-                    (*syslinep).fileoffset_begin(),
-                    (*syslinep).fileoffset_end(),
-                    (*syslinep).to_string_noraw()
-                );
-                SyslineReader::debug_assert_gt_fo_syslineend(&fo_next, &syslinep);
-                return Some(ResultFindSysline::Found((fo_next, syslinep)));
-            }
-            None => {
-                summary_stat!(self.syslines_by_range_miss += 1);
-                defo!("fileoffset {} not found in self.syslines_by_range", fileoffset);
+                None => {
+                    summary_stat!(self.syslines_by_range_miss += 1);
+                    defo!("fileoffset {} not found in self.syslines_by_range", fileoffset);
+                }
             }
         }
 
         // check if there is a Sysline already known at this fileoffset
-        // XXX: not necessary to check `self.syslines` since `self.syslines_by_range` is checked.
         // TODO: replace `if contains_key` with `match get` to avoid double lookup
         if self
             .syslines
             .contains_key(&fileoffset)
         {
-            debug_assert!(self.syslines_by_range.contains_key(&fileoffset), "self.syslines.contains_key({}) however, self.syslines_by_range.contains_key({}) returned None (syslines_by_range out of synch)", fileoffset, fileoffset);
-            self.syslines_hit += 1;
+            summary_stat!(self.syslines_hit += 1);
             defo!("hit self.syslines for FileOffset {}", fileoffset);
             let syslinep: SyslineP = SyslineP::clone(&self.syslines.get(&fileoffset).unwrap());
             let fo_next: FileOffset = (*syslinep).fileoffset_end() + 1;
@@ -2976,10 +2990,7 @@ impl SyslineReader {
                     // TODO: cost-savings: searching `self.syslines_by_range` is surprisingly expensive.
                     //       Consider adding a faster, simpler `HashMap` that only tracks
                     //       `sysline.fileoffset_end` keys to `fileoffset_begin` values.
-                    if self
-                        .syslines_by_range
-                        .contains_key(&fo1)
-                    {
+                    if self.range_lookups && self.syslines_by_range.contains_key(&fo1) {
                         // ran into prior processed sysline; something is odd. Abandon these lines
                         // and change search direction to go forwards
                         // TODO: Issue #61 enable expression attribute when feature is stable

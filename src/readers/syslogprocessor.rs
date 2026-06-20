@@ -1089,6 +1089,7 @@ impl SyslogProcessor {
         defñ!();
         self.assert_stage(ProcessingStage::Stage2FindDt);
         self.processingstage = ProcessingStage::Stage3StreamSyslines;
+        self.syslinereader.disable_range_lookups();
 
         FileProcessingResultBlockZero::FileOk
     }
