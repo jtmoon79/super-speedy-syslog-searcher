@@ -48,7 +48,6 @@ pub use ::ere_datetimes_impl::{
     MatchesType,
     MatchesTypeOpt,
     fos,
-    REGEX_ALL,
     RegexFn,
     RegexPattern,
     DTFSSet,
