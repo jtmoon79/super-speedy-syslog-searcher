@@ -231,12 +231,18 @@ while read -r log_file; do
         echo "    Different stdout ${log_file_stdout}" >&2
         echo "    Command: ${PROGRAM} ${S4_ARGS[*]} ${log_file}" >&2
         (
+            # red
+            echo -e '\033[31m'
+            declare -i col=${COLUMNS-140}
+            col=$((col - 2))
             (set -x;
-                "${DIFF}" --text -y --width=${COLUMNS-140} --suppress-common-lines "${log_file_stdout}" "${tmp1}"
+                diff --text -y --width=${col} --suppress-common-lines "${log_file_stdout}" "${tmp1}"
             ) || true
         ) | head -n 20 | indent
+        # reset color
+        echo -e '\033[0m'
         echo >&2
-        sleep 1
+        sleep 4
         tmp1=$(mktemp -t "s4-tmp.compare-current-and-expected_XXXXX")
     else
         same_log_stdout+=1
@@ -251,8 +257,10 @@ while read -r log_file; do
         echo "    Different stderr ${log_file_stderr}" >&2
         echo "    Command: ${PROGRAM} ${S4_ARGS[*]} ${log_file}" >&2
         (
+            declare -i col=${COLUMNS-140}
+            col=$((col - 2))
             (set -x;
-                "${DIFF}" --text -y --width=${COLUMNS-140} --suppress-common-lines "${log_file_stderr}" "${tmp2}"
+                "${DIFF}" --text -y --width=${col} --suppress-common-lines "${log_file_stderr}" "${tmp2}"
             ) || true
         ) | head -n 20 | indent
         echo >&2
