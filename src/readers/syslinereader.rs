@@ -59,6 +59,7 @@ use ::si_trace_print::{
 
 use crate::common::{
     debug_panic,
+    debug_panic_if,
     Bytes,
     CharSz,
     Count,
@@ -235,6 +236,7 @@ fn transcode_bytes_to_utf8_buffer(
     transcode_buffer: &mut Bytes,
 ) {
     defn!("data.len() {}, encoding {:?}", data.len(), encoding_type);
+    debug_panic_if!(encoding_type.is_utf8(), "called transcode_bytes_to_utf8_buffer with UTF-8 encoding type");
     transcode_buffer.clear();
     let reserve: usize = match encoding_type.basic_encoding() {
         FileTypeBasicEncoding::Utf8 => data.len(),

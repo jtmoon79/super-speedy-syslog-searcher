@@ -882,6 +882,13 @@ impl FileTypeTextEncoding {
         }
     }
 
+    pub const fn is_utf8(&self) -> bool {
+        matches!(
+            self,
+            FileTypeTextEncoding::Utf8Ascii | FileTypeTextEncoding::Utf8BOM
+        )
+    }
+
     /// is this a little-endian encoding?
     pub const fn little_endian(&self) -> bool {
         matches!(
