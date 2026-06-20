@@ -78,8 +78,6 @@ use crate::data::slice_contains::{
 use ::ere_datetimes_impl::{
     CGN_ALL,
     CGP_DAY_ALL,
-    CGP_EPOCH,
-    CGP_EPOCHms,
     CGP_EPOCH_ALL,
     CGP_FRACTIONAL_ALL,
     CGP_HOUR_ALL,
