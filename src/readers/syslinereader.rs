@@ -589,17 +589,24 @@ pub struct SyslineReader {
     pub(super) linereader: LineReader,
     /// Syslines keyed by `Sysline.fileoffset_begin`.
     pub(super) syslines: Syslines,
+    /// Summary statistic.
     /// `Count` of Syslines processed.
     syslines_count: Count,
+    /// Summary statistic.
     /// "high watermark" of Syslines stored in `self.syslines` at one time
     syslines_stored_highest: usize,
+    /// Summary statistic.
     /// Internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
     pub(super) syslines_hit: Count,
+    /// Summary statistic.
     /// Internal stats `Count` for `self.find_sysline()` use of `self.syslines`.
     pub(super) syslines_miss: Count,
     /// Syslines fileoffset by sysline fileoffset range,
     /// i.e. `\[Sysline.fileoffset_begin(), Sysline.fileoffset_end()+1)`.
     /// The stored value can be used as a key for `self.syslines`.
+    /// Helper during [`ProcessingStage::Stage2FindDt`]
+    ///
+    /// [`ProcessingStage::Stage2FindDt`]: crate::readers::syslogprocessor::ProcessingStage::Stage2FindDt
     syslines_by_range: SyslinesRangeMap,
     /// Summary statistic.
     /// `Count` of `self.syslines_by_range` lookup hit.
@@ -621,6 +628,7 @@ pub struct SyslineReader {
     /// Summary statistic.
     /// Last (latest) processed [`DateTimeL`] (not necessarily printed,
     /// not representative of the entire file).
+    ///
     /// [`DateTimeL`]: crate::data::datetime::DateTimeL
     // TODO: [2023/03/22] change behavior to be "last printed" instead of "last processed"
     pub(super) dt_last: DateTimeLOpt,
@@ -661,7 +669,7 @@ pub struct SyslineReader {
     /// precompute `tz_offset` as a `String`
     tz_offset_string: String,
     /// Datetime of uptime value 0.
-    /// Only for syslog files with uptime format.
+    /// Only for syslog files with uptime/dmesg format.
     pub(super) systemtime_at_uptime_zero: Option<SystemTime>,
     /// Reusable UTF-8 transcode buffer for non-UTF8 line data.
     transcode_buffer: Bytes,
@@ -2470,7 +2478,7 @@ impl SyslineReader {
             );
             return Some(ResultFindSysline::Found((fo_next, syslinep)));
         } else {
-            self.syslines_miss += 1;
+            summary_stat!(self.syslines_miss += 1);
             defo!("fileoffset {} not found in self.syslines", fileoffset);
         }
         defx!("return None");
