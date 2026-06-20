@@ -1764,7 +1764,7 @@ impl SyslineReader {
             .enumerate()
         {
             let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
-            defo!("pattern data try {} index {} dtpd.line_num {}", _try, index, dtpd._line_num);
+            defo!("pattern data try {} Regex #{} index {}", _try, dtpd.regex_id, index);
 
             // Datetime parse ranges are defined in UTF-8 byte offsets.
             // Scale to source-byte offsets for UTF-16/UTF-32 encoded lines.
@@ -1847,12 +1847,13 @@ impl SyslineReader {
             };
 
             defo!(
-                "slice len {} [{}, {}) (requested [{}, {})) using DTPD from line {}, data {:?}",
+                "slice len {} [{}, {}) (requested [{}, {})) using DTPD Regex #{} from line {}, data {:?}",
                 slice_.len(),
                 range_start,
                 slice_end,
                 range_start,
                 range_end_bound,
+                dtpd.regex_id,
                 dtpd._line_num,
                 String::from_utf8_lossy(slice_),
             );
@@ -2150,19 +2151,21 @@ impl SyslineReader {
         true
     }
 
-    /// Return most-used `DateTimeParseInstrsIndex`.
+    /// Return the index of the most-used `DateTimeParseInstrs` in `DATETIME_PARSE_DATAS`
+    /// as tracked by `self.dt_patterns_counts`.
     pub(crate) fn dt_pattern_index_max_count(&self) -> DateTimeParseInstrsIndex {
         #[cfg(any(debug_assertions, test))]
         {
-            for (k, v) in self.dt_patterns_counts.iter() {
-                let data: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*k];
-                defo!("self.dt_patterns_counts[index {:?}]={:?} is {:?}", k, v, data);
+            for (i, val) in self.dt_patterns_counts.iter() {
+                let dtpi: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*i];
+                defo!("self.dt_patterns_counts[{}]={} is Regex #{}", i, val, dtpi.regex_id);
             }
-            for val in self
+            for (i, val) in self
                 .dt_patterns_indexes
                 .iter()
+                .enumerate()
             {
-                defo!("self.dt_patterns_indexes {:?}", val);
+                defo!("self.dt_patterns_indexes[{}] {:?}", i, val);
             }
         }
         if !self.analyzed {
@@ -2280,6 +2283,7 @@ impl SyslineReader {
         charsz: CharSz,
         year_opt: &Option<Year>,
     ) -> ResultParseDateTime {
+        defn!("(…, {:?}, {:?})", charsz, year_opt);
         if self.parse_datetime_in_line_lru_cache_enabled {
             match self
                 .parse_datetime_in_line_lru_cache
@@ -2287,14 +2291,15 @@ impl SyslineReader {
             {
                 Some(val) => {
                     summary_stat!(self.parse_datetime_in_line_lru_cache_hit += 1);
+                    defx!("return from LRU cache: Ok {val:?}");
                     return ResultParseDateTime::Ok(*val);
                 }
                 _ => {
+                    defo!("line offset {} not found in LRU cache", linep.fileoffset_begin());
                     summary_stat!(self.parse_datetime_in_line_lru_cache_miss += 1);
                 }
             }
         }
-        defn!("(…, {:?}, {:?})", charsz, year_opt);
         let result: ResultParseDateTime = self.parse_datetime_in_line(&*linep, charsz, year_opt);
         if self.parse_datetime_in_line_lru_cache_enabled {
             match result {

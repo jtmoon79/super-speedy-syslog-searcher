@@ -1885,7 +1885,7 @@ pub fn bytes_to_regex_to_datetime(
 
     let dtpd: &DateTimeParseInstr = &DATETIME_PARSE_DATAS[*index];
     // here is the regular expression function call!
-    defo!("regex_fn({:?})…", buffer_to_string_noraw(data));
+    defo!("regex #{}: regex_fn({:?})…", dtpd.regex_id, buffer_to_string_noraw(data));
     let captures: MatchesType = match (dtpd.regex_fn)(data) {
         None => {
             defx!(
@@ -1896,8 +1896,8 @@ pub fn bytes_to_regex_to_datetime(
         }
         Some(captures) => captures,
     };
-    defo!("regex: captured {} matches for regex #{} at index {}, line {}",
-        captures.len(), dtpd.regex_id, index, dtpd._line_num);
+    defo!("regex #{}: captured {} matches at index {}, line {}",
+        dtpd.regex_id, captures.len(), index, dtpd._line_num);
     #[cfg(any(debug_assertions, test))]
     {
         for (i, mi) in captures.iter().enumerate() {

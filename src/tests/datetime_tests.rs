@@ -289,8 +289,6 @@ fn test_DTFSS_ALL_duplicates() {
 /// O(n^2) check for duplicate `DATETIME_PARSE_DATAS`
 #[test]
 fn test_DATETIME_PARSE_DATAS_duplicates() {
-    stack_offset_set(Some(2));
-
     for i in 0..DATETIME_PARSE_DATAS.len() {
         for j in 0..DATETIME_PARSE_DATAS.len() {
             if i == j {
@@ -310,8 +308,6 @@ fn test_DATETIME_PARSE_DATAS_duplicates() {
 /// O(n^2) check for duplicate regex id in `DATETIME_PARSE_DATAS`
 #[test]
 fn test_DATETIME_PARSE_DATAS_regex_id_duplicates() {
-    stack_offset_set(Some(2));
-
     for i in 0..DATETIME_PARSE_DATAS.len() {
         for j in 0..DATETIME_PARSE_DATAS.len() {
             if i == j {
@@ -328,13 +324,24 @@ fn test_DATETIME_PARSE_DATAS_regex_id_duplicates() {
     }
 }
 
+/// test that all regexid are in sequential order
+#[test]
+fn test_DATETIME_PARSE_DATAS_regex_id_sequential() {
+    for i in 0..(DATETIME_PARSE_DATAS.len() - 1) {
+        let regex_id_i = DATETIME_PARSE_DATAS[i].regex_id;
+        let regex_id_j = DATETIME_PARSE_DATAS[i + 1].regex_id;
+        assert_lt!(
+            regex_id_i, regex_id_j,
+            "regex_id at [{}] [{}] is not sequential ({} !< {})",
+            i, i + 1, regex_id_i, regex_id_j,
+        );
+    }
+}
+
 /// match the regexp built-in test cases for all entries in
 /// `DATETIME_PARSE_DATAS`.
-///
-/// Must manually update the `test_matrix` range end value to the same as
-/// `DATETIME_PARSE_DATAS_LEN_MAX`.
 #[allow(clippy::zero_prefixed_literal)]
-#[test_matrix(0..185)] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
+#[test_matrix(0..187)] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     stack_offset_set(Some(2));
 

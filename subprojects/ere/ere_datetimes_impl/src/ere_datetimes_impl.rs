@@ -1061,6 +1061,19 @@ pub const DTFSS_YmdHMSfZ: DTFSSet = DTFSSet {
     pattern: DTP_YmdHMSfzc,
 };
 
+pub const DTFSS_Ymdkms: DTFSSet = DTFSSet {
+    year: DTFS_Year::Y,
+    month: DTFS_Month::ms,
+    day: DTFS_Day::_e_or_d,
+    hour: DTFS_Hour::k,
+    minute: DTFS_Minute::m,
+    second: DTFS_Second::s,
+    fractional: DTFS_Fractional::_none,
+    tz: DTFS_Tz::_fill,
+    epoch: DTFS_Epoch::_none,
+    uptime: DTFS_Uptime::_none,
+    pattern: DTP_YmdHMSzc,
+};
 pub const DTFSS_Ymdkmsf: DTFSSet = DTFSSet {
     year: DTFS_Year::Y,
     month: DTFS_Month::ms,
@@ -1457,6 +1470,8 @@ pub const DTFSS_ALL: &[(&DTFSSet, &str)] = &[
     (&DTFSS_YmdHMSZ, stringify!(DTFSS_YmdHMSZ)),
     (&DTFSS_YmdHMSzc, stringify!(DTFSS_YmdHMSzc)),
     (&DTFSS_YmdHMSzp, stringify!(DTFSS_YmdHMSzp)),
+    (&DTFSS_Ymdkms, stringify!(DTFSS_Ymdkms)),
+    (&DTFSS_Ymdkmsf, stringify!(DTFSS_Ymdkmsf)),
     (&DTFSS_YmsdkMS, stringify!(DTFSS_YmsdkMS)),
 ];
 
@@ -1816,7 +1831,9 @@ pub const D_D: &RegexPattern = r"[ /\-]";
 /// [`RegexPattern`] divider _time_, `20:30:00`
 pub const D_T: &RegexPattern = r"[\:]?";
 /// [`RegexPattern`] divider _time_ with extras, `20:30:00` or `20-00`
-pub const D_Te: &RegexPattern = r"[\:\-]?";
+pub const D_Teq: &RegexPattern = r"[\:\-]?";
+/// [`RegexPattern`] divider _time_ with extras, `20:30:00` or `20-00`
+pub const D_Te: &RegexPattern = r"[\:\-]";
 /// [`RegexPattern`] divider _time_ dot colon
 pub const D_Tcd: &RegexPattern = r"[\:\.]";
 /// [`RegexPattern`] divider _time_ dot colon comma
@@ -2390,7 +2407,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         7,
         counter!(DP_KEY),
-        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzc, RP_NODIGIT),
+        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzc, RP_NODIGIT),
         DfaU8,
         DTFSS_YmdHMSfzc,
         0, 50,
@@ -2405,7 +2422,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         8,
         counter!(DP_KEY),
-        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZz, RP_NODIGIT),
+        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZz, RP_NODIGIT),
         DfaU8,
         DTFSS_YmdHMSfz,
         0, 50,
@@ -2420,7 +2437,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         9,
         counter!(DP_KEY),
-        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzp, RP_NODIGIT),
+        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzp, RP_NODIGIT),
         DfaU8,
         DTFSS_YmdHMSfzp,
         0, 50,
@@ -2435,7 +2452,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         10,
         counter!(DP_KEY),
-        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZZ, RP_NODIGIT),
+        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZZ, RP_NODIGIT),
         DfaU8,
         DTFSS_YmdHMSfZ,
         0, 50,
@@ -2452,7 +2469,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         11,
         counter!(DP_KEY),
-        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_NOALNUM),
+        concat!("^<", RP_DIGITS3, ">", RP_BLANKq, CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_NOALNUM),
         DfaU8,
         DTFSS_YmdHMSf,
         0, 50,
@@ -3324,6 +3341,15 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    /*
+    add bracketed datetime offset fro beginning
+    /mnt/c/Users/jtmmo/AppData/Local/Temp/dd_BackgroundDownload_20260617093422.log: Unicode text, UTF-8 text, with very long lines (1604), with CRLF line terminators
+
+    [6aa0:0001][2026-06-17T09:34:22] Creating new ExperimentationService
+    [6aa0:0001][2026-06-17T09:34:22] Telemetry property VS.ABExp.Flights : lazytoolboxinit;fwlargebuffer;refactoring;spmoretempsbtn1;asloff;keybindgoldbarext;asynccsproj;vsfricheditor;completionapi;4f604693:30775293
+    [6aa0:0001][2026-06-17T09:34:22] UserActivityMonitor started.
+
+     */
     // ---------------------------------------------------------------------------------------------    // from file `./logs/debian9/alternatives.log`
     // example with offset:
     //
@@ -3358,7 +3384,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         45,
         counter!(DP_KEY),
-        concat!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, ":", RP_BLANKe),
+        concat!(CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, ":", RP_BLANKe),
         FlatLockstepNfaU8,
         DTFSS_YmdHMS,
         0, 30,
@@ -4516,7 +4542,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         96,
         counter!(DP_KEY),
         // add more "guard" chars
-        concat!(r"^\[", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHq, CGP_HOUR, D_Te, CGP_MINUTE, r"\]"),
+        concat!(r"^\[", CGP_YEAR, D_D, CGP_MONTHm, D_D, CGP_DAYde, D_DHq, CGP_HOUR, D_Teq, CGP_MINUTE, r"\]"),
         DfaU8,
         DTFSS_YmdHM,
         0, 20,
@@ -4663,7 +4689,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         103,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZZ, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZZ, "\""),
         //DfaU8, // 24m22s build time
         FlatLockstepNfaU8,
         DTFSS_YmdHMSfZ,
@@ -4679,7 +4705,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         104,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzc, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzc, "\""),
         DfaU8,
         DTFSS_YmdHMSfzc,
         0, 2056,
@@ -4695,7 +4721,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         105,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZz, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZz, "\""),
         // DfaU8, // fails to build; exceeded DFA state limit of 256
         FlatLockstepNfaU8,
         DTFSS_YmdHMSfz,
@@ -4711,7 +4737,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         106,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzp, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzp, "\""),
         DfaU8,
         DTFSS_YmdHMSfzp,
         0, 2056,
@@ -4726,7 +4752,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         107,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, "\""),
         DfaU8,
         DTFSS_YmdHMSf,
         0, 2056,
@@ -4743,7 +4769,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         108,
         counter!(DP_KEY),
         // TODO: declare with separate `CGP_TZZ_U` and `CGP_TZZ_L`
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZZ, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_BLANKq, CGP_TZZ, "\""),
         //DfaU8, // 13m39s build time
         FlatLockstepNfaU8,
         DTFSS_YmdHMSZ,
@@ -4759,7 +4785,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         109,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZzc, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_BLANKq, CGP_TZzc, "\""),
         DfaU8,
         DTFSS_YmdHMSzc,
         0, 2056,
@@ -4774,7 +4800,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         110,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZz, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_BLANKq, CGP_TZz, "\""),
         DfaU8,
         DTFSS_YmdHMSz,
         0, 2056,
@@ -4789,7 +4815,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         111,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZzp, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_BLANKq, CGP_TZzp, "\""),
         DfaU8,
         DTFSS_YmdHMSzp,
         0, 2056,
@@ -4804,7 +4830,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         112,
         counter!(DP_KEY),
-        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, "\""),
+        concat!(r#""(TIMESTAMP|Timestamp|timestamp)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, "\""),
         DfaU8,
         DTFSS_YmdHMS,
         0, 2056,
@@ -4820,7 +4846,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         113,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZZ, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZZ, "\""),
         //DfaU8, // 24m2s build time
         FlatLockstepNfaU8,
         DTFSS_YmdHMSfZ,
@@ -4836,7 +4862,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         114,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzc, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzc, "\""),
         DfaU8,
         DTFSS_YmdHMSfzc,
         0, 2056,
@@ -4851,7 +4877,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         115,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZz, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZz, "\""),
         // DfaU8, // fails to build; exceeded DFA state limit of 256
         FlatLockstepNfaU8,
         DTFSS_YmdHMSfz,
@@ -4867,7 +4893,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         116,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzp, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, RP_BLANKq, CGP_TZzp, "\""),
         DfaU8,
         DTFSS_YmdHMSfzp,
         0, 2056,
@@ -4882,7 +4908,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         117,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL19, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL19, "\""),
         DfaU8,
         DTFSS_YmdHMSf,
         0, 2056,
@@ -4898,7 +4924,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         118,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZZ, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_BLANKq, CGP_TZZ, "\""),
         // DfaU8, // 13m30s build time
         FlatLockstepNfaU8,
         DTFSS_YmdHMSZ,
@@ -4914,7 +4940,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         119,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZzc, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_BLANKq, CGP_TZzc, "\""),
         DfaU8,
         DTFSS_YmdHMSzc,
         0, 2056,
@@ -4929,7 +4955,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         120,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZz, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_BLANKq, CGP_TZz, "\""),
         DfaU8,
         DTFSS_YmdHMSz,
         0, 2056,
@@ -4944,7 +4970,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         121,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_BLANKq, CGP_TZzp, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_BLANKq, CGP_TZzp, "\""),
         DfaU8,
         DTFSS_YmdHMSzp,
         0, 2056,
@@ -4959,7 +4985,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         122,
         counter!(DP_KEY),
-        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, "\""),
+        concat!(r#""(DATETIME|Datetime|datetime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_YEAR, D_Dq, CGP_MONTHm, D_Dq, CGP_DAYde, D_DHcdq, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, "\""),
         DfaU8,
         DTFSS_YmdHMS,
         0, 2056,
@@ -5029,7 +5055,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         125,
         counter!(DP_KEY),
-        concat!(r#""(LOGTIME|LogTime|logTime|logtime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_MONTHm, D_Deq, CGP_DAYde, D_DHcdqus, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, "\""),
+        concat!(r#""(LOGTIME|LogTime|logTime|logtime)""#, RP_BLANKq, ":", RP_BLANKq, "\"", CGP_MONTHm, D_Deq, CGP_DAYde, D_DHcdqus, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, "\""),
         DfaU8,
         DTFSS_mdHMS,
         0, 512,
@@ -6120,7 +6146,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         180,
         counter!(DP_KEY),
-        concat!("(^|[[:blank:]])", CGP_YEAR, "-", CGP_MONTHm_sd, "-", CGP_DAYde, r"[\+T]", CGP_HOUR_sd, "-", CGP_MINUTE_sd, "-", CGP_SECOND_sd, D_SF, CGP_FRACTIONAL369, RP_BLANK),
+        concat!("(^|[[:blank:]])", CGP_YEAR, "-", CGP_MONTHm_sd, "-", CGP_DAYde, r"[\+T]", CGP_HOUR_sd, "-", CGP_MINUTE_sd, "-", CGP_SECOND_sd, D_SF, CGP_FRACTIONAL369, RP_NOALNUMpm),
         DfaU8,
         DTFSS_Ymdkmsf,
         0, 150,
@@ -6142,6 +6168,65 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
+    // ./logs/Windows11Pro/setupact.log
+    //
+    //      [02/21/2023 07:07.05.259] WudfCoInstaller: ReadWdfSection: Checking WdfSection [Basic_Install.Wdf]
+    //      [02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs.
+    //
+    // C:/Users/user1/AppData/Local/Cache/Microsoft/MSTeams/Logs/tma_addin_msi.log
+    //
+    //      INFO   : [04/10/2025 12:45:55:442] [CheckFX                                 ]: Custom Action is starting...
+    //      INFO   : [04/10/2025 12:45:55:442] [CheckFX                                 ]: CoInitializeEx - COM initialization Apartment Threaded...
+    //
+    #[cfg(any(regex = "181", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        181,
+        counter!(DP_KEY),
+        concat!(RP_LB, CGP_MONTHm, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHcd, CGP_HOUR, D_Teq, CGP_MINUTE, D_Tcd, CGP_SECOND, D_Tcdc, CGP_FRACTIONAL369, RP_RB),
+        DfaU8,
+        DTFSS_YmdHMSf,
+        0, 90,
+        CGN_MONTH, CGN_FRACTIONAL,
+        &[
+            (1, 24, (O_L, 2023, 2, 21, 7, 7, 5, 262000000), b"[02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs."),
+            (10, 33, (O_L, 2025, 4, 10, 12, 45, 55, 442000000), b"INFO   : (04/10/2025 12:45:55:442) [CheckFX                                 ]: CoInitializeEx - COM initialization Apartment Threaded..."),
+        ],
+        line!(),
+    ),
+    #[cfg(any(regex = "182", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        182,
+        counter!(DP_KEY),
+        concat!(RP_LB, CGP_MONTHm, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHcd, CGP_HOUR, D_Te, CGP_MINUTE, D_Tcd, CGP_SECOND, RP_RB),
+        DfaU8,
+        DTFSS_YmdHMS,
+        0, 80,
+        CGN_MONTH, CGN_SECOND,
+        &[
+            (1, 20, (O_L, 2023, 2, 21, 7, 9, 5, 0), b"[02/21/2023 07:09.05] WudfCoInstaller: Configuring UMDF Service WpdFs."),
+            (6, 25, (O_L, 2025, 4, 10, 12, 45, 55, 0), b"INFO (04/10/2025 12:45:55) [CheckFX                                 ]: CoInitializeEx - COM initialization Apartment Threaded..."),
+        ],
+        line!(),
+    ),
+    // ./logs/Windows11Pro/Local/Microsoft/CLR_v4.0_32/ngen.log
+    //
+    //      10/11/2022 14:14:04.751 [7712]: Native image used by one or more roots, cannot be uninstalled
+    //      10/11/2022 14:14:04.754 [7712]: ngen returning 0x00000000
+    //
+    #[cfg(any(regex = "183", regex = "ALL"))]
+    ERE_REGEX_DATETIME!(
+        183,
+        counter!(DP_KEY),
+        concat!("^", CGP_MONTHm_sd, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHcd, CGP_HOUR_sd, D_Tcd, CGP_MINUTE_sd, D_Tcd, CGP_SECOND_sd, D_Tcdc, CGP_FRACTIONAL369, RP_NOALNUMpm),
+        DfaU8,
+        DTFSS_YmdHMSf,
+        0, 46,
+        CGN_MONTH, CGN_FRACTIONAL,
+        &[
+            (0, 23, (O_L, 2022, 10, 11, 13, 14, 9, 751000000), b"10/11/2022 13:14:09.751 [7712]: Native image used by one or more roots, cannot be uninstalled"),
+        ],
+        line!(),
+    ),
     // UTF-16LE
     //
     // ./logs/Windows11Pro/Local/Microsoft/Internet Explorer/ie4uinit-ClearIconCache.log
@@ -6154,45 +6239,21 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //
     //      11/28/2018 19:17:56 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\nst4E80.tmp\, |delete operation|, 0xc0000034
     //      11/28/2018 19:17:56 - 6 Successful PFRO operations
+    //      05-07-2022 05:28 : DTC Install error = 0, Action: None, o
     //
-    #[cfg(any(regex = "181", regex = "ALL"))]
+    #[cfg(any(regex = "184", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        181,
+        184,
         counter!(DP_KEY),
-        concat!("^", CGP_MONTHm, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHcd, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_NOALNUMpm),
-        //DfaU8, // too many steps
-        FlatLockstepNfaU8,
-        DTFSS_YmdHMS,
-        0, 46,
+        concat!("^", CGP_MONTHm_sd, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHcd, CGP_HOUR_sd, D_Te, CGP_MINUTE_sd, D_Te, CGP_SECOND_sd, RP_NOALNUMpm),
+        DfaU8,
+        DTFSS_Ymdkms,
+        0, 34,
         CGN_MONTH, CGN_SECOND,
         &[
             (0, 19, (O_L, 2023, 2, 21, 6, 27, 45, 0), b"02/21/2023:06:27:45: Starting ie4uinit.exe. Command Line:-ClearIconCache"),
             (0, 19, (O_L, 2018, 11, 28, 19, 17, 56, 0), br"11/28/2018 19:17:56 - PFRO Error: \??\C:\Users\user1\AppData\Local\Temp\nst4E80.tmp\, |delete operation|, 0xc0000034"),
-        ],
-        line!(),
-    ),
-    // ./logs/Windows11Pro/setupact.log
-    //
-    //      [02/21/2023 07:07.05.259] WudfCoInstaller: ReadWdfSection: Checking WdfSection [Basic_Install.Wdf]
-    //      [02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs.
-    //
-    // C:/Users/user1/AppData/Local/Cache/Microsoft/MSTeams/Logs/tma_addin_msi.log
-    //
-    //      INFO   : [04/10/2025 12:45:55:442] [CheckFX                                 ]: Custom Action is starting...
-    //      INFO   : [04/10/2025 12:45:55:442] [CheckFX                                 ]: CoInitializeEx - COM initialization Apartment Threaded...
-    //
-    #[cfg(any(regex = "182", regex = "ALL"))]
-    ERE_REGEX_DATETIME!(
-        182,
-        counter!(DP_KEY),
-        concat!(RP_LB, CGP_MONTHm, D_D, CGP_DAYd, D_D, CGP_YEAR, D_DHcd, CGP_HOUR, D_Te, CGP_MINUTE, D_Tcd, CGP_SECOND, D_Tcdc, CGP_FRACTIONAL369, RP_RB),
-        DfaU8,
-        DTFSS_YmdHMSf,
-        0, 80,
-        CGN_MONTH, CGN_FRACTIONAL,
-        &[
-            (1, 24, (O_L, 2023, 2, 21, 7, 7, 5, 262000000), b"[02/21/2023 07:07.05.262] WudfCoInstaller: Configuring UMDF Service WpdFs."),
-            (10, 33, (O_L, 2025, 4, 10, 12, 45, 55, 442000000), b"INFO   : [04/10/2025 12:45:55:442] [CheckFX                                 ]: CoInitializeEx - COM initialization Apartment Threaded..."),
+            (0, 17, (O_L, 2021, 6, 23, 20, 1, 41, 0), b"6/23/2021 20:1:41 - 0 Successful PFRO operations"),
         ],
         line!(),
     ),
@@ -6204,9 +6265,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      [0509/110534.597:ERROR:installer\mini_installer\setup\install_worker.cc:152] Failed creating a firewall rules. Continuing with install.
     //      [0509/110534.660:VERBOSE1:installer\util\vivaldi_setup_util.cc:445] Initial command line:
     //
-    #[cfg(any(regex = "183", regex = "ALL"))]
+    #[cfg(any(regex = "185", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        183,
+        185,
         counter!(DP_KEY),
         concat!(RP_NOALNUMb, CGP_MONTHm, D_Deq, CGP_DAYd, D_DHcds, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_NOALNUM),
         // DfaU8, // exceeded DFA state limit of 162
@@ -6220,23 +6281,23 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         line!(),
     ),
     //
-    // CL/Users/user1/AppData/Local/Temp/cv_debug.log
+    // C:/Users/user1/AppData/Local/Temp/cv_debug.log
     //
     //      {"logTime": "0425/073721", "correlationVector":"63EBBED7FB5845DDB9AF2810D983A3BD","action":"FETCH_UX_CONFIG", "result":""}
     //      {"logTime": "0425/073750", "correlationVector":"8Ffe+ZgWUZAP9cYd0PWnWm","action":"EXTENSION_UPDATE_SERVICE", "result":""}
     //
-    #[cfg(any(regex = "184", regex = "ALL"))]
+    #[cfg(any(regex = "186", regex = "ALL"))]
     ERE_REGEX_DATETIME!(
-        184,
+        186,
         counter!(DP_KEY),
-        concat!(RP_NOALNUMb, CGP_MONTHm, D_Deq, CGP_DAYd, D_DHcds, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, RP_NOALNUM),
+        concat!(RP_NOALNUMb, CGP_MONTHm, D_Deq, CGP_DAYd, D_DHcds, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, RP_NOALNUM),
         // DfaU8, // exceeded DFA state limit of 162
         FlatLockstepNfaU8,
-        DTFSS_mdHMSf,
+        DTFSS_mdHMS,
         0, 60,
         CGN_MONTH, CGN_SECOND,
         &[
-            (12, 26, (O_L, YD, 4, 25, 7, 37, 50, 0), br#"{"logTime": "0425/073750", "correlationVector":"8Ffe+ZgWUZAP9cYd0PWnWm","action":"EXTENSION_UPDATE_SERVICE", "result":""}"#),
+            (13, 24, (O_L, YD, 4, 25, 7, 37, 50, 0), br#"{"logTime": "0425/073750", "correlationVector":"8Ffe+ZgWUZAP9cYd0PWnWm","action":"EXTENSION_UPDATE_SERVICE", "result":""}"#),
         ],
         line!(),
     ),
@@ -6246,7 +6307,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
 /// This value depends upon build cfg of env var `S4_BUILD_REGEX`.
 pub const DATETIME_PARSE_DATAS_LEN: usize = counter_last!(DP_KEY);
 /// the maximum possible length of `DATETIME_PARSE_DATAS`
-pub const DATETIME_PARSE_DATAS_LEN_MAX: usize = 184;
+pub const DATETIME_PARSE_DATAS_LEN_MAX: usize = 186;
 
 /// Check if the `regex_id` is in the compiled `DATETIME_PARSE_DATAS`.
 /// `DATETIME_PARSE_DATAS` may vary depending upon build cfg of env var `REGEX`.

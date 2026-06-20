@@ -2064,9 +2064,6 @@ fn print_all_files_summaries(
             debug_panic!("summary_opt is None for PathID {:?} (path {:?})", pathid, path);
         }
         let summary_print_opt: SummaryPrintedOpt = map_pathid_sumpr.remove(pathid);
-        if summary_print_opt.is_none() {
-            de_wrn!("summary_print_opt is None for PathID {:?} (path {:?})", pathid, path);
-        }
         print_file_summary(
             path,
             modified_time,
