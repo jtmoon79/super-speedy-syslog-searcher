@@ -6269,7 +6269,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     ERE_REGEX_DATETIME!(
         185,
         counter!(DP_KEY),
-        concat!(RP_NOALNUMb, CGP_MONTHm, D_Deq, CGP_DAYd, D_DHcds, CGP_HOUR, D_Te, CGP_MINUTE, D_Te, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_NOALNUM),
+        concat!(RP_NOALNUMb, CGP_MONTHm, D_Deq, CGP_DAYd, D_DHcds, CGP_HOUR, D_Teq, CGP_MINUTE, D_Teq, CGP_SECOND, D_SF, CGP_FRACTIONAL369, RP_NOALNUM),
         // DfaU8, // exceeded DFA state limit of 162
         FlatLockstepNfaU8,
         DTFSS_mdHMSf,
@@ -6277,6 +6277,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         CGN_MONTH, CGN_FRACTIONAL,
         &[
             (1, 16, (O_L, YD, 5, 9, 11, 5, 34, 660000000), br#"[0509/110534.660:VERBOSE1:installer\util\vivaldi_setup_util.cc:445] Initial command line:"#),
+            (1, 19, (O_L, YD, 5, 9, 11, 5, 34, 660000000), br#"[05/09/11:05:34.660:VERBOSE1:installer\util\vivaldi_setup_util.cc:445] Initial command line:"#),
         ],
         line!(),
     ),
