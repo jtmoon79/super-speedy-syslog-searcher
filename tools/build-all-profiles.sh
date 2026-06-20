@@ -25,16 +25,19 @@ wait ${PIDs[@]}
 ./target/debug/s4 --version
 ./target/release/s4 --version
 
-# jemalloc
+# jemalloc, rpmalloc
 
 PIDs=()
 
 cargo build --locked --profile jemalloc --features jemalloc &
 PIDs+=($!)
+cargo build --locked --profile rpmalloc --features rpmalloc &
+PIDs+=($!)
 
 wait ${PIDs[@]}
 
 ./target/jemalloc/s4 --version
+./target/rpmalloc/s4 --version
 
 # mimalloc, tcmalloc
 
@@ -50,16 +53,6 @@ wait ${PIDs[@]}
 ./target/mimalloc/s4 --version
 ./target/tcmalloc/s4 --version
 
-# rpmalloc
-
-PIDs=()
-
-cargo build --locked --profile rpmalloc --features rpmalloc &
-PIDs+=($!)
-
-wait ${PIDs[@]}
-
-./target/rpmalloc/s4 --version
 
 # alloc_tracker, flamegraph
 
@@ -75,11 +68,13 @@ wait ${PIDs[@]}
 ./target/alloc_tracker/s4 --version
 ./target/flamegraph/s4 --version
 
-# valgrind
+# valgrind, check
 
 PIDs=()
 
 RUSTFLAGS=-g cargo build --locked --profile valgrind &
+PIDs+=($!)
+cargo check --locked &
 PIDs+=($!)
 
 wait ${PIDs[@]}
