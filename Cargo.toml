@@ -93,7 +93,7 @@ bstr = "=1.12.1"
 bzip2-rs = "=0.1.2"
 cfg-if = "=1.0.4"
 chardet = "=0.2.4"
-chrono = "=0.4.44"
+chrono = "=0.4.45"
 clap = { version = "=4.6.1", features = ["derive", "env"] }
 const_env = "=0.1.5"
 const_format = { version = "=0.2.36", features = ["assertcp", "rust_1_83"] }
@@ -159,7 +159,7 @@ thousands = { version = "=0.2.0", optional = true }
 
 [build-dependencies]
 build-print.workspace = true
-chrono = "=0.4.44"
+chrono = "=0.4.45"
 dotenvy.workspace = true
 list-features = "0.1.2"
 rustc_version_runtime = "=0.3.0"
