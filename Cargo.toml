@@ -106,10 +106,10 @@ encoding_rs = "=0.8.35"
 ere = { version = "=0.10.0", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
 ere_automator_procmacro = { version = "=0.10.0", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
 ere_datetimes_impl = { version = "=0.10.1", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
-evtx = { version = "=0.11.2", features = ["multithreading"] }
+evtx = { version = "=0.12.2", features = ["multithreading"] }
 flate2 = "=1.1.9"
 include_dir = "=0.7.4"
-itertools = "=0.14.0"
+itertools = "=0.15.0"
 jetscii = { version = "=0.5.3", optional = true }
 jwalk = "=0.8.1"
 kinded = "=0.5.0"
@@ -122,7 +122,7 @@ memoffset = "=0.9.1"
 min-max = "=0.1.8"
 more-asserts.workspace = true
 mut_static = "=5.0.0"
-nix = "=0.30.1"
+nix = "=0.31.3"
 numtoa = "=1.0.0"
 # TODO: instead of `once_cell` crate, use `std::sync::OnceLock` and `get_or_try_init`
 #       TRACKING: https://github.com/rust-lang/rust/issues/109737
