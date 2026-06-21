@@ -134,7 +134,7 @@ jobs:
           git config --global core.eol lf
           git config --global core.autocrlf false
           git config --global core.protectNTFS false
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       # TODO: use `https://github.com/actions-rust-lang/setup-rust-toolchain`?
       #       why did I stop using it?
       - run: rustup toolchain install ${{ matrix.msrv }} --profile minimal
@@ -217,7 +217,7 @@ jobs:
     steps:
       # build & upload debug
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: Build Debug using toolchain ${{ env.MSRV_UPLOAD }}, all regex
         shell: bash
@@ -282,7 +282,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
       - run: rustup target add ${{ matrix.target }}
       - run: cargo install --locked cross
@@ -315,7 +315,7 @@ jobs:
   #   runs-on: macos-latest
   #   steps:
   #     - name: git checkout
-  #       uses: actions/checkout@v6
+  #       uses: actions/checkout@v7
   #     - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
   #     - run: rustup target add ${{ matrix.target }}
   #     - run: cargo install --locked cross
@@ -348,7 +348,7 @@ jobs:
   #   runs-on: windows-latest
   #   steps:
   #     - name: git checkout
-  #       uses: actions/checkout@v6
+  #       uses: actions/checkout@v7
   #     - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --target ${{ matrix.target }} --profile minimal
   #     - run: rustup target add ${{ matrix.target }}
   #     - run: cargo install --locked cross
@@ -371,7 +371,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: Check (cargo check --all-targets)
         shell: bash
@@ -390,7 +390,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - run: cargo install --locked cargo-deny
       - name: Deny (cargo-deny.sh)
@@ -405,7 +405,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile default
       - name: cargo clippy
         shell: bash
@@ -423,7 +423,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: Benches (cargo bench --no-run)
         shell: bash
@@ -440,7 +440,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - run: cargo install --locked cargo-nextest
       - name: Install libsystemd
@@ -494,7 +494,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - run: cargo install --locked cargo-nextest
       # XXX: MacOS tools do not support `touch` arguments run in
@@ -531,7 +531,7 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.protectNTFS false
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: set log file filesystem Modified Times
         shell: powershell
@@ -563,7 +563,7 @@ jobs:
       S4_BUILD_REGEX: 1
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Build Documentation
         run: cargo doc --locked --release --no-deps -v
       - uses: dtolnay/rust-toolchain@nightly
@@ -586,7 +586,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Use Python 3.10
         uses: actions/setup-python@v6
         with:
@@ -617,7 +617,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Run codecov-validate.sh
         run: ./tools/codecov-validate.sh -v
 
@@ -640,7 +640,7 @@ jobs:
     steps:
       # checkout for the log files
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
       - name: set log file filesystem Modified Times
         shell: bash
@@ -1023,7 +1023,7 @@ jobs:
       COVERALLS_FILE: ./coveralls.lcov
     steps:
       - name: git checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - run: rustup toolchain install ${{ env.VERSION_LLVM_COV }} --profile minimal
       - name: Install libsystemd
         shell: bash
