@@ -94,7 +94,7 @@ bzip2-rs = "=0.1.2"
 cfg-if = "=1.0.4"
 chardet = "=0.2.4"
 chrono = "=0.4.44"
-clap = { version = "=4.5.48", features = ["derive", "env"] }
+clap = { version = "=4.6.1", features = ["derive", "env"] }
 const_env = "=0.1.5"
 const_format = { version = "=0.2.36", features = ["assertcp", "rust_1_83"] }
 const-str.workspace = true
