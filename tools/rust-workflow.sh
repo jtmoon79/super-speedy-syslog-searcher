@@ -53,11 +53,14 @@ for arg in "${@}"; do
     fi
 done
 
+export S4_BUILD_PRINT=1
+export S4_BUILD_REGEX_PRINT=1
+
 if ${do_clean}; then
     cargo clean
 fi
 if ${do_build}; then
-    cargo msrv verify  # cargo install cargo-msrv
+    S4_BUILD_REGEX=1 cargo msrv verify  # cargo install cargo-msrv
     ./tools/build-all-profiles.sh
 fi
 ./tools/log-files-time-update.sh
