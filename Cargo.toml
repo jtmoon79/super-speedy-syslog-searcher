@@ -14,7 +14,7 @@ resolver = "3"
 
 [workspace.dependencies]
 build-print = "1.0.1"
-bitvec = "=1.0.1"
+bitvec = "=1.1.1"
 const-str = "=1.1.0"
 dotenvy = "=0.15.7"
 lazy_static = "=1.5.0"
@@ -88,7 +88,7 @@ exclude = [
 
 [dependencies]
 anyhow = "=1.0.102"
-bitvec = "1.0.1"
+bitvec.workspace = true
 bstr = "=1.12.1"
 bzip2-rs = "=0.1.2"
 cfg-if = "=1.0.4"
