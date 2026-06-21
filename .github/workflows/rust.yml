@@ -522,7 +522,7 @@ jobs:
       - name: git checkout
         uses: actions/checkout@v7
       - name: Use Python 3.10
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v6.2.0
         with:
           python-version: "3.10"
       - name: Install dependencies
@@ -561,7 +561,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Markup Link Checker (mlc)
-        uses: becheran/mlc@v0.17.1
+        uses: becheran/mlc@v1.2.0
         with:
           args: ./README.md
 
@@ -985,7 +985,7 @@ jobs:
           LCOV_OUTPUT_SUMMARY=${COVERALLS_FILE} ./tools/cargo-llvm-cov-combine-multiple.sh
           ls -l "${COVERALLS_FILE}"
       - name: upload coveralls
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@v2.3.6
         with:
           file: ${{ env.COVERALLS_FILE }}
           format: lcov
