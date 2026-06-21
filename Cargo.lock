@@ -5021,7 +5021,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "super-speedy-syslog-searcher_ere"
-version = "0.10.0"
+version = "0.10.2"
 dependencies = [
  "bitvec",
  "criterion 0.5.1",
@@ -5034,7 +5034,7 @@ dependencies = [
 
 [[package]]
 name = "super-speedy-syslog-searcher_ere-core"
-version = "0.10.0"
+version = "0.10.2"
 dependencies = [
  "bitvec",
  "proc-macro2",
@@ -5046,7 +5046,7 @@ dependencies = [
 
 [[package]]
 name = "super-speedy-syslog-searcher_ere-macros"
-version = "0.10.0"
+version = "0.10.2"
 dependencies = [
  "quote",
  "super-speedy-syslog-searcher_ere-core",
@@ -5055,7 +5055,7 @@ dependencies = [
 
 [[package]]
 name = "super-speedy-syslog-searcher_ere_automator_procmacro"
-version = "0.10.0"
+version = "0.10.2"
 dependencies = [
  "const-str",
  "dotenvy",
@@ -5069,7 +5069,7 @@ dependencies = [
 
 [[package]]
 name = "super-speedy-syslog-searcher_ere_datetimes_impl"
-version = "0.10.1"
+version = "0.10.2"
 dependencies = [
  "bitvec",
  "build-print",

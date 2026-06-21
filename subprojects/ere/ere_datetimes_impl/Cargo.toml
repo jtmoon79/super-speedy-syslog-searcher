@@ -3,7 +3,7 @@
 [package]
 name = "super-speedy-syslog-searcher_ere_datetimes_impl"
 description = "Support crate for super-speedy-syslog-searcher. Compile-time implementation of datetime regexes."
-version = "0.10.1"
+version = "0.10.2"
 edition = "2024"
 license.workspace = true
 authors = ["jtmoon79"]
@@ -22,8 +22,8 @@ exclude = [
 bitvec.workspace = true
 const-str.workspace = true
 # PROJECT VERSION LAST PUBLISHED
-ere = { version = "=0.10.0", path = "../ere", package = "super-speedy-syslog-searcher_ere" }
-ere_automator_procmacro = { version = "=0.10.0", path = "../ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
+ere = { version = "=0.10.2", path = "../ere", package = "super-speedy-syslog-searcher_ere" }
+ere_automator_procmacro = { version = "=0.10.2", path = "../ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
 lazy_static.workspace = true
 more-asserts.workspace = true
 si_trace_print.workspace = true

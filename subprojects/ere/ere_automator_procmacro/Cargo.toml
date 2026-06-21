@@ -3,7 +3,7 @@
 [package]
 name = "super-speedy-syslog-searcher_ere_automator_procmacro"
 description = "Support crate for super-speedy-syslog-searcher. proc-macro to further automate creation of regexes with the super-speedy-syslog-searcher_ere crate."
-version = "0.10.0"
+version = "0.10.2"
 edition = "2024"
 license.workspace = true
 authors = ["jtmoon79"]
@@ -18,7 +18,7 @@ path = "src/ere_automator_procmacro.rs"
 
 [dependencies]
 const-str.workspace = true
-ere = { version = "=0.10.0", path = "../ere", package = "super-speedy-syslog-searcher_ere", features = ["unstable-attr-regex"] }
+ere = { version = "=0.10.2", path = "../ere", package = "super-speedy-syslog-searcher_ere", features = ["unstable-attr-regex"] }
 lazy_static.workspace = true
 macro-string = "=0.2.0"
 proc-macro2 = { workspace = true, features = ["span-locations"] }
