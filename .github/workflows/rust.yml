@@ -128,7 +128,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
-      - run: |
+      - name: git config line endings
+        run: |
+          set -eux
+          git config --global core.eol lf
+          git config --global core.autocrlf false
           git config --global core.protectNTFS false
       - uses: actions/checkout@v6
       # TODO: use `https://github.com/actions-rust-lang/setup-rust-toolchain`?
@@ -518,6 +522,14 @@ jobs:
     needs: [job_rust_msrv_os]
     runs-on: windows-latest
     steps:
+      - name: git config line endings
+        run: |
+          # force git to not manipulate line endings. Otherwise some test cases
+          # that read in-repository files will have byte differences and fail.
+          set -eux
+          git config --global core.eol lf
+          git config --global core.autocrlf false
+          git config --global core.protectNTFS false
       - name: git checkout
         uses: actions/checkout@v6
       - run: rustup toolchain install ${{ env.MSRV_UPLOAD }} --profile minimal
