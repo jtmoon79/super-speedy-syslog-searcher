@@ -13,13 +13,13 @@ LCOV_OUTPUT_PATHD=$(mktemp -d)
 LCOV_OUTPUT_SUMMARY=${LCOV_OUTPUT_SUMMARY-${LCOV_OUTPUT_PATHD}/summary.lcov}
 HTML_OUTPUT_DIR=${LCOV_OUTPUT_SUMMARY%.*}_html
 
-if ! cargo llvm-cov --version; then
+if ! (set -ex; cargo llvm-cov --version); then
     echo "Is cargo-llvm-cov installed?" >&2
     echo "    cargo install --locked cargo-llvm-cov" >&2
     exit 1
 fi
 
-if ! (lcov --version && genhtml --version); then
+if ! (set -ex; lcov --version ; genhtml --version); then
     echo "Is lcov installed?" >&2
     echo "    sudo apt install lcov" >&2
     exit 1
