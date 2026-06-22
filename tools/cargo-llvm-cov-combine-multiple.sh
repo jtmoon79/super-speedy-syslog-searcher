@@ -83,6 +83,9 @@ declare -a S4_TEST_FILES=(
 
 declare -i i=0
 
+if [[ -n "${S4_BUILD_REGEX-}" ]]; then
+    export S4_BUILD_REGEX=TEST
+fi
 
 (
     set -x
