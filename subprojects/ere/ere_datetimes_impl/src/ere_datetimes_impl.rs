@@ -2676,7 +2676,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //      <29>Jan  1 14:21:13 HOST netifd: Network device 'eth0' link is up
     //      <7>Mar 23 09:35:30 localhost DPKG [9332:<console>.<module>:2] debug info
     //
-    #[cfg(any(regex = "23", regex = "ALL"))]
+    // ./logs/standards/RFC-3164.log
+    #[cfg(any(regex = "23", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         23,
         counter!(DP_KEY),
@@ -3234,7 +3235,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "40", regex = "ALL"))]
+    // ./logs/standards/RFC-2822.log
+    #[cfg(any(regex = "40", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         40,
         counter!(DP_KEY),
@@ -4015,7 +4017,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "71", regex = "ALL"))]
+    // ./logs/standards/RFC-5424-2dot-0400.log
+    // ./logs/standards/RFC-5424-6dot-0700.log
+    #[cfg(any(regex = "71", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         71,
         counter!(DP_KEY),
@@ -4037,7 +4041,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         CGN_YEAR, CGN_TZ,        &[(0, 33, (O_M11, 2000, 1, 4, 0, 0, 4, 123456789), b"2000/01/04 00:00:04,123456789 -11 abc")],
         line!(),
     ),
-    #[cfg(any(regex = "73", regex = "ALL"))]
+    // ./logs/standards/RFC-5424-3dotZ.log
+    #[cfg(any(regex = "73", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         73,
         counter!(DP_KEY),
@@ -4130,7 +4135,8 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    #[cfg(any(regex = "78", regex = "ALL"))]
+    // ./logs/standards/RFC-5424-Z.log
+    #[cfg(any(regex = "78", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         78,
         counter!(DP_KEY),
@@ -4150,7 +4156,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
         ],
         line!(),
     ),
-    //
+    // gen-20-1-faces.log
     #[cfg(any(regex = "79", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         79,
@@ -4537,7 +4543,7 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     012345678901234567890
     //     [2019-03-01 16:56] [PACMAN] synchronizing package lists
     //
-    #[cfg(any(regex = "96", regex = "ALL"))]
+    #[cfg(any(regex = "96", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         96,
         counter!(DP_KEY),
@@ -5264,7 +5270,9 @@ pub const DATETIME_PARSE_DATAS: [DateTimeParseInstr; DATETIME_PARSE_DATAS_LEN] =
     //     0123456789012345678901234567890
     //     20200307_202530 /sbin/e2fsck -pvf
     //
-    #[cfg(any(regex = "136", regex = "ALL"))]
+    // dtf7-20-LEVELS.log
+    //
+    #[cfg(any(regex = "136", regex = "ALL", regex = "TEST"))]
     ERE_REGEX_DATETIME!(
         136,
         counter!(DP_KEY),
