@@ -16,19 +16,30 @@ set -euo pipefail
 readonly HERE_DIR="$(dirname -- "${0}")"
 cd "${HERE_DIR}/.."
 
-declare -r S4R=./target/release/s4
-declare -r S4D=./target/debug/s4
+declare -r S4R=${S4R:-./target/release/s4}
+declare -r S4D=${S4D:-./target/debug/s4}
 declare -ar S4_TEST_FILES=(
-    ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
-    ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
     ./logs/other/tests/dtf2-2.log
     ./logs/other/tests/dtf3-2a.log
     ./logs/other/tests/dtf5-6a.log.gz
+    ./logs/other/tests/dtf5-6b.log
+    ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-16BE.log
+    ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-16LE.log
+    ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-32BE.log
+    ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-32LE.log
+    ./logs/other/tests/dtf5-6b.UTF-8_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-8.log
     ./logs/other/tests/dtf7-20-LEVELS.log.xz
     ./logs/other/tests/gen-2-1.tar
-    ./logs/other/tests/gen-20-1-faces.log
     ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
+    ./logs/other/tests/gen-20-1-faces.log
     ./logs/other/tests/gen-20-2-2-faces.log
+    ./logs/programs/Event_Trace_Log/waasmedic.20251005_113019_195.etl
+    ./logs/programs/OneDrive/Local/Microsoft/OneDrive/logs/Common/FileCoAuth-2025-12-21.1214.4056.1.odl
 )
 
 set -x
