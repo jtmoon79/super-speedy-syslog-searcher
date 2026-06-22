@@ -982,7 +982,9 @@ jobs:
           chmod -v +x ./tools/cargo-llvm-cov-combine-multiple.sh
           cargo llvm-cov --version
           cargo llvm-cov show-env
-          LCOV_OUTPUT_SUMMARY=${COVERALLS_FILE} ./tools/cargo-llvm-cov-combine-multiple.sh
+          export S4_BUILD_REGEX=TEST
+          export LCOV_OUTPUT_SUMMARY=${COVERALLS_FILE}
+          ./tools/cargo-llvm-cov-combine-multiple.sh
           ls -l "${COVERALLS_FILE}"
       - name: upload coveralls
         uses: coverallsapp/github-action@v2.3.6
