@@ -4,4 +4,4 @@ This crate is only for project [super-speedy-syslog-searcher]. It has no use out
 
 [super-speedy-syslog-searcher]: https://github.com/jtmoon79/super-speedy-syslog-searcher/
 
-Ripped from [https://github.com/2kai2kai2/ere/pull/4](https://github.com/2kai2kai2/ere/pull/4).
+Ripped from [2kai2kai2/ere Pull Request #4](https://github.com/2kai2kai2/ere/pull/4).
