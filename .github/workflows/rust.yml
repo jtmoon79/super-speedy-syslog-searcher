@@ -130,7 +130,6 @@ jobs:
       # Issue #62: `git config` to workaround `git checkout` error on Windows
       - name: git config line endings
         run: |
-          set -eux
           git config --global core.eol lf
           git config --global core.autocrlf false
           git config --global core.protectNTFS false
@@ -460,7 +459,6 @@ jobs:
         run: |
           # force git to not manipulate line endings. Otherwise some test cases
           # that read in-repository files will have byte differences and fail.
-          set -eux
           git config --global core.eol lf
           git config --global core.autocrlf false
           git config --global core.protectNTFS false
