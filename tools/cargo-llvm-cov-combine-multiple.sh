@@ -35,10 +35,20 @@ declare -a S4_TEST_FILES=(
     ./logs/other/tests/dtf2-2.log
     ./logs/other/tests/dtf3-2a.log
     ./logs/other/tests/dtf5-6a.log.gz
+    ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-16BE.log
+    ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-16LE.log
+    ./logs/other/tests/dtf5-6b.UTF-32BE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-32BE.log
+    ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-32LE.log
+    ./logs/other/tests/dtf5-6b.UTF-8_BOM.log
+    ./logs/other/tests/dtf5-6b.UTF-8.log
     ./logs/other/tests/dtf7-20-LEVELS.log.xz
     ./logs/other/tests/gen-2-1.tar
-    ./logs/other/tests/gen-20-1-faces.log
     ./logs/other/tests/gen-20-1-⚀⚁⚂⚃⚄⚅.log
+    ./logs/other/tests/gen-20-1-faces.log
     ./logs/other/tests/gen-20-2-2-faces.log
     ./logs/programs/AWS/elasticloadbalancer.log
     ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx
@@ -54,13 +64,13 @@ declare -a S4_TEST_FILES=(
     ./logs/programs/utmp/host-entry6.wtmp.xz
     ./logs/standards/ctime.log
     ./logs/standards/ISO8601-YY-MM-DD.log
+    ./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS.log
+    ./logs/standards/ISO8601-YYYY-DDD.log
+    ./logs/standards/ISO8601-YYYY-MM-DD.log
     ./logs/standards/ISO8601-YYYYDDMMTHHMM.log
     ./logs/standards/ISO8601-YYYYDDMMTHHMMSS.log
     ./logs/standards/ISO8601-YYYYMM.log
     ./logs/standards/ISO8601-YYYYMMDD.log
-    ./logs/standards/ISO8601-YYYY-DD-MMTHH-MM-SS.log
-    ./logs/standards/ISO8601-YYYY-DDD.log
-    ./logs/standards/ISO8601-YYYY-MM-DD.log
     ./logs/standards/RFC-2822.log
     ./logs/standards/RFC-3164.log
     ./logs/standards/RFC-5424-2dot-0400.log
