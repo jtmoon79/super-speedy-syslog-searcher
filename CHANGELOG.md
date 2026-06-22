@@ -12,23 +12,27 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
 <!-- Table of Contents updated by "Markdown All In One" extension for Visual Studio Code -->
 
 - [Unreleased](#unreleased)
-- [0.9.81](#0981)
+- [0.9.82](#0982)
   - [New](#new)
+  - [Changed](#changed)
+  - [Fixed](#fixed)
+- [0.9.81](#0981)
+  - [New](#new-1)
   - [Fixes](#fixes)
   - [Changes](#changes)
 - [0.8.80](#0880)
-  - [New](#new-1)
+  - [New](#new-2)
   - [Changes](#changes-1)
   - [Fixes](#fixes-1)
 - [0.7.79](#0779)
-  - [New](#new-2)
+  - [New](#new-3)
   - [Changes](#changes-2)
   - [Fixes](#fixes-2)
 - [0.7.78](#0778)
   - [Changes](#changes-3)
   - [Fixes](#fixes-3)
 - [0.7.77](#0777)
-  - [New](#new-3)
+  - [New](#new-4)
   - [Changes](#changes-4)
 - [0.7.76](#0776)
   - [Changes](#changes-5)
@@ -37,108 +41,108 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
   - [Changes](#changes-6)
   - [Fixes](#fixes-5)
 - [0.7.74](#0774)
-  - [New](#new-4)
+  - [New](#new-5)
   - [Changes](#changes-7)
   - [Fixes](#fixes-6)
 - [0.7.73](#0773)
-  - [New](#new-5)
+  - [New](#new-6)
   - [Changes](#changes-8)
   - [Fixes](#fixes-7)
 - [0.7.72](#0772)
-  - [New](#new-6)
+  - [New](#new-7)
   - [Changes](#changes-9)
   - [Fixes](#fixes-8)
 - [0.6.71](#0671)
-  - [New](#new-7)
+  - [New](#new-8)
   - [Changes](#changes-10)
   - [Fixes](#fixes-9)
 - [0.6.70](#0670)
-  - [New](#new-8)
+  - [New](#new-9)
   - [Changes](#changes-11)
 - [0.6.69](#0669)
-  - [New](#new-9)
+  - [New](#new-10)
   - [Changes](#changes-12)
 - [0.6.68](#0668)
-  - [New](#new-10)
+  - [New](#new-11)
   - [Changes](#changes-13)
 - [0.6.67](#0667)
-  - [New](#new-11)
+  - [New](#new-12)
   - [Changes](#changes-14)
   - [Fixes](#fixes-10)
 - [0.6.66](#0666)
   - [Changes](#changes-15)
   - [Fixes](#fixes-11)
 - [0.6.65](#0665)
-  - [New](#new-12)
+  - [New](#new-13)
   - [Changes](#changes-16)
 - [0.6.64](#0664)
-  - [New](#new-13)
+  - [New](#new-14)
   - [Changes](#changes-17)
   - [Fixes](#fixes-12)
 - [0.6.63](#0663)
-  - [New](#new-14)
+  - [New](#new-15)
   - [Changes](#changes-18)
   - [Fixes](#fixes-13)
 - [0.6.62](#0662)
   - [Fixes](#fixes-14)
 - [0.6.61](#0661)
-  - [New](#new-15)
+  - [New](#new-16)
   - [Changes](#changes-19)
   - [Fixes](#fixes-15)
 - [0.6.60](#0660)
-  - [New](#new-16)
+  - [New](#new-17)
 - [0.5.59](#0559)
   - [Changes](#changes-20)
   - [Fixes](#fixes-16)
 - [0.5.58](#0558)
-  - [New](#new-17)
+  - [New](#new-18)
   - [Changes](#changes-21)
 - [0.4.57](#0457)
   - [Changes](#changes-22)
   - [Fixes](#fixes-17)
 - [0.4.56](#0456)
-  - [New](#new-18)
+  - [New](#new-19)
   - [Changes](#changes-23)
   - [Fixes](#fixes-18)
 - [0.3.55](#0355)
-  - [New](#new-19)
+  - [New](#new-20)
   - [Changes](#changes-24)
   - [Fixes](#fixes-19)
 - [0.3.54](#0354)
-  - [New](#new-20)
+  - [New](#new-21)
   - [Fixes](#fixes-20)
 - [0.3.53](#0353)
-  - [New](#new-21)
+  - [New](#new-22)
   - [Changes](#changes-25)
 - [0.2.52](#0252)
-  - [New](#new-22)
-- [0.2.51](#0251)
   - [New](#new-23)
-- [0.2.50](#0250)
+- [0.2.51](#0251)
   - [New](#new-24)
+- [0.2.50](#0250)
+  - [New](#new-25)
   - [Changes](#changes-26)
   - [Fixes](#fixes-21)
 - [0.2.49](#0249)
   - [Changes](#changes-27)
   - [Fixes](#fixes-22)
 - [0.2.48](#0248)
-  - [New](#new-25)
+  - [New](#new-26)
   - [Changes](#changes-28)
   - [Fixes](#fixes-23)
 - [0.2.47](#0247)
 - [0.2.46](#0246)
-  - [New](#new-26)
+  - [New](#new-27)
   - [Changes](#changes-29)
   - [Fixes](#fixes-24)
 - [0.1.45](#0145)
-  - [New](#new-27)
+  - [New](#new-28)
   - [Changes](#changes-30)
 - [0.1.44](#0144)
-  - [New](#new-28)
+  - [New](#new-29)
   - [Changes](#changes-31)
   - [Fixes](#fixes-25)
 - [0.1.43](#0143)
-  - [New](#new-29)
+  - [New](#new-30)
   - [Changes](#changes-32)
 - [0.1.42](#0142)
   - [Changes](#changes-33)
@@ -146,66 +150,66 @@ Manual changelog for [super speedy syslog searcher](https://github.com/jtmoon79/
   - [Changes](#changes-34)
   - [Fixes](#fixes-26)
 - [0.1.40](#0140)
-  - [New](#new-30)
+  - [New](#new-31)
   - [Changes](#changes-35)
 - [0.1.39](#0139)
   - [Changes](#changes-36)
 - [0.1.38](#0138)
-  - [New](#new-31)
+  - [New](#new-32)
   - [Changes](#changes-37)
 - [0.0.37](#0037)
-  - [New](#new-32)
+  - [New](#new-33)
   - [Changes](#changes-38)
 - [0.0.36](#0036)
-  - [New](#new-33)
+  - [New](#new-34)
   - [Changes](#changes-39)
   - [Fixes](#fixes-27)
 - [0.0.35](#0035)
-  - [New](#new-34)
+  - [New](#new-35)
   - [Fixes](#fixes-28)
 - [0.0.34](#0034)
-  - [New](#new-35)
+  - [New](#new-36)
   - [Fixes](#fixes-29)
 - [0.0.33](#0033)
-  - [New](#new-36)
-- [0.0.32](#0032)
   - [New](#new-37)
+- [0.0.32](#0032)
+  - [New](#new-38)
   - [Fixes](#fixes-30)
 - [0.0.31](#0031)
-  - [New](#new-38)
-- [0.0.30](#0030)
   - [New](#new-39)
+- [0.0.30](#0030)
+  - [New](#new-40)
   - [Changes](#changes-40)
 - [0.0.29](#0029)
   - [Changes](#changes-41)
 - [0.0.28](#0028)
-  - [New](#new-40)
+  - [New](#new-41)
   - [Changes](#changes-42)
   - [Fixes](#fixes-31)
 - [0.0.27](#0027)
-  - [New](#new-41)
+  - [New](#new-42)
   - [Changes](#changes-43)
 - [0.0.26](#0026)
-  - [New](#new-42)
+  - [New](#new-43)
   - [Changes](#changes-44)
   - [Fixes](#fixes-32)
 - [0.0.25](#0025)
-  - [New](#new-43)
+  - [New](#new-44)
   - [Changes](#changes-45)
   - [Fixes](#fixes-33)
 - [0.0.24](#0024)
-  - [New](#new-44)
+  - [New](#new-45)
   - [Changes](#changes-46)
 - [0.0.23](#0023)
-  - [New](#new-45)
+  - [New](#new-46)
   - [Changes](#changes-47)
   - [Fixes](#fixes-34)
 - [0.0.22](#0022)
-  - [New](#new-46)
+  - [New](#new-47)
   - [Changes](#changes-48)
   - [Fixes](#fixes-35)
 - [0.0.21](#0021)
-  - [New](#new-47)
+  - [New](#new-48)
   - [Fixes](#fixes-36)
 
 ---
@@ -258,6 +262,120 @@ Helpful `git log` command for generating changelog entries:
 <!-- TODO per release: Add Section(s) -->
 
 ---
+
+## 0.9.82
+
+_Released 2026-06-22_
+
+_MSRV 1.88.0_
+
+[0.9.81..0.9.82]
+
+- support all UTF encodings [Issue #16]
+- process month/day/year patterns found in various Windows logs [Issue #95] [Issue #93] [Issue #88] [Issue #97] [Issue #98]
+
+### New
+
+- (BIN) print compiled features in --version ([5d64753c])
+- (CI) step build for docs.rs ([3565b306])
+- (LIB) add 2 more DTPD for m/d/y patterns, fix others and improve associated tests [Issue #95] [Issue #93] [Issue #88] [Issue #97] [Issue #98] ([84ba43d0])
+- (LIB) add 3 new Regex for various Windows logs [Issue #95] [Issue #93] [Issue #88] [Issue #97] [Issue #98] ([892bb61b])
+- (LIB) add two ERE_REGEX_DATETIME for Month/Day/Year, found in Windows11Pro [Issue #95] [Issue #93] [Issue #88] [Issue #97] [Issue #98] ([84686ec1])
+- (LIB) allow env. var. S4_BUILD_TIMETAMP to override buildtime datetime ([8ec6c9fa])
+- (LIB) support text encodings UTF-16LE,BE UTF-32LE, BE with without BOM [Issue #16] ([cc3ee9db])
+- (LIB) syslinereader.rs disable syslines_by_range during Stage3Streaming ([78325c0e])
+- (LIB) filepreprocessor check for all 0xFF bytes ([f5c0bd9d])
+
+### Changed
+
+- (CI) actions/checkout@v7 ([fc88b9f2])
+- (CI) cargo clippy S4_BUILD_REGEX=1 ([e947a92f])
+- (CI) consolidate S4_BUILD_PRINT S4_BUILD_REGEX_PRINT ([c5db71aa])
+- (CI) fix blocksz too small ([31ef5757])
+- (CI) git autocrlf=false ([cef0ea0b])
+- (CI) job_code_coverage_llvm install lcov ([a9de9e04])
+- (CI) rm commented jobs ([0a639920])
+- (CI) run s4 job uses more UTF* logs ([08fbb653])
+- (CI) step run llvm-cov build with S4_BUILD_REGEX=TEST ([f8657df1])
+- (CI) test jobs set S4_BUILD_REGEX_PRINT ([a3f0232c])
+- (CI) update actions setup-python, mlc, coverallsapp ([850efa34])
+- (CI) windows_test mac_test set S4_BUILD_REGEX=TEST ([d19d64c8])
+- (DOCS) README.md _building locally_ describe env. vars ([8c4a90d5])
+- (DOCS) README.md simplify powershell install instructions ([5e7a4e84])
+- (DOCS) subprojects/ere/README.md short description of subprojects/ere ([86a539fd])
+- (LIB) allow S4_BUILD_PRINT to be any truthy value: 1, true, on, yes ([12a3b476])
+- (LIB) bump bitvec 1.1.1 ([d8283448])
+- (LIB) bump chrono 0.4.45 ([cdfa031f])
+- (LIB) bump clap 4.6.1 ([1c97261e])
+- (LIB) bump itertools 0.15.0 evtx 0.12.2 ([c9e6afa5])
+- (LIB) bump lz4_flex 0.13.1 ([4e07ec70])
+- (LIB) bump phf 0.14.0 ([7ce31155])
+- (LIB) bump rand 0.10.1 ([d6223438])
+- (LIB) bump syn 2.0.118 ([74d74c11])
+- (LIB) Cargo.toml memchr 2.8.2 ([b2d4ff0f])
+- (LIB) Cargo.toml mimalloc 0.1.52 ([56d147ee])
+- (LIB) Cargo.toml regex 1.12.4 ([48ed1f56])
+- (LIB) dependabot: bump ctrlc from 3.4.7 to 3.5.2 ([26bb3c8f])
+- (LIB) dependabot: bump kinded from 0.4.0 to 0.5.0 ([b989a7e7])
+- (LIB) dependabot: bump lru from 0.16.3 to 0.18.0 ([101d4e7a])
+- (LIB) dependabot: bump memchr from 2.7.6 to 2.8.1 ([edfdee91])
+- (LIB) dependabot: bump memchr from 2.8.1 to 2.8.2 ([09a54e45])
+- (LIB) dependabot: bump mimalloc from 0.1.48 to 0.1.52 ([1b162a6c])
+- (LIB) dependabot: bump numtoa from 0.3.1 to 1.0.0 ([f38900fe])
+- (LIB) dependabot: bump regex from 1.12.3 to 1.12.4 ([df63898c])
+- (LIB) ere_datetimes_impl allow S4_BUILD_REGEX=TEST for tests ([9aa48cb0])
+- (LIB) prefer numtoa over to_string ([3c0a306c])
+- (LIB) syslinereader.rs summary_stat more ([432b4d50])
+- (LIB) systemd_libloading.rs extern "C" ([cb633edb])
+- (LIB) type RegexId ([45bc7fe2])
+- (LOGS) add dtf5-6b.* variations, Darwin25 ([6afdf1bf])
+- (LOGS) add gen-1000-3-foobar.UTF-*.log ([3db6df30])
+- (LOGS) add Windows11Pro/cv_debug ([ae78d857])
+- (PROJECT) bump version 0.9.82 ([f76f5165])
+- (PROJECT) kinded =0.5.0 ([78d26831])
+- (RELEASE) releases/0.9.81/x86_64-unknown-linux-gnu add x2 .html ([9e7fdf3a])
+- (SUBPROJECT) bump ere projecst to 0.10.2 ([c70cf1ba])
+- (SUBPROJECT) bump ere_datetimes_impl 0.10.1 ([a14ac6a2])
+- (SUBPROJECT) ere_datetimes_impl.rs mark more regex TEST 23 40 71 73 78 96 136 ([742e6f93])
+- (SUBPROJECTS) Reword various README.md ([db12695f])
+- (TEST) compare-current-and-expected update ([f381e929])
+- (TEST) printer_tests print to sink; do not clutter test output ([95385332])
+- (TEST) printers_tests.rs test_PrinterLogMessage_print_sysline_UTF UTF-8 BOM ([8f29c2f8])
+- (TEST) compare-current-and-expected add dtf5-6b.UTF*.log ([b9c196f8])
+- (TEST) printers_tests.rs add test_PrinterLogMessage_print_sysline_UTF ([b3752d11])
+- (TOOLS) add iconv.sh ([bbfe27bc])
+- (TOOLS) build-all-profiles.sh add cargo check ([7a3187bf])
+- (TOOLS) build-all-profiles.sh only build 2 at time; avoid OOMs ([bbb1418a])
+- (TOOLS) cargo-llvm-cov-combin-multiple.sh add UTF* logs ([9e27d9f0])
+- (TOOLS) cargo-llvm-cov-combine-multiple.sh default S4_BUILD_REGEX=TEST ([e8890aaf])
+- (TOOLS) cargo-test.sh set S4_BUILD_REGEX=TEST ([0f85b485])
+- (TOOLS) compare-current-and-expected red color stdout ([e9dda18e])
+- (TOOLS) compare-current-and-expected sleep times ([e7ce0712])
+- (TOOLS) compare-current-and-expected/compare.sh sleep after diff ([6e0c5daf])
+- (TOOLS) cross-builds.sh allow FILTER ([e73ffe75])
+- (TOOLS) cross-builds.sh fix sed matching ([5f494207])
+- (TOOLS) cross-builds.sh skip already built platforms ([789265aa])
+- (TOOLS) cross-builds.sh support old column ([c348408e])
+- (TOOLS) easy-install.* allow ABI, Test ([37af405d])
+- (TOOLS) easy-install.sh rm '--', not supported on old sh ([7de7f5cd])
+- (TOOLS) flamegraphs.sh rename .svg ([329a2a17])
+- (TOOLS) log-files-time-update.sh list not_found a second time ([e8b1a1db])
+- (TOOLS) mdtohtml more often ([ca786de1])
+- (TOOLS) performance-plot.sh fix FILE_NUM_MAX ([bfac49f8])
+- (TOOLS) perormance-plot.sh name tweak MD_FINAL CSV_FINAL ([5d741156])
+- (TOOLS) release-files.sh s4 --venv ([3d2b9431])
+- (TOOLS) rust-workflow.sh call build-all-profiles.sh ([f8c1c7d2])
+- (TOOLS) rust-workflow.sh run test UTF* files ([329f85cf])
+- (TOOLS) rust-workflow.sh S4_BUILD_REGEX=1 cargo msrv verify ([bf604a33])
+- (TOOLS) s4-alloc_trackers.sh add UTF* files ([37313cdd])
+- (TOOLS) s4-alloc_trackers.sh rm non-existent default failes ([08d2e28d])
+
+### Fixed
+
+- (BENCH) fix non-existent var import ([9b30dd2b])
+- (LIB) build.rs fix for docs.rs build; refactor build.rs with messages ([f7fc2fad])
+- (LIB) Regex #185 fix pattern, test cases ([2dbedd57])
+- (PROJECT) fix dependabot merges that did not update Cargo.toml ([ba98940f])
 
 ## 0.9.81
 
@@ -2666,7 +2784,11 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [Issue #85]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/85
 [Issue #86]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/86
 [Issue #87]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/87
+[Issue #88]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/88
 [Issue #91]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/91
+[Issue #93]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/93
+[Issue #95]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/95
+[Issue #97]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/97
 [Issue #98]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/98
 [Issue #99]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/99
 [Issue #100]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/100
@@ -2880,6 +3002,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [0.7.78..0.7.79]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.7.78..0.7.79
 [0.7.79..0.8.80]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.7.79..0.8.80
 [0.8.80..0.9.81]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.8.80..0.9.81
+[0.9.81..0.9.82]: https://github.com/jtmoon79/super-speedy-syslog-searcher/compare/0.9.81..0.9.82
 [00171bbd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/00171bbdf238fd9c1ba6d89fa29a730318332d7e
 [001f0c3d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/001f0c3db2c5751a35946f572aca6bf07c9efcaf
 [0021f057]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0021f0576d0d629c72028443f2a266f957e5b084
@@ -2927,15 +3050,19 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [08276667]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0827666779e549927d58c54c6afe6234c8b97f63
 [08738c41]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/08738c41a371749b9aac26c0ab319129d8be0c9f
 [08d198ae]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/08d198ae57fc5b97013bdda5e883d7df383755f9
+[08d2e28d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/08d2e28d04cfd075729f9884e96da2eea5ee04b9
+[08fbb653]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/08fbb65302ca13d5afa2e08ce4adb31fcb75970f
 [08fed12c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/08fed12cf9f2e7a4003a02d2a3e3efecddf49c80
 [0923408b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0923408bff8036c1b1c37bfba0a71012845c0935
 [0997ecdc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0997ecdc607501cf45e1e8c043210660a290646e
 [09a04c14]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/09a04c14146af1916aeda14e8134d02baf088d5d
+[09a54e45]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/09a54e45520e1c2ab48540bceaf0a8ba59b4b0ea
 [09a885de]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/09a885de20cffeabbfaae72f2d597e007c9b6593
 [09df0b65]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/09df0b6551fec2ea22cee7dca2cd308cf11b531a
 [09e71bb9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/09e71bb9ae655a0528c5a074dadfd5e9d71743c7
 [0a46b5ae]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0a46b5aee7eb99e19a9a2a91ed81d759978b6024
 [0a5ce1e0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0a5ce1e0011920909cfa5bc022f95b3a502ff244
+[0a639920]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0a63992091b2369fca091bc3fad8c579d2d49e38
 [0addafbf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0addafbf19cbae50139a2a2a70ccb21546166879
 [0b42a8a1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0b42a8a18e424d18f431a7336a2840441bc9af95
 [0b6faff2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0b6faff2b763edeba1bc2792ed936c44e8c302d9
@@ -2958,8 +3085,10 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [0f52dd97]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0f52dd97344e7b25979625372f8f0b2f52f6a6a2
 [0f8109cc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0f8109cc2ca3900ca27f833d372a60fa704e3605
 [0f822c54]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0f822c54ef4959aba65b4bd24969dbf44e19c6ea
+[0f85b485]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0f85b485e12a1e744833ffa22baac44f2dc0fd5b
 [0f93ff94]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0f93ff94e2b5aa133594cdfcac49abf4770c13f7
 [0fceba27]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0fceba274b8dbefb01ed890d3c211fd85211822b
+[101d4e7a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/101d4e7ab997813ca3c92a9dff3d360f232a6d0b
 [103899b0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/103899b047d72a66a6f105075bd6461e49c9dc8d
 [103b4d23]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/103b4d23da43e410ea813fa506a54c1a3f479769
 [10622640]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/10622640e0139bbfe6715fdb9e144579ceaaffe8
@@ -2970,6 +3099,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [123e5551]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/123e5551781c98edf298977e2b4c4c89cd7f127e
 [1250c119]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1250c119189b2799394ac64e7d2be4e9307b1c06
 [12871b74]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/12871b740007754071764243b290be6cc4fe272b
+[12a3b476]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/12a3b476c99451f1f00d3fea37df77fc549c2bf4
 [12ec8d9e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/12ec8d9ebeb874a0425a791591ff733b8178c8c7
 [12fcb256]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/12fcb256adba82190120d466a46cd421838b025c
 [13038896]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/130388963fd4f4d83dc2de5c69a4c9ba03d4b471
@@ -3005,6 +3135,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [1a115291]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1a115291205aaecfb9fd2b0fa7a73d7f08a9165a
 [1a71232d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1a71232d58a70fe8ca9dff970c9c6c6391fec4ea
 [1aed8624]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1aed86246f06e1e3f68f692d81b45c2e22be60b5
+[1b162a6c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1b162a6ca9741f72b6796da56e08d9700a9c259a
 [1b3b8d34]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1b3b8d344c83a24a68e21be0d699eb988de7bb50
 [1b88a1e3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1b88a1e35a66004ea5016525bcbb1e125aa64db9
 [1b9e4228]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1b9e4228c72e5a8cabe7414c478e8043c87e98e2
@@ -3012,6 +3143,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [1c58a778]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1c58a778dc5bd05e455ea25af60e8600b8b72857
 [1c6ccb18]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1c6ccb188129272267fd14d0f16fff42f67d81c6
 [1c746c24]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1c746c24b7e0ad7e7481cce626fb6488eb0076d6
+[1c97261e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1c97261ee7ea2789c30c3f0f13a4dda80887d636
 [1cfc72e9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1cfc72e99382ab47b55c9410ab531c0baf8ac46e
 [1d6bc01b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1d6bc01b3f26c8362f08a4adc73c24ae5b968d8e
 [1d8f57f7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/1d8f57f78fe4abfeec3b8f0adc171501e60c9ebd
@@ -3061,6 +3193,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [25e4bf65]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/25e4bf65d9d5af300b99092e189f0caea3164f5f
 [260fcfc9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/260fcfc924c71e53b568ed13f9339109bda94f71
 [26979a36]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/26979a36cbbaeaf0f4266c2717757eab58662a80
+[26bb3c8f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/26bb3c8fa87a571cc73c4efb5cc55238812d339d
 [26daee68]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/26daee68627b16262717b7091fb192a029896cf5
 [26ec11b7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/26ec11b7fff8c478b4aa48ed1a4cec01b683a318
 [2742cc8d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2742cc8d6476edc32037f973e5f0a2bf33308652
@@ -3090,6 +3223,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [2d1541c4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2d1541c4efefde26182963fb4c82e546ab2f36a4
 [2d7f5e25]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2d7f5e25032ddeb48c29af3bbe8dfb9fc564bfd9
 [2da33982]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2da339822a4f62266149b8d53925840c0860c9a2
+[2dbedd57]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2dbedd57c6800558964aa8aaac8d83c3b3652061
 [2e10dd1c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2e10dd1cab1dd3a68fa66207f03d66e4e2e72c0c
 [2e2730a7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2e2730a7e305cda9f975d714f8f25707e5609bf6
 [2e60f5f7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/2e60f5f739db8b42c9bd1fcea663b4e392a176d7
@@ -3117,8 +3251,11 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [3139418f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3139418f31dea35046a0a34faffbda18993e3eec
 [31865ac8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/31865ac80893aa6407270386a50fdf9e823789bb
 [31948002]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/319480028edac53f43f1bded7b2a76da9d330400
+[31ef5757]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/31ef5757d16e6e70cbdc6abc7e87c25c2f25be94
 [32017711]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/32017711dcbcd3d3f4389d6bbd3fbcb6c6203ad2
 [3202c47d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3202c47d3f12cdee31e00bcb529d2cb5cd26de84
+[329a2a17]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/329a2a17b6d77199a2c952f073baeaa419fbef14
+[329f85cf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/329f85cfbd83c4f9292202e3435afc1b2275830f
 [32bff443]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/32bff443ae94f1618a24da34a27d51988cc3c73b
 [332d8659]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/332d8659ccdf6ae391dc1856bb68c920f632ea3f
 [3334fbf0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3334fbf0dc24e49383427c9387cc9195dd2582b6
@@ -3136,6 +3273,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [34ef7167]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/34ef7167ac032e42c020aaae405efcf3e3e26ad1
 [34fbb7d2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/34fbb7d23cb372f1628f69a99b34d89c63305cd1
 [3562638d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3562638d37272b2befa7f9007307fd4088cdd00c
+[3565b306]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3565b306973dc70b0f04a715a3ba9922dcd26487
 [35914891]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/35914891bd90cfadbe17867c370c65429883e879
 [35b02055]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/35b0205589e316eb9604c31f53c3fe0511c7f62b
 [35d3c2eb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/35d3c2ebd561f22cd1903ceb6d5f171d30bd191e
@@ -3147,7 +3285,9 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [365012d0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/365012d0165c8a45ad0bec6148804c26274e2000
 [368eba9b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/368eba9b473b0c31ebd232bd89bc2aabd5a15d53
 [368fc14c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/368fc14c74d87b771314bdb96763069a7173b076
+[37313cdd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/37313cdd74523b6bfa9216494cbf47adf9fe43fc
 [379db5a6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/379db5a63e89c4285aaf89b94e4ef4102d3d8ca2
+[37af405d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/37af405da67bbd27550a8df624db09273b454912
 [3805df7d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3805df7db5cc3090568a8ae2316b136f758dc962
 [3865ae2f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3865ae2ff184e69f2f1983766a9539fd517b2538
 [38d1c473]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/38d1c47305125d9bd4e9275ef99d9767af3f1380
@@ -3173,6 +3313,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [3b0e67c6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3b0e67c6337346e3c294c05352b8b28c55bdb438
 [3b950014]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3b950014411d743e3e5527f652e5a2d4aff9a847
 [3c01b315]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3c01b315f0f07d5d88de6992a24725d4b9e8967b
+[3c0a306c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3c0a306c3725b35175a7740396b1371b0b7505be
 [3c2b0dfe]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3c2b0dfe766fbc2a7ababb303e302d7c8043a5b7
 [3c34d099]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3c34d099f162ee65423dbee77946622b391955a3
 [3c4e8b1b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3c4e8b1b37415ad0662019d1792525ab0b00a8f9
@@ -3181,9 +3322,11 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [3c7984d4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3c7984d49df0d91037729a45c24a2a7b5a109687
 [3c902662]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3c9026629af4aeb47f7057b0a15cdaa03457d2da
 [3cd8f732]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3cd8f732aa09ff81035e320237c1bacc2aa6d8d6
+[3d2b9431]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3d2b9431b7738b16486f534f07a018d5a4f41a01
 [3d78b0d0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3d78b0d0b6918dab784bbe2332b3a26928bb8f90
 [3d962df8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3d962df81366bee4e970af8522364826359db7c8
 [3daffcc5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3daffcc5f5098e3620985782faed6f6d76c6c52a
+[3db6df30]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3db6df3070332db4b294a2dff6ada5c8def9afe9
 [3dc2d474]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3dc2d474ce41b8bd872fcd0ef556f5166286f19d
 [3df00ac9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3df00ac9e826042b31d9617d81f54df998525031
 [3e1607f0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3e1607f076afe7a6e10578776a07d3feb0a2b9a8
@@ -3205,6 +3348,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [4268bc6b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4268bc6bc4657036534627f43966754a4a419ed5
 [428926d3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/428926d3c0bbb8ab0dda1285b7d9b81f3e3da998
 [42ccefd3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/42ccefd392bfdc1aed8036f948aa74371308a8df
+[432b4d50]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/432b4d5038409e00850d679ee9837b57d0bbba46
 [4370adae]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4370adae232ecac190d46a6828e6a7661cc0d96e
 [437eeb96]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/437eeb964b96a82d569c1293e13fb687a373ab6d
 [4384a4a0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4384a4a0b7bbddb8593e60a38bab9ea12709fc98
@@ -3220,6 +3364,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [45390157]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/45390157c9bb47e2e0506499dbb540046de0786b
 [455a8941]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/455a8941a603d30d5018b908865405484bc51729
 [459c931b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/459c931b29b6f850c1379a4d9fb51748bad1905b
+[45bc7fe2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/45bc7fe285196ec448ee981c547675bc21551545
 [45c67a77]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/45c67a77ebf22f8598d3a71ac8678d3416bc0e5e
 [463d93f3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/463d93f309ab8a320b53711f67a52072566de69c
 [467b14db]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/467b14dbc59a60a808e7a71a1083f2490cf31d48
@@ -3235,6 +3380,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [487138fc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/487138fca7e5cac02347e8597f90b9e1237bd531
 [48bd3aa9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/48bd3aa9c24f5420f54ffdddabd061ec5a25d55b
 [48c5a5e4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/48c5a5e40fcf29e581fb329dd8c2e778a4e08b92
+[48ed1f56]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/48ed1f561cff4dc9a71d186d9a675bcd0bc2b1cc
 [48ef3d88]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/48ef3d884fe81ac3be47c7c10089623997b6c259
 [492188bd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/492188bdc4240caed845f35a0ca06dd97ab22e55
 [49349571]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/49349571ebf016a24036d07cd12f330b285782cf
@@ -3264,6 +3410,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [4d14dbfc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4d14dbfc53c3270b667f8ce6f955abe250295af8
 [4db00567]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4db00567813d9b236c77a49a33e399ad5c0c94ab
 [4dc89cea]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4dc89cea3dc10fefc820e2669ebfc4cabc01906e
+[4e07ec70]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4e07ec70fbf7804d95ae5b62ab599aaa625a3fd5
 [4e32f5ce]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4e32f5ceab4b77a533fcc62ea68377d209b7a282
 [4e9d8eb7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4e9d8eb7f507914fa9b93a135b3aebb95703e34e
 [4ecaaa46]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/4ecaaa467234b4f4abec51d4662be69d917fe6c7
@@ -3317,6 +3464,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [56844a29]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/56844a29630759ea75a09f47a786e49a4c0630f7
 [56adf881]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/56adf88149e87aebbf87c70fc4531545d2c11daa
 [56c0743c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/56c0743c08220cdec119838bda764f89ca0fa5b2
+[56d147ee]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/56d147ee15b5d3c218df37cb46f4ff69c4e78c3b
 [56f7b0bf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/56f7b0bfc6450399df5983507a8f4c757d48d9ab
 [570d4820]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/570d48207f1103d61b2026870b9914c5ab76de51
 [573b7739]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/573b773921d10fdd536960552bb62936f4f90a09
@@ -3352,6 +3500,8 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [5d2e4ae2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5d2e4ae25927561221f5d49f4cd412ece8222594
 [5d4beee6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5d4beee623c868307cc3f9d5f738d88c0b9af71a
 [5d5ce99c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5d5ce99c92198d0e843259c1d32f08ba87d0039b
+[5d64753c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5d64753c520ec874b8c160454199a98a59335e98
+[5d741156]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5d7411564efbd190fdf3aae8779b2e936bb85725
 [5dba3193]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5dba319304173835841650b116297b54fac0e3be
 [5dd008a2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5dd008a2e5b22bc4e8d3760ce54d6fa0f7a634bc
 [5de73699]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5de7369902c280e791f84c20f29add1e7dbff900
@@ -3359,8 +3509,10 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [5dfc932d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5dfc932d8f62e295f93accafb98c533fd8e39625
 [5e0ebce3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5e0ebce3dc201981a03e37b79e4a67f6f7c01f84
 [5e4e41da]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5e4e41da81de9f2e13bfe8764611a33774b070ba
+[5e7a4e84]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5e7a4e84ed5eae0bd32aaf7ad2f61f34614097e6
 [5e975901]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5e975901312e13a35d8599fc06bd0536f4c61e9e
 [5eaa48ff]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5eaa48ff8fe3b9db875ea81d6f0e7a7fb408b448
+[5f494207]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5f4942071d96e64b27bc704b78fc5f2b7009ba1d
 [5f5606de]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5f5606def37b70ac96d7045fa2ee36156b4d4f28
 [5f77a0f7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5f77a0f7ddbc194ffdc1e45556e2c85910002af6
 [5f8a63e4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/5f8a63e4ececc6d35568835017fe1c3149b1c086
@@ -3419,6 +3571,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [6a91fb78]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6a91fb78ea15aa2ba8066ee2b957fb237eb8e67e
 [6ab5a2a5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6ab5a2a53053db5708cdb45154ef77045c4b72aa
 [6ad1d90b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6ad1d90b8724e2f1f508dc3e3823ae2d127b1d80
+[6afdf1bf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6afdf1bf9768138c46540eee53f6aecca230fb61
 [6b47b9c1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6b47b9c1bc8b1cf297c987b3d4321cfe654238f5
 [6b8d31e1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6b8d31e186f4b3998a0ccadd926d8f7255fabeae
 [6baae7cc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6baae7cc71bf42de7584025bf53843f3c0ff8f6c
@@ -3431,6 +3584,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [6d9313f6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6d9313f633048ff4f0486135c868a6ca188c1fec
 [6dd2195a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6dd2195ad33b243e17f36ab7c9a46fb5377206fe
 [6def544d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6def544df7dd7d775f024003668b190ba97664d3
+[6e0c5daf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6e0c5daf53c7495e71b647cdd8df661121c385bd
 [6e14d696]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6e14d6965e189061f0374d335dcd8beeb4492e37
 [6e284ff0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6e284ff06182c3f684c16d49c6bfba8795a862b6
 [6e688085]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/6e68808588e0bb24fee292f2b236ed4adcbcbfd2
@@ -3463,9 +3617,11 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [732f8e65]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/732f8e653e6b703586012a57498eec78b2562a21
 [738bd507]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/738bd507f819eb011b1b6a3ff9677403f4e0401a
 [73c1ac58]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/73c1ac586b1e2d510f82f33d489a126b5baf1395
+[742e6f93]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/742e6f93c328e8c21be8298964621cd6f4d6053d
 [7432b7c5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7432b7c5ea20165e443d6440fcc3cb84393f3a96
 [746530e4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/746530e41d5830b35a0120b628a25f671aae376f
 [749f8ce7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/749f8ce7aab2be9f0bf16133127a0d7fde3046c3
+[74d74c11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/74d74c11cc01287db9fc4bcb260a9afe14a611c9
 [74e0ee80]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/74e0ee800aab688767c3a8f924a06f0fdcb5eb2e
 [753c5c3a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/753c5c3a770359455221e411c0a75bb95ab936e4
 [7557a59e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7557a59e99faf297d2055d5d9ea86b4fbfe8ba5e
@@ -3484,14 +3640,18 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [78106320]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/781063204d0437481e6033a3f1cf5c6c66db102f
 [781fbebb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/781fbebbb4fa266cbe3f8dc4e6fb8a322d7232e9
 [782abbf7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/782abbf72853982aff998d9da245e4a0a246c129
+[78325c0e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/78325c0eb6e0b167ea9e13cda902ffdab80916f7
 [78579a91]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/78579a9158dc463e33c7b5ce1d248258bac89ae3
 [78581dba]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/78581dba9d33c9565fa25f0a829ca383471335f2
 [786b1543]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/786b15432580ab6eb7bb4fde9f4dedcab624a80b
 [7887ee46]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7887ee46a7a8271f5e65462f4dfaae9a29aef965
+[789265aa]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/789265aa3096ca580b45c9f135b0be7414362549
+[78d26831]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/78d268318289907bd946e3fc1296b4252628a0b2
 [78eea85d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/78eea85d6e63e5833550808ea3df1b19d83fdff3
 [797ecd1c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/797ecd1c4fe3c45f151700e8c52e01ad2c1364be
 [79c1ea1e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/79c1ea1edbed94e3376aed37b382d069144d6fab
 [7a22f9f4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7a22f9f4125fd49fcbb65a54c85f69c2ef728467
+[7a3187bf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7a3187bf3d0b58aee3d25f3764945a91afe954fe
 [7a448d6d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7a448d6d63086b469af658a6bd3ee8b361ee2ac0
 [7a4558e9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7a4558e9204726bbf69f6e654ec6dfe812d5f6a2
 [7ab4f3bb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7ab4f3bb2df22ad85c611282f5a09ace3ebb9be0
@@ -3508,6 +3668,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [7cc45a6e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7cc45a6eda2364573162f4764d67fe7ffef4ed9a
 [7cc5fbcc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7cc5fbcc0c214c4daedfd3cc447fd788864fd9f9
 [7cdaa4b6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7cdaa4b6ac2c12f3829f345c8c56bd7bf6c19b13
+[7ce31155]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7ce31155d3f8940eab315ee2100d5e67ba10d12c
 [7ce50613]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7ce506132069e9efebce410cd67317362992183c
 [7ceb8e85]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7ceb8e85e551b1003e640c937a142ccf15a8cccc
 [7d3305cc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7d3305cc028ee0f963e0def854350e9d3eb69cb0
@@ -3520,6 +3681,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [7d9f16f8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7d9f16f8325e780b2c222eb72d6b9b3344ee3198
 [7daa34c8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7daa34c8b08e3f3d05aa8257b172d96441015321
 [7db097f3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7db097f35da98d6166b671a714d7c307b4f8958f
+[7de7f5cd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7de7f5cdaa180b2b8b7d0c63909e60e5c0016661
 [7dea777e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7dea777eb2add6209075fa882b4500aae8cf2184
 [7e422759]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7e4227598054e4845ef2f4114b4ffa13313f0e9a
 [7eed267c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/7eed267ceaf0fd2aba8e34e9901d0bef0302fa3c
@@ -3557,11 +3719,14 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [83a2d429]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/83a2d42959815253169c14640ea6e75349a1fb7a
 [83bc25eb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/83bc25eb8a45c2b0973f1d353fdc176ba630c38f
 [844c1e06]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/844c1e06cd698eced1c6cd6f50645180b340ee82
+[84686ec1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/84686ec1216d42b3058443a690d1870232835200
 [84abef39]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/84abef39f6067a82a3fd749938d17b372bbf660b
 [84b0d3c9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/84b0d3c9720bb19b83aacd0a56ee832eb8b540af
+[84ba43d0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/84ba43d0b276e12f243c54ba0df929349e87fad1
 [84cc63c2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/84cc63c2d8c1398a4aa11da4e4e2d07abed4c04b
 [84ee6cca]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/84ee6cca1eac64fcaff8d2484c847ea3f2e20326
 [84f30592]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/84f30592bad9b4395dc770d44dc807125d2ced02
+[850efa34]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/850efa341cb0e3dcd063b2f4ae603386805886f6
 [8514bb9e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8514bb9e5dd831640c5a05509c67ed7573c23975
 [8575cd87]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8575cd87bd06ba3ad185a1be33aadd4022bbae40
 [85bb57fb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/85bb57fb3465c4ff46d220a69d02fef0c304fb4a
@@ -3573,6 +3738,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [8633d667]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8633d667dbb20d7dafa673925ad445d3e4691afc
 [86342232]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/863422325dcb628c127c701b18c9b623ef366666
 [867a6fe2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/867a6fe259da60c9b4a5b9f4dc7b108605dca294
+[86a539fd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/86a539fdeb1138a2311e2830321544d2941d227a
 [86c59498]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/86c59498632bf3fa833bf8d4403cfe45468dfe59
 [87325d0c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/87325d0ca00d3805225a956f770903bd81149cd1
 [877177bc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/877177bc4a0ca42544ece0facd2f40273b86c239
@@ -3587,6 +3753,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [88fa09ba]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/88fa09ba243fda22c3d3fb07d017e7ab709bdfbd
 [89182037]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/89182037723a3c7582502aa77c456e9e5527c6d9
 [89209f92]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/89209f92231ab984cf10552584f08e6bf7b2767b
+[892bb61b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/892bb61b24d733da247f12483d4e043643a30dee
 [89aca0bc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/89aca0bca438911651fa67f07f63ab87973d32ef
 [89dd70d5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/89dd70d5efd9d2a92645f37196554e43ec8678ad
 [89e91d6b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/89e91d6b1a2dd7c97795c4e9e28a01a5f0163fe3
@@ -3604,6 +3771,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [8bf2c812]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8bf2c81214b7da088b688badfbc40abd54e9c07b
 [8c1cd0b9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8c1cd0b9b9eefc15ec55874aa724ff341b2f75b1
 [8c23fd05]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8c23fd059412310208b811d5d771caf617f3d0c0
+[8c4a90d5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8c4a90d5fe6f0c861598b192638be8c7bbe7d3fc
 [8c5ca504]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8c5ca504e6f5052fe5a23dafea37c96a1f914269
 [8c7b2393]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8c7b2393ff26eddf56cab7aa8973873549841626
 [8c9a919d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8c9a919deb3aed74a11f45ca375f28ded421f4c5
@@ -3622,9 +3790,11 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [8e6fc80b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8e6fc80beb3c1cbc52fcab7bdd8aad57c84806fe
 [8e98a8f3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8e98a8f387132a3a13f53d359086a80caa484cfd
 [8ec4d012]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8ec4d012fffb16013940d723077cdc44af0b156a
+[8ec6c9fa]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8ec6c9fa98af2d500520b802df6aeb2f78ae3236
 [8ec6e240]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8ec6e2403291c0554fac111da98c4c89f6973801
 [8f0eee74]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8f0eee74270820d5b04eb0c6f48934969ed5bc4c
 [8f143748]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8f1437483337f24a4c728b61d1754f9455ee0f5b
+[8f29c2f8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8f29c2f8d5987e4771fb96ec81319a577ced4694
 [8f38523f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8f38523fea7f20581f55ddd2ec697da8ddaf2c60
 [8f750916]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8f7509161b267921fa4f4703c57280e6f1ede86f
 [8f8a3b5e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/8f8a3b5e67339e63a8ba270e7cc065f2573640d6
@@ -3661,6 +3831,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [94d6862e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/94d6862e0d558e69f0e5b07db5a63ad7700d515b
 [9503d81f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9503d81f3f0bcfc5785f06de98fb1fa034b9471c
 [9522093d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9522093d0c183c35dec4c457214a219da905baa6
+[95385332]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/95385332a3d41ff88c6753f71bc6102b10c22893
 [95498c64]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/95498c647f7b6fc132bd76f1fab08ab253d9f570
 [9556ac7b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9556ac7b8754dca989673053d05b840002a5e18f
 [95aa7aa6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/95aa7aa6f14ee060466a511732627905d1ffe208
@@ -3694,8 +3865,10 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [9a238499]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9a2384992a0bdb78769a7aeba8393ab4767713d1
 [9a37f841]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9a37f841ad435b4c36bf8b4fe93da7645fe61865
 [9a7502e5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9a7502e591ae25524605d24c48942586c912dd83
+[9aa48cb0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9aa48cb0ffc3e59a6e3470a4350621ef9bbaeea7
 [9ad1616b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9ad1616b91ffe3bfba3ab097dc04df90ba05845d
 [9b08a080]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9b08a0808cb4a2d4aa502e42fd3c275e1c1789db
+[9b30dd2b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9b30dd2b58a46ecaa9fbf08e9681dd709a29faf4
 [9b54b319]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9b54b31956550d7cd42a4affa3a36ee353dfe92b
 [9b627bf2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9b627bf2e9887135425d1ca1f3eda293c7e3d496
 [9b64afba]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9b64afba56e426b5e0718fb67cf2544186fcb298
@@ -3714,7 +3887,9 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [9d9179cf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9d9179cf63c4167ac46b5c398b2c6b718ea9a022
 [9ddaaeed]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9ddaaeedecdd175672c38ba3d39c7521f08acc68
 [9df010c8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9df010c8f067433abea5da1468748291c40dbe15
+[9e27d9f0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9e27d9f0c87f2cf5e68a925b768ba08cf5ea792a
 [9e2c2533]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9e2c2533a3409676e470d716a76fe18189ded5ae
+[9e7fdf3a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9e7fdf3a23cc711670ab95bf7f6a69e74d4617c8
 [9ee5e796]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9ee5e79687bba2e992ea01d990b86556ac8b7a85
 [9ef5f4bb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9ef5f4bb0040b0e80281b6f1900f504903bfe886
 [9f0de805]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/9f0de8058a884ad23f809709a4a918d6116bf705
@@ -3732,6 +3907,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [a0edb157]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a0edb157905810d46d3418098b829744b3444d0f
 [a0fb0c93]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a0fb0c9368fd53ec31722473c6384c98041dddf2
 [a1378662]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a13786623e5b9117418dc6ff86c1f0519e9074f0
+[a14ac6a2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a14ac6a2bad2a8a9fe161e24f782b42c6a6f8aff
 [a1a29564]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a1a29564a3f7fb1182e9da2badd25d1cd4836776
 [a1e1a680]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a1e1a680278843d4f871f5556bee679282a8d268
 [a1f18eab]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a1f18eab8b9ccea63d5be200604d792108d9ff25
@@ -3739,6 +3915,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [a2569929]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a25699295eed0a20eeb3571e0c401d4c901928eb
 [a2ebe40b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a2ebe40b2cf4a864a83a80ac302df1715e25d173
 [a34a071d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a34a071d8b85d17359ca13a1349698ac10348ca3
+[a3f0232c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a3f0232c09c5dfcfa4d0be6b337163f2652602c8
 [a468ffad]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a468ffadc41916adb608b633acf0dd8f45d255a9
 [a4eabe11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a4eabe11f15c788abeabbad8d11a447a99d3414c
 [a4fd91f4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a4fd91f4b1340a754754b8bec841eb60102988bf
@@ -3773,6 +3950,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [a9955bc1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a9955bc1406f4830569cb1aa2d3655d6c0683802
 [a9b47992]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a9b47992efc8845bad937724c9ec38adc76a83fc
 [a9d0009a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a9d0009aaa38b4aacece57ccbb5859a7241659fa
+[a9de9e04]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a9de9e0423023b697383f30b7c856fc52d3d3719
 [a9df5a66]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/a9df5a6696e43b7af64abb2a68b5bc61451b2a7d
 [aa0990ac]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/aa0990ace4c4edf5f97252ce0a779ca0052b6e1c
 [aa1ece79]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/aa1ece798c021b0cd444779c22c62937761d1ea7
@@ -3801,6 +3979,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [adf40070]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/adf400700122f4eb23fd63971b3f048e014d1781
 [adf89152]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/adf89152a97120f0ee5698eeb88b98bc94774df8
 [ae5bbaec]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ae5bbaecb182211a8a96a5dd64c53fca7316c568
+[ae78d857]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ae78d8576c8839cb1b52bcc8c70cd8c8ffa3d59d
 [ae811c9e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ae811c9e34b71f42f78bd680b3d070afed82ad90
 [aeb3e899]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/aeb3e899f520eb8e9f567aff8663e10cf8570929
 [aec8cebc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/aec8cebca812844afec8050e30d93fb8fa3bb203
@@ -3826,11 +4005,13 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [b25ec234]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b25ec234b015a43d333f082cbe4f0cee31ff6656
 [b269c9d7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b269c9d75da9c2c86cc2cd22b94950a1b876f604
 [b2a0ab53]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b2a0ab53877db5bf91b216baf3ba5e08853da559
+[b2d4ff0f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b2d4ff0fdb786e35f90c5152ee2342bbe96750a4
 [b2d6de50]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b2d6de5072f1506077fa649b15912b7cb3064211
 [b2e639c0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b2e639c03eaaac4bb211d274855e4f7a053c9fe8
 [b3320944]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b332094475f0e620cba4152b6b7e06afd43449e5
 [b339c881]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b339c881ae94eb1b14c02462042c4c8e8416e951
 [b371ef11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b371ef116f0ff7e4bf8f8d82d58e9a0daafb8427
+[b3752d11]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b3752d11e5f827b380cf64510e6b27ea8e8fb1c9
 [b3bfd4d9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b3bfd4d96c7bbdcbff881bc9720ad98ebcedf255
 [b3c6f4d5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b3c6f4d5db39652ee58e83fd9ef92e86eae1c8a2
 [b3db4313]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b3db431311b0fffef2a318e5d795d49fadde85fa
@@ -3862,20 +4043,25 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [b8deef34]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b8deef3439f8e8b9a949a0a1cfa16d2c027c391f
 [b94f74dc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b94f74dca23b0cffaa08eb29bd094b86b5466027
 [b95aded3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b95aded39ab9729082b1b419a6a8e0d63ad64f7a
+[b989a7e7]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b989a7e7631d71668c68be1868eb42fed384b078
+[b9c196f8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b9c196f815eece26c0b5906c262bb12b2b897453
 [b9d4c2c2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/b9d4c2c24c13c8f629c7ca6cab36941a1dc7a4b5
 [ba4c049c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ba4c049cb1194066d59db83083249614fa71be98
 [ba75da98]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ba75da987cde9b47cd1f3f298f0a350873898125
+[ba98940f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ba98940fca2449c9bced6ade1a5ee4342f1ccd00
 [bab5ee53]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bab5ee53d297fd4d3cb21ce411cef4c01748d082
 [baff6da9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/baff6da9a9bc313db65a613d5edae82d67aee4c2
 [bb02aeec]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bb02aeec223d51920edf9edecb5ec4e9b087efd9
 [bb32b517]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bb32b51717dcd9a812a7e2e1cf77dad46294577b
 [bb3ee6f9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bb3ee6f9e9d7821aa04206d2ea3f0cda0394db99
 [bb8a1d7d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bb8a1d7dc034737da79753da8e837494f245e046
+[bbb1418a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bbb1418a64882b32d9c0020f666ffa9764d86b68
 [bbb85cf8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bbb85cf82738a77b054c5b063d3f7f5a8c6e6488
 [bbdb2cb6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bbdb2cb61fabac44421596f4e3c64e725532e5c7
 [bbe3b006]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bbe3b00626693af8310454616c08b8358fedb042
 [bbfa880a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bbfa880ac2f188abb21da4e77253a65be8fb3f07
 [bbfb384c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bbfb384c8d89cca44526a899966bf65bc0e04cf7
+[bbfe27bc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bbfe27bc21cf0cf38267db1308ff5703aef67e9e
 [bc386776]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bc386776038546911ac1e8672eb843bd1ee2db45
 [bc411286]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bc4112866bb713538fc48c209408313c634306b2
 [bc58af34]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bc58af3466a3513570103d8b5ac4bbb53266f561
@@ -3896,8 +4082,10 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [bea60aae]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bea60aae98c6f7b6ffbb23a30fc58d825397a3e0
 [beac51ae]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/beac51ae52ae7c2427b649837c66dcc5ff5e2099
 [bf556e61]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bf556e61252444a1bd308dfaed4e53db5534690a
+[bf604a33]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bf604a33a27667d2ac28e6c358bee78ae5b8b9b2
 [bf7596e3]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bf7596e325ac8a7514ca0427695c79074951fb2d
 [bfa153de]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bfa153de69ef340930107995f127149a57c7618a
+[bfac49f8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/bfac49f810578b6afb3c84fb88656077d018f7c5
 [c0c12172]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c0c12172201c65a25696a6381503856617fdb1cd
 [c1262d43]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c1262d43fcdfdf9b2d3604786757bdf3a8ed77cf
 [c13d0820]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c13d0820b77a54b1e15a0f42ecea6d6b250a9fc2
@@ -3912,6 +4100,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [c2d7cc41]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c2d7cc41f10e4e2a0fea3c3da3a043e19bd60d91
 [c3058eb9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c3058eb986f09aaff68a559023b8a1403d6faa09
 [c332a733]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c332a73363492a1e1874e68fc0c12e3bfd2b96ae
+[c348408e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c348408e8d88bfe1cdf4a69040bd63849478368b
 [c35066cd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c35066cd2cc01344259f00559186fbd1a12db527
 [c3a4d2a8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c3a4d2a86af1558b40677645ad08c531dba756be
 [c3d0621b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c3d0621bef3a9d3ca2c3d9967860f839b4389fd6
@@ -3920,9 +4109,11 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [c4c7f301]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c4c7f3014b51280932244d5c132031f23642cf79
 [c4f86ec5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c4f86ec51cd2e3b21260d7314398b34d0661fdd7
 [c5a231bf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c5a231bf8673921301928656b36f601c5755ebf5
+[c5db71aa]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c5db71aa4d80bd0c7713bd41a43bf637220c755e
 [c618a199]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c618a199f59706ad2cfca64e2c37bbe4b615faf1
 [c6221743]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c62217434c9ff7efb5ec9067464d5ba8b841ffb9
 [c6f18991]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c6f189916c9fc9cbc4f69ea7a42c110497e7e819
+[c70cf1ba]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c70cf1ba47c9a09d7f355aed59707e7766b092ce
 [c734d635]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c734d635ac3e72168e1f63e82767960b6a038eda
 [c7ec4ebf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c7ec4ebfe41385a409265ef9dcb3ff4fa9222b03
 [c80a0449]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c80a0449b8729d3c64775e56de8fe27f21017c6f
@@ -3937,17 +4128,21 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [c9bc19ec]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c9bc19ecd6cad88742cfa3758e48fd606f489220
 [c9dc70a5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c9dc70a51be61bc46b43082e7227f873cb77ac10
 [c9df16b9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c9df16b92863388e5971d5f9a43521668083e1bf
+[c9e6afa5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/c9e6afa57ba1971637503bc34d9e9bbbe8de1071
 [ca1c967a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ca1c967a1dd169b73f3002f120c40c7127060041
 [ca375c23]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ca375c23942b7d01001524b58d63b60054dc7196
 [ca77ad21]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ca77ad21a37731d480046325ab773679bd791e31
+[ca786de1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ca786de151d854e28b9a80ea5c9e28e3b95c329b
 [cad2b80e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cad2b80ea9e74f2eaf757f3b3432eed7f21738bf
 [cae98770]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cae987706e31a6c223e5af997fee32b537714efd
 [cb267457]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cb267457882d2111219bf68b90fa66ea0cf6fae5
+[cb633edb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cb633edb305921d25af0003c76c4aa8cebf3f608
 [cb698ec9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cb698ec9a74329fc7947db489769472f0cbaf4e8
 [cb74da32]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cb74da327e27b73e9724d8a28aafc164e6c9e0df
 [cb8ed82e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cb8ed82e9ee18dc1b0f3ffdd2c22d99402a8c870
 [cb9a91ed]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cb9a91ed337581abe68ce57ecada73b5bbbe5b26
 [cc1cb8aa]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cc1cb8aa305b3dc17f9df7c0ad8c898bc931b0c2
+[cc3ee9db]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cc3ee9dba69eaf508d11b59684d79ca637b44191
 [ccab6fc0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ccab6fc0bd2eecc64d2aac15084b85ce4eaebcdc
 [ccc9e298]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ccc9e298bb0ca751f50adb0f43ffaf634e7220f8
 [ccd4f0c9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ccd4f0c94c53343c239d61e5cee680e7df8d312b
@@ -3959,10 +4154,12 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [cdaad462]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cdaad462bfea78e0e079853e198a32ec89a5d7bc
 [cdd64dfe]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cdd64dfe9773aa85ccdcf1099290b273519169d6
 [cdf70636]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cdf70636d3d2e5e622d5d83e45b8fe17f889c2d2
+[cdfa031f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cdfa031fcebabd78dd228c1098601fc6a2c965c6
 [ce8518ea]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ce8518ead73f36025e708c567cfaa1d9d74d5f2c
 [cea1c6f8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cea1c6f892bc15f7aaa0f6b3e4cdeff074f7d5b5
 [cebf2818]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cebf2818fe60d8509af94fe623bf0d1f7ff44b17
 [ced4667f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ced4667fd5f16682a46e70d435a9a473885c70b6
+[cef0ea0b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cef0ea0b200a2d24a263956668ab2316bab50428
 [cef66e50]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cef66e50bd7b149177a635d0f2bb17e1b77799ec
 [cf3b3e66]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cf3b3e66a5238da65f0227349ba3c31f142fb61a
 [cf9153bc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/cf9153bc3cec7f038ae47397c9d0a9942d5f364e
@@ -3978,6 +4175,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [d12f1c15]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d12f1c150b772f4e74b5de76c6c65fe56e094257
 [d13dffa8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d13dffa8e80c9f30c04ce18143e669a04e817a45
 [d159553e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d159553e8eaf2166c6d3b6187c007ad3dfc21400
+[d19d64c8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d19d64c8a642940cb19cbc34d402b4f3f4add518
 [d1b7a07c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d1b7a07c6a62e96088ce288e8f38a5361ff23024
 [d1c548dd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d1c548dd264b06af1fa49745a3d702c777c7487b
 [d1dfe28a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d1dfe28abda8f6f8b46a1aebaee5750521fb5854
@@ -4007,12 +4205,14 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [d5a855e2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d5a855e2cb54bd176da6113776800143f13e6aec
 [d5af77de]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d5af77deed057d599fd1c4b5c1f6222a7edba4c3
 [d5b91372]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d5b9137254262069587a8b6db9d0e780c1a47869
+[d6223438]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d622343816e40928304231021a1f3ee8ebd3c9ad
 [d62350d0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d62350d064237141145b5b4f5687f19f2f855f6a
 [d6bb2d1d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d6bb2d1da026c16c4a301fa675653d8a0688a679
 [d6caa25b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d6caa25bdea45f7a70323efa4bb7f93624644024
 [d70104fb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d70104fb19ee3e133188a14d49f2c57ab0a55e06
 [d75fdfc0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d75fdfc0fb7b34f4e6b5ac2cfbcbfca7df0ccf59
 [d7d264ba]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d7d264ba4c9eb13170cfbcf5297ade21df622d48
+[d8283448]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d8283448b23a06d69b846b4c0619ed4423ea8922
 [d882f968]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d882f968ae9011b112cb8f195171e5357747a6af
 [d8af716b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d8af716b6de4335d7a5016274436d031d35cb78d
 [d8d56414]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/d8d56414c28f5ca7ba2db10420c1805270d80d7b
@@ -4029,6 +4229,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [da6f91fa]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/da6f91faf961dff4f1adbf528cd4025d98cd3624
 [da980d8b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/da980d8bdcb4ac506db0862b11987de8eb859179
 [daded23c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/daded23ce694301aadd19c09a07bb1d384668ce9
+[db12695f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/db12695f17b45070635d7a149dfe8cab2a86cd41
 [db27f5c2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/db27f5c20243b90b05da720934ba73a26591ae07
 [db2e8f3c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/db2e8f3cf4db912d32e74fcbdf09094c8b2f5128
 [db5b6a5f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/db5b6a5fbc301716f84682c4dae7e1691fcba413
@@ -4052,6 +4253,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [df2bcdef]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/df2bcdef317ceb778093641fe97b8cf5664bf4bd
 [df5ff095]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/df5ff095da1f2f12fd3db9e356941672fd76c46e
 [df628a72]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/df628a72730e677e16a3053988983f752d71940a
+[df63898c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/df63898c454d766b16ef7841d44d7807ede60a3c
 [dfab1e70]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/dfab1e709a370d468ffb3540f3c6d3e280e97017
 [dfd2898d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/dfd2898d64411f280bbe7d04280a9c73d3a3b310
 [dfd5f6b8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/dfd5f6b83b1c667dcf166e37fb2a2eaac7d3c99b
@@ -4103,9 +4305,11 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [e7172e45]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e7172e4519383c352ed147aa42b3aeca646a690e
 [e72a329e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e72a329eeae12eedfc591142dd7a09c5476f6699
 [e736a714]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e736a714f4b2a84e4b5d578c8789049c1bbc4df6
+[e73ffe75]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e73ffe754d1185b3d8c2256115ac49bf763ef372
 [e75a099b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e75a099b6ed08f31710bded4c3a840872b274304
 [e75daad2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e75daad23339e77fe0f36b3ef666c68f9d28b60a
 [e790e681]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e790e68174ba0c42c75d5cf1783aac6a101e9c11
+[e7ce0712]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e7ce0712e2bbe3aafa8198f295479ee0252f4fb9
 [e7ef323c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e7ef323cb0497793074caaefafb86ae9ad1f4e4c
 [e804087b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e804087b18c63ca48db2f70dffc67415a57643f6
 [e806aee6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e806aee60ff558dc2ef781f8d85e761b8a7cfd8e
@@ -4114,16 +4318,20 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [e83fdb5d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e83fdb5dcaa382b60dec609c1c23f6881f12b268
 [e8406c56]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8406c56c77869ad8e70e9e1e7e448a0f458a204
 [e8887e16]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8887e161d70846f60ccd2cf8a38bd3bb5157dce
+[e8890aaf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8890aafbd8e3d5c7327855166ff51380fd3e095
 [e889d5e0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e889d5e052df5fe93ab309bd5542805d5d745919
 [e8ae1ae5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8ae1ae59efad8249b6c86a7e2dca15dd7c231a7
+[e8b1a1db]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8b1a1db047b2c08f5e817725c0af06c8247db2f
 [e8b786c5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8b786c529b59b1d1e04934fe964f0d0649a7bd0
 [e8df9ba1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8df9ba1db6132bade7a282bd709c628d53d93e0
 [e8e7c9ca]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8e7c9ca3934f030d2410e92880b836e2ec23868
 [e8fec2c8]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e8fec2c80ad78a784651f86e1584dca25fd881e7
 [e916a2d1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e916a2d13572d3c45e357df8b7db1c5a63ac840e
 [e921e671]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e921e6718b67f1d8294a0449c0689e7f8c6289b3
+[e947a92f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e947a92f45ca10c55917a50b0aa8c78438152a04
 [e94f9e81]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e94f9e81cc28f9d0195013665a976743781c3672
 [e9b501fc]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e9b501fc77259d0c1c050bedc5a61c3516e4c307
+[e9dda18e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e9dda18e3d6686be96e9889c3b174c50beb629bb
 [e9ea121a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/e9ea121ac4a53e44e02f63f4f5ffee16c83dd72a
 [ea56625a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ea56625a23b270cc5bab87ca6e22541e80b89b34
 [ea7f856e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ea7f856e88f0e40914b513e96f8e726c00bb07e0
@@ -4140,6 +4348,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [ed3d1feb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ed3d1feb788121161ba66f9c1826a67ded941337
 [ed5c04ad]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ed5c04ade1af13f2e22afc184336f9713f2b76e0
 [edc67891]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/edc67891fe65bb52bfad8d2aa57642c069a0e0eb
+[edfdee91]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/edfdee918cbd7e13aa31798a41714904e2c04202
 [ee094b2d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ee094b2d8d1beb4a1b43f272652536e40afe3b21
 [ee2e1500]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ee2e150060517bfd26c432843d24db921d15584d
 [ee4515f1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/ee4515f1fd7e5161b5eab5bce0262971996f843f
@@ -4178,6 +4387,8 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [f3584ab6]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f3584ab6ae798da30e09caa54fb48807a667b435
 [f363682c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f363682cfb202a8fcfaf591c0db5f6fbbd472fa1
 [f3749f5b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f3749f5ba0323c8b5c685ff5bed0b63f472be3e9
+[f381e929]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f381e929652ffb79a0577e0f3b894c815a126709
+[f38900fe]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f38900fe4a05c02963f1406bc33975e385e5b5bb
 [f3cf3672]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f3cf3672eaa4783a7d7de06b46d1b5a53af51d08
 [f3f4f7d4]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f3f4f7d4ac7cdbbcb6fa94f909a6e35163c145e8
 [f4203933]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f42039339adc2bbb24d983232ba5c9f52cf03316
@@ -4198,6 +4409,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [f5b42761]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f5b4276170f306b24baf664332b2ef1c5bc2b976
 [f5bd4e3a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f5bd4e3a8260d8bc5224c5cb851ac0dfe854ee7e
 [f5bf771e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f5bf771e6f26407fd2066f4765193adb250955c9
+[f5c0bd9d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f5c0bd9dc3d21263e7156771ae3d4bdce5b44c91
 [f5d9f894]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f5d9f894525051000b6779c4d8cc38675f45f37f
 [f5f2be2d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f5f2be2dd7d45cf1cc4df2638b6ec3e98a0075b3
 [f65650f0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f65650f0b47d22e0f7c41f3ddd1f3cae43cf708d
@@ -4209,11 +4421,15 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [f708e15e]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f708e15eab0ca601699461565b7a396f84394526
 [f764c6fb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f764c6fbac33459a4fb5d12e320c8341a7aaafd0
 [f76b06eb]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f76b06eb5191a825a61a42761164fffdaa0668d7
+[f76f5165]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f76f51656d67c2eb4801ec824d8bcfc86db28d34
 [f784a31a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f784a31a0ab6efe1eb7fb6650ae6cc1296f99609
 [f7b4533f]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f7b4533f180ccc94c27f8e42b9806199d147f5c1
+[f7fc2fad]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f7fc2fada083c52f2f81df502e18034a28006b6c
 [f8214de1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f8214de1d7c2f82bffc4e1881eaecd81acc53f5d
 [f858a3df]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f858a3dfadbd074b8c519b1a178cd705fb703607
+[f8657df1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f8657df13a889a2026bc63751eb85584ef4b60e7
 [f8953e5a]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f8953e5a92b7fb5f650d58803b5213636adbd920
+[f8c1c7d2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f8c1c7d2337b89637d64ade1039c85dcd42b4153
 [f8c42de5]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f8c42de5f2305276b6113a07359443820b9b2c6b
 [f8f977d1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f8f977d1bde282c350758aa2ebcca56eaef81c4a
 [f94d2a0d]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/f94d2a0dddd5aa8afe73eb06963af6c3b40e3b01
@@ -4230,6 +4446,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [fc2a8379]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/fc2a8379ad2f848990c749418ebe4123cacbcf8b
 [fc548235]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/fc5482359615f1f1a0d83c4f34a1ca89834d38ff
 [fc872faf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/fc872fafd9cd85588b332f0956f436b531822c72
+[fc88b9f2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/fc88b9f2d84e21be4be5831cb62554f0c52429f2
 [fcf91c96]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/fcf91c96ea0dd598594aec0fac23726426b4cd3b
 [fcfc7294]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/fcfc7294018d7e2e559b42be2f70fd1df853514f
 [fd1a1da0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/fd1a1da02ab3378b0327d1ccaf19a08434f60baf
