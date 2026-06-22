@@ -28,6 +28,7 @@ done
 # if `nextest` is installed then run it
 if (set -x; cargo nextest --version) 2>/dev/null; then
     (
+        export S4_BUILD_REGEX=${S4_BUILD_REGEX:-"TEST"}
         export NEXTEST_TEST_THREADS=${NEXTEST_TEST_THREADS-1}
         set -x
         cargo nextest --version
@@ -41,6 +42,7 @@ if (set -x; cargo nextest --version) 2>/dev/null; then
 # else use plain `cargo test`
 else
     (
+        export S4_BUILD_REGEX=${S4_BUILD_REGEX:-"TEST"}
         set -x
         cargo --version
         cargo test \
