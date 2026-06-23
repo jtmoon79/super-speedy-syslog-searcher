@@ -119,9 +119,9 @@ fi
 readonly CMD_BUILD
 
 # color on
-declare C_ON='\e[93m'  # light yellow
+declare -r C_ON='\e[93m'  # light yellow
 # color off
-declare C_OFF='\e[39m'  # default
+declare -r C_OFF='\e[39m'  # default
 # start from this stack size and increase
 declare -ir STACK_SIZE=${STACK_SIZE-32 * 1024}  # 32 KiB
 # increase this amount per attempt
