@@ -3,7 +3,7 @@
 [package]
 name = "super-speedy-syslog-searcher_ere-macros"
 description = "Support crate for super-speedy-syslog-searcher_ere."
-version = "0.10.2"
+version = "0.10.3"
 edition = "2021"
 license.workspace = true
 authors = ["2kai2kai2", "robertream", "jtmoon79"]
@@ -16,7 +16,7 @@ exclude = [
 proc-macro = true
 
 [dependencies]
-ere-core = { version = "=0.10.2", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
+ere-core = { version = "=0.10.3", path = "../ere-core", package = "super-speedy-syslog-searcher_ere-core" }
 quote.workspace = true
 syn = { workspace = true, features = ["parsing"] }
 

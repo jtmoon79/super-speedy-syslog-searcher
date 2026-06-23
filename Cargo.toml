@@ -103,8 +103,8 @@ ctrlc = "=3.5.2"
 current_platform = "=0.2.0"
 dlopen2 = "=0.8"
 encoding_rs = "=0.8.35"
-ere = { version = "=0.10.2", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
-ere_automator_procmacro = { version = "=0.10.2", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
+ere = { version = "=0.10.3", path = "subprojects/ere/ere", package = "super-speedy-syslog-searcher_ere" }
+ere_automator_procmacro = { version = "=0.10.3", path = "subprojects/ere/ere_automator_procmacro", package = "super-speedy-syslog-searcher_ere_automator_procmacro" }
 ere_datetimes_impl = { version = "=0.10.3", path = "subprojects/ere/ere_datetimes_impl", package = "super-speedy-syslog-searcher_ere_datetimes_impl" }
 evtx = { version = "=0.12.2", features = ["multithreading"] }
 flate2 = "=1.1.9"

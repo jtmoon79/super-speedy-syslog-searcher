@@ -3,7 +3,7 @@
 [package]
 name = "super-speedy-syslog-searcher_ere-core"
 description = "Support crate for super-speedy-syslog-searcher_ere."
-version = "0.10.2"
+version = "0.10.3"
 edition = "2021"
 license.workspace = true
 authors = ["2kai2kai2", "robertream", "jtmoon79"]
