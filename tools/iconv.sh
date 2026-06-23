@@ -99,6 +99,35 @@ iconv "${enc}" "${output_file}" "${FILE}"
 output_file="${FILE_DIR}/${FILE_STEM}.${enc}_BOM.${FILE_EXT}"
 iconv_BOM '\x00\x00\xFE\xFF' "${enc}" "${output_file}" "${FILE}"
 
+# UTF-1
+# XXX: not supported
+# enc="UTF-1"
+# output_file="${FILE_DIR}/${FILE_STEM}.${enc}.${FILE_EXT}"
+# iconv_BOM '\xF7\x64\x4C' "${enc}" "${output_file}" "${FILE}"
+
+# UTF-EBCDIC
+# XXX: not supported
+#enc="UTF-EBCDIC"
+#output_file="${FILE_DIR}/${FILE_STEM}.${enc}.${FILE_EXT}"
+#iconv_BOM '\xDD\x73\x66\x73' "${enc}" "${output_file}" "${FILE}"
+
+# SCSU
+# XXX: not supported
+#enc="SCSU"
+#output_file="${FILE_DIR}/${FILE_STEM}.${enc}.${FILE_EXT}"
+#iconv_BOM '\x0E\xFE\xFF' "${enc}" "${output_file}" "${FILE}"
+
+# BOCU-1
+# XXX: not supported
+#enc="BOCU-1"
+#output_file="${FILE_DIR}/${FILE_STEM}.${enc}.${FILE_EXT}"
+#iconv_BOM '\xFB\xEE\x28' "${enc}" "${output_file}" "${FILE}"
+
+# GB18030
+enc="GB18030"
+output_file="${FILE_DIR}/${FILE_STEM}.${enc}_BOM.${FILE_EXT}"
+iconv_BOM '\x84\x31\x95\x33' "${enc}" "${output_file}" "${FILE}"
+
 echo
 # green
 for f in "${files_okay[@]}"; do
