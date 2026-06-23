@@ -131,7 +131,7 @@ and Apple System Logs (`.asl`).
 Run the POSIX-compliant shell script `easy-install.sh`
 
 ```sh
-curl -sSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
+curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
 ```
 
 ###### Windows
@@ -156,7 +156,7 @@ Check your target platform:
 - Run `rustup.rs` shell script
 
   ```sh
-  curl -sSf 'https://sh.rustup.rs' | RUSTUP_INIT_SH_PRINT=arch sh
+  curl -LsSf 'https://sh.rustup.rs' | RUSTUP_INIT_SH_PRINT=arch sh
   ```
 
 - Check your platform target by running `rust -vV`.
