@@ -527,7 +527,7 @@ fn test_find_datetime_in_line(regex_id: RegexId) {
     }
 }
 
-#[test_matrix(0..187, (true, false))] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
+#[test_matrix(0..188, (true, false))] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 /// test `SyslineReader.parse_datetime_in_line_cached`
 fn test_parse_datetime_in_line_cached(regex_id: RegexId, cache: bool) {
     let mut slr = new_SyslineReader(&*NTF_LOG_EMPTY_FPATH, 0x100, *FO_L);
