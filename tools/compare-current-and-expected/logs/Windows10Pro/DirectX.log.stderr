@@ -31,15 +31,15 @@ File: ./logs/Windows10Pro/DirectX.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  39, miss  87, 31.0%
       caching: LineReader::find_line() LRU cache                   : hit   6, miss  84,  6.7%, put  84
-      copying: SyslineReader::get_boxptrs()                        : sgl 230, dbl   14, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 232, dbl   14, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit  14, miss  17, 45.2%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss  17,  5.6%, put  17
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss  32,  0.0%, put  32
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  14, miss  75, 15.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  77,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 167,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  19, miss 225
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss  78,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 168,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  19, miss 227
   Processing Drops:
 
 Program Summary:
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-12-19 19:17:32 +08:00 (2020-12-19 11:17:32.000000 +00:00)
 Datetime printed last  : 2021-08-20 00:36:51 +08:00 (2021-08-19 16:36:51.000000 +00:00)

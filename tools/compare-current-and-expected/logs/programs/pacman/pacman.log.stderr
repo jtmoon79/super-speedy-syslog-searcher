@@ -30,15 +30,15 @@ File: ./logs/programs/pacman/pacman.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss 389,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit 195, miss 195, 50.0%, put 195
-      copying: SyslineReader::get_boxptrs()                        : sgl 276, dbl   14, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 277, dbl   14, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss 195,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss 195,  0.5%, put 195
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit 194, miss 195, 49.9%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 286,  0.0%, largest skipped 0
-      process: regex captures                                      : hit 195, miss  95
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 287,  0.0%, largest skipped 0
+      process: regex captures                                      : hit 195, miss  96
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-03-01 16:56:00 +08:00 (2019-03-01 08:56:00.000000 +00:00)
 Datetime printed last  : 2022-10-07 16:08:00 +08:00 (2022-10-07 08:08:00.000000 +00:00)

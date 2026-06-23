@@ -31,15 +31,15 @@ File: ./logs/Ubuntu22/dmesg
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   5,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   3, 25.0%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 160, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 161, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss  15,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 145,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   2, miss 158
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss 146,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   2, miss 159
   Processing Drops:
 
 Program Summary:
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :

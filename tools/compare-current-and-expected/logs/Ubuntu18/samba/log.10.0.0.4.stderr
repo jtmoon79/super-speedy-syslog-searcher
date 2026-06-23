@@ -30,14 +30,14 @@ File: ./logs/Ubuntu18/samba/log.10.0.0.4
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  19, 34.5%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 205, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 207, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  19, miss   0, 100.0%, largest skipped 38
-      optimize:SyslineReader::ezcheck12d2                          : hit 173, miss  16, 91.5%, largest skipped 39
+      optimize:SyslineReader::ezcheckd2                            : hit  20, miss   0, 100.0%, largest skipped 38
+      optimize:SyslineReader::ezcheck12d2                          : hit 174, miss  16, 91.6%, largest skipped 39
       process: regex captures                                      : hit  10, miss   6
   Processing Drops:
 
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2020-03-05 16:00:49 +08:00 (2020-03-05 08:00:49.601800 +00:00)
 Datetime printed last  : 2020-03-05 16:00:49 +08:00 (2020-03-05 08:00:49.601800 +00:00)

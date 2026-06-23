@@ -30,15 +30,15 @@ File: ./logs/synology-DS6/.disk_daily_info_send_udc_time
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit  0, miss  1,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  1, miss  1, 50.0%, put  1
-      copying: SyslineReader::get_boxptrs()                        : sgl 89, dbl   0, mult  0
+      copying: SyslineReader::get_boxptrs()                        : sgl 90, dbl   0, mult  0
       storage: SyslineReader::find_sysline() syslines              : hit  0, miss  1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
       caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  1, 50.0%, put  1
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  1,  0.0%, put  0
       optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit  0, miss  4,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 85,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  1, miss 88
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 86,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  1, miss 89
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)
 Datetime printed last  : 2019-06-21 00:12:32 +08:00 (2019-06-20 16:12:32.000000 +00:00)

@@ -30,7 +30,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit    0, miss 2467,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  104, miss 1234,  7.8%, put 1233
-      copying: SyslineReader::get_boxptrs()                        : sgl 1297, dbl   448, mult    1
+      copying: SyslineReader::get_boxptrs()                        : sgl 1302, dbl   448, mult    1
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss  102,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    2,  0.0%, put    1
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss  102,  0.0%, put  101
@@ -38,7 +38,7 @@ File: ./logs/Windows10Pro/SysWOW64/Macromed/Flash/FlashInstall32.log
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit    0, miss    0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit    0, miss    0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  101, miss 1645
+      process: regex captures                                      : hit  101, miss 1650
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2019-01-29 02:07:21 +08:00 (2019-01-28 18:07:21.228000 +00:00)
 Datetime printed last  : 2021-05-01 21:39:34 +08:00 (2021-05-01 13:39:34.643000 +00:00)

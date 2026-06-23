@@ -30,15 +30,15 @@ File: ./logs/Orbi/var/log/soapclient/CC_AA_DD_EE_FF_00-ns.old
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  17, miss  19, 47.2%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 150, dbl    7, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 151, dbl    7, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  17,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  17,  5.6%, put  17
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  16, miss  19, 45.7%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   1, miss  11,  8.3%, largest skipped 18
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 143,  1.4%, largest skipped 25
-      process: regex captures                                      : hit  17, miss 137
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 144,  1.4%, largest skipped 25
+      process: regex captures                                      : hit  17, miss 138
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-05-10 13:24:56 +08:00 (2022-05-10 05:24:56.000000 +00:00)
 Datetime printed last  : 2022-05-10 13:24:56 +08:00 (2022-05-10 05:24:56.000000 +00:00)

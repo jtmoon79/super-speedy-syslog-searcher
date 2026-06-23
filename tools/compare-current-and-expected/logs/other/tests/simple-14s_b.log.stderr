@@ -29,17 +29,17 @@ File: ./logs/other/tests/simple-14s_b.log
   Parsers:
                    datetime format missing year; estimated year of last sysline 2024
   Processing Stores:
-      storage: LineReader::find_line() lines                       : hit  0, miss  2,  0.0%
-      caching: LineReader::find_line() LRU cache                   : hit  1, miss  2, 33.3%, put  2
-      copying: SyslineReader::get_boxptrs()                        : sgl 99, dbl   0, mult  0
-      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  2,  0.0%
-      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  1, miss  2, 33.3%, put  2
-      caching: SyslineReader::find_sysline() LRU cache             : hit  0, miss  3,  0.0%, put  3
-      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  0, miss  2,  0.0%, put  0
-      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  7,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss 92,  0.0%, largest skipped 0
-      process: regex captures                                      : hit  2, miss 97
+      storage: LineReader::find_line() lines                       : hit   0, miss   2,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   2
+      copying: SyslineReader::get_boxptrs()                        : sgl 100, dbl    0, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   2,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   1, miss   2, 33.3%, put   2
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   3,  0.0%, put   3
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   7,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss  93,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   2, miss  98
   Processing Drops:
 
 Program Summary:
@@ -58,8 +58,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)
 Datetime printed last  : 2024-05-28 06:41:49 +08:00 (2024-05-27 22:41:49.567000 +00:00)

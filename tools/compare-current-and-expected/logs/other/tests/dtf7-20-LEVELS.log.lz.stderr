@@ -28,15 +28,15 @@ File: ./logs/other/tests/dtf7-20-LEVELS.log.lz
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss   3,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   1, miss   2, 33.3%, put   2
-      copying: SyslineReader::get_boxptrs()                        : sgl 372, dbl    0, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 376, dbl    0, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   1,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   1,  0.0%, put   0
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   0, miss   2,  0.0%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  19, miss  19, 50.0%, largest skipped 196
-      optimize:SyslineReader::ezcheck12d2                          : hit   9, miss 325,  2.7%, largest skipped 33
-      process: regex captures                                      : hit   0, miss 344
+      optimize:SyslineReader::ezcheckd2                            : hit  20, miss  20, 50.0%, largest skipped 196
+      optimize:SyslineReader::ezcheck12d2                          : hit  10, miss 326,  3.0%, largest skipped 33
+      process: regex captures                                      : hit   0, miss 346
   Processing Drops:
 
 Program Summary:
@@ -55,8 +55,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first :
 Datetime printed last  :

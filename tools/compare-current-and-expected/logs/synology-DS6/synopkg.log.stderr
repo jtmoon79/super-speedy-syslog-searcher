@@ -30,15 +30,15 @@ File: ./logs/synology-DS6/synopkg.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  37,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit  10, miss  19, 34.5%, put  19
-      copying: SyslineReader::get_boxptrs()                        : sgl 280, dbl    2, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 282, dbl    2, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss  10,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   1,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   1, miss  10,  9.1%, put  10
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   9, miss  19, 32.1%, put   0
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  15, miss   8, 65.2%, largest skipped 99
-      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 257,  0.8%, largest skipped 24
-      process: regex captures                                      : hit  10, miss 255
+      optimize:SyslineReader::ezcheckd2                            : hit  16, miss   8, 66.7%, largest skipped 99
+      optimize:SyslineReader::ezcheck12d2                          : hit   2, miss 258,  0.8%, largest skipped 24
+      process: regex captures                                      : hit  10, miss 256
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2016-12-05 20:47:00 +08:00 (2016-12-05 12:47:00.000000 +00:00)
 Datetime printed last  : 2016-12-05 20:47:00 +08:00 (2016-12-05 12:47:00.000000 +00:00)

@@ -47,8 +47,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 2
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2024-02-18 12:29:57 +08:00 (2024-02-18 04:29:57.000000 +00:00)
 Datetime printed last  : 2024-02-18 12:36:17 +08:00 (2024-02-18 04:36:17.000000 +00:00)

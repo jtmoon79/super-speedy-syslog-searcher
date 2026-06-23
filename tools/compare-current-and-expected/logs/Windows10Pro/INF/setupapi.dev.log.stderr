@@ -30,15 +30,15 @@ File: ./logs/Windows10Pro/INF/setupapi.dev.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   15, miss   98, 13.3%
       caching: LineReader::find_line() LRU cache                   : hit    3, miss   63,  4.5%, put   62
-      copying: SyslineReader::get_boxptrs()                        : sgl 1656, dbl    14, mult    0
+      copying: SyslineReader::get_boxptrs()                        : sgl 1673, dbl    14, mult    0
       storage: SyslineReader::find_sysline() syslines              : hit    0, miss    3,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit    0, miss    2,  0.0%, put    1
       caching: SyslineReader::find_sysline() LRU cache             : hit    0, miss    3,  0.0%, put    2
       caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit    2, miss   62,  3.1%, put    0
       optimize:SyslineReader::ezcheck12                            : hit    0, miss    0,  0.0%, largest skipped 0
-      optimize:SyslineReader::ezcheckd2                            : hit  100, miss   64, 61.0%, largest skipped 31
-      optimize:SyslineReader::ezcheck12d2                          : hit  677, miss  829, 45.0%, largest skipped 54
-      process: regex captures                                      : hit    2, miss  891
+      optimize:SyslineReader::ezcheckd2                            : hit  105, miss   67, 61.0%, largest skipped 31
+      optimize:SyslineReader::ezcheck12d2                          : hit  681, miss  834, 45.0%, largest skipped 54
+      process: regex captures                                      : hit    2, miss  899
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2022-08-11 22:29:21 +08:00 (2022-08-11 14:29:21.389000 +00:00)
 Datetime printed last  : 2022-09-14 21:28:18 +08:00 (2022-09-14 13:28:18.119000 +00:00)

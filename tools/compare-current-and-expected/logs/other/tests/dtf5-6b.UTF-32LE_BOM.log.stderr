@@ -30,7 +30,7 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log
   Processing Stores:
       storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%
       caching: LineReader::find_line() LRU cache                   : hit   8, miss  13, 38.1%, put  12
-      copying: SyslineReader::get_boxptrs()                        : sgl 273, dbl    3, mult   0
+      copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl    3, mult   0
       storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
       caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
       caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
@@ -38,7 +38,7 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log
       optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
       optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
-      process: regex captures                                      : hit   6, miss 270
+      process: regex captures                                      : hit   6, miss 272
   Processing Drops:
 
 Program Summary:
@@ -57,8 +57,8 @@ Printed EVTX events    : 0
 Printed fixedstruct    : 0
 Printed journal events : 0
 Printed ODL events     : 0
-Regex patterns known   : 186
-Regex patterns compiled: 186
+Regex patterns known   : 188
+Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
 Datetime printed last  : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
