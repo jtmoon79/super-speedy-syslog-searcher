@@ -74,6 +74,7 @@ and Apple System Logs (`.asl`).
         - [Windows](#windows-1)
       - [allocator `tcmalloc`](#allocator-tcmalloc)
         - [Debian and Ubuntu](#debian-and-ubuntu-1)
+    - [Claude SKILL.md](#claude-skillmd)
   - [Run `s4`](#run-s4)
   - [`--help`](#--help)
 - [About](#about)
@@ -337,6 +338,12 @@ apt install google-perftools libgoogle-perftools-dev libtcmalloc-minimal4
 ```
 
 Other platforms have not been checked for use with `tcmalloc`.
+
+#### Claude SKILL.md
+
+After installing `s4`, you can copy the [Claude skill `s4-log-search`] into your project directory.
+
+[Claude skill `s4-log-search`]: ./.claude/skills/s4-log-search/SKILL.md
 
 ### Run `s4`
 
