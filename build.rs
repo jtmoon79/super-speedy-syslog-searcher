@@ -35,6 +35,7 @@ pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
 pub const ENV_BUILD_TIMESTAMP: &str = "S4_BUILD_TIMESTAMP";
 pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
 pub const PATH_FILE_GIT_COMMIT: &str = "git_commit.txt";
+pub const PATH_FILE_PROFILE_NAME: &str = "profile_name.txt";
 
 // TODO: rebuild if `src/python/s4_event_readers` changes
 //       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
@@ -49,6 +50,7 @@ fn is_env_var_truthy(env_var: &str) -> bool {
     }
 }
 
+/// check if `ENV_BUILD_EPRINT` is truthy
 fn info_enabled() -> bool {
     is_env_var_truthy(ENV_BUILD_EPRINT)
 }
@@ -62,6 +64,7 @@ macro_rules! info {
     };
 }
 
+/// wrapper to call `println!` and also `build_print::custom_println!` if `info_enabled()` is true
 macro_rules! build_println {
     ($($arg:tt)*) => {
         println!($($arg)*);
@@ -162,6 +165,7 @@ fn parse_regex_values() {
     }
 }
 
+/// helper to get the output directory as a `PathBuf`
 fn out_path() -> PathBuf {
     // used passed `outdir`, fallback to env var `OUT_DIR`, fallback to current directory
     let outdir: String = env::var("OUT_DIR").unwrap_or_else(|_| ".".to_string());
@@ -171,7 +175,8 @@ fn out_path() -> PathBuf {
     out_path_
 }
 
-/// ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
+/// Write current datetime to a file as a string for `include!`.
+/// Ripped from <https://www.dgendill.com/posts/programming/2025-10-20-embedding-buildtime-into-rust-binary.html>
 fn write_timestamp_file() {
     let mut out_path = out_path();
     out_path.push(PATH_FILE_TIMESTAMP);
@@ -191,6 +196,7 @@ fn write_timestamp_file() {
     info!("Wrote timestamp {now_s:?} to file {out_path:?}");
 }
 
+/// Write rustc version to a file as a string for `include!`.
 fn write_rustc_version_file() {
     let mut out_path = out_path();
     out_path.push(PATH_FILE_RUSTC_VERSION);
@@ -201,6 +207,7 @@ fn write_rustc_version_file() {
     info!("Wrote rustc version {rustc_version_str:?} to file {out_path:?}");
 }
 
+/// Write git commit hash to a file as a string for `include!`.
 fn write_git_commit_file() {
     let mut out_path = out_path();
     out_path.push(PATH_FILE_GIT_COMMIT);
@@ -228,6 +235,7 @@ fn write_git_commit_file() {
     }
 }
 
+/// Write build `--features` to a file as a string for `include!`.
 fn write_features_file() {
     let list_features_rs = out_path().join("list_features.rs");
     let features: String = list_features::list_enabled_as_string("LIST_FEATURES");
@@ -260,6 +268,29 @@ fn write_features_file() {
     info!("Wrote enabled features {features_str} to file {list_features_txt:?}");
 }
 
+/// Write build profile name to a file as a string for `include!`.
+fn write_profile_file() {
+    // ripped from https://stackoverflow.com/a/73603419/471376
+    fn get_build_profile_name() -> String {
+        // The profile name is always the 3rd last part of the path (with 1 based indexing).
+        // e.g. /code/core/target/cli/build/my-build-info-9f91ba6f99d7a061/out
+        std::env::var("OUT_DIR")
+            .unwrap()
+            .split(std::path::MAIN_SEPARATOR)
+            .nth_back(3)
+            .unwrap_or_else(|| "")
+            .to_string()
+    }
+    let profile_name = get_build_profile_name();
+    let mut out_path = out_path();
+    out_path.push(PATH_FILE_PROFILE_NAME);
+    let mut fhandle = fs::File::create(&out_path)
+        .unwrap_or_else(|e| panic!("write_profile_file failed to create file {out_path:?}: {e:?}"));
+    write!(fhandle, r#"r"{profile_name}""#).ok();
+    info!("Wrote build profile \"{profile_name}\" to file {out_path:?}");
+}
+
+/// Check for a `.env` file and load it if found; print loaded values if `info_enabled()`.
 fn dotenv_load() {
     match dotenvy::dotenv() {
         Ok(path) => {
@@ -288,5 +319,6 @@ fn main() {
     write_rustc_version_file();
     write_git_commit_file();
     write_features_file();
+    write_profile_file();
     parse_regex_values();
 }

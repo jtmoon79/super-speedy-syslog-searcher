@@ -311,6 +311,9 @@ const GIT_COMMIT: &str = include!(concat!(env!("OUT_DIR"), "/", "git_commit.txt"
 /// File with comma-separated line of enabled features.
 /// Created by `build.rs`. Path must match that in `build.rs`.
 const LIST_FEATURES: &str = include!(concat!(env!("OUT_DIR"), "/", "list_features.txt"));
+/// File with name of build profile.
+/// Created by `build.rs`. Path must match that in `build.rs`.
+const PROFILE_NAME: &str = include!(concat!(env!("OUT_DIR"), "/", "profile_name.txt"));
 
 // --------------------
 // command-line parsing
@@ -2350,7 +2353,7 @@ const CLI_HELP_AFTER: &str = concatcp!(
     "\
 Given a file path, the file format will be processed based on a best guess of
 the file name.
-If the file format is not guessed then it will be treated as a UTF8 text file.
+If the file format is not guessed then it will be treated as a text file.
 Given a directory path, found file names that have well-known non-log file name
 extensions will be skipped.
 
@@ -2516,6 +2519,7 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         env!("CARGO_PKG_VERSION_MINOR"), ".",
         env!("CARGO_PKG_VERSION_PATCH"), "\n",
         "MSRV: ", env!("CARGO_PKG_RUST_VERSION"), "\n",
+        "Profile: ", PROFILE_NAME, "\n",
         "Allocator: ", CLI_HELP_AFTER_ALLOCATOR , "\n",
         "Features: ", LIST_FEATURES, "\n",
         "Platform: ", CURRENT_PLATFORM, "\n",
