@@ -12,6 +12,7 @@ exclude = [
     ".github/*",
     ".vscode/*",
     "benches/*",
+    "cargo-build-profiles-timeout.sh",
     "ROADMAP.md",
     "target/*",
     "tests/*",
