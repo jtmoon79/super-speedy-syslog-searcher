@@ -3,27 +3,31 @@
 Speedily search and merge log messages by datetime.
 
 <!--
+TODO: per release
+
 * Must update parameters `branch=` and `version=` per release; replace the version
+* Update the performance table comparison.
+* Update any new supported features.
 -->
 
 <!--
   # PROJECT VERSION LAST PUBLISHED
 -->
-[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.9.81?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.81/Cargo.toml#L21)
+[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.9.82?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/Cargo.toml#L21)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
-[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.9.81?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.9.81/)
+[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.9.82?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.9.82/)
 
-[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.9.81&version=0.9.81)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.81)
+[![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.9.82&version=0.9.82)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.82)
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher#:~:text=Downloads%20all%20time)
-[![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.9.81?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.81)
+[![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.9.82?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.82)
 [![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#0981) <!--
   the following PNG image data is from https://lib.rs/favicon.png
 -->
 [![lib.rs](https://img.shields.io/badge/lib.rs-white?style=flat-square&logoColor=202020&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAMFBMVEWJiYkCAgJDQ0MnJyf4+PhYWFjn5+c6OjqYmJisrKz29vb6+vrt7e1xcXELDAzExMRum/TtAAAAD3RSTlMD+v36+fntefk0VLCK5q5zTFsnAAABZklEQVQoz2NgYJiTyQACXFvaIXRafmsBkJ7j8kkdLMDy2dA0AMRvFDIHC3A3VqZqMqx2axQKMgQLcDZN2GG+LD9QON7VuIABAqYZ7Rc0anNJUjaACnA3VzUGf3EzUhKHCnB9tkoWNXIxVLKDCjDkqp8QUvzyP8hwAlTgvN16IeUvLoGyMAG2oNkXTd0uWmzZCRXg+fzqY6jhmy0Z4VABzlTNXEEg3xBu6g5x9tspfwVFFWEC61XnuLUK9n9ShrmVu/HLZSF5t49wt3J9jvmopOLRYSQOd5pkhqi9i0ujHkzgvN4xUaWrXxoD4R4OXhIY/M0tSBBuavObj0HfmuVgfAbOJCtnUUG5OTkMcKeZ7xcyX+PWCleyXnTV89X+l42gApyruJsKVvsHqlZC5Zfkx3y85q+oCtPA6S93uTVCMRZuAJdjwXoJ5dgJDAiBCUt0ryP4QFdU5oszIIMV8p8eoAhwFsrBmAC0enH/iMEF5wAAAABJRU5ErkJggg==)](https://lib.rs/crates/super_speedy_syslog_searcher/)
 
-<!-- [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.9.81&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust) -->
-[![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.9.81&version=0.9.81)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.9.81)
-[![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.9.81.svg?logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
+<!-- [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.9.82&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust) -->
+[![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.9.82&version=0.9.82)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.9.82)
+[![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.9.82.svg?logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
 
 _Super Speedy Syslog Searcher_ (`s4`) is a command-line tool to search
 and merge varying log messages from varying log files, sorted by datetime.
