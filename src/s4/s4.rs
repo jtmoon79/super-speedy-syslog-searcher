@@ -425,7 +425,8 @@ pub(crate) const T_NOW_MONTH: u32 = u32::MAX;
 /// signifier to set to current day
 pub(crate) const T_NOW_DAY: u32 = u32::MAX;
 
-/// CLI enum that maps to [`termcolor::ColorChoice`].
+/// CLI enum that maps to [`termcolor::ColorChoice`]
+/// with shortened variants for command-line convenience.
 ///
 /// [`termcolor::ColorChoice`]: https://docs.rs/termcolor/1.1.3/termcolor/enum.ColorChoice.html
 #[derive(
@@ -442,6 +443,12 @@ enum CLI_Color_Choice {
     always,
     auto,
     never,
+    /// always
+    a,
+    /// auto
+    au,
+    /// never
+    n,
 }
 
 // TODO: [2026/02] create nutypes for year, month, day, etc.
@@ -3515,11 +3522,14 @@ fn cli_process_args() -> (
         _ => {}
     }
 
-    // map `CLI_Color_Choice` to `ColorChoice`
+    // map `CLI_Color_Choice_w_shorten` to `ColorChoice`
     let color_choice: ColorChoice = match args.color_choice {
-        CLI_Color_Choice::always => ColorChoice::Always,
-        CLI_Color_Choice::auto => ColorChoice::Auto,
-        CLI_Color_Choice::never => ColorChoice::Never,
+        CLI_Color_Choice::always
+        | CLI_Color_Choice::a => ColorChoice::Always,
+        CLI_Color_Choice::auto
+        | CLI_Color_Choice::au => ColorChoice::Auto,
+        CLI_Color_Choice::never
+        | CLI_Color_Choice::n => ColorChoice::Never,
     };
     defo!("color_choice {:?}", color_choice);
 
