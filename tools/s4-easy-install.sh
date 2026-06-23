@@ -4,7 +4,7 @@
 # POSIX shell compatible.
 #
 # Usage:
-#   VER=0.9.81 ./tools/easy-install.sh
+#   VER=0.9.81 ./tools/s4-easy-install.sh
 #
 # Optional environment variables:
 #   VER: version to install
@@ -12,11 +12,11 @@
 #   TEST: if set then do not install
 #
 # to run this file remotely:
-#    curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
+#    curl --silent 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.sh' | sh
 
 set -eu
 
-readonly SCRIPT_NAME='easy-install.sh'
+readonly SCRIPT_NAME='s4-easy-install.sh'
 
 VER=${VER-0.9.82}  # PROJECT VERSION LAST PUBLISHED
 readonly VER

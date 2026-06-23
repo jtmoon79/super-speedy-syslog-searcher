@@ -57,7 +57,7 @@ and Apple System Logs (`.asl`).
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
     - [installation methods](#installation-methods)
-      - [easy install](#easy-install)
+      - [easy install](#s4-easy-install)
         - [Unix](#unix)
         - [Windows](#windows)
       - [manual download](#manual-download)
@@ -129,23 +129,23 @@ and Apple System Logs (`.asl`).
 
 ###### Unix
 
-Run the POSIX-compliant shell script `easy-install.sh`
+Run the POSIX-compliant shell script `s4-easy-install.sh`
 
 ```sh
-curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
+curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.sh' | sh
 ```
 
 ###### Windows
 
-On Windows, run the PowerShell script `easy-install.ps1`
+On Windows, run the PowerShell script `s4-easy-install.ps1`
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
 
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.ps1' `
-  -OutFile easy-install.ps1
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1' `
+  -OutFile s4-easy-install.ps1
 
-.\easy-install.ps1
+.\s4-easy-install.ps1
 ```
 
 ##### manual download

@@ -556,22 +556,22 @@ jobs:
       S4_VERSION: 0.9.81
     runs-on: ${{ matrix.os }}
     steps:
-      - name: easy-install.sh
+      - name: s4-easy-install.sh
         if: ${{matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'}}
         shell: bash
         run: |
           set -euxo pipefail
-          curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | \
+          curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.sh' | \
             VER=${{ env.S4_VERSION }} sh
-      - name: easy-install.ps1
+      - name: s4-easy-install.ps1
         if: ${{matrix.os == 'windows-latest'}}
         shell: pwsh
         run: |
           Set-PSDebug -Trace 1
           Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
-          Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.ps1' `
-            -OutFile easy-install.ps1
-          .\easy-install.ps1 -Version ${{ env.S4_VERSION }} -trace
+          Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1' `
+            -OutFile s4-easy-install.ps1
+          .\s4-easy-install.ps1 -Version ${{ env.S4_VERSION }} -trace
 
   job_codecov_validate:
     name: codecov validate

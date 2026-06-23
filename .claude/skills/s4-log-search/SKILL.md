@@ -6,7 +6,7 @@ argument-hint: "<log paths> <datetime window or incident time>"
 
 # s4 Log Search
 
-Use ***super-speedy-syslog-searcher***, `s4`, to speedily search and merge log messages by interpreted datetime across many log files, directories, compressed files, archives, and binary log formats. The user must have `s4` installed. They can use `easy-install` to quickly install `s4`.
+Use ***super-speedy-syslog-searcher***, `s4`, to speedily search and merge log messages by interpreted datetime across many log files, directories, compressed files, archives, and binary log formats. The user must have `s4` installed. They can use `s4-easy-install` to quickly install `s4`.
 
 `s4` is strongest when an incident time or datetime window is known and the useful clues may be scattered across log files. It produces a datetime-sorted view across inputs.
 
@@ -31,23 +31,23 @@ If `s4` is unavailable, ask the user to install it or provide the path to the bi
 
 #### Unix
 
-On Unix, use the POSIX-compliant Unix shell script `easy-install.sh`.
+On Unix, use the POSIX-compliant Unix shell script `s4-easy-install.sh`.
 
 ```sh
-curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.sh' | sh
+curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.sh' | sh
 ```
 
 #### Windows
 
-On Windows, run the PowerShell script `easy-install.ps1`
+On Windows, run the PowerShell script `s4-easy-install.ps1`
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
 
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/easy-install.ps1' `
-  -OutFile easy-install.ps1
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1' `
+  -OutFile s4-easy-install.ps1
 
-.\easy-install.ps1
+.\s4-easy-install.ps1
 ```
 
 ## Core Workflow
