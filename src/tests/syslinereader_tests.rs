@@ -271,7 +271,7 @@ lazy_static! {
     static ref NTF5_PATH: FPath = ntf_fpath(&NTF5);
 }
 
-pub const REGEX_ID_NTF5: RegexId = 140;
+pub const REGEX_ID_NTF5: RegexId = 141;
 
 /// basic test of `SyslineReader.find_sysline`
 fn impl_find_sysline(
@@ -527,7 +527,7 @@ fn test_find_datetime_in_line(regex_id: RegexId) {
     }
 }
 
-#[test_matrix(0..188, (true, false))] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
+#[test_matrix(0..189, (true, false))] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 /// test `SyslineReader.parse_datetime_in_line_cached`
 fn test_parse_datetime_in_line_cached(regex_id: RegexId, cache: bool) {
     let mut slr = new_SyslineReader(&*NTF_LOG_EMPTY_FPATH, 0x100, *FO_L);
@@ -6314,7 +6314,7 @@ lazy_static! {
     0,
     0,
     0,
-    38,
+    40,
     0,
     7,
     330,
@@ -6354,7 +6354,7 @@ lazy_static! {
     0,
     0,
     0,
-    38,
+    40,
     0,
     7,
     330,
@@ -6394,7 +6394,7 @@ lazy_static! {
     0,
     0,
     0,
-    38,
+    40,
     0,
     7,
     330,

@@ -341,7 +341,7 @@ fn test_DATETIME_PARSE_DATAS_regex_id_sequential() {
 /// match the regexp built-in test cases for all entries in
 /// `DATETIME_PARSE_DATAS`.
 #[allow(clippy::zero_prefixed_literal)]
-#[test_matrix(0..188)] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
+#[test_matrix(0..189)] // XXX: keep in sync with DATETIME_PARSE_DATAS_LEN_MAX + 1
 fn test_DATETIME_PARSE_DATAS_test_cases(regex_id: RegexId) {
     stack_offset_set(Some(2));
 
