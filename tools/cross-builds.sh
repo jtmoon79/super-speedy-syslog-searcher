@@ -381,8 +381,12 @@ function print_results() {
     echo -e "\e[39m"
 }
 
+TMPDIR=$(mktemp -d)
+readonly TMPDIR
+
 # print results, if $DIROUT is set, tee to `cross-builds.md`
 function exit_ () {
+    rm -rf "${TMPDIR}"
     if [[ "${DIROUT-}" ]]; then
         print_results | tee "${DIROUT}/cross-builds.md"
     else
@@ -498,15 +502,30 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
         print_results
         continue
     fi
+    # record the command that built or failed
+    export BUILT_COMMAND="${TMPDIR}/${TARGET}.command"
     # run cross build
     if (
+        set -euo pipefail
         export S4_BUILD_REGEX_PRINT=1
-        set -x
-        cross build --target "$TARGET" "${@}"
+        echo -n "cross build --target $TARGET ${*}" > "$BUILT_COMMAND"
+        if (set -x; cross build --target "$TARGET" "${@}"); then
+            exit 0
+        fi
+        # cross failed; try nightly with `-Zbuild-std` to build the standard library for the target
+        (
+            echo -n "cargo +nightly build -Zbuild-std --target $TARGET ${*}" > "$BUILT_COMMAND"
+            set -eux
+            rustup target add "${TARGET}"
+            rustup component add rust-src --toolchain "nightly-${TARGET}"
+            cargo +nightly build -Zbuild-std --target "${TARGET}" "${@}"
+        )
     ); then
+        # build passed
         declare -i total_time=$((SECONDS - start_time))
         time_hms=$(seconds_to_hms "$total_time")
-        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}✅ pass${SEP}cross build --target $TARGET ${*}"
+        declare mesg=$(cat "$BUILT_COMMAND")
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}✅ pass${SEP}${mesg}"
         targets_built+=("$TARGET")
         for s4_file in $(find "target/${TARGET}" -type f \( -name "${BIN}" -o -name "${BIN}.exe" \)); do
             EXT=''
@@ -540,7 +559,8 @@ for TIER_TARGET in "${TIER_TARGETS[@]}"; do
     else
         declare -i total_time=$((SECONDS - start_time))
         time_hms=$(seconds_to_hms "$total_time")
-        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}❌ fail${SEP}cross build --target $TARGET ${*}"
+        declare mesg=$(cat "$BUILT_COMMAND")
+        results[${#results[@]}]="${TIER}${SEP}${TARGET}${SEP}${time_hms}${SEP}❌ fail${SEP}${mesg}"
         targets_failed+=("$TARGET")
     fi
     # long running script; print progress in real-time
