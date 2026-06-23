@@ -146,7 +146,7 @@ main() {
     WORKDIR=$(mktemp -d "${SCRIPT_NAME}.tmpd.XXXXXXXX")
     readonly WORKDIR
     trap 'rm -rf "$WORKDIR"' 0
-    NOT_IN_PATH="$(readlink -f "${WORKDIR}/not_in_path")"
+    NOT_IN_PATH="${WORKDIR}/not_in_path"
     readonly NOT_IN_PATH
 
     info "determine platform target ..."
