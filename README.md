@@ -185,8 +185,6 @@ cargo install --locked cargo-binstall
 cargo binstall super_speedy_syslog_searcher
 ```
 
-[_Rust_ must be installed](https://www.rust-lang.org/tools/install)
-
 [`binstall`]: https://github.com/cargo-bins/cargo-binstall/
 
 ##### `quickinstall`
@@ -613,7 +611,7 @@ Python Virtual Environment Mode:
 
 Given a file path, the file format will be processed based on a best guess of
 the file name.
-If the file format is not guessed then it will be treated as a UTF8 text file.
+If the file format is not guessed then it will be treated as a text file.
 Given a directory path, found file names that have well-known non-log file name
 extensions will be skipped.
 
@@ -780,7 +778,6 @@ See the real-world example rationale in the section below,
 - Prepends datetime and file paths, for easy programmatic parsing or
   visual traversal of varying log messages
 - [Comparable speed as GNU `grep` and `sort`](#speed-comparison)
-- Processes invalid UTF-8
 - Accepts arbitrarily large files <sup><a href="#hacks">see _Hacks_</a></sup>
 
 [`acct`, `pacct`]: https://www.man7.org/linux/man-pages/man5/acct.5.html
@@ -821,9 +818,8 @@ gzip compressed file. However, if that same file is named something unusual like
 `user.systemd-journal.gz` then it is guessed to be a text log file within a gzip
 compressed file.
 
-When a file type cannot be guessed then it is treated as a UTF8 text log file.
-For example, a file name just `unknown` is not any obvious type so it is attempted
-to be parsed as a UTF8 ad-hoc text log file.
+When a file type cannot be guessed then it is treated as a text log file.
+For example, a file name `unknown` is not any obvious type so it is attempted to be parsed as a text log file.
 
 `tar` files are inspected for parseable files.<sup><a href="#f2">\[2\]</a></sup>
 
@@ -839,7 +835,7 @@ extensions.
 
 So given a file `/tmp/file.mp3`, an  invocation of `s4 /tmp` will not attempt
 to process `file.mp3`. An invocation of `s4 /tmp/file.mp3` will attempt to
-process `file.mp3`. It will be treated as a UTF8 text log file.
+process `file.mp3`. It will be treated as a text log file.
 
 [`src/readers/filepreprocessor`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.7.78/src/readers/filepreprocessor.rs#L480
 
@@ -874,7 +870,7 @@ Builds are tested on the following rust platforms:
 
 See [the Github Action].
 
-[the Github Action]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.81/.github/workflows/rust.yml
+[the Github Action]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/.github/workflows/rust.yml
 
 ### Limitations
 
@@ -1033,6 +1029,8 @@ Binary formats supported:
 |`logmerger`    |✗      |✗                     |✗      |✔               |✗       |✗    |✗     |✗     |
 |`tl`           |✗      |✗                     |✗      |✗               |✔       |✗    |✗     |✗     |
 
+<br/>
+
 Ad-hoc text formats:
 
 |Program        |Ad-hoc text formats|Red Hat Audit Log|strace|Apache Common Log Format|dmesg|
@@ -1043,6 +1041,10 @@ Ad-hoc text formats:
 |`logmerger`    |‼                  |‼                |✔     |‼                       |✗   |
 |`tl`           |✗                  |✗               |✗     |✔                       |✗   |
 
+All programs besides `s4` fail to merge different text log formats.
+
+<br/>
+
 Text encodings:
 
 |Program        |UTF-8|UTF-16LE|UTF-16LE BOM|UTF-16BE|UTF-16BE BOM|UTF-32LE|UTF-32LE BOM|UTF-32BE|UTF-32BE BOM|
@@ -1052,8 +1054,6 @@ Text encodings:
 |`lnav`         |✔    |✗       |✗           |✗       |✗           |✗       |✗           |✗       |✗           |
 |`logmerger`    |✔    |✗       |✗           |✗       |✗           |✗       |✗           |✗       |✗           |
 |`tl`           |✔    |✔       |✔           |✔       |✔           |✔       |✔           |✔       |✔           |
-
-All programs besides `s4` fail to merge different text log formats.
 
 ---
 
@@ -1072,7 +1072,7 @@ All programs besides `s4` fail to merge different text log formats.
 
 #### Performance Comparison
 
-A comparison of merging [ten large contrived log files](https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.9.81/tools/compare-log-mergers).
+A comparison of merging [ten large contrived log files](https://github.com/jtmoon79/super-speedy-syslog-searcher/tree/0.9.82/tools/compare-log-mergers).
 The ten log files have 5000 single-line log messages, 2158138 bytes (≈2.1 MB) each,
 with high-plane unicode.
 There is filtering on a a range of datetime values that prints 1800 single-line
