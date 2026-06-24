@@ -57,7 +57,7 @@ and Apple System Logs (`.asl`).
 - [Use](#use)
   - [Install `super_speedy_syslog_searcher`](#install-super_speedy_syslog_searcher)
     - [installation methods](#installation-methods)
-      - [easy install](#s4-easy-install)
+      - [easy install](#easy-install)
         - [Unix](#unix)
         - [Windows](#windows)
       - [manual download](#manual-download)
