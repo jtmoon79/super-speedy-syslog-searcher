@@ -274,11 +274,13 @@ _MSRV 1.88.0_
 - support all UTF encodings [Issue #16]
 - process various _month/day/year_ patterns found in Windows logs
   [Issue #46] [Issue #88] [Issue #93] [Issue #94] [Issue #95] [Issue #96] [Issue #97] [Issue #98]
-- add Claude `SKILL.md` for using `s4`
 - allow shortened `--color` CLI option
+- allow hexadecimal `\xhh` for CLI options `sepearator`
+- add Claude `SKILL.md` for using `s4`
 
 ### New
 
+- (BIN) fix --prepend, allow \xhh ([36601944])
 - (BIN) allow shortened `--color` CLI option ([1f04b993])
 - (BIN) print compiled features in --version ([5d64753c])
 - (BIN) --version shows build profile ([d063dd17])
@@ -3084,7 +3086,6 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [09e71bb9]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/09e71bb9ae655a0528c5a074dadfd5e9d71743c7
 [0a46b5ae]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0a46b5aee7eb99e19a9a2a91ed81d759978b6024
 [0a5ce1e0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0a5ce1e0011920909cfa5bc022f95b3a502ff244
-[0a639920]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0a63992091b2369fca091bc3fad8c579d2d49e38
 [0addafbf]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0addafbf19cbae50139a2a2a70ccb21546166879
 [0b42a8a1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0b42a8a18e424d18f431a7336a2840441bc9af95
 [0b6faff2]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/0b6faff2b763edeba1bc2792ed936c44e8c302d9
@@ -3309,6 +3310,7 @@ EVERYTHING AFTER THE FOLLOWING COMMENT WILL BE DELETED AND REPLACED BY `tools/ch
 [361e3bc1]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/361e3bc103917a3470bf57e2a693b873d05b441b
 [361e9867]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/361e986710d8c97932b87bffc096e6af122ef58e
 [365012d0]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/365012d0165c8a45ad0bec6148804c26274e2000
+[36601944]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/3660194496ef9ea519720cea59319a84698b5703
 [368eba9b]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/368eba9b473b0c31ebd232bd89bc2aabd5a15d53
 [368fc14c]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/368fc14c74d87b771314bdb96763069a7173b076
 [37313cdd]: https://github.com/jtmoon79/super-speedy-syslog-searcher/commit/37313cdd74523b6bfa9216494cbf47adf9fe43fc
