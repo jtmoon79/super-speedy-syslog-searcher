@@ -341,7 +341,7 @@ Other platforms have not been checked for use with `tcmalloc`.
 
 #### Claude SKILL.md
 
-After installing `s4`, you can copy the [Claude skill `s4-log-search`] into your project directory.
+After installing `s4`, you can copy the [Claude skill `s4-log-search`] into your project's Claude skills directory `.claude/skills`.
 
 [Claude skill `s4-log-search`]: ./.claude/skills/s4-log-search/SKILL.md
 
