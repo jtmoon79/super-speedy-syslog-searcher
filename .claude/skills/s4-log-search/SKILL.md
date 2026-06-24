@@ -186,7 +186,7 @@ Field order and separator:
 - With both datetime and file source options, field 1 is the datetime and field 2 is the file name or path.
 - The remaining text after the prepended fields is the log message as rendered by `s4`.
 - Use `--prepend-separator <SEP>` when downstream parsing needs a delimiter other than `:`. This is useful when paths or messages may contain colons.
-- Prefer `--color=never` for machine parsing.
+- Prefer `--color=never` (or `-cn`) for machine parsing.
 - Avoid `-w, --prepend-file-align` for machine parsing because alignment padding is meant for human reading.
 
 Examples:
@@ -198,11 +198,12 @@ s4 /var/log -a=-1h -p --color=never
 # field 1: UTC interpreted datetime; remaining text: message
 s4 /var/log -a=-1h -u --color=never
 
-# field 1: UTC interpreted datetime; field 2: file path; remaining text: message
+# field 1: file path; field 2: UTC interpreted datetime; remaining text: message
 s4 /var/log -a=-1h -u -p --color=never
 
-# use a non-colon separator when paths or messages may contain colons
-s4 /var/log -a=-1h -u -p --prepend-separator '|' --color=never
+# use a null character as the prepended-field separator for downstream parsing
+# field 1: file path; null byte; field 2: UTC interpreted datetime; null byte; remaining text: message
+s4 /var/log -a=-1h -u -p --prepend-separator '\0' --color=never
 ```
 
 When generating parser examples, split only the expected number of leading fields and preserve the rest of the line as the message, because log messages may also contain the separator.
@@ -215,7 +216,6 @@ Commonly useful input types include:
 
 - Text logs using RFC 2822, RFC 3164, RFC 3339, RFC 5424, ISO 8601, and many ad-hoc datetime formats.
 - Red Hat Audit logs, strace timestamp output, dmesg-style logs, X.org and lightdm-style logs.
-- Multi-line log messages.
 - systemd journal files (`.journal`) and Windows Event Logs (`.evtx`).
 - Windows Event Trace Logs (`.etl`), Apple System Logs (`.asl`), and OneDrive logs (`.odl`, `.aodl`, `.odlgz`, `.odlsent`) when the needed Python environment is available.
 - User accounting records such as `acct`, `pacct`, `lastlog`, `utmp`, `utmpx`, and `wtmp`.
