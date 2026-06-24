@@ -289,6 +289,7 @@ jobs:
         shell: bash
         run: |
           set -eux
+          cargo --version
           uname -a
           rustup show
           cross --version
@@ -312,6 +313,8 @@ jobs:
         # final code generation
         run: |
           set -eux
+          cargo --version
+          rustup default ${{ env.MSRV_UPLOAD }}
           cargo --version
           export S4_BUILD_REGEX=1
           cargo check --locked --all-targets
