@@ -565,14 +565,14 @@ Options:
 
       --prepend-separator <PREPEND_SEPARATOR>
           Separator string for prepended data.
+          Accepts escapes and hexadecimal escapes; "\0" or "\x00" for the null character.
           [default: :]
           [env: S4_PREPEND_SEPARATOR=]
 
       --separator <LOG_MESSAGE_SEPARATOR>
           An extra separator string between printed log messages.
           Per log message not per line of text.
-          Accepts a basic set of backslash escape sequences,
-          e.g. "\0" for the null character, "\t" for tab, etc.
+          Accepts escapes and hexadecimal escapes; "\0" or "\x00" for the null character.
           [env: S4_SEPARATOR=]
 
       --journal-output <JOURNAL_OUTPUT>
@@ -711,8 +711,9 @@ Ambiguous named timezones will be rejected, e.g. "SST".
 do not have a timezone offset.
 --prepend-tz affects what is pre-printed before each printed log message line.
 
---separator accepts backslash escape sequences:
-    "\0", "\a", "\b", "\e", "\f", "\n", "\r", "\\", "\t", "\v"
+--separator and --prepend-separator accepts backslash escape sequences:
+    "\0", "\a", "\b", "\e", "\f", "\n", "\r", "\\", "\t", "\v",
+ and "\xhh" where "hh" is a 2-digit hexadecimal value.
 
 Resolved values of "--dt-after" and "--dt-before" can be reviewed in
 the "--summary" output.

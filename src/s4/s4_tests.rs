@@ -15,6 +15,9 @@ use ::s4lib::data::datetime::{
     FixedOffset,
     MAP_TZZ_TO_TZz,
 };
+use ::s4lib::debug::printers::{
+    buffer_to_string_noraw,
+};
 use ::s4lib::readers::blockreader::{
     BlockSz,
 };
@@ -720,6 +723,17 @@ fn test_string_wdhms_to_duration(
 #[test_case(r"\\t", Some("\\t"); "escape t")]
 #[test_case(r"\", None)]
 #[test_case(r"\X", None)]
+#[test_case(r"\x0", None)]
+#[test_case(r"\x00\", None)]
+#[test_case(r"\x0Z", None)]
+#[test_case(r"\xZ0", None)]
+#[test_case(r"\x00", Some("\0"); "hex escape 00")]
+#[test_case(r"\x000", Some("\00"); "hex escape 00 0")]
+#[test_case(r"\x3B", Some(";"); "hex escape 3B semicolon")]
+#[test_case(r"\x3BZ", Some(";Z"); "hex escape 3B semicolon Z")]
+#[test_case(r"A\x3B", Some("A;"); "A hex escape 3B semicolon")]
+#[test_case(r"A\x3BZ", Some("A;Z"); "A hex escape 3B semicolon Z")]
+#[test_case(r"A\x3BC\x3AZ", Some("A;C:Z"); "A hex escape 3B semicolon C hex escape 3A colon Z")]
 fn test_unescape_str(
     input: &str,
     expect: Option<&str>,
@@ -727,13 +741,17 @@ fn test_unescape_str(
     let result = unescape::unescape_str(input);
     match (result, expect) {
         (Ok(actual_s), Some(expect_s)) => {
-            assert_eq!(actual_s, expect_s, "\nExpected {:?}\nActual   {:?}\n", expect_s, actual_s);
+            let actual_s_noraw = buffer_to_string_noraw(&actual_s.as_bytes());
+            let expect_s_noraw = buffer_to_string_noraw(&expect_s.as_bytes());
+            assert_eq!(
+                actual_s, expect_s,
+                "Input: {input:?}\nExpected {expect_s:?}\nActual   {actual_s:?}\nExpected (no raw) {expect_s_noraw:?}\nActual   (no raw) {actual_s_noraw:?}\n");
         }
         (Ok(actual_s), None) => {
-            panic!("Expected Error, got {actual_s:?}");
+            panic!("Expected Error, got {actual_s:?}, input {input:?}");
         }
         (Err(err), Some(_)) => {
-            panic!("Got Error {err:?}");
+            panic!("Got Error {err:?} for input {input:?}, expected Ok");
         }
         (Err(_), None) => {}
     }

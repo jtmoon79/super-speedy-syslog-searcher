@@ -2451,7 +2451,7 @@ Ambiguous named timezones will be rejected, e.g. "SST".
 do not have a timezone offset.
 --prepend-tz affects what is pre-printed before each printed log message line.
 
---separator accepts backslash escape sequences:
+--separator and --prepend-separator accepts backslash escape sequences:
     ""#, unescape::BACKSLASH_ESCAPE_SEQUENCES0, "\", \
  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES1, "\", \
  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES2, "\", \
@@ -2461,7 +2461,8 @@ do not have a timezone offset.
  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES6, "\", \
  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES7, "\", \
  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES8, "\", \
-  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, r#""
+  \"", unescape::BACKSLASH_ESCAPE_SEQUENCES9, r#"",
+ and "\xhh" where "hh" is a 2-digit hexadecimal value.
 
 Resolved values of "--dt-after" and "--dt-before" can be reviewed in
 the "--summary" output.
@@ -2700,6 +2701,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
     prepend_file_align: bool,
 
     /// Separator string for prepended data.
+    /// Accepts escapes and hexadecimal escapes; "\0" or "\x00" for the null character.
     #[clap(
         long = "prepend-separator",
         verbatim_doc_comment,
@@ -2713,8 +2715,7 @@ is the local system timezone offset. [Default: "#, CLI_OPT_PREPEND_FMT, "]"),
 
     /// An extra separator string between printed log messages.
     /// Per log message not per line of text.
-    /// Accepts a basic set of backslash escape sequences,
-    /// e.g. "\0" for the null character, "\t" for tab, etc.
+    /// Accepts escapes and hexadecimal escapes; "\0" or "\x00" for the null character.
     #[clap(
         long = "separator",
         required = false,
@@ -3342,12 +3343,29 @@ pub(crate) fn process_dt_exit(
 }
 
 pub(crate) mod unescape {
-    // this mod ripped from https://stackoverflow.com/a/58555097/471376
+    // this mod inspired by https://stackoverflow.com/a/58555097/471376
+
+    use core::fmt;
 
     #[derive(Debug, PartialEq)]
     pub(crate) enum EscapeError {
         EscapeAtEndOfString,
         InvalidEscapedChar(char),
+        InvalidHexEscape(String),
+        InvalidHexEscapeChar(char),
+        InvalidHexEscapeShort(String),
+    }
+
+    impl fmt::Display for EscapeError {
+        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+            match self {
+                EscapeError::EscapeAtEndOfString => write!(f, "Escape character at end of string"),
+                EscapeError::InvalidEscapedChar(c) => write!(f, "Invalid escaped character: {:?}", c),
+                EscapeError::InvalidHexEscape(s) => write!(f, "Invalid hexadecimal sequence: {:?}", s),
+                EscapeError::InvalidHexEscapeChar(c) => write!(f, "Invalid hexadecimal character: {:?}", c),
+                EscapeError::InvalidHexEscapeShort(s) => write!(f, "Invalid hexadecimal sequence, too short: {:?}", s),
+            }
+        }
     }
 
     struct InterpretEscapedString<'a> {
@@ -3372,6 +3390,31 @@ pub(crate) mod unescape {
                         Some('\\') => Ok('\\'), // backslash
                         Some('t') => Ok('\t'), // horizontal tab
                         Some('v') => Ok('\u{0B}'), // vertical tab
+                        Some('X')
+                        | Some('x') => { // hexadecimal escape sequence
+                            // i.e. "\xNN" where NN is a two-digit hexadecimal number
+                            if self.s.clone().count() < 2 {
+                                return Err(EscapeError::InvalidHexEscapeShort(self.s.clone().collect()));
+                            }
+                            let mut hex_str = String::with_capacity(2);
+                            for c in self.s.clone().take(2) {
+                                if c.is_ascii_hexdigit() {
+                                    hex_str.push(c);
+                                } else {
+                                    return Err(EscapeError::InvalidHexEscapeChar(c));
+                                }
+                            }
+                            match u8::from_str_radix(&hex_str, 16) {
+                                Ok(byte) => {
+                                    // advance to consume the two hex digits
+                                    self.s.nth(1);
+
+                                    // return the translated character
+                                    Ok(byte as char)
+                                },
+                                Err(_) => Err(EscapeError::InvalidHexEscape(hex_str)),
+                            }
+                        }
                         Some(c) => Err(EscapeError::InvalidEscapedChar(c)),
                     },
                     c => Ok(c),
@@ -3558,7 +3601,7 @@ fn cli_process_args() -> (
     ) {
         Ok(val) => val,
         Err(err) => {
-            e_err!("{:?}", err);
+            e_err!("--separator: {err}");
             std::process::exit(EXIT_ERR);
         }
     };
@@ -3567,6 +3610,17 @@ fn cli_process_args() -> (
         EtlParserUsed::EtlParser
     } else {
         EtlParserUsed::DissectEtl
+    };
+
+    let prepend_separator: String = match unescape::unescape_str(
+        args.prepend_separator
+            .as_str(),
+    ) {
+        Ok(val) => val,
+        Err(err) => {
+            e_err!("--prepend-separator: {err}");
+            std::process::exit(EXIT_ERR);
+        }
     };
 
     defo!("args.prepend_dt_format {:?}", args.prepend_dt_format);
@@ -3619,7 +3673,7 @@ fn cli_process_args() -> (
     defo!("prepend_filename {:?}", args.prepend_filename);
     defo!("prepend_filepath {:?}", args.prepend_filepath);
     defo!("prepend_file_align {:?}", args.prepend_file_align);
-    defo!("prepend_separator {:?}", args.prepend_separator);
+    defo!("prepend_separator {:?}", prepend_separator);
     defo!("log_message_separator {:?}", log_message_separator);
     defo!("etl_parser_used {:?}", etl_parser_used);
     defo!("python_venv {:?}", args.python_venv);
@@ -3638,7 +3692,7 @@ fn cli_process_args() -> (
         args.prepend_filename,
         args.prepend_filepath,
         args.prepend_file_align,
-        args.prepend_separator,
+        prepend_separator,
         log_message_separator,
         etl_parser_used,
         args.python_venv,
