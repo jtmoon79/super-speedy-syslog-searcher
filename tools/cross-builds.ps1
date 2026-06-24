@@ -169,9 +169,29 @@ try {
         & cargo cross build --target $target @CrossArgs
 
         if ($LASTEXITCODE -ne 0) {
-            Write-Warning "Build failed for $target"
-            $failedTargets.Add($target)
-            continue
+            Write-Warning "cross build failed for $target"
+            # cross failed; try nightly with `-Zbuild-std` to build the standard library for the target
+            Write-Host "PS> rustup target add $target" -ForegroundColor Green
+            & rustup target add "$target"
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "rustup target add failed for $target"
+                $failedTargets.Add($target)
+                continue
+            }
+            Write-Host "PS> rustup component add rust-src --toolchain nightly-$target" -ForegroundColor Green
+            & rustup component add rust-src --toolchain "nightly-${target}"
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "rustup component add rust-src failed for $target"
+                $failedTargets.Add($target)
+                continue
+            }
+            Write-Host "PS> cargo +nightly build -Zbuild-std --target $target" @CrossArgs -ForegroundColor Green
+            & cargo +nightly build -Zbuild-std --target "$target" @CrossArgs
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "cargo +nightly build -Zbuild-std failed for $target"
+                $failedTargets.Add($target)
+                continue
+            }
         }
         $builtTargets.Add($target)
 
