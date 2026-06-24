@@ -15,6 +15,7 @@ use ::s4lib::data::datetime::{
     FixedOffset,
     MAP_TZZ_TO_TZz,
 };
+#[cfg(any(debug_assertions, test))]
 use ::s4lib::debug::printers::{
     buffer_to_string_noraw,
 };
