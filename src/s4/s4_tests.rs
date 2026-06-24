@@ -15,10 +15,6 @@ use ::s4lib::data::datetime::{
     FixedOffset,
     MAP_TZZ_TO_TZz,
 };
-#[cfg(any(debug_assertions, test))]
-use ::s4lib::debug::printers::{
-    buffer_to_string_noraw,
-};
 use ::s4lib::readers::blockreader::{
     BlockSz,
 };
@@ -742,11 +738,9 @@ fn test_unescape_str(
     let result = unescape::unescape_str(input);
     match (result, expect) {
         (Ok(actual_s), Some(expect_s)) => {
-            let actual_s_noraw = buffer_to_string_noraw(&actual_s.as_bytes());
-            let expect_s_noraw = buffer_to_string_noraw(&expect_s.as_bytes());
             assert_eq!(
                 actual_s, expect_s,
-                "Input: {input:?}\nExpected {expect_s:?}\nActual   {actual_s:?}\nExpected (no raw) {expect_s_noraw:?}\nActual   (no raw) {actual_s_noraw:?}\n");
+                "Input: {input:?}\nExpected {expect_s:?}\nActual   {actual_s:?}\n");
         }
         (Ok(actual_s), None) => {
             panic!("Expected Error, got {actual_s:?}, input {input:?}");
