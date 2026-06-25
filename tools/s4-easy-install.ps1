@@ -1,6 +1,6 @@
 #!powershell
 #
-# easy-install.ps1
+# s4-easy-install.ps1
 
 <#
 .SYNOPSIS
@@ -9,8 +9,8 @@
     This script will attempt to download the latest release of s4 for Windows from GitHub, verify the SHA-256 checksums of the downloaded files, and install the s4.exe binary to a writable directory in the user's PATH.
 
     To run:
-    PS> Invoke-WebRequest -Uri https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/refs/heads/main/tools/easy-install.ps1 -OutFile easy-install.ps1
-    PS> .\easy-install.ps1 -?
+    PS> Invoke-WebRequest -Uri https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/refs/heads/main/tools/s4-easy-install.ps1 -OutFile s4-easy-install.ps1
+    PS> .\s4-easy-install.ps1 -?
 .PARAMETER Version
     Version of Super Speedy Syslog Searcher to install.
 .PARAMETER Triple
