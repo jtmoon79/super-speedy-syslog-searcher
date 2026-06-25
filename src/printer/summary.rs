@@ -1014,7 +1014,7 @@ fn print_file_about(
     }
     // print other facts
     if let Some(dt) = modified_time {
-        eprint!("{}modified time  : ", OPT_SUMMARY_PRINT_INDENT2);
+        eprint!("{}modified time : ", OPT_SUMMARY_PRINT_INDENT2);
         print_datetime_asis_utc_dimmed(dt, Some(*color_choice));
         eprintln!();
     }
@@ -1022,7 +1022,7 @@ fn print_file_about(
     // and be done printing the summary for this file
     if let Some(result) = file_processing_result {
         if matches!(result, FileProcessingResultBlockZero::FileErrEmpty) {
-            eprint!("{}Processing Err : ", OPT_SUMMARY_PRINT_INDENT2);
+            eprint!("{}Processing Err: ", OPT_SUMMARY_PRINT_INDENT2);
             print_colored_stderr(
                 COLOR_ERROR,
                 Some(*color_choice),
@@ -1033,7 +1033,7 @@ fn print_file_about(
         }
     }
     // print filetype leadin
-    eprint!("{}filetype       : ", OPT_SUMMARY_PRINT_INDENT2);
+    eprint!("{}filetype      : ", OPT_SUMMARY_PRINT_INDENT2);
     // print the filetype basic info
     match filetype {
         FileType::Text { encoding_type: et, .. } => {
@@ -1080,7 +1080,7 @@ fn print_file_about(
         eprintln!("{}fixedstructtype: {:?}", OPT_SUMMARY_PRINT_INDENT2, fst);
     }
     // print log message type
-    eprintln!("{}logmessagetype : {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
+    eprintln!("{}logmessagetype: {}", OPT_SUMMARY_PRINT_INDENT2, logmessagetype);
 
     if let Some(summary) = summary_opt {
         match &summary.readerdata {
