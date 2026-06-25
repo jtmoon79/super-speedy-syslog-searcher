@@ -1127,7 +1127,7 @@ Here are two typical log messages from a contrived log file:
 Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 -->
 
-|Command    |Version|Allocator|Platform                 |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
+|Program    |Version|Allocator|Platform                 |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
 |:---       |:---   |:---     |:---                     |---:        |---:    |---:    |---:        |---: |
 |`s4`       |0.7.79 |system   |x86_64-unknown-linux-gnu |167.4 ± 3.1 |163.3   |175.2   |136968      |224% |
 |`s4`       |0.8.80 |system   |x86_64-unknown-linux-gnu |165.5 ± 2.9 |156.3   |170.8   |136672      |222% |

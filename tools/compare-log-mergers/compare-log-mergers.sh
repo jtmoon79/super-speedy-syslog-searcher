@@ -573,7 +573,7 @@ function to_milliseconds() {
 }
 
 # markdown table header
-echo '|Command|Version|Allocator|Platform|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
+echo '|Program|Version|Allocator|Platform|Mean (ms)|Min (ms)|Max (ms)|Max RSS (KB)|CPU %|' > "${tmpOut}"
 echo '|:---   |:---   |:---     |:---    |---:     |---:    |---:    |---:        |---: |' >> "${tmpOut}"
 
 json_count=$(wc -l < "${json_files}")
