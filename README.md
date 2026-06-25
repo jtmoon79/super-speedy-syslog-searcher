@@ -13,13 +13,16 @@ TODO: per release
 <!--
   # PROJECT VERSION LAST PUBLISHED
 -->
-[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.9.82?logo=rust&logoColor=800000&cacheSeconds=6000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/Cargo.toml#L21)
+[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.9.82?logo=rust&logoColor=800000&cacheSeconds=6000&style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/Cargo.toml#L21)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
 [![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.9.82?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.9.82/)
 
 [![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.9.82&version=0.9.82)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.82)
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher#:~:text=Downloads%20all%20time)
 [![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.9.82?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.82)
+[![github downloads](https://img.shields.io/github/downloads/jtmoon79/super-speedy-syslog-searcher/total?style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/releases)
+[![github downloads (version)](https://img.shields.io/github/downloads/jtmoon79/super-speedy-syslog-searcher/0.9.82/total?style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/releases/tag/0.9.82)
+
 [![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#0981) <!--
   the following PNG image data is from https://lib.rs/favicon.png
 -->
