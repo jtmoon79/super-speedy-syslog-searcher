@@ -82,9 +82,7 @@ and Apple System Logs (`.asl`).
   - [Features](#features)
     - [File name guessing](#file-name-guessing)
     - [Directory walks](#directory-walks)
-    - [Platforms tested](#platforms-tested)
-      - [Tier 1](#tier-1)
-      - [Tier 2](#tier-2)
+    - [Multiple platforms](#multiple-platforms)
   - [Limitations](#limitations)
   - [Hacks](#hacks)
 - [More](#more)
@@ -343,7 +341,7 @@ Other platforms have not been checked for use with `tcmalloc`.
 
 After installing `s4`, you can copy the [Claude skill `s4-log-search`] into your project's Claude skills directory `.claude/skills`.
 
-[Claude skill `s4-log-search`]: ./.claude/skills/s4-log-search/SKILL.md
+[Claude skill `s4-log-search`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/.claude/skills/s4-log-search/SKILL.md
 
 ### Run `s4`
 
@@ -875,38 +873,11 @@ process `file.mp3`. It will be treated as a text log file.
 
 [`src/readers/filepreprocessor`]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.7.78/src/readers/filepreprocessor.rs#L480
 
-#### Platforms tested
+#### Multiple platforms
 
-Builds are tested on the following rust platforms:
+See the latest [release] for pre-compiled binaries.
 
-##### Tier 1
-
-- aarch64-unknown-linux-gnu
-- i686-pc-windows-msvc
-- x86_64-apple-darwin
-- x86_64-pc-windows-gnu
-- x86_64-pc-windows-msvc
-- x86_64-unknown-linux-gnu
-
-##### Tier 2
-
-- aarch64-apple-darwin
-- aarch64-apple-ios
-- aarch64-unknown-linux-musl
-- arm-linux-androideabi
-- arm-unknown-linux-gnueabi
-- arm-unknown-linux-gnueabihf
-- armv7-linux-androideabi
-- armv7-unknown-linux-gnueabihf
-- armv7-unknown-linux-musleabihf
-- riscv64gc-unknown-linux-gnu
-- thumbv7neon-linux-androideabi
-- x86_64-apple-ios
-- x86_64-unknown-linux-musl
-
-See [the Github Action].
-
-[the Github Action]: https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/.github/workflows/rust.yml
+[release]: https://github.com/jtmoon79/super-speedy-syslog-searcher/releases/latest
 
 ### Limitations
 
@@ -959,12 +930,9 @@ See [the Github Action].
 - Entire `.evtx` files are read into memory before printing ([Issue #86])
 - Entire files within a `.tar` file are read into memory before printing ([Issue #13])
 - Entire [user accounting record files are read into memory] before printing
-- Compressed `.asl`, `.etl`, `.odl`, `.journal`, and `.evtx` files are extracted
-  to a temporary file ([Issue #284])
 
 [user accounting record files are read into memory]: https://docs.rs/super_speedy_syslog_searcher/0.6.70/s4lib/readers/fixedstructreader/struct.FixedStructReader.html#summary-of-operation
 [Issue #13]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/13
-[Issue #284]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/284
 [Issue #293]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/293
 [Issue #300]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/300
 
@@ -983,7 +951,7 @@ An overview of features of varying log mergers including GNU tools.
 - [_lnav_](https://github.com/tstack/lnav); `lnav`
 - [_logmerger_](https://github.com/ptmcg/logmerger); `logmerger`
 - [_Toolong_](https://github.com/Textualize/toolong); `tl`
-- [_logdissect_](https://github.com/dogoncouch/logdissect); `logdissect.py`
+- [_logdissect_](https://github.com/dogoncouch/logdissect); `logdissect`
 
 |Symbol| |
 |-     |-|
@@ -1006,7 +974,7 @@ An overview of features of varying log mergers including GNU tools.
 |`lnav`         |C++   |✔  |✔ |✔          |✔       |✔                        |‼                    |
 |`logmerger`    |Python|✔  |✔ |✔          |✗       |‼                        |✔                    |
 |`tl`           |Python|✔  |✔ |✔          |✔       |✗                        |✗                    |
-|`logdissect.py`|Python|✔  |✗ |✗          |✗       |✗                        |✗                    |
+|`logdissect`   |Python|✔  |✗ |✗          |✗       |✗                        |✗                    |
 
 ---
 
@@ -1102,7 +1070,7 @@ Text encodings:
 |`lnav`         |✔        |✔      |✔        |?        |✔            |✔      |✔     |✔     |
 |`logmerger`    |✔        |✗      |✗        |✗        |✗            |✗      |✗     |✗     |
 |`tl`           |✔        |✗      |✗        |✔        |✔            |✗      |✗     |✗     |
-|`logdissect.py`|✔        |✗      |✗        |✗        |✗            |✗      |✗     |✗     |
+|`logdissect`   |✔        |✗      |✗        |✗        |✗            |✗      |✗     |✗     |
 
 ---
 
@@ -1149,7 +1117,7 @@ Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 <sup style="font-size: xx-small">• _CPU %_ is an average of CPU used over the runtime</sup>
 
 Using `hyperfine` to measure timing and GNU `time` to measure RSS and CPU.
-Run on Ubuntu 24 on WSL, platform `x86_64-unknown-linux-gnu`.
+Run on Ubuntu 24 on WSL.
 
 See further performance measurements in the [`releases`] directory.
 
