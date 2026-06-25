@@ -157,6 +157,9 @@ try {
         exit 1
     }
 
+    Write-Host "PS> rustup override set ${MSRV}" -ForegroundColor Green
+    & rustup override set "${MSRV}"
+
     foreach ($target in $WindowsTargets) {
         Write-Host ''
         Write-Line
