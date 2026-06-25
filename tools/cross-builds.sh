@@ -344,7 +344,7 @@ if [[ ! "${DIROUT-}" ]]; then
 fi
 
 function print_msrv() {
-    grep -o -m1 -Ee '^rust-version\s?=\s?".*"' "${PROJECT_MANIFEST}" | sed -E 's/^rust-version[[:blank:]]*=[[:blank:]]*"([[:digit:]\.]+)"/\1/'
+    grep -o -m1 -Ee '^rust-version[[:space:]]?=[[:space:]]?".*"' "${PROJECT_MANIFEST}" | sed -E 's/^rust-version[[:blank:]]*=[[:blank:]]*"([[:digit:]\.]+)"/\1/'
 }
 
 if [[ ! "${MSRV-}" ]]; then
@@ -354,6 +354,9 @@ fi
 # print the $results array in a almost-ready markdown table
 # (requires small tweaks to display properly)
 function print_results() {
+    if [[ "${#results[@]}" -eq 0 ]]; then
+        return 0
+    fi
     echo -e "\e[92m"
     # args for old column
     declare -a args=(
@@ -384,8 +387,16 @@ function print_results() {
 TMPDIR=$(mktemp -d)
 readonly TMPDIR
 
+RUST_VER_PRIOR=
+
 # print results, if $DIROUT is set, tee to `cross-builds.md`
 function exit_ () {
+    set +e
+    if [[ "${RUST_VER_PRIOR-}" ]]; then
+        echo -e "\e[92mRestoring previous rustup toolchain ${RUST_VER_PRIOR}...\e[39m" >&2
+        (set -x; rustup override set "${RUST_VER_PRIOR}")
+        echo
+    fi
     rm -rf "${TMPDIR}"
     if [[ "${DIROUT-}" ]]; then
         print_results | tee "${DIROUT}/cross-builds.md"
@@ -421,11 +432,11 @@ function seconds_to_hms() {
     printf "%02d:%02d:%02d" "$hours" "$minutes" "$seconds"
 }
 
-mkdir -vp "${DIROUT}"
+mkdir -p "${DIROUT}"
 DIROUT=$(realpath "${DIROUT}")
 readonly DIROUT
 RELEASE_DIR="${DIROUT}/release"
-mkdir -vp "${RELEASE_DIR}"
+mkdir -p "${RELEASE_DIR}"
 readonly RELEASE_DIR
 
 cd "$(dirname "$0")/.."
@@ -434,7 +445,7 @@ readonly PROJECT_ROOT=$(pwd)
 
 # print the grepped project version from `Cargo.toml`
 function print_version() {
-    grep -o -m1 -Ee '^version\s*=\s*".*"' "${PROJECT_ROOT}/Cargo.toml" | sed -Ee 's/^version[[:blank:]]*=[[:blank:]]*"([[:digit:]\.]+)"/\1/'
+    grep -o -m1 -Ee '^version[[:space:]]*=[[:space:]]*".*"' "${PROJECT_ROOT}/Cargo.toml" | sed -Ee 's/^version[[:blank:]]*=[[:blank:]]*"([[:digit:]\.]+)"/\1/'
 }
 
 function create_sha256sum() {
@@ -458,6 +469,12 @@ fi
 readonly BIN="s4"
 VERSION=$(print_version)
 readonly VERSION
+
+RUST_VER_PRIOR=$(set -euo pipefail; rustup toolchain list | grep -m1 'active' | cut -d ' ' -f 1)
+(
+    set -x
+    rustup override set "${MSRV}"
+)
 
 set +e
 
