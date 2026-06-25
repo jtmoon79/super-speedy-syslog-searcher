@@ -1127,22 +1127,20 @@ Here are two typical log messages from a contrived log file:
 Table generated with `tools/compare-log-mergers/compare-log-mergers.sh`
 -->
 
-|Command    |Version|Allocator|Platform                 |Mean (ms)    |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
-|:---       |:---   |:---     |:---                     |---:         |---:    |---:    |---:        |---: |
-|`s4`       |0.9.81 |system   |x86_64-unknown-linux-gnu |128.2 ± 1.5  |125.7   |131.0   |19108       |240% |
-|`s4`       |0.9.81 |mimalloc |x86_64-unknown-linux-gnu |131.0 ± 3.1  |128.6   |145.1   |66480       |252% |
-|`s4`       |0.9.81 |jemalloc |x86_64-unknown-linux-gnu |128.8 ± 2.5  |125.8   |134.9   |24576       |247% |
-|`s4`       |0.9.81 |rpmalloc |x86_64-unknown-linux-gnu |132.6 ± 2.7  |129.2   |141.9   |30336       |249% |
-|`s4`       |0.9.81 |tcmalloc |x86_64-unknown-linux-gnu |130.5 ± 2.2  |128.1   |136.3   |26752       |242% |
-|`s4`       |0.8.80 |system   |x86_64-unknown-linux-gnu |179.2 ± 3.0  |174.6   |185.9   |136972      |234% |
-|`s4`       |0.8.80 |system   |x86_64-unknown-linux-musl|266.9 ± 2.9  |260.9   |272.4   |141980      |242% |
-|`s4`       |0.8.80 |system   |x86_64-unknown-linux-ohos|176.4 ± 2.7  |172.1   |184.7   |136692      |238% |
-|`s4`       |0.7.79 |system   |x86_64-unknown-linux-gnu |178.6 ± 2.7  |174.4   |185.8   |136824      |241% |
-|`s4`       |0.7.78 |system   |x86_64-unknown-linux-gnu |179.6 ± 3.3  |175.0   |189.7   |136816      |240% |
-|`grep \| sort`|3.11|         |                         |66.0 ± 3.0   |63.7    |77.7    |12032       |111% |
-|`lnav`     |0.11.2 |         |                         |260.4 ± 12.7 |248.7   |317.8   |56576       |107% |
-|`logmerger`|0.12.0 |         |Python 3.12.3            |313.6 ± 9.2  |301.6   |339.2   |78496       |99%  |
-|`toolong`  |1.5.0  |         |Python 3.12.3            |             |        |        |63988       |0%   |
+|Command    |Version|Allocator|Platform                 |Mean (ms)   |Min (ms)|Max (ms)|Max RSS (KB)|CPU %|
+|:---       |:---   |:---     |:---                     |---:        |---:    |---:    |---:        |---: |
+|`s4`       |0.7.79 |system   |x86_64-unknown-linux-gnu |167.4 ± 3.1 |163.3   |175.2   |136968      |224% |
+|`s4`       |0.8.80 |system   |x86_64-unknown-linux-gnu |165.5 ± 2.9 |156.3   |170.8   |136672      |222% |
+|`s4`       |0.9.81 |system   |x86_64-unknown-linux-gnu |123.8 ± 1.1 |122.0   |126.9   |19032       |232% |
+|`s4`       |0.9.82 |jemalloc |x86_64-unknown-linux-gnu |126.7 ± 1.4 |124.6   |130.7   |24980       |241% |
+|`s4`       |0.9.82 |mimalloc |x86_64-unknown-linux-gnu |127.8 ± 1.7 |124.8   |131.2   |61964       |254% |
+|`s4`       |0.9.82 |rpmalloc |x86_64-unknown-linux-gnu |129.7 ± 1.0 |127.9   |132.7   |33228       |248% |
+|`s4`       |0.9.82 |tcmalloc |x86_64-unknown-linux-gnu |128.0 ± 1.0 |125.6   |130.4   |29696       |241% |
+|`s4`       |0.9.82 |system   |x86_64-unknown-linux-gnu |124.9 ± 1.1 |123.2   |127.0   |20504       |252% |
+|`grep+sort`|3.11   |         |                         |48.6 ± 0.5  |47.7    |49.7    |19680       |143% |
+|`lnav`     |0.11.2 |         |                         |245.2 ± 1.9 |242.6   |250.9   |57316       |104% |
+|`logmerger`|0.12.0 |         |Python 3.12.3            |286.8 ± 4.3 |280.7   |300.0   |78736       |100% |
+|`toolong`  |1.5.0  |         |Python 3.12.3            |1960.0 ± 0.0|0.0     |0.0     |60832       |39%  |
 
 <sup style="font-size: xx-small">• _Mean_ is mean runtime in milliseconds</sup>
 <sup style="font-size: xx-small">• _Min_ is minimum runtime in milliseconds</sup>
