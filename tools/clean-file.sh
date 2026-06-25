@@ -15,7 +15,7 @@ function clean_file () {
     declare -a args=(
         -e "s|$(hostname)|host|g"
     )
-    declare -r rp=$(re_escape "$(realpath .)")
+    declare -r rp=$(re_escape "$(readlink -f .)")
     if [[ "$rp" ]]; then
         args+=(-e "s|${rp}|.|g")
     fi

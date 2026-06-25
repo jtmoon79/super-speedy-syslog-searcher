@@ -17,7 +17,7 @@
 set -euo pipefail
 
 cd "$(dirname -- "${0}")/.."
-times_listing=$(realpath "./tools/log-files-time-update.txt")
+times_listing=$(readlink -f "./tools/log-files-time-update.txt")
 
 declare -a files_listed=()
 declare -a files_nodate=()

@@ -37,7 +37,7 @@ if ! version_major_minor_eq "$version" "$PYTHON_VERSION_REQUIRED"; then
     exit 1
 fi
 
-DIR_=$(realpath "$(dirname "$0")/../s4_event_readers")
+DIR_=$(readlink -f "$(dirname "$0")/../s4_event_readers")
 
 for outfile_infile in \
     "${DIR_}/requirements.txt|${DIR_}/requirements.in" \

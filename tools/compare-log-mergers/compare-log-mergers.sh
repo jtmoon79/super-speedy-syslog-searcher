@@ -40,7 +40,7 @@ if [[ ${#} -ge 1 ]]; then
 fi
 readonly skip_tl
 
-PROJ_DIR=$(realpath "$(dirname -- "${0}")/../..")
+PROJ_DIR=$(readlink -f "$(dirname -- "${0}")/../..")
 readonly PROJ_DIR
 cd "${PROJ_DIR}"
 readonly REQUIREMENTS_FILE=./tools/compare-log-mergers/requirements.txt

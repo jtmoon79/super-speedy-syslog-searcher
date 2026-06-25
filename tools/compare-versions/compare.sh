@@ -14,7 +14,7 @@ if [[ ! -f "${INFO}" ]]; then
     exit 1
 fi
 
-BIN_DIR=$(realpath "$(dirname "${INFO}")")
+BIN_DIR=$(readlink -f "$(dirname "${INFO}")")
 
 cd "$(dirname "${0}")/../.."
 

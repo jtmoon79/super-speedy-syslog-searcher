@@ -23,7 +23,7 @@ if [[ ! -w "${BACKUPDIR}" ]]; then
     exit 1
 fi
 
-HERE="$(basename -- "$(realpath .)")"
+HERE="$(basename -- "$(readlink -f .)")"
 ZIPFILE="${BACKUPDIR}/${HERE}-$(date '+%Y%m%dT%H%M%S')-$(hostname).zip"
 
 (

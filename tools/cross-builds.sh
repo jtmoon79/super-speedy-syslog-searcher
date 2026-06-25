@@ -331,7 +331,7 @@ if (echo | column --table --separator "$SEP" --output-separator "$SEP" --table-c
 fi
 readonly COLUMN_NEW
 
-PROJECT_MANIFEST=$(realpath "$(dirname -- "${0}")/../Cargo.toml")
+PROJECT_MANIFEST=$(readlink -f "$(dirname -- "${0}")/../Cargo.toml")
 if [[ ! -f "${PROJECT_MANIFEST}" ]]; then
     echo "ERROR cannot find PROJECT_MANIFEST at ${PROJECT_MANIFEST}" >&2
     exit 1
@@ -433,7 +433,7 @@ function seconds_to_hms() {
 }
 
 mkdir -p "${DIROUT}"
-DIROUT=$(realpath "${DIROUT}")
+DIROUT=$(readlink -f "${DIROUT}")
 readonly DIROUT
 RELEASE_DIR="${DIROUT}/release"
 mkdir -p "${RELEASE_DIR}"

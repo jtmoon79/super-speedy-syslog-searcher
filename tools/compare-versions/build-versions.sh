@@ -26,7 +26,7 @@ if [[ "${0}" != "/tmp/build-version.sh" ]]; then
     # running this script from the committed location within the PROJECT_DIR
     # copy self to /tmp/ and re-exec there to avoid issues with git checkouts
     cp -av "${0}" /tmp/build-version.sh
-    export PROJECT_DIR=$(realpath "$(dirname "${0}")/../..")
+    export PROJECT_DIR=$(readlink -f "$(dirname "${0}")/../..")
     exec /tmp/build-version.sh "${OUTDIR}" "${@}"
 fi
 # running this script from /tmp/, the PROJECT_DIR env var should have been set
@@ -39,7 +39,7 @@ fi
 if [[ ! -d "${OUTDIR}" ]]; then
     mkdir -vp "${OUTDIR}"
 fi
-OUTDIR=$(realpath "${OUTDIR}")
+OUTDIR=$(readlink -f "${OUTDIR}")
 INFO=${OUTDIR}/builds.tsv
 
 pushd "${PROJECT_DIR}"
