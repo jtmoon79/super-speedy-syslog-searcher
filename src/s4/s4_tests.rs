@@ -731,6 +731,16 @@ fn test_string_wdhms_to_duration(
 #[test_case(r"A\x3B", Some("A;"); "A hex escape 3B semicolon")]
 #[test_case(r"A\x3BZ", Some("A;Z"); "A hex escape 3B semicolon Z")]
 #[test_case(r"A\x3BC\x3AZ", Some("A;C:Z"); "A hex escape 3B semicolon C hex escape 3A colon Z")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES0, Some("\0"); "BACKSLASH_ESCAPE_SEQUENCES0")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES1, Some("\u{07}"); "BACKSLASH_ESCAPE_SEQUENCES1")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES2, Some("\u{08}"); "BACKSLASH_ESCAPE_SEQUENCES2")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES3, Some("\u{1B}"); "BACKSLASH_ESCAPE_SEQUENCES3")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES4, Some("\u{0C}"); "BACKSLASH_ESCAPE_SEQUENCES4")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES5, Some("\n"); "BACKSLASH_ESCAPE_SEQUENCES5")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES6, Some("\r"); "BACKSLASH_ESCAPE_SEQUENCES6")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES7, Some("\\"); "BACKSLASH_ESCAPE_SEQUENCES7")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES8, Some("\t"); "BACKSLASH_ESCAPE_SEQUENCES8")]
+#[test_case(unescape::BACKSLASH_ESCAPE_SEQUENCES9, Some("\u{0B}"); "BACKSLASH_ESCAPE_SEQUENCES9")]
 fn test_unescape_str(
     input: &str,
     expect: Option<&str>,
