@@ -508,6 +508,8 @@ pub fn create() -> Result3E<()> {
     let mut argv = vec![
         "-m",
         "compileall",
+        "-o0",
+        "-o1",
         "-o2",
     ];
     // add site-packages path if it was obtained
