@@ -321,7 +321,6 @@ pub fn create() -> Result3E<()> {
             "-m",
             "venv",
             "--clear",
-            "--copies",
             "--prompt",
             "s4",
             venv_path_s,
