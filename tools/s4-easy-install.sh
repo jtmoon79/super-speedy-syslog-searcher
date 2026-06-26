@@ -8,6 +8,7 @@
 #
 # Optional environment variables:
 #   VER: version to install
+#   IGNORE_CHECKSUM: if set to 1 then ignore a failed checksum result
 #   ABI: optional override of target triple last ABI field; e.g. `gnu`
 #   TEST: if set then do not install
 #
@@ -43,6 +44,7 @@ info() {
 warn() {
     # shellcheck disable=SC2059
     printf '%swarning: %s%s\n' "${COLOR_YELLOW}" "$*" "${COLOR_RESET}" >&2
+    sleep 2
 }
 
 die() {
@@ -195,7 +197,14 @@ main() {
         info "verify SHA-256 checksum of zip file ..."
         (
             cd "${WORKDIR}"
-            (set -x; sha256sum -c "${checksum_name}")
+            if ! (set -x; sha256sum -c "${checksum_name}"); then
+                if [ "${IGNORE_CHECKSUM-}" = "1" ]; then
+                    warn "checksum verification failed for ${zip_name} from URL ${url_zip}, but IGNORE_CHECKSUM=1 is set."
+                    return 0
+                else
+                    die "checksum verification failed for ${zip_name} from URL ${url_zip}; if you want to chance it, try running with env. var. IGNORE_CHECKSUM=1"
+                fi
+            fi
         )
     else
         warn "checksum file not found at ${url_checksum}"
@@ -225,7 +234,14 @@ main() {
             info "verify SHA-256 checksum of binary file ..."
             (
                 cd "${WORKDIR}"
-                (set -x; sha256sum -c "${binary_checksum_name}")
+                if ! (set -x; sha256sum -c "${binary_checksum_name}"); then
+                    if [ "${IGNORE_CHECKSUM-}" = "1" ]; then
+                        warn "checksum verification failed for ${zip_name} from URL ${url_zip}, but IGNORE_CHECKSUM=1 is set."
+                        return 0
+                    else
+                        die "checksum verification failed for ${zip_name} from URL ${url_zip}; if you want to chance it, try running with env. var. IGNORE_CHECKSUM=1 set"
+                    fi
+                fi
             )
         else
             warn "checksum file '${binary_checksum_name}' was not found in archive; skipping verification."
@@ -244,7 +260,7 @@ main() {
         info "TEST environment variable is set; skipping actual installation."
         return 0
     fi
-    (set -x; cp -vf "${binary_path}" "${install_path}")
+    (set -x; cp -vaf "${binary_path}" "${install_path}")
 
     info "verify installed binary path ..."
     if ! (set -x; which -a "${binary_name}"); then
