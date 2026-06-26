@@ -290,6 +290,67 @@ fn write_profile_file() {
     info!("Wrote build profile \"{profile_name}\" to file {out_path:?}");
 }
 
+/// Set the Windows file properties for the exectuable.
+fn windows_exe_info_create() {
+    use windows_exe_info::versioninfo::*;
+    let version_string: String = env!("CARGO_PKG_VERSION").to_string();
+    let major: u16 = env!("CARGO_PKG_VERSION_MAJOR")
+        .parse::<u16>()
+        .expect("Failed to parse CARGO_PKG_VERSION_MAJOR as u16");
+    let minor: u16 = env!("CARGO_PKG_VERSION_MINOR")
+        .parse::<u16>()
+        .expect("Failed to parse CARGO_PKG_VERSION_MINOR as u16");
+    let patch: u16 = env!("CARGO_PKG_VERSION_PATCH")
+        .parse::<u16>()
+        .expect("Failed to parse CARGO_PKG_VERSION_PATCH as u16");
+    let author: String = env!("CARGO_PKG_AUTHORS").to_string();
+    let copyright: String = "Copyright (C) 2026 ".to_string() + &author;
+    let bin_name: String = std::env::var("CARGO_BIN_NAME").unwrap_or("s4".to_string()).to_string()
+        + ".exe";
+    VersionInfo {
+        file_version: Version(
+            0,
+            major,
+            minor,
+            patch
+        ),
+        product_version: Version(
+            0,
+            major,
+            minor,
+            patch
+        ),
+        file_flag_mask: FileFlagMask::Win16,
+        file_flags: FileFlags {
+            debug: !cfg!(debug_assertions),
+            patched: false,
+            prerelease: false,
+            privatebuild: false,
+            infoinferred: false,
+            specialbuild: false,
+        },
+        file_os: FileOS::Windows32,
+        file_type: FileType::App,
+        file_info: vec![FileInfo {
+            lang: Language::USEnglish,
+            charset: CharacterSet::Unicode,
+            comment: Some(env!("CARGO_PKG_DESCRIPTION").into()),
+            company_name: "".into(),
+            file_description: env!("CARGO_PKG_DESCRIPTION").into(),
+            file_version: version_string.clone().into(),
+            internal_name: env!("CARGO_PKG_NAME").into(),
+            legal_copyright: Some(copyright.into()),
+            legal_trademarks: Some(env!("CARGO_PKG_LICENSE").into()),
+            original_filename: bin_name.into(),
+            product_name: env!("CARGO_PKG_NAME").into(),
+            product_version: version_string.into(),
+            private_build: None,
+            special_build: None,
+        }],
+    }
+    .link().unwrap();
+}
+
 /// Check for a `.env` file and load it if found; print loaded values if `info_enabled()`.
 fn dotenv_load() {
     match dotenvy::dotenv() {
@@ -320,5 +381,6 @@ fn main() {
     write_git_commit_file();
     write_features_file();
     write_profile_file();
+    windows_exe_info_create();
     parse_regex_values();
 }

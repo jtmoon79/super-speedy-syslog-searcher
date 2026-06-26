@@ -163,6 +163,7 @@ chrono = "=0.4.45"
 dotenvy.workspace = true
 list-features = "0.1.2"
 rustc_version_runtime = "=0.3.0"
+windows_exe_info = { version = "=0.5", features = ["versioninfo", "windows_only"] }
 
 [lib]
 name = "s4lib"
