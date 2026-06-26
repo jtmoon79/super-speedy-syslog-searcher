@@ -2303,6 +2303,7 @@ const CGP_DUR_OFFSET_WEEKS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_WEEKS, r">[\
 
 thread_local! {
     /// user-passed strings of a duration that is a relative offset.
+    /// e.g. `+1w2d3h4m5s` or `-1d12h`
     static REGEX_DUR_OFFSET: Regex = {
         defñ!("thread_local! REGEX_DUR_OFFSET::new()");
 
@@ -2997,6 +2998,8 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
         return None;
     }
 
+    // default values; parse the passed `val` and adjust these values according
+    // to what is parsed.
     let mut duration_offset_type: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Now;
     let mut duration_addsub: DUR_OFFSET_ADDSUB = DUR_OFFSET_ADDSUB::Add;
     let mut seconds: i64 = 0;
@@ -3013,11 +3016,13 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
         }
     };
 
+    // is this relative to now or relative to the other datetime argument?
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_TYPE) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_TYPE, match_.as_str());
         duration_offset_type = offset_match_to_offset_duration_type(match_.as_str());
     }
 
+    // is this duration added or subtracted from that datetime?
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_ADDSUB) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_ADDSUB, match_.as_str());
         duration_addsub = offset_match_to_offset_addsub(match_.as_str());
@@ -3025,6 +3030,7 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
 
     let addsub: i64 = duration_addsub as i64;
 
+    // difference seconds
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_SECONDS) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_SECONDS, match_.as_str());
         let s_count = match_
@@ -3040,6 +3046,7 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
             }
         }
     }
+    // difference minutes
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_MINUTES) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_MINUTES, match_.as_str());
         let s_count = match_
@@ -3055,6 +3062,7 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
             }
         }
     }
+    // difference hours
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_HOURS) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_HOURS, match_.as_str());
         let s_count = match_
@@ -3070,6 +3078,7 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
             }
         }
     }
+    // difference days
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_DAYS) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_DAYS, match_.as_str());
         let s_count = match_
@@ -3085,6 +3094,7 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
             }
         }
     }
+    // difference weeks
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_WEEKS) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_WEEKS, match_.as_str());
         let s_count = match_
@@ -3101,6 +3111,7 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
         }
     }
 
+    // build a `chrono::Duration` from the parsed values
     let duration = match (
         Duration::try_seconds(seconds),
         Duration::try_minutes(minutes),
@@ -3188,13 +3199,13 @@ pub(crate) fn process_dt(
 ) -> DateTimeLOpt {
     defn!("({:?}, {:?}, {:?}, {:?})", dts_opt, tz_offset, dt_other, now_utc);
     // parse datetime filters
-    let dts = match dts_opt {
+    let dts: &String = match dts_opt {
         Some(dts) => dts,
         None => {
             return None;
         }
     };
-    let local_now = LOCAL_NOW.with(|ln| *ln);
+    let local_now: DateTime<Local> = LOCAL_NOW.with(|ln| *ln);
     let dto: DateTimeLOpt;
     // try to match user-passed string to chrono strftime format strings
     #[allow(non_snake_case)]
@@ -5325,7 +5336,7 @@ fn processing_loop(
             }
             Err(err) => {
                 thread_err_count += 1;
-                e_err!("thread.name({:?}).spawn() pathid {} failed {:?}", basename_, pathid, err);
+                e_err!("thread.name({:?}).spawn() pathid {} failed {:?}; {}", basename_, pathid, err, path);
                 MAP_PATHID_CHANRECVDATUM.write().unwrap().remove(pathid);
                 map_pathid_color.remove(pathid);
                 continue;
