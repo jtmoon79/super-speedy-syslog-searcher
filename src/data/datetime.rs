@@ -1345,6 +1345,13 @@ fn month_bB_to_month_m_bytes(
 /// [`Captures`]: https://docs.rs/regex/1.10.5/regex/bytes/struct.Captures.html
 /// [`DateTime::parse_from_str`]: https://docs.rs/chrono/0.4.38/chrono/struct.DateTime.html#method.parse_from_str
 // TODO: allow returning an `Error` instead of `panic!`
+// TODO: [2026/06] prior to calling `captures_to_buffer_bytes`, non UTF-8 bytes must
+//       be converted to UTF-8. If `captures_to_buffer_bytes` handled all
+//       "conversions" like the function `month_bB_to_month_m_bytes` does, having a match expression
+//       for all known input values, and that match statement included the non-UTF-8 forms of values,
+//       then all these steps within `captures_to_buffer_bytes` to `copy_capturegroup_to_buffer!` would be unnecessary.
+//       And in turn, the temporary conversion from non-UTF8 to UTF-8 done before this would be unnecessary.
+//       This might be a nice performance improvement, but that should be measured.
 #[inline(always)]
 pub(crate) fn captures_to_buffer_bytes(
     buffer: &mut [u8],
