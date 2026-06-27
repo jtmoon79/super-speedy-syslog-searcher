@@ -1951,21 +1951,21 @@ pub fn bytes_to_regex_to_datetime(
     };
 
     // derive the `LineIndex` bounds of the datetime substring within `data`
-    let cgi_first = match GROUP_NAMES_MAP_STR
+    let cgi_first: LineIndex = match GROUP_NAMES_MAP_STR
         .get(dtpd.cgn_first) {
-        Some(cgi) => cgi,
+        Some(cgi) => *cgi,
         None => panic!("missing cgn_first {:?} in GROUP_NAMES_MAP_STR", dtpd.cgn_first),
     };
-    let dt_beg: LineIndex = match captures.iter().find(|cgn| cgn.group_index() == *cgi_first) {
+    let dt_beg: LineIndex = match captures.iter().find(|cgn| cgn.group_index() == cgi_first) {
         Some(match_) => match_.start() as LineIndex,
         None => 0,
     };
-    let cgi_last = match GROUP_NAMES_MAP_STR
+    let cgi_last: LineIndex = match GROUP_NAMES_MAP_STR
         .get(dtpd.cgn_last) {
-        Some(cgi) => cgi,
+        Some(cgi) => *cgi,
         None => panic!("missing cgn_last {:?} in GROUP_NAMES_MAP_STR", dtpd.cgn_last),
     };
-    let dt_end: LineIndex = match captures.iter().find(|cgn| cgn.group_index() == *cgi_last) {
+    let dt_end: LineIndex = match captures.iter().find(|cgn| cgn.group_index() == cgi_last) {
         Some(match_) => match_.end() as LineIndex,
         None => 0,
     };
