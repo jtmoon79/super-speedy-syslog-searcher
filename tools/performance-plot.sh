@@ -248,6 +248,20 @@ declare -ir S4_BLOCKSZ=${S4_BLOCKSZ-65535}
 declare -ir S4_BLOCKSZ_KB=$((S4_BLOCKSZ / 1024))
 declare -ir FILE_SZ_BLOCKS=$((FILE_SZ / 65536 + 1))
 
+declare -ir FILE_NUM=${FILE_NUM-100}
+
+declare -r MD_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__data.md"
+declare -r CSV_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__data.csv"
+
+if [[ -f "${MD_FINAL}" ]]; then
+    echo "Final output already exists, skipping. '${MD_FINAL}'" >&2
+    exit 0
+fi
+if [[ -f "${CSV_FINAL}" ]]; then
+    echo "Final output already exists, skipping. '${CSV_FINAL}'" >&2
+    exit 0
+fi
+
 tmpD=$(mktemp -d -t "tmp-s4-performance-plot_XXXXX")
 
 function exit_() {
@@ -282,7 +296,6 @@ declare -a time_diff_values=()
 declare -a mss_values=()
 declare -a fnum_values=()
 declare -a mss_diff_values=()
-declare -ir FILE_NUM=${FILE_NUM-100}
 declare s4_command=$(printf "%q" "${S4_PROGRAM}")
 for arg in "${@}"; do
     arg_escaped=$(printf "%q" "$arg")
@@ -399,8 +412,6 @@ echo_line
 #
 # create the final markdown file of results
 #
-declare -r MD_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__data.md"
-declare -r CSV_FINAL="${DIROUT}/performance-plot__${FILE_NAME}__${FILE_NUM}__data.csv"
 
 # prettify the markdown table with aligned columns
 cat "${MD_DRAFT}" | column -t -s '|' -o '|' > "${MD_FINAL}"
