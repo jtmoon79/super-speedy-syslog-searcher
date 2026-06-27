@@ -3534,12 +3534,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c87def4c32ab89d880effc9e097653c8da5d6ef28e6b539d313baaacfbafcbe"
 
 [[package]]
-name = "opt-level"
-version = "1.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e98329f1048d878d11b28949196b798b93e2f1e0f98121cca55d6b3e1a91030f"
-
-[[package]]
 name = "option-ext"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5163,7 +5157,6 @@ dependencies = [
  "nix 0.31.3",
  "numtoa",
  "once_cell",
- "opt-level",
  "pathsearch",
  "phf",
  "project-root",
