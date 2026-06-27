@@ -286,7 +286,7 @@ fn write_cpu_features_file() {
     out_path.push("list_cpu_features.txt");
     let mut fhandle = fs::File::create(&out_path)
         .unwrap_or_else(|e| panic!("write_cpu_features_file failed to create file {out_path:?}: {e:?}"));
-    let cpu_features: String = std::env::var("CARGO_CFG_TARGET_FEATURE").unwrap().to_string();
+    let cpu_features: String = std::env::var("CARGO_CFG_TARGET_FEATURE").unwrap_or_default();
     write!(fhandle, "{cpu_features:?}").expect("write failed for cpu_features file");
     info!("Wrote CPU features {cpu_features:?} to file {out_path:?}");
 }
