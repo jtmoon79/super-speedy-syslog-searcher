@@ -142,7 +142,6 @@ use ::const_format::concatcp;
 use ::crossbeam_channel;
 use ::current_platform::CURRENT_PLATFORM;
 use ::lazy_static::lazy_static;
-use ::opt_level::OPT_LEVEL;
 use ::regex::Regex;
 use ::si_trace_print::stack::stack_offset_set;
 use ::si_trace_print::{
@@ -305,12 +304,18 @@ const BUILD_TIME: &str = include!(concat!(env!("OUT_DIR"), "/", "timestamp.txt")
 /// File with the Rust compiler version.
 /// Created by `build.rs`. Path must match that in `build.rs`.
 const RUSTC_VERSION: &str = include!(concat!(env!("OUT_DIR"), "/", "rustc_version.txt"));
+/// File with the optimization level for the build.
+/// Created by `build.rs`. Path must match that in `build.rs`.
+const OPT_LEVEL: &str = include!(concat!(env!("OUT_DIR"), "/", "opt_level.txt"));
 /// File with the git commit hash.
 /// Created by `build.rs`. Path must match that in `build.rs`.
 const GIT_COMMIT: &str = include!(concat!(env!("OUT_DIR"), "/", "git_commit.txt"));
 /// File with comma-separated line of enabled features.
 /// Created by `build.rs`. Path must match that in `build.rs`.
 const LIST_FEATURES: &str = include!(concat!(env!("OUT_DIR"), "/", "list_features.txt"));
+/// The value of `CARGO_CFG_TARGET_FEATURE`.
+/// Created by `build.rs`. Path must match that in `build.rs`.
+const LIST_CPU_FEATURES: &str = include!(concat!(env!("OUT_DIR"), "/", "list_cpu_features.txt"));
 /// File with name of build profile.
 /// Created by `build.rs`. Path must match that in `build.rs`.
 const PROFILE_NAME: &str = include!(concat!(env!("OUT_DIR"), "/", "profile_name.txt"));
@@ -2583,6 +2588,7 @@ static mut PREPEND_DT_FORMAT_PASSED: bool = false;
         "Target OS: ", std::env::consts::OS, "\n",
         "Target OS Family: ", std::env::consts::FAMILY, "\n",
         "Arch: ", std::env::consts::ARCH, "\n",
+        "CPU Features: ", LIST_CPU_FEATURES, "\n",
         "Compiled Regular Expressions: ", DATETIME_PARSE_DATAS_LEN, "\n",
         "Compiler Version: ", RUSTC_VERSION, "\n",
         "Rust Build Flags: ", RUSTFLAGS, "\n",

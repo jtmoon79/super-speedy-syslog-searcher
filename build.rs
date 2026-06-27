@@ -34,11 +34,9 @@ pub const PATH_FILE_TIMESTAMP: &str = "timestamp.txt";
 /// set this env. var. to override the timestamp value; allows for idempotent builds
 pub const ENV_BUILD_TIMESTAMP: &str = "S4_BUILD_TIMESTAMP";
 pub const PATH_FILE_RUSTC_VERSION: &str = "rustc_version.txt";
+pub const PATH_FILE_OPT_LEVEL: &str = "opt_level.txt";
 pub const PATH_FILE_GIT_COMMIT: &str = "git_commit.txt";
 pub const PATH_FILE_PROFILE_NAME: &str = "profile_name.txt";
-
-// TODO: rebuild if `src/python/s4_event_readers` changes
-//       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
 
 fn is_env_var_truthy(env_var: &str) -> bool {
     match std::env::var(env_var) {
@@ -185,14 +183,14 @@ fn write_timestamp_file() {
     match std::env::var(ENV_BUILD_TIMESTAMP) {
         Ok(val) => {
             info!("Environment variable {ENV_BUILD_TIMESTAMP}={val:?}; write to file {out_path:?}");
-            write!(fhandle, "{val:?}").ok();
+            write!(fhandle, "{val:?}").expect("write failed for timestamp file");
             return;
         }
         Err(_) => {}
     }
     let local_now = chrono::Local::now();
     let now_s: String = local_now.format("%Y-%m-%dT%H:%M:%S").to_string();
-    write!(fhandle, r#""{now_s}""#).ok();
+    write!(fhandle, "{now_s:?}").expect("write failed for timestamp file");
     info!("Wrote timestamp {now_s:?} to file {out_path:?}");
 }
 
@@ -203,8 +201,18 @@ fn write_rustc_version_file() {
     let mut fhandle = fs::File::create(&out_path)
         .unwrap_or_else(|e| panic!("write_rustc_version_file failed to create file {out_path:?}: {e:?}"));
     let rustc_version_str: String = rustc_version_runtime::version().to_string();
-    write!(fhandle, r#""{rustc_version_str}""#).ok();
+    write!(fhandle, r#""{rustc_version_str}""#).expect("write failed for rustc_version file");
     info!("Wrote rustc version {rustc_version_str:?} to file {out_path:?}");
+}
+
+fn write_opt_level() {
+    let mut out_path = out_path();
+    out_path.push(PATH_FILE_OPT_LEVEL);
+    let mut fhandle = fs::File::create(&out_path)
+        .unwrap_or_else(|e| panic!("write_opt_level failed to create file {out_path:?}: {e:?}"));
+    let opt_level: String = env::var("OPT_LEVEL").expect("OPT_LEVEL not set; this should be set by cargo. Something is very wrong");
+    write!(fhandle, "{opt_level:?}").expect("write failed for opt_level file");
+    info!("Wrote opt level {opt_level:?} to file {out_path:?}");
 }
 
 /// Write git commit hash to a file as a string for `include!`.
@@ -227,10 +235,10 @@ fn write_git_commit_file() {
     };
 
     if git_commit_str.is_empty() {
-        write!(fhandle, r#""{not_available}""#).ok();
+        write!(fhandle, r#""{not_available}""#).expect("write failed for git_commit file");
         info!("Git commit hash not available; wrote sentinel value to file {out_path:?}");
     } else {
-        write!(fhandle, r#""{git_commit_str}""#).ok();
+        write!(fhandle, r#""{git_commit_str}""#).expect("write failed for git_commit file");
         info!("Wrote git commit hash {git_commit_str:?} to file {out_path:?}");
     }
 }
@@ -268,6 +276,16 @@ fn write_features_file() {
     info!("Wrote enabled features {features_str} to file {list_features_txt:?}");
 }
 
+fn write_cpu_features_file() {
+    let mut out_path = out_path();
+    out_path.push("list_cpu_features.txt");
+    let mut fhandle = fs::File::create(&out_path)
+        .unwrap_or_else(|e| panic!("write_cpu_features_file failed to create file {out_path:?}: {e:?}"));
+    let cpu_features: String = std::env::var("CARGO_CFG_TARGET_FEATURE").unwrap().to_string();
+    write!(fhandle, "{cpu_features:?}").expect("write failed for cpu_features file");
+    info!("Wrote CPU features {cpu_features:?} to file {out_path:?}");
+}
+
 /// Write build profile name to a file as a string for `include!`.
 fn write_profile_file() {
     // ripped from https://stackoverflow.com/a/73603419/471376
@@ -286,12 +304,17 @@ fn write_profile_file() {
     out_path.push(PATH_FILE_PROFILE_NAME);
     let mut fhandle = fs::File::create(&out_path)
         .unwrap_or_else(|e| panic!("write_profile_file failed to create file {out_path:?}: {e:?}"));
-    write!(fhandle, r#"r"{profile_name}""#).ok();
+    write!(fhandle, r#"r"{profile_name}""#).expect("write failed for profile_name file");
     info!("Wrote build profile \"{profile_name}\" to file {out_path:?}");
 }
 
 /// Set the Windows file properties for the exectuable.
 fn windows_exe_info_create() {
+    const FAMILY_EXPECT: &str = "windows";
+    if std::env::var("CARGO_CFG_TARGET_FAMILY").unwrap() != FAMILY_EXPECT {
+        info!("Skip windows_exe_info because FAMILY is not {FAMILY_EXPECT:?}");
+        return;
+    }
     use windows_exe_info::versioninfo::*;
     let version_string: String = env!("CARGO_PKG_VERSION").to_string();
     let major: u16 = env!("CARGO_PKG_VERSION_MAJOR")
@@ -305,8 +328,9 @@ fn windows_exe_info_create() {
         .expect("Failed to parse CARGO_PKG_VERSION_PATCH as u16");
     let author: String = env!("CARGO_PKG_AUTHORS").to_string();
     let copyright: String = "Copyright (C) 2026 ".to_string() + &author;
-    let bin_name: String = std::env::var("CARGO_BIN_NAME").unwrap_or("s4".to_string()).to_string()
-        + ".exe";
+    let bin_name: String =
+        std::env::var("CARGO_BIN_NAME").unwrap_or("s4".to_string()).to_string()
+        + std::env::consts::EXE_SUFFIX;
     VersionInfo {
         file_version: Version(
             0,
@@ -341,14 +365,15 @@ fn windows_exe_info_create() {
             internal_name: env!("CARGO_PKG_NAME").into(),
             legal_copyright: Some(copyright.into()),
             legal_trademarks: Some(env!("CARGO_PKG_LICENSE").into()),
-            original_filename: bin_name.into(),
+            original_filename: bin_name.clone().into(),
             product_name: env!("CARGO_PKG_NAME").into(),
-            product_version: version_string.into(),
+            product_version: version_string.clone().into(),
             private_build: None,
             special_build: None,
         }],
     }
-    .link().unwrap();
+    .link().expect("windows_exe_info failed");
+    info!("Wrote Windows executable version info for {bin_name:?} with version {version_string:?}");
 }
 
 /// Check for a `.env` file and load it if found; print loaded values if `info_enabled()`.
@@ -378,8 +403,10 @@ fn main() {
     dotenv_load();
     write_timestamp_file();
     write_rustc_version_file();
+    write_opt_level();
     write_git_commit_file();
     write_features_file();
+    write_cpu_features_file();
     write_profile_file();
     windows_exe_info_create();
     parse_regex_values();
