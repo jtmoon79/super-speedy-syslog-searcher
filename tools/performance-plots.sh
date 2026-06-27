@@ -34,7 +34,7 @@ else
         ./logs/other/tests/gen-1000-3-foobar.UTF-16BE.log
         ./logs/other/tests/gen-1000-3-foobar.UTF-16LE.log
         ./logs/other/tests/gen-1000-3-foobar.UTF-16LE_BOM.log
-        ./logs/other/tests/gen-1000-3-foobar.UTF-32LE.log
+        ./logs/other/tests/gen-1000-3-foobar.UTF-32LE.log${SEP}100
         # TODO: [2026/05] log file gen-99999-1-Motley_Crue.log tends to stall around 125 FILE_NUM
         #       probably worth understanding why
         "./logs/other/tests/gen-99999-1-Motley_Crue.log${SEP}100"
