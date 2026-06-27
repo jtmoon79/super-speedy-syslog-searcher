@@ -475,7 +475,7 @@ fn test_cli_filter_patterns_print_indexes() {
     defx!();
 }
 
-#[test_matrix(0..80)]  // last matrix value must be CLI_FILTER_PATTERNS_COUNT
+#[test_matrix(0..95)]  // last matrix value must be CLI_FILTER_PATTERNS_COUNT
 fn test_cli_filter_patterns_test_cases(index: usize) {
     stack_offset_set(None);
     defn!("test_cli_filter_patterns_test_cases index: {}", index);
