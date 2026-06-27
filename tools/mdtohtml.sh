@@ -16,6 +16,7 @@ file=${1}
 file_html="${file}.html"
 shift
 
+# make tables more readable
 css_snippet=$(cat <<'CSS'
 table {  border-collapse: collapse; width: 100%;}
 
@@ -34,6 +35,7 @@ th {
 CSS
 )
 
+# make tables sortable
 js_snippet=$(cat <<'JS'
 document.addEventListener('DOMContentLoaded', function () {
   var columnTypes = ['alpha', 'numeric', 'alpha', 'numeric', 'numeric', 'numeric'];
