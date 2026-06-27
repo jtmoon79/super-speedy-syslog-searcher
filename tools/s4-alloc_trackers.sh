@@ -13,6 +13,8 @@ PROGRAM=${PROGRAM-./target/alloc_tracker/s4}
 
 cd "$(dirname -- "${0}")/.."
 
+S4_ALLOC_TRACKER_LINK=${S4_ALLOC_TRACKER_LINK-"file://$(readlink -f .)"}
+
 declare -a FILES=(
     ./logs/CentOS7/x86_64/wtmp
     ./logs/MacOS11/DiagnosticMessages/2023.10.31.asl
@@ -45,6 +47,11 @@ mkdir -vp "${DIROUT}"
 for LOGFILE in "${FILES[@]}"; do
     LOGNAME=$(basename -- "${LOGFILE}")
     OUT="${DIROUT}/alloc-tracker_${LOGNAME}.md"
+    if [[ -f "${OUT}" ]]; then
+        echo "Output file already exists: ${OUT}" >&2
+        echo >&2
+        continue
+    fi
     (
         # set preliminary data in markdown file
         echo "# \`${LOGNAME}\`
@@ -61,6 +68,7 @@ for LOGFILE in "${FILES[@]}"; do
             S4_ALLOC_TRACKER_OUTPUT="${OUT}" \
             S4_ALLOC_TRACKER_PRINT=0 \
             S4_ALLOC_TRACKER_TRACKING=1 \
+            S4_ALLOC_TRACKER_LINK="${S4_ALLOC_TRACKER_LINK}" \
             S4_BUILD_REGEX_PRINT=0 \
             RUST_MIN_STACK=${RUST_MIN_STACK-20000000} \
             "${PROGRAM}" \
