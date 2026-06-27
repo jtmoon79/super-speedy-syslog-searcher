@@ -5427,6 +5427,8 @@ fn processing_loop(
         }
         defo!("stack_size={stack_size}{}", _from_env.then_some(" (from RUST_MIN_STACK env. var.)").unwrap_or(""));
 
+        // TODO: [2026/06] it would be interesting to experiment with different `CHANNEL_CAPACITY` values
+        //                 effects on performance.
         let (chan_send_dt, chan_recv_dt): (ChanSendDatum, ChanRecvDatum) =
             crossbeam_channel::bounded(CHANNEL_CAPACITY);
         defo!("map_pathid_chanrecvdatum.insert({}, …);", pathid);
