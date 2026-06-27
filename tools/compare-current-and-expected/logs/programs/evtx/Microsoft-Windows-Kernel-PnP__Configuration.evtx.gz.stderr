@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.evtx.gz
   About:
-      filetype       : EVTX (GZIP) (Windows XML EventLog)
-      logmessagetype : EVTX entries (Windows XML EventLog)
+      filetype      : EVTX (GZIP) (Windows XML EventLog)
+      logmessagetype: EVTX entries (Windows XML EventLog)
   Printed:
       bytes         : 1184407
       flushes       : 678

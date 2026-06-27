@@ -3,9 +3,9 @@ Files:
 
 File: ./logs/Ubuntu20/x86_64/lastlog
   About:
-      filetype       : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+      filetype      : LASTLOG (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlog
-      logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      logmessagetype: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_x86_Lastlog
   Printed:
       bytes         : 240

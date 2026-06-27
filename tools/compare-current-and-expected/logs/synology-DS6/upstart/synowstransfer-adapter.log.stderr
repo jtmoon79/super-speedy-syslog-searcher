@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/synowstransfer-adapter.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 2834
       flushes       : 19

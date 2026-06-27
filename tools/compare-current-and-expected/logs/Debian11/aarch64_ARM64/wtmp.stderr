@@ -3,9 +3,9 @@ Files:
 
 File: ./logs/Debian11/aarch64_ARM64/wtmp
   About:
-      filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+      filetype      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
-      logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      logmessagetype: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Linux_Arm64Aarch64_Utmpx
   Printed:
       bytes         : 1146

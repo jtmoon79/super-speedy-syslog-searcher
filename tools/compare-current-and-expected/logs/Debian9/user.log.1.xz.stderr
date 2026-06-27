@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/Debian9/user.log.1.xz
   About:
-      filetype       : TEXT UTF8/ASCII (XZ) (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (XZ) (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 541
       flushes       : 3

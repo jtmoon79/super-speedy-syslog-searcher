@@ -4,8 +4,8 @@ Files:
 File: ./logs/programs/evtx/Microsoft-Windows-Kernel-PnP__Configuration.tar|Microsoft-Windows-Kernel-PnP__Configuration.evtx
   About:
       archive subpath: Microsoft-Windows-Kernel-PnP__Configuration.evtx
-      filetype       : EVTX (TAR) (Windows XML EventLog)
-      logmessagetype : EVTX entries (Windows XML EventLog)
+      filetype      : EVTX (TAR) (Windows XML EventLog)
+      logmessagetype: EVTX entries (Windows XML EventLog)
   Printed:
       bytes         : 1561282
       flushes       : 905

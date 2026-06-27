@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/programs/tomcat/catalina-access.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 578
       flushes       : 2

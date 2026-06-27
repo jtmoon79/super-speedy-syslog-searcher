@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/programs/tomcat/catalina.out
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 3218
       flushes       : 8
