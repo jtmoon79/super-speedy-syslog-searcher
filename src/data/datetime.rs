@@ -1030,6 +1030,18 @@ pub fn datetime_parse_from_str(
                     dt_naive,
                     val,
                 );
+                // print a warning if the `earliest()` and `latest()` values are not equal
+                // merely for my own curiosity, since this is a rare case and I don't know how to handle it.
+                if cfg!(debug_assertions) || cfg!(test) {
+                    match tz_offset.from_local_datetime(&dt_naive).latest() {
+                        Some(val2) => {
+                            if val != val2 {
+                                de_wrn!("tz_offset.from_local_datetime({dt_naive:?}).earliest() {val:?} != latest() {val2:?}");
+                            }
+                        }
+                        None => de_wrn!("tz_offset.from_local_datetime({dt_naive:?}).latest() returned None"),
+                    }
+                }
                 // HACK: workaround chrono Issue #660 by checking for matching begin, end of `data`
                 //       and `pattern`
                 if !datetime_from_str_workaround_Issue660(data, pattern) {
