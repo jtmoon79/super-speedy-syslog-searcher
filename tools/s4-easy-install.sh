@@ -9,7 +9,7 @@
 # Optional environment variables:
 #   VER: version to install
 #   IGNORE_CHECKSUM: if set to 1 then ignore a failed checksum result
-#   ABI: optional override of target triple last ABI field; e.g. `gnu`
+#   ABI: optional override of target triple last ABI field; e.g. `gnu` or `musl`
 #   TEST: if set then do not install
 #
 # to run this file remotely:
