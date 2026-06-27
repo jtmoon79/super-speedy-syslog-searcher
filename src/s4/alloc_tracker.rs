@@ -12,6 +12,7 @@
 //!   maximum `16`).
 //! - `S4_ALLOC_TRACKER_OUTPUT` to write `print_tracking_map()` output to a file
 //!   instead of stderr.
+//! - `S4_ALLOC_TRACKER_LINK` to prefix tracked file paths with a markdown link URL.
 
 use std::alloc::{
     GlobalAlloc,
@@ -225,6 +226,8 @@ const ENV_ALLOCATOR_TRACKING: &str = "S4_ALLOC_TRACKER_TRACKING";
 const ENV_ALLOCATOR_DEPTH: &str = "S4_ALLOC_TRACKER_DEPTH";
 /// User-set environment variable to write tracking output to a file path.
 const ENV_ALLOCATOR_OUTPUT: &str = "S4_ALLOC_TRACKER_OUTPUT";
+/// User-set environment variable to prefix tracked file paths with a markdown link URL.
+const ENV_ALLOCATOR_LINK: &str = "S4_ALLOC_TRACKER_LINK";
 /// Default depth: track only the innermost project frame.
 const DEFAULT_ALLOCATOR_DEPTH: usize = 1;
 
@@ -333,6 +336,22 @@ fn allocator_depth_env() -> usize {
 /// wrapper to read value of `ALLOCATOR_DEPTH`
 fn allocator_depth() -> usize {
     ALLOCATOR_DEPTH.get().copied().unwrap_or(DEFAULT_ALLOCATOR_DEPTH)
+}
+
+/// Reads `S4_ALLOC_TRACKER_LINK` from the environment and removes unnecessary trailing `/`.
+fn allocator_link_base_env() -> Option<String> {
+    match std::env::var(ENV_ALLOCATOR_LINK) {
+        Ok(mut link_base) if !link_base.is_empty() => {
+            let min_len = link_base.find("://").map(|idx| idx + 3).unwrap_or(0);
+            while link_base.len() > min_len && link_base.ends_with('/') {
+                link_base.pop();
+            }
+            if link_base.is_empty() { None } else { Some(link_base) }
+        }
+        Ok(_) => None,
+        Err(std::env::VarError::NotPresent) => None,
+        Err(err) => panic!("Environment variable {ENV_ALLOCATOR_LINK} could not be read: {err}"),
+    }
 }
 
 /// Tracking and printing will begin after this is called.
@@ -808,6 +827,7 @@ pub fn print_tracking_map() {
         Err(std::env::VarError::NotPresent) => None,
         Err(err) => panic!("{} could not be read: {}", ENV_ALLOCATOR_OUTPUT, err),
     };
+    let link_base = allocator_link_base_env();
 
     let project_root_: &str = PROJECT_ROOT.as_str();
     let ap = match ALLOCATOR_TRACKING_MAP.write() {
@@ -859,7 +879,7 @@ pub fn print_tracking_map() {
         output_file.as_mut(),
         &mut buf,
         "\
-| ***File:line:col***<br/>***Call Site*** | Thread<br/>ID | Thread<br/>Name | Allocations | Bytes | Bytes<br/>per Allocation |
+| **File:line:col**<br/>**Call Site** | **Thread<br/>ID** | **Thread<br/>Name** | **Allocations** | **Bytes** | **Bytes<br/>per Allocation** |
 | :-- | ---: | :--- | ---: | ---: | ---: |
 ",
     );
@@ -906,10 +926,25 @@ pub fn print_tracking_map() {
         let line_number = &key.0[0].2;
         let column_number = &key.0[0].3;
         buf.clear();
+        if let Some(link_base) = link_base.as_deref() {
+            // `S4_ALLOC_TRACKER_LINK` is set so link to the source code.
+            _ = alloc_write_info!(
+                output_file.as_mut(),
+                &mut buf,
+                "| [`{file_path}:{line_number}:{column_number}`]({link_base}/{file_path}#L{line_number})<br/>`{function_name}` |",
+            );
+        } else {
+            _ = alloc_write_info!(
+                output_file.as_mut(),
+                &mut buf,
+                "| `{file_path}:{line_number}:{column_number}`<br/>`{function_name}` |",
+            );
+        }
+        buf.clear();
         _ = alloc_write_info!(
             output_file.as_mut(),
             &mut buf,
-            "| `{file_path}:{line_number}:{column_number}`<br/>`{function_name}` | {thread_id} | `{thread_name}` | {allocations_s} | {bytes_s} ({bytes_h}) | {bytes_per_allocation_s} ({bytes_per_allocation_h}) |\n",
+            " {thread_id} | `{thread_name}` | {allocations_s} | {bytes_s} ({bytes_h}) | {bytes_per_allocation_s} ({bytes_per_allocation_h}) |\n",
         );
 
         // Print additional frames (outer callers) without allocations/bytes columns.
@@ -930,10 +965,24 @@ pub fn print_tracking_map() {
                 file_name_i
             };
             buf.clear();
+            if let Some(link_base) = link_base.as_deref() {
+                _ = alloc_write_info!(
+                    output_file.as_mut(),
+                    &mut buf,
+                    "| [`{file_path_i}:{lineno}:{colno}`]({link_base}/{file_path_i}#L{lineno})<br/>`{function_name_i}` ",
+                );
+            } else {
+                _ = alloc_write_info!(
+                    output_file.as_mut(),
+                    &mut buf,
+                    "| `{file_path_i}:{lineno}:{colno}`<br/>`{function_name_i}` ",
+                );
+            }
+            buf.clear();
             _ = alloc_write_info!(
                 output_file.as_mut(),
                 &mut buf,
-                "| `{file_path_i}:{lineno}:{colno}`<br/>`{function_name_i}` | {thread_id} | `{thread_name}` | | | |\n",
+                "| {thread_id} | `{thread_name}` | | | |\n",
             );
             printed_more_rows = true;
         }
@@ -1000,6 +1049,7 @@ pub fn print_tracking_map() {
     let a_t_current = ALLOCATOR_ALLOCATED_CURRENT.load(Ordering::Relaxed);
     let a_t_current_s = a_t_current.separate_with_commas();
 
+    buf.clear();
     _ = alloc_write_info!(
         // the strange alignment of right-side explanatory text here should print in a vertically aligned manner in most cases
         output_file.as_mut(),
@@ -1007,7 +1057,7 @@ pub fn print_tracking_map() {
         "
 ## Allocator Tracking summary
 
-| tracked | bytes | calls | about |
+| **tracked** | **bytes** | **calls** | **about** |
 | :--- | ---: | ---: | :--- |
 | normal allocations | {a_t_on_bytes_s} | {a_t_on_calls_s} | normal program allocations; this is the most useful number |
 | total deallocations | {d_s} | {d_calls_s} | includes normal program deallocations and tracking deallocations |
@@ -1015,7 +1065,7 @@ pub fn print_tracking_map() {
 
 ## Allocator Tracking internals
 
-| tracked | bytes | calls | about |
+| **tracked** | **bytes** | **calls** | **about** |
 | :--- | ---: | ---: | :--- |
 | total from tracking | {a_t_off_bytes_s} | {a_t_off_calls_s} | tracking allocations; not part of the normal program allocations |
 | tracking from backtrace | {a_t_off_backtrace_bytes_s} | | tracking allocations specifically for `backtrace::trace` and `backtrace::resolve_frame`; subset of \"total from tracking\" |
@@ -1023,7 +1073,7 @@ pub fn print_tracking_map() {
 | ratio tracking to normal| 100 to {ratio_on_off_int} | 100 to {ratio_on_off_calls_int} | ratio of tracking allocations/calls to normal program allocations/calls |
 | diff table vs total | {diff_table_vs_total_bytes_s} | {diff_table_vs_total_calls_s} | sanity check of total numbers and table numbers; should be 0 |
 
-| parameter | value | about |
+| **parameter** | **value** | **about** |
 | :--- | ---: | :--- |
 | frame depth | {depth} | max depth of backtraced frames for each allocation call site; env var {ENV_ALLOCATOR_DEPTH:?} |
 | call sites | {entry_len} | entries in the table above |
@@ -1031,7 +1081,7 @@ pub fn print_tracking_map() {
 | cached function names | {functions_len} | |
 | cached thread names | {threadnames_len} | |
 
-{dt_now}
+*{dt_now}*
 ");
 
 }
