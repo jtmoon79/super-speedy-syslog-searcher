@@ -13,10 +13,15 @@ use ::chrono;
 use ::dotenvy;
 use ::list_features;
 
-// XXX: duplicates `subprojects/ere/ere_datetimes_impl/build.rs`
-//      which is very unfortunate.
-//      because without this `build.rs then different `S4_BUILD_REGEX` values will
-//      not trigger a rebuild of `ere_datetimes_impl/build.rs`
+// XXX: partially duplicates `subprojects/ere/ere_datetimes_impl/build.rs` regarding
+//      handling of `S4_BUILD_REGEX`, `S4_BUILD_PRINT`, `S4_BUILD_REGEX_NO_REBUILD`
+//      settings. This is unfortunate.
+//      Without this duplicate `build.rs` code the compiler would reject some
+//      `cargo::rustc-cfg` expressions generated.
+// TODO: [2026/06/26] confirm this!
+
+// TODO: rebuild if `src/python/s4_event_readers/**` files change
+//       see https://doc.rust-lang.org/1.88.0/cargo/reference/build-scripts.html#rerun-if-changed
 
 /// env. var. set by docs.rs build environment; see https://docs.rs/about/builds
 const ENV_DOCS_RS: &str = "DOCS_RS";
