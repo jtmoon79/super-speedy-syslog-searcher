@@ -141,12 +141,7 @@ curl -LsSf 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searc
 On Windows, run the PowerShell script `s4-easy-install.ps1`
 
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope Process
-
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1' `
-  -OutFile s4-easy-install.ps1
-
-.\s4-easy-install.ps1
+& ([scriptblock]::Create((irm "https://raw.githubusercontent.com/jtmoon79/super-speedy-syslog-searcher/main/tools/s4-easy-install.ps1")))
 ```
 
 ##### manual download
