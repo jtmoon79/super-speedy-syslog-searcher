@@ -660,11 +660,13 @@ DateTime Filters may be strftime specifier patterns:
     "%Y-%m-%d"
     "%Y/%m/%d"
     "%m-%d"
+    "%m/%d"
     "%H:%M:%S"
     "%H:%M"
     "+%s"
-Each trailing * is an optional trailing 3-digit fractional sub-seconds (milliseconds, ".%3f"),
-or 6-digit fractional sub-seconds (microseconds, ".%6f"),
+
+Each trailing * is an optional trailing 3-digit fractional sub-seconds
+(milliseconds, ".%3f"), or 6-digit fractional sub-seconds (microseconds, ".%6f"),
 and/or timezone ("%z", "%:z", "%::z", or "%Z").
 Patterns "%Y" is a 4-digit year, "%m" is a 2-digit month, "%d" is a 2-digit day of month,
 "%H" is a 2-digit hour, "%M" is a 2-digit minute, "%S" is a 2-digit second,
@@ -678,19 +680,29 @@ Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is January 1, 2000 at 00:00, GMT.
 
 DateTime Filters may be custom relative offset patterns:
-    "+DwDdDhDmDs" or "-DwDdDhDmDs"
-    "@+DwDdDhDmDs" or "@-DwDdDhDmDs"
+    "+DwDdDhDmDs!HH:MM:SS" or "-DwDdDhDmDs!HH:MM:SS"
 
-Custom relative offset pattern "+DwDdDhDmDs" and "-DwDdDhDmDs" is the offset
-from now (program start time) where "D" is a decimal number.
+This is a relative offset from now.
+With a leading "@", the relative offset is from the other argument.
+
 Each lowercase identifier is an offset duration:
 "w" is weeks, "d" is days, "h" is hours, "m" is minutes, "s" is seconds.
 For example, value "-1w22h" is one week and twenty-two hours in the past.
 Value "+30s" is thirty seconds in the future.
 
+The patterns after the "!" are optional clock time overrides.
+"HH" is a 2-digit clock hour, "MM" is a 2-digit clock minute, "SS" is a 2-digit
+clock second. This forces the clock time on the resulting date.
+For example, value "-1w22h!12:34:56" is one week and twenty-two hours in the past
+with the clock time overridden to 12:34:56.
+Value '+1d!05' is one day in the future with the clock time overridden to 05:00:00.
+Value '+1w!05:09' is one week in the future with the clock time overridden to 05:09:00.
+
 Custom relative offset pattern "@+DwDdDhDmDs" and "@-DwDdDhDmDs" is relative
 offset from the other datetime.
 Arguments "-a 20220102 -b @+1d" are equivalent to "-a 20220102 -b 20220103".
+Arguments "-a 20220102 -b @+1w!05:04" are equivalent to
+"-a 20220102 -b '20220109 05:04:00'".
 Arguments "-a @-6h -b 20220101T120000" are equivalent to
 "-a 20220101T060000 -b 20220101T120000".
 
@@ -742,6 +754,11 @@ The Python interpreter used during `--venv` requires Python 3.9 or higher.
 This installs to ~/.config/s4/venv
 The Python interpreter used may be overridden by setting environment variable
 S4_PYTHON to the path of the Python interpreter.
+
+The user may specify the path to the systemd shared library by setting
+environment variable S4_LIBSYSTEMD. This library is used to read
+.journal files. Otherwise, s4 will attempt to locate and load
+the systemd shared library automatically.
 
 Is s4 failing to parse a log file? Report an Issue at
 https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/new/choose
