@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkg-SynologyMoments-assessment.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 3365
       flushes       : 19

@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/other/tests/dtf5-6b.UTF-16LE.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 1089
       flushes       : 6

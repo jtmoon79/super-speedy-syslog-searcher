@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/Debian11/apache2/access.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 1059
       flushes       : 5

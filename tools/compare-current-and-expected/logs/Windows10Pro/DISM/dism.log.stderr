@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/Windows10Pro/DISM/dism.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 22536
       flushes       : 94

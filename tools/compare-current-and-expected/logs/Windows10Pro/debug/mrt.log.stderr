@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/Windows10Pro/debug/mrt.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 4269
       flushes       : 5

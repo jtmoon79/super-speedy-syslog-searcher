@@ -3,9 +3,9 @@ Files:
 
 File: ./logs/OpenBSD7.2/x86_32/utmp.1
   About:
-      filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+      filetype      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
-      logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      logmessagetype: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Openbsd_x86_Utmp
   Printed:
       bytes         : 265

@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/RockyLinux9/messages
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 397192
       flushes       : 2432

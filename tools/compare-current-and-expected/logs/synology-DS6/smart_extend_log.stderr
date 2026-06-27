@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/smart_extend_log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 802
       flushes       : 4

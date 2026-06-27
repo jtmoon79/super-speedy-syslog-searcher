@@ -3,9 +3,9 @@ Files:
 
 File: ./logs/NetBSD9.3/x86_64/wtmp
   About:
-      filetype       : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+      filetype      : UTMP/WTMP (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Utmp
-      logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      logmessagetype: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       fixedstructtype: Fs_Netbsd_x8664_Utmp
   Printed:
       bytes         : 376

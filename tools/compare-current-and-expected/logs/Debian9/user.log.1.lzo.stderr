@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/Debian9/user.log.1.lzo
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
       Processing Err : no syslog lines found in file
   Printed:
       bytes         : 0

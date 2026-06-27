@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/RancherOS-1.5.8/boot/cloud-init-save.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 1732
       flushes       : 8

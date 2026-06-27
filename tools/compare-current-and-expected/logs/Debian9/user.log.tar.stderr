@@ -4,8 +4,8 @@ Files:
 File: ./logs/Debian9/user.log.tar|./logs/Debian9/user.log.1
   About:
       archive subpath: ./logs/Debian9/user.log.1
-      filetype       : TEXT UTF8/ASCII (TAR) (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (TAR) (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 616
       flushes       : 3

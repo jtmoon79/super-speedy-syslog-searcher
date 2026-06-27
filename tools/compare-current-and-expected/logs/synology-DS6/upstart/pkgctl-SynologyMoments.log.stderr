@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/synology-DS6/upstart/pkgctl-SynologyMoments.log
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
   Printed:
       bytes         : 2860
       flushes       : 19

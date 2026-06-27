@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.xz
   About:
-      filetype       : JOURNAL (XZ) (systemd Journal)
-      logmessagetype : systemd journal entries
+      filetype      : JOURNAL (XZ) (systemd Journal)
+      logmessagetype: systemd journal entries
   Printed:
       bytes         : 12856
       flushes       : 8

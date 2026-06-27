@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/programs/journal/Ubuntu22-user-1000x3.journal.lz4
   About:
-      filetype       : JOURNAL (LZMA4) (systemd Journal)
-      logmessagetype : systemd journal entries
+      filetype      : JOURNAL (LZMA4) (systemd Journal)
+      logmessagetype: systemd journal entries
   Printed:
       bytes         : 12966
       flushes       : 8

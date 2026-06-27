@@ -3,9 +3,9 @@ Files:
 
 File: ./logs/NetBSD9.3/x86_64/lastlogx
   About:
-      filetype       : LASTLOGX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
+      filetype      : LASTLOGX (Unix accounting log (acct/lastlog/lastlogx/utmp/utmpx))
       fixedstructtype: Lastlogx
-      logmessagetype : fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
+      logmessagetype: fixedstruct entries (Unix acct/lastlog/lastlogx/utmp/utmpx)
       Processing Err : no valid fixed-structure records found in file
 
 Program Summary:

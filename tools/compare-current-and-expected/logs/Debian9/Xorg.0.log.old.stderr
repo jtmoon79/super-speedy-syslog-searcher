@@ -3,8 +3,8 @@ Files:
 
 File: ./logs/Debian9/Xorg.0.log.old
   About:
-      filetype       : TEXT UTF8/ASCII (text log)
-      logmessagetype : text log lines
+      filetype      : TEXT UTF8/ASCII (text log)
+      logmessagetype: text log lines
       Processing Err : failed to calculate systemtime at uptime zero
   Printed:
       bytes         : 0
