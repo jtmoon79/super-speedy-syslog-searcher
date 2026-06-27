@@ -515,6 +515,7 @@ fn process_bytes_to_regex_to_datetime(
     path: &FPath,
 ) -> Option<(LineIndex, LineIndex, LineIndex, LineIndex, DateTimeL)> {
     defn!("(data.len() {}, encoding {:?}, fileoffset {})", data.len(), encoding_type, fileoffset);
+    // TODO: [2026/06] add statistic about BOM adjustments
     let data_no_bom = if fileoffset < encoding_type.bomsz() as FileOffset && encoding_type.has_bom() {
         match data_without_bom(data, encoding_type, fileoffset) {
             Some(d) => d,
@@ -527,6 +528,7 @@ fn process_bytes_to_regex_to_datetime(
     } else {
         data
     };
+    // TODO: [2026/06] add statistic about transcode_bytes_to_utf8_buffer
     let utf8_bytes: &[u8] = match encoding_type.basic_encoding() {
         FileTypeBasicEncoding::Utf8 => data_no_bom,
         FileTypeBasicEncoding::Utf16
