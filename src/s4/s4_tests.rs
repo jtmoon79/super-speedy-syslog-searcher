@@ -28,6 +28,8 @@ use crate::s4::{
     DUR_OFFSET_TYPE,
     CLI_OPT_PREPEND_FMT,
     CLI_FILTER_PATTERNS,
+    CLI_FILTER_PATTERNS_COUNT,
+    EXACT_HMS,
     T_NOW_YEAR,
     T_NOW_MONTH,
     T_NOW_DAY,
@@ -60,7 +62,10 @@ use ::si_trace_print::{
     defñ,
     deo,
 };
-use ::test_case::test_case;
+use ::test_case::{
+    test_case,
+    test_matrix,
+};
 
 /// shorter name
 const FO0: FixedOffset = FIXEDOFFSET0;
@@ -374,28 +379,70 @@ pub (crate) fn test_process_dt(
     FO0,
     FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
     Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 6).unwrap());
-    "2000-01-02T03:04:05 add 1s"
+    "add 1s"
 )]
 #[test_case(
     Some(String::from("@-1s")),
     FO0,
     FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
     Some(FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 4).unwrap());
-    "2000-01-02T03:04:04 add 1s"
+    "sub 1s"
+)]
+#[test_case(
+    Some(String::from("@-1d!13:44:55")),
+    FO0,
+    FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+    Some(FO0.with_ymd_and_hms(2000, 1, 1, 13, 44, 55).unwrap());
+    "sub 1d clock override 13 44 55"
+)]
+#[test_case(
+    Some(String::from("@+1w1d!13:44")),
+    FO0,
+    FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+    Some(FO0.with_ymd_and_hms(2000, 1, 10, 13, 44, 0).unwrap());
+    "add 1w1d clock override 13 44"
+)]
+#[test_case(
+    Some(String::from("@-1d!13")),
+    FO0,
+    FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+    Some(FO0.with_ymd_and_hms(2000, 1, 1, 13, 0, 0).unwrap());
+    "sub 1d clock override 13"
 )]
 #[test_case(
     Some(String::from("@+4h1d")),
     FO0,
     FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
     Some(FO0.with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
-    "2000-01-02T03:04:05 sub 4h1d"
+    "add 4h1d"
 )]
 #[test_case(
     Some(String::from("@+4h1d")),
     FixedOffset::east_opt(-3630).unwrap(),
     FixedOffset::east_opt(-3630).unwrap().with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
     Some(FixedOffset::east_opt(-3630).unwrap().with_ymd_and_hms(2000, 1, 3, 7, 4, 5).unwrap());
-    "2000-01-02T03:04:05 sub 4h1d offset -3600"
+    "add 4h1d offset -3600"
+)]
+#[test_case(
+    Some(String::from("@-1d!1")),
+    FO0,
+    FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+    None;
+    "bad override hour"
+)]
+#[test_case(
+    Some(String::from("@-1d!01:")),
+    FO0,
+    FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+    None;
+    "bad override hour colon"
+)]
+#[test_case(
+    Some(String::from("@-1d!01:5")),
+    FO0,
+    FO0.with_ymd_and_hms(2000, 1, 2, 3, 4, 5).unwrap(),
+    None;
+    "bad override hour colon 5"
 )]
 fn test_process_dt_other(
     dts: Option<String>,
@@ -419,7 +466,7 @@ fn test_process_dt_other(
 fn test_cli_filter_patterns_print_indexes() {
     stack_offset_set(None);
     defn!();
-    for i in 0..CLI_FILTER_PATTERNS.len() {
+    for i in 0..CLI_FILTER_PATTERNS_COUNT {
         let dtf_pattern = &CLI_FILTER_PATTERNS[i];
         defo!(
             "CLI_FILTER_PATTERNS[{i}] pattern: {:?}", dtf_pattern.pattern,
@@ -428,87 +475,7 @@ fn test_cli_filter_patterns_print_indexes() {
     defx!();
 }
 
-#[test_case(0)]
-#[test_case(1)]
-#[test_case(2)]
-#[test_case(3)]
-#[test_case(4)]
-#[test_case(5)]
-#[test_case(6)]
-#[test_case(7)]
-#[test_case(8)]
-#[test_case(9)]
-#[test_case(10)]
-#[test_case(11)]
-#[test_case(12)]
-#[test_case(13)]
-#[test_case(14)]
-#[test_case(15)]
-#[test_case(16)]
-#[test_case(17)]
-#[test_case(18)]
-#[test_case(19)]
-#[test_case(20)]
-#[test_case(21)]
-#[test_case(22)]
-#[test_case(23)]
-#[test_case(24)]
-#[test_case(25)]
-#[test_case(26)]
-#[test_case(27)]
-#[test_case(28)]
-#[test_case(29)]
-#[test_case(30)]
-#[test_case(31)]
-#[test_case(32)]
-#[test_case(33)]
-#[test_case(34)]
-#[test_case(35)]
-#[test_case(36)]
-#[test_case(37)]
-#[test_case(38)]
-#[test_case(39)]
-#[test_case(40)]
-#[test_case(41)]
-#[test_case(42)]
-#[test_case(43)]
-#[test_case(44)]
-#[test_case(45)]
-#[test_case(46)]
-#[test_case(47)]
-#[test_case(48)]
-#[test_case(49)]
-#[test_case(50)]
-#[test_case(51)]
-#[test_case(52)]
-#[test_case(53)]
-#[test_case(54)]
-#[test_case(55)]
-#[test_case(56)]
-#[test_case(57)]
-#[test_case(58)]
-#[test_case(59)]
-#[test_case(60)]
-#[test_case(61)]
-#[test_case(62)]
-#[test_case(63)]
-#[test_case(64)]
-#[test_case(65)]
-#[test_case(66)]
-#[test_case(67)]
-#[test_case(68)]
-#[test_case(69)]
-#[test_case(70)]
-#[test_case(71)]
-#[test_case(72)]
-#[test_case(73)]
-#[test_case(74)]
-#[test_case(75)]
-#[test_case(76)]
-#[test_case(77)]
-#[test_case(78)]
-#[test_case(79)]
-// test_case indexes must be up to CLI_FILTER_PATTERNS.len() - 1 (CLI_FILTER_PATTERNS_COUNT - 1)
+#[test_matrix(0..80)]  // last matrix value must be CLI_FILTER_PATTERNS_COUNT
 fn test_cli_filter_patterns_test_cases(index: usize) {
     stack_offset_set(None);
     defn!("test_cli_filter_patterns_test_cases index: {}", index);
@@ -667,40 +634,70 @@ fn test_cli_filter_patterns_static() {
 pub(crate) const NOW: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Now;
 pub(crate) const OTHER: DUR_OFFSET_TYPE = DUR_OFFSET_TYPE::Other;
 
+const EN: EXACT_HMS = EXACT_HMS::None;
+
+const fn d_s(val: i64) -> Duration {
+    Duration::try_seconds(val).unwrap()
+}
+
+const fn d_m(val: i64) -> Duration {
+    Duration::try_minutes(val).unwrap()
+}
+
+const fn d_h(val: i64) -> Duration {
+    Duration::try_hours(val).unwrap()
+}
+
+const fn d_d(val: i64) -> Duration {
+    Duration::try_days(val).unwrap()
+}
+
+const fn d_w(val: i64) -> Duration {
+    Duration::try_weeks(val).unwrap()
+}
+
 #[test_case(String::from(""), None)]
 #[test_case(String::from("1s"), None; "1s")]
 #[test_case(String::from("@1s"), None; "at_1s")]
-#[test_case(String::from("-0s"), Some((Duration::try_seconds(0).unwrap(), NOW)))]
-#[test_case(String::from("@+0s"), Some((Duration::try_seconds(0).unwrap(), OTHER)))]
-#[test_case(String::from("-1s"), Some((Duration::try_seconds(-1).unwrap(), NOW)); "minus_1s")]
-#[test_case(String::from("+1s"), Some((Duration::try_seconds(1).unwrap(), NOW)); "plus_1s")]
-#[test_case(String::from("@-1s"), Some((Duration::try_seconds(-1).unwrap(), OTHER)); "at_minus_1s")]
-#[test_case(String::from("@+1s"), Some((Duration::try_seconds(1).unwrap(), OTHER)); "at_plus_1s")]
-#[test_case(String::from("@+9876s"), Some((Duration::try_seconds(9876).unwrap(), OTHER)); "other_plus_9876")]
-#[test_case(String::from("@-9876s"), Some((Duration::try_seconds(-9876).unwrap(), OTHER)); "other_minus_9876")]
-#[test_case(String::from("-9876s"), Some((Duration::try_seconds(-9876).unwrap(), NOW)); "now_minus_9876")]
-#[test_case(String::from("-3h"), Some((Duration::try_hours(-3).unwrap(), NOW)))]
-#[test_case(String::from("-4d"), Some((Duration::try_days(-4).unwrap(), NOW)))]
-#[test_case(String::from("-5w"), Some((Duration::try_weeks(-5).unwrap(), NOW)))]
-#[test_case(String::from("@+5w"), Some((Duration::try_weeks(5).unwrap(), OTHER)))]
-#[test_case(String::from("-2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap(), NOW)); "minus_2m1s")]
-#[test_case(String::from("-2d1h"), Some((Duration::try_hours(-1).unwrap() + Duration::try_days(-2).unwrap(), NOW)); "minus_2d1h")]
-#[test_case(String::from("+2d1h"), Some((Duration::try_hours(1).unwrap() + Duration::try_days(2).unwrap(), NOW)); "plus_2d1h")]
-#[test_case(String::from("@+2d1h"), Some((Duration::try_hours(1).unwrap() + Duration::try_days(2).unwrap(), OTHER)); "at_plus_2d1h")]
+#[test_case(String::from("+1z"), None; "plus_1z")]
+#[test_case(String::from("-0s"), Some((d_s(0), NOW, EN)))]
+#[test_case(String::from("@+0s"), Some((d_s(0), OTHER, EN)))]
+#[test_case(String::from("-1s"), Some((d_s(-1), NOW, EN)); "minus_1s")]
+#[test_case(String::from("+1s"), Some((d_s(1), NOW, EN)); "plus_1s")]
+#[test_case(String::from("+1m"), Some((d_m(1), NOW, EN)); "plus_1m")]
+#[test_case(String::from("+1h"), Some((d_h(1), NOW, EN)); "plus_1h")]
+#[test_case(String::from("+1d"), Some((d_d(1), NOW, EN)); "plus_1d")]
+#[test_case(String::from("+1w"), Some((d_w(1), NOW, EN)); "plus_1w")]
+#[test_case(String::from("+1w!13"), Some((d_w(1), NOW, EXACT_HMS::HMS(13, 0, 0))); "plus_1w!13")]
+#[test_case(String::from("@-1s"), Some((d_s(-1), OTHER, EN)); "at_minus_1s")]
+#[test_case(String::from("@+1s"), Some((d_s(1), OTHER, EN)); "at_plus_1s")]
+#[test_case(String::from("@+9876s"), Some((d_s(9876), OTHER, EN)); "other_plus_9876")]
+#[test_case(String::from("@-9876s"), Some((d_s(-9876), OTHER, EN)); "other_minus_9876")]
+#[test_case(String::from("-9876s"), Some((d_s(-9876), NOW, EN)); "now_minus_9876")]
+#[test_case(String::from("-3h"), Some((d_h(-3), NOW, EN)))]
+#[test_case(String::from("-4d"), Some((d_d(-4), NOW, EN)))]
+#[test_case(String::from("-5w"), Some((d_w(-5), NOW, EN)))]
+#[test_case(String::from("@+5w"), Some((d_w(5), OTHER, EN)))]
+#[test_case(String::from("-2m1s"), Some((d_m(-2) + d_s(-1), NOW, EN)); "minus_2m1s")]
+#[test_case(String::from("-2d1h"), Some((d_d(-2) + d_h(-1), NOW, EN)); "minus_2d1h")]
+#[test_case(String::from("+2d1h"), Some((d_d(2) + d_h(1), NOW, EN)); "plus_2d1h")]
+#[test_case(String::from("@+2d1h"), Some((d_d(2) + d_h(1), OTHER, EN)); "at_plus_2d1h")]
 // "reverse" order should not matter
-#[test_case(String::from("-1h2d"), Some((Duration::try_hours(-1).unwrap() + Duration::try_days(-2).unwrap(), NOW)); "minus_1h2d")]
-#[test_case(String::from("-4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
+#[test_case(String::from("-1h2d"), Some((d_h(-1) + d_d(-2), NOW, EN)); "minus_1h2d")]
+#[test_case(String::from("-4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN)))]
 // "mixed" order should not matter
-#[test_case(String::from("-3d4w1s2m"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
+#[test_case(String::from("-3d4w1s2m"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN)))]
 // repeat values; only last is used
-#[test_case(String::from("-6w5w4w"), Some((Duration::try_weeks(-4).unwrap(), NOW)))]
+#[test_case(String::from("-6w5w4w"), Some((d_w(-4), NOW, EN)))]
 // repeat values; only last is used
-#[test_case(String::from("-5w4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
+#[test_case(String::from("-5w4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN)))]
 // repeat values; only last is used
-#[test_case(String::from("-6w5w4w3d2m1s"), Some((Duration::try_seconds(-1).unwrap() + Duration::try_minutes(-2).unwrap() + Duration::try_days(-3).unwrap() + Duration::try_weeks(-4).unwrap(), NOW)))]
+#[test_case(String::from("-6w5w4w3d2m1s"), Some((d_w(-4) + d_d(-3) + d_m(-2) + d_s(-1), NOW, EN)))]
+#[test_case(String::from("+1d1w!12:33"), Some((d_d(1) + d_w(1), NOW, EXACT_HMS::HMS(12, 33, 0))); "plus_1d_12_33")]
+#[test_case(String::from("+1d!01:02:03"), Some((d_d(1), NOW, EXACT_HMS::HMS(1, 2, 3))); "plus_1d_01_02_03")]
 fn test_string_wdhms_to_duration(
     input: String,
-    expect: Option<(Duration, DUR_OFFSET_TYPE)>,
+    expect: Option<(Duration, DUR_OFFSET_TYPE, EXACT_HMS)>,
 ) {
     let actual = string_wdhms_to_duration(&input);
     assert_eq!(actual, expect);

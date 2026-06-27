@@ -2301,24 +2301,34 @@ const CGP_DUR_OFFSET_HOURS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_HOURS, r">[\
 const CGP_DUR_OFFSET_DAYS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_DAYS, r">[\d]+d)");
 const CGP_DUR_OFFSET_WEEKS: &str = concatcp!("(?P<", CGN_DUR_OFFSET_WEEKS, r">[\d]+w)");
 
+const CGN_EXACT_HMS_H: &str = "exact_hours";
+const CGN_EXACT_HMS_M: &str = "exact_minutes";
+const CGN_EXACT_HMS_S: &str = "exact_seconds";
+
+const CGP_EXACT_HMS_H: &str = concatcp!("(?P<", CGN_EXACT_HMS_H, r">([01][\d]|2[0-3]))");
+const CGP_EXACT_HMS_M: &str = concatcp!("(?P<", CGN_EXACT_HMS_M, r">([0-5][\d]))");
+const CGP_EXACT_HMS_S: &str = concatcp!("(?P<", CGN_EXACT_HMS_S, r">([0-5][\d]))");
+
 thread_local! {
     /// user-passed strings of a duration that is a relative offset.
     /// e.g. `+1w2d3h4m5s` or `-1d12h`
     static REGEX_DUR_OFFSET: Regex = {
-        defñ!("thread_local! REGEX_DUR_OFFSET::new()");
-
-        Regex::new(
-            concatcp!(
-                CGP_DUR_OFFSET_TYPE,
-                CGP_DUR_OFFSET_ADDSUB, "(",
-                CGP_DUR_OFFSET_SECONDS, "|",
-                CGP_DUR_OFFSET_MINUTES, "|",
-                CGP_DUR_OFFSET_HOURS, "|",
+        const REGEX_PATTERN: &str = concatcp!(
+            "^",
+            CGP_DUR_OFFSET_TYPE,
+            CGP_DUR_OFFSET_ADDSUB,
+            "(",
+                CGP_DUR_OFFSET_WEEKS, "|",
                 CGP_DUR_OFFSET_DAYS, "|",
-                CGP_DUR_OFFSET_WEEKS,
-                ")+"
-            )
-        ).unwrap()
+                CGP_DUR_OFFSET_HOURS, "|",
+                CGP_DUR_OFFSET_MINUTES, "|",
+                CGP_DUR_OFFSET_SECONDS,
+            ")+",
+            r"(\!(", CGP_EXACT_HMS_H, r")(\:", CGP_EXACT_HMS_M, r")?(\:", CGP_EXACT_HMS_S, ")?)?$",
+        );
+        defñ!("thread_local! REGEX_DUR_OFFSET::new({REGEX_PATTERN:?})");
+
+        Regex::new(REGEX_PATTERN).unwrap()
     };
 }
 
@@ -2329,6 +2339,34 @@ thread_local! {
 pub(crate) enum DUR_OFFSET_TYPE {
     Now,
     Other,
+}
+
+/// Exact hour:minute:second setting
+#[derive(Debug, Eq, Hash, PartialEq, Ord, PartialOrd)]
+pub(crate) enum EXACT_HMS {
+    None,
+    HMS(u32, u32, u32),
+}
+
+impl EXACT_HMS {
+    pub const fn set_h(&mut self, h: u32) {
+        match self {
+            EXACT_HMS::None => *self = EXACT_HMS::HMS(h, 0, 0),
+            EXACT_HMS::HMS(_, m, s) => *self = EXACT_HMS::HMS(h, *m, *s),
+        }
+    }
+    pub const fn set_m(&mut self, m: u32) {
+        match self {
+            EXACT_HMS::None => *self = EXACT_HMS::HMS(0, m, 0),
+            EXACT_HMS::HMS(h, _, s) => *self = EXACT_HMS::HMS(*h, m, *s),
+        }
+    }
+    pub const fn set_s(&mut self, s: u32) {
+        match self {
+            EXACT_HMS::None => *self = EXACT_HMS::HMS(0, 0, s),
+            EXACT_HMS::HMS(h, m, _) => *self = EXACT_HMS::HMS(*h, *m, s),
+        }
+    }
 }
 
 /// Duration offset is added or subtracted from a `DateTime`?
@@ -2403,8 +2441,8 @@ DateTime Filters may be strftime specifier patterns:
     CLI_FILTER_PATTERNS[79].pattern,
     "\"",
     r#"
-Each trailing * is an optional trailing 3-digit fractional sub-seconds (milliseconds, ".%3f"),
-or 6-digit fractional sub-seconds (microseconds, ".%6f"),
+Each trailing * is an optional trailing 3-digit fractional sub-seconds
+(milliseconds, ".%3f"), or 6-digit fractional sub-seconds (microseconds, ".%6f"),
 and/or timezone ("%z", "%:z", "%::z", or "%Z").
 Patterns "%Y" is a 4-digit year, "%m" is a 2-digit month, "%d" is a 2-digit day of month,
 "%H" is a 2-digit hour, "%M" is a 2-digit minute, "%S" is a 2-digit second,
@@ -2418,19 +2456,29 @@ Pattern "+%s" is Unix epoch timestamp in seconds with a preceding "+".
 For example, value "+946684800" is January 1, 2000 at 00:00, GMT.
 
 DateTime Filters may be custom relative offset patterns:
-    "+DwDdDhDmDs" or "-DwDdDhDmDs"
-    "@+DwDdDhDmDs" or "@-DwDdDhDmDs"
+    "+DwDdDhDmDs!HH:MM:SS" or "-DwDdDhDmDs!HH:MM:SS"
 
-Custom relative offset pattern "+DwDdDhDmDs" and "-DwDdDhDmDs" is the offset
-from now (program start time) where "D" is a decimal number.
+This is a relative offset from now.
+With a leading "@", the relative offset is from the other argument.
+
 Each lowercase identifier is an offset duration:
 "w" is weeks, "d" is days, "h" is hours, "m" is minutes, "s" is seconds.
 For example, value "-1w22h" is one week and twenty-two hours in the past.
 Value "+30s" is thirty seconds in the future.
 
+The patterns after the "!" are optional clock time overrides.
+"HH" is a 2-digit clock hour, "MM" is a 2-digit clock minute, "SS" is a 2-digit
+clock second. This forces the clock time on the resulting date.
+For example, value "-1w22h!12:34:56" is one week and twenty-two hours in the past
+with the clock time overridden to 12:34:56.
+Value '+1d!05' is one day in the future with the clock time overridden to 05:00:00.
+Value '+1w!05:09' is one week in the future with the clock time overridden to 05:09:00.
+
 Custom relative offset pattern "@+DwDdDhDmDs" and "@-DwDdDhDmDs" is relative
 offset from the other datetime.
 Arguments "-a 20220102 -b @+1d" are equivalent to "-a 20220102 -b 20220103".
+Arguments "-a 20220102 -b @+1w!05:04" are equivalent to
+"-a 20220102 -b '20220109 05:04:00'".
 Arguments "-a @-6h -b 20220101T120000" are equivalent to
 "-a 20220101T060000 -b 20220101T120000".
 
@@ -2967,6 +3015,7 @@ pub(crate) fn cli_parser_prepend_dt_format(prepend_dt_format: &str) -> std::resu
 // `DUR_OFFSET_TYPE`
 // helper to `string_wdhms_to_duration`
 fn offset_match_to_offset_duration_type(offset_str: &str) -> DUR_OFFSET_TYPE {
+    defñ!("offset_str={offset_str:?}");
     match offset_str.chars().next() {
         Some('@') => DUR_OFFSET_TYPE::Other,
         _ => DUR_OFFSET_TYPE::Now,
@@ -2977,6 +3026,7 @@ fn offset_match_to_offset_duration_type(offset_str: &str) -> DUR_OFFSET_TYPE {
 // `DUR_OFFSET_ADDSUB`
 // helper to `string_wdhms_to_duration`
 fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
+    defñ!("offset_str={offset_str:?}");
     match offset_str.chars().next() {
         Some('+') => DUR_OFFSET_ADDSUB::Add,
         Some('-') => DUR_OFFSET_ADDSUB::Sub,
@@ -2989,7 +3039,7 @@ fn offset_match_to_offset_addsub(offset_str: &str) -> DUR_OFFSET_ADDSUB {
 /// regular expression processing of a user-passed duration string like
 /// `"-4m2s"` becomes duration of 4 minutes + 2 seconds
 /// helper function to `process_dt`
-pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE)> {
+pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OFFSET_TYPE, EXACT_HMS)> {
     defn!("({:?})", val);
 
     if val.is_empty() {
@@ -3017,17 +3067,20 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
     };
 
     // is this relative to now or relative to the other datetime argument?
+    // i.e. is `@...` at the start?
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_TYPE) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_TYPE, match_.as_str());
         duration_offset_type = offset_match_to_offset_duration_type(match_.as_str());
     }
 
     // is this duration added or subtracted from that datetime?
+    // i.e. is `+` or `-` at the start?
     if let Some(match_) = captures.name(CGN_DUR_OFFSET_ADDSUB) {
         defo!("matched named group {:?}, match {:?}", CGN_DUR_OFFSET_ADDSUB, match_.as_str());
         duration_addsub = offset_match_to_offset_addsub(match_.as_str());
     }
 
+    defo!("duration_addsub={duration_addsub:?}");
     let addsub: i64 = duration_addsub as i64;
 
     // difference seconds
@@ -3111,6 +3164,48 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
         }
     }
 
+    // look for exact hours, minutes, seconds (HMS) pattern
+    let mut exact_hms: EXACT_HMS = EXACT_HMS::None;
+    if let Some(match_) = captures.name(CGN_EXACT_HMS_H) {
+        defo!("matched named exact_hms group {:?}, match {:?}", CGN_EXACT_HMS_H, match_.as_str());
+        let s_count = match_.as_str();
+        match s_count.parse::<u32>() {
+            Ok(val) => {
+                exact_hms.set_h(val);
+            }
+            Err(err) => {
+                e_err!("Unable to parse exact hours from {:?} given {val:?} {err}", match_.as_str());
+                std::process::exit(EXIT_ERR);
+            }
+        }
+    }
+    if let Some(match_) = captures.name(CGN_EXACT_HMS_M) {
+        defo!("matched named exact_hms group {:?}, match {:?}", CGN_EXACT_HMS_M, match_.as_str());
+        let s_count = match_.as_str();
+        match s_count.parse::<u32>() {
+            Ok(val) => {
+                exact_hms.set_m(val);
+            }
+            Err(err) => {
+                e_err!("Unable to parse exact minutes from {:?} given {val:?} {err}", match_.as_str());
+                std::process::exit(EXIT_ERR);
+            }
+        }
+    }
+    if let Some(match_) = captures.name(CGN_EXACT_HMS_S) {
+        defo!("matched named exact_hms group {:?}, match {:?}", CGN_EXACT_HMS_S, match_.as_str());
+        let s_count = match_.as_str();
+        match s_count.parse::<u32>() {
+            Ok(val) => {
+                exact_hms.set_s(val);
+            }
+            Err(err) => {
+                e_err!("Unable to parse exact seconds from {:?} given {val:?} {err}", match_.as_str());
+                std::process::exit(EXIT_ERR);
+            }
+        }
+    }
+
     // build a `chrono::Duration` from the parsed values
     let duration = match (
         Duration::try_seconds(seconds),
@@ -3127,10 +3222,11 @@ pub(crate) fn string_wdhms_to_duration(val: &String) -> Option<(Duration, DUR_OF
     };
     defx!("return {:?}, {:?}", duration, duration_offset_type);
 
-    Some((duration, duration_offset_type))
+    Some((duration, duration_offset_type, exact_hms))
 }
 
-/// Process duration string like `"-4m2s"` as relative offset of now,
+/// Process duration string like `"-4m2s"` as 4 minutes, 2 seconds in the past,
+/// or `+1d!00:00` as 1 day in the future at hour 00, minute 00
 /// or relative offset of other user-passed datetime argument (`dt_other`).
 /// `val="-1d"` is one day ago.
 /// `val="+1m"` is one day added to the `dt_other`.
@@ -3141,14 +3237,16 @@ fn string_to_rel_offset_datetime(
     dt_other_opt: &DateTimeLOpt,
     now_utc: &DateTime<Utc>,
 ) -> DateTimeLOpt {
-    defn!("({:?}, {:?}, {:?}, {:?})", val, tz_offset, dt_other_opt, now_utc);
-    let (duration, duration_offset_type) = match string_wdhms_to_duration(val) {
-        Some((dur, dur_type)) => (dur, dur_type),
+    defn!("(val={:?}, {:?}, {:?}, now_utc={:?})", val, tz_offset, dt_other_opt, now_utc);
+    let (duration, duration_offset_type, exact_hms) = match string_wdhms_to_duration(val) {
+        Some((dur, dur_type, e_hms)) => (dur, dur_type, e_hms),
         None => {
-            defx!();
+            defx!("no match; return None");
             return None;
         }
     };
+    defo!("duration {:?}, duration_offset_type {:?}, exact_hms {:?}", duration, duration_offset_type, exact_hms);
+    let mut ret_dt: DateTimeLOpt;
     match duration_offset_type {
         DUR_OFFSET_TYPE::Now => {
             // drop fractional seconds
@@ -3164,19 +3262,12 @@ fn string_to_rel_offset_datetime(
                 .unwrap();
             // convert `Utc` to `DateTimeL`
             let now = tz_offset.from_utc_datetime(&now_utc_.naive_utc());
-            defo!("now     {:?}", now);
-            let now_off = now.checked_add_signed(duration);
-            defx!("now_off {:?}", now_off.unwrap());
-
-            now_off
+            ret_dt = now.checked_add_signed(duration);
         }
         DUR_OFFSET_TYPE::Other => match dt_other_opt {
             Some(dt_other) => {
                 defo!("other     {:?}", dt_other);
-                let other_off = dt_other.checked_add_signed(duration);
-                defx!("other_off {:?}", other_off.unwrap());
-
-                other_off
+                ret_dt = dt_other.checked_add_signed(duration);
             }
             None => {
                 e_err!("passed relative offset to other datetime {:?}, but other datetime was not set", val);
@@ -3184,6 +3275,14 @@ fn string_to_rel_offset_datetime(
             }
         },
     }
+    defo!("ret_dt {ret_dt:?} after duration_offset_type");
+    if let EXACT_HMS::HMS(h, m, s) = exact_hms {
+        defo!("exact_hms {:?} after duration_offset_type", exact_hms);
+        ret_dt = ret_dt.map(|dt| dt.with_hour(h).unwrap().with_minute(m).unwrap().with_second(s).unwrap());
+    }
+    defx!("ret_dt {ret_dt:?} after exact_hms");
+
+    ret_dt
 }
 
 /// Transform a user-passed datetime `String` into a [`DateTimeL`].
@@ -3220,7 +3319,7 @@ pub(crate) fn process_dt(
         let add_time_m = dtf_pattern.add_time_m;
         let add_time_s = dtf_pattern.add_time_s;
         defo!(
-            "(pattern {:?}, add_date_y {:?}, add_date_m {:?}, add_date_d {:?}, add_time_h {:?}, add_time_m {:?}, add_time_s {:?}, has_named_tz {:?}, add_tz {:?})",
+            "\n(pattern {:?}, add_date_y {:?}, add_date_m {:?}, add_date_d {:?}, add_time_h {:?}, add_time_m {:?}, add_time_s {:?}, has_named_tz {:?}, add_tz {:?})",
             pattern_,
             add_date_y,
             add_date_m,
@@ -3340,6 +3439,7 @@ pub(crate) fn process_dt_exit(
     now_utc: &DateTime<Utc>,
 ) -> DateTimeLOpt {
     if dts_opt.is_none() {
+        defñ!("dts_opt is None; return None");
         return None;
     }
 
@@ -3544,11 +3644,11 @@ fn cli_process_args() -> (
     // else process `-a` then `-b`
     let utc_now = UTC_NOW.with(|utc_now| *utc_now);
     match (string_wdhms_to_duration(args_dt_after_s), string_wdhms_to_duration(args_dt_before_s)) {
-        (Some((_, DUR_OFFSET_TYPE::Other)), Some((_, DUR_OFFSET_TYPE::Other))) => {
+        (Some((_, DUR_OFFSET_TYPE::Other, _)), Some((_, DUR_OFFSET_TYPE::Other, _))) => {
             e_err!("cannot pass both --dt-after and --dt-before as relative to the other");
             std::process::exit(EXIT_ERR);
         }
-        (Some((_, DUR_OFFSET_TYPE::Other)), _) => {
+        (Some((_, DUR_OFFSET_TYPE::Other, _)), _) => {
             // special-case: process `-b` value then process `-a` value
             // e.g. `-a "@+1d" -b "20010203"`
             filter_dt_before = process_dt_exit(&args.dt_before, &tz_offset, &None, &utc_now);
@@ -5203,8 +5303,8 @@ fn processing_loop(
 
     //
     // prepare per-thread data keyed by `FPath`
-    // create necessary channels for each thread
     // create one thread per `PathId`, each thread named for the file basename
+    // create one channel for each thread
     //
 
     // pre-created mapping for calls to `select.recv` and `select.select`
