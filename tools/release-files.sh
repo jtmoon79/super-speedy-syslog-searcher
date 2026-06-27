@@ -105,6 +105,14 @@ rm -v "${DIROUT}/massif.out" || true
 ./scripts/clean-file.sh "${DIROUT}/compare-grep-sort.txt"
 
 (
+    export PROGRAMS_S4_LISTING=${TMPD}/programs-s4-listing.tsv
+    echo '
+./target/release/s4
+./target/jemalloc/s4
+./target/mimalloc/s4
+./target/rpmalloc/s4
+./target/tcmalloc/s4
+' > "${PROGRAMS_S4_LISTING}"
     set -x
     ./tools/compare-log-mergers/compare-log-mergers.sh --skip-tl &> "${DIROUT}/compare-log-mergers.txt"
 )
