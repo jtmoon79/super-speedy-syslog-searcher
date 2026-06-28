@@ -13,21 +13,20 @@ TODO: per release
 <!--
   # PROJECT VERSION LAST PUBLISHED
 -->
-[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.9.82?logo=rust&logoColor=800000&cacheSeconds=6000&style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/Cargo.toml#L21)
+[![MSRV](https://img.shields.io/crates/msrv/super_speedy_syslog_searcher/0.9.82?logo=rust&logoColor=800000&cacheSeconds=6000&style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/0.9.82/Cargo.toml#L53)
 [![License](https://img.shields.io/crates/l/super-speedy-syslog-searcher?style=flat-square)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/LICENSE.txt)
-[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.9.82?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.9.82/)
-
 [![crates.io version](https://img.shields.io/crates/v/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000?branch=0.9.82&version=0.9.82)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.82)
+[![docs.rs](https://img.shields.io/docsrs/super_speedy_syslog_searcher/0.9.82?badge.svg&style=flat-square&logo=docsdotrs)](https://docs.rs/super_speedy_syslog_searcher/0.9.82/)
+[![lib.rs](https://img.shields.io/badge/lib.rs-white?style=flat-square&logoColor=202020&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAMFBMVEWJiYkCAgJDQ0MnJyf4+PhYWFjn5+c6OjqYmJisrKz29vb6+vrt7e1xcXELDAzExMRum/TtAAAAD3RSTlMD+v36+fntefk0VLCK5q5zTFsnAAABZklEQVQoz2NgYJiTyQACXFvaIXRafmsBkJ7j8kkdLMDy2dA0AMRvFDIHC3A3VqZqMqx2axQKMgQLcDZN2GG+LD9QON7VuIABAqYZ7Rc0anNJUjaACnA3VzUGf3EzUhKHCnB9tkoWNXIxVLKDCjDkqp8QUvzyP8hwAlTgvN16IeUvLoGyMAG2oNkXTd0uWmzZCRXg+fzqY6jhmy0Z4VABzlTNXEEg3xBu6g5x9tspfwVFFWEC61XnuLUK9n9ShrmVu/HLZSF5t49wt3J9jvmopOLRYSQOd5pkhqi9i0ujHkzgvN4xUaWrXxoD4R4OXhIY/M0tSBBuavObj0HfmuVgfAbOJCtnUUG5OTkMcKeZ7xcyX+PWCleyXnTV89X+l42gApyruJsKVvsHqlZC5Zfkx3y85q+oCtPA6S93uTVCMRZuAJdjwXoJ5dgJDAiBCUt0ryP4QFdU5oszIIMV8p8eoAhwFsrBmAC0enH/iMEF5wAAAABJRU5ErkJggg==)](https://lib.rs/crates/super_speedy_syslog_searcher/) <!--
+  the embedded PNG data from https://lib.rs/favicon.png
+-->
+
 [![crates.io downloads](https://img.shields.io/crates/d/super-speedy-syslog-searcher.svg?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher#:~:text=Downloads%20all%20time)
 [![crates.io downloads (version)](https://img.shields.io/crates/dv/super_speedy_syslog_searcher/0.9.82?style=flat-square&logo=rust&logoColor=800000)](https://crates.io/crates/super-speedy-syslog-searcher/0.9.82)
 [![github downloads](https://img.shields.io/github/downloads/jtmoon79/super-speedy-syslog-searcher/total?style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/releases)
 [![github downloads (version)](https://img.shields.io/github/downloads/jtmoon79/super-speedy-syslog-searcher/0.9.82/total?style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/releases/tag/0.9.82)
 
-[![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#0981) <!--
-  the following PNG image data is from https://lib.rs/favicon.png
--->
-[![lib.rs](https://img.shields.io/badge/lib.rs-white?style=flat-square&logoColor=202020&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAMFBMVEWJiYkCAgJDQ0MnJyf4+PhYWFjn5+c6OjqYmJisrKz29vb6+vrt7e1xcXELDAzExMRum/TtAAAAD3RSTlMD+v36+fntefk0VLCK5q5zTFsnAAABZklEQVQoz2NgYJiTyQACXFvaIXRafmsBkJ7j8kkdLMDy2dA0AMRvFDIHC3A3VqZqMqx2axQKMgQLcDZN2GG+LD9QON7VuIABAqYZ7Rc0anNJUjaACnA3VzUGf3EzUhKHCnB9tkoWNXIxVLKDCjDkqp8QUvzyP8hwAlTgvN16IeUvLoGyMAG2oNkXTd0uWmzZCRXg+fzqY6jhmy0Z4VABzlTNXEEg3xBu6g5x9tspfwVFFWEC61XnuLUK9n9ShrmVu/HLZSF5t49wt3J9jvmopOLRYSQOd5pkhqi9i0ujHkzgvN4xUaWrXxoD4R4OXhIY/M0tSBBuavObj0HfmuVgfAbOJCtnUUG5OTkMcKeZ7xcyX+PWCleyXnTV89X+l42gApyruJsKVvsHqlZC5Zfkx3y85q+oCtPA6S93uTVCMRZuAJdjwXoJ5dgJDAiBCUt0ryP4QFdU5oszIIMV8p8eoAhwFsrBmAC0enH/iMEF5wAAAABJRU5ErkJggg==)](https://lib.rs/crates/super_speedy_syslog_searcher/)
-
+[![CHANGELOG](https://img.shields.io/badge/CHANGELOG-blue?style=flat-square&logo=keep-a-changelog&logoColor=FFFFFF&color=E05735)](https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/main/CHANGELOG.md#0982)
 <!-- [![Build status](https://img.shields.io/github/actions/workflow/status/jtmoon79/super-speedy-syslog-searcher/rust.yml?branch=0.9.82&style=flat-square&logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/actions?query=workflow%3Arust) -->
 [![coveralls.io](https://img.shields.io/coverallsCoverage/github/jtmoon79/super-speedy-syslog-searcher?style=flat-square&logo=coveralls&logoColor=b94947&branch=0.9.82&version=0.9.82)](https://coveralls.io/github/jtmoon79/super-speedy-syslog-searcher?branch=0.9.82)
 [![Commits since](https://img.shields.io/github/commits-since/jtmoon79/super-speedy-syslog-searcher/0.9.82.svg?logo=github&logoColor=000000)](https://github.com/jtmoon79/super-speedy-syslog-searcher/commits/main)
@@ -177,7 +176,7 @@ Check your target platform:
 
 Or try [`binstall`]
 
-```lang-text
+```sh
 cargo install --locked cargo-binstall
 cargo binstall super_speedy_syslog_searcher
 ```
@@ -188,7 +187,7 @@ cargo binstall super_speedy_syslog_searcher
 
 Or try [`quickinstall`]
 
-```lang-text
+```sh
 cargo install --locked cargo-quickinstall
 cargo quickinstall super_speedy_syslog_searcher
 ```
@@ -204,7 +203,7 @@ The `musl` builds are more portable but at some cost to performance.
 
 To build manually
 
-```lang-text
+```sh
 cargo install --locked super_speedy_syslog_searcher
 ```
 
@@ -219,7 +218,7 @@ See further options in section [_Building locally_](#building-locally).
 If there are `.asl`, `.etl`, or `.odl` log files that may be processed then
 create a Python virtual environment:
 
-```lang-text
+```sh
 s4 --venv
 ```
 
@@ -236,13 +235,13 @@ See the [Performance Comparison](#performance-comparison).
 
 [`mimalloc`]
 
-```lang-text
+```sh
 cargo install --locked super_speedy_syslog_searcher --features mimalloc
 ```
 
 Error `Bus error` is a known issue on some `aarch64-unknown-linux-gnu` systems.
 
-```lang-text
+```sh
 $ s4 --version
 Bus error
 ```
@@ -253,7 +252,7 @@ Either use [`jemalloc`] or the default System allocator.
 
 [`jemalloc`]
 
-```lang-text
+```sh
 cargo install --locked super_speedy_syslog_searcher --features jemalloc
 ```
 
@@ -261,7 +260,7 @@ cargo install --locked super_speedy_syslog_searcher --features jemalloc
 
 [`rpmalloc`]
 
-```lang-text
+```sh
 cargo install --locked super_speedy_syslog_searcher --features rpmalloc
 ```
 
@@ -279,31 +278,31 @@ with `jemalloc`, `mimalloc`, or `rpmalloc` on various Operating Systems.
 
 ###### Alpine
 
-```lang-text
+```sh
 apk add gcc make musl-dev
 ```
 
 ###### Debian and Ubuntu
 
-```lang-text
+```sh
 apt install gcc make libc6-dev
 ```
 
 or
 
-```lang-text
+```sh
 apt install build-essential
 ```
 
 ###### OpenSUSE
 
-```lang-text
+```sh
 zypper install gcc glibc-devel make
 ```
 
 ###### Red Hat and CentOS
 
-```lang-text
+```sh
 yum install gcc glibc-devel make
 ```
 
@@ -321,7 +320,7 @@ See the [Speed Comparison](#speed-comparison).
 
 To install
 
-```lang-text
+```sh
 cargo install --locked super_speedy_syslog_searcher --features tcmalloc
 ```
 
@@ -329,7 +328,7 @@ cargo install --locked super_speedy_syslog_searcher --features tcmalloc
 
 On Ubuntu, `tcmalloc` requires these apt packages
 
-```lang-text
+```sh
 apt install google-perftools libgoogle-perftools-dev libtcmalloc-minimal4
 ```
 
@@ -345,26 +344,32 @@ After installing `s4`, you can copy the [Claude skill `s4-log-search`] into your
 
 For example, print all the log messages in syslog files under `/var/log/`
 
-```lang-text
+```sh
 s4 /var/log
 ```
 
+<br/>
+
 Print the last 5 minutes of log messages
 
-```lang-text
+```sh
 s4 /var/log -a=-5m
 ```
 
+<br/>
+
 On Windows, print the ad-hoc logs under `C:\Windows\Logs`
 
-```lang-text
+```powershell
 s4.exe C:\Windows\Logs
 ```
+
+<br/>
 
 On Windows, print all `.log` files under `C:\Windows`
 (with the help of Powershell)
 
-```lang-powershell
+```powershell
 Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction SilentlyContinue `
   | Select-Object -ExpandProperty FullName `
   | s4.exe -
@@ -372,59 +377,79 @@ Get-ChildItem -Filter '*.log' -File -Path "C:\Windows" -Recurse -ErrorAction Sil
 
 <sup style="font-size: xx-small">• note that opening too many files causes error _too many files open_, see [Issue #270], so `Get-ChildItem -Filter` lessens the number of files opened by `s4.exe`</sup>
 
+[Issue #270]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/270
+
+<br/>
+
 On Windows, print the [Windows Event logs]
 
-```lang-text
+[Windows Event logs]: https://github.com/libyal/libevtx/blob/126297f7f0e325f9e2cd27b0b60d3cf02ffdfd04/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
+
+```powershell
 s4.exe C:\Windows\System32\winevt\Logs
 ```
 
+<br/>
+
 Print the log messages after January 1, 2022 at 00:00:00
 
-```lang-text
+```sh
 s4 /var/log -a 20220101
 ```
 
+<br/>
+
 Print the log messages from January 1, 2022 00:00:00 to January 2, 2022
 
-```lang-text
+```sh
 s4 /var/log -a 20220101 -b 20220102
 ```
 
 or
 
-```lang-text
+```sh
 s4 /var/log -a 20220101 -b @+1d
 ```
+
+<br/>
 
 Print the log messages on January 1, 2022, from 12:00:00 and
 the preceding 5 minutes
 
-```lang-text
+```sh
 s4 /var/log -a=@-5m -b 20220101T120000
 ```
 
+<br/>
+
 Print the log messages on for the 5 minute period ending 1 minute ago
 
-```lang-text
+```sh
 s4 /var/log -a=@-5m -b=-1m
 ```
 
+<br/>
+
 Print the log messages after 12:05 today and before 12:15 today
 
-```lang-text
+```sh
 s4 /var/log -a 12:05 -b=@+10m
 ```
 
+<br/>
+
 Print the log messages on the day of January 1 this year
 
-```lang-text
+```sh
 s4 /var/log -a 01-01 -b=@+1d
 ```
+
+<br/>
 
 Print the record-keeping log messages from up to a day ago
 (with the help of `find`)
 
-```lang-text
+```sh
 find /var -xdev -type f \( \
     -name 'lastlog' \
     -or -name 'wtmp' \
@@ -438,49 +463,66 @@ find /var -xdev -type f \( \
     | s4 - -a=-1d
 ```
 
+<br/>
+
 Print the journal log messages from up to an hour ago, prepending the journal
 file name (with the help of `find`)
 
-```lang-text
+```sh
 find / -xdev -name '*.journal' -type f 2>/dev/null \
     | s4 - -a=-1h -n
 ```
 
+<br/>
+
 Print the log messages from 10:00 today until 11:05.
 
-```lang-text
+```sh
 s4 /var/log -a 10:00 -b @+1h5m
 ```
 
-Print the log messages that occurred two days ago during the noon hour
-(with the help of GNU `date`)
+<br/>
 
-```lang-text
-s4 /var/log -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S') -b @+1h
+Print the log messages that occurred two days ago during the noon hour
+
+```sh
+s4 /var/log -a='-2d!12' -b @+1h
 ```
+
+<br/>
 
 Print the log messages that occurred two days ago during the noon hour in
 Bengaluru, India (timezone offset +05:30) and prepended with equivalent UTC
 datetime (with the help of GNU `date`)
 
-```lang-text
+```sh
 s4 /var/log -u -a $(date -d "2 days ago 12" '+%Y%m%dT%H%M%S+05:30') -b @+1h
 ```
+
+<br/>
 
 Process files only modified in the past 24 hours (with the help of `find`),
 and print the last 5 minutes.
 This is useful for paths with many log files.
 
-```lang-text
+```sh
 find -mtime 1 -type f | s4 - -a=-5m
 ```
 
-[Windows Event logs]: https://github.com/libyal/libevtx/blob/126297f7f0e325f9e2cd27b0b60d3cf02ffdfd04/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc
-[Issue #270]: https://github.com/jtmoon79/super-speedy-syslog-searcher/issues/270
+the equivalent in Powershell
+
+```powershell
+Get-ChildItem -File -Recurse -ErrorAction SilentlyContinue `
+  | Where-Object { $_.LastWriteTime -gt (Get-Date).AddDays(-1) } `
+  | Select-Object -ExpandProperty FullName `
+  | s4.exe - -a=-5m
+```
+
+<br/>
 
 ### `--help`
 
-```lang-text
+```sh
 Speedily search and merge log messages by datetime.
 DateTime filters may be passed to narrow the search.
 s4 aims to be very fast.
