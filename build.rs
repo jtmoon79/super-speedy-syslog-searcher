@@ -67,6 +67,14 @@ macro_rules! info {
     };
 }
 
+macro_rules! warn {
+    ($($arg:tt)*) => {
+        if info_enabled() {
+            ::build_print::custom_println!("./build.rs:", yellow, $($arg)*);
+        }
+    };
+}
+
 /// wrapper to call `println!` and also `build_print::custom_println!` if `info_enabled()` is true
 macro_rules! build_println {
     ($($arg:tt)*) => {
@@ -236,7 +244,17 @@ fn write_git_commit_file() {
         Ok(output) if output.status.success() => String::from_utf8_lossy(&output.stdout)
             .trim()
             .to_string(),
-        _ => not_available.clone(),
+        Ok(output) => {
+            warn!("command 'git rev-parse HEAD' exited with {:?};\n{}",
+                output.status, String::from_utf8_lossy(&output.stderr));
+
+            not_available.clone()
+        }
+        Err(err) => {
+            warn!("command 'git rev-parse HEAD' failed: {err:?}");
+
+            not_available.clone()
+        }
     };
 
     if git_commit_str.is_empty() {
