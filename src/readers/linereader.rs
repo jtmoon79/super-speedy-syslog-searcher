@@ -43,6 +43,7 @@ use crate::common::{
     FileType,
     FileTypeTextEncoding,
     NLu8,
+    PathId,
     ResultFind,
     summary_stat,
 };
@@ -240,16 +241,17 @@ impl LineReader {
     /// **NOTE:** should not attempt any block reads here,
     /// similar to other `*Readers::new()`
     pub fn new(
+        path_id: PathId,
         path: FPath,
         filetype: FileType,
         blocksz: BlockSz,
     ) -> Result<LineReader> {
-        def1n!("({:?}, {:?}, {:?})", path, filetype, blocksz);
+        def1n!("({}, {:?}, {:?}, {:?})", path_id, path, filetype, blocksz);
         let charsz_: CharSz = match filetype.encoding_type() {
             Some(encoding_type) => encoding_type.charsz(),
             None => CHARSZ,
         };
-        let blockreader = match BlockReader::new(path, filetype, blocksz) {
+        let blockreader = match BlockReader::new(path_id, path, filetype, blocksz) {
             Ok(br) => br,
             Err(err) => {
                 def1x!();

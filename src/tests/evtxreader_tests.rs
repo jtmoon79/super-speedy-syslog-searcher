@@ -42,6 +42,7 @@ use crate::readers::evtxreader::EvtxReader;
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
+    path_id_generator,
     EVTX_KPNP_DATA1_S,
     EVTX_KPNP_ENTRY1_DT,
     EVTX_KPNP_ENTRY227_DT,
@@ -117,7 +118,7 @@ fn test_EvtxReader_new(
     path: &FPath,
     ok: bool,
 ) {
-    match EvtxReader::new(path.clone(), FT_NORM, FO_E8) {
+    match EvtxReader::new(path_id_generator(), path.clone(), FT_NORM, FO_E8) {
         Ok(_) => {
             assert!(ok, "EvtxReader::new({:?}) should have failed", path);
         }
@@ -133,7 +134,7 @@ fn test_new_EvtxReader_no_file_permissions() {
     let ntf = create_temp_file_no_permissions(".evtx");
     let path = ntf.path();
     let fpath = path_to_fpath(path);
-    match EvtxReader::new(fpath.clone(), FT_NORM, FO_E8) {
+    match EvtxReader::new(path_id_generator(), fpath.clone(), FT_NORM, FO_E8) {
         Ok(_) => {
             panic!("no permissions to read {:?}", path);
         }
@@ -147,7 +148,7 @@ fn test_new_EvtxReader_no_file_permissions() {
 #[test_case(&EVTX_NE_FPATH)]
 #[test_case(&EVTX_KPNP_FPATH)]
 fn test_mtime(path: &FPath) {
-    let er1 = EvtxReader::new(path.clone(), FT_NORM, FO_E8).unwrap();
+    let er1 = EvtxReader::new(path_id_generator(), path.clone(), FT_NORM, FO_E8).unwrap();
     // merely run the function
     _ = er1.mtime();
 }
@@ -157,7 +158,7 @@ fn test_mtime(path: &FPath) {
 #[test_case(&EVTX_NE_FPATH)]
 #[test_case(&EVTX_KPNP_FPATH)]
 fn test_EvtxReader_summary_empty(path: &FPath) {
-    let evtxreader = EvtxReader::new(path.clone(), FT_NORM, FO_E8).unwrap();
+    let evtxreader = EvtxReader::new(path_id_generator(), path.clone(), FT_NORM, FO_E8).unwrap();
     _ = evtxreader.summary();
     _ = evtxreader.summary_complete();
 }
@@ -274,6 +275,7 @@ fn test_EvtxReader_next_summary(
     }
 
     let mut evtxreader = EvtxReader::new(
+        path_id_generator(),
         path.clone(),
         filetype,
         *EVTX_KPNP_ENTRY_FO,

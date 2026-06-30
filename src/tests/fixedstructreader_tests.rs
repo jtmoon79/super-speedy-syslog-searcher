@@ -51,6 +51,7 @@ use crate::readers::fixedstructreader::{
 use crate::readers::helpers::path_to_fpath;
 use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
+    path_id_generator,
     FO_0,
     FO_P8,
     LINUX_X86_LASTLOG_BUFFER1_DTO,
@@ -92,6 +93,7 @@ fn new_FixedStructReader(
 ) -> FixedStructReader {
     stack_offset_set(Some(2));
     match FixedStructReader::new(
+        path_id_generator(),
         path.clone(),
         FT_UTMPX,
         blocksz,
@@ -112,6 +114,7 @@ fn new_FixedStructReader(
 #[test]
 fn test_new_FixedStructReader_1_empty() {
     match FixedStructReader::new(
+        path_id_generator(),
         NTF_LOG_EMPTY_FPATH.clone(),
         FT_UTMPX,
         1024,
@@ -133,6 +136,7 @@ fn test_new_FixedStructReader_1_empty() {
 #[test]
 fn test_new_FixedStructReader_2_bad_noerr() {
     match FixedStructReader::new(
+        path_id_generator(),
         NTF_NL_1_PATH.clone(),
         FT_UTMPX,
         1024,
@@ -157,6 +161,7 @@ fn test_new_FixedStructReader_no_file_permissions() {
     let path = ntf.path();
     let fpath = path_to_fpath(path);
     match FixedStructReader::new(
+        path_id_generator(),
         fpath.clone(),
         FT_UTMPX,
         1024,
@@ -301,6 +306,7 @@ fn test_FixedStructReader_process_entry_at(
     expect_new: Option<ResultFixedStructReaderNewError>,
 ) {
     let mut fixedstructreader = match FixedStructReader::new(
+        path_id_generator(),
         path.clone(),
         FileType::FixedStruct{
             archival_type: FileTypeArchive::Normal,
@@ -496,6 +502,7 @@ fn test_FixedStructReader_read_find_entry_at_datetime_filter(
     let blocksz: BlockSz = 0x100;
     let tzo = FO_P8;
     let mut fixedstructreader = match FixedStructReader::new(
+        path_id_generator(),
         path.clone(),
         FileType::FixedStruct{
             archival_type: FileTypeArchive::Normal,
@@ -1334,6 +1341,7 @@ fn test_FixedStructReader_process_entry_at_between_datetime_filters(
 
     let mut fixedstructreader = 
         match FixedStructReader::new(
+            path_id_generator(),
             path.clone(),
             FileType::FixedStruct{
                 archival_type: FileTypeArchive::Normal,

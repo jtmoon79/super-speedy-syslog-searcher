@@ -34,6 +34,7 @@ use crate::readers::pyeventreader::{
     ResultNextPyDataEvent,
 };
 use crate::tests::common::{
+    path_id_generator,
     ASL_1_FPATH,
     ASL_1_FILESZ,
     FO_0,
@@ -52,6 +53,7 @@ fn test_PyEventReader_new_etl(path: FPath, pipe_sz: PipeSz) {
     venv_setup();
 
     let per = PyEventReader::new(
+        path_id_generator(),
         path,
         Some(EtlParserUsed::DissectEtl),
         FileType::Etl { archival_type: FileTypeArchive::Normal },
@@ -98,6 +100,7 @@ fn test_PyEventReader_new_asl_odl(
     venv_setup();
 
     let per = PyEventReader::new(
+        path_id_generator(),
         path.clone(),
         etl_parser_used,
         filetype,
@@ -120,6 +123,7 @@ fn test_PyEventReader_ts_data_to_datetime_ok() {
     venv_setup();
 
     let per = PyEventReader::new(
+        path_id_generator(),
         ETL_1_FPATH.clone(),
         Some(EtlParserUsed::DissectEtl),
         FileType::Etl { archival_type: FileTypeArchive::Normal },
@@ -143,6 +147,7 @@ fn test_PyEventReader_ts_data_to_datetime_none() {
     venv_setup();
 
     let per = PyEventReader::new(
+        path_id_generator(),
         ETL_1_FPATH.clone(),
         Some(EtlParserUsed::DissectEtl),
         FileType::Etl { archival_type: FileTypeArchive::Normal },
@@ -237,6 +242,7 @@ fn test_PyEventReader_next(
     venv_setup();
 
     let mut per = PyEventReader::new(
+        path_id_generator(),
         path,
         etl_parser_used,
         file_type,

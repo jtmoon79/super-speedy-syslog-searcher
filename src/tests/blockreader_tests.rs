@@ -53,6 +53,7 @@ use crate::readers::blockreader::{
 use crate::readers::helpers::path_to_fpath;
 #[allow(unused_imports)]
 use crate::tests::common::{
+    path_id_generator,
     BYTES_A,
     BYTES_AB,
     BYTES_ABC,
@@ -114,7 +115,7 @@ fn new_BlockReader(
 ) -> BlockReader {
     stack_offset_set(Some(2));
     eprintln!("new_BlockReader({:?}, {}, {})", path, filetype, blocksz);
-    match BlockReader::new(path.clone(), filetype, blocksz) {
+    match BlockReader::new(path_id_generator(), path.clone(), filetype, blocksz) {
         Ok(br) => {
             defo!("opened {:?}", path);
             defo!("new {:?}", &br);
@@ -142,6 +143,7 @@ fn test_new_BlockReader_1() {
 #[test_case(FPath::from("THIS/PATH_DOES/NOT/EXIST!!!.xz"), FILETYPE_UTF8_XZ)]
 fn test_new_BlockReader_2_bad_path(path: FPath, filetype: FileType) {
     match BlockReader::new(
+        path_id_generator(),
         path.clone(),
         filetype,
         1024
@@ -161,7 +163,7 @@ fn test_new_BlockReader_no_file_permissions() {
     let ntf = create_temp_file_no_permissions(".txt");
     let path = ntf.path();
     let fpath = path_to_fpath(path);
-    match BlockReader::new(fpath.clone(), FILETYPE_UTF8, 1024) {
+    match BlockReader::new(path_id_generator(), fpath.clone(), FILETYPE_UTF8, 1024) {
         Ok(_) => {
             panic!("no permissions to read {:?}", path);
         }

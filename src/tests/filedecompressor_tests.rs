@@ -15,6 +15,7 @@ use crate::common::{
 use crate::readers::filedecompressor::decompress_to_ntf;
 use crate::readers::helpers::fpath_to_path;
 use crate::tests::common::{
+    path_id_generator,
     // asl
     ASL_1_FILESZ,
     ASL_1_GZ_FPATH,
@@ -205,6 +206,7 @@ fn test_decompress_to_ntf_ok_some(
     }
     let path = fpath_to_path(fpath);
     let result = decompress_to_ntf(
+        path_id_generator(),
         path,
         &filetype,
     );
@@ -286,6 +288,7 @@ fn test_decompress_to_ntf_ok_none(
     }
     let path = fpath_to_path(fpath);
     let result = decompress_to_ntf(
+        path_id_generator(),
         path,
         &filetype,
     );
@@ -355,6 +358,7 @@ fn test_decompress_to_ntf_panic(fpath: &FPath, filetype: FileType) {
     }
     let path = fpath_to_path(fpath);
     _ = decompress_to_ntf(
+        path_id_generator(),
         path,
         &filetype,
     );

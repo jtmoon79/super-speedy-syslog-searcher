@@ -10,6 +10,10 @@ use std::io::Read;
 use std::io;
 use std::time::Duration;
 use std::path::PathBuf;
+use std::sync::atomic::{
+    AtomicU32,
+    Ordering,
+};
 
 use ::const_format::concatcp;
 use ::lazy_static::lazy_static;
@@ -30,6 +34,7 @@ use crate::common::{
     FileTypeFixedStruct,
     FileTypeTextEncoding,
     FileTypeBasicEncoding,
+    PathId,
     RegexId,
     Path,
     SUBPATH_SEP,
@@ -74,6 +79,14 @@ use crate::readers::helpers::{
     fpath_to_path,
     path_to_fpath,
 };
+
+static PATH_ID_GENERATOR: AtomicU32 = AtomicU32::new(1_000_000);
+
+/// Return a unique [`PathId`] for tests that need a `PathId`.
+/// Allows use of underyling global `FileHandleManager` in tests without conflicting `PathId`s.
+pub fn path_id_generator() -> PathId {
+    PATH_ID_GENERATOR.fetch_add(1, Ordering::Relaxed)
+}
 
 // some handy consts
 

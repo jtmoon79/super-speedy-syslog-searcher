@@ -76,6 +76,7 @@ use crate::python::pyrunner::{
     PythonPathsRan,
 };
 use crate::readers::blockreader::SummaryBlockReader;
+use crate::readers::filehandlemanager::FILE_HANDLE_MANAGER;
 use crate::readers::filepreprocessor::ProcessPathResult;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::linereader::SummaryLineReader;
@@ -855,6 +856,21 @@ pub fn print_summary(
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
     eprintln!("Printed journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
+    let summary_filehandlemanager = FILE_HANDLE_MANAGER.summary();
+    eprintln!("Managed files max      : {}", FILE_HANDLE_MANAGER.open_max());
+    // TODO: print `files_opened_hi` in yellow if it is ==max
+    eprintln!("Managed files high     : {}", summary_filehandlemanager.files_opened_hi);
+    eprintln!("Managed request open   : {}", summary_filehandlemanager.request_open_calls);
+    eprintln!("Managed request read   : {}", summary_filehandlemanager.request_read_calls);
+    eprintln!("Managed read calls     : {}", summary_filehandlemanager.read_calls);
+    eprintln!("Managed write calls    : {}", summary_filehandlemanager.write_calls);
+    eprintln!("Managed seek calls     : {}", summary_filehandlemanager.seek_calls);
+    eprintln!("Managed metadata calls : {}", summary_filehandlemanager.metadata_calls);
+    eprintln!("Managed physical opens : {}", summary_filehandlemanager.physical_open_calls);
+    eprintln!("Managed open errors    : {}", summary_filehandlemanager.physical_open_error_calls);
+    eprintln!("Managed physical reopen: {}", summary_filehandlemanager.physical_reopen_calls);
+    eprintln!("Managed evict succeed  : {}", summary_filehandlemanager.evict_succeed);
+    eprintln!("Managed evict fails    : {}", summary_filehandlemanager.evict_fails);
     eprintln!("Regex patterns known   : {}", DATETIME_PARSE_DATAS_LEN_MAX);
     eprintln!("Regex patterns compiled: {}", DATETIME_PARSE_DATAS_LEN);
 

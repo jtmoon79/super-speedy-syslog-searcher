@@ -54,6 +54,7 @@ use crate::common::{
     FileSz,
     FileType,
     FileTypeTextEncoding,
+    PathId,
     SYSLOG_SZ_MAX,
 };
 use crate::data::datetime::{
@@ -337,6 +338,7 @@ impl SyslogProcessor {
     /// **NOTE:** should not attempt any block reads here,
     /// similar to other `*Readers::new()`
     pub fn new(
+        path_id: PathId,
         path: FPath,
         filetype: FileType,
         blocksz: BlockSz,
@@ -344,7 +346,7 @@ impl SyslogProcessor {
         filter_dt_after_opt: DateTimeLOpt,
         filter_dt_before_opt: DateTimeLOpt,
     ) -> Result<SyslogProcessor> {
-        def1n!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
+        def1n!("({}, {:?}, {:?}, {:?}, {:?})", path_id, path, filetype, blocksz, tz_offset);
         if blocksz < SyslogProcessor::BLOCKSZ_MIN {
             return Result::Err(Error::new(
                 ErrorKind::InvalidInput,
@@ -356,7 +358,7 @@ impl SyslogProcessor {
                 ),
             ));
         }
-        let mut slr = match SyslineReader::new(path, filetype, blocksz, tz_offset) {
+        let mut slr = match SyslineReader::new(path_id, path, filetype, blocksz, tz_offset) {
             Ok(val) => val,
             Err(err) => {
                 def1x!();

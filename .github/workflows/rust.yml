@@ -781,6 +781,13 @@ jobs:
           S4=./s4_debug
           chmod -v +x -- ${S4}
           ${S4} -s --color=always --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - name: S4_FILE_HANDLE_OPEN_MAX=2 s4_debug -s S4_ARGSD S4_TEST_FILES
+        shell: bash
+        run: |
+          set -eux
+          S4=./s4_debug
+          chmod -v +x -- ${S4}
+          env S4_FILE_HANDLE_OPEN_MAX=2 ${S4} -s ${S4_TEST_FILES} &>/dev/null
       # run release
       - name: s4_release --help
         shell: bash
@@ -938,6 +945,13 @@ jobs:
           S4=./s4_release
           chmod -v +x -- ${S4}
           ${S4} -s --color=always --light-theme -u -p -w ${S4_TEST_FILES} &>/dev/null
+      - name: S4_FILE_HANDLE_OPEN_MAX=2 s4_release -s S4_TEST_FILES
+        shell: bash
+        run: |
+          set -eux
+          S4=./s4_release
+          chmod -v +x -- ${S4}
+          env S4_FILE_HANDLE_OPEN_MAX=2 ${S4} -s ${S4_TEST_FILES} &>/dev/null
       # compare debug release
       - name: Run Script compare-debug-release.sh
         shell: bash

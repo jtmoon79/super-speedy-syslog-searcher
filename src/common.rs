@@ -51,14 +51,8 @@ pub type FileSz = u64;
 /// (Summary) counting.
 pub type Count = u64;
 
-/// File paths are needed as keys. Many such keys are passed around among
-/// different threads.
-/// Instead of passing clones of `FPath`, pass around a relatively light-weight
-/// `usize` as a key.
-/// The main processing thread uses the `PathId` key for various lookups,
-/// including the file path.
-// TODO: change this to `u32`
-pub type PathId = usize;
+/// Every file processed gets a unique `PathId` assigned by the main thread.
+pub type PathId = u32;
 
 /// a set of [`PathId`]
 pub type SetPathId = HashSet<PathId>;

@@ -3,6 +3,10 @@
 //! Benchmark functions of `crate::readers::syslinereader::SyslineReader`
 
 use std::hint::black_box;
+use std::sync::atomic::{
+    AtomicU32,
+    Ordering,
+};
 
 use ::criterion::{
     criterion_group,
@@ -21,12 +25,15 @@ use ::s4lib::readers::syslinereader::SyslineReader;
 
 const BLOCKSZ: BlockSz = 0x200;
 
+static PATH_ID_GENERATOR: AtomicU32 = AtomicU32::new(5_000_000);
+
 fn new_syslinereader(
     path: FPath,
     filetype: FileType,
 ) -> SyslineReader {
     let tz_offset: FixedOffset = FixedOffset::east_opt(0).unwrap();
-    let sr = match SyslineReader::new(path.clone(), filetype, BLOCKSZ, tz_offset) {
+    let path_id = PATH_ID_GENERATOR.fetch_add(1, Ordering::SeqCst);
+    let sr = match SyslineReader::new(path_id, path.clone(), filetype, BLOCKSZ, tz_offset) {
         Result::Ok(val) => val,
         Result::Err(err) => {
             panic!("Sysline::new({:?}, {:?}, {:?}, {:?}) error {}", path, filetype, BLOCKSZ, tz_offset, err);

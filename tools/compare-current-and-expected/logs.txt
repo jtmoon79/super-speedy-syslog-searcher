@@ -183,6 +183,11 @@
 ./logs/other/tests/dtf5-6a.log.xz
 ./logs/other/tests/dtf5-6b.log
 ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log
+./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.bz2
+./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.gz
+./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.lz4
+./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.tar
+./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.xz
 ./logs/other/tests/dtf5-6b.UTF-16BE.log
 ./logs/other/tests/dtf5-6b.UTF-16LE_BOM.log
 ./logs/other/tests/dtf5-6b.UTF-16LE.log
@@ -190,6 +195,11 @@
 ./logs/other/tests/dtf5-6b.UTF-32BE.log
 ./logs/other/tests/dtf5-6b.UTF-32LE_BOM.log
 ./logs/other/tests/dtf5-6b.UTF-32LE.log
+./logs/other/tests/dtf5-6b.UTF-32LE.log.bz2
+./logs/other/tests/dtf5-6b.UTF-32LE.log.gz
+./logs/other/tests/dtf5-6b.UTF-32LE.log.lz4
+./logs/other/tests/dtf5-6b.UTF-32LE.log.tar
+./logs/other/tests/dtf5-6b.UTF-32LE.log.xz
 ./logs/other/tests/dtf5-6b.UTF-8_BOM.log
 ./logs/other/tests/dtf5-6b.UTF-8.log
 ./logs/other/tests/dtf5-6c.log
