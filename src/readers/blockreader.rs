@@ -89,6 +89,7 @@ use crate::common::{
     FileType,
     FileTypeArchive,
     FileTypeTextEncoding,
+    PathId,
     SUBPATH_SEP,
     summary_stat,
 };
@@ -110,6 +111,12 @@ use crate::debug::printers::{
     e_wrn,
 };
 use crate::debug_panic;
+use crate::readers::filehandlemanager::{
+    FILE_HANDLE_MANAGER,
+    FileHandleRole,
+    FileHandleManaged,
+    OpenOptionsManaged,
+};
 
 /// [`Block`] Size in bytes.
 // TODO: move this into crate::common ?
@@ -256,7 +263,7 @@ pub struct Bz2Data {
     /// size of file uncompressed
     pub filesz: FileSz,
     /// calls to `read` use this
-    pub decoder: Bz2DecoderReader<File>,
+    pub decoder: Bz2DecoderReader<FileHandleManaged>,
 }
 
 /// Data and readers for a gzip `.gz` file, used by [`BlockReader`].
@@ -266,7 +273,7 @@ pub struct GzData {
     /// Users should call `blockreader.filesz()`.
     pub filesz: FileSz,
     /// calls to `read` use this
-    pub decoder: GzDecoder<File>,
+    pub decoder: GzDecoder<FileHandleManaged>,
     /// filename taken from gzip header
     pub filename: String,
     /// file modified time taken from gzip header
@@ -288,7 +295,7 @@ pub struct GzData {
     pub crc32: u32,
 }
 
-type BufReaderLz4 = BufReader<File>;
+type BufReaderLz4 = BufReader<FileHandleManaged>;
 type Lz4FrameReader = lz4_flex::frame::FrameDecoder<BufReaderLz4>;
 
 #[derive(Debug)]
@@ -297,7 +304,7 @@ pub struct Lz4Data {
     pub reader: Lz4FrameReader,
 }
 
-type BufReaderXz = BufReader<File>;
+type BufReaderXz = BufReader<FileHandleManaged>;
 
 /// Data and readers for a LZMA `.xz` file, used by [`BlockReader`].
 #[derive(Debug)]
@@ -393,7 +400,7 @@ pub struct BlockReader {
     //       This would affect all user classes so it's a bit of work.
     path_subpath: FPath,
     /// The file handle.
-    file_handle: File,
+    file_handle: FileHandleManaged,
     /// A copy of [`File.metadata()`].
     /// For compressed or archived files, the metadata of the `path`
     /// compress or archive file.
@@ -622,11 +629,12 @@ impl BlockReader {
     /// read some bytes from the file, e.g. gzip header, e.g. tar header, to
     /// determine the file type and set other initial values.
     pub fn new(
+        path_id: PathId,
         path: FPath,
         filetype: FileType,
         blocksz_: BlockSz,
     ) -> Result<BlockReader> {
-        def1n!("({:?}, {:?}, {:?})", path, filetype, blocksz_);
+        def1n!("({}, {:?}, {:?}, {:?})", path_id, path, filetype, blocksz_);
 
         assert_ge!(blocksz_, BLOCKSZ_MIN, "Block Size {blocksz_} is too small");
         assert_le!(blocksz_, BLOCKSZ_MAX, "Block Size {blocksz_} is too big");
@@ -684,11 +692,13 @@ impl BlockReader {
         let path = path.clone();
         let path_std: &Path = Path::new(&path);
 
-        let mut open_options: FileOpenOptions = FileOpenOptions::new();
-        def1o!("open_options.read(true).open({:?})", path);
-        let file_handle: File = match open_options
-            .read(true)
-            .open(path_std)
+        def1o!("FILE_HANDLE_MANAGER.request_open({:?})", path);
+        let file_handle: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+            path_id,
+            FileHandleRole::PrimaryRead,
+            path_std,
+            OpenOptionsManaged::read_only(),
+        )
         {
             Ok(val) => val,
             Err(err) => {
@@ -808,9 +818,12 @@ impl BlockReader {
                     ));
                 }
 
-                let file_handle2: File = match open_options
-                    .read(true)
-                    .open(path_std)
+                let file_handle2: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                    path_id,
+                    FileHandleRole::SecondaryRead,
+                    path_std,
+                    OpenOptionsManaged::read_only(),
+                )
                 {
                     Ok(val) => val,
                     Err(err) => {
@@ -851,9 +864,12 @@ impl BlockReader {
                 def1o!("Bz2: filesz_uncompressed {}", filesz_uncompressed);
                 filesz_actual = filesz_uncompressed;
 
-                let file_handle3: File = match open_options
-                    .read(true)
-                    .open(path_std)
+                let file_handle3: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                    path_id,
+                    FileHandleRole::SecondaryRead,
+                    path_std,
+                    OpenOptionsManaged::read_only(),
+                )
                 {
                     Ok(val) => val,
                     Err(err) => {
@@ -976,9 +992,12 @@ impl BlockReader {
                 }
 
                 def1o!("FileGz: open_options.read(true).open({:?})", path_std);
-                let file_gz: File = match open_options
-                    .read(true)
-                    .open(path_std)
+                let file_gz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                    path_id,
+                    FileHandleRole::SecondaryRead,
+                    path_std,
+                    OpenOptionsManaged::read_only(),
+                )
                 {
                     Ok(val) => val,
                     Err(err) => {
@@ -986,7 +1005,7 @@ impl BlockReader {
                         return err_from_err_path_result::<BlockReader>(&err, &path, Some("second open failed"));
                     }
                 };
-                let decoder: GzDecoder<File> = GzDecoder::new(file_gz);
+                let decoder: GzDecoder<FileHandleManaged> = GzDecoder::new(file_gz);
                 def1o!("FileGz: {:?}", decoder);
                 let header_opt: Option<&GzHeader> = decoder.header();
                 let mut filename: String = String::with_capacity(0);
@@ -1050,9 +1069,12 @@ impl BlockReader {
                 blocksz = blocksz_;
                 def1o!("FileLz4: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
                 def1o!("FileLz4: open_options.read(true).open({:?})", path_std);
-                let file_lz: File = match open_options
-                    .read(true)
-                    .open(path_std)
+                let file_lz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                    path_id,
+                    FileHandleRole::SecondaryRead,
+                    path_std,
+                    OpenOptionsManaged::read_only(),
+                )
                 {
                     Ok(val) => val,
                     Err(err) => {
@@ -1101,9 +1123,12 @@ impl BlockReader {
 
                 // recreate the `lz4_decoder` so it is at the start of the file
 
-                let file_lz: File = match open_options
-                    .read(true)
-                    .open(path_std)
+                let file_lz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                    path_id,
+                    FileHandleRole::SecondaryRead,
+                    path_std,
+                    OpenOptionsManaged::read_only(),
+                )
                 {
                     Ok(val) => val,
                     Err(err) => {
@@ -1232,9 +1257,12 @@ impl BlockReader {
                 blocksz = blocksz_;
                 def1o!("FileXz: blocksz set to {0} (0x{0:08X}) (passed {1} (0x{1:08X})", blocksz, blocksz_);
                 def1o!("FileXz: open_options.read(true).open({:?})", path_std);
-                let mut file_xz: File = match open_options
-                    .read(true)
-                    .open(path_std)
+                let mut file_xz: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+                    path_id,
+                    FileHandleRole::SecondaryRead,
+                    path_std,
+                    OpenOptionsManaged::read_only(),
+                )
                 {
                     Ok(val) => val,
                     Err(err) => {
@@ -1404,7 +1432,7 @@ impl BlockReader {
                 // XXX: not sure if a Take handler is really necessary
                 // XXX: not sure if 1024 is correct amount but it seems like enough plus a large
                 //      margin
-                let mut reader: Take<&File> = (&file_xz).take(1024);
+                let mut reader = (&file_xz).take(1024);
 
                 /*
                     2.1.1. Stream Header
@@ -1644,7 +1672,7 @@ impl BlockReader {
                 #[allow(non_camel_case_types)]
                 type uint64_t = u64;
 
-                fn read_multibyte_integer(reader: &mut Take<&File>) -> Option<uint64_t> {
+                fn read_multibyte_integer<R: Read>(reader: &mut R) -> Option<uint64_t> {
                     /*
                     Multibyte integers of static length, such as CRC values,
                     are stored in little endian byte order (least significant

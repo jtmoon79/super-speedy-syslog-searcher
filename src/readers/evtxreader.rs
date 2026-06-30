@@ -67,6 +67,7 @@ use crate::common::{
     FileOpenOptions,
     FileSz,
     FileType,
+    PathId,
     summary_stat,
 };
 use crate::data::datetime::{
@@ -275,16 +276,17 @@ impl EvtxReader {
     /// **NOTE:** should not attempt any file reads here, similar to other
     /// `*Readers::new()`
     pub fn new(
+        path_id: PathId,
         path: FPath,
         filetype: FileType,
         fixed_offset: FixedOffset,
     ) -> Result<EvtxReader> {
-        def1n!("({:?}, {:?})", path, filetype);
+        def1n!("({}, {:?}, {:?})", path_id, path, filetype);
 
         let path_std: &Path = Path::new(&path);
         let named_temp_file: Option<NamedTempFile>;
         let mtime_opt: Option<SystemTime>;
-        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_std, &filetype) {
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_id, path_std, &filetype) {
             Ok(ntf_mtime) => {
                 match ntf_mtime {
                     Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),

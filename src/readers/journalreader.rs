@@ -216,6 +216,7 @@ use crate::common::{
     FileSz,
     FileType,
     FileTypeArchive,
+    PathId,
     ResultFind,
     ResultFind4,
     summary_stat,
@@ -1010,12 +1011,13 @@ impl<'a> JournalReader {
     /// similar to other `*Readers::new()` unless the file is compressed
     /// or archived.
     pub fn new(
+        path_id: PathId,
         path: FPath,
         journal_output: JournalOutput,
         fixed_offset: FixedOffset,
         file_type: FileType,
     ) -> Result<JournalReader> {
-        def1n!("({:?}, {:?}, {:?})", path, fixed_offset, file_type);
+        def1n!("({}, {:?}, {:?}, {:?})", path_id, path, fixed_offset, file_type);
 
         // get the file size according to the file metadata
         let path_std: &Path = Path::new(&path);
@@ -1023,7 +1025,7 @@ impl<'a> JournalReader {
         let named_temp_file: Option<NamedTempFile>;
         let mtime_opt: Option<SystemTime>;
 
-        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_std, &file_type) {
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_id, path_std, &file_type) {
             Ok(ntf_mtime) => match ntf_mtime {
                 Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
                 None => (None, None),

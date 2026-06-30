@@ -69,6 +69,7 @@ use crate::common::{
     FileType,
     FileTypeBasicEncoding,
     FileTypeTextEncoding,
+    PathId,
     ResultFind,
     summary_stat,
     summary_stats_enabled,
@@ -936,13 +937,14 @@ impl SyslineReader {
     /// **NOTE:** should not attempt any block reads here,
     /// similar to other `*Readers::new()`
     pub fn new(
+        path_id: PathId,
         path: FPath,
         filetype: FileType,
         blocksz: BlockSz,
         tz_offset: FixedOffset,
     ) -> Result<SyslineReader> {
-        def1n!("({:?}, {:?}, {:?}, {:?})", path, filetype, blocksz, tz_offset);
-        let lr = match LineReader::new(path, filetype, blocksz) {
+        def1n!("({}, {:?}, {:?}, {:?}, {:?})", path_id, path, filetype, blocksz, tz_offset);
+        let lr = match LineReader::new(path_id, path, filetype, blocksz) {
             Ok(val) => val,
             Err(err) => {
                 return Err(err);

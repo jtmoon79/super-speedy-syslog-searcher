@@ -6671,6 +6671,170 @@ File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log
       process: regex captures                                      : hit  6, miss 83
   Processing Drops:
 
+File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.bz2
+  About:
+      filetype      : TEXT UTF8/ASCII (BZIP2) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 2025
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 120 (0x78) (bytes)
+      file size uncompressed: 500 (0x1F4) (bytes)
+      bytes         : 1000 (0x3E8)
+      bytes total   : 500 (0x1F4)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      lines         : 12
+      line parts    : 13
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  6, miss 12, 33.3%, put 12
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   1, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  6, 14.3%, put  6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss 12, 29.4%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss  0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  6, miss 83
+  Processing Drops:
+
+File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.gz
+  About:
+      filetype      : TEXT UTF8/ASCII (GZIP) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 2025
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 138 (0x8A) (bytes)
+      file size uncompressed: 500 (0x1F4) (bytes)
+      bytes         : 500 (0x1F4)
+      bytes total   : 500 (0x1F4)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      lines         : 12
+      line parts    : 13
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  6, miss 12, 33.3%, put 12
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   1, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  6, 14.3%, put  6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss 12, 29.4%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss  0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  6, miss 83
+  Processing Drops:
+
+File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.lz4
+  About:
+      filetype      : TEXT UTF8/ASCII (LZMA4) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 2025
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 154 (0x9A) (bytes)
+      file size uncompressed: 500 (0x1F4) (bytes)
+      bytes         : 1000 (0x3E8)
+      bytes total   : 500 (0x1F4)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      lines         : 12
+      line parts    : 13
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  6, miss 12, 33.3%, put 12
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   1, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  6, 14.3%, put  6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss 12, 29.4%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss  0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  6, miss 83
+  Processing Drops:
+
+File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.xz
+  About:
+      filetype      : TEXT UTF8/ASCII (XZ) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 2025
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 160 (0xA0) (bytes)
+      file size uncompressed: 500 (0x1F4) (bytes)
+      bytes         : 500 (0x1F4)
+      bytes total   : 500 (0x1F4)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      lines         : 12
+      line parts    : 13
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  6, miss 12, 33.3%, put 12
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   1, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  6, 14.3%, put  6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss 12, 29.4%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss  0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  6, miss 83
+  Processing Drops:
+
 File: ./logs/other/tests/dtf5-6b.UTF-16BE.log
   About:
       filetype      : TEXT UTF8/ASCII (text log)
@@ -6924,6 +7088,170 @@ File: ./logs/other/tests/dtf5-6b.UTF-32LE.log
       datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
   Processed:
       file size     : 996 (0x3E4) (bytes)
+      bytes         : 996 (0x3E4)
+      bytes total   : 996 (0x3E4)
+      block size    : 256 (0x100)
+      blocks        : 4
+      blocks total  : 4 (1024 bytes)
+      lines         : 12
+      line parts    : 16
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   8, miss  13, 38.1%, put  12
+      copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl    3, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  13, 31.6%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   6, miss 272
+  Processing Drops:
+
+File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.bz2
+  About:
+      filetype      : TEXT UTF8/ASCII (BZIP2) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 2025
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 116 (0x74) (bytes)
+      file size uncompressed: 996 (0x3E4) (bytes)
+      bytes         : 1992 (0x7C8)
+      bytes total   : 996 (0x3E4)
+      block size    : 256 (0x100)
+      blocks        : 4
+      blocks total  : 4 (1024 bytes)
+      lines         : 12
+      line parts    : 16
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   8, miss  13, 38.1%, put  12
+      copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl    3, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  13, 31.6%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   6, miss 272
+  Processing Drops:
+
+File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.gz
+  About:
+      filetype      : TEXT UTF8/ASCII (GZIP) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 2025
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 143 (0x8F) (bytes)
+      file size uncompressed: 996 (0x3E4) (bytes)
+      bytes         : 996 (0x3E4)
+      bytes total   : 996 (0x3E4)
+      block size    : 256 (0x100)
+      blocks        : 4
+      blocks total  : 4 (1024 bytes)
+      lines         : 12
+      line parts    : 16
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   8, miss  13, 38.1%, put  12
+      copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl    3, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  13, 31.6%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   6, miss 272
+  Processing Drops:
+
+File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.lz4
+  About:
+      filetype      : TEXT UTF8/ASCII (LZMA4) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 2025
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 172 (0xAC) (bytes)
+      file size uncompressed: 996 (0x3E4) (bytes)
+      bytes         : 1992 (0x7C8)
+      bytes total   : 996 (0x3E4)
+      block size    : 256 (0x100)
+      blocks        : 4
+      blocks total  : 4 (1024 bytes)
+      lines         : 12
+      line parts    : 16
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit   0, miss  25,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit   8, miss  13, 38.1%, put  12
+      copying: SyslineReader::get_boxptrs()                        : sgl 275, dbl    3, mult   0
+      storage: SyslineReader::find_sysline() syslines              : hit   0, miss   7,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit   0, miss   2,  0.0%, put   1
+      caching: SyslineReader::find_sysline() LRU cache             : hit   0, miss   7,  0.0%, put   6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit   6, miss  13, 31.6%, put   0
+      optimize:SyslineReader::ezcheck12                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit   0, miss   0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit   0, miss   0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit   6, miss 272
+  Processing Drops:
+
+File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.xz
+  About:
+      filetype      : TEXT UTF8/ASCII (XZ) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 2025
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 168 (0xA8) (bytes)
+      file size uncompressed: 996 (0x3E4) (bytes)
       bytes         : 996 (0x3E4)
       bytes total   : 996 (0x3E4)
       block size    : 256 (0x100)
@@ -23327,6 +23655,8 @@ File: ./logs/other/tests/dtf2-2.tar.gz (other error: failed to read entire block
 File: ./logs/other/tests/dtf2-2.tar.lz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.lz")
 File: ./logs/other/tests/dtf2-2.tar.xz (other error: failed to read entire block for file "./logs/other/tests/dtf2-2.tar.xz")
 File: ./logs/other/tests/dtf5-6a.log.gz.tar|dtf5-6a.log.gz (cannot extract GZIP type from a tar archived file)
+File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.tar (does not exist)
+File: ./logs/other/tests/dtf5-6b.UTF-32LE.log.tar (does not exist)
 File: #./logs/other/tests/dtf9c-23-12x2.log.gz  # Issue #189 (does not exist)
 File: ./logs/other/tests/empty.log (empty file) TEXT
 File: ./logs/other/tests/empty.log (empty file) TEXT
@@ -23351,29 +23681,42 @@ File: ./logs/programs/utmp/host-entry6_1_(b1_xz).wtmp.xz.tar (does not exist)
 
 Program Summary:
 
-Paths considered       : 647
-Paths not processed    : 33
-Files processed        : 614
-Files printed          : 534
-Printed bytes          : 9334537
-Printed flushes        : 33095
-Printed lines          : 16520
-Printed syslines       : 12563
+Paths considered       : 657
+Paths not processed    : 35
+Files processed        : 622
+Files printed          : 542
+Printed bytes          : 9350937
+Printed flushes        : 33199
+Printed lines          : 16616
+Printed syslines       : 12611
 Printed ASL events     : 10
 Printed ETL events     : 105
 Printed EVTX events    : 681
 Printed fixedstruct    : 439
 Printed journal events : 18
 Printed ODL events     : 1499
+Managed files max      : 200
+Managed files high     : 200
+Managed request open   : 678
+Managed request read   : 0
+Managed read calls     : 16543
+Managed write calls    : 555
+Managed seek calls     : 16386
+Managed metadata calls : 613
+Managed physical opens : 1145
+Managed open errors    : 0
+Managed physical reopen: 481
+Managed evict succeed  : 597
+Managed evict fails    : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
 Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
 Datetime printed first : 1999-03-03 03:00:00 -02:00 (1999-03-03 05:00:00.000000 +00:00)
 Datetime printed last  : 2025-12-24 07:18:57 +08:00 (2025-12-23 23:18:57.170000 +00:00)
 Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
-Channel Receive ok     : 16545
+Channel Receive ok     : 16609
 Channel Receive err    : 0
-Threads Spawned        : 615
+Threads Spawned        : 623
 Thread Spawn errors    : 0
 Temporary files created: 15
 Platform               : x86_64-unknown-linux-gnu

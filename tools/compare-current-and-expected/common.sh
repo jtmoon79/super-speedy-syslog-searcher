@@ -24,9 +24,11 @@ declare -rg EXPECT_OUT="${_HERE}/expected.stdout"
 declare -rg CURRENT_ERR="${_HERE}/current.stderr"
 declare -rg EXPECT_ERR="${_HERE}/expected.stderr"
 declare -rg LOGS="${_HERE}/logs.txt"
-LOGS_COUNT=$(cat "${LOGS}" | sed '/^$/d' | wc -l)
-declare -ir LOGS_COUNT
+declare -i LOGS_COUNT=
+LOGS_COUNT=$(set -euo pipefail; cat "${LOGS}" | sed '/^$/d' | wc -l)
+declare -gir LOGS_COUNT
 export TZ='America/New_York'
+declare -gix S4_FILE_HANDLE_OPEN_MAX=${S4_FILE_HANDLE_OPEN_MAX-200}
 
 declare -arg S4_ARGS=(
     --color=never

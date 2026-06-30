@@ -85,6 +85,7 @@ use crate::readers::syslinereader::{
     SyslineReader,
 };
 use crate::tests::common::{
+    path_id_generator,
     EVTX_KPNP_EVENT_COUNT,
     EVTX_KPNP_FPATH,
     FILE_UTF16BE_BOM_DTF56B_FPATH,
@@ -149,7 +150,7 @@ fn new_SyslineReader(
             panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
         }
     };
-    match SyslineReader::new(path.clone(), filetype, blocksz, tzo) {
+    match SyslineReader::new(path_id_generator(), path.clone(), filetype, blocksz, tzo) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: SyslineReader::new({:?}, {:?}, {:?}) failed {}", path, blocksz, tzo, err);
@@ -481,6 +482,7 @@ fn test_PrinterLogMessage_print_fixedstruct(
 
     let buffer: &mut [u8] = &mut [0; ENTRY_SZ_MAX];
     let mut fixedstructreader = match FixedStructReader::new(
+        path_id_generator(),
         path.clone(),
         FileType::FixedStruct{ archival_type: FileTypeArchive::Normal, fixedstruct_type: FileTypeFixedStruct::Utmpx },
         ENTRY_SZ_MAX as BlockSz,
@@ -564,6 +566,7 @@ fn test_PrinterLogMessage_print_evtx(
     );
 
     let mut er = EvtxReader::new(
+        path_id_generator(),
         EVTX_KPNP_FPATH.clone(),
         FT_EVTX_NORM,
         FO_P8,
@@ -637,6 +640,7 @@ fn test_PrinterLogMessage_print_journal(
     );
 
     let mut jr: JournalReader = JournalReader::new(
+        path_id_generator(),
         (*JOURNAL_FILE_RHE_91_SYSTEM_FPATH).clone(),
         journal_output,
         FO_0,

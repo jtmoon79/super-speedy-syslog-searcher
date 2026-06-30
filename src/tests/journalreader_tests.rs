@@ -56,6 +56,7 @@ use crate::readers::journalreader::{
 };
 use crate::readers::summary::SummaryReaderData;
 use crate::tests::common::{
+    path_id_generator,
     FILETYPE_JOURNAL,
     FO_0,
     JOURNAL_FILE_RHE_91_SYSTEM_ENTRY1_CAT,
@@ -228,6 +229,7 @@ fn test_mtime(path: &FPath) {
     }
     load_library_systemd();
     let jr1 = JournalReader::new(
+        path_id_generator(),
         path.clone(),
         JournalOutput::Short,
         FO_0,
@@ -264,6 +266,7 @@ fn test_JournalReader_new_(
     }
     assert!(matches!(load, LoadLibraryError::Ok));
     match JournalReader::new(
+        path_id_generator(),
         path.clone(),
         JournalOutput::Short,
         FO_0,
@@ -286,6 +289,7 @@ fn test_new_JournalReader_no_file_permissions() {
     let path = ntf.path();
     let fpath = path_to_fpath(path);
     match JournalReader::new(
+        path_id_generator(),
         fpath.clone(),
         JournalOutput::Short,
         FO_0,
@@ -375,6 +379,7 @@ fn test_JournalReader_entry1_output(
     load_library_systemd();
     let fpath = path_to_fpath(path);
     let mut journalreader = JournalReader::new(
+        path_id_generator(),
         fpath,
         journal_output,
         FO_0,
@@ -553,6 +558,7 @@ fn test_JournalReader_next_summary(
     let fpath = path_to_fpath(path);
     let fpath2 = fpath.clone();
     let mut journalreader = JournalReader::new(
+        path_id_generator(),
         fpath,
         JournalOutput::Short,
         FO_0,
