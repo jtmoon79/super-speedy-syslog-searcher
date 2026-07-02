@@ -37,6 +37,7 @@ use ::si_trace_print::{
 };
 
 use crate::common::{
+    debug_panic,
     Count,
     File,
     FileMetadata,
@@ -295,10 +296,12 @@ impl FileHandleManagerState {
 
     fn evict_one(&mut self) -> bool {
         def1n!("open_count={} open_max={}", self.open_count, self.open_max);
+        debug_assert_eq!(self.open_count, self.lru.len(), "open_count {} != lru.len() {}", self.open_count, self.lru.len());
         while let Some((key, ())) = self.lru.pop_lru() {
             def1o!("consider evict key {:?}", key);
             let Some(entry) = self.entries.get_mut(&key) else {
                 def1o!("missing entry for {:?}", key);
+                debug_panic!("key {:?} from self.lru was not in self.entries()", key);
                 continue;
             };
             if let Some(mut file) = entry.file.take() {
@@ -341,13 +344,15 @@ impl FileHandleManagerState {
         }
 
         while self.open_count >= self.open_max {
-            if self.evict_one() {
-                break;
+            if ! self.evict_one() {
+                def1x!("return Err(no managed file handle available)");
+                return Err(
+                    Error::new(
+                        ErrorKind::WouldBlock,
+                        "no managed file handle available for eviction"
+                    )
+                );
             }
-            def1x!("return Err(no managed file handle available)");
-            return Err(
-                Error::new(ErrorKind::WouldBlock, "no managed file handle available for eviction")
-            );
         }
 
         let entry = match self.entries.get_mut(&key) {
