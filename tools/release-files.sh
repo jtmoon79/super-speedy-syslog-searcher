@@ -19,6 +19,11 @@ if [[ ! "${DIROUT+x}" ]]; then
     exit 1
 fi
 
+if [[ ! "${S4_ALLOC_TRACKER_LINK-}" ]]; then
+    commit_hash=$(git rev-parse HEAD)
+    export S4_ALLOC_TRACKER_LINK="https://github.com/jtmoon79/super-speedy-syslog-searcher/blob/${commit_hash}/"
+fi
+
 export DIROUT=${DIROUT-.}
 
 if [[ ! "${VIRTUAL_ENV+x}" ]]; then
