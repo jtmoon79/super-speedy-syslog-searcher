@@ -55,7 +55,7 @@ pub const ENV_FILE_HANDLE_OPEN_MAX: &str = "S4_FILE_HANDLE_OPEN_MAX";
 /// On a small-resource Debian 12 system the `ulimit -n` limit is 1024.
 /// On Windows the default limit is 512 (see https://superuser.com/a/1356327/167043).
 /// Use a smaller number than that.
-pub const FILE_HANDLE_OPEN_MAX_DEFAULT: usize = 480;
+pub const FILE_HANDLE_OPEN_MAX_DEFAULT: OpenMaxCountType = unsafe { OpenMaxCountType::new_unchecked(480) };
 
 /// The role for a managed handle associated with a [`PathId`].
 /// The `FileHandleManager` does not enforce behaviors for different `FileHandleRole` values.
@@ -206,19 +206,22 @@ impl FileEntryManaged {
     }
 }
 
+pub type OpenMaxCountType = NonZeroUsize;
+type OpenCountType = u32;
+
 #[derive(Debug)]
 struct FileHandleManagerState {
     entries: HashMap<FileHandleKey, FileEntryManaged>,
     lru: LruCache<FileHandleKey, ()>,
-    open_count: usize,
-    open_max: usize,
+    open_count: OpenCountType,
+    open_max: OpenMaxCountType,
     summary: SummaryFileHandleManager,
 }
 
 impl FileHandleManagerState {
-    fn new(open_max: usize) -> Self {
+    fn new(open_max: OpenMaxCountType) -> Self {
         def1ñ!("open_max={}", open_max);
-        let lru_capacity = NonZeroUsize::new(open_max).unwrap_or_else(|| NonZeroUsize::new(1).unwrap());
+        let lru_capacity = open_max;
         Self {
             entries: HashMap::new(),
             lru: LruCache::new(lru_capacity),
@@ -296,7 +299,7 @@ impl FileHandleManagerState {
 
     fn evict_one(&mut self) -> bool {
         def1n!("open_count={} open_max={}", self.open_count, self.open_max);
-        debug_assert_eq!(self.open_count, self.lru.len(), "open_count {} != lru.len() {}", self.open_count, self.lru.len());
+        debug_assert_eq!(self.open_count as usize, self.lru.len(), "open_count {} != lru.len() {}", self.open_count, self.lru.len());
         while let Some((key, ())) = self.lru.pop_lru() {
             def1o!("consider evict key {:?}", key);
             let Some(entry) = self.entries.get_mut(&key) else {
@@ -343,7 +346,7 @@ impl FileHandleManagerState {
             return Ok(());
         }
 
-        while self.open_count >= self.open_max {
+        while self.open_count >= (self.open_max.get() as OpenCountType) {
             if ! self.evict_one() {
                 def1x!("return Err(no managed file handle available)");
                 return Err(
@@ -443,7 +446,7 @@ impl FileHandleManager {
         Self::new_open_max(file_handle_open_max())
     }
 
-    pub fn new_open_max(open_max: usize) -> Self {
+    pub fn new_open_max(open_max: OpenMaxCountType) -> Self {
         def1ñ!("open_max={}", open_max);
 
         Self {
@@ -548,7 +551,7 @@ impl FileHandleManager {
     }
 
     /// Return the configured maximum number of simultaneously open files.
-    pub fn open_max(&self) -> usize {
+    pub fn open_max(&self) -> OpenMaxCountType {
         self.state
             .lock()
             .expect("file handle manager lock poisoned during open_max()")
@@ -556,7 +559,7 @@ impl FileHandleManager {
     }
 
     #[allow(unused)]
-    pub(crate) fn open_count(&self) -> usize {
+    pub(crate) fn open_count(&self) -> u32 {
         self.state
             .lock()
             .expect("file handle manager lock poisoned during open_count()")
@@ -775,7 +778,7 @@ lazy_static! {
 
 /// wrapper function to get the env. var. `S4_FILE_HANDLE_OPEN_MAX`
 /// and return a valid value.
-fn file_handle_open_max() -> usize {
+fn file_handle_open_max() -> OpenMaxCountType {
     match std::env::var(ENV_FILE_HANDLE_OPEN_MAX) {
         Ok(value) => {
             let value_trimmed = value.trim();
@@ -787,7 +790,7 @@ fn file_handle_open_max() -> usize {
                 Ok(value) if value > 0 => {
                     defñ!("return {}", value);
 
-                    value
+                    OpenMaxCountType::new(value).unwrap()
                 }
                 _ => {
                     e_wrn!(
