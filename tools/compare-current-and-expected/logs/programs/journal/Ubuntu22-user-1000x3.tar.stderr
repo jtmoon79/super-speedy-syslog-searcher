@@ -45,10 +45,7 @@ Managed read calls     : 0
 Managed write calls    : 128
 Managed seek calls     : 0
 Managed metadata calls : 0
-Managed physical opens : 1
 Managed open errors    : 0
-Managed physical reopen: 0
-Managed evict succeed  : 0
 Managed evict fails    : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
