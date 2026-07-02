@@ -193,13 +193,10 @@ fn write_timestamp_file() {
     out_path.push(PATH_FILE_TIMESTAMP);
     let mut fhandle = fs::File::create(&out_path)
         .unwrap_or_else(|e| panic!("write_timestamp_file failed to create file {out_path:?}: {e:?}"));
-    match std::env::var(ENV_BUILD_TIMESTAMP) {
-        Ok(val) => {
-            info!("Environment variable {ENV_BUILD_TIMESTAMP}={val:?}; write to file {out_path:?}");
-            write!(fhandle, "{val:?}").expect("write failed for timestamp file");
-            return;
-        }
-        Err(_) => {}
+    if let Ok(val) = std::env::var(ENV_BUILD_TIMESTAMP) {
+        info!("Environment variable {ENV_BUILD_TIMESTAMP}={val:?}; write to file {out_path:?}");
+        write!(fhandle, "{val:?}").expect("write failed for timestamp file");
+        return;
     }
     let local_now = chrono::Local::now();
     let now_s: String = local_now.format("%Y-%m-%dT%H:%M:%S").to_string();
@@ -319,7 +316,7 @@ fn write_profile_file() {
             .unwrap()
             .split(std::path::MAIN_SEPARATOR)
             .nth_back(3)
-            .unwrap_or_else(|| "")
+            .unwrap_or_default()
             .to_string()
     }
     let profile_name = get_build_profile_name();
@@ -401,23 +398,20 @@ fn windows_exe_info_create() {
 
 /// Check for a `.env` file and load it if found; print loaded values if `info_enabled()`.
 fn dotenv_load() {
-    match dotenvy::dotenv() {
-        Ok(path) => {
-            info!("dotenv found .env {path:?}");
-            // print what was loaded
-            for item in dotenvy::dotenv_iter().unwrap() {
-                match item {
-                    Ok((key, val)) => {
-                        info!("dotenv {}={:?}", key, val);
-                    },
-                    Err(e) => {
-                        ::build_print::warn!("dotenv_iter failed to parse .env file item: {:?}", e);
-                        continue;
-                    }
-                };
-            }
+    if let Ok(path) = dotenvy::dotenv() {
+        info!("dotenv found .env {path:?}");
+        // print what was loaded
+        for item in dotenvy::dotenv_iter().unwrap() {
+            match item {
+                Ok((key, val)) => {
+                    info!("dotenv {}={:?}", key, val);
+                },
+                Err(e) => {
+                    ::build_print::warn!("dotenv_iter failed to parse .env file item: {:?}", e);
+                    continue;
+                }
+            };
         }
-        Err(_) => {}
     }
 }
 

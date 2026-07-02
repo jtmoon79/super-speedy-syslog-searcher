@@ -51,11 +51,11 @@ use crate::common::{
     FPath,
     File,
     FileMetadata,
-    FileOpenOptions,
     FileSz,
     FileType,
     FileTypeArchive,
     OdlSubType,
+    PathId,
     SUBPATH_SEP,
 };
 use crate::debug::printers::de_err;
@@ -70,13 +70,19 @@ use crate::readers::helpers::{
     path_filesz,
     path_to_fpath,
 };
+use crate::readers::filehandlemanager::{
+    FILE_HANDLE_MANAGER,
+    FileHandleRole,
+    FileHandleManaged,
+    OpenOptionsManaged,
+};
 use crate::{
     debug_panic,
     e_wrn,
     path_filesz_or_return_err,
 };
 
-type BufReaderLz4 = BufReader<File>;
+type BufReaderLz4 = BufReader<FileHandleManaged>;
 type Lz4FrameReader = lz4_flex::frame::FrameDecoder<BufReaderLz4>;
 
 const SUFFIX_ASL: &str = ".asl";
@@ -134,10 +140,11 @@ lazy_static! {
 /// Value `None` means no file was decompressed because it was not needed
 /// as determined by the passed `file_type`.
 pub fn decompress_to_ntf(
+    path_id: PathId,
     path_std: &Path,
     file_type: &FileType,
 ) -> DecompressToNtfResult {
-    defn!("({:?}, file_type={:?})", path_std, file_type);
+    defn!("({}, {:?}, file_type={:?})", path_id, path_std, file_type);
     const BUF_SZ: usize = 65536;
     let mut buf: [u8; BUF_SZ] = [0; BUF_SZ];
     let mut mtime_opt: Option<SystemTime> = None;
@@ -260,17 +267,13 @@ pub fn decompress_to_ntf(
         }
     }
 
-    let mut open_options = FileOpenOptions::new();
-
-    defo!("open_options.write().open({:?})", path_ntf);
-    let file_ntf: File = match open_options
-        // BUG: rust std::fs::OpenOptions defaults should all be false
-        .read(false)
-        .write(true)
-        .create(false)
-        .truncate(false)
-        .append(false)
-        .open(path_ntf)
+    defo!("FILE_HANDLE_MANAGER.request_open({:?})", path_ntf);
+    let file_ntf: FileHandleManaged = match FILE_HANDLE_MANAGER.request_open(
+        path_id,
+        FileHandleRole::SecondaryWrite,
+        path_ntf,
+        OpenOptionsManaged::write_existing(),
+    )
     {
         Ok(val) => val,
         Err(err) => {
@@ -284,7 +287,7 @@ pub fn decompress_to_ntf(
     };
     defo!("file_ntf {:?}", file_ntf);
 
-    let file_compressed: File;
+    let file_compressed: FileHandleManaged;
     let file_compressed_metadata: FileMetadata;
     match file_type_archive {
         FileTypeArchive::Normal
@@ -293,15 +296,13 @@ pub fn decompress_to_ntf(
         | FileTypeArchive::Lz4
         | FileTypeArchive::Xz
         => {
-            defo!("open_options.read().open({:?})", path_std);
-            file_compressed = match open_options
-                // BUG: rust std::fs::OpenOptions defaults should all be false
-                .read(true)
-                .write(false)
-                .create(false)
-                .truncate(false)
-                .append(false)
-                .open(path_std)
+            defo!("FILE_HANDLE_MANAGER.request_open({:?})", path_std);
+            file_compressed = match FILE_HANDLE_MANAGER.request_open(
+                path_id,
+                FileHandleRole::SecondaryRead,
+                path_std,
+                OpenOptionsManaged::read_only(),
+            )
             {
                 Ok(val) => val,
                 Err(err) => {
@@ -448,7 +449,7 @@ pub fn decompress_to_ntf(
                 }
                 Some(entry) => entry,
             };
-            let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
+            let mut bufwriter: BufWriter<FileHandleManaged> = BufWriter::new(file_ntf);
             defo!("Tar: bufwriter {:?}", bufwriter);
             let mut bytes_written: usize = 0;
             loop {
@@ -516,9 +517,9 @@ pub fn decompress_to_ntf(
         },
         FileTypeArchive::Bz2
         => {
-            let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
+            let mut bufwriter: BufWriter<FileHandleManaged> = BufWriter::new(file_ntf);
             defo!("bufwriter {:?}", bufwriter);
-            let mut bz2_decoder: Bz2DecoderReader<File> = Bz2DecoderReader::new(file_compressed);
+            let mut bz2_decoder: Bz2DecoderReader<FileHandleManaged> = Bz2DecoderReader::new(file_compressed);
             defo!("bz2_decoder");
             let mut _filesz_uncompressed: FileSz = 0;
 
@@ -554,7 +555,7 @@ pub fn decompress_to_ntf(
             //       BlockReader::new(). Both should be refactored to reduce
             //       duplicate code.
 
-            let mut decoder: GzDecoder<File> = GzDecoder::new(file_compressed);
+            let mut decoder: GzDecoder<FileHandleManaged> = GzDecoder::new(file_compressed);
             defo!("GzDecoder: {:?}", decoder);
             let header_opt: Option<&GzHeader> = decoder.header();
             let mut _filename: String = String::with_capacity(0);
@@ -601,7 +602,7 @@ pub fn decompress_to_ntf(
             mtime_opt = if mtime == SystemTime::UNIX_EPOCH { None } else { Some(mtime) };
             defo!("mtime_opt {:?}", mtime_opt);
 
-            let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
+            let mut bufwriter: BufWriter<FileHandleManaged> = BufWriter::new(file_ntf);
             defo!("bufwriter {:?}", bufwriter);
             let mut _bytes_read_total: usize = 0;
             defo!("GzDecoder start");
@@ -635,9 +636,9 @@ pub fn decompress_to_ntf(
             //       BlockReader::new(). Both should be refactored to reduce
             //       duplicate code.
 
-            let bufreader: BufReader<File> = BufReader::new(file_compressed);
+            let bufreader: BufReader<FileHandleManaged> = BufReader::new(file_compressed);
             defo!("bufreader {:?}", bufreader);
-            let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
+            let mut bufwriter: BufWriter<FileHandleManaged> = BufWriter::new(file_ntf);
             defo!("bufwriter {:?}", bufwriter);
             let mut lz4_decoder: Lz4FrameReader = Lz4FrameReader::new(bufreader);
             defo!("lz4_decoder {:?}", lz4_decoder);
@@ -676,9 +677,9 @@ pub fn decompress_to_ntf(
         }
         FileTypeArchive::Xz
         => {
-            let mut bufwriter: BufWriter<File> = BufWriter::new(file_ntf);
+            let mut bufwriter: BufWriter<FileHandleManaged> = BufWriter::new(file_ntf);
             defo!("bufwriter {:?}", bufwriter);
-            let mut bufreader: BufReader<File> = BufReader::new(file_compressed);
+            let mut bufreader: BufReader<FileHandleManaged> = BufReader::new(file_compressed);
             defo!("bufreader {:?}", bufreader);
             defo!("xz_decompress()");
             match lzma_rs::xz_decompress(&mut bufreader, &mut bufwriter) {

@@ -24,9 +24,11 @@ declare -rg EXPECT_OUT="${_HERE}/expected.stdout"
 declare -rg CURRENT_ERR="${_HERE}/current.stderr"
 declare -rg EXPECT_ERR="${_HERE}/expected.stderr"
 declare -rg LOGS="${_HERE}/logs.txt"
-LOGS_COUNT=$(cat "${LOGS}" | sed '/^$/d' | wc -l)
-declare -ir LOGS_COUNT
+declare -i LOGS_COUNT=
+LOGS_COUNT=$(set -euo pipefail; cat "${LOGS}" | sed '/^$/d' | wc -l)
+declare -gir LOGS_COUNT
 export TZ='America/New_York'
+declare -gix S4_FILE_HANDLE_OPEN_MAX=${S4_FILE_HANDLE_OPEN_MAX-200}
 
 declare -arg S4_ARGS=(
     --color=never
@@ -60,6 +62,7 @@ function stderr_clean () {
     #   "streaming" summary. Explained in Issue #213
     # - remove Python process reads/writes/polls/waits/runtime as they vary
     #   depending on system load.
+    # - remove `Managed *` as it varies depending on unpredictable thread timings.
     # - remove `Python Interpreter` as it varies depending on the system.
     # - remove `Program Run Time` as it varies depending on system load.
     # - remove `ERROR:` because they are sometimes printed by processing threads
@@ -73,8 +76,7 @@ function stderr_clean () {
     fi
     sed -i \
         -E \
-        -e '/^[ ]+Modified Time [ ]*:.*$/d' \
-        -e '/^[ ]+modified time [ ]*:.*$/d' \
+        -e '/^[ ]+[Mm]odified [Tt]ime[ ]*:.*$/d' \
         -e '/^[ ]+Python process reads stderr[ ]*:.*$/d' \
         -e '/^[ ]+Python process reads stdout[ ]*:.*$/d' \
         -e '/^[ ]+Python process writes stdin[ ]*:.*$/d' \
@@ -94,8 +96,11 @@ function stderr_clean () {
         -e '/^[ ]+storage: BlockReader::read_block.*$/d' \
         -e '/^[ ]+blocks high[ ]+: .*$/d' \
         -e '/^[ ]+lines high[ ]+: .*$/d' \
+        -e '/^Managed physical opens[ ]*:.*$/d' \
+        -e '/^Managed physical reopen[ ]*:.*$/d' \
+        -e '/^Managed evict succeed[ ]*:.*$/d' \
         -e '/^Datetime Now[ ]*:.*$/d' \
-        -e '/^Python Interpreter [ ]*:.*$/d' \
+        -e '/^Python Interpreter[ ]*:.*$/d' \
         -e '/^Program Run Time[ ]+: .*$/d' \
         -e '/^Path libsystemd[ ]+: .*$/d' \
         -e '/^ERROR: .*$/d' \

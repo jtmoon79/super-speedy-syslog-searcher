@@ -72,6 +72,7 @@ use crate::readers::syslogprocessor::{
     SYSLOG_SZ_MAX_BSZ,
 };
 use crate::tests::common::{
+    path_id_generator,
     eprint_file,
     eprint_file_blocks,
     FILETYPE_UTF8,
@@ -632,7 +633,7 @@ fn new_SyslogProcessor(
             panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
         }
     };
-    match SyslogProcessor::new(path.clone(), filetype, blocksz, tzo, None, None) {
+    match SyslogProcessor::new(path_id_generator(), path.clone(), filetype, blocksz, tzo, None, None) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: SyslogProcessor::new({:?}, {:?}, {:?}) failed {}", path, blocksz, tzo, err);
@@ -661,6 +662,7 @@ fn test_new_SyslogProcessor_no_file_permissions() {
     let path = ntf.path();
     let fpath = path_to_fpath(path);
     match SyslogProcessor::new(
+        path_id_generator(),
         fpath.clone(),
         FILETYPE_UTF8,
         1024,

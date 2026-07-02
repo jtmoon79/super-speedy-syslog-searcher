@@ -66,6 +66,7 @@ use crate::common::{
     FileSz,
     FileType,
     FileTypeFixedStruct,
+    PathId,
     ResultFind,
     debug_panic,
     summary_stat,
@@ -334,6 +335,7 @@ impl FixedStructReader {
     ///
     /// [`BlockerReader.read_block`]: crate::readers::blockreader::BlockReader#method.read_block
     pub fn new(
+        path_id: PathId,
         path: FPath,
         filetype: FileType,
         blocksz: BlockSz,
@@ -342,10 +344,10 @@ impl FixedStructReader {
         dt_filter_before: DateTimeLOpt,
     ) -> ResultFixedStructReaderNewError {
         def1n!(
-            "({:?}, filetype={:?}, blocksz={:?}, {:?}, {:?}, {:?})",
-            path, filetype, blocksz, tz_offset, dt_filter_after, dt_filter_before,
+            "({}, {:?}, filetype={:?}, blocksz={:?}, {:?}, {:?}, {:?})",
+            path_id, path, filetype, blocksz, tz_offset, dt_filter_after, dt_filter_before,
         );
-        let mut blockreader = match BlockReader::new(path.clone(), filetype, blocksz) {
+        let mut blockreader = match BlockReader::new(path_id, path.clone(), filetype, blocksz) {
             Ok(blockreader_) => blockreader_,
             Err(err) => {
                 def1x!("return Err {}", err);

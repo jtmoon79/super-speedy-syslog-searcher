@@ -60,6 +60,7 @@ use crate::common::{
     FileSz,
     FileType,
     FileTypeArchive,
+    PathId,
     ResultFind4,
     summary_stat,
     summary_stat_set,
@@ -259,14 +260,15 @@ impl PyEventReader {
 
     /// Create a new `PyEventReader`.
     pub fn new(
+        path_id: PathId,
         path: FPath,
         etl_parser_used: Option<EtlParserUsed>,
         file_type: FileType,
         fixed_offset: FixedOffset,
         pipe_sz: PipeSz,
     ) -> Result<PyEventReader> {
-        def1n!("(path={:?}, etl_parser_used={:?}, {:?}, {:?}, pipe_sz={:?})",
-               path, etl_parser_used, file_type, fixed_offset, pipe_sz);
+        def1n!("(path_id={}, path={:?}, etl_parser_used={:?}, {:?}, {:?}, pipe_sz={:?})",
+               path_id, path, etl_parser_used, file_type, fixed_offset, pipe_sz);
 
         debug_assert_gt!(pipe_sz, 0,
             "pipe_sz must be greater than 0, got {:?}", pipe_sz);
@@ -286,7 +288,7 @@ impl PyEventReader {
         let named_temp_file: Option<NamedTempFile>;
         let mtime_opt: Option<SystemTime>;
 
-        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_std, &file_type) {
+        (named_temp_file, mtime_opt) = match decompress_to_ntf(path_id, path_std, &file_type) {
             Ok(ntf_mtime) => match ntf_mtime {
                 Some((ntf, mtime_opt, _filesz)) => (Some(ntf), mtime_opt),
                 None => (None, None),

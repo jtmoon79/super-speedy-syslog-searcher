@@ -1,0 +1,83 @@
+
+Files:
+
+File: ./logs/other/tests/dtf5-6b.UTF-16BE_BOM.log.xz
+  About:
+      filetype      : TEXT UTF8/ASCII (XZ) (text log)
+      logmessagetype: text log lines
+  Printed:
+      bytes         : 1173
+      flushes       : 6
+      lines         : 12
+      syslines      : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+  Processed:
+      file size compressed  : 160 (0xA0) (bytes)
+      file size uncompressed: 500 (0x1F4) (bytes)
+      bytes         : 500 (0x1F4)
+      bytes total   : 500 (0x1F4)
+      block size    : 256 (0x100)
+      blocks        : 2
+      blocks total  : 2 (512 bytes)
+      lines         : 12
+      line parts    : 13
+      syslines      : 6
+      syslines high : 6
+      datetime first: 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+      datetime last : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+      out of order  : 0
+  Parsers:
+  Processing Stores:
+      storage: LineReader::find_line() lines                       : hit  0, miss 23,  0.0%
+      caching: LineReader::find_line() LRU cache                   : hit  6, miss 12, 33.3%, put 12
+      copying: SyslineReader::get_boxptrs()                        : sgl 88, dbl   1, mult  0
+      storage: SyslineReader::find_sysline() syslines              : hit  0, miss  6,  0.0%
+      caching: SyslineReader::find_sysline() syslines_by_range_map : hit  0, miss  1,  0.0%, put  1
+      caching: SyslineReader::find_sysline() LRU cache             : hit  1, miss  6, 14.3%, put  6
+      caching: SyslineReader::parse_datetime_in_line() LRU cache   : hit  5, miss 12, 29.4%, put  0
+      optimize:SyslineReader::ezcheck12                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheckd2                            : hit  0, miss  0,  0.0%, largest skipped 0
+      optimize:SyslineReader::ezcheck12d2                          : hit  0, miss  0,  0.0%, largest skipped 0
+      process: regex captures                                      : hit  6, miss 83
+  Processing Drops:
+
+Program Summary:
+
+Paths considered       : 1
+Paths not processed    : 0
+Files processed        : 1
+Files printed          : 1
+Printed bytes          : 1198
+Printed flushes        : 13
+Printed lines          : 12
+Printed syslines       : 6
+Printed ASL events     : 0
+Printed ETL events     : 0
+Printed EVTX events    : 0
+Printed fixedstruct    : 0
+Printed journal events : 0
+Printed ODL events     : 0
+Managed files max      : 200
+Managed files high     : 2
+Managed request open   : 2
+Managed request read   : 0
+Managed read calls     : 9
+Managed write calls    : 0
+Managed seek calls     : 2
+Managed metadata calls : 1
+Managed open errors    : 0
+Managed evict fails    : 0
+Regex patterns known   : 188
+Regex patterns compiled: 188
+Datetime filter -a     : 1999-03-03 00:00:00 +00:00 (1999-03-03 00:00:00.000000 +00:00)
+Datetime printed first : 2000-01-01 00:00:00 +08:00 (1999-12-31 16:00:00.000000 +00:00)
+Datetime printed last  : 2000-01-01 00:00:05 +08:00 (1999-12-31 16:00:05.000000 +00:00)
+Datetime filter -b     : 2026-01-02 00:00:00 +00:00 (2026-01-02 00:00:00.000000 +00:00)
+Channel Receive ok     : 8
+Channel Receive err    : 0
+Threads Spawned        : 1
+Thread Spawn errors    : 0
+Temporary files created: 0
+Platform               : x86_64-unknown-linux-gnu
+Allocator              : system

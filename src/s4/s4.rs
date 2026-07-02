@@ -4461,7 +4461,7 @@ fn exec_syslogprocessor(
 ) {
     let (
         path,
-        _pathid,
+        pathid,
         filetype,
         _filetypeexecdata,
         blocksz,
@@ -4481,6 +4481,7 @@ fn exec_syslogprocessor(
     //       I think during printing the "Processed:" section of the printed summary.
     //       Do this for all other Readers as well.
     let mut syslogproc: SyslogProcessor = match SyslogProcessor::new(
+        pathid,
         path.clone(),
         filetype,
         blocksz,
@@ -4693,7 +4694,7 @@ fn exec_fixedstructprocessor(
 ) {
     let (
         path,
-        _pathid,
+        pathid,
         filetype,
         _filetypeexecdata,
         blocksz,
@@ -4716,6 +4717,7 @@ fn exec_fixedstructprocessor(
     };
 
     let mut fixedstructreader: FixedStructReader = match FixedStructReader::new(
+        pathid,
         path.clone(),
         filetype,
         blocksz,
@@ -4963,7 +4965,7 @@ fn exec_evtxprocessor(
 ) {
     let (
         path,
-        _pathid,
+        pathid,
         filetype,
         _filetypeexecdata,
         _blocksz,
@@ -4976,6 +4978,7 @@ fn exec_evtxprocessor(
     debug_assert!(matches!(_filetypeexecdata, FileTypeExecData::None));
 
     let mut evtxreader: EvtxReader = match EvtxReader::new(
+        pathid,
         path.clone(),
         filetype,
         tz_offset,
@@ -5061,7 +5064,7 @@ fn exec_pyeventprocessor(
 ) {
     let (
         path,
-        _pathid,
+        pathid,
         filetype,
         filetypeexecdata,
         blocksz,
@@ -5102,6 +5105,7 @@ fn exec_pyeventprocessor(
     };
 
     let mut py_event_reader: PyEventReader = match PyEventReader::new(
+        pathid,
         path.clone(),
         etl_parser_used,
         filetype,
@@ -5206,7 +5210,7 @@ fn exec_journalprocessor(
 ) {
     let (
         path,
-        _pathid,
+        pathid,
         filetype,
         filetypeexecdata,
         _blocksz,
@@ -5228,6 +5232,7 @@ fn exec_journalprocessor(
     };
 
     let mut journalreader: JournalReader = match JournalReader::new(
+        pathid,
         path.clone(),
         journal_output,
         tz_offset,
@@ -5476,10 +5481,11 @@ fn processing_loop(
     let mut map_pathid_logmessagetype = MapPathIdToLogMessageType::with_capacity(file_count);
     let mut paths_total: usize = 0;
 
-    for (pathid_counter, processpathresult) in paths_results
+    for (counter, processpathresult) in paths_results
         .drain(..)
         .enumerate()
     {
+        let pathid_counter: PathId = counter as PathId;
         defo!("match {:?}", processpathresult);
         match processpathresult {
             // XXX: use `ref` to avoid "use of partially moved value" error

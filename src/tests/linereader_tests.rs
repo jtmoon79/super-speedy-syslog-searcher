@@ -67,6 +67,7 @@ use crate::readers::linereader::{
     SummaryLineReader,
 };
 use crate::tests::common::{
+    path_id_generator,
     eprint_file,
     fill,
     encode_utf16be,
@@ -147,7 +148,7 @@ fn new_LineReader(
             panic!("ERROR: fpath_to_filetype({:?}) returned an PathToFiletypeResult::Archive", path);
         }
     };
-    match LineReader::new(path.clone(), filetype, blocksz) {
+    match LineReader::new(path_id_generator(), path.clone(), filetype, blocksz) {
         Ok(val) => val,
         Err(err) => {
             panic!("ERROR: LineReader::new({:?}, {}) failed {}", path, blocksz, err);
@@ -173,6 +174,7 @@ fn test_new_LineReader_no_file_permissions() {
     let path = ntf.path();
     let fpath = path_to_fpath(path);
     match LineReader::new(
+        path_id_generator(),
         fpath.clone(),
         FILETYPE_UTF8,
         1024,

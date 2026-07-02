@@ -16,6 +16,7 @@ pub mod datetime_tests;
 pub mod evtx_tests;
 pub mod evtxreader_tests;
 pub mod filedecompressor_tests;
+pub mod filehandlemanager_tests;
 pub mod filepreprocessor_tests;
 pub mod fixedstruct_tests;
 pub mod fixedstructreader_tests;
