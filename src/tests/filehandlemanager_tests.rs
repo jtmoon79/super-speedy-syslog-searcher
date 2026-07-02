@@ -28,6 +28,7 @@ use crate::readers::filehandlemanager::{
     FileHandleRole,
     FileHandleManaged,
     OpenOptionsManaged,
+    OpenMaxCountType,
 };
 
 const PATH_ID_A: PathId = 99_000;
@@ -36,7 +37,7 @@ const PATH_ID_C: PathId = 99_002;
 
 fn manager(open_max: usize) -> FileHandleManager {
     summary_stats_enable();
-    FileHandleManager::new_open_max(open_max)
+    FileHandleManager::new_open_max(OpenMaxCountType::new(open_max).unwrap())
 }
 
 fn read_helper(
@@ -105,7 +106,7 @@ fn test_request_open_read_seek_and_metadata_update_summary() {
         .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf.path(), OpenOptionsManaged::read_only())
         .unwrap();
 
-    assert_eq!(manager.open_max(), 2);
+    assert_eq!(manager.open_max(), OpenMaxCountType::new(2).unwrap());
     assert_eq!(metadata_helper(&manager, &handle).unwrap().len(), 6);
     assert_eq!(seek_helper(&manager, &handle, SeekFrom::Start(1)).unwrap(), 1);
 
