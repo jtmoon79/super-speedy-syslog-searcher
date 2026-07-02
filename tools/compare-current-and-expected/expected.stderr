@@ -23703,10 +23703,7 @@ Managed read calls     : 16543
 Managed write calls    : 555
 Managed seek calls     : 16386
 Managed metadata calls : 613
-Managed physical opens : 1145
 Managed open errors    : 0
-Managed physical reopen: 481
-Managed evict succeed  : 597
 Managed evict fails    : 0
 Regex patterns known   : 188
 Regex patterns compiled: 188
