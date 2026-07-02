@@ -55,11 +55,6 @@ mkdir -vp "${DIROUT}"
 
 (
     set -x
-    ./tools/performance-plots.sh
-)
-
-(
-    set -x
     ./tools/osv-scanner.sh --format=markdown --output-file="${DIROUT}/osv-scanner.md"
     ./tools/mdtohtml.sh "${DIROUT}/osv-scanner.md"
 ) || true
@@ -69,14 +64,14 @@ mkdir -vp "${DIROUT}"
     ./tools/valgrind-callgrind.sh > "${DIROUT}/callgrind.txt"
 )
 rm -v "${DIROUT}/callgrind.out" "${DIROUT}/callgrind.dot" || true
-./scripts/clean-file.sh "${DIROUT}/callgrind.txt"
+./tools/clean-file.sh "${DIROUT}/callgrind.txt"
 
 (
     set -x
     ./tools/valgrind-massif.sh > "${DIROUT}/massif.txt"
 )
 rm -v "${DIROUT}/massif.out" || true
-./scripts/clean-file.sh "${DIROUT}/massif.txt"
+./tools/clean-file.sh "${DIROUT}/massif.txt"
 
 (
     set -x
@@ -107,7 +102,7 @@ rm -v "${DIROUT}/massif.out" || true
     export PROGRAM=./target/mimalloc/s4
     ./tools/compare-grep-sort.sh &> "${DIROUT}/compare-grep-sort.txt"
 )
-./scripts/clean-file.sh "${DIROUT}/compare-grep-sort.txt"
+./tools/clean-file.sh "${DIROUT}/compare-grep-sort.txt"
 
 (
     export PROGRAMS_S4_LISTING=${TMPD}/programs-s4-listing.tsv
@@ -121,9 +116,14 @@ rm -v "${DIROUT}/massif.out" || true
     set -x
     ./tools/compare-log-mergers/compare-log-mergers.sh --skip-tl &> "${DIROUT}/compare-log-mergers.txt"
 )
-./scripts/clean-file.sh "${DIROUT}/compare-log-mergers.txt"
+./tools/clean-file.sh "${DIROUT}/compare-log-mergers.txt"
 
 (
     set -x
     ./tools/flamegraphs.sh
+)
+
+(
+    set -x
+    ./tools/performance-plots.sh
 )
