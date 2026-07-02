@@ -345,7 +345,7 @@ impl LinePart {
         encoding_type: FileTypeTextEncoding,
     ) -> &'a [u8] {
         let slice = self.as_slice();
-        let slice_ = if self.fileoffset == 0 {
+        let slice = if self.fileoffset == 0 {
             if encoding_type.has_bom() {
                 let bomsz = encoding_type.bomsz() as usize;
                 if slice.len() >= bomsz {
@@ -370,29 +370,29 @@ impl LinePart {
             slice
         };
         let result = match encoding_type {
-            FileTypeTextEncoding::Utf8Ascii | FileTypeTextEncoding::Utf8BOM => slice_,
+            FileTypeTextEncoding::Utf8Ascii | FileTypeTextEncoding::Utf8BOM => slice,
             FileTypeTextEncoding::Utf16le | FileTypeTextEncoding::Utf16leBOM => {
                 buffer_utf8_bytes.clear();
-                buffer_utf8_bytes.reserve(slice_.len());
-                LinePart::utf16_to_utf8(slice_, true, self.fileoffset, buffer_utf8_bytes);
+                buffer_utf8_bytes.reserve(slice.len());
+                LinePart::utf16_to_utf8(slice, true, self.fileoffset, buffer_utf8_bytes);
                 buffer_utf8_bytes.as_slice()
             }
             FileTypeTextEncoding::Utf16be | FileTypeTextEncoding::Utf16beBOM => {
                 buffer_utf8_bytes.clear();
-                buffer_utf8_bytes.reserve(slice_.len());
-                LinePart::utf16_to_utf8(slice_, false, self.fileoffset, buffer_utf8_bytes);
+                buffer_utf8_bytes.reserve(slice.len());
+                LinePart::utf16_to_utf8(slice, false, self.fileoffset, buffer_utf8_bytes);
                 buffer_utf8_bytes.as_slice()
             }
             FileTypeTextEncoding::Utf32le | FileTypeTextEncoding::Utf32leBOM => {
                 buffer_utf8_bytes.clear();
-                buffer_utf8_bytes.reserve(slice_.len());
-                LinePart::utf32_to_utf8(slice_, true, self.fileoffset, buffer_utf8_bytes);
+                buffer_utf8_bytes.reserve(slice.len());
+                LinePart::utf32_to_utf8(slice, true, self.fileoffset, buffer_utf8_bytes);
                 buffer_utf8_bytes.as_slice()
             }
             FileTypeTextEncoding::Utf32be | FileTypeTextEncoding::Utf32beBOM => {
                 buffer_utf8_bytes.clear();
-                buffer_utf8_bytes.reserve(slice_.len());
-                LinePart::utf32_to_utf8(slice_, false, self.fileoffset, buffer_utf8_bytes);
+                buffer_utf8_bytes.reserve(slice.len());
+                LinePart::utf32_to_utf8(slice, false, self.fileoffset, buffer_utf8_bytes);
                 buffer_utf8_bytes.as_slice()
             }
         };
@@ -415,14 +415,14 @@ impl LinePart {
     ) -> String {
         // XXX: intermixing byte lengths and character lengths
         let s1: String;
-        let slice_ = self.as_slice();
+        let slice = self.as_slice();
         if raw {
             unsafe {
-                s1 = String::from_utf8_unchecked(Vec::<u8>::from(slice_));
+                s1 = String::from_utf8_unchecked(Vec::<u8>::from(slice));
             }
             return s1;
         }
-        s1 = buffer_to_string_noraw(slice_);
+        s1 = buffer_to_string_noraw(slice);
         s1
     }
 
@@ -453,9 +453,9 @@ impl LinePart {
     /// Return [`Box`](std::boxed) pointer to slice of bytes that make up this
     /// `LinePart`.
     pub fn block_boxptr(&self) -> Box<&[u8]> {
-        let slice_ = &(*self.blockp).as_slice()[self.blocki_beg..self.blocki_end];
+        let slice = &(*self.blockp).as_slice()[self.blocki_beg..self.blocki_end];
 
-        Box::new(slice_)
+        Box::new(slice)
     }
 
     /// Return [`Box`](std::boxed) pointer to slice of bytes in this `LinePart`
