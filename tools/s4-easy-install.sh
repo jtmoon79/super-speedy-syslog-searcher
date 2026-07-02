@@ -145,8 +145,23 @@ main() {
         has_sha256sum=1
     fi
 
-    WORKDIR=$(mktemp -d "${SCRIPT_NAME}.tmpd.XXXXXXXX")
+    WORKDIR=$(
+        set -eu
+        if ! mktemp -d "${SCRIPT_NAME}.tmpd.XXXXXXXX" 2>/dev/null; then
+            # `mktemp -d` may fail depending upon current $PWD
+            # so try with a few common temp directories explicitly set
+            for dir in /tmp /var/tmp "${HOME-}/tmp"; do
+                if [ -d "${dir}" ] && [ -w "${dir}" ]; then
+                    mktemp -p "${dir}" -d "${SCRIPT_NAME}.tmpd.XXXXXXXX" 2>/dev/null || continue
+                    break
+                fi
+            done
+        fi
+    )
     readonly WORKDIR
+    if [ ! -d "${WORKDIR}" ]; then
+        die "could not create temporary working directory"
+    fi
     trap 'rm -rf "$WORKDIR"' 0
     NOT_IN_PATH="${WORKDIR}/not_in_path"
     readonly NOT_IN_PATH
