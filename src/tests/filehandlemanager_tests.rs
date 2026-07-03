@@ -35,6 +35,30 @@ const PATH_ID_A: PathId = 99_000;
 const PATH_ID_B: PathId = 99_001;
 const PATH_ID_C: PathId = 99_002;
 
+fn raw_os_error_too_many_open_files() -> i32 {
+    cfg_if::cfg_if! {
+        if #[cfg(unix)] {
+            ::nix::errno::Errno::EMFILE as i32
+        } else if #[cfg(windows)] {
+            4
+        } else {
+            0
+        }
+    }
+}
+
+fn raw_os_error_not_found() -> i32 {
+    cfg_if::cfg_if! {
+        if #[cfg(unix)] {
+            ::nix::errno::Errno::ENOENT as i32
+        } else if #[cfg(windows)] {
+            2
+        } else {
+            0
+        }
+    }
+}
+
 fn manager(open_max: usize) -> FileHandleManager {
     summary_stats_enable();
     FileHandleManager::new_open_max(OpenMaxCountType::new(open_max).unwrap())
@@ -115,6 +139,7 @@ fn test_request_open_read_seek_and_metadata_update_summary() {
     assert_eq!(&buf, b"bcd");
 
     let summary = manager.summary();
+    assert_eq!(summary.open_max_default, 2);
     assert_eq!(summary.request_open_calls, 1);
     assert_eq!(summary.metadata_calls, 1);
     assert_eq!(summary.seek_calls, 1);
@@ -169,6 +194,71 @@ fn test_open_errors_are_counted() {
     assert_eq!(summary.request_open_calls, 1);
     assert_eq!(summary.physical_open_calls, 0);
     assert_eq!(summary.physical_open_error_calls, 1);
+}
+
+#[test]
+fn test_too_many_open_files_error_reduces_open_max_evicts_and_retries() {
+    let ntf_a: NamedTempFile = create_temp_file("abcdef");
+    let ntf_b: NamedTempFile = create_temp_file("wxyz");
+    let manager = manager(3);
+
+    let handle_a = manager
+        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .unwrap();
+    assert_eq!(manager.open_count(), 1);
+
+    let handle_b = manager
+        .request_open(
+            PATH_ID_B,
+            FileHandleRole::PrimaryRead,
+            ntf_b.path(),
+            OpenOptionsManaged::read_only_force_open_error(raw_os_error_too_many_open_files(), 1),
+        )
+        .unwrap();
+
+    assert_eq!(manager.open_max(), OpenMaxCountType::new(1).unwrap());
+    assert_eq!(manager.open_count(), 1);
+    let summary = manager.summary();
+    assert_eq!(summary.open_max_default, 3);
+    assert_eq!(summary.physical_open_calls, 2);
+    assert_eq!(summary.physical_open_error_calls, 1);
+    assert_eq!(summary.evict_succeed, 1);
+    assert_eq!(summary.evict_fails, 0);
+
+    let mut buf = [0_u8; 2];
+    assert_eq!(read_helper(&manager, &handle_b, &mut buf).unwrap(), 2);
+    assert_eq!(&buf, b"wx");
+    drop(handle_a);
+}
+
+#[test]
+fn test_other_open_errors_do_not_reduce_open_max_or_evict() {
+    let ntf_a: NamedTempFile = create_temp_file("abcdef");
+    let ntf_b: NamedTempFile = create_temp_file("wxyz");
+    let manager = manager(3);
+
+    let _handle_a = manager
+        .request_open(PATH_ID_A, FileHandleRole::PrimaryRead, ntf_a.path(), OpenOptionsManaged::read_only())
+        .unwrap();
+
+    let err = manager
+        .request_open(
+            PATH_ID_B,
+            FileHandleRole::PrimaryRead,
+            ntf_b.path(),
+            OpenOptionsManaged::read_only_force_open_error(raw_os_error_not_found(), 1),
+        )
+        .unwrap_err();
+
+    assert_eq!(err.kind(), ErrorKind::NotFound);
+    assert_eq!(manager.open_max(), OpenMaxCountType::new(3).unwrap());
+    assert_eq!(manager.open_count(), 1);
+    let summary = manager.summary();
+    assert_eq!(summary.open_max_default, 3);
+    assert_eq!(summary.physical_open_calls, 1);
+    assert_eq!(summary.physical_open_error_calls, 1);
+    assert_eq!(summary.evict_succeed, 0);
+    assert_eq!(summary.evict_fails, 0);
 }
 
 #[test]

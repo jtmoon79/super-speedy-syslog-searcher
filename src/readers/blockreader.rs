@@ -73,7 +73,6 @@ use ::si_trace_print::{
     pfo,
     pfx,
 };
-// `tar` is for tar files.
 use ::tar;
 
 #[cfg(test)]
@@ -94,9 +93,7 @@ use crate::common::{
     summary_stat,
 };
 use crate::common::{
-    File,
     FileMetadata,
-    FileOpenOptions,
     ResultFind,
 };
 use crate::data::datetime::{
@@ -320,23 +317,23 @@ pub struct XzData {
     pub bufreader: BufReaderXz,
 }
 
-/// crate `tar` handle for a plain `File`.
-pub type TarHandle = tar::Archive<File>;
+/// crate `tar` handle for a managed file handle.
+pub type TarHandle = tar::Archive<FileHandleManaged>;
 
-/// _Checksum_ copied from [`tar::Archive::<File>::headers()`].
+/// _Checksum_ copied from [`tar::Archive::headers`].
 ///
 /// Described at <https://www.gnu.org/software/tar/manual/html_node/Standard.html>
 /// under `char chksum[8];`.
 ///
-/// [`tar::Archive::<File>::headers()`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
+/// [`tar::Archive::headers`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
 pub type TarChecksum = u32;
 
-/// _Modified Systemtime_ copied [`tar::Archive::<File>::headers()`].
+/// _Modified Systemtime_ copied [`tar::Archive::headers`].
 ///
 /// Described at <https://www.gnu.org/software/tar/manual/html_node/Standard.html>
 /// under `char mtime[12];`.
 ///
-/// [`tar::Archive::<File>::headers()`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
+/// [`tar::Archive::headers`]: https://docs.rs/tar/0.4.38/tar/struct.Header.html
 pub type TarMTime = u64;
 
 /// Data and readers for a file within a `.tar` file, used by [`BlockReader`].
@@ -399,6 +396,8 @@ pub struct BlockReader {
     //       why both exist.
     //       This would affect all user classes so it's a bit of work.
     path_subpath: FPath,
+    /// A copy of the [`PathId`] passed to [`BlockReader::new`].
+    path_id: PathId,
     /// The file handle.
     file_handle: FileHandleManaged,
     /// A copy of [`File.metadata()`].
@@ -1167,8 +1166,8 @@ impl BlockReader {
 
                 // open the .tar file
 
-                let mut archive: TarHandle = BlockReader::open_tar(path_std)?;
-                let entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
+                let mut archive: TarHandle = BlockReader::open_tar(path_id, FileHandleRole::SecondaryRead, path_std)?;
+                let entry_iter: tar::Entries<FileHandleManaged> = match archive.entries_with_seek() {
                     Ok(val) => val,
                     Err(err) => {
                         def1x!("FileTar: Err {:?}", err);
@@ -1182,7 +1181,7 @@ impl BlockReader {
                 for (index, entry_res) in entry_iter.enumerate() {
                     entry_index = index;
                     def1o!("FileTar: entry_index {}", entry_index);
-                    let entry: tar::Entry<File> = match entry_res {
+                    let entry: tar::Entry<FileHandleManaged> = match entry_res {
                         Ok(val) => val,
                         Err(_err) => {
                             def1o!("FileTar: entry Err {:?}", _err);
@@ -1876,6 +1875,7 @@ impl BlockReader {
         Ok(BlockReader {
             path,
             path_subpath,
+            path_id,
             file_handle,
             file_metadata,
             file_metadata_modified,
@@ -1918,6 +1918,12 @@ impl BlockReader {
     #[inline(always)]
     pub const fn path(&self) -> &FPath {
         &self.path_subpath
+    }
+
+    /// Return a copy of `self.path_id`.
+    #[inline(always)]
+    pub const fn path_id(&self) -> PathId {
+        self.path_id
     }
 
     /// Return the file size in bytes.
@@ -3880,7 +3886,7 @@ impl BlockReader {
 
         let path_ = self.path.clone();
         let path_std: &Path = Path::new(&path_);
-        let mut archive: TarHandle = match BlockReader::open_tar(path_std) {
+        let mut archive: TarHandle = match BlockReader::open_tar(self.path_id(), FileHandleRole::SecondaryRead, path_std) {
             Ok(val) => val,
             Err(err) => {
                 defx!("Err {:?}", err);
@@ -3896,7 +3902,7 @@ impl BlockReader {
                 .unwrap()
                 .entry_index;
             defx!("index {:?}", index);
-            let mut entry_iter: tar::Entries<File> = match archive.entries_with_seek() {
+            let mut entry_iter: tar::Entries<FileHandleManaged> = match archive.entries_with_seek() {
                 Ok(val) => val,
                 Err(err) => {
                     defx!("Err {:?}", err);
@@ -4496,16 +4502,18 @@ impl BlockReader {
     }
 
     /// Helper function to open a `.tar` file.
-    pub fn open_tar(path_tar: &Path) -> Result<TarHandle> {
-        let mut open_options = FileOpenOptions::new();
-        defo!("open_options.read(true).open({:?})", path_tar);
-        let file_tar: File = match open_options
-            .read(true)
-            .open(path_tar)
+    pub fn open_tar(
+        path_id: PathId,
+        role: FileHandleRole,
+        path_tar: &Path,
+    ) -> Result<TarHandle> {
+        defo!("FILE_HANDLE_MANAGER.request_open({:?})", path_tar);
+        let file_tar: FileHandleManaged = match FILE_HANDLE_MANAGER
+            .request_open(path_id, role, path_tar, OpenOptionsManaged::read_only())
         {
             Ok(val) => val,
             Err(err) => {
-                defx!("open_options.read({:?}) Error, return {:?}", path_tar, err);
+                defx!("FILE_HANDLE_MANAGER.request_open({:?}) Error, return {:?}", path_tar, err);
                 return Err(err);
             }
         };

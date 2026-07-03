@@ -299,6 +299,14 @@ impl LineReader {
         self.blockreader.blocksz()
     }
 
+    /// See [`BlockReader::path_id`].
+    ///
+    /// [`BlockReader::path_id`]: crate::readers::blockreader::BlockReader#method.path_id
+    #[inline(always)]
+    pub const fn path_id(&self) -> PathId {
+        self.blockreader.path_id()
+    }
+
     /// See [`BlockReader::filesz`].
     ///
     /// [`BlockReader::filesz`]: crate::readers::blockreader::BlockReader#method.filesz

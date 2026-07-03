@@ -66,6 +66,7 @@ use crate::printer::summary::{
 };
 use crate::readers::blockreader::BlockSz;
 use crate::readers::evtxreader::EvtxReader;
+use crate::readers::filehandlemanager::FILE_HANDLE_MANAGER;
 use crate::readers::filepreprocessor::{
     fpath_to_filetype,
     PathToFiletypeResult,
@@ -710,6 +711,7 @@ fn test_print_summary_empty() {
         MapPathIdToColor::new(),
         MapPathIdSummary::new(),
         MapPathIdSummaryPrint::new(),
+        FILE_HANDLE_MANAGER.summary(),
         ColorChoice::Always,
         Color::Black,
         0,

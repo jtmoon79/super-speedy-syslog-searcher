@@ -76,7 +76,7 @@ use crate::python::pyrunner::{
     PythonPathsRan,
 };
 use crate::readers::blockreader::SummaryBlockReader;
-use crate::readers::filehandlemanager::FILE_HANDLE_MANAGER;
+use crate::readers::filehandlemanager::SummaryFileHandleManager;
 use crate::readers::filepreprocessor::ProcessPathResult;
 use crate::readers::fixedstructreader::SummaryFixedStructReader;
 use crate::readers::linereader::SummaryLineReader;
@@ -792,6 +792,7 @@ pub fn print_summary(
     map_pathid_color: MapPathIdToColor,
     mut map_pathid_summary: MapPathIdSummary,
     mut map_pathid_sumpr: MapPathIdSummaryPrint,
+    summary_filehandlemanager: SummaryFileHandleManager,
     color_choice: ColorChoice,
     color_default: Color,
     paths_total: usize,
@@ -856,8 +857,8 @@ pub fn print_summary(
     // TODO: [2024/02/25] eprint count of FixedStruct files "out of order".
     eprintln!("Printed journal events : {}", summaryprinted.journalentries);
     eprintln!("Printed ODL events     : {}", summaryprinted.odlentries);
-    let summary_filehandlemanager = FILE_HANDLE_MANAGER.summary();
-    eprintln!("Managed files max      : {}", FILE_HANDLE_MANAGER.open_max());
+    eprintln!("Managed files max def. : {}", summary_filehandlemanager.open_max_default);
+    eprintln!("Managed files max adj. : {}", summary_filehandlemanager.open_max_adjusted);
     // TODO: print `files_opened_hi` in yellow if it is ==max
     eprintln!("Managed files high     : {}", summary_filehandlemanager.files_opened_hi);
     eprintln!("Managed request open   : {}", summary_filehandlemanager.request_open_calls);

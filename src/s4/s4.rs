@@ -264,6 +264,7 @@ use ::s4lib::readers::filedecompressor::{
     count_temporary_files,
     remove_temporary_files,
 };
+use ::s4lib::readers::filehandlemanager::FILE_HANDLE_MANAGER;
 use ::s4lib::readers::filepreprocessor::{
     process_path,
     ProcessPathResult,
@@ -328,7 +329,7 @@ const PROFILE_NAME: &str = include!(concat!(env!("OUT_DIR"), "/", "profile_name.
 const PATHS_ON_STDIN: &str = "-";
 
 /// general error exit value
-pub(crate) const EXIT_ERR: i32 = 1;
+pub const EXIT_ERR: i32 = 1;
 
 /// shorter name
 #[cfg(test)]
@@ -5813,6 +5814,7 @@ fn processing_loop(
             map_pathid_color,
             map_pathid_summary,
             MapPathIdSummaryPrint::new(),
+            FILE_HANDLE_MANAGER.summary(),
             color_choice,
             color_default_,
             paths_total,
@@ -6700,6 +6702,7 @@ fn processing_loop(
             map_pathid_color,
             map_pathid_summary,
             map_pathid_sumpr,
+            FILE_HANDLE_MANAGER.summary(),
             color_choice,
             color_default(),
             paths_total,
